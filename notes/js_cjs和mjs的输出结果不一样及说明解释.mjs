@@ -53,6 +53,8 @@
  5、最后循环清空“宏任务”队列
  */
 
+'use strict';
+
 function Fun1(){
   console.log( 'Fun1' );
 }
