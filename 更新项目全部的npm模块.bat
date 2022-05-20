@@ -1,0 +1,1 @@
+npm --force update&ncu -u --timeout 1800000&npm --force install&pause

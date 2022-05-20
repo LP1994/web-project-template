@@ -1,0 +1,9 @@
+# 项目排除路径
+
+/.idea/
+
+/dist/
+
+/node_modules/
+/node_modules.7z
+/node_modules.zip
