@@ -1,3 +1,12 @@
+/**
+ * Author: 12278
+ * CreateDate: 2022-01-01 00:00:00 星期六
+ * Email: 1227839175@qq.com
+ * FileDirPath: notes/js_cjs和mjs的输出结果不一样及说明解释.mjs
+ * IDE: WebStorm
+ * Project: web-project-template
+ */
+
 /*
  之所以会不一样，是因为.mjs走的是跟浏览器一致的“事件循环机制”，而.js、.cjs走的是Node原有的“事件循环机制”，它跟浏览器的“事件循环机制”不用。
 
