@@ -2,7 +2,7 @@
  * Author: 12278
  * CreateDate: 2022-01-01 00:00:00 星期六
  * Email: 1227839175@qq.com
- * FileDirPath: notes/js_cjs和mjs的输出结果不一样及说明解释.mjs
+ * FileDirPath: notes/关于Node中事件循环机制在cjs和mjs的后缀文件中输出不一致的说明.mjs
  * IDE: WebStorm
  * Project: web-project-template
  */
