@@ -77,6 +77,7 @@ Fun3
 Fun1
 
 执行ts-node-esm Demo001.ts、ts-node-esm Demo001.cts、ts-node-esm Demo001.mts输出如下：
+PS：ts-node --esm ===> ts-node-esm ===> node --loader ts-node/esm
 Start1
 Start2
 Start3
