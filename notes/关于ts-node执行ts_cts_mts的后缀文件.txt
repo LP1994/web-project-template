@@ -1,3 +1,5 @@
+ts-node支持通过在“tsconfig.json”中添加属于ts-node的选项来配置参数，具体见ts-node的官方文档：https://typestrong.org/ts-node/docs/。
+
 代码：
 function Fun1(){
   console.log( 'Fun1' );
