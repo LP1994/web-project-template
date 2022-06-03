@@ -403,15 +403,74 @@
     1、在某些情况下，TypeScript无法检测到您正在使用导入，或使用Svelte或Vue等“编译为 HTML”语言的代码，如：
     import { Animal } from "./animal.js";
     eval("console.log(new Animal().isDangerous())");
-    2、
+    2、当与isolatedModules结合使用时：导入的类型必须标记为“type-only”，因为一次处理单个文件的编译器无法知道导入是否是未使用的值，或必须删除以避免运行时崩溃的类型。
+    3、可以通过在TitleComponentProps前加上“type”来将其标记为仅类型导入来修复：
+    import { TitleComponent, type TitleComponentProps } from "./TitleComponent.js";
     */
     "preserveValueImports": true,
+    /*转换为JavaScript时从TypeScript文件中删除所有注释。默认为假。*/
+    "removeComments": true,
+    /*
+    为发出的JavaScript文件创建源映射文件。、
+    1、启用源映射文件的生成。这些文件允许调试器和其他工具在实际使用发出的JavaScript文件时显示原始TypeScript源代码。
+    2、源映射文件作为.js.map（或.jsx.map）文件在相应的.js输出文件旁边发出。
+    */
+    "sourceMap": false,
+    /*
+    指定调试器查找参考源代码的根路径。
+    1、指定调试器应该定位TypeScript文件的位置，而不是相对源位置。此字符串在源映射中逐字处理，您可以在其中使用路径或URL。
+    */
+    // "sourceRoot": "https://my-website.com/debug/source/",
+    /*
+    禁止发出在JSDoc注释中包含“@internal”的声明，该选项默认值是false。
+    1、不要为在其JSDoc注释中具有@internal注释的代码发出声明。这是一个内部编译器选项；使用风险自负，因为编译器不会检查结果是否有效。
+    2、如果您正在寻找一种工具来处理d.ts文件中的其他可见性级别，请查看api-extractor。
+    */
+    "stripInternal": false,
+    /*
+    允许JavaScript文件成为程序的一部分。使用“checkJs”选项从这些文件中获取错误。
+    */
+    "allowJs": false,
+    /*
+    在已检查类型的JavaScript文件中启用错误报告。
+    1、与“allowJs”选项协同工作。启用“checkJs”选项后，会在JavaScript文件中报告错误。这相当于在项目中包含的所有JavaScript文件的顶部包含“// @ts-check”。
+    */
+    "checkJs": false,
+    /*
+    指定用于检查来自“node_modules”的JavaScript文件的最大文件夹深度。仅适用于“allowJs”。
+    1、在“node_modules”下搜索和加载JavaScript文件的最大依赖深度。
+    2、这个标志只能在启用“allowJs”时使用，如果你想让TypeScript为你的node_modules中的所有JavaScript推断类型，就可以使用这个标志。
+    3、理想情况下，这应该保持为0（默认值），并且应该使用d.ts文件来明确定义模块的形状。但是，在某些情况下，您可能希望以牺牲速度和潜在准确性为代价来打开它。
+    */
+    "maxNodeModuleJsDepth": 0,
+    /*
+    删除TypeScript语言服务器中JavaScript文件的总源代码大小的20MB上限。
+    1、为了避免在处理非常大的JavaScript项目时可能出现的内存膨胀问题，TypeScript将分配的内存量有一个上限。打开此标志将删除限制。
+    */
+    "disableSizeLimit": true,
+    /*
+    当模块没有默认导出时，允许“import x from y”。
+    1、默认情况：如果“module”选项值是“system”，或者“esModuleInterop”选项启用，并且“module”选项值不是es6、es2015或esnext，则为true。否则为false。
+    2、此标志不会影响TypeScript发出的JavaScript，它仅用于类型检查。此选项将TypeScript的行为与Babel内联，其中会发出额外的代码以使使用模块的默认导出更符合人体工程学。
+    */
+    "allowSyntheticDefaultImports": true,
+    /*
+    发出额外的JavaScript以简化对导入CommonJS模块的支持。这将启用“allowSyntheticDefaultImports”以实现类型兼容性。
+    1、默认情况下（esModuleInterop为false或未设置）TypeScript将CommonJS/AMD/UMD模块视为类似于ES6模块。在这样做时，特别是有两个部分被证明是有缺陷的假设：
+    像import * as moment from "moment"这样的命名空间导入与const moment = require("moment")的作用相同。
+    像import moment from "moment"这样的默认导入与const moment = require("moment").default相同。
+    2、
+    3、
+    */
+    "esModuleInterop": true,
+    
+    
+    
     
     
     
     
     "target": "es2015",
-    "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": [
