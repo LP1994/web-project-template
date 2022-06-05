@@ -538,20 +538,102 @@
     控制如何在JavaScript文件中发出JSX构造。这仅影响以.tsx为扩展名的文件的JS文件的输出。
     1、有效值如下：
     preserve：发出JSX不变的.jsx文件。
-    react：使用JSX发送.js文件更改为等效的React.createElement调用。
+    react：默认值，使用JSX发送.js文件更改为等效的React.createElement调用。
     react-native：发出JSX不变的.js文件。
-    react-jsx：将JSX更改为_jsx调用时发出.js文件。
-    react-jsxdev：将JSX更改为_jsx调用时发出.js文件。
+    react-jsx：React 17，将JSX更改为_jsx调用时发出.js文件。
+    react-jsxdev：React 17 dev，将JSX更改为_jsx调用时发出.js文件。
     */
-    "jsx": "preserve",
-    
-    
-    
-    "target": "es2015",
+    "jsx": "react",
+    /*
+    在使用经典JSX运行时编译JSX Elements时更改在.js文件中调用的函数。如果使用preact，最常见的更改是使用“h”或“preact.h”而不是默认的“React.createElement”。
+    1、该属性不能和“reactNamespace”一起使用！默认值是：React.createElement。
+    */
+    "jsxFactory": "React.createElement",
+    /*
+    指定针对React JSX emit时用于片段的JSX片段引用，例如“React.Fragment”或“Fragment”。
+    1、指定当使用jsxFactory编译器选项指定react JSX发射时要使用的JSX片段工厂函数，例如分段。
+    2、默认值：React.Fragment。
+    */
+    "jsxFragmentFactory": "React.Fragment",
+    /*
+    指定使用“jsx: react-jsx”时用于导入JSX工厂函数的模块说明符。
+    1、当将jsx用作TypeScript 4.1中引入的“react-jsx”或“react-jsxdev”时，声明用于导入jsx和jsxs工厂函数的模块说明符。默认值：react。
+    2、在React 17中，该库通过单独的导入支持一种新形式的JSX转换。
+    3、还有一个有效值：preact。
+    */
+    "jsxImportSource": "react",
     "lib": [
-      "es5",
+      "dom",
+      "dom.iterable",
       "es2015",
-      "dom"
-    ]
+      "es2015.collection",
+      "es2015.core",
+      "es2015.generator",
+      "es2015.iterable",
+      "es2015.promise",
+      "es2015.proxy",
+      "es2015.reflect",
+      "es2015.symbol",
+      "es2015.symbol.wellknown",
+      "es2016",
+      "es2016.array.include",
+      "es2016.full",
+      "es2017",
+      "es2017.full",
+      "es2017.intl",
+      "es2017.object",
+      "es2017.sharedmemory",
+      "es2017.string",
+      "es2017.typedarrays",
+      "es2018",
+      "es2018.asyncgenerator",
+      "es2018.asynciterable",
+      "es2018.full",
+      "es2018.intl",
+      "es2018.promise",
+      "es2018.regexp",
+      "es2019",
+      "es2019.array",
+      "es2019.full",
+      "es2019.object",
+      "es2019.string",
+      "es2019.symbol",
+      "es2020",
+      "es2020.bigint",
+      "es2020.date",
+      "es2020.full",
+      "es2020.intl",
+      "es2020.number",
+      "es2020.promise",
+      "es2020.sharedmemory",
+      "es2020.string",
+      "es2020.symbol.wellknown",
+      "es2021",
+      "es2021.full",
+      "es2021.intl",
+      "es2021.promise",
+      "es2021.string",
+      "es2021.weakref",
+      "es2022",
+      "es2022.array",
+      "es2022.error",
+      "es2022.full",
+      "es2022.intl",
+      "es2022.object",
+      "es2022.string",
+      "es5",
+      "es6",
+      "esnext",
+      "esnext.full",
+      "esnext.intl",
+      "esnext.promise",
+      "esnext.string",
+      "esnext.weakref",
+      "scripthost",
+      "webworker",
+      "webworker.importscripts",
+      "webworker.iterable"
+    ],
+    "target": "es2015"
   }
 }
