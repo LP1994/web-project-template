@@ -459,20 +459,95 @@
     1、默认情况下（esModuleInterop为false或未设置）TypeScript将CommonJS/AMD/UMD模块视为类似于ES6模块。在这样做时，特别是有两个部分被证明是有缺陷的假设：
     像import * as moment from "moment"这样的命名空间导入与const moment = require("moment")的作用相同。
     像import moment from "moment"这样的默认导入与const moment = require("moment").default相同。
-    2、
-    3、
+    2、通过为所有导入创建名称空间对象，启用CommonJS和ES模块之间的发射互操作性。
     */
     "esModuleInterop": true,
-    
-    
-    
-    
+    /*
+    设置此选项后，如果程序试图通过与磁盘上的大小写不同的大小写来包含文件，则TypeScript将发出错误。
+    1、TypeScript遵循运行它的文件系统的区分大小写规则。如果一些开发人员在区分大小写的文件系统中工作而其他开发人员不是，这可能会出现问题。
+    2、如果文件尝试通过指定./FileManager.ts来导入fileManager.ts，则该文件将在不区分大小写的文件系统中找到，但不在区分大小写的文件系统中。
+    */
+    "forceConsistentCasingInFileNames": true,
+    /*
+    设置isolatedModules标志会告诉TypeScript，如果您编写的某些代码无法由单个文件转换过程正确解释，则会发出警告。
+    1、如果设置了isolatedModules，则所有实现文件都必须是模块（这意味着它具有某种形式的导入/导出）。如果任何文件不是模块，则会发生错误(此限制不适用于.d.ts文件)。
+    2、这些限制可能会导致某些类型脚本功能（如常量枚举和命名空间）出现运行时问题。
+    3、它不会更改代码的行为，也不会更改TypeScript检查和发出进程的行为。
+    4、虽然您可以使用TypeScript从TypeScript代码生成JavaScript代码，但使用Babel等其他转译器也很常见。
+    5、但是，其他转译器一次只对单个文件进行操作，这意味着它们不能应用依赖于对完整类型系统的理解的代码转换。
+    6、此限制也适用于某些构建工具使用的TypeScript的ts.transpileModule API。
+    */
+    "isolatedModules": false,
+    /*
+    这是为了在Node.js中反映相同的标志；它不解析符号链接的实际路径。
+    1、此标志还显示与Webpack的resolve.symlinks选项相反的行为（即将TypeScript的preserveSymlinks设置为true与将Webpack的resolve.symlinks设置为false并行，反之亦然）。
+    2、启用此功能后，对模块和包的引用（例如imports和/// <reference type="..." />指令）都相对于符号链接文件的位置进行解析，而不是相对于符号链接解析到的路径。
+    */
+    "preserveSymlinks": false,
+    /*
+    不再支持。在早期版本中，手动设置读取文件的文本编码。
+    1、在以前的TypeScript版本中，这控制了从磁盘读取文本文件时使用的编码。今天，TypeScript采用UTF-8编码，但可以正确检测UTF-16（BE和LE）或UTF-8 BOM。
+    */
+    // "charset": "utf8",
+    /*
+    不推荐使用，使keyof仅返回字符串，而不是字符串、数字或符号。
+    1、此标志用于帮助人们在TypeScript 2.9发布之前保持这种行为。
+    */
+    // "keyofStringsOnly": false,
+    /*
+    禁止在发出的JavaScript文件中添加"use strict"指令。
+    1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
+    */
+    "noImplicitUseStrict": false,
+    /*
+    禁用对函数类型中的泛型签名进行严格检查。
+    1、TypeScript 在比较两个泛型函数时会统一类型参数。
+    2、此标志可用于删除该检查。
+    */
+    "noStrictGenericChecks": false,
+    /*
+    请改用outFile选项。已弃用。
+    1、out选项以不可预测或一致的方式计算最终文件位置。保留此选项仅是为了向后兼容并且已弃用。
+    */
+    // "out": "./xxx/xx.js",
+    /*
+     true将禁用报告多余的属性错误。在创建对象文字期间，禁用报告多余的属性错误。
+     1、添加此标志是为了帮助人们迁移到TypeScript 1.6中对新对象文字进行更严格的检查。
+     2、我们不建议在现代代码库中使用此标志，您可以使用“// @ts-ignore”抑制一次性需要的情况。
+     */
+    "suppressExcessPropertyErrors": false,
+    /*
+     启用“suppressImplicitAnyIndexErrors”将禁止在索引到对象时报告有关隐式Any的错误。
+     1、使用suppressImplicitAnyIndexErrors是一种非常严格的方法。建议使用'// @ts-ignore'注释代替。
+     2、对缺少索引签名的对象进行索引时，禁止出现“noImplicitAny”错误。
+     3、将suppressImplicitAnyIndexErrors设为true将禁止在对对象进行索引时报告有关隐式anys的错误。
+     4、使用suppressImplicitAnyIndexErrors是一种非常激进的方法。建议改用“@ts-ignore”注释。
+     */
+    "suppressImplicitAnyIndexErrors": false,
+    /*
+    启用对与模块反射元数据一起使用的装饰器发射类型元数据的实验性支持。
+    1、为源文件中的修饰声明发出设计类型元数据。
+    */
+    "emitDecoratorMetadata": true,
+    /*
+    在TC39标准化流程的第二阶段，为装饰器启用实验支持。
+    1、装饰器是一种语言功能，尚未完全批准到JavaScript规范中。这意味着TypeScript中的实现版本可能与TC39决定的JavaScript中的实现版本有所不同。
+    */
+    "experimentalDecorators": true,
+    /*
+    控制如何在JavaScript文件中发出JSX构造。这仅影响以.tsx为扩展名的文件的JS文件的输出。
+    1、有效值如下：
+    preserve：发出JSX不变的.jsx文件。
+    react：使用JSX发送.js文件更改为等效的React.createElement调用。
+    react-native：发出JSX不变的.js文件。
+    react-jsx：将JSX更改为_jsx调用时发出.js文件。
+    react-jsxdev：将JSX更改为_jsx调用时发出.js文件。
+    */
+    "jsx": "preserve",
     
     
     
     "target": "es2015",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "lib": [
       "es5",
       "es2015",
