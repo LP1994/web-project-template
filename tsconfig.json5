@@ -562,9 +562,16 @@
     3、还有一个有效值：preact。
     */
     "jsxImportSource": "react",
+    /*
+    指定一组描述目标运行时环境的绑定库声明文件。
+    1、TypeScript包括一组用于内置JS API（如 Math）的默认类型定义，以及在浏览器环境中找到的内容（如文档）的类型定义。
+    2、TypeScript还包括与您指定的目标匹配的更新JS功能的API；例如，如果目标是ES6或更高版本，则可以使用Map的定义。
+    */
     "lib": [
+      // DOM定义 - 窗口、文档等等。
       "dom",
       "dom.iterable",
+      // ES2015（也称为ES6）中可用的其他API - array.find, Promise, Proxy, Symbol, Map, Set, Reflect等等。
       "es2015",
       "es2015.collection",
       "es2015.core",
@@ -575,9 +582,11 @@
       "es2015.reflect",
       "es2015.symbol",
       "es2015.symbol.wellknown",
+      // ES2016中可用的其他API - array.include等等。
       "es2016",
       "es2016.array.include",
       "es2016.full",
+      // ES2017中可用的其他API - Object.entries, Object.values, Atomics, SharedArrayBuffer, date.formatToParts, typed arrays等等。
       "es2017",
       "es2017.full",
       "es2017.intl",
@@ -585,6 +594,7 @@
       "es2017.sharedmemory",
       "es2017.string",
       "es2017.typedarrays",
+      // ES2018中可用的其他API - async iterables, promise.finally, Intl.PluralRules, regexp.groups等等。
       "es2018",
       "es2018.asyncgenerator",
       "es2018.asynciterable",
@@ -592,12 +602,14 @@
       "es2018.intl",
       "es2018.promise",
       "es2018.regexp",
+      // ES2019中可用的其他API - array.flat, array.flatMap, Object.fromEntries, string.trimStart, string.trimEnd等等。
       "es2019",
       "es2019.array",
       "es2019.full",
       "es2019.object",
       "es2019.string",
       "es2019.symbol",
+      // ES2020中可用的其他API - string.matchAll等等。
       "es2020",
       "es2020.bigint",
       "es2020.date",
@@ -608,6 +620,7 @@
       "es2020.sharedmemory",
       "es2020.string",
       "es2020.symbol.wellknown",
+      // ES2021中可用的其他API - promise.any, string.replaceAll等等。
       "es2021",
       "es2021.full",
       "es2021.intl",
@@ -621,15 +634,20 @@
       "es2022.intl",
       "es2022.object",
       "es2022.string",
+      //  所有ES3和ES5功能的核心定义。
       "es5",
+      // “ES2015”的别名。
       "es6",
+      // ESNext中可用的其他API - 这随着JavaScript规范的发展而变化。
       "esnext",
       "esnext.full",
       "esnext.intl",
       "esnext.promise",
       "esnext.string",
       "esnext.weakref",
+      // 适用于Windows脚本托管系统的API。
       "scripthost",
+      // WebWorker上下文中可用的API。
       "webworker",
       "webworker.importscripts",
       "webworker.iterable"
