@@ -652,6 +652,131 @@
       "webworker.importscripts",
       "webworker.iterable"
     ],
-    "target": "es2015"
+    /*
+    禁用自动包含任何库文件，包括默认lib.d.ts。如果设置此选项，则忽略lib。
+    */
+    "noLib": false,
+    /*
+    该属性不能和“jsxFactory”一起使用。
+    1、指定为“createElement”调用的对象。这仅适用于以“react”JSX emit为目标的情况。
+    2、请改用jsxFactory。指定针对TSX文件的响应时为createElement调用的对象。
+    */
+    // "reactNamespace": "React",
+    /*
+    为发出的JavaScript设置JavaScript语言版本，并包含兼容的库声明。
+    1、有效值：es3、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、esnext。
+    2、更改目标也会更改lib的默认值。您可以根据需要“混合和匹配”目标和库设置，但为了方便起见，您可以设置目标。
+    3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
+    4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
+    5、特殊的ESNext值是指您的TypeScript版本支持的最高版本。应该谨慎使用此设置，因为它在不同的TypeScript版本之间并不意味着相同的事情，并且会使升级变得难以预测。
+    */
+    "target": "es2022",
+    /*
+    发出符合ECMAScript标准的类字段。
+    1、如果“target”选项值是es2022或更高版本，包括esnext，则该选项值默认为true，否则为false。
+    2、此标志切换到即将到来的ECMA运行时行为。您可以在3.7发行说明中阅读有关转换的更多信息。
+    3、此标志用作迁移到即将推出的标准版本的类字段的一部分。TypeScript在TC39批准之前多年就引入了类字段。
+    4、即将发布的规范的最新版本与TypeScript的实现有不同的运行时行为，但语法相同。
+    */
+    "useDefineForClassFields": true,
+    /*
+    生成后输出编译器性能信息。不推荐使用，已经废弃了。
+    1、用于输出诊断信息以进行调试。该命令是extendedDiagnostics的一个子集，其结果更加面向用户，并且更易于解释。
+    2、如果TypeScript编译器工程师要求您在编译中使用此标志给出结果，那么使用extendedDiagnostics代替是没有害处的。
+    */
+    // "diagnostics": true,
+    /*
+    此选项用于调试文件如何成为编译的一部分。
+    1、打印TypeScript视为项目一部分的文件的名称以及它们是编译一部分的原因。
+    */
+    "explainFiles": true,
+    /*
+    您可以使用此标志来发现TypeScript在编译时花费的时间。这是一个用于了解代码库整体性能特征的工具。
+    1、生成后输出更详细的编译器性能信息。
+    */
+    "extendedDiagnostics": true,
+    /*
+    此选项使您有机会在编译器运行期间让TypeScript发出v8 CPU配置文件。CPU配置文件可以让您深入了解构建速度缓慢的原因。
+    1、此选项只能通过CLI使用：--generateCpuProfile tsc-output.cpuprofile，如：npm run tsc --generateCpuProfile tsc-output.cpuprofile。
+    */
+    "generateCpuProfile": "./webpack_records/TSCOutputProfile.cpuprofile",
+    /*
+    编译后打印发出文件的名称。
+    1、将编译的一部分生成文件的名称打印到终端。
+    2、该标志在两种情况下很有用：
+    您想将TypeScript转换为终端中构建链的一部分，该终端在下一条命令中处理文件名。
+    您不确定TypeScript是否包含了所需的文件，这是调试文件包含设置的一部分。
+    3、通常，TypeScript会在成功时静默返回。
+    */
+    "listEmittedFiles": true,
+    /*
+    打印文件名称的一部分。当您不确定TypeScript是否包含所需的文件时，此功能很有用。
+    1、请注意，如果使用TypeScript 4.2，请更喜欢explainFiles，它也解释了为什么添加了文件。
+    */
+    "listFiles": false,
+    /*
+    当您尝试调试未包含模块的原因时。您可以将traceResolutions设置为true，以使TypeScript打印有关每个已处理文件的解析过程的信息。
+    */
+    "traceResolution": false,
+    /*
+    启用允许TypeScript项目与项目引用一起使用的约束。
+    1、复合选项强制执行某些约束，使构建工具（包括TypeScript本身，在--build模式下）能够快速确定项目是否已经构建。
+    2、当此设置开启时：
+    rootDir选项设置，如果没有明确设置，默认为包含tsconfig.json文件的目录。
+    所有实现文件必须由包含模式匹配或列在文件数组中。如果违反此约束，tsc 将通知您未指定哪些文件。
+    declaration选项值默认为true。
+    */
+    "composite": true,
+    /*
+    减少TypeScript自动加载的项目数。
+    1、在多项目TypeScript程序中，TypeScript会将所有可用项目加载到内存中，以便为需要完整知识图的编辑器响应提供准确的结果，例如“查找所有参考”。
+    2、如果您的项目很大，您可以使用标志disableReferencedProjectLoad来禁用所有项目的自动加载。相反，当您通过编辑器打开文件时，项目会动态加载。
+    */
+    "disableReferencedProjectLoad": false,
+    /*
+    编辑时从多项目引用检查中选择一个项目。
+    1、在使用复合TypeScript项目时，此选项提供了一种声明您不希望在使用查找所有引用或在编辑器中跳转到定义等功能时包含项目的方法。
+    2、您可以使用此标志来提高大型复合项目的响应能力。
+    */
+    "disableSolutionSearching": true,
+    /*
+    禁用项目引用重定向的源。
+    1、在处理复合TypeScript项目时，此选项提供了一种返回3.7之前的行为的方法，其中d.ts文件被用作模块之间的边界。在3.7中，事实来源现在是您的TypeScript文件。
+    */
+    "disableSourceOfProjectReferenceRedirect": true,
+    /*
+    告诉TypeScript将上次编译的项目图信息保存到存储在磁盘上的文件中。这将在编译输出所在的文件夹中创建一系列.tsbuildinfo文件。
+    1、它们在运行时不被JavaScript使用，可以安全地删除。
+    2、composite选项值为true时，则该选项也为true，否则为假。
+    3、告诉TypeScript将上次编译的项目图信息保存到磁盘上存储的文件中。这会在编译输出所在的文件夹中创建一系列.tsbuildinfo文件。
+    4、您的JavaScript在运行时不使用它们，可以安全地删除它们。您可以在3.4发行说明中阅读有关该标志的更多信息。
+    5、要控制要将文件构建到哪些文件夹，请使用配置选项tsBuildInfoFile。
+    */
+    "incremental": true,
+    /*
+    此设置允许您指定用于存储增量编译信息的文件作为复合项目的一部分，从而可以更快地构建更大的TypeScript代码库。您可以在手册中阅读有关复合项目的更多信息。
+    1、此选项提供了一种配置TypeScript跟踪其存储在磁盘上的文件以指示项目的构建状态的位置的方法——默认情况下，它们与您发出的JavaScript位于同一文件夹中。
+    */
+    "tsBuildInfoFile": "./webpack_records/TSBuildInfo.tsbuildinfo",
+    /*
+    不要截断错误消息。
+    */
+    "noErrorTruncation": true,
+    /*
+    是否在监视模式下保持过时的控制台输出，而不是每次发生更改时清除屏幕。true表示保留。
+    */
+    "preserveWatchOutput": true,
+    /*
+    使用颜色和上下文对错误和消息进行样式化，默认情况下启用 - 让您有机会从编译器获得不那么简洁、单一颜色的消息，默认值为true。
+    */
+    "pretty": true,
+    /*
+    改用选项“skipLibCheck”，本选项算是弃用了。
+    */
+    // "skipDefaultLibCheck": true,
+    /*
+    跳过默认库声明文件的类型检查。
+    */
+    "skipLibCheck": true,
   }
 }
