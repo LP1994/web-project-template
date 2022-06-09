@@ -1,0 +1,8 @@
+1、tsc是用于编译.ts，但是不会执行.ts，且可以加载tsconfig.json配置来编译。
+例子：
+tsc -p ./tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5
+
+2、ts-node是用于执行.ts，且可以加载tsconfig.json配置来执行。
+例子：
+ts-node-esm -P ./configures/tsconfig/ts-node.tsconfig.json5 ./src/DemoA.mts
+ts-node --esm -P ./tsconfig.json ./src/DemoA.mts
