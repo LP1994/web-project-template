@@ -7,7 +7,7 @@ const arr1: number[] = [
 ];
 
 function Fun3(): void{
-  console.log( arr1.at( 1 ) );
+  console.log( `arr1.at( 1 )--->${ arr1.at( 1 ) }` );
 }
 
 export {

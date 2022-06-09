@@ -8,4 +8,6 @@
 /node_modules.7z
 /node_modules.zip
 
+#/test/
 #/ts_compiled/
+#/webpack_records/

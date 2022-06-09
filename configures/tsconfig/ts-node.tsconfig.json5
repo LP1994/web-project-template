@@ -1,0 +1,22 @@
+{
+  "display": "node for ts-node",
+  "_version": "1.0.0",
+  "_ts-node_version": "10.8.1",
+  "_typescript_version": "4.7.3",
+  "_description": "这是给基于ts-node运行TypeScript的Node一类的项目使用的基本通用的tsconfig.json。",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "docs": "https://www.typescriptlang.org/tsconfig",
+  "extends": "./bases.tsconfig.json5",
+  /*
+  大多数ts-node选项可以在此处使用它们的编程名称指定。
+  1、https://unpkg.com/ts-node@10.8.1/tsconfig.schema.json
+  2、https://typestrong.org/ts-node/docs/configuration#via-tsconfigjson-recommended
+  */
+  "ts-node": {
+    /*
+    true表示仅仅只是转译而跳过类型检查，这样会更快；false表示不仅转译还要启用类型检查，这个也是默认值。
+    1、使用TypeScript更快的“transpileModule”。
+    */
+    "transpileOnly": false
+  }
+}
