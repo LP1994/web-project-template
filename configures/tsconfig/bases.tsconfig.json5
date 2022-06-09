@@ -5,6 +5,7 @@
   "_description": "这是基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
+  "_tsc_cli": "tsc -p ./configures/tsconfig/bases.tsconfig.json5 --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   /*
   1、指定要包含在程序中的文件允许列表，如果找不到任何文件，则会发生错误，所以也不要设置成空数组。
   2、当您只有少量文件并且不需要使用全局来引用许多文件时，这很有用，如果您需要全局来引用许多文件时，请使用“include”选项。
