@@ -1,1 +1,1 @@
-node --experimental-global-webcrypto --experimental-import-meta-resolve --experimental-network-imports --experimental-vm-modules --experimental-wasi-unstable-preview1 --experimental-wasm-modules --v8-pool-size=1024 --max-old-space-size=32768 ../configures/update_tsconfig_lib/UpdateTSConfigLib.mjs
+node ../configures/update_tsconfig_lib/UpdateTSConfigLib.mjs
