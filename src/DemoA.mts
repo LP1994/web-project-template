@@ -1,8 +1,5 @@
 'use strict';
 
-// ts-node-esm --project ./configures/tsconfig/ts-node.tsconfig.json5 ./src/DemoA.mts
-// ts-node --esm --project ./configures/tsconfig/ts-node.tsconfig.json5 ./src/DemoA.mts
-
 import {
   Fun1,
   // @ts-expect-error

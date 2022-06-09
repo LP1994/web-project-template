@@ -1,5 +1,9 @@
 ts-node支持通过在“tsconfig.json”中添加属于ts-node的选项来配置参数，具体见ts-node的官方文档：https://typestrong.org/ts-node/docs/。
 
+例子：
+ts-node-esm -P ./configures/tsconfig/ts-node.tsconfig.json5 ./src/DemoA.mts
+ts-node --esm -P ./tsconfig.json ./src/DemoA.mts
+
 代码：
 function Fun1(){
   console.log( 'Fun1' );
