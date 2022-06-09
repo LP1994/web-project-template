@@ -1,0 +1,50 @@
+/**
+ * Author: 12278
+ * CreateDate: 2022-01-01 00:00:00 星期六
+ * Email: 1227839175@qq.com
+ * FileDirPath: configures/update_tsconfig_lib/UpdateTSConfigLib.mjs
+ * IDE: WebStorm
+ * Project: web-project-template
+ */
+
+/**
+ * 该工具用于从node_modules文件夹中获取typescript包里面lib文件夹下的各个.d.ts文件来更新tsconfig配置中的compilerOptions选项的lib选项值。
+ */
+
+'use strict';
+
+import {
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
+
+import {
+  dirname,
+  join,
+} from 'node:path';
+
+import {
+  fileURLToPath,
+} from 'node:url';
+
+import tsConfig from '../../tsconfig.json' assert { type: 'json', };
+
+function Get__dirname( import_meta_url = import.meta.url ){
+  return dirname( Get__filename( import_meta_url ) );
+}
+
+function Get__filename( import_meta_url = import.meta.url ){
+  return fileURLToPath( import_meta_url );
+}
+
+const __dirname = Get__dirname( import.meta.url ),
+  libs = readdirSync( join( __dirname, '../../node_modules/typescript/lib' ) )
+  .filter( c => !statSync( join( __dirname, `../../node_modules/typescript/lib/${ c }` ) )
+  .isDirectory() )
+  .filter( c => c !== 'lib.d.ts' && !c.includes( '.full' ) && c.startsWith( 'lib.' ) && c.endsWith( '.d.ts' ) )
+  .map( c => c.slice( 4, -5 ).toLowerCase() );
+
+tsConfig[ 'compilerOptions' ][ 'lib' ] = Array.from( new Set( libs ) ).sort();
+
+writeFileSync( join( __dirname, '../../tsconfig.json' ), JSON.stringify( tsConfig ) );
