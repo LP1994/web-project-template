@@ -88,6 +88,7 @@
     "**/*.postcss"
   ],
   "scripts": {
+    "update_graphQL_schema_json": "node ./configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs",
     "tsc_cli": "node ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs&tsc -p ./tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
     "dev": "node --trace-deprecation --max-old-space-size=8192 node_modules/webpack/bin/webpack.js serve --mode development --config webpack.DevServer.js --watch --progress --color --bail --profile",
     "open_dev_web_page": "start http://localhost:8082/WebProTpl/dist/devServer/pages/HelloWorld.html",
@@ -98,8 +99,7 @@
     "production": "node --trace-deprecation --max-old-space-size=8192 node_modules/webpack/bin/webpack.js --mode production --config webpack.Production.js --progress --color --bail --profile",
     "open_production_web_page": "start http://localhost:8081/WebProTpl/dist/production/pages/HelloWorld.html",
     "simulation_servers_node": "nodemon --config simServer/nodemon.json --trace-deprecation --max-old-space-size=8192 --experimental-import-meta-resolve --experimental-json-modules --experimental-repl-await --experimental-wasi-unstable-preview1 --experimental-vm-modules --experimental-wasm-modules --experimental-top-level-await simServer/src/App.mjs",
-    "weinre": "weinre --boundHost localhost --httpPort 8888 --verbose false --debug true",
-    "update_graphQL_schema_json": "node --trace-deprecation --max-old-space-size=8192 --experimental-import-meta-resolve --experimental-json-modules --experimental-repl-await --experimental-wasi-unstable-preview1 --experimental-vm-modules --experimental-wasm-modules --experimental-top-level-await bats/graphQL/Update4GraphQLSchemaJSON.cjs"
+    "weinre": "weinre --boundHost localhost --httpPort 8888 --verbose false --debug true"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -818,7 +818,7 @@
     "underscore": "^1.13.4",
     "url-loader": "^4.1.1",
     "val-loader": "^5.0.0",
-    "vtk.js": "^24.16.7",
+    "vtk.js": "^24.17.0",
     "vue": "^3.2.37",
     "vue-class-component": "^7.2.6",
     "vue-cli-plugin-apollo": "^0.22.2",
@@ -830,7 +830,7 @@
     "vue-loader": "^17.0.0",
     "vue-observe-visibility": "^1.0.0",
     "vue-resize": "^1.0.1",
-    "vue-router": "^4.0.15",
+    "vue-router": "^4.0.16",
     "vue-rx": "^6.2.0",
     "vue-server-renderer": "^2.6.14",
     "vue-sfc-descriptor-to-string": "^1.0.0",
@@ -895,7 +895,7 @@
     "workbox-webpack-plugin": "^6.5.3",
     "workbox-window": "^6.5.3",
     "worker-loader": "^3.0.8",
-    "ws": "^8.7.0",
+    "ws": "^8.8.0",
     "wslink": "^1.6.5",
     "xml-loader": "^1.2.1",
     "yamljs": "^0.3.0",

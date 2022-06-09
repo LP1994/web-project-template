@@ -1,0 +1,38 @@
+{
+  "projects": {
+    "web-project-template": {
+      "name": "web-project-template",
+      "schemaPath": "./src/graphQL/GraphQL.Schema.json",
+      "includes": [
+        "./src/graphQL/api/**/*.graphql",
+        "./src/graphQL/test/**/*.graphql",
+        "./src/graphQL/api/**/*.gql",
+        "./src/graphQL/test/**/*.gql"
+      ],
+      "excludes": [
+        "./src/graphQL/doc/**/*.graphql",
+        "./src/graphQL/doc/**/*.gql"
+      ],
+      "extensions": {
+        "endpoints": {
+          "例子001": {
+            "url": "http://192.168.1.196:8087/graphql",
+            "headers": {
+              "Content-Type": "application/json",
+              "user-agent": "web-project-template JS GraphQL for 例子001",
+              "Accept-Encoding": "gzip",
+              "Sec-Fetch-Site": "same-origin",
+              "Sec-Fetch-Mode": "cors",
+              "Sec-Fetch-Dest": "empty",
+              "Pragma": "no-cache",
+              "Cache-Control": "no-cache, no-store",
+              "Connection": "keep-alive",
+              "Accept": "*/*"
+            },
+            "introspect": false
+          }
+        }
+      }
+    }
+  }
+}
