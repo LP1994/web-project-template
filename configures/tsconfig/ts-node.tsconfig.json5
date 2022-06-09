@@ -6,6 +6,7 @@
   "_description": "这是给基于ts-node运行TypeScript的Node一类的项目使用的基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
+  "_ts-node_cli": "ts-node -P ts-node.tsconfig.json5 --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   "extends": "./bases.tsconfig.json5",
   /*
   大多数ts-node选项可以在此处使用它们的编程名称指定。
@@ -14,9 +15,86 @@
   */
   "ts-node": {
     /*
+    指定自定义的TypeScript编译器。
+    */
+    "compiler": "typescript",
+    /*
+    使用TypeScript的编译器主机API而不是语言服务API。
+    */
+    "compilerHost": false,
+    /*
+    将输出文件发射到“.ts-node”目录。
+    */
+    "emit": false,
+    "esm": true,
+    "experimentalReplAwait": true,
+    "experimentalResolver": true,
+    /*
+    有两个有效值：explicit、node。
+    */
+    "experimentalSpecifierResolution": "node",
+    "files": true,
+    /*
+    不应编译的路径。
+    */
+    /*
+    "ignore": [
+      "./dist",
+      "./node_modules",
+      "./bower_components",
+      "./jspm_packages"
+    ],
+    */
+    /*
+    按诊断代码忽略TypeScript警告。
+    */
+    // "ignoreDiagnostics": [],
+    /*
+    将TypeScript错误记录到stderr，而不是引发异常。
+    */
+    "logError": false,
+    /*
+    重新排序文件扩展名，以便首选TypeScript导入，优先解析“.ts”的文件。
+    */
+    "preferTsExts": true,
+    /*
+    使用漂亮的诊断格式化程序。
+    */
+    "pretty": true,
+    /*
+    要请求的模块，如节点的“--require”标志。
+    */
+    // "require": [],
+    /*
+    将编译器作用域设置为“scopeDir”内的文件。
+    */
+    // "scope": false,
+    /*
+    First of: `tsconfig.json` "rootDir" if specified, directory containing `tsconfig.json`, or cwd if no `tsconfig.json` is loaded.
+    */
+    // "scopeDir": "",
+    /*
+    跳过忽略检查，以便尝试对具有匹配扩展名的所有文件进行编译。
+    */
+    "skipIgnore": false,
+    /*
+    使用swc而不是TypeScript编译器进行传输，并跳过类型检查。
+    1、等效于同时设置transpileOnly: true和transpiler: 'ts-node/transpilers/swc'。
+    2、有关完整说明：https://typestrong.org/ts-node/docs/transpilers。
+    */
+    "swc": false,
+    /*
     true表示仅仅只是转译而跳过类型检查，这样会更快；false表示不仅转译还要启用类型检查，这个也是默认值。
     1、使用TypeScript更快的“transpileModule”。
     */
-    "transpileOnly": false
-  }
+    "transpileOnly": false,
+    /*
+    指定用于transpileOnly的自定义transpiler。
+    */
+    // "transpiler": "ts-node/transpilers/swc",
+    /*
+    已弃用。它的true可用选项transpileOnly:false代替。
+    */
+    // "typeCheck": true,
+  },
 }

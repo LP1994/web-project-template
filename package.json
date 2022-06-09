@@ -88,6 +88,7 @@
     "**/*.postcss"
   ],
   "scripts": {
+    "tsc_start": "tsc -p tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
     "dev": "node --trace-deprecation --max-old-space-size=8192 node_modules/webpack/bin/webpack.js serve --mode development --config webpack.DevServer.js --watch --progress --color --bail --profile",
     "open_dev_web_page": "start http://localhost:8082/WebProTpl/dist/devServer/pages/HelloWorld.html",
     "local": "node --trace-deprecation --max-old-space-size=8192 node_modules/webpack/bin/webpack.js serve --mode development --config webpack.LocalServer.js --watch --progress --color --bail --profile",

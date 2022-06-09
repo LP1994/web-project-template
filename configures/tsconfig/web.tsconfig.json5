@@ -5,5 +5,5 @@
   "_description": "这是给WEB一类的项目使用的基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
-  "extends": "./bases.tsconfig.json5"
+  "extends": "./bases.tsconfig.json5",
 }

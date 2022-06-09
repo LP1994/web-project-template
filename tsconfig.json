@@ -5,6 +5,7 @@
   "_description": "这是给web-project-template项目使用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
+  "_tsc_cli": "tsc -p tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   "extends": "./configures/tsconfig/web.tsconfig.json5",
   "include": [
     "./src/**/*.ts",
