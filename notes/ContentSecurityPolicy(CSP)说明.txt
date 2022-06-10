@@ -1,0 +1,835 @@
+详见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+
+
+
+  <!--
+  该meta项用途：
+  允许页面作者为当前页面定义内容策略，内容策略主要指定允许的服务器来源和脚本端点，这有助于防止“跨站点脚本攻击（XSS）”。
+  值格式：<policy-directive>;<policy-directive>;......，多个<policy-directive>之间用英文分号“;”隔开，其中<policy-directive>格式为：<directive（指令）> <value（有效值）> <value（有效值）> ......，内部没有标点符号，<directive>和<value>之间是一个空格，多个<value>之间也是用空格隔开。
+
+  值说明：
+  指令：
+  default-src：“获取指令（Fetch directives）”的一种，作为其他“获取指令”的后备。
+  值：
+  'self'：指代当前域名，需要加英文的单引号，也只能是英文的单引号的字符串'self'，该值表示限制所有的外部资源，都只能从当前域名加载。如果同时设置某个单项的“获取指令”（比如font-src）和default-src，前者会覆盖后者，即字体文件会采用“font-src”指令的值，其他“获取指令”依然采用“default-src”的值。
+
+  注意：
+  <directive（指令）>是有版本的，也就是“CSP version”，到2022-02-22为止有这3个版本：1、2、3，前两个版本各个浏览器兼容性还不错，第3个版本兼容性不会太好，大多属于实验性阶段。
+  “获取指令（Fetch directives）”中的“child-src”指令（CSP version：2）可用、也建议用“frame-src”指令（CSP version：1）、“worker-src”指令（CSP version：3）来代替，只要后两个指令能被目标浏览器兼容即可。
+  不是所有的“指令”都被“meta元素”或“Content-Security-Policy-Report-Only标头字段”支持的，详细要看以下的文档链接。
+  “meta元素”与“HTTP头”只是形式不同而作用是一致的，如果“meta元素”与“HTTP头”定义同时存在，则优先采用“HTTP头”中的定义。
+  如果用户浏览器已经为当前文档执行了一个CSP策略，则会跳过“meta元素”的定义，如果“meta元素”缺少“content属性”也同样会跳过。
+  使用该meta项时，该meta标签应该是<head>标签的第一个子元素。
+
+  详见：
+  directive（指令）：
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#directives
+  value（有效值）：
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#values
+  MDN例子：
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#examples
+  看Mozilla网络安全指南更多示例：
+  https://infosec.mozilla.org/guidelines/web_security#content-security-policy
+  -->
+  <meta http-equiv = 'Content-Security-Policy' content = "default-src 'self';object-src 'none'" />
+
+
+
+指令有以下几种：
+
+“获取指令（Fetch directives）”：控制可以加载某些资源类型的位置。
+child-src（CSP version：2）：定义<frame>和<iframe>等元素在加载嵌套浏览上下文和Web Werker的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/child-src
+“child-src”指令（CSP version：2）可用、也建议用“frame-src”指令（CSP version：1）、“worker-src”指令（CSP version：3）来代替，只要后两个指令能被目标浏览器兼容即可。
+违规案例：
+鉴于此CSP标头：
+Content-Security-Policy: child-src https://example.com/
+这<iframe>和工人被阻止并且不会加载：
+<iframe src="https://not-example.com"></iframe>
+
+<script>
+  var blockedWorker = new Worker("data:application/javascript,...");
+</script>
+
+connect-src（CSP version：1）：限制可以使用脚本接口加载的URL。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
+受限制的 API 有：
+<a>的ping属性，以空格分隔的URL列表。当链接被点击时，浏览器将向URL发送带有正文PING的POST请求，通常用于跟踪、
+fetch()、
+XMLHttpRequest、
+WebSocket、
+EventSource、
+Navigator.sendBeacon()。
+但是connect-src 'self'不能在所有浏览器中解析为限制“WebSocket”的方案！！！
+违规案例：
+鉴于此CSP标头：
+Content-Security-Policy: connect-src https://example.com/
+以下连接被阻止并且不会加载：
+<a ping="https://not-example.com">
+
+<script>
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://not-example.com/');
+  xhr.send();
+
+  var ws = new WebSocket("https://not-example.com/");
+
+  var es = new EventSource("https://not-example.com/");
+
+  navigator.sendBeacon("https://not-example.com/", { ... });
+</script>
+在 Firefox 50 之前，<a> 元素的 ping 属性不被 connect-src 覆盖。
+在 Firefox 23 之前，使用 xhr-src 代替了 connect-src 指令，并且只限制了 XMLHttpRequest 的使用。
+
+default-src（CSP version：1）：作为其他“获取指令（Fetch directives）”的后备，所以这个指令是必须的。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src
+对于以下每个不存在的指令，用户代理会查找该default-src指令并为其使用此值：
+child-src、
+connect-src、
+font-src、
+frame-src、
+img-src、
+manifest-src、
+media-src、
+object-src、
+prefetch-src、
+script-src、
+script-src-elem、
+script-src-attr、
+style-src、
+style-src-elem、
+style-src-attr、
+worker-src
+如果有其他指令指定，default-src不影响它们。
+例如：
+Content-Security-Policy: default-src 'self'; script-src https://example.com
+等同的写法如下：
+Content-Security-Policy: connect-src 'self';
+                         font-src 'self';
+                         frame-src 'self';
+                         img-src 'self';
+                         manifest-src 'self';
+                         media-src 'self';
+                         object-src 'self';
+                         script-src https://example.com;
+                         style-src 'self';
+                         worker-src 'self'
+
+font-src（CSP version：1）：指定使用加载的字体的有效来源@font-face。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/font-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: font-src https://example.com/
+以下字体资源加载被阻止并且不会加载：
+<style>
+  @font-face {
+    font-family: "MyFont";
+    src: url("https://not-example.com/font");
+  }
+  body {
+    font-family: "MyFont";
+  }
+</style>
+
+frame-src（CSP version：1）：定义<frame>和<iframe>等元素在加载嵌套浏览上下文的有效来源。如果该指令不存在，将查找“child-src”指令，如果也不再就查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: frame-src https://example.com/
+以下内容<iframe>被阻止并且不会加载：
+<iframe src="https://not-example.com/"></iframe>
+
+img-src（CSP version：1）：指定图像和网站图标的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: img-src https://example.com/
+以下内容<img>被阻止并且不会加载：
+<img src="https://not-example.com/foo.jpg" alt="example picture">
+
+manifest-src（CSP version：3）：指定应用程序清单文件的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/manifest-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: manifest-src https://example.com/
+以下内容<link>被阻止并且不会加载：
+<link rel="manifest" href="https://not-example.com/manifest">
+
+media-src（CSP version：1）：<audio>使用, <video>和<track>元素 指定加载媒体的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/media-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: media-src https://example.com/
+以下<audio>,<video>和 <track>元素被阻止并且不会加载：
+<audio src="https://not-example.com/audio"></audio>
+
+<video src="https://not-example.com/video">
+  <track kind="subtitles" src="https://not-example.com/subtitles">
+</video>
+
+object-src（CSP version：1）：指定 <object>、<embed> 和 <applet> 元素的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/object-src
+由 object-src 控制的元素可能恰巧被认为是遗留的 HTML 元素，并且没有接收新的标准化功能（例如安全属性沙箱或允许 <iframe>）。
+因此，建议限制此获取指令（例如，如果可能，显式设置 object-src 'none'）。
+要为 <object>、<embed> 和 <applet> 元素设置允许的类型，请使用 plugin-types 指令（已弃用）。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/plugin-types
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: object-src https://example.com/
+以下<object>、<embed>和 <applet>元素被阻止并且不会加载：
+<embed src="https://not-example.com/flash"></embed>
+<object data="https://not-example.com/plugin"></object>
+<applet archive="https://not-example.com/java"></applet>
+
+prefetch-src（CSP version：3）：指定要预取或预呈现的有效源。如果该指令不存在，将查找“default-src”指令。2022年03月01日MDN显示没有浏览器支持该指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/prefetch-src
+预取资源与标头不匹配：
+给定具有以下内容安全策略的页面：
+Content-Security-Policy: prefetch-src https://example.com/
+prefetch-src获取以下代码将返回网络错误，因为提供的 URL 与的源列表 不匹配：
+<link rel="prefetch" src="https://example.org/"></link>
+<link rel="prerender" src="https://example.org/"></link>
+
+script-src（CSP version：1）：指定 JavaScript 的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
+这不仅包括直接加载到 <script> 元素中的 URL，还包括可以触发脚本执行的内联脚本事件处理程序 (onclick) 和 XSLT 样式表。
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: script-src https://example.com/
+以下脚本被阻止，不会被加载或执行：
+<script src="https://not-example.com/js/library.js"></script>
+请注意，内联事件处理程序也被阻止：
+<button id="btn" onclick="doSomething()">
+您应该用 addEventListener 调用替换它们：
+document.getElementById("btn").addEventListener('click', doSomething);
+不安全的内联脚本：
+注意：禁止内联样式和内联脚本是 CSP 提供的最大安全优势之一。但是，如果您绝对必须使用它，有一些机制可以允许它们。
+为了允许内联脚本和内联事件处理程序，'unsafe-inline'可以指定与内联块匹配的随机数源或哈希源。
+Content-Security-Policy: script-src 'unsafe-inline';
+上述内容安全策略将允许内联<script>元素
+<script>
+  var inline = 1;
+</script>
+您可以使用 nonce-source 仅允许特定的内联脚本块：
+Content-Security-Policy: script-src 'nonce-2726c7f26c'
+您必须在<script>元素上设置相同的随机数：
+<script nonce="2726c7f26c">
+  var inline = 1;
+</script>
+或者，您可以从内联脚本创建哈希。CSP 支持 sha256、sha384 和 sha512。
+Content-Security-Policy: script-src 'sha256-B2yPHKaXnvFWtRChIbabYmUBFZdVfKKXHbWtWidDVF8='
+生成哈希时，不要包含<script>标签并注意大小写和空格很重要，包括前导或尾随空格。
+<script>var inline = 1;</script>
+解释：为这段代码“var inline = 1;”生成sha256值，例如是“sha256-B2yPHKaXnvFWtRChIbabYmUBFZdVfKKXHbWtWidDVF8=”，浏览器会自行匹配，不需要在<script>标签上设置如同“nonce”的属性。
+不安全的 eval 表达式
+'unsafe-eval'源表达式控制几个从字符串创建代码的脚本执行方法。如果'unsafe-eval'未在script-src指令中指定，则以下方法将被阻止并且不会产生任何效果：
+eval()
+Function()
+将字符串文字传递给以下方法时：window.setTimeout("alert(\"Hello World!\");", 500);
+setTimeout()
+setInterval()
+window.setImmediate
+window.execScript()（仅限 IE < 11）
+严格动态（strict-dynamic）
+'strict-dynamic' 源表达式指定显式给予标记中存在的脚本的信任，通过伴随它的随机数或散列，应传播到由该根脚本加载的所有脚本。同时，任何允许列表或源表达式，例如“self”或“unsafe-inline”都将被忽略。例如，诸如script-src 'strict-dynamic' 'nonce-R4nd0m' https://allowlisted.example.com/允许加载根脚本的策略<script nonce="R4nd0m" src="https://example.com/loader.js">并将该信任传播到由 加载的任何脚本loader.js，但不允许从 https://allowlisted.example.com/ 加载脚本，除非伴随随机数或从受信任的脚本加载。
+Content-Security-Policy: script-src 'strict-dynamic' 'nonce-someNonce'
+要么：
+Content-Security-Policy: script-src 'strict-dynamic' 'sha256-base64EncodedHash'
+可以向后兼容的方式进行部署strict-dynamic，而不需要用户代理嗅探。政策：
+Content-Security-Policy: script-src 'unsafe-inline' https: 'nonce-abcdefg' 'strict-dynamic'
+在支持 CSP1 的浏览器中会像“unsafe-inline” https: 一样，在支持 CSP2 的浏览器中会像 https:“nonce-abcdefg”，在支持 CSP3 的浏览器中会像“nonce-abcdefg”“strict-dynamic”。
+
+script-src-elem（CSP version：3）：指定 JavaScript<script>元素的有效来源，但不指定内联脚本事件处理程序（如onclick）。如果该指令不存在，将查找 “script-src”指令，也不存在就查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src-elem
+script-src-elem可以结合使用script-src：
+Content-Security-Policy: script-src <source>;
+Content-Security-Policy: script-src-elem <source>;
+
+script-src-attr（CSP version：3）：指定 JavaScript 内联事件处理程序的有效源。如果该指令不存在，将查找 “script-src”指令，也不存在就查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src-attr
+这仅包括像 onclick 这样的内联脚本事件处理程序，但不包括直接加载到 <script> 元素中的 URL。
+script-src-attr可以结合使用script-src：
+Content-Security-Policy: script-src <source>;
+Content-Security-Policy: script-src-attr <source>;
+
+style-src（CSP version：1）：指定样式表的有效来源。如果该指令不存在，将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: style-src https://example.com/
+以下样式表被阻止并且不会加载：
+<link href="https://not-example.com/styles/main.css" rel="stylesheet" type="text/css" />
+
+<style>
+#inline-style { background: red; }
+</style>
+
+<style>
+  @import url("https://not-example.com/styles/print.css") print;
+</style>
+以及使用 Link 标头（Link header）加载的样式：
+Link: <https://not-example.com/styles/stylesheet.css>;rel=stylesheet
+内联样式属性也被阻止：
+<div style="display:none">Foo</div>
+以及通过style直接设置属性或通过设置在 JavaScript 中应用的样式cssText：
+document.querySelector('div').setAttribute('style', 'display:none;');
+document.querySelector('div').style.cssText = 'display:none;';
+但是，直接在元素属性上设置的样式属性style不会被阻止，允许用户通过 JavaScript 安全地操作样式：
+document.querySelector('div').style.display = 'none';
+不安全的内联样式
+要允许内联样式，'unsafe-inline'可以指定与内联块匹配的 nonce-source 或 hash-source。
+Content-Security-Policy: style-src 'unsafe-inline';
+<style>上面的内容安全策略将允许像元素这样的内联样式，以及style任何元素上的属性：
+<style>
+  #inline-style { background: red; }
+</style>
+
+<div style="display:none">Foo</div>
+您可以使用 nonce-source 仅允许特定的内联样式块：
+Content-Security-Policy: style-src 'nonce-2726c7f26c'
+您必须在<style>元素上设置相同的随机数：
+<style nonce="2726c7f26c">
+  #inline-style { background: red; }
+</style>
+或者，您可以从内联样式创建哈希。CSP 支持 sha256、sha384 和 sha512。哈希的二进制形式必须使用 base64 编码。您可以通过程序在命令行上获取字符串的哈希值openssl：
+echo -n "#inline-style { background: red; }" | openssl dgst -sha256 -binary | openssl enc -base64
+您可以使用哈希源仅允许特定的内联样式块：
+Content-Security-Policy: style-src 'sha256-ozBpjL6dxO8fsS4u6fwG1dFDACYvpNxYeBA6tzR+FY8='
+生成哈希时，不要包含<style>标签并注意大小写和空格很重要，包括前导或尾随空格。
+<style>#inline-style { background: red; }</style>
+不安全的样式表达式
+'unsafe-eval' 源表达式控制几个从字符串创建样式声明的样式方法。如果 style-src 指令未指定“unsafe-eval”，则以下方法将被阻止并且不会产生任何效果：
+CSSStyleSheet.insertRule()
+CSSGroupingRule.insertRule()
+CSSStyleDeclaration.cssText
+
+style-src-elem（CSP version：3）：指定样式表<style>元素和 <link>带有rel="stylesheet"。如果该指令不存在，将查找“style-src”，也不在就查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-elem
+style-src-elem可以结合使用style-src：
+Content-Security-Policy: style-src <source>;
+Content-Security-Policy: style-src-elem <source>;
+
+style-src-attr（CSP version：3）：指定应用于单个 DOM 元素的内联样式的有效来源。如果该指令不存在，将查找“style-src”，也不在就查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-attr
+style-src-attr可以结合使用style-src：
+Content-Security-Policy: style-src <source>;
+Content-Security-Policy: style-src-attr <source>;
+
+worker-src（CSP version：3）：指定Worker、SharedWorker或ServiceWorker脚本的有效来源。如果该指令不存在，先查找child-src，如果不在，再查找script-src，如果还是没有就将查找“default-src”指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/worker-src
+违规案例：
+鉴于此 CSP 标头：
+Content-Security-Policy: worker-src https://example.com/
+Worker, SharedWorker,ServiceWorker被阻止并且不会加载：
+<script>
+  var blockedWorker = new Worker("data:application/javascript,...");
+  blockedWorker = new SharedWorker("https://not-example.com/");
+  navigator.serviceWorker.register('https://not-example.com/sw.js');
+</script>
+
+
+
+“文件指令（Document directives）”：文档指令管理策略适用的文档或工作环境的属性。
+base-uri（CSP version：2）：限制可在文档<base>元素中使用的URL。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/base-uri
+该指令限制可以在文档元素中使用的URL。如果此值不存在，则允许任何URI。如果该指令不存在，用户代理将使用元素中的值。
+但是请注意，某些值对于 base-uri 没有意义，例如关键字“unsafe-inline”和“strict-dynamic”。
+元标记配置：
+<meta http-equiv="Content-Security-Policy" content="base-uri 'self'">
+阿帕奇配置：
+<IfModule mod_headers.c>
+Header set Content-Security-Policy "base-uri 'self'";
+</IfModule>
+Nginx 配置：
+add_header Content-Security-Policy "base-uri 'self';"
+违规案例：
+由于您的域不是example.com，因此设置为的<base>元素将导致 CSP 违规。hrefhttps://example.com
+<meta http-equiv="Content-Security-Policy" content="base-uri 'self'">
+<base href="https://example.com/">
+
+sandbox（CSP version：1.1 / 2）：为请求的资源启用沙箱，类似于 属性。 <iframe> sandbox
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox
+它对页面的操作施加限制，包括阻止弹出窗口、阻止插件和脚本的执行以及执行同源策略。
+“sandbox”指令有限制：meta元素或Content-Security-Policy-Report-Only标头字段不支持此指令。
+可以选择为以下值之一：
+allow-downloads：在用户单击按钮或链接后允许下载。
+allow-downloads-without-user-activation ：允许在没有用户手势的情况下进行下载。
+allow-forms：允许页面提交表单。如果不使用该关键字，则不允许该操作。
+allow-modals：允许页面打开模式窗口。
+allow-orientation-lock：允许页面禁用锁定屏幕方向的功能。
+allow-pointer-lock：允许页面使用Pointer Lock API。
+allow-popups：允许弹出窗口（如 from window.open, target="_blank", showModalDialog）。如果不使用此关键字，则该功能将静默失败。
+allow-popups-to-escape-sandbox：允许沙盒文档打开新窗口，而无需将沙盒标志强加于它们。例如，这将允许第三方广告被安全地沙盒化，而不会对登录页面施加相同的限制。
+allow-presentation：允许嵌入者控制 iframe 是否可以启动演示会话。
+allow-same-origin：允许将内容视为来自其正常来源。如果未使用此关键字，则嵌入的内容将被视为来自唯一来源。
+allow-scripts：允许页面运行脚本（但不创建弹出窗口）。如果不使用该关键字，则不允许该操作。
+allow-storage-access-by-user-activation ：让资源请求使用Storage Access API 访问父级的存储功能。
+allow-top-navigation：允许页面将内容导航（加载）到顶级浏览上下文。如果不使用该关键字，则不允许该操作。
+allow-top-navigation-by-user-activation：让资源在顶级浏览上下文中导航，但前提是由用户手势启动。
+例子：
+Content-Security-Policy: sandbox allow-scripts;
+
+
+
+“导航指令（Navigation directives）”：导航指令控制用户可以导航或提交表单的位置。
+form-action（CSP version：2）：限制可用作来自给定上下文的表单提交目标的 URL。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/form-action
+form-action 是否应该在表单提交后阻止重定向以及这方面的浏览器实现不一致（例如，Firefox 57 不阻止重定向而 Chrome 63 阻止重定向）。
+元标记配置：
+<meta http-equiv="Content-Security-Policy" content="form-action 'none'">
+阿帕奇配置：
+<IfModule mod_headers.c>
+Header set Content-Security-Policy "form-action 'none';"
+</IfModule>
+Nginx 配置：
+add_header Content-Security-Policy "form-action 'none';"
+违规案例：
+使用<form>设置为内联 JavaScript 的操作的元素将导致违反 CSP。
+<meta http-equiv="Content-Security-Policy" content="form-action 'none'">
+
+<form action="javascript:alert('Foo')" id="form1" method="post">
+  <input type="text" name="fieldName" value="fieldValue">
+  <input type="submit" id="submit" value="submit">
+</form>
+
+frame-ancestors（CSP version：2）：指定可以使用<frame>、 <iframe>、<object>、<embed>或嵌入页面的有效父级<applet>。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+将此指令设置为 'none' 类似于 X-Frame-Options: deny（旧浏览器也支持）。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+<meta> 元素 中不支持此指令。
+frame-ancestors 指令的语法类似于其他指令的源列表（例如 default-src），
+但例如不允许“unsafe-eval”或“unsafe-inline”。它也不会回退到 default-src 设置。仅允许使用下列来源：
+host：
+Internet 主机按名称或 IP 地址，以及可选的URL方案和/或端口号，以空格分隔。该站点的地址可能包含一个可选的前导通配符（星号字符，'*'），并且您可以使用通配符（再次，'*'）作为端口号，表明所有合法端口都对源有效。不允许在主机周围加上单引号。例子：
+http://*.example.comhttp:：匹配使用URL 方案从 example.com 的任何子域加载的所有尝试。
+mail.example.com:443：匹配所有访问 mail.example.com 上的端口 443 的尝试。
+https://store.example.com: 匹配所有使用 访问 store.example.com 的尝试https:。
+如果没有为主机源指定 URL 方案并且 iframe 是从 https URL 加载的，则加载 iframe 的页面的 URL 也必须是 https，根据是否 url 匹配原始表达式与重定向计数？ CSP 规范的部分。
+scheme：
+一个方案，如http:or https:。冒号是必需的，不应引用方案。您还可以指定数据方案（不推荐）。
+data:允许将data:URI用作内容源。这是不安全的；攻击者还可以注入任意数据：URI。谨慎使用它，绝对不要用于脚本。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+mediastream:允许将mediastream:URI用作内容源。
+https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API
+blob:允许将blob:URI用作内容源。
+https://developer.mozilla.org/en-US/docs/Web/API/Blob
+filesystem:允许将filesystem:URI用作内容源。
+https://developer.mozilla.org/en-US/docs/Web/API/FileSystem
+'self'：
+指提供受保护文档的来源，包括相同的 URL 方案和端口号。您必须包含单引号。一些浏览器专门从源指令中排除blob和排除。filesystem需要允许这些内容类型的站点可以使用 Data 属性指定它们。
+'none'：
+指空集；也就是说，没有匹配的 URL。单引号是必需的。
+例子：
+Content-Security-Policy: frame-ancestors 'none';
+Content-Security-Policy: frame-ancestors 'self' https://www.example.org;
+
+navigate-to（CSP version：3）：限制文档可以通过任何方式启动导航的 URL，包括 <form>（如果未指定 form-action）、<a>、window.location、window.open 等。2022年03月01日MDN显示没有浏览器支持该指令。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/navigate-to
+这是对该文档启动的导航的强制执行，而不是对该文档允许导航到的内容的强制执行。
+如果 form-action 指令存在，则 navigate-to 指令不会作用于作为表单提交的导航。
+元标记配置：
+<meta http-equiv="Content-Security-Policy" content="navigate-to 'none'">
+违规案例：
+使用<form>设置为内联 JavaScript 的操作的元素将导致违反 CSP。
+<meta http-equiv="Content-Security-Policy" content="navigate-to 'none'">
+
+<form action="javascript:alert('Foo')" id="form1" method="post">
+  <input type="text" name="fieldName" value="fieldValue">
+  <input type="submit" id="submit" value="submit">
+</form>
+
+
+
+“报告指令（Reporting directives）”：控制 CSP 违规的报告过程。另见 Content-Security-Policy-Report-Only标题。
+report-uri（CSP version：1）：指示用户代理报告违反内容安全策略的尝试。这些违规报告包含通过 HTTP POST 请求发送到指定 URI 的 JSON 文档。已弃用，不再推荐使用此功能。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri
+尽管 report-to 指令旨在替换已弃用的 report-uri 指令，但大多数浏览器尚不支持 report-to。
+因此，为了与当前浏览器兼容，同时在浏览器获得 report-to 支持时增加前向兼容性，您可以同时指定 report-uri 和 report-to：
+Content-Security-Policy: ...; report-uri https://endpoint.example.com; report-to groupname
+在支持 report-to 的浏览器中，report-uri 指令将被忽略。
+该指令本身没有任何影响，只有与其他指令结合才能获得意义。
+<meta> 元素 中不支持此指令。
+例子：
+有关Content-Security-Policy-Report-Only更多信息和示例，请参阅。
+Content-Security-Policy: default-src https:; report-uri /csp-violation-report-endpoint/
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only
+
+report-to(CSP version：1)：触发SecurityPolicyViolationEvent。指示用户代理存储源的报告端点。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-to
+该指令本身没有任何影响，只有与其他指令结合才能获得意义。
+<meta> 元素 中不支持此指令。
+Content-Security-Policy: ...; report-to /csp-violation-report-endpoint/
+
+
+
+“其他指令（Other directives）”：
+require-sri-for（CSP version：已弃用）：要求对页面上的脚本或样式使用 SRI。已弃用，不再推荐使用此功能。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/require-sri-for
+句法：
+Content-Security-Policy: require-sri-for script;
+Content-Security-Policy: require-sri-for style;
+Content-Security-Policy: require-sri-for script style;
+例子：
+如果您使用此指令将您的站点设置为要求脚本和样式的 SRI：
+Content-Security-Policy: require-sri-for script style
+<script>像下面这样的元素将被加载，因为它们使用了有效的完整性属性。
+<script src="https://code.jquery.com/jquery-3.1.1.slim.js" integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA=" crossorigin="anonymous"></script>
+但是，没有完整性的脚本将不再加载：
+<script src="https://code.jquery.com/jquery-3.1.1.slim.js"></script>
+
+require-trusted-types-for：在 DOM XSS 注入接收器处强制执行可信类型。指示用户代理控制传递给 DOM XSS 接收器函数的数据，例如 Element.innerHTML setter。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/require-trusted-types-for
+使用时，这些函数仅接受由 Trusted Type 策略创建的不可欺骗的类型值，并拒绝字符串。与trusted-types保护受信任类型策略创建的指令一起，这允许作者定义规则以保护将值写入 DOM，从而将 DOM XSS 攻击面减少到 Web 应用程序代码库的小而孤立的部分，从而促进他们的监控和代码审查。
+句法：
+Content-Security-Policy: require-trusted-types-for 'script';
+'script'：
+不允许将字符串与 DOM XSS 注入接收器函数一起使用，并且需要匹配由受信任类型策略创建的类型。
+例子：
+Content-Security-Policy: require-trusted-types-for 'script'; trusted-types foo;
+
+const attackerInput = '<svg onload="alert(/cross-site-scripting/)" />';
+const el = document.createElement('div');
+
+if (typeof trustedTypes !== 'undefined') {
+  // Create a policy that can create TrustedHTML values
+  // after sanitizing the input strings with DOMPurify library.
+  const sanitizer = trustedTypes.createPolicy('foo', {
+    createHTML: (input) => DOMPurify.sanitize(input)
+  });
+
+  el.innerHTML = sanitizer.createHTML(attackerInput);  // Puts the sanitized value into the DOM.
+  el.innerHTML = attackerInput;                        // Rejects a string value; throws a TypeError.
+}
+填充物：
+https://github.com/w3c/webappsec-trusted-types#polyfill
+
+trusted-types：用于指定受信任类型策略的允许列表。可信类型允许应用程序锁定 DOM XSS 注入接收器，只接受不可欺骗的类型值来代替字符串。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/trusted-types
+指示用户代理限制可信类型策略的创建 - 构建不可欺骗的类型化值的函数，旨在代替字符串传递给 DOM XSS 接收器。
+与require-trusted-types-for指令一起，这允许作者定义规则来保护向 DOM 写入值，从而将 DOM XSS 攻击面减少到 Web 应用程序代码库的小而孤立的部分，从而促进他们的监控和代码审查。TrustedTypes.createPolicy该指令声明了使用从 Trusted Types API创建的可信类型策略名称的允许列表。
+句法：
+Content-Security-Policy: trusted-types;
+Content-Security-Policy: trusted-types 'none';
+Content-Security-Policy: trusted-types <policyName>;
+Content-Security-Policy: trusted-types <policyName> <policyName> 'allow-duplicates';
+
+<policyName>：
+有效的策略名称仅由字母数字字符或“-#=_/@.%”之一组成。星号 (*) 作为策略名称指示用户代理允许任何唯一的策略名称（'allow-duplicates' 可以进一步放宽）。
+'none'：
+不允许创建任何 Trusted Type 策略（与不指定任何 <policyName> 相同）。
+'allow-duplicates'：
+允许使用已使用的名称创建策略。
+例子：
+Content-Security-Policy: trusted-types foo bar 'allow-duplicates';
+
+if (typeof trustedTypes !== 'undefined') {
+  const policyFoo = trustedTypes.createPolicy('foo', {});
+  const policyFoo2 = trustedTypes.createPolicy('foo', {});
+  const policyBaz = trustedTypes.createPolicy('baz', {}); // Throws and dispatches a SecurityPolicyViolationEvent.
+}
+填充物：
+https://github.com/w3c/webappsec-trusted-types#polyfill
+
+upgrade-insecure-requests：指示用户代理将站点的所有不安全 URL（通过 HTTP 提供的 URL）视为已替换为安全 URL（通过 HTTPS 提供的 URL）。该指令适用于具有大量需要重写的不安全遗留 URL 的网站。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/upgrade-insecure-requests
+upgrade-insecure-requests 指令在 block-all-mixed-content（已弃用） 之前评估，如果设置，后者实际上是一个无操作。
+建议设置任一指令，但不要同时设置两者，除非您想在旧版浏览器上强制使用 HTTPS，而在重定向到 HTTP 后不强制使用它。
+upgrade-insecure-requests 指令不会确保通过第三方网站上的链接访问您网站的用户将升级到 HTTPS 以进行顶级导航，因此不会替换 Strict-Transport-Security (HSTS) 标头，仍应设置适当的 max-age 以确保用户不会受到 SSL 剥离攻击。
+句法：
+Content-Security-Policy: upgrade-insecure-requests;
+例子：
+使用 HTTP 标头：
+Content-Security-Policy: upgrade-insecure-requests;
+使用 HTML meta元素：
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+在想要从 HTTP 迁移到 HTTPS 的域 example.com 上设置上述标头后，非导航不安全资源请求会自动升级（第一方和第三方请求）:
+<img src="http://example.com/image.png">
+<img src="http://not-example.com/image.png">
+这些 URL 将在发出请求之前被重写，这意味着不会有不安全的请求访问网络。请注意，如果请求的资源实际上不能通过 HTTPS 获得，则请求将失败而不会回退到 HTTP:
+<img src="https://example.com/image.png">
+<img src="https://not-example.com/image.png">
+对第三方资源的导航升级带来了明显更高的破损可能性，这些没有升级：
+<a href="https://example.com/">Home</a>
+<a href="http://not-example.com/">Home</a>
+查找不安全的请求：
+Content-Security-Policy-Report-Only在标头和指令 的帮助下report-uri，您可以设置强制策略和报告策略，如下所示：
+Content-Security-Policy: upgrade-insecure-requests; default-src https:
+Content-Security-Policy-Report-Only: default-src https:; report-uri /endpoint
+这样，您仍然会在安全站点上升级不安全的请求，但会违反唯一的监控策略，并向您的端点报告不安全的资源。
+
+
+
+“已弃用的指令（Deprecated directives）”：
+block-all-mixed-content：当使用 HTTPS 加载页面时，防止使用 HTTP 加载任何资产。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/block-all-mixed-content
+
+plugin-types：通过限制可以加载的资源类型来限制可以嵌入到文档中的插件集。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/plugin-types
+
+referrer：用于在Referer (sic) 标头中为远离页面的链接指定信息。请改用Referrer-Policy标题。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/referrer
+
+
+
+指令值：
+关键字值：
+none：不允许加载任何资源。
+self：只允许来自当前来源的资源。
+strict-dynamic（实验性）：由于伴随的随机数或散列而授予页面中脚本的信任扩展到它加载的脚本。
+report-sample（实验性）：要求在违规报告中包含违规代码示例。
+
+不安全的关键字值：
+unsafe-inline：允许使用内联资源。
+unsafe-eval：允许使用动态代码评估，例如eval、和.setImmediatewindow.execScript 
+unsafe-hashes（实验性）：允许启用特定的内联事件处理程序。
+unsafe-allow-redirects（实验性） ：待定
+
+Hosts值：
+Host：
+仅允许从特定主机加载资源，具有可选的方案、端口和路径。例如example.com, *.example.com,https://*.example.com:12/path/to/file.js
+CSP 中以/它们作为前缀的任何路径结尾的路径部分。例如example.com/api/将匹配像example.com/api/users/new.
+CSP 中的其他路径部分完全匹配，例如example.com/file.js将匹配http://example.com/file.jsand https://example.com/file.js，但不匹配https://example.com/file.js/file2.js
+Scheme：
+仅允许通过特定方案加载资源，应始终以“ :”结尾。例如https:,http:等data:。
+
+其他值：
+nonce-*：
+允许脚本的加密随机数（仅使用一次）。服务器每次传输策略时都必须生成唯一的 nonce 值。提供一个无法猜测的随机数至关重要，因为绕过资源的策略是微不足道的。这与脚本标记随机数属性结合使用。例如nonce-DhcnhD3khTMePgXwdayK9BsMqXjhguVV
+
+sha*-*：
+sha256、sha384 或 sha512。后跟一个破折号，然后是 sha* 值。例如sha256-jzgBGA4UWFFmpOBq0JpdsySukE1FrEN5bUpoK8Z29fY=
+
+
+
+CSP in workers：
+工作者通常不受创建它们的文档（或父工作者）的内容安全策略的约束。要为工作人员指定内容安全策略， Content-Security-Policy请为请求工作人员脚本本身的请求设置响应标头。
+例外情况是工作脚本的来源是全局唯一标识符（例如，如果其 URL 具有数据或 blob 方案）。在这种情况下，工作人员确实继承了创建它的文档或工作人员的内容安全策略。
+
+
+
+多种内容安全策略：
+CSP 机制允许为资源指定多个策略，包括通过 Content-Security-Policy 标头、Content-Security-Policy-Report-Only 标头和 <meta> 元素。
+您可以多次使用 Content-Security-Policy 标头，如下例所示。请特别注意此处的 connect-src 指令。即使第二个策略允许连接，第一个策略包含 connect-src 'none'。添加额外的策略只能进一步限制受保护资源的功能，这意味着将不允许连接，并且作为最严格的策略，强制执行 connect-src 'none'。
+Content-Security-Policy: default-src 'self' http://example.com;
+                          connect-src 'none';
+Content-Security-Policy: connect-src http://example.com/;
+                          script-src http://example.com/
+
+
+
+例子：
+示例：禁用不安全的内联/评估，仅允许通过 https 加载资源（图像、字体、脚本等）：
+
+使用 HTTP 标头：
+Content-Security-Policy: default-src https:
+
+使用 HTML 元元素：
+<meta http-equiv="Content-Security-Policy" content="default-src https:">
+
+示例：使用过多内联代码进行修复但希望确保仅通过 HTTPS 加载资源并禁用插件的预先存在的站点：
+Content-Security-Policy: default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'
+
+示例：尚未实施上述政策；而是只报告可能发生的违规行为：
+Content-Security-Policy-Report-Only: default-src https:; report-uri /csp-violation-report-endpoint/
+
+
+
+CSP说明：
+1、内容安全策略（CSP），其核心思想十分简单：网站通过发送一个 CSP 头部，来告诉浏览器什么是被授权执行的与什么是需要被禁止的。
+其被誉为专门为解决XSS攻击而生的神器。
+2、内容安全策略 (CSP) 是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 (XSS) 和数据注入攻击等。
+无论是数据盗取、网站内容污染还是散发恶意软件，这些攻击都是主要的手段。
+3、CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。
+4、CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。
+
+
+关键字'self'：当前域名，需要加单引号，也只能是单引号的字符串'self'！！！
+
+
+CSP作用：
+1、限制资源获取
+2、报告资源获取越权
+
+
+
+CSP分类：
+1、Content-Security-Policy
+配置好并启用后，不符合 CSP 的外部资源就会被阻止加载。
+2、Content-Security-Policy-Report-Only
+表示不执行限制选项，只是记录违反限制的行为。它必须与report-uri选项配合使用。
+
+
+
+限制方式：
+1、default-src：
+default-src用来设置上面各个选项的默认值。
+Content-Security-Policy: default-src 'self'
+上面代码限制所有的外部资源，都只能从当前域名加载。如果同时设置某个单项限制（比如font-src）和default-src，前者会覆盖后者，即字体文件会采用font-src的值，
+其他资源依然采用default-src的值。
+
+2、制定限制类型：
+资源类型有：connect-src、mainfest-src、img-src、font-src、media-src、style-src、frame-src、script-src、......
+script-src：外部脚本
+style-src：样式表
+img-src：图像
+media-src：媒体文件（音频和视频）
+font-src：字体文件
+object-src：插件（比如 Flash）
+child-src：框架
+frame-ancestors：嵌入的外部资源（比如<frame>、<iframe>、<embed>和<applet>）
+connect-src：HTTP 连接（通过 XHR、WebSockets、EventSource等）
+worker-src：worker脚本
+manifest-src：manifest 文件
+
+3、URL限制：
+有时，网页会跟其他 URL 发生联系，这时也可以加以限制。
+frame-ancestors：限制嵌入框架的网页
+base-uri：限制 <base#href>
+form-action：限制 <form#action>
+
+4、其他限制：
+其他一些安全相关的功能，也放在了 CSP 里面。
+block-all-mixed-content：HTTPS 网页不得加载 HTTP 资源（浏览器已经默认开启）
+upgrade-insecure-requests：自动将网页上所有加载外部资源的 HTTP 链接换成 HTTPS 协议
+plugin-types：限制可以使用的插件格式
+sandbox：浏览器行为的限制，比如不能有弹出窗口等。
+
+5、 report-uri
+有时，我们不仅希望防止 XSS，还希望记录此类行为。report-uri就用来告诉浏览器，应该把注入行为报告给哪个网址。
+Content-Security-Policy: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;
+上面代码指定，将注入行为报告给/my_amazing_csp_report_parser这个 URL。
+浏览器会使用POST方法，发送一个JSON对象，下面是一个例子。
+{
+  "csp-report": {
+    "document-uri": "http://example.org/page.html",
+    "referrer": "http://evil.example.com/",
+    "blocked-uri": "http://evil.example.com/evil.js",
+    "violated-directive": "script-src 'self' https://apis.google.com",
+    "original-policy": "script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser"
+  }
+}
+
+
+
+CSP的使用：
+1、在HTTP Header上使用（首选）
+"Content-Security-Policy:" 策略
+"Content-Security-Policy-Report-Only:" 策略
+2、在HTML上使用
+<meta http-equiv="content-security-policy" content="策略">
+<meta http-equiv="content-security-policy-report-only" content="策略">
+Meta 标签与 HTTP 头只是行式不同而作用是一致的，如果 HTTP 头与 Meta 定义同时存在，则优先采用 HTTP 中的定义。
+如果用户浏览器已经为当前文档执行了一个 CSP 的策略，则会跳过 Meta 的定义。如果 META 标签缺少 content 属性也同样会跳过。
+
+
+
+Content-Security-Policy-Report-Only
+除了Content-Security-Policy，还有一个Content-Security-Policy-Report-Only字段，表示不执行限制选项，只是记录违反限制的行为。它必须与report-uri选项配合使用。
+Content-Security-Policy-Report-Only: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;
+
+
+
+选项值
+每个限制选项可以设置以下几种值，这些值就构成了白名单。
+
+主机名：example.org，https://example.com:443
+
+路径名：example.org/resources/js/
+
+通配符：*.example.org，*://*.example.com:*（表示任意协议、任意子域名、任意端口）
+
+协议名：https:、data:
+
+关键字'self'：当前域名，需要加单引号
+
+关键字'none'：禁止加载任何外部资源，需要加引号
+
+多个值也可以并列，用空格分隔。
+
+Content-Security-Policy: script-src 'self' https://apis.google.com
+如果同一个限制选项使用多次，只有第一次会生效。
+
+# 错误的写法 script-src https://host1.com; script-src https://host2.com
+# 正确的写法 script-src https://host1.com https://host2.com
+如果不设置某个限制选项，就是默认允许任何值。
+
+
+
+script-src 的特殊值
+除了常规值，script-src还可以设置一些特殊值。注意，下面这些值都必须放在单引号里面。
+
+'unsafe-inline'：允许执行页面内嵌的<script>标签和事件监听函数
+
+unsafe-eval：允许将字符串当作代码执行，比如使用eval、setTimeout、setInterval和Function等函数。
+
+nonce值：每次HTTP回应给出一个授权token，页面内嵌脚本必须有这个token，才会执行
+
+hash值：列出允许执行的脚本代码的Hash值，页面内嵌脚本的哈希值只有吻合的情况下，才能执行。
+
+nonce值的例子如下，服务器发送网页的时候，告诉浏览器一个随机生成的token。
+
+Content-Security-Policy: script-src 'nonce-EDNnf03nceIOfn39fn3e9h3sdfa'
+页面内嵌脚本，必须有这个token才能执行。
+
+<script nonce=EDNnf03nceIOfn39fn3e9h3sdfa> // some code </script>
+hash值的例子如下，服务器给出一个允许执行的代码的hash值。
+
+Content-Security-Policy: script-src 'sha256-qznLcsROx4GACP2dm0UCKCzCG-HiZ1guq6ZZDob_Tng='
+下面的代码就会允许执行，因为hash值相符。
+
+<script>alert('Hello, world.');</script>
+注意，计算hash值的时候，<script>标签不算在内。
+
+除了script-src选项，nonce值和hash值还可以用在style-src选项，控制页面内嵌的样式表。
+
+
+
+注意点
+（1）script-src和object-src是必设的，除非设置了default-src。
+
+因为攻击者只要能注入脚本，其他限制都可以规避。而object-src必设是因为 Flash 里面可以执行外部脚本。
+
+（2）script-src不能使用unsafe-inline关键字（除非伴随一个nonce值），也不能允许设置data:URL。
+
+下面是两个恶意攻击的例子。
+
+<img src="x" onerror="evil()"> <script src="data:text/javascript,evil()"></script>
+（3）必须特别注意 JSONP 的回调函数。
+
+<script src="/path/jsonp?callback=alert(document.domain)//"> </script>
+上面的代码中，虽然加载的脚本来自当前域名，但是通过改写回调函数，攻击者依然可以执行恶意代码。
+
+
+
+CSP使用实例：
+1、一个网站管理者想要所有内容均来自站点的同一个源 (不包括其子域名)
+Content-Security-Policy: default-src 'self'
+
+2、一个网站管理者允许内容来自信任的域名及其子域名 (域名不必须与CSP设置所在的域名相同)
+Content-Security-Policy: default-src 'self' *.trusted.com
+
+3、一个网站管理者允许网页应用的用户在他们自己的内容中包含来自任何源的图片, 但是限制音频或视频需从信任的资源提供者(获得)，所有脚本必须从特定主机服务器获取可信的代码.
+Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com
+在这里，各种内容默认仅允许从文档所在的源获取, 但存在如下例外:
+图片可以从任何地方加载(注意 “*” 通配符)。
+多媒体文件仅允许从 media1.com 和 media2.com 加载(不允许从这些站点的子域名)。
+可运行脚本仅允许来自于userscripts.example.com。
+
+4、一个线上银行网站的管理者想要确保网站的所有内容都要通过SSL方式获取，以避免攻击者窃听用户发出的请求。
+Content-Security-Policy: default-src https://onlinebanking.jumbobank.com
+该服务器仅允许通过HTTPS方式并仅从onlinebanking.jumbobank.com域名来访问文档。
+
+5、一个在线邮箱的管理者想要允许在邮件里包含HTML，同样图片允许从任何地方加载，但不允许JavaScript或者其他潜在的危险内容(从任意位置加载)。
+Content-Security-Policy: default-src 'self' *.mailsite.com; img-src *
+注意这个示例并未指定script-src。在此CSP示例中，站点通过 default-src 指令的对其进行配置，这也同样意味着脚本文件仅允许从原始服务器获取。
+
+6、CSP的报告(report-only)模式
+为降低部署成本，CSP可以部署为报告(report-only)模式。在此模式下，CSP策略不是强制性的，但是任何违规行为将会报告给一个指定的URI地址。此外，一个报告模式的头部可以用来测试一个修订后的未来将应用的策略而不用实际部署它。
+你可以用Content-Security-Policy-Report-Only HTTP 头部来指定你的策略，像这样：
+Content-Security-Policy-Report-Only: policy
+如果Content-Security-Policy-Report-Only 头部和 Content-Security-Policy 同时出现在一个响应中，两个策略均有效。在Content-Security-Policy 头部中指定的策略有强制性 ，而Content-Security-Policy-Report-Only中的策略仅产生报告而不具有强制性。
+支持CSP的浏览器将始终对于每个企图违反你所建立的策略都发送违规报告，如果策略里包含一个有效的report-uri 指令。
+默认情况下，违规报告并不会发送。为启用发送违规报告，你需要指定 report-uri 策略指令，并提供至少一个URI地址去递交报告：
+Content-Security-Policy: default-src 'self'; report-uri http://reportcollector.example.com/collector.cgi
+然后你需要设置你的服务器能够接收报告，使其能够以你认为恰当的方式存储并处理这些报告。
