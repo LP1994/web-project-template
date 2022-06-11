@@ -18,28 +18,18 @@ import {
   resolve,
 } from 'node:path';
 
-import {
-  fileURLToPath,
-} from 'node:url';
-
 import webpack from 'webpack';
 
-function Get__dirname( import_meta_url = import.meta.url ){
-  return dirname( Get__filename( import_meta_url ) );
-}
+import {
+  Get__dirname,
+  Get__filename,
+  __dirname,
 
-function Get__filename( import_meta_url = import.meta.url ){
-  return fileURLToPath( import_meta_url );
-}
-
-const __dirname = Get__dirname( import.meta.url );
+  aliasConfig,
+  providePluginConfig,
+} from './webpack.base.mjs';
 
 export default {
-  entry: './src/index.js',
-  output: {
-    filename: 'main.js',
-    path: resolve( __dirname, 'dist' ),
-  },
   resolve: {
     /*
      设置路径别名。
@@ -48,11 +38,7 @@ export default {
      3、为第三方包设置别名时，只能是以包名开始，其他任何都不行，因为webpack会自动从“node_modules”中查找，包括：“./”、“./node_modules/”、“node_modules/”等等都是不行的，当然如果是指向自己的模块文件夹，那还是要指定完整路径。
      4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。
      */
-    alias: {
-      'element-ui_css': 'element-ui/lib/theme-chalk/index.css',
-      'element-plus_css': 'element-plus/dist/index.css',
-      swiper_css: 'swiper/swiper-bundle.min.css',
-    },
+    alias: aliasConfig,
     // 如果为true，则将不允许无扩展名的文件。设置成false就行。
     enforceExtension: false,
     modules: [
@@ -72,27 +58,6 @@ export default {
      6、为第三方包配置时，不要设置以“./”、“./node_modules/”、“node_modules/”等等开头的value值，当然如果是指向自己的模块文件，那还是要指定完整路径。
      7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。
      */
-    new webpack.ProvidePlugin( {
-      axios: 'axios',
-      echarts: 'echarts',
-      /*
-       element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。
-       1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。
-       */
-      ELEMENT: 'element-ui',
-      ElementPlus: 'element-plus',
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.$': 'jquery',
-      'window.jQuery': 'jquery',
-      Swiper: 'swiper',
-      /*
-       element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。
-       1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。
-       */
-      Vue: 'vue',
-      VueRouter: 'vue-router',
-      Vuex: 'vuex',
-    } ),
+    new webpack.ProvidePlugin( providePluginConfig ),
   ],
 };
