@@ -6,11 +6,14 @@
       "includes": [
         "./src/graphQL/api/**/*.graphql",
         "./src/graphQL/test/**/*.graphql",
+        "./src/graphQL/api/**/*.graphqls",
+        "./src/graphQL/test/**/*.graphqls",
         "./src/graphQL/api/**/*.gql",
         "./src/graphQL/test/**/*.gql"
       ],
       "excludes": [
         "./src/graphQL/doc/**/*.graphql",
+        "./src/graphQL/doc/**/*.graphqls",
         "./src/graphQL/doc/**/*.gql"
       ],
       "extensions": {

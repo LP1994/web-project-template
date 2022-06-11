@@ -18,3 +18,13 @@ import {
 Fun1();
 Fun2();
 Fun3();
+
+enum Enum001 {
+  qwe = 2022,
+  asd = 2030,
+  zxc,
+}
+
+console.log( `${ Enum001.asd }---${ Enum001[ 2030 ] }` );
+
+console.dir( Enum001 );
