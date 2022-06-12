@@ -93,3 +93,9 @@ export {
   MyError001,
   Test001,
 };
+
+export default {
+  Equal001,
+  MyError001,
+  Test001,
+};

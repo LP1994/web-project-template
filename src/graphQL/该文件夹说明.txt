@@ -1,4 +1,4 @@
-该文件夹下都是各种.graphql(主文件)、.fragment.graphql(片段文件)文件！
+该文件夹下都是各种.graphql(主文件)、.fragment.graphql(片段文件)文件。
 
 PS:
 1、所有的片段(fragment)文件必须是以“.fragment.graphql”为结尾的文件名命名的！
