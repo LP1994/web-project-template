@@ -1310,83 +1310,6 @@ class MyConsole {
 
 }
 
-/**
- * 通用工具类UniversalTool（简写：UT）。<br />
- */
-class UT {
-  /**
-   * 附言：
-   * 1、如果只是把其他函数挂载在UT上，作为UT的静态方法、实例方法、私有方法，最好是用以下这种看起来有点多余的写法，其唯一目的只是为了让编译器可以很好识别到每个挂载方法的文档注解，不然可以直接通过“混入”来“自动”挂载。
-   */
-
-  /**
-   * 获取数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。<br />
-   * PS:<br />
-   * 1、如果传入的是被Proxy代理过的对象，会报错！<br />
-   *
-   * @param arg {any} 数据，必需。
-   *
-   * @returns {string} 表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。
-   */
-  static GetDataType = GetDataType;
-
-  /**
-   * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
-   *
-   * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
-   *
-   * @returns {string} 返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。
-   */
-  static Get__dirname = Get__dirname;
-
-  /**
-   * 该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。<br />
-   *
-   * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
-   *
-   * @returns {string} 返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。
-   */
-  static Get__filename = Get__filename;
-
-  /**
-   * 判断数据是否为Array类型。<br />
-   *
-   * @param arg {any} 数据，必需。
-   *
-   * @returns {boolean} 是数组返回true，不是数组返回false。
-   */
-  static IsArray = IsArray;
-
-  /**
-   * 判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />
-   *
-   * @param arg {any} 数据，必需。
-   *
-   * @returns {boolean} 是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。
-   */
-  static IsNumber = IsNumber;
-
-  /**
-   * 判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />
-   *
-   * @param arg {any} 数据，必需。
-   *
-   * @returns {boolean} 是String原始值返回true，不是String原始值返回false。
-   */
-  static IsString = IsString;
-
-  /**
-   * 自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />
-   * PS：<br />
-   * 1、“chalk”模块文档：<br />
-   * https://github.com/chalk/chalk<br />
-   *
-   * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
-   */
-  static MyConsole = MyConsole;
-
-}
-
 export {
   GetDataType,
   Get__dirname,
@@ -1396,8 +1319,15 @@ export {
   IsString,
 
   MyConsole,
-
-  UT,
 };
 
-export default UT;
+export default {
+  GetDataType,
+  Get__dirname,
+  Get__filename,
+  IsArray,
+  IsNumber,
+  IsString,
+
+  MyConsole,
+};

@@ -1,0 +1,3 @@
+该文件夹下都是用于存放webpack在编译时输出的cache、lockfile文件，不同环境对应着不同文件夹。
+
+1、因为实验性功能而存在的：experiments.buildHttp.cacheLocation、experiments.buildHttp.lockfileLocation。

@@ -27,8 +27,6 @@ import {
   IsString,
 
   MyConsole,
-
-  UT,
 } from '../UniversalToolForNode.esm.mjs';
 
 // GetDataType
@@ -65,24 +63,16 @@ if( true ){
   } );
 }
 
-// Get__dirname、UT.Get__dirname、Get__filename、UT.Get__filename
+// Get__dirname、Get__filename
 if( true ){
   Test001( 'Get__dirname', () => {
     Equal001( Get__dirname( import.meta.url ) )
     .toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\tools\\universal_tool_for_node\\unit_test' );
   } );
-  Test001( 'UT.Get__dirname', () => {
-    Equal001( UT.Get__dirname() )
-    .toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\tools\\universal_tool_for_node' );
-  } );
 
   Test001( 'Get__filename', () => {
     Equal001( Get__filename( import.meta.url ) )
     .toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\tools\\universal_tool_for_node\\unit_test\\Main.test.mjs' );
-  } );
-  Test001( 'UT.Get__filename', () => {
-    Equal001( UT.Get__filename() )
-    .toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\tools\\universal_tool_for_node\\UniversalToolForNode.esm.mjs' );
   } );
 }
 
