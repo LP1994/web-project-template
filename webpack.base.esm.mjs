@@ -102,7 +102,129 @@ const aliasConfig = {
     'element-plus_css': 'element-plus/dist/index.css',
     swiper_css: 'swiper/swiper-bundle.min.css',
   },
-  devServerConfig = {},
+  /**
+   * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
+   * 1、如果您通过Node.js API使用dev-server，则devServer中的选项将被忽略。<br />
+   * 2、使用WebpackDevServer时不能使用第2个编译器参数（系一个回调函数）。<br />
+   * 3、请注意，在导出多个配置时，只会考虑第一个配置的devServer选项并将其用于阵列中的所有配置。<br />
+   * 4、如果您遇到问题，导航到/webpack-dev-server路由将显示文件的提供位置。例如，http://localhost:9000/webpack-dev-server。<br />
+   * 5、如果你想手动重新编译包，导航到/invalidate路由将使包的当前编译无效，并通过webpack-dev-middleware为你重新编译它。根据您的配置，该URL可能类似于http://localhost:9000/invalidate。<br />
+   * 6、提供捆绑包需要“HTML模板”，通常是index.html文件。确保将脚本引用添加到HTML中，webpack-dev-server不会自动注入它们。<br />
+   * 7、选项说明：<br />
+   * {<br />
+   * allowedHosts：此选项允许您将允许访问开发服务器的服务列入白名单。<br />
+   * 1、有效值类型有2种：string、[ string ]。<br />
+   *   1)当为string时，只有2个有效值："auto"（默认值）、"all"。<br />
+   *   当设置为“all”时，此选项会绕过主机检查。不建议这样做，因为不检查主机的应用程序容易受到DNS重新绑定攻击。<br />
+   *   当设置为'auto'时，此选项始终允许localhost、host和client.webSocketURL.hostname。<br />
+   *   2)当为[ string ]时，值例子：[ 'host.com', 'subdomain.host.com', 'subdomain2.host.com', 'host2.com', ]。<br />
+   *   模仿Django的ALLOWED_HOSTS，一个以.开头的值。可以用作子域通配符。.host.com将匹配host.com、www.host.com和host.com的任何其他子域。 <br />
+   * 
+   * bonjour：此选项在启动时通过ZeroConf网络广播服务器。<br />
+   * 1、有效值类型有2种：boolean（true表示启用，false表示禁用）、object。<br />
+   * 
+   * client：允许在浏览器中为客户端脚本指定选项或禁用客户端脚本。<br />
+   * 1、有效值类型有2种：boolean（true表示启用，false表示禁用）、object。<br />
+   * 2、当为object时，其选项如下：<br />
+   *   {<br />
+   *   logging：允许在浏览器中设置日志级别，例如在重新加载之前、发生错误之前或启用热模块更换时。<br />
+   *   有效值：'log'、'info'、'warn'、'error'、'none'、'verbose'。<br />
+   *   
+   *   overlay：当出现编译器错误或警告时，在浏览器中显示全屏覆盖。<br />
+   *     1)值类型有：boolean（true表示启用，false表示禁用）、object。<br />
+   *     2)当为object时，选项如下：<br />
+   *     {<br />
+   *     errors：boolean，当出现编译器错误时，在浏览器中启用全屏覆盖。<br />
+   *     
+   *     warnings：boolean，当出现编译器警告时，在浏览器中启用全屏覆盖。。<br />
+   *     
+   *     trustedTypesPolicyName：string，覆盖的受信任类型策略的名称。默认为“webpack-dev-server#overlay”。<br />
+   *     }<br />
+   *   
+   *   progress：在浏览器中以百分比形式打印编译进度。<br />
+   *   
+   *   reconnect：告诉dev-server它应该尝试重新连接客户端的次数。如果为true，它将尝试无限次重新连接。<br />
+   *   值类型有：boolean（true，它将尝试无限次重新连接，false表示告诉开发人员服务器不要尝试重新连接客户端），number（指定尝试重新连接客户端的次数，最小值为0）。<br />
+   *   
+   *   webSocketTransport：此选项允许我们为客户端单独选择当前的devServer传输模式或提供自定义客户端实现。这允许指定浏览器或其他客户端如何与devServer通信。<br />
+   *     1）允许设置自定义web socket传输以与开发人员服务器通信。<br />
+   *     2）值类型为string，其中有2个预设值：sockjs、ws。<br />
+   *     3）为devServer.webSocketServer提供'ws'、'sockjs'是将devServer.client.webSocketTransport和devServer.webSocketServer设置为给定值的快捷方式。<br />
+   *     4）在提供自定义客户端和服务器实现时，请确保它们相互兼容以成功通信。<br />
+   *     5）要创建自定义客户端实现，请创建一个扩展BaseClient的类。<br />
+   *     6）使用CustomClient.js的路径，自定义WebSocket客户端实现，以及兼容的“ws”服务器：<br />
+   *     devServer: {
+   *     client: {
+   *       webSocketTransport: require.resolve('./CustomClient'),
+   *     },
+   *     webSocketServer: 'ws',
+   *     }
+   *     7）使用自定义、兼容的WebSocket客户端和服务器实现：<br />
+   *     devServer: {
+   *     client: {
+   *       webSocketTransport: require.resolve('./CustomClient'),
+   *     },
+   *     webSocketServer: require.resolve('./CustomServer'),
+   *     }
+   *     
+   *   webSocketURL：此选项允许指 Web套接字服务器的URL（当您代理开发服务器并且客户端脚本并不总是知道连接到哪里时很有用）。<br />
+   *     1)有效值类型有2种：string（如：'ws://0.0.0.0:8080/ws'）、object。<br />
+   *     2)为object时，有如下选项：<br />
+   *     {<br />
+   *     hostname: string（值如：'0.0.0.0'），告诉连接到devServer的客户端使用提供的主机名。<br />
+   *     pathname: string（值如：'/ws'），告诉连接到devServer的客户端使用提供的path进行连接。<br />
+   *     password: string，告诉连接到devServer的客户端使用提供的密码进行身份验证。<br />
+   *     port: number（值如：8080）、string，告诉连接到devServer的客户端使用提供的端口。<br />
+   *     protocol: string（有一个预设值：'auto'，其他值如：'ws'），告诉连接到devServer的客户端使用提供的协议。<br />
+   *     username: string，告诉连接到devServer的客户端使用提供的用户名进行身份验证。<br />
+   *     }<br />
+   *     3)要从浏览器获取“protocol/hostname/port”，请使用 webSocketURL：'auto://0.0.0.0:0/ws'。
+   *   }<br />
+   * 
+   * compress：为服务启用gzip压缩（true表示为所有服务启用gzip压缩，false表示禁用所有服务的gzip压缩）。<br />
+   * 
+   * devMiddleware：为处理webpack资产的webpack-dev-middleware提供选项。<br />
+   * 其中的选项有：<br />
+   * {<br />
+   * 
+   * }<br />
+   * 
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * ：。<br />
+   * }<br />
+   */
+  devServerConfig = {
+    allowedHosts: 'all',
+    bonjour: true,
+    client: {
+      logging: 'info',
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+      progress: true,
+      reconnect: true,
+      webSocketTransport: 'ws',
+    },
+    compress: true,
+    devMiddleware:{
+      
+    },
+    webSocketServer: 'ws',
+  },
   entryConfig = {},
   /**
    * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
