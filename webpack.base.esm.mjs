@@ -28,6 +28,8 @@ import {
   fileURLToPath,
 } from 'node:url';
 
+import ProxyConfig from './configures/ProxyConfig.esm.mjs';
+
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
  *
@@ -54,6 +56,27 @@ function Get__filename( import_meta_url = import.meta.url ){
  * 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url ),
+  /**
+   * 1、关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即withCredentials:true）。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
+   */
+  httpHeaders = {
+    'Service-Worker-Allowed': '/',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Max-Age': 600,
+    'Access-Control-Allow-Credentials': true,
+    'Access-Control-Expose-Headers': 'Transfer-Encoding, Content-Encoding, Content-Length, Accept-Language, Accept-Encoding, Accept-Charset, Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma',
+    'Access-Control-Allow-Headers': 'application/x-www-form-urlencoded, multipart/form-data, text/plain, Content-Type, Content-Length, Accept, Accept-Language, X-Requested-With, Cache-Control',
+    'Access-Control-Allow-Methods': 'PUT, POST, GET, DELETE, OPTIONS, CONNECT, HEAD, PATCH, TRACE',
+    'Access-Control-Request-Method': 'PUT, POST, GET, DELETE, OPTIONS, CONNECT, HEAD, PATCH, TRACE',
+    'Cache-Control': 'no-siteApp, no-cache, must-revalidate, no-transform',
+    'Pragma': 'no-cache',
+    'Expires': 0,
+  },
   /**
    * isProduction的值为true时表示生成环境，反之开发环境。<br />
    */
@@ -88,7 +111,23 @@ const __dirname = Get__dirname( import.meta.url ),
   /**
    * node_env的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数。<br />
    */
-  node_env = env.NODE_ENV;
+  node_env = env.NODE_ENV,
+  watchIgnoredArr = [
+    resolve( __dirname, './.git/' ),
+    resolve( __dirname, './.idea/' ),
+    resolve( __dirname, './assist_tools/' ),
+    resolve( __dirname, './backups/' ),
+    resolve( __dirname, './bats/' ),
+    resolve( __dirname, './configures/' ),
+    resolve( __dirname, './dist/' ),
+    resolve( __dirname, './node_modules/' ),
+    resolve( __dirname, './notes/' ),
+    resolve( __dirname, './read_me/' ),
+    resolve( __dirname, './simulation_servers/' ),
+    resolve( __dirname, './test/' ),
+    resolve( __dirname, './ts_compiled/' ),
+    resolve( __dirname, './webpack_location/' ),
+  ];
 
 /**
  * 设置路径别名。<br />
@@ -186,18 +225,208 @@ const aliasConfig = {
    * devMiddleware：为处理webpack资产的webpack-dev-middleware提供选项。<br />
    * 其中的选项有：<br />
    * {<br />
+   * headers：允许在每个请求上传递自定义HTTP标头。<br />
+   * 1、有效值类型：Array[ Object ]、Object、Function，默认值系undefined：<br />
+   *   1)当值类型为：Array[ Object ]时，形如：<br />
+   *   headers: [ { key: "X-custom-header", value: "foo" }, ]
+   *   2)当值类型为：Object时，形如：<br />
+   *   { "X-Custom-Header": "yes", }
+   *   3)当值类型为：Function时，形如：<br />
+   *   第1种：headers: () => ( { "Last-Modified": new Date(), } )
+   *   第2种：headers: (req, res, context) => {
+   *     res.setHeader( "Last-Modified", new Date() );
+   *   }
+   *   第3种：headers: () => [ { key: "X-custom-header", value: "foo" }, ]
    * 
+   * index：允许提供目录索引。<br />
+   * 1、如果为false（但不是undefined），服务器将不会响应对根URL的请求。<br />
+   * 2、有效值类型：Boolean、String，默认值系index.html：<br />
+   * 
+   * methods：允许传递中间件接受的HTTP请求方法列表。<br />
+   * 1、有效值类型：Array，默认值：[ 'GET', 'HEAD' ]。<br />
+   * 2、到目前为止的9种HTTP请求方法：<br />
+   * GET：GET方法请求指定资源的表示。使用GET的请求应该只检索数据。<br />
+   * HEAD：HEAD方法请求与GET请求相同的响应，但没有响应主体。<br />
+   * POST：POST方法将实体提交到指定的资源，通常会导致状态更改或对服务器产生副作用。<br />
+   * PUT：PUT方法将目标资源的所有当前表示替换为请求有效负载。<br />
+   * DELETE：DELETE方法删除指定的资源。<br />
+   * CONNECT：CONNECT方法建立到由目标资源标识的服务器的隧道。<br />
+   * OPTIONS：OPTIONS方法描述了目标资源的通信选项。<br />
+   * TRACE：TRACE方法沿到目标资源的路径执行消息环回测试。<br />
+   * PATCH：PATCH方法将部分修改应用于资源。<br />
+   * 
+   * mimeTypes：允许注册自定义mime类型或扩展映射。<br />
+   * 1、有效值类型：Object，默认值为undefined，值形如：mimeTypes: { phtml: 'text/html' }。<br />
+   * 
+   * outputFileSystem：设置webpack将使用的默认文件系统作为生成文件的主要目标。<br />
+   * 1、有效值类型：Object，默认值为memfs。<br />
+   * 2、设置webpack将使用的默认文件系统作为生成文件的主要目标。此选项不受writeToDisk选项的影响。<br />
+   * 3、您必须手动为outputFileSystem实例提供.join()和mkdirp方法，以便与webpack@4兼容。<br />
+   * 
+   * publicPath：中间件绑定的公共路径，指定在浏览器中引用时输出文件的公共URL地址。<br />
+   * 1、有效值类型：String、Function，默认值取webpack配置中的output.publicPath。<br />
+   * 2、当值类型为String时，有1个预置值：auto。<br />
+   * 
+   * serverSideRender：指示模块启用或禁用服务器端渲染模式。<br />
+   * 1、有效值类型：Boolean，默认值为undefined。<br />
+   * 
+   * stats：stats选项对象或预设名称，默认值取webpack配置中的stats选项的值。<br />
+   * 
+   * writeToDisk：指示模块将文件写入webpack配置中指定的磁盘上配置的位置。<br />
+   * 1、有效值类型：Boolean、Function，默认值为false。<br />
+   * 2、如果为true，该选项将指示模块将文件写入磁盘上的配置位置，如webpack配置文件中指定的那样。<br />
+   * 3、设置writeToDisk: true不会改变webpack-dev-middleware的行为，并且通过浏览器访问的捆绑文件仍然会从内存中提供。此选项提供与WriteFilePlugin相同的功能。<br />
+   * 4、此选项还接受一个Function值，该值可用于过滤哪些文件写入磁盘。该函数遵循与Array.filter相同的前提，其中返回值为false时不会写入文件，返回值为true时会将文件写入磁盘，例如：<br />
+   * writeToDisk: filePath => /superman\.css$/.test(filePath)
    * }<br />
    * 
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
+   * headers：为所有响应添加标头，同devMiddleware.headers。<br />
+   * 
+   * historyApiFallback：使用HTML5 History API时，可能必须提供index.html页面来代替任何404响应。通过将devServer.historyApiFallback设置为true来启用它。<br />
+   * 1、允许通过指定的索引页（默认为“index.html”）代理请求，这对于使用HTML5历史API的单页应用程序很有用。
+   * 2、有效值：boolean（false表示不允许通过指定的索引页代理请求）、object。<br />
+   * 3、通过提供对象，可以使用重写等选项进一步控制此行为，如：<br />
+   * historyApiFallback: {
+   *   rewrites: [
+   *     { from: /^\/$/, to: '/views/landing.html' },
+   *     { from: /^\/subpage/, to: '/views/subpage.html' },
+   *     { from: /./, to: '/views/404.html' },
+   *   ],
+   * }
+   * 4、在路径中使用点时（在Angular中很常见），您可能需要使用historyApiFallback: { disableDotRule: true, }。<br />
+   * 5、当值类型为Object时，有如下选项（更加具体可见https://github.com/bripkens/connect-history-api-fallback#options）：<br />
+   * {<br />
+   * index：覆盖索引（默认/index.html），这是中间件识别请求路径需要重写时将使用的请求路径。<br />
+   *   1)这不是磁盘上文件的路径。相反它是HTTP请求路径。下游connect/express中间件负责将这个重写的HTTP请求路径转换为实际响应，例如通过从磁盘读取文件。<br />
+   *   2)有效值类型：string，默认值'/index.html'。<br />
+   * 
+   * rewrites：当请求url匹配正则表达式模式时覆盖索引，您可以重写为“静态字符串”或使用“函数”来转换传入请求。<br />
+   *   1)下面会将匹配/\/soccer/模式的请求重写为/soccer.html：<br />
+   *   rewrites: [ { from: /\/soccer/, to: '/soccer.html' }, ]
+   *   2)或者可以使用函数来更好地控制重写过程。例如，以下清单显示了对/libs/jquery/jquery.1.12.0.min.js等的请求如何路由到./bower_components/libs/jquery/jquery.1.12.0.min.js。如果URL路径中有API版本也可以使用它：<br />
+   *   rewrites:
+   *   [
+   *   {
+   *     from: /^\/libs\/.*$/,
+   *     to: function(context) {
+   *       return '/bower_components' + context.parsedUrl.pathname;
+   *     }
+   *   },
+   *   ]
+   *   3)该函数将始终使用具有以下属性的上下文对象调用：<br />
+   *   context.parsedUrl：URL模块的url.parse提供的有关URL的信息。<br />
+   *   context.match：由String.match()提供的匹配结果数组。<br />
+   *   context.request：HTTP请求对象。<br />
+   * 
+   * verbose：该中间件默认不记录任何信息。如果您希望激活日志记录，则可以通过详细选项或指定记录器函数来执行此操作。<br />
+   *   1)为true表示启用。<br />
+   * 
+   * htmlAcceptHeaders：覆盖默认的Accepts:，匹配HTML内容请求时查询的标头，如：['text/html', 'application/xhtml+xml']。<br />
+   * 
+   * disableDotRule：在路径中使用点时（在Angular中很常见），禁用点规则disableDotRule: true。<br />
+   * }<br />
+   * 
+   * host：允许指定要使用的主机名。<br />
+   * 1、有效值类型：string，其中有3个预设值：'local-ip'、'local-ipv4'、'local-ipv6'。<br />
+   * 2、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
+   * 3、'local-ip'：指定为主机将尝试将主机选项解析为您的本地IPv4地址（如果可用），如果IPv4不可用，它将尝试解析您的本地IPv6地址。<br />
+   * 
+   * hot：是否启用webpack的热模块替换功能。<br />
+   * 1、有效值类型：boolean、string（只有一个有效值'only'）。<br />
+   * 2、为了在构建失败的情况下启用热模块替换而不刷新页面作为后备，请使用hot: 'only'。<br />
+   * 3、从webpack-dev-server v4开始，默认启用HMR。它会自动应用启用HMR所需的webpack.HotModuleReplacementPlugin。因此，当hot在config中或通过CLI选项--hot设置为true时，您不必将此插件添加到webpack.config.js中。<br />
+   * 
+   * http2：允许使用SPDY通过HTTP2提供服务。已弃用，请使用devServer.server。<br />
+   * 1、有效值类型：boolean，true表示启用带有自签名证书的HTTP/2。<br />
+   * 2、使用spdy通过HTTP/2服务。对于Node 15.0.0及更高版本，此选项将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
+   * 3、也可以使用devServer.https选项提供您自己的证书。<br />
+   * 
+   * https：默认情况下，dev-server将通过HTTP提供服务。它可以选择通过HTTPS提供服务。此选项已弃用，取而代之的是devServer.server选项。<br />
+   * 1、允许为TLS配置服务器的侦听套接字（默认情况下，dev-server将通过HTTP提供服务）。已弃用，请使用“devServer.server”选项。<br />
+   * 2、有效值类型：boolean、object，此对象直接传递给Node.js HTTPS模块，因此请参阅HTTPS文档（https://nodejs.org/api/https.html）了解更多信息。<br />
+   * 3、webpack-dev-server >= v4.2.0允许你设置额外的TLS选项，比如minVersion。此外，您可以直接传递各个文件的内容：<br />
+   * devServer: {
+   *   https: {
+   *     minVersion: 'TLSv1.1',
+   *     
+   *     // string、Buffer、[ string、Buffer ]，SSL密钥的路径或SSL密钥的内容。已弃用，请使用“devServer.devServer.server.options.key”选项。
+   *     key: fs.readFileSync(path.join(__dirname, './server.key')),
+   *     
+   *     // string、Buffer、[ string、Buffer ]，SSL pfx文件的路径或SSL pfx文件的内容。已弃用，请使用“devServer.devServer.server.options.pfx”选项。
+   *     pfx: fs.readFileSync(path.join(__dirname, './server.pfx')),
+   *     
+   *     // string、Buffer、[ string、Buffer ]，SSL证书的路径或SSL证书的内容。已弃用，请使用“devServer.server.options.cert”选项。
+   *     cert: fs.readFileSync(path.join(__dirname, './server.crt')),
+   *     
+   *     // string、Buffer、[ string、Buffer ]，SSL CA证书的路径或SSL CA证书的内容。已弃用，请使用“devServer.server.options.ca”选项。
+   *     ca: fs.readFileSync(path.join(__dirname, './ca.pem')),
+   *     
+   *     // string、Buffer、[ string、Buffer ]，SSL CA证书的路径或SSL CA证书的内容。已弃用，请使用“devServer.server.options.ca”选项。
+   *     cacert,
+   *     
+   *     // string、Buffer、[ string、Buffer ]，PEM格式CRL（证书吊销列表）的路径或PEM格式CRL（证书吊销列表）的内容。已弃用，请使用“devServer.server.options.crl”选项。
+   *     crl,
+   *     
+   *     // string，pfx文件的密码短语。已弃用，请使用“devServer.server.options.passphrase”选项。
+   *     passphrase: 'webpack-dev-server',
+   *     
+   *     // boolean，请求SSL证书。已弃用，请使用“devServer.server.options.requestCert”选项。
+   *     requestCert: true,
+   *   },
+   * }
+   * 4、不要同时指定https.ca和https.cacert选项，如果指定了https.ca将被使用。https.cacert已弃用，将在下一个主要版本中删除。<br />
+   * 
+   * ipc：是否收听unix套接字（而不是devServer.host）。<br />
+   * 1、有效值类型：boolean（只有一个有效值true，将其设置为true将监听/your-os-temp-dir/webpack-dev-server.sock中的套接字）、string。<br />
+   * 2、还可以使用以下命令监听不同的套接字：ipc: path.join(__dirname, 'my-socket.sock')。<br />
+   * 
+   * liveReload：启用重新加载检测到文件更改时重新加载/刷新页面（默认情况下启用）。<br />
+   * 1、有效值类型：boolean。<br />
+   * 2、必须禁用devServer.hot选项或启用devServer.watchFiles选项才能使liveReload生效。通过将devServer.liveReload设置为 false来禁用它。<br />
+   * 3、实时重新加载仅适用于与web相关的target，例如将target选项设置为：web、webworker、electron-renderer、node-webkit。<br />
+   * 
+   * magicHtml：从v4.1.0+开始启用，告诉dev-server是否启用魔法HTML路由（与webpack输出相对应的路由，例如：/main for main.js，“main”代表“main.js”）。<br />
+   * 1、有效值类型：boolean。<br />
+   * 
+   * onAfterSetupMiddleware：提供在服务器内部的所有其他中间件之后执行自定义中间件的能力。<br />
+   * 1、有效值类型：Function，形如：function(devServer){}。<br />
+   * 2、此选项已弃用，取而代之的是devServer.setupMiddlewares选项。<br />
+   * 
+   * onBeforeSetupMiddleware：提供在服务器内部的所有其他中间件之前执行自定义中间件的能力。这可用于定义自定义处理程序。<br />
+   * 1、有效值类型：Function，形如：function(devServer){}。<br />
+   * 2、此选项已弃用，取而代之的是devServer.setupMiddlewares选项。<br />
+   * 
+   * onListening：当webpack-dev-server开始侦听端口上的连接时，提供执行自定义函数的能力。<br />
+   * 1、有效值类型：Function，形如：function(devServer){}。<br />
+   * 
+   * open：告诉dev-server在服务器启动后打开浏览器。将其设置为true以打开默认浏览器。<br />
+   * 1、有效值类型：boolean、string（指的是要打开的页面）、object、[ string、object ]。<br />
+   * 2、浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
+   * 3、当值类型为object时有如下选项：<br />
+   * {<br />
+   * target：在浏览器中打开指定页面。<br />
+   *   1)有效值类型有：string、[ string ]，例如：'/index.html'、'http://localhost:8080/index.html'。<br />
+   * 
+   * app：打开指定的浏览器。<br />
+   *   1)有效值类型有：string（该值类型已经弃用，请用值类型为object时，其中的name选项）、object。<br />
+   *   2)当值类型为object时有如下选项：<br />
+   *   {<br />
+   *   name：string、[ string ]，打开指定浏览器的名，例如：[ 'Google Chrome', 'google-chrome', 'chrome', ]。<br />
+   *   浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
+   *   
+   *   arguments：[ string ]，[ '--incognito', '--new-window', ]，打开浏览器应用时所传给它的参数，这些参数取决于浏览器应用。检查浏览器应用的文档以了解它接受哪些参数。<br />
+   *   --incognito：以隐私模式打开浏览器。<br />
+   *   }<br />
+   * }<br />
+   * 
+   * port：指定一个端口号来监听请求。<br />
+   * 1、有效值类型有：string（有一个预设值'auto'，表示自动使用空闲端口）、number。<br />
+   * 2、该选项值不能为null或空字符串，要自动使用空闲端口，请使用port: 'auto'。<br />
+   * 
+   * proxy：当你有一个单独的API后端开发服务器并且你想在同一个域上发送API请求时，代理一些URL会很有用。<br />
+   * 1、有效值类型有：object、[ object、function ]。<br />
+   * 2、。<br />
+   * 
    * ：。<br />
    * ：。<br />
    * ：。<br />
@@ -220,9 +449,45 @@ const aliasConfig = {
       webSocketTransport: 'ws',
     },
     compress: true,
-    devMiddleware:{
-      
+    devMiddleware: {
+      headers: httpHeaders,
+      index: true,
+      methods: [
+        'GET',
+        'HEAD',
+        'POST',
+        'PUT',
+        'DELETE',
+        'CONNECT',
+        'OPTIONS',
+        'TRACE',
+        'PATCH',
+      ],
+      writeToDisk: false,
     },
+    headers: httpHeaders,
+    historyApiFallback: true,
+    host: '0.0.0.0',
+    hot: true,
+    liveReload: false,
+    open: {
+      target: [
+        '/index.html',
+        'http://localhost:8080/index.html',
+      ],
+      app: {
+        name: [
+          'Google Chrome',
+          'google-chrome',
+          'chrome',
+        ],
+        arguments: [
+          '--new-window',
+        ],
+      },
+    },
+    port: 'auto',
+    proxy: ProxyConfig( httpHeaders ),
     webSocketServer: 'ws',
   },
   entryConfig = {},
@@ -517,22 +782,6 @@ const aliasConfig = {
     'web',
     'es2022',
   ],
-  watchIgnoredArr = [
-    resolve( __dirname, './.git/' ),
-    resolve( __dirname, './.idea/' ),
-    resolve( __dirname, './assist_tools/' ),
-    resolve( __dirname, './backups/' ),
-    resolve( __dirname, './bats/' ),
-    resolve( __dirname, './configures/' ),
-    resolve( __dirname, './dist/' ),
-    resolve( __dirname, './node_modules/' ),
-    resolve( __dirname, './notes/' ),
-    resolve( __dirname, './read_me/' ),
-    resolve( __dirname, './simulation_servers/' ),
-    resolve( __dirname, './test/' ),
-    resolve( __dirname, './ts_compiled/' ),
-    resolve( __dirname, './webpack_location/' ),
-  ],
   /**
    * 一组用于自定义手表模式的选项。<br />
    * 1、值类型为object，结构如下：
@@ -565,9 +814,11 @@ export {
   Get__filename,
 
   __dirname,
+  httpHeaders,
   isProduction,
   isSPA,
   node_env,
+  watchIgnoredArr,
 
   aliasConfig,
   devServerConfig,
@@ -579,7 +830,6 @@ export {
   providePluginConfig,
   recordsPathConfig,
   targetConfig,
-  watchIgnoredArr,
   watchOptionsConfig,
 };
 
@@ -588,9 +838,11 @@ export default {
   Get__filename,
 
   __dirname,
+  httpHeaders,
   isProduction,
   isSPA,
   node_env,
+  watchIgnoredArr,
 
   aliasConfig,
   devServerConfig,
@@ -602,6 +854,5 @@ export default {
   providePluginConfig,
   recordsPathConfig,
   targetConfig,
-  watchIgnoredArr,
   watchOptionsConfig,
 };

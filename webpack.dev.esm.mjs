@@ -33,7 +33,6 @@ import {
   providePluginConfig,
   recordsPathConfig,
   targetConfig,
-  watchIgnoredArr,
   watchOptionsConfig,
 } from './webpack.base.esm.mjs';
 
