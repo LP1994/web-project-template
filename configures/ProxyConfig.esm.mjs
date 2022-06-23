@@ -14,8 +14,12 @@
 
 'use strict';
 
-// 使用例子：
+import {
+  httpHeaders,
+} from './GlobalParameters.esm.mjs';
+
 /*
+ 使用例子：
  JS代码中请求的写法，如：
  目标请求：
  http://sjjx.qqplayerjx.com/m3u8/index.php?url=https://cdn.letv-cdn.com/20181010/OKIYLmGF/index.m3u8
@@ -39,297 +43,251 @@
  }
  */
 
-let proxyConfig_obj = require( './GlobalProp.js' ).proxyConfig_obj,
-
-  webStormPort_num = proxyConfig_obj.webStormPort_num,
-  devServerPort_num = proxyConfig_obj.devServerPort_num,
-  localServerPort_num = proxyConfig_obj.localServerPort_num,
-
-  localHost_str = proxyConfig_obj.localHost_str,
-  headers_obj = proxyConfig_obj.crossResHeader_obj,
-  changeOrigin = true,
-
-  webStormTarget_str = `http://${ localHost_str }:${ webStormPort_num }`,
-  devServerTarget_str = `http://${ localHost_str }:${ devServerPort_num }`,
-  localServerTarget_str = `http://${ localHost_str }:${ localServerPort_num }`,
-  simServerTarget_str = `http://localhost:9999`,
-
-  simServerRouter_obj = {
-    [ webStormTarget_str ]: simServerTarget_str,
-    [ devServerTarget_str ]: simServerTarget_str,
-    [ localServerTarget_str ]: simServerTarget_str,
-  };
+const changeOrigin = true;
 
 /**
- * 返回一个devServer启动时的代理配置对象。
- *
- * @param httpHeaders {object} 响应的标头，默认值是一个空对象，可选。
- *
- * @returns {object} 一个devServer启动时的代理配置对象。
+ * devServer启动时的代理配置。<br />
+ * 1、这些文件都有引入这个代理配置文件：webpack.base.esm.mjs。<br />
+ * 2、有效值类型有：object、[ object、function ]。<br />
+ * 其中function：( req, res, next ) => ProxyConfigArrayItem。<br />
+ * 3、如果要将多个特定路径代理到同一个目标，可以使用一个或多个具有上下文属性的对象数组：<br />
+ * proxy: [
+ * {
+ *   context: [ '/auth', '/api' ],
+ *   target: 'http://localhost:3000',
+ * },
+ * ]<br />
+ * 4、上面的context选项的有效值类型：string、[ string ]、( pathname: string, req: Request ) => boolean。<br />
  */
-function ProxyConfig( httpHeaders = {} ){
-  return {
-    /*黄总监的开发服(连公司有线局域网，端口：8087) http://192.168.1.196:8087/graphql*/
-    '/devURL4HZJDev8087A/graphql': {
-      pathRewrite: ( path, req ) => '/graphql', /*
-       pathRewrite: {
-       // rewrite path
-       // '^/old/api': '/new/api',
-       // '^/devURL4HZJDev8087A/graphql': '/graphql',
+const proxyConfig = {
+  /**
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：http://192.168.1.196:8087/graphql。<br />
+   */
+  '/http_dev_server_demo001/graphql': {
+    /**
+     * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
+     *
+     * @param req {Request}
+     * @param res {Response}
+     * @param proxyOptions {proxyConfig}
+     *
+     * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
+     */
+    bypass: ( req, res, proxyOptions ) => {
+      if( req.headers.accept.indexOf( 'xxx7788' ) !== -1 ){
+        console.log( '正在跳过浏览器请求的代理。' );
 
-       // remove path
-       // '^/remove/api': '',
-
-       // add base path
-       // '^/': '/basepath/',
-       },
-       */
-      /*
-       pathRewrite: async ( path, req ) => {
-       // const should_add_something = await httpRequestToDecideSomething( path );
-       // if( should_add_something ){
-       //     path += 'something';
-       // }
-       // return path;
-       },
-       */
-
-      target: 'http://192.168.1.196:8087',
-      secure: false,
-      changeOrigin,
-      router: ( ip_str => ( {
-        [ webStormTarget_str ]: ip_str,
-        [ devServerTarget_str ]: ip_str,
-        [ localServerTarget_str ]: ip_str,
-      } ) )( 'http://192.168.1.196:8087' ),
-
-      onProxyReq: ( proxyReq, req, res ) => {
-        console.log( '\nProxy------onProxyReq Start------\n' );
-
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
-
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
-
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
-
-        console.log( '\nProxy------onProxyReq End------\n' );
-      }, /*
-       onProxyRes: ( proxyRes, req, res ) => {
-       // console.log( 'Proxy------onProxyRes Start------' );
-       // console.log( 'Proxy------onProxyRes End------' );
-       },
-       */
-      /*
-       onError: ( err, req, res ) => {
-       // console.error( 'Proxy------onError Start------' );
-       // console.error( 'Proxy------onError End------' );
-       },
-       */
-      /*
-       onProxyReqWs: ( proxyReq, req, socket, options, head ) => {
-       // console.log( 'Proxy------onProxyReqWs Start------' );
-       // console.log( 'Proxy------onProxyReqWs End------' );
-       },
-       */
-      /*
-       onOpen: proxySocket => {
-       // console.log( 'Proxy------onOpen Start------' );
-       // console.log( 'Proxy------onOpen End------' );
-       },
-       */
-      /*
-       onClose: ( res, socket, head ) => {
-       // console.log( 'Proxy------onClose Start------' );
-       // console.log( 'Proxy------onClose End------' );
-       },
-       */
-    },
-    '/devURL4HZJDev8087B/graphql': {
-      pathRewrite: ( path, req ) => '/graphql',
-
-      target: 'http://192.168.137.137:8087',
-      secure: false,
-      changeOrigin,
-      router: ( ip_str => ( {
-        [ webStormTarget_str ]: ip_str,
-        [ devServerTarget_str ]: ip_str,
-        [ localServerTarget_str ]: ip_str,
-      } ) )( 'http://192.168.137.137:8087' ),
-
-      onProxyReq: ( proxyReq, req, res ) => {
-        console.log( '\nProxy------onProxyReq Start------\n' );
-
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
-
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
-
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
-
-        console.log( '\nProxy------onProxyReq End------\n' );
-      },
-    },
-    /*websocket黄总监的开发服(连公司有线局域网，端口：8087) ws://192.168.1.196:8087*/
-    '/ws4DevURL4HZJDev8087A/subscriptions': {
-      pathRewrite: ( path, req ) => '/subscriptions',
-
-      target: 'ws://192.168.1.196:8087',
-      ws: true,
-      secure: false,
-      changeOrigin,
-
-      onProxyReqWs: ( proxyReq, req, socket, options, head ) => {
-        console.log( '\nProxy------onProxyReqWs Start------\n' );
-
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
-
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
-
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
-
-        console.log( '\nProxy------onProxyReqWs End------\n' );
-      },
+        return '/xxx7788.html';
+      }
     },
 
-    '/favicon.ico': {
-      target: simServerTarget_str,
-      secure: false,
-      changeOrigin,
-      router: simServerRouter_obj,
+    // http-proxy-middleware options Start
 
-      onProxyReq: ( proxyReq, req, res ) => {
-        console.log( '\nProxy------onProxyReq Start------\n' );
+    /**
+     * 重写目标的url路径。对象键将用作正则表达式来匹配路径。<br />
+     * PS：<br />
+     * 1、该选项有3种值类型：<br />
+     * { [ regexp: string ]: string }、( path: string, req: Request ) => string、( path: string, req: Request ) => Promise<string>。<br />
+     * 2、当值类型为对象时，有几类例子：<br />
+     * 重写路径：pathRewrite: {'^/old/api' : '/new/api'}，原来的http://localhost:3000/old/api，现在的http://localhost:3000/new/api。<br />
+     * 删除路径：pathRewrite: {'^/remove' : ''}，原来的http://localhost:3000/remove/api，现在的http://localhost:3000/api。<br />
+     * 添加基本路径：pathRewrite: {'^/' : '/basepath/'}，原来的http://localhost:3000/xxx，现在的http://localhost:3000/basepath/xxx。<br />
+     *
+     * @param path {string}
+     * @param req {Request}
+     *
+     * @returns {string} 新路径。
+     */
+    pathRewrite: ( path, req ) => '/graphql',
 
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
-
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
-
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
-
-        console.log( '\nProxy------onProxyReq End------\n' );
-      },
+    /**
+     * 为特定请求重新定位到option.target。<br />
+     * PS：<br />
+     * 1、有效值类型有3种：<br />
+     * { [ hostOrPath: string ]: httpProxy.ServerOptions['target'] }、( req: Request ) => httpProxy.ServerOptions['target']、( req: Request ) => Promise<httpProxy.ServerOptions['target']>。<br />
+     * 2、使用host、path来匹配请求时，将优先使用第一个匹配到的规则，所以配置的顺序很重要，具体使用例如：<br />
+     * host only：<br />
+     * 'localhost:3000': 'http://192.168.1.196:8087'
+     * host + path：<br />
+     * 'localhost:3000/api': 'http://192.168.1.196:8087'
+     * path only：<br />
+     * '/rest': 'http://192.168.1.196:8087'
+     */
+    router: {
+      'localhost:3000': 'http://192.168.1.196:8087',
     },
-    '/apple-touch-icon.png': {
-      target: simServerTarget_str,
-      secure: false,
-      changeOrigin,
-      router: simServerRouter_obj,
 
-      onProxyReq: ( proxyReq, req, res ) => {
-        console.log( '\nProxy------onProxyReq Start------\n' );
+    /**
+     * 日志版本：'debug'、'info'、'warn'、'error'、'silent'，默认值为'info'。<br />
+     */
+    logLevel: 'info',
 
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
+    /**
+     * 修改或替换日志提供程序，该选项默认值为console。<br />
+     *
+     * @param provider {LogProvider}
+     *
+     * @returns {myCustomProvider} 修改或替换日志提供程序。
+     */
+    // logProvider: provider => myCustomProvider,
 
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
+    // http-proxy-middleware options End
 
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
+    // http-proxy options Start
 
-        console.log( '\nProxy------onProxyReq End------\n' );
-      },
+    target: 'http://192.168.1.196:8087',
+
+    secure: false,
+
+    changeOrigin,
+
+    // http-proxy options End
+
+    // http-proxy events Start
+
+    /**
+     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
+     *
+     * @param proxyReq {http.ClientRequest}
+     * @param req {Request}
+     * @param res {Response}
+     * @param options {httpProxy.ServerOptions}
+     *
+     * @returns {void} 无返回值。
+     */
+    onProxyReq: ( proxyReq, req, res, options ) => {
+      console.log( '\nonProxyReq------Start------\n' );
+
+      console.log( `客户端的请求URL--->${ req.url }` );
+      console.log( `客户端的请求方法--->${ req.method }` );
+
+      console.log( '客户端的请求头--->Start' );
+      console.dir( req.headers );
+      console.log( '客户端的请求头--->End' );
+
+      console.log( '代理的请求信息--->Start' );
+      console.log( `代理的method--->${ proxyReq.method }` );
+      console.log( `代理的protocol--->${ proxyReq.protocol }` );
+      console.log( `代理的host--->${ proxyReq.host }` );
+      console.log( `代理的path--->${ proxyReq.path }` );
+      console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
+      console.log( '代理的请求信息--->End' );
+
+      console.log( '\nonProxyReq------End------\n' );
     },
-    '/apple-touch-icon-precomposed.png': {
-      target: simServerTarget_str,
-      secure: false,
-      changeOrigin,
-      router: simServerRouter_obj,
 
-      onProxyReq: ( proxyReq, req, res ) => {
-        console.log( '\nProxy------onProxyReq Start------\n' );
-
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
-
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
-
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
-
-        console.log( '\nProxy------onProxyReq End------\n' );
-      },
+    /**
+     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
+     *
+     * @param proxyReq {http.ClientRequest}
+     * @param req {Request}
+     * @param socket {net.Socket}
+     * @param options {httpProxy.ServerOptions}
+     * @param head {*}
+     *
+     * @returns {void} 无返回值。
+     */
+    onProxyReqWs: ( proxyReq, req, socket, options, head ) => {
     },
-    '/SimServer/*': {
-      target: simServerTarget_str,
-      secure: false,
-      changeOrigin,
-      router: simServerRouter_obj,
 
-      onProxyReq: ( proxyReq, req, res ) => {
-        console.log( '\nProxy------onProxyReq Start------\n' );
-
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( `客户端的请求方法--->${ req.method }` );
-
-        console.log( '客户端的请求头--->Start' );
-        console.dir( req.headers );
-        console.log( '客户端的请求头--->End' );
-
-        console.log( '代理的请求信息--->Start' );
-        console.log( `代理的method--->${ proxyReq.method }` );
-        console.log( `代理的path--->${ proxyReq.path }` );
-        console.log( `代理的host--->${ proxyReq.host }` );
-        console.log( `代理的protocol--->${ proxyReq.protocol }` );
-        console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-        console.log( '代理的请求信息--->End' );
-
-        console.log( '\nProxy------onProxyReq End------\n' );
-      },
+    /**
+     * 如果对目标的请求得到响应，则会发出此事件。<br />
+     *
+     * @param proxyRes {http.IncomingMessage}
+     * @param req {Request}
+     * @param res {Response}
+     *
+     * @returns {void} 无返回值。
+     */
+    onProxyRes: ( proxyRes, req, res ) => {
     },
-  };
-}
 
-export {
-  ProxyConfig,
+    /**
+     * 一旦创建代理websocket并将其通过管道传输到目标websocket，就会发出此事件。<br />
+     * PS：<br />
+     * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
+     *
+     * @param proxySocket {net.Socket}
+     *
+     * @returns {void} 无返回值。
+     */
+    onOpen: proxySocket => {
+    },
+
+    /**
+     * 一旦代理websocket关闭，就会发出此事件。<br />
+     *
+     * @param proxyRes {Response}
+     * @param proxySocket {net.Socket}
+     * @param proxyHead {*}
+     *
+     * @returns {void} 无返回值。
+     */
+    onClose: ( proxyRes, proxySocket, proxyHead ) => {
+    },
+
+    /**
+     * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
+     *
+     * @param err {Error}
+     * @param req {Request}
+     * @param res {Response}
+     * @param target {string|Partial<url.Url>} 可选的参数，不一定都有存在。<br />
+     *
+     * @returns {void} 无返回值。
+     */
+    onError: ( err, req, res, target ) => {
+    },
+
+    // http-proxy events End
+  },
+
+  /**
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：ws://192.168.1.196:8087/subscriptions。<br />
+   */
+  '/ws_dev_server_demo001/subscriptions': {
+    pathRewrite: ( path, req ) => '/subscriptions',
+
+    target: 'ws://192.168.1.196:8087',
+    ws: true,
+    secure: false,
+    changeOrigin,
+
+    /**
+     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
+     *
+     * @param proxyReq {http.ClientRequest}
+     * @param req {Request}
+     * @param res {Response}
+     * @param options {httpProxy.ServerOptions}
+     *
+     * @returns {void} 无返回值。
+     */
+    onProxyReq: ( proxyReq, req, res, options ) => {
+      console.log( '\nonProxyReq------Start------\n' );
+
+      console.log( `客户端的请求URL--->${ req.url }` );
+      console.log( `客户端的请求方法--->${ req.method }` );
+
+      console.log( '客户端的请求头--->Start' );
+      console.dir( req.headers );
+      console.log( '客户端的请求头--->End' );
+
+      console.log( '代理的请求信息--->Start' );
+      console.log( `代理的method--->${ proxyReq.method }` );
+      console.log( `代理的protocol--->${ proxyReq.protocol }` );
+      console.log( `代理的host--->${ proxyReq.host }` );
+      console.log( `代理的path--->${ proxyReq.path }` );
+      console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
+      console.log( '代理的请求信息--->End' );
+
+      console.log( '\nonProxyReq------End------\n' );
+    },
+  },
 };
 
-export default ProxyConfig;
+export {
+  proxyConfig,
+};
+
+export default proxyConfig;

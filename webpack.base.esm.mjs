@@ -28,7 +28,12 @@ import {
   fileURLToPath,
 } from 'node:url';
 
-import ProxyConfig from './configures/ProxyConfig.esm.mjs';
+import {
+  devServerGlobalParameters,
+  httpHeaders,
+} from './configures/GlobalParameters.esm.mjs';
+
+import proxyConfig from './configures/ProxyConfig.esm.mjs';
 
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
@@ -56,27 +61,6 @@ function Get__filename( import_meta_url = import.meta.url ){
  * 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url ),
-  /**
-   * 1、关于跨域请求头。<br />
-   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即withCredentials:true）。<br />
-   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
-   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
-   */
-  httpHeaders = {
-    'Service-Worker-Allowed': '/',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Max-Age': 600,
-    'Access-Control-Allow-Credentials': true,
-    'Access-Control-Expose-Headers': 'Transfer-Encoding, Content-Encoding, Content-Length, Accept-Language, Accept-Encoding, Accept-Charset, Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma',
-    'Access-Control-Allow-Headers': 'application/x-www-form-urlencoded, multipart/form-data, text/plain, Content-Type, Content-Length, Accept, Accept-Language, X-Requested-With, Cache-Control',
-    'Access-Control-Allow-Methods': 'PUT, POST, GET, DELETE, OPTIONS, CONNECT, HEAD, PATCH, TRACE',
-    'Access-Control-Request-Method': 'PUT, POST, GET, DELETE, OPTIONS, CONNECT, HEAD, PATCH, TRACE',
-    'Cache-Control': 'no-siteApp, no-cache, must-revalidate, no-transform',
-    'Pragma': 'no-cache',
-    'Expires': 0,
-  },
   /**
    * isProduction的值为true时表示生成环境，反之开发环境。<br />
    */
@@ -425,7 +409,9 @@ const aliasConfig = {
    * 
    * proxy：当你有一个单独的API后端开发服务器并且你想在同一个域上发送API请求时，代理一些URL会很有用。<br />
    * 1、有效值类型有：object、[ object、function ]。<br />
-   * 2、。<br />
+   * 2、默认情况下，不接受在HTTPS上运行且证书无效的后端服务器。如果您愿意，请像这样修改您的配置secure: false。<br />
+   * 3、默认情况下，代理时会保留主机头的来源，您可以将changeOrigin设置为true以覆盖此行为。它在某些情况下很有用，例如使用基于名称的虚拟托管站点。<br />
+   * 4、请注意，http-proxy-middleware的某些功能不需要“target”选项，例如它的“router”选项，但是您仍然需要在此处的配置中包含“target”选项，否则webpack-dev-server不会将其传递给http-proxy-middleware。<br />
    * 
    * ：。<br />
    * ：。<br />
@@ -467,7 +453,7 @@ const aliasConfig = {
     },
     headers: httpHeaders,
     historyApiFallback: true,
-    host: '0.0.0.0',
+    host: devServerGlobalParameters[ node_env ].host,
     hot: true,
     liveReload: false,
     open: {
@@ -486,8 +472,8 @@ const aliasConfig = {
         ],
       },
     },
-    port: 'auto',
-    proxy: ProxyConfig( httpHeaders ),
+    port: devServerGlobalParameters[ node_env ].port,
+    proxy: proxyConfig,
     webSocketServer: 'ws',
   },
   entryConfig = {},
@@ -814,7 +800,6 @@ export {
   Get__filename,
 
   __dirname,
-  httpHeaders,
   isProduction,
   isSPA,
   node_env,
@@ -838,7 +823,6 @@ export default {
   Get__filename,
 
   __dirname,
-  httpHeaders,
   isProduction,
   isSPA,
   node_env,
