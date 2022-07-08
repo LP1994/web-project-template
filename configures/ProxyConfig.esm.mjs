@@ -135,11 +135,195 @@ const proxyConfig = {
 
     // http-proxy options Start
 
+    /**
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
+     * 1、有效值类型：string、Partial<url.Url>、ProxyTargetDetailed、undefined。<br />
+     * 2、其中ProxyTargetDetailed的结构为：<br />
+     * {<br />
+     * host：string，必须。<br />
+     * port：number，必须。<br />
+     * protocol：string、undefined，可选。<br />
+     * hostname：string、undefined，可选。<br />
+     * socketPath：string、undefined，可选。<br />
+     * key：string、undefined，可选。<br />
+     * passphrase：string、undefined，可选。<br />
+     * pfx：Buffer、string、undefined，可选。<br />
+     * cert：string、undefined，可选。<br />
+     * ca：string、undefined，可选。<br />
+     * ciphers：string、undefined，可选。<br />
+     * secureProtocol：string、undefined，可选。<br />
+     * }<br />
+     */
     target: 'http://192.168.1.196:8087',
 
+    /**
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
+     * 1、有效值类型：string、Partial<url.Url>、undefined。<br />
+     */
+    // forward,
+
+    /**
+     * 要传递给http(s).request的对象（参见Node的https代理和http代理对象）。<br />
+     */
+    // agent,
+
+    /**
+     * 要传递给https.createServer()的对象。<br />
+     */
+    // ssl,
+
+    /**
+     * 是否启用对websockets的代理。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    ws: false,
+
+    /**
+     * 添加x-forward标头。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // xfwd: false,
+
+    /**
+     * 是否要验证SSL证书。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
     secure: false,
 
+    /**
+     * 显式指定是否代理到另一个代理。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // toProxy,
+
+    /**
+     * 指定是否要将目标路径添加到代理路径，默认值是true。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // prependPath,
+
+    /**
+     * 指定是否要忽略传入请求的代理路径（注意：如果需要，您必须手动附加“/”），默认值是false。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // ignorePath,
+
+    /**
+     * 为传出连接绑定的本地接口字符串。<br />
+     * 1、有效值类型：string、undefined。<br />
+     */
+    // localAddress,
+
+    /**
+     * 将主机标头的来源更改为目标URL，默认值是false。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
     changeOrigin,
+
+    /**
+     * 指定是否要保留响应标头键的字母大小写，默认值是false。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // preserveHeaderKeyCase,
+
+    /**
+     * 基本身份验证，即“user:password”来计算授权标头。<br />
+     * 1、有效值类型：string、undefined。<br />
+     */
+    // auth,
+
+    /**
+     * 在 (201/301/302/307/308) 重定向上重写位置主机名。<br />
+     * 1、有效值类型：string、undefined。<br />
+     */
+    // hostRewrite,
+
+    /**
+     * 根据请求的主机/端口重写 (201/301/302/307/308) 重定向上的位置主机/端口，默认值是false。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // autoRewrite,
+
+    /**
+     * 重写 (201/301/302/307/308) 上的位置协议重定向到“http”或“https”，默认值为null。
+     * 1、有效值类型：string、undefined。<br />
+     */
+    // protocolRewrite,
+
+    /**
+     * 重写set-cookie标头的域，默认值是false。<br />
+     * 1、有效值类型：false、string、object（{ [ oldDomain: string ]: string }）、undefined。<br />
+     * 2、当值为false时，表示禁用cookie重写。<br />
+     * 3、当值类型为string时，表示设置新域名，例如：cookieDomainRewrite: "new.domain"，要删除域可使用：cookieDomainRewrite: ""。<br />
+     * 4、当值类型为object时，表示域到新域的映射，使用“*”匹配所有域，例如保持一个域不变，重写一个域并删除其他域：<br />
+     * cookieDomainRewrite: {
+     *   "unchanged.domain": "unchanged.domain",
+     *   "old.domain": "new.domain",
+     *   "*": ""
+     * }
+     */
+    // cookieDomainRewrite,
+
+    /**
+     * 重写set-cookie标头的路径，默认值是false。<br />
+     * 1、有效值类型：false、string、object（{ [ oldPath: string ]: string }）、undefined。<br />
+     * 2、当值为false时，表示禁用cookie重写。<br />
+     * 3、当值类型为string时，表示设置新路径，例如：cookiePathRewrite: "/newPath/"，要删除路径可使用：cookiePathRewrite: ""，要将路径设置为根目录可使用cookiePathRewrite:"/"。<br />
+     * 4、当值类型为object时，表示路径到新路径的映射，使用“*”匹配所有路径，例如要保持一个路径不变，重写一个路径并删除其他路径：<br />
+     * cookiePathRewrite: {
+     *   "/unchanged.path/": "/unchanged.path/",
+     *   "/old.path/": "/new.path/",
+     *   "*": ""
+     * }
+     */
+    // cookiePathRewrite,
+
+    /**
+     * 带有要添加到目标请求的额外标头的对象。<br />
+     * 1、有效值类型：object（{ [ header: string ]: string }）、undefined。<br />
+     */
+    headers: httpHeaders,
+
+    /**
+     * 传出代理请求的超时（以毫秒为单位），默认值为120000（等同2分钟）。<br />
+     * 1、有效值类型：number、undefined。<br />
+     */
+    proxyTimeout: 120000,
+
+    /**
+     * 传入请求的超时（以毫秒为单位）。<br />
+     * 1、有效值类型：number、undefined。<br />
+     */
+    timeout: 120000,
+
+    /**
+     * 指定是否要遵循重定向，默认值false。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // followRedirects,
+
+    /**
+     * 如果设置为true，则不会调用任何webOutgoing传递，您有责任通过侦听和处理proxyRes事件来适当地返回响应。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    // selfHandleResponse,
+
+    /**
+     * 作为请求正文发送的数据流。也许您有一些中间件在代理请求流之前使用它，例如，如果您将请求的正文读入名为“req.rawbody”的字段中，则可以在缓冲区选项中重新传输该字段，有效值类型：stream.Stream、undefined。<br />
+     * const streamify = require('stream-array');
+     * const HttpProxy = require('http-proxy');
+     * const proxy = new HttpProxy();
+     *
+     * module.exports = (req, res, next) => {
+     * 
+     *   proxy.web(req, res, {
+     *     target: 'http://localhost:4003/',
+     *     buffer: streamify(req.rawBody)
+     *   }, next);
+     * 
+     * };
+     */
+    // buffer,
 
     // http-proxy options End
 
