@@ -414,7 +414,11 @@ const aliasConfig = {
    * 4、请注意，http-proxy-middleware的某些功能不需要“target”选项，例如它的“router”选项，但是您仍然需要在此处的配置中包含“target”选项，否则webpack-dev-server不会将其传递给http-proxy-middleware。<br />
    * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v2.0.6”的，因为“webpack 5”也是引用“http-proxy-middleware”的，而“http-proxy-middleware”有一个3.X的版本正在预备中，其配置写法有很大的变化。<br />
    * 
-   * ：。<br />
+   * server：允许设置服务器和选项（默认为“http”）。<br />
+   * 
+   * 
+   * 
+   * 
    * ：。<br />
    * ：。<br />
    * ：。<br />
@@ -475,6 +479,9 @@ const aliasConfig = {
     },
     port: devServerGlobalParameters[ node_env ].port,
     proxy: proxyConfig,
+    server: {
+      
+    },
     webSocketServer: 'ws',
   },
   entryConfig = {},
