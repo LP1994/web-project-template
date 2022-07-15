@@ -28,9 +28,9 @@ module.exports = {
      * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
      */
     alias: {
-      'element-ui_css': 'element-ui/lib/theme-chalk/index.css',
-      'element-plus_css': 'element-plus/dist/index.css',
-      swiper_css: 'swiper/swiper-bundle.min.css',
+      'element-ui_css$': 'element-ui/lib/theme-chalk/index.css',
+      'element-plus_css$': 'element-plus/dist/index.css',
+      swiper_css$: 'swiper/swiper-bundle.min.css',
     },
     /**
      * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />

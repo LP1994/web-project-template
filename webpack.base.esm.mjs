@@ -14,6 +14,11 @@
 'use strict';
 
 import {
+  createReadStream,
+  readFileSync,
+} from 'node:fs';
+
+import {
   dirname,
   join,
   resolve,
@@ -27,6 +32,8 @@ import {
 import {
   fileURLToPath,
 } from 'node:url';
+
+import mime from 'mime';
 
 import {
   devServerGlobalParameters,
@@ -121,9 +128,9 @@ const __dirname = Get__dirname( import.meta.url ),
  * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
  */
 const aliasConfig = {
-    'element-ui_css': 'element-ui/lib/theme-chalk/index.css',
-    'element-plus_css': 'element-plus/dist/index.css',
-    swiper_css: 'swiper/swiper-bundle.min.css',
+    'element-ui_css$': 'element-ui/lib/theme-chalk/index.css',
+    'element-plus_css$': 'element-plus/dist/index.css',
+    swiper_css$: 'swiper/swiper-bundle.min.css',
   },
   /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
@@ -414,16 +421,95 @@ const aliasConfig = {
    * 4、请注意，http-proxy-middleware的某些功能不需要“target”选项，例如它的“router”选项，但是您仍然需要在此处的配置中包含“target”选项，否则webpack-dev-server不会将其传递给http-proxy-middleware。<br />
    * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v2.0.6”的，因为“webpack 5”也是引用“http-proxy-middleware”的，而“http-proxy-middleware”有一个3.X的版本正在预备中，其配置写法有很大的变化。<br />
    * 
-   * server：允许设置服务器和选项（默认为“http”）。<br />
+   * server：从v4.4.0+开始启用，允许设置服务器和选项（默认为“http”）。<br />
+   * 1、有效值类型：string（其中预设的有：http、https、spdy）、object。<br />
+   * 2、关于值“spdy”的注意事项，对于Node 15.0.0及更高版本，此选项值将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
+   * 3、使用对象语法提供您自己的证书：<br />
+   * {<br />
+   * type：可选http、https、spdy三者其中之一。<br />
    * 
+   * options：有8个属性，它还允许您设置其他TLS选项，例如：minVersion: 'TLSv1.1'。<br />
+   *   {<br />
+   *   passphrase：有效值类型为string，pfx文件的密码短语，就是生成数字证书时设置的密码。<br />
+   *   requestCert：有效值类型为boolean，是否请求SSL证书。<br />
+   *   ca：有效值类型为string（文件路径）、buffer（文件流），SSL CA证书的路径或SSL CA证书的内容。<br />
+   *   cacert：有效值类型为string（文件路径）、buffer（文件流），SSL CA证书的路径或SSL CA证书的内容。已弃用，请使用“server.options.ca”选项。<br />
+   *   cert：有效值类型为string（文件路径）、buffer（文件流），SSL证书的路径或SSL证书的内容。<br />
+   *   crl：有效值类型为string（文件路径）、buffer（文件流），PEM格式CRL（证书吊销列表）的路径或PEM格式CRL（证书吊销列表）的内容。<br />
+   *   key：有效值类型为string（文件路径）、buffer（文件流），SSL密钥的路径或SSL密钥的内容。<br />
+   *   pfx：有效值类型为string（文件路径）、buffer（文件流），SSL pfx文件的路径或SSL pfx文件的内容。<br />
+   *   }<br />
+   * 如果将使用指定的server.options.ca，请不要同时指定server.options.ca和server.options.cacert选项。server.options.cacert已弃用，将在下一个主要版本中删除。<br />
+   * }<br />
    * 
+   * setupExitSignals：允许关闭开发服务器并在 SIGINT 和 SIGTERM 信号上退出进程。<br />
+   * 1、有效值类型为boolean。<br />
    * 
+   * setupMiddlewares：从v4.7.0+开始启用，提供执行自定义函数和应用自定义中间件的能力。<br />
+   * 1、有效值类型为一个函数（有两个函数参数：middlewares、devServer），返回值必须将第一个函数参数middlewares返回。<br />
+   * 2、middlewares.unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
+   * 3、middlewares.push方法对标之前的onAfterSetupMiddleware方法。<br />
    * 
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
-   * ：。<br />
+   * static：此选项允许配置用于从目录（默认为“public”目录）提供静态文件的选项。<br />
+   * 1、有效值类型有：boolean、string、object、[string, object]，值为false表示禁用该项。<br />
+   * 2、值类型为string时，一般表示文件夹名、路径名之类的。<br />
+   * 3、值类型为object时，有如下属性：<br />
+   * {<br />
+   * directory：string，告诉服务器从哪里提供内容。仅当您要提供静态文件时才需要这样做，建议使用绝对路径。<br />
+   * 
+   * staticOptions：object，可以配置用于从static.directory提供静态文件的高级选项。有关可能的选项，请参阅Express文档（http://expressjs.com/en/4x/api.html#express.static、http://expressjs.com/en/starter/static-files.html）。<br />
+   *   {<br />
+   *   dotfiles：string，默认值：ignore，确定如何处理点文件（以点“.”开头的文件或目录）。<br />
+   *   1、有效值为：allow（点文件没有特殊处理）、deny（拒绝对点文件的请求，以403响应，然后调用next()）、ignore（就当点文件不存在，响应404，然后调用next()）。<br />
+   *   2、注意：使用默认值ignore，它不会忽略以点开头的目录中的文件。<br />
+   *   
+   *   etag：boolean，默认值true，启用或禁用etag生成。<br />
+   *   1、注意：express.static总是发送弱ETag。<br />
+   *   
+   *   extensions：[ string ]，默认值false，设置文件扩展名后备：如果找不到文件，则搜索具有指定扩展名的文件并提供找到的第一个文件。<br />
+   *   
+   *   fallthrough：boolean，默认值true，让客户端错误作为未处理的请求通过，否则转发客户端错误。<br />
+   *   1、当此选项为true时，客户端错误（例如错误请求或对不存在文件的请求）将导致此中间件简单地调用next()来调用堆栈中的下一个中间件，当为false时，这些错误（甚至是404）将调用next(err)。<br />
+   *   2、将此选项设置为true，这样您就可以将多个物理目录映射到同一个Web地址或路由以填充不存在的文件。<br />
+   *   3、如果您已将此中间件安装在严格设计为单个文件系统目录的路径上，请使用false，这允许短路404以减少开销。这个中间件也会回复所有的方法。<br />
+   *   
+   *   immutable：boolean，默认值false，在Cache-Control响应标头中启用或禁用不可变指令。如果启用，还应指定maxAge选项以启用缓存。<br />
+   *   1、immutable指令将阻止受支持的客户端在maxAge选项的生命周期内发出条件请求以检查文件是否已更改。<br />
+   *   
+   *   index：发送指定的目录索引文件。设置为false以禁用目录索引。<br />
+   *   
+   *   lastModified：boolean，默认值true，将Last-Modified标头设置为操作系统上文件的最后修改日期。<br />
+   *   
+   *   maxAge：number、string（如：'1d'表示1天），默认值为0，设置Cache-Control标头的max-age属性（以毫秒为单位）或ms格式的字符串。<br />
+   *   
+   *   redirect：boolean，默认值true，当路径名是目录时，重定向到结尾的“/”。<br />
+   *   
+   *   setHeaders：function，用于设置HTTP标头以与文件一起服务的功能。<br />
+   *   1、对于此选项，指定一个函数来设置自定义响应标头。对标头的更改必须同步发生。<br />
+   *   2、fn(res, path, stat)，res：响应对象，path：正在发送的文件路径，stat：正在发送的文件的stat对象。<br />
+   *   }<br />
+   * 
+   * publicPath：告诉服务器在哪个URL上提供static.directory内容。<br />
+   * 1、有效值类型：string。<br />
+   * 2、publicPath: '/dev-server-static-public-path'，效果示意为浏览器将发起这样的请求：http://localhost:3000/dev-server-static-public-path/css/style.css，而该中间件将从directory选项指定的目录下查找层级为“css/style.css”的文件。<br />
+   * 
+   * serveIndex：告诉dev-server在启用时使用serveIndex中间件，serveIndex选项为该中间件在查看没有index.html文件的目录时生成目录列表。<br />
+   * 1、有效值类型：boolean、object。<br />
+   * 2、值类型为object时，可查看文档（https://github.com/expressjs/serve-index#options）。<br />
+   * 
+   * watch：告诉dev-server监视由static.directory选项提供的文件。它默认启用，文件更改将触发整个页面重新加载。这可以通过将watch选项设置为false来禁用。<br />
+   * 1、有效值类型：boolean、object。<br />
+   * 2、可以配置用于从static.directory观看静态文件的高级选项。有关可能的选项，请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
+   * }<br />
+   * 
+   * watchFiles：此选项允许您配置“globs/directories/files”以监视文件更改。<br />
+   * 1、有效值类型：string、object、[string, object]。<br />
+   * 2、当值类型为object时，有关可能的选项（paths、options），请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
+   * 
+   * webSocketServer：此选项允许我们选择当前的web-socket服务器或提供自定义web-socket服务器实现。<br />
+   * 1、有效值类型：boolean（false）、string（'sockjs'、'ws'）、function、object。<br />
+   * 2、当模式是“ws”时。此模式使用ws作为服务器，在客户端使用原生WebSocket。<br />
+   * 3、要创建自定义服务器实现，请创建一个扩展BaseServer的类。<br />
    * }<br />
    */
   devServerConfig = {
@@ -463,8 +549,8 @@ const aliasConfig = {
     liveReload: false,
     open: {
       target: [
-        '/index.html',
-        'http://localhost:8080/index.html',
+        `https://${ devServerGlobalParameters[ node_env ].host }:${ devServerGlobalParameters[ node_env ].port }/`,
+        `https://${ devServerGlobalParameters[ node_env ].host }:${ devServerGlobalParameters[ node_env ].port }/index.html`,
       ],
       app: {
         name: [
@@ -480,8 +566,143 @@ const aliasConfig = {
     port: devServerGlobalParameters[ node_env ].port,
     proxy: proxyConfig,
     server: {
-      
+      type: 'https',
+      options: {
+        passphrase: 'openssl2022002',
+        requestCert: true,
+        ca: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ) ),
+        cert: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ) ),
+        key: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.key' ) ),
+        pfx: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.pfx' ) ),
+      },
     },
+    setupExitSignals: true,
+    setupMiddlewares: ( middlewares, devServer ) => {
+      if( !devServer ){
+        throw new Error( 'webpack-dev-server is not defined!' );
+      }
+
+      const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
+        console.log( '------setupMiddlewares------Start' );
+        console.log( `客户端的请求URL--->${ req.url }` );
+        console.log( '------setupMiddlewares------End' );
+
+        res.setHeader( 'Content-Type', mime.getType( req.url ) );
+
+        res.statusCode = 200;
+        res.statusMessage = 'OK';
+
+        createReadStream( url ).pipe( res, {
+          end: true,
+        } );
+      };
+
+      devServer.app.get( '/favicon.ico', ( req, response ) => {
+        ResFaviconIco( req, response );
+      } );
+      devServer.app.get( '/favicon.png', ( req, response ) => {
+        ResFaviconIco( req, response );
+      } );
+      devServer.app.get( '/apple-touch-icon.png', ( req, response ) => {
+        ResFaviconIco( req, response );
+      } );
+      devServer.app.get( '/apple-touch-icon-precomposed.png', ( req, response ) => {
+        ResFaviconIco( req, response );
+      } );
+
+      /**
+       * unshift方法对标之前的onBeforeSetupMiddleware方法。
+       */
+      middlewares.unshift( {
+        name: 'test001-fist',
+        /**
+         * path选项是可选的，但是最好还是要有。
+         */
+        path: '/test001/fist/',
+        middleware: ( req, res ) => {
+          res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+
+          res.statusCode = 200;
+          res.statusMessage = 'OK';
+
+          res.end( `
+                   <!DOCTYPE html>
+                   <html lang = 'zh-CN'>
+                   <head>
+                     <meta charset = 'UTF-8' />
+                     <title>test001-fist</title>
+                   </head>
+                   <body>
+                     <p>/test001/fist/</p>
+                   </body>
+                   </html>
+                   `, 'utf8' );
+        },
+      } );
+
+      /**
+       * push方法对标之前的onAfterSetupMiddleware方法。
+       */
+      middlewares.push( {
+        name: 'test001-last',
+        /**
+         * path选项是可选的，但是最好还是要有。
+         */
+        path: '/test001/last/',
+        middleware: ( req, res ) => {
+          res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+
+          res.statusCode = 200;
+          res.statusMessage = 'OK';
+
+          res.end( `
+                   <!DOCTYPE html>
+                   <html lang = 'zh-CN'>
+                   <head>
+                     <meta charset = 'UTF-8' />
+                     <title>test001-last</title>
+                   </head>
+                   <body>
+                     <p>/test001/last/</p>
+                   </body>
+                   </html>
+                   `, 'utf8' );
+        },
+      } );
+
+      return middlewares;
+    },
+    static: {
+      directory: join( __dirname, './test' ),
+      staticOptions: {
+        dotfiles: 'deny',
+        etag: true,
+        extensions: [
+          'html',
+          'htm',
+        ],
+        fallthrough: true,
+        immutable: false,
+        index: false,
+        lastModified: true,
+        maxAge: 0,
+        redirect: true,
+        setHeaders: ( res, path, stat ) => {
+          res.set( 'x-timestamp', Date.now() );
+          res.set( 'x-static-from', 'devServer.static.staticOptions.setHeaders()' );
+        },
+      },
+      publicPath: '/dev-server-static-public-path',
+      serveIndex: {
+        hidden: false,
+        icons: true,
+        view: 'details',
+      },
+      watch: false,
+    },
+    watchFiles: [
+      'src/**/*',
+    ],
     webSocketServer: 'ws',
   },
   entryConfig = {},
