@@ -15,12 +15,10 @@
 'use strict';
 
 /**
- * 给devServer用的主机名。<br />
- * 1、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
- * 2、这里被我限制成且强烈建议只用形如：'0.0.0.0'、'localhost'、'192.168.1.6'等等。<br />
- * 3、在package.json中的scripts.weinre里头默认也是用'0.0.0.0'的。<br />
+ * 给浏览器调试用的主机名，不是给“devServer.host”用的。<br />
+ * 1、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（192.168.1.6）、IPV6等等，但是不能用'0.0.0.0'来访问（访问不了！！！），还是得通过：本地（localhost）、局域网（192.168.1.6）来访问的。<br />
  */
-const localHost = '0.0.0.0';
+const localHost = '192.168.1.3';
 
 /**
  * 远端调试工具(weinre)的本地服务的端口值，值类型只能是string。<br />
@@ -97,7 +95,7 @@ deviceInfo().is_Mobile&&dynamicREM();
   httpHeaders = {
     'Service-Worker-Allowed': '/',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Max-Age': 600,
+    'Access-Control-Max-Age': 365 * 1 * 24 * 60 * 60,
     'Access-Control-Allow-Credentials': true,
     'Access-Control-Expose-Headers': 'Transfer-Encoding, Content-Encoding, Content-Length, Accept-Language, Accept-Encoding, Accept-Charset, Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma',
     'Access-Control-Allow-Headers': 'application/x-www-form-urlencoded, multipart/form-data, text/plain, Content-Type, Content-Length, Accept, Accept-Language, X-Requested-With, Cache-Control',
@@ -110,7 +108,7 @@ deviceInfo().is_Mobile&&dynamicREM();
   /**
    * 动态插入到页面的远端调式工具(weinre)的JS代码。<br />
    */
-  weinreDevTool = `<script>var weinreDevTool_elem=document.createElement('script'),hostName_str=location.hostname;if(hostName_str==='${ localHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinreLocalPort }/target/target-script-min.js#LMFiOS';}else if(hostName_str==='${ weinrePublicNetworkHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinrePublicNetworkPort }/target/target-script-min.js#LMFiOS';}document.body.appendChild(weinreDevTool_elem);</script>`;
+  weinreDevTool = `<script>var weinreDevTool_elem=document.createElement('script'),hostName_str=location.hostname;if(hostName_str==='${ localHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinreLocalPort }/target/target-script-min.js#iOS001';}else if(hostName_str==='${ weinrePublicNetworkHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinrePublicNetworkPort }/target/target-script-min.js#iOS001';}document.body.appendChild(weinreDevTool_elem);</script>`;
 
 export {
   devServerGlobalParameters,

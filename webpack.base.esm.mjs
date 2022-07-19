@@ -128,9 +128,9 @@ const __dirname = Get__dirname( import.meta.url ),
  * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
  */
 const aliasConfig = {
-    'element-ui_css$': 'element-ui/lib/theme-chalk/index.css',
-    'element-plus_css$': 'element-plus/dist/index.css',
-    swiper_css$: 'swiper/swiper-bundle.min.css',
+    'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
+    'element-plus-css$': 'element-plus/dist/index.css',
+    'swiper-css$': 'swiper/swiper-bundle.min.css',
   },
   /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
@@ -321,6 +321,7 @@ const aliasConfig = {
    * 1、有效值类型：string，其中有3个预设值：'local-ip'、'local-ipv4'、'local-ipv6'。<br />
    * 2、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
    * 3、'local-ip'：指定为主机将尝试将主机选项解析为您的本地IPv4地址（如果可用），如果IPv4不可用，它将尝试解析您的本地IPv6地址。<br />
+   * 4、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（如：192.168.1.6）、IPV6等等，但是不能用'0.0.0.0'来访问（访问不了！！！），还是得通过：本地（localhost）、局域网（如：192.168.1.6）来访问的。<br />
    * 
    * hot：是否启用webpack的热模块替换功能。<br />
    * 1、有效值类型：boolean、string（只有一个有效值'only'）。<br />
@@ -373,7 +374,7 @@ const aliasConfig = {
    * 
    * liveReload：启用重新加载检测到文件更改时重新加载/刷新页面（默认情况下启用）。<br />
    * 1、有效值类型：boolean。<br />
-   * 2、必须禁用devServer.hot选项或启用devServer.watchFiles选项才能使liveReload生效。通过将devServer.liveReload设置为 false来禁用它。<br />
+   * 2、必须禁用devServer.hot选项或启用devServer.watchFiles选项才能使liveReload生效。通过将devServer.liveReload设置为false来禁用它。<br />
    * 3、实时重新加载仅适用于与web相关的target，例如将target选项设置为：web、webworker、electron-renderer、node-webkit。<br />
    * 
    * magicHtml：从v4.1.0+开始启用，告诉dev-server是否启用魔法HTML路由（与webpack输出相对应的路由，例如：/main for main.js，“main”代表“main.js”）。<br />
@@ -442,7 +443,7 @@ const aliasConfig = {
    * 如果将使用指定的server.options.ca，请不要同时指定server.options.ca和server.options.cacert选项。server.options.cacert已弃用，将在下一个主要版本中删除。<br />
    * }<br />
    * 
-   * setupExitSignals：允许关闭开发服务器并在 SIGINT 和 SIGTERM 信号上退出进程。<br />
+   * setupExitSignals：允许关闭开发服务器并在SIGINT和SIGTERM信号上退出进程。<br />
    * 1、有效值类型为boolean。<br />
    * 
    * setupMiddlewares：从v4.7.0+开始启用，提供执行自定义函数和应用自定义中间件的能力。<br />
@@ -540,33 +541,59 @@ const aliasConfig = {
         'TRACE',
         'PATCH',
       ],
+      publicPath: `/${ node_env }`,
       writeToDisk: false,
     },
     headers: httpHeaders,
     historyApiFallback: true,
-    host: devServerGlobalParameters[ node_env ].host,
-    hot: true,
-    liveReload: false,
-    open: {
-      target: [
-        `https://${ devServerGlobalParameters[ node_env ].host }:${ devServerGlobalParameters[ node_env ].port }/`,
-        `https://${ devServerGlobalParameters[ node_env ].host }:${ devServerGlobalParameters[ node_env ].port }/index.html`,
-      ],
-      app: {
-        name: [
-          'Google Chrome',
-          'google-chrome',
-          'chrome',
+    host: '0.0.0.0',
+    hot: false,
+    liveReload: true,
+    open: [
+      {
+        target: [
+          `http://${ devServerGlobalParameters[ node_env ]?.host }:${ devServerGlobalParameters[ node_env ]?.port }/${ node_env }/pages/HelloWorld.html`,
         ],
-        arguments: [
-          '--new-window',
-        ],
+        app: {
+          name: [
+            'chrome',
+          ],
+          arguments: [
+            '--new-window',
+          ],
+        },
       },
-    },
-    port: devServerGlobalParameters[ node_env ].port,
+      {
+        target: [
+          `http://${ devServerGlobalParameters[ node_env ]?.host }:${ devServerGlobalParameters[ node_env ]?.port }/${ node_env }/pages/HelloWorld.html`,
+        ],
+        app: {
+          name: [
+            'Google Chrome',
+          ],
+          arguments: [
+            '--new-window',
+          ],
+        },
+      },
+      {
+        target: [
+          `http://${ devServerGlobalParameters[ node_env ]?.host }:${ devServerGlobalParameters[ node_env ]?.port }/${ node_env }/pages/HelloWorld.html`,
+        ],
+        app: {
+          name: [
+            'google-chrome',
+          ],
+          arguments: [
+            '--new-window',
+          ],
+        },
+      },
+    ],
+    port: devServerGlobalParameters[ node_env ]?.port,
     proxy: proxyConfig,
     server: {
-      type: 'https',
+      type: 'http',
       options: {
         passphrase: 'openssl2022002',
         requestCert: true,
@@ -588,6 +615,12 @@ const aliasConfig = {
         console.log( '------setupMiddlewares------End' );
 
         res.setHeader( 'Content-Type', mime.getType( req.url ) );
+        res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
+        res.setHeader( 'x-dev-type', `${ node_env }` );
+
+        Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+          res.setHeader( keyName, keyValue );
+        } );
 
         res.statusCode = 200;
         res.statusMessage = 'OK';
@@ -611,16 +644,24 @@ const aliasConfig = {
       } );
 
       /**
-       * unshift方法对标之前的onBeforeSetupMiddleware方法。
+       * unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
+       * PS：<br />
+       * 1、实测，启动后，可以访问到！！！<br />
        */
       middlewares.unshift( {
-        name: 'test001-fist',
+        name: 'test001-first',
         /**
          * path选项是可选的，但是最好还是要有。
          */
-        path: '/test001/fist/',
+        path: '/test001/first/',
         middleware: ( req, res ) => {
           res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+          res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
+          res.setHeader( 'x-dev-type', `${ node_env }` );
+
+          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+            res.setHeader( keyName, keyValue );
+          } );
 
           res.statusCode = 200;
           res.statusMessage = 'OK';
@@ -630,10 +671,10 @@ const aliasConfig = {
                    <html lang = 'zh-CN'>
                    <head>
                      <meta charset = 'UTF-8' />
-                     <title>test001-fist</title>
+                     <title>test001-first</title>
                    </head>
                    <body>
-                     <p>/test001/fist/</p>
+                     <p>/test001/first/</p>
                    </body>
                    </html>
                    `, 'utf8' );
@@ -641,7 +682,9 @@ const aliasConfig = {
       } );
 
       /**
-       * push方法对标之前的onAfterSetupMiddleware方法。
+       * push方法对标之前的onAfterSetupMiddleware方法。<br />
+       * PS：<br />
+       * 1、实测，启动后，无法访问到！！！<br />
        */
       middlewares.push( {
         name: 'test001-last',
@@ -651,6 +694,12 @@ const aliasConfig = {
         path: '/test001/last/',
         middleware: ( req, res ) => {
           res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+          res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
+          res.setHeader( 'x-dev-type', `${ node_env }` );
+
+          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+            res.setHeader( keyName, keyValue );
+          } );
 
           res.statusCode = 200;
           res.statusMessage = 'OK';
@@ -672,40 +721,246 @@ const aliasConfig = {
 
       return middlewares;
     },
-    static: {
-      directory: join( __dirname, './test' ),
-      staticOptions: {
-        dotfiles: 'deny',
-        etag: true,
-        extensions: [
-          'html',
-          'htm',
-        ],
-        fallthrough: true,
-        immutable: false,
-        index: false,
-        lastModified: true,
-        maxAge: 0,
-        redirect: true,
-        setHeaders: ( res, path, stat ) => {
-          res.set( 'x-timestamp', Date.now() );
-          res.set( 'x-static-from', 'devServer.static.staticOptions.setHeaders()' );
+    static: [
+      {
+        directory: join( __dirname, './dist/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
         },
+        publicPath: '/dev-server-static/dist',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
       },
-      publicPath: '/dev-server-static-public-path',
-      serveIndex: {
-        hidden: false,
-        icons: true,
-        view: 'details',
+      {
+        directory: join( __dirname, './simulation_servers/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        publicPath: '/dev-server-static/simulation_servers',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
       },
-      watch: false,
-    },
+      {
+        directory: join( __dirname, './src/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        publicPath: '/dev-server-static/src',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      },
+      {
+        directory: join( __dirname, './subsystems/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        publicPath: '/dev-server-static/subsystems',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      },
+      {
+        directory: join( __dirname, './test/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        publicPath: '/dev-server-static/test',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      },
+      {
+        directory: join( __dirname, './ts_compiled/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        publicPath: '/dev-server-static/ts_compiled',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      },
+      {
+        directory: join( __dirname, './webpack_location/' ),
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-dev-type', `${ node_env }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        publicPath: '/dev-server-static/webpack_location',
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      },
+    ],
     watchFiles: [
       'src/**/*',
     ],
     webSocketServer: 'ws',
   },
-  entryConfig = {},
+  entryConfig = {
+    HelloWorld: {
+      import: [
+        './src/HelloWorld.js',
+      ],
+      filename: 'js/[name]_bundle_[contenthash:16].js',
+      chunkLoading: 'jsonp',
+    },
+  },
   /**
    * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
    * 1、由于实验性功能具有宽松的语义版本控制并且可能包含重大更改，因此请确保将webpack的版本修复为次要版本，例如webpack: ~5.4.3而不是webpack: ^5.4.3或者在使用实验时使用锁定文件。<br />
@@ -897,6 +1152,152 @@ const aliasConfig = {
     __filename: false,
     __dirname: false,
   },
+  outputConfig = {
+    /**
+     * 与output.filename相同，但用于资产模块。<br />
+     */
+    assetModuleFilename: 'assets/[name]_[sha512:contenthash:hex:16][ext]',
+    charset: false,
+    /**
+     * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
+     * 1、请注意，这些文件名需要在运行时生成以发送对块的请求。<br />
+     */
+    chunkFilename: 'js/[name]_chunk_[contenthash:16].js',
+    /**
+     * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)，但其他格式可能由插件添加。<br />
+     */
+    chunkFormat: 'array-push',
+    /**
+     * 块请求过期前的毫秒数。从webpack 2.6.0开始支持此选项。<br />
+     */
+    chunkLoadTimeout: 120000,
+    /**
+     * 加载块的方法，默认包括的方法：'jsonp'（web）、'import'（ESM）、'importScripts'（WebWorker）、'require'（同步node.js）、'async-node'（异步node.js），但其他可能由插件添加。<br />
+     */
+    chunkLoading: 'jsonp',
+    /**
+     * 在发出之前清理输出目录。<br />
+     */
+    clean: true,
+    /**
+     * 告诉webpack在写入输出文件系统之前检查要发出的文件是否已经存在并且具有相同的内容。<br />
+     * 1、当磁盘上已经存在具有相同内容的文件时，webpack将不会写入输出文件。<br />
+     * 2、设置成false可以强制替换同名的文件。<br />
+     */
+    compareBeforeEmit: false,
+    /**
+     * 告诉webpack启用块的跨域加载。仅在目标设置为“web”时生效，它使用JSONP通过添加脚本标签来加载按需块。<br />
+     */
+    crossOriginLoading: 'anonymous',
+    /**
+     * 告诉webpack在生成的运行时代码中可以使用哪种ES特性。<br />
+     */
+    environment: {
+      /**
+       * The environment supports arrow functions ('() => { ... }').<br />
+       */
+      arrowFunction: true,
+      /**
+       * The environment supports BigInt as literal (123n).<br />
+       */
+      bigIntLiteral: false,
+      /**
+       * The environment supports const and let for variable declarations.<br />
+       */
+      const: true,
+      /**
+       * The environment supports destructuring ('{ a, b } = obj').<br />
+       */
+      destructuring: false,
+      /**
+       * The environment supports an async import() function to import EcmaScript modules.<br />
+       */
+      dynamicImport: false,
+      /**
+       * The environment supports 'for of' iteration ('for (const x of array) { ... }').<br />
+       */
+      forOf: true,
+      /**
+       * The environment supports ECMAScript Module syntax to import ECMAScript modules (import ... from '...').<br />
+       */
+      module: false,
+      /**
+       * The environment supports optional chaining ('obj?.a' or 'obj?.()').<br />
+       */
+      optionalChaining: false,
+      /**
+       * The environment supports template literals.<br />
+       */
+      templateLiteral: true,
+    },
+    /**
+     * 此选项确定每个输出包的名称。捆绑包被写入output.path选项指定的目录。<br />
+     * 1、对于单个入口点，这可以是静态名称。<br />
+     * 2、请注意，此选项不会影响按需加载块的输出文件。它只影响最初加载的输出文件。<br />
+     * 3、对于按需加载的块文件，使用output.chunkFilename选项。加载程序创建的文件也不受影响。在这种情况下，您必须尝试特定加载程序的可用选项。<br />
+     */
+    filename: 'js/[name]_bundle_[contenthash:16].js',
+    hashDigest: 'hex',
+    /**
+     * 对于webpack v5.65.0+，当启用experiments.futureDefaults时，16将用作hashDigestLength选项的默认值。<br />
+     */
+    hashDigestLength: 16,
+    /**
+     * 从webpack v5.54.0+开始，hashFunction支持xxhash64作为一种更快的算法，在启用experiments.futureDefaults时将默认使用该算法。<br />
+     */
+    hashFunction: 'sha512',
+    /**
+     * 告诉webpack在发出的代码周围添加IIFE包装器。<br />
+     */
+    iife: true,
+    /**
+     * 将JavaScript文件输出为模块类型。默认情况下禁用，因为它是一项实验性功能。<br />
+     * 1、启用后，webpack会在内部将output.iife设置为false，将output.scriptType设置为'module'，并将terserOptions.module设置为true。<br />
+     * 2、如果您正在使用webpack编译一个库以供其他人使用，请确保在output.module为true时将output.libraryTarget设置为'module'。<br />
+     * 3、output.module是一项实验性功能，只能通过将experiments.outputModule设置为true来启用。<br />
+     */
+    module: false,
+    /**
+     * 输出目录为绝对路径。<br />
+     * 1、注意这个参数中的[fullhash]将被替换为编译的哈希值。有关详细信息，请参阅缓存指南（https://webpack.js.org/guides/caching/）。<br />
+     */
+    path: resolve( __dirname, `./dist/${ node_env }/` ),
+    /**
+     * 告诉webpack在bundle中包含关于所包含模块的信息的注释。<br />
+     * 1、此选项在开发模式下默认为true，在生产模式下默认为false。 “verbose”显示更多信息，如导出、运行时要求和救助。<br />
+     * 2、虽然这些注释可以提供的数据在开发过程中阅读生成的代码时很有用，但不应在生产中使用。<br />
+     * 3、它还向生成的包添加了一些关于摇树的信息。<br />
+     */
+    pathinfo: isProduction
+              ? false
+              : 'verbose',
+    /**
+     * 当使用按需加载或加载图像、文件等外部资源时，这是一个重要的选项。如果指定的值不正确，您将在加载这些资源时收到404错误。<br />
+     * 1、如：编译的资源都输出在dist/production下的各种一级文件夹(里面没有其他文件夹了)下，所以'../'就是向上一级，也就是定位到了根目录(dist/production)下了。<br />
+     * 2、也可以指定绝对路径：'http://localhost:8081/WebProTpl/dist/production/'，一般用于正式生产环境。<br />
+     * 3、此选项指定在浏览器中引用时输出目录的公共URL。相对URL是相对于HTML页面（或<base>标记）解析的。服务器相对URL、协议相对URL或绝对URL也是可能的，有时是必需的，即，如，在CDN上托管资产时。<br />
+     * 4、这个值设置需要注意！'./'、'../'这种尤其注意！！！并不会都如期望的那样。<br />
+     */
+    publicPath: '../',
+    /**
+     * 此选项允许加载具有自定义脚本类型的异步块，例如<script type="module" ...>。<br />
+     * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />
+     */
+    scriptType: 'text/javascript',
+    sourceMapFilename: 'js/[name]_map_[contenthash:16].map',
+    /**
+     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)，但其他方法可能由插件添加。<br />
+     * 1、默认值会受到不同目标的影响：
+     * Defaults to 'fetch' if target is set to 'web', 'webworker', 'electron-renderer' or 'node-webkit'.<br />
+     * Defaults to 'async-node' if target is set to 'node', 'async-node', 'electron-main' or 'electron-preload'.<br />
+     */
+    wasmLoading: 'fetch',
+    /**
+     * 新选项workerChunkLoading控制worker的块加载。<br />
+     * 1、有效值：'require'、'import-scripts'、'async-node'、'import'、'universal'、false。<br />
+     */
+    workerChunkLoading: 'import-scripts',
+  },
   /**
    * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
    * 1、配置性能提示的显示方式。例如，如果您的资产超过250kb，webpack将发出警告通知您。<br />
@@ -1040,6 +1441,7 @@ export {
   experimentsConfig,
   externalsConfig,
   nodeConfig,
+  outputConfig,
   performanceConfig,
   providePluginConfig,
   recordsPathConfig,
@@ -1063,6 +1465,7 @@ export default {
   experimentsConfig,
   externalsConfig,
   nodeConfig,
+  outputConfig,
   performanceConfig,
   providePluginConfig,
   recordsPathConfig,

@@ -19,28 +19,6 @@ const path = require( 'node:path' ),
   webpack = require( 'webpack' );
 
 module.exports = {
-  resolve: {
-    /**
-     * 设置路径别名。<br />
-     * 1、resolve.alias优先于其他模块解析。<br />
-     * 2、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。<br />
-     * 3、为第三方包设置别名时，只能是以包名开始，其他任何都不行，因为webpack会自动从“node_modules”中查找，包括：“./”、“./node_modules/”、“node_modules/”等等都是不行的，当然如果是指向自己的模块文件夹，那还是要指定完整路径。<br />
-     * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
-     */
-    alias: {
-      'element-ui_css$': 'element-ui/lib/theme-chalk/index.css',
-      'element-plus_css$': 'element-plus/dist/index.css',
-      swiper_css$: 'swiper/swiper-bundle.min.css',
-    },
-    /**
-     * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />
-     */
-    enforceExtension: false,
-    modules: [
-      'node_modules',
-    ],
-    symlinks: false,
-  },
   plugins: [
     /**
      * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
@@ -76,4 +54,27 @@ module.exports = {
       Vuex: 'vuex',
     } ),
   ],
+  resolve: {
+    /**
+     * 设置路径别名。<br />
+     * 1、resolve.alias优先于其他模块解析。<br />
+     * 2、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。<br />
+     * 3、为第三方包设置别名时，只能是以包名开始，其他任何都不行，因为webpack会自动从“node_modules”中查找，包括：“./”、“./node_modules/”、“node_modules/”等等都是不行的，当然如果是指向自己的模块文件夹，那还是要指定完整路径。<br />
+     * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
+     */
+    alias: {
+      'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
+      'element-plus-css$': 'element-plus/dist/index.css',
+      'swiper-css$': 'swiper/swiper-bundle.min.css',
+    },
+    /**
+     * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />
+     * 1、强制解析器使用扩展选项中的一个扩展（用户必须指定不带扩展的请求）。<br />
+     */
+    enforceExtension: false,
+    modules: [
+      'node_modules',
+    ],
+    symlinks: false,
+  },
 };

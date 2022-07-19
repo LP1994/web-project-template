@@ -40,13 +40,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "element-ui_css": [
+      "element-ui-css": [
         "./node_modules/element-ui/lib/theme-chalk/index.css"
       ],
-      "element-plus_css": [
+      "element-plus-css": [
         "./node_modules/element-plus/dist/index.css"
       ],
-      "swiper_css": [
+      "swiper-css": [
         "./node_modules/swiper/swiper-bundle.min.css"
       ],
       "tslib": [

@@ -29,6 +29,7 @@ import {
   experimentsConfig,
   externalsConfig,
   nodeConfig,
+  outputConfig,
   performanceConfig,
   providePluginConfig,
   recordsPathConfig,
@@ -104,7 +105,6 @@ export default {
   entry: entryConfig,
   experiments: experimentsConfig,
   externals: externalsConfig,
-  node: nodeConfig,
   /**
    * 基础设施级别日志记录的选项。<br />
    * 1、值类型Object：<br />
@@ -149,6 +149,8 @@ export default {
    * 配置的名称。加载多个配置时使用。<br />
    */
   name: 'webpack.dev.esm.mjs',
+  node: nodeConfig,
+  output: outputConfig,
   /**
    * 限制并行处理模块的数量。可用于微调性能或获得更可靠的分析结果。<br />
    * 1、最小值是：1。<br />
@@ -168,6 +170,7 @@ export default {
     alias: aliasConfig,
     /**
      * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />
+     * 1、强制解析器使用扩展选项中的一个扩展（用户必须指定不带扩展的请求）。<br />
      */
     enforceExtension: false,
     modules: [

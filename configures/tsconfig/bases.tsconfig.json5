@@ -257,13 +257,13 @@
     5、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。
     */
     "paths": {
-      "element-ui_css": [
+      "element-ui-css": [
         "./node_modules/element-ui/lib/theme-chalk/index.css"
       ],
-      "element-plus_css": [
+      "element-plus-css": [
         "./node_modules/element-plus/dist/index.css"
       ],
-      "swiper_css": [
+      "swiper-css": [
         "./node_modules/swiper/swiper-bundle.min.css"
       ],
       "tslib": [
