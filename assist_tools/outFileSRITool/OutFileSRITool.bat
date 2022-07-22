@@ -1,1 +1,0 @@
-node --trace-deprecation --trace-warnings --max-old-space-size=8192 --experimental-import-meta-resolve --experimental-json-modules --experimental-repl-await --experimental-wasi-unstable-preview1 --experimental-vm-modules --experimental-wasm-modules OutFileSRITool.js&pause

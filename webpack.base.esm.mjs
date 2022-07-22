@@ -257,6 +257,8 @@ const aliasConfig = {
    * publicPath：中间件绑定的公共路径，指定在浏览器中引用时输出文件的公共URL地址。<br />
    * 1、有效值类型：String、Function，默认值取webpack配置中的output.publicPath。<br />
    * 2、当值类型为String时，有1个预置值：auto。<br />
+   * 3、当设置值为如'/XXX1'时，浏览器请求的资源URL就得如：http://localhost:8100/XXX1/js/a.js、http://localhost:8100/XXX1/html/a.html。<br />
+   * 4、这个值设置需要注意，'./'、'../'这种尤其注意！并不会都如期望的那样。<br />
    * 
    * serverSideRender：指示模块启用或禁用服务器端渲染模式。<br />
    * 1、有效值类型：Boolean，默认值为undefined。<br />
@@ -493,6 +495,7 @@ const aliasConfig = {
    * publicPath：告诉服务器在哪个URL上提供static.directory内容。<br />
    * 1、有效值类型：string。<br />
    * 2、publicPath: '/dev-server-static-public-path'，效果示意为浏览器将发起这样的请求：http://localhost:3000/dev-server-static-public-path/css/style.css，而该中间件将从directory选项指定的目录下查找层级为“css/style.css”的文件。<br />
+   * 3、这个值设置需要注意，'./'、'../'这种尤其注意！并不会都如期望的那样。<br />
    * 
    * serveIndex：告诉dev-server在启用时使用serveIndex中间件，serveIndex选项为该中间件在查看没有index.html文件的目录时生成目录列表。<br />
    * 1、有效值类型：boolean、object。<br />
@@ -542,7 +545,7 @@ const aliasConfig = {
         'PATCH',
       ],
       publicPath: `/${ node_env }`,
-      writeToDisk: false,
+      writeToDisk: true,
     },
     headers: httpHeaders,
     historyApiFallback: true,
@@ -952,13 +955,44 @@ const aliasConfig = {
     ],
     webSocketServer: 'ws',
   },
+  /**
+   * 开始应用程序捆绑过程的一个或多个点。如果传递了一个数组，则将处理所有项目。<br />
+   * 1、动态加载的模块不是入口点。<br />
+   * 2、需要考虑的规则：每个HTML页面有一个入口点。SPA：一个入口点，MPA：多个入口点。<br />
+   * 3、允许为每个入口点设置不同类型的文件，如：entry: { a: [ './a.js', './a.css', ], }，这种设置，会在输出目录下生成对应的JS、CSS文件。<br />
+   * 4、确保runtime选项不能指向现有的入口点名称。<br />
+   * 5、runtime选项和dependOn选项不应在单个条目上一起使用。<br />
+   * 6、不要为vendor或其他不是执行起点的东西创建条目。optimization.splitChunks选项负责分离vendor和应用程序模块并创建一个单独的文件。<br />
+   * 7、可扩展的选项：<br />
+   * {<br />
+   * asyncChunks：boolean，启用或禁用创建按需加载的异步块。<br />
+   * 
+   * baseUri：string，设置入口的基本URL。<br />
+   * 
+   * chunkLoading：同output.chunkLoading。<br />
+   * 
+   * dependOn：[ string ]，当前入口点所依赖的入口点。加载此入口点时，必须加载它们。<br />
+   * 
+   * filename：同output.filename。<br />
+   * 
+   * import：[ string ]，启动时加载的模块。<br />
+   * 
+   * layer：string，指定放置此入口点模块的层。<br />
+   * 
+   * library：同output.library。<br />
+   * 
+   * publicPath：同output.publicPath。<br />
+   * 
+   * runtime：false、string，运行时块的名称。设置后，将创建一个新的运行时块。它可以设置为false以避免从webpack 5.43.0开始出现新的运行时块。<br />
+   * 
+   * wasmLoading：同output.wasmLoading。<br />
+   * }<br />
+   */
   entryConfig = {
     HelloWorld: {
       import: [
-        './src/HelloWorld.js',
+        './src/pages/hello_world/HelloWorld.js',
       ],
-      filename: 'js/[name]_bundle_[contenthash:16].js',
-      chunkLoading: 'jsonp',
     },
   },
   /**
@@ -1277,8 +1311,12 @@ const aliasConfig = {
      * 2、也可以指定绝对路径：'http://localhost:8081/WebProTpl/dist/production/'，一般用于正式生产环境。<br />
      * 3、此选项指定在浏览器中引用时输出目录的公共URL。相对URL是相对于HTML页面（或<base>标记）解析的。服务器相对URL、协议相对URL或绝对URL也是可能的，有时是必需的，即，如，在CDN上托管资产时。<br />
      * 4、这个值设置需要注意！'./'、'../'这种尤其注意！！！并不会都如期望的那样。<br />
+     * 5、当目标为web、web-worker时，其默认值为'auto'，它会自动从`import.meta.url`、`document.currentScript`、`<script />`或`self.location`确定公共路径。<br />
+     * 6、该选项的值以运行时或加载程序创建的每个URL为前缀。因此，在大多数情况下，此选项的值以/结尾。<br />
+     * 7、如果在编译时无法知道输出文件的publicPath，可以将其留空，并在运行时使用自由变量__webpack_public_path__在入口文件中动态设置。<br />
+     * 8、当设置为publicPath:'/assets/'时，输出HTML的加载器可能会发出如下内容：<link href="/assets/spinner.gif" />。<br />
      */
-    publicPath: '../',
+    publicPath: 'auto',
     /**
      * 此选项允许加载具有自定义脚本类型的异步块，例如<script type="module" ...>。<br />
      * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />

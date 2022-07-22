@@ -1,1 +1,0 @@
-node TinifyToolByMultiThread.mjs&pause
