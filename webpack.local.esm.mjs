@@ -28,6 +28,8 @@ import {
   entryConfig,
   experimentsConfig,
   externalsConfig,
+  HTMLWebpackPlugin,
+  moduleConfig,
   nodeConfig,
   outputConfig,
   performanceConfig,
@@ -145,6 +147,7 @@ export default {
     level: 'info',
   },
   mode: 'development',
+  module: moduleConfig,
   /**
    * 配置的名称。加载多个配置时使用。<br />
    */
@@ -158,6 +161,8 @@ export default {
   parallelism: 100,
   performance: performanceConfig,
   plugins: [
+    // 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
+    ...HTMLWebpackPlugin,
     new webpack.ProvidePlugin( providePluginConfig ),
   ],
   /**

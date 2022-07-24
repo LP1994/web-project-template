@@ -1,7 +1,5 @@
-import $ from 'jquery';
-
 function component(){
-  $( 'h1' ).text( 'hello world!' );
+  document.querySelector( 'h1' ).textContent = 'Welcome to 2022!';
 }
 
 component();
