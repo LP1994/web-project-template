@@ -557,6 +557,8 @@ const aliasConfig = {
    *   {<br />
    *   name：string、[ string ]，打开指定浏览器的名，例如：[ 'Google Chrome', 'google-chrome', 'chrome', ]。<br />
    *   浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
+   *   实际测试，当name的值为数组时，只能对数组里第一个应用生效。<br />
+   *   在Windows上测试出能打开的Windows平台上这些浏览器应用名（不同系统应用名可能会不一样）：chrome、msedge、firefox、opera。<br />
    *   
    *   arguments：[ string ]，[ '--incognito', '--new-window', ]，打开浏览器应用时所传给它的参数，这些参数取决于浏览器应用。检查浏览器应用的文档以了解它接受哪些参数。<br />
    *   --incognito：以隐私模式打开浏览器。<br />
@@ -703,19 +705,69 @@ const aliasConfig = {
     hot: true,
     liveReload: true,
     open: [
+      // Windows平台上的Edge浏览器。
       {
         target: [
           `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
-            'chrome',
+            'msedge',
           ],
           arguments: [
             '--new-window',
           ],
         },
       },
+      // Windows平台上的Chrome浏览器。
+      /*
+       {
+       target: [
+       `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       ],
+       app: {
+       name: [
+       'chrome',
+       ],
+       arguments: [
+       '--new-window',
+       ],
+       },
+       },
+       */
+      // Windows平台上的Firefox浏览器。
+      /*
+       {
+       target: [
+       `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       ],
+       app: {
+       name: [
+       'firefox',
+       ],
+       arguments: [
+       '--new-window',
+       ],
+       },
+       },
+       */
+      // Windows平台上的Opera浏览器。
+      /*
+       {
+       target: [
+       `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       ],
+       app: {
+       name: [
+       'opera',
+       ],
+       arguments: [
+       '--new-window',
+       ],
+       },
+       },
+       */
+      // MacOS平台上的Chrome浏览器。
       {
         target: [
           `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
@@ -729,6 +781,7 @@ const aliasConfig = {
           ],
         },
       },
+      // Linux平台上的Chrome浏览器。
       {
         target: [
           `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
