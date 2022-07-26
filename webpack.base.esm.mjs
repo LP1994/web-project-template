@@ -32,7 +32,6 @@ import {
 
 import {
   argv,
-  env,
 } from 'node:process';
 
 import {
@@ -1931,13 +1930,13 @@ const aliasConfig = {
                        ? {
       nodeEnv: 'production',
       runtimeChunk: {
-        name: ( { name } ) => `Runtime_Chunk_${ name }`,
+        name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
     }
                        : {
       nodeEnv: 'development',
       runtimeChunk: {
-        name: ( { name } ) => `Runtime_Chunk_${ name }`,
+        name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
     },
   outputConfig = {

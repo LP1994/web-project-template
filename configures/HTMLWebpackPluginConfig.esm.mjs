@@ -17,17 +17,32 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import entryConfig from './EntryConfig.esm.mjs';
 
-function ExcludeChunks( entryName ){
-  const arr = [];
+function ExcludeChunks( currentEntryName ){
+  const str1 = typeof entryConfig;
 
-  Object.keys( entryConfig )
-  .forEach( item => {
-    if( item.trim() !== entryName.trim() ){
-      arr.push( item );
+  if( str1 === 'string' || Array.isArray( entryConfig ) || str1 === 'function' ){
+    return [];
+  }
+  else{
+    const currentEntryConfig = entryConfig[ currentEntryName ],
+      str2 = typeof currentEntryConfig;
+
+    if( str2 === 'string' || Array.isArray( currentEntryConfig ) || str2 === 'function' ){
+      return [];
     }
-  } );
+    else{
+      const obj1 = Object.fromEntries( Object.entries( Object.keys( entryConfig ) ).map( item => item.reverse() ) );
 
-  return arr;
+      [
+        currentEntryName,
+        currentEntryConfig.dependOn ?? [],
+      ].flat( Infinity ).forEach( item => {
+        delete obj1[ item ];
+      } );
+
+      return Object.keys( obj1 );
+    }
+  }
 }
 
 function HTMLWebpackPluginConfig( {
@@ -50,11 +65,9 @@ function HTMLWebpackPluginConfig( {
       title: 'Home',
       filename: 'pages/Home.html',
       template: './src/template/ejs/Home.ejs',
-      /*
-       excludeChunks: isSPA
-       ? []
-       : ExcludeChunks( 'Home' ),
-       */
+      excludeChunks: isSPA
+                     ? []
+                     : ExcludeChunks( 'Home' ),
       meta: {},
       data: {},
     },

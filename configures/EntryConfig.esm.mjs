@@ -9,8 +9,49 @@
 
 'use strict';
 
+import {
+  env,
+} from 'node:process';
+
+const isProduction = ( NODE_ENV => {
+  if( NODE_ENV === 'development' ){
+    return false;
+  }
+  else if( NODE_ENV === 'production' ){
+    return true;
+  }
+  else{
+    console.log( `process.env.NODE_ENV--->${ NODE_ENV }` );
+
+    throw new Error( 'isProduction该值依赖CLI参数中的“--node-env”参数，--node-env development（用于开发）、--node-env production（用于生产）。' );
+  }
+} )( env.NODE_ENV );
+
 /**
- * 开始应用程序捆绑过程的一个或多个点。如果传递了一个数组，则将处理所有项目。<br />
+ * 开发模式下会引入HMR相关的两个JS文件，生产模式不会引入它们。<br />
+ * 1、webpack/hot/dev-server.js。<br />
+ * 2、webpack-dev-server/client/index.js。<br />
+ *
+ * @param entryImport string|string[]
+ *
+ * @param isHMR boolean
+ *
+ * @returns {string|string[]}
+ */
+function HMR_Webpack5( entryImport, isHMR = true ){
+  if( isProduction || ( !isProduction && !isHMR ) ){
+    return entryImport;
+  }
+  else if( isHMR ){
+    return [
+      'webpack/hot/dev-server.js',
+      'webpack-dev-server/client/index.js',
+    ].concat( entryImport );
+  }
+}
+
+/**
+ * 开始应用程序捆绑过程的一个或多个点。如果传递了一个数组，则将处理所有项目，强烈要求以Object的配置来配置入口点！<br />
  * 1、动态加载的模块不是入口点。<br />
  * 2、需要考虑的规则：每个HTML页面有一个入口点。SPA：一个入口点，MPA：多个入口点。<br />
  * 3、允许为每个入口点设置不同类型的文件，如：entry: { a: [ './a.js', './a.css', ], }，这种设置，会在输出目录下生成对应的JS、CSS文件。<br />
@@ -25,11 +66,11 @@
  * 
  * chunkLoading：同output.chunkLoading。<br />
  * 
- * dependOn：[ string ]，当前入口点所依赖的入口点。加载此入口点时，必须加载它们。<br />
+ * dependOn：string、[ string ]，当前入口点所依赖的入口点。加载此入口点时，必须加载它们。<br />
  * 
  * filename：同output.filename。<br />
  * 
- * import：[ string ]，启动时加载的模块。<br />
+ * import：string、[ string ]，启动时加载的模块。<br />
  * 
  * layer：string，指定放置此入口点模块的层。<br />
  * 
@@ -43,27 +84,15 @@
  * }<br />
  */
 const entryConfig = {
-  HMR_Webpack5: {
-    import: [
-      'webpack/hot/dev-server.js',
-      'webpack-dev-server/client/index.js',
-    ],
-  },
   HelloWorld: {
-    import: [
+    import: HMR_Webpack5( [
       './src/pages/hello_world/HelloWorld.js',
-    ],
-    dependOn: [
-      'HMR_Webpack5',
-    ],
+    ], true ),
   },
   Home: {
-    import: [
+    import: HMR_Webpack5( [
       './src/pages/home/Home.js',
-    ],
-    dependOn: [
-      'HMR_Webpack5',
-    ],
+    ], true ),
   },
 };
 
