@@ -18,8 +18,15 @@
 const path = require( 'node:path' ),
   webpack = require( 'webpack' );
 
+const {
+  isProduction
+} = require( './webpack.base.esm.mjs' );
+
 module.exports = {
   plugins: [
+    new webpack.DefinePlugin( {
+      isProduction: JSON.stringify( isProduction ),
+    } ),
     /**
      * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
      * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />

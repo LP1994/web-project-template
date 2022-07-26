@@ -9,6 +9,12 @@
 
 /**
  * 该文件里的配置都是webpack中公共部分的配置，供webpack.dev.mjs、webpack.local.mjs、webpack.production.mjs、webpack.test.mjs使用。
+ * 1、当需要将代码转换成兼容比较旧的平台时，需要修改：
+ * 顶级配置项：experiments、target。
+ * output.environment。
+ * vue-loader:options.transpileOptions.target。
+ * vue-loader:options.transpileOptions.transforms。
+ * tsconfig.json中的compilerOptions.module、compilerOptions.target。
  */
 
 'use strict';
@@ -42,7 +48,7 @@ import {
   httpHeaders,
 } from './configures/GlobalParameters.esm.mjs';
 
-import HtmlWebpackPluginConfig from './configures/HtmlWebpackPluginConfig.esm.mjs';
+import HTMLWebpackPluginConfig from './configures/HTMLWebpackPluginConfig.esm.mjs';
 
 import proxyConfig from './configures/ProxyConfig.esm.mjs';
 
@@ -72,8 +78,25 @@ function Get__filename( import_meta_url = import.meta.url ){
  * 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url ),
+  browserslist = [
+    // 至20220724的各PC端主流浏览器的最新版本。Start
+    'Chrome >= 103',
+    'Edge >= 103',
+    'Firefox >= 102',
+    'Safari >= 15',
+    'Opera >= 89',
+    // 至20220724的各PC端主流浏览器的最新版本。End
+
+    // 至20220724的各移动端主流浏览器的最新版本。Start
+    'ChromeAndroid >= 103',
+    'Android >= 103',
+    'FirefoxAndroid >= 102',
+    'iOS >= 15',
+    // 至20220724的各移动端主流浏览器的最新版本。End
+  ],
   /**
-   * isProduction的值为true时表示生成环境，反之开发环境。<br />
+   * isProduction的值为true时表示生成环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
+   * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
    */
   isProduction = ( argv => {
     const num1 = argv.findIndex( c => c === '--mode' );
@@ -90,7 +113,7 @@ const __dirname = Get__dirname( import.meta.url ),
       else{
         console.dir( argv );
 
-        throw new Error( 'CLI参数中紧跟在“--mode”之后的，只能是development、production。' );
+        throw new Error( 'CLI参数中紧跟在“--mode”之后的，只能是development（用于开发）、production（用于生产）。有效的“--mode”参数设置是：--mode development、--mode production。' );
       }
     }
     else{
@@ -166,9 +189,59 @@ const __dirname = Get__dirname( import.meta.url ),
     useShortDoctype: false,
   },
   /**
-   * node_env的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数。<br />
+   * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
+   * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
    */
-  node_env = env.NODE_ENV,
+  env_platform = ( argv => {
+    const envArr = [];
+
+    argv.forEach( ( item, index ) => {
+      if( item === '--env' ){
+        envArr.push( argv.at( index + 1 ) );
+      }
+    } );
+
+    if( envArr.length === 0 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中没找到“--env”参数。注意“--env”参数是允许多个的哦。' );
+    }
+
+    const platformArr = [];
+
+    envArr.forEach( item => {
+      if( item.startsWith( 'platform=' ) ){
+        platformArr.push( item );
+      }
+    } );
+
+    if( platformArr.length === 0 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。注意“--env”参数是允许多个的哦。' );
+    }
+    else if( platformArr.length > 1 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值有且只能有一个，该值一般是这4个中的一个：platform=dev_server、platform=local_server、platform=test、platform=production。注意“--env”参数是允许多个的哦。' );
+    }
+
+    const str = platformArr.at( 0 ).replace( 'platform=', '' ).trim();
+
+    if( [
+      'dev_server',
+      'local_server',
+      'test',
+      'production',
+    ].includes( str ) ){
+      return str;
+    }
+    else{
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
+    }
+  } )( argv ),
   watchIgnoredArr = [
     resolve( __dirname, './.git/' ),
     resolve( __dirname, './.idea/' ),
@@ -199,6 +272,18 @@ const aliasConfig = {
     'swiper-css$': 'swiper/swiper-bundle.min.css',
   },
   /**
+   * DefinePlugin在编译时用其他值或表达式替换代码中的变量。这对于允许开发构建和生产构建之间的不同行为很有用。<br />
+   * 1、传递给DefinePlugin的每个键都是一个标识符或多个用.连接的标识符：'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)。<br />
+   * 2、如果该值是一个字符串，它将被用作代码片段：TWO: '1+1'。<br />
+   * 3、如果值不是字符串，它将被字符串化（包括函数）。<br />
+   * 4、如果你在key前加上typeof前缀，它只为typeof调用定义：'typeof window': JSON.stringify('object111')。<br />
+   * 5、如果需要定义一个值是字符串值，得单引号内部嵌套双引号，如：'"例子"'（或者JSON.stringify('例子')），否则没法真正输出这个字符串。<br />
+   * 6、如果值不是字符串，它将被字符串化，相当于使用JSON.stringify处理，但是如果是函数，直接这么设置就行，别用JSON.stringify：'fun1': () => {}。<br />
+   */
+  definePluginConfig = {
+    isProduction: JSON.stringify( isProduction ),
+  },
+  /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
    * 1、如果您通过Node.js API使用dev-server，则devServer中的选项将被忽略。<br />
    * 2、使用WebpackDevServer时不能使用第2个编译器参数（系一个回调函数）。<br />
@@ -220,7 +305,7 @@ const aliasConfig = {
    * 1、有效值类型有2种：boolean（true表示启用，false表示禁用）、object。<br />
    * 
    * client：允许在浏览器中为客户端脚本指定选项或禁用客户端脚本。<br />
-   * 1、有效值类型有2种：boolean（true表示启用，false表示禁用）、object。<br />
+   * 1、有效值类型有2种：boolean（只有一个有效可用的false用来表示禁用，true会报错！）、object。<br />
    * 2、当为object时，其选项如下：<br />
    *   {<br />
    *   logging：允许在浏览器中设置日志级别，例如在重新加载之前、发生错误之前或启用热模块更换时。<br />
@@ -263,7 +348,7 @@ const aliasConfig = {
    *     webSocketServer: require.resolve('./CustomServer'),
    *     }
    *     
-   *   webSocketURL：此选项允许指 Web套接字服务器的URL（当您代理开发服务器并且客户端脚本并不总是知道连接到哪里时很有用）。<br />
+   *   webSocketURL：此选项允许指Web套接字服务器的URL（当您代理开发服务器并且客户端脚本并不总是知道连接到哪里时很有用）。<br />
    *     1)有效值类型有2种：string（如：'ws://0.0.0.0:8080/ws'）、object。<br />
    *     2)为object时，有如下选项：<br />
    *     {<br />
@@ -358,7 +443,7 @@ const aliasConfig = {
    * index：覆盖索引（默认/index.html），这是中间件识别请求路径需要重写时将使用的请求路径。<br />
    *   1)这不是磁盘上文件的路径。相反它是HTTP请求路径。下游connect/express中间件负责将这个重写的HTTP请求路径转换为实际响应，例如通过从磁盘读取文件。<br />
    *   2)有效值类型：string，默认值'/index.html'。<br />
-   * 
+   *
    * rewrites：当请求url匹配正则表达式模式时覆盖索引，您可以重写为“静态字符串”或使用“函数”来转换传入请求。<br />
    *   1)下面会将匹配/\/soccer/模式的请求重写为/soccer.html：<br />
    *   rewrites: [ { from: /\/soccer/, to: '/soccer.html' }, ]
@@ -610,18 +695,18 @@ const aliasConfig = {
         'TRACE',
         'PATCH',
       ],
-      publicPath: `/${ node_env }`,
+      publicPath: `/${ env_platform }`,
       writeToDisk: true,
     },
     headers: httpHeaders,
-    historyApiFallback: false,
+    historyApiFallback: true,
     host: '0.0.0.0',
-    hot: false,
+    hot: true,
     liveReload: true,
     open: [
       {
         target: [
-          `http://${ devServerGlobalParameters[ node_env ]?.host }:${ devServerGlobalParameters[ node_env ]?.port }/${ node_env }/pages/HelloWorld.html`,
+          `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
@@ -634,7 +719,7 @@ const aliasConfig = {
       },
       {
         target: [
-          `http://${ devServerGlobalParameters[ node_env ]?.host }:${ devServerGlobalParameters[ node_env ]?.port }/${ node_env }/pages/HelloWorld.html`,
+          `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
@@ -647,7 +732,7 @@ const aliasConfig = {
       },
       {
         target: [
-          `http://${ devServerGlobalParameters[ node_env ]?.host }:${ devServerGlobalParameters[ node_env ]?.port }/${ node_env }/pages/HelloWorld.html`,
+          `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
@@ -659,7 +744,7 @@ const aliasConfig = {
         },
       },
     ],
-    port: devServerGlobalParameters[ node_env ]?.port,
+    port: devServerGlobalParameters[ env_platform ]?.port,
     proxy: proxyConfig,
     server: {
       type: 'http',
@@ -685,7 +770,7 @@ const aliasConfig = {
 
         res.setHeader( 'Content-Type', mime.getType( req.url ) );
         res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
-        res.setHeader( 'x-dev-type', `${ node_env }` );
+        res.setHeader( 'x-dev-type', `${ env_platform }` );
 
         Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
           res.setHeader( keyName, keyValue );
@@ -726,7 +811,7 @@ const aliasConfig = {
         middleware: ( req, res ) => {
           res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
           res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
-          res.setHeader( 'x-dev-type', `${ node_env }` );
+          res.setHeader( 'x-dev-type', `${ env_platform }` );
 
           Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
             res.setHeader( keyName, keyValue );
@@ -764,7 +849,7 @@ const aliasConfig = {
         middleware: ( req, res ) => {
           res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
           res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
-          res.setHeader( 'x-dev-type', `${ node_env }` );
+          res.setHeader( 'x-dev-type', `${ env_platform }` );
 
           Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
             res.setHeader( keyName, keyValue );
@@ -808,7 +893,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -840,7 +925,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -872,7 +957,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -904,7 +989,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -936,7 +1021,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -968,7 +1053,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -1000,7 +1085,7 @@ const aliasConfig = {
           redirect: true,
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ node_env }` );
+            res.set( 'x-dev-type', `${ env_platform }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
@@ -1017,7 +1102,7 @@ const aliasConfig = {
       },
     ],
     watchFiles: [
-      'src/**/*',
+      'src/**/*.*',
     ],
     webSocketServer: 'ws',
   },
@@ -1064,9 +1149,9 @@ const aliasConfig = {
       allowedUris: [
         new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*/ ),
       ],
-      cacheLocation: join( __dirname, `./webpack_location/lockfile_cache/${ node_env }/` ),
+      cacheLocation: join( __dirname, `./webpack_location/lockfile_cache/${ env_platform }/` ),
       frozen: true,
-      lockfileLocation: join( __dirname, `./webpack_location/lockfile_cache/${ node_env }/` ),
+      lockfileLocation: join( __dirname, `./webpack_location/lockfile_cache/${ env_platform }/` ),
       upgrade: true,
     },
     /**
@@ -1201,9 +1286,166 @@ const aliasConfig = {
     // echarts: 'window.echarts',
   },
   /**
+   * 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
+   * 1、如果您使用ts-loader < 9.3.0，请添加transpileOnly: true。<br />
+   * 2、请务必注意，此插件使用TypeScript，而不是webpack的模块解析。这意味着您必须正确设置tsconfig.json。<br />
+   * 3、这是因为性能——使用TypeScript的模块解析，我们不必等待webpack编译文件。<br />
+   * 4、要调试TypeScript的模块解析，可以使用tsc --traceResolution命令（会打印出详细的模块解析信息）。<br />
+   * 5、这个插件使用cosmiconfig。这意味着除了插件构造函数之外，您还可以将配置放在：<br />
+   * package.json 中的“fork-ts-checker”字段。<br />
+   * JSON或YAML格式的.fork-ts-checkerrc文件。<br />
+   * 导出JS对象的fork-ts-checker.config.js文件。<br />
+   * 6、传递给插件构造函数的选项将覆盖cosmiconfig中的选项（使用deepmerge）。<br />
+   */
+  forkTsCheckerWebpackPluginConfig = {
+    // 如果为true，则在完成webpack的编译后报告问题。因此，它不会阻止编译。仅在"watch"模式下使用。
+    async: !isProduction,
+    typescript: {
+      // 检查器进程的内存限制（以MB为单位）。如果进程退出并出现分配失败错误，请尝试增加此数字。
+      memoryLimit: 10 * 1024,
+      // tsconfig.json的路径。默认情况下，插件使用上下文或process.cwd()来本地化tsconfig.json文件。
+      configFile: resolve( __dirname, './tsconfig.json' ),
+      context: resolve( __dirname, './' ),
+      // 相当于tsc命令的--build标志。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。
+      build: false,
+      /**
+       * 该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。有4个内置字符串值："readonly"、"write-tsbuildinfo"、"write-dts"、"write-references"。<br />
+       * 1、如果您不想在磁盘上写入任何内容，请使用readonly。<br />
+       * 2、write-dts仅写入.d.ts文件，write-tsbuildinfo仅写入.tsbuildinfo文件。<br />
+       * 3、write-references用于编写项目引用的.js和.d.ts文件（最后2种模式需要build:true）。<br />
+       * 4、如果使用“babel-loader”，建议使用"write-references"模式来提高初始编译时间。如果使用“ts-loader”，建议使用"write-tsbuildinfo"模式，以不覆盖“ts-loader”发出的文件。<br />
+       * 5、默认值：build === true ? 'write-tsbuildinfo' ? 'readonly'。<br />
+       */
+      mode: 'readonly',
+      // 用于选择我们要执行哪些诊断的设置。
+      diagnosticOptions: {
+        // 句法。
+        syntactic: true,
+        // 语义。
+        semantic: true,
+        // 声明。
+        declaration: true,
+        // 全局。
+        global: true,
+      },
+      // TypeScript检查器扩展的选项（typescript.extensions选项对象）。
+      extensions: {
+        vue: {
+          enabled: true,
+          /**
+           * 将用于解析.vue文件的编译器的包名。如果您使用nativescript-vue，则可以使用“nativescript-vue-template-compiler”。<br />
+           * 1、vue 2.x使用的模板编译器是vue-template-compiler，但是vue 3.x用的是@vue/compiler-sfc。<br />
+           */
+          compiler: '@vue/compiler-sfc',
+        },
+      },
+      // 测量并打印与TypeScript性能相关的计时。
+      profile: false,
+      // 如果提供，这是可以在其中找到TypeScript的自定义路径。
+      typescriptPath: resolve( __dirname, './node_modules/typescript/lib/typescript.js' ),
+    },
+    issue: {
+      include: [
+        {
+          file: '**/src/**/*.ts',
+        },
+        {
+          file: '**/src/**/*.cts',
+        },
+        {
+          file: '**/src/**/*.mts',
+        },
+        {
+          file: '**/src/**/*.tsx',
+        },
+        {
+          file: '**/src/**/*.ts.vue',
+        },
+        {
+          file: '**/src/**/*.cts.vue',
+        },
+        {
+          file: '**/src/**/*.mts.vue',
+        },
+        {
+          file: '**/src/**/*.tsx.vue',
+        },
+      ],
+      exclude: [
+        {
+          file: '**/*.spec.ts',
+        },
+        {
+          file: '**/*.spec.cts',
+        },
+        {
+          file: '**/*.spec.mts',
+        },
+        {
+          file: '**/*.spec.tsx',
+        },
+        {
+          file: '**/*.spec.d.ts',
+        },
+        {
+          file: '**/*.spec.d.cts',
+        },
+        {
+          file: '**/*.spec.d.mts',
+        },
+        {
+          file: '**/*.spec.ts.vue',
+        },
+        {
+          file: '**/*.spec.cts.vue',
+        },
+        {
+          file: '**/*.spec.mts.vue',
+        },
+        {
+          file: '**/*.spec.tsx.vue',
+        },
+      ],
+    },
+    formatter: {
+      type: 'codeframe',
+      options: {
+        // boolean, defaults to false。切换语法，将代码突出显示为终端的JavaScript。
+        highlightCode: true,
+        //  number, defaults to 2。调整行数以显示在错误上方。
+        linesAbove: 2,
+        // number, defaults to 3。调整行数以显示在错误下方。
+        linesBelow: 3,
+        // boolean, defaults to false。启用此选项以强制将代码语法高亮为JavaScript（对于非终端）；覆盖highlightCode选项。
+        forceColor: true,
+        // string。传入要在代码中突出显示的位置旁边内联显示的字符串（如果可能）。如果它不能内联定位，它将被放置在代码框的上方。
+        message: '来自forkTsCheckerWebpackPlugin.formatter.options.message',
+      },
+    },
+    logger: 'webpack-infrastructure',
+    // 如果设置为false，则不会向Webpack Dev Server报告错误。
+    devServer: !isProduction,
+  },
+  /**
+   * 该插件将通知您第一次运行（成功/失败）、所有失败的运行以及从构建失败中恢复后的第一次成功运行。换句话说：如果您的构建一切正常，它将保持沉默。<br />
+   * 1、带插件必须依赖forkTsCheckerWebpackPlugin，在forkTsCheckerWebpackPlugin之后执行。<br />
+   */
+  forkTsCheckerNotifierWebpackPluginConfig = {
+    // 通知中显示的标题前缀。
+    title: 'TS构建出错！',
+    // 如果设置为true，警告将不会导致通知。
+    excludeWarnings: true,
+    // 每次触发通知。称之为“嘈杂模式”。
+    alwaysNotify: false,
+    // 不要在第一次构建时通知。这允许您接收后续增量构建的通知，而不会收到初始构建的通知。
+    skipFirstNotification: false,
+    // 跳过成功构建的通知。
+    skipSuccessful: true,
+  },
+  /**
    * 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
    */
-  HTMLWebpackPlugin = HtmlWebpackPluginConfig( {
+  htmlWebpackPluginConfig = HTMLWebpackPluginConfig( {
     isProduction,
     isSPA,
     HTMLMinifyConfig,
@@ -1468,6 +1710,11 @@ const aliasConfig = {
       // html-loader，将HTML导出为字符串。当编译器需要时，HTML会被最小化。
       {
         test: /\.(htm|html|xhtml)$/i,
+        /**
+         * 当使用“webpack 5”时，需要这个属性，否则后面的“vue-loader”会报错！<br />
+         * 1、对于“vue-loader”而言，只要这个值不会被转换成“假值”就能成功使用“vue-loader”。<br />
+         */
+        enforce: 'pre',
         // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
         use: [
           {
@@ -1501,8 +1748,198 @@ const aliasConfig = {
           resolve( __dirname, './src/template/ejs/' ),
         ],
       },
+      // vue-loader。
+      {
+        test: /\.vue$/i,
+        // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+        use: [
+          {
+            loader: 'vue-loader',
+            options: {
+              transformAssetUrls: {
+                video: [
+                  'src',
+                  'poster',
+                ],
+                source: 'src',
+                img: 'src',
+                image: [
+                  'xlink:href',
+                  'href',
+                ],
+                use: [
+                  'xlink:href',
+                  'href',
+                ],
+                audio: 'src',
+              },
+              compilerOptions: {
+                whitespace: !isProduction
+                            ? 'preserve'
+                            : 'condense',
+              },
+              transpileOptions: {
+                target: {
+                  // 至20220724的各PC端主流浏览器的最新版本。Start
+                  chrome: 103,
+                  edge: 103,
+                  firefox: 102,
+                  safari: 15,
+                  opera: 89,
+                  // 至20220724的各PC端主流浏览器的最新版本。End
+
+                  // 至20220724的各移动端主流浏览器的最新版本。Start
+                  and_chr: 103,
+                  android: 103,
+                  and_ff: 102,
+                  ios_saf: 15,
+                  // 至20220724的各PC端主流浏览器的最新版本。End
+                },
+                // transforms里的选项值，true表示转换特性，false表示直接使用该特性。
+                transforms: {
+                  arrow: false,
+                  classes: false,
+                  collections: false,
+                  computedProperty: false,
+                  conciseMethodProperty: false,
+                  constLoop: false,
+                  // 危险的转换！设置成false会直接使用该特性！
+                  dangerousForOf: false,
+                  // 危险的转换！设置成false会直接使用该特性！
+                  dangerousTaggedTemplateString: false,
+                  defaultParameter: false,
+                  destructuring: false,
+                  forOf: false,
+                  generator: false,
+                  letConst: false,
+                  modules: false,
+                  numericLiteral: false,
+                  parameterDestructuring: false,
+                  reservedProperties: false,
+                  spreadRest: false,
+                  stickyRegExp: false,
+                  templateString: false,
+                  unicodeRegExp: false,
+                  exponentiation: false,
+                },
+                // 对于IE 8需要将它设置成namedFunctionExpressions: false。
+                namedFunctionExpressions: true,
+              },
+              prettify: !isProduction,
+              exposeFilename: !isProduction,
+              // vue-loader v16+才有的选项。Start
+              /**
+               * 在使用Vue的反应性API时，引入一组编译器转换来改善人体工程学，特别是能够使用没有.value的refs。<br />
+               * 1、具体可阅https://github.com/vuejs/rfcs/discussions/369 <br />
+               * 2、仅在SFC中生效。<br />
+               */
+              reactivityTransform: true,
+              /**
+               * 启用自定义元素模式。在自定义元素模式下加载的SFC将其<style>标记内联为组件样式选项下的字符串。<br />
+               * 1、当与Vue核心的defineCustomElement一起使用时，样式将被注入到自定义元素的阴影根中。<br />
+               * 2、默认值为：/\.ce\.vue$/。<br />
+               * 3、该选项的值类型为：boolean、RegExp。<br />
+               * 4、设置为true将以“自定义元素模式”处理所有.vue文件。<br />
+               */
+              // customElement: /\.ce\.vue$/,
+              /**
+               * vue-loader v16.8+启用，当<script>有lang="ts"时，允许模板中的TS表达式。默认为真。<br />
+               * 1、当与ts-loader一起使用时，由于ts-loader的缓存失效行为，它有时会阻止模板被单独热重新加载，从而导致组件重新加载，尽管只编辑了模板。<br />
+               * 2、如果这很烦人，您可以将此选项设置为false（并避免在模板中使用TS表达式）。<br />
+               * 3、或者，保留此选项（默认情况下）并使用esbuild-loader转译TS，这样就不会遇到这个问题（它也快得多）。<br />
+               * 4、但是，请注意您将需要依赖其他来源（例如IDE或vue-tsc）的TS类型检查。<br />
+               */
+              enableTsInTemplate: true,
+              // vue-loader v16+才有的选项。End
+            },
+          },
+        ],
+        include: [
+          resolve( __dirname, './src/' ),
+        ],
+        exclude: [
+          resolve( __dirname, './src/assets/' ),
+          resolve( __dirname, './src/graphQL/' ),
+          resolve( __dirname, './src/native_components/' ),
+          resolve( __dirname, './src/pwa_manifest/' ),
+          resolve( __dirname, './src/script_tools/' ),
+          resolve( __dirname, './src/static/' ),
+          resolve( __dirname, './src/styles/' ),
+          resolve( __dirname, './src/wasm/' ),
+          resolve( __dirname, './src/web_components/' ),
+          resolve( __dirname, './src/workers/' ),
+        ],
+      },
+      // 处理ts、tsx。
+      {
+        test: /\.ts(x?)$/i,
+        // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+              transpileOnly: true,
+              // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
+              happyPackMode: true,
+              logInfoToStdOut: false,
+              logLevel: 'error',
+              // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
+              silent: true,
+              // 仅报告与这些glob模式匹配的文件的错误。
+              reportFiles: [
+                'src/**/*.{ts,cts,mts,tsx}',
+                'src/**/*.ts.vue',
+                'src/**/*.cts.vue',
+                'src/**/*.mts.vue',
+                'src/**/*.tsx.vue',
+              ],
+              // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
+              compiler: 'typescript',
+              // 允许您指定在哪里可以找到TypeScript配置文件。
+              configFile: resolve( __dirname, './tsconfig.json' ),
+              colors: true,
+              appendTsSuffixTo: [],
+              appendTsxSuffixTo: [],
+              onlyCompileBundledFiles: true,
+              allowTsInNodeModules: false,
+              context: resolve( __dirname, './' ),
+              experimentalFileCaching: true,
+              projectReferences: true,
+            },
+          },
+        ],
+        include: [
+          resolve( __dirname, './src/' ),
+        ],
+        exclude: [
+          resolve( __dirname, './src/assets/' ),
+          resolve( __dirname, './src/graphQL/' ),
+          resolve( __dirname, './src/native_components/' ),
+          resolve( __dirname, './src/pwa_manifest/' ),
+          resolve( __dirname, './src/script_tools/' ),
+          resolve( __dirname, './src/static/' ),
+          resolve( __dirname, './src/styles/' ),
+          resolve( __dirname, './src/wasm/' ),
+          resolve( __dirname, './src/web_components/' ),
+          resolve( __dirname, './src/workers/' ),
+        ],
+      },
     ],
   },
+  optimizationConfig = isProduction
+                       ? {
+      nodeEnv: 'production',
+      runtimeChunk: {
+        name: ( { name } ) => `Runtime_Chunk_${ name }`,
+      },
+    }
+                       : {
+      nodeEnv: 'development',
+      runtimeChunk: {
+        name: ( { name } ) => `Runtime_Chunk_${ name }`,
+      },
+    },
   outputConfig = {
     /**
      * 与output.filename相同，但用于资产模块。<br />
@@ -1513,7 +1950,7 @@ const aliasConfig = {
      * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
      * 1、请注意，这些文件名需要在运行时生成以发送对块的请求。<br />
      */
-    chunkFilename: 'js/[name]_chunk_[contenthash:16].js',
+    chunkFilename: 'js/[name]_Chunk_[contenthash:16].js',
     /**
      * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)，但其他格式可能由插件添加。<br />
      */
@@ -1551,7 +1988,7 @@ const aliasConfig = {
       /**
        * The environment supports BigInt as literal (123n).<br />
        */
-      bigIntLiteral: false,
+      bigIntLiteral: true,
       /**
        * The environment supports const and let for variable declarations.<br />
        */
@@ -1559,11 +1996,11 @@ const aliasConfig = {
       /**
        * The environment supports destructuring ('{ a, b } = obj').<br />
        */
-      destructuring: false,
+      destructuring: true,
       /**
        * The environment supports an async import() function to import EcmaScript modules.<br />
        */
-      dynamicImport: false,
+      dynamicImport: true,
       /**
        * The environment supports 'for of' iteration ('for (const x of array) { ... }').<br />
        */
@@ -1571,11 +2008,11 @@ const aliasConfig = {
       /**
        * The environment supports ECMAScript Module syntax to import ECMAScript modules (import ... from '...').<br />
        */
-      module: false,
+      module: true,
       /**
        * The environment supports optional chaining ('obj?.a' or 'obj?.()').<br />
        */
-      optionalChaining: false,
+      optionalChaining: true,
       /**
        * The environment supports template literals.<br />
        */
@@ -1587,7 +2024,7 @@ const aliasConfig = {
      * 2、请注意，此选项不会影响按需加载块的输出文件。它只影响最初加载的输出文件。<br />
      * 3、对于按需加载的块文件，使用output.chunkFilename选项。加载程序创建的文件也不受影响。在这种情况下，您必须尝试特定加载程序的可用选项。<br />
      */
-    filename: 'js/[name]_bundle_[contenthash:16].js',
+    filename: 'js/[name]_Bundle_[contenthash:16].js',
     hashDigest: 'hex',
     /**
      * 对于webpack v5.65.0+，当启用experiments.futureDefaults时，16将用作hashDigestLength选项的默认值。<br />
@@ -1612,7 +2049,7 @@ const aliasConfig = {
      * 输出目录为绝对路径。<br />
      * 1、注意这个参数中的[fullhash]将被替换为编译的哈希值。有关详细信息，请参阅缓存指南（https://webpack.js.org/guides/caching/）。<br />
      */
-    path: resolve( __dirname, `./dist/${ node_env }/` ),
+    path: resolve( __dirname, `./dist/${ env_platform }/` ),
     /**
      * 告诉webpack在bundle中包含关于所包含模块的信息的注释。<br />
      * 1、此选项在开发模式下默认为true，在生产模式下默认为false。 “verbose”显示更多信息，如导出、运行时要求和救助。<br />
@@ -1639,7 +2076,7 @@ const aliasConfig = {
      * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />
      */
     scriptType: 'text/javascript',
-    sourceMapFilename: 'js/[name]_map_[contenthash:16].map',
+    sourceMapFilename: 'js/[name]_Map_[contenthash:16].map',
     /**
      * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
@@ -1787,17 +2224,21 @@ export {
   __dirname,
   isProduction,
   isSPA,
-  node_env,
+  env_platform,
   watchIgnoredArr,
 
   aliasConfig,
+  definePluginConfig,
   devServerConfig,
   entryConfig,
   experimentsConfig,
   externalsConfig,
-  HTMLWebpackPlugin,
+  forkTsCheckerWebpackPluginConfig,
+  forkTsCheckerNotifierWebpackPluginConfig,
+  htmlWebpackPluginConfig,
   moduleConfig,
   nodeConfig,
+  optimizationConfig,
   outputConfig,
   performanceConfig,
   providePluginConfig,
@@ -1813,17 +2254,21 @@ export default {
   __dirname,
   isProduction,
   isSPA,
-  node_env,
+  env_platform,
   watchIgnoredArr,
 
   aliasConfig,
+  definePluginConfig,
   devServerConfig,
   entryConfig,
   experimentsConfig,
   externalsConfig,
-  HTMLWebpackPlugin,
+  forkTsCheckerWebpackPluginConfig,
+  forkTsCheckerNotifierWebpackPluginConfig,
+  htmlWebpackPluginConfig,
   moduleConfig,
   nodeConfig,
+  optimizationConfig,
   outputConfig,
   performanceConfig,
   providePluginConfig,

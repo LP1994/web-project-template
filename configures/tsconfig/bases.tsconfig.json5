@@ -345,9 +345,9 @@
     preserve：保留其值或类型从未使用过的所有导入语句。这可能会导致保留导入/副作用。
     error：这会保留所有导入（与 preserve 选项相同），但当值导入仅用作类型时会出错。如果您想确保没有意外导入任何值，但仍使副作用导入显式，这可能很有用。
     2、此标志有效，因为您可以使用导入类型显式创建一个永远不应发送到JavaScript中的导入语句。
-    3、优先设置成“remove”，《但是fork-ts-checker-webpack-plugin插件建议设置成“preserve”，如果TypeScript >= 3.8.0的话》，最新的fork-ts-checker-webpack-plugin版本中没有这个要求了。
+    3、优先设置成“remove”，《但是fork-ts-checker-webpack-plugin插件建议设置成“preserve”，如果TypeScript >= 3.8.0的话》。
     */
-    "importsNotUsedAsValues": "remove",
+    "importsNotUsedAsValues": "preserve",
     /*
     在发出的JavaScript中包含sourceMap文件。
     1、与sourceMap互斥。
@@ -555,18 +555,18 @@
     react-jsx：React 17，将JSX更改为_jsx调用时发出.js文件。
     react-jsxdev：React 17 dev，将JSX更改为_jsx调用时发出.js文件。
     */
-    "jsx": "react",
+    "jsx": "preserve",
     /*
     在使用经典JSX运行时编译JSX Elements时更改在.js文件中调用的函数。如果使用preact，最常见的更改是使用“h”或“preact.h”而不是默认的“React.createElement”。
     1、该属性不能和“reactNamespace”一起使用！默认值是：React.createElement。
     */
-    "jsxFactory": "React.createElement",
+    "jsxFactory": "h",
     /*
     指定针对React JSX emit时用于片段的JSX片段引用，例如“React.Fragment”或“Fragment”。
     1、指定当使用jsxFactory编译器选项指定react JSX发射时要使用的JSX片段工厂函数，例如分段。
     2、默认值：React.Fragment。
     */
-    "jsxFragmentFactory": "React.Fragment",
+    "jsxFragmentFactory": "Fragment",
     /*
     指定使用“jsx: react-jsx”时用于导入JSX工厂函数的模块说明符。
     1、当将jsx用作TypeScript 4.1中引入的“react-jsx”或“react-jsxdev”时，声明用于导入jsx和jsxs工厂函数的模块说明符。默认值：react。
@@ -807,6 +807,7 @@
     2、在“-incremental”和“-watch”中进行重新编译假定文件中的更改只会直接影响依赖于它的文件。需要TypeScript版本3.8或更高版本。
     */
     "assumeChangesOnlyAffectDirectDependencies": true,
+    "generateTrace": "./ts_compiled/"
   },
   /*
   您可以配置TypeScript --watch的工作方式。本节主要用于处理fs.watch和fs.watchFile具有附加约束的情况，例如在Linux上。您可以在“Configuring Watch”中阅读更多内容。

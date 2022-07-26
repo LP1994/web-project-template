@@ -1,5 +1,12 @@
-function component(){
-  document.querySelector( 'h1' ).textContent = 'Welcome to 2022!';
-}
+/**
+ * Author: 12278
+ * CreateDate: 2022-01-01 00:00:00 星期六
+ * Email: 1227839175@qq.com
+ * FileDirPath: src/pages/hello_world/HelloWorld.js
+ * IDE: WebStorm
+ * Project: web-project-template
+ */
 
-component();
+'use strict';
+
+document.querySelector( 'h1' ).textContent = 'Welcome to 2022!';

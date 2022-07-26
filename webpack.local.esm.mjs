@@ -18,19 +18,32 @@ import {
   resolve,
 } from 'node:path';
 
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+
+import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
+
+import {
+  VueLoaderPlugin,
+} from 'vue-loader';
+
 import webpack from 'webpack';
 
 import {
   __dirname,
+  watchIgnoredArr,
 
   aliasConfig,
+  definePluginConfig,
   devServerConfig,
   entryConfig,
   experimentsConfig,
   externalsConfig,
-  HTMLWebpackPlugin,
+  forkTsCheckerWebpackPluginConfig,
+  forkTsCheckerNotifierWebpackPluginConfig,
+  htmlWebpackPluginConfig,
   moduleConfig,
   nodeConfig,
+  optimizationConfig,
   outputConfig,
   performanceConfig,
   providePluginConfig,
@@ -153,6 +166,7 @@ export default {
    */
   name: 'webpack.local.esm.mjs',
   node: nodeConfig,
+  optimization: optimizationConfig,
   output: outputConfig,
   /**
    * 限制并行处理模块的数量。可用于微调性能或获得更可靠的分析结果。<br />
@@ -162,8 +176,20 @@ export default {
   performance: performanceConfig,
   plugins: [
     // 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
-    ...HTMLWebpackPlugin,
+    ...htmlWebpackPluginConfig,
+
+    // 插件顺序很重要。错误的顺序将导致一些钩子未定义并且生成失败。该插件需要在ForkTsCheckerWebpackPlugin之前生效执行。
+    new VueLoaderPlugin(),
+
+    // 插件顺序很重要。错误的顺序将导致一些钩子未定义并且生成失败。ForkTsCheckerWebpackPlugin必须在ForkTsCheckerNotifierWebpackPlugin之前生效执行。
+    new ForkTsCheckerWebpackPlugin( forkTsCheckerWebpackPluginConfig ),
+    new ForkTsCheckerNotifierWebpackPlugin( forkTsCheckerNotifierWebpackPluginConfig ),
+
+    new webpack.DefinePlugin( definePluginConfig ),
     new webpack.ProvidePlugin( providePluginConfig ),
+    new webpack.WatchIgnorePlugin( {
+      paths: watchIgnoredArr,
+    } ),
   ],
   /**
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />

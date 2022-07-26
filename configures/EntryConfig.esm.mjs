@@ -43,14 +43,26 @@
  * }<br />
  */
 const entryConfig = {
+  HMR_Webpack5: {
+    import: [
+      'webpack/hot/dev-server.js',
+      'webpack-dev-server/client/index.js',
+    ],
+  },
   HelloWorld: {
     import: [
       './src/pages/hello_world/HelloWorld.js',
+    ],
+    dependOn: [
+      'HMR_Webpack5',
     ],
   },
   Home: {
     import: [
       './src/pages/home/Home.js',
+    ],
+    dependOn: [
+      'HMR_Webpack5',
     ],
   },
 };

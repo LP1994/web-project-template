@@ -30,7 +30,7 @@ function ExcludeChunks( entryName ){
   return arr;
 }
 
-function HtmlWebpackPluginConfig( {
+function HTMLWebpackPluginConfig( {
   isProduction,
   isSPA,
   HTMLMinifyConfig,
@@ -50,9 +50,11 @@ function HtmlWebpackPluginConfig( {
       title: 'Home',
       filename: 'pages/Home.html',
       template: './src/template/ejs/Home.ejs',
-      excludeChunks: isSPA
-                     ? []
-                     : ExcludeChunks( 'Home' ),
+      /*
+       excludeChunks: isSPA
+       ? []
+       : ExcludeChunks( 'Home' ),
+       */
       meta: {},
       data: {},
     },
@@ -79,7 +81,7 @@ function HtmlWebpackPluginConfig( {
 }
 
 export {
-  HtmlWebpackPluginConfig,
+  HTMLWebpackPluginConfig,
 };
 
-export default HtmlWebpackPluginConfig;
+export default HTMLWebpackPluginConfig;
