@@ -12,9 +12,11 @@
  * 1、当需要将代码转换成兼容比较旧的平台时，需要修改：
  * 顶级配置项：experiments、target。
  * output.environment。
- * vue-loader:options.transpileOptions.target。
+ * vue-loader:options.transpileOptions.target（改变量vue_loader_options_transpileOptions_target即可）。
  * vue-loader:options.transpileOptions.transforms。
  * tsconfig.json中的compilerOptions.module、compilerOptions.target。
+ * 变量browserslist。
+ * 变量esbuildMinify_target。
  */
 
 'use strict';
@@ -42,7 +44,11 @@ import {
   fileURLToPath,
 } from 'node:url';
 
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+
 import mime from 'mime';
+
+import TerserPlugin from 'terser-webpack-plugin';
 
 import entryConfig from './configures/EntryConfig.esm.mjs';
 
@@ -85,7 +91,7 @@ const __dirname = Get__dirname( import.meta.url ),
     // 至20220724的各PC端主流浏览器的最新版本。Start
     'Chrome >= 103',
     'Edge >= 103',
-    'Firefox >= 102',
+    'Firefox >= 103',
     'Safari >= 15',
     'Opera >= 89',
     // 至20220724的各PC端主流浏览器的最新版本。End
@@ -93,10 +99,46 @@ const __dirname = Get__dirname( import.meta.url ),
     // 至20220724的各移动端主流浏览器的最新版本。Start
     'ChromeAndroid >= 103',
     'Android >= 103',
-    'FirefoxAndroid >= 102',
+    'FirefoxAndroid >= 103',
     'iOS >= 15',
     // 至20220724的各移动端主流浏览器的最新版本。End
   ],
+  /**
+   * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
+   * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
+   * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
+   */
+  esbuildMinify_target = [
+    'es2022',
+
+    // 至20220724的各PC端主流浏览器的最新版本。Start
+    'chrome103',
+    'edge103',
+    'firefox103',
+    'safari15',
+    'opera89',
+    // 至20220724的各PC端主流浏览器的最新版本。End
+
+    // 至20220724的各移动端主流浏览器的最新版本。Start
+    'ios15',
+    // 至20220724的各移动端主流浏览器的最新版本。End
+  ],
+  vue_loader_options_transpileOptions_target = {
+    // 至20220724的各PC端主流浏览器的最新版本。Start
+    chrome: 103,
+    edge: 103,
+    firefox: 103,
+    safari: 15,
+    opera: 89,
+    // 至20220724的各PC端主流浏览器的最新版本。End
+
+    // 至20220724的各移动端主流浏览器的最新版本。Start
+    and_chr: 103,
+    android: 103,
+    and_ff: 103,
+    ios_saf: 15,
+    // 至20220724的各PC端主流浏览器的最新版本。End
+  },
   /**
    * isProduction的值为true时表示生成环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
@@ -1625,6 +1667,23 @@ const aliasConfig = {
     HTMLMinifyConfig,
   } ),
   /**
+   * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+   * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+   * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+   * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+   */
+  miniCssExtractPluginConfig = {
+    // 此选项确定每个输出CSS文件的名称。
+    filename: 'styles/[name]_[sha512:contenthash:hex:16].css',
+    /**
+     * 此选项确定非入口块文件的名称。<br />
+     * 1、将chunkFilename指定为函数仅在webpack@5中可用。<br />
+     */
+    chunkFilename: 'styles/[name]_Chunk_[sha512:contenthash:hex:16].css',
+    // 启用以删除有关顺序冲突的警告。对于通过一致使用范围或命名约定来减轻css排序的项目，可以通过将插件的ignoreOrder标志设置为true来禁用css顺序警告。
+    ignoreOrder: false,
+  },
+  /**
    * 以下选项表示是否填充或模拟某些Node.js的全局变量。<br />
    * 1、此功能由webpack内部的NodeStuffPlugin插件提供。<br />
    * 2、从webpack 5开始，只能在node选项下配置global、__filename、__dirname。<br />
@@ -1760,356 +1819,501 @@ const aliasConfig = {
    * path.resolve(__dirname, 'app/styles')，没加'/'将匹配`app/styles.css`、`app/styles/styles.css`、`app/stylesheet.css`。<br />
    * path.resolve(__dirname, 'vendor/styles/')，加'/'将仅包含目录`vendor/styles/`的内容。<br />
    */
-  moduleConfig = {
-    generator: {
-      asset: {
-        filename: '[name]_[sha512:contenthash:hex:16][ext]',
-        outputPath: 'assets/',
-        publicPath: 'auto',
+  moduleConfig = ( {
+    MiniCssExtractPlugin = null,
+  } = {} ) => {
+    return {
+      generator: {
+        asset: {
+          filename: '[name]_[sha512:contenthash:hex:16][ext]',
+          outputPath: 'assets/',
+          publicPath: 'auto',
+        },
+        'asset/resource': {
+          filename: '[name]_[sha512:contenthash:hex:16][ext]',
+          outputPath: 'assets/',
+          publicPath: 'auto',
+        },
       },
-      'asset/resource': {
-        filename: '[name]_[sha512:contenthash:hex:16][ext]',
-        outputPath: 'assets/',
-        publicPath: 'auto',
+      parser: {
+        javascript: {
+          commonjs: true,
+          commonjsMagicComments: true,
+          dynamicImportMode: 'lazy',
+          dynamicImportPrefetch: true,
+          dynamicImportPreload: true,
+          exportsPresence: 'error',
+          exprContextCritical: true,
+          exprContextRecursive: true,
+          exprContextRegExp: false,
+          exprContextRequest: '.',
+          harmony: true,
+          import: true,
+          importExportsPresence: 'error',
+          importMeta: true,
+          importMetaContext: true,
+          node: nodeConfig,
+          reexportExportsPresence: 'error',
+          requireContext: true,
+          requireEnsure: true,
+          requireInclude: true,
+          requireJs: true,
+          strictThisContextOnImports: true,
+          system: true,
+          url: 'relative',
+        },
+        'javascript/auto': {
+          commonjs: true,
+          commonjsMagicComments: true,
+          dynamicImportMode: 'lazy',
+          dynamicImportPrefetch: true,
+          dynamicImportPreload: true,
+          exportsPresence: 'error',
+          exprContextCritical: true,
+          exprContextRecursive: true,
+          exprContextRegExp: false,
+          exprContextRequest: '.',
+          harmony: true,
+          import: true,
+          importExportsPresence: 'error',
+          importMeta: true,
+          importMetaContext: true,
+          node: nodeConfig,
+          reexportExportsPresence: 'error',
+          requireContext: true,
+          requireEnsure: true,
+          requireInclude: true,
+          requireJs: true,
+          strictThisContextOnImports: true,
+          system: true,
+          url: 'relative',
+        },
+        'javascript/dynamic': {
+          commonjs: false,
+          commonjsMagicComments: false,
+          dynamicImportMode: 'lazy',
+          dynamicImportPrefetch: true,
+          dynamicImportPreload: true,
+          exportsPresence: 'error',
+          exprContextCritical: true,
+          exprContextRecursive: true,
+          exprContextRegExp: false,
+          exprContextRequest: '.',
+          harmony: true,
+          import: true,
+          importExportsPresence: 'error',
+          importMeta: true,
+          importMetaContext: true,
+          node: nodeConfig,
+          reexportExportsPresence: 'error',
+          requireContext: false,
+          requireEnsure: false,
+          requireInclude: false,
+          requireJs: false,
+          strictThisContextOnImports: true,
+          system: false,
+          url: 'relative',
+        },
+        'javascript/esm': {
+          commonjs: false,
+          commonjsMagicComments: false,
+          dynamicImportMode: 'lazy',
+          dynamicImportPrefetch: true,
+          dynamicImportPreload: true,
+          exportsPresence: 'error',
+          exprContextCritical: true,
+          exprContextRecursive: true,
+          exprContextRegExp: false,
+          exprContextRequest: '.',
+          harmony: true,
+          import: true,
+          importExportsPresence: 'error',
+          importMeta: true,
+          importMetaContext: true,
+          node: nodeConfig,
+          reexportExportsPresence: 'error',
+          requireContext: false,
+          requireEnsure: false,
+          requireInclude: false,
+          requireJs: false,
+          strictThisContextOnImports: true,
+          system: false,
+          url: 'relative',
+        },
       },
-    },
-    parser: {
-      javascript: {
-        commonjs: true,
-        commonjsMagicComments: true,
-        dynamicImportMode: 'lazy',
-        dynamicImportPrefetch: true,
-        dynamicImportPreload: true,
-        exportsPresence: 'error',
-        exprContextCritical: true,
-        exprContextRecursive: true,
-        exprContextRegExp: false,
-        exprContextRequest: '.',
-        harmony: true,
-        import: true,
-        importExportsPresence: 'error',
-        importMeta: true,
-        importMetaContext: true,
-        node: nodeConfig,
-        reexportExportsPresence: 'error',
-        requireContext: true,
-        requireEnsure: true,
-        requireInclude: true,
-        requireJs: true,
-        strictThisContextOnImports: true,
-        system: true,
-        url: 'relative',
-      },
-      'javascript/auto': {
-        commonjs: true,
-        commonjsMagicComments: true,
-        dynamicImportMode: 'lazy',
-        dynamicImportPrefetch: true,
-        dynamicImportPreload: true,
-        exportsPresence: 'error',
-        exprContextCritical: true,
-        exprContextRecursive: true,
-        exprContextRegExp: false,
-        exprContextRequest: '.',
-        harmony: true,
-        import: true,
-        importExportsPresence: 'error',
-        importMeta: true,
-        importMetaContext: true,
-        node: nodeConfig,
-        reexportExportsPresence: 'error',
-        requireContext: true,
-        requireEnsure: true,
-        requireInclude: true,
-        requireJs: true,
-        strictThisContextOnImports: true,
-        system: true,
-        url: 'relative',
-      },
-      'javascript/dynamic': {
-        commonjs: false,
-        commonjsMagicComments: false,
-        dynamicImportMode: 'lazy',
-        dynamicImportPrefetch: true,
-        dynamicImportPreload: true,
-        exportsPresence: 'error',
-        exprContextCritical: true,
-        exprContextRecursive: true,
-        exprContextRegExp: false,
-        exprContextRequest: '.',
-        harmony: true,
-        import: true,
-        importExportsPresence: 'error',
-        importMeta: true,
-        importMetaContext: true,
-        node: nodeConfig,
-        reexportExportsPresence: 'error',
-        requireContext: false,
-        requireEnsure: false,
-        requireInclude: false,
-        requireJs: false,
-        strictThisContextOnImports: true,
-        system: false,
-        url: 'relative',
-      },
-      'javascript/esm': {
-        commonjs: false,
-        commonjsMagicComments: false,
-        dynamicImportMode: 'lazy',
-        dynamicImportPrefetch: true,
-        dynamicImportPreload: true,
-        exportsPresence: 'error',
-        exprContextCritical: true,
-        exprContextRecursive: true,
-        exprContextRegExp: false,
-        exprContextRequest: '.',
-        harmony: true,
-        import: true,
-        importExportsPresence: 'error',
-        importMeta: true,
-        importMetaContext: true,
-        node: nodeConfig,
-        reexportExportsPresence: 'error',
-        requireContext: false,
-        requireEnsure: false,
-        requireInclude: false,
-        requireJs: false,
-        strictThisContextOnImports: true,
-        system: false,
-        url: 'relative',
-      },
-    },
-    unsafeCache: false,
-    rules: [
-      // html-loader，将HTML导出为字符串。当编译器需要时，HTML会被最小化。
-      {
-        test: /\.(htm|html|xhtml)$/i,
-        /**
-         * 当使用“webpack 5”时，需要这个属性，否则后面的“vue-loader”会报错！<br />
-         * 1、对于“vue-loader”而言，只要这个值不会被转换成“假值”就能成功使用“vue-loader”。<br />
-         */
-        enforce: 'pre',
-        // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              sources: true,
-              minimize: HTMLMinifyConfig,
-              esModule: false,
-            },
-          },
-        ],
-        include: [
-          resolve( __dirname, './src/pages/' ),
-          resolve( __dirname, './src/template/html/' ),
-        ],
-      },
-      // ejs-loader。
-      {
-        test: /\.ejs$/i,
-        // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-        use: [
-          {
-            loader: 'ejs-loader',
-            options: {
-              esModule: false,
-            },
-          },
-        ],
-        include: [
-          resolve( __dirname, './src/pages/' ),
-          resolve( __dirname, './src/template/ejs/' ),
-        ],
-      },
-      // vue-loader。
-      {
-        test: /\.vue$/i,
-        // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-        use: [
-          {
-            loader: 'vue-loader',
-            options: {
-              transformAssetUrls: {
-                video: [
-                  'src',
-                  'poster',
-                ],
-                source: 'src',
-                img: 'src',
-                image: [
-                  'xlink:href',
-                  'href',
-                ],
-                use: [
-                  'xlink:href',
-                  'href',
-                ],
-                audio: 'src',
+      unsafeCache: false,
+      rules: [
+        // html-loader，将HTML导出为字符串。当编译器需要时，HTML会被最小化。
+        {
+          test: /\.(htm|html|xhtml)$/i,
+          /**
+           * 当使用“webpack 5”时，需要这个属性，否则后面的“vue-loader”会报错！<br />
+           * 1、对于“vue-loader”而言，只要这个值不会被转换成“假值”就能成功使用“vue-loader”。<br />
+           */
+          enforce: 'pre',
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'html-loader',
+              options: {
+                sources: true,
+                minimize: HTMLMinifyConfig,
+                esModule: false,
               },
-              compilerOptions: {
-                whitespace: !isProduction
-                            ? 'preserve'
-                            : 'condense',
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/script_tools/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // ejs-loader。
+        {
+          test: /\.ejs$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'ejs-loader',
+              options: {
+                esModule: false,
               },
-              transpileOptions: {
-                target: {
-                  // 至20220724的各PC端主流浏览器的最新版本。Start
-                  chrome: 103,
-                  edge: 103,
-                  firefox: 102,
-                  safari: 15,
-                  opera: 89,
-                  // 至20220724的各PC端主流浏览器的最新版本。End
-
-                  // 至20220724的各移动端主流浏览器的最新版本。Start
-                  and_chr: 103,
-                  android: 103,
-                  and_ff: 102,
-                  ios_saf: 15,
-                  // 至20220724的各PC端主流浏览器的最新版本。End
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/script_tools/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // vue-loader。
+        {
+          test: /\.vue$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'vue-loader',
+              options: {
+                transformAssetUrls: {
+                  video: [
+                    'src',
+                    'poster',
+                  ],
+                  source: 'src',
+                  img: 'src',
+                  image: [
+                    'xlink:href',
+                    'href',
+                  ],
+                  use: [
+                    'xlink:href',
+                    'href',
+                  ],
+                  audio: 'src',
                 },
-                // transforms里的选项值，true表示转换特性，false表示直接使用该特性。
-                transforms: {
-                  arrow: false,
-                  classes: false,
-                  collections: false,
-                  computedProperty: false,
-                  conciseMethodProperty: false,
-                  constLoop: false,
-                  // 危险的转换！设置成false会直接使用该特性！
-                  dangerousForOf: false,
-                  // 危险的转换！设置成false会直接使用该特性！
-                  dangerousTaggedTemplateString: false,
-                  defaultParameter: false,
-                  destructuring: false,
-                  forOf: false,
-                  generator: false,
-                  letConst: false,
-                  modules: false,
-                  numericLiteral: false,
-                  parameterDestructuring: false,
-                  reservedProperties: false,
-                  spreadRest: false,
-                  stickyRegExp: false,
-                  templateString: false,
-                  unicodeRegExp: false,
-                  exponentiation: false,
+                compilerOptions: {
+                  whitespace: !isProduction
+                              ? 'preserve'
+                              : 'condense',
                 },
-                // 对于IE 8需要将它设置成namedFunctionExpressions: false。
-                namedFunctionExpressions: true,
+                transpileOptions: {
+                  target: vue_loader_options_transpileOptions_target,
+                  // transforms里的选项值，true表示转换特性，false表示直接使用该特性。
+                  transforms: {
+                    arrow: false,
+                    classes: false,
+                    collections: false,
+                    computedProperty: false,
+                    conciseMethodProperty: false,
+                    constLoop: false,
+                    // 危险的转换！设置成false会直接使用该特性！
+                    dangerousForOf: false,
+                    // 危险的转换！设置成false会直接使用该特性！
+                    dangerousTaggedTemplateString: false,
+                    defaultParameter: false,
+                    destructuring: false,
+                    forOf: false,
+                    generator: false,
+                    letConst: false,
+                    modules: false,
+                    numericLiteral: false,
+                    parameterDestructuring: false,
+                    reservedProperties: false,
+                    spreadRest: false,
+                    stickyRegExp: false,
+                    templateString: false,
+                    unicodeRegExp: false,
+                    exponentiation: false,
+                  },
+                  // 对于IE 8需要将它设置成namedFunctionExpressions: false。
+                  namedFunctionExpressions: true,
+                },
+                prettify: !isProduction,
+                exposeFilename: !isProduction,
+                // vue-loader v16+才有的选项。Start
+                /**
+                 * 在使用Vue的反应性API时，引入一组编译器转换来改善人体工程学，特别是能够使用没有.value的refs。<br />
+                 * 1、具体可阅https://github.com/vuejs/rfcs/discussions/369 <br />
+                 * 2、仅在SFC中生效。<br />
+                 */
+                reactivityTransform: true,
+                /**
+                 * 启用自定义元素模式。在自定义元素模式下加载的SFC将其<style>标记内联为组件样式选项下的字符串。<br />
+                 * 1、当与Vue核心的defineCustomElement一起使用时，样式将被注入到自定义元素的阴影根中。<br />
+                 * 2、默认值为：/\.ce\.vue$/。<br />
+                 * 3、该选项的值类型为：boolean、RegExp。<br />
+                 * 4、设置为true将以“自定义元素模式”处理所有.vue文件。<br />
+                 */
+                // customElement: /\.ce\.vue$/,
+                /**
+                 * vue-loader v16.8+启用，当<script>有lang="ts"时，允许模板中的TS表达式。默认为真。<br />
+                 * 1、当与ts-loader一起使用时，由于ts-loader的缓存失效行为，它有时会阻止模板被单独热重新加载，从而导致组件重新加载，尽管只编辑了模板。<br />
+                 * 2、如果这很烦人，您可以将此选项设置为false（并避免在模板中使用TS表达式）。<br />
+                 * 3、或者，保留此选项（默认情况下）并使用esbuild-loader转译TS，这样就不会遇到这个问题（它也快得多）。<br />
+                 * 4、但是，请注意您将需要依赖其他来源（例如IDE或vue-tsc）的TS类型检查。<br />
+                 */
+                enableTsInTemplate: true,
+                // vue-loader v16+才有的选项。End
               },
-              prettify: !isProduction,
-              exposeFilename: !isProduction,
-              // vue-loader v16+才有的选项。Start
-              /**
-               * 在使用Vue的反应性API时，引入一组编译器转换来改善人体工程学，特别是能够使用没有.value的refs。<br />
-               * 1、具体可阅https://github.com/vuejs/rfcs/discussions/369 <br />
-               * 2、仅在SFC中生效。<br />
-               */
-              reactivityTransform: true,
-              /**
-               * 启用自定义元素模式。在自定义元素模式下加载的SFC将其<style>标记内联为组件样式选项下的字符串。<br />
-               * 1、当与Vue核心的defineCustomElement一起使用时，样式将被注入到自定义元素的阴影根中。<br />
-               * 2、默认值为：/\.ce\.vue$/。<br />
-               * 3、该选项的值类型为：boolean、RegExp。<br />
-               * 4、设置为true将以“自定义元素模式”处理所有.vue文件。<br />
-               */
-              // customElement: /\.ce\.vue$/,
-              /**
-               * vue-loader v16.8+启用，当<script>有lang="ts"时，允许模板中的TS表达式。默认为真。<br />
-               * 1、当与ts-loader一起使用时，由于ts-loader的缓存失效行为，它有时会阻止模板被单独热重新加载，从而导致组件重新加载，尽管只编辑了模板。<br />
-               * 2、如果这很烦人，您可以将此选项设置为false（并避免在模板中使用TS表达式）。<br />
-               * 3、或者，保留此选项（默认情况下）并使用esbuild-loader转译TS，这样就不会遇到这个问题（它也快得多）。<br />
-               * 4、但是，请注意您将需要依赖其他来源（例如IDE或vue-tsc）的TS类型检查。<br />
-               */
-              enableTsInTemplate: true,
-              // vue-loader v16+才有的选项。End
             },
-          },
-        ],
-        include: [
-          resolve( __dirname, './src/' ),
-        ],
-        exclude: [
-          resolve( __dirname, './src/assets/' ),
-          resolve( __dirname, './src/graphQL/' ),
-          resolve( __dirname, './src/native_components/' ),
-          resolve( __dirname, './src/pwa_manifest/' ),
-          resolve( __dirname, './src/script_tools/' ),
-          resolve( __dirname, './src/static/' ),
-          resolve( __dirname, './src/styles/' ),
-          resolve( __dirname, './src/wasm/' ),
-          resolve( __dirname, './src/web_components/' ),
-          resolve( __dirname, './src/workers/' ),
-        ],
-      },
-      // 处理ts、tsx。
-      {
-        test: /\.ts(x?)$/i,
-        // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
-              transpileOnly: true,
-              // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
-              happyPackMode: true,
-              logInfoToStdOut: false,
-              logLevel: 'error',
-              // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
-              silent: true,
-              // 仅报告与这些glob模式匹配的文件的错误。
-              reportFiles: [
-                'src/**/*.{ts,cts,mts,tsx}',
-                'src/**/*.ts.vue',
-                'src/**/*.cts.vue',
-                'src/**/*.mts.vue',
-                'src/**/*.tsx.vue',
-              ],
-              // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
-              compiler: 'typescript',
-              // 允许您指定在哪里可以找到TypeScript配置文件。
-              configFile: resolve( __dirname, './tsconfig.json' ),
-              colors: true,
-              appendTsSuffixTo: [],
-              appendTsxSuffixTo: [],
-              onlyCompileBundledFiles: true,
-              allowTsInNodeModules: false,
-              context: resolve( __dirname, './' ),
-              experimentalFileCaching: true,
-              projectReferences: true,
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/script_tools/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理ts、tsx。
+        {
+          test: /\.ts(x?)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+                transpileOnly: true,
+                // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
+                happyPackMode: true,
+                logInfoToStdOut: false,
+                logLevel: 'error',
+                // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
+                silent: true,
+                // 仅报告与这些glob模式匹配的文件的错误。
+                reportFiles: [
+                  'src/**/*.{ts,cts,mts,tsx}',
+                  'src/**/*.ts.vue',
+                  'src/**/*.cts.vue',
+                  'src/**/*.mts.vue',
+                  'src/**/*.tsx.vue',
+                ],
+                // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
+                compiler: 'typescript',
+                // 允许您指定在哪里可以找到TypeScript配置文件。
+                configFile: resolve( __dirname, './tsconfig.json' ),
+                colors: true,
+                appendTsSuffixTo: [],
+                appendTsxSuffixTo: [],
+                onlyCompileBundledFiles: true,
+                allowTsInNodeModules: false,
+                context: resolve( __dirname, './' ),
+                experimentalFileCaching: true,
+                projectReferences: true,
+              },
             },
-          },
-        ],
-        include: [
-          resolve( __dirname, './src/' ),
-        ],
-        exclude: [
-          resolve( __dirname, './src/assets/' ),
-          resolve( __dirname, './src/graphQL/' ),
-          resolve( __dirname, './src/native_components/' ),
-          resolve( __dirname, './src/pwa_manifest/' ),
-          resolve( __dirname, './src/script_tools/' ),
-          resolve( __dirname, './src/static/' ),
-          resolve( __dirname, './src/styles/' ),
-          resolve( __dirname, './src/wasm/' ),
-          resolve( __dirname, './src/web_components/' ),
-          resolve( __dirname, './src/workers/' ),
-        ],
-      },
-    ],
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/wasm/' ),
+          ],
+        },
+        // 处理css。
+        {
+          test: /\.css$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             */
+            isProduction
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+                  emit: true,
+                  esModule: false,
+                },
+              }
+            : {
+                loader: 'style-loader',
+                options: {
+                  injectType: 'styleTag',
+                  insert: 'head',
+                  esModule: false,
+                },
+              },
+            {
+              loader: 'css-loader',
+              options: {
+                url: true,
+                import: true,
+                importLoaders: 0,
+                esModule: false,
+                sourceMap: false,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/script_tools/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/less/' ),
+            resolve( __dirname, './src/styles/postcss/' ),
+            resolve( __dirname, './src/styles/sass/' ),
+            resolve( __dirname, './src/styles/scss/' ),
+            resolve( __dirname, './src/styles/stylus/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+          sideEffects: true,
+        },
+      ],
+    };
   },
   optimizationConfig = isProduction
                        ? {
       nodeEnv: 'production',
+      minimize: true,
+      minimizer: [
+        // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
+        '...',
+        /*
+         new TerserPlugin( {
+         test: /\.css$/i,
+         parallel: cpus().length - 1,
+         terserOptions: {
+         format: {
+         comments: false,
+         },
+         },
+         extractComments: false,
+         } ),
+         */
+        /**
+         * 这个插件使用cssnano来优化和缩小你的CSS。就像optimize-css-assets-webpack-plugin但使用查询字符串对源映射和资产更准确，允许缓存并在并行模式下工作。<br />
+         * 1、最好只在生产环境下使用该插件。<br />
+         */
+        new CssMinimizerPlugin( {
+          test: /\.css$/i,
+          // 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。
+          parallel: cpus().length - 1,
+          /**
+           * 启用并行选项时，始终在minify函数中使用require。<br />
+           * 1、该选项支持异步函数作为值。<br />
+           * 2、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
+           * 3、CssMinimizerPlugin.esbuildMinify对应的minimizerOptions选项的配置见https://esbuild.github.io/api/#transform-api。<br />
+           */
+          minify: CssMinimizerPlugin.esbuildMinify,
+          /**
+           * 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。在这种情况下，我们不应该使用require/import。<br />
+           * 1、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
+           * 2、CssMinimizerPlugin.esbuildMinify对应的minimizerOptions选项的配置见https://esbuild.github.io/api/#transform-api。<br />
+           */
+          minimizerOptions: {
+            loader: 'css',
+            /**
+             * minify: true等同于同时设置了：<br />
+             * 1、minifyWhitespace: true、minifyIdentifiers: true、minifySyntax: true。<br />
+             */
+            minify: true,
+            /**
+             * “法律注释（legal comment）”被认为是JS中的任何语句级注释或CSS中包含@license或@preserve或以//!或者/*!开头的任何规则级注释。<br />
+             * 1、默认情况下，这些注释保留在输出文件中，因为这遵循了代码原作者的意图。<br />
+             * 2、有效值说明：<br />
+             * 'none'：不要保留任何法律评论。<br />
+             * 'inline'：保留所有法律评论。<br />
+             * 'eof'：将所有法律注释移至文件末尾。<br />
+             * 'linked'：将所有法律评论移至.LEGAL.txt文件并使用评论链接到它们。<br />
+             * 'external'：将所有法律评论移至.LEGAL.txt文件，但不要链接到它们。<br />
+             */
+            legalComments: 'none',
+            sourcemap: false,
+            /**
+             * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
+             * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
+             * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
+             */
+            target: esbuildMinify_target,
+            charset: 'utf8',
+            color: true,
+            logLevel: 'error',
+            logOverride: {
+              'css-syntax-error': 'error',
+              'invalid-@charset': 'error',
+              'invalid-@import': 'error',
+              'invalid-@nest': 'error',
+              'invalid-@layer': 'error',
+              'invalid-calc': 'error',
+              'js-comment-in-css': 'error',
+              'unsupported-@charset': 'error',
+              'unsupported-@namespace': 'error',
+              'unsupported-css-property': 'error',
+            },
+          },
+        } ),
+      ],
       runtimeChunk: {
         name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
     }
                        : {
       nodeEnv: 'development',
+      minimize: false,
       runtimeChunk: {
         name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
@@ -2124,7 +2328,7 @@ const aliasConfig = {
      * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
      * 1、请注意，这些文件名需要在运行时生成以发送对块的请求。<br />
      */
-    chunkFilename: 'js/[name]_Chunk_[contenthash:16].js',
+    chunkFilename: 'js/[name]_Chunk_[sha512:contenthash:hex:16].js',
     /**
      * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)，但其他格式可能由插件添加。<br />
      */
@@ -2198,7 +2402,7 @@ const aliasConfig = {
      * 2、请注意，此选项不会影响按需加载块的输出文件。它只影响最初加载的输出文件。<br />
      * 3、对于按需加载的块文件，使用output.chunkFilename选项。加载程序创建的文件也不受影响。在这种情况下，您必须尝试特定加载程序的可用选项。<br />
      */
-    filename: 'js/[name]_Bundle_[contenthash:16].js',
+    filename: 'js/[name]_Bundle_[sha512:contenthash:hex:16].js',
     hashDigest: 'hex',
     /**
      * 对于webpack v5.65.0+，当启用experiments.futureDefaults时，16将用作hashDigestLength选项的默认值。<br />
@@ -2250,7 +2454,7 @@ const aliasConfig = {
      * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />
      */
     scriptType: 'text/javascript',
-    sourceMapFilename: 'js/[name]_Map_[contenthash:16].map',
+    sourceMapFilename: 'js/[name]_Map_[sha512:contenthash:hex:16].map',
     /**
      * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
@@ -2413,6 +2617,7 @@ export {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  miniCssExtractPluginConfig,
   moduleConfig,
   nodeConfig,
   optimizationConfig,
@@ -2446,6 +2651,7 @@ export default {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  miniCssExtractPluginConfig,
   moduleConfig,
   nodeConfig,
   optimizationConfig,

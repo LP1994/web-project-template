@@ -170,7 +170,7 @@ export default {
     level: 'info',
   },
   mode: 'development',
-  module: moduleConfig,
+  module: moduleConfig(),
   /**
    * 配置的名称。加载多个配置时使用。<br />
    */
