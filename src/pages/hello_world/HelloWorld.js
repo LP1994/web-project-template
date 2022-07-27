@@ -9,4 +9,4 @@
 
 'use strict';
 
-document.querySelector( 'h1' ).textContent = 'Welcome to 2022!';
+document.querySelector( 'h1' ).textContent = 'Hello World!';

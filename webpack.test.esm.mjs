@@ -18,6 +18,14 @@ import {
   resolve,
 } from 'node:path';
 
+import AssetsWebpackPlugin from 'assets-webpack-plugin';
+
+import {
+  CleanWebpackPlugin,
+} from 'clean-webpack-plugin';
+
+import CopyPlugin from 'copy-webpack-plugin';
+
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
@@ -37,6 +45,9 @@ import {
   isProduction,
 
   aliasConfig,
+  assetsWebpackPluginConfig,
+  cleanWebpackPluginConfig,
+  copyPluginConfig,
   definePluginConfig,
   entryConfig,
   experimentsConfig,
@@ -175,6 +186,12 @@ export default {
     // 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
     ...htmlWebpackPluginConfig,
 
+    new AssetsWebpackPlugin( assetsWebpackPluginConfig ),
+
+    new CleanWebpackPlugin( cleanWebpackPluginConfig ),
+
+    new CopyPlugin( copyPluginConfig ),
+
     // 插件顺序很重要。错误的顺序将导致一些钩子未定义并且生成失败。该插件需要在ForkTsCheckerWebpackPlugin之前生效执行。
     new VueLoaderPlugin(),
 
@@ -191,6 +208,14 @@ export default {
     } ),
 
     new webpack.DefinePlugin( definePluginConfig ),
+    new webpack.optimize.LimitChunkCountPlugin( {
+      // 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
+      maxChunks: 50,
+    } ),
+    new webpack.optimize.MinChunkSizePlugin( {
+      // 通过合并小于minChunkSize的块，将块大小保持在指定限制之上，猜测单位是：KB。
+      minChunkSize: 100 * 1024,
+    } ),
     new webpack.ProvidePlugin( providePluginConfig ),
   ],
   /**

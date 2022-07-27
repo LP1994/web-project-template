@@ -25,6 +25,10 @@ import {
 } from 'node:fs';
 
 import {
+  cpus,
+} from 'node:os';
+
+import {
   dirname,
   join,
   resolve,
@@ -270,6 +274,123 @@ const aliasConfig = {
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
   },
+  assetsWebpackPluginConfig = {
+    filename: 'ProjectAllAssetsByWebpack.json',
+    fullPath: true,
+    /**
+     * 如果为true，则完整路径将自动去除webpack生成的/auto/前缀。默认值是false。<br />
+     * 1、因为output.publicPath设置的值为'auto'，所以该选项设置为false时，生成的ProjectAllAssetsByWebpack.json文件里的各个文件路径会打头带auto。<br />
+     */
+    removeFullPathAutoPrefix: true,
+    includeManifest: false,
+    // 对资产输出进行排序，以便清单是第一个条目。这对于从资产json输出生成脚本标签的情况很有用，并且导入顺序很重要。
+    manifestFirst: true,
+    path: join( __dirname, `./dist/${ env_platform }/` ),
+    useCompilerPath: false,
+    prettyPrint: !isProduction,
+    update: false,
+    metadata: {
+      version: 20220101,
+    },
+    includeAllFileTypes: true,
+    keepInMemory: !isProduction,
+    integrity: isProduction,
+    entrypoints: false,
+  },
+  /**
+   * 默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件，以及所有未使用的webpack资产。<br />
+   */
+  cleanWebpackPluginConfig = {
+    // 模拟删除文件的操作，true开启，开启后，不会真的删除硬盘上的文件。<br />
+    dry: false,
+    // 将日志写入控制台，true开启，当dry开启时，这个选项总是开启的。<br />
+    verbose: false,
+    /**
+     * 在重建时自动删除所有未使用的webpack资产，true开启，默认值是true。<br />
+     * 1、告诉CleanWebpackPlugin我们不想在watch触发增量构建后删除index.html文件，我们使用cleanStaleWebpackAssets选项执行此操作：cleanStaleWebpackAssets: false。<br />
+     */
+    cleanStaleWebpackAssets: isProduction,
+    // 不允许删除当前的webpack资产，true开启。<br />
+    protectWebpackAssets: false,
+    /**
+     * 在Webpack编译之前删除一次未包含在重建中的文件（观看模式）。<br />
+     * 1、值为空数组时，表示禁用“cleanOnceBeforeBuildPatterns”的功能。<br />
+     * 2、!test，表示排除test文件。<br />
+     * 3、如果在webpack的output.path目录之外，请使用完整路径：path.join。<br />
+     * 4、相对于webpack的output.path目录。<br />
+     */
+    // 如：'**/*', '!static-files*'。<br />
+    cleanOnceBeforeBuildPatterns: [
+      '**/*',
+      '!ProjectAllAssetsByWebpack.json',
+    ],
+    /**
+     * 在每次构建（包括监视模式）后删除与此模式匹配的文件，用于不是由Webpack直接创建的文件。<br />
+     * 1、如：'static*.*', '!static1.js'。<br />
+     * 2、空数组表示什么都不干。<br />
+     */
+    cleanAfterEveryBuildPatterns: [],
+    // 允许process.cwd()之外的干净模式，需要明确设置干选项，true表示开启，开启后会删除匹配到的项目之外的文件，这个千万谨慎！<br />
+    dangerouslyAllowCleanPatternsOutsideProject: false,
+  },
+  /**
+   * copy-webpack-plugin并非旨在复制从构建过程中生成的文件；相反，它是复制源树中已经存在的文件，作为构建过程的一部分。<br />
+   * 1、如果啥都没有复制到，会报错，所以至少得复制到一个，当然被排除的不算。<br />
+   */
+  copyPluginConfig = ( patternsArr => {
+    const arr1 = [],
+      ignoreArr = [
+        '**/*.gitignore',
+        '**/该文件夹说明.txt',
+      ];
+
+    patternsArr.forEach( item => {
+      arr1.push( Object.assign( {}, {
+        context: './src/',
+        globOptions: {
+          expandDirectories: true,
+          gitignore: true,
+          ignoreFiles: ignoreArr,
+          concurrency: cpus().length - 1,
+          cwd: resolve( __dirname, './' ),
+          deep: Infinity,
+          followSymbolicLinks: true,
+          ignore: ignoreArr,
+          suppressErrors: false,
+          throwErrorOnBrokenSymbolicLink: true,
+          caseSensitiveMatch: false,
+          dot: true,
+        },
+        toType: 'dir',
+        force: true,
+        transform: {
+          cache: true,
+        },
+        noErrorOnMissing: false,
+      }, item ) );
+    } );
+
+    return {
+      patterns: arr1,
+      options: {
+        // 限制对fs的同时请求数，默认100。
+        concurrency: 100,
+      },
+    };
+  } )( [
+    {
+      // 复制src文件夹下的static文件夹。
+      from: 'static/**/*',
+      // 将上面复制的文件夹复制到output.path下。
+      to: './',
+    },
+    {
+      from: 'favicon.ico',
+      to: './favicon.ico',
+      context: './',
+      toType: 'file',
+    },
+  ] ),
   /**
    * DefinePlugin在编译时用其他值或表达式替换代码中的变量。这对于允许开发构建和生产构建之间的不同行为很有用。<br />
    * 1、传递给DefinePlugin的每个键都是一个标识符或多个用.连接的标识符：'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)。<br />
@@ -281,6 +402,7 @@ const aliasConfig = {
    */
   definePluginConfig = {
     isProduction: JSON.stringify( isProduction ),
+    env_platform: JSON.stringify( env_platform ),
   },
   /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
@@ -2016,9 +2138,9 @@ const aliasConfig = {
      */
     chunkLoading: 'jsonp',
     /**
-     * 在发出之前清理输出目录。<br />
+     * 在发出之前清理输出目录，不要用这个选项，用clean-webpack-plugin插件，因为用这个选项，无法设置排除项。<br />
      */
-    clean: true,
+    clean: false,
     /**
      * 告诉webpack在写入输出文件系统之前检查要发出的文件是否已经存在并且具有相同的内容。<br />
      * 1、当磁盘上已经存在具有相同内容的文件时，webpack将不会写入输出文件。<br />
@@ -2280,6 +2402,9 @@ export {
   watchIgnoredArr,
 
   aliasConfig,
+  assetsWebpackPluginConfig,
+  cleanWebpackPluginConfig,
+  copyPluginConfig,
   definePluginConfig,
   devServerConfig,
   entryConfig,
@@ -2310,6 +2435,9 @@ export default {
   watchIgnoredArr,
 
   aliasConfig,
+  assetsWebpackPluginConfig,
+  cleanWebpackPluginConfig,
+  copyPluginConfig,
   definePluginConfig,
   devServerConfig,
   entryConfig,
