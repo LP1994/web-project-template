@@ -1340,7 +1340,7 @@ const aliasConfig = {
      */
     backCompat: true,
     /**
-     * 该实验性选项启用会导致HMR无效！！！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源。<br />
+     * 开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源。<br />
      * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map';<br />
      * 2、除了设置成Boolean值，还可以是更加详细的Object值：<br />
      * {<br />
@@ -1363,36 +1363,28 @@ const aliasConfig = {
      * 1、设置后，将获取现有lockfile条目的资源，并在资源内容发生更改时升级条目。<br />
      * }<br />
      */
-    /*
-     buildHttp: {
-     allowedUris: [
-     uri => {
-     console.log( `experiments.buildHttp.allowedUris.uri--->${ uri }` );
-
-     return true;
-     },
-     // new RegExp( /^http(s)?:\/\// ),
-     // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*!/ ),
-     ],
-     cacheLocation: join( __dirname, `./webpack_location/lockfile_cache/${ env_platform }/` ),
-     frozen: false,
-     lockfileLocation: join( __dirname, `./webpack_location/lockfile_cache/${ env_platform }/` ),
-     upgrade: true,
-     },
-     */
+    buildHttp: {
+      allowedUris: [
+        new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*/ ),
+      ],
+      cacheLocation: join( __dirname, `./webpack_location/lockfile_cache/${ env_platform }/` ),
+      frozen: true,
+      lockfileLocation: join( __dirname, `./webpack_location/lockfile_cache/${ env_platform }/` ),
+      upgrade: true,
+    },
     /**
      * 启用未更改的模块的额外内存缓存，并且仅引用未更改的模块。<br />
      * 1、默认值同futureDefaults的值。<br />
      */
     cacheUnaffected: true,
     /**
-     * 该项设置为true后，会出现不如所愿的CSS处理！还是老老实实的设置为false。启用原生CSS支持。请注意，它是一个仍在开发中的实验性功能，将在webpack v6中默认启用，但是您可以在GitHub上跟踪进度。<br />
+     * 启用原生CSS支持。请注意，它是一个仍在开发中的实验性功能，将在webpack v6中默认启用，但是您可以在GitHub上跟踪进度。<br />
      */
-    css: false,
+    css: true,
     /**
-     * 该项设置为true后，会出现不如所愿的CSS处理！还是老老实实的设置为false，而且还不知会不会导致其他处理不如所愿。使用下一个主要webpack的默认值，并在任何有问题的地方显示警告。<br />
+     * 使用下一个主要webpack的默认值，并在任何有问题的地方显示警告。<br />
      */
-    futureDefaults: false,
+    futureDefaults: true,
     /**
      * 启用模块和块层。<br />
      */
