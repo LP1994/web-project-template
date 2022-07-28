@@ -46,6 +46,8 @@ import {
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
+import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
+
 import mime from 'mime';
 
 import TerserPlugin from 'terser-webpack-plugin';
@@ -1674,12 +1676,12 @@ const aliasConfig = {
    */
   miniCssExtractPluginConfig = {
     // 此选项确定每个输出CSS文件的名称。
-    filename: 'styles/[name]_[sha512:contenthash:hex:16].css',
+    filename: 'styles/[name]_[contenthash].css',
     /**
      * 此选项确定非入口块文件的名称。<br />
      * 1、将chunkFilename指定为函数仅在webpack@5中可用。<br />
      */
-    chunkFilename: 'styles/[name]_Chunk_[sha512:contenthash:hex:16].css',
+    chunkFilename: 'styles/[name]_Chunk_[contenthash].css',
     // 启用以删除有关顺序冲突的警告。对于通过一致使用范围或命名约定来减轻css排序的项目，可以通过将插件的ignoreOrder标志设置为true来禁用css顺序警告。
     ignoreOrder: false,
   },
@@ -1822,15 +1824,21 @@ const aliasConfig = {
   moduleConfig = ( {
     MiniCssExtractPlugin = null,
   } = {} ) => {
+    const cssLoader_url_import_IgnoreArr1 = [
+      '../static/',
+      'http',
+      '//',
+    ];
+
     return {
       generator: {
         asset: {
-          filename: '[name]_[sha512:contenthash:hex:16][ext]',
+          filename: '[name]_[contenthash][ext]',
           outputPath: 'assets/',
           publicPath: 'auto',
         },
         'asset/resource': {
-          filename: '[name]_[sha512:contenthash:hex:16][ext]',
+          filename: '[name]_[contenthash][ext]',
           outputPath: 'assets/',
           publicPath: 'auto',
         },
@@ -2187,7 +2195,11 @@ const aliasConfig = {
             : {
                 loader: 'style-loader',
                 options: {
-                  injectType: 'styleTag',
+                  // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+                  injectType: 'autoStyleTag',
+                  attributes: {
+                    'data-is-production': `${ isProduction }`,
+                  },
                   insert: 'head',
                   esModule: false,
                 },
@@ -2195,11 +2207,56 @@ const aliasConfig = {
             {
               loader: 'css-loader',
               options: {
-                url: true,
-                import: true,
+                /**
+                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                 */
+                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+                url: {
+                  /**
+                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                   *
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico。<br />
+                   *
+                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+                   *
+                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+                   */
+                  filter: ( url, resourcePath ) => {
+                    console.log( `\n\n\ncss-loader_url_filter_url--->${ url }\n\n\n` );
+
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      return false;
+                    }
+                    else{
+                      return true;
+                    }
+                  },
+                },
+                import: {
+                  filter: ( url, media, resourcePath ) => {
+                    console.log( `\n\n\ncss-loader_import_filter_url--->${ url }\n\n\n` );
+
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      return false;
+                    }
+                    else{
+                      return true;
+                    }
+                  },
+                },
                 importLoaders: 0,
-                esModule: false,
                 sourceMap: false,
+                esModule: false,
               },
             },
           ],
@@ -2299,11 +2356,18 @@ const aliasConfig = {
               'invalid-@nest': 'error',
               'invalid-@layer': 'error',
               'invalid-calc': 'error',
-              'js-comment-in-css': 'error',
+              'js-comment-in-css': 'silent',
               'unsupported-@charset': 'error',
               'unsupported-@namespace': 'error',
               'unsupported-css-property': 'error',
             },
+          },
+        } ),
+        new JsonMinimizerPlugin( {
+          test: /\.json$/i,
+          minimizerOptions: {
+            replacer: null,
+            space: null,
           },
         } ),
       ],
@@ -2322,13 +2386,13 @@ const aliasConfig = {
     /**
      * 与output.filename相同，但用于资产模块。<br />
      */
-    assetModuleFilename: 'assets/[name]_[sha512:contenthash:hex:16][ext]',
+    assetModuleFilename: 'assets/[name]_[contenthash][ext]',
     charset: false,
     /**
      * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
      * 1、请注意，这些文件名需要在运行时生成以发送对块的请求。<br />
      */
-    chunkFilename: 'js/[name]_Chunk_[sha512:contenthash:hex:16].js',
+    chunkFilename: 'js/[name]_Chunk_[contenthash].js',
     /**
      * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)，但其他格式可能由插件添加。<br />
      */
@@ -2402,7 +2466,7 @@ const aliasConfig = {
      * 2、请注意，此选项不会影响按需加载块的输出文件。它只影响最初加载的输出文件。<br />
      * 3、对于按需加载的块文件，使用output.chunkFilename选项。加载程序创建的文件也不受影响。在这种情况下，您必须尝试特定加载程序的可用选项。<br />
      */
-    filename: 'js/[name]_Bundle_[sha512:contenthash:hex:16].js',
+    filename: 'js/[name]_Bundle_[contenthash].js',
     hashDigest: 'hex',
     /**
      * 对于webpack v5.65.0+，当启用experiments.futureDefaults时，16将用作hashDigestLength选项的默认值。<br />

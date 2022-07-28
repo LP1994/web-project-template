@@ -9,47 +9,6 @@
 
 'use strict';
 
-import {
-  env,
-} from 'node:process';
-
-const isProduction = ( NODE_ENV => {
-  if( NODE_ENV === 'development' ){
-    return false;
-  }
-  else if( NODE_ENV === 'production' ){
-    return true;
-  }
-  else{
-    console.log( `process.env.NODE_ENV--->${ NODE_ENV }` );
-
-    throw new Error( 'isProduction该值依赖CLI参数中的“--node-env”参数，--node-env development（用于开发）、--node-env production（用于生产）。' );
-  }
-} )( env.NODE_ENV );
-
-/**
- * 开发模式下会引入HMR相关的两个JS文件，生产模式不会引入它们。<br />
- * 1、webpack/hot/dev-server.js。<br />
- * 2、webpack-dev-server/client/index.js。<br />
- *
- * @param entryImport string|string[]
- *
- * @param isHMR boolean
- *
- * @returns {string|string[]}
- */
-function HMR_Webpack5( entryImport, isHMR = true ){
-  if( isProduction || ( !isProduction && !isHMR ) ){
-    return entryImport;
-  }
-  else if( isHMR ){
-    return [
-      'webpack/hot/dev-server.js',
-      'webpack-dev-server/client/index.js',
-    ].concat( entryImport );
-  }
-}
-
 /**
  * 开始应用程序捆绑过程的一个或多个点。如果传递了一个数组，则将处理所有项目，强烈要求以Object的配置来配置入口点！<br />
  * 1、动态加载的模块不是入口点。<br />
@@ -85,14 +44,16 @@ function HMR_Webpack5( entryImport, isHMR = true ){
  */
 const entryConfig = {
   HelloWorld: {
-    import: HMR_Webpack5( [
+    import: [
+      './src/pages/hello_world/HelloWorld.css',
       './src/pages/hello_world/HelloWorld.js',
-    ], true ),
+    ],
   },
   Home: {
-    import: HMR_Webpack5( [
+    import: [
+      './src/pages/home/Home.css',
       './src/pages/home/Home.js',
-    ], true ),
+    ],
   },
 };
 

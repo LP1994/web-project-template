@@ -78,7 +78,9 @@ function HTMLWebpackPluginConfig( {
       inject: 'body',
       publicPath: 'auto',
       scriptLoading: 'defer',
-      minify: HTMLMinifyConfig,
+      minify: isProduction
+              ? HTMLMinifyConfig
+              : false,
       hash: isProduction,
       cache: !isProduction,
       showErrors: !isProduction,

@@ -1,0 +1,15 @@
+/*
+Project: web-project-template
+FileDirPath: src/pages/hello_world/11.css
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-07-28 02:10:55 星期四
+*/
+
+body {
+  width: 100%;
+  height: 100%;
+  background: greenyellow url('../static/ico/favicon.ico') center center no-repeat;
+  background-size: 100% 100%;
+}
