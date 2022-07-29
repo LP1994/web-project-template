@@ -142,6 +142,10 @@ const __dirname = Get__dirname( import.meta.url ),
     // 至20220724的各PC端主流浏览器的最新版本。End
   },
   /**
+   * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。
+   */
+  isHandle_experiments_buildHttp_in_CSSLoader = false,
+  /**
    * isProduction的值为true时表示生成环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
    */
@@ -1342,9 +1346,10 @@ const aliasConfig = {
      */
     backCompat: true,
     /**
-     * 该实验性选项启用会导致HMR无效！！！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源。<br />
-     * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map';<br />
-     * 2、除了设置成Boolean值，还可以是更加详细的Object值：<br />
+     * 该实验性选项启用会导致HMR无效！！！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源，切记远程资源的url一定得是带明确的文件扩展后缀名，不然没法被各自的loader处理，从而webpack报处理错误。<br />
+     * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map.js';<br />
+     * 2、当前个人通过编码已经支持了可以在CSS文件中加载无文件扩展后缀名的图片类远程资源，但是其返回的响应头中必须准确设置该图片的content-type，这个由服务器设置的，一般都会准确的。<br />
+     * 3、除了设置成Boolean值，还可以是更加详细的Object值：<br />
      * {<br />
      * allowedUris：[ string，例如：http://localhost:9990/ ]、[ RegExp，例如：^https?:// ]、[ Function，例如：(uri: string) => boolean ]，允许的URI列表（分别是它们的开头）。<br />
      * 
@@ -1837,10 +1842,8 @@ const aliasConfig = {
       '../static/',
       '//',
       ...( () => {
-        return 'buildHttp' in experimentsConfig
-               ? [
-            'http',
-          ]
+        return ( ( 'buildHttp' in experimentsConfig ) && isHandle_experiments_buildHttp_in_CSSLoader )
+               ? []
                : [
             'http',
           ];
@@ -1983,7 +1986,8 @@ const aliasConfig = {
               options: {
                 sources: true,
                 minimize: HTMLMinifyConfig,
-                esModule: false,
+                // 该loader的该选项默认值是true。
+                // esModule: true,
               },
             },
           ],
@@ -2010,6 +2014,13 @@ const aliasConfig = {
             {
               loader: 'ejs-loader',
               options: {
+                /**
+                 * 这个loader的这个esModule选项必须是false，不然会报错！<br />
+                 * 1、默认情况下，ejs-loader生成使用ES模块语法的JS模块。在某些情况下，使用ES模块是有益的，例如在模块连接和摇树的情况下。<br />
+                 * 2、将EJS模板编译成ES兼容模块需要variable选项。如果变量选项未作为加载器或查询选项提供，则会引发错误。有关更多详细信息，请参阅：https://github.com/lodash/lodash/issues/3709#issuecomment-375898111。<br />
+                 * 3、当该选项设置为false时，就会启用CommonJS模块语法。<br />
+                 * 4、该loader的该选项默认值是true。<br />
+                 */
                 esModule: false,
               },
             },
@@ -2206,7 +2217,8 @@ const aliasConfig = {
                 options: {
                   // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
                   emit: true,
-                  esModule: false,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
                 },
               }
             : {
@@ -2218,7 +2230,8 @@ const aliasConfig = {
                     'data-is-production': `${ isProduction }`,
                   },
                   insert: 'head',
-                  esModule: false,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
                 },
               },
             {
@@ -2293,7 +2306,8 @@ const aliasConfig = {
                 },
                 importLoaders: 0,
                 sourceMap: false,
-                esModule: false,
+                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+                // esModule: true,
               },
             },
           ],
