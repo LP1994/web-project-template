@@ -1372,22 +1372,24 @@ const aliasConfig = {
      * 1、设置后，将获取现有lockfile条目的资源，并在资源内容发生更改时升级条目。<br />
      * }<br />
      */
-    buildHttp: {
-      allowedUris: [
-        // new RegExp( /^http(s)?:\/\// ),
-        // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*/ ),
-        uri => {
-          // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
-          console.log( `experiments.buildHttp.allowedUris.uri--->${ uri }` );
+    /*
+     buildHttp: {
+     allowedUris: [
+     // new RegExp( /^http(s)?:\/\// ),
+     // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*!/ ),
+     uri => {
+     // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
+     console.log( `experiments.buildHttp.allowedUris.uri--->${ uri }` );
 
-          return true;
-        },
-      ],
-      cacheLocation: resolve( __dirname, `./webpack_location/${ env_platform }/cache_lockfile/` ),
-      frozen: isProduction,
-      lockfileLocation: resolve( __dirname, `./webpack_location/${ env_platform }/lockfile.lock` ),
-      upgrade: !isProduction,
-    },
+     return true;
+     },
+     ],
+     cacheLocation: resolve( __dirname, `./webpack_location/${ env_platform }/cache_lockfile/` ),
+     frozen: isProduction,
+     lockfileLocation: resolve( __dirname, `./webpack_location/${ env_platform }/lockfile.lock` ),
+     upgrade: !isProduction,
+     },
+     */
     /**
      * 启用未更改的模块的额外内存缓存，并且仅引用未更改的模块。<br />
      * 1、默认值同futureDefaults的值。<br />
