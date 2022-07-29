@@ -2625,7 +2625,7 @@ const aliasConfig = {
       day = day0 === 0
             ? '日'
             : day0,
-      recordsPath = `./webpack_location/records/${ folderName }/Records_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).json5`;
+      recordsPath = `./webpack_records/${ folderName }/Records_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).json5`;
 
     return join( __dirname, recordsPath );
   },
