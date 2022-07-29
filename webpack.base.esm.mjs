@@ -1367,6 +1367,7 @@ const aliasConfig = {
      buildHttp: {
      allowedUris: [
      uri => {
+     // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
      console.log( `experiments.buildHttp.allowedUris.uri--->${ uri }` );
 
      return true;
