@@ -53,6 +53,9 @@
       ],
       "tslib": [
         "./node_modules/tslib/"
+      ],
+      "imgDir": [
+        "./src/assets/img/"
       ]
     },
     "rootDir": ".",

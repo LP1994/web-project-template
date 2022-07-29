@@ -10,6 +10,63 @@ CreateDate: 2022-07-28 02:10:55 星期四
 body {
   width: 100%;
   height: 100%;
+
+  background-color: aqua;
+}
+
+h1 {
+  width: auto;
+  height: auto;
+  color: black;
+  font-size: 20px;
+}
+
+/*远程第三方图片，带明确的文件后缀名的。*/
+.img001 {
+  color: black;
+  font-size: 20px;
+  width: 200px;
+  height: 200px;
   background: rebeccapurple url('http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg') center center no-repeat;
+  background-size: 100% 100%;
+}
+
+/*远程第三方图片，不带明确的文件后缀名的。*/
+.img002 {
+  color: black;
+  font-size: 20px;
+  width: 200px;
+  height: 200px;
+  background: red url('https://avatars.githubusercontent.com/u/12012671?v=4') center center no-repeat;
+  background-size: 100% 100%;
+}
+
+/*来自项目的静态图片。*/
+.img003 {
+  color: black;
+  font-size: 20px;
+  width: 200px;
+  height: 200px;
+  background: blue url('../static/ico/favicon.ico') center center no-repeat;
+  background-size: 100% 100%;
+}
+
+/*来自项目的经过webpack处理的不大于10KB的图片。*/
+.img004 {
+  color: black;
+  font-size: 20px;
+  width: 200px;
+  height: 200px;
+  background: gold url('~imgDir/ico_48_48.png') center center no-repeat;
+  background-size: 100% 100%;
+}
+
+/*来自项目的经过webpack处理的大于10KB的图片。*/
+.img005 {
+  color: black;
+  font-size: 20px;
+  width: 200px;
+  height: 200px;
+  background: green url('~imgDir/apple-touch-icon.png') center center no-repeat;
   background-size: 100% 100%;
 }

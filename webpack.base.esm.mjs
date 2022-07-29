@@ -317,6 +317,8 @@ const aliasConfig = {
     'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
+
+    'imgDir': resolve( __dirname, './src/assets/img/' ),
   },
   assetsWebpackPluginConfig = {
     filename: 'ProjectAllAssetsByWebpack.json',
@@ -1833,21 +1835,29 @@ const aliasConfig = {
   } = {} ) => {
     const cssLoader_url_import_IgnoreArr1 = [
       '../static/',
-      // 'http',
       '//',
+      ...( () => {
+        return 'buildHttp' in experimentsConfig
+               ? [
+            'http',
+          ]
+               : [
+            'http',
+          ];
+      } )(),
     ];
 
     return {
       generator: {
         asset: {
           filename: '[name]_[contenthash][ext]',
-          outputPath: 'assets/',
-          publicPath: 'auto',
+          outputPath: './assets/',
+          publicPath: '../assets/',
         },
         'asset/resource': {
           filename: '[name]_[contenthash][ext]',
-          outputPath: 'assets/',
-          publicPath: 'auto',
+          outputPath: './assets/',
+          publicPath: '../assets/',
         },
       },
       parser: {
@@ -2228,35 +2238,55 @@ const aliasConfig = {
                    * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
                    * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
                    *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico。<br />
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
                    *
                    * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
                    *
                    * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
                    */
                   filter: ( url, resourcePath ) => {
-                    console.log( `\n\n\ncss-loader_url_filter_url--->${ url }\n\n\n` );
-
                     const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
 
                     if( boo ){
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
                       return false;
                     }
                     else{
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
                       return true;
                     }
                   },
                 },
                 import: {
                   filter: ( url, media, resourcePath ) => {
-                    console.log( `\n\n\ncss-loader_import_filter_url--->${ url }\n\n\n` );
-
                     const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
 
                     if( boo ){
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
                       return false;
                     }
                     else{
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
                       return true;
                     }
                   },
@@ -2285,6 +2315,48 @@ const aliasConfig = {
             resolve( __dirname, './src/workers/' ),
           ],
           sideEffects: true,
+        },
+        // 处理image。
+        {
+          test: /\.(jng|bmp|dcx|gif|icns|ico|jbig2|jpe|jpeg|jpg|pam|pbm|pcx|pgm|png|pnm|ppm|psd|rgbe|tga|tif|tiff|wbmp|xbm|xpm|svg|svgz|webp|heif|heic)$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              // 单位字节，设置为10KB。
+              maxSize: 10 * 1024,
+            },
+          },
+          generator: {
+            dataUrl: {
+              encoding: 'base64',
+            },
+            emit: true,
+            filename: '[name]_[contenthash][ext]',
+            outputPath: './img/',
+            publicPath: '../img/',
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
         },
       ],
     };

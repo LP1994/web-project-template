@@ -15,18 +15,11 @@
 
 'use strict';
 
-const path = require( 'node:path' ),
+const path = require( 'path' ),
   webpack = require( 'webpack' );
-
-const {
-  isProduction
-} = require( './webpack.base.esm.mjs' );
 
 module.exports = {
   plugins: [
-    new webpack.DefinePlugin( {
-      isProduction: JSON.stringify( isProduction ),
-    } ),
     /**
      * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
      * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
@@ -73,6 +66,8 @@ module.exports = {
       'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
       'element-plus-css$': 'element-plus/dist/index.css',
       'swiper-css$': 'swiper/swiper-bundle.min.css',
+
+      'imgDir': path.resolve( __dirname, './src/assets/img/' ),
     },
     /**
      * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />
