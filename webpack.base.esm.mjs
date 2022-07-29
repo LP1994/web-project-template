@@ -142,7 +142,8 @@ const __dirname = Get__dirname( import.meta.url ),
     // 至20220724的各PC端主流浏览器的最新版本。End
   },
   /**
-   * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。
+   * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
+   * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
    */
   isHandle_experiments_buildHttp_in_CSSLoader = false,
   /**
@@ -1349,7 +1350,8 @@ const aliasConfig = {
      * 该实验性选项启用会导致HMR无效！！！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源，切记远程资源的url一定得是带明确的文件扩展后缀名，不然没法被各自的loader处理，从而webpack报处理错误。<br />
      * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map.js';<br />
      * 2、当前个人通过编码已经支持了可以在CSS文件中加载无文件扩展后缀名的图片类远程资源，但是其返回的响应头中必须准确设置该图片的content-type，这个由服务器设置的，一般都会准确的。<br />
-     * 3、除了设置成Boolean值，还可以是更加详细的Object值：<br />
+     * 3、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
+     * 4、除了设置成Boolean值，还可以是更加详细的Object值：<br />
      * {<br />
      * allowedUris：[ string，例如：http://localhost:9990/ ]、[ RegExp，例如：^https?:// ]、[ Function，例如：(uri: string) => boolean ]，允许的URI列表（分别是它们的开头）。<br />
      * 
@@ -2330,7 +2332,10 @@ const aliasConfig = {
           ],
           sideEffects: true,
         },
-        // 处理image。
+        /**
+         * 处理image。<br />
+         * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
+         */
         {
           test: /\.(jng|bmp|dcx|gif|icns|ico|jbig2|jpe|jpeg|jpg|pam|pbm|pcx|pgm|png|pnm|ppm|psd|rgbe|tga|tif|tiff|wbmp|xbm|xpm|svg|svgz|webp|heif|heic)$/i,
           /**
