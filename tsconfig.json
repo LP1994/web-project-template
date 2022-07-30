@@ -54,8 +54,50 @@
       "tslib": [
         "./node_modules/tslib/"
       ],
+      "assetsDir": [
+        "./src/assets/"
+      ],
+      "docDir": [
+        "./src/assets/doc/"
+      ],
+      "csonDir": [
+        "./src/assets/doc/cson/"
+      ],
+      "csvDir": [
+        "./src/assets/doc/csv/"
+      ],
+      "jsonDir": [
+        "./src/assets/doc/json/"
+      ],
+      "json5Dir": [
+        "./src/assets/doc/json5/"
+      ],
+      "tomlDir": [
+        "./src/assets/doc/toml/"
+      ],
+      "tsvDir": [
+        "./src/assets/doc/tsv/"
+      ],
+      "txtDir": [
+        "./src/assets/doc/txt/"
+      ],
+      "xmlDir": [
+        "./src/assets/doc/xml/"
+      ],
+      "yamlDir": [
+        "./src/assets/doc/yaml/"
+      ],
+      "fontsDir": [
+        "./src/assets/fonts/"
+      ],
       "imgDir": [
         "./src/assets/img/"
+      ],
+      "musicDir": [
+        "./src/assets/music/"
+      ],
+      "videosDir": [
+        "./src/assets/videos/"
       ]
     },
     "rootDir": ".",

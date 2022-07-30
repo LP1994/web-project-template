@@ -44,13 +44,21 @@ import {
   fileURLToPath,
 } from 'node:url';
 
+import cson from 'cson';
+
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+
+import json5 from 'json5';
 
 import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
 
 import mime from 'mime';
 
 import TerserPlugin from 'terser-webpack-plugin';
+
+import toml from 'toml';
+
+import yaml from 'yamljs';
 
 import entryConfig from './configures/EntryConfig.esm.mjs';
 
@@ -323,7 +331,24 @@ const aliasConfig = {
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
 
+    'assetsDir': resolve( __dirname, './src/assets/' ),
+
+    'docDir': resolve( __dirname, './src/assets/doc/' ),
+
+    'csonDir': resolve( __dirname, './src/assets/doc/cson/' ),
+    'csvDir': resolve( __dirname, './src/assets/doc/csv/' ),
+    'jsonDir': resolve( __dirname, './src/assets/doc/json/' ),
+    'json5Dir': resolve( __dirname, './src/assets/doc/json5/' ),
+    'tomlDir': resolve( __dirname, './src/assets/doc/toml/' ),
+    'tsvDir': resolve( __dirname, './src/assets/doc/tsv/' ),
+    'txtDir': resolve( __dirname, './src/assets/doc/txt/' ),
+    'xmlDir': resolve( __dirname, './src/assets/doc/xml/' ),
+    'yamlDir': resolve( __dirname, './src/assets/doc/yaml/' ),
+
+    'fontsDir': resolve( __dirname, './src/assets/fonts/' ),
     'imgDir': resolve( __dirname, './src/assets/img/' ),
+    'musicDir': resolve( __dirname, './src/assets/music/' ),
+    'videosDir': resolve( __dirname, './src/assets/videos/' ),
   },
   assetsWebpackPluginConfig = {
     filename: 'ProjectAllAssetsByWebpack.json',
@@ -1975,233 +2000,36 @@ const aliasConfig = {
       },
       unsafeCache: false,
       rules: [
-        // html-loader，将HTML导出为字符串。当编译器需要时，HTML会被最小化。
+        // 处理cson。
         {
-          test: /\.(htm|html|xhtml)$/i,
-          /**
-           * 当使用“webpack 5”时，需要这个属性，否则后面的“vue-loader”会报错！<br />
-           * 1、对于“vue-loader”而言，只要这个值不会被转换成“假值”就能成功使用“vue-loader”。<br />
-           */
-          enforce: 'pre',
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'html-loader',
-              options: {
-                sources: true,
-                minimize: HTMLMinifyConfig,
-                // 该loader的该选项默认值是true。
-                // esModule: true,
-              },
-            },
-          ],
+          test: /\.cson$/i,
+          type: 'json',
+          parser: {
+            parse: cson.parse,
+          },
           include: [
             resolve( __dirname, './src/' ),
           ],
           exclude: [
-            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/json5/' ),
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
             resolve( __dirname, './src/graphQL/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
-            resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/' ),
-            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
-        },
-        // ejs-loader。
-        {
-          test: /\.ejs$/i,
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'ejs-loader',
-              options: {
-                /**
-                 * 这个loader的这个esModule选项必须是false，不然会报错！<br />
-                 * 1、默认情况下，ejs-loader生成使用ES模块语法的JS模块。在某些情况下，使用ES模块是有益的，例如在模块连接和摇树的情况下。<br />
-                 * 2、将EJS模板编译成ES兼容模块需要variable选项。如果变量选项未作为加载器或查询选项提供，则会引发错误。有关更多详细信息，请参阅：https://github.com/lodash/lodash/issues/3709#issuecomment-375898111。<br />
-                 * 3、当该选项设置为false时，就会启用CommonJS模块语法。<br />
-                 * 4、该loader的该选项默认值是true。<br />
-                 */
-                esModule: false,
-              },
-            },
-          ],
-          include: [
-            resolve( __dirname, './src/' ),
-          ],
-          exclude: [
-            resolve( __dirname, './src/assets/' ),
-            resolve( __dirname, './src/graphQL/' ),
-            resolve( __dirname, './src/pwa_manifest/' ),
-            resolve( __dirname, './src/tools/' ),
-            resolve( __dirname, './src/static/' ),
-            resolve( __dirname, './src/styles/' ),
-            resolve( __dirname, './src/template/html/' ),
-            resolve( __dirname, './src/wasm/' ),
-            resolve( __dirname, './src/workers/' ),
-          ],
-        },
-        // vue-loader。
-        {
-          test: /\.vue$/i,
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'vue-loader',
-              options: {
-                transformAssetUrls: {
-                  video: [
-                    'src',
-                    'poster',
-                  ],
-                  source: 'src',
-                  img: 'src',
-                  image: [
-                    'xlink:href',
-                    'href',
-                  ],
-                  use: [
-                    'xlink:href',
-                    'href',
-                  ],
-                  audio: 'src',
-                },
-                compilerOptions: {
-                  whitespace: !isProduction
-                              ? 'preserve'
-                              : 'condense',
-                },
-                transpileOptions: {
-                  target: vue_loader_options_transpileOptions_target,
-                  // transforms里的选项值，true表示转换特性，false表示直接使用该特性。
-                  transforms: {
-                    arrow: false,
-                    classes: false,
-                    collections: false,
-                    computedProperty: false,
-                    conciseMethodProperty: false,
-                    constLoop: false,
-                    // 危险的转换！设置成false会直接使用该特性！
-                    dangerousForOf: false,
-                    // 危险的转换！设置成false会直接使用该特性！
-                    dangerousTaggedTemplateString: false,
-                    defaultParameter: false,
-                    destructuring: false,
-                    forOf: false,
-                    generator: false,
-                    letConst: false,
-                    modules: false,
-                    numericLiteral: false,
-                    parameterDestructuring: false,
-                    reservedProperties: false,
-                    spreadRest: false,
-                    stickyRegExp: false,
-                    templateString: false,
-                    unicodeRegExp: false,
-                    exponentiation: false,
-                  },
-                  // 对于IE 8需要将它设置成namedFunctionExpressions: false。
-                  namedFunctionExpressions: true,
-                },
-                prettify: !isProduction,
-                exposeFilename: !isProduction,
-                // vue-loader v16+才有的选项。Start
-                /**
-                 * 在使用Vue的反应性API时，引入一组编译器转换来改善人体工程学，特别是能够使用没有.value的refs。<br />
-                 * 1、具体可阅https://github.com/vuejs/rfcs/discussions/369 <br />
-                 * 2、仅在SFC中生效。<br />
-                 */
-                reactivityTransform: true,
-                /**
-                 * 启用自定义元素模式。在自定义元素模式下加载的SFC将其<style>标记内联为组件样式选项下的字符串。<br />
-                 * 1、当与Vue核心的defineCustomElement一起使用时，样式将被注入到自定义元素的阴影根中。<br />
-                 * 2、默认值为：/\.ce\.vue$/。<br />
-                 * 3、该选项的值类型为：boolean、RegExp。<br />
-                 * 4、设置为true将以“自定义元素模式”处理所有.vue文件。<br />
-                 */
-                // customElement: /\.ce\.vue$/,
-                /**
-                 * vue-loader v16.8+启用，当<script>有lang="ts"时，允许模板中的TS表达式。默认为真。<br />
-                 * 1、当与ts-loader一起使用时，由于ts-loader的缓存失效行为，它有时会阻止模板被单独热重新加载，从而导致组件重新加载，尽管只编辑了模板。<br />
-                 * 2、如果这很烦人，您可以将此选项设置为false（并避免在模板中使用TS表达式）。<br />
-                 * 3、或者，保留此选项（默认情况下）并使用esbuild-loader转译TS，这样就不会遇到这个问题（它也快得多）。<br />
-                 * 4、但是，请注意您将需要依赖其他来源（例如IDE或vue-tsc）的TS类型检查。<br />
-                 */
-                enableTsInTemplate: true,
-                // vue-loader v16+才有的选项。End
-              },
-            },
-          ],
-          include: [
-            resolve( __dirname, './src/' ),
-          ],
-          exclude: [
-            resolve( __dirname, './src/assets/' ),
-            resolve( __dirname, './src/graphQL/' ),
-            resolve( __dirname, './src/pwa_manifest/' ),
-            resolve( __dirname, './src/tools/' ),
-            resolve( __dirname, './src/static/' ),
-            resolve( __dirname, './src/styles/' ),
-            resolve( __dirname, './src/template/ejs/' ),
-            resolve( __dirname, './src/template/html/' ),
-            resolve( __dirname, './src/wasm/' ),
-            resolve( __dirname, './src/workers/' ),
-          ],
-        },
-        // 处理ts、tsx。
-        {
-          test: /\.ts(x?)$/i,
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'ts-loader',
-              options: {
-                // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
-                transpileOnly: true,
-                // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
-                happyPackMode: true,
-                logInfoToStdOut: false,
-                logLevel: 'error',
-                // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
-                silent: true,
-                // 仅报告与这些glob模式匹配的文件的错误。
-                reportFiles: [
-                  'src/**/*.{ts,cts,mts,tsx}',
-                  'src/**/*.ts.vue',
-                  'src/**/*.cts.vue',
-                  'src/**/*.mts.vue',
-                  'src/**/*.tsx.vue',
-                ],
-                // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
-                compiler: 'typescript',
-                // 允许您指定在哪里可以找到TypeScript配置文件。
-                configFile: resolve( __dirname, './tsconfig.json' ),
-                colors: true,
-                appendTsSuffixTo: [],
-                appendTsxSuffixTo: [],
-                onlyCompileBundledFiles: true,
-                allowTsInNodeModules: false,
-                context: resolve( __dirname, './' ),
-                experimentalFileCaching: true,
-                projectReferences: true,
-              },
-            },
-          ],
-          include: [
-            resolve( __dirname, './src/' ),
-          ],
-          exclude: [
-            resolve( __dirname, './src/assets/' ),
-            resolve( __dirname, './src/graphQL/' ),
-            resolve( __dirname, './src/pwa_manifest/' ),
-            resolve( __dirname, './src/static/' ),
-            resolve( __dirname, './src/styles/' ),
-            resolve( __dirname, './src/template/ejs/' ),
-            resolve( __dirname, './src/template/html/' ),
-            resolve( __dirname, './src/wasm/' ),
           ],
         },
         // 处理css。
@@ -2322,17 +2150,166 @@ const aliasConfig = {
             resolve( __dirname, './src/assets/' ),
             resolve( __dirname, './src/graphQL/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
-            resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/less/' ),
             resolve( __dirname, './src/styles/postcss/' ),
             resolve( __dirname, './src/styles/sass/' ),
             resolve( __dirname, './src/styles/scss/' ),
             resolve( __dirname, './src/styles/stylus/' ),
+            resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
           ],
           sideEffects: true,
+        },
+        // 处理csv、tsv。
+        {
+          test: /\.(csv|tsv)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'csv-loader',
+              options: {
+                dynamicTyping: true,
+                header: true,
+                skipEmptyLines: true,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/json5/' ),
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // ejs-loader。
+        {
+          test: /\.ejs$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'ejs-loader',
+              options: {
+                /**
+                 * 这个loader的这个esModule选项必须是false，不然会报错！<br />
+                 * 1、默认情况下，ejs-loader生成使用ES模块语法的JS模块。在某些情况下，使用ES模块是有益的，例如在模块连接和摇树的情况下。<br />
+                 * 2、将EJS模板编译成ES兼容模块需要variable选项。如果变量选项未作为加载器或查询选项提供，则会引发错误。有关更多详细信息，请参阅：https://github.com/lodash/lodash/issues/3709#issuecomment-375898111。<br />
+                 * 3、当该选项设置为false时，就会启用CommonJS模块语法。<br />
+                 * 4、该loader的该选项默认值是true。<br />
+                 */
+                esModule: false,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理字体font。
+        {
+          test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              // 单位字节，设置为10KB。
+              maxSize: 10 * 1024,
+            },
+          },
+          generator: {
+            dataUrl: {
+              encoding: 'base64',
+            },
+            emit: true,
+            filename: '[name]_[contenthash][ext]',
+            outputPath: './fonts/',
+            publicPath: '../fonts/',
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // html-loader，将HTML导出为字符串。当编译器需要时，HTML会被最小化。
+        {
+          test: /\.(htm|html|xhtml)$/i,
+          /**
+           * 当使用“webpack 5”时，需要这个属性，否则后面的“vue-loader”会报错！<br />
+           * 1、对于“vue-loader”而言，只要这个值不会被转换成“假值”就能成功使用“vue-loader”。<br />
+           */
+          enforce: 'pre',
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'html-loader',
+              options: {
+                sources: true,
+                minimize: HTMLMinifyConfig,
+                // 该loader的该选项默认值是true。
+                // esModule: true,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
         },
         /**
          * 处理image。<br />
@@ -2368,6 +2345,390 @@ const aliasConfig = {
           exclude: [
             resolve( __dirname, './src/assets/doc/' ),
             resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理json5。
+        {
+          test: /\.json5$/i,
+          type: 'json',
+          parser: {
+            parse: json5.parse,
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理toml。
+        {
+          test: /\.toml$/i,
+          type: 'json',
+          parser: {
+            parse: toml.parse,
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/json5/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理txt。
+        {
+          test: /\.txt$/i,
+          type: 'asset/source',
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/json5/' ),
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理音频music。
+        {
+          test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset/resource',
+          generator: {
+            emit: true,
+            filename: '[name]_[contenthash][ext]',
+            outputPath: './music/',
+            publicPath: '../music/',
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理ts、tsx。
+        {
+          test: /\.ts(x?)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+                transpileOnly: true,
+                // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
+                happyPackMode: true,
+                logInfoToStdOut: false,
+                logLevel: 'error',
+                // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
+                silent: true,
+                // 仅报告与这些glob模式匹配的文件的错误。
+                reportFiles: [
+                  'src/**/*.{ts,cts,mts,tsx}',
+                  'src/**/*.ts.vue',
+                  'src/**/*.cts.vue',
+                  'src/**/*.mts.vue',
+                  'src/**/*.tsx.vue',
+                ],
+                // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
+                compiler: 'typescript',
+                // 允许您指定在哪里可以找到TypeScript配置文件。
+                configFile: resolve( __dirname, './tsconfig.json' ),
+                colors: true,
+                appendTsSuffixTo: [],
+                appendTsxSuffixTo: [],
+                onlyCompileBundledFiles: true,
+                allowTsInNodeModules: false,
+                context: resolve( __dirname, './' ),
+                experimentalFileCaching: true,
+                projectReferences: true,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/wasm/' ),
+          ],
+        },
+        // 处理视频video。
+        {
+          test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset/resource',
+          generator: {
+            emit: true,
+            filename: '[name]_[contenthash][ext]',
+            outputPath: './videos/',
+            publicPath: '../videos/',
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // vue-loader，该loader一定得在html-loader之后。
+        {
+          test: /\.vue$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'vue-loader',
+              options: {
+                transformAssetUrls: {
+                  video: [
+                    'src',
+                    'poster',
+                  ],
+                  source: 'src',
+                  img: 'src',
+                  image: [
+                    'xlink:href',
+                    'href',
+                  ],
+                  use: [
+                    'xlink:href',
+                    'href',
+                  ],
+                  audio: 'src',
+                },
+                compilerOptions: {
+                  whitespace: !isProduction
+                              ? 'preserve'
+                              : 'condense',
+                },
+                transpileOptions: {
+                  target: vue_loader_options_transpileOptions_target,
+                  // transforms里的选项值，true表示转换特性，false表示直接使用该特性。
+                  transforms: {
+                    arrow: false,
+                    classes: false,
+                    collections: false,
+                    computedProperty: false,
+                    conciseMethodProperty: false,
+                    constLoop: false,
+                    // 危险的转换！设置成false会直接使用该特性！
+                    dangerousForOf: false,
+                    // 危险的转换！设置成false会直接使用该特性！
+                    dangerousTaggedTemplateString: false,
+                    defaultParameter: false,
+                    destructuring: false,
+                    forOf: false,
+                    generator: false,
+                    letConst: false,
+                    modules: false,
+                    numericLiteral: false,
+                    parameterDestructuring: false,
+                    reservedProperties: false,
+                    spreadRest: false,
+                    stickyRegExp: false,
+                    templateString: false,
+                    unicodeRegExp: false,
+                    exponentiation: false,
+                  },
+                  // 对于IE 8需要将它设置成namedFunctionExpressions: false。
+                  namedFunctionExpressions: true,
+                },
+                prettify: !isProduction,
+                exposeFilename: !isProduction,
+                // vue-loader v16+才有的选项。Start
+                /**
+                 * 在使用Vue的反应性API时，引入一组编译器转换来改善人体工程学，特别是能够使用没有.value的refs。<br />
+                 * 1、具体可阅https://github.com/vuejs/rfcs/discussions/369 <br />
+                 * 2、仅在SFC中生效。<br />
+                 */
+                reactivityTransform: true,
+                /**
+                 * 启用自定义元素模式。在自定义元素模式下加载的SFC将其<style>标记内联为组件样式选项下的字符串。<br />
+                 * 1、当与Vue核心的defineCustomElement一起使用时，样式将被注入到自定义元素的阴影根中。<br />
+                 * 2、默认值为：/\.ce\.vue$/。<br />
+                 * 3、该选项的值类型为：boolean、RegExp。<br />
+                 * 4、设置为true将以“自定义元素模式”处理所有.vue文件。<br />
+                 */
+                // customElement: /\.ce\.vue$/,
+                /**
+                 * vue-loader v16.8+启用，当<script>有lang="ts"时，允许模板中的TS表达式。默认为真。<br />
+                 * 1、当与ts-loader一起使用时，由于ts-loader的缓存失效行为，它有时会阻止模板被单独热重新加载，从而导致组件重新加载，尽管只编辑了模板。<br />
+                 * 2、如果这很烦人，您可以将此选项设置为false（并避免在模板中使用TS表达式）。<br />
+                 * 3、或者，保留此选项（默认情况下）并使用esbuild-loader转译TS，这样就不会遇到这个问题（它也快得多）。<br />
+                 * 4、但是，请注意您将需要依赖其他来源（例如IDE或vue-tsc）的TS类型检查。<br />
+                 */
+                enableTsInTemplate: true,
+                // vue-loader v16+才有的选项。End
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理xml。
+        {
+          test: /\.xml$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'xml-loader',
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/json5/' ),
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理yaml。
+        {
+          test: /\.yaml$/i,
+          type: 'json',
+          parser: {
+            parse: yaml.parse,
+          },
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            resolve( __dirname, './src/assets/doc/json/' ),
+            resolve( __dirname, './src/assets/doc/json5/' ),
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
             resolve( __dirname, './src/assets/music/' ),
             resolve( __dirname, './src/assets/videos/' ),
             resolve( __dirname, './src/graphQL/' ),

@@ -67,7 +67,24 @@ module.exports = {
       'element-plus-css$': 'element-plus/dist/index.css',
       'swiper-css$': 'swiper/swiper-bundle.min.css',
 
+      'assetsDir': path.resolve( __dirname, './src/assets/' ),
+
+      'docDir': path.resolve( __dirname, './src/assets/doc/' ),
+
+      'csonDir': path.resolve( __dirname, './src/assets/doc/cson/' ),
+      'csvDir': path.resolve( __dirname, './src/assets/doc/csv/' ),
+      'jsonDir': path.resolve( __dirname, './src/assets/doc/json/' ),
+      'json5Dir': path.resolve( __dirname, './src/assets/doc/json5/' ),
+      'tomlDir': path.resolve( __dirname, './src/assets/doc/toml/' ),
+      'tsvDir': path.resolve( __dirname, './src/assets/doc/tsv/' ),
+      'txtDir': path.resolve( __dirname, './src/assets/doc/txt/' ),
+      'xmlDir': path.resolve( __dirname, './src/assets/doc/xml/' ),
+      'yamlDir': path.resolve( __dirname, './src/assets/doc/yaml/' ),
+
+      'fontsDir': path.resolve( __dirname, './src/assets/fonts/' ),
       'imgDir': path.resolve( __dirname, './src/assets/img/' ),
+      'musicDir': path.resolve( __dirname, './src/assets/music/' ),
+      'videosDir': path.resolve( __dirname, './src/assets/videos/' ),
     },
     /**
      * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />
