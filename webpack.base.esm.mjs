@@ -2982,7 +2982,7 @@ const aliasConfig = {
      * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />
      */
     scriptType: 'text/javascript',
-    sourceMapFilename: 'js/[name]_Map_[sha512:contenthash:hex:16].map',
+    sourceMapFilename: 'js/[name]_Map_[contenthash:16].map',
     /**
      * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
