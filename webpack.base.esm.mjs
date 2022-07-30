@@ -44,8 +44,6 @@ import {
   fileURLToPath,
 } from 'node:url';
 
-import cson from 'cson';
-
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 import json5 from 'json5';
@@ -2003,10 +2001,13 @@ const aliasConfig = {
         // 处理cson。
         {
           test: /\.cson$/i,
-          type: 'json',
-          parser: {
-            parse: cson.parse,
-          },
+          type: 'javascript/auto',
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'cson-loader',
+            },
+          ],
           include: [
             resolve( __dirname, './src/' ),
           ],
@@ -2369,7 +2370,9 @@ const aliasConfig = {
           exclude: [
             resolve( __dirname, './src/assets/doc/cson/' ),
             resolve( __dirname, './src/assets/doc/csv/' ),
-            resolve( __dirname, './src/assets/doc/json/' ),
+            // 见鬼了！设置了这个排除路径，竟然会导致在'./src/assets/doc/json5/'下的json5文件无法被该loader处理！跟“json5”文件夹的命名无关的！Start！
+            // resolve( __dirname, './src/assets/doc/json/' ),
+            // 见鬼了！设置了这个排除路径，竟然会导致在'./src/assets/doc/json5/'下的json5文件无法被该loader处理！跟“json5”文件夹的命名无关的！End！
             resolve( __dirname, './src/assets/doc/toml/' ),
             resolve( __dirname, './src/assets/doc/tsv/' ),
             resolve( __dirname, './src/assets/doc/txt/' ),
