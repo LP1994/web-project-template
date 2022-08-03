@@ -1,0 +1,4 @@
+::v-deep：vue、Sass（scss）
+/deep/：Sass（scss）
+>>>：vue，vue中上面两个都是这个的别名
+> > >：

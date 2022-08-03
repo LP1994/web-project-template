@@ -14,7 +14,6 @@
 'use strict';
 
 import {
-  dirname,
   resolve,
 } from 'node:path';
 

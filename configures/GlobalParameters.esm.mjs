@@ -106,6 +106,24 @@ deviceInfo().is_Mobile&&dynamicREM();
     'Expires': 0,
   },
   /**
+   * 注意：仅使用纯字母字符作为自定义变量名称。我们正在使用正则表达式来修补视口值，任何带有特殊字符的变量都可能导致未知问题。<br />
+   * 1、自定义属性名称区分大小写--my-color将被视为与--My-color不同的自定义属性。<br />
+   */
+  postcssViewportHeightCorrectionCustomViewportCorrectionVariable = 'postcss-viewport-height-correction2022',
+  /**
+   * 使用postcss-viewport-height-correction插件时需要手动引入的JS，其是为了解决height: 100vh在移动端浏览器（尤其是iOS端的浏览器）上出现的“怪异”现象，哪怕不是100vh，如：50vh、75vh、-1vh也会出现怪异现象。
+   * 1、相关文章可见：<br />
+   * https://cloud.tencent.com/developer/article/2031944
+   * https://www.jianshu.com/p/437fd5b603de
+   * 2、该插件的使用需要手动引入部分JS，具体写法见：<br />
+   * https://github.com/Faisal-Manzer/postcss-viewport-height-correction
+   * 3、注意：仅使用纯字母字符作为自定义变量名称。我们正在使用正则表达式来修补视口值，任何带有特殊字符的变量都可能导致未知问题。<br />
+   * 4、自定义属性名称区分大小写--my-color将被视为与--My-color不同的自定义属性。<br />
+   * 5、默认值为：vh。<br />
+   * 6、里面的变量customViewportCorrectionVariable的值要跟插件中的选项variable的值保持一致。<br />
+   */
+  postcssViewportHeightCorrectionJS = `var customViewportCorrectionVariable='${ postcssViewportHeightCorrectionCustomViewportCorrectionVariable }';function setViewportProperty(doc){var prevClientHeight,customVar='--'+(customViewportCorrectionVariable||'vh');function handleResize(){var clientHeight=doc.clientHeight;if(clientHeight===prevClientHeight){return;}requestAnimationFrame(function updateViewportHeight(){doc.style.setProperty(customVar,(clientHeight*0.01)+'px');prevClientHeight=clientHeight;});}handleResize();return handleResize;}window.addEventListener('resize',setViewportProperty(document.documentElement));`,
+  /**
    * 动态插入到页面的远端调式工具(weinre)的JS代码。<br />
    */
   weinreDevTool = `<script>var weinreDevTool_elem=document.createElement('script'),hostName_str=location.hostname;if(hostName_str==='${ localHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinreLocalPort }/target/target-script-min.js#iOS001';}else if(hostName_str==='${ weinrePublicNetworkHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinrePublicNetworkPort }/target/target-script-min.js#iOS001';}document.body.appendChild(weinreDevTool_elem);</script>`;
@@ -114,6 +132,8 @@ export {
   devServerGlobalParameters,
   dynamicREM,
   httpHeaders,
+  postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
+  postcssViewportHeightCorrectionJS,
   weinreDevTool,
 };
 
@@ -121,5 +141,7 @@ export default {
   devServerGlobalParameters,
   dynamicREM,
   httpHeaders,
+  postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
+  postcssViewportHeightCorrectionJS,
   weinreDevTool,
 };

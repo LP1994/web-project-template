@@ -16,7 +16,7 @@
  * vue-loader:options.transpileOptions.transforms。
  * tsconfig.json中的compilerOptions.module、compilerOptions.target。
  * 变量browserslist。
- * 变量esbuildMinify_target。
+ * package.json中的browserslist字段，值同变量browserslist。
  */
 
 'use strict';
@@ -46,23 +46,32 @@ import {
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
-import json5 from 'json5';
+import JSON5 from 'json5';
 
 import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
 
-import mime from 'mime';
+import less from 'less';
 
-import TerserPlugin from 'terser-webpack-plugin';
+import Mime from 'mime';
 
-import toml from 'toml';
+import postcss from 'postcss';
 
-import yaml from 'yamljs';
+import PostCSSSyntax from 'postcss-syntax';
+
+import DartSass from 'sass';
+
+import Stylus from 'stylus';
+
+import Toml from 'toml';
+
+import Yaml from 'yamljs';
 
 import entryConfig from './configures/EntryConfig.esm.mjs';
 
 import {
   devServerGlobalParameters,
   httpHeaders,
+  postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
 } from './configures/GlobalParameters.esm.mjs';
 
 import HTMLWebpackPluginConfig from './configures/HTMLWebpackPluginConfig.esm.mjs';
@@ -95,58 +104,60 @@ function Get__filename( import_meta_url = import.meta.url ){
  * 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url ),
-  browserslist = [
-    // 至20220724的各PC端主流浏览器的最新版本。Start
-    'Chrome >= 103',
-    'Edge >= 103',
-    'Firefox >= 103',
-    'Safari >= 15',
-    'Opera >= 89',
-    // 至20220724的各PC端主流浏览器的最新版本。End
-
-    // 至20220724的各移动端主流浏览器的最新版本。Start
-    'ChromeAndroid >= 103',
-    'Android >= 103',
-    'FirefoxAndroid >= 103',
-    'iOS >= 15',
-    // 至20220724的各移动端主流浏览器的最新版本。End
-  ],
   /**
-   * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
-   * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
-   * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
+   * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
+   * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
    */
-  esbuildMinify_target = [
-    'es2022',
+  env_platform = ( argv => {
+    const envArr = [];
 
-    // 至20220724的各PC端主流浏览器的最新版本。Start
-    'chrome103',
-    'edge103',
-    'firefox103',
-    'safari15',
-    'opera89',
-    // 至20220724的各PC端主流浏览器的最新版本。End
+    argv.forEach( ( item, index ) => {
+      if( item === '--env' ){
+        envArr.push( argv.at( index + 1 ) );
+      }
+    } );
 
-    // 至20220724的各移动端主流浏览器的最新版本。Start
-    'ios15',
-    // 至20220724的各移动端主流浏览器的最新版本。End
-  ],
-  vue_loader_options_transpileOptions_target = {
-    // 至20220724的各PC端主流浏览器的最新版本。Start
-    chrome: 103,
-    edge: 103,
-    firefox: 103,
-    safari: 15,
-    opera: 89,
-    // 至20220724的各PC端主流浏览器的最新版本。End
+    if( envArr.length === 0 ){
+      console.dir( argv );
 
-    // 至20220724的各移动端主流浏览器的最新版本。Start
-    and_chr: 103,
-    android: 103,
-    and_ff: 103,
-    ios_saf: 15,
-    // 至20220724的各PC端主流浏览器的最新版本。End
-  },
+      throw new Error( 'CLI参数中没找到“--env”参数。注意“--env”参数是允许多个的哦。' );
+    }
+
+    const platformArr = [];
+
+    envArr.forEach( item => {
+      if( item.startsWith( 'platform=' ) ){
+        platformArr.push( item );
+      }
+    } );
+
+    if( platformArr.length === 0 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。注意“--env”参数是允许多个的哦。' );
+    }
+    else if( platformArr.length > 1 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值有且只能有一个，该值一般是这4个中的一个：platform=dev_server、platform=local_server、platform=test、platform=production。注意“--env”参数是允许多个的哦。' );
+    }
+
+    const str = platformArr.at( 0 ).replace( 'platform=', '' ).trim();
+
+    if( [
+      'dev_server',
+      'local_server',
+      'test',
+      'production',
+    ].includes( str ) ){
+      return str;
+    }
+    else{
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
+    }
+  } )( argv ),
   /**
    * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
    * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
@@ -183,7 +194,113 @@ const __dirname = Get__dirname( import.meta.url ),
   /**
    * 是否将项目设置成单页面应用程序(SPA)，默认true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)。<br />
    */
-  isSPA = false,
+  isSPA = false;
+
+// 目标浏览器版本。
+const browserslist = [
+    // PC端完全支持ES 5的主流浏览器 Start
+    // 'Chrome >= 23',
+    // 'Firefox >= 21',
+    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
+    // 'IE >= 9',
+    // 'Safari >= 6',
+    // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
+    // 'Opera >= 15',
+    // PC端完全支持ES 5的主流浏览器 End
+
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 Start
+    // 'Chrome >= 58',
+    // 'Firefox >= 54',
+    // 这里的Edge是指旧版的微软Edge（版本从12到18），它是用微软的浏览器引擎EdgeHTML和他们的Chakra JavaScript引擎构建的。
+    // 'Edge >= 14',
+    // 'Safari >= 10',
+    // 'Opera >= 55',
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
+
+    // PC端各主流浏览器的最新版本，至20220731。Start
+    'Chrome >= 104',
+    // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
+    'Edge >= 103',
+    'Firefox >= 103',
+    'Safari >= 15',
+    'Opera >= 89',
+    // PC端各主流浏览器的最新版本，至20220731。End
+
+    // 移动端各主流浏览器的最新版本，至20220731。Start
+    'ChromeAndroid >= 104',
+    'Android >= 104',
+    'FirefoxAndroid >= 103',
+    'iOS >= 15',
+    // 移动端各主流浏览器的最新版本，至20220731。End
+  ],
+  // 目标浏览器版本。
+  vue_loader_options_transpileOptions_target = {
+    // PC端完全支持ES 5的主流浏览器 Start
+    // chrome: 23,
+    // firefox: 21,
+    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
+    // ie: 9,
+    // safari: 6,
+    // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
+    // opera: 15,
+    // PC端完全支持ES 5的主流浏览器 End
+
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 Start
+    // chrome: 58,
+    // firefox: 54,
+    // 这里的Edge是指旧版的微软Edge（版本从12到18），它是用微软的浏览器引擎EdgeHTML和他们的Chakra JavaScript引擎构建的。
+    // edge: 14,
+    // safari: 10,
+    // opera: 55,
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
+
+    // PC端各主流浏览器的最新版本，至20220731。Start
+    chrome: 104,
+    edge: 103,
+    firefox: 103,
+    safari: 15,
+    opera: 89,
+    // PC端各主流浏览器的最新版本，至20220731。End
+
+    // 移动端各主流浏览器的最新版本，至20220731。Start
+    and_chr: 104,
+    android: 104,
+    and_ff: 103,
+    ios_saf: 15,
+    // 移动端各主流浏览器的最新版本，至20220731。End
+  };
+
+// autoprefixer共有三种类型的控制注释：
+// /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
+// /* autoprefixer: ignore next */：仅为下一个属性或下一个规则选择器或规则参数（但不规则/规则正文）禁用自动前缀。
+// /* autoprefixer grid: (autoplace|no-autoplace|off) */：控制Autoprefixer如何处理整个块的网格转换：
+// autoplace：启用带有自动放置支持的网格翻译。
+// no-autoplace：在禁用自动放置支持的情况下启用网格转换，但不支持自动放置（该值是值on的别名，但是值on是一个已弃用的值）。
+// off：禁用所有网格翻译。
+const autoprefixerConfig = {
+    // 如果CSS未压缩，Autoprefixer应该使用Visual Cascade。默认值：true。
+    cascade: true,
+    // Autoprefixer应该添加前缀。默认为true。
+    add: true,
+    // 应该Autoprefixer[删除过时的]前缀。默认为true。
+    remove: false,
+    // Autoprefixer应该为@supports参数添加前缀。默认为true。
+    supports: true,
+    // 值类型：boolean、string，Autoprefixer应该为flexbox属性添加前缀。使用“no-2009”值，Autoprefixer将只为规范的最终版本和IE 10版本添加前缀。默认为true。
+    flexbox: true,
+    /**
+     * 处理grid布局，有效值为：false、'autoplace'、'no-autoplace'。
+     * 1、默认值为false，防止Autoprefixer输出CSS Grid翻译。<br />
+     * 2、在您的项目根目录中运行npx autoprefixer --info以检查选择了哪些浏览器以及将为哪些属性添加前缀。<br />
+     */
+    // autoplace：启用Autoprefixer网格翻译并包括自动放置支持。您还可以在CSS中使用魔术注释：/* autoprefixer grid: autoplace */。
+    // no-autoplace：该选项值是已弃用的选项值true的别名，启用Autoprefixer网格翻译，但不支持自动放置。您还可以在CSS中使用/* autoprefixer grid: no-autoplace */。
+    // 将自动放置集成到现有项目中的绝对最佳方法是默认关闭自动放置，然后在需要时使用控制注释启用它。这种方法不太可能导致网站上的某些东西损坏。
+    // 也就是在CSS文件的最顶部使用/* autoprefixer grid: no-autoplace */来关闭自动放置，但是在需要的地方使用/* autoprefixer grid: autoplace */来开启自动放置。
+    grid: 'autoplace',
+    // 不要在Browserslist配置中引发未知浏览器版本的错误。默认为false。
+    ignoreUnknownVersions: false,
+  },
   HTMLMinifyConfig = {
     // 以区分大小写的方式处理属性（对自定义HTML标签有用）。
     caseSensitive: false,
@@ -246,60 +363,18 @@ const __dirname = Get__dirname( import.meta.url ),
     // 用短 (HTML5) 文档类型替换文档类型。
     useShortDoctype: false,
   },
-  /**
-   * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
-   * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
-   */
-  env_platform = ( argv => {
-    const envArr = [];
-
-    argv.forEach( ( item, index ) => {
-      if( item === '--env' ){
-        envArr.push( argv.at( index + 1 ) );
-      }
-    } );
-
-    if( envArr.length === 0 ){
-      console.dir( argv );
-
-      throw new Error( 'CLI参数中没找到“--env”参数。注意“--env”参数是允许多个的哦。' );
-    }
-
-    const platformArr = [];
-
-    envArr.forEach( item => {
-      if( item.startsWith( 'platform=' ) ){
-        platformArr.push( item );
-      }
-    } );
-
-    if( platformArr.length === 0 ){
-      console.dir( argv );
-
-      throw new Error( 'CLI参数中必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。注意“--env”参数是允许多个的哦。' );
-    }
-    else if( platformArr.length > 1 ){
-      console.dir( argv );
-
-      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值有且只能有一个，该值一般是这4个中的一个：platform=dev_server、platform=local_server、platform=test、platform=production。注意“--env”参数是允许多个的哦。' );
-    }
-
-    const str = platformArr.at( 0 ).replace( 'platform=', '' ).trim();
-
-    if( [
-      'dev_server',
-      'local_server',
-      'test',
-      'production',
-    ].includes( str ) ){
-      return str;
-    }
-    else{
-      console.dir( argv );
-
-      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
-    }
-  } )( argv ),
+  postcssCalcConfig = {
+    // 默认值为5，允许您定义十进制数的精度。
+    precision: 6,
+    // 默认值为false，允许您在输出中保留calc() 用法，以便浏览器自己处理小数精度。
+    preserve: true,
+    // 默认值为false，当calc()未减少为单个值时添加警告。
+    warnWhenCannotResolve: false,
+    // 默认值为false，允许将calc()用作媒体查询声明的一部分。
+    mediaQueries: true,
+    // 默认值为false，允许将calc()用作选择器的一部分。
+    selectors: true,
+  },
   watchIgnoredArr = [
     resolve( __dirname, './.git/' ),
     resolve( __dirname, './.idea/' ),
@@ -1016,7 +1091,7 @@ const aliasConfig = {
         console.log( `客户端的请求URL--->${ req.url }` );
         console.log( '------setupMiddlewares------End' );
 
-        res.setHeader( 'Content-Type', mime.getType( req.url ) );
+        res.setHeader( 'Content-Type', Mime.getType( req.url ) );
         res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
         res.setHeader( 'x-dev-type', `${ env_platform }` );
 
@@ -1877,6 +1952,220 @@ const aliasConfig = {
       } )(),
     ];
 
+    const postCSSLoader = {
+      loader: 'postcss-loader',
+      options: {
+        implementation: postcss,
+        // 在CSS-in-JS中启用PostCSS Parser支持。如果您使用JS样式的postcss-js解析器，请添加执行选项为true。
+        execute: false,
+        sourceMap: false,
+        postcssOptions: {
+          // 当使用{Function}/require（复杂选项）时，webpack在选项中需要标识符（ident），ident可以自由命名，只要它是唯一的即可。建议命名（标识：“postcss”）。
+          // ident: 'postcss',
+          syntax: PostCSSSyntax( {
+            css: 'postcss-safe-parser',
+            less: 'postcss-less',
+            sass: 'postcss-sass',
+            scss: 'postcss-scss',
+          } ),
+          // 配置插件的时候注意顺序哦！不同插件之间有先后处理的规则！postcss的插件有200多之数（有些还废弃、迁移包名之类的），还会随着积累越来越多的，挑着对项目有用的插件配置，不要过度求全，不然指不定会出现不如所愿的情况出现。
+          plugins: [
+            // 生成后备的兼容语法 Start
+
+            // postcss-will-change-transition，为transition生成will-change。这个插件在transition之后添加了will-change属性来加速动画。可以与postcss-will-change插件结合使用，但是postcss-will-change-transition插件得在postcss-will-change插件之前。
+            'postcss-will-change-transition',
+
+            /**
+             * postcss-will-change（得在Autoprefixer插件之前），使用backface-visibility来强制浏览器创建一个新层，而不覆盖现有的backface-visibility属性。<br />
+             * 1、这个3D CSS hack通常使用transform: translateZ(0)来完成，但是这里使用了backface-visibility来避免覆盖更流行的transform属性。<br />
+             * 2、不支持will-change的浏览器需要这些hack。<br />
+             * 3、得在Autoprefixer插件之前使用此插件，它将供应商前缀添加到背面可见性。<br />
+             */
+            'postcss-will-change',
+
+            // postcss-safe-area，为安全区域环境变量添加浏览器后备。
+            'postcss-safe-area',
+
+            /**
+             * postcss-momentum-scrolling，用于为iOS上具有overflow（scroll、auto）的元素添加动量样式滚动行为（-webkit-overflow-scrolling: touch）。<br />
+             * 1、默认仅为overflow: scroll添加-webkit-overflow-scrolling: touch。
+             */
+            'postcss-momentum-scrolling',
+
+            // 生成后备的兼容语法 End
+
+            // postcss-preset-env
+            [
+              'postcss-preset-env',
+              {
+                /**
+                 * 根据它们在成为实施Web标准的过程中的稳定性来确定要填充哪些CSS功能。<br />
+                 * 1、阶段可以是0（实验）到4（稳定），也可以是false。将stage设置为false将禁用每个polyfill。仅当您打算专门使用features选项时，这样做才有用。<br />
+                 * 2、默认值为2。<br />
+                 * 3、为了在PostCSS Preset Env更新之间获得更高的稳定性，您可以设置stage: 3和minimumVendorImplementations: 2。保持接近标准的一个副作用是您可以更轻松地将项目迁移到其他工具。<br />
+                 */
+                stage: 0,
+                /**
+                 * 根据实现状态确定要填充哪些CSS功能。这可用于启用浏览器中可用的插件，无论规范状态如何。<br />
+                 * 1、可以是0（没有供应商实现它）到 3（所有主要供应商）。<br />
+                 * 2、默认值为0。<br />
+                 * 3、当任何供应商尚未实施某个功能时，可以将其视为实验性的。<br />
+                 * 4、即使只有一个实现，它也可能在未来发生变化。<br />
+                 * 5、有时，功能/规范的问题只有在它可用后才会被发现。<br />
+                 * 6、当您只想使用那些应该稳定的功能时，建议使用值2。<br />
+                 * 7、拥有2个独立的实现是提案成为标准的关键步骤，也是功能稳定性的良好指标。<br />
+                 * 8、为了在PostCSS Preset Env更新之间获得更高的稳定性，您可以设置stage: 3和minimumVendorImplementations: 2。保持接近标准的一个副作用是您可以更轻松地将项目迁移到其他工具。<br />
+                 */
+                minimumVendorImplementations: 0,
+                browsers: browserslist,
+                preserve: true,
+                debug: !isProduction,
+                // 请注意，通过“feature”选项手动启用/禁用功能会覆盖此标志。
+                enableClientSidePolyfills: true,
+                // autoprefixer共有三种类型的控制注释：
+                // /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
+                // /* autoprefixer: ignore next */：仅为下一个属性或下一个规则选择器或规则参数（但不规则/规则正文）禁用自动前缀。
+                // /* autoprefixer grid: (autoplace|no-autoplace|off) */：控制Autoprefixer如何处理整个块的网格转换：
+                // autoplace：启用带有自动放置支持的网格翻译。
+                // no-autoplace：在禁用自动放置支持的情况下启用网格转换，但不支持自动放置（该值是值on的别名，但是值on是一个已弃用的值）。
+                // off：禁用所有网格翻译。
+                autoprefixer: autoprefixerConfig,
+              },
+            ],
+
+            // 优化性插件，这里个人设置成只做优化，不对特殊的、非标准的CSS语法（符合W3C的CSS语法）做处理 Start
+
+            // postcss-single-charset，当文件中存在多个@charset规则时，会将最后一个@charset规则提取到文件顶部，并删除其他@charset规则。
+            'postcss-single-charset',
+
+            // postcss-remove-nested-calc，calc(100vw - calc(20% - 10px))到calc(100vw - (20% - 10px))以实现IE 11兼容性（其实IE 9及其以上版本也都不支持calc函数嵌套）。
+            'postcss-remove-nested-calc',
+
+            /**
+             * postcss-calc
+             * 1、MDN上提到允许嵌套calc()函数（IE浏览器不支持的，可以用括号来代替嵌套），在这种情况下，内部函数被视为简单的括号。<br />
+             * 2、对于长度，您不能使用0来表示0px（或其他长度单位）；相反，您必须使用带有单位。<br />
+             * 3、如果您愿意，您可以为表达式中的每个值使用不同的单位。您还可以在需要时使用括号来建立计算顺序。<br />
+             * 4、+和-运算符必须被空格包围，有效：calc(50% - 8px)。<br />
+             * 5、*和/运算符不需要空格，但为了保持一致性，允许并建议添加空格。<br />
+             * 6、涉及自动和固定布局表中的表格列、表格列组、表格行、表格行组和表格单元格的宽度和高度百分比的数学表达式可能被视为已指定auto。<br />
+             * 7、当calc()用于控制文本大小时，请确保其中一个值包含相对长度单位，例如： font-size: calc(1.5rem + 3vw)，这可确保在缩放页面时文本大小会缩放。<br />
+             * 8、与整数一起使用时，在需要<integer>的地方使用calc()时，该值将四舍五入为最接近的整数。例如：z-index: calc(3 / 2)，最终会取2这个值。<br />
+             * 9、注意：Chrome浏览器当前不接受calc()返回的某些值，当需要整数时。这包括任何除法，即使它产生一个整数。z-index: calc(4 / 2)，也将不被接受。<br />
+             * 10、+和-运算符两边的操作数都必须是带单位的，但是*和/运算符两边的操作数至少有一个带单位就行。<br />
+             * 11、该插件就开发环境启用，生产环境不要使用，因为生产环境会启用cssnano进行压缩，而cssnano里面就有calc选项（也是使用postcss-calc插件），而且也已经配置了。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? []
+                     : [
+                  [
+                    'postcss-calc',
+                    postcssCalcConfig,
+                  ],
+                ];
+            } )(),
+
+            // postcss-mq-optimize，删除无效的媒体查询或其表达式。
+            'postcss-mq-optimize',
+
+            /**
+             * postcss-merge-queries，将相同的CSS媒体查询规则合并为一个。<br />
+             * 1、由于此插件将所有媒体查询移动到文件末尾，因此如果您的CSS结构不合理，它可能会引入错误，导致结果不如所愿。所以记住这一点！<br />
+             * 2、因此，建议在开发中也使用此插件以更快地检测到此类副作用。<br />
+             */
+            'postcss-merge-queries',
+
+            /**
+             * postcss-combine-duplicated-selectors，自动检测和组合重复的css选择器，这样你就不必手动处理了。<br />
+             * 1、该插件就开发环境启用，生产环境不要使用，因为生产环境会启用cssnano进行压缩，而cssnano里面就有discardDuplicates选项，而且也已经配置了。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? []
+                     : [
+                  [
+                    'postcss-combine-duplicated-selectors',
+                    {
+                      // 可以选择组合重复的属性，启用后会移除重复的属性，后面的会覆盖前面的，从而保留最后的那个属性。
+                      removeDuplicatedProperties: true,
+                      // 限制仅在值相等时才组合属性，启用后会移除重复的属性，后面的会覆盖前面的，从而保留最后的那个属性。但是必须保证其值是全等的，对于使用了自定义属性的，还是会保留自定义属性的。
+                      removeDuplicatedValues: true,
+                    },
+                  ],
+                ];
+            } )(),
+
+            // 优化性插件，这里个人设置成只做优化，不对特殊的、非标准的CSS语法（符合W3C的CSS语法）做处理 End
+
+            // 特殊处理 Start
+
+            // postcss-pseudo-element-colons，转换伪元素的双冒号、单冒号，对于新的标准的W3C规范，伪元素最好都用双冒号，虽然单冒号也被支持，但是它是不规范或者旧的规范版本。
+            [
+              'postcss-pseudo-element-colons',
+              {
+                'selectors': [
+                  'before',
+                  'after',
+                  'first-letter',
+                  'first-line',
+                ],
+                'colon-notation': 'double',
+              },
+            ],
+
+            /**
+             * postcss-viewport-height-correction，解决height: 100vh在移动端浏览器（尤其是iOS端的浏览器）上出现的“怪异”现象，哪怕不是100vh，如：50vh、75vh、-1vh也会出现怪异现象。
+             * 1、相关文章可见：<br />
+             * https://cloud.tencent.com/developer/article/2031944
+             * https://www.jianshu.com/p/437fd5b603de
+             * 2、该插件的使用需要手动引入部分JS，具体写法见：<br />
+             * https://github.com/Faisal-Manzer/postcss-viewport-height-correction
+             */
+            [
+              'postcss-viewport-height-correction',
+              {
+                /**
+                 * 注意：仅使用纯字母字符作为自定义变量名称。我们正在使用正则表达式来修补视口值，任何带有特殊字符的变量都可能导致未知问题。<br />
+                 * 1、自定义属性名称区分大小写--my-color将被视为与--My-color不同的自定义属性。<br />
+                 * 2、默认值为：vh。<br />
+                 * 3、该设置值要跟JS中的变量customViewportCorrectionVariable的值保持一致。<br />
+                 */
+                variable: postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
+              },
+            ],
+
+            // 特殊处理 End
+
+            // postcss-browser-reporter，如果您想涵盖所有可能的警告，请将此插件放在所有插件之后。
+            [
+              'postcss-browser-reporter',
+              {
+                selector: 'html::before',
+                styles: {
+                  display: 'block !important',
+                  position: 'fixed !important',
+                  top: '0 !important',
+                  right: '0 !important',
+                  bottom: '0 !important',
+                  left: '0 !important',
+                  'z-index': '202200000000 !important',
+                  content: '',
+                  width: '100% !important',
+                  height: '100% !important',
+                  'background-color': 'red !important',
+                  color: 'white !important',
+                  'font-size': '12px !important',
+                  overflow: 'hidden !important',
+                  'white-space': 'pre-wrap !important',
+                },
+              },
+            ],
+          ],
+        },
+      },
+    };
+
     return {
       generator: {
         asset: {
@@ -2137,12 +2426,13 @@ const aliasConfig = {
                     }
                   },
                 },
-                importLoaders: 0,
+                importLoaders: 1,
                 sourceMap: false,
                 // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
                 // esModule: true,
               },
             },
+            postCSSLoader,
           ],
           include: [
             resolve( __dirname, './src/' ),
@@ -2201,7 +2491,7 @@ const aliasConfig = {
             resolve( __dirname, './src/workers/' ),
           ],
         },
-        // ejs-loader。
+        // 处理ejs。
         {
           test: /\.ejs$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -2229,7 +2519,11 @@ const aliasConfig = {
             resolve( __dirname, './src/pwa_manifest/' ),
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
             resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
@@ -2277,21 +2571,100 @@ const aliasConfig = {
             resolve( __dirname, './src/workers/' ),
           ],
         },
-        // html-loader，将HTML导出为字符串。当编译器需要时，HTML会被最小化。
+        // 处理graphql，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
+        {
+          test: /\.(graphql|gql)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'webpack-graphql-loader',
+              options: {
+                // graphql自省查询架构JSON文件的位置。如果与validate选项一起使用，它将用于验证导入的查询和片段。
+                schema: './src/graphQL/GraphQL.Schema.json',
+                // 如果为true，则加载程序将根据您指定的模式文件验证导入的文档。
+                validate: true,
+                // 'string'、'document'
+                output: 'string',
+                // 如果为true且输出选项为字符串，则加载程序将从graphql文档字符串中删除注释和空格。这有助于减小捆绑的代码大小。
+                minify: isProduction,
+                /**
+                 * 如果为true，则加载程序将从导入的文档中删除未使用的碎片。<br />
+                 * 1、如果查询要从文件导入片段，但未使用该文件中的所有片段，则这可能很有用。<br />
+                 * 2、另请参阅此问题https://github.com/apollographql/graphql-tag/issues/102。<br />
+                 */
+                removeUnusedFragments: false,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // handlebars-loader。
+        {
+          test: /\.(handlebars|hbs)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'handlebars-loader',
+              options: {
+                debug: !isProduction,
+                noEscape: false,
+                strict: true,
+                preventIndent: true,
+                extensions: [
+                  '.handlebars',
+                  '.hbs',
+                ],
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // html-loader。
         {
           test: /\.(htm|html|xhtml)$/i,
           /**
            * 当使用“webpack 5”时，需要这个属性，否则后面的“vue-loader”会报错！<br />
            * 1、对于“vue-loader”而言，只要这个值不会被转换成“假值”就能成功使用“vue-loader”。<br />
            */
-          enforce: 'pre',
+          enforce: 'post',
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             {
               loader: 'html-loader',
               options: {
                 sources: true,
-                minimize: HTMLMinifyConfig,
+                minimize: isProduction
+                          ? HTMLMinifyConfig
+                          : false,
                 // 该loader的该选项默认值是true。
                 // esModule: true,
               },
@@ -2308,6 +2681,10 @@ const aliasConfig = {
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/' ),
             resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
           ],
@@ -2362,7 +2739,7 @@ const aliasConfig = {
           test: /\.json5$/i,
           type: 'json',
           parser: {
-            parse: json5.parse,
+            parse: JSON5.parse,
           },
           include: [
             resolve( __dirname, './src/' ),
@@ -2388,15 +2765,197 @@ const aliasConfig = {
             resolve( __dirname, './src/styles/' ),
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
+          ],
+        },
+        // 处理less
+        {
+          test: /\.less$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             */
+            isProduction
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+                  emit: true,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              }
+            : {
+                loader: 'style-loader',
+                options: {
+                  // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+                  injectType: 'autoStyleTag',
+                  attributes: {
+                    'data-is-production': `${ isProduction }`,
+                  },
+                  insert: 'head',
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              },
+            {
+              loader: 'css-loader',
+              options: {
+                /**
+                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                 */
+                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+                url: {
+                  /**
+                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                   *
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+                   *
+                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+                   *
+                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+                   */
+                  filter: ( url, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                import: {
+                  filter: ( url, media, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                importLoaders: 2,
+                sourceMap: false,
+                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+                // esModule: true,
+              },
+            },
+            postCSSLoader,
+            /**
+             * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
+             * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
+             * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
+             */
+            {
+              loader: 'less-loader',
+              options: {
+                implementation: less,
+                sourceMap: false,
+                // 在某些情况下，这可以提高性能。谨慎使用它，因为来自node_modules的别名和@import将不起作用。
+                webpackImporter: true,
+                lessOptions: {
+                  // 该选项不建议使用，已弃用，它已由math选项代替，该选项为true时，会将math选项设置为2。
+                  // strictMath: true,
+                  // 已弃用。该选项为true时，rewriteUrls选项会被设置为2，2对应'all'。
+                  // relativeUrls: true,
+                  // 兼容IE 8，不推荐使用，已废弃，从v3.0.0开始默认为false。当前仅用于data-uri函数，以确保不会创建太大的图像，以至于浏览器无法处理。
+                  // ieCompat: false,
+                  // 已废弃，从v3.0.0开始默认为false。替换为@plugin选项。
+                  // javascriptEnabled: false,
+                  // 已废弃，生成内联源映射。这是浏览器开始支持源地图之前的唯一选择，有效值：'comments'、'mediaquery'、'all'。
+                  // dumpLineNumbers: 'comments',
+                  // 已废弃，
+                  // compress: false,
+
+                  /**
+                   * math选项的4个有效值，具体设置时，设置成字符串值也行，设置成number也行（优先用number设置吧），它们是一一对应的，less包的代码里会进行自动判断：<br />
+                   * 1、always（对应：0）：less 3.x版本的默认值，总是执行数学运算。<br />
+                   * 2、parens-division（对应：1）：less 4.0版本的默认值，对使用“/”且两边的操作数没有被括号括起来的不进行计算（不计算：2px / 2），其他都进行数学计算（做计算：(2px / 2)）。<br />
+                   * 3、parens、strict（对应：2）：这两个都表示同一个，只对被括号包裹的进行计算，其他都不计算。<br />
+                   * 4、strict-legacy（对应：3）：该值在less 4.0版本中被删除了，都不做计算，原样保留。<br />
+                   */
+                  math: 2,
+                  /**
+                   * 1、启用严格单位后，我们假设这是计算中的错误并引发错误：.class { property: 1px * 2px; }，因为在这种情况下，事情显然不对，长度乘以长度得到一个区域，但css不支持指定区域。<br />
+                   * 2、如果没有此选项，Less在进行数学运算时会尝试猜测输出单元。所以我们假设用户希望其中一个值是一个值，而不是一个长度单位，我们输出2px。<br />
+                   */
+                  strictUnits: true,
+                  // 只报告错误，没有任何输出，设置成false表示不会启用。
+                  lint: false,
+                  // 允许从不安全的HTTPS主机导入。
+                  insecure: true,
+                  // 将生成文件导入依赖项列表输出到标准输出。
+                  depends: false,
+                  // 终端中的颜色输出。
+                  color: true,
+                  // strictImports选项控制编译器是否允许在@media块或（稍后添加的）其他选择器块内进行@import。
+                  strictImports: false,
+                },
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/css/' ),
+            resolve( __dirname, './src/styles/postcss/' ),
+            resolve( __dirname, './src/styles/sass/' ),
+            resolve( __dirname, './src/styles/scss/' ),
+            resolve( __dirname, './src/styles/stylus/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
           ],
+          sideEffects: true,
         },
         // 处理toml。
         {
           test: /\.toml$/i,
           type: 'json',
           parser: {
-            parse: toml.parse,
+            parse: Toml.parse,
           },
           include: [
             resolve( __dirname, './src/' ),
@@ -2452,6 +3011,144 @@ const aliasConfig = {
             resolve( __dirname, './src/workers/' ),
           ],
         },
+        // 处理manifest.json，给PWA用的manifest文件。
+        {
+          test: /\.manifest\.json$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset/resource',
+          generator: {
+            emit: true,
+            filename: '[name]_[contenthash].manifest[ext]',
+            outputPath: './pwa_manifest/',
+            publicPath: '../pwa_manifest/',
+          },
+          include: [
+            resolve( __dirname, './pwa_manifest/' ),
+            resolve( __dirname, './template/' ),
+          ],
+        },
+        // 自定义处理.json文件，以免.manifest.json文件被当成.json文件处理，而且该自定义必须得在.manifest.json处理之后。
+        {
+          test: /\.json$/i,
+          type: 'javascript/auto',
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'json5-loader',
+              options: {
+                // 该loader的该选项默认值是true。
+                // esModule: true,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/doc/cson/' ),
+            resolve( __dirname, './src/assets/doc/csv/' ),
+            // 见鬼了！设置了这个排除路径，竟然会导致在'./src/assets/doc/json5/'下的json5文件无法被该loader处理！跟“json5”文件夹的命名无关的！Start！
+            // resolve( __dirname, './src/assets/doc/json5/' ),
+            // 见鬼了！设置了这个排除路径，竟然会导致在'./src/assets/doc/json5/'下的json5文件无法被该loader处理！跟“json5”文件夹的命名无关的！End！
+            resolve( __dirname, './src/assets/doc/toml/' ),
+            resolve( __dirname, './src/assets/doc/tsv/' ),
+            resolve( __dirname, './src/assets/doc/txt/' ),
+            resolve( __dirname, './src/assets/doc/xml/' ),
+            resolve( __dirname, './src/assets/doc/yaml/' ),
+            resolve( __dirname, './src/assets/fonts/' ),
+            resolve( __dirname, './src/assets/img/' ),
+            resolve( __dirname, './src/assets/music/' ),
+            resolve( __dirname, './src/assets/videos/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+          ],
+        },
+        // markdown-loader，由于markdown的输出是HTML，因此最好与html-loader一起使用。
+        {
+          test: /\.(markdown|md)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'html-loader',
+              options: {
+                sources: true,
+                minimize: isProduction
+                          ? HTMLMinifyConfig
+                          : false,
+                // 该loader的该选项默认值是true。
+                // esModule: true,
+              },
+            },
+            {
+              loader: 'markdown-loader',
+              options: {
+                // 默认值为null，值类型string。任何相对链接的前缀url。
+                // baseUrl: null,
+                // 默认值为false，值类型boolean，如果为true，则在单个换行符上添加<br>（在评论上复制GitHub行为，但不在渲染的降价文件上）。要求gfm为true。
+                breaks: false,
+                // 默认值为true，值类型boolean，如果为真，请使用经批准的GitHub风味Markdown(GFM)规范。
+                gfm: true,
+                // 默认值为true，值类型boolean，如果为true，则在发出标题（h1、h2、h3等）时包含一个id属性。
+                headerIds: true,
+                // 默认值为''，值类型string。发出标题（h1、h2、h3 等）时作为id属性前缀的字符串。
+                headerPrefix: 'markdown-',
+                // 默认值为null，值类型function。高亮代码块的功能，请参阅https://marked.js.org/using_advanced#highlight。
+                // highlight:null,
+                // 默认值为'language-'，值类型string。在<code>块中作为className前缀的字符串。对语法高亮很有用。
+                langPrefix: 'language-',
+                // 默认值为true，值类型boolean。如果为true，自动链接的电子邮件地址将使用HTML字符引用进行转义。
+                mangle: true,
+                // 默认值为false，值类型boolean。如果为真，则尽可能符合原markdown.pl。不要修复原始的降价错误或行为。关闭并覆盖gfm。
+                pedantic: false,
+                // 默认值为new Renderer()，值类型object。包含将标记呈现为HTML的函数的对象。有关更多详细信息，请参阅https://marked.js.org/using_pro。
+                // renderer: new Renderer(),
+                // 已弃用，默认值为false，值类型boolean。如果为true，则使用sanitizer函数清理传递给markdownString的HTML。警告：此功能已弃用，不应使用，因为它不能被视为安全。而是在输出HTML上使用sanitize库，如DOMPurify（推荐）、sanitize-html或insane！
+                // sanitize: false,
+                // 默认值为null，值类型function。清理传递给markdownString的HTML的函数。
+                // sanitizer: null,
+                // 默认值为false，值类型boolean。如果为真，解析器不会抛出任何异常。
+                silent: false,
+                // 默认值为false，值类型boolean。如果为true，则使用比markdown.pl中更智能的列表行为。
+                smartLists: false,
+                // 默认值为false，值类型boolean。如果为真，请对引号和破折号等内容使用“smart”印刷标点符号。
+                smartypants: false,
+                // 默认值为new Tokenizer()，值类型object。一个对象，包含从markdown创建标记的函数。有关更多详细信息，请参阅https://marked.js.org/using_pro
+                // tokenizer: new Tokenizer(),
+                // 默认值为null，值类型function。为每个令牌调用的函数。有关更多详细信息，请参阅https://marked.js.org/using_pro
+                // walkTokens: null,
+                // 默认值为false，值类型boolean。如果为true，则为void元素（<br/>、<img/> 等）发出自闭合HTML标记，并按照XHTML的要求使用“/”。
+                xhtml: true,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
         // 处理音频music。
         {
           test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
@@ -2485,9 +3182,893 @@ const aliasConfig = {
             resolve( __dirname, './src/workers/' ),
           ],
         },
+        // mustache-loader。
+        {
+          test: /\.mustache$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'mustache-loader',
+              options: {
+                // 如果传入tiny ，则不会发出模板的源代码，从而创建更小的输出。如果在mustache-loader之后链接了另一个加载器，则将忽略minify、clientSide和tiny选项。
+                tiny: true,
+                minify: isProduction
+                        ? HTMLMinifyConfig
+                        : false,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理postcss
+        {
+          test: /\.(pcss|postcss)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             */
+            isProduction
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+                  emit: true,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              }
+            : {
+                loader: 'style-loader',
+                options: {
+                  // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+                  injectType: 'autoStyleTag',
+                  attributes: {
+                    'data-is-production': `${ isProduction }`,
+                  },
+                  insert: 'head',
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              },
+            {
+              loader: 'css-loader',
+              options: {
+                /**
+                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                 */
+                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+                url: {
+                  /**
+                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                   *
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+                   *
+                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+                   *
+                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+                   */
+                  filter: ( url, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                import: {
+                  filter: ( url, media, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                importLoaders: 1,
+                sourceMap: false,
+                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+                // esModule: true,
+              },
+            },
+            postCSSLoader,
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/css/' ),
+            resolve( __dirname, './src/styles/less/' ),
+            resolve( __dirname, './src/styles/sass/' ),
+            resolve( __dirname, './src/styles/scss/' ),
+            resolve( __dirname, './src/styles/stylus/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+          sideEffects: true,
+        },
+        // pug-loader。
+        {
+          test: /\.(pug|jade)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            {
+              loader: 'pug-loader',
+              options: {
+                // 与Pug不同，如果未设置，则默认为“html”。
+                doctype: 'html',
+                pretty: !isProduction,
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        // 处理sass。
+        {
+          test: /\.sass$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             */
+            isProduction
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+                  emit: true,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              }
+            : {
+                loader: 'style-loader',
+                options: {
+                  // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+                  injectType: 'autoStyleTag',
+                  attributes: {
+                    'data-is-production': `${ isProduction }`,
+                  },
+                  insert: 'head',
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              },
+            {
+              loader: 'css-loader',
+              options: {
+                /**
+                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                 */
+                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+                url: {
+                  /**
+                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                   *
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+                   *
+                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+                   *
+                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+                   */
+                  filter: ( url, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                import: {
+                  filter: ( url, media, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                importLoaders: 2,
+                sourceMap: false,
+                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+                // esModule: true,
+              },
+            },
+            postCSSLoader,
+            /**
+             * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+             * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+             * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+             * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+             * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+             * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+             * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。。<br />
+             * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+             * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+             * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+             * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+             * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+             */
+            {
+              loader: 'sass-loader',
+              options: {
+                // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
+                implementation: DartSass,
+                // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
+                sourceMap: false,
+                /**
+                 * 启用、禁用默认的Webpack导入器。<br />
+                 * 1、值类型：boolean，默认值：true。<br />
+                 * 2、在某些情况下，这可以提高性能。请谨慎使用，因为以〜开头的别名和@import规则将不起作用。<br />
+                 */
+                webpackImporter: true,
+                /**
+                 * 将@warn规则视为webpack警告。<br />
+                 * 1、默认值：false，值类型：boolean，在下一个主要版本中默认值将为true。<br />
+                 * 2、该值设置为true时，呈现的代码将抛出webpack警告而不是日志记录，要忽略不必要的警告，您可以使用ignoreWarnings选项。<br />
+                 */
+                warnRuleAsWarning: true,
+                /**
+                 * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
+                 * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
+                 * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
+                 * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+                 */
+                api: 'modern',
+                /**
+                 * 1、data、file这两个选项是不可用的，会被忽略。<br />
+                 * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
+                 * 3、sass(dart-sass)和node-sass选项之间存在细微差别。<br />
+                 * 4、sass(dart-sass)的'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+                 * 5、使用Dart Sass实现和sass-embedded实现则sassOptions选项里面不支持以下选项：precision、sourceComments。<br />
+                 * 6、使用sass-embedded实现则sassOptions选项里面不支持以下选项，但是Dart Sass实现还是支持的：indentWidth、indentType、linefeed。<br />
+                 * 7、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+                 * 8、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+                 * 9、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+                 * 10、上面的api选项的值也会影响sassOptions选项里的各个选项。'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+                 */
+                sassOptions: {
+                  // 作者自己说这个库已经过时了，不建议再使用它了！设置成false就可以禁用它，而不是不设置，因为默认是启用它的。
+                  fiber: false,
+                  /**
+                   * dart-sass的charset选项默认值为true，我们强烈建议不要将值更改为false，因为webpack不支持utf-8以外的文件。<br />
+                   * 1、值类型：boolean，默认值：true。<br />
+                   * 2、如果为true，编译器可能会在前面加上@charset "UTF-8";如果输出非ASCII CSS，则为U+FEFF（字节顺序标记）。<br />
+                   * 3、如果为false，编译器永远不会发出这些字节序列。这在连接或嵌入HTML <style>标记时非常理想（输出仍然是UTF-8）。<br />
+                   */
+                  // charset: true,
+                  quietDeps: false,
+                  verbose: false,
+
+                  // 以下分别列出新旧选项，个人觉得最好就这么全留着两者，按理会根据上面的api选项来使用对应的选项，应该不会有冲突的，毕竟它们之间没有选项覆盖。
+
+                  // 旧版选项。
+                  ...{
+                    /**
+                     * 处理.scss文件时，该选项值设置为false即可，但是如果是处理.sass文件，则还是要设置成true的。<br />
+                     * 1、值类型：boolean，默认值：false。<br />
+                     */
+                    indentedSyntax: true,
+                    /**
+                     * 生成的CSS是否应该使用空格或制表符进行缩进。<br />
+                     * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
+                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+                     */
+                    indentType: 'space',
+                    /**
+                     * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
+                     * 1、值类型：number，默认值：2。<br />
+                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+                     */
+                    indentWidth: 4,
+                    /**
+                     * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
+                     * 1、'lf'使用U+000A换行。<br />
+                     * 2、'lfcr'使用U+000A换行符，后跟U+000D回车符。<br />
+                     * 3、'cr'使用U+000D回车。<br />
+                     * 4、'crlf'使用U+000D回车符，后跟U+000A换行符。<br />
+                     * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
+                     * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+                     */
+                    linefeed: 'lf',
+                    /**
+                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+                     */
+                    outputStyle: isProduction
+                                 ? 'compressed'
+                                 : 'expanded',
+                  },
+
+                  // 新版选项。
+                  ...{
+                    /**
+                     * .scss文件用'scss'，.sass文件用'indented'，.css文件用'css'。<br />
+                     * 1、默认值：'scss'，值类型：string。<br />
+                     */
+                    syntax: 'indented',
+                    // 设置成false会使用非ASCII码以支持更多的字符编码，设置成true会使用ASCII码（ASCII码只有128个字符编码）。
+                    alertAscii: false,
+                    alertColor: true,
+                    /**
+                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+                     */
+                    style: isProduction
+                           ? 'compressed'
+                           : 'expanded',
+                  },
+                },
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/css/' ),
+            resolve( __dirname, './src/styles/less/' ),
+            resolve( __dirname, './src/styles/postcss/' ),
+            resolve( __dirname, './src/styles/scss/' ),
+            resolve( __dirname, './src/styles/stylus/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+          sideEffects: true,
+        },
+        // 处理scss。
+        {
+          test: /\.scss$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             */
+            isProduction
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+                  emit: true,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              }
+            : {
+                loader: 'style-loader',
+                options: {
+                  // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+                  injectType: 'autoStyleTag',
+                  attributes: {
+                    'data-is-production': `${ isProduction }`,
+                  },
+                  insert: 'head',
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              },
+            {
+              loader: 'css-loader',
+              options: {
+                /**
+                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                 */
+                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+                url: {
+                  /**
+                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                   *
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+                   *
+                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+                   *
+                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+                   */
+                  filter: ( url, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                import: {
+                  filter: ( url, media, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                importLoaders: 2,
+                sourceMap: false,
+                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+                // esModule: true,
+              },
+            },
+            postCSSLoader,
+            /**
+             * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+             * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+             * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+             * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+             * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+             * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+             * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。。<br />
+             * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+             * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+             * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+             * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+             * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+             */
+            {
+              loader: 'sass-loader',
+              options: {
+                // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
+                implementation: DartSass,
+                // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
+                sourceMap: false,
+                /**
+                 * 启用、禁用默认的Webpack导入器。<br />
+                 * 1、值类型：boolean，默认值：true。<br />
+                 * 2、在某些情况下，这可以提高性能。请谨慎使用，因为以〜开头的别名和@import规则将不起作用。<br />
+                 */
+                webpackImporter: true,
+                /**
+                 * 将@warn规则视为webpack警告。<br />
+                 * 1、默认值：false，值类型：boolean，在下一个主要版本中默认值将为true。<br />
+                 * 2、该值设置为true时，呈现的代码将抛出webpack警告而不是日志记录，要忽略不必要的警告，您可以使用ignoreWarnings选项。<br />
+                 */
+                warnRuleAsWarning: true,
+                /**
+                 * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
+                 * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
+                 * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
+                 * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+                 */
+                api: 'modern',
+                /**
+                 * 1、data、file这两个选项是不可用的，会被忽略。<br />
+                 * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
+                 * 3、sass(dart-sass)和node-sass选项之间存在细微差别。<br />
+                 * 4、sass(dart-sass)的'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+                 * 5、使用Dart Sass实现和sass-embedded实现则sassOptions选项里面不支持以下选项：precision、sourceComments。<br />
+                 * 6、使用sass-embedded实现则sassOptions选项里面不支持以下选项，但是Dart Sass实现还是支持的：indentWidth、indentType、linefeed。<br />
+                 * 7、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+                 * 8、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+                 * 9、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+                 * 10、上面的api选项的值也会影响sassOptions选项里的各个选项。'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+                 */
+                sassOptions: {
+                  // 作者自己说这个库已经过时了，不建议再使用它了！设置成false就可以禁用它，而不是不设置，因为默认是启用它的。
+                  fiber: false,
+                  /**
+                   * dart-sass的charset选项默认值为true，我们强烈建议不要将值更改为false，因为webpack不支持utf-8以外的文件。<br />
+                   * 1、值类型：boolean，默认值：true。<br />
+                   * 2、如果为true，编译器可能会在前面加上@charset "UTF-8";如果输出非ASCII CSS，则为U+FEFF（字节顺序标记）。<br />
+                   * 3、如果为false，编译器永远不会发出这些字节序列。这在连接或嵌入HTML <style>标记时非常理想（输出仍然是UTF-8）。<br />
+                   */
+                  // charset: true,
+                  quietDeps: false,
+                  verbose: false,
+
+                  // 以下分别列出新旧选项，个人觉得最好就这么全留着两者，按理会根据上面的api选项来使用对应的选项，应该不会有冲突的，毕竟它们之间没有选项覆盖。
+
+                  // 旧版选项。
+                  ...{
+                    /**
+                     * 处理.scss文件时，该选项值设置为false即可，但是如果是处理.sass文件，则还是要设置成true的。<br />
+                     * 1、值类型：boolean，默认值：false。<br />
+                     */
+                    indentedSyntax: false,
+                    /**
+                     * 生成的CSS是否应该使用空格或制表符进行缩进。<br />
+                     * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
+                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+                     */
+                    indentType: 'space',
+                    /**
+                     * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
+                     * 1、值类型：number，默认值：2。<br />
+                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+                     */
+                    indentWidth: 2,
+                    /**
+                     * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
+                     * 1、'lf'使用U+000A换行。<br />
+                     * 2、'lfcr'使用U+000A换行符，后跟U+000D回车符。<br />
+                     * 3、'cr'使用U+000D回车。<br />
+                     * 4、'crlf'使用U+000D回车符，后跟U+000A换行符。<br />
+                     * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
+                     * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+                     */
+                    linefeed: 'lf',
+                    /**
+                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+                     */
+                    outputStyle: isProduction
+                                 ? 'compressed'
+                                 : 'expanded',
+                  },
+
+                  // 新版选项。
+                  ...{
+                    /**
+                     * .scss文件用'scss'，.sass文件用'indented'，.css文件用'css'。<br />
+                     * 1、默认值：'scss'，值类型：string。<br />
+                     */
+                    syntax: 'scss',
+                    // 设置成false会使用非ASCII码以支持更多的字符编码，设置成true会使用ASCII码（ASCII码只有128个字符编码）。
+                    alertAscii: false,
+                    alertColor: true,
+                    /**
+                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+                     */
+                    style: isProduction
+                           ? 'compressed'
+                           : 'expanded',
+                  },
+                },
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/css/' ),
+            resolve( __dirname, './src/styles/less/' ),
+            resolve( __dirname, './src/styles/postcss/' ),
+            resolve( __dirname, './src/styles/sass/' ),
+            resolve( __dirname, './src/styles/stylus/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+          sideEffects: true,
+        },
+        // 处理stylus。
+        {
+          test: /\.(styl|stylus)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             */
+            isProduction
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+                  emit: true,
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              }
+            : {
+                loader: 'style-loader',
+                options: {
+                  // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+                  injectType: 'autoStyleTag',
+                  attributes: {
+                    'data-is-production': `${ isProduction }`,
+                  },
+                  insert: 'head',
+                  // 该loader的该选项默认值是true。
+                  // esModule: true,
+                },
+              },
+            {
+              loader: 'css-loader',
+              options: {
+                /**
+                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                 */
+                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+                url: {
+                  /**
+                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+                   *
+                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+                   *
+                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+                   *
+                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+                   */
+                  filter: ( url, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                import: {
+                  filter: ( url, media, resourcePath ) => {
+                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+                    if( boo ){
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                      return false;
+                    }
+                    else{
+                      console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                      return true;
+                    }
+                  },
+                },
+                importLoaders: 2,
+                sourceMap: false,
+                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+                // esModule: true,
+              },
+            },
+            postCSSLoader,
+            {
+              loader: 'stylus-loader',
+              options: {
+                implementation: Stylus,
+                // 在某些情况下，这可以提高性能。请谨慎使用，因为以〜开头的别名和@import规则将不起作用。
+                webpackImporter: true,
+                sourceMap: false,
+                stylusOptions: {
+                  // 值类型：boolean，默认值是：false，在@import上包含常规CSS。
+                  includeCSS: true,
+                  // 值类型：boolean、Object，默认值：{ nocheck: true }，resolveURL: true等价于默认值，解析导入文件中的相对url()。
+                  resolveURL: {
+                    // 其他解析路径。
+                    // paths: '',
+                    // 不要检查文件是否存在。
+                    nocheck: true,
+                  },
+                  // 值类型：boolean，默认值是：false，在生成的CSS中发出注释，指示相应的Stylus行。
+                  lineNumbers: !isProduction,
+                  // 值类型：boolean，默认值是：false，将@import和@charset移到顶部。
+                  hoistAtrules: true,
+                  // 值类型：boolean，默认值是：false，压缩CSS输出。
+                  compress: isProduction,
+                },
+              },
+            },
+          ],
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/css/' ),
+            resolve( __dirname, './src/styles/less/' ),
+            resolve( __dirname, './src/styles/postcss/' ),
+            resolve( __dirname, './src/styles/sass/' ),
+            resolve( __dirname, './src/styles/scss/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+          sideEffects: true,
+        },
         // 处理ts、tsx。
         {
-          test: /\.ts(x?)$/i,
+          test: /\.(ts|tsx|mts|cts)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             {
@@ -2533,7 +4114,11 @@ const aliasConfig = {
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/' ),
             resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
             resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
           ],
         },
@@ -2570,7 +4155,7 @@ const aliasConfig = {
             resolve( __dirname, './src/workers/' ),
           ],
         },
-        // vue-loader，该loader一定得在html-loader之后。
+        // 处理vue，该loader一定得在html-loader之后。
         {
           test: /\.vue$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -2671,9 +4256,36 @@ const aliasConfig = {
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/' ),
             resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
             resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/workers/' ),
+          ],
+        },
+        /**
+         * 处理wasm。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
+         * 1、使用案例：<br />
+         * import { sum, } from './program.wasm';
+         * console.log( sum( 1,2 ) );
+         */
+        {
+          test: /\.wasm$/i,
+          type: 'webassembly/async',
+          include: [
+            resolve( __dirname, './src/' ),
+          ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/' ),
+            resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/workers/' ),
           ],
         },
@@ -2716,7 +4328,7 @@ const aliasConfig = {
           test: /\.yaml$/i,
           type: 'json',
           parser: {
-            parse: yaml.parse,
+            parse: Yaml.parse,
           },
           include: [
             resolve( __dirname, './src/' ),
@@ -2753,18 +4365,6 @@ const aliasConfig = {
       minimizer: [
         // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
         '...',
-        /*
-         new TerserPlugin( {
-         test: /\.css$/i,
-         parallel: cpus().length - 1,
-         terserOptions: {
-         format: {
-         comments: false,
-         },
-         },
-         extractComments: false,
-         } ),
-         */
         /**
          * 这个插件使用cssnano来优化和缩小你的CSS。就像optimize-css-assets-webpack-plugin但使用查询字符串对源映射和资产更准确，允许缓存并在并行模式下工作。<br />
          * 1、最好只在生产环境下使用该插件。<br />
@@ -2779,52 +4379,137 @@ const aliasConfig = {
            * 2、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
            * 3、CssMinimizerPlugin.esbuildMinify对应的minimizerOptions选项的配置见https://esbuild.github.io/api/#transform-api。<br />
            */
-          minify: CssMinimizerPlugin.esbuildMinify,
+          minify: CssMinimizerPlugin.cssnanoMinify,
           /**
            * 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。在这种情况下，我们不应该使用require/import。<br />
            * 1、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
-           * 2、CssMinimizerPlugin.esbuildMinify对应的minimizerOptions选项的配置见https://esbuild.github.io/api/#transform-api。<br />
            */
           minimizerOptions: {
-            loader: 'css',
-            /**
-             * minify: true等同于同时设置了：<br />
-             * 1、minifyWhitespace: true、minifyIdentifiers: true、minifySyntax: true。<br />
-             */
-            minify: true,
-            /**
-             * “法律注释（legal comment）”被认为是JS中的任何语句级注释或CSS中包含@license或@preserve或以//!或者/*!开头的任何规则级注释。<br />
-             * 1、默认情况下，这些注释保留在输出文件中，因为这遵循了代码原作者的意图。<br />
-             * 2、有效值说明：<br />
-             * 'none'：不要保留任何法律评论。<br />
-             * 'inline'：保留所有法律评论。<br />
-             * 'eof'：将所有法律注释移至文件末尾。<br />
-             * 'linked'：将所有法律评论移至.LEGAL.txt文件并使用评论链接到它们。<br />
-             * 'external'：将所有法律评论移至.LEGAL.txt文件，但不要链接到它们。<br />
-             */
-            legalComments: 'none',
-            sourcemap: false,
-            /**
-             * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
-             * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
-             * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
-             */
-            target: esbuildMinify_target,
-            charset: 'utf8',
-            color: true,
-            logLevel: 'error',
-            logOverride: {
-              'css-syntax-error': 'error',
-              'invalid-@charset': 'error',
-              'invalid-@import': 'error',
-              'invalid-@nest': 'error',
-              'invalid-@layer': 'error',
-              'invalid-calc': 'error',
-              'js-comment-in-css': 'silent',
-              'unsupported-@charset': 'error',
-              'unsupported-@namespace': 'error',
-              'unsupported-css-property': 'error',
-            },
+            preset: [
+              // 有效值有：default、advanced、lite、cssnano-preset-default（要安装）、cssnano-preset-advanced（要安装）、cssnano-preset-lite（要安装）。
+              'advanced',
+              {
+                // autoprefixer共有三种类型的控制注释：
+                // /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
+                // /* autoprefixer: ignore next */：仅为下一个属性或下一个规则选择器或规则参数（但不规则/规则正文）禁用自动前缀。
+                // /* autoprefixer grid: (autoplace|no-autoplace|off) */：控制Autoprefixer如何处理整个块的网格转换：
+                // autoplace：启用带有自动放置支持的网格翻译。
+                // no-autoplace：在禁用自动放置支持的情况下启用网格转换，但不支持自动放置（该值是值on的别名，但是值on是一个已弃用的值）。
+                // off：禁用所有网格翻译。
+                // 根据浏览器选项删除不必要的前缀。请注意，默认情况下，它不会向CSS文件添加新前缀。
+                autoprefixer: autoprefixerConfig,
+                // 根据属性名称对CSS声明进行排序，gzip压缩时排序后的CSS会更小，因为会有更多相似的字符串。
+                cssDeclarationSorter: true,
+                // 尽可能减少CSS计算表达式，确保浏览器兼容性和压缩。
+                calc: postcssCalcConfig,
+                // 在hex、hsl、rgb和CSS关键字之间转换，以产生最小的等效颜色值。
+                colormin: true,
+                // 在等效长度、时间和角度值之间转换。请注意，默认情况下，不会转换长度值。
+                convertValues: {
+                  // 值类型：boolean，默认值：true，传递false以禁用从px到其他绝对长度单位的转换，例如pc&pt反之亦然。
+                  length: false,
+                  // 值类型：boolean，默认值：true，传递false以禁用从ms到s的转换，反之亦然。
+                  time: true,
+                  // 值类型：boolean，默认值：true，传递false以禁用从deg到turn的转换，反之亦然。
+                  angle: true,
+                  // 值类型：boolean、number，默认值：false，在此处指定任何数值以将px值四舍五入到那么多小数位；例如，使用{precision: 2}会将6.66667px舍入为6.67px，而{precision: 0}会将其舍入为7px。传递false将使这些值保持原样。对于大多数用例，建议将此选项设置为2。
+                  precision: 6,
+                },
+                // 删除规则、选择器和声明中和周围的注释。请注意标有!的任何特殊注释。默认情况下保留。
+                discardComments: {
+                  // 值类型：boolean，默认值：false，删除所有标记为重要的评论。
+                  removeAll: true,
+                  // 值类型：boolean，默认值：false，删除所有标记为重要的评论，但保留第一个。
+                  removeAllButFirst: false,
+                },
+                // 删除重复的规则、规则和声明。请注意，这仅适用于精确重复。
+                discardDuplicates: true,
+                // 删除空规则、媒体查询和带有空选择器的规则，因为它们不会影响输出。
+                discardEmpty: true,
+                // 删除与另一个具有相同标识符的at规则；例如@keyframes的两个实例之一。由于浏览器只会计算这些声明中的最后一个，因此可以安全地删除所有其他声明。
+                discardOverridden: true,
+                // 删除与CSS文件没有任何关系的at规则。如果您有其他符合这些规则的样式表，这是不安全的。
+                discardUnused: false,
+                // 这会将命名可能略有不同但执行相同操作的规则合并在一起。请注意，仅当您依赖JavaScript中的这些动画名称时，这才是不安全的。
+                mergeIdents: false,
+                // 将速记属性折叠为速记表示，并在可能的情况下折叠顶部/右侧/底部/左侧值。支持边距、内边距和边框。
+                mergeLonghand: true,
+                // 通过选择器和重叠的属性/值对合并相邻的规则。
+                mergeRules: true,
+                // 规范字体和字体系列声明，并可以将字体粗细关键字转换为数值。
+                minifyFontValues: false,
+                // 标准化线性和径向梯度参数。
+                minifyGradients: false,
+                // 修剪空白并规范化规则参数。
+                minifyParams: true,
+                // 删除不必要的合格通用选择器，取消引用属性选择器，修剪和规范化选择器字符串。
+                minifySelectors: true,
+                // 确保CSS文件中只存在一个@charset，并将其移动到文档的顶部。这可以防止通过简单的CSS连接发生多个无效声明。请注意，默认情况下，不会将新的@charset规则添加到CSS中。
+                normalizeCharset: false,
+                // 尽可能将用于显示的两个值语法规范化为单值语法。
+                normalizeDisplayValues: false,
+                // 在background、background-position、-webkit-perspective-origin和perspective-origin属性中规范化位置值。
+                normalizePositions: true,
+                // 在可能的情况下，在属性本身和背景速记中，将background-repeat的双值语法减少为单值语法。也适用于掩码重复。
+                normalizeRepeatStyle: true,
+                // 标准化双引号（默认情况下）或单引号字符串的使用，以实现更好的gzip压缩。还可以删除出于美观目的而插入的换行符。如果你喜欢单引号，你可以设置preferredQuote: 'single' 。
+                normalizeString: {
+                  // 值类型：string，默认值：'double'，设置首选的报价类型。可能的值是'single'或'double'。
+                  preferredQuote: 'single',
+                },
+                // 在动画、animation-timing-function、transition和transition-timing-function属性中规范化过渡时间。
+                normalizeTimingFunctions: true,
+                // 当特定值满足通配符标准时，此优化可以转换unicode范围描述符以使用较短的通配符范围。当代码在范围两侧的相同位置匹配0和f时，将转换值。因此，u+2000-2fff可以转换为u+2???，但u+2100-2fff将保持原样。
+                normalizeUnicode: true,
+                // 规范化URL字符串。它可以删除默认端口，解决不必要的目录遍历和取消引用值。
+                normalizeUrl: {
+                  // 值类型：string，默认值：'http:'，有效值：'https:'、'http:'。
+                  defaultProtocol: 'http',
+                  // 值类型：boolean，默认值：true，设置成false，不会将defaultProtocol选项的值设置给无HTTP协议头的URL。
+                  normalizeProtocol: false,
+                  // 值类型：boolean，默认值：false，将'https:'转为'http:'，设置成false，则不会转换。
+                  forceHttp: false,
+                  // 值类型：boolean，默认值：false，将'http:'转为'https:'，设置成false，则不会转换。此选项不能与forceHttp选项同时使用，也就是说这两个选项不能同时设置成true，会报错。
+                  forceHttps: false,
+                  // 值类型：boolean，默认值：true，剥离URL的身份验证部分，设置成false则不会剥离。
+                  stripAuthentication: false,
+                  // 值类型：boolean，默认值：false，去除URL的哈希部分，设置成false，就不会去除。
+                  stripHash: false,
+                  // 值类型：boolean，默认值：false，从URL中删除协议，设置成false，就不会去除。
+                  stripProtocol: false,
+                  // 值类型：boolean，默认值：true，剥离URL的文本片段部分，设置成false，就不会去除。注意：如果stripHash选项设置为true，文本片段将始终被删除，因为哈希包含文本片段。
+                  stripTextFragment: false,
+                  // 值类型：boolean，默认值：true，从URL中删除'wwww'，设置成false，就不会删除。
+                  stripWWW: false,
+                  // 值类型：Array<RegExp | string>、boolean，默认值：[/^utm_\w+/i]，删除URL中的查询参数，设置成false，就不会去除。
+                  removeQueryParameters: false,
+                  // 值类型：boolean，默认值：true，删除尾部斜杠，设置成false，就不会删除。
+                  removeTrailingSlash: false,
+                  // 值类型：boolean，默认值：true，删除输出中的唯一“/”路径名，设置成false，就不会删除。此选项独立于removeTrailingSlash选项，两者可以共存。
+                  removeSingleSlash: false,
+                  // 值类型：boolean、Array<RegExp | string>，默认值：false，从与任何提供的字符串或正则表达式匹配的路径中删除默认目录索引文件。如果为true，则使用正则表达式/^index\.[a-z]+$/，设置成false，就不会删除。
+                  removeDirectoryIndex: false,
+                  // 值类型：boolean，默认值：true，按字母顺序对查询参数进行排序。设置成false，就不会进行排序。
+                  sortQueryParameters: false,
+                },
+                // 修剪规则、选择器和声明内部和周围的空格，并删除每个选择器内的最后一个分号。
+                normalizeWhitespace: true,
+                // 受此变换影响的属性可以以任意顺序接受其参数。该模块规范了该顺序，便于更轻松地进行重复数据删除。
+                orderedValues: true,
+                // 重命名@keyframes等规则。如果其他JS/CSS文件需要读取此定义，这可能是不安全的。
+                reduceIdents: false,
+                // 当结果输出较小时，将CSS初始关键字替换为实际值。
+                reduceInitial: false,
+                // 当存在等效的速记时，在变换函数之间进行转换。
+                reduceTransforms: false,
+                // 使用SVGO压缩内联SVG定义。
+                svgo: false,
+                // 自然地对每个规则的选择器进行排序，并删除重复项。
+                uniqueSelectors: true,
+                // 重新设置z-index值。这是不安全的，因为它可能与其他样式表或JavaScript注入样式发生冲突。但是，如果您的堆叠上下文已完全提取到CSS中，则它是安全的。
+                zindex: false,
+              },
+            ],
           },
         } ),
         new JsonMinimizerPlugin( {
@@ -3128,9 +4813,10 @@ export {
   Get__filename,
 
   __dirname,
+  env_platform,
   isProduction,
   isSPA,
-  env_platform,
+
   watchIgnoredArr,
 
   aliasConfig,
@@ -3146,8 +4832,8 @@ export {
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
   miniCssExtractPluginConfig,
-  moduleConfig,
   nodeConfig,
+  moduleConfig,
   optimizationConfig,
   outputConfig,
   performanceConfig,
@@ -3162,9 +4848,10 @@ export default {
   Get__filename,
 
   __dirname,
+  env_platform,
   isProduction,
   isSPA,
-  env_platform,
+
   watchIgnoredArr,
 
   aliasConfig,
@@ -3180,8 +4867,8 @@ export default {
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
   miniCssExtractPluginConfig,
-  moduleConfig,
   nodeConfig,
+  moduleConfig,
   optimizationConfig,
   outputConfig,
   performanceConfig,
