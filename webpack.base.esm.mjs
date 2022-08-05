@@ -13,7 +13,7 @@
 
 /**
  * 可能需要修改的地方！
- * 
+ *
  * 1、当需要将代码转换成兼容比较旧的平台时，需要修改：
  * 顶级配置项：experiments、target。
  * output.environment。
@@ -25,6 +25,8 @@
  * 变量babel_targets中的esmodules选项。
  * @babel/preset-env中的forceAllTransforms选项。
  * babelLoaderConfig中的assumptions选项。
+ * 变量esbuildMinify_target。
+ * TerserPlugin.terserOptions.format。
  *
  * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成28个node子进程，每个最大占用1GB物理内存，一共28GB，总内存建议别超过本机最大物理内存的一半。
  */
@@ -73,6 +75,8 @@ import PostCSSSyntax from 'postcss-syntax';
 import DartSass from 'sass';
 
 import Stylus from 'stylus';
+
+import TerserPlugin from 'terser-webpack-plugin';
 
 import ThreadLoader from 'thread-loader';
 
@@ -300,7 +304,46 @@ const browserslist = [
     browsers: browserslist,
     // 注意：uglify选项已被弃用，并将在下一个主要版本中删除。
     // uglify: null，其实我也不知道这个选项的值类型。
-  };
+  },
+  /**
+   * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
+   * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
+   * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
+   */
+  esbuildMinify_target = [
+    // PC端完全支持ES 5的主流浏览器 Start
+    // 'chrome23',
+    // 'firefox21',
+    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
+    // 'ie9',
+    // 'safari6',
+    // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
+    // 'opera15',
+    // PC端完全支持ES 5的主流浏览器 End
+
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 Start
+    // 'chrome58',
+    // 'firefox54',
+    // 这里的Edge是指旧版的微软Edge（版本从12到18），它是用微软的浏览器引擎EdgeHTML和他们的Chakra JavaScript引擎构建的。
+    // 'edge14',
+    // 'safari10',
+    // 'opera55',
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
+
+    'es2022',
+
+    // PC端各主流浏览器的最新版本，至20220731。Start
+    'chrome104',
+    'edge103',
+    'firefox103',
+    'safari15',
+    'opera89',
+    // PC端各主流浏览器的最新版本，至20220731。End
+
+    // 移动端各主流浏览器的最新版本，至20220731。Start
+    'ios15',
+    // 移动端各主流浏览器的最新版本，至20220731。End
+  ];
 
 // autoprefixer共有三种类型的控制注释：
 // /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
@@ -422,7 +465,8 @@ const autoprefixerConfig = {
     resolve( __dirname, './test/' ),
     resolve( __dirname, './ts_compiled/' ),
     resolve( __dirname, './webpack_location/' ),
-  ];
+  ],
+  splitChunksConfig = {};
 
 // 以下一共会生成28个node子进程，每个最大占用1GB物理内存，一共28GB，总内存建议别超过本机最大物理内存的一半。
 /**
@@ -6055,11 +6099,99 @@ const aliasConfig = {
   },
   optimizationConfig = isProduction
                        ? {
-      nodeEnv: 'production',
+      chunkIds: 'deterministic',
+      concatenateModules: true,
+      flagIncludedChunks: true,
+      mangleExports: 'deterministic',
       minimize: true,
       minimizer: [
         // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
         '...',
+        // 这个插件，个人将其配置成用来压缩JS，但是不做语法转译。
+        new TerserPlugin( {
+          test: /\.(js|mjs)$/i,
+          parallel: cpus().length - 1,
+          extractComments: false,
+          // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
+          minify: TerserPlugin.esbuildMinify,
+          terserOptions: {
+            loader: 'js',
+            minifyWhitespace: true,
+            minifyIdentifiers: false,
+            minifySyntax: true,
+            /**
+             * “法律注释（legal comment）”被认为是JS中的任何语句级注释或CSS中包含@license或@preserve或以//!或者/*!开头的任何规则级注释。<br />
+             * 1、默认情况下，这些注释保留在输出文件中，因为这遵循了代码原作者的意图。<br />
+             * 2、有效值说明：<br />
+             * 'none'：不要保留任何法律评论。<br />
+             * 'inline'：保留所有法律评论。<br />
+             * 'eof'：将所有法律注释移至文件末尾。<br />
+             * 'linked'：将所有法律评论移至.LEGAL.txt文件并使用评论链接到它们。<br />
+             * 'external'：将所有法律评论移至.LEGAL.txt文件，但不要链接到它们。<br />
+             */
+            legalComments: 'none',
+            charset: 'utf8',
+            color: true,
+            // 这将设置生成的JavaScript文件的输出格式。当前可以配置三个可能的值：iife、cjs、esm。
+            format: 'esm',
+            // 有效值有：browser、node、neutral。
+            platform: 'browser',
+            keepNames: true,
+            mangleQuoted: false,
+            // 日志限制可以更改为另一个值，也可以通过将其设置为0来完全禁用。这将显示所有日志消息。
+            logLimit: 0,
+            // 交给babel预设处理吧，这里就不用重复设置了。
+            /*
+             drop: [
+             'debugger',
+             'console',
+             ],
+             */
+            target: esbuildMinify_target,
+            // 有效值有：silent、error、warning、info、debug、verbose。
+            logLevel: 'error',
+            logOverride: {
+              'assign-to-constant': 'error',
+              'assign-to-import': 'error',
+              'call-import-namespace': 'error',
+              'commonjs-variable-in-esm': 'error',
+              'delete-super-property': 'error',
+              'duplicate-case': 'error',
+              'duplicate-object-key': 'error',
+              'empty-import-meta': 'error',
+              // 浮点相等的定义使得NaN永远不等于任何东西，所以"x === NaN"总是返回假。您需要使用“isNaN(x)”来测试NaN。
+              'equals-nan': 'error',
+              // 浮点相等定义为0和-0相等，因此"x === -0"返回true。您需要使用“Object.is(x, -0)”来测试-0。
+              'equals-negative-zero': 'error',
+              'equals-new-object': 'error',
+              'html-comment-in-js': 'error',
+              // 表达式“typeof x”实际上在JavaScript中计算为“object”，而不是“null”。你需要使用“x === null”来测试null。
+              'impossible-typeof': 'error',
+              'indirect-require': 'error',
+              'private-name-will-throw': 'error',
+              // 代码“!x in y”被解析为“(!x) in y”。您需要插入括号才能获得“!(x in y)”。
+              'suspicious-boolean-not': 'error',
+              'unsupported-jsx-comment': 'error',
+              'semicolon-after-return': 'warning',
+              // 当文件是ECMAScript模块[this-is-undefined-in-esm]，因此顶级“this”将被替换为undefined。
+              'this-is-undefined-in-esm': 'warning',
+              // 正则表达式标志“d”在配置的目标环境（“chrome50”）中不可用。此正则表达式文字已转换为“new RegExp()”构造函数以避免生成带有语法错误的代码。但是，您需要为“RegExp”包含一个polyfill您的代码在运行时具有正确的行为。
+              'unsupported-regexp': 'warning',
+              // 此“import”表达式不会被捆绑（import(foo)），因为参数不是字符串文字。
+              'unsupported-dynamic-import': 'warning',
+              'unsupported-require-call': 'warning',
+
+              'ambiguous-reexport': 'warning',
+              'different-path-case': 'silent',
+              'ignored-bare-import': 'error',
+              'ignored-dynamic-import': 'silent',
+              'import-is-undefined': 'error',
+              'require-resolve-not-external': 'error',
+
+              'tsconfig.json': 'error',
+            },
+          },
+        } ),
         /**
          * 这个插件使用cssnano来优化和缩小你的CSS。就像optimize-css-assets-webpack-plugin但使用查询字符串对源映射和资产更准确，允许缓存并在并行模式下工作。<br />
          * 1、最好只在生产环境下使用该插件。<br />
@@ -6215,16 +6347,35 @@ const aliasConfig = {
           },
         } ),
       ],
+      moduleIds: 'deterministic',
+      nodeEnv: 'production',
+      portableRecords: true,
+      providedExports: true,
+      removeEmptyChunks: true,
       runtimeChunk: {
         name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
+      sideEffects: true,
+      usedExports: true,
+      splitChunks: splitChunksConfig,
     }
                        : {
-      nodeEnv: 'development',
+      chunkIds: 'named',
+      concatenateModules: false,
+      flagIncludedChunks: false,
+      mangleExports: false,
+      mangleWasmImports: false,
       minimize: false,
+      moduleIds: 'named',
+      nodeEnv: 'development',
+      portableRecords: true,
+      providedExports: true,
+      removeEmptyChunks: false,
       runtimeChunk: {
         name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
+      sideEffects: true,
+      splitChunks: splitChunksConfig,
     },
   outputConfig = {
     /**
