@@ -15,18 +15,24 @@
  * 可能需要修改的地方！
  *
  * 1、当需要将代码转换成兼容比较旧的平台时，需要修改：
- * 顶级配置项：experiments、target。
- * output.environment。
- * vue-loader:options.transpileOptions.target（改变量vue_loader_options_transpileOptions_target即可）。
- * vue-loader:options.transpileOptions.transforms。
- * tsconfig.json中的compilerOptions.module、compilerOptions.target。
  * 变量browserslist。
- * package.json中的browserslist字段，值同变量browserslist。
- * 变量babel_targets中的esmodules选项。
- * @babel/preset-env中的forceAllTransforms选项。
- * babelLoaderConfig中的assumptions选项。
  * 变量esbuildMinify_target。
- * TerserPlugin.terserOptions.format。
+ * 变量vue_loader_options_transpileOptions_target。
+ * package.json中的browserslist字段，值同变量browserslist。
+ *
+ * 变量isUseESBuildLoader。
+ *
+ * tsconfig.json中的compilerOptions.module、compilerOptions.target。
+ *
+ * webpack的配置项：experiments、target、output.environment。
+ *
+ * 变量babel_targets中的esmodules选项。
+ * babelLoaderConfig中的assumptions选项。
+ * @babel/preset-env中的forceAllTransforms选项。
+ *
+ * vue-loader:options.transpileOptions.transforms。
+ *
+ * 变量esbuildMinifyConfig.format。
  *
  * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成28个node子进程，每个最大占用1GB物理内存，一共28GB，总内存建议别超过本机最大物理内存的一半。
  */
@@ -58,6 +64,12 @@ import {
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
+import ESBuild from 'esbuild';
+
+import {
+  ESBuildMinifyPlugin,
+} from 'esbuild-loader';
+
 import JSON5 from 'json5';
 
 import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
@@ -81,6 +93,8 @@ import TerserPlugin from 'terser-webpack-plugin';
 import ThreadLoader from 'thread-loader';
 
 import Toml from 'toml';
+
+import tsconfig_json from './tsconfig.json' assert { type: 'json', };
 
 import Yaml from 'yamljs';
 
@@ -212,7 +226,13 @@ const __dirname = Get__dirname( import.meta.url ),
   /**
    * 是否将项目设置成单页面应用程序(SPA)，默认true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)。<br />
    */
-  isSPA = false;
+  isSPA = false,
+  /**
+   * true表示启用esbuild-loader来转译js、ts，false表示用babel来转译js、ts，esbuild-loader是不需要thread-loader来加速的！它自己已经是很快很快很快了。<br />
+   * 1、如果需要兼容到低端平台，即转译到ES5、ES3的话，还是使用babel来转译，将isUseESBuildLoader设置成false。<br />
+   * 2、如果是兼容到新的现代浏览器，也就是支持ES6的平台，那么还是用esbuild吧，它有这方面的优越性，但就是对ES5不是很友好。<br />
+   */
+  isUseESBuildLoader = true;
 
 // 目标浏览器版本。
 const browserslist = [
@@ -238,7 +258,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20220731。Start
     'Chrome >= 104',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 103',
+    'Edge >= 104',
     'Firefox >= 103',
     'Safari >= 15',
     'Opera >= 89',
@@ -251,60 +271,6 @@ const browserslist = [
     'iOS >= 15',
     // 移动端各主流浏览器的最新版本，至20220731。End
   ],
-  /**
-   * 目标浏览器版本。<br />
-   * 1、支持的标识符有：android、chrome、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung。<br />
-   */
-  vue_loader_options_transpileOptions_target = {
-    // PC端完全支持ES 5的主流浏览器 Start
-    // chrome: 23,
-    // firefox: 21,
-    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
-    // ie: 9,
-    // safari: 6,
-    // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
-    // opera: 15,
-    // PC端完全支持ES 5的主流浏览器 End
-
-    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 Start
-    // chrome: 58,
-    // firefox: 54,
-    // 这里的Edge是指旧版的微软Edge（版本从12到18），它是用微软的浏览器引擎EdgeHTML和他们的Chakra JavaScript引擎构建的。
-    // edge: 14,
-    // safari: 10,
-    // opera: 55,
-    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
-
-    // PC端各主流浏览器的最新版本，至20220731。Start
-    chrome: 104,
-    edge: 103,
-    firefox: 103,
-    safari: 15,
-    opera: 89,
-    // PC端各主流浏览器的最新版本，至20220731。End
-
-    // 移动端各主流浏览器的最新版本，至20220731。Start
-    and_chr: 104,
-    android: 104,
-    and_ff: 103,
-    ios_saf: 15,
-    ios: 15,
-    // 移动端各主流浏览器的最新版本，至20220731。End
-  },
-  babel_targets = {
-    ...vue_loader_options_transpileOptions_target,
-    /**
-     * 您还可以针对支持ES模块的浏览器，当指定esmodules目标时，它将与browsers目标和browserslist的目标相交。您可以将此方法与<script type="module"></script>结合使用，以有条件地向用户提供较小的脚本。<br />
-     * 1、值类型：boolean，true表示输出支持ES的模块化的代码。<br />
-     */
-    esmodules: true,
-    // 如果要针对Safari的技术预览版进行编译，可以指定safari: 'tp'。
-    safari: 'tp',
-    // 值类型：string、Array<string>。使用browserslist选择浏览器的查询：last 2 versions, > 5%, safari tp。
-    browsers: browserslist,
-    // 注意：uglify选项已被弃用，并将在下一个主要版本中删除。
-    // uglify: null，其实我也不知道这个选项的值类型。
-  },
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
    * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
@@ -334,7 +300,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20220731。Start
     'chrome104',
-    'edge103',
+    'edge104',
     'firefox103',
     'safari15',
     'opera89',
@@ -343,7 +309,61 @@ const browserslist = [
     // 移动端各主流浏览器的最新版本，至20220731。Start
     'ios15',
     // 移动端各主流浏览器的最新版本，至20220731。End
-  ];
+  ],
+  /**
+   * 目标浏览器版本。<br />
+   * 1、支持的标识符有：android、chrome、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung。<br />
+   */
+  vue_loader_options_transpileOptions_target = {
+    // PC端完全支持ES 5的主流浏览器 Start
+    // chrome: 23,
+    // firefox: 21,
+    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
+    // ie: 9,
+    // safari: 6,
+    // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
+    // opera: 15,
+    // PC端完全支持ES 5的主流浏览器 End
+
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 Start
+    // chrome: 58,
+    // firefox: 54,
+    // 这里的Edge是指旧版的微软Edge（版本从12到18），它是用微软的浏览器引擎EdgeHTML和他们的Chakra JavaScript引擎构建的。
+    // edge: 14,
+    // safari: 10,
+    // opera: 55,
+    // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
+
+    // PC端各主流浏览器的最新版本，至20220731。Start
+    chrome: 104,
+    edge: 104,
+    firefox: 103,
+    safari: 15,
+    opera: 89,
+    // PC端各主流浏览器的最新版本，至20220731。End
+
+    // 移动端各主流浏览器的最新版本，至20220731。Start
+    and_chr: 104,
+    android: 104,
+    and_ff: 103,
+    ios_saf: 15,
+    ios: 15,
+    // 移动端各主流浏览器的最新版本，至20220731。End
+  },
+  babel_targets = {
+    ...vue_loader_options_transpileOptions_target,
+    /**
+     * 您还可以针对支持ES模块的浏览器，当指定esmodules目标时，它将与browsers目标和browserslist的目标相交。您可以将此方法与<script type="module"></script>结合使用，以有条件地向用户提供较小的脚本。<br />
+     * 1、值类型：boolean，true表示输出支持ES的模块化的代码。<br />
+     */
+    esmodules: true,
+    // 如果要针对Safari的技术预览版进行编译，可以指定safari: 'tp'。
+    safari: 'tp',
+    // 值类型：string、Array<string>。使用browserslist选择浏览器的查询：last 2 versions, > 5%, safari tp。
+    browsers: browserslist,
+    // 注意：uglify选项已被弃用，并将在下一个主要版本中删除。
+    // uglify: null，其实我也不知道这个选项的值类型。
+  };
 
 // autoprefixer共有三种类型的控制注释：
 // /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
@@ -375,6 +395,84 @@ const autoprefixerConfig = {
     grid: 'autoplace',
     // 不要在Browserslist配置中引发未知浏览器版本的错误。默认为false。
     ignoreUnknownVersions: false,
+  },
+  esbuildMinifyConfig = {
+    // 有效值有：'js'、'jsx'、'ts'、'tsx'、'css'、'json'、'text'、'base64'、'file'、'dataurl'、'binary'、'default'。
+    loader: 'js',
+    minifyWhitespace: true,
+    minifyIdentifiers: false,
+    minifySyntax: true,
+    /**
+     * “法律注释（legal comment）”被认为是JS中的任何语句级注释或CSS中包含@license或@preserve或以//!或者/*!开头的任何规则级注释。<br />
+     * 1、默认情况下，这些注释保留在输出文件中，因为这遵循了代码原作者的意图。<br />
+     * 2、有效值说明：<br />
+     * 'none'：不要保留任何法律评论。<br />
+     * 'inline'：保留所有法律评论。<br />
+     * 'eof'：将所有法律注释移至文件末尾。<br />
+     * 'linked'：将所有法律评论移至.LEGAL.txt文件并使用评论链接到它们。<br />
+     * 'external'：将所有法律评论移至.LEGAL.txt文件，但不要链接到它们。<br />
+     */
+    legalComments: 'none',
+    charset: 'utf8',
+    color: true,
+    // 这将设置生成的JavaScript文件的输出格式。当前可以配置三个可能的值：iife、cjs、esm。
+    format: 'esm',
+    // 有效值有：browser、node、neutral。
+    platform: 'browser',
+    keepNames: true,
+    mangleQuoted: false,
+    // 日志限制可以更改为另一个值，也可以通过将其设置为0来完全禁用。这将显示所有日志消息。
+    logLimit: 0,
+    // 当该配置被TerserPlugin使用时，drop选项不使用，其同样的功能交给babel预设处理吧，这里就不用重复设置了。但是被ESBuildMinifyPlugin使用时，还是要启用的。
+    /*
+     drop: [
+     'debugger',
+     'console',
+     ],
+     */
+    target: esbuildMinify_target,
+    // 有效值有：silent、error、warning、info、debug、verbose。
+    logLevel: 'error',
+    logOverride: {
+      'assign-to-constant': 'error',
+      'assign-to-import': 'error',
+      'call-import-namespace': 'error',
+      'commonjs-variable-in-esm': 'error',
+      'delete-super-property': 'error',
+      'duplicate-case': 'error',
+      'duplicate-object-key': 'error',
+      'empty-import-meta': 'error',
+      // 浮点相等的定义使得NaN永远不等于任何东西，所以"x === NaN"总是返回假。您需要使用“isNaN(x)”来测试NaN。
+      'equals-nan': 'error',
+      // 浮点相等定义为0和-0相等，因此"x === -0"返回true。您需要使用“Object.is(x, -0)”来测试-0。
+      'equals-negative-zero': 'error',
+      'equals-new-object': 'error',
+      'html-comment-in-js': 'error',
+      // 表达式“typeof x”实际上在JavaScript中计算为“object”，而不是“null”。你需要使用“x === null”来测试null。
+      'impossible-typeof': 'error',
+      'indirect-require': 'error',
+      'private-name-will-throw': 'error',
+      // 代码“!x in y”被解析为“(!x) in y”。您需要插入括号才能获得“!(x in y)”。
+      'suspicious-boolean-not': 'error',
+      'unsupported-jsx-comment': 'error',
+      'semicolon-after-return': 'warning',
+      // 当文件是ECMAScript模块[this-is-undefined-in-esm]，因此顶级“this”将被替换为undefined。
+      'this-is-undefined-in-esm': 'warning',
+      // 正则表达式标志“d”在配置的目标环境（“chrome50”）中不可用。此正则表达式文字已转换为“new RegExp()”构造函数以避免生成带有语法错误的代码。但是，您需要为“RegExp”包含一个polyfill您的代码在运行时具有正确的行为。
+      'unsupported-regexp': 'warning',
+      // 此“import”表达式不会被捆绑（import(foo)），因为参数不是字符串文字。
+      'unsupported-dynamic-import': 'warning',
+      'unsupported-require-call': 'warning',
+
+      'ambiguous-reexport': 'warning',
+      'different-path-case': 'silent',
+      'ignored-bare-import': 'error',
+      'ignored-dynamic-import': 'silent',
+      'import-is-undefined': 'error',
+      'require-resolve-not-external': 'error',
+
+      'tsconfig.json': 'error',
+    },
   },
   HTMLMinifyConfig = {
     // 以区分大小写的方式处理属性（对自定义HTML标签有用）。
@@ -466,9 +564,10 @@ const autoprefixerConfig = {
     resolve( __dirname, './ts_compiled/' ),
     resolve( __dirname, './webpack_location/' ),
   ],
+  // TODO
   splitChunksConfig = {};
 
-// 以下一共会生成28个node子进程，每个最大占用1GB物理内存，一共28GB，总内存建议别超过本机最大物理内存的一半。
+// 以下一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
 /**
  * 1、将此装载机放在其他装载机的前面，use: [ 'thread-loader', 'babel-loader' ]。<br />
  * 2、在工作池中运行的加载程序是有限的：<br />
@@ -498,6 +597,10 @@ const jsWorkerPoolConfig = {
     // 池的名称可用于创建具有其他相同选项的不同池。
     name: 'jsWorkerPoolConfig',
   },
+  jsxWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+    workers: 6,
+    name: 'jsxWorkerPoolConfig',
+  } ),
   tsWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
     workers: 6,
     name: 'tsWorkerPoolConfig',
@@ -523,47 +626,54 @@ const jsWorkerPoolConfig = {
     name: 'vueWorkerPoolConfig',
   } );
 
-/**
- * 预热：<br />
- * 1、为了防止启动工作程序时的高延迟，可以预热工作程序池。<br />
- * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
- * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
- */
-ThreadLoader.warmup( jsWorkerPoolConfig, [
-  'babel-loader',
-  'babel-preset-env',
-] );
-ThreadLoader.warmup( tsWorkerPoolConfig, [
-  'ts-loader',
-  'babel-loader',
-  'babel-preset-env',
-] );
-ThreadLoader.warmup( cssWorkerPoolConfig, [
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( lessWorkerPoolConfig, [
-  'less-loader',
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( sassWorkerPoolConfig, [
-  'sass-loader',
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( stylusWorkerPoolConfig, [
-  'stylus-loader',
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( vueWorkerPoolConfig, [
-  'vue-loader',
-] );
+if( !isUseESBuildLoader ){
+  /**
+   * 预热：<br />
+   * 1、为了防止启动工作程序时的高延迟，可以预热工作程序池。<br />
+   * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
+   * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
+   */
+  ThreadLoader.warmup( jsWorkerPoolConfig, [
+    'babel-loader',
+    '@babel/preset-env',
+  ] );
+  ThreadLoader.warmup( jsxWorkerPoolConfig, [
+    'babel-loader',
+    '@babel/preset-env',
+    '@babel/preset-react',
+  ] );
+  ThreadLoader.warmup( tsWorkerPoolConfig, [
+    'ts-loader',
+    'babel-loader',
+    '@babel/preset-env',
+  ] );
+  ThreadLoader.warmup( cssWorkerPoolConfig, [
+    'postcss-loader',
+    'css-loader',
+    'style-loader',
+  ] );
+  ThreadLoader.warmup( lessWorkerPoolConfig, [
+    'less-loader',
+    'postcss-loader',
+    'css-loader',
+    'style-loader',
+  ] );
+  ThreadLoader.warmup( sassWorkerPoolConfig, [
+    'sass-loader',
+    'postcss-loader',
+    'css-loader',
+    'style-loader',
+  ] );
+  ThreadLoader.warmup( stylusWorkerPoolConfig, [
+    'stylus-loader',
+    'postcss-loader',
+    'css-loader',
+    'style-loader',
+  ] );
+  ThreadLoader.warmup( vueWorkerPoolConfig, [
+    'vue-loader',
+  ] );
+}
 
 /**
  * 设置路径别名。<br />
@@ -3324,6 +3434,48 @@ const aliasConfig = {
       ],
     ];
 
+    const babelPresetsJSX = [
+      ...babelPresets,
+      /**
+       * 1、此预设始终包含以下插件：<br />
+       * @babel/plugin-syntax-jsx <br />
+       * @babel/plugin-transform-react-jsx <br />
+       * @babel/plugin-transform-react-display-name <br />
+       * 2、当启用development选项时，并且设定runtime选项值为：classic，还支持下述2个插件：<br />
+       * @babel/plugin-transform-react-jsx-self <br />
+       * @babel/plugin-transform-react-jsx-source <br />
+       * 3、启用development选项时，并且设定runtime选项值为：automatic，自v7.9.0起，会自动添加上面2个插件。但是，如果你设定runtime选项值为：automatic，又手动添加上述2个插件就会出报错。<br />
+       */
+      [
+        '@babel/preset-react',
+        {
+          /**
+           * 自v 7.9.0开始添加该选项，决定使用哪个运行时。<br />
+           * 1、值类型：string（只有2个有效值：'automatic'、'classic'），默认值：'classic'。<br />
+           * 2、值'automatic'会自动导入JSX转译成的函数，值'classic'不会自动导入任何东西。<br />
+           */
+          runtime: 'automatic',
+          /**
+           * 这会切换特定于开发的行为，例如添加__source和__self。<br />
+           * 1、值类型：boolean，默认值：false。<br />
+           */
+          development: !isProduction,
+          /**
+           * 如果使用XML命名空间标记名称，则切换是否引发错误。<br />
+           * 1、值类型：boolean，默认值：true。<br />
+           * 2、尽管JSX规范允许这样做，但默认情况下它是禁用的，因为React的JSX目前不支持它：<br />
+           * <f: image />
+           */
+          throwIfNamespace: true,
+          /**
+           * 启用@babel/plugin-transform-react-pure-annotations，它将顶级React方法调用标记为tree shaking。<br />
+           * 1、值类型：boolean，默认值：true。<br />
+           */
+          pure: true,
+        },
+      ],
+    ];
+
     const babelLoaderConfig = {
       /**
        * 如果选项中的值设置为true，加载器将使用node_modules/.cache/babel-loader中的默认缓存目录，或者如果在任何根目录中都找不到node_modules文件夹，则回退到默认的操作系统临时文件目录。<br />
@@ -3538,6 +3690,10 @@ const aliasConfig = {
                : {};
       } )( false ),
     };
+
+    const babelLoaderJSXConfig = Object.assign( {}, babelLoaderConfig, {
+      presets: babelPresetsJSX,
+    } );
 
     const cssLoader_url_import_IgnoreArr1 = [
       '../static/',
@@ -3764,6 +3920,171 @@ const aliasConfig = {
         },
       },
     };
+
+    /**
+     * 1、请注意，虽然支持包含顶级等待的转换代码，但仅当format选项设置为esm时，才支持包含顶级等待的捆绑代码。<br />
+     * 2、对ES5支持不好，尚不支持将ES6+语法转换为ES5。但是，如果您使用esbuild转换ES5代码，您仍应将目标设置为es5。<br />
+     */
+    const esbuildLoaderConfigForJS = ( () => {
+        const obj1 = JSON.parse( JSON.stringify( esbuildMinifyConfig ) );
+
+        delete obj1.minifyWhitespace;
+        delete obj1.minifyIdentifiers;
+        delete obj1.minifySyntax;
+        delete obj1.legalComments;
+
+        return Object.assign( {}, obj1, {
+          // 一旦esbuild达到稳定版本，implementation选项将被删除。相反，esbuild将成为peerDependency，因此您始终提供自己的。
+          implementation: ESBuild,
+          minify: false,
+          incremental: !isProduction,
+          /**
+           * 1、通常这是在您使用target选项设置时为您自动配置的，您通常应该使用target选项设置而不是supported选项设置。如果除此supported选项设置之外还指定了target选项，则此supported选项设置将覆盖target选项指定的任何内容。<br />
+           * 2、例如，您可以使用它来告诉esbuild BigInts不受支持，以便esbuild在您尝试使用BigInts时生成错误。<br />
+           * 3、此设置允许您在单个语法功能级别自定义esbuild的一组不受支持的语法功能。<br />
+           * 4、JavaScript运行时通常会快速实现较旧的JavaScript较慢的较新语法功能，您可以通过告诉esbuild假装不支持此语法功能来获得加速。<br />
+           * 5、如果想告知esbuild不支持某个语法，就这么设置：'bigint': false，如果是支持就将值设置成true。<br />
+           */
+          /*
+           supported: {
+           // ES2015语法 Start
+           'arrow': true,
+           'class': true,
+           'array-spread': true,
+           'const-and-let': true,
+           'default-argument': true,
+           'destructuring': true,
+           'for-of': true,
+           'generator': true,
+           'new-target': true,
+           'rest-argument': true,
+           'template-literal': true,
+           'unicode-escapes': true,
+           'regexp-sticky-and-unicode-flags': true,
+           'regexp-match-indices': true,
+           // ES2015语法 End
+
+           // ES2016 Start
+           'exponent-operator': true,
+           // ES2016 End
+
+           // ES2017语法 Start
+           'async-await': true,
+           // ES2017语法 End
+
+           // ES2018语法 Start
+           'async-generator': true,
+           'for-await': true,
+           'object-rest-spread': true,
+           'object-accessors': true,
+           'object-extensions': true,
+           'regexp-named-capture-groups': true,
+           'regexp-dot-all-flag': true,
+           'regexp-unicode-property-escapes': true,
+           'regexp-lookbehind-assertions': true,
+           // ES2018语法 End
+
+           // ES2019语法 Start
+           'optional-catch-binding': true,
+           // ES2019语法 End
+
+           // ES2020语法 Start
+           'bigint': true,
+           'dynamic-import': true,
+           'export-star-as': true,
+           'import-meta': true,
+           'nullish-coalescing': true,
+           'optional-chain': true,
+           // ES2020语法 End
+
+           // ES2021语法 Start
+           'logical-assignment': true,
+           // ES2021语法 End
+
+           // ES2022语法 Start
+           'class-field': true,
+           'class-private-accessor': true,
+           'class-private-brand-check': true,
+           'class-private-field': true,
+           'class-private-method': true,
+           'class-private-static-accessor': true,
+           'class-private-static-field': true,
+           'class-private-static-method': true,
+           'class-static-blocks': true,
+           'class-static-field': true,
+           'arbitrary-module-namespace-names': true,
+           'top-level-await': true,
+           'typeof-exotic-object-is-object': true,
+           // ES2022语法 End
+
+           // ESNext语法 Start
+           'hashbang': true,
+           'import-assertions': true,
+           'nested-rest-binding': true,
+           // ESNext语法 End
+
+           // node（node:module） Start
+           'node-colon-prefix-import': false,
+           'node-colon-prefix-require': false,
+           // node（node:module） End
+           },
+           */
+        } );
+      } )(),
+      esbuildLoaderConfigForJSX = Object.assign( {}, esbuildLoaderConfigForJS, {
+        loader: 'jsx',
+        // 有效值有：'React.createElement'（默认值）、'h'。
+        jsxFactory: 'h',
+        // 有效值有：'React.Fragment'（默认值）、'Fragment'。
+        jsxFragment: 'Fragment',
+      } ),
+      esbuildLoaderConfigForTS = Object.assign( {}, esbuildLoaderConfigForJS, {
+        loader: 'ts',
+        /**
+         * 1、从esbuild-loader包的代码中可知，其会自动判断有没有设置tsconfigRaw选项，没有的话，会自动从项目根目录尝试加载tsconfig.json文件。<br />
+         * 2、tsconfigRaw的值类型得是字符串文本，而不是object。<br />
+         * 3、但是从esbuild包的代码中可知，它会自动判断，如果是字符串文本，它就直接使用，如果不是字符串文本，会直接使用JSON.stringify()转成字符串文本。<br />
+         * 4、esbuild仅支持tsconfig选项的子集（请参阅TransformOptions接口，也就是只支持tsconfig.js文件中的compilerOptions选项）并且不进行类型检查。<br />
+         * 5、esbuild文档还建议在您的tsconfig中启用isolatedModules和esModuleInterop选项。<br />
+         * 6、如：tsconfigRaw: string | { compilerOptions: {} }。<br />
+         * 7、必须在项目根目录存在一个有效的tsconfig.js文件。<br />
+         */
+        tsconfigRaw: ( tsconfigPath => {
+          let obj1 = tsconfig_json,
+            resultCompilerOptionsObj = Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
+                                       ? obj1.compilerOptions
+                                       : {},
+            path1 = '',
+            dirNamePath1 = dirname( resolve( __dirname, tsconfigPath ) );
+
+          while( 'extends' in obj1 && obj1.extends.length !== 0 ){
+            path1 = resolve( dirNamePath1, obj1.extends );
+
+            dirNamePath1 = dirname( path1 );
+
+            obj1 = JSON5.parse( readFileSync( path1 ) );
+
+            resultCompilerOptionsObj = Object.assign( {}, Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
+                                                          ? obj1.compilerOptions
+                                                          : {}, resultCompilerOptionsObj );
+          }
+
+          return JSON.stringify( {
+            compilerOptions: {
+              ...resultCompilerOptionsObj,
+              isolatedModules: true,
+              esModuleInterop: true,
+            },
+          } );
+        } )( './tsconfig.js' ),
+      } ),
+      esbuildLoaderConfigForTSX = Object.assign( {}, esbuildLoaderConfigForTS, {
+        loader: 'tsx',
+        // 有效值有：'React.createElement'（默认值）、'h'。
+        jsxFactory: 'h',
+        // 有效值有：'React.Fragment'（默认值）、'Fragment'。
+        jsxFragment: 'Fragment',
+      } );
 
     return {
       generator: {
@@ -4349,16 +4670,23 @@ const aliasConfig = {
           // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
           type: 'javascript/auto',
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'thread-loader',
-              options: jsWorkerPoolConfig,
-            },
-            {
-              loader: 'babel-loader',
-              options: babelLoaderConfig,
-            },
-          ],
+          use: isUseESBuildLoader
+               ? [
+              {
+                loader: 'esbuild-loader',
+                options: esbuildLoaderConfigForJS,
+              },
+            ]
+               : [
+              {
+                loader: 'thread-loader',
+                options: jsWorkerPoolConfig,
+              },
+              {
+                loader: 'babel-loader',
+                options: babelLoaderConfig,
+              },
+            ],
           include: [
             resolve( __dirname, './src/' ),
           ],
@@ -4383,16 +4711,64 @@ const aliasConfig = {
           // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
           type: 'javascript/esm',
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'thread-loader',
-              options: jsWorkerPoolConfig,
-            },
-            {
-              loader: 'babel-loader',
-              options: babelLoaderConfig,
-            },
+          use: isUseESBuildLoader
+               ? [
+              {
+                loader: 'esbuild-loader',
+                options: esbuildLoaderConfigForJS,
+              },
+            ]
+               : [
+              {
+                loader: 'thread-loader',
+                options: jsWorkerPoolConfig,
+              },
+              {
+                loader: 'babel-loader',
+                options: babelLoaderConfig,
+              },
+            ],
+          include: [
+            resolve( __dirname, './src/' ),
           ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
+            resolve( __dirname, './src/wasm/' ),
+          ],
+        },
+        // 处理jsx。
+        {
+          test: /\.jsx$/i,
+          // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
+          type: 'javascript/auto',
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: isUseESBuildLoader
+               ? [
+              {
+                loader: 'esbuild-loader',
+                options: esbuildLoaderConfigForJSX,
+              },
+            ]
+               : [
+              {
+                loader: 'thread-loader',
+                options: jsxWorkerPoolConfig,
+              },
+              {
+                loader: 'babel-loader',
+                options: babelLoaderJSXConfig,
+              },
+            ],
           include: [
             resolve( __dirname, './src/' ),
           ],
@@ -5793,53 +6169,131 @@ const aliasConfig = {
           ],
           sideEffects: true,
         },
-        // 处理ts、tsx、mts、cts。
+        // 处理ts、mts、cts。
         {
-          test: /\.(ts|tsx|mts|cts)$/i,
+          test: /\.(ts|mts|cts)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'thread-loader',
-              options: tsWorkerPoolConfig,
-            },
-            {
-              loader: 'babel-loader',
-              options: babelLoaderConfig,
-            },
-            {
-              loader: 'ts-loader',
-              options: {
-                // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
-                transpileOnly: true,
-                // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
-                happyPackMode: true,
-                logInfoToStdOut: false,
-                logLevel: 'error',
-                // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
-                silent: true,
-                // 仅报告与这些glob模式匹配的文件的错误。
-                reportFiles: [
-                  'src/**/*.{ts,cts,mts,tsx}',
-                  'src/**/*.ts.vue',
-                  'src/**/*.cts.vue',
-                  'src/**/*.mts.vue',
-                  'src/**/*.tsx.vue',
-                ],
-                // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
-                compiler: 'typescript',
-                // 允许您指定在哪里可以找到TypeScript配置文件。
-                configFile: resolve( __dirname, './tsconfig.json' ),
-                colors: true,
-                appendTsSuffixTo: [],
-                appendTsxSuffixTo: [],
-                onlyCompileBundledFiles: true,
-                allowTsInNodeModules: false,
-                context: resolve( __dirname, './' ),
-                experimentalFileCaching: true,
-                projectReferences: true,
+          use: isUseESBuildLoader
+               ? [
+              {
+                loader: 'esbuild-loader',
+                options: esbuildLoaderConfigForTS,
               },
-            },
+            ]
+               : [
+              {
+                loader: 'thread-loader',
+                options: tsWorkerPoolConfig,
+              },
+              {
+                loader: 'babel-loader',
+                options: babelLoaderConfig,
+              },
+              {
+                loader: 'ts-loader',
+                options: {
+                  // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+                  transpileOnly: true,
+                  // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
+                  happyPackMode: true,
+                  logInfoToStdOut: false,
+                  logLevel: 'error',
+                  // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
+                  silent: true,
+                  // 仅报告与这些glob模式匹配的文件的错误。
+                  reportFiles: [
+                    'src/**/*.{ts,cts,mts,tsx}',
+                    'src/**/*.ts.vue',
+                    'src/**/*.cts.vue',
+                    'src/**/*.mts.vue',
+                    'src/**/*.tsx.vue',
+                  ],
+                  // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
+                  compiler: 'typescript',
+                  // 允许您指定在哪里可以找到TypeScript配置文件。
+                  configFile: resolve( __dirname, './tsconfig.json' ),
+                  colors: true,
+                  appendTsSuffixTo: [],
+                  appendTsxSuffixTo: [],
+                  onlyCompileBundledFiles: true,
+                  allowTsInNodeModules: false,
+                  context: resolve( __dirname, './' ),
+                  experimentalFileCaching: true,
+                  projectReferences: true,
+                },
+              },
+            ],
+          include: [
+            resolve( __dirname, './src/' ),
           ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/template/ejs/' ),
+            resolve( __dirname, './src/template/handlebars/' ),
+            resolve( __dirname, './src/template/html/' ),
+            resolve( __dirname, './src/template/markdown/' ),
+            resolve( __dirname, './src/template/mustache/' ),
+            resolve( __dirname, './src/template/pug_jade/' ),
+            resolve( __dirname, './src/wasm/' ),
+          ],
+        },
+        // 处理tsx。
+        {
+          test: /\.tsx$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: isUseESBuildLoader
+               ? [
+              {
+                loader: 'esbuild-loader',
+                options: esbuildLoaderConfigForTSX,
+              },
+            ]
+               : [
+              {
+                loader: 'thread-loader',
+                options: tsWorkerPoolConfig,
+              },
+              {
+                loader: 'babel-loader',
+                options: babelLoaderConfig,
+              },
+              {
+                loader: 'ts-loader',
+                options: {
+                  // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+                  transpileOnly: true,
+                  // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
+                  happyPackMode: true,
+                  logInfoToStdOut: false,
+                  logLevel: 'error',
+                  // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
+                  silent: true,
+                  // 仅报告与这些glob模式匹配的文件的错误。
+                  reportFiles: [
+                    'src/**/*.{ts,cts,mts,tsx}',
+                    'src/**/*.ts.vue',
+                    'src/**/*.cts.vue',
+                    'src/**/*.mts.vue',
+                    'src/**/*.tsx.vue',
+                  ],
+                  // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
+                  compiler: 'typescript',
+                  // 允许您指定在哪里可以找到TypeScript配置文件。
+                  configFile: resolve( __dirname, './tsconfig.json' ),
+                  colors: true,
+                  appendTsSuffixTo: [],
+                  appendTsxSuffixTo: [],
+                  onlyCompileBundledFiles: true,
+                  allowTsInNodeModules: false,
+                  context: resolve( __dirname, './' ),
+                  experimentalFileCaching: true,
+                  projectReferences: true,
+                },
+              },
+            ],
           include: [
             resolve( __dirname, './src/' ),
           ],
@@ -6107,90 +6561,25 @@ const aliasConfig = {
       minimizer: [
         // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
         '...',
-        // 这个插件，个人将其配置成用来压缩JS，但是不做语法转译。
-        new TerserPlugin( {
+        isUseESBuildLoader
+        ? new ESBuildMinifyPlugin( Object.assign( {}, esbuildMinifyConfig, {
+          // 一旦esbuild达到稳定版本，implementation选项将被删除。相反，esbuild将成为peerDependency，因此您始终提供自己的。
+          implementation: ESBuild,
+          // 当该配置被TerserPlugin使用时，drop选项不使用，其同样的功能交给babel预设处理吧，这里就不用重复设置了。但是被ESBuildMinifyPlugin使用时，还是要启用的。
+          drop: [
+            'debugger',
+            'console',
+          ],
+        } ) )
+          // 这个插件，个人将其配置成用来压缩JS，但是不做语法转译。
+        : new TerserPlugin( {
           test: /\.(js|mjs)$/i,
           parallel: cpus().length - 1,
           extractComments: false,
           // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
           minify: TerserPlugin.esbuildMinify,
-          terserOptions: {
-            loader: 'js',
-            minifyWhitespace: true,
-            minifyIdentifiers: false,
-            minifySyntax: true,
-            /**
-             * “法律注释（legal comment）”被认为是JS中的任何语句级注释或CSS中包含@license或@preserve或以//!或者/*!开头的任何规则级注释。<br />
-             * 1、默认情况下，这些注释保留在输出文件中，因为这遵循了代码原作者的意图。<br />
-             * 2、有效值说明：<br />
-             * 'none'：不要保留任何法律评论。<br />
-             * 'inline'：保留所有法律评论。<br />
-             * 'eof'：将所有法律注释移至文件末尾。<br />
-             * 'linked'：将所有法律评论移至.LEGAL.txt文件并使用评论链接到它们。<br />
-             * 'external'：将所有法律评论移至.LEGAL.txt文件，但不要链接到它们。<br />
-             */
-            legalComments: 'none',
-            charset: 'utf8',
-            color: true,
-            // 这将设置生成的JavaScript文件的输出格式。当前可以配置三个可能的值：iife、cjs、esm。
-            format: 'esm',
-            // 有效值有：browser、node、neutral。
-            platform: 'browser',
-            keepNames: true,
-            mangleQuoted: false,
-            // 日志限制可以更改为另一个值，也可以通过将其设置为0来完全禁用。这将显示所有日志消息。
-            logLimit: 0,
-            // 交给babel预设处理吧，这里就不用重复设置了。
-            /*
-             drop: [
-             'debugger',
-             'console',
-             ],
-             */
-            target: esbuildMinify_target,
-            // 有效值有：silent、error、warning、info、debug、verbose。
-            logLevel: 'error',
-            logOverride: {
-              'assign-to-constant': 'error',
-              'assign-to-import': 'error',
-              'call-import-namespace': 'error',
-              'commonjs-variable-in-esm': 'error',
-              'delete-super-property': 'error',
-              'duplicate-case': 'error',
-              'duplicate-object-key': 'error',
-              'empty-import-meta': 'error',
-              // 浮点相等的定义使得NaN永远不等于任何东西，所以"x === NaN"总是返回假。您需要使用“isNaN(x)”来测试NaN。
-              'equals-nan': 'error',
-              // 浮点相等定义为0和-0相等，因此"x === -0"返回true。您需要使用“Object.is(x, -0)”来测试-0。
-              'equals-negative-zero': 'error',
-              'equals-new-object': 'error',
-              'html-comment-in-js': 'error',
-              // 表达式“typeof x”实际上在JavaScript中计算为“object”，而不是“null”。你需要使用“x === null”来测试null。
-              'impossible-typeof': 'error',
-              'indirect-require': 'error',
-              'private-name-will-throw': 'error',
-              // 代码“!x in y”被解析为“(!x) in y”。您需要插入括号才能获得“!(x in y)”。
-              'suspicious-boolean-not': 'error',
-              'unsupported-jsx-comment': 'error',
-              'semicolon-after-return': 'warning',
-              // 当文件是ECMAScript模块[this-is-undefined-in-esm]，因此顶级“this”将被替换为undefined。
-              'this-is-undefined-in-esm': 'warning',
-              // 正则表达式标志“d”在配置的目标环境（“chrome50”）中不可用。此正则表达式文字已转换为“new RegExp()”构造函数以避免生成带有语法错误的代码。但是，您需要为“RegExp”包含一个polyfill您的代码在运行时具有正确的行为。
-              'unsupported-regexp': 'warning',
-              // 此“import”表达式不会被捆绑（import(foo)），因为参数不是字符串文字。
-              'unsupported-dynamic-import': 'warning',
-              'unsupported-require-call': 'warning',
-
-              'ambiguous-reexport': 'warning',
-              'different-path-case': 'silent',
-              'ignored-bare-import': 'error',
-              'ignored-dynamic-import': 'silent',
-              'import-is-undefined': 'error',
-              'require-resolve-not-external': 'error',
-
-              'tsconfig.json': 'error',
-            },
-          },
+          // 当该配置被TerserPlugin使用时，drop选项不使用，其同样的功能交给babel预设处理吧，这里就不用重复设置了。但是被ESBuildMinifyPlugin使用时，还是要启用的。
+          terserOptions: esbuildMinifyConfig,
         } ),
         /**
          * 这个插件使用cssnano来优化和缩小你的CSS。就像optimize-css-assets-webpack-plugin但使用查询字符串对源映射和资产更准确，允许缓存并在并行模式下工作。<br />
