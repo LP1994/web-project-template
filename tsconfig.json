@@ -98,6 +98,90 @@
       ],
       "videosDir": [
         "./src/assets/videos/"
+      ],
+      "gQLAPIDir": [
+        "./src/graphQL/api/"
+      ],
+      "nativeComponentsDir": [
+        "./src/native_components/"
+      ],
+      "pagesDir": [
+        "./src/pages/"
+      ],
+      "pwaManifestDir": [
+        "./src/pwa_manifest/"
+      ],
+      "stylesDir": [
+        "./src/styles/"
+      ],
+      "cssDir": [
+        "./src/styles/css/"
+      ],
+      "lessDir": [
+        "./src/styles/less/"
+      ],
+      "postcssDir": [
+        "./src/styles/postcss/"
+      ],
+      "sassDir": [
+        "./src/styles/sass/"
+      ],
+      "scssDir": [
+        "./src/styles/scss/"
+      ],
+      "stylusDir": [
+        "./src/styles/stylus/"
+      ],
+      "templateDir": [
+        "./src/template/"
+      ],
+      "ejsDir": [
+        "./src/template/ejs/"
+      ],
+      "handlebarsDir": [
+        "./src/template/handlebars/"
+      ],
+      "htmlDir": [
+        "./src/template/html/"
+      ],
+      "markdownDir": [
+        "./src/template/markdown/"
+      ],
+      "mustacheDir": [
+        "./src/template/mustache/"
+      ],
+      "pug_jadeDir": [
+        "./src/template/pug_jade/"
+      ],
+      "toolsDir": [
+        "./src/tools/"
+      ],
+      "jsDir": [
+        "./src/tools/js/"
+      ],
+      "tsDir": [
+        "./src/tools/ts/"
+      ],
+      "wasmDir": [
+        "./src/wasm/build/"
+      ],
+      "webComponentsDir": [
+        "./src/web_components/"
+      ],
+      "workersDir": [
+        "./src/workers/"
+      ],
+      "serviceWorkersDir": [
+        "./src/workers/service_workers/"
+      ],
+      "sharedWorkersDir": [
+        "./src/workers/shared_workers/"
+      ],
+      "workersToolsDir": [
+        "./src/workers/tools/"
+      ],
+      "webWorkersDir": [
+        "./src/workers/web_workers/"
       ]
     },
     "rootDir": ".",

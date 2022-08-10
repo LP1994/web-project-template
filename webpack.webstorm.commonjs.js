@@ -33,18 +33,23 @@ module.exports = {
      */
     new webpack.ProvidePlugin( {
       axios: 'axios',
+
       echarts: 'echarts',
+
       /**
        * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
        * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
        */
       ELEMENT: 'element-ui',
       ElementPlus: 'element-plus',
+
       $: 'jquery',
       jQuery: 'jquery',
       'window.$': 'jquery',
       'window.jQuery': 'jquery',
+
       Swiper: 'swiper',
+
       /**
        * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
        * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
@@ -67,6 +72,7 @@ module.exports = {
       'element-plus-css$': 'element-plus/dist/index.css',
       'swiper-css$': 'swiper/swiper-bundle.min.css',
 
+      // assets文件夹 Start
       'assetsDir': path.resolve( __dirname, './src/assets/' ),
 
       'docDir': path.resolve( __dirname, './src/assets/doc/' ),
@@ -85,6 +91,57 @@ module.exports = {
       'imgDir': path.resolve( __dirname, './src/assets/img/' ),
       'musicDir': path.resolve( __dirname, './src/assets/music/' ),
       'videosDir': path.resolve( __dirname, './src/assets/videos/' ),
+      // assets文件夹 End
+
+      'gQLAPIDir': path.resolve( __dirname, './src/graphQL/api/' ),
+
+      'nativeComponentsDir': path.resolve( __dirname, './src/native_components/' ),
+
+      'pagesDir': path.resolve( __dirname, './src/pages/' ),
+
+      'pwaManifestDir': path.resolve( __dirname, './src/pwa_manifest/' ),
+
+      // styles文件夹 Start
+      'stylesDir': path.resolve( __dirname, './src/styles/' ),
+
+      'cssDir': path.resolve( __dirname, './src/styles/css/' ),
+      'lessDir': path.resolve( __dirname, './src/styles/less/' ),
+      'postcssDir': path.resolve( __dirname, './src/styles/postcss/' ),
+      'sassDir': path.resolve( __dirname, './src/styles/sass/' ),
+      'scssDir': path.resolve( __dirname, './src/styles/scss/' ),
+      'stylusDir': path.resolve( __dirname, './src/styles/stylus/' ),
+      // styles文件夹 End
+
+      // template文件夹 Start
+      'templateDir': path.resolve( __dirname, './src/template/' ),
+
+      'ejsDir': path.resolve( __dirname, './src/template/ejs/' ),
+      'handlebarsDir': path.resolve( __dirname, './src/template/handlebars/' ),
+      'htmlDir': path.resolve( __dirname, './src/template/html/' ),
+      'markdownDir': path.resolve( __dirname, './src/template/markdown/' ),
+      'mustacheDir': path.resolve( __dirname, './src/template/mustache/' ),
+      'pug_jadeDir': path.resolve( __dirname, './src/template/pug_jade/' ),
+      // template文件夹 End
+
+      // tools文件夹 Start
+      'toolsDir': path.resolve( __dirname, './src/tools/' ),
+
+      'jsDir': path.resolve( __dirname, './src/tools/js/' ),
+      'tsDir': path.resolve( __dirname, './src/tools/ts/' ),
+      // tools文件夹 End
+
+      'wasmDir': path.resolve( __dirname, './src/wasm/build/' ),
+
+      'webComponentsDir': path.resolve( __dirname, './src/web_components/' ),
+
+      // workers文件夹 Start
+      'workersDir': path.resolve( __dirname, './src/workers/' ),
+
+      'serviceWorkersDir': path.resolve( __dirname, './src/workers/service_workers/' ),
+      'sharedWorkersDir': path.resolve( __dirname, './src/workers/shared_workers/' ),
+      'workersToolsDir': path.resolve( __dirname, './src/workers/tools/' ),
+      'webWorkersDir': path.resolve( __dirname, './src/workers/web_workers/' ),
+      // workers文件夹 End
     },
     /**
      * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />

@@ -69,8 +69,8 @@ import {
 
 export default {
   /**
-   * 在第一个错误上失败而不是容忍它。默认情况下，webpack会在终端以及使用HMR时的浏览器控制台中以红色记录这些错误，但会继续捆绑。<br />
-   * 1、这将强制webpack退出其捆绑过程。<br />
+   * 在第1个错误上失败而不是容忍它。默认情况下，webpack会在终端以及使用HMR时的浏览器控制台中以红色记录这些错误，但会继续捆绑。<br />
+   * 1、设置成true，这将强制webpack退出其捆绑过程，设置成false将容忍它。<br />
    * 2、避免在watch模式下使用bail选项，因为它会在发现错误时强制webpack尽快退出。<br />
    */
   bail: true,
@@ -220,12 +220,18 @@ export default {
     } ),
 
     new webpack.DefinePlugin( definePluginConfig ),
+    new webpack.ids.DeterministicChunkIdsPlugin( {
+      maxLength: 8,
+    } ),
+    new webpack.ids.DeterministicModuleIdsPlugin( {
+      maxLength: 8,
+    } ),
     new webpack.optimize.LimitChunkCountPlugin( {
       // 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
-      maxChunks: 50,
+      maxChunks: 30,
     } ),
     new webpack.optimize.MinChunkSizePlugin( {
-      // 通过合并小于minChunkSize的块，将块大小保持在指定限制之上，猜测单位是：KB。
+      // 通过合并小于minChunkSize的块，将块大小保持在指定限制之上，猜测单位是：字节。
       minChunkSize: 100 * 1024,
     } ),
     new webpack.ProvidePlugin( providePluginConfig ),

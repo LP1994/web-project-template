@@ -234,7 +234,11 @@ const __dirname = Get__dirname( import.meta.url ),
    */
   isUseESBuildLoader = true;
 
-// 目标浏览器版本。
+/**
+ * 目标浏览器版本。
+ *
+ * @type {string[]}
+ */
 const browserslist = [
     // PC端完全支持ES 5的主流浏览器 Start
     // 'Chrome >= 23',
@@ -564,8 +568,240 @@ const autoprefixerConfig = {
     resolve( __dirname, './ts_compiled/' ),
     resolve( __dirname, './webpack_location/' ),
   ],
-  // TODO
-  splitChunksConfig = {};
+  /**
+   * 默认情况下，它只影响按需块，因为更改初始块会影响HTML文件应包含以运行项目的脚本标记。<br />
+   * 1、Webpack将根据这些条件自动拆分块：<br />
+   * 可以共享新块或模块来自node_modules文件夹。<br />
+   * 新块将大于20kb（在min+gz 之前）。<br />
+   * 按需加载块（Async块）时的最大并行请求数将低于或等于30。<br />
+   * 初始页面加载时的最大并行请求数将低于或等于30。<br />
+   * 2、当试图满足上述最后2个条件时，首选更大的块。<br />
+   * 3、选择默认配置以适应Web性能最佳实践，但您的项目的最佳策略可能会有所不同。如果您要更改配置，您应该衡量更改的效果，以确保有真正的好处。<br />
+   * 4、从webpack 5开始，不再允许将条目名称传递给{cacheGroup}.test并将现有块的名称用于{cacheGroup}.name。<br />
+   */
+  splitChunksConfig = {
+    // 默认设置以及webpack代码中的默认设置 Start
+    /*
+     defaultSizeTypes: [
+     'javascript',
+     'unknown',
+     ],
+     hidePathInfo: false,
+     chunks: 'all',
+     minChunks: 1,
+     maxAsyncRequests: 30,
+     maxInitialRequests: 30,
+     automaticNameDelimiter: '~',
+     fallbackCacheGroup: {},
+     // 单位：字节，20000约为20KB。
+     minSize: 20 * 1024,
+     minRemainingSize: 0,
+     enforceSizeThreshold: 50000,
+     cacheGroups: {
+     defaultVendors: {
+     test: /[\\/]node_modules[\\/]/,
+     priority: -10,
+     reuseExistingChunk: true,
+     },
+     default: {
+     minChunks: 2,
+     priority: -20,
+     reuseExistingChunk: true,
+     },
+     },
+     */
+    // 默认设置以及webpack代码中的默认设置 End
+
+    /**
+     * 默认情况下，webpack将使用块的来源和名称生成名称（例如：vendor~main.js）。此选项允许您指定用于生成名称的分隔符。<br />
+     * 1、值类型：string，默认值：'~'。<br />
+     */
+    automaticNameDelimiter: '__',
+    /**
+     * 这表明将选择对哪些块进行优化。<br />
+     * 1、值类型：string（只有3个有效值：'all'、'async'、'initial'）、chunk => boolean，默认值：'all'。<br />
+     * 2、当提供值为'all'，可能特别强大，因为这意味着即使在异步和非异步块之间也可以共享块。<br />
+     * 3、该选项也可以在splitChunks.fallbackCacheGroup中使用。<br />
+     */
+    chunks: 'all',
+    /**
+     * 按需加载（Async块）时的最大并行请求数。<br />
+     * 1、值类型：number，默认值：30。<br />
+     */
+    maxAsyncRequests: 30,
+    /**
+     * 入口点的最大并行请求数。
+     * 1、值类型：number，默认值：30。<br />
+     */
+    maxInitialRequests: 30,
+    /**
+     * 使用数字限制文件大小时，有哪些类型的文件可以受数字限制文件大小。<br />
+     * 1、值类型：[string]，默认值：[ 'javascript', 'unknown', ]。<br />
+     */
+    defaultSizeTypes: [
+      // '...'值大概是表示扩展吧！
+      '...',
+      // 'css/mini-extract'值来自node_modules/mini-css-extract-plugin/types/utils.d.ts:37。
+      'css/mini-extract',
+      'javascript',
+      'css',
+      'unknown',
+      'webassembly',
+    ],
+    /**
+     * 在拆分之前，模块必须在块之间共享的最少次数。<br />
+     * 1、值类型：number，默认值：1。<br />
+     */
+    minChunks: 1,
+    /**
+     * 在为按maxSize分割的部分创建名称时防止暴露路径信息。<br />
+     * 1、值类型：boolean，默认值：false。<br />
+     */
+    hidePathInfo: isProduction,
+    /**
+     * 要生成新的拆分块的最小大小（以字节为单位）。<br />
+     * 1、值类型：number（默认值：20000）、{ [index: string]: number }。<br />
+     */
+    minSize: 10 * 1024,
+    /**
+     * 生成新的拆分块所需的主块（包）的最小大小减少（以字节为单位）。这意味着如果拆分成1个新的拆分块不会将主块（捆绑）的大小减少给定的字节数，那么即使它满足splitChunks.minSize值，它也不会被拆分。<br />
+     * 1、值类型：number（默认值：0）、{ [index: string]: number }。<br />
+     * 2、splitChunks.minSizeReduction和splitChunks.minSize都需要满足才能生成新的拆分块。<br />
+     */
+    minSizeReduction: 0,
+    /**
+     * 设置1个强制拆分的大小阈值，超过这个阈值就强制拆分。其他限制（minRemainingSize、maxAsyncRequests、maxInitialRequests）的大小阈值都被忽略（以字节为单位）。<br />
+     * 1、值类型：number，默认值：50000。<br />
+     * 2、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.enforceSizeThreshold。<br />
+     */
+    enforceSizeThreshold: 200 * 1024,
+    /**
+     * 在webpack 5中引入了splitChunks.minRemainingSize选项，通过确保拆分后剩余的块的最小大小高于限制来避免零大小的模块。<br />
+     * 1、值类型：number，默认值：0。<br />
+     * 2、在“开发”模式下默认为0。对于其他情况，splitChunks.minRemainingSize默认为splitChunks.minSize的值，因此除了需要深度控制的极少数情况外，不需要手动指定。<br />
+     * 3、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.minRemainingSize。<br />
+     * 4、splitChunks.minRemainingSize仅在剩余单个块时生效。<br />
+     */
+    minRemainingSize: isProduction
+                      ? 10 * 1024
+                      : 0,
+    /**
+     * 按模块层将模块分配给缓存组。<br />
+     * 1、值类型：RegExp、string、function。<br />
+     * 2、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.layer。<br />
+     */
+    // layer: null,其实我也不知道这个选项的默认值是什么。
+    /**
+     * 使用maxSize告诉webpack尝试将大于maxSize字节的块拆分为更小的部分。<br />
+     * 1、值类型：number，默认值：0。<br />
+     * 2、该选项也可用于每个缓存组optimization.splitChunks.cacheGroups[x].maxSize或后备缓存组optimization.splitChunks.fallbackCacheGroup.maxSize 。<br />
+     * 3、零件的大小至少为minSize，该算法是确定性的，对模块的更改只会产生局部影响。<br />
+     * 4、这样它在使用长期缓存时可用并且不需要记录。maxSize只是一个提示，当模块大于maxSize或拆分会违反minSize时可能会违反。<br />
+     * 5、当块已经有名称时，每个部分都会从该名称中获得一个新名称。根据optimization.splitChunks.hidePathInfo的值，它将添加从第一个模块名称或它的哈希派生的键。<br />
+     * 6、maxSize选项旨在与HTTP/2和长期缓存一起使用。它增加了请求计数以获得更好的缓存。它还可以用于减小文件大小以加快重建速度。<br />
+     * 7、maxSize的优先级高于maxInitialRequest/maxAsyncRequests。实际优先级是maxInitialRequest/maxAsyncRequests < maxSize < minSize。<br />
+     * 8、设置maxSize的值会同时设置maxAsyncSize和maxInitialSize的值。<br />
+     */
+    maxSize: 200 * 1024,
+    /**
+     * maxAsyncSize和maxSize之间的区别在于maxAsyncSize只会影响按需加载块。<br />
+     * 1、值类型：number，默认值：0。<br />
+     */
+    maxAsyncSize: 200 * 1024,
+    /**
+     * maxInitialSize和maxSize的区别在于maxInitialSize只会影响初始加载块。<br />
+     * 1、值类型：number，默认值：0。<br />
+     */
+    maxInitialSize: 200 * 1024,
+    /**
+     * 拆分块的名称。提供false将保持块的相同名称，因此它不会不必要地更改名称。这是生产构建的推荐值。<br />
+     * 1、提供字符串或函数允许您使用自定义名称。指定一个字符串或一个总是返回相同字符串的函数会将所有常见的模块和供应商合并到一个块中。<br />
+     * 2、这可能会导致更大的初始下载并减慢页面加载速度。<br />
+     * 3、如果您选择指定一个函数，您可能会发现chunk.name和chunk.hash属性（其中chunk是chunks数组的一个元素）在为您的块选择名称时特别有用。<br />
+     * 4、如果splitChunks.name与入口点名称匹配，则入口点将被删除。<br />
+     */
+    name: isProduction
+          ? false
+          : ( module, chunks, cacheGroupKey ) => {
+        const moduleFileName = module
+          .identifier()
+          .split( '/' )
+          .reduceRight( item => item ),
+          allChunksNames = chunks.map( item => item.name ).join( '~' );
+
+        return `${ 'global' }-${ allChunksNames }-${ moduleFileName }`;
+      },
+    /**
+     * 找出模块使用哪些导出来破坏导出名称，省略未使用的导出并生成更高效的代码。当它为true时：分析每个运行时使用的导出，当它是“global”时：全局分析所有运行时组合的导出。<br />
+     * 1、值类型：boolean，默认值：true。<br />
+     */
+    usedExports: true,
+    /**
+     * 缓存组可以继承和/或覆盖splitChunks.*的任何选项；但是test、priority和reuseExistingChunk只能在缓存组级别进行配置。要禁用任何默认缓存组，请将它们设置为false。<br />
+     */
+    cacheGroups: ( () => {
+      /**
+       * 单页模式下的代码拆分策略。
+       */
+      const SPACacheGroups = {
+        VendorsCSS: {
+          /**
+           * 控制此缓存组选择哪些模块。省略它会选择所有模块。它可以匹配绝对模块资源路径或块名称。当块名称匹配时，块中的所有模块都会被选中。<br />
+           * 1、值类型：( module, { chunkGraph, moduleGraph, } ) => boolean、RegExp、string。<br />
+           * 2、当选择使用函数作为test选项的值时，函数的第1个参数module有如下参数：<br />
+           * module.resource：1个描述模块所在文件在磁盘上的绝对路径字符串。<br />
+           * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
+           * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
+           */
+          test: /node_modules[\\/].*\.css$/,
+          // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
+          type: 'css',
+          name: 'VendorsCSS',
+        },
+      };
+
+      /**
+       * 多页模式下的代码拆分策略。
+       */
+      const MPACacheGroups = {
+        VendorsCSS: {
+          /**
+           * 控制此缓存组选择哪些模块。省略它会选择所有模块。它可以匹配绝对模块资源路径或块名称。当块名称匹配时，块中的所有模块都会被选中。<br />
+           * 1、值类型：( module, { chunkGraph, moduleGraph, } ) => boolean、RegExp、string。<br />
+           * 2、当选择使用函数作为test选项的值时，函数的第1个参数module有如下参数：<br />
+           * module.resource：1个描述模块所在文件在磁盘上的绝对路径字符串。<br />
+           * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
+           * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
+           */
+          test: /node_modules[\\/].*\.css$/,
+          // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
+          type: 'css',
+          name: 'VendorsCSS',
+        },
+      };
+
+      Object.entries( SPACacheGroups ).forEach( ( item, i, ) => {
+        // 数值越高越先添加加载，自定义缓存组中该值默认值为0，默认缓存组该值为-20。
+        item[ 1 ].priority = 100000000 - i;
+        // 告诉webpack忽略splitChunks.minSize、splitChunks.minChunks、splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项，并始终为此缓存组创建块。
+        item[ 1 ].enforce = true;
+        // 如果当前块包含已经从主包中分离出来的模块，它将被重用，而不是生成一个新的。这可能会影响块的结果文件名。
+        item[ 1 ].reuseExistingChunk = true;
+      } );
+      Object.entries( MPACacheGroups ).forEach( ( item, i, ) => {
+        // 数值越高越先添加加载，自定义缓存组中该值默认值为0，默认缓存组该值为-20。
+        item[ 1 ].priority = 100000000 - i;
+        // 告诉webpack忽略splitChunks.minSize、splitChunks.minChunks、splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项，并始终为此缓存组创建块。
+        item[ 1 ].enforce = true;
+        // 如果当前块包含已经从主包中分离出来的模块，它将被重用，而不是生成一个新的。这可能会影响块的结果文件名。
+        item[ 1 ].reuseExistingChunk = true;
+      } );
+
+      return isSPA
+             ? SPACacheGroups
+             : MPACacheGroups;
+    } )(),
+  };
 
 // 以下一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
 /**
@@ -687,24 +923,76 @@ const aliasConfig = {
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
 
-    'assetsDir': resolve( __dirname, './src/assets/' ),
+    // assets文件夹 Start
+    assetsDir: resolve( __dirname, './src/assets/' ),
 
-    'docDir': resolve( __dirname, './src/assets/doc/' ),
+    docDir: resolve( __dirname, './src/assets/doc/' ),
 
-    'csonDir': resolve( __dirname, './src/assets/doc/cson/' ),
-    'csvDir': resolve( __dirname, './src/assets/doc/csv/' ),
-    'jsonDir': resolve( __dirname, './src/assets/doc/json/' ),
-    'json5Dir': resolve( __dirname, './src/assets/doc/json5/' ),
-    'tomlDir': resolve( __dirname, './src/assets/doc/toml/' ),
-    'tsvDir': resolve( __dirname, './src/assets/doc/tsv/' ),
-    'txtDir': resolve( __dirname, './src/assets/doc/txt/' ),
-    'xmlDir': resolve( __dirname, './src/assets/doc/xml/' ),
-    'yamlDir': resolve( __dirname, './src/assets/doc/yaml/' ),
+    csonDir: resolve( __dirname, './src/assets/doc/cson/' ),
+    csvDir: resolve( __dirname, './src/assets/doc/csv/' ),
+    jsonDir: resolve( __dirname, './src/assets/doc/json/' ),
+    json5Dir: resolve( __dirname, './src/assets/doc/json5/' ),
+    tomlDir: resolve( __dirname, './src/assets/doc/toml/' ),
+    tsvDir: resolve( __dirname, './src/assets/doc/tsv/' ),
+    txtDir: resolve( __dirname, './src/assets/doc/txt/' ),
+    xmlDir: resolve( __dirname, './src/assets/doc/xml/' ),
+    yamlDir: resolve( __dirname, './src/assets/doc/yaml/' ),
 
-    'fontsDir': resolve( __dirname, './src/assets/fonts/' ),
-    'imgDir': resolve( __dirname, './src/assets/img/' ),
-    'musicDir': resolve( __dirname, './src/assets/music/' ),
-    'videosDir': resolve( __dirname, './src/assets/videos/' ),
+    fontsDir: resolve( __dirname, './src/assets/fonts/' ),
+    imgDir: resolve( __dirname, './src/assets/img/' ),
+    musicDir: resolve( __dirname, './src/assets/music/' ),
+    videosDir: resolve( __dirname, './src/assets/videos/' ),
+    // assets文件夹 End
+
+    gQLAPIDir: resolve( __dirname, './src/graphQL/api/' ),
+
+    nativeComponentsDir: resolve( __dirname, './src/native_components/' ),
+
+    pagesDir: resolve( __dirname, './src/pages/' ),
+
+    pwaManifestDir: resolve( __dirname, './src/pwa_manifest/' ),
+
+    // styles文件夹 Start
+    stylesDir: resolve( __dirname, './src/styles/' ),
+
+    cssDir: resolve( __dirname, './src/styles/css/' ),
+    lessDir: resolve( __dirname, './src/styles/less/' ),
+    postcssDir: resolve( __dirname, './src/styles/postcss/' ),
+    sassDir: resolve( __dirname, './src/styles/sass/' ),
+    scssDir: resolve( __dirname, './src/styles/scss/' ),
+    stylusDir: resolve( __dirname, './src/styles/stylus/' ),
+    // styles文件夹 End
+
+    // template文件夹 Start
+    templateDir: resolve( __dirname, './src/template/' ),
+
+    ejsDir: resolve( __dirname, './src/template/ejs/' ),
+    handlebarsDir: resolve( __dirname, './src/template/handlebars/' ),
+    htmlDir: resolve( __dirname, './src/template/html/' ),
+    markdownDir: resolve( __dirname, './src/template/markdown/' ),
+    mustacheDir: resolve( __dirname, './src/template/mustache/' ),
+    pug_jadeDir: resolve( __dirname, './src/template/pug_jade/' ),
+    // template文件夹 End
+
+    // tools文件夹 Start
+    toolsDir: resolve( __dirname, './src/tools/' ),
+
+    jsDir: resolve( __dirname, './src/tools/js/' ),
+    tsDir: resolve( __dirname, './src/tools/ts/' ),
+    // tools文件夹 End
+
+    wasmDir: resolve( __dirname, './src/wasm/build/' ),
+
+    webComponentsDir: resolve( __dirname, './src/web_components/' ),
+
+    // workers文件夹 Start
+    workersDir: resolve( __dirname, './src/workers/' ),
+
+    serviceWorkersDir: resolve( __dirname, './src/workers/service_workers/' ),
+    sharedWorkersDir: resolve( __dirname, './src/workers/shared_workers/' ),
+    workersToolsDir: resolve( __dirname, './src/workers/tools/' ),
+    webWorkersDir: resolve( __dirname, './src/workers/web_workers/' ),
+    // workers文件夹 End
   },
   assetsWebpackPluginConfig = {
     filename: 'ProjectAllAssetsByWebpack.json',
@@ -4531,6 +4819,8 @@ const aliasConfig = {
           ],
           exclude: [
             resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/doc/' ),
+            resolve( __dirname, './src/graphQL/test/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
             resolve( __dirname, './src/static/' ),
             resolve( __dirname, './src/styles/' ),
@@ -6553,10 +6843,26 @@ const aliasConfig = {
   },
   optimizationConfig = isProduction
                        ? {
-      chunkIds: 'deterministic',
-      concatenateModules: true,
-      flagIncludedChunks: true,
-      mangleExports: 'deterministic',
+      /**
+       * 1、生产环境，默认值为：'deterministic'。<br />
+       * 2、当optimization.chunkIds设置为'deterministic'时，使用的最小长度为3位。要覆盖默认行为，请将optimization.chunkIds设置为false并使用webpack.ids.DeterministicChunkIdsPlugin。<br />
+       */
+      chunkIds: false,
+      // 生产模式下启用，否则禁用。也依赖optimization.providedExports和optimization.usedExports。
+      // concatenateModules: true,
+      /**
+       * 1、编译时出现错误时，使用optimization.emitOnErrors发出资产。这可确保发出错误资产。严重错误会发送到生成的代码中，并会在运行时导致错误。<br />
+       * 2、如果您使用的是webpack CLI，则启用此插件时webpack进程将不会退出并显示错误代码。如果您希望webpack在使用CLI时“失败”，请查看bail选项。<br />
+       */
+      emitOnErrors: false,
+      // 默认情况下optimization.flagIncludedChunks在生产模式下启用，否则禁用。
+      // flagIncludedChunks: true,
+      // 默认情况下optimization.mangleExports: 'deterministic'在生产模式下启用，否则禁用。
+      // mangleExports: 'deterministic',
+      // 当设置为true时，告诉webpack通过将导入更改为更短的字符串来减小WASM的大小。它破坏了模块和导出名称。
+      mangleWasmImports: false,
+      // 告诉webpack合并包含相同模块的块。将optimization.mergeDuplicateChunks设置为false将禁用此优化。
+      mergeDuplicateChunks: true,
       minimize: true,
       minimizer: [
         // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
@@ -6736,34 +7042,82 @@ const aliasConfig = {
           },
         } ),
       ],
-      moduleIds: 'deterministic',
+      /**
+       * 1、生产环境，默认值为：'deterministic'。<br />
+       * 2、当optimization.moduleIds设置为'deterministic'时，使用的最小长度为3位。要覆盖默认行为，请将optimization.moduleIds设置为false并使用webpack.ids.DeterministicModuleIdsPlugin。<br />
+       */
+      moduleIds: false,
       nodeEnv: 'production',
+      /**
+       * 1、optimization.portableRecords告诉webpack生成具有相对路径的记录，以便能够移动上下文文件夹。<br />
+       * 2、默认情况下optimization.portableRecords被禁用。如果向webpack配置提供了至少一个记录选项，则自动启用：recordsPath、recordsInputPath、recordsOutputPath。<br />
+       */
       portableRecords: true,
+      // 告诉webpack找出模块提供了哪些导出，以便为export * from ...生成更有效的代码。默认情况下optimization.providedExports是启用的。
       providedExports: true,
+      // 在处理资产后添加额外的哈希编译通道以获得正确的资产内容哈希。如果realContentHash设置为false，则内部数据用于计算哈希，并且当资产相同时它可以更改。
+      realContentHash: true,
+      /**
+       * 1、当这些模块已经包含在所有父级中时，告诉webpack从块中检测和删除模块。将optimization.removeAvailableModules设置为true将启用此优化。在生产模式下默认启用。<br />
+       * 2、optimization.removeAvailableModules会降低webpack的性能，并且在下一个主要版本中默认在生产模式下禁用。如果您想要额外的构建性能，请在生产模式下禁用它。<br />
+       */
+      removeAvailableModules: true,
+      // 告诉webpack检测并删除空的块。将optimization.removeEmptyChunks设置为false将禁用此优化。
       removeEmptyChunks: true,
       runtimeChunk: {
         name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
+      // optimization.sideEffects依赖optimization.providedExports。前者的启用依赖后者的启用。
       sideEffects: true,
+      // optimization.usedExports依赖optimization.providedExports。前者的启用依赖后者的启用。
       usedExports: true,
       splitChunks: splitChunksConfig,
     }
                        : {
+      // 开发环境，默认值为：'named'。
       chunkIds: 'named',
-      concatenateModules: false,
-      flagIncludedChunks: false,
-      mangleExports: false,
+      // 生产模式下启用，否则禁用。也依赖optimization.providedExports和optimization.usedExports。
+      // concatenateModules: false,
+      /**
+       * 1、编译时出现错误时，使用optimization.emitOnErrors发出资产。这可确保发出错误资产。严重错误会发送到生成的代码中，并会在运行时导致错误。<br />
+       * 2、如果您使用的是webpack CLI，则启用此插件时webpack进程将不会退出并显示错误代码。如果您希望webpack在使用CLI时“失败”，请查看bail选项。<br />
+       */
+      emitOnErrors: true,
+      // 默认情况下optimization.flagIncludedChunks在生产模式下启用，否则禁用。
+      // flagIncludedChunks: false,
+      // 默认情况下optimization.mangleExports: 'deterministic'在生产模式下启用，否则禁用。
+      // mangleExports: false,
+      // 当设置为true时，告诉webpack通过将导入更改为更短的字符串来减小WASM的大小。它破坏了模块和导出名称。
       mangleWasmImports: false,
+      // 告诉webpack合并包含相同模块的块。将optimization.mergeDuplicateChunks设置为false将禁用此优化。
+      mergeDuplicateChunks: true,
       minimize: false,
+      // 开发环境，默认值为：'named'。
       moduleIds: 'named',
       nodeEnv: 'development',
+      /**
+       * 1、optimization.portableRecords告诉webpack生成具有相对路径的记录，以便能够移动上下文文件夹。<br />
+       * 2、默认情况下optimization.portableRecords被禁用。如果向webpack配置提供了至少一个记录选项，则自动启用：recordsPath、recordsInputPath、recordsOutputPath。<br />
+       */
       portableRecords: true,
+      // 告诉webpack找出模块提供了哪些导出，以便为export * from ...生成更有效的代码。默认情况下optimization.providedExports是启用的。
       providedExports: true,
-      removeEmptyChunks: false,
+      // 在处理资产后添加额外的哈希编译通道以获得正确的资产内容哈希。如果realContentHash设置为false，则内部数据用于计算哈希，并且当资产相同时它可以更改。
+      realContentHash: true,
+      /**
+       * 1、当这些模块已经包含在所有父级中时，告诉webpack从块中检测和删除模块。将optimization.removeAvailableModules设置为true将启用此优化。在生产模式下默认启用。<br />
+       * 2、optimization.removeAvailableModules会降低webpack的性能，并且在下一个主要版本中默认在生产模式下禁用。如果您想要额外的构建性能，请在生产模式下禁用它。<br />
+       */
+      removeAvailableModules: false,
+      // 告诉webpack检测并删除空的块。将optimization.removeEmptyChunks设置为false将禁用此优化。
+      removeEmptyChunks: true,
       runtimeChunk: {
         name: ( { name } ) => `RuntimeChunk_${ name }`,
       },
+      // optimization.sideEffects依赖optimization.providedExports。前者的启用依赖后者的启用。
       sideEffects: true,
+      // optimization.usedExports依赖optimization.providedExports。前者的启用依赖后者的启用。
+      usedExports: true,
       splitChunks: splitChunksConfig,
     },
   outputConfig = {
@@ -6964,18 +7318,23 @@ const aliasConfig = {
    */
   providePluginConfig = {
     axios: 'axios',
+
     echarts: 'echarts',
+
     /**
      * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
      * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
      */
     ELEMENT: 'element-ui',
     ElementPlus: 'element-plus',
+
     $: 'jquery',
     jQuery: 'jquery',
     'window.$': 'jquery',
     'window.jQuery': 'jquery',
+
     Swiper: 'swiper',
+
     /**
      * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
      * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
