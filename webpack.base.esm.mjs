@@ -747,28 +747,181 @@ const autoprefixerConfig = {
            */
           test: /node_modules[\\/].*\.css$/,
           // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
-          type: 'css/mini-extract',
+          ...( () => {
+            return isProduction
+                   ? {
+                type: 'css/mini-extract',
+              }
+                   : {};
+          } )(),
           name: 'VendorsCSS',
         },
+
+        VendorsJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            name: 'VendorsJS',
+          };
+        } )( [
+          'axios',
+          'echarts',
+          'jquery',
+          'swiper',
+          'vue',
+          'vue-router',
+          'vuex',
+          'element-ui',
+          'element-plus',
+        ] ),
+
+        EchartsJS: {
+          test: /node_modules[\\/]echarts[\\/].*\.js$/,
+          name: 'EchartsJS',
+        },
+
+        Vendors001JS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            name: 'Vendors001JS',
+          };
+        } )( [
+          'axios',
+          'jquery',
+          'swiper',
+        ] ),
+
+        VendorsVueEcologyJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            name: 'VendorsVueEcologyJS',
+          };
+        } )( [
+          'vue',
+          'vue-router',
+          'vuex',
+          'element-ui',
+          'element-plus',
+        ] ),
       };
 
       /**
        * 多页模式下的代码拆分策略。
        */
       const MPACacheGroups = {
-        VendorsCSS: {
-          /**
-           * 控制此缓存组选择哪些模块。省略它会选择所有模块。它可以匹配绝对模块资源路径或块名称。当块名称匹配时，块中的所有模块都会被选中。<br />
-           * 1、值类型：( module, { chunkGraph, moduleGraph, } ) => boolean、RegExp、string。<br />
-           * 2、当选择使用函数作为test选项的值时，函数的第1个参数module有如下参数：<br />
-           * module.resource：1个描述模块所在文件在磁盘上的绝对路径字符串。<br />
-           * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
-           * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
-           */
-          test: /node_modules[\\/].*\.css$/,
-          // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
-          type: 'css/mini-extract',
-          name: 'VendorsCSS',
+        VendorsCSS: ( arr => {
+          return {
+            /**
+             * 控制此缓存组选择哪些模块。省略它会选择所有模块。它可以匹配绝对模块资源路径或块名称。当块名称匹配时，块中的所有模块都会被选中。<br />
+             * 1、值类型：( module, { chunkGraph, moduleGraph, } ) => boolean、RegExp、string。<br />
+             * 2、当选择使用函数作为test选项的值时，函数的第1个参数module有如下参数：<br />
+             * module.resource：1个描述模块所在文件在磁盘上的绝对路径字符串。<br />
+             * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
+             * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
+             */
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$` ),
+            // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
+            ...( () => {
+              return isProduction
+                     ? {
+                  type: 'css/mini-extract',
+                }
+                     : {};
+            } )(),
+            name: 'VendorsCSS',
+          };
+        } )( [
+          'swiper',
+          'element-ui',
+          'element-plus',
+        ] ),
+
+        SwiperCSS: {
+          test: /node_modules[\\/]swiper[\\/].*\.css$/,
+          ...( () => {
+            return isProduction
+                   ? {
+                type: 'css/mini-extract',
+              }
+                   : {};
+          } )(),
+          name: 'SwiperCSS',
+        },
+        ELEMENTCSS: {
+          test: /node_modules[\\/]element-ui[\\/].*\.css$/,
+          ...( () => {
+            return isProduction
+                   ? {
+                type: 'css/mini-extract',
+              }
+                   : {};
+          } )(),
+          name: 'ELEMENTCSS',
+        },
+        ElementPlusCSS: {
+          test: /node_modules[\\/]element-plus[\\/].*\.css$/,
+          ...( () => {
+            return isProduction
+                   ? {
+                type: 'css/mini-extract',
+              }
+                   : {};
+          } )(),
+          name: 'ElementPlusCSS',
+        },
+
+        VendorsJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            name: 'VendorsJS',
+          };
+        } )( [
+          'axios',
+          'echarts',
+          'jquery',
+          'swiper',
+          'vue',
+          'vue-router',
+          'vuex',
+          'element-ui',
+          'element-plus',
+        ] ),
+
+        EchartsJS: {
+          test: /node_modules[\\/]echarts[\\/].*\.js$/,
+          name: 'EchartsJS',
+        },
+
+        AxiosJS: {
+          test: /node_modules[\\/]axios[\\/].*\.js$/,
+          name: 'AxiosJS',
+        },
+        jQueryJS: {
+          test: /node_modules[\\/]jquery[\\/].*\.js$/,
+          name: 'jQueryJS',
+        },
+        SwiperJS: {
+          test: /node_modules[\\/]swiper[\\/].*\.js$/,
+          name: 'SwiperJS',
+        },
+
+        VueFamilyJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            name: 'VueFamilyJS',
+          };
+        } )( [
+          'vue',
+          'vue-router',
+          'vuex',
+        ] ),
+
+        ELEMENTJS: {
+          test: /node_modules[\\/]element-ui[\\/].*\.js$/,
+          name: 'ELEMENTJS',
+        },
+        ElementPlusJS: {
+          test: /node_modules[\\/]element-plus[\\/].*\.js$/,
+          name: 'ElementPlusJS',
         },
       };
 
