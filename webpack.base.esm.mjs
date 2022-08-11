@@ -78,6 +78,8 @@ import less from 'less';
 
 import Mime from 'mime';
 
+import pem from 'pem';
+
 import package_json from './package.json' assert { type: 'json', };
 
 import postcss from 'postcss';
@@ -720,17 +722,7 @@ const autoprefixerConfig = {
      * 3、如果您选择指定一个函数，您可能会发现chunk.name和chunk.hash属性（其中chunk是chunks数组的一个元素）在为您的块选择名称时特别有用。<br />
      * 4、如果splitChunks.name与入口点名称匹配，则入口点将被删除。<br />
      */
-    name: isProduction
-          ? false
-          : ( module, chunks, cacheGroupKey ) => {
-        const moduleFileName = module
-          .identifier()
-          .split( '/' )
-          .reduceRight( item => item ),
-          allChunksNames = chunks.map( item => item.name ).join( '~' );
-
-        return `${ 'global' }-${ allChunksNames }-${ moduleFileName }`;
-      },
+    // name: false,
     /**
      * 找出模块使用哪些导出来破坏导出名称，省略未使用的导出并生成更高效的代码。当它为true时：分析每个运行时使用的导出，当它是“global”时：全局分析所有运行时组合的导出。<br />
      * 1、值类型：boolean，默认值：true。<br />
@@ -755,7 +747,7 @@ const autoprefixerConfig = {
            */
           test: /node_modules[\\/].*\.css$/,
           // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
-          type: 'css',
+          type: 'css/mini-extract',
           name: 'VendorsCSS',
         },
       };
@@ -775,7 +767,7 @@ const autoprefixerConfig = {
            */
           test: /node_modules[\\/].*\.css$/,
           // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
-          type: 'css',
+          type: 'css/mini-extract',
           name: 'VendorsCSS',
         },
       };
@@ -910,6 +902,55 @@ if( !isUseESBuildLoader ){
     'vue-loader',
   ] );
 }
+
+function GetCertificates(){
+  const keyFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.key' ), 'utf8' ),
+    certFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ), 'utf8' );
+
+  return new Promise( ( resolve, reject ) => {
+    pem.createCSR( {
+      clientKey: keyFile,
+      commonName: 'localhost',
+      organization: 'openssl2022002',
+      locality: 'FuZhou',
+      country: 'CN',
+      state: 'ID',
+    }, function ( error, results ){
+      if( error ){
+        reject( {
+          error,
+          results,
+        } );
+
+        throw error;
+      }
+
+      pem.createCertificate( {
+        serviceKey: keyFile,
+        serviceCertificate: certFile,
+        csr: results.csr,
+        days: 36500,
+      }, function ( error, keys ){
+        if( error ){
+          reject( {
+            error,
+            keys,
+          } );
+
+          throw error;
+        }
+
+        resolve( {
+          key: keys.serviceKey,
+          cert: keys.certificate,
+          ca: certFile,
+        } );
+      } );
+    } );
+  } );
+}
+
+const myCertificates = await GetCertificates();
 
 /**
  * 设置路径别名。<br />
@@ -1550,7 +1591,7 @@ const aliasConfig = {
       // Windows平台上的Edge浏览器。
       {
         target: [
-          `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
@@ -1565,7 +1606,7 @@ const aliasConfig = {
       /*
        {
        target: [
-       `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
        ],
        app: {
        name: [
@@ -1581,7 +1622,7 @@ const aliasConfig = {
       /*
        {
        target: [
-       `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
        ],
        app: {
        name: [
@@ -1597,7 +1638,7 @@ const aliasConfig = {
       /*
        {
        target: [
-       `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
        ],
        app: {
        name: [
@@ -1612,7 +1653,7 @@ const aliasConfig = {
       // MacOS平台上的Chrome浏览器。
       {
         target: [
-          `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
@@ -1626,7 +1667,7 @@ const aliasConfig = {
       // Linux平台上的Chrome浏览器。
       {
         target: [
-          `http://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
         ],
         app: {
           name: [
@@ -1641,14 +1682,16 @@ const aliasConfig = {
     port: devServerGlobalParameters[ env_platform ]?.port,
     proxy: proxyConfig,
     server: {
-      type: 'http',
+      type: 'https',
       options: {
         passphrase: 'openssl2022002',
-        requestCert: true,
-        ca: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ) ),
-        cert: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ) ),
-        key: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.key' ) ),
-        pfx: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.pfx' ) ),
+        ca: myCertificates.ca,
+        cert: myCertificates.cert,
+        key: myCertificates.key,
+        // 启用会报错误：[webpack-cli] Error: header too long
+        // pfx: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.pfx' ), 'utf8' ),
+        // 启用该项会导致无法从https加载。
+        // requestCert: true,
       },
     },
     setupExitSignals: true,
@@ -2062,8 +2105,9 @@ const aliasConfig = {
     /**
      * 启用未更改的模块的额外内存缓存，并且仅引用未更改的模块。<br />
      * 1、默认值同futureDefaults的值。<br />
+     * 2、“optimization.usedExports”不能与cacheUnaffected一起使用，因为导出使用是一种全局影响。<br />
      */
-    cacheUnaffected: true,
+    cacheUnaffected: false,
     /**
      * 该项设置为true后，会出现不如所愿的CSS处理！还是老老实实的设置为false。启用原生CSS支持。请注意，它是一个仍在开发中的实验性功能，将在webpack v6中默认启用，但是您可以在GitHub上跟踪进度。<br />
      */
@@ -4062,7 +4106,7 @@ const aliasConfig = {
                 minimumVendorImplementations: 0,
                 browsers: browserslist,
                 preserve: true,
-                debug: !isProduction,
+                // debug: !isProduction,
                 // 请注意，通过“feature”选项手动启用/禁用功能会覆盖此标志。
                 enableClientSidePolyfills: true,
                 // autoprefixer共有三种类型的控制注释：
@@ -4081,7 +4125,7 @@ const aliasConfig = {
             // postcss-single-charset，当文件中存在多个@charset规则时，会将最后一个@charset规则提取到文件顶部，并删除其他@charset规则。
             'postcss-single-charset',
 
-            // postcss-remove-nested-calc，calc(100vw - calc(20% - 10px))到calc(100vw - (20% - 10px))以实现IE 11兼容性（其实IE 9及其以上版本也都不支持calc函数嵌套）。
+            // postcss-remove-nested-calc（说是已弃用），calc(100vw - calc(20% - 10px))到calc(100vw - (20% - 10px))以实现IE 11兼容性（其实IE 9及其以上版本也都不支持calc函数嵌套）。
             'postcss-remove-nested-calc',
 
             /**
@@ -4109,7 +4153,7 @@ const aliasConfig = {
                 ];
             } )(),
 
-            // postcss-mq-optimize，删除无效的媒体查询或其表达式。
+            // postcss-mq-optimize（说是已弃用，但是人家还在更新，而且postcss官方插件页面还能搜索到它），删除无效的媒体查询或其表达式。
             'postcss-mq-optimize',
 
             /**
@@ -4225,7 +4269,8 @@ const aliasConfig = {
           // 一旦esbuild达到稳定版本，implementation选项将被删除。相反，esbuild将成为peerDependency，因此您始终提供自己的。
           implementation: ESBuild,
           minify: false,
-          incremental: !isProduction,
+          // Invalid option in transform() call: "incremental".
+          // incremental: !isProduction,
           /**
            * 1、通常这是在您使用target选项设置时为您自动配置的，您通常应该使用target选项设置而不是supported选项设置。如果除此supported选项设置之外还指定了target选项，则此supported选项设置将覆盖target选项指定的任何内容。<br />
            * 2、例如，您可以使用它来告诉esbuild BigInts不受支持，以便esbuild在您尝试使用BigInts时生成错误。<br />
@@ -4374,20 +4419,187 @@ const aliasConfig = {
         jsxFragment: 'Fragment',
       } );
 
+    const exclude001 = [
+      resolve( __dirname, './.git/' ),
+      resolve( __dirname, './.idea/' ),
+
+      resolve( __dirname, './assist_tools/' ),
+      resolve( __dirname, './backups/' ),
+      resolve( __dirname, './bats/' ),
+      resolve( __dirname, './configures/' ),
+      resolve( __dirname, './dist/' ),
+      resolve( __dirname, './notes/' ),
+      resolve( __dirname, './read_me/' ),
+      resolve( __dirname, './simulation_servers/' ),
+      resolve( __dirname, './subsystems/' ),
+      resolve( __dirname, './test/' ),
+      resolve( __dirname, './ts_compiled/' ),
+      resolve( __dirname, './webpack_location/' ),
+      resolve( __dirname, './webpack_records/' ),
+    ];
+
+    const MiniCssExtractPluginLoader = isProduction
+                                       ? {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+            emit: true,
+            // 该loader的该选项默认值是true。
+            // esModule: true,
+          },
+        }
+                                       : {},
+      styleLoader = {
+        loader: 'style-loader',
+        options: {
+          // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
+          injectType: 'autoStyleTag',
+          attributes: {
+            'data-is-production': `${ isProduction }`,
+          },
+          insert: 'head',
+          // 该loader的该选项默认值是true。
+          // esModule: true,
+        },
+      },
+      cssLoader = {
+        loader: 'css-loader',
+        options: {
+          /**
+           * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+           * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+           * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+           * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+           */
+          // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
+          url: {
+            /**
+             * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
+             * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
+             * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+             * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+             *
+             * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+             *
+             * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+             *
+             * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
+             */
+            filter: ( url, resourcePath ) => {
+              const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+              if( boo ){
+                console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                return false;
+              }
+              else{
+                console.log( `
+                    \n\ncss-loader_url_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                return true;
+              }
+            },
+          },
+          import: {
+            filter: ( url, media, resourcePath ) => {
+              const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+
+              if( boo ){
+                console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：false。
+                    \n\n
+                    ` );
+
+                return false;
+              }
+              else{
+                console.log( `
+                    \n\ncss-loader_import_filter_url--->${ url }
+                    true表示处理，false表示不处理：true。
+                    \n\n
+                    ` );
+
+                return true;
+              }
+            },
+          },
+          importLoaders: 1,
+          sourceMap: false,
+          // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
+          // esModule: true,
+        },
+      };
+
+    /**
+     * 将资产内联为DataUrl的条件，其属性同module.generator.asset.dataUrl，单位字节。<br />
+     *
+     * @type {{maxSize: number}}
+     */
+    const dataUrlCondition = {
+      // 单位字节，设置为10KB。
+      maxSize: 10 * 1024,
+    };
+
     return {
       generator: {
+        /**
+         * 注意：
+         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
+         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
+         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
+         * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
+         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
+         */
         asset: {
+          dataUrl: {
+            encoding: 'base64',
+          },
+          emit: true,
           filename: '[name]_[contenthash][ext]',
           outputPath: './assets/',
           publicPath: '../assets/',
         },
+        /**
+         * 注意：
+         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
+         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
+         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
+         * 而且应用配置的优先级为：module.generator[ 'asset/inline' ]的配置 > module.generator[ 'asset' ]的配置。<br />
+         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
+         */
+        'asset/inline': {
+          dataUrl: {
+            encoding: 'base64',
+          },
+        },
+        /**
+         * 注意：
+         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
+         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
+         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
+         * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
+         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
+         */
         'asset/resource': {
+          emit: true,
           filename: '[name]_[contenthash][ext]',
           outputPath: './assets/',
           publicPath: '../assets/',
         },
       },
       parser: {
+        asset: {
+          dataUrlCondition,
+        },
         javascript: {
           commonjs: true,
           commonjsMagicComments: true,
@@ -4528,7 +4740,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理css。
         {
@@ -4544,115 +4756,24 @@ const aliasConfig = {
             ...( () => {
               return isProduction
                      ? [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-                      emit: true,
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  MiniCssExtractPluginLoader,
                 ]
                      : [
                   {
                     loader: 'thread-loader',
                     options: cssWorkerPoolConfig,
                   },
-                  {
-                    loader: 'style-loader',
-                    options: {
-                      // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
-                      injectType: 'autoStyleTag',
-                      attributes: {
-                        'data-is-production': `${ isProduction }`,
-                      },
-                      insert: 'head',
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  styleLoader,
                 ];
             } )(),
-            {
-              loader: 'css-loader',
-              options: {
-                /**
-                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                 */
-                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
-                url: {
-                  /**
-                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                   *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
-                   *
-                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
-                   *
-                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
-                   */
-                  filter: ( url, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                import: {
-                  filter: ( url, media, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                importLoaders: 1,
-                sourceMap: false,
-                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
-                // esModule: true,
-              },
-            },
+            cssLoader,
             postCSSLoader,
           ],
           include: [
+            resolve( __dirname, './node_modules/element-ui/lib/theme-chalk/index.css' ),
+            resolve( __dirname, './node_modules/element-plus/dist/index.css' ),
+            resolve( __dirname, './node_modules/swiper/swiper-bundle.min.css' ),
+
             resolve( __dirname, './src/' ),
           ],
           exclude: [
@@ -4668,7 +4789,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
           sideEffects: true,
         },
         // 处理csv、tsv。
@@ -4707,7 +4828,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理ejs。
         {
@@ -4745,7 +4866,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理字体font。
         {
@@ -4758,10 +4879,7 @@ const aliasConfig = {
            */
           type: 'asset',
           parser: {
-            dataUrlCondition: {
-              // 单位字节，设置为10KB。
-              maxSize: 10 * 1024,
-            },
+            dataUrlCondition,
           },
           generator: {
             dataUrl: {
@@ -4773,6 +4891,8 @@ const aliasConfig = {
             publicPath: '../fonts/',
           },
           include: [
+            resolve( __dirname, './node_modules/element-ui/' ),
+
             resolve( __dirname, './src/' ),
           ],
           exclude: [
@@ -4787,7 +4907,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理graphql，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
@@ -4828,7 +4948,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // handlebars-loader。
         {
@@ -4866,7 +4986,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // html-loader。
         {
@@ -4907,7 +5027,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         /**
          * 处理image。<br />
@@ -4923,10 +5043,7 @@ const aliasConfig = {
            */
           type: 'asset',
           parser: {
-            dataUrlCondition: {
-              // 单位字节，设置为10KB。
-              maxSize: 10 * 1024,
-            },
+            dataUrlCondition,
           },
           generator: {
             dataUrl: {
@@ -4938,6 +5055,8 @@ const aliasConfig = {
             publicPath: '../img/',
           },
           include: [
+            resolve( __dirname, './node_modules/element-ui/' ),
+
             resolve( __dirname, './src/' ),
           ],
           exclude: [
@@ -4952,7 +5071,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理js、cjs。
         {
@@ -4981,6 +5100,8 @@ const aliasConfig = {
             resolve( __dirname, './src/' ),
           ],
           exclude: [
+            resolve( __dirname, './node_modules/' ),
+
             resolve( __dirname, './src/assets/' ),
             resolve( __dirname, './src/graphQL/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
@@ -4993,7 +5114,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/mustache/' ),
             resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理mjs。
         {
@@ -5022,6 +5143,8 @@ const aliasConfig = {
             resolve( __dirname, './src/' ),
           ],
           exclude: [
+            resolve( __dirname, './node_modules/' ),
+
             resolve( __dirname, './src/assets/' ),
             resolve( __dirname, './src/graphQL/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
@@ -5034,7 +5157,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/mustache/' ),
             resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理jsx。
         {
@@ -5063,6 +5186,8 @@ const aliasConfig = {
             resolve( __dirname, './src/' ),
           ],
           exclude: [
+            resolve( __dirname, './node_modules/' ),
+
             resolve( __dirname, './src/assets/' ),
             resolve( __dirname, './src/graphQL/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
@@ -5075,7 +5200,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/mustache/' ),
             resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理json5。
         {
@@ -5108,7 +5233,7 @@ const aliasConfig = {
             resolve( __dirname, './src/styles/' ),
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理less
         {
@@ -5124,112 +5249,21 @@ const aliasConfig = {
             ...( () => {
               return isProduction
                      ? [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-                      emit: true,
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  MiniCssExtractPluginLoader,
                 ]
                      : [
                   {
                     loader: 'thread-loader',
                     options: lessWorkerPoolConfig,
                   },
-                  {
-                    loader: 'style-loader',
-                    options: {
-                      // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
-                      injectType: 'autoStyleTag',
-                      attributes: {
-                        'data-is-production': `${ isProduction }`,
-                      },
-                      insert: 'head',
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  styleLoader,
                 ];
             } )(),
-            {
-              loader: 'css-loader',
+            Object.assign( {}, cssLoader, {
               options: {
-                /**
-                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                 */
-                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
-                url: {
-                  /**
-                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                   *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
-                   *
-                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
-                   *
-                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
-                   */
-                  filter: ( url, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                import: {
-                  filter: ( url, media, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
                 importLoaders: 2,
-                sourceMap: false,
-                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
-                // esModule: true,
-              },
-            },
+              }
+            } ),
             postCSSLoader,
             /**
              * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
@@ -5300,7 +5334,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
           sideEffects: true,
         },
         // 处理toml。
@@ -5333,7 +5367,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理txt。
         {
@@ -5362,7 +5396,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理manifest.json，给PWA用的manifest文件。
         {
@@ -5381,9 +5415,21 @@ const aliasConfig = {
             publicPath: '../pwa_manifest/',
           },
           include: [
-            resolve( __dirname, './pwa_manifest/' ),
-            resolve( __dirname, './template/' ),
+            resolve( __dirname, './src/pwa_manifest/' ),
+            resolve( __dirname, './src/template/' ),
           ],
+          exclude: [
+            resolve( __dirname, './src/assets/' ),
+            resolve( __dirname, './src/graphQL/' ),
+            resolve( __dirname, './src/native_components/' ),
+            resolve( __dirname, './src/pages/' ),
+            resolve( __dirname, './src/static/' ),
+            resolve( __dirname, './src/styles/' ),
+            resolve( __dirname, './src/tools/' ),
+            resolve( __dirname, './src/wasm/' ),
+            resolve( __dirname, './src/web_components/' ),
+            resolve( __dirname, './src/workers/' ),
+          ].concat( exclude001 ),
         },
         // 自定义处理.json文件，以免.manifest.json文件被当成.json文件处理，而且该自定义必须得在.manifest.json处理之后。
         {
@@ -5423,7 +5469,7 @@ const aliasConfig = {
             resolve( __dirname, './src/styles/' ),
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // markdown-loader，由于markdown的输出是HTML，因此最好与html-loader一起使用。
         {
@@ -5500,7 +5546,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理音频music。
         {
@@ -5533,7 +5579,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // mustache-loader。
         {
@@ -5568,7 +5614,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理postcss
         {
@@ -5584,112 +5630,17 @@ const aliasConfig = {
             ...( () => {
               return isProduction
                      ? [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-                      emit: true,
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  MiniCssExtractPluginLoader,
                 ]
                      : [
                   {
                     loader: 'thread-loader',
                     options: cssWorkerPoolConfig,
                   },
-                  {
-                    loader: 'style-loader',
-                    options: {
-                      // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
-                      injectType: 'autoStyleTag',
-                      attributes: {
-                        'data-is-production': `${ isProduction }`,
-                      },
-                      insert: 'head',
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  styleLoader,
                 ];
             } )(),
-            {
-              loader: 'css-loader',
-              options: {
-                /**
-                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                 */
-                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
-                url: {
-                  /**
-                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                   *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
-                   *
-                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
-                   *
-                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
-                   */
-                  filter: ( url, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                import: {
-                  filter: ( url, media, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                importLoaders: 1,
-                sourceMap: false,
-                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
-                // esModule: true,
-              },
-            },
+            cssLoader,
             postCSSLoader,
           ],
           include: [
@@ -5708,7 +5659,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
           sideEffects: true,
         },
         // pug-loader。
@@ -5742,7 +5693,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理sass。
         {
@@ -5758,112 +5709,21 @@ const aliasConfig = {
             ...( () => {
               return isProduction
                      ? [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-                      emit: true,
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  MiniCssExtractPluginLoader,
                 ]
                      : [
                   {
                     loader: 'thread-loader',
                     options: sassWorkerPoolConfig,
                   },
-                  {
-                    loader: 'style-loader',
-                    options: {
-                      // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
-                      injectType: 'autoStyleTag',
-                      attributes: {
-                        'data-is-production': `${ isProduction }`,
-                      },
-                      insert: 'head',
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  styleLoader,
                 ];
             } )(),
-            {
-              loader: 'css-loader',
+            Object.assign( {}, cssLoader, {
               options: {
-                /**
-                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                 */
-                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
-                url: {
-                  /**
-                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                   *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
-                   *
-                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
-                   *
-                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
-                   */
-                  filter: ( url, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                import: {
-                  filter: ( url, media, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
                 importLoaders: 2,
-                sourceMap: false,
-                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
-                // esModule: true,
-              },
-            },
+              }
+            } ),
             postCSSLoader,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
@@ -6015,7 +5875,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
           sideEffects: true,
         },
         // 处理scss。
@@ -6032,112 +5892,21 @@ const aliasConfig = {
             ...( () => {
               return isProduction
                      ? [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-                      emit: true,
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  MiniCssExtractPluginLoader,
                 ]
                      : [
                   {
                     loader: 'thread-loader',
                     options: sassWorkerPoolConfig,
                   },
-                  {
-                    loader: 'style-loader',
-                    options: {
-                      // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
-                      injectType: 'autoStyleTag',
-                      attributes: {
-                        'data-is-production': `${ isProduction }`,
-                      },
-                      insert: 'head',
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  styleLoader,
                 ];
             } )(),
-            {
-              loader: 'css-loader',
+            Object.assign( {}, cssLoader, {
               options: {
-                /**
-                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                 */
-                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
-                url: {
-                  /**
-                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                   *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
-                   *
-                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
-                   *
-                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
-                   */
-                  filter: ( url, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                import: {
-                  filter: ( url, media, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
                 importLoaders: 2,
-                sourceMap: false,
-                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
-                // esModule: true,
-              },
-            },
+              }
+            } ),
             postCSSLoader,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
@@ -6289,7 +6058,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
           sideEffects: true,
         },
         // 处理stylus。
@@ -6306,112 +6075,21 @@ const aliasConfig = {
             ...( () => {
               return isProduction
                      ? [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-                      emit: true,
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  MiniCssExtractPluginLoader,
                 ]
                      : [
                   {
                     loader: 'thread-loader',
                     options: stylusWorkerPoolConfig,
                   },
-                  {
-                    loader: 'style-loader',
-                    options: {
-                      // 工作方式与styleTag相同，但如果代码在IE6-9中执行，则打开singletonStyleTag模式。
-                      injectType: 'autoStyleTag',
-                      attributes: {
-                        'data-is-production': `${ isProduction }`,
-                      },
-                      insert: 'head',
-                      // 该loader的该选项默认值是true。
-                      // esModule: true,
-                    },
-                  },
+                  styleLoader,
                 ];
             } )(),
-            {
-              loader: 'css-loader',
+            Object.assign( {}, cssLoader, {
               options: {
-                /**
-                 * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                 * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                 * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                 * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                 */
-                // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
-                url: {
-                  /**
-                   * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-                   * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-                   * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-                   * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-                   *
-                   * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
-                   *
-                   * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
-                   *
-                   * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
-                   */
-                  filter: ( url, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
-                import: {
-                  filter: ( url, media, resourcePath ) => {
-                    const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
-
-                    if( boo ){
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                      return false;
-                    }
-                    else{
-                      console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                      return true;
-                    }
-                  },
-                },
                 importLoaders: 2,
-                sourceMap: false,
-                // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
-                // esModule: true,
-              },
-            },
+              }
+            } ),
             postCSSLoader,
             {
               loader: 'stylus-loader',
@@ -6456,7 +6134,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
           sideEffects: true,
         },
         // 处理ts、mts、cts。
@@ -6517,6 +6195,8 @@ const aliasConfig = {
             resolve( __dirname, './src/' ),
           ],
           exclude: [
+            resolve( __dirname, './node_modules/' ),
+
             resolve( __dirname, './src/assets/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
             resolve( __dirname, './src/static/' ),
@@ -6528,7 +6208,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/mustache/' ),
             resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理tsx。
         {
@@ -6588,6 +6268,8 @@ const aliasConfig = {
             resolve( __dirname, './src/' ),
           ],
           exclude: [
+            resolve( __dirname, './node_modules/' ),
+
             resolve( __dirname, './src/assets/' ),
             resolve( __dirname, './src/pwa_manifest/' ),
             resolve( __dirname, './src/static/' ),
@@ -6599,7 +6281,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/mustache/' ),
             resolve( __dirname, './src/template/pug_jade/' ),
             resolve( __dirname, './src/wasm/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理视频video。
         {
@@ -6632,7 +6314,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理vue，该loader一定得在html-loader之后。
         {
@@ -6747,7 +6429,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         /**
          * 处理wasm。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
@@ -6770,7 +6452,7 @@ const aliasConfig = {
             resolve( __dirname, './src/template/' ),
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理xml。
         {
@@ -6804,7 +6486,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
         // 处理yaml。
         {
@@ -6836,7 +6518,7 @@ const aliasConfig = {
             resolve( __dirname, './src/tools/' ),
             resolve( __dirname, './src/wasm/' ),
             resolve( __dirname, './src/workers/' ),
-          ],
+          ].concat( exclude001 ),
         },
       ],
     };
@@ -7069,7 +6751,10 @@ const aliasConfig = {
       },
       // optimization.sideEffects依赖optimization.providedExports。前者的启用依赖后者的启用。
       sideEffects: true,
-      // optimization.usedExports依赖optimization.providedExports。前者的启用依赖后者的启用。
+      /**
+       * optimization.usedExports依赖optimization.providedExports。前者的启用依赖后者的启用。
+       * 1、“optimization.usedExports”不能与cacheUnaffected一起使用，因为导出使用是一种全局影响。<br />
+       */
       usedExports: true,
       splitChunks: splitChunksConfig,
     }
@@ -7116,13 +6801,22 @@ const aliasConfig = {
       },
       // optimization.sideEffects依赖optimization.providedExports。前者的启用依赖后者的启用。
       sideEffects: true,
-      // optimization.usedExports依赖optimization.providedExports。前者的启用依赖后者的启用。
+      /**
+       * optimization.usedExports依赖optimization.providedExports。前者的启用依赖后者的启用。
+       * 1、“optimization.usedExports”不能与cacheUnaffected一起使用，因为导出使用是一种全局影响。<br />
+       */
       usedExports: true,
       splitChunks: splitChunksConfig,
     },
   outputConfig = {
     /**
      * 与output.filename相同，但用于资产模块。<br />
+     * 注意：<br />
+     * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
+     * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
+     * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
+     * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
+     * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
      */
     assetModuleFilename: 'assets/[name]_[contenthash][ext]',
     charset: false,

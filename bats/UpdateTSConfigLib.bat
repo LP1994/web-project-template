@@ -1,1 +1,1 @@
-node ../configures/update_tsconfig_lib/UpdateTSConfigLib.mjs
+node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --trace-deprecation --max-old-space-size=8192 ../configures/update_tsconfig_lib/UpdateTSConfigLib.mjs

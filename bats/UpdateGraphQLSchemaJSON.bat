@@ -1,1 +1,1 @@
-node ../configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs
+node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --trace-deprecation --max-old-space-size=8192 ../configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs
