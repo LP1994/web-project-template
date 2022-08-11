@@ -664,7 +664,7 @@ const autoprefixerConfig = {
      * 要生成新的拆分块的最小大小（以字节为单位）。<br />
      * 1、值类型：number（默认值：20000）、{ [index: string]: number }。<br />
      */
-    minSize: 10 * 1024,
+    minSize: 800 * 1024,
     /**
      * 生成新的拆分块所需的主块（包）的最小大小减少（以字节为单位）。这意味着如果拆分成1个新的拆分块不会将主块（捆绑）的大小减少给定的字节数，那么即使它满足splitChunks.minSize值，它也不会被拆分。<br />
      * 1、值类型：number（默认值：0）、{ [index: string]: number }。<br />
@@ -676,7 +676,7 @@ const autoprefixerConfig = {
      * 1、值类型：number，默认值：50000。<br />
      * 2、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.enforceSizeThreshold。<br />
      */
-    enforceSizeThreshold: 200 * 1024,
+    enforceSizeThreshold: 1 * 1024 * 1024,
     /**
      * 在webpack 5中引入了splitChunks.minRemainingSize选项，通过确保拆分后剩余的块的最小大小高于限制来避免零大小的模块。<br />
      * 1、值类型：number，默认值：0。<br />
@@ -685,7 +685,7 @@ const autoprefixerConfig = {
      * 4、splitChunks.minRemainingSize仅在剩余单个块时生效。<br />
      */
     minRemainingSize: isProduction
-                      ? 10 * 1024
+                      ? 100 * 1024
                       : 0,
     /**
      * 按模块层将模块分配给缓存组。<br />
@@ -704,17 +704,17 @@ const autoprefixerConfig = {
      * 7、maxSize的优先级高于maxInitialRequest/maxAsyncRequests。实际优先级是maxInitialRequest/maxAsyncRequests < maxSize < minSize。<br />
      * 8、设置maxSize的值会同时设置maxAsyncSize和maxInitialSize的值。<br />
      */
-    maxSize: 200 * 1024,
+    maxSize: 1 * 1024 * 1024,
     /**
      * maxAsyncSize和maxSize之间的区别在于maxAsyncSize只会影响按需加载块。<br />
      * 1、值类型：number，默认值：0。<br />
      */
-    maxAsyncSize: 200 * 1024,
+    // maxAsyncSize: 1 * 1024 * 1024,
     /**
      * maxInitialSize和maxSize的区别在于maxInitialSize只会影响初始加载块。<br />
      * 1、值类型：number，默认值：0。<br />
      */
-    maxInitialSize: 200 * 1024,
+    // maxInitialSize: 1 * 1024 * 1024,
     /**
      * 拆分块的名称。提供false将保持块的相同名称，因此它不会不必要地更改名称。这是生产构建的推荐值。<br />
      * 1、提供字符串或函数允许您使用自定义名称。指定一个字符串或一个总是返回相同字符串的函数会将所有常见的模块和供应商合并到一个块中。<br />
@@ -4716,10 +4716,12 @@ const aliasConfig = {
           dataUrl: {
             encoding: 'base64',
           },
-          emit: true,
-          filename: '[name]_[contenthash][ext]',
-          outputPath: './assets/',
-          publicPath: '../assets/',
+          /*
+           emit: true,
+           filename: '[name]_[contenthash][ext]',
+           outputPath: './assets/',
+           publicPath: '../assets/',
+           */
         },
         /**
          * 注意：

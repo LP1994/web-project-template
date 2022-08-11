@@ -9,10 +9,6 @@
 
 'use strict';
 
-import 'element-ui-css';
-// import 'element-plus-css';
-// import 'swiper-css';
-
 import './HelloWorld.css';
 
 document.querySelector( 'h1' ).textContent = 'Hello World!';
