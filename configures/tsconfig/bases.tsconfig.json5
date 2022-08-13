@@ -266,8 +266,8 @@
       "swiper-css": [
         "./node_modules/swiper/swiper-bundle.min.css"
       ],
-      "tslib": [
-        "./node_modules/tslib/"
+      "tslib/*": [
+        "./node_modules/tslib/*"
       ],
     },
     /*

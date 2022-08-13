@@ -66,6 +66,14 @@ module.exports = {
      * 2、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。<br />
      * 3、为第三方包设置别名时，只能是以包名开始，其他任何都不行，因为webpack会自动从“node_modules”中查找，包括：“./”、“./node_modules/”、“node_modules/”等等都是不行的，当然如果是指向自己的模块文件夹，那还是要指定完整路径。<br />
      * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
+     * 5、path.resolve和path.join的区别在于：<br />
+     * 例如：<br />
+     * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets
+     * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets\
+     * 有或是没有最后的“\”在具体应用时很重要！不然容易出现不如你所愿的现象。<br />
+     * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets）最尾部都不会包含“\”。<br />
+     * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）最尾部就会包含“\”，反之不会。<br />
+     * 8、设置文件夹的路径别名时，建议使用path.resolve，这样在后续使用路径别名时，就可以按正常的习惯使用：import JSONDemo001 from 'jsonDir/Demo001.json';<br />
      */
     alias: {
       'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',

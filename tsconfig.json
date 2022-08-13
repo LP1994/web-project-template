@@ -51,137 +51,137 @@
       "swiper-css": [
         "./node_modules/swiper/swiper-bundle.min.css"
       ],
-      "tslib": [
-        "./node_modules/tslib/"
+      "tslib/*": [
+        "./node_modules/tslib/*"
       ],
-      "assetsDir": [
-        "./src/assets/"
+      "assetsDir/*": [
+        "./src/assets/*"
       ],
-      "docDir": [
-        "./src/assets/doc/"
+      "docDir/*": [
+        "./src/assets/doc/*"
       ],
-      "csonDir": [
-        "./src/assets/doc/cson/"
+      "csonDir/*": [
+        "./src/assets/doc/cson/*"
       ],
-      "csvDir": [
-        "./src/assets/doc/csv/"
+      "csvDir/*": [
+        "./src/assets/doc/csv/*"
       ],
-      "jsonDir": [
-        "./src/assets/doc/json/"
+      "jsonDir/*": [
+        "./src/assets/doc/json/*"
       ],
-      "json5Dir": [
-        "./src/assets/doc/json5/"
+      "json5Dir/*": [
+        "./src/assets/doc/json5/*"
       ],
-      "tomlDir": [
-        "./src/assets/doc/toml/"
+      "tomlDir/*": [
+        "./src/assets/doc/toml/*"
       ],
-      "tsvDir": [
-        "./src/assets/doc/tsv/"
+      "tsvDir/*": [
+        "./src/assets/doc/tsv/*"
       ],
-      "txtDir": [
-        "./src/assets/doc/txt/"
+      "txtDir/*": [
+        "./src/assets/doc/txt/*"
       ],
-      "xmlDir": [
-        "./src/assets/doc/xml/"
+      "xmlDir/*": [
+        "./src/assets/doc/xml/*"
       ],
-      "yamlDir": [
-        "./src/assets/doc/yaml/"
+      "yamlDir/*": [
+        "./src/assets/doc/yaml/*"
       ],
-      "fontsDir": [
-        "./src/assets/fonts/"
+      "fontsDir/*": [
+        "./src/assets/fonts/*"
       ],
-      "imgDir": [
-        "./src/assets/img/"
+      "imgDir/*": [
+        "./src/assets/img/*"
       ],
-      "musicDir": [
-        "./src/assets/music/"
+      "musicDir/*": [
+        "./src/assets/music/*"
       ],
-      "videosDir": [
-        "./src/assets/videos/"
+      "videosDir/*": [
+        "./src/assets/videos/*"
       ],
-      "gQLAPIDir": [
-        "./src/graphQL/api/"
+      "gQLAPIDir/*": [
+        "./src/graphQL/api/*"
       ],
-      "nativeComponentsDir": [
-        "./src/native_components/"
+      "nativeComponentsDir/*": [
+        "./src/native_components/*"
       ],
-      "pagesDir": [
-        "./src/pages/"
+      "pagesDir/*": [
+        "./src/pages/*"
       ],
-      "pwaManifestDir": [
-        "./src/pwa_manifest/"
+      "pwaManifestDir/*": [
+        "./src/pwa_manifest/*"
       ],
-      "stylesDir": [
-        "./src/styles/"
+      "stylesDir/*": [
+        "./src/styles/*"
       ],
-      "cssDir": [
-        "./src/styles/css/"
+      "cssDir/*": [
+        "./src/styles/css/*"
       ],
-      "lessDir": [
-        "./src/styles/less/"
+      "lessDir/*": [
+        "./src/styles/less/*"
       ],
-      "postcssDir": [
-        "./src/styles/postcss/"
+      "postcssDir/*": [
+        "./src/styles/postcss/*"
       ],
-      "sassDir": [
-        "./src/styles/sass/"
+      "sassDir/*": [
+        "./src/styles/sass/*"
       ],
-      "scssDir": [
-        "./src/styles/scss/"
+      "scssDir/*": [
+        "./src/styles/scss/*"
       ],
-      "stylusDir": [
-        "./src/styles/stylus/"
+      "stylusDir/*": [
+        "./src/styles/stylus/*"
       ],
-      "templateDir": [
-        "./src/template/"
+      "templateDir/*": [
+        "./src/template/*"
       ],
-      "ejsDir": [
-        "./src/template/ejs/"
+      "ejsDir/*": [
+        "./src/template/ejs/*"
       ],
-      "handlebarsDir": [
-        "./src/template/handlebars/"
+      "handlebarsDir/*": [
+        "./src/template/handlebars/*"
       ],
-      "htmlDir": [
-        "./src/template/html/"
+      "htmlDir/*": [
+        "./src/template/html/*"
       ],
-      "markdownDir": [
-        "./src/template/markdown/"
+      "markdownDir/*": [
+        "./src/template/markdown/*"
       ],
-      "mustacheDir": [
-        "./src/template/mustache/"
+      "mustacheDir/*": [
+        "./src/template/mustache/*"
       ],
-      "pug_jadeDir": [
-        "./src/template/pug_jade/"
+      "pug_jadeDir/*": [
+        "./src/template/pug_jade/*"
       ],
-      "toolsDir": [
-        "./src/tools/"
+      "toolsDir/*": [
+        "./src/tools/*"
       ],
-      "jsDir": [
-        "./src/tools/js/"
+      "jsDir/*": [
+        "./src/tools/js/*"
       ],
-      "tsDir": [
-        "./src/tools/ts/"
+      "tsDir/*": [
+        "./src/tools/ts/*"
       ],
-      "wasmDir": [
-        "./src/wasm/build/"
+      "wasmDir/*": [
+        "./src/wasm/build/*"
       ],
-      "webComponentsDir": [
-        "./src/web_components/"
+      "webComponentsDir/*": [
+        "./src/web_components/*"
       ],
-      "workersDir": [
-        "./src/workers/"
+      "workersDir/*": [
+        "./src/workers/*"
       ],
-      "serviceWorkersDir": [
-        "./src/workers/service_workers/"
+      "serviceWorkersDir/*": [
+        "./src/workers/service_workers/*"
       ],
-      "sharedWorkersDir": [
-        "./src/workers/shared_workers/"
+      "sharedWorkersDir/*": [
+        "./src/workers/shared_workers/*"
       ],
-      "workersToolsDir": [
-        "./src/workers/tools/"
+      "workersToolsDir/*": [
+        "./src/workers/tools/*"
       ],
-      "webWorkersDir": [
-        "./src/workers/web_workers/"
+      "webWorkersDir/*": [
+        "./src/workers/web_workers/*"
       ]
     },
     "rootDir": ".",

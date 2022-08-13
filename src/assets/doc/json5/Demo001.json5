@@ -1,0 +1,13 @@
+/*
+Project: web-project-template
+FileDirPath: src/assets/doc/json5/Demo001.json5
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-08-13 18:01:08 星期六
+*/
+
+{
+  title: '这是一个JSON5文件',
+  description: 'JSON5是JSON的超集，支持注释、无引号的属性名、单引号的使用等等。',
+}
