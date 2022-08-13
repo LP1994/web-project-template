@@ -9,6 +9,10 @@
 
 'use strict';
 
+// import 'element-plus-css';
+
 import './HelloWorld.css';
 
 document.querySelector( 'h1' ).textContent = 'Hello World!';
+
+// console.dir( Vue.createApp().use( ElementPlus ) );

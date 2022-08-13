@@ -196,7 +196,7 @@ const __dirname = Get__dirname( import.meta.url ),
    * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
    * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
    */
-  isHandle_experiments_buildHttp_in_CSSLoader = false,
+  isHandle_experiments_buildHttp_in_CSSLoader = true,
   /**
    * isProduction的值为true时表示生成环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
@@ -582,38 +582,6 @@ const autoprefixerConfig = {
    * 4、从webpack 5开始，不再允许将条目名称传递给{cacheGroup}.test并将现有块的名称用于{cacheGroup}.name。<br />
    */
   splitChunksConfig = {
-    // 默认设置以及webpack代码中的默认设置 Start
-    /*
-     defaultSizeTypes: [
-     'javascript',
-     'unknown',
-     ],
-     hidePathInfo: false,
-     chunks: 'all',
-     minChunks: 1,
-     maxAsyncRequests: 30,
-     maxInitialRequests: 30,
-     automaticNameDelimiter: '~',
-     fallbackCacheGroup: {},
-     // 单位：字节，20000约为20KB。
-     minSize: 20 * 1024,
-     minRemainingSize: 0,
-     enforceSizeThreshold: 50000,
-     cacheGroups: {
-     defaultVendors: {
-     test: /[\\/]node_modules[\\/]/,
-     priority: -10,
-     reuseExistingChunk: true,
-     },
-     default: {
-     minChunks: 2,
-     priority: -20,
-     reuseExistingChunk: true,
-     },
-     },
-     */
-    // 默认设置以及webpack代码中的默认设置 End
-
     /**
      * 默认情况下，webpack将使用块的来源和名称生成名称（例如：vendor~main.js）。此选项允许您指定用于生成名称的分隔符。<br />
      * 1、值类型：string，默认值：'~'。<br />
@@ -759,7 +727,7 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
             name: 'VendorsJS',
           };
         } )( [
@@ -775,13 +743,13 @@ const autoprefixerConfig = {
         ] ),
 
         EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.js$/,
+          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/,
           name: 'EchartsJS',
         },
 
         Vendors001JS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
             name: 'Vendors001JS',
           };
         } )( [
@@ -792,7 +760,7 @@ const autoprefixerConfig = {
 
         VendorsVueEcologyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
             name: 'VendorsVueEcologyJS',
           };
         } )( [
@@ -871,7 +839,7 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
             name: 'VendorsJS',
           };
         } )( [
@@ -887,26 +855,26 @@ const autoprefixerConfig = {
         ] ),
 
         EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.js$/,
+          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/,
           name: 'EchartsJS',
         },
 
         AxiosJS: {
-          test: /node_modules[\\/]axios[\\/].*\.js$/,
+          test: /node_modules[\\/]axios[\\/].*\.(js|cjs|mjs)$/,
           name: 'AxiosJS',
         },
         jQueryJS: {
-          test: /node_modules[\\/]jquery[\\/].*\.js$/,
+          test: /node_modules[\\/]jquery[\\/].*\.(js|cjs|mjs)$/,
           name: 'jQueryJS',
         },
         SwiperJS: {
-          test: /node_modules[\\/]swiper[\\/].*\.js$/,
+          test: /node_modules[\\/]swiper[\\/].*\.(js|cjs|mjs)$/,
           name: 'SwiperJS',
         },
 
         VueFamilyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.js$` ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -916,11 +884,11 @@ const autoprefixerConfig = {
         ] ),
 
         ELEMENTJS: {
-          test: /node_modules[\\/]element-ui[\\/].*\.js$/,
+          test: /node_modules[\\/]element-ui[\\/].*\.(js|cjs|mjs)$/,
           name: 'ELEMENTJS',
         },
         ElementPlusJS: {
-          test: /node_modules[\\/]element-plus[\\/].*\.js$/,
+          test: /node_modules[\\/]element-plus[\\/].*\.(js|cjs|mjs)$/,
           name: 'ElementPlusJS',
         },
       };
@@ -2244,7 +2212,7 @@ const aliasConfig = {
      // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*!/ ),
      uri => {
      // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
-     console.log( `experiments.buildHttp.allowedUris.uri--->${ uri }` );
+     console.log( `\n\n\nexperiments.buildHttp.allowedUris.uri--->${ uri }\n\n\n` );
 
      return true;
      },
@@ -2385,7 +2353,10 @@ const aliasConfig = {
    * 第3步得在全局环境中存在一个可以供全局都能访问到的变量名，可以是在HTML中引入外部链接脚本，也可以是在代码中明确写了挂载在window上的全局变量，例如：window.xxx = () => {}。<br />
    */
   externalsConfig = {
-    // echarts: 'window.echarts',
+    axios: 'window.axios',
+    echarts: 'window.echarts',
+    jquery: 'window.$',
+    swiper: 'window.Swiper',
   },
   /**
    * 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
@@ -4705,24 +4676,30 @@ const aliasConfig = {
     return {
       generator: {
         /**
-         * 注意：
+         * 该选项有一个验证配置类的BUG：<br />
+         * 1、该选项会在'asset/inline'、'asset/resource'这2个之间进行自动切换，但是该选项的配置（该选项下一共有5个配置项）却无法通过验证。<br />
+         * 2、因为当命中'asset/inline'时，其有效配置项只有dataUrl选项，而命中'asset/resource'时，其有效配置为：emit、filename、outputPath、publicPath这4个。<br />
+         * 3、所以，无论为'asset'选项配置任何选项，都无法同时满足'asset/inline'、'asset/resource'的配置验证，从而导致webpack在编译时报出配置验证错误。<br />
+         * 4、建议，不使用该'asset'选项，而是直接配置'asset/inline'、'asset/resource'这2个，而且这样也不会影响后面的type: 'asset'的使用。<br />
+         *
+         * 注意：<br />
          * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
          * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
          * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
          * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
          * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
          */
-        asset: {
-          dataUrl: {
-            encoding: 'base64',
-          },
-          /*
-           emit: true,
-           filename: '[name]_[contenthash][ext]',
-           outputPath: './assets/',
-           publicPath: '../assets/',
-           */
-        },
+        /*
+         asset: {
+         dataUrl: {
+         encoding: 'base64',
+         },
+         emit: true,
+         filename: '[name]_[contenthash][ext]',
+         outputPath: './assets/',
+         publicPath: '../assets/',
+         },
+         */
         /**
          * 注意：
          * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
@@ -4925,9 +4902,7 @@ const aliasConfig = {
             postCSSLoader,
           ],
           include: [
-            resolve( __dirname, './node_modules/element-ui/lib/theme-chalk/index.css' ),
-            resolve( __dirname, './node_modules/element-plus/dist/index.css' ),
-            resolve( __dirname, './node_modules/swiper/swiper-bundle.min.css' ),
+            resolve( __dirname, './node_modules/' ),
 
             resolve( __dirname, './src/' ),
           ],
@@ -5046,7 +5021,7 @@ const aliasConfig = {
             publicPath: '../fonts/',
           },
           include: [
-            resolve( __dirname, './node_modules/element-ui/' ),
+            resolve( __dirname, './node_modules/' ),
 
             resolve( __dirname, './src/' ),
           ],
@@ -5210,7 +5185,7 @@ const aliasConfig = {
             publicPath: '../img/',
           },
           include: [
-            resolve( __dirname, './node_modules/element-ui/' ),
+            resolve( __dirname, './node_modules/' ),
 
             resolve( __dirname, './src/' ),
           ],
@@ -7147,12 +7122,12 @@ const aliasConfig = {
      * 资产是从webpack发出的任何文件。此选项控制webpack何时根据单个资产大小（以bytes为单位）发出性能提示。<br />
      * 1、5 * 1024 * 1024 = 5242880，设置成5MB。<br />
      */
-    maxAssetSize: 10485760,
+    maxAssetSize: 10 * 1024 * 1024,
     /**
      * 入口点表示将在特定条目的初始加载时间期间使用的所有资产。此选项控制webpack何时根据最大入口点大小（以bytes为单位）发出性能提示。<br />
      * 1、5 * 1024 * 1024 = 5242880，设置成5MB。<br />
      */
-    maxEntrypointSize: 10485760,
+    maxEntrypointSize: 50 * 1024 * 1024,
   },
   /**
    * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
