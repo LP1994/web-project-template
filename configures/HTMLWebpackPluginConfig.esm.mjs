@@ -27,7 +27,7 @@ function ExcludeChunks( currentEntryName ){
     const currentEntryConfig = entryConfig[ currentEntryName ],
       str2 = typeof currentEntryConfig;
 
-    if( str2 === 'string' || Array.isArray( currentEntryConfig ) || str2 === 'function' ){
+    if( str2 === 'string' || Array.isArray( currentEntryConfig ) || str2 === 'function' || currentEntryConfig === undefined ){
       return [];
     }
     else{

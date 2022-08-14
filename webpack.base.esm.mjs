@@ -70,6 +70,8 @@ import {
   ESBuildMinifyPlugin,
 } from 'esbuild-loader';
 
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+
 import JSON5 from 'json5';
 
 import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
@@ -713,7 +715,7 @@ const autoprefixerConfig = {
            * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
            * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
            */
-          test: /node_modules[\\/].*\.css$/,
+          test: /node_modules[\\/].*\.css$/i,
           // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
           ...( () => {
             return isProduction
@@ -727,7 +729,7 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -743,13 +745,13 @@ const autoprefixerConfig = {
         ] ),
 
         EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
           name: 'EchartsJS',
         },
 
         Vendors001JS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'Vendors001JS',
           };
         } )( [
@@ -760,7 +762,7 @@ const autoprefixerConfig = {
 
         VendorsVueEcologyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VendorsVueEcologyJS',
           };
         } )( [
@@ -786,7 +788,7 @@ const autoprefixerConfig = {
              * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
              * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
              */
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$` ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$`, 'i' ),
             // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
             ...( () => {
               return isProduction
@@ -804,7 +806,7 @@ const autoprefixerConfig = {
         ] ),
 
         SwiperCSS: {
-          test: /node_modules[\\/]swiper[\\/].*\.css$/,
+          test: /node_modules[\\/]swiper[\\/].*\.css$/i,
           ...( () => {
             return isProduction
                    ? {
@@ -815,7 +817,7 @@ const autoprefixerConfig = {
           name: 'SwiperCSS',
         },
         ELEMENTCSS: {
-          test: /node_modules[\\/]element-ui[\\/].*\.css$/,
+          test: /node_modules[\\/]element-ui[\\/].*\.css$/i,
           ...( () => {
             return isProduction
                    ? {
@@ -826,7 +828,7 @@ const autoprefixerConfig = {
           name: 'ELEMENTCSS',
         },
         ElementPlusCSS: {
-          test: /node_modules[\\/]element-plus[\\/].*\.css$/,
+          test: /node_modules[\\/]element-plus[\\/].*\.css$/i,
           ...( () => {
             return isProduction
                    ? {
@@ -839,7 +841,7 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -855,26 +857,26 @@ const autoprefixerConfig = {
         ] ),
 
         EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
           name: 'EchartsJS',
         },
 
         AxiosJS: {
-          test: /node_modules[\\/]axios[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]axios[\\/].*\.(js|cjs|mjs)$/i,
           name: 'AxiosJS',
         },
         jQueryJS: {
-          test: /node_modules[\\/]jquery[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]jquery[\\/].*\.(js|cjs|mjs)$/i,
           name: 'jQueryJS',
         },
         SwiperJS: {
-          test: /node_modules[\\/]swiper[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]swiper[\\/].*\.(js|cjs|mjs)$/i,
           name: 'SwiperJS',
         },
 
         VueFamilyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$` ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -884,11 +886,11 @@ const autoprefixerConfig = {
         ] ),
 
         ELEMENTJS: {
-          test: /node_modules[\\/]element-ui[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]element-ui[\\/].*\.(js|cjs|mjs)$/i,
           name: 'ELEMENTJS',
         },
         ElementPlusJS: {
-          test: /node_modules[\\/]element-plus[\\/].*\.(js|cjs|mjs)$/,
+          test: /node_modules[\\/]element-plus[\\/].*\.(js|cjs|mjs)$/i,
           name: 'ElementPlusJS',
         },
       };
@@ -2167,9 +2169,6 @@ const aliasConfig = {
         watch: true,
       },
     ],
-    watchFiles: [
-      'src/**/*.*',
-    ],
     webSocketServer: 'ws',
   },
   /**
@@ -2213,24 +2212,21 @@ const aliasConfig = {
      * 1、设置后，将获取现有lockfile条目的资源，并在资源内容发生更改时升级条目。<br />
      * }<br />
      */
-    /*
-     buildHttp: {
-     allowedUris: [
-     // new RegExp( /^http(s)?:\/\// ),
-     // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*!/ ),
-     uri => {
-     // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
-     console.log( `\n\n\nexperiments.buildHttp.allowedUris.uri--->${ uri }\n\n\n` );
+    buildHttp: {
+      allowedUris: [
+        // new RegExp( /^http(s)?:\/\// ),
+        // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*/ ),
+        uri => {
+          // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
 
-     return true;
-     },
-     ],
-     cacheLocation: resolve( __dirname, `./webpack_location/${ env_platform }/cache_lockfile/` ),
-     frozen: isProduction,
-     lockfileLocation: resolve( __dirname, `./webpack_location/${ env_platform }/lockfile.lock` ),
-     upgrade: !isProduction,
-     },
-     */
+          return true;
+        },
+      ],
+      cacheLocation: resolve( __dirname, `./webpack_location/${ env_platform }/cache_lockfile/` ),
+      frozen: isProduction,
+      lockfileLocation: resolve( __dirname, `./webpack_location/${ env_platform }/lockfile.lock` ),
+      upgrade: !isProduction,
+    },
     /**
      * 启用未更改的模块的额外内存缓存，并且仅引用未更改的模块。<br />
      * 1、默认值同futureDefaults的值。<br />
@@ -4602,6 +4598,7 @@ const aliasConfig = {
            * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
            * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
            * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+           * 4、注意，目前无法识别到那些无http:、https:协议头的远程链接，也就是无法识别那些以'//'开头的远程链接，会直接原样将其保留在源码中。<br />
            */
           // 使用，/* webpackIgnore: true */，魔术注释来开启禁用url()解析。
           url: {
@@ -4610,6 +4607,7 @@ const aliasConfig = {
              * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
              * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
              * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+             * 4、注意，目前无法识别到那些无http:、https:协议头的远程链接，也就是无法识别那些以'//'开头的远程链接，会直接原样将其保留在源码中。<br />
              *
              * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
              *
@@ -4620,54 +4618,53 @@ const aliasConfig = {
             filter: ( url, resourcePath ) => {
               const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
 
-              if( boo ){
-                console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                return false;
-              }
-              else{
-                console.log( `
-                    \n\ncss-loader_url_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                return true;
-              }
+              return !boo;
             },
           },
           import: {
             filter: ( url, media, resourcePath ) => {
               const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
 
-              if( boo ){
-                console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：false。
-                    \n\n
-                    ` );
-
-                return false;
-              }
-              else{
-                console.log( `
-                    \n\ncss-loader_import_filter_url--->${ url }
-                    true表示处理，false表示不处理：true。
-                    \n\n
-                    ` );
-
-                return true;
-              }
+              return !boo;
             },
           },
           importLoaders: 1,
           sourceMap: false,
           // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
           // esModule: true,
+        },
+      },
+      tsLoaderConfig = {
+        loader: 'ts-loader',
+        options: {
+          // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+          transpileOnly: true,
+          // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
+          happyPackMode: true,
+          logInfoToStdOut: false,
+          logLevel: 'error',
+          // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
+          silent: true,
+          // 仅报告与这些glob模式匹配的文件的错误。
+          reportFiles: [
+            'src/**/*.{ts,cts,mts,tsx}',
+            'src/**/*.ts.vue',
+            'src/**/*.cts.vue',
+            'src/**/*.mts.vue',
+            'src/**/*.tsx.vue',
+          ],
+          // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
+          compiler: 'typescript',
+          // 允许您指定在哪里可以找到TypeScript配置文件。
+          configFile: resolve( __dirname, './tsconfig.json' ),
+          colors: true,
+          appendTsSuffixTo: [],
+          appendTsxSuffixTo: [],
+          onlyCompileBundledFiles: true,
+          allowTsInNodeModules: false,
+          context: resolve( __dirname, './' ),
+          experimentalFileCaching: true,
+          projectReferences: true,
         },
       };
 
@@ -5188,7 +5185,7 @@ const aliasConfig = {
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
          */
         {
-          test: /\.(jng|bmp|dcx|gif|icns|ico|jbig2|jpe|jpeg|jpg|pam|pbm|pcx|pgm|png|pnm|ppm|psd|rgbe|tga|tif|tiff|wbmp|xbm|xpm|svg|svgz|webp|heif|heic)$/i,
+          test: /\.(avif|jng|bmp|dcx|gif|icns|ico|jbig2|jpe|jpeg|jpg|pam|pbm|pcx|pgm|png|pnm|ppm|psd|rgbe|tga|tif|tiff|wbmp|xbm|xpm|svg|svgz|webp|heif|heic)$/i,
           /**
            * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
            * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6309,39 +6306,7 @@ const aliasConfig = {
                 loader: 'babel-loader',
                 options: babelLoaderConfig,
               },
-              {
-                loader: 'ts-loader',
-                options: {
-                  // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
-                  transpileOnly: true,
-                  // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
-                  happyPackMode: true,
-                  logInfoToStdOut: false,
-                  logLevel: 'error',
-                  // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
-                  silent: true,
-                  // 仅报告与这些glob模式匹配的文件的错误。
-                  reportFiles: [
-                    'src/**/*.{ts,cts,mts,tsx}',
-                    'src/**/*.ts.vue',
-                    'src/**/*.cts.vue',
-                    'src/**/*.mts.vue',
-                    'src/**/*.tsx.vue',
-                  ],
-                  // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
-                  compiler: 'typescript',
-                  // 允许您指定在哪里可以找到TypeScript配置文件。
-                  configFile: resolve( __dirname, './tsconfig.json' ),
-                  colors: true,
-                  appendTsSuffixTo: [],
-                  appendTsxSuffixTo: [],
-                  onlyCompileBundledFiles: true,
-                  allowTsInNodeModules: false,
-                  context: resolve( __dirname, './' ),
-                  experimentalFileCaching: true,
-                  projectReferences: true,
-                },
-              },
+              tsLoaderConfig,
             ],
           include: [
             join( __dirname, './src/' ),
@@ -6382,39 +6347,7 @@ const aliasConfig = {
                 loader: 'babel-loader',
                 options: babelLoaderConfig,
               },
-              {
-                loader: 'ts-loader',
-                options: {
-                  // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
-                  transpileOnly: true,
-                  // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
-                  happyPackMode: true,
-                  logInfoToStdOut: false,
-                  logLevel: 'error',
-                  // 默认值：false，如果为true，则不会发出console.log消息。请注意，大多数错误消息都是通过webpack发出的，不受此标志的影响。
-                  silent: true,
-                  // 仅报告与这些glob模式匹配的文件的错误。
-                  reportFiles: [
-                    'src/**/*.{ts,cts,mts,tsx}',
-                    'src/**/*.ts.vue',
-                    'src/**/*.cts.vue',
-                    'src/**/*.mts.vue',
-                    'src/**/*.tsx.vue',
-                  ],
-                  // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
-                  compiler: 'typescript',
-                  // 允许您指定在哪里可以找到TypeScript配置文件。
-                  configFile: resolve( __dirname, './tsconfig.json' ),
-                  colors: true,
-                  appendTsSuffixTo: [],
-                  appendTsxSuffixTo: [],
-                  onlyCompileBundledFiles: true,
-                  allowTsInNodeModules: false,
-                  context: resolve( __dirname, './' ),
-                  experimentalFileCaching: true,
-                  projectReferences: true,
-                },
-              },
+              tsLoaderConfig,
             ],
           include: [
             join( __dirname, './src/' ),
@@ -6875,6 +6808,84 @@ const aliasConfig = {
             space: null,
           },
         } ),
+        // image-minimizer-webpack-plugin插件耗性能、耗编译时间，而且不好动态的根据需要随时进行DIY控制图片的压缩质量，毕竟配置化的东西都是一致的，一般不启用，该插件的细微部分配置起来也是极为复杂。
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * 1、imagemin-mozjpeg可以配置为无损和有损模式、imagemin-svgo可以配置为无损和有损模式。<br />
+               * 2、推荐用于无损优化的imagemin插件：imagemin-gifsicle、imagemin-jpegtran、imagemin-optipng、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
+               * 3、推荐用于有损优化的imagemin插件：imagemin-gifsicle、imagemin-mozjpeg、imagemin-pngquant、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
+               */
+              new ImageMinimizerPlugin( {
+                test: /\.(avif|gif|jpe|jpeg|jpg|png|tif|tiff|svg|webp)$/i,
+                // 改选项设置为false时，generator选项将不起作用。
+                loader: false,
+                severityError: 'error',
+                concurrency: cpus().length - 1,
+                deleteOriginalAssets: false,
+                minimizer: {
+                  /**
+                   * 有3个实现：imageminMinify（默认值）、squooshMinify、sharpMinify。<br />
+                   * 1、imageminMinify：默认情况下优化您的图像，因为它稳定且适用于所有类型的图像。<br />
+                   * 2、squooshMinify：在实验模式下使用.jpg、.jpeg、.png、.webp、.avif文件类型工作。<br />
+                   * 3、sharpMinify：高性能Node.js图像处理，调整和压缩JPEG、PNG、WebP、AVIF和TIFF图像的最快模块。使用libvips库。<br />
+                   */
+                  implementation: ImageMinimizerPlugin.imageminMinify,
+                  filename: 'img/optimized_[name]_[contenthash][ext]',
+                  /**
+                   * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
+                   *
+                   * @param source Buffer
+                   * @param sourcePath string
+                   *
+                   * @returns {boolean | undefined} 返回true以优化图像，否则返回false则不优化。
+                   */
+                  filter( source, sourcePath ){
+                    return true;
+                  },
+                  options: {
+                    plugins: [
+                      [
+                        'gifsicle',
+                        {
+                          interlaced: true,
+                        },
+                      ],
+                      [
+                        'jpegtran',
+                        {
+                          progressive: true,
+                        },
+                      ],
+                      [
+                        'optipng',
+                        {
+                          optimizationLevel: 5,
+                        },
+                      ],
+                      [
+                        'svgo',
+                        {
+                          plugins: [
+                            {
+                              name: 'preset-default',
+                              params: {
+                                overrides: {
+                                  removeViewBox: false,
+                                },
+                              },
+                            },
+                          ],
+                        },
+                      ],
+                    ],
+                  },
+                },
+              } ),
+            ]
+                 : [];
+        } )( false ),
       ],
       /**
        * 1、生产环境，默认值为：'deterministic'。<br />
@@ -7122,12 +7133,137 @@ const aliasConfig = {
    * 2、设置为false时，直接关闭该功能。<br />
    */
   performanceConfig = {
+    // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
     assetFilter( assetFilename ){
-      const boo1 = /\.(jng|bmp|dcx|gif|icns|ico|jbig2|jpe|jpeg|jpg|pam|pbm|pcx|pgm|png|pnm|ppm|psd|rgbe|tga|tif|tiff|wbmp|xbm|xpm|svg|svgz|webp|heif|heic)$/i.test( assetFilename ),
-        boo2 = /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i.test( assetFilename ),
-        boo3 = /\.(js|ts|tsx|mjs|mts|cjs|cts|css|less|scss|sass|styl|stylus|pcss|postcss|html|htm|ejs|vue|json|json5|xml|txt|toml|yaml|csv|wasm|graphql|graphqls|gql)$/i.test( assetFilename );
+      const arr1 = Array.from( new Set( [
+        'cson',
+        'css',
+        'csv',
+        'tsv',
+        'ejs',
+        'graphql',
+        'gql',
+        'handlebars',
+        'hbs',
+        'htm',
+        'html',
+        'xhtml',
+        'js',
+        'cjs',
+        'mjs',
+        'jsx',
+        'json5',
+        'less',
+        'toml',
+        'txt',
+        'json',
+        'markdown',
+        'md',
+        'm4a',
+        'kar',
+        'ape',
+        'wav',
+        'wave',
+        'flac',
+        'wma',
+        'cda',
+        'aiff',
+        'au',
+        'mpeg',
+        'mpeg-1',
+        'mpeg-2',
+        'mpeg-layer3',
+        'mpeg-4',
+        'mp3',
+        'mp2',
+        'mp1',
+        'mid',
+        'midi',
+        'ra',
+        'rm',
+        'rmx',
+        'vqf',
+        'amr',
+        'aac',
+        'vorbis',
+        'mustache',
+        'pcss',
+        'postcss',
+        'pug',
+        'jade',
+        'sass',
+        'scss',
+        'styl',
+        'stylus',
+        'ts',
+        'mts',
+        'cts',
+        'tsx',
+        'wmv',
+        'asf',
+        'asx',
+        'rmvb',
+        'mp4',
+        '3gp',
+        'mov',
+        'm4v',
+        'avi',
+        'dat',
+        'mkv',
+        'flv',
+        'vob',
+        'mod',
+        'mng',
+        'mpg',
+        '3gpp',
+        'ogg',
+        'webm',
+        'vue',
+        'wasm',
+        'xml',
+        'yaml',
+        'avif',
+        'jng',
+        'bmp',
+        'dcx',
+        'gif',
+        'icns',
+        'ico',
+        'jbig2',
+        'jpe',
+        'jpeg',
+        'jpg',
+        'pam',
+        'pbm',
+        'pcx',
+        'pgm',
+        'png',
+        'pnm',
+        'ppm',
+        'psd',
+        'rgbe',
+        'tga',
+        'tif',
+        'tiff',
+        'wbmp',
+        'xbm',
+        'xpm',
+        'svg',
+        'svgz',
+        'webp',
+        'heif',
+        'heic',
+        'eot',
+        'otf',
+        'fon',
+        'font',
+        'ttf',
+        'ttc',
+        'woff',
+        'woff2',
+      ] ) );
 
-      return boo1 || boo2 || boo3;
+      return new RegExp( `\\.(${ arr1.join( '|' ) })$`, 'i' ).test( assetFilename );
     },
     /**
      * 打开或关闭提示。此外，告诉webpack在找到提示时抛出错误或警告。<br />
