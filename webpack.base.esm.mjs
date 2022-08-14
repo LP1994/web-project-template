@@ -568,9 +568,10 @@ const autoprefixerConfig = {
     resolve( __dirname, './notes/' ),
     resolve( __dirname, './read_me/' ),
     resolve( __dirname, './simulation_servers/' ),
+    resolve( __dirname, './subsystems/' ),
     resolve( __dirname, './test/' ),
     resolve( __dirname, './ts_compiled/' ),
-    resolve( __dirname, './webpack_location/' ),
+    resolve( __dirname, './webpack_records/' ),
   ],
   /**
    * 默认情况下，它只影响按需块，因为更改初始块会影响HTML文件应包含以运行项目的脚本标记。<br />
@@ -2191,7 +2192,8 @@ const aliasConfig = {
      * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map.js';<br />
      * 2、当前个人通过编码已经支持了可以在CSS文件中加载无文件扩展后缀名的图片类远程资源，但是其返回的响应头中必须准确设置该图片的content-type，这个由服务器设置的，一般都会准确的。<br />
      * 3、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
-     * 4、除了设置成Boolean值，还可以是更加详细的Object值：<br />
+     * 4、当使用以'//'开头的远程链接时，会报错！尤其是在js文件中使用，所以要使用以http:、https:协议头为开头的远程链接才能正确编译输出。<br />
+     * 5、除了设置成Boolean值，还可以是更加详细的Object值：<br />
      * {<br />
      * allowedUris：[ string，例如：http://localhost:9990/ ]、[ RegExp，例如：^https?:// ]、[ Function，例如：(uri: string) => boolean ]，允许的URI列表（分别是它们的开头）。<br />
      * 
@@ -4550,7 +4552,6 @@ const aliasConfig = {
     const exclude001 = [
       join( __dirname, './.git/' ),
       join( __dirname, './.idea/' ),
-
       join( __dirname, './assist_tools/' ),
       join( __dirname, './backups/' ),
       join( __dirname, './bats/' ),
@@ -4562,7 +4563,6 @@ const aliasConfig = {
       join( __dirname, './subsystems/' ),
       join( __dirname, './test/' ),
       join( __dirname, './ts_compiled/' ),
-      join( __dirname, './webpack_location/' ),
       join( __dirname, './webpack_records/' ),
     ];
 
@@ -4872,6 +4872,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/csv/' ),
@@ -4926,6 +4928,8 @@ const aliasConfig = {
             join( __dirname, './node_modules/' ),
 
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -4959,6 +4963,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -5002,6 +5008,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5045,6 +5053,8 @@ const aliasConfig = {
             join( __dirname, './node_modules/' ),
 
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/' ),
@@ -5087,6 +5097,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5122,6 +5134,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5163,6 +5177,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5209,6 +5225,8 @@ const aliasConfig = {
             join( __dirname, './node_modules/' ),
 
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/' ),
@@ -5249,6 +5267,8 @@ const aliasConfig = {
             ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -5292,6 +5312,8 @@ const aliasConfig = {
             ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -5335,6 +5357,8 @@ const aliasConfig = {
             ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -5363,6 +5387,8 @@ const aliasConfig = {
           include: [
             join( __dirname, './src/' ),
             join( __dirname, './src/assets/doc/json5/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -5470,6 +5496,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5496,6 +5524,8 @@ const aliasConfig = {
           },
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -5525,6 +5555,8 @@ const aliasConfig = {
           type: 'asset/source',
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -5567,6 +5599,8 @@ const aliasConfig = {
           include: [
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/template/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5598,6 +5632,8 @@ const aliasConfig = {
           include: [
             join( __dirname, './src/' ),
             join( __dirname, './src/assets/doc/json/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -5680,6 +5716,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5715,6 +5753,8 @@ const aliasConfig = {
           },
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/' ),
@@ -5748,6 +5788,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5794,6 +5836,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -5827,6 +5871,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -6010,6 +6056,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -6193,6 +6241,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -6269,6 +6319,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -6310,6 +6362,8 @@ const aliasConfig = {
             ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -6351,6 +6405,8 @@ const aliasConfig = {
             ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -6386,6 +6442,8 @@ const aliasConfig = {
           },
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/' ),
@@ -6498,6 +6556,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -6527,6 +6587,8 @@ const aliasConfig = {
           type: 'webassembly/async',
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -6550,6 +6612,8 @@ const aliasConfig = {
           ],
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -6582,6 +6646,8 @@ const aliasConfig = {
           },
           include: [
             join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
