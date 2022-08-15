@@ -2221,7 +2221,22 @@ const aliasConfig = {
         uri => {
           // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
 
-          return true;
+          /**
+           * 允许以哪些开头的远程链接。<br />
+           *
+           * @type {string[]}
+           */
+          const allowedCondition = [
+            // 'http://',
+            // 'https://',
+            // 'https://www.xxx.com/',
+          ];
+
+          const boo = allowedCondition.some( item => String( uri ).trim().startsWith( item ) );
+
+          return allowedCondition.length === 0
+                 ? true
+                 : boo;
         },
       ],
       cacheLocation: resolve( __dirname, `./webpack_location/${ env_platform }/cache_lockfile/` ),
