@@ -2239,9 +2239,9 @@ const aliasConfig = {
                  : boo;
         },
       ],
-      cacheLocation: resolve( __dirname, `./webpack_location/${ env_platform }/cache_lockfile/` ),
+      cacheLocation: resolve( __dirname, `./webpack_location/cache_lockfile/` ),
       frozen: isProduction,
-      lockfileLocation: resolve( __dirname, `./webpack_location/${ env_platform }/lockfile.lock` ),
+      lockfileLocation: resolve( __dirname, `./webpack_location/lockfile.lock` ),
       upgrade: !isProduction,
     },
     /**
@@ -6896,7 +6896,7 @@ const aliasConfig = {
             loader: false,
             severityError: 'error',
             concurrency: cpus().length - 1,
-            deleteOriginalAssets: false,
+            deleteOriginalAssets: true,
           };
 
           const configs = {
@@ -6936,12 +6936,14 @@ const aliasConfig = {
                  * 3、sharpMinify：高性能Node.js图像处理，调整和压缩JPEG、PNG、WebP、AVIF和TIFF图像的最快模块。使用libvips库。<br />
                  */
                 implementation: ImageMinimizerPlugin.imageminMinify,
-                filename: 'img/optimized_imagemin_[name]_[contenthash][ext]',
+                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
+                filename: 'img/[name][ext]',
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
-                 * @param source Buffer source.byteLength表示图片的大小，单位为字节。
-                 * @param sourcePath string
+                 * @param source Buffer source.byteLength表示图片的大小，单位为字节。<br />
+                 *
+                 * @param sourcePath string 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
                  *
                  * @returns {boolean | undefined} 返回true以优化图像，否则返回false则不优化。
                  */
@@ -7135,14 +7137,15 @@ const aliasConfig = {
               },
             } ),
             /**
-             * sharpMinify使用高性能Node.js图像处理！只配置了对avif、gif、heic、heif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp的处理。<br />
+             * sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只配置了对avif、gif、heic、heif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp的处理。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
               test: /\.(avif|gif|heic|heif|jp2|jpe|jpeg|jpg|png|raw|svg|tif|tiff|webp)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.sharpMinify,
-                filename: 'img/optimized_sharp_[name]_[contenthash][ext]',
+                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
+                filename: 'img/[name][ext]',
                 filter( source, sourcePath ){
                   if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
@@ -7156,21 +7159,15 @@ const aliasConfig = {
                   /**
                    * 1、旋转图片的角度。<br />
                    * 2、值类型：number、string（只有1个预设值：'auto'）。<br />
-                   * 3、比如设置值为：180，表示顺时针旋转180度。<br />
+                   * 3、比如设置值为：90表示顺时针旋转90度、-90表示逆时针旋转90度，支持任何角度的旋转：45、35、1、0等等。<br />
                    */
-                  // rotate: 'auto',
+                  // rotate: null,
                   /**
                    * 1、重置图片的大小。<br />
-                   * 2、值类型：{ width: number, height: number, enabled: boolean, }。<br />
+                   * 2、值类型：{ width: number（必须是正整数）, height: number（必须是正整数）, enabled: boolean, }。<br />
                    * 3、上面的enabled选项为true时，才会启用重置图片大小的操作。<br />
                    */
-                  /*
-                   resize: {
-                   width: 100,
-                   height: 100,
-                   enabled: true,
-                   },
-                   */
+                  // resize: null,
                   /**
                    * 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。<br />
                    *
@@ -7180,9 +7177,11 @@ const aliasConfig = {
                    *
                    * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
                    */
-                  sizeSuffix( width, height ){
-                    return `_${ width }_${ height }`;
-                  },
+                  /*
+                   sizeSuffix( width, height ){
+                   return ``;
+                   },
+                   */
                   // 详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。
                   encodeOptions: {
                     ...( () => {
@@ -7369,14 +7368,15 @@ const aliasConfig = {
               },
             } ),
             /**
-             * squooshMinify（实验模式！）只配置了对avif、jpeg、jpg、png、webp、jxl、wp2的处理。<br />
+             * squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）只配置了对avif、jpeg、jpg、png、webp、jxl、wp2的处理。<br />
              */
             squooshMinify: new ImageMinimizerPlugin( {
               test: /\.(avif|jpeg|jpg|png|webp|jxl|wp2)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.squooshMinify,
-                filename: 'img/optimized_squoosh_[name]_[contenthash][ext]',
+                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
+                filename: 'img/[name][ext]',
                 filter( source, sourcePath ){
                   if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
@@ -7392,7 +7392,7 @@ const aliasConfig = {
                    // 重置图片的宽高。
                    resize: {
                    // 值类型：number，无默认值，重置后的图片的宽度，如果只指定了宽度，则会自动等比例调整图像的高度。
-                   width: 100,
+                   width: 200,
                    // 值类型：number，无默认值，重置后的图片的高度，如果只指定了高度，则会自动等比例调整图像的宽度。
                    // height: 100,
                    // 值类型：string，默认值：'lanczos3'，有效值有：'triangle'、'catrom'、'mitchell'、'lanczos3'。
@@ -7535,8 +7535,8 @@ const aliasConfig = {
 
           return isEnable
                  ? [
-              // 3个选1个使用，不要全部使用：imageminMinify（已经不维护了！）、sharpMinify（使用高性能Node.js图像处理）、squooshMinify（实验模式！）。
-              configs[ 'imageminMinify' ],
+              // 3个选1个使用，不要全部使用：imageminMinify（已经不维护了！）、sharpMinify（首选使用该实现，使用高性能Node.js图像处理）、squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）。
+              configs[ 'sharpMinify' ],
             ]
                  : [];
         } )( true ),
