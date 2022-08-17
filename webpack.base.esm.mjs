@@ -5216,7 +5216,7 @@ const aliasConfig = {
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
          */
         {
-          test: /\.(avif|jng|bmp|dcx|gif|icns|ico|jbig2|jpe|jpeg|jpg|pam|pbm|pcx|pgm|png|pnm|ppm|psd|rgbe|tga|tif|tiff|wbmp|xbm|xpm|svg|svgz|webp|heif|heic)$/i,
+          test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
           /**
            * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
            * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6891,82 +6891,655 @@ const aliasConfig = {
         } ),
         // image-minimizer-webpack-plugin插件耗性能、耗编译时间，而且不好动态的根据需要随时进行DIY控制图片的压缩质量，毕竟配置化的东西都是一致的，一般不启用，该插件的细微部分配置起来也是极为复杂。
         ...( isEnable => {
-          return isEnable
-                 ? [
-              /**
-               * 1、imagemin-mozjpeg可以配置为无损和有损模式、imagemin-svgo可以配置为无损和有损模式。<br />
-               * 2、推荐用于无损优化的imagemin插件：imagemin-gifsicle、imagemin-jpegtran、imagemin-optipng、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
-               * 3、推荐用于有损优化的imagemin插件：imagemin-gifsicle、imagemin-mozjpeg、imagemin-pngquant、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
-               */
-              new ImageMinimizerPlugin( {
-                test: /\.(avif|gif|jpe|jpeg|jpg|png|tif|tiff|svg|webp)$/i,
-                // 改选项设置为false时，generator选项将不起作用。
-                loader: false,
-                severityError: 'error',
-                concurrency: cpus().length - 1,
-                deleteOriginalAssets: false,
-                minimizer: {
-                  /**
-                   * 有3个实现：imageminMinify（默认值）、squooshMinify、sharpMinify。<br />
-                   * 1、imageminMinify：默认情况下优化您的图像，因为它稳定且适用于所有类型的图像。<br />
-                   * 2、squooshMinify：在实验模式下使用.jpg、.jpeg、.png、.webp、.avif文件类型工作。<br />
-                   * 3、sharpMinify：高性能Node.js图像处理，调整和压缩JPEG、PNG、WebP、AVIF和TIFF图像的最快模块。使用libvips库。<br />
-                   */
-                  implementation: ImageMinimizerPlugin.imageminMinify,
-                  filename: 'img/optimized_[name]_[contenthash][ext]',
-                  /**
-                   * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
-                   *
-                   * @param source Buffer
-                   * @param sourcePath string
-                   *
-                   * @returns {boolean | undefined} 返回true以优化图像，否则返回false则不优化。
-                   */
-                  filter( source, sourcePath ){
+          const imageMinimizerPluginConfig = {
+            // 改选项设置为false时，generator选项将不起作用。
+            loader: false,
+            severityError: 'error',
+            concurrency: cpus().length - 1,
+            deleteOriginalAssets: false,
+          };
+
+          const configs = {
+            /**
+             * imageminMinify已经不维护了！只配置了对gif、png、svg、webp的处理。<br />
+             * 1、imagemin-mozjpeg可以配置为无损和有损模式、imagemin-svgo可以配置为无损和有损模式。<br />
+             * 2、推荐用于无损优化的imagemin插件：imagemin-gifsicle、imagemin-jpegtran、imagemin-optipng、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
+             * 3、推荐用于有损优化的imagemin插件：imagemin-gifsicle、imagemin-mozjpeg、imagemin-pngquant、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
+             * 4、imagemin-mozjpeg（不知为何，老是安装失败）可以配置为无损和有损模式、imagemin-svgo可以配置为无损和有损模式。<br />
+             * 5、不知为何，老是安装失败的几个npm包：imagemin-jpegtran、imagemin-jpegoptim、imagemin-pngcrush、imagemin-guetzli、imagemin-jpeg-recompress、imagemin-mozjpeg。<br />
+             * 6、已经安装成功的几个npm包：imagemin-webp、imagemin-advpng、imagemin-gif2webp、imagemin-gifsicle、imagemin-optipng、imagemin-pngout、imagemin-pngquant、imagemin-svgo、imagemin-zopfli。<br />
+             * 7、对于imagemin-svgo v9.0.0+需要使用svgo配置：https://github.com/svg/svgo#configuration
+             * 8、推荐用于有损优化的@squoosh/lib选项，对于有损优化，我们建议使用@squoosh/lib包的默认设置。每个选项的默认值和支持的文件类型可以在codecs下的codecs.ts文件中找到。<br />
+             * 9、推荐用于无损优化的squoosh选项，对于无损优化，我们建议使用下面在minimizer.options.encodeOptions中列出的选项：<br />
+             * {<br />
+             * mozjpeg: {
+             * // 该设置可能接近无损，但不能保证，详细见：https://github.com/GoogleChromeLabs/squoosh/issues/85
+             *   quality: 100,
+             * },
+             * webp: {
+             *   lossless: 1,
+             * },
+             * avif: {
+             * // https://github.com/GoogleChromeLabs/squoosh/blob/dev/codecs/avif/enc/README.md
+             *   cqLevel: 0,
+             * },
+             * }<br />
+             */
+            imageminMinify: new ImageMinimizerPlugin( {
+              test: /\.(gif|png|svg|webp)$/i,
+              ...imageMinimizerPluginConfig,
+              minimizer: {
+                /**
+                 * 有3个实现：imageminMinify（默认值）、squooshMinify、sharpMinify。<br />
+                 * 1、imageminMinify：默认情况下优化您的图像，因为它稳定且适用于所有类型的图像。<br />
+                 * 2、squooshMinify：在实验模式下使用.jpg、.jpeg、.png、.webp、.avif文件类型工作。<br />
+                 * 3、sharpMinify：高性能Node.js图像处理，调整和压缩JPEG、PNG、WebP、AVIF和TIFF图像的最快模块。使用libvips库。<br />
+                 */
+                implementation: ImageMinimizerPlugin.imageminMinify,
+                filename: 'img/optimized_imagemin_[name]_[contenthash][ext]',
+                /**
+                 * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
+                 *
+                 * @param source Buffer source.byteLength表示图片的大小，单位为字节。
+                 * @param sourcePath string
+                 *
+                 * @returns {boolean | undefined} 返回true以优化图像，否则返回false则不优化。
+                 */
+                filter( source, sourcePath ){
+                  if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
-                  },
-                  options: {
-                    plugins: [
-                      [
-                        'gifsicle',
-                        {
-                          interlaced: true,
-                        },
-                      ],
-                      [
-                        'jpegtran',
-                        {
-                          progressive: true,
-                        },
-                      ],
-                      [
-                        'optipng',
-                        {
-                          optimizationLevel: 5,
-                        },
-                      ],
-                      [
-                        'svgo',
-                        {
-                          plugins: [
-                            {
-                              name: 'preset-default',
-                              params: {
-                                overrides: {
-                                  removeViewBox: false,
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      ],
+                  }
+                  else{
+                    return false;
+                  }
+                },
+                options: {
+                  plugins: [
+                    // gif
+                    [
+                      'gifsicle',
+                      {
+                        /**
+                         * 1、用于渐进式渲染的隔行扫描gif。<br />
+                         * 2、值类型：boolean，默认值：false。<br />
+                         */
+                        interlaced: false,
+                        /**
+                         * 1、选择1到3之间的优化级别。<br />
+                         * 2、值类型：number，默认值：1。<br />
+                         * 3、优化级别决定做了多少优化；更高的水平需要更长的时间，但可能有更好的结果。<br />
+                         * 4、仅存储每个图像的更改部分。还使用透明度进一步缩小文件。尝试几种优化方法（通常较慢，有时效果更好）。<br />
+                         */
+                        optimizationLevel: 1,
+                        /**
+                         * 1、将每个输出GIF中不同颜色的数量减少到num或更少。数字必须介于2和256之间。<br />
+                         * 2、值类型：number，无默认值。<br />
+                         */
+                        colors: 256,
+                      },
                     ],
+                    // png
+                    [
+                      'optipng',
+                      {
+                        /**
+                         * 1、选择0到7之间的优化级别。<br />
+                         * 2、值类型：number，默认值：3。<br />
+                         * 3、优化级别0启用一组需要最少努力的优化操作。不会对位深度或颜色类型等图像属性进行更改，也不会对现有IDAT数据流进行重新压缩。<br />
+                         * 4、值越小，优化越少，对图片的处理也越少。<br />
+                         */
+                        optimizationLevel: 3,
+                        /**
+                         * 1、应用位深度减少。<br />
+                         * 2、值类型：boolean，默认值：true。<br />
+                         */
+                        bitDepthReduction: true,
+                        /**
+                         * 1、应用颜色类型减少。<br />
+                         * 2、值类型：boolean，默认值：true。<br />
+                         */
+                        colorTypeReduction: true,
+                        /**
+                         * 1、应用调色板缩减。<br />
+                         * 2、值类型：boolean，默认值：true。<br />
+                         */
+                        paletteReduction: true,
+                        /**
+                         * 1、在任何已处理的图像上启用Adam7 PNG隔行扫描。隔行扫描的图像在部分加载时看起来更好，但通常隔行扫描会降低压缩效率。<br />
+                         * 2、设置为undefined或null以保持与输入图像相同的隔行扫描。<br />
+                         * 3、值类型：boolean | undefined | null，默认值：false。<br />
+                         */
+                        interlaced: false,
+                        /**
+                         * 1、将花费合理的努力来尝试从损坏的图像中恢复尽可能多的数据，但通常不能保证成功。<br />
+                         * 2、值类型：boolean，默认值：true。<br />
+                         */
+                        errorRecovery: true,
+                      },
+                    ],
+                    // svg
+                    [
+                      'svgo',
+                      {
+                        /**
+                         * 1、是否启用多次传递SVG以确保应用所有优化，true表示启用。<br />
+                         * 2、值类型：boolean，默认值：false。<br />
+                         */
+                        multipass: false,
+                        /**
+                         * 1、精度。<br />
+                         * 2、值类型：number，默认值：3。<br />
+                         */
+                        floatPrecision: 3,
+                        /**
+                         * 1、输出为数据URI字符串的编码，预设值有：'base64'、'enc'（URI编码）、unenc（未编码）。<br />
+                         * 2、值类型：string，默认值：'base64'。<br />
+                         */
+                        datauri: 'base64',
+                        js2svg: {
+                          /**
+                           * 1、使用多少个空格进行缩进。<br />
+                           * 2、值类型：number，默认值为：4。<br />
+                           */
+                          indent: 2,
+                          /**
+                           * 1、是否美化输出。<br />
+                           * 2、值类型：boolean，默认值为：false。<br />
+                           */
+                          pretty: false,
+                        },
+                        plugins: [
+                          // 启用预设的默认插件。
+                          'preset-default',
+                        ],
+                      },
+                    ],
+                    // webp
+                    [
+                      'webp',
+                      {
+                        /**
+                         * 1、有效的预设值：'default'、'photo'、'picture'、'drawing'、'icon'、'text'。<br />
+                         * 2、值类型：string，默认值：'default'。<br />
+                         */
+                        preset: 'default',
+                        /**
+                         * 1、将品质因数设置在0到100之间。<br />
+                         * 2、值类型：number，默认值：75。<br />
+                         */
+                        quality: 75,
+                        /**
+                         * 1、将透明度压缩质量设置在0到100之间。<br />
+                         * 2、值类型：number，默认值：100。<br />
+                         */
+                        alphaQuality: 100,
+                        /**
+                         * 1、指定要使用的压缩方法，介于0（最快）和6（最慢）之间。此参数控制编码速度与压缩文件大小和质量之间的权衡。<br />
+                         * 2、值类型：number，默认值：4。<br />
+                         */
+                        method: 4,
+                        /**
+                         * 1、以字节为单位设置目标大小。<br />
+                         * 2、值类型：number，无默认值。<br />
+                         */
+                        // size: null,
+                        /**
+                         * 1、将空间噪声整形的幅度设置在0到100之间。<br />
+                         * 2、值类型：number，默认值：50。<br />
+                         */
+                        sns: 50,
+                        /**
+                         * 1、将去块滤波器强度设置在0（关闭）和100之间。<br />
+                         * 2、值类型：number，无默认值。<br />
+                         */
+                        // filter: null,
+                        /**
+                         * 1、自动调整过滤强度。<br />
+                         * 2、值类型：boolean，默认值：false。<br />
+                         */
+                        autoFilter: false,
+                        /**
+                         * 1、将滤镜锐度设置在0（最锐利）和7（最不锐利）之间。<br />
+                         * 2、值类型：number，默认值：0。<br />
+                         */
+                        sharpness: 0,
+                        /**
+                         * 1、无损编码图像。<br />
+                         * 2、值类型：boolean，默认值：false。<br />
+                         */
+                        lossless: true,
+                        /**
+                         * 1、使用额外的有损预处理步骤进行无损编码，品质因数介于0（最大预处理）和100（与无损相同）之间。<br />
+                         * 2、值类型：number，默认值：100。<br />
+                         */
+                        nearLossless: 100,
+                        /**
+                         * 1、裁剪图像。<br />
+                         * 2、值类型：{ x: number, y: number, width: number, height: number }。<br />
+                         */
+                        // crop: null,
+                        /**
+                         * 1、调整图像大小。发生在crop之后。<br />
+                         * 2、值类型：{ width: number, height: number }。<br />
+                         */
+                        // resize: null,
+                        /**
+                         * 1、从输入复制到输出的元数据列表（如果存在）。<br />
+                         * 2、值类型：string | string[]，默认值：'none'，有效的预设值：'all'、'none'、'exif'、'icc'、'xmp'。<br />
+                         */
+                        metadata: 'none',
+                      },
+                    ],
+                  ],
+                },
+              },
+            } ),
+            /**
+             * sharpMinify使用高性能Node.js图像处理！只配置了对avif、gif、heic、heif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp的处理。<br />
+             */
+            sharpMinify: new ImageMinimizerPlugin( {
+              test: /\.(avif|gif|heic|heif|jp2|jpe|jpeg|jpg|png|raw|svg|tif|tiff|webp)$/i,
+              ...imageMinimizerPluginConfig,
+              minimizer: {
+                implementation: ImageMinimizerPlugin.sharpMinify,
+                filename: 'img/optimized_sharp_[name]_[contenthash][ext]',
+                filter( source, sourcePath ){
+                  if( Number( source.byteLength ) > 10 * 1024 ){
+                    return true;
+                  }
+                  else{
+                    return false;
+                  }
+                },
+                // 如下的sharpMinify实现的配置参数都是从源代码中获取的：node_modules/image-minimizer-webpack-plugin/dist/utils.js:927，都在异步函数sharpTransform中。
+                options: {
+                  /**
+                   * 1、旋转图片的角度。<br />
+                   * 2、值类型：number、string（只有1个预设值：'auto'）。<br />
+                   * 3、比如设置值为：180，表示顺时针旋转180度。<br />
+                   */
+                  // rotate: 'auto',
+                  /**
+                   * 1、重置图片的大小。<br />
+                   * 2、值类型：{ width: number, height: number, enabled: boolean, }。<br />
+                   * 3、上面的enabled选项为true时，才会启用重置图片大小的操作。<br />
+                   */
+                  /*
+                   resize: {
+                   width: 100,
+                   height: 100,
+                   enabled: true,
+                   },
+                   */
+                  /**
+                   * 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。<br />
+                   *
+                   * @param width number 最终结果图片的宽度值。<br />
+                   *
+                   * @param height number 最终结果图片的高度值。<br />
+                   *
+                   * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
+                   */
+                  sizeSuffix( width, height ){
+                    return `_${ width }_${ height }`;
+                  },
+                  // 详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。
+                  encodeOptions: {
+                    ...( () => {
+                      const config = {
+                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                        quality: 80,
+                        // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                        progressive: false,
+                        // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。     
+                        chromaSubsampling: '4:4:4',
+                        // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
+                        optimiseCoding: true,
+                        // optimiseCoding的替代拼写，值类型：boolean，默认值：true，可选。
+                        optimizeCoding: true,
+                        /**
+                         * 1、是否使用mozjpeg压缩优化。
+                         * 2、值类型：boolean，默认值：false，可选。<br />
+                         * 3、设置为true（相当于使用mozjpeg默认值，相当于{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }），表示使用mozjpeg压缩优化JPEG文件大小，会耗时，较慢。<br />
+                         * 4、设置为false，表示禁用mozjpeg压缩优化，不耗时。<br />
+                         */
+                        mozjpeg: true,
+                        // 应用网格量化，值类型：boolean，默认值：false，可选。
+                        trellisQuantisation: false,
+                        // 应用过冲去环，值类型：boolean，默认值：false，可选。
+                        overshootDeringing: false,
+                        // 优化逐行扫描，强制逐行扫描，值类型：boolean，默认值：false，可选。
+                        optimiseScans: false,
+                        // optimiseScans的替代拼写，值类型：boolean，默认值：false，可选。
+                        optimizeScans: false,
+                        // 要使用的量化表，值类型：number，默认值：0，值范围：0-8，可选。
+                        quantisationTable: 0,
+                        // quantisationTable的替代拼写，值类型：number，默认值：0，值范围：0-8，可选。
+                        quantizationTable: 0,
+                        // 强制JPEG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                        force: true,
+                      };
+
+                      return {
+                        jpe: config,
+                        jpeg: config,
+                        jpg: config,
+                      };
+                    } )(),
+                    png: {
+                      // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                      progressive: false,
+                      // zlib压缩级别，值类型：number，默认值：6，值范围：0（压缩速度最快，图片大小最大）-9（压缩速度最慢，图片大小最小），可选。
+                      compressionLevel: 6,
+                      // 使用自适应行过滤，值类型：boolean，默认值：false，可选。
+                      adaptiveFiltering: false,
+                      // 量化为具有Alpha透明度支持的基于调色板的图像，值类型：boolean，默认值：false，启用后压缩优化会较慢，可选。
+                      palette: true,
+                      // 使用达到给定质量所需的最少颜色数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：100，可选。
+                      quality: 100,
+                      // CPU工作量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                      effort: 7,
+                      // 调色板条目的最大数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                      colours: 256,
+                      // colours的替代拼写，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                      colors: 256,
+                      // Floyd-Steinberg误差扩散级别，需要将palette设置为true才可以应用该选项，值类型：number，默认值：1.0，可选。
+                      dither: 1.0,
+                      // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                      force: true,
+                    },
+                    webp: {
+                      // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                      quality: 80,
+                      // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
+                      alphaQuality: 100,
+                      // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                      lossless: true,
+                      // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
+                      nearLossless: false,
+                      // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
+                      smartSubsample: false,
+                      // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
+                      effort: 4,
+                      // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                      loop: 0,
+                      // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                      // delay: 1,
+                      // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                      force: true,
+                    },
+                    gif: {
+                      // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
+                      colours: 256,
+                      // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
+                      colors: 256,
+                      // CPU工作量，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                      effort: 7,
+                      // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
+                      dither: 1.0,
+                      // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                      loop: 0,
+                      // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                      // delay: 1,
+                      // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                      force: true,
+                    },
+                    jp2: {
+                      // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                      quality: 80,
+                      // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                      lossless: true,
+                      // 水平tile尺寸，值类型：number，默认值：512，可选。
+                      tileWidth: 512,
+                      // 垂直tile尺寸，值类型：number，默认值：512，可选。
+                      tileHeight: 512,
+                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                      chromaSubsampling: '4:4:4',
+                    },
+                    ...( () => {
+                      const config = {
+                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                        quality: 80,
+                        // 强制TIFF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                        force: true,
+                        // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
+                        compression: 'jpeg',
+                        // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
+                        predictor: 'horizontal',
+                        // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
+                        pyramid: false,
+                        // 写一个tiled tiff，值类型：boolean，默认值：false，可选。
+                        tile: false,
+                        // 水平tile尺寸，值类型：number，默认值：256，可选。
+                        tileWidth: 256,
+                        // 垂直tile尺寸，值类型：number，默认值：256，可选。
+                        tileHeight: 256,
+                        // 水平分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                        xres: 1.0,
+                        // 垂直分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                        yres: 1.0,
+                        // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
+                        resolutionUnit: 'inch',
+                        // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
+                        bitdepth: 8,
+                      };
+
+                      return {
+                        tif: config,
+                        tiff: config,
+                      };
+                    } )(),
+                    // 使用这些AVIF选项输出图像。虽然可以创建小于16x16像素的AVIF图像，但大多数Web浏览器（火狐浏览器支持的）无法正确显示这些图像。不支持AVIF图像序列。
+                    avif: {
+                      // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                      quality: 50,
+                      // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                      lossless: true,
+                      // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                      effort: 4,
+                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                      chromaSubsampling: '4:4:4',
+                    },
+                    ...( () => {
+                      const config = {
+                        // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                        quality: 50,
+                        // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
+                        compression: 'hevc',
+                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                        lossless: true,
+                        // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                        effort: 4,
+                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                        chromaSubsampling: '4:4:4',
+                      };
+
+                      return {
+                        heic: config,
+                        heif: config,
+                      };
+                    } )(),
+                    // 强制输出为原始的、未压缩的像素数据。像素排序是从左到右，从上到下，没有填充。对于非灰度色彩空间，通道排序将是RGB或RGBA。
+                    raw: {
+                      // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
+                      depth: 'uchar',
+                    },
                   },
                 },
-              } ),
+              },
+            } ),
+            /**
+             * squooshMinify（实验模式！）只配置了对avif、jpeg、jpg、png、webp、jxl、wp2的处理。<br />
+             */
+            squooshMinify: new ImageMinimizerPlugin( {
+              test: /\.(avif|jpeg|jpg|png|webp|jxl|wp2)$/i,
+              ...imageMinimizerPluginConfig,
+              minimizer: {
+                implementation: ImageMinimizerPlugin.squooshMinify,
+                filename: 'img/optimized_squoosh_[name]_[contenthash][ext]',
+                filter( source, sourcePath ){
+                  if( Number( source.byteLength ) > 10 * 1024 ){
+                    return true;
+                  }
+                  else{
+                    return false;
+                  }
+                },
+                options: {
+                  // 启用该选项要注意里面的各个默认值，挑着用。
+                  /*
+                   preprocessor: {
+                   // 重置图片的宽高。
+                   resize: {
+                   // 值类型：number，无默认值，重置后的图片的宽度，如果只指定了宽度，则会自动等比例调整图像的高度。
+                   width: 100,
+                   // 值类型：number，无默认值，重置后的图片的高度，如果只指定了高度，则会自动等比例调整图像的宽度。
+                   // height: 100,
+                   // 值类型：string，默认值：'lanczos3'，有效值有：'triangle'、'catrom'、'mitchell'、'lanczos3'。
+                   method: 'lanczos3',
+                   // 值类型：boolean，默认值：true。
+                   premultiply: true,
+                   // 值类型：boolean，默认值：true。
+                   linearRGB: true,
+                   },
+                   // 旋转图片。
+                   rotate: {
+                   // 值类型：number，默认值：0，顺时针旋转的角度。
+                   numRotations: 0,
+                   },
+                   // 减少图片使用的颜色数量，又名调色板。
+                   quant: {
+                   // 值类型：number，默认值：255，将每个输出中不同颜色的数量减少到指定数值。
+                   numColors: 256,
+                   // 值类型：number，默认值：1，Floyd-Steinberg误差扩散级别。
+                   dither: 1,
+                   },
+                   },
+                   */
+                  encodeOptions: {
+                    // 以下6类，当值为空对象时表示“使用默认设置”。
+
+                    // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'quality'选项，其值范围0-100。
+                    mozjpeg: {
+                      // 默认值：75，设置成100表示无损压缩。
+                      quality: 100,
+
+                      // 以下选项都是使用默认值的。
+
+                      baseline: false,
+                      arithmetic: false,
+                      progressive: true,
+                      optimize_coding: true,
+                      smoothing: 0,
+                      // 颜色空间，有效值：1（对应：GRAYSCALE）、2（对应：RGB）、3（对应：YCbCr），默认值：3。
+                      color_space: 3,
+                      quant_table: 3,
+                      trellis_multipass: false,
+                      trellis_opt_zero: false,
+                      trellis_opt_table: false,
+                      trellis_loops: 1,
+                      auto_subsample: true,
+                      chroma_subsample: 2,
+                      separate_chroma_quality: false,
+                      chroma_quality: 75,
+                    },
+                    // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'quality'选项，其值范围0-100。
+                    webp: {
+                      // 默认值：0，设置成1表示无损压缩。
+                      lossless: 1,
+
+                      // 以下选项都是使用默认值的。
+
+                      quality: 75,
+                      target_size: 0,
+                      target_PSNR: 0,
+                      method: 4,
+                      sns_strength: 50,
+                      filter_strength: 60,
+                      filter_sharpness: 0,
+                      filter_type: 1,
+                      partitions: 0,
+                      segments: 4,
+                      pass: 1,
+                      show_compressed: 0,
+                      preprocessing: 0,
+                      autofilter: 0,
+                      partition_limit: 0,
+                      alpha_compression: 1,
+                      alpha_filtering: 1,
+                      alpha_quality: 100,
+                      exact: 0,
+                      image_hint: 0,
+                      emulate_jpeg_size: 0,
+                      thread_level: 0,
+                      low_memory: 0,
+                      near_lossless: 100,
+                      use_delta_palette: 0,
+                      use_sharp_yuv: 0,
+                    },
+                    // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'cqLevel'选项，其值范围0-62。
+                    avif: {
+                      // 默认值：33，设置成0表示无损压缩。
+                      cqLevel: 0,
+
+                      // 以下选项都是使用默认值的。
+
+                      cqAlphaLevel: -1,
+                      denoiseLevel: 0,
+                      tileColsLog2: 0,
+                      tileRowsLog2: 0,
+                      speed: 6,
+                      subsample: 1,
+                      chromaDeltaQ: false,
+                      sharpness: 0,
+                      // 有效值：0（对应：auto）、1（对应：psnr）、2（对应：ssim），默认值：0。
+                      tune: 0,
+                    },
+                    // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'quality'选项，其值范围0-100。
+                    jxl: {
+                      // 以下选项都是使用默认值的。
+                      effort: 1,
+                      quality: 75,
+                      progressive: false,
+                      epf: -1,
+                      lossyPalette: false,
+                      decodingSpeedTier: 0,
+                      photonNoiseIso: 0,
+                      lossyModular: false,
+                    },
+                    // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'quality'选项，其值范围0-100。
+                    wp2: {
+                      // 以下选项都是使用默认值的。
+                      quality: 75,
+                      alpha_quality: 75,
+                      effort: 5,
+                      pass: 1,
+                      sns: 50,
+                      // 有效值：0（对应：UVModeAdapt）、1（对应：UVMode420）、2（对应：UVMode444）、3（对应：UVModeAuto），默认值：0。
+                      uv_mode: 0,
+                      // 有效值：0（对应：kYCoCg）、1（对应：kYCbCr）、2（对应： kCustom）、3（对应：kYIQ），默认值：0。
+                      csp_type: 0,
+                      error_diffusion: 0,
+                      use_random_matrix: false,
+                    },
+                    // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'level'选项，其值范围1-6。
+                    oxipng: {
+                      // 以下选项都是使用默认值的。
+                      level: 2,
+                    },
+                  },
+                },
+              },
+            } ),
+          };
+
+          return isEnable
+                 ? [
+              // 3个选1个使用，不要全部使用：imageminMinify（已经不维护了！）、sharpMinify（使用高性能Node.js图像处理）、squooshMinify（实验模式！）。
+              configs[ 'imageminMinify' ],
             ]
                  : [];
-        } )( false ),
+        } )( true ),
       ],
       /**
        * 1、生产环境，默认值为：'deterministic'。<br />
@@ -7216,133 +7789,7 @@ const aliasConfig = {
   performanceConfig = {
     // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
     assetFilter( assetFilename ){
-      const arr1 = Array.from( new Set( [
-        'cson',
-        'css',
-        'csv',
-        'tsv',
-        'ejs',
-        'graphql',
-        'gql',
-        'handlebars',
-        'hbs',
-        'htm',
-        'html',
-        'xhtml',
-        'js',
-        'cjs',
-        'mjs',
-        'jsx',
-        'json5',
-        'less',
-        'toml',
-        'txt',
-        'json',
-        'markdown',
-        'md',
-        'm4a',
-        'kar',
-        'ape',
-        'wav',
-        'wave',
-        'flac',
-        'wma',
-        'cda',
-        'aiff',
-        'au',
-        'mpeg',
-        'mpeg-1',
-        'mpeg-2',
-        'mpeg-layer3',
-        'mpeg-4',
-        'mp3',
-        'mp2',
-        'mp1',
-        'mid',
-        'midi',
-        'ra',
-        'rm',
-        'rmx',
-        'vqf',
-        'amr',
-        'aac',
-        'vorbis',
-        'mustache',
-        'pcss',
-        'postcss',
-        'pug',
-        'jade',
-        'sass',
-        'scss',
-        'styl',
-        'stylus',
-        'ts',
-        'mts',
-        'cts',
-        'tsx',
-        'wmv',
-        'asf',
-        'asx',
-        'rmvb',
-        'mp4',
-        '3gp',
-        'mov',
-        'm4v',
-        'avi',
-        'dat',
-        'mkv',
-        'flv',
-        'vob',
-        'mod',
-        'mng',
-        'mpg',
-        '3gpp',
-        'ogg',
-        'webm',
-        'vue',
-        'wasm',
-        'xml',
-        'yaml',
-        'avif',
-        'jng',
-        'bmp',
-        'dcx',
-        'gif',
-        'icns',
-        'ico',
-        'jbig2',
-        'jpe',
-        'jpeg',
-        'jpg',
-        'pam',
-        'pbm',
-        'pcx',
-        'pgm',
-        'png',
-        'pnm',
-        'ppm',
-        'psd',
-        'rgbe',
-        'tga',
-        'tif',
-        'tiff',
-        'wbmp',
-        'xbm',
-        'xpm',
-        'svg',
-        'svgz',
-        'webp',
-        'heif',
-        'heic',
-        'eot',
-        'otf',
-        'fon',
-        'font',
-        'ttf',
-        'ttc',
-        'woff',
-        'woff2',
-      ] ) );
+      const arr1 = Array.from( new Set( JSON.parse( '["3gp","3gpp","aac","aiff","amr","ape","apng","arw","asf","asx","au","avi","avif","bmp","bpg","cda","cjs","cr2","cson","css","csv","cts","cur","dat","dcx","dng","ejs","eot","flac","flif","flv","fon","font","gif","gql","graphql","handlebars","hbs","heic","heif","htm","html","icns","ico","j2c","j2k","jade","jbig2","jng","jp2","jpe","jpeg","jpg","jpm","jpx","js","json","json5","jsx","jxl","jxr","kar","ktx","less","m4a","m4v","markdown","md","mid","midi","mj2","mjs","mkv","mng","mod","mov","mp1","mp2","mp3","mp4","mpeg","mpeg-1","mpeg-2","mpeg-4","mpeg-layer3","mpg","mts","mustache","nef","ogg","orf","otf","pam","pbm","pcss","pcx","pgm","png","pnm","postcss","ppm","psd","pug","ra","raf","raw","rgbe","rm","rmvb","rmx","rw2","sass","scss","styl","stylus","svg","svgz","tga","tif","tiff","toml","ts","tsv","tsx","ttc","ttf","txt","vob","vorbis","vqf","vue","wasm","wav","wave","wbmp","webm","webp","wp2","wma","wmv","woff","woff2","xbm","xhtml","xml","xpm","yaml"]' ) ) );
 
       return new RegExp( `\\.(${ arr1.join( '|' ) })$`, 'i' ).test( assetFilename );
     },
