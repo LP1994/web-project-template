@@ -66,10 +66,6 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 import ESBuild from 'esbuild';
 
-import {
-  ESBuildMinifyPlugin,
-} from 'esbuild-loader';
-
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 
 import JSON5 from 'json5';
@@ -269,7 +265,7 @@ const browserslist = [
     'Edge >= 104',
     'Firefox >= 103',
     'Safari >= 15',
-    'Opera >= 89',
+    'Opera >= 90',
     // PC端各主流浏览器的最新版本，至20220731。End
 
     // 移动端各主流浏览器的最新版本，至20220731。Start
@@ -311,7 +307,7 @@ const browserslist = [
     'edge104',
     'firefox103',
     'safari15',
-    'opera89',
+    'opera90',
     // PC端各主流浏览器的最新版本，至20220731。End
 
     // 移动端各主流浏览器的最新版本，至20220731。Start
@@ -347,7 +343,7 @@ const browserslist = [
     edge: 104,
     firefox: 103,
     safari: 15,
-    opera: 89,
+    opera: 90,
     // PC端各主流浏览器的最新版本，至20220731。End
 
     // 移动端各主流浏览器的最新版本，至20220731。Start
@@ -405,7 +401,7 @@ const autoprefixerConfig = {
     ignoreUnknownVersions: false,
   },
   esbuildMinifyConfig = {
-    // 有效值有：'js'、'jsx'、'ts'、'tsx'、'css'、'json'、'text'、'base64'、'file'、'dataurl'、'binary'、'default'。
+    // 有效值有：'js'、'jsx'、'ts'、'tsx'、'css'、'json'、'text'、'base64'、'file'、'dataurl'、'binary'、'copy'、'default'。
     loader: 'js',
     minifyWhitespace: true,
     minifyIdentifiers: false,
@@ -421,6 +417,7 @@ const autoprefixerConfig = {
      * 'external'：将所有法律评论移至.LEGAL.txt文件，但不要链接到它们。<br />
      */
     legalComments: 'none',
+    // 值有：'ascii'、'utf8'。
     charset: 'utf8',
     color: true,
     // 这将设置生成的JavaScript文件的输出格式。当前可以配置三个可能的值：iife、cjs、esm。
@@ -431,13 +428,17 @@ const autoprefixerConfig = {
     mangleQuoted: false,
     // 日志限制可以更改为另一个值，也可以通过将其设置为0来完全禁用。这将显示所有日志消息。
     logLimit: 0,
-    // 当该配置被TerserPlugin使用时，drop选项不使用，其同样的功能交给babel预设处理吧，这里就不用重复设置了。但是被ESBuildMinifyPlugin使用时，还是要启用的。
-    /*
-     drop: [
-     'debugger',
-     'console',
-     ],
-     */
+    // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
+    ...( () => {
+      return isUseESBuildLoader
+             ? {
+          drop: [
+            'debugger',
+            'console',
+          ],
+        }
+             : {};
+    } )(),
     target: esbuildMinify_target,
     // 有效值有：silent、error、warning、info、debug、verbose。
     logLevel: 'error',
@@ -942,7 +943,7 @@ const jsWorkerPoolConfig = {
     poolRespawn: isProduction,
     // 空闲默认值为500（ms）时终止工作进程的超时，可以设置为Infinity无穷大，以便监视生成以保持工作进程的活动性。Infinity：可用于开发模式，600000ms也就是10分钟。
     poolTimeout: isProduction
-                 ? 2000
+                 ? 1000
                  : Infinity,
     // 调查分配给工人的工作数量默认为200个，减少了效率较低但更公平的分配。
     poolParallelJobs: 200,
@@ -978,13 +979,13 @@ const jsWorkerPoolConfig = {
     name: 'vueWorkerPoolConfig',
   } );
 
+/**
+ * 预热：<br />
+ * 1、为了防止启动工作程序时的高延迟，可以预热工作程序池。<br />
+ * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
+ * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
+ */
 if( !isUseESBuildLoader ){
-  /**
-   * 预热：<br />
-   * 1、为了防止启动工作程序时的高延迟，可以预热工作程序池。<br />
-   * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
-   * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
-   */
   ThreadLoader.warmup( jsWorkerPoolConfig, [
     'babel-loader',
     '@babel/preset-env',
@@ -999,33 +1000,33 @@ if( !isUseESBuildLoader ){
     'babel-loader',
     '@babel/preset-env',
   ] );
-  ThreadLoader.warmup( cssWorkerPoolConfig, [
-    'postcss-loader',
-    'css-loader',
-    'style-loader',
-  ] );
-  ThreadLoader.warmup( lessWorkerPoolConfig, [
-    'less-loader',
-    'postcss-loader',
-    'css-loader',
-    'style-loader',
-  ] );
-  ThreadLoader.warmup( sassWorkerPoolConfig, [
-    'sass-loader',
-    'postcss-loader',
-    'css-loader',
-    'style-loader',
-  ] );
-  ThreadLoader.warmup( stylusWorkerPoolConfig, [
-    'stylus-loader',
-    'postcss-loader',
-    'css-loader',
-    'style-loader',
-  ] );
-  ThreadLoader.warmup( vueWorkerPoolConfig, [
-    'vue-loader',
-  ] );
 }
+ThreadLoader.warmup( cssWorkerPoolConfig, [
+  'postcss-loader',
+  'css-loader',
+  'style-loader',
+] );
+ThreadLoader.warmup( lessWorkerPoolConfig, [
+  'less-loader',
+  'postcss-loader',
+  'css-loader',
+  'style-loader',
+] );
+ThreadLoader.warmup( sassWorkerPoolConfig, [
+  'sass-loader',
+  'postcss-loader',
+  'css-loader',
+  'style-loader',
+] );
+ThreadLoader.warmup( stylusWorkerPoolConfig, [
+  'stylus-loader',
+  'postcss-loader',
+  'css-loader',
+  'style-loader',
+] );
+ThreadLoader.warmup( vueWorkerPoolConfig, [
+  'vue-loader',
+] );
 
 function GetCertificates(){
   const keyFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.key' ), 'utf8' ),
@@ -4405,10 +4406,11 @@ const aliasConfig = {
     const esbuildLoaderConfigForJS = ( () => {
         const obj1 = JSON.parse( JSON.stringify( esbuildMinifyConfig ) );
 
-        delete obj1.minifyWhitespace;
-        delete obj1.minifyIdentifiers;
-        delete obj1.minifySyntax;
-        delete obj1.legalComments;
+        !isProduction && ( delete obj1.minifyWhitespace );
+        !isProduction && ( delete obj1.minifyIdentifiers );
+        !isProduction && ( delete obj1.minifySyntax );
+        !isProduction && ( delete obj1.legalComments );
+        !isProduction && ( 'drop' in obj1 ) && ( delete obj1.drop );
 
         return Object.assign( {}, obj1, {
           // 一旦esbuild达到稳定版本，implementation选项将被删除。相反，esbuild将成为peerDependency，因此您始终提供自己的。
@@ -4511,9 +4513,12 @@ const aliasConfig = {
       } )(),
       esbuildLoaderConfigForJSX = Object.assign( {}, esbuildLoaderConfigForJS, {
         loader: 'jsx',
-        // 有效值有：'React.createElement'（默认值）、'h'。
+        // 有效值有：'transform'、'preserve'、'automatic'。
+        jsx: 'automatic',
+        jsxDev: !isProduction,
+        // 有效值有：'React.createElement'（默认值）、'h'，当jsx转换设置为'automatic'时，此设置不适用。
         jsxFactory: 'h',
-        // 有效值有：'React.Fragment'（默认值）、'Fragment'。
+        // 有效值有：'React.Fragment'（默认值）、'Fragment'，当jsx转换设置为'automatic'时，此设置不适用。
         jsxFragment: 'Fragment',
       } ),
       esbuildLoaderConfigForTS = Object.assign( {}, esbuildLoaderConfigForJS, {
@@ -4558,9 +4563,12 @@ const aliasConfig = {
       } ),
       esbuildLoaderConfigForTSX = Object.assign( {}, esbuildLoaderConfigForTS, {
         loader: 'tsx',
-        // 有效值有：'React.createElement'（默认值）、'h'。
+        // 有效值有：'transform'、'preserve'、'automatic'。
+        jsx: 'automatic',
+        jsxDev: !isProduction,
+        // 有效值有：'React.createElement'（默认值）、'h'，当jsx转换设置为'automatic'时，此设置不适用。
         jsxFactory: 'h',
-        // 有效值有：'React.Fragment'（默认值）、'Fragment'。
+        // 有效值有：'React.Fragment'（默认值）、'Fragment'，当jsx转换设置为'automatic'时，此设置不适用。
         jsxFragment: 'Fragment',
       } );
 
@@ -6715,24 +6723,17 @@ const aliasConfig = {
       minimizer: [
         // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
         '...',
-        isUseESBuildLoader
-        ? new ESBuildMinifyPlugin( Object.assign( {}, esbuildMinifyConfig, {
-          // 一旦esbuild达到稳定版本，implementation选项将被删除。相反，esbuild将成为peerDependency，因此您始终提供自己的。
-          implementation: ESBuild,
-          // 当该配置被TerserPlugin使用时，drop选项不使用，其同样的功能交给babel预设处理吧，这里就不用重复设置了。但是被ESBuildMinifyPlugin使用时，还是要启用的。
-          drop: [
-            'debugger',
-            'console',
-          ],
-        } ) )
-          // 这个插件，个人将其配置成用来压缩JS，但是不做语法转译。
-        : new TerserPlugin( {
+        /**
+         * 1、这个插件，个人将其配置成用来压缩JS，但是不做语法转译。<br />
+         * 2、TerserPlugin比ESBuildMinifyPlugin更好地支持esbuild，即TerserPlugin支持缓存和多线程。<br />
+         */
+        new TerserPlugin( {
           test: /\.(js|mjs)$/i,
           parallel: cpus().length - 1,
           extractComments: false,
           // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
           minify: TerserPlugin.esbuildMinify,
-          // 当该配置被TerserPlugin使用时，drop选项不使用，其同样的功能交给babel预设处理吧，这里就不用重复设置了。但是被ESBuildMinifyPlugin使用时，还是要启用的。
+          // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
           terserOptions: esbuildMinifyConfig,
         } ),
         /**
@@ -6892,8 +6893,11 @@ const aliasConfig = {
         // image-minimizer-webpack-plugin插件耗性能、耗编译时间，而且不好动态的根据需要随时进行DIY控制图片的压缩质量，毕竟配置化的东西都是一致的，一般不启用，该插件的细微部分配置起来也是极为复杂。
         ...( isEnable => {
           const imageMinimizerPluginConfig = {
-            // 改选项设置为false时，generator选项将不起作用。
-            loader: false,
+            /**
+             * 1、改选项设置为false时，generator选项将不起作用。<br />
+             * 2、该选项要启用！不然在单独插件模式下，在.ejs中require( 'imgDir/1.png' )时，出现生成的最终图片名跟.html中的图片名不一致，但是跟css文件中的图片名确实一样的。<br />
+             */
+            loader: true,
             severityError: 'error',
             concurrency: cpus().length - 1,
             deleteOriginalAssets: true,
@@ -6926,7 +6930,8 @@ const aliasConfig = {
              * }<br />
              */
             imageminMinify: new ImageMinimizerPlugin( {
-              test: /\.(gif|png|svg|webp)$/i,
+              // test: /\.(gif|png|svg|webp)$/i,
+              test: /\.(gif)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 /**
@@ -6937,7 +6942,7 @@ const aliasConfig = {
                  */
                 implementation: ImageMinimizerPlugin.imageminMinify,
                 // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
-                filename: 'img/[name][ext]',
+                filename: 'img/[name]_optimize_imagemin[ext]',
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
@@ -6977,7 +6982,7 @@ const aliasConfig = {
                          * 1、将每个输出GIF中不同颜色的数量减少到num或更少。数字必须介于2和256之间。<br />
                          * 2、值类型：number，无默认值。<br />
                          */
-                        colors: 256,
+                        // colors: 256,
                       },
                     ],
                     // png
@@ -7109,7 +7114,7 @@ const aliasConfig = {
                          * 1、无损编码图像。<br />
                          * 2、值类型：boolean，默认值：false。<br />
                          */
-                        lossless: true,
+                        lossless: false,
                         /**
                          * 1、使用额外的有损预处理步骤进行无损编码，品质因数介于0（最大预处理）和100（与无损相同）之间。<br />
                          * 2、值类型：number，默认值：100。<br />
@@ -7137,15 +7142,17 @@ const aliasConfig = {
               },
             } ),
             /**
-             * sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只配置了对avif、gif、heic、heif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp的处理。<br />
+             * 1、sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只配置了对avif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp的处理。<br />
+             * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
+             * 3、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，压缩优化gif会导致动图不再动了，无论是使用gif的默认压缩选项还是自定义的，都是无法动了。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
-              test: /\.(avif|gif|heic|heif|jp2|jpe|jpeg|jpg|png|raw|svg|tif|tiff|webp)$/i,
+              test: /\.(avif|jp2|jpe|jpeg|jpg|png|raw|svg|tif|tiff|webp)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.sharpMinify,
                 // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
-                filename: 'img/[name][ext]',
+                // filename: 'img/[name][ext]',
                 filter( source, sourcePath ){
                   if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
@@ -7177,12 +7184,14 @@ const aliasConfig = {
                    *
                    * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
                    */
-                  /*
-                   sizeSuffix( width, height ){
-                   return ``;
-                   },
+                  sizeSuffix( width, height ){
+                    return `_optimize_sharp_${ width }_${ height }`;
+                  },
+                  /**
+                   * 1、详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。<br />
+                   * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
+                   * 3、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，压缩优化gif会导致动图不再动了，无论是使用gif的默认压缩选项还是自定义的，都是无法动了。<br />
                    */
-                  // 详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。
                   encodeOptions: {
                     ...( () => {
                       const config = {
@@ -7253,7 +7262,7 @@ const aliasConfig = {
                       // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
                       alphaQuality: 100,
                       // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                      lossless: true,
+                      lossless: false,
                       // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
                       nearLossless: false,
                       // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
@@ -7287,7 +7296,7 @@ const aliasConfig = {
                       // 质量，值类型：number，默认值：80，值范围：1-100，可选。
                       quality: 80,
                       // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                      lossless: true,
+                      lossless: false,
                       // 水平tile尺寸，值类型：number，默认值：512，可选。
                       tileWidth: 512,
                       // 垂直tile尺寸，值类型：number，默认值：512，可选。
@@ -7333,20 +7342,21 @@ const aliasConfig = {
                       // 质量，值类型：number，默认值：50，值范围：1-100，可选。
                       quality: 50,
                       // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                      lossless: true,
+                      lossless: false,
                       // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
                       effort: 4,
                       // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
                       chromaSubsampling: '4:4:4',
                     },
+                    // 直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
                     ...( () => {
                       const config = {
                         // 质量，值类型：number，默认值：50，值范围：1-100，可选。
                         quality: 50,
                         // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
-                        compression: 'hevc',
+                        compression: 'av1',
                         // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                        lossless: true,
+                        lossless: false,
                         // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
                         effort: 4,
                         // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
@@ -7422,7 +7432,7 @@ const aliasConfig = {
                     // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'quality'选项，其值范围0-100。
                     mozjpeg: {
                       // 默认值：75，设置成100表示无损压缩。
-                      quality: 100,
+                      quality: 75,
 
                       // 以下选项都是使用默认值的。
 
@@ -7446,7 +7456,7 @@ const aliasConfig = {
                     // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'quality'选项，其值范围0-100。
                     webp: {
                       // 默认值：0，设置成1表示无损压缩。
-                      lossless: 1,
+                      lossless: 0,
 
                       // 以下选项都是使用默认值的。
 
@@ -7480,7 +7490,7 @@ const aliasConfig = {
                     // 您可以通过使用'auto'作为配置对象来使用自动优化器，会自动调整'cqLevel'选项，其值范围0-62。
                     avif: {
                       // 默认值：33，设置成0表示无损压缩。
-                      cqLevel: 0,
+                      cqLevel: 33,
 
                       // 以下选项都是使用默认值的。
 
@@ -7535,7 +7545,11 @@ const aliasConfig = {
 
           return isEnable
                  ? [
-              // 3个选1个使用，不要全部使用：imageminMinify（已经不维护了！）、sharpMinify（首选使用该实现，使用高性能Node.js图像处理）、squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）。
+              // 3个选着用，不要重复对同一类图片做多次处理：imageminMinify（已经不维护了！）、sharpMinify（首选使用该实现，使用高性能Node.js图像处理）、squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）。
+
+              // imageminMinify只用于处理gif。
+              configs[ 'imageminMinify' ],
+              // sharpMinify只用于处理avif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp。
               configs[ 'sharpMinify' ],
             ]
                  : [];
