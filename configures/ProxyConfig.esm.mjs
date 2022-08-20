@@ -142,8 +142,8 @@ const proxyConfig = {
      * 1、有效值类型：string、Partial<url.Url>、ProxyTargetDetailed、undefined。<br />
      * 2、其中ProxyTargetDetailed的结构为：<br />
      * {<br />
-     * host：string，必须。<br />
-     * port：number，必须。<br />
+     * host：string，必需。<br />
+     * port：number，必需。<br />
      * protocol：string、undefined，可选。<br />
      * hostname：string、undefined，可选。<br />
      * socketPath：string、undefined，可选。<br />
@@ -508,8 +508,8 @@ const proxyConfig = {
      * 1、有效值类型：string、Partial<url.Url>、ProxyTargetDetailed、undefined。<br />
      * 2、其中ProxyTargetDetailed的结构为：<br />
      * {<br />
-     * host：string，必须。<br />
-     * port：number，必须。<br />
+     * host：string，必需。<br />
+     * port：number，必需。<br />
      * protocol：string、undefined，可选。<br />
      * hostname：string、undefined，可选。<br />
      * socketPath：string、undefined，可选。<br />

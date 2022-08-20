@@ -45,13 +45,12 @@ const devServerGlobalParameters = {
      */
     dev_server: {
       /**
-       * 给devServer用的主机名。<br />
-       * 1、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
-       * 2、这里被我限制成且强烈建议只用形如：'0.0.0.0'、'localhost'、'192.168.1.6'等等。<br />
+       * 不是给“devServer.host”用的，是给“devServer.open”用的在浏览器打开页面的host。<br />
+       * 1、可以是：'localhost'、'192.168.1.6'等等。<br />
        */
       host: localHost,
       /**
-       * 指定一个端口号来监听请求。<br />
+       * 指定一个端口号来监听请求，给“devServer.port”用的。<br />
        * 1、有效值类型有：string（有一个预设值'auto'，表示自动使用空闲端口）、number。<br />
        * 2、该选项值不能为null或空字符串，要自动使用空闲端口，请使用port: 'auto'。<br />
        */
@@ -62,13 +61,12 @@ const devServerGlobalParameters = {
      */
     local_server: {
       /**
-       * 给devServer用的主机名。<br />
-       * 1、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
-       * 2、这里被我限制成且强烈建议只用形如：'0.0.0.0'、'localhost'、'192.168.1.6'等等。<br />
+       * 不是给“devServer.host”用的，是给“devServer.open”用的在浏览器打开页面的host。<br />
+       * 1、可以是：'localhost'、'192.168.1.6'等等。<br />
        */
       host: localHost,
       /**
-       * 指定一个端口号来监听请求。<br />
+       * 指定一个端口号来监听请求，给“devServer.port”用的。<br />
        * 1、有效值类型有：string（有一个预设值'auto'，表示自动使用空闲端口）、number。<br />
        * 2、该选项值不能为null或空字符串，要自动使用空闲端口，请使用port: 'auto'。<br />
        */
@@ -94,6 +92,7 @@ deviceInfo().is_Mobile&&dynamicREM();
    */
   httpHeaders = {
     'Service-Worker-Allowed': '/',
+    // 'Content-Security-Policy': 'require-sri-for script style',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Max-Age': 365 * 1 * 24 * 60 * 60,
     'Access-Control-Allow-Credentials': true,

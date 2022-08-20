@@ -221,10 +221,10 @@ export default {
 
     new webpack.DefinePlugin( definePluginConfig ),
     new webpack.ids.DeterministicChunkIdsPlugin( {
-      maxLength: 8,
+      maxLength: 9,
     } ),
     new webpack.ids.DeterministicModuleIdsPlugin( {
-      maxLength: 8,
+      maxLength: 9,
     } ),
     new webpack.optimize.LimitChunkCountPlugin( {
       // 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
@@ -240,7 +240,7 @@ export default {
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />
    * 1、结合profile: true和parallelism: 1以获得正确的时序。请注意，这也会减慢构建速度。<br />
    */
-  profile: true,
+  profile: false,
   recordsPath: recordsPathConfig( 'production' ),
   resolve: {
     alias: aliasConfig,

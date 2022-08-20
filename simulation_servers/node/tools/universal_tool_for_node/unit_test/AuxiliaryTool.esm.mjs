@@ -20,7 +20,7 @@ import chalk from 'chalk';
  * PS：<br />
  * 1、如果不相等，会抛出一个异常类MyError001的实例。<br />
  *
- * @param result {*} 被测试对象的实际返回值，必须。
+ * @param result {*} 被测试对象的实际返回值，必需。
  *
  * @returns {{toBe(*): void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值，用于跟实际值对比。
  */
@@ -41,7 +41,7 @@ function Equal001( result ){
 /**
  * 继承Error类的自定义异常类MyError001。<br />
  * PS：<br />
- * 1、new这个类时，必传一个对象作为初始化数据，其结构为{ message:一个用于描述错误信息的字符串，必须, result:实际值，必须, expect:预期值，必须 }，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。<br />
+ * 1、new这个类时，必传一个对象作为初始化数据，其结构为{ message:一个用于描述错误信息的字符串，必需, result:实际值，必需, expect:预期值，必需 }，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。<br />
  */
 class MyError001
   extends Error {
@@ -65,9 +65,9 @@ class MyError001
  * PS：<br />
  * 1、如果没通过测试，会捕获一个异常，并输出异常信息。<br />
  *
- * @param desc {string} 用于描述测试对象，必须。
+ * @param desc {string} 用于描述测试对象，必需。
  *
- * @param fn {Function} 执行函数，必须。
+ * @param fn {Function} 执行函数，必需。
  */
 function Test001( desc, fn ){
   try{

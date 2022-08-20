@@ -196,7 +196,7 @@ const __dirname = Get__dirname( import.meta.url ),
    */
   isHandle_experiments_buildHttp_in_CSSLoader = true,
   /**
-   * isProduction的值为true时表示生成环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
+   * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
    */
   isProduction = ( argv => {
@@ -3251,7 +3251,7 @@ const aliasConfig = {
              * @babel/plugin-transform-classes：https://babeljs.io/docs/en/babel-plugin-transform-classes
              * 1、注意：这个插件包含在@babel/preset-env。<br />
              * 2、注意事项：<br />
-             * 当扩展原生类（例如，class extends Array {}）时，需要包装超类。这是解决两个问题所必需的：<br />
+             * 当扩展原生类（例如，class extends Array {}）时，需要包装超类。这是解决两个问题所必须的：<br />
              * Babel使用SuperClass.apply(...)转译类，但本机类不可调用，因此在这种情况下抛出。<br />
              * 一些内置函数（如：Array）总是返回一个新对象。Babel应该将其视为新的this，而不是返回它。<br />
              * 3、包装器适用于IE 11和所有其他使用Object.setPrototypeOf或__proto__作为后备的浏览器。没有IE <= 10支持。如果您需要IE <= 10，建议您不要扩展本机。<br />
@@ -7770,7 +7770,7 @@ const aliasConfig = {
      * 当使用按需加载或加载图像、文件等外部资源时，这是一个重要的选项。如果指定的值不正确，您将在加载这些资源时收到404错误。<br />
      * 1、如：编译的资源都输出在dist/production下的各种一级文件夹(里面没有其他文件夹了)下，所以'../'就是向上一级，也就是定位到了根目录(dist/production)下了。<br />
      * 2、也可以指定绝对路径：'http://localhost:8081/WebProTpl/dist/production/'，一般用于正式生产环境。<br />
-     * 3、此选项指定在浏览器中引用时输出目录的公共URL。相对URL是相对于HTML页面（或<base>标记）解析的。服务器相对URL、协议相对URL或绝对URL也是可能的，有时是必需的，即，如，在CDN上托管资产时。<br />
+     * 3、此选项指定在浏览器中引用时输出目录的公共URL。相对URL是相对于HTML页面（或<base>标记）解析的。服务器相对URL、协议相对URL或绝对URL也是可能的，有时是必须的，即，如，在CDN上托管资产时。<br />
      * 4、这个值设置需要注意！'./'、'../'这种尤其注意！！！并不会都如期望的那样。<br />
      * 5、当目标为web、web-worker时，其默认值为'auto'，它会自动从`import.meta.url`、`document.currentScript`、`<script />`或`self.location`确定公共路径。<br />
      * 6、该选项的值以运行时或加载程序创建的每个URL为前缀。因此，在大多数情况下，此选项的值以/结尾。<br />
