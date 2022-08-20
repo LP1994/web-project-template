@@ -4406,16 +4406,18 @@ const aliasConfig = {
     const esbuildLoaderConfigForJS = ( () => {
         const obj1 = JSON.parse( JSON.stringify( esbuildMinifyConfig ) );
 
-        !isProduction && ( delete obj1.minifyWhitespace );
-        !isProduction && ( delete obj1.minifyIdentifiers );
-        !isProduction && ( delete obj1.minifySyntax );
-        !isProduction && ( delete obj1.legalComments );
-        !isProduction && ( 'drop' in obj1 ) && ( delete obj1.drop );
+        if( !isProduction ){
+          delete obj1.minifyWhitespace;
+          delete obj1.minifyIdentifiers;
+          delete obj1.minifySyntax;
+          delete obj1.legalComments;
+          'drop' in obj1 && ( delete obj1.drop );
+          obj1.minify = false;
+        }
 
         return Object.assign( {}, obj1, {
           // 一旦esbuild达到稳定版本，implementation选项将被删除。相反，esbuild将成为peerDependency，因此您始终提供自己的。
           implementation: ESBuild,
-          minify: false,
           // Invalid option in transform() call: "incremental".
           // incremental: !isProduction,
           /**
@@ -6931,7 +6933,7 @@ const aliasConfig = {
              */
             imageminMinify: new ImageMinimizerPlugin( {
               // test: /\.(gif|png|svg|webp)$/i,
-              test: /\.(gif)$/i,
+              test: /\.(gif|svg)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 /**
@@ -7142,12 +7144,12 @@ const aliasConfig = {
               },
             } ),
             /**
-             * 1、sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只配置了对avif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp的处理。<br />
+             * 1、sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只配置了对avif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的处理。<br />
              * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
              * 3、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，压缩优化gif会导致动图不再动了，无论是使用gif的默认压缩选项还是自定义的，都是无法动了。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
-              test: /\.(avif|jp2|jpe|jpeg|jpg|png|raw|svg|tif|tiff|webp)$/i,
+              test: /\.(avif|jp2|jpe|jpeg|jpg|png|raw|tif|tiff|webp)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.sharpMinify,
@@ -7547,9 +7549,9 @@ const aliasConfig = {
                  ? [
               // 3个选着用，不要重复对同一类图片做多次处理：imageminMinify（已经不维护了！）、sharpMinify（首选使用该实现，使用高性能Node.js图像处理）、squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）。
 
-              // imageminMinify只用于处理gif。
+              // imageminMinify只用于处理gif、svg。
               configs[ 'imageminMinify' ],
-              // sharpMinify只用于处理avif、jp2、jpe、jpeg、jpg、png、raw、svg、tif、tiff、webp。
+              // sharpMinify只用于处理avif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp。
               configs[ 'sharpMinify' ],
             ]
                  : [];
