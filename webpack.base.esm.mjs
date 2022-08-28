@@ -134,11 +134,15 @@ function Get__filename( import_meta_url = import.meta.url ){
 
 /**
  * 表示项目文件夹根目录，不是磁盘根目录。<br />
+ *
+ * @type {string}
  */
 const __dirname = Get__dirname( import.meta.url ),
   /**
    * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
    * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
+   *
+   * @type {string|undefined}
    */
   env_platform = ( argv => {
     const envArr = [];
@@ -193,11 +197,15 @@ const __dirname = Get__dirname( import.meta.url ),
   /**
    * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
    * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
+   *
+   * @type {boolean}
    */
   isHandle_experiments_buildHttp_in_CSSLoader = true,
   /**
    * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
+   *
+   * @type {boolean}
    */
   isProduction = ( argv => {
     const num1 = argv.findIndex( c => c === '--mode' );
@@ -224,13 +232,17 @@ const __dirname = Get__dirname( import.meta.url ),
     }
   } )( argv ),
   /**
-   * 是否将项目设置成单页面应用程序(SPA)，默认true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)。<br />
+   * 是否将项目设置成单页面应用程序(SPA)，true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)。<br />
+   *
+   * @type {boolean}
    */
   isSPA = false,
   /**
    * true表示启用esbuild-loader来转译js、ts，false表示用babel来转译js、ts，esbuild-loader是不需要thread-loader来加速的！它自己已经是很快很快很快了。<br />
    * 1、如果需要兼容到低端平台，即转译到ES5、ES3的话，还是使用babel来转译，将isUseESBuildLoader设置成false。<br />
    * 2、如果是兼容到新的现代浏览器，也就是支持ES6的平台，那么还是用esbuild吧，它有这方面的优越性，但就是对ES5不是很友好。<br />
+   *
+   * @type {boolean}
    */
   isUseESBuildLoader = true;
 
@@ -263,7 +275,7 @@ const browserslist = [
     'Chrome >= 104',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 104',
-    'Firefox >= 103',
+    'Firefox >= 104',
     'Safari >= 15',
     'Opera >= 90',
     // PC端各主流浏览器的最新版本，至20220731。End
@@ -271,7 +283,7 @@ const browserslist = [
     // 移动端各主流浏览器的最新版本，至20220731。Start
     'ChromeAndroid >= 104',
     'Android >= 104',
-    'FirefoxAndroid >= 103',
+    'FirefoxAndroid >= 104',
     'iOS >= 15',
     // 移动端各主流浏览器的最新版本，至20220731。End
   ],
@@ -279,6 +291,8 @@ const browserslist = [
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
    * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
    * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
+   *
+   * @type {string[]}
    */
   esbuildMinify_target = [
     // PC端完全支持ES 5的主流浏览器 Start
@@ -305,7 +319,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20220731。Start
     'chrome104',
     'edge104',
-    'firefox103',
+    'firefox104',
     'safari15',
     'opera90',
     // PC端各主流浏览器的最新版本，至20220731。End
@@ -316,7 +330,10 @@ const browserslist = [
   ],
   /**
    * 目标浏览器版本。<br />
-   * 1、支持的标识符有：android、chrome、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung。<br />
+   * 1、支持的标识符有：android、chrome、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
+   * 2、也支持其他的别名标识符：and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera），其他的会报错。<br />
+   *
+   * @type {object}
    */
   vue_loader_options_transpileOptions_target = {
     // PC端完全支持ES 5的主流浏览器 Start
@@ -341,7 +358,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20220731。Start
     chrome: 104,
     edge: 104,
-    firefox: 103,
+    firefox: 104,
     safari: 15,
     opera: 90,
     // PC端各主流浏览器的最新版本，至20220731。End
@@ -349,11 +366,17 @@ const browserslist = [
     // 移动端各主流浏览器的最新版本，至20220731。Start
     and_chr: 104,
     android: 104,
-    and_ff: 103,
+    and_ff: 104,
     ios_saf: 15,
     ios: 15,
+    op_mob: 90,
     // 移动端各主流浏览器的最新版本，至20220731。End
   },
+  /**
+   * 编译目标配置。
+   *
+   * @type {object}
+   */
   babel_targets = {
     ...vue_loader_options_transpileOptions_target,
     /**
@@ -361,10 +384,13 @@ const browserslist = [
      * 1、值类型：boolean，true表示输出支持ES的模块化的代码。<br />
      */
     esmodules: true,
-    // 如果要针对Safari的技术预览版进行编译，可以指定safari: 'tp'。
-    safari: 'tp',
+
+    // 如果要针对Safari的技术预览版进行编译，可以指定safari: 'tp'，当前先使用vue_loader_options_transpileOptions_target中的safari版本。
+    // safari: 'tp',
+
     // 值类型：string、Array<string>。使用browserslist选择浏览器的查询：last 2 versions, > 5%, safari tp。
     browsers: browserslist,
+
     // 注意：uglify选项已被弃用，并将在下一个主要版本中删除。
     // uglify: null，其实我也不知道这个选项的值类型。
   };
@@ -376,6 +402,9 @@ const browserslist = [
 // autoplace：启用带有自动放置支持的网格翻译。
 // no-autoplace：在禁用自动放置支持的情况下启用网格转换，但不支持自动放置（该值是值on的别名，但是值on是一个已弃用的值）。
 // off：禁用所有网格翻译。
+/**
+ * @type {object}
+ */
 const autoprefixerConfig = {
     // 如果CSS未压缩，Autoprefixer应该使用Visual Cascade。默认值：true。
     cascade: true,
@@ -400,6 +429,9 @@ const autoprefixerConfig = {
     // 不要在Browserslist配置中引发未知浏览器版本的错误。默认为false。
     ignoreUnknownVersions: false,
   },
+  /**
+   * @type {object}
+   */
   esbuildMinifyConfig = {
     // 有效值有：'js'、'jsx'、'ts'、'tsx'、'css'、'json'、'text'、'base64'、'file'、'dataurl'、'binary'、'copy'、'default'。
     loader: 'js',
@@ -483,6 +515,9 @@ const autoprefixerConfig = {
       'tsconfig.json': 'error',
     },
   },
+  /**
+   * @type {object}
+   */
   HTMLMinifyConfig = {
     // 以区分大小写的方式处理属性（对自定义HTML标签有用）。
     caseSensitive: false,
@@ -545,6 +580,9 @@ const autoprefixerConfig = {
     // 用短 (HTML5) 文档类型替换文档类型。
     useShortDoctype: false,
   },
+  /**
+   * @type {object}
+   */
   postcssCalcConfig = {
     // 默认值为5，允许您定义十进制数的精度。
     precision: 6,
@@ -557,6 +595,9 @@ const autoprefixerConfig = {
     // 默认值为false，允许将calc()用作选择器的一部分。
     selectors: true,
   },
+  /**
+   * @type {array}
+   */
   watchIgnoredArr = [
     resolve( __dirname, './.git/' ),
     resolve( __dirname, './.idea/' ),
@@ -584,6 +625,8 @@ const autoprefixerConfig = {
    * 2、当试图满足上述最后2个条件时，首选更大的块。<br />
    * 3、选择默认配置以适应Web性能最佳实践，但您的项目的最佳策略可能会有所不同。如果您要更改配置，您应该衡量更改的效果，以确保有真正的好处。<br />
    * 4、从webpack 5开始，不再允许将条目名称传递给{cacheGroup}.test并将现有块的名称用于{cacheGroup}.name。<br />
+   *
+   * @type {object}
    */
   splitChunksConfig = {
     /**
@@ -1028,6 +1071,11 @@ ThreadLoader.warmup( vueWorkerPoolConfig, [
   'vue-loader',
 ] );
 
+/**
+ * 生成自定义的https证书。<br />
+ *
+ * @returns {Promise<{ key, cert, ca }>}
+ */
 function GetCertificates(){
   const keyFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.key' ), 'utf8' ),
     certFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ), 'utf8' );
@@ -1075,6 +1123,9 @@ function GetCertificates(){
   } );
 }
 
+/**
+ * @type {{key, cert, ca}}
+ */
 const myCertificates = await GetCertificates();
 
 /**
@@ -1091,6 +1142,8 @@ const myCertificates = await GetCertificates();
  * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets）最尾部都不会包含“\”。<br />
  * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）最尾部就会包含“\”，反之不会。<br />
  * 8、设置文件夹的路径别名时，建议使用path.resolve，这样在后续使用路径别名时，就可以按正常的习惯使用：import JSONDemo001 from 'jsonDir/Demo001.json';<br />
+ *
+ * @type {object}
  */
 const aliasConfig = {
     'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
@@ -1168,6 +1221,9 @@ const aliasConfig = {
     webWorkersDir: resolve( __dirname, './src/workers/web_workers/' ),
     // workers文件夹 End
   },
+  /**
+   * @type {object}
+   */
   assetsWebpackPluginConfig = {
     filename: 'ProjectAllAssetsByWebpack.json',
     fullPath: true,
@@ -1184,7 +1240,7 @@ const aliasConfig = {
     prettyPrint: !isProduction,
     update: false,
     metadata: {
-      version: 20220101,
+      version: '2022-01-01',
     },
     includeAllFileTypes: true,
     keepInMemory: !isProduction,
@@ -1193,6 +1249,8 @@ const aliasConfig = {
   },
   /**
    * 默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件，以及所有未使用的webpack资产。<br />
+   *
+   * @type {object}
    */
   cleanWebpackPluginConfig = {
     // 模拟删除文件的操作，true开启，开启后，不会真的删除硬盘上的文件。<br />
@@ -1230,6 +1288,8 @@ const aliasConfig = {
   /**
    * copy-webpack-plugin并非旨在复制从构建过程中生成的文件；相反，它是复制源树中已经存在的文件，作为构建过程的一部分。<br />
    * 1、如果啥都没有复制到，会报错，所以至少得复制到一个，当然被排除的不算。<br />
+   *
+   * @type {object}
    */
   copyPluginConfig = ( patternsArr => {
     const arr1 = [],
@@ -1293,6 +1353,8 @@ const aliasConfig = {
    * 4、如果你在key前加上typeof前缀，它只为typeof调用定义：'typeof window': JSON.stringify('object111')。<br />
    * 5、如果需要定义一个值是字符串值，得单引号内部嵌套双引号，如：'"例子"'（或者JSON.stringify('例子')），否则没法真正输出这个字符串。<br />
    * 6、如果值不是字符串，它将被字符串化，相当于使用JSON.stringify处理，但是如果是函数，直接这么设置就行，别用JSON.stringify：'fun1': () => {}。<br />
+   *
+   * @type {object}
    */
   definePluginConfig = {
     isProduction: JSON.stringify( isProduction ),
@@ -1683,6 +1745,8 @@ const aliasConfig = {
    * 2、当模式是“ws”时。此模式使用ws作为服务器，在客户端使用原生WebSocket。<br />
    * 3、要创建自定义服务器实现，请创建一个扩展BaseServer的类。<br />
    * }<br />
+   *
+   * @type {object}
    */
   devServerConfig = {
     allowedHosts: 'all',
@@ -1945,9 +2009,8 @@ const aliasConfig = {
 
       return middlewares;
     },
-    static: [
-      {
-        directory: join( __dirname, './dist/' ),
+    static: ( arr => {
+      const obj1 = {
         staticOptions: {
           dotfiles: 'deny',
           etag: true,
@@ -1962,221 +2025,71 @@ const aliasConfig = {
           maxAge: 0,
           redirect: true,
           setHeaders: ( res, path, stat ) => {
+            res.set( 'x-env-platform', `${ env_platform }` );
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
+            res.set( 'x-path', `${ path }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
             } );
           },
         },
-        publicPath: '/dev-server-static/dist',
         serveIndex: {
           hidden: false,
           icons: true,
           view: 'details',
         },
         watch: true,
+      };
+
+      return arr.map( item => {
+        return {
+          ...item,
+          ...obj1,
+        };
+      } );
+    } )( [
+      {
+        directory: join( __dirname, './dist/' ),
+        publicPath: '/dev-server-static/dist',
       },
       {
         directory: join( __dirname, './simulation_servers/' ),
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
         publicPath: '/dev-server-static/simulation_servers',
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
       },
       {
         directory: join( __dirname, './src/' ),
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
         publicPath: '/dev-server-static/src',
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
       },
       {
         directory: join( __dirname, './subsystems/' ),
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
         publicPath: '/dev-server-static/subsystems',
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
       },
       {
         directory: join( __dirname, './test/' ),
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
         publicPath: '/dev-server-static/test',
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
       },
       {
         directory: join( __dirname, './ts_compiled/' ),
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
         publicPath: '/dev-server-static/ts_compiled',
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
       },
       {
         directory: join( __dirname, './webpack_location/' ),
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-dev-type', `${ env_platform }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
         publicPath: '/dev-server-static/webpack_location',
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
       },
-    ],
+      {
+        directory: join( __dirname, './webpack_records/' ),
+        publicPath: '/dev-server-static/webpack_records',
+      },
+    ] ),
     webSocketServer: 'ws',
   },
   /**
    * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
    * 1、由于实验性功能具有宽松的语义版本控制并且可能包含重大更改，因此请确保将webpack的版本修复为次要版本，例如webpack: ~5.4.3而不是webpack: ^5.4.3或者在使用实验时使用锁定文件。<br />
    * 2、禁用所有实验性功能：experiments: false。<br />
+   *
+   * @type {object}
    */
   experimentsConfig = {
     /**
@@ -2219,17 +2132,23 @@ const aliasConfig = {
       allowedUris: [
         // new RegExp( /^http(s)?:\/\// ),
         // new RegExp( /^http(s)?:\/\/([\w.]+\/?)\S*/ ),
-        uri => {
-          // experiments.buildHttp.allowedUris.uri--->http://huyaimg.msstatic.com/avatar/1095/ea/540f76f690f002fde18957f5ac920f_180_135.jpg
 
+        /**
+         * 处理哪些远程链接要被处理，哪些不需要被处理。<br />
+         *
+         * @param uri {string} 远程链接，值如：https://www.xxx.com/1.jpg，必需。
+         *
+         * @returns {boolean} true表示会处理该远程链接，反之不处理。
+         */
+          uri => {
           /**
            * 允许以哪些开头的远程链接。<br />
            *
            * @type {string[]}
            */
           const allowedCondition = [
-            // 'http://',
-            // 'https://',
+            'http://',
+            'https://',
             // 'https://www.xxx.com/',
           ];
 
@@ -2373,6 +2292,8 @@ const aliasConfig = {
    * 第1步得在externals选项中有所设置；<br />
    * 第2步得在代码中import了第1步中设置的包名；<br />
    * 第3步得在全局环境中存在一个可以供全局都能访问到的变量名，可以是在HTML中引入外部链接脚本，也可以是在代码中明确写了挂载在window上的全局变量，例如：window.xxx = () => {}。<br />
+   *
+   * @type {object}
    */
   externalsConfig = {
     axios: 'window.axios',
@@ -2391,6 +2312,8 @@ const aliasConfig = {
    * JSON或YAML格式的.fork-ts-checkerrc文件。<br />
    * 导出JS对象的fork-ts-checker.config.js文件。<br />
    * 6、传递给插件构造函数的选项将覆盖cosmiconfig中的选项（使用deepmerge）。<br />
+   *
+   * @type {object}
    */
   forkTsCheckerWebpackPluginConfig = {
     // 如果为true，则在完成webpack的编译后报告问题。因此，它不会阻止编译。仅在"watch"模式下使用。
@@ -2524,6 +2447,8 @@ const aliasConfig = {
   /**
    * 该插件将通知您第一次运行（成功/失败）、所有失败的运行以及从构建失败中恢复后的第一次成功运行。换句话说：如果您的构建一切正常，它将保持沉默。<br />
    * 1、带插件必须依赖forkTsCheckerWebpackPlugin，在forkTsCheckerWebpackPlugin之后执行。<br />
+   *
+   * @type {object}
    */
   forkTsCheckerNotifierWebpackPluginConfig = {
     // 通知中显示的标题前缀。
@@ -2539,6 +2464,8 @@ const aliasConfig = {
   },
   /**
    * 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
+   *
+   * @type {array}
    */
   htmlWebpackPluginConfig = HTMLWebpackPluginConfig( {
     isProduction,
@@ -2549,7 +2476,9 @@ const aliasConfig = {
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
    * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
    * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-   * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+   * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+   *
+   * @type {object}
    */
   miniCssExtractPluginConfig = {
     // 此选项确定每个输出CSS文件的名称。
@@ -2568,6 +2497,8 @@ const aliasConfig = {
    * 2、从webpack 5开始，只能在node选项下配置global、__filename、__dirname。<br />
    * 3、如果正在寻找如何在webpack 5下的Node.js中以类似方式填充fs等等node模块，请查看resolve.fallback以获取帮助。<br />
    * 4、从webpack 3.0.0开始，可以将node选项直接设置为false以完全关闭NodeStuffPlugin插件。<br />
+   *
+   * @type {object}
    */
   nodeConfig = {
     global: false,
@@ -2697,6 +2628,8 @@ const aliasConfig = {
    * 4、为include、exclude选项设置值时，需要注意：<br />
    * path.resolve(__dirname, 'app/styles')，没加'/'将匹配`app/styles.css`、`app/styles/styles.css`、`app/stylesheet.css`。<br />
    * path.resolve(__dirname, 'vendor/styles/')，加'/'将仅包含目录`vendor/styles/`的内容。<br />
+   *
+   * @type {object}
    */
   moduleConfig = ( {
     MiniCssExtractPlugin = null,
@@ -4634,9 +4567,9 @@ const aliasConfig = {
              * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
              * 4、注意，目前无法识别到那些无http:、https:协议头的远程链接，也就是无法识别那些以'//'开头的远程链接，会直接原样将其保留在源码中。<br />
              *
-             * @param url string 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+             * @param url {string} 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
              *
-             * @param resourcePath string css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+             * @param resourcePath {string} css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
              *
              * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
              */
@@ -4816,7 +4749,7 @@ const aliasConfig = {
         },
         'javascript/dynamic': {
           commonjs: false,
-          commonjsMagicComments: false,
+          commonjsMagicComments: true,
           dynamicImportMode: 'lazy',
           dynamicImportPrefetch: true,
           dynamicImportPreload: true,
@@ -4842,7 +4775,7 @@ const aliasConfig = {
         },
         'javascript/esm': {
           commonjs: false,
-          commonjsMagicComments: false,
+          commonjsMagicComments: true,
           dynamicImportMode: 'lazy',
           dynamicImportPrefetch: true,
           dynamicImportPreload: true,
@@ -6699,6 +6632,9 @@ const aliasConfig = {
       ],
     };
   },
+  /**
+   * @type {object}
+   */
   optimizationConfig = isProduction
                        ? {
       /**
@@ -6948,11 +6884,11 @@ const aliasConfig = {
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
-                 * @param source Buffer source.byteLength表示图片的大小，单位为字节。<br />
+                 * @param source {Buffer} source.byteLength表示图片的大小，单位为字节。<br />
                  *
-                 * @param sourcePath string 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
+                 * @param sourcePath {string} 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
                  *
-                 * @returns {boolean | undefined} 返回true以优化图像，否则返回false则不优化。
+                 * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
                  */
                 filter( source, sourcePath ){
                   if( Number( source.byteLength ) > 10 * 1024 ){
@@ -7180,9 +7116,9 @@ const aliasConfig = {
                   /**
                    * 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。<br />
                    *
-                   * @param width number 最终结果图片的宽度值。<br />
+                   * @param width {number} 最终结果图片的宽度值。<br />
                    *
-                   * @param height number 最终结果图片的高度值。<br />
+                   * @param height {number} 最终结果图片的高度值。<br />
                    *
                    * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
                    */
@@ -7641,6 +7577,9 @@ const aliasConfig = {
       usedExports: true,
       splitChunks: splitChunksConfig,
     },
+  /**
+   * @type {object}
+   */
   outputConfig = {
     /**
      * 与output.filename相同，但用于资产模块。<br />
@@ -7801,6 +7740,8 @@ const aliasConfig = {
    * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
    * 1、配置性能提示的显示方式。例如，如果您的资产超过250kb，webpack将发出警告通知您。<br />
    * 2、设置为false时，直接关闭该功能。<br />
+   *
+   * @type {object}
    */
   performanceConfig = {
     // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
@@ -7841,6 +7782,8 @@ const aliasConfig = {
    * 5、为第三方包配置时，只要用包名作为value值即可，因为webpack会自动从“node_modules”中查找，并加载相应的模块文件。<br />
    * 6、为第三方包配置时，不要设置以“./”、“./node_modules/”、“node_modules/”等等开头的value值，当然如果是指向自己的模块文件，那还是要指定完整路径。<br />
    * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
+   *
+   * @type {object}
    */
   providePluginConfig = {
     axios: 'axios',
@@ -7874,6 +7817,10 @@ const aliasConfig = {
    * 1、如果您有一个利用代码拆分的复杂设置，则记录特别有用。该数据可用于确保拆分包实现您需要的缓存行为。<br />
    * 2、请注意，尽管此文件是由编译器生成的，但您可能仍希望在源代码管理中对其进行跟踪，以保留其随时间变化的历史记录。<br />
    * 3、设置recordsPath本质上会将recordsInputPath和recordsOutputPath设置为相同的位置。这通常是所有必要的，除非您决定更改包含记录的文件的名称。<br />
+   *
+   * @param folderName
+   *
+   * @returns {string}
    */
   recordsPathConfig = folderName => {
     const nowDate = new Date( Date.now() ),
@@ -7896,6 +7843,8 @@ const aliasConfig = {
    * 1、值格式：string、[ string ]、false，如：[ 'web', 'es2022', ]。<br />
    * 2、当传递多个目标时，将使用公共特征子集：[ 'web', 'es2022', ]，目前，并非所有目标都可能是混合的。<br />
    * 3、当没有提供有关“target”或“environment features”的信息时，将使用“es2015”。<br />
+   *
+   * @type {array}
    */
   targetConfig = [
     'web',
@@ -7920,6 +7869,8 @@ const aliasConfig = {
    * stdin：boolean，当标准输入流结束时停止watching。<br />
    * 1、stdin: false，表示当标准输入流结束时不停止watching。<br />
    * }<br />
+   *
+   * @type {object}
    */
     // ignored选项的例子：ignored: /node_modules/、'**/node_modules'、[ '**/files/**/*.js', '**/node_modules' ]、[ path.posix.resolve(__dirname, './ignored-dir') ]
   watchOptionsConfig = {
