@@ -1,0 +1,10 @@
+webpackChunkName: "my-chunk-name"
+webpackMode: "lazy"
+webpackExports: ["default", "named"]
+webpackInclude: /\.(js|cjs|mjs|ts|cts|mts|json)$/
+webpackExclude: /\.noimport\.json$/
+// 预取：将来可能需要一些导航资源
+webpackPrefetch: true
+// 预加载：在当前导航期间也将需要资源，不正确地使用webpackPreload实际上会损害性能，因此使用它时要小心。
+webpackPreload: true
+webpackIgnore: true

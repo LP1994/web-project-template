@@ -96,6 +96,8 @@ import Toml from 'toml';
 
 import tsconfig_json from './tsconfig.json' assert { type: 'json', };
 
+import webpack from 'webpack';
+
 import Yaml from 'yamljs';
 
 import entryConfig from './configures/EntryConfig.esm.mjs';
@@ -271,21 +273,21 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20220731。Start
-    'Chrome >= 104',
+    // PC端各主流浏览器的最新版本，至20220902。Start
+    'Chrome >= 105',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 104',
+    'Edge >= 105',
     'Firefox >= 104',
     'Safari >= 15',
     'Opera >= 90',
-    // PC端各主流浏览器的最新版本，至20220731。End
+    // PC端各主流浏览器的最新版本，至20220902。End
 
-    // 移动端各主流浏览器的最新版本，至20220731。Start
-    'ChromeAndroid >= 104',
-    'Android >= 104',
+    // 移动端各主流浏览器的最新版本，至20220902。Start
+    'ChromeAndroid >= 105',
+    'Android >= 105',
     'FirefoxAndroid >= 104',
     'iOS >= 15',
-    // 移动端各主流浏览器的最新版本，至20220731。End
+    // 移动端各主流浏览器的最新版本，至20220902。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -316,17 +318,17 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20220731。Start
-    'chrome104',
-    'edge104',
+    // PC端各主流浏览器的最新版本，至20220902。Start
+    'chrome105',
+    'edge105',
     'firefox104',
     'safari15',
     'opera90',
-    // PC端各主流浏览器的最新版本，至20220731。End
+    // PC端各主流浏览器的最新版本，至20220902。End
 
-    // 移动端各主流浏览器的最新版本，至20220731。Start
+    // 移动端各主流浏览器的最新版本，至20220902。Start
     'ios15',
-    // 移动端各主流浏览器的最新版本，至20220731。End
+    // 移动端各主流浏览器的最新版本，至20220902。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -355,22 +357,22 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20220731。Start
-    chrome: 104,
-    edge: 104,
+    // PC端各主流浏览器的最新版本，至20220902。Start
+    chrome: 105,
+    edge: 105,
     firefox: 104,
     safari: 15,
     opera: 90,
-    // PC端各主流浏览器的最新版本，至20220731。End
+    // PC端各主流浏览器的最新版本，至20220902。End
 
-    // 移动端各主流浏览器的最新版本，至20220731。Start
-    and_chr: 104,
-    android: 104,
+    // 移动端各主流浏览器的最新版本，至20220902。Start
+    and_chr: 105,
+    android: 105,
     and_ff: 104,
     ios_saf: 15,
     ios: 15,
     op_mob: 90,
-    // 移动端各主流浏览器的最新版本，至20220731。End
+    // 移动端各主流浏览器的最新版本，至20220902。End
   },
   /**
    * 编译目标配置。
@@ -436,7 +438,7 @@ const autoprefixerConfig = {
     // 有效值有：'js'、'jsx'、'ts'、'tsx'、'css'、'json'、'text'、'base64'、'file'、'dataurl'、'binary'、'copy'、'default'。
     loader: 'js',
     minifyWhitespace: true,
-    minifyIdentifiers: false,
+    minifyIdentifiers: true,
     minifySyntax: true,
     /**
      * “法律注释（legal comment）”被认为是JS中的任何语句级注释或CSS中包含@license或@preserve或以//!或者/*!开头的任何规则级注释。<br />
@@ -466,7 +468,7 @@ const autoprefixerConfig = {
              ? {
           drop: [
             'debugger',
-            'console',
+            // 'console',
           ],
         }
              : {};
@@ -772,23 +774,6 @@ const autoprefixerConfig = {
           name: 'VendorsCSS',
         },
 
-        VendorsJS: ( arr => {
-          return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
-            name: 'VendorsJS',
-          };
-        } )( [
-          'axios',
-          'echarts',
-          'jquery',
-          'swiper',
-          'vue',
-          'vue-router',
-          'vuex',
-          'element-ui',
-          'element-plus',
-        ] ),
-
         EchartsJS: {
           test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
           name: 'EchartsJS',
@@ -823,33 +808,6 @@ const autoprefixerConfig = {
        * 多页模式下的代码拆分策略。
        */
       const MPACacheGroups = {
-        VendorsCSS: ( arr => {
-          return {
-            /**
-             * 控制此缓存组选择哪些模块。省略它会选择所有模块。它可以匹配绝对模块资源路径或块名称。当块名称匹配时，块中的所有模块都会被选中。<br />
-             * 1、值类型：( module, { chunkGraph, moduleGraph, } ) => boolean、RegExp、string。<br />
-             * 2、当选择使用函数作为test选项的值时，函数的第1个参数module有如下参数：<br />
-             * module.resource：1个描述模块所在文件在磁盘上的绝对路径字符串。<br />
-             * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
-             * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
-             */
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$`, 'i' ),
-            // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
-            ...( () => {
-              return isProduction
-                     ? {
-                  type: 'css/mini-extract',
-                }
-                     : {};
-            } )(),
-            name: 'VendorsCSS',
-          };
-        } )( [
-          'swiper',
-          'element-ui',
-          'element-plus',
-        ] ),
-
         SwiperCSS: {
           test: /node_modules[\\/]swiper[\\/].*\.css$/i,
           ...( () => {
@@ -883,23 +841,6 @@ const autoprefixerConfig = {
           } )(),
           name: 'ElementPlusCSS',
         },
-
-        VendorsJS: ( arr => {
-          return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
-            name: 'VendorsJS',
-          };
-        } )( [
-          'axios',
-          'echarts',
-          'jquery',
-          'swiper',
-          'vue',
-          'vue-router',
-          'vuex',
-          'element-ui',
-          'element-plus',
-        ] ),
 
         EchartsJS: {
           test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
@@ -1898,9 +1839,9 @@ const aliasConfig = {
       }
 
       const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
-        console.log( '------setupMiddlewares------Start' );
+        console.log( '\n------setupMiddlewares------Start' );
         console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( '------setupMiddlewares------End' );
+        console.log( '------setupMiddlewares------End\n' );
 
         res.setHeader( 'Content-Type', Mime.getType( req.url ) );
         res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
@@ -3707,7 +3648,9 @@ const aliasConfig = {
                  * 1、默认值：true。<br />
                  * 2、对于函数，这将删除评估为未定义的返回参数。<br />
                  */
-                removeUndefined: true,
+                removeUndefined: {
+                  tdz: true,
+                },
                 /**
                  * babel-plugin-minify-replace：https://babeljs.io/docs/en/babel-plugin-minify-replace
                  * 1、默认值：true。<br />
@@ -3829,7 +3772,7 @@ const aliasConfig = {
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.24.1',
+            } )() || '3.25.0',
             proposals: true,
           },
           /**
@@ -4818,7 +4761,7 @@ const aliasConfig = {
        * condition：G:\WebStormWS\web-project-template\src\assets\doc\json5\<br />
        */
       rules: [
-        // 处理cson。
+        // 处理.cson文件。
         {
           test: /\.cson$/i,
           type: 'javascript/auto',
@@ -4855,7 +4798,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理css。
+        // 处理.css文件。
         {
           test: /\.css$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -4905,7 +4848,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
-        // 处理csv、tsv。
+        // 处理.csv文件、.tsv文件。
         {
           test: /\.(csv|tsv)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -4945,7 +4888,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理ejs。
+        // 处理.ejs文件。
         {
           test: /\.ejs$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -4985,7 +4928,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理字体font。
+        // 处理字体文件。
         {
           test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
           /**
@@ -5028,7 +4971,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理graphql，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
+        // 处理.graphql文件、.gql文件，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
           test: /\.(graphql|gql)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5071,7 +5014,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // handlebars-loader。
+        // handlebars-loader，处理.handlebars文件、.hbs文件。
         {
           test: /\.(handlebars|hbs)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5111,7 +5054,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // html-loader。
+        // html-loader，处理.htm文件、.html文件、.xhtml文件。
         {
           test: /\.(htm|html|xhtml)$/i,
           /**
@@ -5155,7 +5098,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
         },
         /**
-         * 处理image。<br />
+         * 处理图片。<br />
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
          */
         {
@@ -5200,7 +5143,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理js、cjs。
+        // 处理.js文件、.cjs文件。
         {
           test: /\.(js|cjs)$/i,
           // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
@@ -5245,7 +5188,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理mjs。
+        // 处理.mjs文件。
         {
           test: /\.mjs$/i,
           // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
@@ -5290,7 +5233,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理jsx。
+        // 处理.jsx文件。
         {
           test: /\.jsx$/i,
           // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
@@ -5335,7 +5278,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理json5。
+        // 处理.json5文件。
         {
           test: /\.json5$/i,
           type: 'json',
@@ -5369,7 +5312,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理less
+        // 处理.less文件。
         {
           test: /\.less$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5473,7 +5416,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
-        // 处理toml。
+        // 处理.toml文件。
         {
           test: /\.toml$/i,
           type: 'json',
@@ -5507,7 +5450,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理txt。
+        // 处理.txt文件。
         {
           test: /\.txt$/i,
           type: 'asset/source',
@@ -5538,7 +5481,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理manifest.json，给PWA用的manifest文件。
+        // 处理.manifest.json文件，给PWA用的manifest文件。
         {
           test: /\.manifest\.json$/i,
           /**
@@ -5614,7 +5557,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // markdown-loader，由于markdown的输出是HTML，因此最好与html-loader一起使用。
+        // markdown-loader，处理.markdown文件、.md文件，由于markdown的输出是HTML，因此最好与html-loader一起使用。
         {
           test: /\.(markdown|md)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5693,7 +5636,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理音频music。
+        // 处理音频。
         {
           test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
           /**
@@ -5728,7 +5671,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // mustache-loader。
+        // mustache-loader，处理.mustache文件。
         {
           test: /\.mustache$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5765,7 +5708,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理postcss
+        // 处理.postcss文件、.pcss文件。
         {
           test: /\.(pcss|postcss)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5813,7 +5756,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
-        // pug-loader。
+        // pug-loader，处理.pug文件、.jade文件。
         {
           test: /\.(pug|jade)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5848,7 +5791,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理sass。
+        // 处理.sass文件。
         {
           test: /\.sass$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6033,7 +5976,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
-        // 处理scss。
+        // 处理.scss文件。
         {
           test: /\.scss$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6218,7 +6161,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
-        // 处理stylus。
+        // 处理.styl文件、.stylus文件。
         {
           test: /\.(styl|stylus)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6296,7 +6239,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
-        // 处理ts、mts、cts。
+        // 处理.ts文件、.mts文件、.cts文件。
         {
           test: /\.(ts|mts|cts)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6339,7 +6282,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理tsx。
+        // 处理.tsx文件。
         {
           test: /\.tsx$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6382,7 +6325,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理视频video。
+        // 处理视频。
         {
           test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
           /**
@@ -6417,7 +6360,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理vue，该loader一定得在html-loader之后。
+        // 处理.vue文件，该loader一定得在html-loader之后。
         {
           test: /\.vue$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6535,7 +6478,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
         },
         /**
-         * 处理wasm。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
+         * 处理.wasm文件。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
          * 1、使用案例：<br />
          * import { sum, } from './program.wasm';
          * console.log( sum( 1,2 ) );
@@ -6559,7 +6502,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理xml。
+        // 处理.xml文件。
         {
           test: /\.xml$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -6595,7 +6538,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理yaml。
+        // 处理.yaml文件。
         {
           test: /\.yaml$/i,
           type: 'json',
@@ -7773,6 +7716,22 @@ const aliasConfig = {
     maxEntrypointSize: 50 * 1024 * 1024,
   },
   /**
+   * 用于设置预取将来可能需要一些导航资源，会在页面上通过link标签设置一个预取资源。<br />
+   * PS：<br />
+   * 1、数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。<br />
+   * 2、在浏览器中测试预取时，记得关闭“禁用缓存”。<br />
+   * 3、不同浏览器（火狐、谷歌）对预取的表现有所不同，如：状态码之类，测的时候，记得多对比不同浏览器（火狐、谷歌）之间的表现。<br />
+   *
+   * @type {array}
+   */
+  prefetchPluginConfig = ( paths => {
+    return paths.map( item => {
+      return new webpack.PrefetchPlugin( resolve( __dirname, './', item ) );
+    } );
+  } )( [
+    // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
+  ] ),
+  /**
    * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
    * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
    * 2、要导入ES2015模块的“默认导出”，必须指定模块的“默认属性”，也就是说模块必须指定“默认属性”。<br />
@@ -7908,6 +7867,7 @@ export {
   optimizationConfig,
   outputConfig,
   performanceConfig,
+  prefetchPluginConfig,
   providePluginConfig,
   recordsPathConfig,
   targetConfig,
@@ -7943,6 +7903,7 @@ export default {
   optimizationConfig,
   outputConfig,
   performanceConfig,
+  prefetchPluginConfig,
   providePluginConfig,
   recordsPathConfig,
   targetConfig,

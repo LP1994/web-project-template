@@ -55,6 +55,7 @@ import {
   optimizationConfig,
   outputConfig,
   performanceConfig,
+  prefetchPluginConfig,
   providePluginConfig,
   recordsPathConfig,
   targetConfig,
@@ -209,6 +210,7 @@ export default {
       // 通过合并小于minChunkSize的块，将块大小保持在指定限制之上，猜测单位是：字节。
       minChunkSize: 100 * 1024,
     } ),
+    ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
   ],
   /**

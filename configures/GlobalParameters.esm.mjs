@@ -18,7 +18,7 @@
  * 给浏览器调试用的主机名，不是给“devServer.host”用的。<br />
  * 1、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（192.168.1.6）、IPV6等等，但是不能用'0.0.0.0'来访问（访问不了！！！），还是得通过：本地（localhost）、局域网（192.168.1.6）来访问的。<br />
  */
-const localHost = '192.168.1.3';
+const localHost = 'localhost';
 
 /**
  * 远端调试工具(weinre)的本地服务的端口值，值类型只能是string。<br />
@@ -91,8 +91,8 @@ deviceInfo().is_Mobile&&dynamicREM();
    *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
    */
   httpHeaders = {
-    'Service-Worker-Allowed': '/',
     // 'Content-Security-Policy': 'require-sri-for script style',
+    'Service-Worker-Allowed': '/',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Max-Age': 365 * 1 * 24 * 60 * 60,
     'Access-Control-Allow-Credentials': true,
