@@ -244,7 +244,7 @@ export default {
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />
    * 1、结合profile: true和parallelism: 1以获得正确的时序。请注意，这也会减慢构建速度。<br />
    */
-  profile: false,
+  profile: true,
   recordsPath: recordsPathConfig( 'production' ),
   resolve: {
     alias: aliasConfig,
@@ -271,7 +271,7 @@ export default {
    * detailed：输出除了chunkModules和chunkRootModules之外的所有内容。<br />
    * summary：输出webpack版本、警告计数和错误计数。<br />
    */
-  stats: 'errors-warnings',
+  stats: 'normal',
   target: targetConfig,
   /**
    * 在webpack-dev-server和webpack-dev-middleware中默认启用watch模式。<br />

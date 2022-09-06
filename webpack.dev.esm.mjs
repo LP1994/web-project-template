@@ -219,7 +219,7 @@ export default {
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />
    * 1、结合profile: true和parallelism: 1以获得正确的时序。请注意，这也会减慢构建速度。<br />
    */
-  profile: false,
+  profile: true,
   recordsPath: recordsPathConfig( 'dev_server' ),
   resolve: {
     alias: aliasConfig,
