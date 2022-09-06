@@ -19,22 +19,20 @@
  * 变量esbuildMinify_target。
  * 变量vue_loader_options_transpileOptions_target。
  * package.json中的browserslist字段，值同变量browserslist。
- *
- * 变量isUseESBuildLoader。
- *
  * tsconfig.json中的compilerOptions.module、compilerOptions.target。
- *
  * webpack的配置项：experiments、target、output.environment。
- *
  * 变量babel_targets中的esmodules选项。
- * babelLoaderConfig中的assumptions选项。
  * @babel/preset-env中的forceAllTransforms选项。
- *
  * vue-loader:options.transpileOptions.transforms。
- *
  * 变量esbuildMinifyConfig.format。
  *
- * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成28个node子进程，每个最大占用1GB物理内存，一共28GB，总内存建议别超过本机最大物理内存的一半。
+ * 变量isUseESBuildLoader、isSPA、output.chunkLoadingGlobal。
+ *
+ * configures/GlobalParameters.esm.mjs中的配置。
+ *
+ * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
+ *
+ * 3、本配置中的路径字符都是以Windows平台为主，没做其他系统平台的兼容，如果需要在其他系统平台使用，注意针对性修改如“./”、“//”、“\\”、“/”、“\”之类的路径。
  */
 
 'use strict';
@@ -1248,7 +1246,7 @@ const aliasConfig = {
     prettyPrint: !isProduction,
     update: false,
     metadata: {
-      version: '2022-01-01',
+      version: '2022.01.01',
     },
     includeAllFileTypes: true,
     keepInMemory: !isProduction,
@@ -2366,7 +2364,7 @@ const aliasConfig = {
         },
       },
       // 测量并打印与TypeScript性能相关的计时。
-      profile: false,
+      profile: true,
       // 如果提供，这是可以在其中找到TypeScript的自定义路径。
       typescriptPath: resolve( __dirname, './node_modules/typescript/lib/typescript.js' ),
     },
@@ -7720,6 +7718,7 @@ const aliasConfig = {
      * 块请求过期前的毫秒数。从webpack 2.6.0开始支持此选项。<br />
      */
     chunkLoadTimeout: 120000,
+    chunkLoadingGlobal: 'web_project_template',
     /**
      * 加载块的方法，默认包括的方法：'jsonp'（web）、'import'（ESM）、'importScripts'（WebWorker）、'require'（同步node.js）、'async-node'（异步node.js），但其他可能由插件添加。<br />
      */
