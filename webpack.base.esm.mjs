@@ -243,10 +243,11 @@ const __dirname = Get__dirname( import.meta.url ),
    * true表示启用esbuild-loader来转译js、ts，false表示用babel来转译js、ts，esbuild-loader是不需要thread-loader来加速的！它自己已经是很快很快很快了。<br />
    * 1、如果需要兼容到低端平台，即转译到ES5、ES3的话，还是使用babel来转译，将isUseESBuildLoader设置成false。<br />
    * 2、如果是兼容到新的现代浏览器，也就是支持ES6的平台，那么还是用esbuild吧，它有这方面的优越性，但就是对ES5不是很友好。<br />
+   * 3、目前esbuild对有些处于提案阶段的实验性语法还不能支持，而且“代码切割”功能也还没完善，所以，如果需要兼顾前面两点，那还是要继续使用babel来转译的。<br />
    *
    * @type {boolean}
    */
-  isUseESBuildLoader = true;
+  isUseESBuildLoader = false;
 
 /**
  * 目标浏览器版本。
@@ -333,7 +334,7 @@ const browserslist = [
   /**
    * 目标浏览器版本。<br />
    * 1、支持的标识符有：android、chrome、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
-   * 2、也支持其他的别名标识符：and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera），其他的会报错。<br />
+   * 2、也支持其他的别名标识符，不建议用别名标识符，会报错：and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera），其他的会报错。<br />
    *
    * @type {object}
    */
@@ -366,12 +367,8 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20220902。End
 
     // 移动端各主流浏览器的最新版本，至20220902。Start
-    and_chr: 105,
     android: 105,
-    and_ff: 104,
-    ios_saf: 15,
     ios: 15,
-    op_mob: 90,
     // 移动端各主流浏览器的最新版本，至20220902。End
   },
   /**
@@ -456,6 +453,7 @@ const autoprefixerConfig = {
     color: true,
     // 这将设置生成的JavaScript文件的输出格式。当前可以配置三个可能的值：iife、cjs、esm。
     format: 'esm',
+    treeShaking: isProduction,
     // 有效值有：browser、node、neutral。
     platform: 'browser',
     keepNames: true,
@@ -468,7 +466,7 @@ const autoprefixerConfig = {
              ? {
           drop: [
             'debugger',
-            // 'console',
+            'console',
           ],
         }
              : {};
@@ -647,12 +645,12 @@ const autoprefixerConfig = {
      * 按需加载（Async块）时的最大并行请求数。<br />
      * 1、值类型：number，默认值：30。<br />
      */
-    maxAsyncRequests: 30,
+    maxAsyncRequests: 100,
     /**
      * 入口点的最大并行请求数。
      * 1、值类型：number，默认值：30。<br />
      */
-    maxInitialRequests: 30,
+    maxInitialRequests: 100,
     /**
      * 使用数字限制文件大小时，有哪些类型的文件可以受数字限制文件大小。<br />
      * 1、值类型：[string]，默认值：[ 'javascript', 'unknown', ]。<br />
@@ -774,6 +772,29 @@ const autoprefixerConfig = {
           name: 'VendorsCSS',
         },
 
+        ...( isEnable => {
+          return isEnable
+                 ? {
+              VendorsJS: ( arr => {
+                return {
+                  test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+                  name: 'VendorsJS',
+                };
+              } )( [
+                'axios',
+                'echarts',
+                'jquery',
+                'swiper',
+                'vue',
+                'vue-router',
+                'vuex',
+                'element-ui',
+                'element-plus',
+              ] ),
+            }
+                 : {};
+        } )( true ),
+
         EchartsJS: {
           test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
           name: 'EchartsJS',
@@ -790,15 +811,23 @@ const autoprefixerConfig = {
           'swiper',
         ] ),
 
-        VendorsVueEcologyJS: ( arr => {
+        VueFamilyJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
-            name: 'VendorsVueEcologyJS',
+            name: 'VueFamilyJS',
           };
         } )( [
           'vue',
           'vue-router',
           'vuex',
+        ] ),
+
+        ElementUIJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            name: 'ElementUIJS',
+          };
+        } )( [
           'element-ui',
           'element-plus',
         ] ),
@@ -808,6 +837,39 @@ const autoprefixerConfig = {
        * 多页模式下的代码拆分策略。
        */
       const MPACacheGroups = {
+        ...( isEnable => {
+          return isEnable
+                 ? {
+              VendorsCSS: ( arr => {
+                return {
+                  /**
+                   * 控制此缓存组选择哪些模块。省略它会选择所有模块。它可以匹配绝对模块资源路径或块名称。当块名称匹配时，块中的所有模块都会被选中。<br />
+                   * 1、值类型：( module, { chunkGraph, moduleGraph, } ) => boolean、RegExp、string。<br />
+                   * 2、当选择使用函数作为test选项的值时，函数的第1个参数module有如下参数：<br />
+                   * module.resource：1个描述模块所在文件在磁盘上的绝对路径字符串。<br />
+                   * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
+                   * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
+                   */
+                  test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$`, 'i' ),
+                  // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
+                  ...( () => {
+                    return isProduction
+                           ? {
+                        type: 'css/mini-extract',
+                      }
+                           : {};
+                  } )(),
+                  name: 'VendorsCSS',
+                };
+              } )( [
+                'swiper',
+                'element-ui',
+                'element-plus',
+              ] ),
+            }
+                 : {};
+        } )( true ),
+
         SwiperCSS: {
           test: /node_modules[\\/]swiper[\\/].*\.css$/i,
           ...( () => {
@@ -841,6 +903,29 @@ const autoprefixerConfig = {
           } )(),
           name: 'ElementPlusCSS',
         },
+
+        ...( isEnable => {
+          return isEnable
+                 ? {
+              VendorsJS: ( arr => {
+                return {
+                  test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+                  name: 'VendorsJS',
+                };
+              } )( [
+                'axios',
+                'echarts',
+                'jquery',
+                'swiper',
+                'vue',
+                'vue-router',
+                'vuex',
+                'element-ui',
+                'element-plus',
+              ] ),
+            }
+                 : {};
+        } )( true ),
 
         EchartsJS: {
           test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
@@ -2414,6 +2499,15 @@ const aliasConfig = {
     HTMLMinifyConfig,
   } ),
   /**
+   * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
+   * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
+   *
+   * @type {object}
+   */
+  minChunkSizePluginConfig = {
+    minChunkSize: 10 * 1024,
+  },
+  /**
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
    * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
    * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
@@ -2621,7 +2715,7 @@ const aliasConfig = {
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.18.9',
+          } )() || '7.19.0',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -2714,6 +2808,7 @@ const aliasConfig = {
                  * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
                  */
                 polyfillModuleName: '@bloomberg/record-tuple-polyfill',
+                syntaxType: 'hash',
               },
             ],
             /**
@@ -3899,15 +3994,112 @@ const aliasConfig = {
         sourceType: 'unambiguous',
         // 默认情况下，仅当存在'use strict'指令或解析的文件是ECMAScript模块时，ECMAScript代码才会解析为严格。将此选项设置为true以始终以严格模式解析文件。
         strictMode: true,
+        ...( isEnable => {
+          return isEnable
+                 ? {
+              plugins: [
+                'asyncDoExpressions',
+                'asyncGenerators',
+                'bigInt',
+                'classPrivateMethods',
+                'classPrivateProperties',
+                'classProperties',
+                // Enabled by default
+                'classStaticBlock',
+                'decimal',
+                'decorators',
+                'decorators-legacy',
+                'decoratorAutoAccessors',
+                'destructuringPrivate',
+                'doExpressions',
+                'dynamicImport',
+                'estree',
+                'exportDefaultFrom',
+                // deprecated
+                'exportNamespaceFrom',
+                'flow',
+                'flowComments',
+                'functionBind',
+                'functionSent',
+                'importMeta',
+                'jsx',
+                'logicalAssignment',
+                'importAssertions',
+                'moduleBlocks',
+                'moduleStringNames',
+                'nullishCoalescingOperator',
+                'numericSeparator',
+                'objectRestSpread',
+                'optionalCatchBinding',
+                'optionalChaining',
+                'partialApplication',
+                'pipelineOperator',
+                'placeholders',
+                // Enabled by default
+                'privateIn',
+                'recordAndTuple',
+                'regexpUnicodeSets',
+                'throwExpressions',
+                'topLevelAwait',
+                'typescript',
+                'v8intrinsic',
+                [
+                  'decorators',
+                  {
+                    decoratorsBeforeExport: true,
+                  },
+                ],
+                [
+                  'pipelineOperator',
+                  {
+                    proposal: 'hack',
+                    topicToken: '^^',
+                  },
+                ],
+                [
+                  'recordAndTuple',
+                  {
+                    syntaxType: 'hash',
+                  },
+                ],
+                /*
+                 [
+                 'flow',
+                 {
+                 // 默认值为：false。
+                 all: true,
+                 enums: true,
+                 },
+                 ],
+                 [
+                 'typescript',
+                 {
+                 // 默认值为：false。
+                 dts: true,
+                 // 默认值为：false。
+                 disallowAmbiguousJSXLike: true,
+                 },
+                 ],
+                 */
+              ],
+            }
+                 : {};
+        } )( false ),
       },
-      // 一个不透明的对象，包含传递给正在使用的代码生成器的选项。
+      /**
+       * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。<br />
+       * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
+       * minified: true,
+       * comments: true,
+       * shouldPrintComment: () => true,
+       */
       generatorOpts: {
         /**
          * Babel将努力生成代码，以便将项目打印在与原始文件中相同的行上。<br />
          * 1、值类型：boolean，默认值：false。<br />
          * 2、存在此选项是为了让无法使用源映射的用户可以获得模糊有用的错误行号，但这只是尽力而为，并不保证在所有情况下都适用于所有插件。<br />
          */
-        retainLines: true,
+        retainLines: !isProduction,
         /**
          * 在紧凑模式下生成代码时，将省略所有可选的换行符和空格。<br />
          * 1、值类型：boolean、string（只有一个有效值：'auto'），默认值：'auto'。<br />
@@ -3924,21 +4116,19 @@ const aliasConfig = {
          * 当compact: true时，省略块尾分号，在可能的情况下从new Foo()中省略 ()，并且可能输出较短版本的文字。<br />
          * 1、值类型：boolean，默认值：false。<br />
          */
-        minified: false,
+        minified: isProduction,
         /**
          * 如果没有给出函数，则为下面shouldPrintComment选项提供默认的评论状态。有关详细信息，请参阅下面的shouldPrintComment该选项的默认值。<br />
          * 1、值类型：boolean，默认值：true。<br />
          */
-        comments: !isProduction,
+        comments: true,
         /**
          * 一个函数，可以决定给定的注释是否应该包含在Babel的输出代码中。<br />
          * 1、值类型：function（ ( value: string ) => boolean ），默认值：<br />
          * 没有上面的minified选项（如果有但是值为false）时，默认值为：( val ) => opts.comments || /@license|@preserve/.test( val ) 。<br />
          * 有上面的minified选项（且值为true）时，默认值为：() => opts.comments 。<br />
          */
-        shouldPrintComment: isProduction
-                            ? () => false
-                            : val => !isProduction || /@license|@preserve/.test( val ),
+        shouldPrintComment: () => true,
       },
       /**
        * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
@@ -7861,6 +8051,7 @@ export {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   nodeConfig,
   moduleConfig,
@@ -7897,6 +8088,7 @@ export default {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   nodeConfig,
   moduleConfig,

@@ -56,6 +56,7 @@ import {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   moduleConfig,
   nodeConfig,
@@ -229,12 +230,13 @@ export default {
     } ),
     new webpack.optimize.LimitChunkCountPlugin( {
       // 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
-      maxChunks: 30,
+      maxChunks: 100,
     } ),
-    new webpack.optimize.MinChunkSizePlugin( {
-      // 通过合并小于minChunkSize的块，将块大小保持在指定限制之上，猜测单位是：字节。
-      minChunkSize: 100 * 1024,
-    } ),
+    /**
+     * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
+     * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
+     */
+    new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
   ],
