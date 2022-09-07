@@ -26,9 +26,7 @@
  * vue-loader:options.transpileOptions.transforms。
  * 变量esbuildMinifyConfig.format。
  *
- * 变量isUseESBuildLoader、isSPA、output.chunkLoadingGlobal。
- *
- * configures/GlobalParameters.esm.mjs中的配置。
+ * 变量isUseESBuildLoader、isSPA、output.chunkLoadingGlobal、assetsWebpackPluginConfig中的配置、configures/GlobalParameters.esm.mjs中的配置、cleanWebpackPluginConfig.cleanOnceBeforeBuildPatterns。
  *
  * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
  *
@@ -1231,27 +1229,36 @@ const aliasConfig = {
    * @type {object}
    */
   assetsWebpackPluginConfig = {
-    filename: 'ProjectAllAssetsByWebpack.json',
+    filename: 'web_project_template_assets_manifest.js',
+    processOutput( assets ){
+      return `window.web_project_template_assets_manifest = ${ JSON.stringify( assets ) };`;
+    },
+    includeManifest: false,
     fullPath: true,
     /**
      * 如果为true，则完整路径将自动去除webpack生成的/auto/前缀。默认值是false。<br />
      * 1、因为output.publicPath设置的值为'auto'，所以该选项设置为false时，生成的ProjectAllAssetsByWebpack.json文件里的各个文件路径会打头带auto。<br />
      */
     removeFullPathAutoPrefix: true,
-    includeManifest: false,
     // 对资产输出进行排序，以便清单是第一个条目。这对于从资产json输出生成脚本标签的情况很有用，并且导入顺序很重要。
     manifestFirst: true,
     path: join( __dirname, `./dist/${ env_platform }/` ),
     useCompilerPath: false,
     prettyPrint: !isProduction,
     update: false,
-    metadata: {
-      version: '2022.01.01',
-    },
     includeAllFileTypes: true,
     keepInMemory: !isProduction,
     integrity: isProduction,
-    entrypoints: false,
+    entrypoints: true,
+    // 启用该选项需要依赖entrypoints选项的值为true才能生效，否则会报错！
+    includeFilesWithoutChunk: true,
+    // 启用该选项需要依赖entrypoints选项的值为true才能生效，否则会报错！
+    includeAuxiliaryAssets: true,
+    // 启用该选项需要依赖entrypoints选项的值为true才能生效，否则会报错！
+    includeDynamicImportedAssets: true,
+    metadata: {
+      version: '2022.01.01',
+    },
   },
   /**
    * 默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件，以及所有未使用的webpack资产。<br />
@@ -1280,7 +1287,8 @@ const aliasConfig = {
     // 如：'**/*', '!static-files*'。<br />
     cleanOnceBeforeBuildPatterns: [
       '**/*',
-      '!ProjectAllAssetsByWebpack.json',
+      '!web_project_template_assets_manifest.js',
+      '!web_project_template_assets_manifest.json',
     ],
     /**
      * 在每次构建（包括监视模式）后删除与此模式匹配的文件，用于不是由Webpack直接创建的文件。<br />
