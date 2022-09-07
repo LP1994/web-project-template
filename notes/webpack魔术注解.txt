@@ -8,3 +8,11 @@
 // 预加载：在当前导航期间也将需要资源，不正确地使用webpackPreload实际上会损害性能，因此使用它时要小心。
 /* webpackPreload: true */
 /* webpackIgnore: true */
+
+用于worker的魔术注解：
+const worker = new Worker( new URL( './Worker001.worker.js', import.meta.url ), {
+  /* webpackEntryOptions: { filename: "workers/[name]_[contenthash].worker.js" } */
+  type: 'classic',
+  credentials: 'omit',
+  name: 'Worker001',
+} );

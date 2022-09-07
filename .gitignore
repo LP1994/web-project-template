@@ -8,5 +8,5 @@
 /node_modules.7z
 /node_modules.zip
 
-#/test/
+/test/
 #/ts_compiled/

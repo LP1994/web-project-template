@@ -2493,7 +2493,7 @@ const aliasConfig = {
    * @type {object}
    */
   minChunkSizePluginConfig = {
-    minChunkSize: 10 * 1024,
+    minChunkSize: 0.001 * 1024,
   },
   /**
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
@@ -7844,7 +7844,7 @@ const aliasConfig = {
      * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />
      */
     scriptType: 'text/javascript',
-    sourceMapFilename: 'js/[name]_Map_[contenthash:16].map',
+    sourceMapFilename: 'map/[name]_Map_[contenthash:16].map',
     /**
      * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
