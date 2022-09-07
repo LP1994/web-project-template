@@ -2493,7 +2493,7 @@ const aliasConfig = {
    * @type {object}
    */
   minChunkSizePluginConfig = {
-    minChunkSize: 0.001 * 1024,
+    minChunkSize: 10 * 1024,
   },
   /**
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
@@ -7717,7 +7717,9 @@ const aliasConfig = {
      * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
      * 1、请注意，这些文件名需要在运行时生成以发送对块的请求。<br />
      */
-    chunkFilename: 'js/[name]_Chunk_[contenthash].js',
+    chunkFilename( pathData, assetInfo ){
+      return `js/[name]_Chunk_[contenthash].js`;
+    },
     /**
      * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)，但其他格式可能由插件添加。<br />
      */
@@ -7792,7 +7794,9 @@ const aliasConfig = {
      * 2、请注意，此选项不会影响按需加载块的输出文件。它只影响最初加载的输出文件。<br />
      * 3、对于按需加载的块文件，使用output.chunkFilename选项。加载程序创建的文件也不受影响。在这种情况下，您必须尝试特定加载程序的可用选项。<br />
      */
-    filename: 'js/[name]_Bundle_[contenthash].js',
+    filename( pathData, assetInfo ){
+      return 'js/[name]_Bundle_[contenthash].js';
+    },
     hashDigest: 'hex',
     /**
      * 对于webpack v5.65.0+，当启用experiments.futureDefaults时，16将用作hashDigestLength选项的默认值。<br />
