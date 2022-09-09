@@ -1,13 +1,20 @@
 "**/*.se.js",
-"**/*.se.cjs",
-"**/*.se.mjs",
-"**/*.se.ts",
-"**/*.se.cts",
-"**/*.se.mts",
+"**/*.se.commonjs.js",
 "**/*.se.esm.js",
+"**/*.se.cjs",
+"**/*.se.commonjs.cjs",
+"**/*.se.mjs",
 "**/*.se.esm.mjs",
+"**/*.se.ts",
+"**/*.se.commonjs.ts",
 "**/*.se.esm.ts",
+"**/*.se.cts",
+"**/*.se.commonjs.cts",
+"**/*.se.mts",
 "**/*.se.esm.mts",
+"**/*.se.tsx",
+"**/*.se.commonjs.tsx",
+"**/*.se.esm.tsx",
 "**/*.css",
 "**/*.scss",
 "**/*.less",
@@ -22,7 +29,7 @@
 PS：
 1、
 import 'xxx.esm.js'，会被整个切割掉。
-要把文件命名成"xxx.se.esm.js"，import 'xxx.se.esm.js'，才不会被整个切割掉！
+要把文件命名成"xxx.se.esm.js"，才不会被整个切割掉！
 
 2、
-webpack.BaseConfig.js中的splitChunks_obj.cacheGroups可以根据具体项目的需要进行订制代码切割配置！！！
+webpack.base.esm.mjs中的splitChunksConfig.cacheGroups可以根据具体项目的需要进行订制代码切割配置！！！

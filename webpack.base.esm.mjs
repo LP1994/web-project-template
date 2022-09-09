@@ -26,8 +26,10 @@
  * vue-loader:options.transpileOptions.transforms。
  * 变量esbuildMinifyConfig.format。
  *
- * 变量isUseESBuildLoader、isSPA、output.chunkLoadingGlobal、assetsWebpackPluginConfig中的配置、configures/GlobalParameters.esm.mjs中的配置、cleanWebpackPluginConfig.cleanOnceBeforeBuildPatterns。
- * assetsWebpackPluginConfig.metadata：display、version。
+ * 变量isUseESBuildLoader、变量isSPA、webpack的配置项：output.chunkLoadingGlobal、变量assetsWebpackPluginConfig中的配置、文件夹configures下的文件GlobalParameters.esm.mjs中的配置、变量cleanWebpackPluginConfig.cleanOnceBeforeBuildPatterns。
+ * 变量assetsWebpackPluginConfig.metadata：display、version。
+ * 变量moduleConfig里的cssLoader_url_import_IgnoreArr1变量。
+ * 变量experimentsConfig.buildHttp中的allowedCondition变量。
  *
  * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
  *
@@ -380,7 +382,7 @@ const browserslist = [
      * 1、值类型：boolean，true表示输出支持ES的模块化的代码。<br />
      * 2、当esmodules选项为true时，下面的browsers选项将会被忽略。<br />
      */
-    esmodules: true,
+    // esmodules: true,
 
     // 如果要针对Safari的技术预览版进行编译，可以指定safari: 'tp'，当前先使用vue_loader_options_transpileOptions_target中的safari版本。
     // safari: 'tp',
@@ -389,7 +391,7 @@ const browserslist = [
      * 1、值类型：string、Array<string>。使用browserslist选择浏览器的查询：last 2 versions, > 5%, safari tp。<br />
      * 2、当上面的esmodules选项为true时，下面的browsers选项将会被忽略。<br />
      */
-    // browsers: browserslist,
+    browsers: browserslist,
 
     // 注意：uglify选项已被弃用，并将在下一个主要版本中删除。
     // uglify: null，其实我也不知道这个选项的值类型。
@@ -4342,6 +4344,7 @@ const aliasConfig = {
       presets: babelPresetsJSX,
     } );
 
+    // 不通过webpack处理css中以如下设置的值开头的url。
     const cssLoader_url_import_IgnoreArr1 = [
       '../static/',
       '//',
@@ -4880,6 +4883,37 @@ const aliasConfig = {
       maxSize: 10 * 1024,
     };
 
+    const parserJavascriptConfig = {
+      amd: false,
+      requireJs: true,
+      system: true,
+      commonjs: true,
+      browserify: true,
+      commonjsMagicComments: true,
+      dynamicImportMode: 'lazy',
+      dynamicImportPrefetch: true,
+      dynamicImportPreload: true,
+      exportsPresence: 'error',
+      exprContextCritical: true,
+      exprContextRecursive: true,
+      harmony: true,
+      import: true,
+      importExportsPresence: 'error',
+      importMeta: true,
+      importMetaContext: true,
+      node: nodeConfig,
+      reexportExportsPresence: 'error',
+      requireContext: true,
+      requireEnsure: true,
+      requireInclude: true,
+      strictThisContextOnImports: true,
+      url: 'relative',
+      unknownContextCritical: true,
+      unknownContextRecursive: true,
+      wrappedContextCritical: true,
+      wrappedContextRecursive: true,
+    };
+
     return {
       generator: {
         /**
@@ -4939,110 +4973,10 @@ const aliasConfig = {
         asset: {
           dataUrlCondition,
         },
-        javascript: {
-          commonjs: true,
-          commonjsMagicComments: true,
-          dynamicImportMode: 'lazy',
-          dynamicImportPrefetch: true,
-          dynamicImportPreload: true,
-          exportsPresence: 'error',
-          exprContextCritical: true,
-          exprContextRecursive: true,
-          exprContextRegExp: false,
-          exprContextRequest: '.',
-          harmony: true,
-          import: true,
-          importExportsPresence: 'error',
-          importMeta: true,
-          importMetaContext: true,
-          node: nodeConfig,
-          reexportExportsPresence: 'error',
-          requireContext: true,
-          requireEnsure: true,
-          requireInclude: true,
-          requireJs: true,
-          strictThisContextOnImports: true,
-          system: true,
-          url: 'relative',
-        },
-        'javascript/auto': {
-          commonjs: true,
-          commonjsMagicComments: true,
-          dynamicImportMode: 'lazy',
-          dynamicImportPrefetch: true,
-          dynamicImportPreload: true,
-          exportsPresence: 'error',
-          exprContextCritical: true,
-          exprContextRecursive: true,
-          exprContextRegExp: false,
-          exprContextRequest: '.',
-          harmony: true,
-          import: true,
-          importExportsPresence: 'error',
-          importMeta: true,
-          importMetaContext: true,
-          node: nodeConfig,
-          reexportExportsPresence: 'error',
-          requireContext: true,
-          requireEnsure: true,
-          requireInclude: true,
-          requireJs: true,
-          strictThisContextOnImports: true,
-          system: true,
-          url: 'relative',
-        },
-        'javascript/dynamic': {
-          commonjs: false,
-          commonjsMagicComments: true,
-          dynamicImportMode: 'lazy',
-          dynamicImportPrefetch: true,
-          dynamicImportPreload: true,
-          exportsPresence: 'error',
-          exprContextCritical: true,
-          exprContextRecursive: true,
-          exprContextRegExp: false,
-          exprContextRequest: '.',
-          harmony: true,
-          import: true,
-          importExportsPresence: 'error',
-          importMeta: true,
-          importMetaContext: true,
-          node: nodeConfig,
-          reexportExportsPresence: 'error',
-          requireContext: false,
-          requireEnsure: false,
-          requireInclude: false,
-          requireJs: false,
-          strictThisContextOnImports: true,
-          system: false,
-          url: 'relative',
-        },
-        'javascript/esm': {
-          commonjs: false,
-          commonjsMagicComments: true,
-          dynamicImportMode: 'lazy',
-          dynamicImportPrefetch: true,
-          dynamicImportPreload: true,
-          exportsPresence: 'error',
-          exprContextCritical: true,
-          exprContextRecursive: true,
-          exprContextRegExp: false,
-          exprContextRequest: '.',
-          harmony: true,
-          import: true,
-          importExportsPresence: 'error',
-          importMeta: true,
-          importMetaContext: true,
-          node: nodeConfig,
-          reexportExportsPresence: 'error',
-          requireContext: false,
-          requireEnsure: false,
-          requireInclude: false,
-          requireJs: false,
-          strictThisContextOnImports: true,
-          system: false,
-          url: 'relative',
-        },
+        javascript: parserJavascriptConfig,
+        'javascript/auto': parserJavascriptConfig,
+        'javascript/dynamic': parserJavascriptConfig,
+        'javascript/esm': parserJavascriptConfig,
       },
       unsafeCache: false,
       /**
@@ -5272,9 +5206,9 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
-        // 处理.graphql文件、.gql文件，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
+        // 处理.graphql文件、.graphqls文件、.gql文件，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
-          test: /\.(graphql|gql)$/i,
+          test: /\.(graphql|graphqls|gql)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             {
@@ -6910,7 +6844,7 @@ const aliasConfig = {
          * 2、TerserPlugin比ESBuildMinifyPlugin更好地支持esbuild，即TerserPlugin支持缓存和多线程。<br />
          */
         new TerserPlugin( {
-          test: /\.(js|mjs)$/i,
+          test: /\.(js|cjs|mjs)$/i,
           parallel: cpus().length - 1,
           extractComments: false,
           // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
@@ -7066,7 +7000,7 @@ const aliasConfig = {
           },
         } ),
         new JsonMinimizerPlugin( {
-          test: /\.json$/i,
+          test: /\.(json|json5)$/i,
           minimizerOptions: {
             replacer: null,
             space: null,
@@ -7995,7 +7929,7 @@ const aliasConfig = {
   performanceConfig = {
     // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
     assetFilter( assetFilename ){
-      const arr1 = Array.from( new Set( JSON.parse( '["3gp","3gpp","aac","aiff","amr","ape","apng","arw","asf","asx","au","avi","avif","bmp","bpg","cda","cjs","cr2","cson","css","csv","cts","cur","dat","dcx","dng","ejs","eot","flac","flif","flv","fon","font","gif","gql","graphql","handlebars","hbs","heic","heif","htm","html","icns","ico","j2c","j2k","jade","jbig2","jng","jp2","jpe","jpeg","jpg","jpm","jpx","js","json","json5","jsx","jxl","jxr","kar","ktx","less","m4a","m4v","markdown","md","mid","midi","mj2","mjs","mkv","mng","mod","mov","mp1","mp2","mp3","mp4","mpeg","mpeg-1","mpeg-2","mpeg-4","mpeg-layer3","mpg","mts","mustache","nef","ogg","orf","otf","pam","pbm","pcss","pcx","pgm","png","pnm","postcss","ppm","psd","pug","ra","raf","raw","rgbe","rm","rmvb","rmx","rw2","sass","scss","styl","stylus","svg","svgz","tga","tif","tiff","toml","ts","tsv","tsx","ttc","ttf","txt","vob","vorbis","vqf","vue","wasm","wav","wave","wbmp","webm","webp","wp2","wma","wmv","woff","woff2","xbm","xhtml","xml","xpm","yaml"]' ) ) );
+      const arr1 = Array.from( new Set( JSON.parse( '["3gp","3gpp","aac","aiff","amr","ape","apng","arw","asf","asx","au","avi","avif","bmp","bpg","cda","cjs","cr2","cson","css","csv","cts","cur","dat","dcx","dng","ejs","eot","flac","flif","flv","fon","font","gif","gql","graphql","graphqls","handlebars","hbs","heic","heif","htm","html","icns","ico","j2c","j2k","jade","jbig2","jng","jp2","jpe","jpeg","jpg","jpm","jpx","js","json","json5","jsx","jxl","jxr","kar","ktx","less","m4a","m4v","markdown","md","mid","midi","mj2","mjs","mkv","mng","mod","mov","mp1","mp2","mp3","mp4","mpeg","mpeg-1","mpeg-2","mpeg-4","mpeg-layer3","mpg","mts","mustache","nef","ogg","orf","otf","pam","pbm","pcss","pcx","pgm","png","pnm","postcss","ppm","psd","pug","ra","raf","raw","rgbe","rm","rmvb","rmx","rw2","sass","scss","styl","stylus","svg","svgz","tga","tif","tiff","toml","ts","tsv","tsx","ttc","ttf","txt","vob","vorbis","vqf","vue","wasm","wav","wave","wbmp","webm","webp","wp2","wma","wmv","woff","woff2","xbm","xhtml","xml","xpm","yaml"]' ) ) );
 
       return new RegExp( `\\.(${ arr1.join( '|' ) })$`, 'i' ).test( assetFilename );
     },
@@ -8083,11 +8017,11 @@ const aliasConfig = {
    * 2、请注意，尽管此文件是由编译器生成的，但您可能仍希望在源代码管理中对其进行跟踪，以保留其随时间变化的历史记录。<br />
    * 3、设置recordsPath本质上会将recordsInputPath和recordsOutputPath设置为相同的位置。这通常是所有必要的，除非您决定更改包含记录的文件的名称。<br />
    *
-   * @param folderName
+   * @param folderName {string} 取上面的顶层变量env_platform即可。<br />
    *
    * @returns {string}
    */
-  recordsPathConfig = folderName => {
+  recordsPathConfig = ( folderName = env_platform ) => {
     const {
         year,
         month,
