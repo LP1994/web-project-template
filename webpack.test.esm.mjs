@@ -52,6 +52,8 @@ import {
   definePluginConfig,
   entryConfig,
   experimentsConfig,
+  extensionsConfig,
+  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
@@ -253,6 +255,8 @@ export default {
      * 1、强制解析器使用扩展选项中的一个扩展（用户必须指定不带扩展的请求）。<br />
      */
     enforceExtension: false,
+    extensions: extensionsConfig,
+    extensionAlias: extensionAliasConfig,
     modules: [
       'node_modules',
     ],

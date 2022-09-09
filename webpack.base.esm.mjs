@@ -21,12 +21,13 @@
  * package.json中的browserslist字段，值同变量browserslist。
  * tsconfig.json中的compilerOptions.module、compilerOptions.target。
  * webpack的配置项：experiments、target、output.environment。
- * 变量babel_targets中的esmodules选项。
+ * 变量babel_targets中的esmodules选项、browsers选项。
  * @babel/preset-env中的forceAllTransforms选项。
  * vue-loader:options.transpileOptions.transforms。
  * 变量esbuildMinifyConfig.format。
  *
  * 变量isUseESBuildLoader、isSPA、output.chunkLoadingGlobal、assetsWebpackPluginConfig中的配置、configures/GlobalParameters.esm.mjs中的配置、cleanWebpackPluginConfig.cleanOnceBeforeBuildPatterns。
+ * assetsWebpackPluginConfig.metadata：display、version。
  *
  * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
  *
@@ -377,14 +378,18 @@ const browserslist = [
     /**
      * 您还可以针对支持ES模块的浏览器，当指定esmodules目标时，它将与browsers目标和browserslist的目标相交。您可以将此方法与<script type="module"></script>结合使用，以有条件地向用户提供较小的脚本。<br />
      * 1、值类型：boolean，true表示输出支持ES的模块化的代码。<br />
+     * 2、当esmodules选项为true时，下面的browsers选项将会被忽略。<br />
      */
     esmodules: true,
 
     // 如果要针对Safari的技术预览版进行编译，可以指定safari: 'tp'，当前先使用vue_loader_options_transpileOptions_target中的safari版本。
     // safari: 'tp',
 
-    // 值类型：string、Array<string>。使用browserslist选择浏览器的查询：last 2 versions, > 5%, safari tp。
-    browsers: browserslist,
+    /**
+     * 1、值类型：string、Array<string>。使用browserslist选择浏览器的查询：last 2 versions, > 5%, safari tp。<br />
+     * 2、当上面的esmodules选项为true时，下面的browsers选项将会被忽略。<br />
+     */
+    // browsers: browserslist,
 
     // 注意：uglify选项已被弃用，并将在下一个主要版本中删除。
     // uglify: null，其实我也不知道这个选项的值类型。
@@ -1076,6 +1081,36 @@ ThreadLoader.warmup( vueWorkerPoolConfig, [
 ] );
 
 /**
+ * 返回传入时间对象的年、月、日、时、分、秒、周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。<br />
+ *
+ * @param nowDate {Date} 一个时间对象，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ *
+ * @returns {{year: string, month: string, date: string, hours: string, minutes: string, seconds: string, day: string}} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。
+ */
+function DateHandle( nowDate = new Date( Date.now() ) ){
+  const year = String( nowDate.getFullYear() ),
+    month = String( nowDate.getMonth() + 1 ).padStart( 2, '0' ),
+    date = String( nowDate.getDate() ).padStart( 2, '0' ),
+    hours = String( nowDate.getHours() ).padStart( 2, '0' ),
+    minutes = String( nowDate.getMinutes() ).padStart( 2, '0' ),
+    seconds = String( nowDate.getSeconds() ).padStart( 2, '0' ),
+    day0 = Number( nowDate.getDay() ),
+    day = String( day0 === 0
+                  ? '日'
+                  : day0 );
+
+  return {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  };
+}
+
+/**
  * 生成自定义的https证书。<br />
  *
  * @returns {Promise<{ key, cert, ca }>}
@@ -1257,7 +1292,20 @@ const aliasConfig = {
     // 启用该选项需要依赖entrypoints选项的值为true才能生效，否则会报错！
     includeDynamicImportedAssets: true,
     metadata: {
-      version: '2022.01.01',
+      display: 'web-project-template',
+      version: '6.0.0',
+      date: ( () => {
+        const {
+          year,
+          month,
+          date,
+          hours,
+          minutes,
+          seconds,
+        } = DateHandle();
+
+        return `${ year }_${ month }_${ date }_${ hours }_${ minutes }_${ seconds }`;
+      } )(),
     },
   },
   /**
@@ -2275,6 +2323,58 @@ const aliasConfig = {
     topLevelAwait: true,
   },
   /**
+   * @type {array}
+   */
+  extensionsConfig = [
+    '...',
+
+    '.js',
+    '.cjs',
+    '.mjs',
+    '.ts',
+    '.cts',
+    '.mts',
+
+    '.jsx',
+    '.tsx',
+
+    '.json',
+    '.json5',
+
+    '.wasm',
+
+    '.vue',
+  ],
+  /**
+   * @type {object}
+   */
+  extensionAliasConfig = {
+    '.js': [
+      '.js',
+      '.cjs',
+      '.mjs',
+      '.ts',
+      '.cts',
+      '.mts',
+    ],
+    '.cjs': [
+      '.js',
+      '.cjs',
+      '.mjs',
+      '.ts',
+      '.cts',
+      '.mts',
+    ],
+    '.mjs': [
+      '.js',
+      '.cjs',
+      '.mjs',
+      '.ts',
+      '.cts',
+      '.mts',
+    ],
+  },
+  /**
    * externals配置选项提供了一种从输出包中排除依赖项的方法。此功能通常对库开发人员最有用，但它有多种应用程序。<br />
    * 1、防止捆绑某些导入的包，而是在运行时检索这些外部依赖项。<br />
    * 2、有效值类型：string、object、function、RegExp、[ string ]、[ object ]、[ function ]、[ RegExp ]。<br />
@@ -2371,7 +2471,22 @@ const aliasConfig = {
           compiler: '@vue/compiler-sfc',
         },
       },
-      // 测量并打印与TypeScript性能相关的计时。
+      /*
+       测量并打印与TypeScript性能相关的计时，启用后会输出如下信息：
+       ┌───────────────┬────────────────────┐
+       │    (index)    │       Values       │
+       ├───────────────┼────────────────────┤
+       │    Tracing    │ 46.75679999217391  │
+       │   I/O Read    │ 55.00110001116991  │
+       │     Parse     │ 999.4141999967396  │
+       │ ResolveModule │ 47.86929999664426  │
+       │    Program    │ 1573.2212000004947 │
+       │     Bind      │ 318.62649999558926 │
+       │     Check     │ 55.84309998527169  │
+       │ transformTime │ 16.43519999831915  │
+       │  Dump types   │ 76.64220000058413  │
+       └───────────────┴────────────────────┘
+       */
       profile: true,
       // 如果提供，这是可以在其中找到TypeScript的自定义路径。
       typescriptPath: resolve( __dirname, './node_modules/typescript/lib/typescript.js' ),
@@ -2451,7 +2566,7 @@ const aliasConfig = {
         // boolean, defaults to false。启用此选项以强制将代码语法高亮为JavaScript（对于非终端）；覆盖highlightCode选项。
         forceColor: true,
         // string。传入要在代码中突出显示的位置旁边内联显示的字符串（如果可能）。如果它不能内联定位，它将被放置在代码框的上方。
-        message: '来自forkTsCheckerWebpackPlugin.formatter.options.message',
+        message: '关键错误',
       },
     },
     logger: 'webpack-infrastructure',
@@ -2493,7 +2608,7 @@ const aliasConfig = {
    * @type {object}
    */
   minChunkSizePluginConfig = {
-    minChunkSize: 10 * 1024,
+    minChunkSize: 5 * 1024,
   },
   /**
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
@@ -3855,7 +3970,7 @@ const aliasConfig = {
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.25.0',
+            } )() || '3.25.1',
             proposals: true,
           },
           /**
@@ -4326,7 +4441,15 @@ const aliasConfig = {
             'postcss-single-charset',
 
             // postcss-remove-nested-calc（说是已弃用），calc(100vw - calc(20% - 10px))到calc(100vw - (20% - 10px))以实现IE 11兼容性（其实IE 9及其以上版本也都不支持calc函数嵌套）。
-            'postcss-remove-nested-calc',
+            // 'postcss-remove-nested-calc',
+
+            // @csstools/postcss-nested-calc，处理calc函数的嵌套。
+            [
+              '@csstools/postcss-nested-calc',
+              {
+                preserve: false,
+              },
+            ],
 
             /**
              * postcss-calc
@@ -7965,17 +8088,15 @@ const aliasConfig = {
    * @returns {string}
    */
   recordsPathConfig = folderName => {
-    const nowDate = new Date( Date.now() ),
-      year = nowDate.getFullYear(),
-      month = String( nowDate.getMonth() + 1 ).padStart( 2, '0' ),
-      date = String( nowDate.getDate() ).padStart( 2, '0' ),
-      hours = String( nowDate.getHours() ).padStart( 2, '0' ),
-      minutes = String( nowDate.getMinutes() ).padStart( 2, '0' ),
-      seconds = String( nowDate.getSeconds() ).padStart( 2, '0' ),
-      day0 = Number( nowDate.getDay() ),
-      day = day0 === 0
-            ? '日'
-            : day0,
+    const {
+        year,
+        month,
+        date,
+        hours,
+        minutes,
+        seconds,
+        day,
+      } = DateHandle(),
       recordsPath = `./webpack_records/${ folderName }/Records_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).json5`;
 
     return join( __dirname, recordsPath );
@@ -8040,6 +8161,8 @@ export {
   devServerConfig,
   entryConfig,
   experimentsConfig,
+  extensionsConfig,
+  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
@@ -8077,6 +8200,8 @@ export default {
   devServerConfig,
   entryConfig,
   experimentsConfig,
+  extensionsConfig,
+  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,

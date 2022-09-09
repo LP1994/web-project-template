@@ -1,7 +1,7 @@
 {
   "display": "web-project-template",
   "_version": "1.0.0",
-  "_typescript_version": "4.8.2",
+  "_typescript_version": "4.8.3",
   "_description": "这是给web-project-template项目使用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -40,6 +40,7 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "es2022",
+    "traceResolution": false,
     "baseUrl": "./",
     "paths": {
       "element-ui-css": [
@@ -51,8 +52,8 @@
       "swiper-css": [
         "./node_modules/swiper/swiper-bundle.min.css"
       ],
-      "tslib/*": [
-        "./node_modules/tslib/*"
+      "tslib": [
+        "./node_modules/tslib/"
       ],
       "assetsDir/*": [
         "./src/assets/*"
@@ -191,6 +192,7 @@
     "types": [],
     "declarationDir": "./ts_compiled/",
     "outDir": "./ts_compiled/",
+    "generateTrace": "./ts_compiled/",
     "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
     "lib": [
       "dom",

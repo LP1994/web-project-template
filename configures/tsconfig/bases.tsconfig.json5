@@ -1,7 +1,7 @@
 {
   "display": "bases",
   "_version": "1.0.0",
-  "_typescript_version": "4.8.2",
+  "_typescript_version": "4.8.3",
   "_description": "这是基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -221,25 +221,27 @@
     1、对于“node”项目，您很可能需要设置成“commonjs”，如果是按ESM模块化写Node项目的话，系不用设置成“commonjs”的，用“es6”及其以上的都行。
     2、更改“module”选项会影响“moduleResolution”选项。
     3、该选项默认情况下受“target”选项影响，如果“target”选项值是ES3或ES5，则该选项默认为“commonjs”，否则该选项默认为：es6（别名：es2015）。
-    4、允许的值有：none（等同于commonjs）、commonjs、amd、umd、system、es6（别名：es2015）、es2020、es2022、esnext、node12、node16、nodenext。
+    4、允许的值有：none（等同于commonjs）、commonjs、amd、umd、system、es6（别名：es2015）、es2020、es2022、esnext、node16、nodenext。
     5、如果“target”选项值为ES3或ES5，强烈建议将该选项值设置为commonjs。
     6、如果你想知道es6（别名：es2015）和es2020之间的区别，es2020增加了对“动态导入”和“import.meta”的支持。
-    7、在夜间构建中可用，实验性的node12、node16和nodenext模式与Node的原生ECMAScript模块支持集成。
+    7、从4.7+开始，node16和nodeext模式与Node的原生ECMAScript模块支持集成。
     8、发出的JavaScript使用commonjs或es2020输出，具体取决于“文件扩展名”和最近的package.json中“type”设置的值，“Module resolution”的工作方式也不同，您可以在手册中了解更多信息。
+    9、确保避免设置module为“commonjs”，否则webpack将无法对您的代码进行tree-shaking。
+    10、。
     */
     "module": "es2022",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
-    1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node12、node16、nodenext，该选项默认值为node。
-    2、允许的值有：classic、node、node12、node16、nodenext。
+    1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
+    2、允许的值有：classic、node、node16、nodenext。
     3、选项值node用于Node.js的CommonJS实现。
-    4、选项值node12、node16、nodenext从TypeScript 4.5开始，用于Node.js的ECMAScript模块支持。
+    4、选项值node16、nodenext从TypeScript 4.5开始，用于Node.js的ECMAScript模块支持。
     5、选项值classic用于TypeScript 1.6之前的版本。您可能不需要在现代代码中使用“classic”值。
     6、该选项值为“node”值时，决定了“resolveJsonModule”选项值为true时的有效设置并启用。
     7、设置成“node”时，路径必须以“./”、“../”这样的相对路径打头，否则会报错，设置成“classic”就不会有这个问题。
     8、如果未指定，则默认为Node for --module commonjs，否则为classic（包括将module设置为amd、system、umd、es2015、esnext等时）。
     9、如果您在TypeScript中遇到导入和导出的解析问题，请尝试设置moduleResolution: "node" 以查看它是否解决了问题。
-    10、强烈建议设置成：node、node12、node16、nodenext其中之一，并且尽可能以“相对路径”（./、../）或“设置路径别名”来作为导入路径中的打头开始。
+    10、强烈建议设置成：node、node16、nodenext其中之一，并且尽可能以“相对路径”（./、../）或“设置路径别名”来作为导入路径中的打头开始。
     11、优先设置成“node”，可以解决很多情况下的报错！！！
     */
     "moduleResolution": "node",
@@ -266,8 +268,9 @@
       "swiper-css": [
         "./node_modules/swiper/swiper-bundle.min.css"
       ],
-      "tslib/*": [
-        "./node_modules/tslib/*"
+      // tslib这个别名只能设置成如下的样式。
+      "tslib": [
+        "./node_modules/tslib/"
       ],
     },
     /*
@@ -336,6 +339,7 @@
     允许在每个项目中从tslib导入一次助手函数，而不是在每个文件中包含它们。
     1、对于某些降级操作，TypeScript使用一些帮助代码进行扩展类、扩展数组或对象以及异步操作等操作。
     2、默认情况下，这些助手被插入到使用它们的文件中。如果在许多不同的模块中使用相同的帮助程序，这可能会导致代码重复。
+    3、设置成false，则不会在控制台输出多余的tslib处理信息，但是还是要设置成true，因为不会为每个文件都产生转译语法，而是从tslib导入那些转译语法，这样就不会产生大量重复的转译代码。
     */
     "importHelpers": true,
     /*
@@ -419,9 +423,9 @@
     */
     "preserveValueImports": true,
     /*
-    转换为JavaScript时从TypeScript文件中删除所有注释。默认为false。
+    转换为JavaScript时从TypeScript文件中删除所有注释。默认为false，设置成false才能保留webpack魔术注解，以供webpack处理。
     */
-    "removeComments": true,
+    "removeComments": false,
     /*
     为发出的JavaScript文件创建源映射文件。、
     1、启用源映射文件的生成。这些文件允许调试器和其他工具在实际使用发出的JavaScript文件时显示原始TypeScript源代码。
@@ -674,6 +678,13 @@
       "webworker.iterable",
     ],
     /*
+    三个值：
+    1、auto（默认值）：TypeScript不仅会查找import和export语句，还会检查package.json中的“type”字段是否设置为“module”，当使用module: nodeext或node16运行时，并在jsx下运行时检查当前文件是否为JSX文件：react-jsx。
+    2、legacy：与4.6及之前版本相同的行为，使用import和export语句来确定文件是否为模块。
+    3、force：确保每个非声明文件都被视为一个模块。
+    */
+    "moduleDetection": "auto",
+    /*
     禁用自动包含任何库文件，包括默认lib.d.ts。如果设置此选项，则忽略lib。
     */
     "noLib": false,
@@ -736,7 +747,8 @@
     */
     // "listFiles": false,
     /*
-    当您尝试调试未包含模块的原因时。您可以将traceResolutions设置为true，以使TypeScript打印有关每个已处理文件的解析过程的信息。
+    1、当您尝试调试未包含模块的原因时。您可以将traceResolutions设置为true，以使TypeScript打印有关每个已处理文件的解析过程的信息。
+    2、设置成false就不会在控制台输出详细的处理信息，但是这样就不能清楚的知道各个的文件处理过程。
     */
     "traceResolution": true,
     /*
@@ -807,7 +819,10 @@
     2、在“-incremental”和“-watch”中进行重新编译假定文件中的更改只会直接影响依赖于它的文件。需要TypeScript版本3.8或更高版本。
     */
     "assumeChangesOnlyAffectDirectDependencies": true,
-    "generateTrace": "./ts_compiled/"
+    // "generateTrace": "./ts_compiled/",
+    "moduleSuffixes": [
+      "",
+    ],
   },
   /*
   您可以配置TypeScript --watch的工作方式。本节主要用于处理fs.watch和fs.watchFile具有附加约束的情况，例如在Linux上。您可以在“Configuring Watch”中阅读更多内容。

@@ -18,6 +18,7 @@
 const path = require( 'path' ),
   webpack = require( 'webpack' );
 
+//noinspection WebpackConfigHighlighting
 module.exports = {
   plugins: [
     /**
@@ -156,6 +157,52 @@ module.exports = {
      * 1、强制解析器使用扩展选项中的一个扩展（用户必须指定不带扩展的请求）。<br />
      */
     enforceExtension: false,
+    extensions: [
+      '...',
+
+      '.js',
+      '.cjs',
+      '.mjs',
+      '.ts',
+      '.cts',
+      '.mts',
+
+      '.jsx',
+      '.tsx',
+
+      '.json',
+      '.json5',
+
+      '.wasm',
+
+      '.vue',
+    ],
+    extensionAlias: {
+      '.js': [
+        '.js',
+        '.cjs',
+        '.mjs',
+        '.ts',
+        '.cts',
+        '.mts',
+      ],
+      '.cjs': [
+        '.js',
+        '.cjs',
+        '.mjs',
+        '.ts',
+        '.cts',
+        '.mts',
+      ],
+      '.mjs': [
+        '.js',
+        '.cjs',
+        '.mjs',
+        '.ts',
+        '.cts',
+        '.mts',
+      ],
+    },
     modules: [
       'node_modules',
     ],
