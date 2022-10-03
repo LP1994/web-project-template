@@ -1,0 +1,95 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/head_meta/Meta_itemprop_001.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-09-11 12:24:18 星期日
+-->
+<% if(itemprop !== null && itemprop !== undefined){ %>
+    <!--
+    itemprop:type的值可能有（参照og:type的）：
+    website（https://ogp.me/ns/website#）：网站，如果它是一个没有特定垂直行业的一般网站，你可能更适合使用“website”类型。
+    article（https://ogp.me/ns/article#）：文章。
+    book（https://ogp.me/ns/book#）：书籍。
+    profile（https://ogp.me/ns/profile#）：个人。
+    music.song（https://ogp.me/ns/music#）：歌曲。
+    music.album（https://ogp.me/ns/music#）：歌曲专辑。
+    music.playlist（https://ogp.me/ns/music#）：歌曲播放列表。
+    music.radio_station（https://ogp.me/ns/music#）：广播电台。
+    video.movie（https://ogp.me/ns/video#）：电影。
+    video.episode（https://ogp.me/ns/video#）：插曲。
+    video.tv_show（https://ogp.me/ns/video#）：电视节目。
+    video.other（https://ogp.me/ns/video#）：其他类别的视频。
+    
+    更多类型见：
+    https://developers.facebook.com/apps/redirect/open-graph/action-types
+    -->
+    <% if(itemprop.type !== null && itemprop.type !== undefined){ %>
+        <meta
+                property = 'type'
+                content = '<%= itemprop.type %>' />
+    <% } %>
+
+    <!--
+    分享地址。
+    -->
+    <% if(itemprop.url !== null && itemprop.url !== undefined){ %>
+        <meta
+                property = 'url'
+                content = '<%= itemprop.url %>' />
+    <% } %>
+
+    <!--
+    name中content的值为分享显示的标题，同<title></title>标签内的值。
+    -->
+    <% if(itemprop.name !== null && itemprop.name !== undefined){ %>
+        <meta
+                itemprop = 'name'
+                content = '<%= itemprop.name %>' />
+        <meta
+                property = 'title'
+                content = '<%= itemprop.name %>' />
+    <% } %>
+
+    <!--
+    description中content的值为分享显示的描述，同<meta name = 'description' />的值。
+    -->
+    <% if(itemprop.description !== null && itemprop.description !== undefined){ %>
+        <meta
+                itemprop = 'description'
+                content = '<%= itemprop.description %>' />
+        <meta
+                property = 'description'
+                content = '<%= itemprop.description %>' />
+    <% } %>
+
+    <!--
+    图片链接最好是https://的。
+    -->
+    <% if(itemprop.image !== null && itemprop.image !== undefined){ %>
+        <meta
+                itemprop = 'image'
+                content = '<%= itemprop.image %>' />
+        <meta
+                property = 'image'
+                content = '<%= itemprop.image %>' />
+        <meta
+                itemprop = 'msApplication-TileImage'
+                content = '<%= itemprop.image %>' />
+    <% } %>
+
+    <% Object.keys( itemprop ).forEach( item => { %>
+        <% if( ![
+            'type',
+            'url',
+            'name',
+            'description',
+            'image',
+        ].includes( item ) ){ %>
+            <meta
+                    itemprop = '<%= item %>'
+                    content = '<%= itemprop[ item ] %>' />
+        <% } %>
+    <% } ) %>
+<% } %>

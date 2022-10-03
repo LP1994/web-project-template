@@ -1,7 +1,7 @@
 {
   "display": "web-project-template",
   "_version": "1.0.0",
-  "_typescript_version": "4.8.3",
+  "_typescript_version": "4.8.4",
   "_description": "这是给web-project-template项目使用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -194,6 +194,7 @@
     "outDir": "./ts_compiled/",
     "generateTrace": "./ts_compiled/",
     "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
+    "moduleSuffixes": [],
     "lib": [
       "dom",
       "dom.iterable",

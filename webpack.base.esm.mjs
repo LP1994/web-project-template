@@ -31,7 +31,8 @@
  * 变量moduleConfig里的cssLoader_url_import_IgnoreArr1变量。
  * 变量experimentsConfig.buildHttp中的allowedCondition变量。
  *
- * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs（单位是MB，当前配置是1GB），以下“thread-loader”一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
+ * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs、forkTsCheckerWebpackPluginConfig.typescript.memoryLimit中设置的值。
+ * PS：本来想通过代码来动态的根据本机空闲内存来设置，但是不知为何会报错，只能写死设置。
  *
  * 3、本配置中的路径字符都是以Windows平台为主，没做其他系统平台的兼容，如果需要在其他系统平台使用，注意针对性修改如“./”、“//”、“\\”、“/”、“\”之类的路径。
  */
@@ -273,21 +274,21 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20220902。Start
-    'Chrome >= 105',
+    // PC端各主流浏览器的最新版本，至20221002。Start
+    'Chrome >= 106',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 105',
-    'Firefox >= 104',
-    'Safari >= 15',
-    'Opera >= 90',
-    // PC端各主流浏览器的最新版本，至20220902。End
+    'Firefox >= 105',
+    'Safari >= 16',
+    'Opera >= 91',
+    // PC端各主流浏览器的最新版本，至20221002。End
 
-    // 移动端各主流浏览器的最新版本，至20220902。Start
-    'ChromeAndroid >= 105',
-    'Android >= 105',
-    'FirefoxAndroid >= 104',
-    'iOS >= 15',
-    // 移动端各主流浏览器的最新版本，至20220902。End
+    // 移动端各主流浏览器的最新版本，至20221002。Start
+    'ChromeAndroid >= 106',
+    'Android >= 106',
+    'FirefoxAndroid >= 105',
+    'iOS >= 16',
+    // 移动端各主流浏览器的最新版本，至20221002。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -318,17 +319,17 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20220902。Start
-    'chrome105',
+    // PC端各主流浏览器的最新版本，至20221002。Start
+    'chrome106',
     'edge105',
-    'firefox104',
-    'safari15',
-    'opera90',
-    // PC端各主流浏览器的最新版本，至20220902。End
+    'firefox105',
+    'safari16',
+    'opera91',
+    // PC端各主流浏览器的最新版本，至20221002。End
 
-    // 移动端各主流浏览器的最新版本，至20220902。Start
-    'ios15',
-    // 移动端各主流浏览器的最新版本，至20220902。End
+    // 移动端各主流浏览器的最新版本，至20221002。Start
+    'ios16',
+    // 移动端各主流浏览器的最新版本，至20221002。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -357,18 +358,18 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20220902。Start
-    chrome: 105,
+    // PC端各主流浏览器的最新版本，至20221002。Start
+    chrome: 106,
     edge: 105,
-    firefox: 104,
-    safari: 15,
-    opera: 90,
-    // PC端各主流浏览器的最新版本，至20220902。End
+    firefox: 105,
+    safari: 16,
+    opera: 91,
+    // PC端各主流浏览器的最新版本，至20221002。End
 
-    // 移动端各主流浏览器的最新版本，至20220902。Start
-    android: 105,
-    ios: 15,
-    // 移动端各主流浏览器的最新版本，至20220902。End
+    // 移动端各主流浏览器的最新版本，至20221002。Start
+    android: 106,
+    ios: 16,
+    // 移动端各主流浏览器的最新版本，至20221002。End
   },
   /**
    * 编译目标配置。
@@ -974,7 +975,7 @@ const autoprefixerConfig = {
     } )(),
   };
 
-// 以下一共会生成34个node子进程，每个最大占用1GB物理内存，一共34GB，总内存建议别超过本机最大物理内存的一半。
+// 以下一共会生成34个node子进程。
 /**
  * 1、将此装载机放在其他装载机的前面，use: [ 'thread-loader', 'babel-loader' ]。<br />
  * 2、在工作池中运行的加载程序是有限的：<br />
@@ -991,6 +992,7 @@ const jsWorkerPoolConfig = {
     workerParallelJobs: 20,
     // 其他的node.js参数
     workerNodeArgs: [
+      // 单位为MB。
       `--max-old-space-size=${ 1 * 1024 }`,
     ],
     // 允许重新启动一个已死亡的工作线程池。重新启动会减慢整个编译过程，在开发时应设置为false。
@@ -2622,7 +2624,7 @@ const aliasConfig = {
    */
   miniCssExtractPluginConfig = {
     // 此选项确定每个输出CSS文件的名称。
-    filename: 'styles/[name]_[contenthash].css',
+    filename: 'styles/[name]_Bundle_[contenthash].css',
     /**
      * 此选项确定非入口块文件的名称。<br />
      * 1、将chunkFilename指定为函数仅在webpack@5中可用。<br />
@@ -2630,6 +2632,9 @@ const aliasConfig = {
     chunkFilename: 'styles/[name]_Chunk_[contenthash].css',
     // 启用以删除有关顺序冲突的警告。对于通过一致使用范围或命名约定来减轻css排序的项目，可以通过将插件的ignoreOrder标志设置为true来禁用css顺序警告。
     ignoreOrder: false,
+    attributes: {
+      'data-is-production': `${ isProduction }`,
+    },
   },
   /**
    * 以下选项表示是否填充或模拟某些Node.js的全局变量。<br />
@@ -2820,7 +2825,7 @@ const aliasConfig = {
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.19.0',
+          } )() || '7.19.1',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -2934,19 +2939,25 @@ const aliasConfig = {
               '@babel/plugin-proposal-decorators',
               {
                 /**
-                 * 从v 7.17.0开始添加这个新的version选项，有效值有：'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
-                 * 1、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
+                 * 从v7.17.0开始添加这个新的version选项，有效值有：'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
+                 * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
                  * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
-                 * 3、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
+                 * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
+                 * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
                  */
-                version: '2021-12',
+                version: '2022-03',
                 /**
                  * 添加此选项是为了帮助tc39通过允许对两种可能的语法进行试验来收集来自社区的反馈。<br />
-                 * 1、当上面的version选项值为"legacy"时，该选项被禁用。<br />
-                 * 2、当上面的version选项值为"2018-09"时，该选项被启用。<br />
-                 * 3、当上面的version选项值为"2021-12"时，该选项是可选的，且默认值为false。<br />
+                 * 1、当上面的version选项值为"legacy"时，该选项被禁用，也就是说该选项不能设置。<br />
+                 * 2、当上面的version选项值为"2018-09"时，该选项被启用，设置成true或false都行。<br />
+                 * 3、当上面的version选项值为"2021-12"时，该选项是可选的，设置成true或false都行，且默认值为false。<br />
+                 * 4、当上面的version选项值为"2022-03"时，该选项被禁用，也就是说该选项不能设置。<br />
+                 * 5、从最新的源码中可知当该选项值为undefined时，上面的version选项值为"2021-12"和"2022-03"时，会被设置为false。<br />
+                 * 6、从最新的源码中可知当该选项值为undefined时，上面的version为"2018-09"或未指定时，会通过抛出异常错误来提示该选项值类型必须为布尔类型，也就是设置为true或false。<br />
+                 * 7、从最新的源码中可知当该选项值不为undefined时，上面的version选项值为"legacy"和"2022-03"时，会抛出异常错误。<br />
                  */
-                decoratorsBeforeExport: true,
+                // decoratorsBeforeExport: true,
+
                 // 已弃用：改用version: "legacy"。此选项是旧别名。
                 // legacy: false,
               },
@@ -3972,7 +3983,7 @@ const aliasConfig = {
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.25.1',
+            } )() || '3.25.4',
             proposals: true,
           },
           /**
@@ -5033,6 +5044,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.css文件。
         {
           test: /\.css$/i,
@@ -5083,6 +5095,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
+
         // 处理.csv文件、.tsv文件。
         {
           test: /\.(csv|tsv)$/i,
@@ -5123,6 +5136,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.ejs文件。
         {
           test: /\.ejs$/i,
@@ -5163,6 +5177,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理字体文件。
         {
           test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
@@ -5206,6 +5221,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.graphql文件、.graphqls文件、.gql文件，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
           test: /\.(graphql|graphqls|gql)$/i,
@@ -5249,6 +5265,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // handlebars-loader，处理.handlebars文件、.hbs文件。
         {
           test: /\.(handlebars|hbs)$/i,
@@ -5289,6 +5306,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // html-loader，处理.htm文件、.html文件、.xhtml文件。
         {
           test: /\.(htm|html|xhtml)$/i,
@@ -5332,6 +5350,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         /**
          * 处理图片。<br />
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
@@ -5378,6 +5397,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.js文件、.cjs文件。
         {
           test: /\.(js|cjs)$/i,
@@ -5423,6 +5443,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.mjs文件。
         {
           test: /\.mjs$/i,
@@ -5468,6 +5489,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.jsx文件。
         {
           test: /\.jsx$/i,
@@ -5513,6 +5535,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.json5文件。
         {
           test: /\.json5$/i,
@@ -5547,6 +5570,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.less文件。
         {
           test: /\.less$/i,
@@ -5651,6 +5675,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
+
         // 处理.toml文件。
         {
           test: /\.toml$/i,
@@ -5685,6 +5710,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.txt文件。
         {
           test: /\.txt$/i,
@@ -5716,6 +5742,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.manifest.json文件，给PWA用的manifest文件。
         {
           test: /\.manifest\.json$/i,
@@ -5751,6 +5778,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 自定义处理.json文件，以免.manifest.json文件被当成.json文件处理，而且该自定义必须得在.manifest.json处理之后。
         {
           test: /\.json$/i,
@@ -5792,6 +5820,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // markdown-loader，处理.markdown文件、.md文件，由于markdown的输出是HTML，因此最好与html-loader一起使用。
         {
           test: /\.(markdown|md)$/i,
@@ -5871,6 +5900,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理音频。
         {
           test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
@@ -5906,6 +5936,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // mustache-loader，处理.mustache文件。
         {
           test: /\.mustache$/i,
@@ -5943,6 +5974,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.postcss文件、.pcss文件。
         {
           test: /\.(pcss|postcss)$/i,
@@ -5991,6 +6023,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
+
         // pug-loader，处理.pug文件、.jade文件。
         {
           test: /\.(pug|jade)$/i,
@@ -6026,6 +6059,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.sass文件。
         {
           test: /\.sass$/i,
@@ -6211,6 +6245,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
+
         // 处理.scss文件。
         {
           test: /\.scss$/i,
@@ -6396,6 +6431,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
+
         // 处理.styl文件、.stylus文件。
         {
           test: /\.(styl|stylus)$/i,
@@ -6474,6 +6510,7 @@ const aliasConfig = {
           ].concat( exclude001 ),
           sideEffects: true,
         },
+
         // 处理.ts文件、.mts文件、.cts文件。
         {
           test: /\.(ts|mts|cts)$/i,
@@ -6517,6 +6554,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.tsx文件。
         {
           test: /\.tsx$/i,
@@ -6560,6 +6598,7 @@ const aliasConfig = {
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
+
         // 处理视频。
         {
           test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
@@ -6595,6 +6634,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.vue文件，该loader一定得在html-loader之后。
         {
           test: /\.vue$/i,
@@ -6712,6 +6752,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         /**
          * 处理.wasm文件。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
          * 1、使用案例：<br />
@@ -6737,6 +6778,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.xml文件。
         {
           test: /\.xml$/i,
@@ -6773,6 +6815,7 @@ const aliasConfig = {
             join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
+
         // 处理.yaml文件。
         {
           test: /\.yaml$/i,
@@ -7021,7 +7064,7 @@ const aliasConfig = {
 
           const configs = {
             /**
-             * imageminMinify已经不维护了！只配置了对gif、png、svg、webp的处理。<br />
+             * imageminMinify已经不维护了！只支持对gif、png、svg、webp的处理。<br />
              * 1、imagemin-mozjpeg可以配置为无损和有损模式、imagemin-svgo可以配置为无损和有损模式。<br />
              * 2、推荐用于无损优化的imagemin插件：imagemin-gifsicle、imagemin-jpegtran、imagemin-optipng、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
              * 3、推荐用于有损优化的imagemin插件：imagemin-gifsicle、imagemin-mozjpeg、imagemin-pngquant、imagemin-svgo（对于imagemin-svgo v9.0.0+需要使用svgo配置）。<br />
@@ -7047,7 +7090,7 @@ const aliasConfig = {
              */
             imageminMinify: new ImageMinimizerPlugin( {
               // test: /\.(gif|png|svg|webp)$/i,
-              test: /\.(gif|svg)$/i,
+              test: /\.(svg)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 /**
@@ -7057,7 +7100,7 @@ const aliasConfig = {
                  * 3、sharpMinify：高性能Node.js图像处理，调整和压缩JPEG、PNG、WebP、AVIF和TIFF图像的最快模块。使用libvips库。<br />
                  */
                 implementation: ImageMinimizerPlugin.imageminMinify,
-                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
+                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
                 filename: 'img/[name]_optimize_imagemin[ext]',
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
@@ -7258,17 +7301,16 @@ const aliasConfig = {
               },
             } ),
             /**
-             * 1、sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只配置了对avif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的处理。<br />
+             * 1、sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只支持对avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的处理。<br />
              * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
-             * 3、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，压缩优化gif会导致动图不再动了，无论是使用gif的默认压缩选项还是自定义的，都是无法动了。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
-              test: /\.(avif|jp2|jpe|jpeg|jpg|png|raw|tif|tiff|webp)$/i,
+              test: /\.(avif|gif|jp2|jpe|jpeg|jpg|png|raw|tif|tiff|webp)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.sharpMinify,
-                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
-                // filename: 'img/[name][ext]',
+                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
+                filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                 filter( source, sourcePath ){
                   if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
@@ -7301,14 +7343,14 @@ const aliasConfig = {
                    * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
                    */
                   sizeSuffix( width, height ){
-                    return `_optimize_sharp_${ width }_${ height }`;
+                    return ``;
                   },
                   /**
                    * 1、详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。<br />
                    * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
-                   * 3、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，压缩优化gif会导致动图不再动了，无论是使用gif的默认压缩选项还是自定义的，都是无法动了。<br />
                    */
                   encodeOptions: {
+                    // jpeg
                     ...( () => {
                       const config = {
                         // 质量，值类型：number，默认值：80，值范围：1-100，可选。
@@ -7420,6 +7462,7 @@ const aliasConfig = {
                       // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
                       chromaSubsampling: '4:4:4',
                     },
+                    // tif
                     ...( () => {
                       const config = {
                         // 质量，值类型：number，默认值：80，值范围：1-100，可选。
@@ -7464,7 +7507,7 @@ const aliasConfig = {
                       // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
                       chromaSubsampling: '4:4:4',
                     },
-                    // 直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
+                    // heic，直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
                     ...( () => {
                       const config = {
                         // 质量，值类型：number，默认值：50，值范围：1-100，可选。
@@ -7494,15 +7537,15 @@ const aliasConfig = {
               },
             } ),
             /**
-             * squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）只配置了对avif、jpeg、jpg、png、webp、jxl、wp2的处理。<br />
+             * squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）只支持对avif、jpeg、jpg、png、webp、jxl、wp2的处理。<br />
              */
             squooshMinify: new ImageMinimizerPlugin( {
               test: /\.(avif|jpeg|jpg|png|webp|jxl|wp2)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.squooshMinify,
-                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串。
-                filename: 'img/[name][ext]',
+                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
+                filename: 'img/[name]_optimize_squoosh_[width]_[height][ext]',
                 filter( source, sourcePath ){
                   if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
@@ -7663,9 +7706,9 @@ const aliasConfig = {
                  ? [
               // 3个选着用，不要重复对同一类图片做多次处理：imageminMinify（已经不维护了！）、sharpMinify（首选使用该实现，使用高性能Node.js图像处理）、squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）。
 
-              // imageminMinify只用于处理gif、svg。
+              // imageminMinify只用于处理svg。
               configs[ 'imageminMinify' ],
-              // sharpMinify只用于处理avif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp。
+              // sharpMinify只用于处理avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp。
               configs[ 'sharpMinify' ],
             ]
                  : [];

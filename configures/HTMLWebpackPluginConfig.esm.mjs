@@ -17,6 +17,49 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import entryConfig from './EntryConfig.esm.mjs';
 
+// 为HtmlWebpackPlugin中的data选项中的顶级变量设置默认值，否则会出现顶级变量未定义的编译错误，顶级变量就算不需要也要保证它们被设置为null。
+const defaultData = {
+  contentSecurityPolicy: null,
+  expires: null,
+  setCookieExpires: null,
+  pageEnter: null,
+  pageExit: null,
+  refresh: null,
+  color: null,
+  keywords: null,
+  description: null,
+  subject: null,
+  generator: null,
+  appName: null,
+  author: null,
+  publisher: null,
+  creators: null,
+  itemprop: null,
+  appLinks: null,
+  shortcutIcons: null,
+  icons: null,
+  appleTouchIcon: null,
+  appleTouchIconPrecomposed: null,
+  og: null,
+  alternate: null,
+  twitter: null,
+  facebook: null,
+  publisherByGooglePlus: null,
+  manifestByPWA: null,
+  apple_itunes_app: null,
+  dnsPrefetch: null,
+  preconnect: null,
+  preload: null,
+  prefetch: null,
+  prerender: null,
+  modulepreload: null,
+  mobileAgent: null,
+  importByHTML: null,
+  shortlink: null,
+  search: null,
+  // 以上的顶级变量，就算不需要也要保证它们被设置为null，否则会出现顶级变量未定义的编译错误。
+};
+
 /**
  * 根据传入的函数参数currentEntryName做处理，排除掉非当前入口的模块，避免在当前页面引入非此页面需要的模块。<br />
  * PS：<br />
@@ -72,7 +115,11 @@ function HTMLWebpackPluginConfig( {
   isSPA,
   HTMLMinifyConfig,
 } ){
-  // 一般只要配置该变量就行。
+  /**
+   * 一般只要配置该变量就行。<br />
+   * PS：<br />
+   * 1、当isSPA为true时，会只取config里的第1个配置，因为此时项目被设置为单页应用，这个也将作为标准模板配置供参考，复制它后再改改某些具体的参数值即可。<br />
+   */
   const config = [
     // 当isSPA为true时，会只取config里的第1个配置，因为此时项目被设置为单页应用，这个也将作为标准模板配置供参考，复制它后再改改某些具体的参数值即可。
     {
@@ -84,7 +131,12 @@ function HTMLWebpackPluginConfig( {
         // 注意这里传入的字符串必须跟entry配置（EntryConfig.esm.mjs）中对应的入口项的key名一致。
                      : ExcludeChunks( 'HelloWorld' ),
       meta: {},
-      data: {},
+      data: {
+        ...defaultData,
+        lang: 'zh-CN',
+        prefix: 'og: https://ogp.me/ns#',
+        assetsManifest: '../web_project_template_assets_manifest.js',
+      },
     },
 
     {
@@ -95,7 +147,12 @@ function HTMLWebpackPluginConfig( {
                      ? []
                      : ExcludeChunks( 'Home' ),
       meta: {},
-      data: {},
+      data: {
+        ...defaultData,
+        lang: 'zh-CN',
+        prefix: 'og: https://ogp.me/ns#',
+        assetsManifest: '../web_project_template_assets_manifest.js',
+      },
     },
   ];
 
@@ -107,6 +164,7 @@ function HTMLWebpackPluginConfig( {
       minify: isProduction
               ? HTMLMinifyConfig
               : false,
+      // 如果为true，则将唯一的webpack编译哈希附加到所有包含的脚本和CSS文件。这对于缓存破坏很有用。
       hash: isProduction,
       cache: !isProduction,
       showErrors: !isProduction,
