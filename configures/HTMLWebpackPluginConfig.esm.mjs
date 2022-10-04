@@ -17,7 +17,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import entryConfig from './EntryConfig.esm.mjs';
 
-// 为HtmlWebpackPlugin中的data选项中的顶级变量设置默认值，否则会出现顶级变量未定义的编译错误，顶级变量就算不需要也要保证它们被设置为null。
+// 为HtmlWebpackPlugin的data选项中的顶级变量设置默认值，否则会出现顶级变量未定义的编译错误，顶级变量就算不需要也要保证它们被设置为null。
 const defaultData = {
   contentSecurityPolicy: null,
   expires: null,
@@ -58,6 +58,7 @@ const defaultData = {
   shortlink: null,
   search: null,
   // 以上的顶级变量，就算不需要也要保证它们被设置为null，否则会出现顶级变量未定义的编译错误。
+  webpackAssetsManifest: '../webpack_assets_manifest.js',
 };
 
 /**
@@ -135,14 +136,13 @@ function HTMLWebpackPluginConfig( {
         ...defaultData,
         lang: 'zh-CN',
         prefix: 'og: https://ogp.me/ns#',
-        assetsManifest: '../web_project_template_assets_manifest.js',
       },
     },
 
     {
       title: 'Home',
       filename: 'pages/Home.html',
-      template: './src/template/ejs/Home.ejs',
+      template: './src/template/ejs/HelloWorld.ejs',
       excludeChunks: isSPA
                      ? []
                      : ExcludeChunks( 'Home' ),
@@ -151,7 +151,6 @@ function HTMLWebpackPluginConfig( {
         ...defaultData,
         lang: 'zh-CN',
         prefix: 'og: https://ogp.me/ns#',
-        assetsManifest: '../web_project_template_assets_manifest.js',
       },
     },
   ];

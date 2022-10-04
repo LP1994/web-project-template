@@ -1,7 +1,7 @@
 用于从图像文件中读取EXIF元数据的 JavaScript库。
 
 PS：
-只能用于浏览器端！！！服务器端(NodeJS)得用“fast-exif”
+只能用于浏览器端！服务器端(NodeJS)得用“fast-exif”
 
 您可以在浏览器中的图像上使用它，可以是图像或文件输入元素。检索EXIF和IPTC元数据。该软件包也可用于AMD或CommonJS环境。
 

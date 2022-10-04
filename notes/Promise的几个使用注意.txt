@@ -8,7 +8,7 @@ Promise.any()抛出的错误，不是一个一般的错误，而是一个 Aggreg
 它相当于一个数组，每个成员对应一个被rejected的操作所抛出的错误。
 
 PS：
-1、跟Promise.all()恰恰相反！！！
+1、跟Promise.all()恰恰相反！
 
 例子(AggregateError)：
         let resolve1 = Promise.resolve( 'resolve1' ),

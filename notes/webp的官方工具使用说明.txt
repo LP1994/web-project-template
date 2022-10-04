@@ -4,10 +4,10 @@ webp的官方工具使用说明
 描述：
 输入格式可以是PNG，JPEG，TIFF，WebP或raw Y'CbCr样本。
 注：
-在将大分辨率的jpg转换成webp时，转换后的webp会出现90度的旋转！！！
+在将大分辨率的jpg转换成webp时，转换后的webp会出现90度的旋转！
 解决方案是命令参数添加"-metadata all"
-以上方案在iPhone X拍出的大分辨率的jpg无用！！！它包含ICC！！！哪怕是添加"-metadata icc"、"-alpha_filter best"也无用！！！
-安卓机上拍出的大分辨率的jpg，它不包含ICC！！！也没出现90度的旋转！！！
+以上方案在iPhone X拍出的大分辨率的jpg无用！它包含ICC！哪怕是添加"-metadata icc"、"-alpha_filter best"也无用！
+安卓机上拍出的大分辨率的jpg，它不包含ICC！也没出现90度的旋转！
 
 命令格式：
 cwebp [options] input_file -o output_file.webp
@@ -263,10 +263,10 @@ cwebp -hint photo
 以逗号分隔的元数据列表，用于从输入复制到输出（如果存在）。有效值：all, none, exif, icc, xmp. The default is none.
 请注意，每种输入格式可能不支持所有组合。
 注：
-在将大分辨率的jpg转换成webp时，转换后的webp会出现90度的旋转！！！
+在将大分辨率的jpg转换成webp时，转换后的webp会出现90度的旋转！
 解决方案是命令参数添加"-metadata all"
-以上方案在iPhone X拍出的大分辨率的jpg无用！！！它包含ICC！！！哪怕是添加"-metadata icc"、"-alpha_filter best"也无用！！！
-安卓机上拍出的大分辨率的jpg，它不包含ICC！！！也没出现90度的旋转！！！
+以上方案在iPhone X拍出的大分辨率的jpg无用！它包含ICC！哪怕是添加"-metadata icc"、"-alpha_filter best"也无用！
+安卓机上拍出的大分辨率的jpg，它不包含ICC！也没出现90度的旋转！
 如：
 cwebp -metadata all
 
@@ -403,7 +403,7 @@ cwebp -noasm
 
 三、gif2webp(将GIF图像转换为WebP)
 描述：
-原来WebP格式也是能保持GIF的动态效果！！！
+原来WebP格式也是能保持GIF的动态效果！
 
 命令格式：
 gif2webp [options] input_file.gif -o output_file.webp
@@ -507,7 +507,7 @@ gif2webp -quiet
 
 
 四、img2webp(从一系列输入图像创建动画WebP文件)
-多张图片合成为一张动图的时候，这些多张图片的宽高要一样！！！
+多张图片合成为一张动图的时候，这些多张图片的宽高要一样！
 描述：
 img2webp使用动画webp格式压缩图像序列。输入图像可以是png、jpeg、tiff或webp。如果提供单个文件名（不是以字符“-”开头）作为参数，则命令行参数实际上是从此文件标记的。这样可以方便地编写脚本或使用大量参数。
 

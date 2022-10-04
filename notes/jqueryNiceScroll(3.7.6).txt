@@ -48,7 +48,7 @@ $("#thisdiv").niceScroll({
     zindex: "auto" | [number], // 更改滚动条div的z-index
     scrollspeed: 60, // 滚动速度
     mousescrollstep: 40, // 用鼠标滚轮滚动速度（像素）
-    touchbehavior: false, // 已弃用!! 使用“emulatetouch”
+    touchbehavior: false, // 已弃用! 使用“emulatetouch”
     emulatetouch: false, // 启用光标拖动滚动，如桌面计算机中的触摸设备
     hwacceleration: true, // 支持时使用硬件加速滚动
     boxzoom: false, // 启用缩放框内容
@@ -126,5 +126,5 @@ writing-mode: vertical-lr;
 需要在节点发生显示、隐藏、宽高等变化以及节点发生重绘时,都调用一次$(".sidebar").getNiceScroll().resize();
 比如，让节点显示出来之类的任何操作之后，都得调用一次$(".sidebar").getNiceScroll().resize();
 注2：
-touchbehavior: true // 已弃用!! 使用“emulatetouch”
+touchbehavior: true // 已弃用! 使用“emulatetouch”
 会导致内部有使用某些插件失效(如：wavesJS)

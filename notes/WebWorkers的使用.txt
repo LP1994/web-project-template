@@ -2,8 +2,8 @@ Web Workers(运行在后台的 JavaScript)
 https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers
 web worker 是运行在后台的 JavaScript，独立于其他脚本，不会影响页面的性能。
 您可以继续做任何愿意做的事情：点击、选取内容等等，而此时 web worker 在后台运行。
-用于更耗费 CPU 资源的任务！！！
-比如海量数据的处理和显示！！！Worker 线程完成轮询！！！
+用于更耗费 CPU 资源的任务！
+比如海量数据的处理和显示！Worker 线程完成轮询！
 注：所有主流浏览器均支持 web worker，除了 Internet Explorer。
 Worker 线程一旦新建成功，就会始终运行，不会被主线程上的活动（比如用户点击按钮、提交表单）打断。
 这样有利于随时响应主线程的通信。
@@ -69,7 +69,7 @@ worker.addEventListener('error', function (event) {
 Worker 完成任务以后，主线程就可以把它关掉。
 worker.terminate();
 
-子线程(Worker线程)！！！
+子线程(Worker线程)！
 
 Worker 线程有一些自己的全局属性和方法。
 self.name： Worker 的名字。该属性只读，由构造函数指定。
@@ -118,8 +118,8 @@ importScripts('TestClassA.js')
 随后子线程直接运行如下代码：
 new TestClassA();
 console.dir( q1 );
-就能运行了！！！
-也就是说所加载的JS的所有的全局变量都能在加载后使用！！！
+就能运行了！
+也就是说所加载的JS的所有的全局变量都能在加载后使用！
 
 
 拷贝方式发送二进制数据，会造成性能问题！可使用Transferable Objects直接转移数据的控制权

@@ -11,7 +11,7 @@
 也就是说在.vue中变量没有大小写、大驼峰写法的限制！
 但是，在.html、.ejs中变量只能用小写、小驼峰写法！
 在.vue中，变量大多不会有只能用小写、小驼峰写法的限制！但是.html、.ejs中却会有！
-titleAttrKeyName的值为null时，可以用于移除这个属性哦！！！
+titleAttrKeyName的值为null时，可以用于移除这个属性哦！
 
 3、.sync修饰符的使用注意
 父组件绑定同步更新的“attr3”：
@@ -50,7 +50,7 @@ this.$emit( 'update:attr3', 'attr3_6' );
 </current-user>
 
 5、全局组件的使用(异步组件)
-例子1：(差不多异步组件的写法就是如下例子里的这些了！！！)
+例子1：(差不多异步组件的写法就是如下例子里的这些了！)
 // 全局异步加载一个组件(包含处理加载状态)，标准写法！可以更改组件的相关配置属性！
 // 记得先深度拷贝再修改组件的属性，不然多次如下使用后会出现最后一个组件的修改会覆盖之前组件的修改
 // 不要复制完整对象的描述符(也就是不要执行CT.completeAssign)，不然会出现覆盖的情况！
@@ -69,14 +69,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
                 Object.assign( arg1.VueComponDemo, {
                     data(){
                         return {
-                            textA: '2：期待2020年Vue 3的正式发布！！！',
+                            textA: '2：期待2020年Vue 3的正式发布！',
                         };
                     },
                 } );
                 Object.assign( arg1.default, {
                     data(){
                         return {
-                            textA: '2：期待2020年Vue 3的正式发布！！！',
+                            textA: '2：期待2020年Vue 3的正式发布！',
                         };
                     },
                 } );
@@ -115,14 +115,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
                 Object.assign( arg1.VueComponDemo, {
                     data(){
                         return {
-                            textA: '3：期待2020年Vue 3的正式发布！！！',
+                            textA: '3：期待2020年Vue 3的正式发布！',
                         };
                     },
                 } );
                 Object.assign( arg1.default, {
                     data(){
                         return {
-                            textA: '3：期待2020年Vue 3的正式发布！！！',
+                            textA: '3：期待2020年Vue 3的正式发布！',
                         };
                     },
                 } );
@@ -162,14 +162,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
             Object.assign( arg1.ExampleA, {
                 data(){
                     return {
-                        textA: '2：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '2：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
             Object.assign( arg1.default, {
                 data(){
                     return {
-                        textA: '2：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '2：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
@@ -192,14 +192,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
             Object.assign( arg1.ExampleA, {
                 data(){
                     return {
-                        textA: '2_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '2_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
             Object.assign( arg1.default, {
                 data(){
                     return {
-                        textA: '2_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '2_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
@@ -221,14 +221,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
             Object.assign( arg1.ExampleA, {
                 data(){
                     return {
-                        textA: '3：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '3：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
             Object.assign( arg1.default, {
                 data(){
                     return {
-                        textA: '3：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '3：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
@@ -249,14 +249,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
             Object.assign( arg1.ExampleA, {
                 data(){
                     return {
-                        textA: '3_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '3_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
             Object.assign( arg1.default, {
                 data(){
                     return {
-                        textA: '3_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                        textA: '3_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                     };
                 },
             } );
@@ -281,14 +281,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
                 Object.assign( arg1.ExampleA, {
                     data(){
                         return {
-                            textA: '4：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                            textA: '4：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                         };
                     },
                 } );
                 Object.assign( arg1.default, {
                     data(){
                         return {
-                            textA: '4：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                            textA: '4：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                         };
                     },
                 } );
@@ -311,14 +311,14 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
                 Object.assign( arg1.ExampleA, {
                     data(){
                         return {
-                            textA: '4_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                            textA: '4_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                         };
                     },
                 } );
                 Object.assign( arg1.default, {
                     data(){
                         return {
-                            textA: '4_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！！！',
+                            textA: '4_1：“三权”分离的vue文件写法，以免单个vue文件很长很长！',
                         };
                     },
                 } );
@@ -335,7 +335,7 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
     Global4VueComponentA = Vue.component( 'Global4VueComponentA', {
         data(){
             return {
-                text1: 'This is a VueComponentA for Global!!!',
+                text1: 'This is a VueComponentA for Global!',
             };
         },
         template: `
@@ -349,7 +349,7 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
             resolve( {
                 data(){
                     return {
-                        text1: 'This is a VueComponentB for Global!!!',
+                        text1: 'This is a VueComponentB for Global!',
                     };
                 },
                 template: `
@@ -367,7 +367,7 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
      }, )
      .component
      .then( function resolve( { VueComponDemo, default: VueComponDemoDef } ){
-     // "期待2020年Vue 3的正式发布！！！"
+     // "期待2020年Vue 3的正式发布！"
      console.log( VueComponDemoDef.data().textA );
      }, function reject( error ){
      console.error( error );
@@ -380,35 +380,35 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
      console.error( error );
      } )
      .then( function resolve( { ExampleA, default: ExampleADef } ){
-     // "“三权”分离的vue文件写法，以免单个vue文件很长很长！！！"
+     // "“三权”分离的vue文件写法，以免单个vue文件很长很长！"
      console.log( ExampleADef.data().textA );
      }, function reject( error ){
      console.error( error );
      } );*/
 
     /*new Global4ExampleA2( function resolve( arg ){
-     // “三权”分离的vue文件写法，以免单个vue文件很长很长！！！
+     // “三权”分离的vue文件写法，以免单个vue文件很长很长！
      console.log( arg.data().textA );
      }, function reject( error ){
      console.error( error );
      } );*/
 
     /*new Global4ExampleA3( function resolve( arg ){
-     // “三权”分离的vue文件写法，以免单个vue文件很长很长！！！
+     // “三权”分离的vue文件写法，以免单个vue文件很长很长！
      console.log( arg.data().textA );
      }, function reject( error ){
      console.error( error );
      } );*/
 
     /*
-     // This is a VueComponentA for Global!!!
+     // This is a VueComponentA for Global!
      // 必须得用new调用
      console.log( new Global4VueComponentA().text1 );
      */
 
     /*
      new Global4VueComponentB( function resolve( option ){
-     // This is a VueComponentB for Global!!!
+     // This is a VueComponentB for Global!
      console.log( option.data().text1 );
      }, function reject( error ){
      console.error( error );
@@ -468,12 +468,12 @@ let vue4Win = new Vue( {
     },
 } );
 PS:
-第二个参数的类型是“普通function”还是“箭头函数”，这将决定要不要用以及能不能用new来调用注册后的返回值！！！
+第二个参数的类型是“普通function”还是“箭头函数”，这将决定要不要用以及能不能用new来调用注册后的返回值！
 
 6、异步加载完组件后，会出现再一次执行VueDemo中props里的validator函数
 PS：
-development模式下！！！再一次输出了validator函数里的日志！！！
-production模式下！！！validator函数里的都不执行了！！！
+development模式下！再一次输出了validator函数里的日志！
+production模式下！validator函数里的都不执行了！
 
 7、单元素、单组件的过渡
 HTML:(transition的直接子元素必须只能是只有一个元素，transition的name值可以自由规定)

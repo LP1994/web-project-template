@@ -1,7 +1,7 @@
 配置都在如下中：
-webpack.BaseConfig.js里头的moduleRules_fun函数的返回值里！！！
-具体可以去详细看看！！！
-这里就不做细说了！！！
+webpack.BaseConfig.js里头的moduleRules_fun函数的返回值里！
+具体可以去详细看看！
+这里就不做细说了！
 
 关于样式的loader处理：
 1、
@@ -34,7 +34,7 @@ PS：
 self.importScripts( './tools/WWorker4CT.js' )就能使用了。
 还有，bats/watch4Compiler里的bat命令可以时时编译“src/workers”下的.js文件，以便编译ES6代码到目标JS版本，如编译到ES5。
 不过得为里头的每个.js文件写对应的bat命令。
-转码编译后的.js文件的命名会以.compiler.js结尾，所以使用的地方也要改哦！！！
+转码编译后的.js文件的命名会以.compiler.js结尾，所以使用的地方也要改哦！
 
 6、
 src/wasm下的.wasm文件会被“file-loader”处理

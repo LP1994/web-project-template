@@ -72,7 +72,7 @@ text/html
 四、JavaScript types
 根据HTML规范，应始终使用MIME类型提供JavaScript文件text/javascript。没有其他值被认为是有效的，并且使用其中任何值都可能导致脚本无法加载或运行。
 注意：
-这与IANA的标准直接相矛盾！！！IANA的标准如下：
+这与IANA的标准直接相矛盾！IANA的标准如下：
 下面是有效的 JavaScript MIME 类型
 application/javascript
 application/ecmascript

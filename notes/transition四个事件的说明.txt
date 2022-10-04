@@ -1,4 +1,4 @@
-兼容性不是很好！！！！
+兼容性不是很好！
 
 transitionrun: CSS转换已开始运行（在任何延迟(transition-delay)开始之前触发）。
 transitionstart: 实际上已经开始了CSS转换（在任何延迟(transition-delay)之后触发）。

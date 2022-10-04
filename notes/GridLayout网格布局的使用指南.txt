@@ -77,7 +77,7 @@ min-content:是一个关键字，代表占据网格轨迹的网格项目中最�
 
   grid-area和grid-template-areas
   先定义grid-template-areas再在grid-area中使用
-  如果定义了grid-template-areas，也就隐式定义了网格线名称！！！
+  如果定义了grid-template-areas，也就隐式定义了网格线名称！
   值grid-template-areas必须网格完整，否则是无效的（且该属性被忽略）。这意味着每行必须具有相同数量的单元格，
   如果为空且带有一个句号，表明该单元格必须为空。
   如果区域不是矩形，您还将创建无效网格。

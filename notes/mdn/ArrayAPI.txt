@@ -1,6 +1,6 @@
-2019年10月27日记录！！！
-34个方法！！！
-2个属性！！！
+2019年10月27日记录！
+34个方法！
+2个属性！
 
 
 
@@ -32,9 +32,9 @@ Array.prototype.unshift()
 
 
 一、
-会改变自身的方法！！！
+会改变自身的方法！
 注：
-下面的这些方法会改变调用它们的对象自身的值！！！
+下面的这些方法会改变调用它们的对象自身的值！
 
 Array.prototype.copyWithin()
 在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值。
@@ -66,9 +66,9 @@ Array.prototype.unshift()
 
 
 二、
-不会改变自身的方法！！！
+不会改变自身的方法！
 注：
-下面的这些方法绝对不会改变调用它们的对象的值，只会返回一个新的数组或者返回一个其它的期望值！！！
+下面的这些方法绝对不会改变调用它们的对象的值，只会返回一个新的数组或者返回一个其它的期望值！
 
 Array.prototype.concat()
 返回一个由当前数组和其它若干个数组或者若干个非数组值组合而成的新数组。
@@ -100,7 +100,7 @@ Array.prototype.lastIndexOf()
 
 
 三、
-遍历方法！！！
+遍历方法！
 注：
 在下面的众多遍历方法中，有很多方法都需要指定一个回调函数作为参数。
 在每一个数组元素都分别执行完回调函数之前，数组的length属性会被缓存在某个地方，所以，如果你在回调函数中为当前数组添加了新的元素，那么那些新添加的元素是不会被遍历到的。
@@ -151,7 +151,7 @@ Array.prototype[@@iterator]()
 
 
 四、
-通用方法！！！
+通用方法！
 注：
 在 JavaScript 中，很多的数组方法被故意设计成是通用的。
 也就是说，那些看起来像是数组的对象（类数组对象），即拥有一个 length 属性，以及对应的索引属性（也就是数字类型的属性，比如 obj[5]）的非数组对象也是可以调用那些数组方法的。
@@ -169,7 +169,7 @@ Array.prototype[@@iterator]()
 
 
 五、
-属性！！！
+属性！
 
 1、Array.length
 返回或设置一个数组中的元素个数。该值是一个无符号32 bit整数。
@@ -197,12 +197,12 @@ Array.prototype.length
 
 
 六、
-方法！！！！
+方法！
 
 1、Array.from()
 注：
 Array.from() 方法从一个类似数组（拥有一个 length 属性和若干索引属性的任意对象）或可迭代对象（可以获取对象中的元素,如 Map和 Set 等）创建一个新的，浅拷贝的数组实例。
-值之间都是浅拷贝的值引用！！！
+值之间都是浅拷贝的值引用！
 
 Array.from(arrayLike[, mapFn[, thisArg]])
 arrayLike
@@ -229,11 +229,11 @@ SubArray.from()，调用该方法后会返回子类 SubArray 的一个实例，�
 返回值
 如果值是 Array，则为true; 否则为false。
 
-下面的函数调用都返回false！！！
+下面的函数调用都返回false！
 Array.isArray(new Uint8Array(32))
 Array.isArray({ __proto__: Array.prototype });
 
-当检测Array实例时, Array.isArray 优于 instanceof,因为Array.isArray能检测iframes！！！
+当检测Array实例时, Array.isArray 优于 instanceof,因为Array.isArray能检测iframes！
 var iframe = document.createElement('iframe');
 document.body.appendChild(iframe);
 xArray = window.frames[window.frames.length-1].Array;
@@ -265,7 +265,7 @@ elementN
 4、Array.prototype.concat()
 用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
 注：
-值之间都是浅拷贝的值引用！！！
+值之间都是浅拷贝的值引用！
 
 var new_array = old_array.concat(value1[, value2[, ...[, valueN]]])
 
@@ -365,7 +365,7 @@ console.log(iterator.next());
 测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔值。
 注;
 若收到一个空数组，此方法在一切情况下都会返回 true。
-不会改变原数组！！！
+不会改变原数组！
 
 function isBelowThreshold(currentValue) {
   return currentValue < 40;
@@ -533,7 +533,7 @@ find方法对数组中的每一项元素执行一次 callback 函数，直至有
 返回数组中满足提供的测试函数的第一个元素的索引。否则返回-1。
 find() 方法，它返回数组中找到的元素的值，而不是其索引。
 findIndex不会修改所调用的数组。
-使用此方法需要注意你是否在uc浏览器环境,如果你的页面在支付宝上使用尤其注意,因为支付宝使用的就是uc浏览器环境！！！
+使用此方法需要注意你是否在uc浏览器环境,如果你的页面在支付宝上使用尤其注意,因为支付宝使用的就是uc浏览器环境！
 
 var array1 = [5, 12, 8, 130, 44];
 function isLargeNumber(element) {
@@ -894,7 +894,7 @@ push 方法根据 length 属性来决定从哪里开始插入给定的值。
 
 23、Array.prototype.reduce()
 对数组中的每个元素执行一个由您提供的reducer函数(升序执行)，将其结果汇总为单个返回值。
-提供初始值通常更安全！！！
+提供初始值通常更安全！
 
 const array1 = [1, 2, 3, 4];
 const reducer = (accumulator, currentValue) => accumulator + currentValue;

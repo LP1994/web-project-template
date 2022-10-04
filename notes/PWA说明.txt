@@ -127,14 +127,14 @@ if (window.navigator.standalone === true) {
 window.onappinstalled说明：
 当在浏览器上完成添加到主屏幕的时候会触发这个事件！否则不触发该事件！有的浏览器在完成添加到主屏幕的时候，会直接退出浏览器，导致没法进行触发后的其他处理！
 https://developer.mozilla.org/en-US/docs/Web/Events/appinstalled
-PC和移动端兼容性都有所不同！！！用的时候注意些！！！
+PC和移动端兼容性都有所不同！用的时候注意些！
 iOS上的浏览器目前都不行！但可以使用“window.navigator.standalone”来判断是不是从主屏幕打开的
 Android设备上的谷歌浏览器支持的很好！其他基于谷歌浏览器内核开发的第三方浏览器兼容的不同，有的可以有的不行！Edge浏览器可以！
 PC的Windows上，谷歌浏览器和QQ浏览器支持！
 有的浏览器虽然显示支持该事件，但不触发！
 
 window.onbeforeinstallprompt说明：
-PC和移动端兼容性都有所不同！！！用的时候注意些！！！目前只有Windows 、Android上的谷歌浏览器支持！！！
+PC和移动端兼容性都有所不同！用的时候注意些！目前只有Windows 、Android上的谷歌浏览器支持！
 Windows 、Android上的基于谷歌浏览器内核开发的第三方浏览器支持不一，Android上的Edge浏览器支持！Android上的Opera浏览器却不支持(虽然显示支持该事件，但不触发)！
 PC上的QQ浏览器支持！
 有的浏览器虽然显示支持该事件，但不触发！

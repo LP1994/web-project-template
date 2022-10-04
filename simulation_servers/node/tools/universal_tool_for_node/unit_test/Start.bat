@@ -1,1 +1,1 @@
-node Main.test.mjs&pause
+node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --trace-warnings --trace-deprecation --max-old-space-size=8192 Main.test.mjs&pause

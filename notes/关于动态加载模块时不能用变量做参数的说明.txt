@@ -1,8 +1,8 @@
 看https://webpack.js.org/guides/dependency-management关于require.context的使用说明
 看https://webpack.js.org/api/module-methods/#import-1关于import()的使用说明
 
-1、webpack编译ES6动态引入import()时不能传入变量，只能是直接字面量的字符串！！！
-2、webpack编译require()时不能传入变量，只能是直接字面量的字符串！！！
+1、webpack编译ES6动态引入import()时不能传入变量，只能是直接字面量的字符串！
+2、webpack编译require()时不能传入变量，只能是直接字面量的字符串！
 3、但一定要用变量的时候，可以通过字符串模板来提供部分信息给webpack；例如import(`./path/${myFile}.js`),
 这样编译时会编译所有./path下的.js模块，但运行时确定myFile的值才会加载，从而实现懒加载。(require也是如是)
 4、import是静态的，必须在编译的时候即确定依赖关系！

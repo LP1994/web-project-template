@@ -1,7 +1,7 @@
 1、关于浏览器滚动BUG说明
 不支持HTML元素滚到顶部，也不支持body元素滚到顶部(不支持全局滚动)
 Edge、2345、搜狗、百度、猎豹、UC、微信内置
-注：强烈建议将所有滚动全都伪装为局部滚动！！！
+注：强烈建议将所有滚动全都伪装为局部滚动！
 但jQuery可以通过$('html,body').animate({scrollTop:'100'},1000)来操作滚动;
 
 
@@ -28,9 +28,9 @@ let nameList = document.getElementsByName('n1');
     document.body.appendChild(elem1);
     console.log(nameList.length);
 就不会报错了
-因为console.dir要求传入的实参必须是对象！！！
+因为console.dir要求传入的实参必须是对象！
 console.dir(nameList.length);
-传入的不是对象，所以会报错！！！
+传入的不是对象，所以会报错！
 
 
 
@@ -43,7 +43,7 @@ console.dir(nameList.length);
     <input type = 'file' name = '<%= name %>' id = '<%= id %>'
            hidden = 'hidden' <%= accept %> <%= multiple %> <%= capture %> <%= webkitdirectory %> />
 </button>
-注意，button嵌套label后，点击button无法触发label，继而无法触发input！！！
+注意，button嵌套label后，点击button无法触发label，继而无法触发input！
 
 
 
@@ -59,7 +59,7 @@ protocol       "http:"
 search       ""
 
 PS：
-IE9没有“window.location.origin”！！！
+IE9没有“window.location.origin”！
 所以只能通过字符串拼接：
 `${ window.location.protocol }//${ window.location.host }`
 

@@ -1,12 +1,12 @@
 一、GET请求
-1、请求类型(query)，数据将会以查询字符串的形式拼接到url尾部！！！用jQuery的Ajax发送请求的话，
+1、请求类型(query)，数据将会以查询字符串的形式拼接到url尾部！用jQuery的Ajax发送请求的话，
 不用设置请求头：
 {
 'Content-Type': 'application/json',
 }
 data直接用JSON对象存储需要发给后端的数据
 
-2、请求类型(body)，也就是FormData，用FormData的append方法添加key-value，最后将FormData直接设置给data！！！
+2、请求类型(body)，也就是FormData，用FormData的append方法添加key-value，最后将FormData直接设置给data！
 请求头默认就行
 
 

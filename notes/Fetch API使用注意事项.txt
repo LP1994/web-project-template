@@ -83,7 +83,7 @@ response说明：
 
 1、response.text()也就是Body.text()
 Body混入的text()方法提供了一个可供读取的"返回流"<Response Stream>, ——它返回一个包含USVString对象(text)的Promise对象，返回结果的编码为UTF-8。
-用来读取文本流！！！
+用来读取文本流！
 例子：
 fetch( 'http://localhost:8081/WebProTpl/assets/doc/json/test/JSONA.json' )
 // 使用response.text()会输出返回流“Response Stream”，因为请求的是标准的“.json”文件，可以通过JSON.parse可以转换成JSON对象。

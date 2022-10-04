@@ -1,4 +1,4 @@
-webpack-subresource-integrity插件不支持文件路径中带有"./"的前缀！！！具体如下说明！！！
+webpack-subresource-integrity插件不支持文件路径中带有"./"的前缀！具体如下说明！
 
 可以：
 output: {

@@ -13,7 +13,7 @@ animationcancel: 只有火狐浏览器(PC、Android、iOS、iOS的Safari浏览�
 
 
 iOS 12中，要是没开启Safari的浏览器实验性API，会无效，开启后，也只在Safari中有效，添加到主屏幕的也无效，其他浏览器也都无效
-其实经过测试！！！这种BUG，时好时坏！！！真奇葩！！！无语！！！
+其实经过测试！这种BUG，时好时坏！真奇葩！无语！
 animation-play-state: paused;
 animation-play-state: running;
 

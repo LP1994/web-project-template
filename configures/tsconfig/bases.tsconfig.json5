@@ -242,7 +242,7 @@
     8、如果未指定，则默认为Node for --module commonjs，否则为classic（包括将module设置为amd、system、umd、es2015、esnext等时）。
     9、如果您在TypeScript中遇到导入和导出的解析问题，请尝试设置moduleResolution: "node" 以查看它是否解决了问题。
     10、强烈建议设置成：node、node16、nodenext其中之一，并且尽可能以“相对路径”（./、../）或“设置路径别名”来作为导入路径中的打头开始。
-    11、优先设置成“node”，可以解决很多情况下的报错！！！
+    11、优先设置成“node”，可以解决很多情况下的报错！
     */
     "moduleResolution": "node",
     /*

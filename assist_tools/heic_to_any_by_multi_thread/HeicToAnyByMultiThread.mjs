@@ -197,7 +197,7 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
     MyConsole.Blue( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
 
     if( toDoneNum === photoQuantity ){
-      MyConsole.Green( `\n全部转换完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！！！\n` );
+      MyConsole.Green( `\n全部转换完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
 
       // If the worker was terminated, the exitCode parameter is 1.
       workerIns.terminate().then( exitCode => {

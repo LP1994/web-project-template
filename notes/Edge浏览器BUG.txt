@@ -20,6 +20,6 @@ let nameList = document.getElementsByName('n1');
     document.body.appendChild(elem1);
     console.log(nameList.length);
 就不会报错了
-因为console.dir要求传入的实参必须是对象！！！
+因为console.dir要求传入的实参必须是对象！
 console.dir(nameList.length);
-传入的不是对象，所以会报错！！！
+传入的不是对象，所以会报错！

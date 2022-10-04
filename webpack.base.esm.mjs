@@ -277,7 +277,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。Start
     'Chrome >= 106',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 105',
+    'Edge >= 106',
     'Firefox >= 105',
     'Safari >= 16',
     'Opera >= 91',
@@ -321,7 +321,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20221002。Start
     'chrome106',
-    'edge105',
+    'edge106',
     'firefox105',
     'safari16',
     'opera91',
@@ -360,7 +360,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20221002。Start
     chrome: 106,
-    edge: 105,
+    edge: 106,
     firefox: 105,
     safari: 16,
     opera: 91,
@@ -992,7 +992,7 @@ const jsWorkerPoolConfig = {
     workerParallelJobs: 20,
     // 其他的node.js参数
     workerNodeArgs: [
-      // 单位为MB。
+      // 单位为MB，本来想通过代码来动态的根据本机空闲内存来设置，但是不知为何会报错，只能写死设置。
       `--max-old-space-size=${ 1 * 1024 }`,
     ],
     // 允许重新启动一个已死亡的工作线程池。重新启动会减慢整个编译过程，在开发时应设置为false。
@@ -1268,9 +1268,9 @@ const aliasConfig = {
    * @type {object}
    */
   assetsWebpackPluginConfig = {
-    filename: 'web_project_template_assets_manifest.js',
+    filename: 'webpack_assets_manifest.js',
     processOutput( assets ){
-      return `window.web_project_template_assets_manifest = ${ JSON.stringify( assets ) };`;
+      return `window.webpack_assets_manifest = ${ JSON.stringify( assets ) };`;
     },
     includeManifest: false,
     fullPath: true,
@@ -1296,7 +1296,7 @@ const aliasConfig = {
     // 启用该选项需要依赖entrypoints选项的值为true才能生效，否则会报错！
     includeDynamicImportedAssets: true,
     metadata: {
-      display: 'web-project-template',
+      display: 'webpack_assets_manifest',
       version: '6.0.0',
       date: ( () => {
         const {
@@ -1339,8 +1339,8 @@ const aliasConfig = {
     // 如：'**/*', '!static-files*'。<br />
     cleanOnceBeforeBuildPatterns: [
       '**/*',
-      '!web_project_template_assets_manifest.js',
-      '!web_project_template_assets_manifest.json',
+      '!webpack_assets_manifest.js',
+      '!webpack_assets_manifest.json',
     ],
     /**
      * 在每次构建（包括监视模式）后删除与此模式匹配的文件，用于不是由Webpack直接创建的文件。<br />
@@ -1617,7 +1617,7 @@ const aliasConfig = {
    * 1、有效值类型：string，其中有3个预设值：'local-ip'、'local-ipv4'、'local-ipv6'。<br />
    * 2、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
    * 3、'local-ip'：指定为主机将尝试将主机选项解析为您的本地IPv4地址（如果可用），如果IPv4不可用，它将尝试解析您的本地IPv6地址。<br />
-   * 4、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（如：192.168.1.6）、IPV6等等，但是不能用'0.0.0.0'来访问（访问不了！！！），还是得通过：本地（localhost）、局域网（如：192.168.1.6）来访问的。<br />
+   * 4、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（如：192.168.1.6）、IPV6等等，但是不能用'0.0.0.0'来访问（访问不了！），还是得通过：本地（localhost）、局域网（如：192.168.1.6）来访问的。<br />
    * 
    * hot：是否启用webpack的热模块替换功能。<br />
    * 1、有效值类型：boolean、string（只有一个有效值'only'）。<br />
@@ -2000,7 +2000,7 @@ const aliasConfig = {
       /**
        * unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
        * PS：<br />
-       * 1、实测，启动后，可以访问到！！！<br />
+       * 1、实测，启动后，可以访问到！<br />
        */
       middlewares.unshift( {
         name: 'test001-first',
@@ -2038,7 +2038,7 @@ const aliasConfig = {
       /**
        * push方法对标之前的onAfterSetupMiddleware方法。<br />
        * PS：<br />
-       * 1、实测，启动后，无法访问到！！！<br />
+       * 1、实测，启动后，无法访问到！<br />
        */
       middlewares.push( {
         name: 'test001-last',
@@ -2168,7 +2168,7 @@ const aliasConfig = {
      */
     backCompat: true,
     /**
-     * 该实验性选项启用会导致HMR无效！！！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源，切记远程资源的url一定得是带明确的文件扩展后缀名，不然没法被各自的loader处理，从而webpack报处理错误。<br />
+     * 该实验性选项启用会导致HMR无效！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源，切记远程资源的url一定得是带明确的文件扩展后缀名，不然没法被各自的loader处理，从而webpack报处理错误。<br />
      * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map.js';<br />
      * 2、当前个人通过编码已经支持了可以在CSS文件中加载无文件扩展后缀名的图片类远程资源，但是其返回的响应头中必须准确设置该图片的content-type，这个由服务器设置的，一般都会准确的。<br />
      * 3、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
@@ -3983,7 +3983,7 @@ const aliasConfig = {
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.25.4',
+            } )() || '3.25.5',
             proposals: true,
           },
           /**
@@ -5743,9 +5743,43 @@ const aliasConfig = {
           ].concat( exclude001 ),
         },
 
-        // 处理.manifest.json文件，给PWA用的manifest文件。
+        // 处理.manifest.json、.webmanifest文件，给PWA用的manifest文件。
         {
           test: /\.manifest\.json$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset/resource',
+          generator: {
+            emit: true,
+            filename: '[name]_[contenthash].manifest[ext]',
+            outputPath: './pwa_manifest/',
+            publicPath: '../pwa_manifest/',
+          },
+          include: [
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/template/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/native_components/' ),
+            join( __dirname, './src/pages/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/tools/' ),
+            join( __dirname, './src/wasm/' ),
+            join( __dirname, './src/web_components/' ),
+            join( __dirname, './src/workers/' ),
+          ].concat( exclude001 ),
+        },
+        {
+          test: /\.webmanifest$/i,
           /**
            * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
            * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6929,7 +6963,7 @@ const aliasConfig = {
                 // 根据浏览器选项删除不必要的前缀。请注意，默认情况下，它不会向CSS文件添加新前缀。
                 autoprefixer: autoprefixerConfig,
                 // 根据属性名称对CSS声明进行排序，gzip压缩时排序后的CSS会更小，因为会有更多相似的字符串。
-                cssDeclarationSorter: true,
+                cssDeclarationSorter: false,
                 // 尽可能减少CSS计算表达式，确保浏览器兼容性和压缩。
                 calc: postcssCalcConfig,
                 // 在hex、hsl、rgb和CSS关键字之间转换，以产生最小的等效颜色值。
@@ -7035,7 +7069,7 @@ const aliasConfig = {
                 // 使用SVGO压缩内联SVG定义。
                 svgo: false,
                 // 自然地对每个规则的选择器进行排序，并删除重复项。
-                uniqueSelectors: true,
+                uniqueSelectors: false,
                 // 重新设置z-index值。这是不安全的，因为它可能与其他样式表或JavaScript注入样式发生冲突。但是，如果您的堆叠上下文已完全提取到CSS中，则它是安全的。
                 zindex: false,
               },
@@ -7828,7 +7862,7 @@ const aliasConfig = {
      * 块请求过期前的毫秒数。从webpack 2.6.0开始支持此选项。<br />
      */
     chunkLoadTimeout: 120000,
-    chunkLoadingGlobal: 'web_project_template',
+    chunkLoadingGlobal: 'WebpackGlobal',
     /**
      * 加载块的方法，默认包括的方法：'jsonp'（web）、'import'（ESM）、'importScripts'（WebWorker）、'require'（同步node.js）、'async-node'（异步node.js），但其他可能由插件添加。<br />
      */
@@ -7936,7 +7970,7 @@ const aliasConfig = {
      * 1、如：编译的资源都输出在dist/production下的各种一级文件夹(里面没有其他文件夹了)下，所以'../'就是向上一级，也就是定位到了根目录(dist/production)下了。<br />
      * 2、也可以指定绝对路径：'http://localhost:8081/WebProTpl/dist/production/'，一般用于正式生产环境。<br />
      * 3、此选项指定在浏览器中引用时输出目录的公共URL。相对URL是相对于HTML页面（或<base>标记）解析的。服务器相对URL、协议相对URL或绝对URL也是可能的，有时是必须的，即，如，在CDN上托管资产时。<br />
-     * 4、这个值设置需要注意！'./'、'../'这种尤其注意！！！并不会都如期望的那样。<br />
+     * 4、这个值设置需要注意！'./'、'../'这种尤其注意！并不会都如期望的那样。<br />
      * 5、当目标为web、web-worker时，其默认值为'auto'，它会自动从`import.meta.url`、`document.currentScript`、`<script />`或`self.location`确定公共路径。<br />
      * 6、该选项的值以运行时或加载程序创建的每个URL为前缀。因此，在大多数情况下，此选项的值以/结尾。<br />
      * 7、如果在编译时无法知道输出文件的publicPath，可以将其留空，并在运行时使用自由变量__webpack_public_path__在入口文件中动态设置。<br />

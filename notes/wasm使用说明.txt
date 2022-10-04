@@ -1,5 +1,5 @@
 Emscripten SDK创建命令(Windows版本)
-建议用C++写！！！
+建议用C++写！
 
 
 
@@ -93,7 +93,7 @@ import('wasmBDir/HelloWorld.wasm').then( modules => {
                              Add, Sub, Mul, Div, Mod, Fib,
                          },
                      }
-                 } = throw new Error( '这是一个无效的“wasm”模块！！！' ) ) => {
+                 } = throw new Error( '这是一个无效的“wasm”模块！' ) ) => {
             // console.dir( WebAssembly.Module.imports( module ) );
             // console.dir( WebAssembly.Module.exports( module ) );
 
@@ -147,7 +147,7 @@ function loadWebAssembly (path, imports = {}) {
 
 
 
-// 相差 9 倍的分钟数！！！
+// 相差 9 倍的分钟数！
      WASM_1_Fib_50：12586269025
      WASM_1：149.3764399999995秒、2.489607333333325分钟
 

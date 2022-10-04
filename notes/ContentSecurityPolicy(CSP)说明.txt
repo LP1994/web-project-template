@@ -61,7 +61,7 @@ XMLHttpRequest、
 WebSocket、
 EventSource、
 Navigator.sendBeacon()。
-但是connect-src 'self'不能在所有浏览器中解析为限制“WebSocket”的方案！！！
+但是connect-src 'self'不能在所有浏览器中解析为限制“WebSocket”的方案！
 违规案例：
 鉴于此CSP标头：
 Content-Security-Policy: connect-src https://example.com/
@@ -644,7 +644,7 @@ CSP说明：
 4、CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。
 
 
-关键字'self'：当前域名，需要加单引号，也只能是单引号的字符串'self'！！！
+关键字'self'：当前域名，需要加单引号，也只能是单引号的字符串'self'！
 
 
 CSP作用：

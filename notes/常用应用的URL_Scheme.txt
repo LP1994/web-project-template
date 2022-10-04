@@ -1,4 +1,4 @@
-window.navigator.standalone为true时，也就是从主屏幕打开的成功率更高！！！
+window.navigator.standalone为true时，也就是从主屏幕打开的成功率更高！
 window.open( 'weixin://', '_self' );
 
    微信: weixin:// 或 wechat:// 或 fb290293790992170://

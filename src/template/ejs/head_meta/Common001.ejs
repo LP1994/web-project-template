@@ -19,10 +19,13 @@ CreateDate: 2022-09-10 15:46:18 星期六
 <!--
 给PWA用的manifest文件地址。
 .webmanifest是约定俗成的manifest文件的扩展名，但返回文件内容类型需要是：Content-Type: application/manifest+json，也支持.json扩展名。
+
+href：链接文件的后缀名可以是.webmanifest、.json。
 -->
 <% if(manifestByPWA !== null && manifestByPWA !== undefined){ %>
     <link
             rel = 'manifest'
+            type = 'application/manifest+json'
             href = '<%= manifestByPWA %>'
             crossorigin = 'anonymous' />
 <% } %>
