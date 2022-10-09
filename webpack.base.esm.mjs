@@ -457,6 +457,22 @@ const autoprefixerConfig = {
     color: true,
     // 这将设置生成的JavaScript文件的输出格式。当前可以配置三个可能的值：iife、cjs、esm。
     format: 'esm',
+    /**
+     * 1、esbuild的“tree shaking”只能删除声明级别的死代码。<br />
+     * 2、请注意，esbuild的“tree shaking”实现依赖于ECMAScript模块导入和导出语句的使用，它不适用于CommonJS模块。<br />
+     * 3、用于“tree shaking”的“side effects（副作用）”检测是保守的，这意味着esbuild仅在能够确保没有隐藏的副作用时才将可移除的代码视为死代码。<br />
+     */
+    // 4、可以使用/* @__PURE__ */注释，明确表示该表达式是无副作用的，由于注释的原因，这被认为是无副作用的，如果未使用，将被删除。
+    /*
+     // 例子：
+     let gammaTable = 无副作用的注释 (() => {
+     // 此处跳过副作用检测。
+     let table = new Uint8Array(256);
+     for (let i = 0; i < 256; i++)
+     table[i] = Math.pow(i / 255, 2.2) * 255;
+     return table;
+     })();
+     */
     treeShaking: isProduction,
     // 有效值有：browser、node、neutral。
     platform: 'browser',
@@ -516,6 +532,7 @@ const autoprefixerConfig = {
       'import-is-undefined': 'error',
       'require-resolve-not-external': 'error',
 
+      'package.json': 'error',
       'tsconfig.json': 'error',
     },
   },
@@ -2850,11 +2867,57 @@ const aliasConfig = {
                : [];
       } )( false ),
 
+      /**
+       * @babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression：https://github.com/babel/babel/tree/main/packages/babel-plugin-bugfix-safari-id-destructuring-collision-in-function-expression
+       * 1、该插件所要解决的BUG描述见：https://bugs.webkit.org/show_bug.cgi?id=220517。<br />
+       * 2、主要描述：<br />
+       * 可以正常工作的写法：
+       * function a({ test: a }) { console.log(a); }
+       * let b = a;
+       *
+       * 不可以正常工作，且会报语法错误的写法：Duplicate parameter <name> not allowed in function with destructuring parameters.
+       * let b = function a({ test: a }) { console.log(a); };
+       */
+      ...( isEnable => {
+        return isEnable
+               ? [
+            [
+              '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression',
+            ],
+          ]
+               : [];
+      } )( true ),
+
+      /**
+       * @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining：https://github.com/babel/babel/tree/main/packages/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining
+       * 1、该插件所要解决的BUG描述见：https://bugs.chromium.org/p/v8/issues/detail?id=11558。<br />
+       * 2、主要描述：TypeError: Function.prototype.apply was called on undefined, which is a undefined and not a function.<br />
+       * Input: undefined?.(...[], 1)
+       * Output（报错）:
+       * undefined?.(...[], 1)
+       */
+      ...( isEnable => {
+        return isEnable
+               ? [
+            [
+              '@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining',
+            ],
+          ]
+               : [];
+      } )( true ),
+
       // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） Start
       ...( isEnable => {
         return isEnable
                ? [
             // 处于提案第1阶段！
+            /**
+             * @babel/plugin-syntax-decimal：https://github.com/tc39/proposal-decimal
+             * 1、目前该提案处于第1阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+             */
+            [
+              '@babel/plugin-syntax-decimal',
+            ],
             /**
              * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-do-expressions
              * 1、它可以看作是三元运算符的复杂版本。<br />
@@ -2862,6 +2925,14 @@ const aliasConfig = {
              */
             [
               '@babel/plugin-proposal-do-expressions',
+            ],
+            /**
+             * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-async-do-expressions
+             * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+             * 2、该插件需要在@babel/plugin-transform-async-to-generator之前。<br />
+             */
+            [
+              '@babel/plugin-proposal-async-do-expressions',
             ],
             /**
              * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from
@@ -2880,6 +2951,13 @@ const aliasConfig = {
 
             // 处于提案第2阶段！
             /**
+             * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-js-module-blocks
+             * 1、目前该提案处于第2阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+             */
+            [
+              '@babel/plugin-syntax-module-blocks',
+            ],
+            /**
              * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent
              * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
@@ -2888,9 +2966,9 @@ const aliasConfig = {
             ],
             /**
              * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator
-             * 1、管道运营商有几个相互竞争的提议。使用所需的“提案”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
-             * 2、"proposal": "minimal"、"fsharp"和"smart"选项已被弃用，并可能在未来的主要版本中被删除。<br />
-             * 3、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"。<br />
+             * 1、“pipeline operator”有几个相互竞争的提议。使用所需的“proposal”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
+             * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"。<br />
+             * 3、"proposal": "minimal"、"fsharp"、"smart"这3个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
              * 4、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
             [
@@ -2928,8 +3006,23 @@ const aliasConfig = {
             [
               '@babel/plugin-proposal-throw-expressions',
             ],
+            /**
+             * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/en/babel-plugin-proposal-destructuring-private
+             * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+             * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
+             */
+            [
+              '@babel/plugin-proposal-destructuring-private',
+            ],
 
             // 处于提案第3阶段！
+            /**
+             * @babel/plugin-syntax-import-assertions：https://github.com/tc39/proposal-import-assertions
+             * 1、目前该提案处于第3阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+             */
+            [
+              '@babel/plugin-syntax-import-assertions',
+            ],
             /**
              * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators
              * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
@@ -2944,6 +3037,7 @@ const aliasConfig = {
                  * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
                  * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
                  * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
+                 * 5、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
                  */
                 version: '2022-03',
                 /**
@@ -2961,6 +3055,35 @@ const aliasConfig = {
                 // 已弃用：改用version: "legacy"。此选项是旧别名。
                 // legacy: false,
               },
+            ],
+            /**
+             * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/en/babel-plugin-proposal-duplicated-named-capturing-groups-regex
+             * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
+             * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
+             * 3、目前该提案处于第3阶段。<br />
+             * 4、可能是因为babel的拼写错误，babel官网介绍该插件的网址为：https://babeljs.io/docs/en/babel-plugin-proposal-duplicated-named-capturing-groups-regex<br />
+             * 但是有效的该插件名为：@babel/plugin-proposal-duplicate-named-capturing-groups-regex<br />
+             * 而tc39在github上介绍该插件的网址为：https://github.com/tc39/proposal-duplicate-named-capturing-groups<br />
+             * 而babel在github上介绍该插件的网址为：https://github.com/babel/babel/tree/main/packages/babel-plugin-proposal-duplicate-named-capturing-groups-regex<br />
+             * 所以要想正确的安装该插件，npm的执行命令为：npm --force install -D @babel/plugin-proposal-duplicate-named-capturing-groups-regex<br />
+             * 正确的拼写应该是“duplicate”，错误的是“duplicated”。<br />
+             */
+            [
+              '@babel/plugin-proposal-duplicate-named-capturing-groups-regex',
+              {
+                /**
+                 * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
+                 * 1、值类型：boolean，默认值：true。<br />
+                 */
+                runtime: true,
+              },
+            ],
+            /**
+             * @babel/plugin-proposal-unicode-sets-regex：https://babeljs.io/docs/en/babel-plugin-proposal-unicode-sets-regex
+             * 1、目前该提案处于第3阶段。<br />
+             */
+            [
+              '@babel/plugin-proposal-unicode-sets-regex',
             ],
 
             // 处于无效提案，但是有新的替代提案处于讨论中！
@@ -2992,6 +3115,11 @@ const aliasConfig = {
             /**
              * @babel/plugin-proposal-class-properties：https://babeljs.io/docs/en/babel-plugin-proposal-class-properties
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
+             * 2、该插件已经包含了语法：<br />
+             * https://github.com/tc39/proposal-private-methods<br />
+             * https://github.com/tc39/proposal-class-fields<br />
+             * https://github.com/tc39/proposal-static-class-features<br />
+             * 3、插件@babel/plugin-proposal-private-methods（https://babeljs.io/docs/en/babel-plugin-proposal-private-methods）也合并到该插件中。<br />
              */
             [
               '@babel/plugin-proposal-class-properties',
@@ -3119,8 +3247,13 @@ const aliasConfig = {
              * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
              */
+            /*
+             [
+             '@babel/plugin-syntax-dynamic-import',
+             ],
+             */
             [
-              '@babel/plugin-syntax-dynamic-import',
+              '@babel/plugin-proposal-dynamic-import',
             ],
             /**
              * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/en/babel-plugin-syntax-import-meta
@@ -4114,89 +4247,137 @@ const aliasConfig = {
           return isEnable
                  ? {
               plugins: [
-                'asyncDoExpressions',
-                'asyncGenerators',
-                'bigInt',
-                'classPrivateMethods',
-                'classPrivateProperties',
-                'classProperties',
-                // Enabled by default
-                'classStaticBlock',
-                'decimal',
-                'decorators',
-                'decorators-legacy',
-                'decoratorAutoAccessors',
-                'destructuringPrivate',
-                'doExpressions',
-                'dynamicImport',
-                'estree',
-                'exportDefaultFrom',
-                // deprecated
-                'exportNamespaceFrom',
-                'flow',
+                // Language extensions Start
+
+                /**
+                 * 1、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
+                 * 2、placeholders跟v8intrinsic不能同时使用。
+                 */
+                // 'placeholders',
+                /**
+                 * 1、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
+                 * 2、placeholders跟v8intrinsic不能同时使用。
+                 */
+                // 'v8intrinsic',
+                // flow跟typescript不能同时使用。
+                /*
+                 [
+                 'flow',
+                 {
+                 // 默认值为：false。
+                 all: false,
+                 enums: true,
+                 },
+                 ],
+                 */
+                // flow跟typescript不能同时使用。
+                [
+                  'typescript',
+                  {
+                    // 默认值为：false。
+                    dts: false,
+                    // 默认值为：false。
+                    disallowAmbiguousJSXLike: false,
+                  },
+                ],
                 'flowComments',
-                'functionBind',
-                'functionSent',
-                'importMeta',
                 'jsx',
-                'logicalAssignment',
-                'importAssertions',
-                'moduleBlocks',
-                'moduleStringNames',
-                'nullishCoalescingOperator',
-                'numericSeparator',
-                'objectRestSpread',
-                'optionalCatchBinding',
-                'optionalChaining',
-                'partialApplication',
-                'pipelineOperator',
-                'placeholders',
-                // Enabled by default
-                'privateIn',
-                'recordAndTuple',
-                'regexpUnicodeSets',
-                'throwExpressions',
-                'topLevelAwait',
-                'typescript',
-                'v8intrinsic',
+
+                // Language extensions End
+
+                // ECMAScript proposals Start
+
+                'doExpressions',
+                // asyncDoExpressions依赖上面的doExpressions。
+                'asyncDoExpressions',
+                'decimal',
+                // decorators和decorators-legacy不能同时使用，建议使用decorators。
+                // 'decorators-legacy',
+                // decorators和decorators-legacy不能同时使用，建议使用decorators。
                 [
                   'decorators',
                   {
-                    decoratorsBeforeExport: true,
+                    // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+                    decoratorsBeforeExport: false,
+                    // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+                    allowCallParenthesized: false,
                   },
                 ],
+                'decoratorAutoAccessors',
+                'destructuringPrivate',
+                'exportDefaultFrom',
+                'functionBind',
+                // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+                'importAssertions',
+                // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+                /*
+                 [
+                 'moduleAttributes',
+                 {
+                 version: 'may-2020',
+                 },
+                 ],
+                 */
+                'moduleBlocks',
+                'partialApplication',
                 [
                   'pipelineOperator',
                   {
+                    /**
+                     * 1、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                     * 2、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
+                     * 3、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
+                     * 4、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                     */
                     proposal: 'hack',
+                    /**
+                     * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                     */
                     topicToken: '^^',
                   },
                 ],
                 [
                   'recordAndTuple',
                   {
+                    /**
+                     * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                     * 2、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                     */
                     syntaxType: 'hash',
                   },
                 ],
-                /*
-                 [
-                 'flow',
-                 {
-                 // 默认值为：false。
-                 all: true,
-                 enums: true,
-                 },
-                 ],
-                 [
-                 'typescript',
-                 {
-                 // 默认值为：false。
-                 dts: true,
-                 // 默认值为：false。
-                 disallowAmbiguousJSXLike: true,
-                 },
-                 ],
-                 */
+                'regexpUnicodeSets',
+                'throwExpressions',
+                'importMeta',
+                'estree',
+
+                // ECMAScript proposals End
+
+                // Latest ECMAScript features Start
+
+                'asyncGenerators',
+                'bigInt',
+                'classProperties',
+                'classPrivateProperties',
+                'classPrivateMethods',
+                // Enabled by default
+                'classStaticBlock',
+                'dynamicImport',
+                // deprecated
+                'exportNamespaceFrom',
+                'functionSent',
+                'logicalAssignment',
+                'moduleStringNames',
+                'nullishCoalescingOperator',
+                'numericSeparator',
+                'objectRestSpread',
+                'optionalCatchBinding',
+                'optionalChaining',
+                // Enabled by default
+                'privateIn',
+                'topLevelAwait',
+
+                // Latest ECMAScript features End
               ],
             }
                  : {};
@@ -4224,8 +4405,6 @@ const aliasConfig = {
         compact: isProduction,
         // 设置为true以减少空格，但不如上面的compact选项减少的那么多。
         concise: isProduction,
-        // 设置为true以在输出中“export”之前打印装饰符。
-        decoratorsBeforeExport: true,
         // 保留函数表达式周围的括号，可用于更改引擎解析行为。
         retainFunctionParens: true,
         /**
@@ -4245,6 +4424,10 @@ const aliasConfig = {
          * 有上面的minified选项（且值为true）时，默认值为：() => opts.comments 。<br />
          */
         shouldPrintComment: () => true,
+        // 设置为true以在输出中“export”之前打印装饰符。在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+        decoratorsBeforeExport: false,
+        recordAndTupleSyntaxType: 'hash',
+        topicToken: '^^',
       },
       /**
        * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
@@ -4618,90 +4801,94 @@ const aliasConfig = {
            * 4、JavaScript运行时通常会快速实现较旧的JavaScript较慢的较新语法功能，您可以通过告诉esbuild假装不支持此语法功能来获得加速。<br />
            * 5、如果想告知esbuild不支持某个语法，就这么设置：'bigint': false，如果是支持就将值设置成true。<br />
            */
-          /*
-           supported: {
-           // ES2015语法 Start
-           'arrow': true,
-           'class': true,
-           'array-spread': true,
-           'const-and-let': true,
-           'default-argument': true,
-           'destructuring': true,
-           'for-of': true,
-           'generator': true,
-           'new-target': true,
-           'rest-argument': true,
-           'template-literal': true,
-           'unicode-escapes': true,
-           'regexp-sticky-and-unicode-flags': true,
-           'regexp-match-indices': true,
-           // ES2015语法 End
+          ...( isEnable => {
+            return isEnable
+                   ? {
+                supported: {
+                  // ES2015语法 Start
+                  'arrow': true,
+                  'class': true,
+                  'array-spread': true,
+                  'const-and-let': true,
+                  'default-argument': true,
+                  'destructuring': true,
+                  'for-of': true,
+                  'generator': true,
+                  'new-target': true,
+                  'rest-argument': true,
+                  'template-literal': true,
+                  'unicode-escapes': true,
+                  'regexp-sticky-and-unicode-flags': true,
+                  'regexp-match-indices': true,
+                  // ES2015语法 End
 
-           // ES2016 Start
-           'exponent-operator': true,
-           // ES2016 End
+                  // ES2016 Start
+                  'exponent-operator': true,
+                  // ES2016 End
 
-           // ES2017语法 Start
-           'async-await': true,
-           // ES2017语法 End
+                  // ES2017语法 Start
+                  'async-await': true,
+                  // ES2017语法 End
 
-           // ES2018语法 Start
-           'async-generator': true,
-           'for-await': true,
-           'object-rest-spread': true,
-           'object-accessors': true,
-           'object-extensions': true,
-           'regexp-named-capture-groups': true,
-           'regexp-dot-all-flag': true,
-           'regexp-unicode-property-escapes': true,
-           'regexp-lookbehind-assertions': true,
-           // ES2018语法 End
+                  // ES2018语法 Start
+                  'async-generator': true,
+                  'for-await': true,
+                  'object-rest-spread': true,
+                  'object-accessors': true,
+                  'object-extensions': true,
+                  'regexp-named-capture-groups': true,
+                  'regexp-dot-all-flag': true,
+                  'regexp-unicode-property-escapes': true,
+                  'regexp-lookbehind-assertions': true,
+                  // ES2018语法 End
 
-           // ES2019语法 Start
-           'optional-catch-binding': true,
-           // ES2019语法 End
+                  // ES2019语法 Start
+                  'optional-catch-binding': true,
+                  // ES2019语法 End
 
-           // ES2020语法 Start
-           'bigint': true,
-           'dynamic-import': true,
-           'export-star-as': true,
-           'import-meta': true,
-           'nullish-coalescing': true,
-           'optional-chain': true,
-           // ES2020语法 End
+                  // ES2020语法 Start
+                  'bigint': true,
+                  'dynamic-import': true,
+                  'export-star-as': true,
+                  'import-meta': true,
+                  'nullish-coalescing': true,
+                  'optional-chain': true,
+                  // ES2020语法 End
 
-           // ES2021语法 Start
-           'logical-assignment': true,
-           // ES2021语法 End
+                  // ES2021语法 Start
+                  'logical-assignment': true,
+                  // ES2021语法 End
 
-           // ES2022语法 Start
-           'class-field': true,
-           'class-private-accessor': true,
-           'class-private-brand-check': true,
-           'class-private-field': true,
-           'class-private-method': true,
-           'class-private-static-accessor': true,
-           'class-private-static-field': true,
-           'class-private-static-method': true,
-           'class-static-blocks': true,
-           'class-static-field': true,
-           'arbitrary-module-namespace-names': true,
-           'top-level-await': true,
-           'typeof-exotic-object-is-object': true,
-           // ES2022语法 End
+                  // ES2022语法 Start
+                  'class-field': true,
+                  'class-private-accessor': true,
+                  'class-private-brand-check': true,
+                  'class-private-field': true,
+                  'class-private-method': true,
+                  'class-private-static-accessor': true,
+                  'class-private-static-field': true,
+                  'class-private-static-method': true,
+                  'class-static-blocks': true,
+                  'class-static-field': true,
+                  'arbitrary-module-namespace-names': true,
+                  'top-level-await': true,
+                  'typeof-exotic-object-is-object': true,
+                  // ES2022语法 End
 
-           // ESNext语法 Start
-           'hashbang': true,
-           'import-assertions': true,
-           'nested-rest-binding': true,
-           // ESNext语法 End
+                  // ESNext语法 Start
+                  'hashbang': true,
+                  'import-assertions': true,
+                  'nested-rest-binding': true,
+                  // ESNext语法 End
 
-           // node（node:module） Start
-           'node-colon-prefix-import': false,
-           'node-colon-prefix-require': false,
-           // node（node:module） End
-           },
-           */
+                  // node（node:module） Start
+                  'node-colon-prefix-import': false,
+                  'node-colon-prefix-require': false,
+                  // node（node:module） End
+                },
+              }
+                   : {};
+          } )( false ),
         } );
       } )(),
       esbuildLoaderConfigForJSX = Object.assign( {}, esbuildLoaderConfigForJS, {

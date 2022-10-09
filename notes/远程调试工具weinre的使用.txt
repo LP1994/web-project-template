@@ -2,7 +2,9 @@
 Android用谷歌内置的调试工具就好！
 
 启动
-weinre --boundHost localhost --httpPort 8888 --verbose true --debug true
+weinre --boundHost -all- --httpPort 8300 --verbose false --debug false
+PS：
+当--debug为true时，--verbose会被强制设置为true，此时给--verbose传入的false就无效了。
 
 进入浏览器访问
 http://localhost:8888/

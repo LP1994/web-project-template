@@ -21,20 +21,20 @@
 const localHost = 'localhost';
 
 /**
- * 远端调试工具(weinre)的本地服务的端口值，值类型只能是string。<br />
- * 1、在package.json中的scripts.weinre里头默认也是用'8300'的。<br />
+ * 远端调试工具(weinre)的本地服务的端口值，值类型只能是number。<br />
+ * 1、在package.json中的scripts.weinre里头默认也是用8300的。<br />
  */
-const weinreLocalPort = '8300',
+const weinreLocalPort = 8300,
   /**
    * 映射到公网的IP地址，一般是配合远端调试工具(weinre)的远端调试需要，值类型只能是string。<br />
-   * 1、为空字符串表示还没设置。<br />
+   * 1、null表示还没设置。<br />
    */
-  weinrePublicNetworkHost = '',
+  weinrePublicNetworkHost = null,
   /**
    * 映射到公网的端口，一般是配合远端调试工具(weinre)的远端调试需要，值类型只能是string。<br />
-   * 1、为空字符串表示还没设置。<br />
+   * 1、null表示还没设置。<br />
    */
-  weinrePublicNetworkPort = '';
+  weinrePublicNetworkPort = null;
 
 /**
  * 给devServer用的参数，分2种环境dev_server、local_server。<br />
@@ -121,11 +121,7 @@ deviceInfo().is_Mobile&&dynamicREM();
    * 5、默认值为：vh。<br />
    * 6、里面的变量customViewportCorrectionVariable的值要跟插件中的选项variable的值保持一致。<br />
    */
-  postcssViewportHeightCorrectionJS = `var customViewportCorrectionVariable='${ postcssViewportHeightCorrectionCustomViewportCorrectionVariable }';function setViewportProperty(doc){var prevClientHeight,customVar='--'+(customViewportCorrectionVariable||'vh');function handleResize(){var clientHeight=doc.clientHeight;if(clientHeight===prevClientHeight){return;}requestAnimationFrame(function updateViewportHeight(){doc.style.setProperty(customVar,(clientHeight*0.01)+'px');prevClientHeight=clientHeight;});}handleResize();return handleResize;}window.addEventListener('resize',setViewportProperty(document.documentElement));`,
-  /**
-   * 动态插入到页面的远端调式工具(weinre)的JS代码。<br />
-   */
-  weinreDevTool = `<script>var weinreDevTool_elem=document.createElement('script'),hostName_str=location.hostname;if(hostName_str==='${ localHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinreLocalPort }/target/target-script-min.js#iOS001';}else if(hostName_str==='${ weinrePublicNetworkHost }'){weinreDevTool_elem.src='http://'+hostName_str+':${ weinrePublicNetworkPort }/target/target-script-min.js#iOS001';}document.body.appendChild(weinreDevTool_elem);</script>`;
+  postcssViewportHeightCorrectionJS = `var customViewportCorrectionVariable='${ postcssViewportHeightCorrectionCustomViewportCorrectionVariable }';function setViewportProperty(doc){var prevClientHeight,customVar='--'+(customViewportCorrectionVariable||'vh');function handleResize(){var clientHeight=doc.clientHeight;if(clientHeight===prevClientHeight){return;}requestAnimationFrame(function updateViewportHeight(){doc.style.setProperty(customVar,(clientHeight*0.01)+'px');prevClientHeight=clientHeight;});}handleResize();return handleResize;}window.addEventListener('resize',setViewportProperty(document.documentElement));`;
 
 export {
   devServerGlobalParameters,
@@ -133,7 +129,9 @@ export {
   httpHeaders,
   postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
   postcssViewportHeightCorrectionJS,
-  weinreDevTool,
+  weinreLocalPort,
+  weinrePublicNetworkHost,
+  weinrePublicNetworkPort,
 };
 
 export default {
@@ -142,5 +140,7 @@ export default {
   httpHeaders,
   postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
   postcssViewportHeightCorrectionJS,
-  weinreDevTool,
+  weinreLocalPort,
+  weinrePublicNetworkHost,
+  weinrePublicNetworkPort,
 };

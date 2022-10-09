@@ -39,6 +39,7 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
     <% if(htmlWebpackPluginOptionsData.webpackAssetsManifest !== null && htmlWebpackPluginOptionsData.webpackAssetsManifest !== undefined){ %>
         <script
                 defer = 'defer'
+                crossorigin = 'anonymous'
                 src = '<%= htmlWebpackPluginOptionsData.webpackAssetsManifest %>'></script>
     <% } %>
 </head>
@@ -61,5 +62,8 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
         <main class = 'css-reset full-screen overflow-hidden-auto'></main>
     </div>
 </div>
+<% if(htmlWebpackPluginOptionsData.weinreTool !== null && htmlWebpackPluginOptionsData.weinreTool !== undefined){ %>
+    <%= require( 'ejsDir/tool/WeinreTool.ejs' )( htmlWebpackPluginOptionsData ) %>
+<% } %>
 </body>
 </html>
