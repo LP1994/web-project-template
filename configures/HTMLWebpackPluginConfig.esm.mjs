@@ -69,6 +69,7 @@ const defaultData = {
   lang: 'zh-CN',
   prefix: 'og: https://ogp.me/ns#',
   webpackAssetsManifest: '../webpack_assets_manifest.js',
+  isEnableDynamicREM: true,
   weinreTool: {
     isEnable: false,
     weinreLocalPort,

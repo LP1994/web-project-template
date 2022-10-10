@@ -23,16 +23,17 @@ CreateDate: 2022-10-09 17:50:46 星期日
     %>
 
     <script>
-      var weinreTool = document.createElement( 'script' ),
-        locationHostName = location.hostname;
+      'use strict';
+
+      var weinreTool = document.createElement( 'script' );
 
       weinreTool.setAttribute( 'defer', 'defer' );
 
       if( '<%= custom %>' ){
-        weinreTool.src = '<%= custom %>' + 'target/target-script-min.js' + '<%= id %>';
+        weinreTool.src = '<%= custom %>target/target-script-min.js<%= id %>';
       }
       else{
-        weinreTool.src = 'http://' + locationHostName + ':' + '<%= weinreTool.weinreLocalPort %>' + '/target/target-script-min.js' + '<%= id %>';
+        weinreTool.src = 'http://' + location.hostname + ':<%= weinreTool.weinreLocalPort %>/target/target-script-min.js<%= id %>';
       }
 
       document.body.appendChild( weinreTool );

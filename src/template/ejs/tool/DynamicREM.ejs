@@ -1,0 +1,129 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/tool/DynamicREM.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-10-10 13:00:18 星期一
+-->
+<!--
+简版的动态计算“rem”的JS代码，一般被用来注入到.ejs模板中。
+1、全局可用的dynamicREM函数接受一个number类型的参数，默认值是375，表示以iPhone 6为基准设计稿的尺寸。
+-->
+<script>
+  'use strict';
+  !function ( i, e ){
+    'undefined' !== typeof module && 'object' === typeof module && 'object' === typeof exports
+    ? module.exports = e
+    : 'function' === typeof define && ( define.amd || define.cmd )
+      ? define( [], e )
+      : i.deviceInfo = e
+  }( 'undefined' !== typeof window
+     ? window
+     : this, function (){
+    'use strict';
+    String.prototype.includes || ( String.prototype.includes = function ( i, e ){
+      return 'number' !== typeof e && ( e = 0 ), !( e + i.length > this.length ) && -1 !== this.indexOf( i, e )
+    } );
+    var i = navigator.platform,
+      e = navigator.userAgent,
+      s = window.devicePixelRatio,
+      n = i.includes( 'MacIntel' ) || e.includes( 'Macintosh' ) || e.includes( 'Intel Mac OS' ),
+      d = i.includes( 'Win32' ) || i.includes( 'Win64' ) || e.includes( 'Windows NT' ) || e.includes( 'WOW64' ),
+      l = i.includes( 'iPad' ) || e.includes( 'iPad' ),
+      u = i.includes( 'iPhone' ) || e.includes( 'iPhone' ),
+      c = e.includes( 'Windows Phone' ),
+      o = e.includes( '(BB' ) || e.includes( 'BB10' ) || e.includes( 'RIM' ),
+      r = e.includes( 'MeeGo' ),
+      t = i.includes( 'Linux' ) || e.includes( 'Linux' ) || e.includes( 'Android' ),
+      a = n || d,
+      _ = e.includes( 'Mobile' ) || l || u || c || o || r || t,
+      B = e.includes( 'MicroMessenger' ) || e.includes( 'WindowsWechat' ),
+      w = ( e.includes( ' UBrowser' ) || e.includes( 'UCBrowser' ) ) && !e.includes( 'tmall' ),
+      M = e.includes( 'BIDUBrowser' ) || e.includes( 'baidubrowser' ) || e.includes( 'FlyFlow' ),
+      f = e.includes( '2345Explorer' ) || e.includes( 'Mb2345Browser' ),
+      P = e.includes( 'LBBROWSER' ) || e.includes( 'LieBaoFast' ),
+      p = e.includes( 'SogouMSE' ) || e.includes( 'SogouMobileBrowser' ) || e.includes( 'MetaSr' ) || e.includes( ' SE ' ),
+      S = e.includes( 'Maxthon' ) || e.includes( 'MXiOS' ) || e.includes( 'MxBrowser' ),
+      h = ( e.includes( 'QQBrowser' ) || e.includes( 'MQQBrowser' ) || e.includes( 'QQBrowserLite' ) ) && !B,
+      Q = e.includes( 'QHBrowser' ) || e.includes( 'QihooBrowser' ),
+      b = e.includes( 'YaBrowser' ) || e.includes( 'Yowser' ),
+      g = e.includes( 'OPR' ) || e.includes( 'OPT' ),
+      m = e.includes( 'Edge/' ) || e.includes( 'EdgA/' ) || e.includes( 'EdgiOS/' ) || e.includes( 'Edg/' ),
+      W = e.includes( 'Firefox/' ) || e.includes( 'FxiOS' ),
+      C = e.includes( 'baiduboxapp' ),
+      x = e.includes( 'MiuiBrowser' ),
+      A = e.includes( 'SogouSearch' ),
+      O = e.includes( 'QQ/' ),
+      y = e.includes( 'Weibo' ) || e.includes( 'weibo' ),
+      E = e.includes( 'tmall' ) || e.includes( 'TM/' ),
+      I = e.includes( 'AlipayClient' ),
+      F = e.includes( 'Trident' ) || e.includes( 'MSIE' ) || e.includes( 'compatible' ),
+      T = e.includes( 'TaoBrowser' ),
+      L = e.includes( 'CriOS' ),
+      v = B || w || M || f || P || p || S || h || Q || b || g || m || W || C || x || A || O || y || E || I || F || T,
+      R = {
+        pf: i,
+        ua: e,
+        dpr: s,
+        is_PC: a,
+        is_Mobile: _,
+        is_PCMac: n,
+        is_iPad: l,
+        is_iPhone: u,
+        is_PCWin: d,
+        is_WP: c,
+        is_BB: o,
+        is_MeeGo: r,
+        is_Android: t,
+        is_WX: B,
+        is_UC: w,
+        is_BDB: M,
+        is_2345: f,
+        is_LB: P,
+        is_SGB: p,
+        is_AY: S,
+        is_QQB: h,
+        is_360: Q,
+        is_YB: b,
+        is_OperaB: g,
+        is_Edge: m,
+        is_FF: W,
+        is_QQAPP: C,
+        is_MIB: x,
+        is_SGAPP: A,
+        is_QQ: O,
+        is_WBAPP: y,
+        is_TMAPP: E,
+        is_AlipayC: I,
+        is_IE: F,
+        is_TaoB: T,
+        is_iOSChrome: L,
+        is_Safari: ( n || l || u ) && e.includes( 'Safari/' ) && !e.includes( 'Chrome' ) && !( v || L ),
+        is_Chrome: L || e.includes( 'Chrome/' ) && e.includes( 'Safari/' ) && !v
+      };
+    return n || d || l || u || c || o || r || t
+           ? R.other = !1
+           : ( R.other = !0, R.is_Android = !0, a || _ || ( R.is_PC = !0, R.is_Mobile = !1 ) ), R
+  } );
+  !function ( e, n ){
+    'undefined' !== typeof module && 'object' === typeof module && 'object' === typeof exports
+    ? module.exports = n()
+    : 'function' === typeof define && ( define.amd || define.cmd )
+      ? define( [], n() )
+      : e.dynamicREM = n()
+  }( 'undefined' !== typeof window
+     ? window
+     : this, function (){
+    'use strict';
+    return function ( e ){
+      e || ( e = 375 );
+      var n = document.documentElement,
+        t = function ( t ){
+          n.style.fontSize = n.clientWidth / e * 16 + 'px'
+        };
+      document.addEventListener( 'DOMContentLoaded', t, !1 ), window.addEventListener( 'resize', t, !1 )
+    }
+  } );
+  deviceInfo().is_Mobile && dynamicREM( 375 );
+</script>

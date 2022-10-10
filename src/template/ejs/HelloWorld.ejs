@@ -36,6 +36,9 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
     <!--可选 End-->
     <title><%= htmlWebpackPluginOptions.title ?? '' %></title>
 
+    <% if(htmlWebpackPluginOptionsData.isEnableDynamicREM === true){ %>
+        <%= require( 'ejsDir/tool/DynamicREM.ejs' )() %>
+    <% } %>
     <% if(htmlWebpackPluginOptionsData.webpackAssetsManifest !== null && htmlWebpackPluginOptionsData.webpackAssetsManifest !== undefined){ %>
         <script
                 defer = 'defer'
