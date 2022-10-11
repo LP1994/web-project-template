@@ -9,7 +9,7 @@ CreateDate: 2022-10-09 17:50:46 星期日
 <!--
 动态插入到页面的远端调式工具(weinre)的JS代码。
 -->
-<% if(Object.prototype.toString.call( weinreTool ) === '[object Object]' && weinreTool.isEnable === true){ %>
+<% if( weinreTool !== null && weinreTool !== undefined && Object.prototype.toString.call( weinreTool ) === '[object Object]' && weinreTool.isEnable === true){ %>
     <%
         const id = Object.prototype.toString.call( weinreTool.id ) === '[object String]' && weinreTool.id.trim().length > 0 && weinreTool.id.trim()
                 .startsWith( '#' )

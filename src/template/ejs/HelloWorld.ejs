@@ -33,18 +33,11 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
     <%= require( 'ejsDir/head_meta/Meta_alternate_001.ejs' )( htmlWebpackPluginOptionsData ) %>
     <%= require( 'ejsDir/head_meta/Common001.ejs' )( htmlWebpackPluginOptionsData ) %>
     <%= require( 'ejsDir/head_meta/Meta_icon_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/StartupImgForApple.ejs' )( htmlWebpackPluginOptionsData ) %>
     <!--可选 End-->
     <title><%= htmlWebpackPluginOptions.title ?? '' %></title>
-
-    <% if(htmlWebpackPluginOptionsData.isEnableDynamicREM === true){ %>
-        <%= require( 'ejsDir/tool/DynamicREM.ejs' )() %>
-    <% } %>
-    <% if(htmlWebpackPluginOptionsData.webpackAssetsManifest !== null && htmlWebpackPluginOptionsData.webpackAssetsManifest !== undefined){ %>
-        <script
-                defer = 'defer'
-                crossorigin = 'anonymous'
-                src = '<%= htmlWebpackPluginOptionsData.webpackAssetsManifest %>'></script>
-    <% } %>
+    <%= require( 'ejsDir/tool/DynamicREM.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/tool/WebpackAssetsManifest.ejs' )( htmlWebpackPluginOptionsData ) %>
 </head>
 <body class = 'css-reset full-screen overflow-hidden'>
 <!--LocalScroll节点说明：局部滚动容器，用于避免全局滚动下出现的滚动穿透BUG！-->
@@ -65,8 +58,6 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
         <main class = 'css-reset full-screen overflow-hidden-auto'></main>
     </div>
 </div>
-<% if(htmlWebpackPluginOptionsData.weinreTool !== null && htmlWebpackPluginOptionsData.weinreTool !== undefined){ %>
-    <%= require( 'ejsDir/tool/WeinreTool.ejs' )( htmlWebpackPluginOptionsData ) %>
-<% } %>
+<%= require( 'ejsDir/tool/WeinreTool.ejs' )( htmlWebpackPluginOptionsData ) %>
 </body>
 </html>

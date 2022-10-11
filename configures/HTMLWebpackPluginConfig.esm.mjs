@@ -23,6 +23,8 @@ import {
   weinrePublicNetworkPort,
 } from './GlobalParameters.esm.mjs';
 
+import StartupImgForApple from './StartupImgForApple.esm.mjs';
+
 // 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误，顶级变量就算不需要也要保证它们被设置为null。
 const defaultData = {
   contentSecurityPolicy: null,
@@ -63,19 +65,20 @@ const defaultData = {
   importByHTML: null,
   shortlink: null,
   search: null,
-  // 以上的顶级变量，就算不需要也要保证它们被设置为null，否则会出现顶级变量未定义的编译错误。
-
-  // 以下是多个模板之间会共用到的变量的默认值。
-  lang: 'zh-CN',
-  prefix: 'og: https://ogp.me/ns#',
+  startupImgForApple: StartupImgForApple,
+  dynamicREM: 375,
   webpackAssetsManifest: '../webpack_assets_manifest.js',
-  isEnableDynamicREM: true,
   weinreTool: {
     isEnable: false,
     weinreLocalPort,
     id: '',
     custom: null,
   },
+  // 以上的顶级变量，就算不需要也要保证它们被设置为null，否则会出现顶级变量未定义的编译错误。
+
+  // 以下是多个模板之间会共用到的变量的默认值。
+  lang: 'zh-CN',
+  prefix: 'og: https://ogp.me/ns#',
 };
 
 /**
