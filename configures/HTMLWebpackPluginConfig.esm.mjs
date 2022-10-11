@@ -65,8 +65,8 @@ const defaultData = {
   importByHTML: null,
   shortlink: null,
   search: null,
-  startupImgForApple: StartupImgForApple,
-  dynamicREM: 375,
+  startupImgForApple: null,
+  dynamicREM: true,
   webpackAssetsManifest: '../webpack_assets_manifest.js',
   weinreTool: {
     isEnable: false,
