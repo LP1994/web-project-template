@@ -53,11 +53,23 @@ app：网页应用模式（定制工具栏，全屏显示） 。
         content = '375' />
 <!--
 该meta项用途：
-控制从文档发送的请求的HTTP Referer标头。
+控制从文档发送的请求的HTTP Referer标头，除了HTTP头之外，还可以在HTML中设置此策略。
 HTTP Referer请求标头包含发出请求的页面的绝对或部分地址。Referer标头允许服务器识别人们从哪里访问它的页面。此数据可用于分析、日志记录、优化缓存等。
+您可以在<a>、<area>、<img>、<iframe>、<script>或<link>元素上指定referrerpolicy属性，以为单个请求设置referrer策略：<a href="http://example.com" referrerpolicy="origin">…</a>。
+或者，可以在a、area、link元素上设置noreferrer链接关系：<a href="http://example.com" rel="noreferrer">…</a>。
+警告：如上所示，noreferrer链接关系写入时没有破折号。使用<meta>元素为整个文档指定referrer策略时，应使用破折号：<meta name=“referrer”content=“no-referrer“>。
 
 值说明：
 no-referrer：不要发送HTTP Referer标头。
+no-referrer-when-downgrade：当协议安全级别保持不变或提高时，在Referrer中发送origin、path、query string(HTTP→HTTP, HTTP→HTTPS, HTTPS→HTTPS)。不要将请求的Referrer头发送到协议安全级别降级或不太安全的目的地(HTTPS→HTTP, HTTPS→file)。
+origin：仅发送origin。例如，位于文档https://example.com/page.html的将发送https://example.com/。
+origin-when-cross-origin：对同一协议级别执行同一来源请求时(HTTP→HTTP, HTTPS→HTTPS)发送origin、path、query string。仅为跨域请求和请求发送到不太安全的目的地(HTTPS→HTTP)发送origin。
+same-origin：发送相同来源请求的origin、path、query string。对于跨来源请求，不要发送Referer标头。
+strict-origin：当协议安全级别保持不变时，仅发送origin(HTTPS→HTTPS)。不要将Referer标头发送到不太安全的目的地(HTTPS→HTTP)。
+strict-origin-when-cross-origin：默认值，在执行同一来源请求时发送origin、path、query string。对于跨来源请求，仅当协议安全级别保持不变时发送origin(HTTPS→HTTPS)。不要将Referer标头发送到不太安全的目的地(HTTPS→HTTP)。
+注意：如果未指定策略，或如果提供的值无效，则"strict-origin-when-cross-origin"是默认策略（请参阅2020年11月的规范修订版：https://github.com/whatwg/fetch/pull/1066）。以前的默认值是"no-referrer-when-downgrade"。
+unsafe-url：在执行任何请求时发送origin、path、query string，而不考虑安全性。
+警告："unsafe-url"此策略可能会将HTTPS资源URL中的私有信息泄漏到不安全的来源。仔细考虑此设置的影响。
 
 注意：
 动态插入该meta项时，如使用document.write()、document.appendChild()会引用行为不可预测。
@@ -69,7 +81,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
 -->
 <meta
         name = 'referrer'
-        content = 'no-referrer' />
+        content = 'strict-origin-when-cross-origin' />
 <!--
 该meta项用途：
 UC浏览器私有meta属性，排版模式。

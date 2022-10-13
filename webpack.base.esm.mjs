@@ -795,7 +795,8 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -817,7 +818,8 @@ const autoprefixerConfig = {
 
         Vendors001JS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'Vendors001JS',
           };
         } )( [
@@ -828,7 +830,8 @@ const autoprefixerConfig = {
 
         VueFamilyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -839,7 +842,8 @@ const autoprefixerConfig = {
 
         ElementUIJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'ElementUIJS',
           };
         } )( [
@@ -862,7 +866,8 @@ const autoprefixerConfig = {
              * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
              * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
              */
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.css$`, 'i' ),
             // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
             ...( () => {
               return isProduction
@@ -915,7 +920,8 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -950,7 +956,8 @@ const autoprefixerConfig = {
 
         VueFamilyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
+            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -1387,7 +1394,8 @@ const aliasConfig = {
         globOptions: {
           expandDirectories: true,
           gitignore: true,
-          ignoreFiles: ignoreArr,
+          // 设置了这个，会奇怪的导致被排除文件的同层文件也被过滤。
+          // ignoreFiles: ignoreArr,
           concurrency: cpus().length - 1,
           cwd: resolve( __dirname, './' ),
           deep: Infinity,
@@ -1411,7 +1419,7 @@ const aliasConfig = {
       patterns: arr1,
       options: {
         // 限制对fs的同时请求数，默认100。
-        concurrency: 100,
+        concurrency: 10000,
       },
     };
   } )( [
@@ -1422,7 +1430,9 @@ const aliasConfig = {
       to: './',
     },
     {
+      // 从项目的根目录下复制favicon.ico。
       from: 'favicon.ico',
+      // 将上面复制的文件夹复制到output.path下。
       to: './favicon.ico',
       context: './',
       toType: 'file',
@@ -1975,6 +1985,80 @@ const aliasConfig = {
       },
     },
     setupExitSignals: true,
+    webSocketServer: 'ws',
+    static: ( arr => {
+      const obj1 = {
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-env-platform', `${ env_platform }` );
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.set( 'x-path', `${ path }` );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      };
+
+      return arr.map( item => {
+        return {
+          ...obj1,
+          ...item,
+        };
+      } );
+    } )( [
+      {
+        directory: join( __dirname, './dist/' ),
+        publicPath: '/dev-server-static/dist',
+      },
+      {
+        directory: join( __dirname, './simulation_servers/' ),
+        publicPath: '/dev-server-static/simulation_servers',
+      },
+      {
+        directory: join( __dirname, './src/' ),
+        publicPath: '/dev-server-static/src',
+      },
+      {
+        directory: join( __dirname, './subsystems/' ),
+        publicPath: '/dev-server-static/subsystems',
+      },
+      {
+        directory: join( __dirname, './test/' ),
+        publicPath: '/dev-server-static/test',
+      },
+      {
+        directory: join( __dirname, './ts_compiled/' ),
+        publicPath: '/dev-server-static/ts_compiled',
+      },
+      {
+        directory: join( __dirname, './webpack_location/' ),
+        publicPath: '/dev-server-static/webpack_location',
+      },
+      {
+        directory: join( __dirname, './webpack_records/' ),
+        publicPath: '/dev-server-static/webpack_records',
+      },
+    ] ),
     setupMiddlewares: ( middlewares, devServer ) => {
       if( !devServer ){
         throw new Error( 'webpack-dev-server is not defined!' );
@@ -2012,6 +2096,14 @@ const aliasConfig = {
       } );
       devServer.app.get( '/apple-touch-icon-precomposed.png', ( req, response ) => {
         ResFaviconIco( req, response );
+      } );
+
+      devServer.app.all( '*', ( req, res, next ) => {
+        console.log( `\n------${ req.url }------Start` );
+        console.dir( req.headers );
+        console.log( `------${ req.url }------End\n` );
+
+        next();
       } );
 
       /**
@@ -2092,80 +2184,6 @@ const aliasConfig = {
 
       return middlewares;
     },
-    static: ( arr => {
-      const obj1 = {
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-env-platform', `${ env_platform }` );
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-path', `${ path }` );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
-      };
-
-      return arr.map( item => {
-        return {
-          ...item,
-          ...obj1,
-        };
-      } );
-    } )( [
-      {
-        directory: join( __dirname, './dist/' ),
-        publicPath: '/dev-server-static/dist',
-      },
-      {
-        directory: join( __dirname, './simulation_servers/' ),
-        publicPath: '/dev-server-static/simulation_servers',
-      },
-      {
-        directory: join( __dirname, './src/' ),
-        publicPath: '/dev-server-static/src',
-      },
-      {
-        directory: join( __dirname, './subsystems/' ),
-        publicPath: '/dev-server-static/subsystems',
-      },
-      {
-        directory: join( __dirname, './test/' ),
-        publicPath: '/dev-server-static/test',
-      },
-      {
-        directory: join( __dirname, './ts_compiled/' ),
-        publicPath: '/dev-server-static/ts_compiled',
-      },
-      {
-        directory: join( __dirname, './webpack_location/' ),
-        publicPath: '/dev-server-static/webpack_location',
-      },
-      {
-        directory: join( __dirname, './webpack_records/' ),
-        publicPath: '/dev-server-static/webpack_records',
-      },
-    ] ),
-    webSocketServer: 'ws',
   },
   /**
    * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
@@ -7281,6 +7299,12 @@ const aliasConfig = {
             severityError: 'error',
             concurrency: cpus().length - 1,
             deleteOriginalAssets: true,
+            include: [
+              join( __dirname, './src/' ),
+            ],
+            exclude: [
+              join( __dirname, './src/static/' ),
+            ],
           };
 
           const configs = {

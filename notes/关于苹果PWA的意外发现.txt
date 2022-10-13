@@ -145,3 +145,14 @@ Darwin
   'accept-encoding': 'gzip, deflate',
   'user-agent': 'ShareExtension/10.1.82.9010 CFNetwork/1121.2.2 Darwin/19.2.0'
 }
+
+
+
+苹果Safari分享按钮：
+'user-agent': 'com.apple.WebKit.Networking/8614.1.25.0.31 CFNetwork/1390 Darwin/22.0.0'
+
+苹果Safari添加主屏幕：
+'user-agent': 'MobileSafari/8614.1.25.0.31 CFNetwork/1390 Darwin/22.0.0'
+
+苹果微信内：
+'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.29(0x18001d30) NetType/WIFI Language/zh_CN'
