@@ -260,6 +260,7 @@ const proxyConfig = {
      */
     router: {
       'localhost:8100': 'http://localhost:9999',
+      '127.0.0.1:8100': 'http://localhost:9999',
     },
 
     /**
@@ -487,7 +488,7 @@ const proxyConfig = {
     onProxyReq: ( proxyReq, req, res, options ) => {
       const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
 
-      logWriteStream.write( `--->${ req.originalUrl }<---Start
+      logWriteStream.write( `HTTP代理--->${ req.originalUrl }<---Start
 原请求方法：${ req.method }
 原请求头：
 ${ JSON.stringify( req.headers, null, ' ' ) }
@@ -498,7 +499,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 代理请求的path：${ proxyReq.path }
 代理的请求头：
 ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
---->${ req.originalUrl }<---End
+HTTP代理--->${ req.originalUrl }<---End
 \n\n\n` );
     },
 
@@ -569,9 +570,9 @@ ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.f
   },
 
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：ws://192.168.1.196:8087/subscriptions。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：ws://localhost:9900/。<br />
    */
-  '/ws_dev_server_demo001/subscriptions': {
+  '/simulation_servers_node/subscriptions': {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
@@ -582,9 +583,8 @@ ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.f
      * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
     bypass: ( req, res, proxyOptions ) => {
+      // 正在跳过浏览器请求的代理。
       if( req.headers.accept.indexOf( 'xxx7788' ) !== -1 ){
-        console.log( '正在跳过浏览器请求的代理。' );
-
         return '/xxx7788.html';
       }
     },
@@ -606,7 +606,7 @@ ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.f
      *
      * @returns {string} 新路径。
      */
-    pathRewrite: ( path, req ) => '/subscriptions',
+    pathRewrite: ( path, req ) => '/',
 
     /**
      * 为特定请求重新定位到option.target。<br />
@@ -622,7 +622,8 @@ ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.f
      * '/rest': 'http://192.168.1.196:8087'
      */
     router: {
-      'localhost:3000': 'http://192.168.1.196:8087',
+      'localhost:8100': 'ws://localhost:9900',
+      '127.0.0.1:8100': 'ws://localhost:9900',
     },
 
     /**
@@ -662,7 +663,7 @@ ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.f
      * secureProtocol：string、undefined，可选。<br />
      * }<br />
      */
-    target: 'ws://192.168.1.196:8087',
+    target: 'ws://localhost:9900',
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
@@ -862,29 +863,21 @@ ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.f
      * @returns {void} 无返回值。
      */
     onProxyReqWs: ( proxyReq, req, socket, options, head ) => {
-      console.log( '\nonProxyReqWs------Start------\n' );
+      const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
 
-      console.log( '\nproxyReq--->Start' );
-      console.dir( proxyReq );
-      console.log( 'proxyReq--->End\n' );
+      logWriteStream.write( `WebSocket代理--->${ options.context }<---Start
+原请求方法：${ req.method }
+原请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
 
-      console.log( '\nreq--->Start' );
-      console.dir( req );
-      console.log( 'req--->End\n' );
-
-      console.log( '\nsocket--->Start' );
-      console.dir( socket );
-      console.log( 'socket--->End\n' );
-
-      console.log( '\noptions--->Start' );
-      console.dir( options );
-      console.log( 'options--->End\n' );
-
-      console.log( '\nhead--->Start' );
-      console.dir( head );
-      console.log( 'head--->End\n' );
-
-      console.log( '\nonProxyReqWs------End------\n' );
+代理请求方法：${ proxyReq.method }
+代理请求的protocol：${ proxyReq.protocol }
+代理请求的host：${ proxyReq.host }
+代理请求的path：${ proxyReq.path }
+代理的请求头：
+${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
+WebSocket代理--->${ options.context }<---End
+\n\n\n` );
     },
 
     /**
