@@ -2,7 +2,7 @@
  * Author: 12278
  * CreateDate: 2022-01-01 00:00:00 星期六
  * Email: 1227839175@qq.com
- * FileDirPath: simulation_servers/node/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs
+ * FileDirPath: heic_to_any_by_multi_thread/UniversalToolForNode.esm.mjs
  * IDE: WebStorm
  * Project: web-project-template
  */

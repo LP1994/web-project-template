@@ -117,7 +117,7 @@ const defaultData = {
   search: null,
   startupImgForApple: StartupImgForApple,
   dynamicREM: true,
-  webpackAssetsManifest: '../webpack_assets_manifest.js',
+  webpackAssetsManifest: '../webpack_assets_manifest.json',
   weinreTool: {
     isEnable: false,
     weinreLocalPort,

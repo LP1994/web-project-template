@@ -7,4 +7,4 @@ This is a WEB project template.<br /><br />
 4、内置支持Vue（默认使用的是Vue 3版本）、TypeScript，也允许自定义扩展成自己想要的WEB项目开发环境（如扩展成：React、Angular等等）。<br />
 5、“src/tools”文件夹下有几个个人总结的JS工具类及其详细的文档。<br />
 6、“subsystems”文件夹下都是“微前端架构”中各个“子系统”工程的文件夹。<br />
-7、“element-ui”有2.0的也有3.0（element-plus）的。<br />
+7、“element-ui”有2.0的也有3.0（element-plus）的，默认使用3.0的element-plus。<br />

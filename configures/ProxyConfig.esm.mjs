@@ -13,12 +13,6 @@
  * 2、注意，当前文件编写的配置是遵循“http-proxy-middleware v2.0.6”的，因为“webpack 5”也是引用“http-proxy-middleware”的，而“http-proxy-middleware”有一个3.X的版本正在预备中，其配置写法有很大的变化。
  */
 
-'use strict';
-
-import {
-  httpHeaders,
-} from './GlobalParameters.esm.mjs';
-
 /*
  使用例子：
  JS代码中请求的写法，如：
@@ -44,7 +38,157 @@ import {
  }
  */
 
-const changeOrigin = true;
+'use strict';
+
+import {
+  dirname,
+  join,
+} from 'node:path';
+
+import {
+  argv,
+} from 'node:process';
+
+import {
+  fileURLToPath,
+} from 'node:url';
+
+import {
+  httpHeaders,
+} from './GlobalParameters.esm.mjs';
+
+import {
+  CreateLogger,
+} from './Logger.esm.mjs';
+
+/**
+ * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
+ *
+ * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ *
+ * @returns {string} 返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。
+ */
+function Get__dirname( import_meta_url = import.meta.url ){
+  return dirname( Get__filename( import_meta_url ) );
+}
+
+/**
+ * 该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。<br />
+ *
+ * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ *
+ * @returns {string} 返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。
+ */
+function Get__filename( import_meta_url = import.meta.url ){
+  return fileURLToPath( import_meta_url );
+}
+
+/**
+ * 返回传入时间对象的年、月、日、时、分、秒、周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。<br />
+ *
+ * @param nowDate {Date} 一个时间对象，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ *
+ * @returns {{year: string, month: string, date: string, hours: string, minutes: string, seconds: string, day: string}} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。
+ */
+function DateHandle( nowDate = new Date( Date.now() ) ){
+  const year = String( nowDate.getFullYear() ),
+    month = String( nowDate.getMonth() + 1 ).padStart( 2, '0' ),
+    date = String( nowDate.getDate() ).padStart( 2, '0' ),
+    hours = String( nowDate.getHours() ).padStart( 2, '0' ),
+    minutes = String( nowDate.getMinutes() ).padStart( 2, '0' ),
+    seconds = String( nowDate.getSeconds() ).padStart( 2, '0' ),
+    day0 = Number( nowDate.getDay() ),
+    day = String( day0 === 0
+                  ? '日'
+                  : day0 );
+
+  return {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  };
+}
+
+/**
+ * 表示项目文件夹根目录，不是磁盘根目录。<br />
+ *
+ * @type {string}
+ */
+const __dirname = Get__dirname( import.meta.url ),
+  /**
+   * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
+   * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
+   *
+   * @type {string|undefined}
+   */
+  env_platform = ( argv => {
+    const envArr = [];
+
+    argv.forEach( ( item, index ) => {
+      if( item === '--env' ){
+        envArr.push( argv.at( index + 1 ) );
+      }
+    } );
+
+    if( envArr.length === 0 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中没找到“--env”参数。注意“--env”参数是允许多个的哦。' );
+    }
+
+    const platformArr = [];
+
+    envArr.forEach( item => {
+      if( item.startsWith( 'platform=' ) ){
+        platformArr.push( item );
+      }
+    } );
+
+    if( platformArr.length === 0 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。注意“--env”参数是允许多个的哦。' );
+    }
+    else if( platformArr.length > 1 ){
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值有且只能有一个，该值一般是这4个中的一个：platform=dev_server、platform=local_server、platform=test、platform=production。注意“--env”参数是允许多个的哦。' );
+    }
+
+    const str = platformArr.at( 0 ).replace( 'platform=', '' ).trim();
+
+    if( [
+      'dev_server',
+      'local_server',
+      'test',
+      'production',
+    ].includes( str ) ){
+      return str;
+    }
+    else{
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
+    }
+  } )( argv ),
+  changeOrigin = true;
+
+const {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  } = DateHandle(),
+  logFileName = `proxy_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).log`;
+
+const logWriteStream = await CreateLogger( join( __dirname, `../log/${ env_platform }/${ logFileName }` ) );
 
 /**
  * devServer启动时的代理配置。<br />
@@ -63,9 +207,9 @@ const changeOrigin = true;
  */
 const proxyConfig = {
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：http://192.168.1.196:8087/graphql。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：http://localhost:9999/SimServer/GET。<br />
    */
-  '/http_dev_server_demo001/graphql': {
+  '/simulation_servers_node/GET': {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
@@ -76,9 +220,8 @@ const proxyConfig = {
      * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
     bypass: ( req, res, proxyOptions ) => {
+      // 正在跳过浏览器请求的代理。
       if( req.headers.accept.indexOf( 'xxx7788' ) !== -1 ){
-        console.log( '正在跳过浏览器请求的代理。' );
-
         return '/xxx7788.html';
       }
     },
@@ -100,7 +243,7 @@ const proxyConfig = {
      *
      * @returns {string} 新路径。
      */
-    pathRewrite: ( path, req ) => '/graphql',
+    pathRewrite: ( path, req ) => '/SimServer/GET',
 
     /**
      * 为特定请求重新定位到option.target。<br />
@@ -116,7 +259,7 @@ const proxyConfig = {
      * '/rest': 'http://192.168.1.196:8087'
      */
     router: {
-      'localhost:3000': 'http://192.168.1.196:8087',
+      'localhost:8100': 'http://localhost:9999',
     },
 
     /**
@@ -156,7 +299,7 @@ const proxyConfig = {
      * secureProtocol：string、undefined，可选。<br />
      * }<br />
      */
-    target: 'http://192.168.1.196:8087',
+    target: 'http://localhost:9999',
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
@@ -342,24 +485,21 @@ const proxyConfig = {
      * @returns {void} 无返回值。
      */
     onProxyReq: ( proxyReq, req, res, options ) => {
-      console.log( '\nonProxyReq------Start------\n' );
+      const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
 
-      console.log( `客户端的请求URL--->${ req.url }` );
-      console.log( `客户端的请求方法--->${ req.method }` );
+      logWriteStream.write( `--->${ req.originalUrl }<---Start
+原请求方法：${ req.method }
+原请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
 
-      console.log( '客户端的请求头--->Start' );
-      console.dir( req.headers );
-      console.log( '客户端的请求头--->End' );
-
-      console.log( '代理的请求信息--->Start' );
-      console.log( `代理的method--->${ proxyReq.method }` );
-      console.log( `代理的protocol--->${ proxyReq.protocol }` );
-      console.log( `代理的host--->${ proxyReq.host }` );
-      console.log( `代理的path--->${ proxyReq.path }` );
-      console.dir( proxyReq[ Reflect.ownKeys( proxyReq )[ Reflect.ownKeys( proxyReq ).length - 1 ] ] );
-      console.log( '代理的请求信息--->End' );
-
-      console.log( '\nonProxyReq------End------\n' );
+代理请求方法：${ proxyReq.method }
+代理请求的protocol：${ proxyReq.protocol }
+代理请求的host：${ proxyReq.host }
+代理请求的path：${ proxyReq.path }
+代理的请求头：
+${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
+--->${ req.originalUrl }<---End
+\n\n\n` );
     },
 
     /**

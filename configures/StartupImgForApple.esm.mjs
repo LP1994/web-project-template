@@ -300,7 +300,7 @@ const StartupImgForApple = [
 
   // iPad Start
 
-  // 1536 x 2048(dpr: 2): iPad mini 2、iPad mini 3、iPad mini 4、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air 2、9.7英寸iPad Pro、iPad mini(第五代)
+  // 1536 x 2048(dpr: 2): iPad mini(第二代)、iPad mini(第三代)、iPad mini(第四代)、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air(第二代)、9.7英寸iPad Pro、iPad mini(第五代)
   {
     href: '../static/img/startup/iPad_1536_2048.png',
     type: 'image/png',
@@ -311,7 +311,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2), ' +
       'only screen and (device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (device-pixel-ratio: 2)',
   },
-  // 2048 x 1536(dpr: 2): iPad mini 2、iPad mini 3、iPad mini 4、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air 2、9.7英寸iPad Pro、iPad mini(第五代)
+  // 2048 x 1536(dpr: 2): iPad mini(第二代)、iPad mini(第三代)、iPad mini(第四代)、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air(第二代)、9.7英寸iPad Pro、iPad mini(第五代)
   {
     href: '../static/img/startup/iPad_2048_1536.png',
     type: 'image/png',
@@ -346,7 +346,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 744px) and (device-height: 1133px) and (orientation: landscape) and (device-pixel-ratio: 2)',
   },
 
-  // 2048 x 2732(dpr: 2): 12.9英寸iPad Pro(第一代)、12.9英寸iPad Pro(第二代)、12.9英寸iPad Pro(第三代)、12.9英寸iPad Pro(第四代)、12.9英寸iPad Pro(第五代)
+  // 2048 x 2732(dpr: 2): 12.9英寸iPad Pro(第一代)、12.9英寸iPad Pro(第二代)、12.9英寸iPad Pro(第三代)、12.9英寸iPad Pro(第四代)、12.9英寸iPad Pro(第五代)、12.9英寸iPad Pro(第六代)
   {
     href: '../static/img/startup/iPad_2048_2732.png',
     type: 'image/png',
@@ -357,7 +357,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 1024px) and (device-height: 1366px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2), ' +
       'only screen and (device-width: 1024px) and (device-height: 1366px) and (orientation: portrait) and (device-pixel-ratio: 2)',
   },
-  // 2732 x 2048(dpr: 2): 12.9英寸iPad Pro(第一代)、12.9英寸iPad Pro(第二代)、12.9英寸iPad Pro(第三代)、12.9英寸iPad Pro(第四代)、12.9英寸iPad Pro(第五代)
+  // 2732 x 2048(dpr: 2): 12.9英寸iPad Pro(第一代)、12.9英寸iPad Pro(第二代)、12.9英寸iPad Pro(第三代)、12.9英寸iPad Pro(第四代)、12.9英寸iPad Pro(第五代)、12.9英寸iPad Pro(第六代)
   {
     href: '../static/img/startup/iPad_2732_2048.png',
     type: 'image/png',
@@ -392,7 +392,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 810px) and (device-height: 1080px) and (orientation: landscape) and (device-pixel-ratio: 2)',
   },
 
-  // 1640 x 2360(dpr: 2): iPad Air(第四代)、iPad Air(第五代)
+  // 1640 x 2360(dpr: 2): iPad Air(第四代)、iPad Air(第五代)、iPad(第十代)
   {
     href: '../static/img/startup/iPad_1640_2360.png',
     type: 'image/png',
@@ -403,7 +403,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 820px) and (device-height: 1180px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2), ' +
       'only screen and (device-width: 820px) and (device-height: 1180px) and (orientation: portrait) and (device-pixel-ratio: 2)',
   },
-  // 2360 x 1640(dpr: 2): iPad Air(第四代)、iPad Air(第五代)
+  // 2360 x 1640(dpr: 2): iPad Air(第四代)、iPad Air(第五代)、iPad(第十代)
   {
     href: '../static/img/startup/iPad_2360_1640.png',
     type: 'image/png',
@@ -438,7 +438,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 834px) and (device-height: 1112px) and (orientation: landscape) and (device-pixel-ratio: 2)',
   },
 
-  // 1668 x 2388(dpr: 2): 11英寸iPad Pro(第一代)、11英寸iPad Pro(第二代)、11英寸iPad Pro(第三代)
+  // 1668 x 2388(dpr: 2): 11英寸iPad Pro(第一代)、11英寸iPad Pro(第二代)、11英寸iPad Pro(第三代)、11英寸iPad Pro(第四代)
   {
     href: '../static/img/startup/iPad_1668_2388.png',
     type: 'image/png',
@@ -449,7 +449,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 834px) and (device-height: 1194px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2), ' +
       'only screen and (device-width: 834px) and (device-height: 1194px) and (orientation: portrait) and (device-pixel-ratio: 2)',
   },
-  // 2388 x 1668(dpr: 2): 11英寸iPad Pro(第一代)、11英寸iPad Pro(第二代)、11英寸iPad Pro(第三代)
+  // 2388 x 1668(dpr: 2): 11英寸iPad Pro(第一代)、11英寸iPad Pro(第二代)、11英寸iPad Pro(第三代)、11英寸iPad Pro(第四代)
   {
     href: '../static/img/startup/iPad_2388_1668.png',
     type: 'image/png',

@@ -7,8 +7,10 @@ IDE: WebStorm
 CreateDate: 2022-10-11 12:56:10 星期二
 -->
 <% if(webpackAssetsManifest !== null && webpackAssetsManifest !== undefined){ %>
-    <script
-            defer = 'defer'
+    <link
+            rel = 'preload'
             crossorigin = 'anonymous'
-            src = '<%= webpackAssetsManifest %>'></script>
+            as = 'fetch'
+            type = 'application/json'
+            href = '<%= webpackAssetsManifest %>' />
 <% } %>

@@ -148,6 +148,31 @@ Darwin
 
 
 
+------/apple-touch-icon-120x120-precomposed.png------Start
+{
+  host: '192.168.10.101:8100',
+  accept: '*/*',
+  'accept-language': 'zh-CN,zh-Hans;q=0.9',
+  connection: 'keep-alive',
+  'accept-encoding': 'gzip, deflate',
+  'user-agent': 'MobileSafari/8614.1.25.0.31 CFNetwork/1390 Darwin/22.0.0'
+}
+------/apple-touch-icon-120x120-precomposed.png------End
+
+
+------/apple-touch-icon-120x120.png------Start
+{
+  host: '192.168.10.101:8100',
+  accept: '*/*',
+  'accept-language': 'zh-CN,zh-Hans;q=0.9',
+  connection: 'keep-alive',
+  'accept-encoding': 'gzip, deflate',
+  'user-agent': 'MobileSafari/8614.1.25.0.31 CFNetwork/1390 Darwin/22.0.0'
+}
+------/apple-touch-icon-120x120.png------End
+
+
+
 苹果Safari分享按钮：
 'user-agent': 'com.apple.WebKit.Networking/8614.1.25.0.31 CFNetwork/1390 Darwin/22.0.0'
 
@@ -156,3 +181,6 @@ Darwin
 
 苹果微信内：
 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.29(0x18001d30) NetType/WIFI Language/zh_CN'
+
+苹果新浪微博内：
+'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Weibo (iPhone14,3__weibo__12.10.0__iphone__os16.0.3)'

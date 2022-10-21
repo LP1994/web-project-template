@@ -110,6 +110,10 @@ import {
 
 import HTMLWebpackPluginConfig from './configures/HTMLWebpackPluginConfig.esm.mjs';
 
+import {
+  CreateLogger,
+} from './configures/Logger.esm.mjs';
+
 import proxyConfig from './configures/ProxyConfig.esm.mjs';
 
 /**
@@ -278,15 +282,15 @@ const browserslist = [
     'Chrome >= 106',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 106',
-    'Firefox >= 105',
+    'Firefox >= 106',
     'Safari >= 16',
-    'Opera >= 91',
+    'Opera >= 92',
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
     'ChromeAndroid >= 106',
     'Android >= 106',
-    'FirefoxAndroid >= 105',
+    'FirefoxAndroid >= 106',
     'iOS >= 16',
     // 移动端各主流浏览器的最新版本，至20221002。End
   ],
@@ -322,9 +326,9 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。Start
     'chrome106',
     'edge106',
-    'firefox105',
+    'firefox106',
     'safari16',
-    'opera91',
+    'opera92',
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
@@ -361,9 +365,9 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。Start
     chrome: 106,
     edge: 106,
-    firefox: 105,
+    firefox: 106,
     safari: 16,
-    opera: 91,
+    opera: 92,
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
@@ -627,6 +631,7 @@ const autoprefixerConfig = {
     resolve( __dirname, './bats/' ),
     resolve( __dirname, './configures/' ),
     resolve( __dirname, './dist/' ),
+    resolve( __dirname, './log/' ),
     resolve( __dirname, './node_modules/' ),
     resolve( __dirname, './notes/' ),
     resolve( __dirname, './read_me/' ),
@@ -1195,6 +1200,23 @@ function GetCertificates(){
  */
 const myCertificates = await GetCertificates();
 
+let logWriteStream = null;
+
+if( !isProduction ){
+  const {
+      year,
+      month,
+      date,
+      hours,
+      minutes,
+      seconds,
+      day,
+    } = DateHandle(),
+    logFileName = `webpack_dev_server_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).log`;
+
+  logWriteStream = await CreateLogger( join( __dirname, `./log/${ env_platform }/${ logFileName }` ) );
+}
+
 /**
  * 设置路径别名。<br />
  * 1、resolve.alias优先于其他模块解析。<br />
@@ -1292,9 +1314,9 @@ const aliasConfig = {
    * @type {object}
    */
   assetsWebpackPluginConfig = {
-    filename: 'webpack_assets_manifest.js',
+    filename: 'webpack_assets_manifest.json',
     processOutput( assets ){
-      return `window.webpack_assets_manifest = ${ JSON.stringify( assets ) };`;
+      return JSON.stringify( assets );
     },
     includeManifest: false,
     fullPath: true,
@@ -1365,6 +1387,7 @@ const aliasConfig = {
       '**/*',
       '!webpack_assets_manifest.js',
       '!webpack_assets_manifest.json',
+      '!webpack_assets_manifest.json5',
     ],
     /**
      * 在每次构建（包括监视模式）后删除与此模式匹配的文件，用于不是由Webpack直接创建的文件。<br />
@@ -2065,9 +2088,11 @@ const aliasConfig = {
       }
 
       const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
-        console.log( '\n------setupMiddlewares------Start' );
-        console.log( `客户端的请求URL--->${ req.url }` );
-        console.log( '------setupMiddlewares------End\n' );
+        logWriteStream.write( `--->${ req.url }<---Start
+请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
+--->${ req.url }<---End
+\n` );
 
         res.setHeader( 'Content-Type', Mime.getType( req.url ) );
         res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
@@ -2085,25 +2110,33 @@ const aliasConfig = {
         } );
       };
 
+      devServer.app.all( '*', ( req, res, next ) => {
+        logWriteStream.write( `--->${ req.url }<---Start
+请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
+--->${ req.url }<---End
+\n` );
+
+        next();
+      } );
+
       devServer.app.get( '/favicon.ico', ( req, response ) => {
         ResFaviconIco( req, response );
       } );
       devServer.app.get( '/favicon.png', ( req, response ) => {
-        ResFaviconIco( req, response );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
       } );
       devServer.app.get( '/apple-touch-icon.png', ( req, response ) => {
-        ResFaviconIco( req, response );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
       } );
       devServer.app.get( '/apple-touch-icon-precomposed.png', ( req, response ) => {
-        ResFaviconIco( req, response );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
       } );
-
-      devServer.app.all( '*', ( req, res, next ) => {
-        console.log( `\n------${ req.url }------Start` );
-        console.dir( req.headers );
-        console.log( `------${ req.url }------End\n` );
-
-        next();
+      devServer.app.get( '/apple-touch-icon-120x120.png', ( req, response ) => {
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
+      } );
+      devServer.app.get( '/apple-touch-icon-120x120-precomposed.png', ( req, response ) => {
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
       } );
 
       /**
@@ -2860,7 +2893,7 @@ const aliasConfig = {
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.19.1',
+          } )() || '7.19.4',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -4978,6 +5011,7 @@ const aliasConfig = {
       join( __dirname, './bats/' ),
       join( __dirname, './configures/' ),
       join( __dirname, './dist/' ),
+      join( __dirname, './log/' ),
       join( __dirname, './notes/' ),
       join( __dirname, './read_me/' ),
       join( __dirname, './simulation_servers/' ),
@@ -8269,27 +8303,34 @@ const aliasConfig = {
    * 5、为第三方包配置时，只要用包名作为value值即可，因为webpack会自动从“node_modules”中查找，并加载相应的模块文件。<br />
    * 6、为第三方包配置时，不要设置以“./”、“./node_modules/”、“node_modules/”等等开头的value值，当然如果是指向自己的模块文件，那还是要指定完整路径。<br />
    * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
+   * 8、package.json
    *
    * @type {object}
    */
   providePluginConfig = {
-    axios: 'axios',
+    axios: [
+      resolve( join( __dirname, './node_modules/axios/dist/esm/axios.js' ) ),
+      'default',
+    ],
 
-    echarts: 'echarts',
+    echarts: resolve( join( __dirname, './node_modules/echarts/dist/echarts.js' ) ),
 
     /**
      * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
      * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
      */
-    ELEMENT: 'element-ui',
+    ELEMENT: resolve( join( __dirname, './node_modules/element-ui/lib/element-ui.common.js' ) ),
     ElementPlus: 'element-plus',
 
-    $: 'jquery',
-    jQuery: 'jquery',
-    'window.$': 'jquery',
-    'window.jQuery': 'jquery',
+    $: resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+    jQuery: resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+    'window.$': resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+    'window.jQuery': resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
 
-    Swiper: 'swiper',
+    Swiper: [
+      'swiper/swiper.esm.js',
+      'default',
+    ],
 
     /**
      * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
@@ -8297,7 +8338,10 @@ const aliasConfig = {
      */
     Vue: 'vue',
     VueRouter: 'vue-router',
-    Vuex: 'vuex',
+    Vuex: [
+      'vuex',
+      'default',
+    ],
   },
   /**
    * 使用此选项生成一个JSON文件，其中包含webpack“记录”——用于跨多个构建存储模块标识符的数据片段。您可以使用此文件来跟踪模块在构建之间的变化。<br />
