@@ -120,6 +120,36 @@ function DateHandle( nowDate = new Date( Date.now() ) ){
  */
 const __dirname = Get__dirname( import.meta.url ),
   /**
+   * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
+   * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
+   *
+   * @type {boolean}
+   */
+  isProduction = ( argv => {
+    const num1 = argv.findIndex( c => c === '--mode' );
+
+    if( num1 !== -1 ){
+      const str1 = argv.at( num1 + 1 );
+
+      if( String( str1 ) === 'development' ){
+        return false;
+      }
+      else if( String( str1 ) === 'production' ){
+        return true;
+      }
+      else{
+        console.dir( argv );
+
+        throw new Error( 'CLI参数中紧跟在“--mode”之后的，只能是development（用于开发）、production（用于生产）。有效的“--mode”参数设置是：--mode development、--mode production。' );
+      }
+    }
+    else{
+      console.dir( argv );
+
+      throw new Error( 'CLI参数中没找到“--mode”参数。' );
+    }
+  } )( argv ),
+  /**
    * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
    * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
    *
@@ -177,18 +207,22 @@ const __dirname = Get__dirname( import.meta.url ),
   } )( argv ),
   changeOrigin = true;
 
-const {
-    year,
-    month,
-    date,
-    hours,
-    minutes,
-    seconds,
-    day,
-  } = DateHandle(),
-  logFileName = `proxy_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).log`;
+let logWriteStream = null;
 
-const logWriteStream = await CreateLogger( join( __dirname, `../log/${ env_platform }/${ logFileName }` ) );
+if( !isProduction ){
+  const {
+      year,
+      month,
+      date,
+      hours,
+      minutes,
+      seconds,
+      day,
+    } = DateHandle(),
+    logFileName = `proxy_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒(周${ day }).log`;
+
+  logWriteStream = await CreateLogger( join( __dirname, `../log/${ env_platform }/${ logFileName }` ) );
+}
 
 /**
  * devServer启动时的代理配置。<br />

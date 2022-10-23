@@ -2893,7 +2893,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.19.4',
+          } )() || '7.19.6',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -8278,7 +8278,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     maxEntrypointSize: 50 * 1024 * 1024,
   },
   /**
-   * 用于设置预取将来可能需要一些导航资源，会在页面上通过link标签设置一个预取资源。<br />
+   * 用于设置预取将来可能需要一些导航资源（目前该插件只支持JS类的资源），会在页面上通过link标签设置一个预取资源。<br />
    * PS：<br />
    * 1、数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。<br />
    * 2、在浏览器中测试预取时，记得关闭“禁用缓存”。<br />
@@ -8291,7 +8291,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       return new webpack.PrefetchPlugin( resolve( __dirname, './', item ) );
     } );
   } )( [
-    // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
+    // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径（目前该插件只支持JS类的资源），值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
   ] ),
   /**
    * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
@@ -8303,7 +8303,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 5、为第三方包配置时，只要用包名作为value值即可，因为webpack会自动从“node_modules”中查找，并加载相应的模块文件。<br />
    * 6、为第三方包配置时，不要设置以“./”、“./node_modules/”、“node_modules/”等等开头的value值，当然如果是指向自己的模块文件，那还是要指定完整路径。<br />
    * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
-   * 8、package.json
+   * 8、注意，不同的包，因为其package.json中"exports"字段值的不同，如下设置也会不同的，最好每次都要在代码中测试是否如期望一样达到目的效果。<br />
    *
    * @type {object}
    */
@@ -8312,6 +8312,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       resolve( join( __dirname, './node_modules/axios/dist/esm/axios.js' ) ),
       'default',
     ],
+
+    Ckeditor5ClassicEditor: resolve( join( __dirname, './node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js' ) ),
+
+    d3: 'd3',
 
     echarts: resolve( join( __dirname, './node_modules/echarts/dist/echarts.js' ) ),
 
@@ -8327,10 +8331,20 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     'window.$': resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
     'window.jQuery': resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
 
+    localforage: resolve( join( __dirname, './node_modules/localforage/dist/localforage.js' ) ),
+
+    lodash: resolve( join( __dirname, './node_modules/lodash/lodash.js' ) ),
+
+    PIXI: 'pixi.js',
+
     Swiper: [
       'swiper/swiper.esm.js',
       'default',
     ],
+
+    THREE: 'three',
+
+    underscore: 'underscore',
 
     /**
      * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
