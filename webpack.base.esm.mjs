@@ -337,7 +337,7 @@ const browserslist = [
   ],
   /**
    * 目标浏览器版本。<br />
-   * 1、支持的标识符有：android、chrome、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
+   * 1、支持的标识符有：android、chrome、deno（支持的最低版本为'1.0'）、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
    * 2、也支持其他的别名标识符，不建议用别名标识符，会报错：and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera），其他的会报错。<br />
    *
    * @type {object}
@@ -2893,7 +2893,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.19.6',
+          } )() || '7.20.0',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -4167,7 +4167,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.25.5',
+            } )() || '3.26.0',
             proposals: true,
           },
           /**
@@ -7585,6 +7585,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   ],
                 },
               },
+              /**
+               * 就算设置了，也无法将svg转成其他格式的图片。
+               */
+              // generator: [],
             } ),
             /**
              * 1、sharpMinify使用高性能Node.js图像处理！（首选使用该实现）只支持对avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的处理。<br />
@@ -7618,14 +7622,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    * 2、值类型：<br />
                    * {<br />
                    * enabled: boolean<br />
-                   * width: number（必须是正整数）<br />
-                   * height: number（必须是正整数）<br />
+                   * width: number（必须是正整数），如果只设置了宽度，那么高度会自动等比缩放。<br />
+                   * height: number（必须是正整数），如果只设置了高度，那么宽度会自动等比缩放。<br />
+                   *
+                   * 说明：<br />
+                   * 例如，原图片大小为宽度1920px，高度1080px。设置{ enabled: true, width: 500, height: 500 }，以下其他选项都不设置，保持其各自默认值即可，那么重置的具体步骤（这些步骤涉及的操作都可以通过以下的选项来改变的）如下：<br />
+                   * 有2种重置方案：<br />
+                   * 第1种，将图片等比缩放成宽度500px的，这时会缩放成宽度500px，高度281px，显然高度达不到设置的500，所以这个方案废弃。<br />
+                   * 第2种，将图片等比缩放成高度500px的，这时会缩放成宽度890px，高度500px，显然宽度、高度都能达到设置的，所以采用这种方案。<br />
+                   * 1、将图片等比缩放到高度为500px的大小，宽度随高度等比缩放。<br />
+                   * 2、然后从中心开始裁剪出高度为500px、宽度为500px的图片。<br />
+                   * 3、“等比缩放”、“中心”（position）、“裁剪”（fit）、“黑色填充背景色”（background）等等操作都是以下选项设置的。<br />
                    *
                    * 以上是常用选项。下面的选项是从“sharp”的源代码中找到的，它们一般都有默认值，除非特殊需要，否则不用设置。<br />
                    *
                    * fit: string，如何调整图像大小以适应上面提供的width、height，默认值是'cover'（修剪）。<br />
                    * 其有效值有：<br />
-                   * 'contain'，对应表示'embed'。<br />
+                   * 'contain'，对应表示'embed'（填充，其他区域会用背景色填充）。<br />
                    * 'cover'，对应表示'crop'（修剪）。<br />
                    * 'fill'，对应表示'ignore_aspect'（估计是强制缩放到上面提供的width、height）。<br />
                    * 'inside'，对应表示'max'。<br />
@@ -7879,6 +7892,460 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   },
                 },
               },
+              /**
+               * 目前支持从其他格式生成avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp格式的图片。<br />
+               * 1、如果要处理的图片地址中没有这样的查询参数：“?as=webp”、“?as=avif”等等，就会使用上面的“minimizer”选项进行图片优化。<br />
+               * 2、当“loader”选项被设置为false时，该选项也不工作了。<br />
+               */
+              generator: [
+                // jpe、jpeg、jpg
+                ...( arr => {
+                  return arr.map( item => {
+                    return {
+                      implementation: ImageMinimizerPlugin.sharpGenerate,
+                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                      filter( source, sourcePath ){
+                        if( Number( source.byteLength ) > 10 * 1024 ){
+                          return true;
+                        }
+                        else{
+                          return false;
+                        }
+                      },
+                      /**
+                       * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                       */
+                      preset: item,
+                      /**
+                       * 1、该选项有效值有：<br />
+                       * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                       * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                       */
+                      type: 'import',
+                      /**
+                       * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                       */
+                      options: {
+                        encodeOptions: {
+                          [ item ]: {
+                            // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                            quality: 80,
+                            // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                            progressive: false,
+                            // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。     
+                            chromaSubsampling: '4:4:4',
+                            // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
+                            optimiseCoding: true,
+                            // optimiseCoding的替代拼写，值类型：boolean，默认值：true，可选。
+                            optimizeCoding: true,
+                            /**
+                             * 1、是否使用mozjpeg压缩优化。
+                             * 2、值类型：boolean，默认值：false，可选。<br />
+                             * 3、设置为true（相当于使用mozjpeg默认值，相当于{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }），表示使用mozjpeg压缩优化JPEG文件大小，会耗时，较慢。<br />
+                             * 4、设置为false，表示禁用mozjpeg压缩优化，不耗时。<br />
+                             */
+                            mozjpeg: true,
+                            // 应用网格量化，值类型：boolean，默认值：false，可选。
+                            trellisQuantisation: false,
+                            // 应用过冲去环，值类型：boolean，默认值：false，可选。
+                            overshootDeringing: false,
+                            // 优化逐行扫描，强制逐行扫描，值类型：boolean，默认值：false，可选。
+                            optimiseScans: false,
+                            // optimiseScans的替代拼写，值类型：boolean，默认值：false，可选。
+                            optimizeScans: false,
+                            // 要使用的量化表，值类型：number，默认值：0，值范围：0-8，可选。
+                            quantisationTable: 0,
+                            // quantisationTable的替代拼写，值类型：number，默认值：0，值范围：0-8，可选。
+                            quantizationTable: 0,
+                            // 强制JPEG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                            force: true,
+                          },
+                        },
+                      },
+                    };
+                  } );
+                } )( [
+                  'jpe',
+                  'jpeg',
+                  'jpg',
+                ] ),
+                // png
+                {
+                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > 10 * 1024 ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'png',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      png: {
+                        // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                        progressive: false,
+                        // zlib压缩级别，值类型：number，默认值：6，值范围：0（压缩速度最快，图片大小最大）-9（压缩速度最慢，图片大小最小），可选。
+                        compressionLevel: 6,
+                        // 使用自适应行过滤，值类型：boolean，默认值：false，可选。
+                        adaptiveFiltering: false,
+                        // 量化为具有Alpha透明度支持的基于调色板的图像，值类型：boolean，默认值：false，启用后压缩优化会较慢，可选。
+                        palette: true,
+                        // 使用达到给定质量所需的最少颜色数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：100，可选。
+                        quality: 100,
+                        // CPU工作量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                        effort: 7,
+                        // 调色板条目的最大数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                        colours: 256,
+                        // colours的替代拼写，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                        colors: 256,
+                        // Floyd-Steinberg误差扩散级别，需要将palette设置为true才可以应用该选项，值类型：number，默认值：1.0，可选。
+                        dither: 1.0,
+                        // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                        force: true,
+                      },
+                    },
+                  },
+                },
+                // webp
+                {
+                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > 10 * 1024 ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'webp',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      webp: {
+                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                        quality: 80,
+                        // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
+                        alphaQuality: 100,
+                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                        lossless: false,
+                        // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
+                        nearLossless: false,
+                        // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
+                        smartSubsample: false,
+                        // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
+                        effort: 4,
+                        // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                        loop: 0,
+                        // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                        // delay: 1,
+                        // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                        force: true,
+                      },
+                    },
+                  },
+                },
+                // gif
+                {
+                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > 10 * 1024 ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'gif',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      gif: {
+                        // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
+                        colours: 256,
+                        // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
+                        colors: 256,
+                        // CPU工作量，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                        effort: 7,
+                        // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
+                        dither: 1.0,
+                        // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                        loop: 0,
+                        // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                        // delay: 1,
+                        // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                        force: true,
+                      },
+                    },
+                  },
+                },
+                // jp2
+                {
+                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > 10 * 1024 ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'jp2',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      jp2: {
+                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                        quality: 80,
+                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                        lossless: false,
+                        // 水平tile尺寸，值类型：number，默认值：512，可选。
+                        tileWidth: 512,
+                        // 垂直tile尺寸，值类型：number，默认值：512，可选。
+                        tileHeight: 512,
+                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                        chromaSubsampling: '4:4:4',
+                      },
+                    },
+                  },
+                },
+                // tif、tiff
+                ...( arr => {
+                  return arr.map( item => {
+                    return {
+                      implementation: ImageMinimizerPlugin.sharpGenerate,
+                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                      filter( source, sourcePath ){
+                        if( Number( source.byteLength ) > 10 * 1024 ){
+                          return true;
+                        }
+                        else{
+                          return false;
+                        }
+                      },
+                      /**
+                       * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                       */
+                      preset: item,
+                      /**
+                       * 1、该选项有效值有：<br />
+                       * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                       * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                       */
+                      type: 'import',
+                      /**
+                       * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                       */
+                      options: {
+                        encodeOptions: {
+                          [ item ]: {
+                            // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                            quality: 80,
+                            // 强制TIFF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                            force: true,
+                            // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
+                            compression: 'jpeg',
+                            // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
+                            predictor: 'horizontal',
+                            // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
+                            pyramid: false,
+                            // 写一个tiled tiff，值类型：boolean，默认值：false，可选。
+                            tile: false,
+                            // 水平tile尺寸，值类型：number，默认值：256，可选。
+                            tileWidth: 256,
+                            // 垂直tile尺寸，值类型：number，默认值：256，可选。
+                            tileHeight: 256,
+                            // 水平分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                            xres: 1.0,
+                            // 垂直分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                            yres: 1.0,
+                            // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
+                            resolutionUnit: 'inch',
+                            // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
+                            bitdepth: 8,
+                          },
+                        },
+                      },
+                    };
+                  } );
+                } )( [
+                  'tif',
+                  'tiff',
+                ] ),
+                // avif
+                {
+                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > 10 * 1024 ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'avif',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      avif: {
+                        // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                        quality: 50,
+                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                        lossless: false,
+                        // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                        effort: 4,
+                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                        chromaSubsampling: '4:4:4',
+                      },
+                    },
+                  },
+                },
+                // heic、heif
+                ...( arr => {
+                  return arr.map( item => {
+                    return {
+                      implementation: ImageMinimizerPlugin.sharpGenerate,
+                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                      filter( source, sourcePath ){
+                        if( Number( source.byteLength ) > 10 * 1024 ){
+                          return true;
+                        }
+                        else{
+                          return false;
+                        }
+                      },
+                      /**
+                       * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                       */
+                      preset: item,
+                      /**
+                       * 1、该选项有效值有：<br />
+                       * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                       * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                       */
+                      type: 'import',
+                      /**
+                       * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                       */
+                      options: {
+                        encodeOptions: {
+                          [ item ]: {
+                            // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                            quality: 50,
+                            // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
+                            compression: 'av1',
+                            // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                            lossless: false,
+                            // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                            effort: 4,
+                            // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                            chromaSubsampling: '4:4:4',
+                          },
+                        },
+                      },
+                    };
+                  } );
+                } )( [
+                  'heic',
+                  'heif',
+                ] ),
+                // raw
+                {
+                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > 10 * 1024 ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'raw',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      raw: {
+                        // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
+                        depth: 'uchar',
+                      },
+                    },
+                  },
+                },
+              ],
             } ),
             /**
              * squooshMinify（用它会报错，因为它不支持Node v18.X，而且“@squoosh/lib”这个npm也没人维护了，都被弃用了）只支持对avif、jpeg、jpg、png、webp、jxl、wp2的处理。<br />
