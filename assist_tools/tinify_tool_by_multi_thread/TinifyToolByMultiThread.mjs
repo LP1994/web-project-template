@@ -75,7 +75,8 @@ const defaultArgs = {
   outDir = 'out',
   workerThreadFilePath = './WorkerThread.mjs',
   dirPathArr = [],
-  photoPathArr = [];
+  photoPathArr = [],
+  compressionFailedForPhotoPathArr = [];
 
 const {
   nest: isNest,
@@ -148,8 +149,7 @@ while( dirPathArr.length > 0 );
 
 const photoQuantity = photoPathArr.length;
 
-let toDoneNum = 0,
-  startTimer = 0;
+let startTimer = 0;
 
 function CreateWorkerIns( photoPath, workerInsIndex ){
   const workerIns = new Worker( workerThreadFilePath, {
@@ -179,17 +179,37 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.on( 'message', messageData => {
-    ++toDoneNum;
+    if( messageData.isSuccess ){
+      MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
 
-    MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
+      MyConsole.Blue( `\n${ messageData.photoPath }` );
+      MyConsole.Green( '压缩完成。' );
+      MyConsole.Green( `耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。\n` );
 
-    MyConsole.Blue( `\n${ messageData.photoPath }` );
-    MyConsole.Green( '压缩完成。' );
-    MyConsole.Green( `耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。\n` );
+      MyConsole.Blue( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+    }
+    else{
+      compressionFailedForPhotoPathArr.push( messageData.photoPath );
 
-    MyConsole.Blue( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+      MyConsole.Red( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
 
-    if( toDoneNum === photoQuantity ){
+      MyConsole.Red( `\n${ messageData.photoPath }` );
+      MyConsole.Red( '未压缩完成。' );
+
+      MyConsole.Red( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+    }
+
+    if( photoPathArr.length > 0 ){
+      workerIns.postMessage( {
+        photoPath: photoPathArr.shift(),
+      } );
+    }
+    else if( photoPathArr.length === 0 && compressionFailedForPhotoPathArr.length > 0 ){
+      workerIns.postMessage( {
+        photoPath: compressionFailedForPhotoPathArr.shift(),
+      } );
+    }
+    else if( photoPathArr.length === 0 && compressionFailedForPhotoPathArr.length === 0 ){
       MyConsole.Green( `\n全部压缩完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
 
       // If the worker was terminated, the exitCode parameter is 1.
@@ -198,12 +218,6 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
 
         exit( 0 );
       }, reject => {
-      } );
-    }
-
-    if( photoPathArr.length > 0 ){
-      workerIns.postMessage( {
-        photoPath: photoPathArr.shift(),
       } );
     }
   } );

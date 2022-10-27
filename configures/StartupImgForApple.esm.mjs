@@ -37,7 +37,7 @@ const StartupImgForApple = [
 
   // 640 x 1136(dpr: 2): iPhone 5S、iPhone SE(第一代)
   {
-    href: '../static/img/startup/iPhone_640_1136.png',
+    href: '../static/img/apple_startup/iPhone_640_1136.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '640x1136',
@@ -48,7 +48,7 @@ const StartupImgForApple = [
   },
   // 1136 x 640(dpr: 2): iPhone 5S、iPhone SE(第一代)
   {
-    href: '../static/img/startup/iPhone_1136_640.png',
+    href: '../static/img/apple_startup/iPhone_1136_640.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1136x640',
@@ -60,7 +60,7 @@ const StartupImgForApple = [
 
   // 750 x 1334(dpr: 2): iPhone 6、iPhone 6S、iPhone 7、iPhone 8、iPhone SE(第二代)、iPhone SE(第三代)
   {
-    href: '../static/img/startup/iPhone_750_1334.png',
+    href: '../static/img/apple_startup/iPhone_750_1334.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '750x1334',
@@ -71,7 +71,7 @@ const StartupImgForApple = [
   },
   // 1334 x 750(dpr: 2): iPhone 6、iPhone 6S、iPhone 7、iPhone 8、iPhone SE(第二代)、iPhone SE(第三代)
   {
-    href: '../static/img/startup/iPhone_1334_750.png',
+    href: '../static/img/apple_startup/iPhone_1334_750.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1334x750',
@@ -87,7 +87,7 @@ const StartupImgForApple = [
    但是，渲染、计算却是按分辨率(1242 x 2208)、dpr是3。所以，APP的启动图片也是按这些个来的(1242 x 2208、dpr是3)。
    */
   {
-    href: '../static/img/startup/iPhone_1242_2208.png',
+    href: '../static/img/apple_startup/iPhone_1242_2208.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1242x2208',
@@ -102,7 +102,7 @@ const StartupImgForApple = [
    但是，渲染、计算却是按分辨率(1242 x 2208)、dpr是3。所以，APP的启动图片也是按这些个来的(1242 x 2208、dpr是3)。
    */
   {
-    href: '../static/img/startup/iPhone_2208_1242.png',
+    href: '../static/img/apple_startup/iPhone_2208_1242.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2208x1242',
@@ -114,7 +114,7 @@ const StartupImgForApple = [
 
   // 828 x 1792(dpr: 2): iPhone XR、iPhone 11
   {
-    href: '../static/img/startup/iPhone_828_1792.png',
+    href: '../static/img/apple_startup/iPhone_828_1792.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '828x1792',
@@ -125,7 +125,7 @@ const StartupImgForApple = [
   },
   // 1792 x 828(dpr: 2): iPhone XR、iPhone 11
   {
-    href: '../static/img/startup/iPhone_1792_828.png',
+    href: '../static/img/apple_startup/iPhone_1792_828.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1792x828',
@@ -137,7 +137,7 @@ const StartupImgForApple = [
 
   // 1125 x 2436(dpr: 3): iPhone X、iPhone XS、iPhone 11 Pro
   {
-    href: '../static/img/startup/iPhone_1125_2436.png',
+    href: '../static/img/apple_startup/iPhone_1125_2436.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1125x2436',
@@ -148,7 +148,7 @@ const StartupImgForApple = [
   },
   // 2436 x 1125(dpr: 3): iPhone X、iPhone XS、iPhone 11 Pro
   {
-    href: '../static/img/startup/iPhone_2436_1125.png',
+    href: '../static/img/apple_startup/iPhone_2436_1125.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2436x1125',
@@ -160,7 +160,7 @@ const StartupImgForApple = [
 
   // 1242 x 2688(dpr: 3): iPhone XS Max、iPhone 11 Pro Max
   {
-    href: '../static/img/startup/iPhone_1242_2688.png',
+    href: '../static/img/apple_startup/iPhone_1242_2688.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1242x2688',
@@ -171,7 +171,7 @@ const StartupImgForApple = [
   },
   // 2688 x 1242(dpr: 3): iPhone XS Max、iPhone 11 Pro Max
   {
-    href: '../static/img/startup/iPhone_2688_1242.png',
+    href: '../static/img/apple_startup/iPhone_2688_1242.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2688x1242',
@@ -183,7 +183,7 @@ const StartupImgForApple = [
 
   // 1080 x 2340(dpr: 3): iPhone 12 mini、iPhone 13 mini
   {
-    href: '../static/img/startup/iPhone_1080_2340.png',
+    href: '../static/img/apple_startup/iPhone_1080_2340.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1080x2340',
@@ -194,7 +194,7 @@ const StartupImgForApple = [
   },
   // 2340 x 1080(dpr: 3): iPhone 12 mini、iPhone 13 mini
   {
-    href: '../static/img/startup/iPhone_2340_1080.png',
+    href: '../static/img/apple_startup/iPhone_2340_1080.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2340x1080',
@@ -206,7 +206,7 @@ const StartupImgForApple = [
 
   // 1170 x 2532(dpr: 3): iPhone 12、iPhone 12 Pro、iPhone 13、iPhone 13 Pro、iPhone 14
   {
-    href: '../static/img/startup/iPhone_1170_2532.png',
+    href: '../static/img/apple_startup/iPhone_1170_2532.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1170x2532',
@@ -217,7 +217,7 @@ const StartupImgForApple = [
   },
   // 2532 x 1170(dpr: 3): iPhone 12、iPhone 12 Pro、iPhone 13、iPhone 13 Pro、iPhone 14
   {
-    href: '../static/img/startup/iPhone_2532_1170.png',
+    href: '../static/img/apple_startup/iPhone_2532_1170.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2532x1170',
@@ -229,7 +229,7 @@ const StartupImgForApple = [
 
   // 1284 x 2778(dpr: 3): iPhone 12 Pro Max、iPhone 13 Pro Max、iPhone 14 Plus
   {
-    href: '../static/img/startup/iPhone_1284_2778.png',
+    href: '../static/img/apple_startup/iPhone_1284_2778.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1284x2778',
@@ -240,7 +240,7 @@ const StartupImgForApple = [
   },
   // 2778 x 1284(dpr: 3): iPhone 12 Pro Max、iPhone 13 Pro Max、iPhone 14 Plus
   {
-    href: '../static/img/startup/iPhone_2778_1284.png',
+    href: '../static/img/apple_startup/iPhone_2778_1284.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2778x1284',
@@ -252,7 +252,7 @@ const StartupImgForApple = [
 
   // 1179 x 2556(dpr: 3): iPhone 14 Pro
   {
-    href: '../static/img/startup/iPhone_1179_2556.png',
+    href: '../static/img/apple_startup/iPhone_1179_2556.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1179x2556',
@@ -263,7 +263,7 @@ const StartupImgForApple = [
   },
   // 2556 x 1179(dpr: 3): iPhone 14 Pro
   {
-    href: '../static/img/startup/iPhone_2556_1179.png',
+    href: '../static/img/apple_startup/iPhone_2556_1179.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2556x1179',
@@ -275,7 +275,7 @@ const StartupImgForApple = [
 
   // 1290 x 2796(dpr: 3): iPhone 14 Pro Max
   {
-    href: '../static/img/startup/iPhone_1290_2796.png',
+    href: '../static/img/apple_startup/iPhone_1290_2796.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1290x2796',
@@ -286,7 +286,7 @@ const StartupImgForApple = [
   },
   // 2796 x 1290(dpr: 3): iPhone 14 Pro Max
   {
-    href: '../static/img/startup/iPhone_2796_1290.png',
+    href: '../static/img/apple_startup/iPhone_2796_1290.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2796x1290',
@@ -302,7 +302,7 @@ const StartupImgForApple = [
 
   // 1536 x 2048(dpr: 2): iPad mini(第二代)、iPad mini(第三代)、iPad mini(第四代)、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air(第二代)、9.7英寸iPad Pro、iPad mini(第五代)
   {
-    href: '../static/img/startup/iPad_1536_2048.png',
+    href: '../static/img/apple_startup/iPad_1536_2048.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1536x2048',
@@ -313,7 +313,7 @@ const StartupImgForApple = [
   },
   // 2048 x 1536(dpr: 2): iPad mini(第二代)、iPad mini(第三代)、iPad mini(第四代)、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air(第二代)、9.7英寸iPad Pro、iPad mini(第五代)
   {
-    href: '../static/img/startup/iPad_2048_1536.png',
+    href: '../static/img/apple_startup/iPad_2048_1536.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2048x1536',
@@ -325,7 +325,7 @@ const StartupImgForApple = [
 
   // 1488 x 2266(dpr: 2): iPad mini(第六代)
   {
-    href: '../static/img/startup/iPad_1488_2266.png',
+    href: '../static/img/apple_startup/iPad_1488_2266.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1488x2266',
@@ -336,7 +336,7 @@ const StartupImgForApple = [
   },
   // 2266 x 1488(dpr: 2): iPad mini(第六代)
   {
-    href: '../static/img/startup/iPad_2266_1488.png',
+    href: '../static/img/apple_startup/iPad_2266_1488.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2266x1488',
@@ -348,7 +348,7 @@ const StartupImgForApple = [
 
   // 2048 x 2732(dpr: 2): 12.9英寸iPad Pro(第一代)、12.9英寸iPad Pro(第二代)、12.9英寸iPad Pro(第三代)、12.9英寸iPad Pro(第四代)、12.9英寸iPad Pro(第五代)、12.9英寸iPad Pro(第六代)
   {
-    href: '../static/img/startup/iPad_2048_2732.png',
+    href: '../static/img/apple_startup/iPad_2048_2732.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2048x2732',
@@ -359,7 +359,7 @@ const StartupImgForApple = [
   },
   // 2732 x 2048(dpr: 2): 12.9英寸iPad Pro(第一代)、12.9英寸iPad Pro(第二代)、12.9英寸iPad Pro(第三代)、12.9英寸iPad Pro(第四代)、12.9英寸iPad Pro(第五代)、12.9英寸iPad Pro(第六代)
   {
-    href: '../static/img/startup/iPad_2732_2048.png',
+    href: '../static/img/apple_startup/iPad_2732_2048.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2732x2048',
@@ -371,7 +371,7 @@ const StartupImgForApple = [
 
   // 1620 x 2160(dpr: 2): iPad(第七代)、iPad(第八代)、iPad(第九代)
   {
-    href: '../static/img/startup/iPad_1620_2160.png',
+    href: '../static/img/apple_startup/iPad_1620_2160.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1620x2160',
@@ -382,7 +382,7 @@ const StartupImgForApple = [
   },
   // 2160 x 1620(dpr: 2): iPad(第七代)、iPad(第八代)、iPad(第九代)
   {
-    href: '../static/img/startup/iPad_2160_1620.png',
+    href: '../static/img/apple_startup/iPad_2160_1620.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2160x1620',
@@ -394,7 +394,7 @@ const StartupImgForApple = [
 
   // 1640 x 2360(dpr: 2): iPad Air(第四代)、iPad Air(第五代)、iPad(第十代)
   {
-    href: '../static/img/startup/iPad_1640_2360.png',
+    href: '../static/img/apple_startup/iPad_1640_2360.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1640x2360',
@@ -405,7 +405,7 @@ const StartupImgForApple = [
   },
   // 2360 x 1640(dpr: 2): iPad Air(第四代)、iPad Air(第五代)、iPad(第十代)
   {
-    href: '../static/img/startup/iPad_2360_1640.png',
+    href: '../static/img/apple_startup/iPad_2360_1640.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2360x1640',
@@ -417,7 +417,7 @@ const StartupImgForApple = [
 
   // 1668 x 2224(dpr: 2): 10.5英寸iPad Pro、iPad Air(第三代)
   {
-    href: '../static/img/startup/iPad_1668_2224.png',
+    href: '../static/img/apple_startup/iPad_1668_2224.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1668x2224',
@@ -428,7 +428,7 @@ const StartupImgForApple = [
   },
   // 2224 x 1668(dpr: 2): 10.5英寸iPad Pro、iPad Air(第三代)
   {
-    href: '../static/img/startup/iPad_2224_1668.png',
+    href: '../static/img/apple_startup/iPad_2224_1668.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2224x1668',
@@ -440,7 +440,7 @@ const StartupImgForApple = [
 
   // 1668 x 2388(dpr: 2): 11英寸iPad Pro(第一代)、11英寸iPad Pro(第二代)、11英寸iPad Pro(第三代)、11英寸iPad Pro(第四代)
   {
-    href: '../static/img/startup/iPad_1668_2388.png',
+    href: '../static/img/apple_startup/iPad_1668_2388.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '1668x2388',
@@ -451,7 +451,7 @@ const StartupImgForApple = [
   },
   // 2388 x 1668(dpr: 2): 11英寸iPad Pro(第一代)、11英寸iPad Pro(第二代)、11英寸iPad Pro(第三代)、11英寸iPad Pro(第四代)
   {
-    href: '../static/img/startup/iPad_2388_1668.png',
+    href: '../static/img/apple_startup/iPad_2388_1668.png',
     type: 'image/png',
     crossorigin: 'anonymous',
     sizes: '2388x1668',

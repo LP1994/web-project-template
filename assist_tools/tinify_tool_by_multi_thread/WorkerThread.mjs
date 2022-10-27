@@ -75,7 +75,7 @@ function StartCompression( sourceData ){
 
       resultSource.toBuffer( ( error, resultData ) => {
         if( error ){
-          reject( error );
+          resolve( false );
         }
         else{
           resolve( resultData );
@@ -83,7 +83,12 @@ function StartCompression( sourceData ){
       } );
     }
     catch( error ){
-      reject( error );
+      resolve( false );
+    }
+    finally{
+      if( Tinify.compressionCount >= 500 ){
+        Tinify.key = TinifyKeys.shift();
+      }
     }
   } );
 }
@@ -122,10 +127,20 @@ parentPort.on( 'message', async ( {
   // resultBuffer--->Uint8Array
   resultBuffer = await StartCompression( photoFileStream );
 
-  await writeFile( resultFilePath, resultBuffer );
+  if( resultBuffer ){
+    await writeFile( resultFilePath, resultBuffer );
 
-  parentPort.postMessage( {
-    photoPath,
-    takeUpTime: ( performance.now() - startTimer001 ) / 1000,
-  } );
+    parentPort.postMessage( {
+      isSuccess: true,
+      photoPath,
+      takeUpTime: ( performance.now() - startTimer001 ) / 1000,
+    } );
+  }
+  else{
+    parentPort.postMessage( {
+      isSuccess: false,
+      photoPath,
+      takeUpTime: ( performance.now() - startTimer001 ) / 1000,
+    } );
+  }
 } );

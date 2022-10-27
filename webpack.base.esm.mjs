@@ -279,7 +279,7 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20221002。Start
-    'Chrome >= 106',
+    'Chrome >= 107',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 106',
     'Firefox >= 106',
@@ -288,8 +288,8 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
-    'ChromeAndroid >= 106',
-    'Android >= 106',
+    'ChromeAndroid >= 107',
+    'Android >= 107',
     'FirefoxAndroid >= 106',
     'iOS >= 16',
     // 移动端各主流浏览器的最新版本，至20221002。End
@@ -324,7 +324,7 @@ const browserslist = [
     'es2022',
 
     // PC端各主流浏览器的最新版本，至20221002。Start
-    'chrome106',
+    'chrome107',
     'edge106',
     'firefox106',
     'safari16',
@@ -363,7 +363,7 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20221002。Start
-    chrome: 106,
+    chrome: 107,
     edge: 106,
     firefox: 106,
     safari: 16,
@@ -371,7 +371,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
-    android: 106,
+    android: 107,
     ios: 16,
     // 移动端各主流浏览器的最新版本，至20221002。End
   },
@@ -5257,6 +5257,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5278,9 +5280,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5328,9 +5328,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/styles/sass/' ),
             join( __dirname, './src/styles/scss/' ),
             join( __dirname, './src/styles/stylus/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
           sideEffects: true,
         },
@@ -5350,6 +5348,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5370,9 +5370,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5396,6 +5394,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5411,9 +5411,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/template/markdown/' ),
             join( __dirname, './src/template/mustache/' ),
             join( __dirname, './src/template/pug_jade/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5455,9 +5453,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5487,6 +5483,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5498,10 +5496,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5525,6 +5520,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5540,9 +5537,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/template/markdown/' ),
             join( __dirname, './src/template/mustache/' ),
             join( __dirname, './src/template/pug_jade/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5569,6 +5564,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5577,7 +5574,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
             join( __dirname, './src/template/ejs/' ),
@@ -5586,7 +5582,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/template/mustache/' ),
             join( __dirname, './src/template/pug_jade/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5631,15 +5626,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
-        // 处理.js文件、.cjs文件。
+        // 处理.js文件。
         {
-          test: /\.(js|cjs)$/i,
+          test: /\.(js)$/i,
           // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
           type: 'javascript/auto',
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -5673,12 +5666,45 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/ejs/' ),
-            join( __dirname, './src/template/handlebars/' ),
-            join( __dirname, './src/template/html/' ),
-            join( __dirname, './src/template/markdown/' ),
-            join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/template/pug_jade/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+        },
+        // 处理.cjs文件。
+        {
+          test: /\.(cjs)$/i,
+          // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
+          type: 'javascript/auto',
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: isUseESBuildLoader
+               ? [
+              {
+                loader: 'esbuild-loader',
+                options: esbuildLoaderConfigForJS,
+              },
+            ]
+               : [
+              {
+                loader: 'thread-loader',
+                options: jsWorkerPoolConfig,
+              },
+              {
+                loader: 'babel-loader',
+                options: babelLoaderConfig,
+              },
+            ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -5707,24 +5733,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
-            join( __dirname, './node_modules/' ),
-
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/ejs/' ),
-            join( __dirname, './src/template/handlebars/' ),
-            join( __dirname, './src/template/html/' ),
-            join( __dirname, './src/template/markdown/' ),
-            join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/template/pug_jade/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -5753,24 +5773,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
-            join( __dirname, './node_modules/' ),
-
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/ejs/' ),
-            join( __dirname, './src/template/handlebars/' ),
-            join( __dirname, './src/template/html/' ),
-            join( __dirname, './src/template/markdown/' ),
-            join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/template/pug_jade/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -5783,6 +5797,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             parse: JSON5.parse,
           },
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
             join( __dirname, './src/assets/doc/json5/' ),
 
@@ -5805,7 +5821,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -5894,6 +5909,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5908,9 +5925,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/styles/sass/' ),
             join( __dirname, './src/styles/scss/' ),
             join( __dirname, './src/styles/stylus/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
           sideEffects: true,
         },
@@ -5923,6 +5938,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             parse: Toml.parse,
           },
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5944,9 +5961,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -5955,6 +5970,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           test: /\.txt$/i,
           type: 'asset/source',
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -5976,9 +5993,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -6005,6 +6020,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/native_components/' ),
@@ -6039,6 +6056,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/native_components/' ),
@@ -6067,6 +6086,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
             join( __dirname, './src/assets/doc/json/' ),
 
@@ -6089,7 +6110,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -6153,6 +6173,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6168,9 +6190,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/template/html/' ),
             join( __dirname, './src/template/mustache/' ),
             join( __dirname, './src/template/pug_jade/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -6191,6 +6211,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             publicPath: '../music/',
           },
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6204,9 +6226,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -6227,6 +6247,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6242,9 +6264,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/template/html/' ),
             join( __dirname, './src/template/markdown/' ),
             join( __dirname, './src/template/pug_jade/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -6276,6 +6296,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             postCSSLoader,
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6290,9 +6312,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/styles/sass/' ),
             join( __dirname, './src/styles/scss/' ),
             join( __dirname, './src/styles/stylus/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
           sideEffects: true,
         },
@@ -6312,6 +6332,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6327,9 +6349,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/template/html/' ),
             join( __dirname, './src/template/markdown/' ),
             join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -6498,6 +6518,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6512,9 +6534,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/styles/postcss/' ),
             join( __dirname, './src/styles/scss/' ),
             join( __dirname, './src/styles/stylus/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
           sideEffects: true,
         },
@@ -6684,6 +6704,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6698,9 +6720,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/styles/postcss/' ),
             join( __dirname, './src/styles/sass/' ),
             join( __dirname, './src/styles/stylus/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
           sideEffects: true,
         },
@@ -6763,6 +6783,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6777,9 +6799,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/styles/postcss/' ),
             join( __dirname, './src/styles/sass/' ),
             join( __dirname, './src/styles/scss/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
           sideEffects: true,
         },
@@ -6807,23 +6827,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               tsLoaderConfig,
             ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
-            join( __dirname, './node_modules/' ),
-
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/ejs/' ),
-            join( __dirname, './src/template/handlebars/' ),
-            join( __dirname, './src/template/html/' ),
-            join( __dirname, './src/template/markdown/' ),
-            join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/template/pug_jade/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -6851,23 +6866,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               tsLoaderConfig,
             ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
-            join( __dirname, './node_modules/' ),
-
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/ejs/' ),
-            join( __dirname, './src/template/handlebars/' ),
-            join( __dirname, './src/template/html/' ),
-            join( __dirname, './src/template/markdown/' ),
-            join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/template/pug_jade/' ),
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
@@ -6889,6 +6899,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             publicPath: '../videos/',
           },
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -6902,9 +6914,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -7004,6 +7014,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -7014,15 +7026,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/ejs/' ),
-            join( __dirname, './src/template/handlebars/' ),
-            join( __dirname, './src/template/html/' ),
-            join( __dirname, './src/template/markdown/' ),
-            join( __dirname, './src/template/mustache/' ),
-            join( __dirname, './src/template/pug_jade/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -7036,6 +7040,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           test: /\.wasm$/i,
           type: 'webassembly/async',
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -7046,9 +7052,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/template/' ),
-            join( __dirname, './src/tools/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -7062,6 +7065,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
           ],
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -7083,9 +7088,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
 
@@ -7097,6 +7100,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             parse: Yaml.parse,
           },
           include: [
+            join( __dirname, './node_modules/' ),
+
             join( __dirname, './src/' ),
 
             join( __dirname, './webpack_location/' ),
@@ -7118,9 +7123,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
             join( __dirname, './src/styles/' ),
-            join( __dirname, './src/tools/' ),
             join( __dirname, './src/wasm/' ),
-            join( __dirname, './src/workers/' ),
           ].concat( exclude001 ),
         },
       ],
@@ -7334,7 +7337,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             concurrency: cpus().length - 1,
             deleteOriginalAssets: true,
             include: [
+              join( __dirname, './node_modules/' ),
+
               join( __dirname, './src/' ),
+
+              join( __dirname, './webpack_location/' ),
             ],
             exclude: [
               join( __dirname, './src/static/' ),
@@ -7608,7 +7615,65 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   // rotate: null,
                   /**
                    * 1、重置图片的大小。<br />
-                   * 2、值类型：{ width: number（必须是正整数）, height: number（必须是正整数）, enabled: boolean, }。<br />
+                   * 2、值类型：<br />
+                   * {<br />
+                   * enabled: boolean<br />
+                   * width: number（必须是正整数）<br />
+                   * height: number（必须是正整数）<br />
+                   *
+                   * 以上是常用选项。下面的选项是从“sharp”的源代码中找到的，它们一般都有默认值，除非特殊需要，否则不用设置。<br />
+                   *
+                   * fit: string，如何调整图像大小以适应上面提供的width、height，默认值是'cover'（修剪）。<br />
+                   * 其有效值有：<br />
+                   * 'contain'，对应表示'embed'。<br />
+                   * 'cover'，对应表示'crop'（修剪）。<br />
+                   * 'fill'，对应表示'ignore_aspect'（估计是强制缩放到上面提供的width、height）。<br />
+                   * 'inside'，对应表示'max'。<br />
+                   * 'outside'，对应表示'min'。<br />
+                   *
+                   * position: string、number（必须是正整数，大于等于0且小于等于8，或为16、17），当上面fit选项值为'cover'、'contain'时偏移量的设置，默认值是'center'（对应表示0）。<br />
+                   * 有效的字符串值有：<br />
+                   * 'entropy'，对应表示16。<br />
+                   * 'attention'，对应表示17。<br />
+                   * 'top'，对应表示1。<br />
+                   * 'right'，对应表示2。<br />
+                   * 'bottom'，对应表示3。<br />
+                   * 'left'，对应表示4。<br />
+                   * 'right top'，对应表示5。<br />
+                   * 'right bottom'，对应表示6。<br />
+                   * 'left bottom'，对应表示7。<br />
+                   * 'left top'，对应表示8。<br />
+                   * 'center'，对应表示0。<br />
+                   * 'centre'，对应表示0。<br />
+                   * 'north'，对应表示1。<br />
+                   * 'east'，对应表示2。<br />
+                   * 'south'，对应表示3。<br />
+                   * 'west'，对应表示4。<br />
+                   * 'northeast'，对应表示5。<br />
+                   * 'southeast'，对应表示6。<br />
+                   * 'southwest'，对应表示7。<br />
+                   * 'northwest'，对应表示8。<br />
+                   *
+                   * background: object，当上面fit选项值为'contain'时的背景颜色，默认值是{ r: 0, g: 0, b: 0, alpha: 1 }（对应黑色不透明[ 0, 0, 0, 255 ]）。<br />
+                   *
+                   * kernel: string，用于图像缩减的内核，默认值是'lanczos3'（对应'lanczos3'）。<br />
+                   * 有效的字符串值有：<br />
+                   * 'nearest'，对应表示'nearest'。<br />
+                   * 'cubic'，对应表示'cubic'。<br />
+                   * 'mitchell'，对应表示'mitchell'。<br />
+                   * 'lanczos2'，对应表示'lanczos2'。<br />
+                   * 'lanczos3'，对应表示'lanczos3'。<br />
+                   *
+                   * withoutEnlargement: boolean，如果图片的宽度或高度已经小于上面提供的width、height，是否不放大，默认值是false。<br />
+                   * false表示放大。<br />
+                   * true表示不放大。<br />
+                   *
+                   * withoutReduction: boolean，如果图片的宽度或高度已经大于上面提供的width、height，是否不缩小，默认值是false。<br />
+                   * false表示缩小。<br />
+                   * true表示不缩小。<br />
+                   *
+                   * fastShrinkOnLoad: boolean，是否充分利用JPEG和WebP的“shrink-on-load”特性，这可能会导致某些图像上出现轻微的波纹图案，默认值是true。<br />
+                   * }<br />
                    * 3、上面的enabled选项为true时，才会启用重置图片大小的操作。<br />
                    */
                   // resize: null,
