@@ -169,16 +169,16 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.on( 'error', errorEventData => {
-    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
-    MyConsole.Red( `typeof errorEventData--->${ typeof errorEventData }` );
-    MyConsole.Red( errorEventData );
-    MyConsole.Red( `error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+typeof errorEventData--->${ typeof errorEventData }
+${ errorEventData }
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
   } );
 
   workerIns.on( 'exit', exitCode => {
-    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
-    MyConsole.Yellow( `exitCode:${ exitCode }.` );
-    MyConsole.Yellow( `exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+exitCode:${ exitCode }.
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
 
     if( Number( exitCode ) !== 0 ){
       MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.` );
@@ -188,13 +188,11 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   workerIns.on( 'message', messageData => {
     ++toDoneNum;
 
-    MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
-
-    MyConsole.Blue( `\n${ messageData.photoPath }` );
-    MyConsole.Green( '转换完成。' );
-    MyConsole.Green( `耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。\n` );
-
-    MyConsole.Blue( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+    MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+\n${ messageData.photoPath }
+转换完成。
+耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。\n
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
 
     if( toDoneNum === photoQuantity ){
       MyConsole.Green( `\n全部转换完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
@@ -220,10 +218,10 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.on( 'messageerror', errorObject => {
-    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
-    MyConsole.Red( `typeof errorObject--->${ typeof errorObject }` );
-    MyConsole.Red( errorObject );
-    MyConsole.Red( `反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+typeof errorObject--->${ typeof errorObject }
+${ errorObject }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
   } );
 
   workerIns.on( 'online', () => {
@@ -255,5 +253,5 @@ if( photoQuantity > 0 ){
     workerInsArr.push( CreateWorkerIns( photoPathArr.shift(), i ) );
   }
 
-  MyConsole.Cyan( `创建了${ createWorkerThreadQuantity }个Worker线程！` );
+  MyConsole.Cyan( `\n创建了${ createWorkerThreadQuantity }个Worker线程！\n` );
 }

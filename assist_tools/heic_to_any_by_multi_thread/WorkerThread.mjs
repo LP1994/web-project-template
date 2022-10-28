@@ -47,16 +47,16 @@ let startTimer001 = 0,
   resultFilePathParseObj = null;
 
 parentPort.on( 'close', () => {
-  MyConsole.Cyan( `\nclose event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start` );
-  MyConsole.Cyan( '该端口已关闭。' );
-  MyConsole.Cyan( `close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End\n` );
+  MyConsole.Cyan( `\nclose event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+该端口已关闭。
+close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End\n` );
 } );
 
 parentPort.on( 'messageerror', errorObject => {
-  MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start` );
-  MyConsole.Red( `typeof errorObject--->${ typeof errorObject }` );
-  MyConsole.Red( errorObject );
-  MyConsole.Red( `反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End\n` );
+  MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+typeof errorObject--->${ typeof errorObject }
+${ errorObject }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End\n` );
 } );
 
 parentPort.on( 'message', async ( {
