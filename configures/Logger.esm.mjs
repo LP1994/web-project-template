@@ -1,10 +1,10 @@
-/*
- Project: web-project-template
- FileDirPath: configures/Logger.esm.mjs
- Author: 12278
- Email: 1227839175@qq.com
- IDE: WebStorm
- CreateDate: 2022-10-20 03:12:27 星期四
+/**
+ * Project: web-project-template
+ * FileDirPath: configures/Logger.esm.mjs
+ * Author: 12278
+ * Email: 1227839175@qq.com
+ * IDE: WebStorm
+ * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
 'use strict';

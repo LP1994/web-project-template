@@ -1,10 +1,10 @@
 /**
- * Author: 12278
- * CreateDate: 2022-01-01 00:00:00 星期六
- * Email: 1227839175@qq.com
- * FileDirPath: configures/ProxyConfig.esm.mjs
- * IDE: WebStorm
  * Project: web-project-template
+ * FileDirPath: configures/ProxyConfig.esm.mjs
+ * Author: 12278
+ * Email: 1227839175@qq.com
+ * IDE: WebStorm
+ * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
 /**

@@ -1,9 +1,9 @@
-#Author: 12278
-#CreateDate: 2022-01-01 00:00:00 星期六
-#Email: 1227839175@qq.com
-#FileDirPath: src/graphQL/api/GetSchemaJSON.graphql
-#IDE: WebStorm
 #Project: web-project-template
+#FileDirPath: src/graphQL/api/GetSchemaJSON.graphql
+#Author: 12278
+#Email: 1227839175@qq.com
+#IDE: WebStorm
+#CreateDate: 2022-01-01 00:00:00 星期六
 
 #获取GraphQL的Schema文档。
 
