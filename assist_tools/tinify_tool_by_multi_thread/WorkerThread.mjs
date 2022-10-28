@@ -40,23 +40,6 @@ import {
   MyConsole,
 } from './UniversalToolForNode.esm.mjs';
 
-const TinifyKeys = [
-  '0s9wNbBqccdXS2z9x45Z92MLy0t2J6ln',
-  'kKYgs1yFdVgvtlmRzNjG3Wh38D20g386',
-  'cGHCfjYhhs5BVwX2N2GpHb6m3wGhKYnC',
-  'DLYB5cjQVRRS3Tdqfg0VD55Lkhn6J9B7',
-  'gnbCS5fYTN5s2TPwRkXrZL3LctHBTnnQ',
-  'Ht88MvDM3zx8cmx6hwCXxKDljZVkhW2k',
-  'zFyCtt1KbCR1NFlLDmGCYd6spZwqbMPs',
-  'yBQzXZ98BsMgxtKl88b5P27m6NDyzP3T',
-  '6ZvY49BDj3S3VdgRZvrlvPnYQ124M3R1',
-  'nwrqFLrb23MhVfzH5MWwY3d4TtYZzFGW',
-  'FPwpSj4CxrgLRr8FNPvf0bH43F07RTc0',
-  'jcGPsvJgFRXgd3yNXZgJFpsXRvsWFhdb',
-];
-
-Tinify.key = TinifyKeys.shift();
-
 let startTimer001 = 0,
   photoFileStream = null,
   resultBuffer = null,
@@ -85,11 +68,6 @@ function StartCompression( sourceData ){
     catch( error ){
       resolve( false );
     }
-    finally{
-      if( Tinify.compressionCount >= 500 ){
-        Tinify.key = TinifyKeys.shift();
-      }
-    }
   } );
 }
 
@@ -107,9 +85,12 @@ parentPort.on( 'messageerror', errorObject => {
 } );
 
 parentPort.on( 'message', async ( {
+  tinifyKey,
   photoPath,
 } ) => {
   startTimer001 = performance.now();
+
+  Tinify.key = tinifyKey;
 
   currentPhotoPath = photoPath;
 
@@ -132,6 +113,7 @@ parentPort.on( 'message', async ( {
 
     parentPort.postMessage( {
       isSuccess: true,
+      tinifyKey,
       photoPath,
       takeUpTime: ( performance.now() - startTimer001 ) / 1000,
     } );
@@ -139,6 +121,7 @@ parentPort.on( 'message', async ( {
   else{
     parentPort.postMessage( {
       isSuccess: false,
+      tinifyKey,
       photoPath,
       takeUpTime: ( performance.now() - startTimer001 ) / 1000,
     } );

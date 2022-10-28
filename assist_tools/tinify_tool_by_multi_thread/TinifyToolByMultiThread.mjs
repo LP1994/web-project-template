@@ -62,10 +62,85 @@ import {
   Worker,
 } from 'node:worker_threads';
 
+import Tinify from 'tinify';
+
 import {
   Get__dirname,
   MyConsole,
 } from './UniversalToolForNode.esm.mjs';
+
+MyConsole.Yellow( `\n本工具使用期间要保证网络连接通畅，否则会出现压缩中断。\n` );
+
+function TinifyValidate( TinifyKey ){
+  Tinify.key = TinifyKey;
+
+  return new Promise( ( resolve = () => {
+  }, reject = () => {
+  } ) => {
+    MyConsole.Cyan( `\n当前验证的Key为：${ TinifyKey }` );
+
+    Tinify.validate( error => {
+      if( error instanceof Tinify.AccountError ){
+        // AccountError：Error: Credentials are invalid. (HTTP 401/Unauthorized)
+        MyConsole.Red( `AccountError：${ error }` );
+
+        resolve( {
+          error,
+          key: TinifyKey,
+          compressionCount: Tinify.compressionCount,
+        } );
+      }
+      else if( error instanceof Tinify.ClientError ){
+        MyConsole.Red( `ClientError：${ error }` );
+
+        resolve( {
+          error,
+          key: TinifyKey,
+          compressionCount: Tinify.compressionCount,
+        } );
+      }
+      else if( error instanceof Tinify.ServerError ){
+        MyConsole.Red( `ServerError：${ error }` );
+
+        resolve( {
+          error,
+          key: TinifyKey,
+          compressionCount: Tinify.compressionCount,
+        } );
+      }
+      else if( error instanceof Tinify.ConnectionError ){
+        // ConnectionError：Error: Error while connecting: getaddrinfo ENOTFOUND api.tinify.com
+        MyConsole.Red( `ConnectionError：${ error }` );
+
+        resolve( {
+          error,
+          key: TinifyKey,
+          compressionCount: Tinify.compressionCount,
+        } );
+      }
+      else if( error ){
+        MyConsole.Red( `其他错误：${ error }` );
+
+        resolve( {
+          error,
+          key: TinifyKey,
+          compressionCount: Tinify.compressionCount,
+        } );
+      }
+      else{
+        MyConsole.Cyan( `当前Key可以正常使用。` );
+
+        resolve( {
+          error: null,
+          key: TinifyKey,
+          compressionCount: Tinify.compressionCount,
+        } );
+      }
+
+      MyConsole.Cyan( `当前Key已经使用过的压缩数量（每月免费500）：${ Tinify.compressionCount }。\n` );
+    } );
+  } );
+}
 
 const defaultArgs = {
     nest: true,
@@ -76,7 +151,41 @@ const defaultArgs = {
   workerThreadFilePath = './WorkerThread.mjs',
   dirPathArr = [],
   photoPathArr = [],
-  compressionFailedForPhotoPathArr = [];
+  compressionFailedForPhotoPathArr = [],
+  TinifyKeys = await ( async arr => {
+    const result = {};
+
+    let obj1 = null;
+
+    while( arr.length > 0 ){
+      obj1 = await TinifyValidate( arr.shift() );
+
+      if( obj1.error === null && Number( obj1.compressionCount ) < 500 ){
+        result[ obj1.key ] = 500 - Number( obj1.compressionCount );
+      }
+    }
+
+    return Object.entries( result );
+  } )( [
+    '0s9wNbBqccdXS2z9x45Z92MLy0t2J6ln',
+    'kKYgs1yFdVgvtlmRzNjG3Wh38D20g386',
+    'cGHCfjYhhs5BVwX2N2GpHb6m3wGhKYnC',
+    'DLYB5cjQVRRS3Tdqfg0VD55Lkhn6J9B7',
+    'gnbCS5fYTN5s2TPwRkXrZL3LctHBTnnQ',
+    'Ht88MvDM3zx8cmx6hwCXxKDljZVkhW2k',
+    'zFyCtt1KbCR1NFlLDmGCYd6spZwqbMPs',
+    'yBQzXZ98BsMgxtKl88b5P27m6NDyzP3T',
+    '6ZvY49BDj3S3VdgRZvrlvPnYQ124M3R1',
+    'nwrqFLrb23MhVfzH5MWwY3d4TtYZzFGW',
+    'FPwpSj4CxrgLRr8FNPvf0bH43F07RTc0',
+    'jcGPsvJgFRXgd3yNXZgJFpsXRvsWFhdb',
+  ] );
+
+if( TinifyKeys.length === 0 ){
+  MyConsole.Red( `没有可用的TinifyKey。` );
+
+  throw new Error( '没有可用的TinifyKey。' );
+}
 
 const {
   nest: isNest,
@@ -149,7 +258,21 @@ while( dirPathArr.length > 0 );
 
 const photoQuantity = photoPathArr.length;
 
-let startTimer = 0;
+MyConsole.Cyan( `\n需要压缩的图片有${ photoQuantity }张。` );
+MyConsole.Cyan( `可压缩次数有${ Object.values( Object.fromEntries( TinifyKeys ) )
+.reduce( ( accumulator, currentValue ) => accumulator + currentValue, 0 ) }次。\n` );
+
+let startTimer = 0,
+  successTotal = 0,
+  arr001 = null,
+  arr002 = null,
+  arr003 = null,
+  boo001 = true;
+
+let [
+  tinifyKey,
+  usableTotal,
+] = TinifyKeys.shift();
 
 function CreateWorkerIns( photoPath, workerInsIndex ){
   const workerIns = new Worker( workerThreadFilePath, {
@@ -180,11 +303,15 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
 
   workerIns.on( 'message', messageData => {
     if( messageData.isSuccess ){
+      ++successTotal;
+
       MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
 
-      MyConsole.Blue( `\n${ messageData.photoPath }` );
-      MyConsole.Green( '压缩完成。' );
-      MyConsole.Green( `耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。\n` );
+      MyConsole.Green( `\n${ messageData.photoPath }` );
+      MyConsole.Green( '本张图片压缩成功。' );
+      MyConsole.Green( `本张图片压缩耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。` );
+      MyConsole.Green( `已有${ successTotal }张压缩完成。` );
+      MyConsole.Green( `还有${ photoQuantity - successTotal }张未进行压缩。\n` );
 
       MyConsole.Blue( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
     }
@@ -194,31 +321,107 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
       MyConsole.Red( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
 
       MyConsole.Red( `\n${ messageData.photoPath }` );
-      MyConsole.Red( '未压缩完成。' );
+      MyConsole.Red( '未成功压缩。' );
+      MyConsole.Red( `本张图片压缩耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。` );
+      MyConsole.Red( `有${ compressionFailedForPhotoPathArr.length }张未成功压缩的图片等待再次压缩。` );
+      MyConsole.Red( `已有${ successTotal }张压缩完成。` );
+      MyConsole.Red( `还有${ photoQuantity - successTotal }张未进行压缩。\n` );
 
       MyConsole.Red( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
     }
 
     if( photoPathArr.length > 0 ){
-      workerIns.postMessage( {
-        photoPath: photoPathArr.shift(),
-      } );
+      if( usableTotal < successTotal + 1 ){
+        arr002 = TinifyKeys.shift();
+
+        if( arr002 ){
+          tinifyKey = arr002[ 0 ];
+          usableTotal += arr002[ 1 ];
+
+          workerIns.postMessage( {
+            tinifyKey,
+            photoPath: photoPathArr.shift(),
+          } );
+        }
+        else{
+          MyConsole.Red( `\n所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。\n` );
+          MyConsole.Red( `\n未全部压缩，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
+
+          MyConsole.Green( `\n已有${ successTotal }张压缩完成。` );
+          MyConsole.Green( `有${ compressionFailedForPhotoPathArr.length }张未成功压缩的图片。` );
+          MyConsole.Green( `还有${ photoQuantity - successTotal }张未进行压缩。\n` );
+
+          // If the worker was terminated, the exitCode parameter is 1.
+          workerIns.terminate().then(
+            exitCode => {
+              MyConsole.Yellow( `\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+            },
+            reject => {
+              throw new Error( reject );
+            }
+          );
+        }
+      }
+      else{
+        workerIns.postMessage( {
+          tinifyKey,
+          photoPath: photoPathArr.shift(),
+        } );
+      }
     }
     else if( photoPathArr.length === 0 && compressionFailedForPhotoPathArr.length > 0 ){
-      workerIns.postMessage( {
-        photoPath: compressionFailedForPhotoPathArr.shift(),
-      } );
+      if( usableTotal < successTotal + 1 ){
+        arr003 = TinifyKeys.shift();
+
+        if( arr003 ){
+          tinifyKey = arr003[ 0 ];
+          usableTotal += arr003[ 1 ];
+
+          workerIns.postMessage( {
+            tinifyKey,
+            photoPath: compressionFailedForPhotoPathArr.shift(),
+          } );
+        }
+        else{
+          MyConsole.Red( `\n所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。\n` );
+          MyConsole.Red( `\n未全部压缩，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
+
+          MyConsole.Green( `\n已有${ successTotal }张压缩完成。` );
+          MyConsole.Green( `有${ compressionFailedForPhotoPathArr.length }张未成功压缩的图片。` );
+          MyConsole.Green( `还有${ photoQuantity - successTotal }张未进行压缩。\n` );
+
+          // If the worker was terminated, the exitCode parameter is 1.
+          workerIns.terminate().then(
+            exitCode => {
+              MyConsole.Yellow( `\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+            },
+            reject => {
+              throw new Error( reject );
+            }
+          );
+        }
+      }
+      else{
+        workerIns.postMessage( {
+          tinifyKey,
+          photoPath: compressionFailedForPhotoPathArr.shift(),
+        } );
+      }
     }
-    else if( photoPathArr.length === 0 && compressionFailedForPhotoPathArr.length === 0 ){
+    else if( successTotal === photoQuantity ){
       MyConsole.Green( `\n全部压缩完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
 
       // If the worker was terminated, the exitCode parameter is 1.
-      workerIns.terminate().then( exitCode => {
-        MyConsole.Yellow( `\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+      workerIns.terminate().then(
+        exitCode => {
+          MyConsole.Yellow( `\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
 
-        exit( 0 );
-      }, reject => {
-      } );
+          exit( 0 );
+        },
+        reject => {
+          throw new Error( reject );
+        }
+      );
     }
   } );
 
@@ -234,6 +437,7 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.postMessage( {
+    tinifyKey,
     photoPath,
   } );
 
@@ -255,8 +459,27 @@ if( photoQuantity > 0 ){
     i < createWorkerThreadQuantity;
     ++i
   ){
-    workerInsArr.push( CreateWorkerIns( photoPathArr.shift(), i ) );
+    if( boo001 ){
+      if( usableTotal < i + 1 ){
+        arr001 = TinifyKeys.shift();
+
+        if( arr001 ){
+          tinifyKey = arr001[ 0 ];
+          usableTotal += arr001[ 1 ];
+
+          workerInsArr.push( CreateWorkerIns( photoPathArr.shift(), i ) );
+        }
+        else{
+          boo001 = false;
+
+          MyConsole.Yellow( `\n所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。\n` );
+        }
+      }
+      else{
+        workerInsArr.push( CreateWorkerIns( photoPathArr.shift(), i ) );
+      }
+    }
   }
 
-  MyConsole.Cyan( `创建了${ createWorkerThreadQuantity }个Worker线程！` );
+  MyConsole.Cyan( `创建了${ workerInsArr.length }个Worker线程！` );
 }
