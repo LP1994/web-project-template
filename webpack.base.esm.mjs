@@ -7373,6 +7373,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              *   cqLevel: 0,
              * },
              * }<br />
+             * 10、“width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。<br />
              */
             imageminMinify: new ImageMinimizerPlugin( {
               // test: /\.(gif|png|svg|webp)$/i,
@@ -7586,7 +7587,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 },
               },
               /**
-               * 就算设置了，也无法将svg转成其他格式的图片。
+               * “width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。
                */
               // generator: [],
             } ),
