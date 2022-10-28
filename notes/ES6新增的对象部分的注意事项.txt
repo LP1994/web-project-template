@@ -127,7 +127,3 @@ PS：
 属性名为 Symbol 值
 不可遍历（enumerable）的属性
 但是，Object.getOwnPropertyNames()不会过滤！
-
-
-
-7、

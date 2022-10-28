@@ -999,6 +999,3 @@ store.registerModule(['nested', 'myModule'], {
 你可以通过 preserveState 选项将其归档：store.registerModule('a', module, { preserveState: true })。
 当你设置 preserveState: true 时，该模块会被注册，action、mutation 和 getter 会被添加到 store 中，但是 state 不会。
 这里假设 store 的 state 已经包含了这个 module 的 state 并且你不希望将其覆写。
-
-
-

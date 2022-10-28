@@ -80,5 +80,3 @@ device-height 	(固定的，不变的)输出设备的渲染表面的高度	媒�
 device-aspect-ratio 	输出设备的宽高比	媒体查询级别4中不推荐使用。
 
 iPad Pro 10.5英寸(1668x2224)系列宽高(Tablet)必须在“iPad Pro 12.9英寸(2048x2732)”之后
-
-

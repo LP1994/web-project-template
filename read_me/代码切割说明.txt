@@ -24,12 +24,12 @@
 "**/*.pcss",
 "**/*.postcss"
 
-以上“规则的命名”都会被认为是“有副作用”的代码，不会被“tree-shaking”切割！
+以上“规则的命名”都会被认为是“有副作用”的代码，不会被“tree-shaking”切割。
 
 PS：
 1、
 import 'xxx.esm.js'，会被整个切割掉。
-要把文件命名成"xxx.se.esm.js"，才不会被整个切割掉！
+要把文件命名成"xxx.se.esm.js"，才不会被整个切割掉。
 
 2、
-webpack.base.esm.mjs中的splitChunksConfig.cacheGroups可以根据具体项目的需要进行订制代码切割配置！
+webpack.base.esm.mjs中的splitChunksConfig可以根据具体项目的需要进行订制代码切割配置。

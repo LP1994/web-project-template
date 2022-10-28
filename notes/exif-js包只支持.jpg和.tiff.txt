@@ -57,4 +57,3 @@ HTML:
 注意还有备用标签，例如EXIF.TiffTags。有关完整定义和使用，请参阅源代码。您还可以使用相应打印的图像中的所有EXIF信息返回一个字符串EXIF.pretty。检查包含的index.html。
 
 有关更高级的用法，请参阅源代码，例如从File / Blob对象获取图像数据（EXIF.readFromBinaryFile）。
-

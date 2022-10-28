@@ -112,7 +112,7 @@ standalone	该应用程序的外观和感觉就像一个独立的应用程序。
 minimal-ui	该应用程序看起来和感觉就像一个独立的应用程序，但将有一组用于控制导航的UI元素。元素因浏览器而异。
 (此模式类似于fullscreen，但为用户提供了一些方法来访问用于控制导航的最小UI元素集（即，后退，前进，重新加载等）。注意：仅限移动版Chrome支持。)	browser
 browser	应用程序在传统的浏览器选项卡或新窗口中打开，具体取决于浏览器和平台。	（没有）
-也可以display-mode通过JavaScript 检测它是否是独立的：(PC和移动端支持的都很好，几乎都支持，PC上的Edge不支持)
+也可以display-mode通过JavaScript 检测它是否是独立的：(PC和移动端支持的都很好，几乎都支持，PC上的旧版Edge不支持)
 if (window.matchMedia('(display-mode: standalone)').matches) {
   console.log('display-mode is standalone');
 }

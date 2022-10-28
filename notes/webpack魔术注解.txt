@@ -17,5 +17,12 @@ const worker = new Worker( new URL( './Worker001.worker.js', import.meta.url ), 
   name: 'Worker001',
 } );
 注意：
-1、worker的魔术注解中的[name]受Worker构造函数的第二个参数中的name选项控制，如果没有设置name，则会使用一串数字组成的值作为[name]，如果设置了, 那么设置成什么值，[name]就会是什么。
-2、如果没使用worker的魔术注解，那么worker文件的输出文件名受output.chunkFilename选项控制，当chunkFilename选项的值类型为函数时：( pathData, assetInfo ) => string，pathData.chunk.name受Worker构造函数的第二个参数中的name选项控制，name选项设置成什么值，pathData.chunk.name就会是什么，如果没有设置name选项，那么pathData.chunk.name为undefined。
+1、worker的魔术注解中的[name]受Worker构造函数的第二个参数中的name选项控制，
+如果没有设置name，则会使用一串数字组成的值作为[name]，
+如果设置了, 那么设置成什么值，[name]就会是什么。
+
+2、如果没使用worker的魔术注解，那么worker文件的输出文件名受output.chunkFilename选项控制，
+当chunkFilename选项的值类型为函数时：( pathData, assetInfo ) => string，
+pathData.chunk.name受Worker构造函数的第二个参数中的name选项控制，
+name选项设置成什么值，pathData.chunk.name就会是什么，
+如果没有设置name选项，那么pathData.chunk.name为undefined。

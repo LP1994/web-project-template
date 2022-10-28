@@ -11,4 +11,3 @@ main > div:matches(.flexBox, .flexC) {
 .syntax-highlighted :matches(.css-keyword, .css-tag) {
     color: rgb(170, 13, 145);
 }
-

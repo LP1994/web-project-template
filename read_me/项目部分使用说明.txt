@@ -2,13 +2,11 @@
 
 
 
-从“src/js/App.js”开始配置每个页面对应的“.js”的路由管理！
-从“页面路由管理(src/js/App.js)”开始你的编码吧！
+从“configures/EntryConfig.esm.mjs”、“configures/HTMLWebpackPluginConfig.esm.mjs”开始配置、编码。
 
 
 
-注意：
-1、webpack-subresource-integrity插件不支持文件路径(JS文件路径)中带有“./”的前缀！具体如下说明！
+一、webpack-subresource-integrity插件不支持文件路径(JS文件路径)中带有“./”的前缀，具体如下说明。
 可以：
 output: {
 filename: 'js/[name]_[chunkhash:6].js',
@@ -19,14 +17,6 @@ output: {
 filename: './js/[name]_[chunkhash:6].js',
 chunkFilename: './js/[name]_chunk_[chunkhash:6].js'
 }
-
-
-
-一、使用jQuery插件的方法(前提是webpack已经配置好了)
-第一步：
-import 'jquery.nicescroll';
-第二步：
-$(document.body).niceScroll();
 
 
 
@@ -44,119 +34,321 @@ $(document.body).niceScroll();
 
 
 
-四、关于4种CSS文件的引用方式
-1、
-.css、.scss、.styl、.stylus、.pcss、.postcss在.js中导入使用，或者是.vue中的<style lang = 'css' scoped></style>、<style lang = 'scss' scoped></style>、<style lang = 'stylus' scoped></style>、<style lang = 'postcss' scoped></style>的使用方式！
-但是无法在.ejs中以link标签引入！也无法require导入！
-最后会被提取到一个.css文件中，最后把这个.css文件以link标签引入到页面中！
-
-2、
-.less只能在.ejs中以link标签引入！
-在.js中导入，会导出编译后的.less文件的路径(如：'../styles/Demo1_LESS.css')！
-
-3、
-.sass在.js中导入使用，或者是.vue中的<style lang = 'sass' scoped></style>的使用方式！
-但是无法在.ejs中以link标签引入！也无法require导入！
-最后会被提取到一个<style>标签中，并且把这个<style>标签加到页面中！
-
-
-
-五、静态资源
+四、静态资源
 src/static里头放着静态无需多次修改的资源文件
-static文件夹下都是静态的外部资源！这些不会被webpack识别处理的！
-但可以被静态的使用！
-webpack编译结束后，static文件夹整个会被复制到如：dist/devServer下，这样就可以静态的使用它们了！
+static文件夹下都是静态的外部资源，这些不会被webpack识别处理的。
+但可以被静态的使用。
+webpack编译结束后，static文件夹整个会被复制到如：dist/production下，这样就可以静态的使用它们了。
 
 
 
-六、提取JS(htmlWebpackPlugin只有files和options两个属性)
+五、提取JS(htmlWebpackPlugin只有files和options两个属性)
 htmlWebpackPlugin.files的值如下：
+<% const files = htmlWebpackPlugin.files; %>
+<%= JSON.stringify( files, null, ' ' ) %>
+生产模式：
 {
-    publicPath: 'http://localhost:8082/WebProTpl/app/devServer/',
-    chunks: {
-        'app': {
-            'size': 378,
-            'entry': 'http://localhost:8082/WebProTpl/app/devServer/./js/app_chunk_2977b3cc.js',
-            'hash': '2977b3cc1d2646751538',
-            'css': []
-        }
-    },
-    js: [
-        'http://localhost:8082/WebProTpl/app/devServer/./js/app_chunk_2977b3cc.js'
+    'publicPath': '../',
+    'js': [
+      '../js/RuntimeChunk_HelloWorld_Bundle_813a7d57f653030c.js?8a7877164fb5c167',
+      '../js/HelloWorld_Bundle_d0c8a537b944b35f.js?8a7877164fb5c167'
     ],
-    css: [],
-    manifest: ''
+    'css': [ '../styles/HelloWorld_Bundle_95b1ca43e2a167d4.css?8a7877164fb5c167' ],
+    'jsIntegrity': [
+      'sha512-gTp9V/ZTAwwbHxNllxaQU9bbLo5bwO/+PT/n7aLr5lH6C736UxpA+wZkm8F+mSRwAfReDPYMJ5km1vHfKRIgLA==',
+      'sha512-0MilN7lEs1+S+rNIZ367kE2f4vXeb9ayEkWtNF5edK2tZDd1FIh+AA5eLz5qKI56PI5viBjRZvL1d7y0RnjaSg=='
+    ],
+    'cssIntegrity': [ 'sha512-lbHKQ+KhZ9SRGjlpfQSm4z/WZ+JMIYlxNmZ9KEsMab/Ai9QgzL/hI8sWp9/MaAWc12+5TWK1pp+A2HyZYewPFw==' ]
 }
-<% const files = htmlWebpackPlugin.files %>
-<%= compilation.assets[files.chunks.app.entry.slice(files.publicPath.length)].source() %>
-
-
-
-七、htmlWebpackPlugin.options
+开发模式：
 {
-    template: 'G:\\WebStormWS\\WebProTpl\\node_modules\\html-webpack-plugin\\lib\\loader.js!G:\\WebStormWS\\WebProTpl\\src\\tplEJS\\demoTpl.ejs',
-    templateParameters: '',
-    filename: './pages/webProTpl.html',
-    hash: false,
-    inject: 'body',
-    compile: true,
-    favicon: false,
-    minify: {
-        'html5': true,
-        'removeComments': true,
-        'removeScriptTypeAttributes': true,
-        'removeStyleLinkTypeAttributes': true,
-        'removeEmptyAttributes': true,
-        'removeAttributeQuotes': true
+    'publicPath': '../',
+    'js': [
+      '../js/RuntimeChunk_HelloWorld_Bundle_fc8d3f2d78d16a6e.js',
+      '../js/VendorsJS_Bundle_9f78d7db41295e8c.js',
+      '../js/HelloWorld_Bundle_cc5ba65072a1c52f.js'
+    ],
+    'css': []
+}
+
+<%
+        const compilationAssets = compilation.assets,
+                result = Object.fromEntries(
+                        Object.keys( compilationAssets ).map( item => {
+                            return [
+                                item,
+                                Object.fromEntries(
+                                        Object.entries( compilationAssets[ item ] ).map( ( [ name, value, ] ) => {
+                                            if( name === '_name' ){
+                                                return [
+                                                    name,
+                                                    value,
+                                                ];
+                                            }
+                                            else if( name === '_valueIsBuffer' ){
+                                                return [
+                                                    name,
+                                                    value,
+                                                ];
+                                            }
+                                            else if( name === '_source' ){
+                                                return [
+                                                    name,
+                                                    Object.fromEntries(
+                                                            Object.entries( value ).map( ( [ n, v ] ) => {
+                                                                if( n === '_isOptimized' ){
+                                                                    return [
+                                                                        n,
+                                                                        v,
+                                                                    ];
+                                                                }
+                                                                else{
+                                                                    return [
+                                                                        n,
+                                                                        Object.prototype.toString.call( v ),
+                                                                    ];
+                                                                }
+                                                            } )
+                                                    ),
+                                                ];
+                                            }
+                                            else{
+                                                return [
+                                                    name,
+                                                    Object.prototype.toString.call( value ),
+                                                ];
+                                            }
+                                        } )
+                                ),
+                            ];
+                        } )
+                );
+%>
+<%= JSON.stringify( result, null, ' ' ) %>
+生产模式：
+{
+    'fonts/Helvetica_841db1021f0d697d.otf': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object Uint8Array]',
+        '_valueAsBuffer': '[object Uint8Array]',
+        '_valueAsString': '[object Undefined]'
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Uint8Array]',
+      '_cachedBuffer': '[object Uint8Array]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Undefined]'
     },
-    cache: false,
-    showErrors: true,
-    chunks: 'all',
-    excludeChunks: [],
-    chunksSortMode: 'none',
-    meta: {},
-    title: 'WebProTpl',
-    xhtml: false
+    'styles/HelloWorld_Bundle_95b1ca43e2a167d4.css': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object String]',
+        '_valueAsBuffer': '[object Undefined]',
+        '_valueAsString': '[object String]'
+      },
+      '_name': 'styles/HelloWorld_Bundle_95b1ca43e2a167d4.css',
+      '_replacements': '[object Array]',
+      '_isSorted': '[object Boolean]'
+    },
+    'js/HelloWorld_Bundle_d0c8a537b944b35f.js': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object String]',
+        '_valueAsBuffer': '[object Undefined]',
+        '_valueAsString': '[object String]'
+      },
+      '_name': 'js/HelloWorld_Bundle_d0c8a537b944b35f.js',
+      '_replacements': '[object Array]',
+      '_isSorted': '[object Boolean]'
+    },
+    'styles/Home_Bundle_95b1ca43e2a167d4.css': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object String]',
+        '_valueAsBuffer': '[object Undefined]',
+        '_valueAsString': '[object String]'
+      },
+      '_name': 'styles/Home_Bundle_95b1ca43e2a167d4.css',
+      '_replacements': '[object Array]',
+      '_isSorted': '[object Boolean]'
+    },
+    'js/Home_Bundle_52237da054545997.js': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object String]',
+        '_valueAsBuffer': '[object Undefined]',
+        '_valueAsString': '[object String]'
+      },
+      '_name': 'js/Home_Bundle_52237da054545997.js',
+      '_replacements': '[object Array]',
+      '_isSorted': '[object Boolean]'
+    },
+    'js/RuntimeChunk_HelloWorld_Bundle_813a7d57f653030c.js': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object String]',
+        '_valueAsBuffer': '[object Undefined]',
+        '_valueAsString': '[object String]'
+      },
+      '_name': 'js/RuntimeChunk_HelloWorld_Bundle_813a7d57f653030c.js',
+      '_replacements': '[object Array]',
+      '_isSorted': '[object Boolean]'
+    },
+    'js/RuntimeChunk_Home_Bundle_4dfa6a0b3cd22e9e.js': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object String]',
+        '_valueAsBuffer': '[object Undefined]',
+        '_valueAsString': '[object String]'
+      },
+      '_name': 'js/RuntimeChunk_Home_Bundle_4dfa6a0b3cd22e9e.js',
+      '_replacements': '[object Array]',
+      '_isSorted': '[object Boolean]'
+    },
+    'static/ico/favicon.ico': {
+      '_valueIsBuffer': true,
+      '_value': '[object Uint8Array]',
+      '_valueAsBuffer': '[object Uint8Array]',
+      '_valueAsString': '[object Undefined]'
+    },
+    'static/ico/uncompressed/ico_32_32.png': {
+      '_valueIsBuffer': true,
+      '_value': '[object Uint8Array]',
+      '_valueAsBuffer': '[object Uint8Array]',
+      '_valueAsString': '[object Undefined]'
+    },
+    'favicon.ico': {
+      '_valueIsBuffer': true,
+      '_value': '[object Uint8Array]',
+      '_valueAsBuffer': '[object Uint8Array]',
+      '_valueAsString': '[object Undefined]'
+    },
+    'map/HelloWorld_Map_cc7fd12c135888e0.map': {
+      '_valueIsBuffer': false,
+      '_value': '[object String]',
+      '_valueAsBuffer': '[object Undefined]',
+      '_valueAsString': '[object String]'
+    },
+    'map/Home_Map_aadc9f859ed2e726.map': {
+      '_valueIsBuffer': false,
+      '_value': '[object String]',
+      '_valueAsBuffer': '[object Undefined]',
+      '_valueAsString': '[object String]'
+    },
+    'map/RuntimeChunk_HelloWorld_Map_146a35fd96a8ee1c.map': {
+      '_valueIsBuffer': false,
+      '_value': '[object String]',
+      '_valueAsBuffer': '[object Undefined]',
+      '_valueAsString': '[object String]'
+    },
+    'map/RuntimeChunk_Home_Map_12e5459df484aeab.map': {
+      '_valueIsBuffer': false,
+      '_value': '[object String]',
+      '_valueAsBuffer': '[object Undefined]',
+      '_valueAsString': '[object String]'
+    }
+}
+开发模式：
+{
+    'js/HelloWorld_Bundle_cc5ba65072a1c52f.js': {
+      '_source': {
+        '_children': '[object Array]',
+        '_isOptimized': false
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Undefined]',
+      '_cachedBuffer': '[object Undefined]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Undefined]'
+    },
+    'fonts/Helvetica_841db1021f0d697d.otf': {
+      '_source': {
+        '_valueIsBuffer': '[object Boolean]',
+        '_value': '[object Uint8Array]',
+        '_valueAsBuffer': '[object Uint8Array]',
+        '_valueAsString': '[object Undefined]'
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Undefined]',
+      '_cachedBuffer': '[object Undefined]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Array]'
+    },
+    'js/Home_Bundle_5303fe05e3c2ac0c.js': {
+      '_source': {
+        '_children': '[object Array]',
+        '_isOptimized': false
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Undefined]',
+      '_cachedBuffer': '[object Undefined]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Undefined]'
+    },
+    'js/RuntimeChunk_HelloWorld_Bundle_c2b1beb733d337cd.js': {
+      '_source': {
+        '_children': '[object Array]',
+        '_isOptimized': false
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Undefined]',
+      '_cachedBuffer': '[object Undefined]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Undefined]'
+    },
+    'js/RuntimeChunk_Home_Bundle_fcba81888845e4d9.js': {
+      '_source': {
+        '_children': '[object Array]',
+        '_isOptimized': false
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Undefined]',
+      '_cachedBuffer': '[object Undefined]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Undefined]'
+    },
+    'js/VendorsJS_Bundle_9f78d7db41295e8c.js': {
+      '_source': {
+        '_children': '[object Array]',
+        '_isOptimized': false
+      },
+      '_cachedSourceType': '[object Undefined]',
+      '_cachedSource': '[object Undefined]',
+      '_cachedBuffer': '[object Undefined]',
+      '_cachedSize': '[object Undefined]',
+      '_cachedMaps': '[object Map]',
+      '_cachedHashUpdate': '[object Undefined]'
+    },
+    'static/ico/favicon.ico': {
+      '_valueIsBuffer': true,
+      '_value': '[object Uint8Array]',
+      '_valueAsBuffer': '[object Uint8Array]',
+      '_valueAsString': '[object Undefined]'
+    },
+    'static/ico/uncompressed/ico_32_32.png': {
+      '_valueIsBuffer': true,
+      '_value': '[object Uint8Array]',
+      '_valueAsBuffer': '[object Uint8Array]',
+      '_valueAsString': '[object Undefined]'
+    },
+    'favicon.ico': {
+      '_valueIsBuffer': true,
+      '_value': '[object Uint8Array]',
+      '_valueAsBuffer': '[object Uint8Array]',
+      '_valueAsString': '[object Undefined]'
+    }
 }
 
 
 
-八、通过遍历compilation.assets可以获取诸多信息，进行诸多操作
-<% let assets = compilation.assets %>
-<% for( let key in assets ) { %>
-<%= key %> : <%= assets[ key ] %>
-<br />
-<br />
-<% } %>
-输出如下：
-other/demoManifest.json : [object Object]
-
-img/add1_3b83d51d.png : [object Object]
-
-styles/demoLess1_2e4cfd4d.css : [object Object]
-
-./js/app_chunk_2f59e493.js : [object Object]
-
-./js/manifest_d41d8cd9.js : [object Object]
-
-./js/tools_chunk_5f6cfc83.js : [object Object]
-
-./js/vendors_chunk_73826fe0.js : [object Object]
-
-
-
-九、自定义字体
-@font-face {
-  font-family: 'MicrosoftYaHeiUI_Regular';
-  src: url(../../../../assets/fonts/MicrosoftYaHeiUI_Regular.ttc);
-}
-p {
-  font-family: 'MicrosoftYaHeiUI_Regular';
-}
-
-
-
-十、关于webpack中的“~”的使用
+六、关于webpack中的“~”的使用
 样式文件、HTML文件中
 各类非 js 直接引用（import require）静态资源，依赖相对路径加载问题，都可以用 ~ 语法完美解决；
 例如 css module 中： @import "~@/style/theme"

@@ -37,7 +37,7 @@ transitionrun > transitionstart > transitionrun > transitioncancel > transitionr
 transitionstart触发后，但transitionend还没触发，就中断了(会回退回去)，但又再次需要执行这个过度(就是中断了正在中断的过程，但是是在第一次中断的transitionstart开始后，但没执行完第一次中断，就又发生了第二次中断，并且让第二次中断完成)，并且让它执行完，这时事件的全过程是：
 transitionrun > transitionstart > transitionrun > transitioncancel > transitionstart > transitionrun > transitioncancel > transitionstart > transitionend
 
-Edge、IE支持的：transitionstart、transitionend
+旧版Edge、IE支持的：transitionstart、transitionend
 几个样式属性就会执行几次，padding这种的会分解成4个(上下左右)
 transitionstart触发之后，结束之前中断了，会回退回去，并且触发transitionend
 transitionstart > 结束之前中断，回退回去完成 > transitionend
@@ -92,7 +92,7 @@ transitionrun > transitionstart > transitionrun > transitioncancel > transitions
 过度的延迟完成之前，就不会因为中断而触发transitionend
 从主屏幕启动后，自动执行了第一个样式属性
 
-Edge浏览器、Opera浏览器、MIUI内置浏览器支持的：transitionend
+旧版Edge浏览器、Opera浏览器、MIUI内置浏览器支持的：transitionend
 几个样式属性就会执行几次，padding这种的会分解成4个(上下左右)
 首次加载都会执行一次支持的全部事件(自动执行了第一个样式属性)，
 刷新之后就不会了

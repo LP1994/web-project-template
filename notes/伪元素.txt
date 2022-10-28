@@ -1,10 +1,10 @@
 标准的伪元素的索引节
-::after (:after)
+::after (:after，旧版不规范的写法)
 ::backdrop
-::before (:before)
-::cue (:cue)
-::first-letter (:first-letter)
-::first-line (:first-line)
+::before (:before，旧版不规范的写法)
+::cue (:cue，旧版不规范的写法)
+::first-letter (:first-letter，旧版不规范的写法)
+::first-line (:first-line，旧版不规范的写法)
 ::grammar-error
 ::marker
 ::placeholder
@@ -32,12 +32,12 @@
 ::-webkit-progress-value
 ::-webkit-slider-runnable-track
 ::-webkit-slider-thumb
-::after (:after)
+::after (:after，旧版不规范的写法)
 ::backdrop
-::before (:before)
-::cue (:cue)
-::first-letter (:first-letter)
-::first-line (:first-line)
+::before (:before，旧版不规范的写法)
+::cue (:cue，旧版不规范的写法)
+::first-letter (:first-letter，旧版不规范的写法)
+::first-line (:first-line，旧版不规范的写法)
 ::grammar-error
 ::placeholder
 ::selection

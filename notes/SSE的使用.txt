@@ -17,7 +17,7 @@ SSE是GET请求类型
 Server-Sent Event
 客户端单向的获取到服务器发送的数据，客户端没有发送的功能，只有接受数据的功能
 适用于实时类的应用
-注：不是所有主流浏览器均支持Server-Sent Event，如Edge、Internet Explorer不支持的。
+注：不是所有主流浏览器均支持Server-Sent Event，如旧版Edge、Internet Explorer不支持的。
 onerror函数
 onmessage函数
 onopen函数

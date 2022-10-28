@@ -378,4 +378,3 @@ var dict = Object.setPrototypeOf({}, null);
 如果要修改其[[Prototype]]的对象根据Object.isExtensible()不可扩展，则引发类型错误异常。如果prototype参数不是对象或空值（即数字、字符串、布尔值或未定义），则不执行任何操作。
 否则，此方法会将obj的[[Prototype]]更改为新值。
 Object.setPrototypeOf()在ECMAScript 2015规范中。它通常被认为是设置对象原型的正确方法，而不是有争议的Object.prototype.__proto__属性。
-

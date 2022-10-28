@@ -2,7 +2,7 @@ PS:
 1、
 优先使用如下两个插件(以下两个插件选其中一个插件启用就行，不要同时启用)：
 webpack-graphql-loader(已在项目中配置并使用了，建议优先使用它)
-babel-plugin-import-graphql-string(已在项目中配置了，但被注释掉了)
+babel-plugin-import-graphql-string
 2、
 不使用如下插件：
 graphql-import-loader

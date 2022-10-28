@@ -42,4 +42,3 @@ cout << "point3[ " << i << " ]：" << (*point3)[i] << endl;
 for (auto i : *point3) {
 cout << "point3：" << i << endl;
 }
-

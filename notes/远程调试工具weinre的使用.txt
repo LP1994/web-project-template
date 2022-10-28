@@ -1,5 +1,5 @@
-用于iOS就好！
-Android用谷歌内置的调试工具就好！
+用于iOS就好。
+Android用谷歌内置的调试工具就好，第一次启动需要翻墙，以后就不用了，估计是下载某些资源吧。
 
 启动
 weinre --boundHost -all- --httpPort 8300 --verbose false --debug false
