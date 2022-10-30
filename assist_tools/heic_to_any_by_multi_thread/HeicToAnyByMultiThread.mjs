@@ -165,6 +165,8 @@ while( dirPathArr.length > 0 );
 
 const photoQuantity = photoPathArr.length;
 
+MyConsole.Cyan( `\n一共有${ photoQuantity }张图片需要转换。\n` );
+
 let toDoneNum = 0,
   startTimer = 0;
 
@@ -203,11 +205,18 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
 
     MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 \n${ messageData.photoPath }
-转换完成。
-耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。\n
+本张图片转换完成。
+本张图片转换耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
+已有${ toDoneNum }张转换完成。
+还有${ photoQuantity - toDoneNum }张未开始转换。\n
 message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
 
-    if( toDoneNum === photoQuantity ){
+    if( photoPathArr.length > 0 ){
+      workerIns.postMessage( {
+        photoPath: photoPathArr.shift(),
+      } );
+    }
+    else if( toDoneNum === photoQuantity ){
       MyConsole.Green( `\n全部转换完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
 
       // If the worker was terminated, the exitCode parameter is 1.
@@ -221,12 +230,6 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
           throw new Error( reject );
         }
       );
-    }
-
-    if( photoPathArr.length > 0 ){
-      workerIns.postMessage( {
-        photoPath: photoPathArr.shift(),
-      } );
     }
   } );
 

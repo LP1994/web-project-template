@@ -165,6 +165,8 @@ while( dirPathArr.length > 0 );
 
 const photoQuantity = photoPathArr.length;
 
+MyConsole.Cyan( `\n一共有${ photoQuantity }张图片需要压缩。\n` );
+
 let startTimer = 0,
   successTotal = 0;
 

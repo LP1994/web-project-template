@@ -110,6 +110,8 @@ while( dirPathArr.length > 0 );
 
 const fileQuantity = filePathArr.length;
 
+MyConsole.Cyan( `\n一共有${ fileQuantity }个文件需要计算。\n` );
+
 let startTimer = 0,
   successTotal = 0,
   saveResult = {};
