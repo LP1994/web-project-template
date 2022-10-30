@@ -235,9 +235,19 @@ function RetrieveForDir( path ){
     else if( fsStats.isFile() ){
       suffix001 = extname( path001 ).slice( 1 ).toLocaleLowerCase().trim();
 
-      if( suffix001 === 'png' || suffix001 === 'webp' || suffix001 === 'jpg' || suffix001 === 'jpeg' || suffix001 === 'jpe' ){
+      if( [
+        'jpe',
+        'jpeg',
+        'jpg',
+        'webp',
+        'png',
+      ].includes( suffix001 ) ){
         if( fsStats.size > 5 * 1024 * 1024 ){
-          MyConsole.Yellow( `tinify目前只支持压缩图片大小小于等于5MB的图片（${ path001 }）。` );
+          MyConsole.Yellow( `tinify目前只支持压缩图片大小小于等于5MB且大于0MB的图片（${ path001 }）。` );
+        }
+        else if( Number( fsStats.size ) === 0 ){
+          MyConsole.Yellow( `\n${ path001 }
+不支持文件大小小于等于0的文件。\n` );
         }
         else{
           photoPathArr.push( path001 );

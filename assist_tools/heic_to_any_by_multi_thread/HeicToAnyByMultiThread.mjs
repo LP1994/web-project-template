@@ -138,8 +138,21 @@ function RetrieveForDir( path ){
     else if( fsStats.isFile() ){
       suffix001 = extname( path001 ).slice( 1 ).toLocaleLowerCase().trim();
 
-      if( suffix001 === 'heic' || suffix001 === 'heif' ){
-        photoPathArr.push( path001 );
+      if( [
+        'heif',
+        'heic',
+      ].includes( suffix001 ) ){
+        if( Number( fsStats.size ) > 0 ){
+          photoPathArr.push( path001 );
+        }
+        else{
+          MyConsole.Yellow( `\n${ path001 }
+不支持文件大小小于等于0的文件。\n` );
+        }
+      }
+      else{
+        MyConsole.Yellow( `\n${ path001 }
+不支持后缀名不是“heic”、“heif”的图片。\n` );
       }
     }
   } );

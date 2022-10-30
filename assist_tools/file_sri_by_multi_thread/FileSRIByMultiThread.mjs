@@ -90,8 +90,14 @@ function RetrieveForDir( path ){
     else if( fsStats.isFile() ){
       suffix001 = extname( path001 ).slice( 1 ).toLocaleLowerCase().trim();
 
-      if( suffix001 !== 'gitignore' && Number( fsStats.size ) > 0 ){
-        filePathArr.push( path001 );
+      if( suffix001 !== 'gitignore' ){
+        if( Number( fsStats.size ) > 0 ){
+          filePathArr.push( path001 );
+        }
+        else{
+          MyConsole.Yellow( `\n${ path001 }
+不支持文件大小小于等于0的文件。\n` );
+        }
       }
     }
   } );
