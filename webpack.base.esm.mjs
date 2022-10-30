@@ -3323,14 +3323,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
              */
+            [
+              '@babel/plugin-syntax-dynamic-import',
+            ],
+            /**
+             * 启用该插件时会报如下错误：
+             * “@babel/plugin-proposal-dynamic-import”依赖以下“模块转换插件”中的任何一个：
+             * @babel/plugin-transform-modules-commonjs ^7.4.0
+             * @babel/plugin-transform-modules-amd ^7.4.0
+             * @babel/plugin-transform-modules-systemjs ^7.4.0
+             *
+             * 如果您正在使用Webpack或Rollup，因此不想babel来转译你的输入、输出，你可以用“@babel/plugin-syntax-dynamic-import”插件，让你的绑定器（Webpack或Rollup）处理动态导入（import()）。
+             */
             /*
              [
-             '@babel/plugin-syntax-dynamic-import',
+             '@babel/plugin-proposal-dynamic-import',
              ],
              */
-            [
-              '@babel/plugin-proposal-dynamic-import',
-            ],
             /**
              * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/en/babel-plugin-syntax-import-meta
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />

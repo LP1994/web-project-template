@@ -1,0 +1,18 @@
+watch_compiler文件夹下都是监听ES6将其实时转换为ES5的bat命令。
+
+如：
+默认（同生产）：
+npx babel --no-comments --compact=true --minified --config-file=../babelrc/.babelrc.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -w -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+开发：
+npx babel --config-file=../babelrc/.babelrc.dev.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -w -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+测试：
+npx babel --no-comments --compact=true --minified --config-file=../babelrc/.babelrc.test.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -w -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+生产：
+npx babel --no-comments --compact=true --minified --config-file=../babelrc/.babelrc.production.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -w -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+InESM.esm.mjs
+--->
+OutESM.compiler.js
