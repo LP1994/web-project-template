@@ -1,0 +1,4 @@
+js_doc文件夹下都是用于生成JS文件对应的注释文档的bat命令。
+
+例如：
+cd ../../src/tools/js/currency_tools&rd /s /q doc&jsdoc -d doc CurrencyTools.esm.mjs&pause

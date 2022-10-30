@@ -1472,10 +1472,35 @@ const aliasConfig = {
    *
    * @type {object}
    */
-  definePluginConfig = {
-    isProduction: JSON.stringify( isProduction ),
-    env_platform: JSON.stringify( env_platform ),
-  },
+  definePluginConfig = ( () => {
+    const wsHost001 = `( location.protocol === "http:" ? "ws:" : "wss:" ) + "//" + location.hostname + ":" + location.port + `;
+
+    return {
+      isProduction: JSON.stringify( isProduction ),
+      env_platform: JSON.stringify( env_platform ),
+
+      /**
+       * 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.137.137:8087/graphql
+       * 注意：
+       * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
+       * 使用例子：
+       * axios.get( '${ devURLDemo001 }/XXX001/XXX002.json' )
+       */
+      devURLDemo001: isProduction
+                     ? '""'
+                     : '"/devURLDemo001"',
+      /**
+       * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.1.196:8087
+       * 注意：
+       * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
+       * 使用例子：
+       * new WebSocket( '${ ws4DevURLDemo001 }/XXX001' )
+       */
+      ws4DevURLDemo001: isProduction
+                        ? `${ wsHost001 }""`
+                        : `${ wsHost001 }"/ws4DevURLDemo001"`,
+    };
+  } )(),
   /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
    * 1、如果您通过Node.js API使用dev-server，则devServer中的选项将被忽略。<br />
@@ -4958,10 +4983,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 1、从esbuild-loader包的代码中可知，其会自动判断有没有设置tsconfigRaw选项，没有的话，会自动从项目根目录尝试加载tsconfig.json文件。<br />
          * 2、tsconfigRaw的值类型得是字符串文本，而不是object。<br />
          * 3、但是从esbuild包的代码中可知，它会自动判断，如果是字符串文本，它就直接使用，如果不是字符串文本，会直接使用JSON.stringify()转成字符串文本。<br />
-         * 4、esbuild仅支持tsconfig选项的子集（请参阅TransformOptions接口，也就是只支持tsconfig.js文件中的compilerOptions选项）并且不进行类型检查。<br />
+         * 4、esbuild仅支持tsconfig选项的子集（请参阅TransformOptions接口，也就是只支持tsconfig.json文件中的compilerOptions选项）并且不进行类型检查。<br />
          * 5、esbuild文档还建议在您的tsconfig中启用isolatedModules和esModuleInterop选项。<br />
          * 6、如：tsconfigRaw: string | { compilerOptions: {} }。<br />
-         * 7、必须在项目根目录存在一个有效的tsconfig.js文件。<br />
+         * 7、必须在项目根目录存在一个有效的tsconfig.json文件。<br />
          */
         tsconfigRaw: ( tsconfigPath => {
           let obj1 = tsconfig_json,
@@ -4990,7 +5015,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               esModuleInterop: true,
             },
           } );
-        } )( './tsconfig.js' ),
+        } )( './tsconfig.json' ),
       } ),
       esbuildLoaderConfigForTSX = Object.assign( {}, esbuildLoaderConfigForTS, {
         loader: 'tsx',
@@ -5111,7 +5136,31 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
           compiler: 'typescript',
           // 允许您指定在哪里可以找到TypeScript配置文件。
-          configFile: resolve( __dirname, './tsconfig.json' ),
+          // configFile: resolve( __dirname, './tsconfig.json' ),
+          compilerOptions: ( tsconfigPath => {
+            let obj1 = tsconfig_json,
+              resultCompilerOptionsObj = Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
+                                         ? obj1.compilerOptions
+                                         : {},
+              path1 = '',
+              dirNamePath1 = dirname( resolve( __dirname, tsconfigPath ) );
+
+            while( 'extends' in obj1 && obj1.extends.length !== 0 ){
+              path1 = resolve( dirNamePath1, obj1.extends );
+
+              dirNamePath1 = dirname( path1 );
+
+              obj1 = JSON5.parse( readFileSync( path1 ) );
+
+              resultCompilerOptionsObj = Object.assign( {}, Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
+                                                            ? obj1.compilerOptions
+                                                            : {}, resultCompilerOptionsObj );
+            }
+
+            return {
+              ...resultCompilerOptionsObj,
+            };
+          } )( './tsconfig.json' ),
           colors: true,
           appendTsSuffixTo: [],
           appendTsxSuffixTo: [],

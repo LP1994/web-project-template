@@ -112,9 +112,9 @@
     "open_test_web_page": "start http://localhost:8090/web-project-template/dist/test/pages/HelloWorld.html",
     "open_production_web_page": "start http://localhost:8090/web-project-template/dist/production/pages/HelloWorld.html",
     "update_graphQL_schema_json": "node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 ./configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs",
-    "tsc_cli": "node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs&tsc -p ./tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
+    "update_tsconfig_lib": "node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs",
     "weinre": "weinre --boundHost -all- --httpPort 8300 --verbose false --debug false",
-    "simulation_servers_node": "nodemon --config simulation_servers/node/nodemon.json simulation_servers/node/App.mjs"
+    "simulation_servers_node": "nodemon --config simulation_servers/node/nodemon.json simulation_servers/node/src/App.mjs"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
