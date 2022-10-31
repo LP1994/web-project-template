@@ -1,0 +1,88 @@
+<!--
+Project: web-project-template
+FileDirPath: simulation_servers/node/static/html/Index.html
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-01-01 00:00:00 星期六
+-->
+<!DOCTYPE html>
+<html lang = 'zh-CN'>
+<head>
+  <meta charset = 'UTF-8'>
+  <title>SimulationServers for NodeJS</title>
+  <style>
+    .css-reset {
+      padding: 0;
+      border: none;
+      margin: 0;
+      outline: none;
+    }
+
+    .full-screen {
+      position: relative;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .pc-min {
+      position: relative;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media only screen and (max-width: 1300px) and (max--moz-device-pixel-ratio: 1.9) and (min--moz-device-pixel-ratio: 0), only screen and (max-width: 1300px) and (-webkit-max-device-pixel-ratio: 1.9) and (-webkit-min-device-pixel-ratio: 0), only screen and (max-width: 1300px) and (max-device-pixel-ratio: 1.9) and (min-device-pixel-ratio: 0) {
+
+      .pc-min {
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        min-width: 1300px;
+        height: 100%;
+        min-height: 600px;
+      }
+
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    .overflow-auto {
+      overflow: auto;
+    }
+
+    .overflow-hidden-auto {
+      overflow: hidden auto;
+    }
+
+    main {
+      font-family: serif;
+      color: black;
+
+      line-height: 1;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class = 'css-reset full-screen overflow-hidden'>
+<div
+  id = 'LocalScroll'
+  class = 'css-reset full-screen overflow-auto'>
+  <div class = 'css-reset pc-min overflow-hidden'>
+    <main class = 'css-reset full-screen overflow-hidden-auto'>Welcome to SimulationServers for NodeJS.</main>
+  </div>
+</div>
+</body>
+</html>

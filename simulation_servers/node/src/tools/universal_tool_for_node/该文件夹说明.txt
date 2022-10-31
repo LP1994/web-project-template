@@ -1,0 +1,4 @@
+UniversalToolForNode.esm.mjs是一个提供给Node实现的服务器的公共工具类代码，它无关于特定的项目代码，可通用于任何由Node实现的项目。
+
+说明：
+1、使用ES6标准中的ESM模块化。

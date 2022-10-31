@@ -42,6 +42,7 @@
 import {
   createReadStream,
   readFileSync,
+  writeFileSync,
 } from 'node:fs';
 
 import {
@@ -1199,6 +1200,15 @@ function GetCertificates(){
  * @type {{key, cert, ca}}
  */
 const myCertificates = await GetCertificates();
+
+writeFileSync( join( __dirname, './configures/openssl/2022002/server2022002cert.pem' ), myCertificates.cert, {
+  flag: 'w+',
+  encoding: 'utf8',
+} );
+writeFileSync( join( __dirname, './configures/openssl/2022002/server2022002key.pem' ), myCertificates.key, {
+  flag: 'w+',
+  encoding: 'utf8',
+} );
 
 let logWriteStream = null;
 

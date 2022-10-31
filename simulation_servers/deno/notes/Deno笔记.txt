@@ -1,0 +1,328 @@
+Deno（读音：/ˈdiːnoʊ/）笔记
+
+
+
+deno upgrade
+要更新Deno的先前安装的版本，可以运行deno upgrade。这将从github.com/denoland/deno/releases获取最新版本 ，解压缩并用它替换当前的可执行文件。
+
+
+
+系统环境变量：
+DENO_DIR：这将设置存储来自CLI的缓存信息的目录。这包括缓存的远程模块、缓存的转译模块、语言服务器缓存信息和本地存储中的持久数据等项目。
+这默认为操作系统默认缓存位置，然后在deno路径下。
+DENO_INSTALL_ROOT：使用deno install时，已安装脚本的存储位置。这默认为$HOME/.deno/bin。
+DENO_WEBGPU_TRACE：用于WebGPU跟踪的目录。
+
+
+
+目前deno提供的标准的库文件，如：
+使用指定明确的版本：
+https://deno.land/std@0.161.0/streams/conversion.ts
+使用不指定明确的版本（实际执行时，会直接默认使用最新latest版本）：
+https://deno.land/std/streams/conversion.ts
+代码，如：
+import { copy } from "https://deno.land/std@0.161.0/streams/conversion.ts";
+
+
+
+关于代码中的Deno.args
+例子1：
+deno run main.ts a b -c --quiet
+// main.ts
+console.log(Deno.args); // [ "a", "b", "-c", "--quiet" ]
+例子2：
+deno run -c --quiet main.ts a b
+// main.ts
+console.log(Deno.args); // [ "a", "b" ]
+所以，传给deno用的任何参数，应该放在“main.ts”之前，而传给“main.ts”的参数则放在“main.ts”之后。
+
+
+
+--watch，影响（也就是说可以在这几个子命令中使用这个命令参数标识）：deno run、deno test、deno bundle和deno fmt这几个子命令。
+您可以为deno run、deno test、deno bundle和deno fmt提供--watch标志以启用内置文件观察器。监视的文件取决于使用的子命令：
+对于deno run、deno test、deno bundle的入口点，将监视入口点静态导入的所有本地文件。
+对于deno fmt，所有指定为命令行参数的本地文件和目录（如果没有传递特定文件/目录，则为工作目录）被监视。
+每当在磁盘上更改一个监视文件时，程序将自动重新启动/格式化/测试/捆绑。
+deno run --watch main.ts
+deno test --watch
+deno fmt --watch
+
+
+
+完整性标志（锁定文件），影响（也就是说可以在这几个子命令中使用这个命令参数标识）：deno cache、deno run、deno test、deno bundle、deno doc、deno compile这几个子命令。
+影响可以将资源下载到缓存的命令：deno cache、deno run、deno test、deno bundle、deno doc、deno compile。
+--lock <FILE>：检查指定的锁文件。
+--lock-write：写锁文件。与--lock一起使用。
+详细见：
+https://deno.land/manual@v1.27.0/linking_to_external_code/integrity_checking
+
+
+
+影响可以填充缓存的命令：deno cache、deno run、deno test、deno bundle、deno doc 和 deno compile。除了上面的标志，这包括影响模块分辨率、编译配置等的标志。
+--config <FILE>               加载配置文件
+--import-map <FILE>           加载导入map文件
+--no-remote                   不解析远程模块
+--reload=<CACHE_BLOCKLIST>    重新加载源代码缓存（重新编译 TypeScript）
+远程代码是在第一次执行时获取并缓存的，并且直到代码与该--reload标志一起运行时才更新。（因此，不使用--reload时，被缓存下来的代码仍然可以在离线时使用。）
+从远程URL加载的模块/文件旨在保持不变和可缓存。
+PS:
+deno run --reload http://localhost:8081/WebProTpl/dist/Deno4TestA.js
+--unstable                    启用不稳定的 API
+
+
+
+影响执行用户代码的命令，deno run和deno test：
+--check
+对代码进行类型检查。
+该标志影响deno run、deno eval、deno repl、deno cache。
+要为所有模块打开类型检查，请使用--check=all。
+下表描述了各种子命令的类型检查行为。这里的“Local”意味着只有来自本地代码的错误才会导致类型错误，从 https URL（远程）导入的模块可能会出现未报告的类型错误。
+子命令	       类型检查模式
+deno bench	   📁 Local
+deno bundle	   📁 Local
+deno cache	   ❌ None
+deno check	   📁 Local
+deno compile   📁 Local
+deno eval	   ❌ None
+deno repl	   ❌ None
+deno run	   ❌ None
+deno test	   📁 Local
+例如：
+您还可以在执行前对代码进行类型检查，方法是使用 --check 参数进行deno run：
+deno run --check main.ts
+
+
+
+其他运行时标志，更多影响执行环境的标志。
+--cached-only                要求已经缓存了远程依赖项
+--inspect=<HOST:PORT>        在主机上激活检查器：端口 ...
+--inspect-brk=<HOST:PORT>    激活主机上的检查器：端口并在...中断
+--location <HREF>            某些 Web API 使用的“globalThis.location”的值
+--prompt                     如果未通过所需的权限，则回退以提示。
+--seed <NUMBER>              Seed Math.random()
+--v8-flags=<v8-flags>        Set V8 command line options. For help: ...
+
+
+
+配置文件：--config deno.json
+Deno 支持配置文件，允许自定义内置的 TypeScript 编译器、格式化程序和 linter。
+配置文件支持 .json 和 .jsonc 扩展名。从 v1.18 开始，Deno 将自动检测 deno.json 或 deno.jsonc 配置文件是否在您当前的工作目录（或父目录）中。
+要手动告诉 Deno 使用特定的配置文件，请传递 --config path/to/file.json 标志。
+从 Deno v1.22 开始，您可以通过传递 --no-config 来禁用配置文件的自动检测。
+请注意，现在不需要使用配置文件，将来也不需要。 Deno 仍然在默认选项和没有配置文件的情况下工作得最好。
+配置文件中指定的所有选项也可以使用命令行标志设置（例如 --options-use-tabs 用于 deno fmt）。
+使用配置文件应该被认为是“按需”功能，而不是每个用户在设置项目时都应该首先使用的功能。
+配置文件的协议见：
+https://deno.land/x/deno/cli/schemas/config-file.v1.json
+
+
+
+权限列表：
+--allow-env=<allow-env>：允许环境访问，例如获取和设置环境变量。从 Deno 1.9 开始，您可以指定一个可选的、以逗号分隔的环境变量列表，以提供允许的环境变量的允许列表。
+例子：
+--allow-env=HOME、--allow-env（表示允许所有的）
+// env.js
+Deno.env.get("HOME");
+Windows用户注意事项：环境变量在Windows上不区分大小写，因此Deno也会不区分大小写匹配它们（仅在Windows上）。
+
+--allow-hrtime：允许高分辨率时间测量。高分辨率时间可用于定时攻击和指纹识别。
+
+--allow-net=<allow-net>：允许网络访问。您可以指定一个可选的、以逗号分隔的 IP 地址或主机名列表（可选与端口），以提供允许的网络地址的允许列表。
+例子：
+--allow-net=[2606:4700:4700::1111]、--allow-net=1.1.1.1:443、--allow-net=deno.land:80、--allow-net=github.com,deno.land、--allow-net（表示允许任何的）
+
+--allow-ffi：允许加载动态库。请注意，动态库不在沙箱中运行，因此没有与 Deno 进程相同的安全限制。因此，请谨慎使用。请注意 --allow-ffi 是一个不稳定的功能。
+
+--allow-read=<allow-read>：允许文件系统读取访问。您可以指定一个可选的、以逗号分隔的目录或文件列表，以提供允许的文件系统访问权限列表。
+例子：
+--allow-read=/usr、--allow-read=/etc
+
+--allow-run=<allow-run>：允许运行子进程。从 Deno 1.9 开始，您可以指定一个可选的、以逗号分隔的子进程列表，以提供允许的子进程的允许列表。
+请注意，子进程不在沙箱中运行，因此没有与 Deno 进程相同的安全限制。因此，请谨慎使用。
+子进程非常强大，而且可能有点吓人：它们访问系统资源，而不管你授予生成它们的 Deno 进程的权限如何。
+unix 系统上的 cat 程序可用于从磁盘读取文件。如果你通过 Deno.run API 启动这个程序，即使父 Deno 进程不能直接读取文件，它也可以从磁盘读取文件。
+这通常被称为特权升级。
+因此，请务必仔细考虑是否要授予程序 --allow-run 访问权限：它实质上会使 Deno 安全沙箱无效。
+如果你真的需要生成一个特定的可执行文件，你可以通过将特定的可执行文件名称传递给 --allow-run 标志来限制Deno进程可以启动哪些程序来降低风险。
+您只能限制允许的可执行文件；如果授予执行它的权限，则可以传递任何参数。例如，如果您传递 --allow-run=cat 则用户可以使用 cat 读取任何文件。
+例子：
+--allow-run=whoami、--allow-run（表示允许任何的）
+// run.js
+const proc = Deno.run({ cmd: ["whoami"] });
+
+--allow-write=<allow-write>：允许文件系统写访问。您可以指定一个可选的、以逗号分隔的目录或文件列表，以提供允许的文件系统访问权限列表。
+
+-A、--allow-all：允许所有权限。这将启用所有安全敏感功能。谨慎使用。
+
+
+
+调试Deno
+要激活调试功能，请使用 --inspect 或 --inspect-brk 标志运行 Deno。
+
+
+
+运行时
+所有运行时函数（Web API + Deno 全局）的文档都可以在 doc.deno.land/deno/stable 上找到，其中不稳定的 API 是通过 doc.deno.land/deno/unstable 中的 --unstable 标志启用的。
+Web Platform APIs（在某些情况下，稍微偏离规范是有意义的，因为 Deno 具有不同的安全模型。）：对于已经存在 Web 标准的 API，例如 HTTP 请求的 fetch，Deno 使用这些而不是发明新的专有 API。
+https://deno.land/manual@v1.27.0/runtime/web_platform_apis
+Deno global：所有非 Web 标准的 API 都包含在全局 Deno 命名空间中。它具有用于读取文件、打开 TCP 套接字、服务 HTTP 和执行子进程等的 API。
+https://github.com/denoland/deno/blob/v1.27.0/cli/dts/lib.deno.ns.d.ts
+
+
+
+Deno 支持与浏览器兼容的生命周期事件：load（加载后）、beforeunload（卸载前） 和 unload（卸载后）。您可以使用这些事件在程序中提供设置和清理代码。
+load事件的监听器可以是异步的并且会被等待，这个事件不能被取消。
+beforeunload的监听器需要同步并且可以被取消以保持程序运行。
+unload事件的监听器需要同步且不能取消。
+使用 addEventListener 添加的所有侦听器都已按代码的编写顺序运行，但 main.ts 中定义的 onload、onbeforeunload 和 onunload 覆盖了imported.ts 中定义的处理程序（后面的会覆盖前面的）。
+换句话说，你可以使用 addEventListener 注册多个“load”或“unload”事件处理程序，它们会按顺序全部执行，但只会执行最后定义的 onload、onbeforeunload、onunload 事件处理程序（后面的会覆盖前面的）。
+出于这个原因，最好尽可能使用addEventListener绑定事件。
+例子：
+const handler = (e: Event): void => {
+  console.log(`got ${e.type} event in event handler (imported)`);
+};
+globalThis.addEventListener("load", handler);
+globalThis.addEventListener("beforeunload", handler);
+globalThis.addEventListener("unload", handler);
+addEventListener 和 onload/onunload 以 globalThis 为前缀，但您也可以使用 self 或根本不使用前缀。不建议使用 window 作为前缀。
+
+
+
+在代码中查询权限：Deno.permissions.query
+详细见：https://deno.land/api@v1.27.0?s=Deno.PermissionDescriptor，有：
+run：有第二个参数：command: string | URL、
+read：有第二个参数：path: string | URL、
+write：有第二个参数：path: string | URL、
+net：有第二个参数：host: string（"<hostname>[:<port>]"）、
+env：有第二个参数：variable: string、
+sys：有第二个参数：kind: "loadavg"、"hostname"、"systemMemoryInfo"、"networkInterfaces"、"osRelease"、"uid"、"gid"、
+ffi：有第二个参数：path: string | URL、
+hrtime：无第二个参数。
+
+{ state: "granted" }：这类表示从CLI中有明确授予的权限。
+{ state: "prompt" }：这类表示需要提示是否要授权读这个文件夹的权限。
+{ state: "denied" }：这类表示明确拒绝授予的权限。
+例子1：
+// deno run --allow-read=/foo main.ts
+const desc1 = { name: "read", path: "/foo" } as const;
+console.log(await Deno.permissions.query(desc1));
+// PermissionStatus { state: "granted" }，表示明确授权。
+例子2：
+const desc2 = { name: "read", path: "/foo/bar" } as const;
+console.log(await Deno.permissions.query(desc2));
+// PermissionStatus { state: "granted" }，表示明确授权。
+例子3：
+const desc3 = { name: "read", path: "/bar" } as const;
+console.log(await Deno.permissions.query(desc3));
+// PermissionStatus { state: "prompt" }，表示需要提示是否要授权读这个文件夹的权限。
+
+许可强度：
+const desc1 = { name: "write" } as const;
+// 强于，表示上面的如果是授权状态，下面的一定也是授权状态的。
+const desc2 = { name: "write", path: "/foo" } as const;
+const desc3 = { name: "net", host: "127.0.0.1" } as const;
+// 强于，表示上面的如果是授权状态，下面的一定也是授权状态的。
+const desc4 = { name: "net", host: "127.0.0.1:8000" } as const;
+
+请求权限：Deno.permissions.request
+通过CLI提示向用户请求未授予的权限。
+例子：
+const desc1 = { name: "read", path: "/foo" } as const;
+const status1 = await Deno.permissions.request(desc1);
+// ⚠ Deno requests read access to "/foo". Grant? [y/n (y = yes allow, n = no deny)] y
+console.log(status1);
+如果用户在命令行输入“y/yes”，那就表示同意授权，则会返回如下：
+// PermissionStatus { state: "granted" }
+如果用户在命令行输入“n/no”，那就表示不同意授权，则会返回如下：
+// PermissionStatus { state: "denied" }
+如果当前权限状态已经是“granted”或“denied”，则Deno.permissions.request的行为类似于Deno.permissions.query并仅返回当前状态。这可以防止提示已授予权限和先前拒绝的请求。
+
+撤销权限：Deno.permissions.revoke
+将权限从“granted”降级为“prompt”。
+// deno run --allow-read=/foo main.ts
+const desc = { name: "read", path: "/foo" } as const;
+console.log(await Deno.permissions.revoke(desc));
+// PermissionStatus { state: "prompt" }
+当您尝试撤消与在 CLI 上授予的权限不相关的权限时会发生什么？
+// deno run --allow-read=/foo main.ts
+const desc = { name: "read", path: "/foo/bar" } as const;
+console.log(await Deno.permissions.revoke(desc));
+// PermissionStatus { state: "prompt" }
+const cliDesc = { name: "read", path: "/foo" } as const;
+console.log(await Deno.permissions.revoke(cliDesc));
+// PermissionStatus { state: "prompt" }
+CLI 授予的权限（这意味着已撤销的权限）也被撤销。
+
+
+
+
+
+
+
+
+
+
+4、模块的加载路径的格式原则
+绝对的URL地址(http://localhost:8081/WebProTpl/dist/Deno4TestA.js)、相对路径(可行：'./qwe.js'，不可行：'qwe.js'、'qwe')
+PS:
+由于 Deno 只支持从 URL 加载模块，导致 Node.js 的模块加载写法都会失效。
+import React from "react";
+import { Box, Grid } from "@material-ui/core";
+import { initializeApp } from "firebase/app";
+上面的写法在 Deno 里面都是非法的。
+
+
+6、编译提示
+如果要导入JavaScript模块，并且知道该模块的类型定义位于何处，则可以在导入时指定类型定义。这采用编译器提示的形式。
+PS:
+// @deno-types="./foo.d.ts"
+import * as foo from "./foo.js";
+
+
+7、JavaScript文件中的三斜杠参考指令
+如果您托管要由Deno使用的模块，并且想通知Deno类型定义的位置，则可以在实际代码中使用三斜杠指令。例如，如果您有一个JavaScript模块，并且想为Deno提供恰好在该文件旁边的类型定义的位置，则名为JavaScript的模块 foo.js可能看起来像这样：
+/// <reference types="./foo.d.ts" />
+export const foo = "foo";
+Deno会看到这一点，foo.d.ts尽管foo.js会在运行时加载，但编译器将在对文件进行类型检查时使用。指令值的解析遵循与导入模块相同的解析逻辑，这意味着文件需要具有扩展名，并且相对于当前文件。也允许使用远程说明符。
+
+
+8、自定义TypeScript编译器选项
+您需要通过-c在执行应用程序时设置参数来明确告诉Deno在哪里寻找此配置。
+deno run -c tsconfig.json mod.ts
+以下是Deno中当前允许的设置及其默认值：
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowUmdGlobalAccess": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "assumeChangesOnlyAffectDirectDependencies": false,
+    "checkJs": false,
+    "disableSizeLimit": false,
+    "generateCpuProfile": "profile.cpuprofile",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "lib": [],
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitUseStrict": false,
+    "noStrictGenericChecks": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveConstEnums": false,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "suppressExcessPropertyErrors": false,
+    "suppressImplicitAnyIndexErrors": false,
+    "useDefineForClassFields": false
+  }
+}
+注意：Deno不支持上面未列出的任何选项，或者在TypeScript文档中以不推荐/实验性列出。
