@@ -4951,7 +4951,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
             dirNamePath1 = dirname( path1 );
 
-            obj1 = JSON5.parse( readFileSync( path1 ) );
+            obj1 = JSON5.parse( String( readFileSync( path1 ) ) );
 
             resultCompilerOptionsObj = Object.assign( {}, Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
                                                           ? obj1.compilerOptions
@@ -5100,7 +5100,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
               dirNamePath1 = dirname( path1 );
 
-              obj1 = JSON5.parse( readFileSync( path1 ) );
+              obj1 = JSON5.parse( String( readFileSync( path1 ) ) );
 
               resultCompilerOptionsObj = Object.assign( {}, Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
                                                             ? obj1.compilerOptions
