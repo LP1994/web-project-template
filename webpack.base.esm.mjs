@@ -42,7 +42,6 @@
 import {
   createReadStream,
   readFileSync,
-  writeFileSync,
 } from 'node:fs';
 
 import {
@@ -76,8 +75,6 @@ import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
 import less from 'less';
 
 import Mime from 'mime';
-
-import pem from 'pem';
 
 import package_json from './package.json' assert { type: 'json', };
 
@@ -1144,72 +1141,6 @@ function DateHandle( nowDate = new Date( Date.now() ) ){
   };
 }
 
-/**
- * 生成自定义的https证书。<br />
- *
- * @returns {Promise<{ key, cert, ca }>}
- */
-function GetCertificates(){
-  const keyFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.key' ), 'utf8' ),
-    certFile = readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ), 'utf8' );
-
-  return new Promise( ( resolve, reject ) => {
-    pem.createCSR( {
-      clientKey: keyFile,
-      commonName: 'localhost',
-      organization: 'openssl2022002',
-      locality: 'FuZhou',
-      country: 'CN',
-      state: 'ID',
-    }, function ( error, results ){
-      if( error ){
-        reject( {
-          error,
-          results,
-        } );
-
-        throw error;
-      }
-
-      pem.createCertificate( {
-        serviceKey: keyFile,
-        serviceCertificate: certFile,
-        csr: results.csr,
-        days: 36500,
-      }, function ( error, keys ){
-        if( error ){
-          reject( {
-            error,
-            keys,
-          } );
-
-          throw error;
-        }
-
-        resolve( {
-          key: keys.serviceKey,
-          cert: keys.certificate,
-          ca: certFile,
-        } );
-      } );
-    } );
-  } );
-}
-
-/**
- * @type {{key, cert, ca}}
- */
-const myCertificates = await GetCertificates();
-
-writeFileSync( join( __dirname, './configures/openssl/2022002/server2022002cert.pem' ), myCertificates.cert, {
-  flag: 'w+',
-  encoding: 'utf8',
-} );
-writeFileSync( join( __dirname, './configures/openssl/2022002/server2022002key.pem' ), myCertificates.key, {
-  flag: 'w+',
-  encoding: 'utf8',
-} );
-
 let logWriteStream = null;
 
 if( !isProduction ){
@@ -2033,9 +1964,9 @@ const aliasConfig = {
       type: 'https',
       options: {
         passphrase: 'openssl2022002',
-        ca: myCertificates.ca,
-        cert: myCertificates.cert,
-        key: myCertificates.key,
+        ca: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ), 'utf8' ),
+        cert: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002cert.pem' ), 'utf8' ),
+        key: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002key.pem' ), 'utf8' ),
         // 启用会报错误：[webpack-cli] Error: header too long
         // pfx: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.pfx' ), 'utf8' ),
         // 启用该项会导致无法从https加载。
