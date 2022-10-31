@@ -1,0 +1,51 @@
+在安装完OpenSSL 3.X后，发现本机系统的OpenSSL版本默认指向：OpenSSL 1.1.1i  8 Dec 2020。
+无论怎么配置系统环境变量都没法更改这个默认的版本，所以，要使用OpenSSL 3.X进行生成证书，那就进到“D:\OpenSSL\App\bin”，然后在其下进行各种证书配置操作。
+
+cd /d D:\OpenSSL\App\bin
+
+创建服务器私钥，自己选择输入一个密码，然后确认密码：
+openssl genrsa -des3 -out WorkSpace/2022002/server2022002.key 2048
+
+输入PEM密码短语：openssl2022002
+
+创建CSR证书请求文件，输入刚刚的密码，然后按提示填写基本信息：
+openssl req -new -key WorkSpace/2022002/server2022002.key -out WorkSpace/2022002/server2022002.csr
+
+输入WorkSpace/2022002/server的密码钥匙：openssl2022002
+
+国家名称（2字母代码）[AU]：CN
+
+州或省名称（全名）[某些州]：FuJian
+
+地点名称（如城市）[]：FuZhou
+
+组织名称（例如，公司）[互联网Widgits私人有限公司]：openssl2022002
+
+组织单位名称（例如，部门）[]：openssl2022002
+
+公用名（例如服务器FQDN或您的姓名）[]：localhost
+
+电子邮件地址[]：2726893248@qq.com
+
+质询密码[]：openssl2022002
+
+可选公司名称[]：openssl2022002
+
+cd /d D:\OpenSSL\App\bin\WorkSpace\2022002
+
+备份有秘密的私钥文件：
+copy server2022002.key server2022002.key.orig
+
+cd /d D:\OpenSSL\App\bin
+
+去掉私钥文件的密码，要输入之前你的密码确认：
+openssl rsa -in WorkSpace/2022002/server2022002.key -out WorkSpace/2022002/server2022002.key
+
+使用服务器私钥签署服务器公钥证书：
+openssl x509 -req -days 36500 -in WorkSpace/2022002/server2022002.csr -signkey WorkSpace/2022002/server2022002.key -out WorkSpace/2022002/server2022002.crt
+结果：
+Certificate request self-signature ok
+subject=C = CN, ST = FuJian, L = FuZhou, O = openssl2022002, OU = openssl2022002, CN = localhost, emailAddress = 2726893248@qq.com
+
+生成.pfx文件：
+openssl pkcs12 -export -out WorkSpace/2022002/server2022002.pfx -inkey WorkSpace/2022002/server2022002.key -in WorkSpace/2022002/server2022002.crt
