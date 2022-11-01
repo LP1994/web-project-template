@@ -26,18 +26,43 @@ type TypeObj001 = {
 };
 
 async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<TypeRouteMapHandle>{
+  /*
+   URL {
+   href: "file:///G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
+   origin: "null",
+   protocol: "file:",
+   username: "",
+   password: "",
+   host: "",
+   hostname: "",
+   port: "",
+   pathname: "/G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
+   hash: "",
+   search: ""
+   }
+   */
   const obj001: TypeObj001 = Object.fromEntries(
     Object.entries( routeMapConfig ).map(
       (
         [ key, value ]: [ string, TypeFilePath001 ],
       ): [ string, string ] => {
-        return [
-          key,
-          Object.prototype.toString.call( value ) === '[object URL]'
-            // @ts-ignore
-          ? value.href
-          : value
-        ];
+        if( Object.prototype.toString.call( value ) === '[object URL]' ){
+          if( ( value as URL ).protocol === 'file:' ){
+            return [
+              key,
+              ( value as URL ).href
+            ];
+          }
+          else{
+            throw new Error( 'import()只接受“string”类型的参数值，且表示文件地址。' );
+          }
+        }
+        else{
+          return [
+            key,
+            value as string
+          ];
+        }
       }
     )
   );
@@ -69,7 +94,8 @@ const methodByDeleteForRouteMapConfig: TypeRouteMapHandle = await GeneratorRoute
 const methodByPostForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
 
 const methodByGetForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {
-  '/': '../services/ResRoot.esm.mts',
+  // @ts-ignore
+  '/': new URL( import.meta.resolve( '../services/ResRoot.esm.mts' ) ),
   '/favicon.ico': '../services/ResRootFavicon.esm.mts',
   '/simulation_servers_deno/GetJSON': '../services/GetJSON.esm.mts',
 } );

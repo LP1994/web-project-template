@@ -41,8 +41,10 @@ import Options from './Options.esm.mts';
 
 type TypeResponse001 = Response | Promise<Response>;
 
+type TypeFun001 = ( request: Request ) => TypeResponse001;
+
 const requestMethods: {
-  [ key: string ]: ( request: Request ) => TypeResponse001;
+  [ key: string ]: TypeFun001;
 } = {
   put: Put,
   delete: Delete,
@@ -55,8 +57,7 @@ async function Routers( request: Request ): Promise<Response>{
   const method: string = request.method.toLowerCase().trim();
 
   if( method in requestMethods ){
-    // @ts-ignore
-    return requestMethods[ method ]( request );
+    return ( requestMethods[ method ] as TypeFun001 )( request );
   }
 
   // @ts-ignore

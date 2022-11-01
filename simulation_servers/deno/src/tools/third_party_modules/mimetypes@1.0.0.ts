@@ -19,7 +19,7 @@ export class Mime {
 
   define(typeMap: MimeTypeMap, force?: boolean) {
     for (var type in typeMap) {
-      //@ts-ignore
+      // @ts-ignore
       let extensions = typeMap[type].map(function (t: string) { return t.toLowerCase() });
       type = type.toLowerCase();
 
@@ -28,12 +28,12 @@ export class Mime {
 
         // '*' prefix = not the preferred type for this extension.  So fixup the
         // extension, and skip it.
-        //@ts-ignore
+        // @ts-ignore
         if (ext[0] == '*') {
           continue;
         }
 
-        //@ts-ignore
+        // @ts-ignore
         if (!force && this.types.has(ext)) {
           throw new Error(
             'Attempt to change mapping for "' + ext +
@@ -46,14 +46,14 @@ export class Mime {
           );
         }
 
-        //@ts-ignore
+        // @ts-ignore
         this.types.set(ext, type);
       }
 
       // Use first extension as default
       if (force || !this.extensions.has(type)) {
         let ext = extensions[0];
-        //@ts-ignore
+        // @ts-ignore
         this.extensions.set(type, (ext[0] != '*') ? ext : ext.substr(1));
       }
     }
