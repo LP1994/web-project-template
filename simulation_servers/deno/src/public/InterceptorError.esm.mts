@@ -10,6 +10,8 @@
 'use strict';
 
 import {
+  ejsDir,
+
   httpHeaders,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
@@ -45,7 +47,7 @@ class InterceptorError {
 
   public async res404(): Promise<Response>{
     // @ts-ignore
-    const filePath: URL = new URL( import.meta.resolve( '../template/ejs/404.ejs' ) ),
+    const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
       // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
         message: `未找到“${ this.#method }”请求方法的“${ decodeURI( this.#pathName + this.#search ) }”资源。`,
@@ -72,7 +74,7 @@ class InterceptorError {
     message: '',
   } ): Promise<Response>{
     // @ts-ignore
-    const filePath: URL = new URL( import.meta.resolve( '../template/ejs/Error.ejs' ) ),
+    const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/Error.ejs` ) ),
       // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
         title,

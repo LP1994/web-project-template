@@ -9,9 +9,14 @@
 
 'use strict';
 
+import {
+  serversDir,
+  // @ts-ignore
+} from './configures/GlobalParameters.esm.mts';
+
 Promise.allSettled( [
   // @ts-ignore
-  import( './servers/HTTPServerForPort9999.mts' ),
+  import( `${ serversDir }/HTTPServerForPort9999.mts` ),
 ] )
 .then(
   ( resolve: [ PromiseSettledResult<unknown> ] ): void => {

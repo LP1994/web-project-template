@@ -10,6 +10,8 @@
 'use strict';
 
 import {
+  ejsDir,
+
   httpHeaders,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
@@ -61,7 +63,7 @@ async function Routers( request: Request ): Promise<Response>{
   }
 
   // @ts-ignore
-  const filePath: URL = new URL( import.meta.resolve( '../template/ejs/ErrorForReqMethod.ejs' ) ),
+  const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
     // @ts-ignore
     html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
       message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )

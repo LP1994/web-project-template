@@ -10,6 +10,8 @@
 'use strict';
 
 import {
+  staticDir,
+
   httpHeaders,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
@@ -24,7 +26,7 @@ type TypeResponse001 = Response | Promise<Response>;
 // @ts-ignore
 function Handle( request: Request ): TypeResponse001{
   // @ts-ignore
-  let filePath: URL = new URL( import.meta.resolve( '../../static/html/Index.html' ) );
+  let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
 
   // @ts-ignore
   return new Response( Deno.readTextFileSync( filePath ), {

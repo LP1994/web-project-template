@@ -9,6 +9,11 @@
 
 'use strict';
 
+import {
+  servicesDir,
+  // @ts-ignore
+} from './GlobalParameters.esm.mts';
+
 type TypeFun001 = ( request: Request ) => Response | Promise<Response>;
 
 type TypeFilePath001 = string | URL;
@@ -95,9 +100,9 @@ const methodByPostForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMa
 
 const methodByGetForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {
   // @ts-ignore
-  '/': new URL( import.meta.resolve( '../services/ResRoot.esm.mts' ) ),
-  '/favicon.ico': '../services/ResRootFavicon.esm.mts',
-  '/simulation_servers_deno/GetJSON': '../services/GetJSON.esm.mts',
+  '/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+  '/simulation_servers_deno/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
 } );
 
 const methodByOptionsForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );

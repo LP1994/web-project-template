@@ -9,6 +9,40 @@
 
 'use strict';
 
+// aliasConfig Start
+
+// @ts-ignore
+const srcDir: string = import.meta.resolve( '../../src' );
+// @ts-ignore
+const configuresDir: string = import.meta.resolve( '../configures' );
+// @ts-ignore
+const publicDir: string = import.meta.resolve( '../public' );
+// @ts-ignore
+const routersDir: string = import.meta.resolve( '../routers' );
+// @ts-ignore
+const serversDir: string = import.meta.resolve( '../servers' );
+// @ts-ignore
+const servicesDir: string = import.meta.resolve( '../services' );
+
+// @ts-ignore
+const templateDir: string = import.meta.resolve( '../template' );
+// @ts-ignore
+const ejsDir: string = import.meta.resolve( '../template/ejs' );
+
+// @ts-ignore
+const toolsDir: string = import.meta.resolve( '../tools' );
+// @ts-ignore
+const third_party_modulesDir: string = import.meta.resolve( '../tools/third_party_modules' );
+
+// @ts-ignore
+const staticDir: string = import.meta.resolve( '../../static' );
+// @ts-ignore
+const uploadDir: string = import.meta.resolve( '../../upload' );
+// @ts-ignore
+const webDir: string = import.meta.resolve( '../../web' );
+
+// aliasConfig End
+
 const httpHeaders: {
   [ key: string ]: string | number | boolean;
 } = {
@@ -27,9 +61,47 @@ const httpHeaders: {
 };
 
 export {
+  // aliasConfig Start
+  srcDir,
+  configuresDir,
+  publicDir,
+  routersDir,
+  serversDir,
+  servicesDir,
+
+  templateDir,
+  ejsDir,
+
+  toolsDir,
+  third_party_modulesDir,
+
+  staticDir,
+  uploadDir,
+  webDir,
+  // aliasConfig End
+
   httpHeaders,
 };
 
 export default {
+  // aliasConfig Start
+  srcDir,
+  configuresDir,
+  publicDir,
+  routersDir,
+  serversDir,
+  servicesDir,
+
+  templateDir,
+  ejsDir,
+
+  toolsDir,
+  third_party_modulesDir,
+
+  staticDir,
+  uploadDir,
+  webDir,
+  // aliasConfig End
+
   httpHeaders,
 };
