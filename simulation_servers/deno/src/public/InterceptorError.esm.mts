@@ -10,27 +10,26 @@
 'use strict';
 
 import {
-  dejs,
-  mimetypes,
+  httpHeaders,
   // @ts-ignore
-} from './ThirdPartyTools.esm.mts';
+} from '../configures/GlobalParameters.esm.mts';
 
-const {
-  Mime,
-}: any = mimetypes;
+import {
+  dejs,
+  // @ts-ignore
+} from './ThirdPartyModules.esm.mts';
 
-const myMime: any = new Mime( {
-  'text/html; charset=utf-8': [
-    'ejs',
-  ],
-} );
+import {
+  mime,
+  // @ts-ignore
+} from './PublicTools.esm.mts';
 
 class InterceptorError {
   readonly #request: Request;
 
   readonly #method: string;
 
-  readonly #URL: URL;
+  readonly #myURL: URL;
 
   readonly #pathName: string;
 
@@ -39,9 +38,9 @@ class InterceptorError {
   constructor( request: Request ){
     this.#request = request;
     this.#method = this.#request.method.toLowerCase();
-    this.#URL = new URL( this.#request.url );
-    this.#pathName = this.#URL.pathname;
-    this.#search = this.#URL.search;
+    this.#myURL = new URL( this.#request.url );
+    this.#pathName = this.#myURL.pathname;
+    this.#search = this.#myURL.search;
   }
 
   public async res404(): Promise<Response>{
@@ -56,7 +55,8 @@ class InterceptorError {
       status: 200,
       statusText: 'OK',
       headers: {
-        'content-type': myMime.getType( filePath.href ),
+        ...httpHeaders,
+        'content-type': mime.getType( filePath.href ),
       },
     } );
   }
@@ -83,7 +83,8 @@ class InterceptorError {
       status: 200,
       statusText: 'OK',
       headers: {
-        'content-type': myMime.getType( filePath.href ),
+        ...httpHeaders,
+        'content-type': mime.getType( filePath.href ),
       },
     } );
   }

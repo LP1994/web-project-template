@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/public/ThirdPartyTools.esm.mts
+ * FileDirPath: simulation_servers/deno/src/public/ThirdPartyModules.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm

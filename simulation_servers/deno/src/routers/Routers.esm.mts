@@ -10,10 +10,19 @@
 'use strict';
 
 import {
-  dejs,
-  mimetypes,
+  httpHeaders,
   // @ts-ignore
-} from '../public/ThirdPartyTools.esm.mts';
+} from '../configures/GlobalParameters.esm.mts';
+
+import {
+  dejs,
+  // @ts-ignore
+} from '../public/ThirdPartyModules.esm.mts';
+
+import {
+  mime,
+  // @ts-ignore
+} from '../public/PublicTools.esm.mts';
 
 // @ts-ignore
 import Put from './Put.esm.mts';
@@ -31,16 +40,6 @@ import Get from './Get.esm.mts';
 import Options from './Options.esm.mts';
 
 type ResponseType001 = Response | Promise<Response>;
-
-const {
-  Mime,
-}: any = mimetypes;
-
-const myMime: any = new Mime( {
-  'text/html; charset=utf-8': [
-    'ejs',
-  ],
-} );
 
 const requestMethods: {
   [ key: string ]: ( request: Request ) => ResponseType001;
@@ -72,7 +71,8 @@ async function Routers( request: Request ): Promise<Response>{
     status: 200,
     statusText: 'OK',
     headers: {
-      'content-type': myMime.getType( filePath.href ),
+      ...httpHeaders,
+      'content-type': mime.getType( filePath.href ),
     },
   } );
 }
