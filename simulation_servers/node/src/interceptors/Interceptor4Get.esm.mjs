@@ -28,8 +28,8 @@ const routers4Get_objC = ( ( obj => {
     return Object.assign( obj, resultObj );
 } )( Object.assign( request4Config_objC.get, {
     [ `/${ config9999_obj.serverName }/GETFile` ]: '../controllers/GETFile.esm.mjs',
-    // http://localhost:9999/SimServer/GET
-    [ `/${ config9999_obj.serverName }/GET` ]: '../controllers/GET.esm.mjs',
+    // http://localhost:9999/SimServer/GETJSON
+    [ `/${ config9999_obj.serverName }/GETJSON` ]: '../controllers/GET.esm.mjs',
     [ `/${ config9999_obj.serverName }/GetGenymotionDevicesList` ]: '../controllers/GetGenymotionDevicesList.esm.mjs',
     [ `/${ config9999_obj.serverName }/VueSSR/Index.html` ]: '../controllers/vueSSR/VueSSR.esm.mjs',
 } ) ) );

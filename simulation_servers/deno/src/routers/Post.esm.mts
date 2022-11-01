@@ -9,6 +9,9 @@
 
 'use strict';
 
+// @ts-ignore
+import InterceptorError from '../public/InterceptorError.esm.mts';
+
 type ResponseType001 = Response | Promise<Response>;
 
 function Post( request: Request ): ResponseType001{
@@ -41,7 +44,7 @@ function Post( request: Request ): ResponseType001{
     } );
   }
 
-  return new Response( `未找到“${ request.method.toLowerCase() }”请求方法的“${ url.pathname }”资源。` );
+  return new InterceptorError( request ).res404();
 }
 
 export {
