@@ -19,10 +19,10 @@ import {
   // @ts-ignore
 } from '../public/PublicTools.esm.mts';
 
-type ResponseType001 = Response | Promise<Response>;
+type TypeResponse001 = Response | Promise<Response>;
 
 // @ts-ignore
-function Handle( request: Request ): ResponseType001{
+function Handle( request: Request ): TypeResponse001{
   // @ts-ignore
   let filePath: URL = new URL( import.meta.resolve( '../../static/ico/favicon.ico' ) );
 

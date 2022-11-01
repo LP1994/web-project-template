@@ -12,9 +12,9 @@
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
 
-type ResponseType001 = Response | Promise<Response>;
+type TypeResponse001 = Response | Promise<Response>;
 
-function Post( request: Request ): ResponseType001{
+function Post( request: Request ): TypeResponse001{
   return new InterceptorError( request ).res404();
 }
 

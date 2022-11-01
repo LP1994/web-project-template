@@ -17,9 +17,9 @@ import {
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
 
-type ResponseType001 = Response | Promise<Response>;
+type TypeResponse001 = Response | Promise<Response>;
 
-function Get( request: Request ): ResponseType001{
+function Get( request: Request ): TypeResponse001{
   /*
    {
    href: "http://127.0.0.1:9999/",

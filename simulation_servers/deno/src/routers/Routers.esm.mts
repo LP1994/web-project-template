@@ -39,10 +39,10 @@ import Get from './Get.esm.mts';
 // @ts-ignore
 import Options from './Options.esm.mts';
 
-type ResponseType001 = Response | Promise<Response>;
+type TypeResponse001 = Response | Promise<Response>;
 
 const requestMethods: {
-  [ key: string ]: ( request: Request ) => ResponseType001;
+  [ key: string ]: ( request: Request ) => TypeResponse001;
 } = {
   put: Put,
   delete: Delete,

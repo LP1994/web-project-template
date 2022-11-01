@@ -9,28 +9,50 @@
 
 'use strict';
 
-type Fun001 = ( request: Request ) => Response | Promise<Response>;
+type TypeFun001 = ( request: Request ) => Response | Promise<Response>;
 
-type RouteMapConfig = {
+type TypeFilePath001 = string | URL;
+
+type TypeRouteMapConfig = {
+  [ key: string ]: TypeFilePath001;
+};
+
+type TypeRouteMapHandle = {
+  [ key: string ]: TypeFun001;
+};
+
+type TypeObj001 = {
   [ key: string ]: string;
 };
 
-type RouteMapHandle = {
-  [ key: string ]: Fun001;
-};
+async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<TypeRouteMapHandle>{
+  const obj001: TypeObj001 = Object.fromEntries(
+    Object.entries( routeMapConfig ).map(
+      (
+        [ key, value ]: [ string, TypeFilePath001 ],
+      ): [ string, string ] => {
+        return [
+          key,
+          Object.prototype.toString.call( value ) === '[object URL]'
+            // @ts-ignore
+          ? value.href
+          : value
+        ];
+      }
+    )
+  );
 
-async function GeneratorRouteMap( routeMapConfig: RouteMapConfig ): Promise<RouteMapHandle>{
-  const arr001: Array<Promise<[ string, Fun001 ]>> = Object.entries( routeMapConfig ).map(
+  const arr001: Array<Promise<[ string, TypeFun001 ]>> = Object.entries( obj001 ).map(
       async (
         [ key, value ]: [ string, string ],
-      ): Promise<[ string, Fun001, ]> => {
+      ): Promise<[ string, TypeFun001, ]> => {
         return [
           key,
           ( await import( value ) ).default
         ];
       }
     ),
-    arr002: Array<[ string, Fun001 ]> = [];
+    arr002: Array<[ string, TypeFun001 ]> = [];
 
   for await ( const item of
     arr001 ){
@@ -40,19 +62,19 @@ async function GeneratorRouteMap( routeMapConfig: RouteMapConfig ): Promise<Rout
   return Object.fromEntries( arr002 );
 }
 
-const methodByPutForRouteMapConfig: RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByPutForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
 
-const methodByDeleteForRouteMapConfig: RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByDeleteForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
 
-const methodByPostForRouteMapConfig: RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByPostForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
 
-const methodByGetForRouteMapConfig: RouteMapHandle = await GeneratorRouteMap( {
+const methodByGetForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {
   '/': '../services/ResRoot.esm.mts',
   '/favicon.ico': '../services/ResRootFavicon.esm.mts',
   '/simulation_servers_deno/GetJSON': '../services/GetJSON.esm.mts',
 } );
 
-const methodByOptionsForRouteMapConfig: RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByOptionsForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
 
 export {
   methodByPutForRouteMapConfig,

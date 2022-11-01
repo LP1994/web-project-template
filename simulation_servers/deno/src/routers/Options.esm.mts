@@ -9,10 +9,10 @@
 
 'use strict';
 
-type ResponseType001 = Response | Promise<Response>;
+type TypeResponse001 = Response | Promise<Response>;
 
 // @ts-ignore
-function Options( request: Request ): ResponseType001{
+function Options( request: Request ): TypeResponse001{
   return new Response( null, {
     status: 200,
     statusText: 'OK',

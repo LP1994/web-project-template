@@ -24,13 +24,13 @@ import {
   // @ts-ignore
 } from '../routers/Routers.esm.mts';
 
-type ResponseType001 = Response | Promise<Response>;
+type TypeResponse001 = Response | Promise<Response>;
 
 serve(
   (
     request: Request,
     connInfo: ConnInfo,
-  ): ResponseType001 => {
+  ): TypeResponse001 => {
     console.log( `\nrequest--->Start` );
     /*
      {
@@ -86,7 +86,7 @@ serve(
       // 服务已启动：http://0.0.0.0:9999/
       console.log( `\n服务已启动：http://${ hostname }:${ port }/\n` );
     },
-    onError: ( error: unknown ): ResponseType001 => {
+    onError: ( error: unknown ): TypeResponse001 => {
       console.error( `\nonError--->Start` );
       console.error( error );
       console.error( `onError--->End\n` );
