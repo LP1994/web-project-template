@@ -16,6 +16,9 @@ import {
   // @ts-ignore
 } from 'https://deno.land/std/http/server.ts';
 
+// @ts-ignore
+import InterceptorError from '../public/InterceptorError.esm.mts';
+
 import {
   Routers,
   // @ts-ignore
@@ -88,7 +91,12 @@ serve(
       console.error( error );
       console.error( `onError--->End\n` );
 
-      return new Response( `当路由处理程序抛出错误时调用的处理程序。` );
+      return InterceptorError.ResError( {
+        title: `服务器内部出现错误`,
+        message: `当路由处理程序抛出错误时会调用该错误处理程序。
+错误信息：
+${ ( error as Error ).message }`,
+      } );
     },
   }
 );

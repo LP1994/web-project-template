@@ -29,10 +29,35 @@ class InterceptorError {
     this.#pathName = new URL( this.#request.url ).pathname;
   }
 
-  async res404(): Promise<Response>{
+  public async res404(): Promise<Response>{
     // @ts-ignore
     const html: string = await dejs.renderToString( Deno.readTextFileSync( new URL( import.meta.resolve( '../template/ejs/404.ejs' ) ) ), {
       message: `未找到“${ this.#method }”请求方法的“${ this.#pathName }”资源。`,
+    } );
+
+    return new Response( html, {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'text/html; charset=utf-8',
+      },
+    } );
+  }
+
+  public static async ResError( {
+    title = '',
+    message = '',
+  }: {
+    title: string;
+    message: string;
+  } = {
+    title: '',
+    message: '',
+  } ): Promise<Response>{
+    // @ts-ignore
+    const html: string = await dejs.renderToString( Deno.readTextFileSync( new URL( import.meta.resolve( '../template/ejs/Error.ejs' ) ) ), {
+      title,
+      message,
     } );
 
     return new Response( html, {
