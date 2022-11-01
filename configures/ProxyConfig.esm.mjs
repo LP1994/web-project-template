@@ -241,9 +241,9 @@ if( !isProduction ){
  */
 const proxyConfig = {
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：http://localhost:9999/SimServer/GETJSON。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：http://localhost:9999/simulation_servers_deno/GetJSON。<br />
    */
-  '/simulation_servers_node/GETJSON': {
+  '/devURLDemo001/simulation_servers_deno/GetJSON': {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
@@ -277,7 +277,7 @@ const proxyConfig = {
      *
      * @returns {string} 新路径。
      */
-    pathRewrite: ( path, req ) => '/SimServer/GETJSON',
+    pathRewrite: ( path, req ) => '/simulation_servers_deno/GetJSON',
 
     /**
      * 为特定请求重新定位到option.target。<br />
@@ -604,9 +604,9 @@ HTTP代理--->${ req.originalUrl }<---End
   },
 
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：ws://localhost:9900/。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：ws://localhost:9900/simulation_servers_deno/subscriptions。<br />
    */
-  '/simulation_servers_node/subscriptions': {
+  '/ws4DevURLDemo001/simulation_servers_deno/subscriptions': {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
@@ -640,7 +640,7 @@ HTTP代理--->${ req.originalUrl }<---End
      *
      * @returns {string} 新路径。
      */
-    pathRewrite: ( path, req ) => '/',
+    pathRewrite: ( path, req ) => '/simulation_servers_deno/subscriptions',
 
     /**
      * 为特定请求重新定位到option.target。<br />
