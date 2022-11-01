@@ -27,17 +27,36 @@ function Get( request: Request ): ResponseType001{
    search: ""
    }
    */
-  let url: URL = new URL( request.url );
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
 
-  if( url.pathname === '/' ){
-    return new Response( `Deno（读音：/ˈdiːnoʊ/）将是Node的终结者。` );
+  if( pathName === '/' ){
+    // @ts-ignore
+    return new Response( Deno.readTextFileSync( new URL( import.meta.resolve( '../../static/html/Index.html' ) ) ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'text/html; charset=utf-8',
+      },
+    } );
   }
-  else if( url.pathname === '/SimServer/GET' ){
+  else if( pathName === '/favicon.ico' ){
+    // @ts-ignore
+    return new Response( Deno.readFileSync( new URL( import.meta.resolve( '../../static/ico/favicon.ico' ) ) ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'image/x-icon',
+      },
+    } );
+  }
+  else if( pathName === '/SimServer/GET' ){
     return new Response( JSON.stringify( {
       'type': 'json',
       'info': '帝子降兮北渚，目渺渺兮愁予。'
     } ), {
       status: 200,
+      statusText: 'OK',
       headers: {
         'content-type': 'application/json; charset=utf-8',
       },

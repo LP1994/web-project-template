@@ -27,10 +27,18 @@ function Delete( request: Request ): ResponseType001{
    search: ""
    }
    */
-  let url: URL = new URL( request.url );
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
 
-  if( url.pathname === '/' ){
-    return new Response( `Deno（读音：/ˈdiːnoʊ/）将是Node的终结者。` );
+  if( pathName === '/' ){
+    // @ts-ignore
+    return new Response( Deno.readTextFileSync( new URL( import.meta.resolve( '../../static/html/Index.html' ) ) ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'text/html; charset=utf-8',
+      },
+    } );
   }
 
   return new Response( `未找到“${ request.method.toLowerCase() }”请求方法的“${ url.pathname }”资源。` );

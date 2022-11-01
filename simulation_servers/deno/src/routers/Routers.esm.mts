@@ -44,8 +44,14 @@ function Routers( request: Request ): ResponseType001{
     return requestMethods[ method ]( request );
   }
 
-  return new Response( `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
-  .join( '、' ) }。` );
+  // @ts-ignore
+  return new Response( Deno.readTextFileSync( new URL( import.meta.resolve( '../../static/html/ErrorForReqMethod.html' ) ) ), {
+    status: 200,
+    statusText: 'OK',
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  } );
 }
 
 export {
