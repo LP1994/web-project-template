@@ -9,16 +9,16 @@
 
 'use strict';
 
-type ResponseType001 = Response | Promise<Response>;
+import {
+  dejs,
+  // @ts-ignore
+} from './ThirdPartyTools.esm.mts';
 
 class InterceptorError {
-
   readonly #request: Request;
 
-  // @ts-ignore
   readonly #method: string;
 
-  // @ts-ignore
   readonly #pathName: string;
 
   constructor( request: Request ){
@@ -29,9 +29,13 @@ class InterceptorError {
     this.#pathName = new URL( this.#request.url ).pathname;
   }
 
-  res404(): ResponseType001{
+  async res404(): Promise<Response>{
     // @ts-ignore
-    return new Response( Deno.readTextFileSync( new URL( import.meta.resolve( '../../static/html/404.html' ) ) ), {
+    const html: string = await dejs.renderToString( Deno.readTextFileSync( new URL( import.meta.resolve( '../template/ejs/404.ejs' ) ) ), {
+      message: `未找到“${ this.#method }”请求方法的“${ this.#pathName }”资源。`,
+    } );
+
+    return new Response( html, {
       status: 200,
       statusText: 'OK',
       headers: {
