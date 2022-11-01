@@ -1,6 +1,6 @@
 <!--
 Project: web-project-template
-FileDirPath: simulation_servers/node/static/html/ErrorForReqMethod.html
+FileDirPath: simulation_servers/deno/static/html/ErrorForReqMethod.html
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
@@ -9,8 +9,20 @@ CreateDate: 2022-01-01 00:00:00 星期六
 <!DOCTYPE html>
 <html lang = 'zh-CN'>
 <head>
-  <meta charset = 'UTF-8'>
-  <title>请求方法不受支持</title>
+  <meta
+    http-equiv = 'X-UA-Compatible'
+    content = 'IE=edge,chrome=1' />
+  <meta charset = 'UTF-8' />
+  <meta
+    name = 'renderer'
+    content = 'webkit' />
+  <meta
+    name = 'force-rendering'
+    content = 'webkit' />
+  <meta
+    name = 'viewport'
+    content = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,minimal-ui,maximum-scale=1.0,user-scalable=no,shrink-to-fit=no,uc-fitscreen=no,viewport-fit=cover' />
+  <title>Error</title>
   <style>
     .css-reset {
       padding: 0;
@@ -69,7 +81,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 
     main {
       font-family: serif;
-      color: yellow;
+      color: red;
 
       line-height: 1;
       text-align: center;
@@ -81,7 +93,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   id = 'LocalScroll'
   class = 'css-reset full-screen overflow-auto'>
   <div class = 'css-reset pc-min overflow-hidden'>
-    <main class = 'css-reset full-screen overflow-hidden-auto'>目前只支持post、delete、put、get、options这五个请求方法。</main>
+    <main class = 'css-reset full-screen overflow-hidden-auto'>目前只提供对这些请求方法的服务：post、delete、put、get、options。</main>
   </div>
 </div>
 </body>
