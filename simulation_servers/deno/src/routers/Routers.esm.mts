@@ -11,6 +11,7 @@
 
 import {
   dejs,
+  mimetypes,
   // @ts-ignore
 } from '../public/ThirdPartyTools.esm.mts';
 
@@ -31,6 +32,16 @@ import Options from './Options.esm.mts';
 
 type ResponseType001 = Response | Promise<Response>;
 
+const {
+  Mime,
+}: any = mimetypes;
+
+const myMime: any = new Mime( {
+  'text/html; charset=utf-8': [
+    'ejs',
+  ],
+} );
+
 const requestMethods: {
   [ key: string ]: ( request: Request ) => ResponseType001;
 } = {
@@ -50,16 +61,18 @@ async function Routers( request: Request ): Promise<Response>{
   }
 
   // @ts-ignore
-  const html: string = await dejs.renderToString( Deno.readTextFileSync( new URL( import.meta.resolve( '../template/ejs/ErrorForReqMethod.ejs' ) ) ), {
-    message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
-    .join( '、' ) }。`,
-  } );
+  const filePath: URL = new URL( import.meta.resolve( '../template/ejs/ErrorForReqMethod.ejs' ) ),
+    // @ts-ignore
+    html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
+      message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
+      .join( '、' ) }。`,
+    } );
 
   return new Response( html, {
     status: 200,
     statusText: 'OK',
     headers: {
-      'content-type': 'text/html; charset=utf-8',
+      'content-type': myMime.getType( filePath.href ),
     },
   } );
 }

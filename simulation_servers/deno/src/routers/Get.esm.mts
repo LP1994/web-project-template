@@ -9,10 +9,19 @@
 
 'use strict';
 
+import {
+  mimetypes,
+  // @ts-ignore
+} from '../public/ThirdPartyTools.esm.mts';
+
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
 
 type ResponseType001 = Response | Promise<Response>;
+
+const {
+  mime,
+}: any = mimetypes;
 
 function Get( request: Request ): ResponseType001{
   /*
@@ -33,33 +42,44 @@ function Get( request: Request ): ResponseType001{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
+  let filePath: URL;
+
   if( pathName === '/' ){
     // @ts-ignore
-    return new Response( Deno.readTextFileSync( new URL( import.meta.resolve( '../../static/html/Index.html' ) ) ), {
+    filePath = new URL( import.meta.resolve( '../../static/html/Index.html' ) );
+
+    // @ts-ignore
+    return new Response( Deno.readTextFileSync( filePath ), {
       status: 200,
       statusText: 'OK',
       headers: {
-        'content-type': 'text/html; charset=utf-8',
+        'content-type': `${ mime.getType( filePath.href ) }; charset=utf-8`,
       },
     } );
   }
   else if( pathName === '/favicon.ico' ){
     // @ts-ignore
-    return new Response( Deno.readFileSync( new URL( import.meta.resolve( '../../static/ico/favicon.ico' ) ) ), {
+    filePath = new URL( import.meta.resolve( '../../static/ico/favicon.ico' ) );
+
+    // @ts-ignore
+    return new Response( Deno.readFileSync( filePath ), {
       status: 200,
       statusText: 'OK',
       headers: {
-        'content-type': 'image/x-icon',
+        'content-type': mime.getType( filePath.href ),
       },
     } );
   }
   else if( pathName === '/SimServer/GETJSON' ){
     // @ts-ignore
-    return new Response( Deno.readTextFileSync( new URL( import.meta.resolve( '../../static/json/JSON001.json' ) ) ), {
+    filePath = new URL( import.meta.resolve( '../../static/json/JSON001.json' ) );
+
+    // @ts-ignore
+    return new Response( Deno.readTextFileSync( filePath ), {
       status: 200,
       statusText: 'OK',
       headers: {
-        'content-type': 'application/json; charset=utf-8',
+        'content-type': `${ mime.getType( filePath.href ) }; charset=utf-8`,
       },
     } );
   }
