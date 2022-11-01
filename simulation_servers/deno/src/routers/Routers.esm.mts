@@ -10,6 +10,8 @@
 'use strict';
 
 import {
+  type TypeFun001,
+
   ejsDir,
 
   httpHeaders,
@@ -40,10 +42,6 @@ import Get from './Get.esm.mts';
 
 // @ts-ignore
 import Options from './Options.esm.mts';
-
-type TypeResponse001 = Response | Promise<Response>;
-
-type TypeFun001 = ( request: Request ) => TypeResponse001;
 
 const requestMethods: {
   [ key: string ]: TypeFun001;

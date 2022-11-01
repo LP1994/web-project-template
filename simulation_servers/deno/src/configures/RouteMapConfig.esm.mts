@@ -10,13 +10,12 @@
 'use strict';
 
 import {
+  type TypeFun001,
+  type TypeFilePath001,
+
   servicesDir,
   // @ts-ignore
 } from './GlobalParameters.esm.mts';
-
-type TypeFun001 = ( request: Request ) => Response | Promise<Response>;
-
-type TypeFilePath001 = string | URL;
 
 type TypeRouteMapConfig = {
   [ key: string ]: TypeFilePath001;

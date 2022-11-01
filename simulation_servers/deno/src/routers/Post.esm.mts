@@ -9,10 +9,13 @@
 
 'use strict';
 
+import {
+  type TypeResponse001,
+  // @ts-ignore
+} from '../configures/GlobalParameters.esm.mts';
+
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
-
-type TypeResponse001 = Response | Promise<Response>;
 
 function Post( request: Request ): TypeResponse001{
   return new InterceptorError( request ).res404();

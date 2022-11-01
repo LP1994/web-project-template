@@ -9,6 +9,16 @@
 
 'use strict';
 
+// custom type、interface Start
+
+export type TypeResponse001 = Response | Promise<Response>;
+
+export type TypeFun001 = ( request: Request ) => TypeResponse001;
+
+export type TypeFilePath001 = string | URL;
+
+// custom type、interface End
+
 // aliasConfig Start
 
 // @ts-ignore

@@ -10,14 +10,17 @@
 'use strict';
 
 import {
+  type TypeResponse001,
+  // @ts-ignore
+} from '../configures/GlobalParameters.esm.mts';
+
+import {
   methodByGetForRouteMapConfig,
   // @ts-ignore
 } from '../configures/RouteMapConfig.esm.mts';
 
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
-
-type TypeResponse001 = Response | Promise<Response>;
 
 function Get( request: Request ): TypeResponse001{
   /*

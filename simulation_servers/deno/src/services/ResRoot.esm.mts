@@ -10,6 +10,8 @@
 'use strict';
 
 import {
+  type TypeResponse001,
+
   staticDir,
 
   httpHeaders,
@@ -20,8 +22,6 @@ import {
   mime,
   // @ts-ignore
 } from '../public/PublicTools.esm.mts';
-
-type TypeResponse001 = Response | Promise<Response>;
 
 // @ts-ignore
 function Handle( request: Request ): TypeResponse001{

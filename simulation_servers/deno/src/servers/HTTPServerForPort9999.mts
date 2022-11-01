@@ -16,6 +16,11 @@ import {
   // @ts-ignore
 } from 'https://deno.land/std/http/server.ts';
 
+import {
+  type TypeResponse001,
+  // @ts-ignore
+} from '../configures/GlobalParameters.esm.mts';
+
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
 
@@ -23,8 +28,6 @@ import {
   Routers,
   // @ts-ignore
 } from '../routers/Routers.esm.mts';
-
-type TypeResponse001 = Response | Promise<Response>;
 
 serve(
   (

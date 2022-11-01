@@ -9,7 +9,10 @@
 
 'use strict';
 
-type TypeResponse001 = Response | Promise<Response>;
+import {
+  type TypeResponse001,
+  // @ts-ignore
+} from '../configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
 function Options( request: Request ): TypeResponse001{
