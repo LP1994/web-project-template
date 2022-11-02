@@ -94,9 +94,9 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
     ),
     arr002: Array<[ string, TypeFun001 ]> = [];
 
-  for await ( const item of
+  for await ( let item001 of
     arr001 ){
-    arr002.push( item );
+    arr002.push( item001 );
   }
 
   return Object.fromEntries( arr002 );
@@ -118,21 +118,21 @@ function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeR
       ),
       arr002: Array<[ TypeFun002, TypeFun001 ]> = [];
 
-    for await ( const item of
+    for await ( let item001 of
       arr001 ){
-      arr002.push( item );
+      arr002.push( item001 );
     }
 
     myRouteHandleConfig = new Map( arr002 );
 
     let fun001: TypeFun002 | null = null;
 
-    for( let item of
+    for( let item002 of
       myRouteHandleConfig.keys() ){
-      if( ( await IterateToNestForPromise( item( request ) ) ) as boolean ){
-        fun001 = item;
+      if( ( await IterateToNestForPromise( item002( request ) ) ) as boolean ){
+        fun001 = item002;
 
-        return;
+        break;
       }
       else{
         fun001 = null;
@@ -140,7 +140,7 @@ function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeR
     }
 
     if( fun001 ){
-      return myRouteHandleConfig.get( fun001 as TypeFun002 );
+      return ( myRouteHandleConfig.get( fun001 as TypeFun002 ) ) as TypeFun001;
     }
     else{
       return false;
