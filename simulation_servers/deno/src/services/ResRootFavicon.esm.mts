@@ -25,8 +25,63 @@ import {
 
 // @ts-ignore
 function Handle( request: Request ): TypeResponse001{
-  // @ts-ignore
-  let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
+  /*
+   {
+   href: "http://127.0.0.1:9999/",
+   origin: "http://127.0.0.1:9999",
+   protocol: "http:",
+   username: "",
+   password: "",
+   host: "127.0.0.1:9999",
+   hostname: "127.0.0.1",
+   port: "9999",
+   pathname: "/",
+   hash: "",
+   search: ""
+   }
+   */
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
+
+  let filePath: URL;
+
+  switch( pathName ){
+  case '/favicon.ico':
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
+
+    break;
+  case '/favicon.png':
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+
+    break;
+  case '/apple-touch-icon.png':
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+
+    break;
+  case '/apple-touch-icon-precomposed.png':
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+
+    break;
+  case '/apple-touch-icon-120x120.png':
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+
+    break;
+  case '/apple-touch-icon-120x120-precomposed.png':
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+
+    break;
+  default:
+    // @ts-ignore
+    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+
+    break;
+  }
 
   // @ts-ignore
   return new Response( Deno.readFileSync( filePath ), {

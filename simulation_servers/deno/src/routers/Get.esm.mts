@@ -11,13 +11,15 @@
 
 import {
   type TypeResponse001,
+  type TypeFun001,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
 
 import {
   methodByGetForRouteMapConfig,
+  methodByGetForRouteHandle,
   // @ts-ignore
-} from '../configures/RouteMapConfig.esm.mts';
+} from '../configures/route_map_config/RouteMapConfig.esm.mts';
 
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
@@ -41,8 +43,13 @@ function Get( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
+  let routeHandle: boolean | TypeFun001;
+
   if( pathName in methodByGetForRouteMapConfig ){
     return methodByGetForRouteMapConfig[ pathName ]( request );
+  }
+  else if( routeHandle = methodByGetForRouteHandle( request ) ){
+    return ( routeHandle as TypeFun001 )( request );
   }
 
   return new InterceptorError( request ).res404();

@@ -1,10 +1,10 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/configures/RouteMapConfig.esm.mts
+ * FileDirPath: simulation_servers/deno/src/configures/route_map_config/Handle.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-11-01 20:12:20 星期二
+ * CreateDate: 2022-11-02 17:08:50 星期三
  */
 
 'use strict';
@@ -12,18 +12,20 @@
 import {
   type TypeFun001,
   type TypeFilePath001,
-
-  servicesDir,
   // @ts-ignore
-} from './GlobalParameters.esm.mts';
+} from '../GlobalParameters.esm.mts';
 
 type TypeRouteMapConfig = {
   [ key: string ]: TypeFilePath001;
 };
 
+type TypeRouteHandleConfig = Array<[ string | URL, string | URL ]>;
+
 type TypeRouteMapHandle = {
   [ key: string ]: TypeFun001;
 };
+
+type TypeRouteHandle = ( request: Request ) => boolean | TypeFun001;
 
 type TypeObj001 = {
   [ key: string ]: string;
@@ -91,33 +93,31 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
   return Object.fromEntries( arr002 );
 }
 
-const methodByPutForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
-
-const methodByDeleteForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
-
-const methodByPostForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
-
-const methodByGetForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {
-  // @ts-ignore
-  '/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
-  '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
-  '/simulation_servers_deno/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
-} );
-
-const methodByOptionsForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
+// @ts-ignore
+async function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): Promise<TypeRouteHandle>{
+  /*
+   URL {
+   href: "file:///G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
+   origin: "null",
+   protocol: "file:",
+   username: "",
+   password: "",
+   host: "",
+   hostname: "",
+   port: "",
+   pathname: "/G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
+   hash: "",
+   search: ""
+   }
+   */
+}
 
 export {
-  methodByPutForRouteMapConfig,
-  methodByDeleteForRouteMapConfig,
-  methodByPostForRouteMapConfig,
-  methodByGetForRouteMapConfig,
-  methodByOptionsForRouteMapConfig,
+  GeneratorRouteMap,
+  GeneratorRouteHandle,
 };
 
 export default {
-  methodByPutForRouteMapConfig,
-  methodByDeleteForRouteMapConfig,
-  methodByPostForRouteMapConfig,
-  methodByGetForRouteMapConfig,
-  methodByOptionsForRouteMapConfig,
+  GeneratorRouteMap,
+  GeneratorRouteHandle,
 };
