@@ -27,11 +27,25 @@ mime.define( {
   ],
 } );
 
+async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
+  if( Object.prototype.toString.call( arg ) !== '[object Promise]' ){
+    return arg as T;
+  }
+  else if( Object.prototype.toString.call( arg = await arg ) === '[object Promise]' ){
+    return await IterateToNestForPromise( arg as Promise<T> );
+  }
+  else{
+    return arg as T;
+  }
+}
+
 export {
   MimeTypeMap,
   Mime,
   mime,
   mimelite,
+
+  IterateToNestForPromise,
 };
 
 export default {
@@ -39,4 +53,6 @@ export default {
   Mime,
   mime,
   mimelite,
+
+  IterateToNestForPromise,
 };

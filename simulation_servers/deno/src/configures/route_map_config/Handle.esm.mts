@@ -12,8 +12,14 @@
 import {
   type TypeFun001,
   type TypeFilePath001,
+  type TypeResult001,
   // @ts-ignore
 } from '../GlobalParameters.esm.mts';
+
+import {
+  IterateToNestForPromise,
+  // @ts-ignore
+} from '../../public/PublicTools.esm.mts';
 
 type TypeRouteMapConfig = {
   [ key: string ]: TypeFilePath001;
@@ -21,32 +27,35 @@ type TypeRouteMapConfig = {
 
 type TypeRouteHandleConfig = Array<[ string | URL, string | URL ]>;
 
+type TypeFun002 = ( request: Request ) => boolean | Promise<boolean>;
+
+type TypeMap001 = Map<TypeFun002, TypeFun001>;
+
 type TypeRouteMapHandle = {
   [ key: string ]: TypeFun001;
 };
 
-type TypeRouteHandle = ( request: Request ) => boolean | TypeFun001;
+type TypeRouteHandle = ( request: Request ) => Promise<TypeResult001>;
 
 type TypeObj001 = {
   [ key: string ]: string;
 };
 
+function Handle001( filePath: TypeFilePath001 ): string{
+  if( Object.prototype.toString.call( filePath ) === '[object URL]' ){
+    if( ( filePath as URL ).protocol === 'file:' ){
+      return ( filePath as URL ).href;
+    }
+    else{
+      throw new Error( 'import()只接受“string”类型的参数值，且表示文件地址。' );
+    }
+  }
+  else{
+    return filePath as string;
+  }
+}
+
 async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<TypeRouteMapHandle>{
-  /*
-   URL {
-   href: "file:///G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
-   origin: "null",
-   protocol: "file:",
-   username: "",
-   password: "",
-   host: "",
-   hostname: "",
-   port: "",
-   pathname: "/G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
-   hash: "",
-   search: ""
-   }
-   */
   const obj001: TypeObj001 = Object.fromEntries(
     Object.entries( routeMapConfig ).map(
       (
@@ -93,23 +102,50 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
   return Object.fromEntries( arr002 );
 }
 
-// @ts-ignore
-async function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): Promise<TypeRouteHandle>{
-  /*
-   URL {
-   href: "file:///G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
-   origin: "null",
-   protocol: "file:",
-   username: "",
-   password: "",
-   host: "",
-   hostname: "",
-   port: "",
-   pathname: "/G:/WebStormWS/web-project-template/simulation_servers/deno/static/html/Index.html",
-   hash: "",
-   search: ""
-   }
-   */
+function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeRouteHandle{
+  return async ( request: Request ): Promise<TypeResult001> => {
+    let myRouteHandleConfig: TypeRouteHandleConfig | TypeMap001 = routeHandleConfig;
+
+    const arr001: Array<Promise<[ TypeFun002, TypeFun001 ]>> = myRouteHandleConfig.map(
+        async (
+          [ key, name ]: [ string | URL, string | URL ],
+        ): Promise<[ TypeFun002, TypeFun001 ]> => {
+          return [
+            ( await import( Handle001( key ) ) ).default,
+            ( await import( Handle001( name ) ) ).default
+          ];
+        }
+      ),
+      arr002: Array<[ TypeFun002, TypeFun001 ]> = [];
+
+    for await ( const item of
+      arr001 ){
+      arr002.push( item );
+    }
+
+    myRouteHandleConfig = new Map( arr002 );
+
+    let fun001: TypeFun002 | null = null;
+
+    for( let item of
+      myRouteHandleConfig.keys() ){
+      if( ( await IterateToNestForPromise( item( request ) ) ) as boolean ){
+        fun001 = item;
+
+        return;
+      }
+      else{
+        fun001 = null;
+      }
+    }
+
+    if( fun001 ){
+      return myRouteHandleConfig.get( fun001 as TypeFun002 );
+    }
+    else{
+      return false;
+    }
+  };
 }
 
 export {

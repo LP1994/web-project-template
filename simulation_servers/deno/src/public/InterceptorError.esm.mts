@@ -41,8 +41,8 @@ class InterceptorError {
     this.#request = request;
     this.#method = this.#request.method.toLowerCase();
     this.#myURL = new URL( this.#request.url );
-    this.#pathName = this.#myURL.pathname;
-    this.#search = this.#myURL.search;
+    this.#pathName = decodeURI( this.#myURL.pathname );
+    this.#search = decodeURI( this.#myURL.search );
   }
 
   public async res404(): Promise<Response>{
@@ -50,7 +50,7 @@ class InterceptorError {
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
       // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
-        message: `未找到“${ this.#method }”请求方法的“${ decodeURI( this.#pathName + this.#search ) }”资源。`,
+        message: `未找到“${ this.#method }”请求方法的“${ this.#pathName + this.#search }”资源。`,
       } );
 
     return new Response( html, {

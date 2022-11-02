@@ -10,10 +10,15 @@
 'use strict';
 
 import {
-  type TypeResponse001,
   type TypeFun001,
+  type TypeResult001,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
+
+import {
+  IterateToNestForPromise,
+  // @ts-ignore
+} from '../public/PublicTools.esm.mts';
 
 import {
   methodByGetForRouteMapConfig,
@@ -24,35 +29,27 @@ import {
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
 
-function Get( request: Request ): TypeResponse001{
-  /*
-   {
-   href: "http://127.0.0.1:9999/",
-   origin: "http://127.0.0.1:9999",
-   protocol: "http:",
-   username: "",
-   password: "",
-   host: "127.0.0.1:9999",
-   hostname: "127.0.0.1",
-   port: "9999",
-   pathname: "/",
-   hash: "",
-   search: ""
-   }
-   */
+/**
+ * 一定得保证该函数返回的值类型只能是：Promise<Response>。<br />
+ *
+ * @param {Request} request
+ *
+ * @returns {Promise<Response>}
+ */
+async function Get( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  let routeHandle: boolean | TypeFun001;
+  let routeHandle: TypeResult001;
 
   if( pathName in methodByGetForRouteMapConfig ){
-    return methodByGetForRouteMapConfig[ pathName ]( request );
+    return ( await IterateToNestForPromise( methodByGetForRouteMapConfig[ pathName ]( request ) ) ) as Response;
   }
-  else if( routeHandle = methodByGetForRouteHandle( request ) ){
-    return ( routeHandle as TypeFun001 )( request );
+  else if( routeHandle = await methodByGetForRouteHandle( request ) ){
+    return ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
   }
 
-  return new InterceptorError( request ).res404();
+  return await new InterceptorError( request ).res404();
 }
 
 export {

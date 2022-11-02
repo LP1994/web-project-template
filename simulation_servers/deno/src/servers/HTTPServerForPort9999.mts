@@ -33,7 +33,7 @@ serve(
   (
     request: Request,
     connInfo: ConnInfo,
-  ): TypeResponse001 => {
+  ): Promise<Response> => {
     console.log( `\nrequest--->Start` );
     /*
      {

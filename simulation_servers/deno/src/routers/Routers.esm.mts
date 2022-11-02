@@ -11,6 +11,7 @@
 
 import {
   type TypeFun001,
+  type TypeFun002,
 
   ejsDir,
 
@@ -25,6 +26,8 @@ import {
 
 import {
   mime,
+
+  IterateToNestForPromise,
   // @ts-ignore
 } from '../public/PublicTools.esm.mts';
 
@@ -43,8 +46,10 @@ import Get from './Get.esm.mts';
 // @ts-ignore
 import Options from './Options.esm.mts';
 
+type TypeFun003 = TypeFun001 | TypeFun002;
+
 const requestMethods: {
-  [ key: string ]: TypeFun001;
+  [ key: string ]: TypeFun003;
 } = {
   put: Put,
   delete: Delete,
@@ -53,11 +58,18 @@ const requestMethods: {
   options: Options,
 };
 
+/**
+ * 一定得保证该函数返回的值类型只能是：Promise<Response>。<br />
+ *
+ * @param {Request} request
+ *
+ * @returns {Promise<Response>}
+ */
 async function Routers( request: Request ): Promise<Response>{
   const method: string = request.method.toLowerCase().trim();
 
   if( method in requestMethods ){
-    return ( requestMethods[ method ] as TypeFun001 )( request );
+    return ( await IterateToNestForPromise( ( requestMethods[ method ] as TypeFun003 )( request ) ) ) as Response;
   }
 
   // @ts-ignore

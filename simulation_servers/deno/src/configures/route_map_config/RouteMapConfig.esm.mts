@@ -11,6 +11,7 @@
 
 import {
   type TypeFun001,
+  type TypeResult001,
 
   servicesDir,
   // @ts-ignore
@@ -26,7 +27,7 @@ type TypeRouteMapHandle = {
   [ key: string ]: TypeFun001;
 };
 
-type TypeRouteHandle = ( request: Request ) => boolean | TypeFun001;
+type TypeRouteHandle = ( request: Request ) => Promise<TypeResult001>;
 
 // RouteMapConfig Start
 
@@ -56,13 +57,13 @@ const methodByOptionsForRouteMapConfig: TypeRouteMapHandle = await GeneratorRout
 
 // RouteHandle Start
 
-const methodByPutForRouteHandle: TypeRouteHandle = await GeneratorRouteHandle( [] );
+const methodByPutForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
-const methodByDeleteForRouteHandle: TypeRouteHandle = await GeneratorRouteHandle( [] );
+const methodByDeleteForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
-const methodByPostForRouteHandle: TypeRouteHandle = await GeneratorRouteHandle( [] );
+const methodByPostForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
-const methodByGetForRouteHandle: TypeRouteHandle = await GeneratorRouteHandle( [
+const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/static_resources_service/Condition.esm.mts`,
     `${ servicesDir }/static_resources_service/Response.esm.mts`,
@@ -75,7 +76,7 @@ const methodByGetForRouteHandle: TypeRouteHandle = await GeneratorRouteHandle( [
   ],
 ] );
 
-const methodByOptionsForRouteHandle: TypeRouteHandle = await GeneratorRouteHandle( [] );
+const methodByOptionsForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
 // RouteHandle End
 

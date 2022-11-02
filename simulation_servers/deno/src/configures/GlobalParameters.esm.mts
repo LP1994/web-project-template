@@ -15,9 +15,11 @@ export type TypeResponse001 = Response | Promise<Response>;
 
 export type TypeFun001 = ( request: Request ) => TypeResponse001;
 
-export type TypeFun002 = ( request: Request ) => boolean;
+export type TypeFun002 = ( request: Request ) => Promise<TypeResponse001>;
 
 export type TypeFilePath001 = string | URL;
+
+export type TypeResult001 = boolean | TypeFun001;
 
 // custom type、interface End
 
