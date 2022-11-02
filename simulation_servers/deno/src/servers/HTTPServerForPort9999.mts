@@ -76,7 +76,8 @@ serve(
   },
   {
     port: 9999,
-    hostname: '0.0.0.0',
+    // 使用'0.0.0.0'会出现无法被外界使用，从而导致外界报连接错误。
+    hostname: 'localhost',
     onListen: (
       {
         hostname,
