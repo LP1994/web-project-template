@@ -61,18 +61,23 @@ const methodByPutForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
 const methodByDeleteForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
-const methodByPostForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
+const methodByPostForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
+  [
+    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
+    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+  ],
+] );
 
 const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/static_resources_service/Condition.esm.mts`,
-    `${ servicesDir }/static_resources_service/Response.esm.mts`,
+    `${ servicesDir }/static_resources_service/ResponseHandle.esm.mts`,
   ],
   [
     // @ts-ignore
     new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/Condition.esm.mts` ) ),
     // @ts-ignore
-    new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/Response.esm.mts` ) ),
+    new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandle.esm.mts` ) ),
   ],
 ] );
 

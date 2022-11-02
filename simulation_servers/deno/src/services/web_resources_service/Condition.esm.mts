@@ -9,6 +9,21 @@
 
 'use strict';
 
-const Condition: object = {};
+// 发起的请求URL如：http://localhost:9999/simulation_servers_deno/web/xx_project/js/JS001.js
+const myURLPathName: string = `/simulation_servers_deno/web/`;
+
+/**
+ * 一定得保证该函数返回的值类型只能是：boolean。<br />
+ *
+ * @param {Request} request
+ *
+ * @returns {boolean}
+ */
+function Condition( request: Request ): boolean{
+  const url: URL = new URL( request.url ),
+    pathName: string = decodeURI( url.pathname );
+
+  return pathName.startsWith( myURLPathName );
+}
 
 export default Condition;
