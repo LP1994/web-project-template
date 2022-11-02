@@ -14,8 +14,17 @@ import {
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
 
-// @ts-ignore
-function Options( request: Request ): TypeResponse001{
+/**
+ * 一定得保证该函数返回的值类型只能是：Response或Promise<Response>。<br />
+ *
+ * @param {Request} request
+ *
+ * @returns {Promise<Response>}
+ */
+function Options(
+  // @ts-ignore
+  request: Request
+): TypeResponse001{
   return new Response( null, {
     status: 200,
     statusText: 'OK',

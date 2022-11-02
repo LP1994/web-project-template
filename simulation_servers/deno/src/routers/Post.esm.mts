@@ -17,6 +17,13 @@ import {
 // @ts-ignore
 import InterceptorError from '../public/InterceptorError.esm.mts';
 
+/**
+ * 一定得保证该函数返回的值类型只能是：Response或Promise<Response>。<br />
+ *
+ * @param {Request} request
+ *
+ * @returns {Promise<Response>}
+ */
 function Post( request: Request ): TypeResponse001{
   return new InterceptorError( request ).res404();
 }
