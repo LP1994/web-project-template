@@ -67,7 +67,7 @@ export class Mime {
     let ext = last.replace(/^.*\./, '').toLowerCase();
 
     let hasPath = last.length < path.length;
-    let hasDot = ext.length < last.length - 1;
+    let hasDot = ext.length <= last.length - 1;
 
     return ((hasDot || !hasPath) && this.types.has(ext)) ? this.types.get(ext) : undefined;
   };

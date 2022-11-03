@@ -28,6 +28,9 @@ mime.define( {
   'application/json; charset=utf-8': [
     'json',
   ],
+  'text/plain; charset=utf-8': [
+    'gitignore',
+  ],
 }, true );
 
 async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
