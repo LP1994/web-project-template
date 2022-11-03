@@ -26,6 +26,9 @@ export type TypeResult001 = boolean | TypeFun001;
 // aliasConfig Start
 
 // @ts-ignore
+const opensslDir: string = import.meta.resolve( '../../openssl' );
+
+// @ts-ignore
 const srcDir: string = import.meta.resolve( '../../src' );
 // @ts-ignore
 const configuresDir: string = import.meta.resolve( '../configures' );
@@ -76,6 +79,8 @@ const httpHeaders: {
 
 export {
   // aliasConfig Start
+  opensslDir,
+
   srcDir,
   configuresDir,
   publicDir,
@@ -99,6 +104,8 @@ export {
 
 export default {
   // aliasConfig Start
+  opensslDir,
+
   srcDir,
   configuresDir,
   publicDir,

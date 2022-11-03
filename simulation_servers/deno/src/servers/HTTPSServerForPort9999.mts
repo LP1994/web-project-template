@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/servers/HTTPServerForPort9999.mts
+ * FileDirPath: simulation_servers/deno/src/servers/HTTPSServerForPort9999.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -12,12 +12,14 @@
 import {
   type ConnInfo,
 
-  serve,
+  serveTls,
   // @ts-ignore
 } from 'https://deno.land/std/http/server.ts';
 
 import {
   type TypeResponse001,
+
+  opensslDir,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
 
@@ -29,12 +31,12 @@ import {
   // @ts-ignore
 } from '../routers/Routers.esm.mts';
 
-serve(
+serveTls(
   (
     request: Request,
     connInfo: ConnInfo,
   ): TypeResponse001 => {
-    console.log( `\nHTTP Server request--->Start` );
+    console.log( `\nHTTPS Server request--->Start` );
     /*
      {
      bodyUsed: false,
@@ -60,9 +62,9 @@ serve(
      }
      */
     console.dir( request );
-    console.log( `HTTP Server request--->End\n` );
+    console.log( `HTTPS Server request--->End\n` );
 
-    console.log( `\nHTTP Server connInfo--->Start` );
+    console.log( `\nHTTPS Server connInfo--->Start` );
     /*
      {
      localAddr: { hostname: "127.0.0.1", port: 9999, transport: "tcp" },
@@ -70,7 +72,7 @@ serve(
      }
      */
     console.dir( connInfo );
-    console.log( `HTTP Server connInfo--->End\n` );
+    console.log( `HTTPS Server connInfo--->End\n` );
 
     return Routers( request );
   },
@@ -82,6 +84,10 @@ serve(
      * 3、当设置为'0.0.0.0'时，用postman测试时，只能用“https://localhost:9900”、“https://127.0.0.1:9900”、“https://192.168.10.101:9900”才能连接上。<br />
      */
     hostname: '0.0.0.0',
+    // @ts-ignore
+    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/2022002/server2022002cert.pem` ) ),
+    // @ts-ignore
+    key: Deno.readTextFileSync( new URL( `${ opensslDir }/2022002/server2022002key.pem` ) ),
     onListen: (
       {
         hostname,
@@ -91,15 +97,15 @@ serve(
         port: number;
       }
     ): void => {
-      console.log( `\nHTTP Server已启动：http://${ hostname }:${ port }/\n` );
+      console.log( `\nHTTPS Server已启动：https://${ hostname }:${ port }/\n` );
     },
     onError: ( error: unknown ): TypeResponse001 => {
-      console.error( `\nHTTP Server onError--->Start` );
+      console.error( `\nHTTPS Server onError--->Start` );
       console.error( error );
-      console.error( `HTTP Server onError--->End\n` );
+      console.error( `HTTPS Server onError--->End\n` );
 
       return InterceptorError.ResError( {
-        title: `HTTP Server服务器内部出现错误`,
+        title: `HTTPS Server服务器内部出现错误`,
         message: `当路由处理程序抛出错误时会调用该错误处理程序。
 错误信息：
 ${ ( error as Error ).message }`,

@@ -16,10 +16,17 @@ import {
 
 Promise.allSettled( [
   // @ts-ignore
-  import( `${ serversDir }/HTTPServerForPort9999.mts` ),
+  // import( `${ serversDir }/HTTPServerForPort9999.mts` ),
+  // @ts-ignore
+  import( `${ serversDir }/HTTPSServerForPort9999.mts` ),
+
+  // @ts-ignore
+  // import( `${ serversDir }/WebSocketServerForPort9900.mts` ),
+  // @ts-ignore
+  import( `${ serversDir }/WebSocketSServerForPort9900.mts` ),
 ] )
 .then(
-  ( resolve: [ PromiseSettledResult<unknown> ] ): void => {
+  ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
     console.log( `\nresolve--->Start` );
     /*
      [ { status: "fulfilled", value: Module {} } ]

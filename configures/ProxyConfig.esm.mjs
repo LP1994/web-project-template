@@ -293,8 +293,8 @@ const proxyConfig = {
      * '/rest': 'http://192.168.1.196:8087'
      */
     router: {
-      'localhost:8100': 'http://localhost:9999',
-      '127.0.0.1:8100': 'http://localhost:9999',
+      'localhost:8100': 'https://localhost:9999',
+      '127.0.0.1:8100': 'https://localhost:9999',
     },
 
     /**
@@ -334,7 +334,7 @@ const proxyConfig = {
      * secureProtocol：string、undefined，可选。<br />
      * }<br />
      */
-    target: 'http://localhost:9999',
+    target: 'https://localhost:9999',
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
@@ -656,8 +656,8 @@ HTTP代理--->${ req.originalUrl }<---End
      * '/rest': 'http://192.168.1.196:8087'
      */
     router: {
-      'localhost:8100': 'ws://localhost:9900',
-      '127.0.0.1:8100': 'ws://localhost:9900',
+      'localhost:8100': 'wss://localhost:9900',
+      '127.0.0.1:8100': 'wss://localhost:9900',
     },
 
     /**
@@ -697,7 +697,7 @@ HTTP代理--->${ req.originalUrl }<---End
      * secureProtocol：string、undefined，可选。<br />
      * }<br />
      */
-    target: 'ws://localhost:9900',
+    target: 'wss://localhost:9900',
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
