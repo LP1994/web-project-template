@@ -10,7 +10,7 @@
 'use strict';
 
 // 发起的请求URL如：http://localhost:9999/simulation_servers_deno/upload、http://localhost:9999/simulation_servers_deno/upload/
-const myURLPathName: string = `/simulation_servers_deno/upload`;
+export const myURLPathName: string = `/simulation_servers_deno/upload`;
 
 /**
  * 一定得保证该函数返回的值类型只能是：boolean。<br />
@@ -23,7 +23,7 @@ function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  return pathName.startsWith( myURLPathName );
+  return pathName === myURLPathName || pathName === `${ myURLPathName }/`;
 }
 
 export default Condition;

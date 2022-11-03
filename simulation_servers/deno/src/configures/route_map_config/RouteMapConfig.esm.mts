@@ -57,7 +57,12 @@ const methodByOptionsForRouteMapConfig: TypeRouteMapHandle = await GeneratorRout
 
 // RouteHandle Start
 
-const methodByPutForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
+const methodByPutForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
+  [
+    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
+    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+  ],
+] );
 
 const methodByDeleteForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 

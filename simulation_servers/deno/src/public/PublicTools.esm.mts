@@ -25,7 +25,10 @@ mime.define( {
   'text/html; charset=utf-8': [
     'ejs',
   ],
-} );
+  'application/json; charset=utf-8': [
+    'json',
+  ],
+}, true );
 
 async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
   if( Object.prototype.toString.call( arg ) !== '[object Promise]' ){

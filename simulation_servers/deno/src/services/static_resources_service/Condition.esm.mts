@@ -10,7 +10,7 @@
 'use strict';
 
 // 发起的请求URL如：http://localhost:9999/simulation_servers_deno/static/json/JSON001.json
-const myURLPathName: string = `/simulation_servers_deno/static/`;
+export const myURLPathName: string = `/simulation_servers_deno/static/`;
 
 /**
  * 一定得保证该函数返回的值类型只能是：boolean。<br />
