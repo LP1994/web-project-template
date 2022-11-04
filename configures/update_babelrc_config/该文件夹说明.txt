@@ -1,0 +1,8 @@
+UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的这4个文件：
+.babelrc.dev.json、.babelrc.json、.babelrc.production.json、.babelrc.test.json
+中的“@babel/preset-env”的corejs.version、“@babel/plugin-transform-runtime”的corejs.version值。
+
+默认（.babelrc.json，同生产）、开发（.babelrc.dev.json）、测试（.babelrc.test.json）、生产（.babelrc.production.json）。
+
+测试（.babelrc.test.json）：removeConsole、removeDebugger皆为false。
+生产（.babelrc.production.json）：removeConsole、removeDebugger皆为true。

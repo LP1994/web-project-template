@@ -1,5 +1,0 @@
-该文件夹下都是babel的.babelrc.json配置文件，根据不同编译目标有做分类：
-默认（.babelrc.json，同生产）、开发（.babelrc.dev.json）、测试（.babelrc.test.json）、生产（.babelrc.production.json）。
-
-测试（.babelrc.test.json）：removeConsole、removeDebugger皆为false。
-生产（.babelrc.production.json）：removeConsole、removeDebugger皆为true。
