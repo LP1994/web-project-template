@@ -1846,7 +1846,7 @@ const aliasConfig = {
     compress: true,
     devMiddleware: {
       headers: httpHeaders,
-      index: false,
+      index: true,
       methods: [
         'GET',
         'HEAD',
@@ -1862,7 +1862,9 @@ const aliasConfig = {
       writeToDisk: true,
     },
     headers: httpHeaders,
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/index.html',
+    },
     host: '0.0.0.0',
     hot: true,
     liveReload: true,
@@ -2083,27 +2085,52 @@ const aliasConfig = {
       }
 
       const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
-        logWriteStream.write( `--->${ req.url }<---Start
+          logWriteStream.write( `--->${ req.url }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, ' ' ) }
 --->${ req.url }<---End
 \n` );
 
-        res.setHeader( 'Content-Type', Mime.getType( req.url ) );
-        res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
-        res.setHeader( 'x-dev-type', `${ env_platform }` );
+          res.setHeader( 'Content-Type', Mime.getType( req.url ) );
+          res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
+          res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-        Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-          res.setHeader( keyName, keyValue );
-        } );
+          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+            res.setHeader( keyName, keyValue );
+          } );
 
-        res.statusCode = 200;
-        res.statusMessage = 'OK';
+          res.statusCode = 200;
+          res.statusMessage = 'OK';
 
-        createReadStream( url ).pipe( res, {
-          end: true,
-        } );
-      };
+          createReadStream( url ).pipe( res, {
+            end: true,
+          } );
+        },
+        ResRoot = ( req, response ) => {
+          response.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+          response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
+          response.setHeader( 'x-dev-type', `${ env_platform }` );
+
+          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+            response.setHeader( keyName, keyValue );
+          } );
+
+          response.statusCode = 200;
+          response.statusMessage = 'OK';
+
+          response.end( `
+                   <!DOCTYPE html>
+                   <html lang = 'zh-CN'>
+                   <head>
+                     <meta charset = 'UTF-8' />
+                     <title>index</title>
+                   </head>
+                   <body>
+                     <p>This is a index page.</p>
+                   </body>
+                   </html>
+                   `, 'utf8' );
+        };
 
       devServer.app.all( '*', ( req, res, next ) => {
         logWriteStream.write( `--->${ req.url }<---Start
@@ -2113,6 +2140,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 \n` );
 
         next();
+      } );
+
+      devServer.app.get( '/', ( req, response ) => {
+        ResRoot( req, response );
+      } );
+      devServer.app.get( '/index.html', ( req, response ) => {
+        ResRoot( req, response );
       } );
 
       devServer.app.get( '/favicon.ico', ( req, response ) => {
