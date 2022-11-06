@@ -18,7 +18,10 @@ Promise.allSettled( [
   // @ts-ignore
   // import( `${ serversDir }/HTTPServerForPort9999.mts` ),
   // @ts-ignore
-  import( `${ serversDir }/HTTPSServerForPort9999.mts` ),
+  // import( `${ serversDir }/HTTPSServerForPort9999.mts` ),
+
+  // @ts-ignore
+  import( `${ serversDir }/HTTPV2ServerForPort9999.mts` ),
 
   // @ts-ignore
   // import( `${ serversDir }/WebSocketServerForPort9900.mts` ),
