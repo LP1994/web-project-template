@@ -1963,29 +1963,38 @@ const aliasConfig = {
     server: {
       type: 'https',
       options: {
-        // Path to an SSL CA certificate or content of an SSL CA certificate.
+        /**
+         * Path to an SSL CA certificate or content of an SSL CA certificate.<br />
+         *
+         * 1、一般指的是CA证书，CA证书用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。<br />
+         */
         ca: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CA.crt' ), 'utf8' ),
 
         /**
-         * Request for an SSL certificate.
+         * Request for an SSL certificate.<br />
          *
-         * PS：
-         * 启用该项会导致无法从https加载。
+         * PS：<br />
+         * 启用该项会导致无法从https加载。<br />
          */
         // requestCert: true,
 
         // Path to an SSL certificate or content of an SSL certificate.
         cert: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.crt' ), 'utf8' ),
-        // Path to an SSL key or content of an SSL key.
+        /**
+         * Path to an SSL key or content of an SSL key.<br />
+         *
+         * 注意：<br />
+         * 1、在生成HTTPS001Server.key文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+         */
         key: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.key' ), 'utf8' ),
 
         // Passphrase for a pfx file.
-        passphrase: 'opensslHTTPS001',
+        // passphrase: 'opensslHTTPS001',
         /**
-         * 1、Path to an SSL pfx file or content of an SSL pfx file.
+         * 1、Path to an SSL pfx file or content of an SSL pfx file.<br />
          *
-         * PS：
-         * 启用会报错误：[webpack-cli] Error: header too long
+         * PS：<br />
+         * 启用会报错误：[webpack-cli] Error: header too long<br />
          */
         // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.pfx' ), 'utf8' ),
 

@@ -1,0 +1,124 @@
+在安装完OpenSSL 3.X后，发现本机系统的OpenSSL版本默认指向：OpenSSL 1.1.1i  8 Dec 2020。
+无论怎么配置系统环境变量都没法更改这个默认的版本，所以，要使用OpenSSL 3.X进行生成证书，那就进到“D:\OpenSSL\App\bin”，然后在其下进行各种证书配置操作。
+
+
+
+第1步：
+cd /d D:\OpenSSL\App\bin
+
+
+
+第2步：
+#创建CA证书，用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。
+#genrsa -des3，表示创建带PEM密码短语的，执行后，控制台会要求你输入PEM密码短语。
+openssl genrsa -out WorkSpace/HTTPS001/HTTPS001CA.key 2048
+
+
+
+第3步：
+#创建CSR证书请求文件，输入第2步设置的密码（如果有设置的话就输入，没有就继续后面的操作），然后按提示填写基本信息。
+openssl req -new -key WorkSpace/HTTPS001/HTTPS001CA.key -out WorkSpace/HTTPS001/HTTPS001CA.csr -config openssl.cnf
+
+#提示输入的选项：
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+#国家名称（2个大写字母代码），CN表示中国。
+Country Name (2 letter code) [CN]:CN
+#州或省名称（全名）。
+State or Province Name (full name) [GuangDong]:GuangDong
+#地点名称（如城市）。
+Locality Name (eg, city) [ShenZhen]:ShenZhen
+#组织名称（例如，公司）。
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:HTTPS001
+#组织单位名称（例如，部门）。
+Organizational Unit Name (eg, section) []:HTTPS001
+#公用名（例如服务器FQDN或您的姓名）
+Common Name (e.g. server FQDN or YOUR name) []:192.168.10.101
+#电子邮件地址
+Email Address [2726893248@qq.com]:2726893248@qq.com
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+#质询密码。
+A challenge password []:opensslHTTPS001
+#可选公司名称。
+An optional company name []:HTTPS001
+
+
+
+第4步：
+#生成公钥证书。
+openssl x509 -req -in WorkSpace/HTTPS001/HTTPS001CA.csr -signkey WorkSpace/HTTPS001/HTTPS001CA.key -days 36500 -out WorkSpace/HTTPS001/HTTPS001CA.crt
+
+#提示输入的选项：
+Certificate request self-signature ok
+subject=C = CN, ST = GuangDong, L = ShenZhen, O = HTTPS001, OU = HTTPS001, CN = 192.168.10.101, emailAddress = 2726893248@qq.com
+
+
+
+第5步：
+#生成.pfx文件，得将其内容转成base64编码的（具体转换代码见：https://blog.csdn.net/u011818572/article/details/118691250）。
+#需要输入上面设置的“质询密码”，也就是：opensslHTTPS001。
+openssl pkcs12 -export -in WorkSpace/HTTPS001/HTTPS001CA.crt -inkey WorkSpace/HTTPS001/HTTPS001CA.key -out WorkSpace/HTTPS001/HTTPS001CA.pfx
+
+Enter Export Password:opensslHTTPS001
+Verifying - Enter Export Password:opensslHTTPS001
+
+
+
+#以上操作至此完成了CA证书的创建，CA证书用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中！！！
+
+部分可供参考的操作命令：
+1、备份有秘密的私钥文件：copy XXX.key XXX.key.orig
+2、去掉私钥文件的密码，要输入之前设置的密码并再次确认：openssl rsa -in WorkSpace/HTTPS001/HTTPS001CA.key -out WorkSpace/HTTPS001/HTTPS001CA.key
+
+#以下就是创建服务器用的各种证书，一般是给服务器用的，操作中的提示可以参照上面的！！！
+
+
+
+第1步：
+openssl genrsa -out WorkSpace/HTTPS001/HTTPS001Server.key 2048
+
+
+
+第2步：
+openssl req -new -key WorkSpace/HTTPS001/HTTPS001Server.key -out WorkSpace/HTTPS001/HTTPS001Server.csr -config openssl.cnf
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [CN]:CN
+State or Province Name (full name) [GuangDong]:GuangDong
+Locality Name (eg, city) [ShenZhen]:ShenZhen
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:HTTPS001
+Organizational Unit Name (eg, section) []:HTTPS001
+Common Name (e.g. server FQDN or YOUR name) []:192.168.10.101
+Email Address [2726893248@qq.com]:2726893248@qq.com
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:opensslHTTPS001
+An optional company name []:HTTPS001
+
+
+
+第3步：
+openssl x509 -req -CA WorkSpace/HTTPS001/HTTPS001CA.crt -CAkey WorkSpace/HTTPS001/HTTPS001CA.key -CAcreateserial -days 36500 -in WorkSpace/HTTPS001/HTTPS001Server.csr -out WorkSpace/HTTPS001/HTTPS001Server.crt
+
+Certificate request self-signature ok
+subject=C = CN, ST = GuangDong, L = ShenZhen, O = HTTPS001, OU = HTTPS001, CN = 192.168.10.101, emailAddress = 2726893248@qq.com
+
+
+
+第4步：
+#生成.pfx文件，得将其内容转成base64编码的（具体转换代码见：https://blog.csdn.net/u011818572/article/details/118691250）。
+openssl pkcs12 -export -in WorkSpace/HTTPS001/HTTPS001Server.crt -inkey WorkSpace/HTTPS001/HTTPS001Server.key -out WorkSpace/HTTPS001/HTTPS001Server.pfx
+Enter Export Password:opensslHTTPS001
+Verifying - Enter Export Password:opensslHTTPS001
