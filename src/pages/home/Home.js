@@ -10,3 +10,13 @@
 'use strict';
 
 document.querySelector( 'main' ).textContent = 'Home Page!';
+
+document.querySelector( 'main' ).addEventListener( 'click', event => {
+  axios.get( `/simulation_servers_deno/GetJSON` ).then( res => {
+    console.dir( res );
+  } );
+
+  axios.post( `/simulation_servers_deno/upload` ).then( res => {
+    console.dir( res );
+  } );
+} );

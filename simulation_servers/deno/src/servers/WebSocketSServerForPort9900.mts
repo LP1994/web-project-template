@@ -159,15 +159,27 @@ ${ ( error as Error ).message }`,
   {
     port: 9900,
     /**
-     * 1、当设置为'0.0.0.0'时，用postman测试时，用“wss://127.0.0.1:9900”、“wss://localhost:9900”、“wss://192.168.10.101:9900”都能连接。<br />
-     * 2、当设置为'127.0.0.1'时，用postman测试时，只能用“wss://127.0.0.1:9900”、“wss://localhost:9900”才能连接。<br />
-     * 3、但是当设置为'localhost'时，用postman测试时，用“wss://127.0.0.1:9900”、“wss://localhost:9900”、“wss://192.168.10.101:9900”都不能连接上。<br />
+     * 用postman测试时：<br />
+     * 1、当设置为'localhost'时，只能用“https://localhost:9900”才能连接上（http、https、ws、wss皆是如此）。<br />
+     * 2、当设置为'127.0.0.1'时，只能用“https://127.0.0.1:9900”、“https://localhost:9900”才能连接上（http、https、ws、wss皆是如此）。<br />
+     * 3、当设置为'0.0.0.0'时，只能用“https://localhost:9900”、“https://127.0.0.1:9900”、“https://192.168.10.101:9900”才能连接上（http、https、ws、wss皆是如此）。<br />
+     *
+     * 用浏览器测试时：<br />
+     * 1、当设置为'localhost'时，只能用“https://localhost:9900”才能连接上（http、https、ws、wss皆是如此）。<br />
+     * 2、当设置为'127.0.0.1'时，只能用“https://127.0.0.1:9900”、“https://localhost:9900”才能连接上（http、https、ws、wss皆是如此）。<br />
+     * 3、当设置为'0.0.0.0'时，只能用“https://localhost:9900”、“https://127.0.0.1:9900”、“https://192.168.10.101:9900”才能连接上（http、https、ws、wss皆是如此）。<br />
+     *
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器）：<br />
+     * 1、例如，当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
+     * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务。<br />
      */
     hostname: '0.0.0.0',
     // @ts-ignore
-    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/2022002/server2022002cert.pem` ) ),
+    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Server.crt` ) ),
     // @ts-ignore
-    key: Deno.readTextFileSync( new URL( `${ opensslDir }/2022002/server2022002key.pem` ) ),
+    key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Server.key` ) ),
     onListen: (
       {
         hostname,

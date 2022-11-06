@@ -1963,14 +1963,34 @@ const aliasConfig = {
     server: {
       type: 'https',
       options: {
-        passphrase: 'openssl2022002',
-        ca: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.crt' ), 'utf8' ),
-        cert: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002cert.pem' ), 'utf8' ),
-        key: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002key.pem' ), 'utf8' ),
-        // 启用会报错误：[webpack-cli] Error: header too long
-        // pfx: readFileSync( join( __dirname, './configures/openssl/2022002/server2022002.pfx' ), 'utf8' ),
-        // 启用该项会导致无法从https加载。
+        // Path to an SSL CA certificate or content of an SSL CA certificate.
+        ca: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CA.crt' ), 'utf8' ),
+
+        /**
+         * Request for an SSL certificate.
+         *
+         * PS：
+         * 启用该项会导致无法从https加载。
+         */
         // requestCert: true,
+
+        // Path to an SSL certificate or content of an SSL certificate.
+        cert: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.crt' ), 'utf8' ),
+        // Path to an SSL key or content of an SSL key.
+        key: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.key' ), 'utf8' ),
+
+        // Passphrase for a pfx file.
+        passphrase: 'opensslHTTPS001',
+        /**
+         * 1、Path to an SSL pfx file or content of an SSL pfx file.
+         *
+         * PS：
+         * 启用会报错误：[webpack-cli] Error: header too long
+         */
+        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.pfx' ), 'utf8' ),
+
+        // Path to PEM formatted CRLs (Certificate Revocation Lists) or content of PEM formatted CRLs (Certificate Revocation Lists).
+        // crl: readFileSync( join( __dirname, './configures/openssl/HTTPS001/XXX.pem' ), 'utf8' ),
       },
     },
     setupExitSignals: true,
@@ -2859,7 +2879,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.20.0',
+          } )() || '7.20.1',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,

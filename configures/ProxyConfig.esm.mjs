@@ -295,6 +295,17 @@ const proxyConfig = {
     router: {
       'localhost:8100': 'https://localhost:9999',
       '127.0.0.1:8100': 'https://localhost:9999',
+      '192.168.10.101:8100': 'https://localhost:9999',
+      '192.168.10.103:8100': 'https://localhost:9999',
+      '192.168.1.106:8100': 'https://localhost:9999',
+      '192.168.0.110:8100': 'https://localhost:9999',
+
+      'localhost:8200': 'https://localhost:9999',
+      '127.0.0.1:8200': 'https://localhost:9999',
+      '192.168.10.101:8200': 'https://localhost:9999',
+      '192.168.10.103:8200': 'https://localhost:9999',
+      '192.168.1.106:8200': 'https://localhost:9999',
+      '192.168.0.110:8200': 'https://localhost:9999',
     },
 
     /**
@@ -658,6 +669,17 @@ HTTP代理--->${ req.originalUrl }<---End
     router: {
       'localhost:8100': 'wss://localhost:9900',
       '127.0.0.1:8100': 'wss://localhost:9900',
+      '192.168.10.101:8100': 'wss://localhost:9900',
+      '192.168.10.103:8100': 'wss://localhost:9900',
+      '192.168.1.106:8100': 'wss://localhost:9900',
+      '192.168.0.110:8100': 'wss://localhost:9900',
+
+      'localhost:8200': 'wss://localhost:9900',
+      '127.0.0.1:8200': 'wss://localhost:9900',
+      '192.168.10.101:8200': 'wss://localhost:9900',
+      '192.168.10.103:8200': 'wss://localhost:9900',
+      '192.168.1.106:8200': 'wss://localhost:9900',
+      '192.168.0.110:8200': 'wss://localhost:9900',
     },
 
     /**
