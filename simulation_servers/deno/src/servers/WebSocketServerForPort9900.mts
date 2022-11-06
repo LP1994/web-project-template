@@ -189,7 +189,7 @@ ${ ( error as Error ).message }`,
         port: number;
       }
     ): void => {
-      console.log( `\nWebSocket Server已启动：ws://${ hostname }:${ port }/\n` );
+      console.log( `\nWebSocket Server已启动：ws://${ hostname }:${ port }/。\n` );
     },
     onError: ( error: unknown ): TypeResponse001 => {
       console.error( `\nWebSocket Server onError--->Start` );

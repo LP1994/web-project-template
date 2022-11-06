@@ -21,12 +21,17 @@ Promise.allSettled( [
   // import( `${ serversDir }/HTTPSServerForPort9999.mts` ),
 
   // @ts-ignore
-  import( `${ serversDir }/HTTPV2ServerForPort9999.mts` ),
+  // import( `${ serversDir }/HTTPAndWebSocketByServerForPort9999.mts` ),
+  // @ts-ignore
+  import( `${ serversDir }/HTTPSAndWebSocketSByServerForPort9999.mts` ),
+
+  // @ts-ignore
+  // import( `${ serversDir }/HTTPV2ServerForPort9999.mts` ),
 
   // @ts-ignore
   // import( `${ serversDir }/WebSocketServerForPort9900.mts` ),
   // @ts-ignore
-  import( `${ serversDir }/WebSocketSServerForPort9900.mts` ),
+  // import( `${ serversDir }/WebSocketSServerForPort9900.mts` ),
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
