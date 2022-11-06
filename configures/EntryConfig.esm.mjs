@@ -104,14 +104,14 @@ const entryConfig = {
   HelloWorld: {
     import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
       './src/pages/hello_world/HelloWorld.css',
-      './src/pages/hello_world/HelloWorld.js',
+      './src/pages/hello_world/HelloWorld.mjs',
     ] ),
   },
 
   Home: {
     import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
       './src/pages/home/Home.css',
-      './src/pages/home/Home.js',
+      './src/pages/home/Home.mjs',
     ] ),
   },
 };

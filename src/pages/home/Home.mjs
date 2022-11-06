@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: src/pages/hello_world/HelloWorld.js
+ * FileDirPath: src/pages/home/Home.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -9,4 +9,4 @@
 
 'use strict';
 
-document.querySelector( 'main' ).textContent = `Hello World!`;
+document.querySelector( 'main' ).textContent = `Home Page!`;

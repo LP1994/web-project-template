@@ -1968,25 +1968,25 @@ const aliasConfig = {
          *
          * 1、一般指的是CA证书，CA证书用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。<br />
          */
-        ca: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CA.crt' ), 'utf8' ),
+        ca: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CACert.crt' ), 'utf8' ),
 
         /**
          * Request for an SSL certificate.<br />
          *
          * PS：<br />
-         * 启用该项会导致无法从https加载。<br />
+         * 启用该项会导致浏览器无法从https加载。<br />
          */
         // requestCert: true,
 
-        // Path to an SSL certificate or content of an SSL certificate.
-        cert: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.crt' ), 'utf8' ),
         /**
          * Path to an SSL key or content of an SSL key.<br />
          *
          * 注意：<br />
-         * 1、在生成HTTPS001Server.key文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+         * 1、在生成HTTPS001Key.key文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
          */
-        key: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.key' ), 'utf8' ),
+        key: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Key.pem' ), 'utf8' ),
+        // Path to an SSL certificate or content of an SSL certificate.
+        cert: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.crt' ), 'utf8' ),
 
         // Passphrase for a pfx file.
         // passphrase: 'opensslHTTPS001',
@@ -1994,9 +1994,9 @@ const aliasConfig = {
          * 1、Path to an SSL pfx file or content of an SSL pfx file.<br />
          *
          * PS：<br />
-         * 启用会报错误：[webpack-cli] Error: header too long<br />
+         * 启用会报错误：[webpack-cli] Error: wrong tag
          */
-        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.pfx' ), 'utf8' ),
+        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CACert.p12.base64' ), 'base64' ),
 
         // Path to PEM formatted CRLs (Certificate Revocation Lists) or content of PEM formatted CRLs (Certificate Revocation Lists).
         // crl: readFileSync( join( __dirname, './configures/openssl/HTTPS001/XXX.pem' ), 'utf8' ),

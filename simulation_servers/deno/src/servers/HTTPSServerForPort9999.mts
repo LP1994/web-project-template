@@ -103,9 +103,9 @@ serveTls(
      */
     hostname: '0.0.0.0',
     // @ts-ignore
-    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Server.crt` ) ),
+    key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Key.pem` ) ),
     // @ts-ignore
-    key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Server.key` ) ),
+    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Server.crt` ) ),
     onListen: (
       {
         hostname,
