@@ -15,23 +15,23 @@ import {
 } from './configures/GlobalParameters.esm.mts';
 
 Promise.allSettled( [
-  // @ts-ignore
-  // import( `${ serversDir }/HTTPServerForPort9999.mts` ),
-  // @ts-ignore
-  // import( `${ serversDir }/HTTPSServerForPort9999.mts` ),
+  // 同时提供“http:”和“ws:”协议的服务，端口都是9000。
+  // import( `${ serversDir }/HTTPAndWebSocketByServerForPort9000.mts` ),
+  // 同时提供“https:”和“wss:”协议的服务，端口都是9000。
+  import( `${ serversDir }/HTTPSAndWebSocketSByServerForPort9000.mts` ),
 
-  // @ts-ignore
-  // import( `${ serversDir }/HTTPAndWebSocketByServerForPort9999.mts` ),
-  // @ts-ignore
-  import( `${ serversDir }/HTTPSAndWebSocketSByServerForPort9999.mts` ),
+  // 提供“http:”协议的服务，端口9100。
+  // import(`${ serversDir }/HTTPServerForPort9100.mts`),
+  // 提供“https:”协议的服务，端口9100。
+  // import( `${ serversDir }/HTTPSServerForPort9100.mts` ),
 
-  // @ts-ignore
-  // import( `${ serversDir }/HTTPV2ServerForPort9999.mts` ),
+  // 提供“https:”协议的服务（使用HTTP/2），端口9200。
+  // import( `${ serversDir }/HTTPV2ServerForPort9200.mts` ),
 
-  // @ts-ignore
-  // import( `${ serversDir }/WebSocketServerForPort9900.mts` ),
-  // @ts-ignore
-  // import( `${ serversDir }/WebSocketSServerForPort9900.mts` ),
+  // 提供“ws:”协议的服务，端口9300。
+  // import( `${ serversDir }/WebSocketServerForPort9300.mts` ),
+  // 提供“wss:”协议的服务，端口9300。
+  // import( `${ serversDir }/WebSocketSServerForPort9300.mts` ),
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {

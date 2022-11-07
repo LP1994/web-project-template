@@ -1421,21 +1421,21 @@ const aliasConfig = {
       env_platform: JSON.stringify( env_platform ),
 
       /**
-       * 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.137.137:8087/graphql
+       * 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.10.101:9000/graphql
        * 注意：
        * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
        * 使用例子：
-       * axios.get( '${ devURLDemo001 }/XXX001/XXX002.json' )
+       * axios.get( '${ devURLDemo001 }/graphql' )
        */
       devURLDemo001: isProduction
                      ? '""'
                      : '"/devURLDemo001"',
       /**
-       * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.1.196:8087
+       * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.10.101:9000/subscriptions
        * 注意：
        * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
        * 使用例子：
-       * new WebSocket( '${ ws4DevURLDemo001 }/XXX001' )
+       * new WebSocket( '${ ws4DevURLDemo001 }/subscriptions' )
        */
       ws4DevURLDemo001: isProduction
                         ? `${ wsHost001 }""`

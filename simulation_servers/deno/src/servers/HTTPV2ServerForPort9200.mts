@@ -1,10 +1,14 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/servers/HTTPV2ServerForPort9999.mts
+ * FileDirPath: simulation_servers/deno/src/servers/HTTPV2ServerForPort9200.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
  * CreateDate: 2022-10-31 23:17:27 星期一
+ */
+
+/**
+ * 提供“https:”协议的服务（使用HTTP/2），端口9200。
  */
 
 'use strict';
@@ -24,7 +28,7 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
   console.log( `\nconnInfo--->Start` );
   /*
    {
-   localAddr: { hostname: "192.168.10.101", port: 9999, transport: "tcp" },
+   localAddr: { hostname: "192.168.10.101", port: 9200, transport: "tcp" },
    remoteAddr: { hostname: "192.168.10.101", port: 62180, transport: "tcp" }
    }
    */
@@ -62,7 +66,7 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
          },
          method: "GET",
          redirect: "follow",
-         url: "https://192.168.10.101:9999/"
+         url: "https://192.168.10.101:9200/"
          }
          */
         console.dir( requestEvent.request );
@@ -85,29 +89,29 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
 try{
   // @ts-ignore
   const server: Deno.TlsListener = Deno.listenTls( {
-    port: 9999,
+    port: 9200,
     /**
      * 用postman测试时：<br />
-     * 1、当设置为'localhost'时，用如“https://localhost:9999”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9999”、“https://localhost:9999”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9999”、“https://127.0.0.1:9999”、“https://192.168.10.101:9999”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 1、当设置为'localhost'时，用如“https://localhost:9200”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9200”、“https://localhost:9200”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9200”、“https://127.0.0.1:9200”、“https://192.168.10.101:9200”能连接上（http、https、ws、wss皆是如此）。<br />
      *
      * 用浏览器测试时：<br />
-     * 1、当设置为'localhost'时，用如“https://localhost:9999”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9999”、“https://localhost:9999”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9999”、“https://127.0.0.1:9999”、“https://192.168.10.101:9999”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 1、当设置为'localhost'时，用如“https://localhost:9200”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9200”、“https://localhost:9200”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9200”、“https://127.0.0.1:9200”、“https://192.168.10.101:9200”能连接上（http、https、ws、wss皆是如此）。<br />
      *
      * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
-     * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9300”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9300”。<br />
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9300”）。<br />
      * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
      *
      * 当设置为'0.0.0.0'时的注意事项：<br />
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
      * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
      * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
-     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9200。<br />
      */
     hostname: '0.0.0.0',
     // @ts-ignore

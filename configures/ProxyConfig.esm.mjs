@@ -16,12 +16,12 @@
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
  * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
  * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
- * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+ * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
  *
  * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
- * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。
- * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。
- * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。
+ * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+ * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+ * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
  * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
  */
 
@@ -41,11 +41,11 @@
  } );
 
  配置中对应的写法：
- '/m3u8/*': {
+ '/m3u8/': {
  target: 'http://sjjx.qqplayerjx.com',
  changeOrigin: true,
  router: {
- 'http://localhost:8082': 'http://sjjx.qqplayerjx.com'
+ 'localhost:8082': 'http://sjjx.qqplayerjx.com'
  },
  }
  */
@@ -255,17 +255,17 @@ if( !isProduction ){
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
  * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
  * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
- * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+ * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
  *
- * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
- * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
- * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
- * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
- * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
+ * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+ * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+ * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+ * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+ * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
  */
 const proxyConfig = {
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://localhost:9999/simulation_servers_deno/GetJSON。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://0.0.0.0:9000/simulation_servers_deno/GetJSON。<br />
    */
   '/devURLDemo001/simulation_servers_deno/': {
     /**
@@ -322,28 +322,24 @@ const proxyConfig = {
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
      * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
      * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
-     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
      *
-     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
-     * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
-     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
      */
     router: {
-      'localhost:8100': 'https://0.0.0.0:9999',
-      '127.0.0.1:8100': 'https://0.0.0.0:9999',
-      '192.168.10.101:8100': 'https://0.0.0.0:9999',
-      '192.168.10.103:8100': 'https://0.0.0.0:9999',
-      '192.168.1.106:8100': 'https://0.0.0.0:9999',
-      '192.168.0.110:8100': 'https://0.0.0.0:9999',
+      'localhost:8100': 'https://0.0.0.0:9000',
+      '127.0.0.1:8100': 'https://0.0.0.0:9000',
+      '192.168.10.101:8100': 'https://0.0.0.0:9000',
+      '192.168.10.103:8100': 'https://0.0.0.0:9000',
 
-      'localhost:8200': 'https://0.0.0.0:9999',
-      '127.0.0.1:8200': 'https://0.0.0.0:9999',
-      '192.168.10.101:8200': 'https://0.0.0.0:9999',
-      '192.168.10.103:8200': 'https://0.0.0.0:9999',
-      '192.168.1.106:8200': 'https://0.0.0.0:9999',
-      '192.168.0.110:8200': 'https://0.0.0.0:9999',
+      'localhost:8200': 'https://0.0.0.0:9000',
+      '127.0.0.1:8200': 'https://0.0.0.0:9000',
+      '192.168.10.101:8200': 'https://0.0.0.0:9000',
+      '192.168.10.103:8200': 'https://0.0.0.0:9000',
     },
 
     /**
@@ -387,15 +383,15 @@ const proxyConfig = {
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
      * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
      * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
-     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
      *
-     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
-     * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
-     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
      */
-    target: 'https://0.0.0.0:9999',
+    target: 'https://0.0.0.0:9000',
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
@@ -665,7 +661,7 @@ HTTP代理--->${ req.originalUrl }<---End
   },
 
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://localhost:9900/simulation_servers_deno/subscriptions。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://0.0.0.0:9000/simulation_servers_deno/subscriptions。<br />
    */
   '/ws4DevURLDemo001/simulation_servers_deno/': {
     /**
@@ -722,28 +718,24 @@ HTTP代理--->${ req.originalUrl }<---End
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
      * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
      * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
-     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
      *
-     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
-     * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
-     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
      */
     router: {
-      'localhost:8100': 'wss://0.0.0.0:9900',
-      '127.0.0.1:8100': 'wss://0.0.0.0:9900',
-      '192.168.10.101:8100': 'wss://0.0.0.0:9900',
-      '192.168.10.103:8100': 'wss://0.0.0.0:9900',
-      '192.168.1.106:8100': 'wss://0.0.0.0:9900',
-      '192.168.0.110:8100': 'wss://0.0.0.0:9900',
+      'localhost:8100': 'wss://0.0.0.0:9000',
+      '127.0.0.1:8100': 'wss://0.0.0.0:9000',
+      '192.168.10.101:8100': 'wss://0.0.0.0:9000',
+      '192.168.10.103:8100': 'wss://0.0.0.0:9000',
 
-      'localhost:8200': 'wss://0.0.0.0:9900',
-      '127.0.0.1:8200': 'wss://0.0.0.0:9900',
-      '192.168.10.101:8200': 'wss://0.0.0.0:9900',
-      '192.168.10.103:8200': 'wss://0.0.0.0:9900',
-      '192.168.1.106:8200': 'wss://0.0.0.0:9900',
-      '192.168.0.110:8200': 'wss://0.0.0.0:9900',
+      'localhost:8200': 'wss://0.0.0.0:9000',
+      '127.0.0.1:8200': 'wss://0.0.0.0:9000',
+      '192.168.10.101:8200': 'wss://0.0.0.0:9000',
+      '192.168.10.103:8200': 'wss://0.0.0.0:9000',
     },
 
     /**
@@ -787,15 +779,15 @@ HTTP代理--->${ req.originalUrl }<---End
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
      * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
      * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
-     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9999。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
      *
-     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9999”）跟其中的websocket服务地址（如“wss://localhost:9900”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9900”。<br />
-     * 3、然后才能让页面（如“https://localhost:9999”）成功访问其中的websocket服务地址（如“wss://localhost:9900”）。<br />
-     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
      */
-    target: 'wss://0.0.0.0:9900',
+    target: 'wss://0.0.0.0:9000',
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />

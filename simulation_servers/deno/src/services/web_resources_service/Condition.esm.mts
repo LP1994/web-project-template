@@ -9,7 +9,7 @@
 
 'use strict';
 
-// 发起的请求URL如：http://localhost:9999/simulation_servers_deno/web/xx_project/js/JS001.js
+// 发起的请求URL如：https://localhost:9000/simulation_servers_deno/web/xx_project/js/JS001.js
 export const myURLPathName: string = `/simulation_servers_deno/web/`;
 
 /**
