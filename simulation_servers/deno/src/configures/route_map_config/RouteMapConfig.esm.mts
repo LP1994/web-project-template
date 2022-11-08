@@ -49,9 +49,20 @@ const methodByGetForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap
   '/apple-touch-icon-120x120-precomposed.png': `${ servicesDir }/ResRootFavicon.esm.mts`,
 
   '/simulation_servers_deno/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
+  '/simulation_servers_deno/GetJSON/': `${ servicesDir }/GetJSON.esm.mts`,
 } );
 
 const methodByOptionsForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {} );
+
+const websocketForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {
+  '/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+  '/subscriptions': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+  '/subscriptions/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+  '/simulation_servers_deno': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+  '/simulation_servers_deno/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+  '/simulation_servers_deno/subscriptions': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+  '/simulation_servers_deno/subscriptions/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
+} );
 
 // RouteMapConfig End
 
@@ -88,6 +99,13 @@ const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
 
 const methodByOptionsForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] );
 
+const websocketForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
+  [
+    `${ servicesDir }/websocket_upload/Condition.esm.mts`,
+    `${ servicesDir }/websocket_upload/ResponseHandle.esm.mts`,
+  ],
+] );
+
 // RouteHandle End
 
 export {
@@ -97,6 +115,8 @@ export {
   methodByPostForRouteMapConfig,
   methodByGetForRouteMapConfig,
   methodByOptionsForRouteMapConfig,
+
+  websocketForRouteMapConfig,
   // RouteMapConfig End
 
   // RouteHandle Start
@@ -105,6 +125,8 @@ export {
   methodByPostForRouteHandle,
   methodByGetForRouteHandle,
   methodByOptionsForRouteHandle,
+
+  websocketForRouteHandle,
   // RouteHandle End
 };
 
@@ -115,6 +137,8 @@ export default {
   methodByPostForRouteMapConfig,
   methodByGetForRouteMapConfig,
   methodByOptionsForRouteMapConfig,
+
+  websocketForRouteMapConfig,
   // RouteMapConfig End
 
   // RouteHandle Start
@@ -123,5 +147,7 @@ export default {
   methodByPostForRouteHandle,
   methodByGetForRouteHandle,
   methodByOptionsForRouteHandle,
+
+  websocketForRouteHandle,
   // RouteHandle End
 };

@@ -23,7 +23,10 @@ function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  return pathName === myURLPathName || pathName === `${ myURLPathName }/`;
+  return [
+    myURLPathName,
+    `${ myURLPathName }/`,
+  ].includes( pathName );
 }
 
 export default Condition;

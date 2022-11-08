@@ -46,6 +46,9 @@ import Get from './Get.esm.mts';
 // @ts-ignore
 import Options from './Options.esm.mts';
 
+// @ts-ignore
+import WebSocket from './WebSocket.esm.mts';
+
 type TypeFun003 = TypeFun001 | TypeFun002;
 
 const requestMethods: {
@@ -68,7 +71,14 @@ const requestMethods: {
 async function Routers( request: Request ): Promise<Response>{
   const method: string = request.method.toLowerCase().trim();
 
-  if( method in requestMethods ){
+  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).toLowerCase(),
+    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+    connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
+
+  if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
+    return ( await IterateToNestForPromise( WebSocket( request ) ) ) as Response;
+  }
+  else if( method in requestMethods ){
     return ( await IterateToNestForPromise( ( requestMethods[ method ] as TypeFun003 )( request ) ) ) as Response;
   }
 
