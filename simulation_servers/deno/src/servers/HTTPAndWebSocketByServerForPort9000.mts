@@ -77,14 +77,14 @@ serve(
     console.dir( connInfo );
     console.log( `HTTP and WebSocket Server connInfo--->End\n` );
 
-    const upgrade: string = request.headers.get( 'upgrade' ) ?? '',
+    const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).toLowerCase(),
       // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
-      connection: string = request.headers.get( 'connection' ) ?? '';
+      connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
 
     console.log( `\n\n请求头中的connection值为：${ connection }。
 请求头中的upgrade值为：${ upgrade }。\n\n` );
 
-    if( upgrade.toLowerCase() === 'websocket' && ( connection.toLowerCase() === 'upgrade' || connection.toLowerCase() === 'keep-alive, Upgrade'.toLowerCase() ) ){
+    if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
       let response: Response,
         socket: WebSocket;
 
@@ -118,6 +118,46 @@ serve(
             idleTimeout: 0,
           } )
         );
+
+        // @ts-ignore
+        socket.addEventListener( 'open', ( ws: WebSocket, event: Event ): void => {
+          console.log( '\n\nsocket open Start\n\n' );
+          console.dir( ws );
+          console.log( '\n' );
+          console.dir( event );
+          console.log( '\n\nsocket open End\n\n' );
+        } );
+
+        // @ts-ignore
+        socket.addEventListener( 'message', ( ws: WebSocket, messageEvent: MessageEvent ): void => {
+          console.log( '\n\nsocket message Start\n\n' );
+          console.dir( ws );
+          console.log( '\n' );
+          console.dir( messageEvent );
+          console.log( '\n\nsocket message End\n\n' );
+
+          socket.send( new Date().toString() );
+        } );
+
+        // @ts-ignore
+        socket.addEventListener( 'error', ( ws: WebSocket, errorEvent: Event | ErrorEvent ): void => {
+          console.log( '\n\nsocket error Start\n\n' );
+          console.dir( ws );
+          console.log( '\n' );
+          console.dir( errorEvent );
+          console.log( '\n\nsocket error End\n\n' );
+        } );
+
+        // @ts-ignore
+        socket.addEventListener( 'close', ( ws: WebSocket, closeEvent: CloseEvent ): void => {
+          console.log( '\n\nsocket closed Start\n\n' );
+          console.dir( ws );
+          console.log( '\n' );
+          console.dir( closeEvent );
+          console.log( '\n\nsocket closed End\n\n' );
+        } );
+
+        return response;
       }
       catch( error: unknown ){
         return InterceptorError.ResError( {
@@ -127,46 +167,6 @@ serve(
 ${ ( error as Error ).message }`,
         } );
       }
-
-      // @ts-ignore
-      socket.addEventListener( 'open', ( ws: WebSocket, event: Event ): void => {
-        console.log( '\n\nsocket open Start\n\n' );
-        console.dir( ws );
-        console.log( '\n' );
-        console.dir( event );
-        console.log( '\n\nsocket open End\n\n' );
-      } );
-
-      // @ts-ignore
-      socket.addEventListener( 'message', ( ws: WebSocket, messageEvent: MessageEvent ): void => {
-        console.log( '\n\nsocket message Start\n\n' );
-        console.dir( ws );
-        console.log( '\n' );
-        console.dir( messageEvent );
-        console.log( '\n\nsocket message End\n\n' );
-
-        socket.send( new Date().toString() );
-      } );
-
-      // @ts-ignore
-      socket.addEventListener( 'error', ( ws: WebSocket, errorEvent: Event | ErrorEvent ): void => {
-        console.log( '\n\nsocket error Start\n\n' );
-        console.dir( ws );
-        console.log( '\n' );
-        console.dir( errorEvent );
-        console.log( '\n\nsocket error End\n\n' );
-      } );
-
-      // @ts-ignore
-      socket.addEventListener( 'close', ( ws: WebSocket, closeEvent: CloseEvent ): void => {
-        console.log( '\n\nsocket closed Start\n\n' );
-        console.dir( ws );
-        console.log( '\n' );
-        console.dir( closeEvent );
-        console.log( '\n\nsocket closed End\n\n' );
-      } );
-
-      return response;
     }
     else{
       return Routers( request );

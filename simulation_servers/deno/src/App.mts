@@ -18,15 +18,15 @@ Promise.allSettled( [
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000。
   // import( `${ serversDir }/HTTPAndWebSocketByServerForPort9000.mts` ),
   // 同时提供“https:”和“wss:”协议的服务，端口都是9000。
-  import( `${ serversDir }/HTTPSAndWebSocketSByServerForPort9000.mts` ),
+  // import( `${ serversDir }/HTTPSAndWebSocketSByServerForPort9000.mts` ),
 
   // 提供“http:”协议的服务，端口9100。
   // import(`${ serversDir }/HTTPServerForPort9100.mts`),
   // 提供“https:”协议的服务，端口9100。
   // import( `${ serversDir }/HTTPSServerForPort9100.mts` ),
 
-  // 提供“https:”协议的服务（使用HTTP/2），端口9200。
-  // import( `${ serversDir }/HTTPV2ServerForPort9200.mts` ),
+  // 提供“https:”和“wss:”协议的服务，端口都是9200，该服务使用HTTP/2，Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
+  import( `${ serversDir }/HTTPV2AndWebSocketSServerForPort9200.mts` ),
 
   // 提供“ws:”协议的服务，端口9300。
   // import( `${ serversDir }/WebSocketServerForPort9300.mts` ),

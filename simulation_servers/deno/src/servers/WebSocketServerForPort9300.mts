@@ -111,6 +111,46 @@ serve(
           idleTimeout: 0,
         } )
       );
+
+      // @ts-ignore
+      socket.addEventListener( 'open', ( ws: WebSocket, event: Event ): void => {
+        console.log( '\n\nsocket open Start\n\n' );
+        console.dir( ws );
+        console.log( '\n' );
+        console.dir( event );
+        console.log( '\n\nsocket open End\n\n' );
+      } );
+
+      // @ts-ignore
+      socket.addEventListener( 'message', ( ws: WebSocket, messageEvent: MessageEvent ): void => {
+        console.log( '\n\nsocket message Start\n\n' );
+        console.dir( ws );
+        console.log( '\n' );
+        console.dir( messageEvent );
+        console.log( '\n\nsocket message End\n\n' );
+
+        socket.send( new Date().toString() );
+      } );
+
+      // @ts-ignore
+      socket.addEventListener( 'error', ( ws: WebSocket, errorEvent: Event | ErrorEvent ): void => {
+        console.log( '\n\nsocket error Start\n\n' );
+        console.dir( ws );
+        console.log( '\n' );
+        console.dir( errorEvent );
+        console.log( '\n\nsocket error End\n\n' );
+      } );
+
+      // @ts-ignore
+      socket.addEventListener( 'close', ( ws: WebSocket, closeEvent: CloseEvent ): void => {
+        console.log( '\n\nsocket closed Start\n\n' );
+        console.dir( ws );
+        console.log( '\n' );
+        console.dir( closeEvent );
+        console.log( '\n\nsocket closed End\n\n' );
+      } );
+
+      return response;
     }
     catch( error: unknown ){
       return InterceptorError.ResError( {
@@ -120,46 +160,6 @@ serve(
 ${ ( error as Error ).message }`,
       } );
     }
-
-    // @ts-ignore
-    socket.addEventListener( 'open', ( ws: WebSocket, event: Event ): void => {
-      console.log( '\n\nsocket open Start\n\n' );
-      console.dir( ws );
-      console.log( '\n' );
-      console.dir( event );
-      console.log( '\n\nsocket open End\n\n' );
-    } );
-
-    // @ts-ignore
-    socket.addEventListener( 'message', ( ws: WebSocket, messageEvent: MessageEvent ): void => {
-      console.log( '\n\nsocket message Start\n\n' );
-      console.dir( ws );
-      console.log( '\n' );
-      console.dir( messageEvent );
-      console.log( '\n\nsocket message End\n\n' );
-
-      socket.send( new Date().toString() );
-    } );
-
-    // @ts-ignore
-    socket.addEventListener( 'error', ( ws: WebSocket, errorEvent: Event | ErrorEvent ): void => {
-      console.log( '\n\nsocket error Start\n\n' );
-      console.dir( ws );
-      console.log( '\n' );
-      console.dir( errorEvent );
-      console.log( '\n\nsocket error End\n\n' );
-    } );
-
-    // @ts-ignore
-    socket.addEventListener( 'close', ( ws: WebSocket, closeEvent: CloseEvent ): void => {
-      console.log( '\n\nsocket closed Start\n\n' );
-      console.dir( ws );
-      console.log( '\n' );
-      console.dir( closeEvent );
-      console.log( '\n\nsocket closed End\n\n' );
-    } );
-
-    return response;
   },
   {
     port: 9300,

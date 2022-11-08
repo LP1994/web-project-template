@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/servers/HTTPV2ServerForPort9200.mts
+ * FileDirPath: simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -8,7 +8,7 @@
  */
 
 /**
- * 提供“https:”协议的服务（使用HTTP/2），端口9200。
+ * 提供“https:”和“wss:”协议的服务，端口都是9200，该服务使用HTTP/2，Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
  */
 
 'use strict';
@@ -17,6 +17,9 @@ import {
   opensslDir,
   // @ts-ignore
 } from '../configures/GlobalParameters.esm.mts';
+
+// @ts-ignore
+import InterceptorError from '../public/InterceptorError.esm.mts';
 
 import {
   Routers,
@@ -45,6 +48,8 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
     for await ( const requestEvent of
       httpConn ){
       if( requestEvent ){
+        const request: Request = requestEvent.request;
+
         console.log( `\nrequest--->Start` );
         /*
          {
@@ -69,10 +74,103 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
          url: "https://192.168.10.101:9200/"
          }
          */
-        console.dir( requestEvent.request );
+        console.dir( request );
         console.log( `request--->End\n` );
 
-        requestEvent.respondWith( Routers( requestEvent.request ) );
+        const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).toLowerCase(),
+          // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+          connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
+
+        console.log( `\n\n请求头中的connection值为：${ connection }。
+请求头中的upgrade值为：${ upgrade }。\n\n` );
+
+        if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
+          let response: Response,
+            socket: WebSocket;
+
+          try{
+            (
+              {
+                response,
+                socket,
+                // @ts-ignore
+              } = Deno.upgradeWebSocket( request, {
+                /**
+                 * 1、将客户端Web套接字上的“protocol”属性设置为此处提供的值，该值应该是请求Web套接字时在协议参数中指定的字符串之一。<br />
+                 * 2、这旨在让客户端和服务器指定用于相互通信的子协议。<br />
+                 * 3、在客户端使用时，需要注意，客户端发出的请求会在请求头增加一个键值对：<br />
+                 * "Sec-WebSocket-Protocol": "simulation_servers_deno_WebSocket"。<br />
+                 * 如果客户端发出的请求的请求头没有该键值对，客户端就会连接不上。<br />
+                 * 例如，在浏览器端的JS代码：<br />
+                 * new WebSocket( 'wss://127.0.0.1:9000/', 'simulation_servers_deno_WebSocket' );<br />
+                 * 发出的请求的请求头就会自动加一个键值对：<br />
+                 * "Sec-WebSocket-Protocol": "simulation_servers_deno_WebSocket"。<br />
+                 *
+                 * @type string
+                 */
+                protocol: `simulation_servers_deno_WebSocket`,
+                /**
+                 * 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
+                 * 2、默认值为120秒。设置为0以禁用超时。<br />
+                 *
+                 * @type number
+                 */
+                idleTimeout: 0,
+              } )
+            );
+
+            // @ts-ignore
+            socket.addEventListener( 'open', ( ws: WebSocket, event: Event ): void => {
+              console.log( '\n\nsocket open Start\n\n' );
+              console.dir( ws );
+              console.log( '\n' );
+              console.dir( event );
+              console.log( '\n\nsocket open End\n\n' );
+            } );
+
+            // @ts-ignore
+            socket.addEventListener( 'message', ( ws: WebSocket, messageEvent: MessageEvent ): void => {
+              console.log( '\n\nsocket message Start\n\n' );
+              console.dir( ws );
+              console.log( '\n' );
+              console.dir( messageEvent );
+              console.log( '\n\nsocket message End\n\n' );
+
+              socket.send( new Date().toString() );
+            } );
+
+            // @ts-ignore
+            socket.addEventListener( 'error', ( ws: WebSocket, errorEvent: Event | ErrorEvent ): void => {
+              console.log( '\n\nsocket error Start\n\n' );
+              console.dir( ws );
+              console.log( '\n' );
+              console.dir( errorEvent );
+              console.log( '\n\nsocket error End\n\n' );
+            } );
+
+            // @ts-ignore
+            socket.addEventListener( 'close', ( ws: WebSocket, closeEvent: CloseEvent ): void => {
+              console.log( '\n\nsocket closed Start\n\n' );
+              console.dir( ws );
+              console.log( '\n' );
+              console.dir( closeEvent );
+              console.log( '\n\nsocket closed End\n\n' );
+            } );
+
+            requestEvent.respondWith( response );
+          }
+          catch( error: unknown ){
+            requestEvent.respondWith( await InterceptorError.ResError( {
+              title: `HTTP/2 Server服务器内部出现错误`,
+              message: `HTTP请求没有尝试升级到websocket。
+错误信息：
+${ ( error as Error ).message }`,
+            } ) );
+          }
+        }
+        else{
+          requestEvent.respondWith( await Routers( request ) );
+        }
       }
     }
   }
@@ -128,7 +226,8 @@ try{
   // @ts-ignore
   const addr: Deno.NetAddr = server.addr as Deno.NetAddr;
 
-  console.log( `\nHTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/。\n` );
+  console.log( `\nHTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
+说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。\n` );
 
   try{
     for await ( const conn of
