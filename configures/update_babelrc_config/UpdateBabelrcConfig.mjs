@@ -35,10 +35,10 @@ import {
 
 import package_json from '../../package.json' assert { type: 'json', };
 
-import babelrcDevConfig from '../../bats/babelrc/.babelrc.dev.json' assert { type: 'json', };
-import babelrcConfig from '../../bats/babelrc/.babelrc.json' assert { type: 'json', };
-import babelrcProductionConfig from '../../bats/babelrc/.babelrc.production.json' assert { type: 'json', };
-import babelrcTestConfig from '../../bats/babelrc/.babelrc.test.json' assert { type: 'json', };
+import babelrcDevConfig from '../babelrc/.babelrc.dev.json' assert { type: 'json', };
+import babelrcConfig from '../babelrc/.babelrc.json' assert { type: 'json', };
+import babelrcProductionConfig from '../babelrc/.babelrc.production.json' assert { type: 'json', };
+import babelrcTestConfig from '../babelrc/.babelrc.test.json' assert { type: 'json', };
 
 function Get__dirname( import_meta_url = import.meta.url ){
   return dirname( Get__filename( import_meta_url ) );
@@ -93,7 +93,7 @@ const __dirname = Get__dirname( import.meta.url );
   } )() || '3.26.0';
 } );
 
-writeFileSync( join( __dirname, '../../bats/babelrc/.babelrc.dev.json' ), JSON.stringify( babelrcDevConfig ) );
-writeFileSync( join( __dirname, '../../bats/babelrc/.babelrc.json' ), JSON.stringify( babelrcConfig ) );
-writeFileSync( join( __dirname, '../../bats/babelrc/.babelrc.production.json' ), JSON.stringify( babelrcProductionConfig ) );
-writeFileSync( join( __dirname, '../../bats/babelrc/.babelrc.test.json' ), JSON.stringify( babelrcTestConfig ) );
+writeFileSync( join( __dirname, '../babelrc/.babelrc.dev.json' ), JSON.stringify( babelrcDevConfig ) );
+writeFileSync( join( __dirname, '../babelrc/.babelrc.json' ), JSON.stringify( babelrcConfig ) );
+writeFileSync( join( __dirname, '../babelrc/.babelrc.production.json' ), JSON.stringify( babelrcProductionConfig ) );
+writeFileSync( join( __dirname, '../babelrc/.babelrc.test.json' ), JSON.stringify( babelrcTestConfig ) );

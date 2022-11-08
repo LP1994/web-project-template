@@ -5288,6 +5288,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         javascript: parserJavascriptConfig,
         'javascript/auto': parserJavascriptConfig,
         'javascript/dynamic': parserJavascriptConfig,
+        // 注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。
         'javascript/esm': parserJavascriptConfig,
       },
       unsafeCache: false,
@@ -5694,8 +5695,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理.js文件。
         {
-          test: /\.(js)$/i,
-          // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
+          test: /\.js$/i,
+          /**
+           * 1、有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。<br />
+           * 2、注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。<br />
+           */
           type: 'javascript/auto',
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: isUseESBuildLoader
@@ -5731,51 +5735,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/wasm/' ),
           ].concat( exclude001 ),
         },
-        // 处理.cjs文件。
+        // 处理.cjs、.mjs文件。
         {
-          test: /\.(cjs)$/i,
-          // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
+          test: /\.(cjs|mjs)$/i,
+          /**
+           * 1、有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。<br />
+           * 2、注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。<br />
+           */
           type: 'javascript/auto',
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: isUseESBuildLoader
-               ? [
-              {
-                loader: 'esbuild-loader',
-                options: esbuildLoaderConfigForJS,
-              },
-            ]
-               : [
-              {
-                loader: 'thread-loader',
-                options: jsWorkerPoolConfig,
-              },
-              {
-                loader: 'babel-loader',
-                options: babelLoaderConfig,
-              },
-            ],
-          include: [
-            join( __dirname, './node_modules/' ),
-
-            join( __dirname, './src/' ),
-
-            join( __dirname, './webpack_location/' ),
-          ],
-          exclude: [
-            join( __dirname, './src/assets/' ),
-            join( __dirname, './src/graphQL/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-            join( __dirname, './src/wasm/' ),
-          ].concat( exclude001 ),
-        },
-
-        // 处理.mjs文件。
-        {
-          test: /\.mjs$/i,
-          // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
-          type: 'javascript/esm',
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: isUseESBuildLoader
                ? [

@@ -47,30 +47,24 @@
       "@babel/preset-env",
       {
         "targets": {
-          "chrome": 107,
-          "edge": 107,
-          "firefox": 106,
-          "safari": 16,
-          "opera": 92,
-          "android": 107,
-          "ios": 16,
+          "chrome": 23,
+          "firefox": 21,
+          "ie": 9,
+          "safari": 6,
+          "opera": 15,
           "browsers": [
-            "Chrome >= 107",
-            "Edge >= 107",
-            "Firefox >= 106",
-            "Safari >= 16",
-            "Opera >= 92",
-            "ChromeAndroid >= 107",
-            "Android >= 107",
-            "FirefoxAndroid >= 106",
-            "iOS >= 16"
+            "Chrome >= 23",
+            "Firefox >= 21",
+            "IE >= 9",
+            "Safari >= 6",
+            "Opera >= 15"
           ]
         },
         "bugfixes": true,
         "spec": true,
         "loose": false,
         "modules": "auto",
-        "useBuiltIns": "usage",
+        "useBuiltIns": "entry",
         "corejs": {
           "version": "3.26.0",
           "proposals": true
@@ -89,10 +83,9 @@
           "proposals": true
         },
         "version": "7.20.1",
-        "absoluteRuntime": false,
         "helpers": false,
         "regenerator": true,
-        "useESModules": false
+        "absoluteRuntime": false
       }
     ],
     [
