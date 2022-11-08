@@ -51,7 +51,7 @@ serveTls(
      connection: "keep-alive",
      dnt: "1",
      host: "127.0.0.1:9100",
-     referer: "http://127.0.0.1:9100/",
+     referer: "https://127.0.0.1:9100/",
      "sec-ch-ua": '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
      "sec-ch-ua-mobile": "?0",
      "sec-ch-ua-platform": '"Windows"',
@@ -62,7 +62,7 @@ serveTls(
      },
      method: "GET",
      redirect: "follow",
-     url: "http://127.0.0.1:9100/favicon.ico"
+     url: "https://127.0.0.1:9100/favicon.ico"
      }
      */
     console.dir( request );
@@ -84,19 +84,19 @@ serveTls(
     port: 9100,
     /**
      * 用postman测试时：<br />
-     * 1、当设置为'localhost'时，用如“https://localhost:9100”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9100”、“https://localhost:9100”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9100”、“https://127.0.0.1:9100”、“https://192.168.10.101:9100”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 1、当设置为'localhost'时，用如“https://localhost:9100”能连接上。<br />
+     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9100”、“https://localhost:9100”能连接上。<br />
+     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9100”、“https://127.0.0.1:9100”、“https://192.168.10.101:9100”能连接上。<br />
      *
      * 用浏览器测试时：<br />
-     * 1、当设置为'localhost'时，用如“https://localhost:9100”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9100”、“https://localhost:9100”能连接上（http、https、ws、wss皆是如此）。<br />
-     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9100”、“https://127.0.0.1:9100”、“https://192.168.10.101:9100”能连接上（http、https、ws、wss皆是如此）。<br />
+     * 1、当设置为'localhost'时，用如“https://localhost:9100”能连接上。<br />
+     * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9100”、“https://localhost:9100”能连接上。<br />
+     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9100”、“https://127.0.0.1:9100”、“https://192.168.10.101:9100”能连接上。<br />
      *
      * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9100”）跟其中的websocket服务地址（如“wss://localhost:9300”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9300”。<br />
-     * 3、然后才能让页面（如“https://localhost:9100”）成功访问其中的websocket服务地址（如“wss://localhost:9300”）。<br />
+     * 1、当页面地址（如“https://localhost:9100”）跟其中的websocket服务地址（如“wss://localhost:9200”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9200”。<br />
+     * 3、然后才能让页面（如“https://localhost:9100”）成功访问其中的websocket服务地址（如“wss://localhost:9200”）。<br />
      * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
      *
      * 当设置为'0.0.0.0'时的注意事项：<br />

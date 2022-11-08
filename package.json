@@ -115,7 +115,7 @@
     "update_tsconfig_lib": "node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs",
     "update_babelrc_config": "node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 ./configures/update_babelrc_config/UpdateBabelrcConfig.mjs",
     "weinre": "weinre --boundHost -all- --httpPort 8300 --verbose false --debug false",
-    "simulation_servers_node": "nodemon --config simulation_servers/node/nodemon.json simulation_servers/node/src/App.mjs"
+    "simulation_servers_deno": "cd ./simulation_servers/deno&Start.bat"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",

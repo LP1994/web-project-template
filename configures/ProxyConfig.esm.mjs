@@ -265,7 +265,7 @@ if( !isProduction ){
  */
 const proxyConfig = {
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://0.0.0.0:9000/simulation_servers_deno/GetJSON。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://127.0.0.1:9200/simulation_servers_deno/GetJSON。<br />
    */
   '/devURLDemo001/simulation_servers_deno/': {
     /**
@@ -661,7 +661,7 @@ HTTP代理--->${ req.originalUrl }<---End
   },
 
   /**
-   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://0.0.0.0:9000/simulation_servers_deno/subscriptions。<br />
+   * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://127.0.0.1:9200/simulation_servers_deno/subscriptions。<br />
    */
   '/ws4DevURLDemo001/simulation_servers_deno/': {
     /**

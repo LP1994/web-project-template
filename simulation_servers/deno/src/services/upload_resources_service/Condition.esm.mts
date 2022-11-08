@@ -9,7 +9,7 @@
 
 'use strict';
 
-// 发起的请求URL如：https://localhost:9000/simulation_servers_deno/upload、https://localhost:9000/simulation_servers_deno/upload/
+// 发起的请求URL如：https://localhost:9200/simulation_servers_deno/upload、https://localhost:9200/simulation_servers_deno/upload/
 export const myURLPathName: string = `/simulation_servers_deno/upload`;
 
 /**
