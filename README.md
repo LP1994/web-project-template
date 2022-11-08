@@ -8,3 +8,4 @@ This is a WEB project template.<br /><br />
 5、“src/tools”文件夹下有几个个人总结的JS工具类及其详细的文档。<br />
 6、“subsystems”文件夹下都是“微前端架构”中各个“子系统”工程的文件夹。<br />
 7、“element-ui”有2.0的也有3.0（element-plus）的，默认使用3.0的element-plus。<br />
+8、“simulation_servers/deno”下有基于HTTP/2实现的服务端（提供https://、wss://服务），本人亲自对比过，HTTP/2确实在并发方面强于HTTP1.1，强的不是一星半点。<br />

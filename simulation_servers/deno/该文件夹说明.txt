@@ -1,3 +1,5 @@
 该文件夹下用于存放模拟服务、DIY服务等等，由Deno（读音：/ˈdiːnoʊ/）实现。
 
 Deno（读音：/ˈdiːnoʊ/）将是Node的终结者。未来，自己编写的辅助用的模拟服务器尽量用Deno（读音：/ˈdiːnoʊ/）以及TypeScript来编写。
+
+1、“src/servers/HTTPV2AndWebSocketSServerForPort9200.mts”是基于HTTP/2实现的服务端（提供https://、wss://服务），本人亲自对比过，HTTP/2确实在并发方面强于HTTP1.1，强的不是一星半点。<br />
