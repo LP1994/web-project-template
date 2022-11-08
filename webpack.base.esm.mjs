@@ -37,6 +37,23 @@
  * 3、本配置中的路径字符都是以Windows平台为主，没做其他系统平台的兼容，如果需要在其他系统平台使用，注意针对性修改如“./”、“//”、“\\”、“/”、“\”之类的路径。
  */
 
+/**
+ * 关于webpack、babel的注意事项，可能导致编译后的代码报错或输出的代码非期望代码！！！
+ * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：
+ * 说明：
+ * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。
+ * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。
+ * 例如：
+ * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+ *
+ * for( const item of arr001 ){
+ *   str001 + = item;
+ *
+ *   console.log( `index--->${ ++index }` );
+ * }
+ * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。
+ */
+
 'use strict';
 
 import {
@@ -482,7 +499,22 @@ const autoprefixerConfig = {
     mangleQuoted: false,
     // 日志限制可以更改为另一个值，也可以通过将其设置为0来完全禁用。这将显示所有日志消息。
     logLimit: 0,
-    // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
+    /**
+     * 当使用babel转换JS语法时，drop选项（相当于babel的removeConsole、removeDebugger）不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。<br />
+     *
+     * 注意：<br />
+     * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因为删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+     * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+     * 例如：<br />
+     * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+     *
+     * for( const item of arr001 ){
+     *   str001 + = item;
+     *   
+     *   console.log( `index--->${ ++index }` );
+     * }
+     * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+     */
     ...( () => {
       return isUseESBuildLoader
              ? {
@@ -3950,6 +3982,19 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        * 用于压缩JS的预设。开发阶段不启用，生产启用。建议只做压缩，不做语法转译，转译应该交给@babel/preset-env和其他语法转译插件。<br />
        * 1、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
        * 2、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+       *
+       * 注意：<br />
+       * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因为删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+       * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+       * 例如：<br />
+       * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+       *
+       * for( const item of arr001 ){
+       *   str001 + = item;
+       *   
+       *   console.log( `index--->${ ++index }` );
+       * }
+       * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
        */
       ...( isProduction => {
         return isProduction
@@ -4874,6 +4919,22 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           delete obj1.minifyIdentifiers;
           delete obj1.minifySyntax;
           delete obj1.legalComments;
+          /**
+           * 当使用babel转换JS语法时，drop选项（相当于babel的removeConsole、removeDebugger）不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。<br />
+           *
+           * 注意：<br />
+           * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因为删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+           * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+           * 例如：<br />
+           * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+           *
+           * for( const item of arr001 ){
+           *   str001 + = item;
+           *   
+           *   console.log( `index--->${ ++index }` );
+           * }
+           * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+           */
           'drop' in obj1 && ( delete obj1.drop );
           obj1.minify = false;
         }
