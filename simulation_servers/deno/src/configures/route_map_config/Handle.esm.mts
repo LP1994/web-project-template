@@ -14,12 +14,12 @@ import {
   type TypeFilePath001,
   type TypeResult001,
   // @ts-ignore
-} from '../GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   IterateToNestForPromise,
   // @ts-ignore
-} from '../../public/PublicTools.esm.mts';
+} from 'public/PublicTools.esm.mts';
 
 type TypeRouteMapConfig = {
   [ key: string ]: TypeFilePath001;

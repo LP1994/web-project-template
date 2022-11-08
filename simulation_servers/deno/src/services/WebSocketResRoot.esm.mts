@@ -13,10 +13,10 @@ import {
   type TypeResponse001,
 
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
-import InterceptorError from '../public/InterceptorError.esm.mts';
+import InterceptorError from 'public/InterceptorError.esm.mts';
 
 function Handle( request: Request ): TypeResponse001{
   let response: Response,

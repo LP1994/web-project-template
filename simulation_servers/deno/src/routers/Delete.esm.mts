@@ -12,10 +12,10 @@
 import {
   type TypeResponse001,
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
-import InterceptorError from '../public/InterceptorError.esm.mts';
+import InterceptorError from 'public/InterceptorError.esm.mts';
 
 /**
  * 一定得保证该函数返回的值类型只能是：Response或Promise<Response>。<br />

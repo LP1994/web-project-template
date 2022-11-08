@@ -16,12 +16,12 @@ import {
 
   httpHeaders,
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   mime,
   // @ts-ignore
-} from '../public/PublicTools.esm.mts';
+} from 'public/PublicTools.esm.mts';
 
 // @ts-ignore
 function Handle( request: Request ): TypeResponse001{

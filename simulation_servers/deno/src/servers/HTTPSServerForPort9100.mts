@@ -18,22 +18,22 @@ import {
 
   serveTls,
   // @ts-ignore
-} from 'https://deno.land/std/http/server.ts';
+} from 'DenoStd/http/server.ts';
 
 import {
   type TypeResponse001,
 
   opensslDir,
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
-import InterceptorError from '../public/InterceptorError.esm.mts';
+import InterceptorError from 'public/InterceptorError.esm.mts';
 
 import {
   Routers,
   // @ts-ignore
-} from '../routers/Routers.esm.mts';
+} from 'routers/Routers.esm.mts';
 
 serveTls(
   (

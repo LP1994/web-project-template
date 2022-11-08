@@ -15,10 +15,10 @@ import {
   // uploadDir,
 
   // @ts-ignore
-} from '../../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
-import InterceptorError from '../../public/InterceptorError.esm.mts';
+import InterceptorError from 'public/InterceptorError.esm.mts';
 
 function ResponseHandle( request: Request ): TypeResponse001{
   let response: Response,

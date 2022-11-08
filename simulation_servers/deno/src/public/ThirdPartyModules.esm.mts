@@ -13,7 +13,7 @@
 import * as dejs from 'https://deno.land/x/dejs/mod.ts';
 
 // @ts-ignore
-import * as mimetypes from '../tools/third_party_modules/mimetypes@1.0.0.ts'
+import * as mimetypes from 'tools/third_party_modules/mimetypes@1.0.0.ts'
 
 export {
   dejs,

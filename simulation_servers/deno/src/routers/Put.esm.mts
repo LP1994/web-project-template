@@ -13,20 +13,20 @@ import {
   type TypeFun001,
   type TypeResult001,
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   IterateToNestForPromise,
   // @ts-ignore
-} from '../public/PublicTools.esm.mts';
+} from 'public/PublicTools.esm.mts';
 
 import {
   methodByPutForRouteHandle,
   // @ts-ignore
-} from '../configures/route_map_config/RouteMapConfig.esm.mts';
+} from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
 // @ts-ignore
-import InterceptorError from '../public/InterceptorError.esm.mts';
+import InterceptorError from 'public/InterceptorError.esm.mts';
 
 /**
  * 一定得保证该函数返回的值类型只能是：Promise<Response>。<br />

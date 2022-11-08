@@ -15,15 +15,15 @@ import {
   webDir,
   httpHeaders,
   // @ts-ignore
-} from '../../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   mime,
   // @ts-ignore
-} from '../../public/PublicTools.esm.mts';
+} from 'public/PublicTools.esm.mts';
 
 // @ts-ignore
-import InterceptorError from '../../public/InterceptorError.esm.mts';
+import InterceptorError from 'public/InterceptorError.esm.mts';
 
 import {
   myURLPathName,

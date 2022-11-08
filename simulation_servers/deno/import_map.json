@@ -1,0 +1,14 @@
+{
+  "imports": {
+    "DenoStd/": "https://deno.land/std/",
+    "src/": "./src/",
+    "configures/": "./src/configures/",
+    "public/": "./src/public/",
+    "routers/": "./src/routers/",
+    "servers/": "./src/servers/",
+    "services/": "./src/services/",
+    "template/": "./src/template/",
+    "ejs/": "./src/template/ejs/",
+    "tools/": "./src/tools/"
+  }
+}

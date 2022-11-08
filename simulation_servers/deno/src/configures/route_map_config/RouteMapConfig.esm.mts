@@ -15,7 +15,7 @@ import {
 
   servicesDir,
   // @ts-ignore
-} from '../GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   GeneratorRouteMap,

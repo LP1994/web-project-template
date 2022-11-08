@@ -16,7 +16,7 @@ import {
 
   httpHeaders,
   // @ts-ignore
-} from '../../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
 function ResponseHandle( request: Request ): TypeResponse001{

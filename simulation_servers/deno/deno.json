@@ -186,5 +186,6 @@
       "webworker.importscripts",
       "webworker.iterable"
     ]
-  }
+  },
+  "importMap": "import_map.json"
 }

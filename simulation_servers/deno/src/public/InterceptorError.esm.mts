@@ -14,7 +14,7 @@ import {
 
   httpHeaders,
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   dejs,

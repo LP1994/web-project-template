@@ -255,6 +255,170 @@ CLI 授予的权限（这意味着已撤销的权限）也被撤销。
 
 
 
+Worker
+目前 Deno 仅支持模块类型的 worker；因此，在创建新工作人员时必须传递 type: "module" 选项。
+Deno允许将脚本编译成可执行文件，但是这种情况下，那个脚本中不可以使用Worker，因为这种情况Worker是无法在其中运行工作，目前还有：Dynamic Imports、Web Storage API（localStorage、sessionStorage）也无法在其中运行工作。
+Worker使用例子：
+// Good好的、推荐的写法。
+new Worker(new URL("./worker.js", import.meta.url).href, { type: "module" });
+// Bad不好的、坏的、不推荐的写法。
+new Worker(new URL("./worker.js", import.meta.url).href);
+new Worker(new URL("./worker.js", import.meta.url).href, { type: "classic" });
+new Worker("./worker.js", { type: "module" });
+
+与常规模块一样，您可以在工作模块中使用顶级等待。但是，您应该注意始终在第一次等待之前注册消息处理程序，否则消息可能会丢失。
+这不是 Deno 中的错误，它只是功能的不幸交互，它也发生在所有支持模块工作器的浏览器中。
+
+创建一个新的 Worker 实例类似于动态导入；因此 Deno 需要适当的权限才能执行此操作。
+对于使用本地模块的工人； --allow-read 权限是必需的。
+new Worker(new URL("./worker.ts", import.meta.url).href, { type: "module" });
+对于使用远程模块的工作人员； --allow-net 权限是必需的。
+new Worker("https://example.com/worker.ts", { type: "module" });
+
+从 v1.22 开始，Deno 命名空间默认在 worker 范围内可用。要在早期版本中启用命名空间，请在创建新工作者时传递 deno: { namespace: true }。
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+  deno: {
+    namespace: true
+  },
+});
+
+从 v1.23 开始，Deno.exit() 不再使用提供的退出代码退出进程。取而代之的是 self.close() 的别名，它只会导致 worker 关闭。
+这更好地与 Web 平台保持一致，因为工作人员无法在浏览器中关闭页面。
+
+默认情况下，worker 将从创建它的线程继承权限，但是为了允许用户限制该 worker 的访问，我们在 worker API 中提供了 deno.permissions 选项。
+对于支持精细访问的权限，您可以传入工作人员可以访问的所需资源的列表，对于只有开/关选项的权限，您可以分别传递 true/false。
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+  deno: {
+    permissions: {
+      net: [
+        "https://deno.land/",
+      ],
+      read: [
+        new URL("./file_1.txt", import.meta.url),
+        new URL("./file_2.txt", import.meta.url),
+      ],
+      write: false,
+    },
+  },
+});
+粒度访问权限同时接收绝对和相对路由作为参数，但是要考虑到相对路由将相对于实例化工作程序的文件而不是工作程序文件当前所在的路径进行解析
+const worker = new Worker(
+  new URL("./worker/worker.js", import.meta.url).href,
+  {
+    type: "module",
+    deno: {
+      permissions: {
+        read: [
+          "/home/user/Documents/deno/worker/file_1.txt",
+          "./worker/file_2.txt",
+        ],
+      },
+    },
+  },
+);
+deno.permissions 及其子级都支持"inherit"选项，这意味着它将借用其父级权限。
+// 该工作人员将继承其父权限
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+  deno: {
+    permissions: "inherit",
+  },
+});
+// 该工作人员将仅继承其父级的网络权限
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+  deno: {
+    permissions: {
+      env: false,
+      hrtime: false,
+      net: "inherit",
+      ffi: false,
+      read: false,
+      run: false,
+      write: false,
+    },
+  },
+});
+不指定 deno.permissions 选项或其子选项之一将导致工作人员默认继承。
+// 该工作人员将继承其父权限
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+});
+// 该工作人员将继承其父 BUT 网络的所有权限
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+  deno: {
+    permissions: {
+      net: false,
+    },
+  },
+});
+您可以通过将“none”传递给 deno.permissions 选项来一起禁用工作人员的权限。
+// 此工作人员不会启用任何权限
+const worker = new Worker(new URL("./worker.js", import.meta.url).href, {
+  type: "module",
+  deno: {
+    permissions: "none",
+  },
+});
+
+
+
+从 Deno 1.13 及更高版本开始，FFI（外部函数接口）API 允许用户使用 Deno.dlopen 调用以支持 C ABIs (C/C++, Rust, Zig等等)的本地语言编写的库。
+https://deno.land/manual@v1.27.0/runtime/ffi_api#usage
+非阻塞 FFI：
+在许多用例中，用户可能希望在后台运行受 CPU 限制的 FFI 函数，而不会阻塞主线程上的其他任务。
+从 Deno 1.15 开始，可以在 Deno.dlopen 中将符号标记为非阻塞。这些函数调用将在专用的阻塞线程上运行，并将返回一个 Promise 解析为所需的结果。
+https://deno.land/manual@v1.27.0/runtime/ffi_api#non-blocking-ffi
+Deno FFI API 支持从 JavaScript 函数创建 C 回调，以便从动态库回调到 Deno。如何创建和使用回调的示例如下：
+https://deno.land/manual@v1.27.0/runtime/ffi_api#callbacks
+
+
+
+重新加载模块
+默认情况下，缓存中的模块将被重用，而无需获取或重新编译它。有时这是不可取的，您可以强制 deno 重新获取模块并将其重新编译到缓存中。
+您可以使用 deno cache 子命令的 --reload 标志使本地 DENO_DIR 缓存无效。它的用法描述如下：
+deno cache --reload my_module.ts
+重新加载特定模块：
+有时我们只想升级一些模块。您可以通过将参数传递给 --reload 标志来控制它。
+deno cache --reload=https://deno.land/std@0.161.0 my_module.ts
+deno cache --reload=https://deno.land/std@0.161.0/fs/copy.ts,https://deno.land/std@0.161.0/fmt/colors.ts my_module.ts
+
+
+
+运行时验证
+您还可以通过使用 --cached-only 标志来要求远程依赖项已经被缓存，从而更进一步。
+deno run --lock=lock.json --cached-only mod.ts
+如果 mod.ts 的依赖关系树中有任何尚未缓存的依赖关系，这将失败。
+
+
+
+导入映射，类似webpack的“alias”路径别名，用于import文件时from对应的路径别名。
+您可以在配置文件中使用importMap选项、CLI的标志--import-map=<FILE> 来设置导入映射，两者都设置时，CLI的标志--import-map=<FILE>比配置文件中的importMap选项更优先。
+import_map.json
+{
+  "imports": {
+    "fmt/": "https://deno.land/std@0.161.0/fmt/"
+  }
+}
+color.ts
+import { red } from "fmt/colors.ts";
+console.log(red("hello world"));
+
+要将项目根目录用于绝对导入：
+import_map.json
+{
+  "imports": {
+    "/": "./",  // 实际使用会报错！！！
+    "./": "./"
+  }
+}
+main.ts
+import { MyUtil } from "/util.ts";
+这会导致以 / 开头的导入说明符相对于“import_map.json”的 URL 或文件路径进行解析。
+如果为"/": "./src/"，那么以 / 开头的导入说明符相对于跟“import_map.json”同级的src文件夹下的子级文件夹。
 
 
 
@@ -262,7 +426,15 @@ CLI 授予的权限（这意味着已撤销的权限）也被撤销。
 
 
 
-4、模块的加载路径的格式原则
+
+
+
+
+
+
+
+
+Deno模块的加载路径的格式原则
 绝对的URL地址(http://localhost:8081/WebProTpl/dist/Deno4TestA.js)、相对路径(可行：'./qwe.js'，不可行：'qwe.js'、'qwe')
 PS:
 由于 Deno 只支持从 URL 加载模块，导致 Node.js 的模块加载写法都会失效。
@@ -272,14 +444,16 @@ import { initializeApp } from "firebase/app";
 上面的写法在 Deno 里面都是非法的。
 
 
-6、编译提示
+
+编译提示
 如果要导入JavaScript模块，并且知道该模块的类型定义位于何处，则可以在导入时指定类型定义。这采用编译器提示的形式。
 PS:
 // @deno-types="./foo.d.ts"
 import * as foo from "./foo.js";
 
 
-7、JavaScript文件中的三斜杠参考指令
+
+JavaScript文件中的三斜杠参考指令
 如果您托管要由Deno使用的模块，并且想通知Deno类型定义的位置，则可以在实际代码中使用三斜杠指令。例如，如果您有一个JavaScript模块，并且想为Deno提供恰好在该文件旁边的类型定义的位置，则名为JavaScript的模块 foo.js可能看起来像这样：
 /// <reference types="./foo.d.ts" />
 export const foo = "foo";

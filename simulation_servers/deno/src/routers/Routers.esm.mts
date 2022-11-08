@@ -17,19 +17,19 @@ import {
 
   httpHeaders,
   // @ts-ignore
-} from '../configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   dejs,
   // @ts-ignore
-} from '../public/ThirdPartyModules.esm.mts';
+} from 'public/ThirdPartyModules.esm.mts';
 
 import {
   mime,
 
   IterateToNestForPromise,
   // @ts-ignore
-} from '../public/PublicTools.esm.mts';
+} from 'public/PublicTools.esm.mts';
 
 // @ts-ignore
 import Put from './Put.esm.mts';
