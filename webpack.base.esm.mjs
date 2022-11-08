@@ -263,6 +263,7 @@ const __dirname = Get__dirname( import.meta.url ),
    * 1、如果需要兼容到低端平台，即转译到ES5、ES3的话，还是使用babel来转译，将isUseESBuildLoader设置成false。<br />
    * 2、如果是兼容到新的现代浏览器，也就是支持ES6的平台，那么还是用esbuild吧，它有这方面的优越性，但就是对ES5不是很友好。<br />
    * 3、目前esbuild对有些处于提案阶段的实验性语法还不能支持，而且“Tree Shaking”功能也还没完善，所以，如果需要兼顾前面两点，那还是要继续使用babel来转译的。<br />
+   * 4、截至2022年11月08日，基于最新的esbuild版本做测试，其只能支持对静态的导入、导出的代码做“Tree Shaking”，动态的还不支持，而webpack在“Tree Shaking”做的会比它好，希望其未来能做到跟webpack一样的“Tree Shaking”功能吧。<br />
    *
    * @type {boolean}
    */
