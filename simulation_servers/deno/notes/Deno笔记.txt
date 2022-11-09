@@ -13,6 +13,19 @@ DENO_DIR：这将设置存储来自CLI的缓存信息的目录。这包括缓存
 DENO_INSTALL_ROOT：使用deno install时，已安装脚本的存储位置。这默认为$HOME/.deno/bin。
 DENO_WEBGPU_TRACE：用于WebGPU跟踪的目录。
 
+// DENO_DIR 位置
+DENO_DIR location: D:\Deno\App\Dir
+// 远程模块缓存
+Remote modules cache: D:\Deno\App\Dir\deps
+// npm 模块缓存
+npm modules cache: D:\Deno\App\Dir\npm
+// 发射模块缓存
+Emitted modules cache: D:\Deno\App\Dir\gen
+// 语言服务器注册表缓存
+Language server registries cache: D:\Deno\App\Dir\registries
+// 原始存储
+Origin storage: D:\Deno\App\Dir\location_data
+
 
 
 目前deno提供的标准的库文件，如：

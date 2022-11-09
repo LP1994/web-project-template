@@ -21,9 +21,9 @@ nest=true，表示输出的文件夹层级跟原先的一致；nest=false，不�
 “node GetDenoDeclareFilesByMultiThread.mjs”全等于“node GetDenoDeclareFilesByMultiThread.mjs nest=false”，也是默认的。
 
 需要更新的地方：
-D:\Deno\App\Install\Bin\lib.deno.d.ts
-D:\WebStorm\Config\system\plugins\deno\deno-service\node_modules\typescript-deno-plugin\lib\lib.deno.d.ts
-D:\WebStorm\Config\system\javascript\deno\deno.d.ts
+D:\Deno\App\Install\Bin
+D:\WebStorm\Config\system\plugins\deno\deno-service\node_modules\typescript-deno-plugin\lib
+D:\WebStorm\Config\system\javascript\deno
 
 D:\NodeJS\node_global\node_modules\typescript\lib
 
