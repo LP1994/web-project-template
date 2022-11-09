@@ -81,7 +81,7 @@ https://deno.land/manual@v1.27.0/linking_to_external_code/integrity_checking
 PS:
 deno run --reload http://localhost:8081/WebProTpl/dist/Deno4TestA.js
 --unstable                    启用不稳定的 API
-
+使用“--unstable”时，保证在配置文件中的"lib"选项中必须包含"deno.window", "deno.unstable" 这两个类型描述文件。
 
 
 影响执行用户代码的命令，deno run和deno test：
@@ -435,15 +435,78 @@ import { MyUtil } from "/util.ts";
 
 
 
+关于编译类型提示
+如果要导入JavaScript模块，并且知道该模块的类型定义位于何处，则可以在导入时指定类型定义。这采用编译器提示的形式。
+PS:
+// @deno-types="./foo.d.ts"
+import * as foo from "./foo.js";
+
+使用三斜杠引用指令：
+Deno 支持使用三斜杠引用类型指令，该指令采用 TypeScript 在 TypeScript 文件中使用的引用注释来包含其他文件，
+并且仅适用于 JavaScript 文件！！！
+例如，如果我创建了coolLib.js，并且在coolLib.d.ts 中为我的库创建了类型定义，我可以在coolLib.js 文件中执行以下操作：
+有一个coolLib.js文件，里面的代码有如下内容：
+/// <reference types="./coolLib.d.ts" />
+// ... JavaScript 的其余部分 ...
+当 Deno 遇到这个指令时，它会解析 ./coolLib.d.ts 文件并在 TypeScript 对文件进行类型检查时使用该文件而不是 JavaScript 文件，但在运行程序时仍会加载 JavaScript 文件。
+请注意，这是针对 TypeScript 的重新调整指令，仅适用于 JavaScript 文件。在 TypeScript 文件中使用类型的三斜杠引用指令也适用于 Deno，但其行为与路径指令基本相同。
+
+使用 X-TypeScript-Types 标头
+与三斜杠指令类似，Deno 支持远程模块的标头，该标头指示 Deno 在哪里定位给定模块的类型。
+例如，对 https://example.com/coolLib.js 的响应可能如下所示：
+HTTP/1.1 200 OK
+Content-Type: application/javascript; charset=UTF-8
+Content-Length: 648
+X-TypeScript-Types: ./coolLib.d.ts
+当看到此标头时，Deno 将尝试检索 https://example.com/coolLib.d.ts 并在检查原始模块时使用它。
+
+使用环境或全局类型
+总的来说，最好将模块/UMD类型定义与Deno一起使用，在Deno中，模块明确地导入它所依赖的类型。模块化类型定义可以通过在类型定义中声明全局来表示全局范围的扩展。例如：
+declare global {
+  var AGlobalString: string;
+}
+这将使 AGlobalString 在导入类型定义时在全局命名空间中可用。
+但在某些情况下，当利用其他现有类型库时，可能无法利用模块化类型定义。因此，有一些方法可以在类型检查程序中包含任意类型定义。
+
+使用三斜杠指令
+此选项将类型定义与代码本身结合起来。通过在模块类型附近添加三斜杠类型指令，类型检查文件将包括类型定义。例如：
+/// <reference types="./types.d.ts" />
+提供的说明符与 Deno 中的任何其他说明符一样被解析，这意味着它需要扩展，并且与引用它的模块相关。它也可以是完全限定的 URL：
+/// <reference types="https://deno.land/x/pkg@1.0.0/types.d.ts" />
+
+另一种选择是使用配置文件，该文件被配置为包含类型定义，方法是向“compilerOptions”提供“types”值。例如：
+{
+  "compilerOptions": {
+    "types": [
+      "./types.d.ts",
+      "https://deno.land/x/pkg@1.0.0/types.d.ts",
+      "/Users/me/pkg/types.d.ts"
+    ]
+  }
+}
 
 
 
+关于lib库之间的冲突：
+"deno.worker"与"deno.window"冲突
+解决方案：
+在配置文件中的lib选项里包含"deno.window"，但不包含"deno.worker"。
+而在使用worker时，例如有一个使用了worker的脚本，或worker脚本本身，要想让其具有类型描述，则可以在脚本开头使用如下指令：
+/// <reference no-default-lib="true" />   这个表示下面的“deno.worker”不是配置文件中的lib选项里的类型描述文件。
+/// <reference lib="deno.worker" />       这个表示使用类型描述文件“deno.worker”。
 
+"dom.extras"与"deno.url"冲突
+由于是使用Deno开发，在不考虑所写的代码未来要在浏览器中使用，那么直接使用"deno.url"即可，不用"dom.extras"。
+也就是说，配置文件中的lib选项里只要包含"deno.url"即可，不要写入"dom.extras"。
 
+如果命令中使用了“--unstable”标志，那么配置文件中的lib选项里一定得要有"deno.window", "deno.unstable"。
 
+"deno.window"与"dom"、"dom.iterable"冲突
+参照上面的“"dom.extras"与"deno.url"冲突”的说明。
 
-
-
+这些是 Deno 不使用的常用库，但在编写旨在也可在另一个运行时中工作的代码时很有用：
+"dom"、"dom.iterable"、"scripthost"、"webworker"、"webworker.importscripts"、"webworker.iterable"
+这几个会跟deno的自身类型描述文件冲突，故而不用它们，毕竟不考虑代码在浏览器中使用。
 
 
 
@@ -455,19 +518,3 @@ import React from "react";
 import { Box, Grid } from "@material-ui/core";
 import { initializeApp } from "firebase/app";
 上面的写法在 Deno 里面都是非法的。
-
-
-
-编译提示
-如果要导入JavaScript模块，并且知道该模块的类型定义位于何处，则可以在导入时指定类型定义。这采用编译器提示的形式。
-PS:
-// @deno-types="./foo.d.ts"
-import * as foo from "./foo.js";
-
-
-
-JavaScript文件中的三斜杠参考指令
-如果您托管要由Deno使用的模块，并且想通知Deno类型定义的位置，则可以在实际代码中使用三斜杠指令。例如，如果您有一个JavaScript模块，并且想为Deno提供恰好在该文件旁边的类型定义的位置，则名为JavaScript的模块 foo.js可能看起来像这样：
-/// <reference types="./foo.d.ts" />
-export const foo = "foo";
-Deno会看到这一点，foo.d.ts尽管foo.js会在运行时加载，但编译器将在对文件进行类型检查时使用。指令值的解析遵循与导入模块相同的解析逻辑，这意味着文件需要具有扩展名，并且相对于当前文件。也允许使用远程说明符。

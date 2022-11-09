@@ -49,7 +49,7 @@ async function WebSocket( request: Request ): Promise<Response>{
   let routeHandle: TypeResult001;
 
   if( pathName in websocketForRouteMapConfig ){
-    return ( await IterateToNestForPromise( websocketForRouteMapConfig[ pathName ]( request ) ) ) as Response;
+    return ( await IterateToNestForPromise( ( websocketForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
   }
   else if( routeHandle = await websocketForRouteHandle( request ) ){
     return ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
