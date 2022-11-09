@@ -518,7 +518,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     不推荐使用，使keyof仅返回字符串，而不是字符串、数字或符号。
     1、此标志用于帮助人们在TypeScript 2.9发布之前保持这种行为。
     */
-    // "keyofStringsOnly": false,
+    "keyofStringsOnly": false,
     /*
     禁止在发出的JavaScript文件中添加"use strict"指令。
     1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
