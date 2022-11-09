@@ -104,7 +104,19 @@
       "deno.broadcast_channel",
       "deno.web",
       "deno.websocket"
-    ]
+    ],
+    "generateTrace": "../../ts_compiled/",
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "importsNotUsedAsValues": "preserve",
+    "preserveValueImports": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "explainFiles": true,
+    "disableReferencedProjectLoad": false,
+    "disableSolutionSearching": false,
+    "disableSourceOfProjectReferenceRedirect": false
   },
   "importMap": "import_map.json"
 }
