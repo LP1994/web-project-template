@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noUncheckedIndexedAccess": false,
+    "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "useUnknownInCatchVariables": true,
@@ -107,12 +107,12 @@
       "deno.websocket"
     ],
     "generateTrace": "../../ts_compiled/",
-    "exactOptionalPropertyTypes": false,
+    "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "importsNotUsedAsValues": "preserve",
     "preserveValueImports": true,
-    "removeComments": false,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "explainFiles": true,
     "disableReferencedProjectLoad": false,

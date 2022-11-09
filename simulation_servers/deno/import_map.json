@@ -1,12 +1,17 @@
 {
   "imports": {
     "DenoStd/": "https://deno.land/std/",
+    "DenoX/": "https://deno.land/x/",
+    "esmSH/": "https://esm.sh/",
+    "preact/jsx-runtime": "https://cdn.skypack.dev/preact/jsx-runtime?dts",
+    "preact/jsx-dev-runtime": "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts",
     "src/": "./src/",
     "configures/": "./src/configures/",
     "public/": "./src/public/",
     "routers/": "./src/routers/",
     "servers/": "./src/servers/",
     "services/": "./src/services/",
+    "ssr/": "./src/ssr/",
     "template/": "./src/template/",
     "ejs/": "./src/template/ejs/",
     "tools/": "./src/tools/"

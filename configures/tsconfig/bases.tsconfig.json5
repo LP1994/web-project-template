@@ -455,7 +455,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*
     允许JavaScript文件成为程序的一部分。使用“checkJs”选项从这些文件中获取错误。
     */
-    "allowJs": false,
+    "allowJs": true,
     /*
     在已检查类型的JavaScript文件中启用错误报告。
     1、与“allowJs”选项协同工作。启用“checkJs”选项后，会在JavaScript文件中报告错误。这相当于在项目中包含的所有JavaScript文件的顶部包含“// @ts-check”。

@@ -2,6 +2,33 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 
+安装的：
+deno install https://deno.land/std/http/server.ts
+
+deno install https://deno.land/x/dejs/mod.ts
+
+deno install https://esm.sh/preact
+deno install https://esm.sh/preact/jsx-runtime
+
+deno install https://cdn.skypack.dev/preact/jsx-dev-runtime
+deno install https://cdn.skypack.dev/preact/jsx-runtime
+
+deno install https://esm.sh/linkedom
+
+deno install https://deno.land/x/deno_dom/deno-dom-wasm-noinit.ts
+deno install https://deno.land/x/deno_dom/deno-dom-wasm.ts
+deno install https://deno.land/x/deno_dom/deno-dom-native.ts
+
+deno install https://esm.sh/jsdom
+
+deno install https://esm.sh/css
+deno install https://deno.land/x/css/mod.ts
+
+deno install https://esm.sh/twind
+deno install https://esm.sh/twind/sheets
+
+
+
 关于deno.json中的几个跟官方默认配置不一样的选项说明：
 自定义的，官方默认都是false。
 "noFallthroughCasesInSwitch": true,
@@ -10,8 +37,8 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 "noUnusedLocals": true,
 "noUnusedParameters": true,
 
-官方默认是false，必须保持为false，不然某些第三方库会报类型错误。
-"noUncheckedIndexedAccess": false,
+官方默认是false，当“--check=all”时，该选项为true时，某些第三方库会报类型错误。
+"noUncheckedIndexedAccess": true,
 
 官方默认是true，实际运行时，发现为true时会报错：error: TS5053 [ERROR]: Option 'noImplicitUseStrict' cannot be specified with option 'alwaysStrict'.但是“alwaysStrict”选项不被支持，会被忽略。
 关于noImplicitUseStrict选项：
@@ -127,6 +154,13 @@ deno test	   📁 Local
 例如：
 您还可以在执行前对代码进行类型检查，方法是使用 --check 参数进行deno run：
 deno run --check main.ts
+还有一个跳过类型检查的命令：--no-check=remote
+其中参数remote，可以设置哪些远程、本地文件跳过类型检查
+--no-check=https://deno.land/std@0.137.0/bytes/bytes_list.ts,https://deno.land/std@0.137.0/io/buffer.ts,https://deno.land/std@0.137.0/testing/_diff.ts
+但是--no-check=[,,,]不能跟--check=all一起使用。
+例子：
+deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check ./src/App.mts
+这种写法，只会对自己编写的代码做类型检查，不会对第三方的代码做类型检查。
 
 
 
@@ -534,7 +568,10 @@ declare global {
 
 
 
-
+关于操作DOM
+LinkedDOM用于做服务端渲染。
+deno_dom做标准的符合浏览器运行的DOM操作。
+jsdom不推荐使用，不仅不如前面两个，而且它也不支持在经过Deno编译的可执行文件中运行，而前面两个是可以的。
 
 
 
