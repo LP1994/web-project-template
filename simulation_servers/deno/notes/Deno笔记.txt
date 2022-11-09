@@ -13,12 +13,16 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 官方默认是false，必须保持为false，不然某些第三方库会报类型错误。
 "noUncheckedIndexedAccess": false,
 
-官方默认是true，实际运行时，发现为true时会报错。
-error: TS5053 [ERROR]: Option 'noImplicitUseStrict' cannot be specified with option 'alwaysStrict'.
-但是“alwaysStrict”选项不被支持，会被忽略。
+官方默认是true，实际运行时，发现为true时会报错：error: TS5053 [ERROR]: Option 'noImplicitUseStrict' cannot be specified with option 'alwaysStrict'.但是“alwaysStrict”选项不被支持，会被忽略。
+关于noImplicitUseStrict选项：
 禁止在发出的JavaScript文件中添加"use strict"指令。
-1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
+你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
 "noImplicitUseStrict": false,
+
+关于alwaysStrict选项：
+确保您的文件在ECMAScript严格模式下解析，并为每个源文件发出“use strict”。
+默认值:
+如果strict选项为true，则它也是true，否则为false。
 
 
 
