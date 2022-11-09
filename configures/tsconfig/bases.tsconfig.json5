@@ -568,18 +568,18 @@ CreateDate: 2022-01-01 00:00:00 星期六
     react-jsx：React 17，将JSX更改为_jsx调用时发出.js文件。
     react-jsxdev：React 17 dev，将JSX更改为_jsx调用时发出.js文件。
     */
-    "jsx": "preserve",
+    "jsx": "react",
     /*
     在使用经典JSX运行时编译JSX Elements时更改在.js文件中调用的函数。如果使用preact，最常见的更改是使用“h”或“preact.h”而不是默认的“React.createElement”。
     1、该属性不能和“reactNamespace”一起使用！默认值是：React.createElement。
     */
-    "jsxFactory": "h",
+    "jsxFactory": "React.createElement",
     /*
     指定针对React JSX emit时用于片段的JSX片段引用，例如“React.Fragment”或“Fragment”。
     1、指定当使用jsxFactory编译器选项指定react JSX发射时要使用的JSX片段工厂函数，例如分段。
     2、默认值：React.Fragment。
     */
-    "jsxFragmentFactory": "Fragment",
+    "jsxFragmentFactory": "React.Fragment",
     /*
     指定使用“jsx: react-jsx”时用于导入JSX工厂函数的模块说明符。
     1、当将jsx用作TypeScript 4.1中引入的“react-jsx”或“react-jsxdev”时，声明用于导入jsx和jsxs工厂函数的模块说明符。默认值：react。

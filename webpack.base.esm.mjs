@@ -5048,9 +5048,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         jsx: 'automatic',
         jsxDev: !isProduction,
         // 有效值有：'React.createElement'（默认值）、'h'，当jsx转换设置为'automatic'时，此设置不适用。
-        jsxFactory: 'h',
+        jsxFactory: 'React.createElement',
         // 有效值有：'React.Fragment'（默认值）、'Fragment'，当jsx转换设置为'automatic'时，此设置不适用。
-        jsxFragment: 'Fragment',
+        jsxFragment: 'React.Fragment',
       } ),
       esbuildLoaderConfigForTS = Object.assign( {}, esbuildLoaderConfigForJS, {
         loader: 'ts',
@@ -5098,9 +5098,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         jsx: 'automatic',
         jsxDev: !isProduction,
         // 有效值有：'React.createElement'（默认值）、'h'，当jsx转换设置为'automatic'时，此设置不适用。
-        jsxFactory: 'h',
+        jsxFactory: 'React.createElement',
         // 有效值有：'React.Fragment'（默认值）、'Fragment'，当jsx转换设置为'automatic'时，此设置不适用。
-        jsxFragment: 'Fragment',
+        jsxFragment: 'React.Fragment',
       } );
 
     const exclude001 = [
