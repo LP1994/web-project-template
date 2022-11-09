@@ -27,6 +27,30 @@ deno install https://deno.land/x/css/mod.ts
 deno install https://esm.sh/twind
 deno install https://esm.sh/twind/sheets
 
+deno install https://deno.land/x/mysql/mod.ts
+deno install https://deno.land/x/postgresjs/mod.js
+deno install https://deno.land/x/mongo/mod.ts
+deno install https://deno.land/x/sqlite3/mod.ts
+deno install https://deno.land/x/sqlite/mod.ts
+
+deno install https://esm.sh/firestore
+???deno install https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js
+???deno install https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js
+???deno install https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js
+
+deno install https://esm.sh/@supabase/supabase-js
+
+deno install https://deno.land/x/denodb/mod.ts
+
+deno install https://deno.land/x/gql/mod.ts
+deno install https://deno.land/x/graphql_tools/mod.ts
+deno install https://deno.land/x/graphql_tag/mod.ts
+deno install https://esm.sh/graphql
+
+deno install https://deno.land/std/dotenv/mod.ts
+deno install https://deno.land/std/flags/mod.ts
+
+deno install https://deno.land/std/testing/asserts.ts
 
 
 关于deno.json中的几个跟官方默认配置不一样的选项说明：
@@ -575,8 +599,8 @@ jsdom不推荐使用，不仅不如前面两个，而且它也不支持在经过
 
 
 
-
-
+关于调试deno
+使用--inspect-brk命令，然后在谷歌及其同系列的浏览器打开chrome://inspect，如果没看到已经运行的deno服务，就刷新chrome://inspect页面，看到后，点击“inspect”即可开始调试。
 
 
 
