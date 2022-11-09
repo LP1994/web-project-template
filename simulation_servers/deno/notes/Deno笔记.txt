@@ -2,6 +2,26 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 
+关于deno.json中的几个跟官方默认配置不一样的选项说明：
+自定义的，官方默认都是false。
+"noFallthroughCasesInSwitch": true,
+"noImplicitReturns": true,
+"useUnknownInCatchVariables": true,
+"noUnusedLocals": true,
+"noUnusedParameters": true,
+
+官方默认是false，必须保持为false，不然某些第三方库会报类型错误。
+"noUncheckedIndexedAccess": false,
+
+官方默认是true，实际运行时，发现为true时会报错。
+error: TS5053 [ERROR]: Option 'noImplicitUseStrict' cannot be specified with option 'alwaysStrict'.
+但是“alwaysStrict”选项不被支持，会被忽略。
+禁止在发出的JavaScript文件中添加"use strict"指令。
+1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
+"noImplicitUseStrict": false,
+
+
+
 deno upgrade
 要更新Deno的先前安装的版本，可以运行deno upgrade。这将从github.com/denoland/deno/releases获取最新版本 ，解压缩并用它替换当前的可执行文件。
 

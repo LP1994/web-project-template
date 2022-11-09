@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
+    "noUncheckedIndexedAccess": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "useUnknownInCatchVariables": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitUseStrict": false,
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
     "allowJs": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "checkJs": false,
-    "jsx": "react",
-    "jsxFactory": "React.createElement",
-    "jsxFragmentFactory": "React.Fragment",
     "keyofStringsOnly": false,
-    "noFallthroughCasesInSwitch": false,
     "noImplicitAny": true,
-    "noImplicitReturns": false,
     "noImplicitThis": true,
-    "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noUncheckedIndexedAccess": false,
     "strict": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
@@ -24,7 +25,6 @@
     "strictNullChecks": true,
     "suppressExcessPropertyErrors": false,
     "suppressImplicitAnyIndexErrors": false,
-    "useUnknownInCatchVariables": false,
     "lib": [
       "es5",
       "es6",
@@ -104,8 +104,7 @@
       "deno.broadcast_channel",
       "deno.web",
       "deno.websocket"
-    ],
-    "alwaysStrict": true
+    ]
   },
   "importMap": "import_map.json"
 }
