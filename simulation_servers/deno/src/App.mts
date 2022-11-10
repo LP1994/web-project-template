@@ -47,14 +47,14 @@ Promise.allSettled( [
      */
     MyConsole.Cyan( `
 resolve--->Start
-${ JSON.stringify( resolve ) }
+${ JSON.stringify( resolve, null, ' ' ) }
 resolve--->End
 ` );
   },
   ( reject: unknown ): void => {
     MyConsole.Red( `
 reject--->Start
-${ JSON.stringify( reject as object ) }
+${ JSON.stringify( reject as object, null, ' ' ) }
 reject--->End
 ` );
   }

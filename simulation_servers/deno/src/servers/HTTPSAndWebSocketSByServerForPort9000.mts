@@ -69,11 +69,9 @@ serveTls(
      url: "https://127.0.0.1:9000/favicon.ico"
      }
      */
-    MyConsole.Cyan( `
-HTTPS and WebSocket Server request--->Start
-${ JSON.stringify( request ) }
-HTTPS and WebSocket Server request--->End
-` );
+    MyConsole.Cyan( `\nHTTPS and WebSocket Server request--->Start` );
+    console.dir( request );
+    MyConsole.Cyan( `HTTPS and WebSocket Server request--->End\n` );
 
     /*
      {
@@ -83,7 +81,7 @@ HTTPS and WebSocket Server request--->End
      */
     MyConsole.Cyan( `
 HTTPS and WebSocket Server connInfo--->Start
-${ JSON.stringify( connInfo ) }
+${ JSON.stringify( connInfo, null, ' ' ) }
 HTTPS and WebSocket Server connInfo--->End
 ` );
 

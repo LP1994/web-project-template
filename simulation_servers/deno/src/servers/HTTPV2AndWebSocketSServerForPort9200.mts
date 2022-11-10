@@ -44,7 +44,7 @@ HTTP/2 服务，connInfo--->Start
 ${ JSON.stringify( {
     localAddr: conn.localAddr,
     remoteAddr: conn.remoteAddr,
-  } ) }
+  }, null, ' ' ) }
 HTTP/2 服务，connInfo--->End
 ` );
 
@@ -80,11 +80,9 @@ HTTP/2 服务，connInfo--->End
          url: "https://192.168.10.101:9200/"
          }
          */
-        MyConsole.Cyan( `
-HTTP/2 服务，request--->Start
-${ JSON.stringify( request ) }
-HTTP/2 服务，request--->End
-` );
+        MyConsole.Cyan( `\nHTTP/2 服务，request--->Start` );
+        console.dir( request );
+        MyConsole.Cyan( `HTTP/2 服务，request--->End\n` );
 
         requestEvent.respondWith( await Routers( request ) );
       }
@@ -95,9 +93,9 @@ HTTP/2 服务，request--->End
     // httpConn.close();
 
     MyConsole.Red( `
-HTTP/2 服务，因错误，连接已关闭--->Start
+HTTP/2 服务，报错--->Start
 ${ ( error as Error ).message }
-HTTP/2 服务，因错误，连接已关闭--->End
+HTTP/2 服务，报错--->End
 ` );
   }
 }

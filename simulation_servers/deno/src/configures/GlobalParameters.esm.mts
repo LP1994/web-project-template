@@ -77,6 +77,41 @@ const httpHeaders: {
   'Expires': 0,
 };
 
+/**
+ * 自定义的响应状态码映射对象。
+ *
+ * @type {object}
+ */
+const resMessageStatus: { [ key: string | number ]: object } = {
+  // 通用的表示服务端处理报错的错误状态码。
+  9999: {
+    status: 9999,
+    text: 'server handle error',
+  },
+
+  // 通用的表示客户端请求成功，服务端也响应成功的成功状态码。
+  200: {
+    status: 200,
+    text: 'OK',
+  },
+
+  // 请求体的body为空，这里的空是指null、undefined一类的，具体表示为请求体不携带任何东西给服务端。
+  1000: {
+    status: 1000,
+    text: 'body empty',
+  },
+  // 请求体中的content-type值不是服务端要求的类型。
+  1001: {
+    status: 1001,
+    text: 'content-type error',
+  },
+  // 目标不是一个File类型。
+  1002: {
+    status: 1002,
+    text: 'not a file type',
+  },
+};
+
 export {
   // aliasConfig Start
   opensslDir,
@@ -100,6 +135,7 @@ export {
   // aliasConfig End
 
   httpHeaders,
+  resMessageStatus,
 };
 
 export default {
@@ -125,4 +161,5 @@ export default {
   // aliasConfig End
 
   httpHeaders,
+  resMessageStatus,
 };

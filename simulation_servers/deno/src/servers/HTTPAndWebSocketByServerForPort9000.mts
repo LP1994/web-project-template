@@ -68,11 +68,9 @@ serve(
      url: "http://127.0.0.1:9000/favicon.ico"
      }
      */
-    MyConsole.Cyan( `
-HTTP and WebSocket Server request--->Start
-${ JSON.stringify( request ) }
-HTTP and WebSocket Server request--->End
-` );
+    MyConsole.Cyan( `\nHTTP and WebSocket Server request--->Start` );
+    console.dir( request );
+    MyConsole.Cyan( `HTTP and WebSocket Server request--->End\n` );
 
     /*
      {
@@ -82,7 +80,7 @@ HTTP and WebSocket Server request--->End
      */
     MyConsole.Cyan( `
 HTTP and WebSocket Server connInfo--->Start
-${ JSON.stringify( connInfo ) }
+${ JSON.stringify( connInfo, null, ' ' ) }
 HTTP and WebSocket Server connInfo--->End
 ` );
 

@@ -81,7 +81,7 @@ HTTP Server request--->End
      */
     MyConsole.Cyan( `
 HTTP Server connInfo--->Start
-${ JSON.stringify( connInfo ) }
+${ JSON.stringify( connInfo, null, ' ' ) }
 HTTP Server connInfo--->End
 ` );
 
