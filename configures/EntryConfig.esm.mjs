@@ -13,6 +13,10 @@ import {
   argv,
 } from 'node:process';
 
+import {
+  MyConsole,
+} from './UniversalToolForNode.esm.mjs';
+
 /**
  * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
  * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
@@ -30,13 +34,13 @@ const isProduction = ( argv => {
       return true;
     }
     else{
-      console.dir( argv );
+      MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
       throw new Error( 'CLI参数中紧跟在“--mode”之后的，只能是development（用于开发）、production（用于生产）。有效的“--mode”参数设置是：--mode development、--mode production。' );
     }
   }
   else{
-    console.dir( argv );
+    MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
     throw new Error( 'CLI参数中没找到“--mode”参数。' );
   }

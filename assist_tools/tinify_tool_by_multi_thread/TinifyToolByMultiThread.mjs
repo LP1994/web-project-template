@@ -181,7 +181,7 @@ const defaultArgs = {
   ] );
 
 if( TinifyKeys.length === 0 ){
-  MyConsole.Red( `没有可用的TinifyKey。` );
+  MyConsole.Red( `\n没有可用的TinifyKey。\n` );
 
   throw new Error( '没有可用的TinifyKey。' );
 }
@@ -243,18 +243,20 @@ function RetrieveForDir( path ){
         'png',
       ].includes( suffix001 ) ){
         if( fsStats.size > 5 * 1024 * 1024 ){
-          MyConsole.Yellow( `tinify目前只支持压缩图片大小小于等于5MB且大于0MB的图片（${ path001 }）。` );
+          MyConsole.Yellow( `\ntinify目前只支持压缩图片大小小于等于5MB且大于0MB的图片（${ path001 }）。\n` );
         }
         else if( Number( fsStats.size ) === 0 ){
-          MyConsole.Yellow( `\n${ path001 }
-不支持文件大小小于等于0的文件。\n` );
+          MyConsole.Yellow( `
+${ path001 }
+不支持文件大小小于等于0的文件。
+` );
         }
         else{
           photoPathArr.push( path001 );
         }
       }
       else{
-        MyConsole.Yellow( `tinify目前只支持压缩后缀为.png、.webp、.jpg、.jpeg、.jpe的图片（${ path001 }）。` );
+        MyConsole.Yellow( `\ntinify目前只支持压缩后缀为.png、.webp、.jpg、.jpeg、.jpe的图片（${ path001 }）。\n` );
       }
     }
   } );
@@ -267,9 +269,11 @@ while( dirPathArr.length > 0 );
 
 const photoQuantity = photoPathArr.length;
 
-MyConsole.Cyan( `\n需要压缩的图片有${ photoQuantity }张。
+MyConsole.Cyan( `
+需要压缩的图片有${ photoQuantity }张。
 可压缩次数有${ Object.values( Object.fromEntries( TinifyKeys ) )
-.reduce( ( accumulator, currentValue ) => accumulator + currentValue, 0 ) }次。\n` );
+.reduce( ( accumulator, currentValue ) => accumulator + currentValue, 0 ) }次。
+` );
 
 let startTimer = 0,
   successTotal = 0,
@@ -294,19 +298,23 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.on( 'error', errorEventData => {
-    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( errorEventData )--->${ Object.prototype.toString.call( errorEventData ) }
 ${ errorEventData }
-error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'exit', exitCode => {
-    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Yellow( `
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 exitCode:${ exitCode }.
-exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( Number( exitCode ) !== 0 ){
-      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.` );
+      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
     }
   } );
 
@@ -314,25 +322,33 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
     if( messageData.isSuccess ){
       ++successTotal;
 
-      MyConsole.Green( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-\n${ messageData.photoPath }
+      MyConsole.Green( `
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+
+${ messageData.photoPath }
 本张图片压缩成功。
 本张图片压缩耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
 已有${ successTotal }张压缩完成。
-还有${ photoQuantity - successTotal }张未进行压缩。\n
-message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+还有${ photoQuantity - successTotal }张未进行压缩。
+
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
     }
     else{
       compressionFailedForPhotoPathArr.push( messageData.photoPath );
 
-      MyConsole.Red( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-\n${ messageData.photoPath }
+      MyConsole.Red( `
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+
+${ messageData.photoPath }
 未成功压缩。
 本张图片压缩耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
 有${ compressionFailedForPhotoPathArr.length }张未成功压缩的图片等待再次压缩。
 已有${ successTotal }张压缩完成。
-还有${ photoQuantity - successTotal }张未进行压缩。\n
-message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+还有${ photoQuantity - successTotal }张未进行压缩。
+
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
     }
 
     if( photoPathArr.length > 0 ){
@@ -349,12 +365,16 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
           } );
         }
         else{
-          MyConsole.Red( `\n所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。
-未全部压缩，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
+          MyConsole.Red( `
+所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。
+未全部压缩，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！
+` );
 
-          MyConsole.Green( `\n已有${ successTotal }张压缩完成。
+          MyConsole.Green( `
+已有${ successTotal }张压缩完成。
 有${ compressionFailedForPhotoPathArr.length }张未成功压缩的图片。
-还有${ photoQuantity - successTotal }张未进行压缩。\n` );
+还有${ photoQuantity - successTotal }张未进行压缩。
+` );
 
           // If the worker was terminated, the exitCode parameter is 1.
           workerIns.terminate().then(
@@ -388,12 +408,16 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
           } );
         }
         else{
-          MyConsole.Red( `\n所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。
-未全部压缩，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
+          MyConsole.Red( `
+所有key的免费压缩次数都用完了，只能等下个月重置免费次数了，每个月每个key有500次免费压缩次数。
+未全部压缩，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！
+` );
 
-          MyConsole.Green( `\n已有${ successTotal }张压缩完成。
+          MyConsole.Green( `
+已有${ successTotal }张压缩完成。
 有${ compressionFailedForPhotoPathArr.length }张未成功压缩的图片。
-还有${ photoQuantity - successTotal }张未进行压缩。\n` );
+还有${ photoQuantity - successTotal }张未进行压缩。
+` );
 
           // If the worker was terminated, the exitCode parameter is 1.
           workerIns.terminate().then(
@@ -431,10 +455,12 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
   } );
 
   workerIns.on( 'messageerror', errorObject => {
-    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
-反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'online', () => {

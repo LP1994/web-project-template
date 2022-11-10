@@ -146,13 +146,17 @@ function RetrieveForDir( path ){
           photoPathArr.push( path001 );
         }
         else{
-          MyConsole.Yellow( `\n${ path001 }
-不支持文件大小小于等于0的文件。\n` );
+          MyConsole.Yellow( `
+${ path001 }
+不支持文件大小小于等于0的文件。
+` );
         }
       }
       else{
-        MyConsole.Yellow( `${ path001 }
-目前只支持压缩后缀为avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的图片。` );
+        MyConsole.Yellow( `
+${ path001 }
+目前只支持压缩后缀为avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的图片。
+` );
       }
     }
   } );
@@ -181,32 +185,40 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.on( 'error', errorEventData => {
-    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( errorEventData )--->${ Object.prototype.toString.call( errorEventData ) }
 ${ errorEventData }
-error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'exit', exitCode => {
-    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Yellow( `
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 exitCode:${ exitCode }.
-exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( Number( exitCode ) !== 0 ){
-      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.` );
+      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
     }
   } );
 
   workerIns.on( 'message', messageData => {
     ++successTotal;
 
-    MyConsole.Green( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-\n${ messageData.photoPath }
+    MyConsole.Green( `
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+
+${ messageData.photoPath }
 本张图片压缩成功。
 本张图片压缩耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
 已有${ successTotal }张压缩完成。
-还有${ photoQuantity - successTotal }张未进行压缩。\n
-message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+还有${ photoQuantity - successTotal }张未进行压缩。
+
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( photoPathArr.length > 0 ){
       workerIns.postMessage( {
@@ -231,10 +243,12 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
   } );
 
   workerIns.on( 'messageerror', errorObject => {
-    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
-反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'online', () => {

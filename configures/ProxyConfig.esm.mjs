@@ -73,6 +73,10 @@ import {
   CreateLogger,
 } from './Logger.esm.mjs';
 
+import {
+  MyConsole,
+} from './UniversalToolForNode.esm.mjs';
+
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
  *
@@ -150,13 +154,13 @@ const __dirname = Get__dirname( import.meta.url ),
         return true;
       }
       else{
-        console.dir( argv );
+        MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
         throw new Error( 'CLI参数中紧跟在“--mode”之后的，只能是development（用于开发）、production（用于生产）。有效的“--mode”参数设置是：--mode development、--mode production。' );
       }
     }
     else{
-      console.dir( argv );
+      MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
       throw new Error( 'CLI参数中没找到“--mode”参数。' );
     }
@@ -177,7 +181,7 @@ const __dirname = Get__dirname( import.meta.url ),
     } );
 
     if( envArr.length === 0 ){
-      console.dir( argv );
+      MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
       throw new Error( 'CLI参数中没找到“--env”参数。注意“--env”参数是允许多个的哦。' );
     }
@@ -191,12 +195,12 @@ const __dirname = Get__dirname( import.meta.url ),
     } );
 
     if( platformArr.length === 0 ){
-      console.dir( argv );
+      MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
       throw new Error( 'CLI参数中必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。注意“--env”参数是允许多个的哦。' );
     }
     else if( platformArr.length > 1 ){
-      console.dir( argv );
+      MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
       throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值有且只能有一个，该值一般是这4个中的一个：platform=dev_server、platform=local_server、platform=test、platform=production。注意“--env”参数是允许多个的哦。' );
     }
@@ -212,7 +216,7 @@ const __dirname = Get__dirname( import.meta.url ),
       return str;
     }
     else{
-      console.dir( argv );
+      MyConsole.Cyan( `\n${ JSON.stringify( argv ) }\n` );
 
       throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
     }

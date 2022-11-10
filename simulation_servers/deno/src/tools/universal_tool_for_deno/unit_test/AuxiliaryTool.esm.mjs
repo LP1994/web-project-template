@@ -83,13 +83,13 @@ function Test001( desc, fn ){
     result,
     expect,
   } ){
-    console.error( chalk.red( '\n' ) );
-    console.error( chalk.red( `${ desc }，${ message }` ) );
-    console.error( chalk.red( '实际值：' ) );
-    console.error( chalk.red( result ) );
-    console.error( chalk.red( '预期值：' ) );
-    console.error( chalk.red( expect ) );
-    console.error( chalk.red( '\n\n' ) );
+    console.error( chalk.red( `
+${ desc }，${ message }
+实际值：
+${ result }
+预期值：
+${ expect }
+` ) );
   }
 }
 

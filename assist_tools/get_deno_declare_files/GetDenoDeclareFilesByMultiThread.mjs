@@ -162,19 +162,23 @@ function CreateWorkerIns( filePath, workerInsIndex ){
   } );
 
   workerIns.on( 'error', errorEventData => {
-    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 typeof errorEventData--->${ typeof errorEventData }
 ${ errorEventData }
-error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'exit', exitCode => {
-    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Yellow( `
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 exitCode:${ exitCode }.
-exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( Number( exitCode ) !== 0 ){
-      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.` );
+      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
     }
   } );
 
@@ -202,10 +206,12 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
   } );
 
   workerIns.on( 'messageerror', errorObject => {
-    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 typeof errorObject--->${ typeof errorObject }
 ${ errorObject }
-反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'online', () => {

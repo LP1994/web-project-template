@@ -95,8 +95,10 @@ function RetrieveForDir( path ){
           filePathArr.push( path001 );
         }
         else{
-          MyConsole.Yellow( `\n${ path001 }
-不支持文件大小小于等于0的文件。\n` );
+          MyConsole.Yellow( `
+${ path001 }
+不支持文件大小小于等于0的文件。
+` );
         }
       }
     }
@@ -124,19 +126,23 @@ function CreateWorkerIns( filePath, workerInsIndex ){
   } );
 
   workerIns.on( 'error', errorEventData => {
-    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( errorEventData )--->${ Object.prototype.toString.call( errorEventData ) }
 ${ errorEventData }
-error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'exit', exitCode => {
-    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Yellow( `
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 exitCode:${ exitCode }.
-exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( Number( exitCode ) !== 0 ){
-      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.` );
+      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
     }
   } );
 
@@ -145,15 +151,17 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
 
     saveResult[ messageData.filePath ] = messageData.result;
 
-    MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start` );
+    MyConsole.Blue( `\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start\n` );
 
-    MyConsole.Green( `\n${ messageData.filePath }
+    MyConsole.Green( `
+${ messageData.filePath }
 本文件的SRI值计算完成。
 本文件计算耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
 已有${ successTotal }个文件完成计算。
-还有${ fileQuantity - successTotal }个文件未计算。\n` );
+还有${ fileQuantity - successTotal }个文件未计算。
+` );
 
-    MyConsole.Blue( `message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+    MyConsole.Blue( `\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
 
     if( filePathArr.length > 0 ){
       workerIns.postMessage( {
@@ -182,10 +190,12 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
   } );
 
   workerIns.on( 'messageerror', errorObject => {
-    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
-反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'online', () => {

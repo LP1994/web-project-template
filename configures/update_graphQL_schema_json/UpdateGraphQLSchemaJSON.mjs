@@ -32,6 +32,10 @@ import {
   fileURLToPath,
 } from 'node:url';
 
+import {
+  MyConsole,
+} from '../UniversalToolForNode.esm.mjs';
+
 function Get__dirname( import_meta_url = import.meta.url ){
   return dirname( Get__filename( import_meta_url ) );
 }
@@ -121,7 +125,7 @@ if( false ){
     }, result.data ) ) );
   } )
   .catch( e => {
-    console.error( e );
+    MyConsole.Red( `\n${ e.message }\n` );
   } );
 }
 
@@ -204,6 +208,6 @@ if( false ){
     }, result.data ) ) );
   } )
   .catch( e => {
-    console.error( e );
+    MyConsole.Red( `\n${ e.message }\n` );
   } );
 }

@@ -146,13 +146,17 @@ function RetrieveForDir( path ){
           photoPathArr.push( path001 );
         }
         else{
-          MyConsole.Yellow( `\n${ path001 }
-不支持文件大小小于等于0的文件。\n` );
+          MyConsole.Yellow( `
+${ path001 }
+不支持文件大小小于等于0的文件。
+` );
         }
       }
       else{
-        MyConsole.Yellow( `\n${ path001 }
-不支持后缀名不是“heic”、“heif”的图片。\n` );
+        MyConsole.Yellow( `
+${ path001 }
+不支持后缀名不是“heic”、“heif”的图片。
+` );
       }
     }
   } );
@@ -184,32 +188,40 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
   } );
 
   workerIns.on( 'error', errorEventData => {
-    MyConsole.Red( `\nerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 typeof errorEventData--->${ typeof errorEventData }
 ${ errorEventData }
-error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'exit', exitCode => {
-    MyConsole.Yellow( `\nexit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Yellow( `
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 exitCode:${ exitCode }.
-exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( Number( exitCode ) !== 0 ){
-      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.` );
+      MyConsole.Yellow( `\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
     }
   } );
 
   workerIns.on( 'message', messageData => {
     ++toDoneNum;
 
-    MyConsole.Blue( `\n\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-\n${ messageData.photoPath }
+    MyConsole.Blue( `
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+
+${ messageData.photoPath }
 本张图片转换完成。
 本张图片转换耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
 已有${ toDoneNum }张转换完成。
-还有${ photoQuantity - toDoneNum }张未开始转换。\n
-message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n\n` );
+还有${ photoQuantity - toDoneNum }张未开始转换。
+
+message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
     if( photoPathArr.length > 0 ){
       workerIns.postMessage( {
@@ -234,10 +246,12 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
   } );
 
   workerIns.on( 'messageerror', errorObject => {
-    MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+    MyConsole.Red( `
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 typeof errorObject--->${ typeof errorObject }
 ${ errorObject }
-反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
   } );
 
   workerIns.on( 'online', () => {

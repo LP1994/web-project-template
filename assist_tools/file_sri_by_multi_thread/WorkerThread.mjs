@@ -82,13 +82,17 @@ function FileSRI( filePath ){
     } );
 
     readStream.on( 'open', fd => {
-      MyConsole.Cyan( `\n${ filePath }
-文件已打开：${ fd }。\n` );
+      MyConsole.Cyan( `
+${ filePath }
+文件已打开：${ fd }。
+` );
     } );
 
     readStream.on( 'ready', () => {
-      MyConsole.Cyan( `\n${ filePath }
-文件已准备好。\n` );
+      MyConsole.Cyan( `
+${ filePath }
+文件已准备好。
+` );
     } );
 
     readStream.on( 'readable', () => {
@@ -102,15 +106,19 @@ function FileSRI( filePath ){
 
         readStreamByte = readStream.bytesRead / 1024 / 1024;
 
-        MyConsole.Cyan( `\n${ filePath }
+        MyConsole.Cyan( `
+${ filePath }
 数据块大小(单位：字节)：${ chunk.length }(${ chunkBuf }MB、${ chunkBuf / 1024 }GB)。
-数据流大小(单位：字节)：${ readStream.bytesRead }(${ readStreamByte }MB、${ readStreamByte / 1024 }GB)。\n` );
+数据流大小(单位：字节)：${ readStream.bytesRead }(${ readStreamByte }MB、${ readStreamByte / 1024 }GB)。
+` );
       }
     } );
 
     readStream.on( 'end', () => {
-      MyConsole.Blue( `\n${ filePath }
-文件读取已完成。\n` );
+      MyConsole.Blue( `
+${ filePath }
+文件读取已完成。
+` );
     } );
 
     readStream.on( 'close', () => {
@@ -124,8 +132,10 @@ function FileSRI( filePath ){
 
       resolve( obj001 );
 
-      MyConsole.Blue( `\n${ filePath }
-文件已关闭。\n` );
+      MyConsole.Blue( `
+${ filePath }
+文件已关闭。
+` );
     } );
 
     readStream.on( 'error', error => {
@@ -133,26 +143,29 @@ function FileSRI( filePath ){
         error,
       } );
 
-      MyConsole.Red( `\n${ filePath }
+      MyConsole.Red( `
+${ filePath }
 文件出错：
 ${ error }
-\n` );
+` );
     } );
   } );
 }
 
 parentPort.on( 'close', () => {
-  MyConsole.Blue( `\nclose event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+  MyConsole.Blue( `
+close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 该端口已关闭。
-close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End\n
+close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
 } );
 
 parentPort.on( 'messageerror', errorObject => {
-  MyConsole.Red( `\n反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+  MyConsole.Red( `
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
-反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End\n
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
 } );
 
