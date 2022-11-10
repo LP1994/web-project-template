@@ -595,7 +595,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 代理的请求头：
 ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
 HTTP代理--->${ req.originalUrl }<---End
-\n\n\n` );
+\n\n` );
     },
 
     /**
@@ -1005,7 +1005,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 代理的请求头：
 ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
 WebSocket代理--->${ options.context }<---End
-\n\n\n` );
+\n\n` );
     },
 
     /**
