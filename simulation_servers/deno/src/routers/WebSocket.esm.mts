@@ -16,6 +16,11 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
+import {
   IterateToNestForPromise,
   // @ts-ignore
 } from 'public/PublicTools.esm.mts';
@@ -43,8 +48,10 @@ async function WebSocket( request: Request ): Promise<Response>{
     // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
     connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
 
-  console.log( `\n\n请求头中的connection值为：${ connection }。
-请求头中的upgrade值为：${ upgrade }。\n\n` );
+  MyConsole.Blue( `
+请求头中的connection值为：${ connection }。
+请求头中的upgrade值为：${ upgrade }。
+` );
 
   let routeHandle: TypeResult001;
 

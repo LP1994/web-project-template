@@ -18,6 +18,11 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
@@ -28,18 +33,20 @@ import {
 
 // @ts-ignore
 async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
-  console.log( `\nHTTP/2 服务，connInfo--->Start` );
   /*
    {
    localAddr: { hostname: "192.168.10.101", port: 9200, transport: "tcp" },
    remoteAddr: { hostname: "192.168.10.101", port: 62180, transport: "tcp" }
    }
    */
-  console.dir( {
+  MyConsole.Cyan( `
+HTTP/2 服务，connInfo--->Start
+${ JSON.stringify( {
     localAddr: conn.localAddr,
     remoteAddr: conn.remoteAddr,
-  } );
-  console.log( `HTTP/2 服务，connInfo--->End\n` );
+  } ) }
+HTTP/2 服务，connInfo--->End
+` );
 
   // @ts-ignore
   const httpConn: Deno.HttpConn = Deno.serveHttp( conn );
@@ -50,7 +57,6 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
       if( requestEvent ){
         const request: Request = requestEvent.request;
 
-        console.log( `\nHTTP/2 服务，request--->Start` );
         /*
          {
          bodyUsed: false,
@@ -74,8 +80,11 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
          url: "https://192.168.10.101:9200/"
          }
          */
-        console.dir( request );
-        console.log( `HTTP/2 服务，request--->End\n` );
+        MyConsole.Cyan( `
+HTTP/2 服务，request--->Start
+${ JSON.stringify( request ) }
+HTTP/2 服务，request--->End
+` );
 
         requestEvent.respondWith( await Routers( request ) );
       }
@@ -85,9 +94,11 @@ async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
     // 不要因为客户端的某一个连接出错而关闭本连接，因为这样会直接中断了其他所有连接。
     // httpConn.close();
 
-    console.error( `\n\nHTTP/2 服务，因错误，连接已关闭--->Start` );
-    console.error( ( error as Error ).message );
-    console.error( `HTTP/2 服务，因错误，连接已关闭--->End\n\n` );
+    MyConsole.Red( `
+HTTP/2 服务，因错误，连接已关闭--->Start
+${ ( error as Error ).message }
+HTTP/2 服务，因错误，连接已关闭--->End
+` );
   }
 }
 
@@ -133,8 +144,10 @@ try{
   // @ts-ignore
   const addr: Deno.NetAddr = server.addr as Deno.NetAddr;
 
-  console.log( `\nHTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
-说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。\n` );
+  MyConsole.Cyan( `
+HTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
+说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
+` );
 
   try{
     for await ( const conn of
@@ -146,13 +159,17 @@ try{
     // 不要因为一个监听器报错，而关闭所有的监听器。
     // server.close();
 
-    console.error( `\n\nHTTP/2 服务，监听器报错--->Start` );
-    console.error( ( error as Error ).message );
-    console.error( `HTTP/2 服务，监听器报错--->End\n\n` );
+    MyConsole.Red( `
+HTTP/2 服务，监听器报错--->Start
+${ ( error as Error ).message }
+HTTP/2 服务，监听器报错--->End
+` );
   }
 }
 catch( error: unknown ){
-  console.error( `\n\nHTTP/2 服务，打开网络端口时出现问题--->Start` );
-  console.error( ( error as Error ).message );
-  console.error( `HTTP/2 服务，打开网络端口时出现问题--->End\n\n` );
+  MyConsole.Red( `
+HTTP/2 服务，打开网络端口时出现问题--->Start
+${ ( error as Error ).message }
+HTTP/2 服务，打开网络端口时出现问题--->End
+` );
 }

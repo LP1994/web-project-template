@@ -25,6 +25,11 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
@@ -38,7 +43,6 @@ serve(
     request: Request,
     connInfo: ConnInfo,
   ): TypeResponse001 => {
-    console.log( `\nWebSocket Server request--->Start` );
     /*
      {
      bodyUsed: false,
@@ -63,18 +67,23 @@ serve(
      url: "http://127.0.0.1:9300/favicon.ico"
      }
      */
-    console.dir( request );
-    console.log( `WebSocket Server request--->End\n` );
+    MyConsole.Cyan( `
+WebSocket Server request--->Start
+${ JSON.stringify( request ) }
+WebSocket Server request--->End
+` );
 
-    console.log( `\nWebSocket Server connInfo--->Start` );
     /*
      {
      localAddr: { hostname: "127.0.0.1", port: 9300, transport: "tcp" },
      remoteAddr: { hostname: "127.0.0.1", port: 64071, transport: "tcp" }
      }
      */
-    console.dir( connInfo );
-    console.log( `WebSocket Server connInfo--->End\n` );
+    MyConsole.Cyan( `
+WebSocket Server connInfo--->Start
+${ JSON.stringify( connInfo ) }
+WebSocket Server connInfo--->End
+` );
 
     return Routers( request );
   },
@@ -113,12 +122,14 @@ serve(
         port: number;
       }
     ): void => {
-      console.log( `\nWebSocket Server已启动：ws://${ hostname }:${ port }/。\n` );
+      MyConsole.Cyan( `\nWebSocket Server已启动：ws://${ hostname }:${ port }/。\n` );
     },
     onError: ( error: unknown ): TypeResponse001 => {
-      console.error( `\nWebSocket Server onError--->Start` );
-      console.error( error );
-      console.error( `WebSocket Server onError--->End\n` );
+      MyConsole.Red( `
+WebSocket Server onError--->Start
+${ ( error as Error ).message }
+WebSocket Server onError--->End
+` );
 
       return InterceptorError.ResError( {
         title: `WebSocket Server服务器内部出现错误`,

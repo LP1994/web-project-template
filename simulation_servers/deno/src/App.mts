@@ -9,6 +9,11 @@
 
 'use strict';
 
+import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
 Promise.allSettled( [
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
   // @ts-ignore
@@ -37,21 +42,27 @@ Promise.allSettled( [
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
-    console.log( `\nresolve--->Start` );
     /*
      [ { status: "fulfilled", value: Module {} } ]
      */
-    console.dir( resolve );
-    console.log( `resolve--->End\n` );
+    MyConsole.Cyan( `
+resolve--->Start
+${ JSON.stringify( resolve ) }
+resolve--->End
+` );
   },
   ( reject: unknown ): void => {
-    console.log( `\nreject--->Start` );
-    console.error( reject );
-    console.log( `reject--->End\n` );
+    MyConsole.Red( `
+reject--->Start
+${ JSON.stringify( reject as object ) }
+reject--->End
+` );
   }
 )
 .catch( ( error: unknown ): void => {
-  console.log( `\ncatch error--->Start` );
-  console.error( error );
-  console.log( `catch error--->End\n` );
+  MyConsole.Red( `
+catch error--->Start
+${ ( error as Error ).message }
+catch error--->End
+` );
 } );

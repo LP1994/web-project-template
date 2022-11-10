@@ -27,6 +27,11 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
@@ -40,7 +45,6 @@ serveTls(
     request: Request,
     connInfo: ConnInfo,
   ): TypeResponse001 => {
-    console.log( `\nHTTPS Server request--->Start` );
     /*
      {
      bodyUsed: false,
@@ -65,18 +69,23 @@ serveTls(
      url: "https://127.0.0.1:9100/favicon.ico"
      }
      */
-    console.dir( request );
-    console.log( `HTTPS Server request--->End\n` );
+    MyConsole.Cyan( `
+HTTPS Server request--->Start
+${ JSON.stringify( request ) }
+HTTPS Server request--->End
+` );
 
-    console.log( `\nHTTPS Server connInfo--->Start` );
     /*
      {
      localAddr: { hostname: "127.0.0.1", port: 9100, transport: "tcp" },
      remoteAddr: { hostname: "127.0.0.1", port: 64071, transport: "tcp" }
      }
      */
-    console.dir( connInfo );
-    console.log( `HTTPS Server connInfo--->End\n` );
+    MyConsole.Cyan( `
+HTTPS Server connInfo--->Start
+${ JSON.stringify( connInfo ) }
+HTTPS Server connInfo--->End
+` );
 
     return Routers( request );
   },
@@ -119,12 +128,14 @@ serveTls(
         port: number;
       }
     ): void => {
-      console.log( `\nHTTPS Server已启动：https://${ hostname }:${ port }/。\n` );
+      MyConsole.Cyan( `\nHTTPS Server已启动：https://${ hostname }:${ port }/。\n` );
     },
     onError: ( error: unknown ): TypeResponse001 => {
-      console.error( `\nHTTPS Server onError--->Start` );
-      console.error( error );
-      console.error( `HTTPS Server onError--->End\n` );
+      MyConsole.Red( `
+HTTPS Server onError--->Start
+${ ( error as Error ).message }
+HTTPS Server onError--->End
+` );
 
       return InterceptorError.ResError( {
         title: `HTTPS Server服务器内部出现错误`,

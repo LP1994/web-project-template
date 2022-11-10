@@ -27,6 +27,11 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
@@ -40,7 +45,6 @@ serveTls(
     request: Request,
     connInfo: ConnInfo,
   ): TypeResponse001 => {
-    console.log( `\nHTTPS and WebSocket Server request--->Start` );
     /*
      {
      bodyUsed: false,
@@ -65,18 +69,23 @@ serveTls(
      url: "https://127.0.0.1:9000/favicon.ico"
      }
      */
-    console.dir( request );
-    console.log( `HTTPS and WebSocket Server request--->End\n` );
+    MyConsole.Cyan( `
+HTTPS and WebSocket Server request--->Start
+${ JSON.stringify( request ) }
+HTTPS and WebSocket Server request--->End
+` );
 
-    console.log( `\nHTTPS and WebSocket Server connInfo--->Start` );
     /*
      {
      localAddr: { hostname: "127.0.0.1", port: 9000, transport: "tcp" },
      remoteAddr: { hostname: "127.0.0.1", port: 64071, transport: "tcp" }
      }
      */
-    console.dir( connInfo );
-    console.log( `HTTPS and WebSocket Server connInfo--->End\n` );
+    MyConsole.Cyan( `
+HTTPS and WebSocket Server connInfo--->Start
+${ JSON.stringify( connInfo ) }
+HTTPS and WebSocket Server connInfo--->End
+` );
 
     return Routers( request );
   },
@@ -119,12 +128,14 @@ serveTls(
         port: number;
       }
     ): void => {
-      console.log( `\nHTTPS and WebSocket Server已启动：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。\n` );
+      MyConsole.Cyan( `\nHTTPS and WebSocket Server已启动：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。\n` );
     },
     onError: ( error: unknown ): TypeResponse001 => {
-      console.error( `\nHTTPS and WebSocket Server onError--->Start` );
-      console.error( error );
-      console.error( `HTTPS and WebSocket Server onError--->End\n` );
+      MyConsole.Red( `
+HTTPS and WebSocket Server onError--->Start
+${ ( error as Error ).message }
+HTTPS and WebSocket Server onError--->End
+` );
 
       return InterceptorError.ResError( {
         title: `HTTPS and WebSocket Server服务器内部出现错误`,

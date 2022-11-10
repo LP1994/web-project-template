@@ -9,6 +9,8 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 安装的：
+deno install https://deno.land/x/chalk_deno/source/index.js
+
 deno install https://deno.land/std/http/server.ts
 
 deno install https://deno.land/x/dejs/mod.ts

@@ -15,6 +15,11 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  MyConsole,
+  // @ts-ignore
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
@@ -60,24 +65,28 @@ function Handle( request: Request ): TypeResponse001{
 
     // @ts-ignore
     wsForServer.addEventListener( 'open', ( event: Event ): void => {
-      console.log( `\n\nWebSocket针对“${ pathName }”的服务已打开。\n\n` );
+      MyConsole.Green( `\nWebSocket针对“${ pathName }”的服务已打开。\n` );
     } );
 
     // @ts-ignore
     wsForServer.addEventListener( 'close', ( closeEvent: CloseEvent ): void => {
-      console.log( `\n\nWebSocket针对“${ pathName }”的服务已关闭。\n\n` );
+      MyConsole.Green( `\nWebSocket针对“${ pathName }”的服务已关闭。\n` );
     } );
 
     wsForServer.addEventListener( 'error', ( errorEvent: Event | ErrorEvent ): void => {
-      console.error( `\n\nWebSocket针对“${ pathName }”的服务出现错误。Start` );
-      console.error( ( errorEvent as ErrorEvent ).message );
-      console.error( `WebSocket针对“${ pathName }”的服务出现错误。End\n\n` );
+      MyConsole.Red( `
+WebSocket针对“${ pathName }”的服务出现错误。Start
+${ ( errorEvent as ErrorEvent ).message }
+WebSocket针对“${ pathName }”的服务出现错误。End
+` );
     } );
 
     wsForServer.addEventListener( 'message', ( messageEvent: MessageEvent ): void => {
-      console.log( `\n\nWebSocket收到了来自客户端（${ pathName }）的消息。Start` );
-      console.dir( messageEvent.data );
-      console.log( `WebSocket收到了来自客户端（${ pathName }）的消息。End\n\n` );
+      MyConsole.Blue( `
+WebSocket收到了来自客户端（${ pathName }）的消息。Start
+${ messageEvent.data }
+WebSocket收到了来自客户端（${ pathName }）的消息。End
+` );
 
       wsForServer.send( `${ new Date().toString() }：这是WebSocket服务端发给客户端的消息。` );
     } );
