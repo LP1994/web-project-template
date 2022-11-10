@@ -61,7 +61,12 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
   }
   else{
     return [
-      'webpack-dev-server/client/index.js?logging=info&progress=true&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=Infinity&hot=true&live-reload=true',
+      /**
+       * 1、目前注释掉，是因为个人直接修改了“webpack-dev-server/lib/Server.js”，从而暂时修复这个BUG。<br />
+       * 2、文件夹“backups”下的“webpack-dev-server/lib/Server_个人修复版.js”就是修改后的代码。<br />
+       * 3、“backups”下的“webpack-dev-server/lib/Server_原版.js”是“webpack-dev-server”的原来的带BUG的版本。<br />
+       */
+      // 'webpack-dev-server/client/index.js?logging=info&progress=true&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=Infinity&hot=true&live-reload=true',
     ].concat( entryImport );
   }
 }
