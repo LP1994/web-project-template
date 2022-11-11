@@ -86,6 +86,10 @@ const methodByPostForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
 
 const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
   [
+    `${ servicesDir }/get_upload_file_service/Condition.esm.mts`,
+    `${ servicesDir }/get_upload_file_service/ResponseHandle.esm.mts`,
+  ],
+  [
     `${ servicesDir }/static_resources_service/Condition.esm.mts`,
     `${ servicesDir }/static_resources_service/ResponseHandle.esm.mts`,
   ],

@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/services/static_resources_service/ResponseHandle.esm.mts
+ * FileDirPath: simulation_servers/deno/src/services/get_upload_file_service/ResponseHandle.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -17,7 +17,7 @@
 import {
   type TypeResponse001,
 
-  staticDir,
+  uploadDir,
 
   httpHeaders,
   // @ts-ignore
@@ -39,7 +39,7 @@ import {
 function ResponseHandle( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
-    filePath: URL = new URL( `${ staticDir }/${ pathName.slice( myURLPathName.length ) }` );
+    filePath: URL = new URL( `${ uploadDir }/${ pathName.slice( myURLPathName.length ) }` );
 
   //@ts-ignore
   let fileState: Deno.FileInfo;

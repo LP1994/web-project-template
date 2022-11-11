@@ -27,6 +27,11 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  myURLPathName,
+  // @ts-ignore
+} from './Condition.esm.mts';
+
 async function UploadBySingle( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
 
@@ -76,28 +81,63 @@ async function UploadBySingle( request: Request ): Promise<Response>{
                      ? file.name
                      : fileName;
 
-          // @ts-ignore
-          const file001: Deno.FsFile = await Deno.open( new URL( `${ uploadDir }/${ fileName }` ), {
-            write: true,
-            create: true,
-          } );
+          let fileUrl: URL,
+            filePath: string;
 
-          await file.stream().pipeTo( writableStreamFromWriter( file001 ) );
+          if( file.type === 'application/octet-stream' ){
+            fileUrl = new URL( `${ uploadDir }/${ fileName }` );
+            filePath = `${ myURLPathName }/${ fileName }`;
+          }
+          else{
+            fileUrl = new URL( `${ uploadDir }/${ fileExtensionName }/${ fileName }` );
+            filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
 
-          return new Response( JSON.stringify( {
-            data: {
-              // @ts-ignore
-              message: `文件（${ fileName }，文件类型：${ file.type }）上传成功。`,
-            },
-            message: resMessageStatus[ 200 ],
-          } ), {
-            status: 200,
-            statusText: 'OK',
-            headers: {
-              ...httpHeaders,
-              'content-type': 'application/json; charset=utf-8',
-            },
-          } );
+            // @ts-ignore
+            Deno.mkdirSync( new URL( `${ uploadDir }/${ fileExtensionName }` ), {
+              recursive: true,
+            } );
+          }
+
+          try{
+            // @ts-ignore
+            const file001: Deno.FsFile = await Deno.open( fileUrl, {
+              write: true,
+              create: true,
+            } );
+
+            await file.stream().pipeTo( writableStreamFromWriter( file001 ) );
+
+            return new Response( JSON.stringify( {
+              data: {
+                // @ts-ignore
+                message: `文件（${ fileName }，文件类型：${ file.type }）上传成功。`,
+                filePath: `${ filePath }`,
+              },
+              message: resMessageStatus[ 200 ],
+            } ), {
+              status: 200,
+              statusText: 'OK',
+              headers: {
+                ...httpHeaders,
+                'content-type': 'application/json; charset=utf-8',
+              },
+            } );
+          }
+          catch( error: unknown ){
+            return new Response( JSON.stringify( {
+              data: {
+                message: `${ ( error as Error ).message }`,
+              },
+              message: resMessageStatus[ 9999 ],
+            } ), {
+              status: 200,
+              statusText: 'OK',
+              headers: {
+                ...httpHeaders,
+                'content-type': 'application/json; charset=utf-8',
+              },
+            } );
+          }
         }
         else{
           return new Response( JSON.stringify( {
