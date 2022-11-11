@@ -75,9 +75,13 @@ function FileSRI( filePath ){
       flags: 'r+',
     } );
 
+    // [ 'sha256', 'sha384', 'sha512' ]
     hash2Digest4Keys = Object.keys( obj001 );
 
+    // [ [ createHash( 'sha256' ), createHash( 'sha256' ) ], [ createHash( 'sha384' ), createHash( 'sha384' ) ], [ createHash( 'sha512' ), createHash( 'sha512' ) ] ]
     hashArr = hash2Digest4Keys.map( c => {
+      // Object.keys( obj001[ c ] ) ---> [ 'hex', 'base64' ]
+      // return [ createHash( 'sha256' ), createHash( 'sha256' ) ]
       return Object.keys( obj001[ c ] ).map( () => createHash( c ) );
     } );
 
@@ -99,6 +103,7 @@ ${ filePath }
       while( null !== ( chunk = readStream.read( bufferSize ) ) ){
         hashArr.flat( Infinity )
         .forEach( c => {
+          // createHash( 'sha256' ).update(chunk)
           c[ 'update' ]( chunk );
         } );
 
@@ -122,10 +127,13 @@ ${ filePath }
     } );
 
     readStream.on( 'close', () => {
+      // [ { hex: '', base64: '' }, { hex: '', base64: '' }, { hex: '', base64: '' } ]
       Object.values( obj001 )
       .forEach( ( c, i, ) => {
+        // [ 'hex', 'base64' ]
         Object.keys( c )
         .forEach( ( c1, i1, ) => {
+          // createHash( 'sha256' ).digest( 'hex' )
           obj001[ hash2Digest4Keys[ i ] ][ c1 ] = `${ hash2Digest4Keys[ i ] }-${ hashArr[ i ][ i1 ].digest( c1 ) }`;
         } );
       } );

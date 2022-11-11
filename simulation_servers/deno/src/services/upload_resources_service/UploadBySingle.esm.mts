@@ -10,6 +10,12 @@
 'use strict';
 
 import {
+  crypto,
+  toHashString,
+  // @ts-ignore
+} from 'DenoStd/crypto/mod.ts';
+
+import {
   extension,
   // @ts-ignore
 } from 'DenoStd/media_types/mod.ts';
@@ -31,6 +37,9 @@ import {
   myURLPathName,
   // @ts-ignore
 } from './Condition.esm.mts';
+
+// @ts-ignore
+import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 async function UploadBySingle( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
@@ -97,6 +106,18 @@ async function UploadBySingle( request: Request ): Promise<Response>{
               recursive: true,
             } );
           }
+          // ToDo
+          const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() );
+          ( FileSRI as { [ key: string ]: object } )[ filePath ] = {
+            'SHA3-512': {
+              hex: toHashString( hash, 'hex' ),
+              // base64: toHashString( hash, 'base64' ),
+            },
+          };
+          // @ts-ignore
+          Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+            create: true,
+          } );
 
           try{
             // @ts-ignore

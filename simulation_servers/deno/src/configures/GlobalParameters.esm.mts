@@ -40,6 +40,8 @@ const routersDir: string = import.meta.resolve( '../routers' );
 const serversDir: string = import.meta.resolve( '../servers' );
 // @ts-ignore
 const servicesDir: string = import.meta.resolve( '../services' );
+// @ts-ignore
+const ssrDir: string = import.meta.resolve( '../ssr' );
 
 // @ts-ignore
 const templateDir: string = import.meta.resolve( '../template' );
@@ -127,6 +129,7 @@ export {
   routersDir,
   serversDir,
   servicesDir,
+  ssrDir,
 
   templateDir,
   ejsDir,
@@ -153,6 +156,7 @@ export default {
   routersDir,
   serversDir,
   servicesDir,
+  ssrDir,
 
   templateDir,
   ejsDir,
