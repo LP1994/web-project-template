@@ -7,6 +7,11 @@
  * CreateDate: 2022-11-02 17:38:57 星期三
  */
 
+/**
+ * 1、目前发现当启用HTTPS协议时，用迅雷下载文件时，会报错，但是改用HTTP协议就能正常用迅雷下载了。
+ * 2、启用HTTPS协议时，用迅雷下载文件时，会报错的原因，极可能是因为在制作自定义的HTTPS证书时，只是指定了某些可访问的IP地址，并没有包括迅雷自己的下载IP、域名之类的，从而导致报错。
+ */
+
 'use strict';
 
 import {
@@ -43,12 +48,18 @@ function ResponseHandle( request: Request ): TypeResponse001{
     fileState = Deno.statSync( filePath );
 
     if( fileState.isFile ){
+      //@ts-ignore
+      const file: Deno.FsFile = Deno.openSync( filePath, {
+        read: true,
+      } );
+
       // @ts-ignore
-      return new Response( Deno.readFileSync( filePath ), {
+      return new Response( file.readable, {
         status: 200,
         statusText: 'OK',
         headers: {
           ...httpHeaders,
+          'accept-ranges': 'bytes',
           'content-type': `${ mime.getType( filePath.href ) }`,
         },
       } );

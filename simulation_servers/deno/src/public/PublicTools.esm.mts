@@ -10,10 +10,12 @@
 'use strict';
 
 import {
+  // Deno自己有一个名为media_types的API功能跟它一样。
   mimetypes,
   // @ts-ignore
 } from './ThirdPartyModules.esm.mts';
 
+// Deno自己有一个名为media_types的API功能跟它一样。
 const {
   MimeTypeMap,
   Mime,
@@ -21,6 +23,7 @@ const {
   mimelite,
 }: any = mimetypes;
 
+// Deno自己有一个名为media_types的API功能跟它一样。
 mime.define( {
   'text/html; charset=utf-8': [
     'ejs',
@@ -46,6 +49,7 @@ async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
 }
 
 export {
+  // Deno自己有一个名为media_types的API功能跟它一样。
   MimeTypeMap,
   Mime,
   mime,
@@ -55,6 +59,7 @@ export {
 };
 
 export default {
+  // Deno自己有一个名为media_types的API功能跟它一样。
   MimeTypeMap,
   Mime,
   mime,

@@ -67,11 +67,9 @@ serve(
      url: "http://127.0.0.1:9100/favicon.ico"
      }
      */
-    MyConsole.Cyan( `
-HTTP Server request--->Start
-${ request }
-HTTP Server request--->End
-` );
+    MyConsole.Cyan( `\nHTTP Server request--->Start\n` );
+    console.dir( request );
+    MyConsole.Cyan( `\nHTTP Server request--->End\n` );
 
     /*
      {

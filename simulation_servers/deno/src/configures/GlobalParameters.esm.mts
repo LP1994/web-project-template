@@ -105,10 +105,15 @@ const resMessageStatus: { [ key: string | number ]: object } = {
     status: 1001,
     text: 'content-type error',
   },
-  // 目标不是一个File类型。
+  // 目标不是一个File或Blob类型。
   1002: {
     status: 1002,
-    text: 'not a file type',
+    text: 'not a file/Blob type',
+  },
+  // 查询参数缺失。
+  1003: {
+    status: 1003,
+    text: 'missing query parameter',
   },
 };
 
