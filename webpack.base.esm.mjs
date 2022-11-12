@@ -2048,14 +2048,14 @@ const aliasConfig = {
         cert: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.crt' ), 'utf8' ),
 
         // Passphrase for a pfx file.
-        // passphrase: 'opensslHTTPS001',
+        passphrase: 'opensslHTTPS001',
         /**
          * 1、Path to an SSL pfx file or content of an SSL pfx file.<br />
          *
          * PS：<br />
-         * 启用会报错误：[webpack-cli] Error: wrong tag
+         * 启用后会导致证书出现警告。<br />
          */
-        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CACert.p12.base64' ), 'base64' ),
+        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CACert.p12' ) ),
 
         // Path to PEM formatted CRLs (Certificate Revocation Lists) or content of PEM formatted CRLs (Certificate Revocation Lists).
         // crl: readFileSync( join( __dirname, './configures/openssl/HTTPS001/XXX.pem' ), 'utf8' ),
