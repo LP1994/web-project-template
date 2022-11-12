@@ -47,7 +47,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
 
     return new Response( JSON.stringify( {
       data: {
-        message: `已存在跟此文件的SRI值一致的文件（${ result001.fileName }，文件类型：${ result001.type }），本次上传不写入文件、更新文件信息。`,
+        message: `已存在跟此文件的SRI值一致的文件（${ result001.fileName }，文件类型：${ result001.fileType }），本次上传不写入文件、更新文件信息。`,
         filePath: `${ result001.filePath }`,
       },
       message: resMessageStatus[ 200 ],

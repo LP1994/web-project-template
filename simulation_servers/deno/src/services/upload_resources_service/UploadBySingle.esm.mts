@@ -49,7 +49,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
           const {
             isWriteFile,
             fileInfo,
-          }: TypeObj001 = await UpdateFileSRI( _request, file, fileName );
+          }: TypeObj001 = await UpdateFileSRI( _request, file as File, fileName );
 
           const {
             savePath,
