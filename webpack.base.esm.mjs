@@ -2019,6 +2019,15 @@ const aliasConfig = {
     ],
     port: devServerGlobalParameters[ env_platform ]?.port,
     proxy: proxyConfig,
+    /**
+     * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。<br />
+     * 2、安装证书如下：<br />
+     * configures/openssl/HTTPS001/HTTPS001CACert.crt
+     * configures/openssl/HTTPS001/HTTPS001Client.crt
+     * configures/openssl/HTTPS001/HTTPS001Server.crt
+     * configures/openssl/HTTPS001/HTTPS001CACert.p12
+     * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况，大概率系因为“自定义的HTTPS证书”没把迅雷自己的下载域名、IP列入证书其中吧。<br />
+     */
     server: {
       type: 'https',
       options: {

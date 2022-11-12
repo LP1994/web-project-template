@@ -8,8 +8,13 @@
  */
 
 /**
- * 1、目前发现当启用HTTPS协议时，用迅雷下载文件时，会报错，但是改用HTTP协议就能正常用迅雷下载了。
- * 2、启用HTTPS协议时，用迅雷下载文件时，会报错的原因，极可能是因为在制作自定义的HTTPS证书时，只是指定了某些可访问的IP地址，并没有包括迅雷自己的下载IP、域名之类的，从而导致报错。
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。<br />
+ * 2、安装证书如下：<br />
+ * configures/openssl/HTTPS001/HTTPS001CACert.crt
+ * configures/openssl/HTTPS001/HTTPS001Client.crt
+ * configures/openssl/HTTPS001/HTTPS001Server.crt
+ * configures/openssl/HTTPS001/HTTPS001CACert.p12
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况，大概率系因为“自定义的HTTPS证书”没把迅雷自己的下载域名、IP列入证书其中吧。<br />
  */
 
 'use strict';
