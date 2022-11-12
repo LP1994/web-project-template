@@ -8736,6 +8736,48 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     'window.$': resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
     'window.jQuery': resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
 
+    /*
+     官方文档：https://github.com/emn178/js-sha3
+
+     导出的JSSHA3是一个对象，JSSHA3上部署有如下函数：
+     cshake128、cshake256、cshake_128、cshake_256、
+     keccak224、keccak256、keccak384、keccak512、keccak_224、keccak_256、keccak_384、keccak_512、
+     kmac128、kmac256、kmac_128、kmac_256、
+     sha3_224、sha3_256、sha3_384、sha3_512、
+     shake128、shake256、shake_128、shake_256
+     */
+    JSSHA3: resolve( join( __dirname, './node_modules/js-sha3/build/sha3.min.js' ) ),
+    /*
+     https://github.com/emn178/js-sha512
+
+     导出的JSSHA512是一个函数。
+     */
+    JSSHA512: resolve( join( __dirname, './node_modules/js-sha512/build/sha512.min.js' ) ),
+    /*
+     https://github.com/emn178/js-sha256
+
+     导出的JSSHA256是一个函数。
+     */
+    JSSHA256: resolve( join( __dirname, './node_modules/js-sha256/build/sha256.min.js' ) ),
+    /*
+     https://github.com/emn178/js-sha1
+
+     导出的JSSHA1是一个函数。
+     */
+    JSSHA1: resolve( join( __dirname, './node_modules/js-sha1/build/sha1.min.js' ) ),
+    /*
+     https://github.com/emn178/js-md5
+
+     导出的JSMD5是一个函数。
+     */
+    JSMD5: resolve( join( __dirname, './node_modules/js-md5/build/md5.min.js' ) ),
+    /*
+     https://github.com/dankogai/js-base64
+
+     导出的JSBase64是一个对象。
+     */
+    JSBase64: resolve( join( __dirname, './node_modules/js-base64/base64.js' ) ),
+
     localforage: resolve( join( __dirname, './node_modules/localforage/dist/localforage.js' ) ),
 
     lodash: resolve( join( __dirname, './node_modules/lodash/lodash.js' ) ),

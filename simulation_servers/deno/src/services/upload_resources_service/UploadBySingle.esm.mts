@@ -10,36 +10,23 @@
 'use strict';
 
 import {
-  crypto,
-  toHashString,
-  // @ts-ignore
-} from 'DenoStd/crypto/mod.ts';
-
-import {
-  extension,
-  // @ts-ignore
-} from 'DenoStd/media_types/mod.ts';
-
-import {
   writableStreamFromWriter,
   // @ts-ignore
 } from 'DenoStd/streams/mod.ts';
 
 import {
-  uploadDir,
-
   httpHeaders,
   resMessageStatus,
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  myURLPathName,
-  // @ts-ignore
-} from './Condition.esm.mts';
+  type TypeObj001,
+  type TypeFileSRI001,
 
-// @ts-ignore
-import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
+  UpdateFileSRI,
+  // @ts-ignore
+} from './UpdateFileSRI.esm.mts';
 
 async function UploadBySingle( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
@@ -53,85 +40,56 @@ async function UploadBySingle( request: Request ): Promise<Response>{
       try{
         formData = await _request.formData();
 
-        let file: File | Blob | string | null = formData.get( 'file' ),
-          fileName: string = ( formData.get( 'fileName' ) as string ) ?? '';
+        let file: File | string | null = formData.get( 'file' ),
+          fileName: string = ( formData.get( 'fileName' ) ?? '' ) as string;
 
         const str001: string = Object.prototype.toString.call( file );
 
         if( str001 === '[object File]' || str001 === '[object Blob]' ){
-          const fileExtensionName: string = extension( ( file as Blob ).type ) ?? '';
+          const {
+            isWriteFile,
+            fileInfo,
+          }: TypeObj001 = await UpdateFileSRI( _request, file, fileName );
 
-          if( str001 === '[object Blob]' ){
-            /*
-             file.type--->image/avif
-             file.size--->1095740
-             */
-            file = file as Blob;
+          const {
+            savePath,
+            filePath,
+            fileType,
+            fileName: fileName001,
+          }: TypeFileSRI001 = fileInfo;
 
-            // @ts-ignore
-            file.name = `${ file.size }_${ Date.now() }${ fileExtensionName.length === 0
-                                                          ? ``
-                                                          : `.${ fileExtensionName }` }`;
-            // @ts-ignore
-            file.lastModified = Date.now();
-          }
-          else{
-            /*
-             file.name--->2.avif
-             file.type--->image/avif
-             file.size--->1095740
-             file.lastModified--->1668106823045
-             */
-            file = file as File;
-          }
+          fileName = fileName001;
 
-          fileName = fileName.length === 0
-            // @ts-ignore
-                     ? file.name
-                     : fileName;
-
-          let fileUrl: URL,
-            filePath: string;
-
-          if( file.type === 'application/octet-stream' ){
-            fileUrl = new URL( `${ uploadDir }/${ fileName }` );
-            filePath = `${ myURLPathName }/${ fileName }`;
-          }
-          else{
-            fileUrl = new URL( `${ uploadDir }/${ fileExtensionName }/${ fileName }` );
-            filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
-
-            // @ts-ignore
-            Deno.mkdirSync( new URL( `${ uploadDir }/${ fileExtensionName }` ), {
-              recursive: true,
+          if( !isWriteFile ){
+            return new Response( JSON.stringify( {
+              data: {
+                message: `已存在跟此文件的SRI值一致的文件（${ fileName }，文件类型：${ fileType }），本次上传不写入文件，但更新了文件信息。`,
+                filePath: `${ filePath }`,
+              },
+              message: resMessageStatus[ 200 ],
+            } ), {
+              status: 200,
+              statusText: 'OK',
+              headers: {
+                ...httpHeaders,
+                'content-type': 'application/json; charset=utf-8',
+              },
             } );
           }
-          // ToDo
-          const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() );
-          ( FileSRI as { [ key: string ]: object } )[ filePath ] = {
-            'SHA3-512': {
-              hex: toHashString( hash, 'hex' ),
-              // base64: toHashString( hash, 'base64' ),
-            },
-          };
-          // @ts-ignore
-          Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-            create: true,
-          } );
 
           try{
             // @ts-ignore
-            const file001: Deno.FsFile = await Deno.open( fileUrl, {
+            const file001: Deno.FsFile = await Deno.open( new URL( savePath ), {
               write: true,
               create: true,
             } );
 
-            await file.stream().pipeTo( writableStreamFromWriter( file001 ) );
+            await ( file as File ).stream().pipeTo( writableStreamFromWriter( file001 ) );
 
             return new Response( JSON.stringify( {
               data: {
                 // @ts-ignore
-                message: `文件（${ fileName }，文件类型：${ file.type }）上传成功。`,
+                message: `文件（${ fileName }，文件类型：${ fileType }）上传成功。`,
                 filePath: `${ filePath }`,
               },
               message: resMessageStatus[ 200 ],
@@ -163,7 +121,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
         else{
           return new Response( JSON.stringify( {
             data: {
-              message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为${ Object.prototype.toString.call( file ) }。`,
+              message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为“${ str001 }”。`,
             },
             message: resMessageStatus[ 1002 ],
           } ), {

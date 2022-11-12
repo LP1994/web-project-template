@@ -17,6 +17,13 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  type TypeFileSRI001,
+
+  ValidateReqHeadSRI,
+  // @ts-ignore
+} from './ValidateReqHeadSRI.esm.mts';
+
 // @ts-ignore
 import UploadByBinary from './UploadByBinary.esm.mts';
 
@@ -32,6 +39,27 @@ import UploadByBigFile from './UploadByBigFile.esm.mts';
 function ResponseHandle( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
+
+  let result001: boolean | TypeFileSRI001;
+
+  if( result001 = ValidateReqHeadSRI( request ) ){
+    result001 = result001 as TypeFileSRI001;
+
+    return new Response( JSON.stringify( {
+      data: {
+        message: `已存在跟此文件的SRI值一致的文件（${ result001.fileName }，文件类型：${ result001.type }），本次上传不写入文件、更新文件信息。`,
+        filePath: `${ result001.filePath }`,
+      },
+      message: resMessageStatus[ 200 ],
+    } ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        ...httpHeaders,
+        'content-type': 'application/json; charset=utf-8',
+      },
+    } );
+  }
 
   if( uploadType === 'binary' ){
     return UploadByBinary( request );
