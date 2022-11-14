@@ -37,15 +37,19 @@ mime.define( {
 }, true );
 
 async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
+  let result: T;
+
   if( Object.prototype.toString.call( arg ) !== '[object Promise]' ){
-    return arg as T;
+    result = arg as T;
   }
   else if( Object.prototype.toString.call( arg = await arg ) === '[object Promise]' ){
-    return await IterateToNestForPromise( arg as Promise<T> );
+    result = await IterateToNestForPromise( arg as Promise<T> );
   }
   else{
-    return arg as T;
+    result = arg as T;
   }
+
+  return result;
 }
 
 export {

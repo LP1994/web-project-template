@@ -75,29 +75,34 @@ async function Routers( request: Request ): Promise<Response>{
     // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
     connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
 
+  let result: Response;
+
   if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
-    return ( await IterateToNestForPromise( WebSocket( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( WebSocket( request ) ) ) as Response;
   }
   else if( method in requestMethods ){
-    return ( await IterateToNestForPromise( ( requestMethods[ method ] as TypeFun003 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( requestMethods[ method ] as TypeFun003 )( request ) ) ) as Response;
+  }
+  else{
+    // @ts-ignore
+    const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
+      // @ts-ignore
+      html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
+        message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
+        .join( '、' ) }。`,
+      } );
+
+    result = new Response( html, {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        ...httpHeaders,
+        'content-type': mime.getType( filePath.href ),
+      },
+    } );
   }
 
-  // @ts-ignore
-  const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
-    // @ts-ignore
-    html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
-      message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
-      .join( '、' ) }。`,
-    } );
-
-  return new Response( html, {
-    status: 200,
-    statusText: 'OK',
-    headers: {
-      ...httpHeaders,
-      'content-type': mime.getType( filePath.href ),
-    },
-  } );
+  return result;
 }
 
 export {

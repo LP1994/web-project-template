@@ -7,6 +7,18 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
+/**
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
+ * 2、安装证书如下：
+ * openssl/HTTPS001/HTTPS001CACert.crt
+ * openssl/HTTPS001/HTTPS001Client.crt
+ * openssl/HTTPS001/HTTPS001Server.crt
+ * openssl/HTTPS001/HTTPS001CACert.p12
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
+ * 4、就算安装了上述的证书到iPhone 13 Pro Max上，其上的谷歌浏览器、火狐浏览器（但Safari浏览器却不会）在访问相关链接时，还是会报如下错误提示，但还是能顺利访问，只是会输出这个错误提示：
+ * error writing a body to connection: tls handshake eof: tls handshake eof
+ */
+
 'use strict';
 
 import {

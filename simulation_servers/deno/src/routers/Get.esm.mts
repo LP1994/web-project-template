@@ -42,14 +42,19 @@ async function Get( request: Request ): Promise<Response>{
 
   let routeHandle: TypeResult001;
 
+  let result: Response;
+
   if( pathName in methodByGetForRouteMapConfig ){
-    return ( await IterateToNestForPromise( ( methodByGetForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( methodByGetForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
   }
   else if( routeHandle = await methodByGetForRouteHandle( request ) ){
-    return ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+  }
+  else{
+    result = await new InterceptorError( request ).res404();
   }
 
-  return await new InterceptorError( request ).res404();
+  return result;
 }
 
 export {

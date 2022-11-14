@@ -40,12 +40,14 @@ function ResponseHandle( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
 
+  let result: TypeResponse001;
+
   let result001: boolean | TypeFileSRI001;
 
   if( result001 = ValidateReqHeadSRI( request ) ){
     result001 = result001 as TypeFileSRI001;
 
-    return new Response( JSON.stringify( {
+    result = new Response( JSON.stringify( {
       data: {
         message: `已存在跟此文件的SRI值一致的文件（${ result001.fileName }，文件类型：${ result001.fileType }），本次上传不写入文件、更新文件信息。`,
         filePath: `${ result001.filePath }`,
@@ -60,21 +62,20 @@ function ResponseHandle( request: Request ): TypeResponse001{
       },
     } );
   }
-
-  if( uploadType === 'binary' ){
-    return UploadByBinary( request );
+  else if( uploadType === 'binary' ){
+    result = UploadByBinary( request );
   }
   else if( uploadType === 'single' ){
-    return UploadBySingle( request );
+    result = UploadBySingle( request );
   }
   else if( uploadType === 'multiple' ){
-    return UploadByMultiple( request );
+    result = UploadByMultiple( request );
   }
   else if( uploadType === 'bigFile' ){
-    return UploadByBigFile( request );
+    result = UploadByBigFile( request );
   }
   else{
-    return new Response( JSON.stringify( {
+    result = new Response( JSON.stringify( {
       data: {
         message: `请求的url（${ url.pathname }${ url.search }）上缺少查询参数“uploadType”，其有效值有：“binary”、“single”、“multiple”、“bigFile”。`,
       },
@@ -88,6 +89,8 @@ function ResponseHandle( request: Request ): TypeResponse001{
       },
     } );
   }
+
+  return result;
 }
 
 export default ResponseHandle;

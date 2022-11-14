@@ -29,6 +29,8 @@ function Handle( request: Request ): TypeResponse001{
     url: URL,
     pathName: string;
 
+  let result: TypeResponse001;
+
   try{
     (
       {
@@ -91,15 +93,17 @@ WebSocket收到了来自客户端（${ pathName }）的消息。End
       wsForServer.send( `${ new Date().toString() }：这是WebSocket服务端发给客户端的消息。` );
     } );
 
-    return response;
+    result = response;
   }
   catch( error: unknown ){
-    return InterceptorError.ResError( {
+    result = InterceptorError.ResError( {
       title: `WebSocket服务器内部出现错误`,
       message: `WebSocket错误信息：
 ${ ( error as Error ).message }`,
     } );
   }
+
+  return result;
 }
 
 export default Handle;

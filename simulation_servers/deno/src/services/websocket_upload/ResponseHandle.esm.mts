@@ -31,6 +31,8 @@ function ResponseHandle( request: Request ): TypeResponse001{
     url: URL,
     pathName: string;
 
+  let result: TypeResponse001;
+
   try{
     (
       {
@@ -93,15 +95,17 @@ WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
       wsForServer.send( `${ new Date().toString() }：WebSocket服务端成功收到了客户端通过“${ pathName }”上传的文件。` );
     } );
 
-    return response;
+    result = response;
   }
   catch( error: unknown ){
-    return InterceptorError.ResError( {
+    result = InterceptorError.ResError( {
       title: `WebSocket服务器内部出现错误`,
       message: `WebSocket错误信息：
 ${ ( error as Error ).message }`,
     } );
   }
+
+  return result;
 }
 
 export default ResponseHandle;

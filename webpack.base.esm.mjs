@@ -2026,7 +2026,9 @@ const aliasConfig = {
      * configures/openssl/HTTPS001/HTTPS001Client.crt
      * configures/openssl/HTTPS001/HTTPS001Server.crt
      * configures/openssl/HTTPS001/HTTPS001CACert.p12
-     * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况，大概率系因为“自定义的HTTPS证书”没把迅雷自己的下载域名、IP列入证书其中吧。<br />
+     * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。<br />
+     * 4、就算安装了上述的证书到iPhone 13 Pro Max上，其上的谷歌浏览器、火狐浏览器（但Safari浏览器却不会）在访问相关链接时，还是会报如下错误提示，但还是能顺利访问，只是会输出这个错误提示：<br />
+     * error writing a body to connection: tls handshake eof: tls handshake eof
      */
     server: {
       type: 'https',

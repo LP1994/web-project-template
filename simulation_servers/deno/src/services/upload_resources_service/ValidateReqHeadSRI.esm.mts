@@ -26,12 +26,16 @@ export type TypeFileSRI001 = {
 function ValidateReqHeadSRI( request: Request ): boolean | TypeFileSRI001{
   const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).toLowerCase();
 
+  let result: boolean | TypeFileSRI001;
+
   if( x_file_sri in ( FileSRI as { [ key: string ]: TypeFileSRI001; } ) ){
-    return ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ x_file_sri ] as TypeFileSRI001;
+    result = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ x_file_sri ] as TypeFileSRI001;
   }
   else{
-    return false;
+    result = false;
   }
+
+  return result;
 }
 
 export {

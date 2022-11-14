@@ -38,11 +38,16 @@ import InterceptorError from 'public/InterceptorError.esm.mts';
 async function Put( request: Request ): Promise<Response>{
   let routeHandle: TypeResult001;
 
+  let result: Response;
+
   if( routeHandle = await methodByPutForRouteHandle( request ) ){
-    return ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+  }
+  else{
+    result = await new InterceptorError( request ).res404();
   }
 
-  return await new InterceptorError( request ).res404();
+  return result;
 }
 
 export {

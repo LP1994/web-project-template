@@ -48,6 +48,8 @@ async function WebSocket( request: Request ): Promise<Response>{
     // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
     connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
 
+  let result: Response;
+
   MyConsole.Blue( `
 请求头中的connection值为：${ connection }。
 请求头中的upgrade值为：${ upgrade }。
@@ -56,16 +58,19 @@ async function WebSocket( request: Request ): Promise<Response>{
   let routeHandle: TypeResult001;
 
   if( pathName in websocketForRouteMapConfig ){
-    return ( await IterateToNestForPromise( ( websocketForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( websocketForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
   }
   else if( routeHandle = await websocketForRouteHandle( request ) ){
-    return ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+  }
+  else{
+    result = await InterceptorError.ResError( {
+      title: `404`,
+      message: `本WebSocket服务未对“${ pathName }”提供服务。`,
+    } );
   }
 
-  return await InterceptorError.ResError( {
-    title: `404`,
-    message: `本WebSocket服务未对“${ pathName }”提供服务。`,
-  } );
+  return result;
 }
 
 export {
