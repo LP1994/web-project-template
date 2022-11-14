@@ -55,7 +55,7 @@ An optional company name []:HTTPS001
 
 
 
-openssl req -x509 -config openssl.cnf -new -nodes -key HTTPS001Key.pem -days 1825 -out HTTPS001CACert.crt
+openssl req -x509 -config openssl.cnf -new -nodes -key HTTPS001Key.pem -days 365 -out HTTPS001CACert.crt
 
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -74,14 +74,14 @@ Email Address [2726893248@qq.com]:1227839175@qq.com
 
 
 
-openssl x509 -req -in HTTPS001Server.csr -CA HTTPS001CACert.crt -CAkey HTTPS001Key.pem -CAcreateserial -out HTTPS001Server.crt -days 1825 -sha512 -extfile https.ext
+openssl x509 -req -in HTTPS001Server.csr -CA HTTPS001CACert.crt -CAkey HTTPS001Key.pem -CAcreateserial -out HTTPS001Server.crt -days 365 -sha512 -extfile https.ext
 
 Certificate request self-signature ok
 subject=C = CN, ST = GuangDong, L = ShenZhen, O = HTTPS001, OU = HTTPS001, CN = 192.168.10.101, emailAddress = 1227839175@qq.com
 
 
 
-openssl x509 -req -in HTTPS001Client.csr -CA HTTPS001CACert.crt -CAkey HTTPS001Key.pem -CAcreateserial -out HTTPS001Client.crt -days 1825 -sha512
+openssl x509 -req -in HTTPS001Client.csr -CA HTTPS001CACert.crt -CAkey HTTPS001Key.pem -CAcreateserial -out HTTPS001Client.crt -days 365 -sha512
 
 Certificate request self-signature ok
 subject=C = CN, ST = GuangDong, L = ShenZhen, O = HTTPS001, OU = HTTPS001, CN = 192.168.10.101, emailAddress = 1227839175@qq.com
