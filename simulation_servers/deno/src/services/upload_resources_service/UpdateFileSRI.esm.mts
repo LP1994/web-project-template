@@ -47,6 +47,7 @@ export type TypeFileSRI001 = {
 export type TypeObj001 = {
   isWriteFile: boolean;
   fileInfo: TypeFileSRI001;
+  file: File | Blob;
 };
 
 async function UpdateFileSRI( request: Request, file: File | Blob, fileName: string = '' ): Promise<TypeObj001>{
@@ -77,18 +78,12 @@ async function UpdateFileSRI( request: Request, file: File | Blob, fileName: str
     file = file as Blob;
 
     // @ts-ignore
-    file.name = `${ sri }${ fileExtensionName.length === 0
-                            ? ``
-                            : `.${ fileExtensionName }` }`;
-
-    // @ts-ignore
     file.lastModified = Date.now();
   }
 
-  fileName = fileName.length === 0
-    // @ts-ignore
-             ? file.name
-             : fileName;
+  fileName = `${ sri }${ fileExtensionName.length === 0
+                         ? ``
+                         : `.${ fileExtensionName }` }`;
 
   let savePath: URL,
     filePath: string;
@@ -119,7 +114,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob, fileName: str
     fileType: file.type,
     fileSize: String( file.size ),
     // @ts-ignore
-    fileLastModified: file.lastModified,
+    fileLastModified: String( file.lastModified ),
     fileName,
   };
 
@@ -131,6 +126,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob, fileName: str
   return {
     isWriteFile,
     fileInfo,
+    file,
   };
 }
 

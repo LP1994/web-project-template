@@ -21,9 +21,10 @@ import {
 function UploadByBinary( request: Request ): TypeResponse001{
   return new Response( JSON.stringify( {
     data: {
+      success: true,
       message: `二进制文件上传成功。`,
     },
-    message: resMessageStatus[ 200 ],
+    messageStatus: resMessageStatus[ 200 ],
   } ), {
     status: 200,
     statusText: 'OK',
