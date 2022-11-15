@@ -24,6 +24,12 @@ import {
   // @ts-ignore
 } from './ValidateReqHeadSRI.esm.mts';
 
+/**
+ * 单文件上传（客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型）。
+ *
+ * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
+ */
 // @ts-ignore
 import UploadByBinary from './UploadByBinary.esm.mts';
 
@@ -95,8 +101,37 @@ function ResponseHandle( request: Request ): TypeResponse001{
 
   let result: TypeResponse001;
 
+  /**
+   * 单文件上传（客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型）。
+   *
+   * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+   * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
+   */
   if( uploadType === 'binary' ){
-    result = UploadByBinary( request );
+    let result001: boolean | TypeFileSRI001;
+
+    if( result001 = ValidateReqHeadSRI( request ) ){
+      result001 = result001 as TypeFileSRI001;
+
+      result = new Response( JSON.stringify( {
+        data: {
+          success: true,
+          message: `已存在跟此文件（文件类型：${ result001.fileType }）的SRI值一致的文件，本次上传不写入此文件、不更新此文件信息。`,
+          filePath: `${ result001.filePath }`,
+        },
+        messageStatus: resMessageStatus[ 200 ],
+      } ), {
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          ...httpHeaders,
+          'content-type': 'application/json; charset=utf-8',
+        },
+      } );
+    }
+    else{
+      result = UploadByBinary( request );
+    }
   }
   /**
    * 单文件上传。

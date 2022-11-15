@@ -51,103 +51,101 @@ async function UploadBySingle( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  if( _request.body ){
-    const contentType = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
+  const contentType = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
 
-    if( contentType.startsWith( 'multipart/form-data;' ) ){
-      let formData: FormData;
+  if( _request.body && contentType.startsWith( 'multipart/form-data;' ) ){
+    let formData: FormData;
 
-      try{
-        formData = await _request.formData();
+    try{
+      formData = await _request.formData();
 
-        let file: File | Blob | string | null = formData.get( 'file' ),
-          fileName: string = ( formData.get( 'fileName' ) ?? '' ) as string;
+      let file: File | Blob | string | null = formData.get( 'file' ),
+        fileName: string = ( formData.get( 'fileName' ) ?? '' ) as string;
 
-        const str001: string = Object.prototype.toString.call( file );
+      const str001: string = Object.prototype.toString.call( file );
 
-        if( str001 === '[object File]' || str001 === '[object Blob]' ){
-          const {
-            isWriteFile,
-            fileInfo,
-          }: TypeObj001 = await UpdateFileSRI( _request, file as ( File | Blob ), fileName );
+      if( str001 === '[object File]' || str001 === '[object Blob]' ){
+        const {
+          isWriteFile,
+          fileInfo,
+        }: TypeObj001 = await UpdateFileSRI( _request, file as ( File | Blob ), fileName );
 
-          const {
-            savePath,
-            filePath,
-            fileType,
-          }: TypeFileSRI001 = fileInfo;
+        const {
+          savePath,
+          filePath,
+          fileType,
+        }: TypeFileSRI001 = fileInfo;
 
-          if( !isWriteFile ){
+        if( !isWriteFile ){
+          result001 = JSON.stringify( {
+            data: {
+              success: true,
+              // @ts-ignore
+              message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
+              filePath: `${ filePath }`,
+            },
+            messageStatus: resMessageStatus[ 200 ],
+          } );
+        }
+        else{
+          try{
+            // @ts-ignore
+            const file001: Deno.FsFile = await Deno.open( new URL( savePath ), {
+              write: true,
+              create: true,
+            } );
+
+            await ( file as File ).stream().pipeTo( writableStreamFromWriter( file001 ) );
+
             result001 = JSON.stringify( {
               data: {
                 success: true,
                 // @ts-ignore
-                message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
+                message: `文件（${ file.name }，文件类型：${ fileType }）上传成功。`,
                 filePath: `${ filePath }`,
               },
               messageStatus: resMessageStatus[ 200 ],
             } );
           }
-          else{
-            try{
-              // @ts-ignore
-              const file001: Deno.FsFile = await Deno.open( new URL( savePath ), {
-                write: true,
-                create: true,
-              } );
-
-              await ( file as File ).stream().pipeTo( writableStreamFromWriter( file001 ) );
-
-              result001 = JSON.stringify( {
-                data: {
-                  success: true,
-                  // @ts-ignore
-                  message: `文件（${ file.name }，文件类型：${ fileType }）上传成功。`,
-                  filePath: `${ filePath }`,
-                },
-                messageStatus: resMessageStatus[ 200 ],
-              } );
-            }
-            catch( error: unknown ){
-              result001 = JSON.stringify( {
-                data: {
-                  success: false,
-                  message: `${ ( error as Error ).message }`,
-                },
-                messageStatus: resMessageStatus[ 9999 ],
-              } );
-            }
+          catch( error: unknown ){
+            result001 = JSON.stringify( {
+              data: {
+                success: false,
+                message: `${ ( error as Error ).message }`,
+              },
+              messageStatus: resMessageStatus[ 9999 ],
+            } );
           }
         }
-        else{
-          result001 = JSON.stringify( {
-            data: {
-              success: false,
-              message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为“${ str001 }”。`,
-            },
-            messageStatus: resMessageStatus[ 1002 ],
-          } );
-        }
       }
-      catch( error: unknown ){
+      else{
         result001 = JSON.stringify( {
           data: {
             success: false,
-            message: `${ ( error as Error ).message }`,
+            message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为“${ str001 }”。`,
           },
-          messageStatus: resMessageStatus[ 9999 ],
+          messageStatus: resMessageStatus[ 1002 ],
         } );
       }
     }
-    else{
+    catch( error: unknown ){
       result001 = JSON.stringify( {
         data: {
           success: false,
-          message: `请求体中的“content-type”值（${ contentType }）不是服务端要求的类型（multipart/form-data），可能客户端上传的body不是“FormData”类型或客户端设置了不正确的“content-type”值。`,
+          message: `${ ( error as Error ).message }`,
         },
-        messageStatus: resMessageStatus[ 1001 ],
+        messageStatus: resMessageStatus[ 9999 ],
       } );
     }
+  }
+  else if( _request.body && !contentType.startsWith( 'multipart/form-data;' ) ){
+    result001 = JSON.stringify( {
+      data: {
+        success: false,
+        message: `请求头中的“content-type”的值（${ contentType }）不是服务端要求的类型（multipart/form-data），可能客户端上传的body不是“FormData”类型或客户端设置了不正确的“content-type”值。`,
+      },
+      messageStatus: resMessageStatus[ 1001 ],
+    } );
   }
 
   return new Response( result001, {

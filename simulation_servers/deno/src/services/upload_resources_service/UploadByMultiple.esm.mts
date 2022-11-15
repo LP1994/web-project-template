@@ -158,103 +158,101 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  if( _request.body ){
-    const contentType = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
+  const contentType = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
 
-    if( contentType.startsWith( 'multipart/form-data;' ) ){
-      let formData: FormData;
+  if( _request.body && contentType.startsWith( 'multipart/form-data;' ) ){
+    let formData: FormData;
 
-      try{
-        formData = await _request.formData();
+    try{
+      formData = await _request.formData();
 
-        const quantity: number = ( formData.get( 'quantity' ) ?? 0 ) as number,
-          files001: Array<File | Blob | string | null> = [];
+      const quantity: number = ( formData.get( 'quantity' ) ?? 0 ) as number,
+        files001: Array<File | Blob | string | null> = [];
 
-        for(
-          let i = 0;
-          i < quantity;
-          ++i
-        ){
-          files001.push( formData.get( `file${ i }` ) );
+      for(
+        let i = 0;
+        i < quantity;
+        ++i
+      ){
+        files001.push( formData.get( `file${ i }` ) );
+      }
+
+      const files: Array<File | Blob> = ( [
+        ...formData.getAll( 'files' ),
+        ...files001,
+      ].filter( ( item: File | Blob | string | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
+
+      const {
+        noWriteFile,
+        writeFile,
+      }: TypeResultObj001 = await WriteFileHandle( _request, files );
+
+      const noWriteFileInfo: Array<{ message: string; filePath: string; }> = [],
+        writeFileInfo: Array<{ message: string; filePath: string; }> = [];
+
+      noWriteFile.forEach(
+        (
+          {
+            fileInfo: {
+              filePath,
+              fileType,
+            },
+            file,
+          }: TypeObj001,
+        ): void => {
+          noWriteFileInfo.push( {
+            // @ts-ignore
+            message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
+            filePath: `${ filePath }`,
+          } );
         }
+      );
 
-        const files: Array<File | Blob> = ( [
-          ...formData.getAll( 'files' ),
-          ...files001,
-        ].filter( ( item: File | Blob | string | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
+      writeFile.forEach(
+        (
+          {
+            fileInfo: {
+              filePath,
+              fileType,
+            },
+            file,
+          }: TypeObj001,
+        ): void => {
+          writeFileInfo.push( {
+            // @ts-ignore
+            message: `文件（${ file.name }，文件类型：${ fileType }）上传成功。`,
+            filePath: `${ filePath }`,
+          } );
+        }
+      );
 
-        const {
-          noWriteFile,
-          writeFile,
-        }: TypeResultObj001 = await WriteFileHandle( _request, files );
-
-        const noWriteFileInfo: Array<{ message: string; filePath: string; }> = [],
-          writeFileInfo: Array<{ message: string; filePath: string; }> = [];
-
-        noWriteFile.forEach(
-          (
-            {
-              fileInfo: {
-                filePath,
-                fileType,
-              },
-              file,
-            }: TypeObj001,
-          ): void => {
-            noWriteFileInfo.push( {
-              // @ts-ignore
-              message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
-              filePath: `${ filePath }`,
-            } );
-          }
-        );
-
-        writeFile.forEach(
-          (
-            {
-              fileInfo: {
-                filePath,
-                fileType,
-              },
-              file,
-            }: TypeObj001,
-          ): void => {
-            writeFileInfo.push( {
-              // @ts-ignore
-              message: `文件（${ file.name }，文件类型：${ fileType }）上传成功。`,
-              filePath: `${ filePath }`,
-            } );
-          }
-        );
-
-        result001 = JSON.stringify( {
-          data: {
-            success: true,
-            noWriteFile: noWriteFileInfo,
-            writeFile: writeFileInfo,
-          },
-          messageStatus: resMessageStatus[ 200 ],
-        } );
-      }
-      catch( error: unknown ){
-        result001 = JSON.stringify( {
-          data: {
-            success: false,
-            message: `${ ( error as Error ).message }`,
-          },
-          messageStatus: resMessageStatus[ 9999 ],
-        } );
-      }
+      result001 = JSON.stringify( {
+        data: {
+          success: true,
+          noWriteFile: noWriteFileInfo,
+          writeFile: writeFileInfo,
+        },
+        messageStatus: resMessageStatus[ 200 ],
+      } );
     }
-    else{
+    catch( error: unknown ){
       result001 = JSON.stringify( {
         data: {
           success: false,
-          message: `请求体中的“content-type”值（${ contentType }）不是服务端要求的类型（multipart/form-data），可能客户端上传的body不是“FormData”类型或客户端设置了不正确的“content-type”值。`,
+          message: `${ ( error as Error ).message }`,
         },
-        messageStatus: resMessageStatus[ 1001 ],
+        messageStatus: resMessageStatus[ 9999 ],
       } );
     }
+  }
+  else if( _request.body && !contentType.startsWith( 'multipart/form-data;' ) ){
+    result001 = JSON.stringify( {
+      data: {
+        success: false,
+        message: `请求头中的“content-type”的值（${ contentType }）不是服务端要求的类型（multipart/form-data），可能客户端上传的body不是“FormData”类型或客户端设置了不正确的“content-type”值。`,
+      },
+      messageStatus: resMessageStatus[ 1001 ],
+    } );
   }
 
   return new Response( result001, {
