@@ -7,6 +7,10 @@
  * CreateDate: 2022-11-03 02:25:42 星期四
  */
 
+/**
+ * 测试文件上传时，不可尽信“postman”这个工具，它貌似有BUG（x-file-sri）！用浏览器测，都没那个BUG（x-file-sri）！
+ */
+
 'use strict';
 
 import {
@@ -16,13 +20,6 @@ import {
   resMessageStatus,
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
-
-import {
-  type TypeFileSRI001,
-
-  ValidateReqHeadSRI,
-  // @ts-ignore
-} from './ValidateReqHeadSRI.esm.mts';
 
 /**
  * 单文件上传（客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型）。
@@ -95,6 +92,26 @@ import UploadByMultiple from './UploadByMultiple.esm.mts';
 // @ts-ignore
 import UploadByBigFile from './UploadByBigFile.esm.mts';
 
+// @ts-ignore
+import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
+
+type TypeFileSRI001 = {
+  shaType: string;
+  requestURL: string;
+  savePath: string;
+  filePath: string;
+  fileType: string;
+  fileSize: string;
+  fileLastModified: string;
+  fileName: string;
+};
+
+function ValidateReqHeadSRI( request: Request ): boolean | TypeFileSRI001{
+  const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).toLowerCase();
+
+  return ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ x_file_sri ] ?? false;
+}
+
 function ResponseHandle( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
@@ -108,18 +125,18 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
    */
   if( uploadType === 'binary' ){
-    let result001: boolean | TypeFileSRI001;
+    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request );
 
-    if( result001 = ValidateReqHeadSRI( request ) ){
+    if( result001 ){
       result001 = result001 as TypeFileSRI001;
 
       result = new Response( JSON.stringify( {
         data: {
           success: true,
           message: `已存在跟此文件（文件类型：${ result001.fileType }）的SRI值一致的文件，本次上传不写入此文件、不更新此文件信息。`,
-          filePath: `${ result001.filePath }`,
+          filePath: `${ result001.filePath }`
         },
-        messageStatus: resMessageStatus[ 200 ],
+        messageStatus: resMessageStatus[ 200 ]
       } ), {
         status: 200,
         statusText: 'OK',
@@ -145,18 +162,18 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
    */
   else if( uploadType === 'single' ){
-    let result001: boolean | TypeFileSRI001;
+    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request );
 
-    if( result001 = ValidateReqHeadSRI( request ) ){
+    if( result001 ){
       result001 = result001 as TypeFileSRI001;
 
       result = new Response( JSON.stringify( {
         data: {
           success: true,
           message: `已存在跟此文件（文件类型：${ result001.fileType }）的SRI值一致的文件，本次上传不写入此文件、不更新此文件信息。`,
-          filePath: `${ result001.filePath }`,
+          filePath: `${ result001.filePath }`
         },
-        messageStatus: resMessageStatus[ 200 ],
+        messageStatus: resMessageStatus[ 200 ]
       } ), {
         status: 200,
         statusText: 'OK',
