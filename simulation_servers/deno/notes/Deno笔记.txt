@@ -9,6 +9,7 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 安装的：
+deno install https://deno.land/x/corejs/index.js
 deno install https://deno.land/std/crypto/mod.ts
 
 deno install https://deno.land/std/media_types/mod.ts

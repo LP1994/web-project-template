@@ -10,7 +10,18 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  writableStreamFromWriter,
+  // @ts-ignore
+} from 'DenoStd/streams/mod.ts';
+
+import {
+  crypto,
+  toHashString,
+  // @ts-ignore
+} from 'DenoStd/crypto/mod.ts';
+
+import {
+  uploadDir,
 
   httpHeaders,
   resMessageStatus,
@@ -18,11 +29,22 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 // @ts-ignore
-function UploadByBigFile( request: Request ): TypeResponse001{
+async function UploadByBigFile( request: Request ): Promise<Response>{
+  const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
+    sri: string = toHashString( hash, 'hex' );
+
+  // @ts-ignore
+  const file001: Deno.FsFile = await Deno.open( new URL( `${ uploadDir }/BigFile` ), {
+    write: true,
+    create: true,
+  } );
+
+  await ( request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
+
   return new Response( JSON.stringify( {
     data: {
       success: true,
-      message: `大文件上传成功。`,
+      message: `大文件上传成功。${ sri }`,
     },
     messageStatus: resMessageStatus[ 200 ],
   } ), {

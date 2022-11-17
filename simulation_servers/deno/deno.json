@@ -98,7 +98,6 @@
       "deno.websocket",
       "deno.webstorage",
       "deno.window",
-      "dom.asynciterable",
       "es2015",
       "es2015.collection",
       "es2015.core",
@@ -151,15 +150,10 @@
       "es2022.string",
       "es5",
       "es6",
-      "es7",
       "esnext",
-      "esnext.array",
-      "esnext.asynciterable",
-      "esnext.bigint",
       "esnext.intl",
       "esnext.promise",
       "esnext.string",
-      "esnext.symbol",
       "esnext.weakref"
     ]
   },

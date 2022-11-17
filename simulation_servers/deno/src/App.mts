@@ -21,6 +21,8 @@
 
 'use strict';
 
+import 'DenoX/corejs/index.js';
+
 import {
   MyConsole,
   // @ts-ignore
