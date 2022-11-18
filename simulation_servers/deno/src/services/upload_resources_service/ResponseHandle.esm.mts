@@ -107,7 +107,7 @@ type TypeFileSRI001 = {
 };
 
 function ValidateReqHeadSRI( request: Request ): boolean | TypeFileSRI001{
-  const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).toLowerCase();
+  const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).trim().toLowerCase();
 
   return ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ x_file_sri ] ?? false;
 }

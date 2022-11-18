@@ -30,6 +30,11 @@ import {
 
 // @ts-ignore
 async function UploadByBigFile( request: Request ): Promise<Response>{
+  /*
+   const contentType: string = ( request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
+   contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
+   */
+
   const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
     sri: string = toHashString( hash, 'hex' );
 

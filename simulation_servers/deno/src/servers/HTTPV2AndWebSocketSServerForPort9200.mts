@@ -96,7 +96,7 @@ HTTP/2 服务，connInfo--->End
         console.dir( request );
         MyConsole.Cyan( `HTTP/2 服务，request--->End\n` );
 
-        requestEvent.respondWith( await Routers( request ) );
+        requestEvent.respondWith( Routers( request ) );
       }
     }
   }

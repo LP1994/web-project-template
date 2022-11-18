@@ -59,18 +59,14 @@ Promise.allSettled( [
     /*
      [ { status: "fulfilled", value: Module {} } ]
      */
-    MyConsole.Cyan( `
-resolve--->Start
-${ JSON.stringify( resolve, null, ' ' ) }
-resolve--->End
-` );
+    MyConsole.Red( `\nresolve--->Start` );
+    console.dir( resolve );
+    MyConsole.Red( `resolve--->End\n` );
   },
-  ( reject: unknown ): void => {
-    MyConsole.Red( `
-reject--->Start
-${ JSON.stringify( reject as object, null, ' ' ) }
-reject--->End
-` );
+  ( reject: Array<PromiseSettledResult<unknown>> ): void => {
+    MyConsole.Red( `\nreject--->Start` );
+    console.dir( reject );
+    MyConsole.Red( `reject--->End\n` );
   }
 )
 .catch( ( error: unknown ): void => {

@@ -23,7 +23,6 @@ import {
   // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
-// @ts-ignore
 function Handle( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;

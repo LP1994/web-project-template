@@ -21,10 +21,8 @@ import {
  *
  * @returns {Promise<Response>}
  */
-function Options(
-  // @ts-ignore
-  request: Request
-): TypeResponse001{
+// @ts-ignore
+function Options( request: Request ): TypeResponse001{
   return new Response( null, {
     status: 200,
     statusText: 'OK',
