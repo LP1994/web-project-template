@@ -48,10 +48,18 @@ export type TypeFileSRI001 = {
 export type TypeObj001 = {
   isWriteFile: boolean;
   fileInfo: TypeFileSRI001;
-  file: File | Blob;
+  file: File | Blob | TypeCustomBlob;
 };
 
-async function UpdateFileSRI( request: Request, file: File | Blob, fileName: string = '' ): Promise<TypeObj001>{
+type TypeCustomBlob = {
+  [ Symbol.toStringTag ]: string;
+  stream: () => ReadableStream;
+  lastModified: string;
+  type: string;
+  size: string;
+};
+
+async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBlob, fileName: string = '' ): Promise<TypeObj001>{
   /*
    File：
    name--->2.avif
@@ -70,42 +78,56 @@ async function UpdateFileSRI( request: Request, file: File | Blob, fileName: str
   let isWriteFile: boolean = true,
     fileInfo: TypeFileSRI001;
 
+  if( Object.prototype.toString.call( file ) === '[object Blob]' ){
+    // @ts-ignore
+    file.lastModified = String( Date.now() );
+  }
+
+  // @ts-ignore
+  const fileExtensionName: string = ( extension( file.type ) ?? '' ) as string;
+
+  fileName = `${ sri }${ fileExtensionName.length === 0
+                         ? ``
+                         : `.${ fileExtensionName }` }`;
+
+  let savePath: URL,
+    filePath: string;
+
+  if( file.type === 'application/octet-stream' || fileExtensionName.length === 0 ){
+    savePath = new URL( `${ uploadDir }/${ fileName }` );
+
+    filePath = `${ myURLPathName }/${ fileName }`;
+  }
+  else{
+    savePath = new URL( `${ uploadDir }/${ fileExtensionName }/${ fileName }` );
+
+    filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
+
+    // @ts-ignore
+    Deno.mkdirSync( new URL( `${ uploadDir }/${ fileExtensionName }` ), {
+      recursive: true,
+    } );
+  }
+
   if( sri in ( FileSRI as { [ key: string ]: TypeFileSRI001; } ) ){
     isWriteFile = false;
 
     fileInfo = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] as TypeFileSRI001;
+
+    // @ts-ignore
+    Deno.renameSync( new URL( fileInfo.savePath ), savePath );
+
+    ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = Object.assign( {}, fileInfo, {
+      requestURL: decodeURI( request.url ),
+      savePath: savePath.href,
+      filePath,
+      fileType: file.type,
+      // @ts-ignore
+      fileLastModified: String( file.lastModified ),
+      fileName,
+    } );
   }
   else{
-    const fileExtensionName: string = ( extension( ( file as Blob ).type ) ?? '' ) as string;
-
-    if( Object.prototype.toString.call( file ) === '[object Blob]' ){
-      // @ts-ignore
-      file.lastModified = Date.now();
-    }
-
-    fileName = `${ sri }${ fileExtensionName.length === 0
-                           ? ``
-                           : `.${ fileExtensionName }` }`;
-
-    let savePath: URL,
-      filePath: string;
-
-    if( file.type === 'application/octet-stream' || fileExtensionName.length === 0 ){
-      savePath = new URL( `${ uploadDir }/${ fileName }` );
-
-      filePath = `${ myURLPathName }/${ fileName }`;
-    }
-    else{
-      savePath = new URL( `${ uploadDir }/${ fileExtensionName }/${ fileName }` );
-
-      filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
-
-      // @ts-ignore
-      Deno.mkdirSync( new URL( `${ uploadDir }/${ fileExtensionName }` ), {
-        recursive: true,
-      } );
-    }
-
     ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {
       shaType: 'SHA3-512',
       sri,
@@ -118,12 +140,12 @@ async function UpdateFileSRI( request: Request, file: File | Blob, fileName: str
       fileLastModified: String( file.lastModified ),
       fileName,
     };
-
-    // @ts-ignore
-    Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-      create: true,
-    } );
   }
+
+  // @ts-ignore
+  Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+    create: true,
+  } );
 
   return {
     isWriteFile,

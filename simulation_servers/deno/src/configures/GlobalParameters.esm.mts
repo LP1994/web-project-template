@@ -122,6 +122,11 @@ const resMessageStatus: { [ key: string | number ]: object } = {
     status: 1004,
     text: 'content-length error',
   },
+  // 上传的文件大小超过限制。
+  1005: {
+    status: 1005,
+    text: 'file is too large',
+  },
 };
 
 export {

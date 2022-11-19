@@ -125,7 +125,8 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
    */
   if( uploadType === 'binary' ){
-    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request );
+    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
+      contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     if( result001 ){
       result001 = result001 as TypeFileSRI001;
@@ -137,6 +138,23 @@ function ResponseHandle( request: Request ): TypeResponse001{
           filePath: `${ result001.filePath }`
         },
         messageStatus: resMessageStatus[ 200 ]
+      } ), {
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          ...httpHeaders,
+          'content-type': 'application/json; charset=utf-8',
+        },
+      } );
+    }
+    else if( Number( contentLength ) > 1 * 1024 * 1024 * 1024 ){
+      result = new Response( JSON.stringify( {
+        data: {
+          success: false,
+          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 )
+          .toFixed( 2 ) }）。`,
+        },
+        messageStatus: resMessageStatus[ 1005 ]
       } ), {
         status: 200,
         statusText: 'OK',
@@ -162,7 +180,8 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
    */
   else if( uploadType === 'single' ){
-    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request );
+    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
+      contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     if( result001 ){
       result001 = result001 as TypeFileSRI001;
@@ -174,6 +193,23 @@ function ResponseHandle( request: Request ): TypeResponse001{
           filePath: `${ result001.filePath }`
         },
         messageStatus: resMessageStatus[ 200 ]
+      } ), {
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          ...httpHeaders,
+          'content-type': 'application/json; charset=utf-8',
+        },
+      } );
+    }
+    else if( Number( contentLength ) > 1 * 1024 * 1024 * 1024 ){
+      result = new Response( JSON.stringify( {
+        data: {
+          success: false,
+          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 )
+          .toFixed( 2 ) }）。`,
+        },
+        messageStatus: resMessageStatus[ 1005 ]
       } ), {
         status: 200,
         statusText: 'OK',

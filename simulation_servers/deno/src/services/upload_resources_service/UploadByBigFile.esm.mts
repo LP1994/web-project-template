@@ -78,9 +78,35 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
         sri: string = toHashString( hash, 'hex' );
 
+      const fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`,
+        savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
+        filePath: string = `${ myURLPathName }/big_files/${ fileName }`;
+
+      // @ts-ignore
+      Deno.mkdirSync( new URL( `${ uploadDir }/big_files` ), {
+        recursive: true,
+      } );
+
       const fileSRIInfo: boolean | TypeFileSRI001 = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] ?? false;
 
       if( fileSRIInfo ){
+        // @ts-ignore
+        Deno.renameSync( new URL( fileSRIInfo.savePath ), savePath );
+
+        ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = Object.assign( {}, fileSRIInfo, {
+          requestURL: decodeURI( _request.url ),
+          savePath: savePath.href,
+          filePath,
+          fileType: contentType,
+          fileLastModified: String( Date.now() ),
+          fileName,
+        } );
+
+        // @ts-ignore
+        Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+          create: true,
+        } );
+
         result = JSON.stringify( {
           data: {
             success: true,
@@ -91,15 +117,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         } );
       }
       else{
-        const fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`,
-          savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
-          filePath: string = `${ myURLPathName }/big_files/${ fileName }`;
-
-        // @ts-ignore
-        Deno.mkdirSync( new URL( `${ uploadDir }/big_files` ), {
-          recursive: true,
-        } );
-
         // @ts-ignore
         const file001: Deno.FsFile = await Deno.open( savePath, {
           write: true,
