@@ -21,6 +21,7 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
+  methodByPostForRouteMapConfig,
   methodByPostForRouteHandle,
   // @ts-ignore
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
@@ -36,11 +37,17 @@ import InterceptorError from 'public/InterceptorError.esm.mts';
  * @returns {Promise<Response>}
  */
 async function Post( request: Request ): Promise<Response>{
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
+
   let routeHandle: TypeResult001;
 
   let result: Response;
 
-  if( routeHandle = await methodByPostForRouteHandle( request ) ){
+  if( pathName in methodByPostForRouteMapConfig ){
+    result = ( await IterateToNestForPromise( ( methodByPostForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
+  }
+  else if( routeHandle = await methodByPostForRouteHandle( request ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
   }
   else{

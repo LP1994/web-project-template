@@ -45,12 +45,6 @@ import {
 
 // @ts-ignore
 async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
-  /*
-   {
-   localAddr: { hostname: "192.168.10.101", port: 9200, transport: "tcp" },
-   remoteAddr: { hostname: "192.168.10.101", port: 62180, transport: "tcp" }
-   }
-   */
   MyConsole.Cyan( `
 HTTP/2 服务，connInfo--->Start
 ${ JSON.stringify( {
@@ -69,29 +63,6 @@ HTTP/2 服务，connInfo--->End
       if( requestEvent ){
         const request: Request = requestEvent.request;
 
-        /*
-         {
-         bodyUsed: false,
-         headers: Headers {
-         accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*!/!*;q=0.8,app...",
-         "accept-encoding": "gzip, deflate, br",
-         "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
-         dnt: "1",
-         "sec-ch-ua": '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
-         "sec-ch-ua-mobile": "?0",
-         "sec-ch-ua-platform": '"Windows"',
-         "sec-fetch-dest": "document",
-         "sec-fetch-mode": "navigate",
-         "sec-fetch-site": "none",
-         "sec-fetch-user": "?1",
-         "upgrade-insecure-requests": "1",
-         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Sa..."
-         },
-         method: "GET",
-         redirect: "follow",
-         url: "https://192.168.10.101:9200/"
-         }
-         */
         MyConsole.Cyan( `\nHTTP/2 服务，request--->Start` );
         console.dir( request );
         MyConsole.Cyan( `HTTP/2 服务，request--->End\n` );

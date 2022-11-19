@@ -56,10 +56,10 @@ Promise.allSettled( [
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
+    MyConsole.Red( `\nresolve--->Start` );
     /*
      [ { status: "fulfilled", value: Module {} } ]
      */
-    MyConsole.Red( `\nresolve--->Start` );
     console.dir( resolve );
     MyConsole.Red( `resolve--->End\n` );
   },

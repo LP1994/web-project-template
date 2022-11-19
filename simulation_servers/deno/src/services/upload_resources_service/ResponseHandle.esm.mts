@@ -233,7 +233,30 @@ function ResponseHandle( request: Request ): TypeResponse001{
     result = UploadByMultiple( request );
   }
   else if( uploadType === 'bigFile' ){
-    result = UploadByBigFile( request );
+    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request );
+
+    if( result001 ){
+      result001 = result001 as TypeFileSRI001;
+
+      result = new Response( JSON.stringify( {
+        data: {
+          success: true,
+          message: `已存在跟此文件（文件类型：${ result001.fileType }）的SRI值一致的文件，本次上传不写入此文件、不更新此文件信息。`,
+          filePath: `${ result001.filePath }`
+        },
+        messageStatus: resMessageStatus[ 200 ]
+      } ), {
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          ...httpHeaders,
+          'content-type': 'application/json; charset=utf-8',
+        },
+      } );
+    }
+    else{
+      result = UploadByBigFile( request );
+    }
   }
   else{
     result = new Response( JSON.stringify( {

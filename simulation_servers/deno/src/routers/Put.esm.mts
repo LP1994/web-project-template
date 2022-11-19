@@ -21,6 +21,7 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
+  methodByPutForRouteMapConfig,
   methodByPutForRouteHandle,
   // @ts-ignore
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
@@ -36,11 +37,17 @@ import InterceptorError from 'public/InterceptorError.esm.mts';
  * @returns {Promise<Response>}
  */
 async function Put( request: Request ): Promise<Response>{
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
+
   let routeHandle: TypeResult001;
 
   let result: Response;
 
-  if( routeHandle = await methodByPutForRouteHandle( request ) ){
+  if( pathName in methodByPutForRouteMapConfig ){
+    result = ( await IterateToNestForPromise( ( methodByPutForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
+  }
+  else if( routeHandle = await methodByPutForRouteHandle( request ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
   }
   else{

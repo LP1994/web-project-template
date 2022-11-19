@@ -44,15 +44,15 @@ import InterceptorError from 'public/InterceptorError.esm.mts';
 async function WebSocket( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname,
-    upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).toLowerCase(),
+    upgrade: string = request.headers.get( 'upgrade' ) ?? '',
     // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
-    connection: string = ( request.headers.get( 'connection' ) ?? '' ).toLowerCase();
+    connection: string = request.headers.get( 'connection' ) ?? '';
 
   let result: Response;
 
   MyConsole.Blue( `
-请求头中的connection值为：${ connection }。
 请求头中的upgrade值为：${ upgrade }。
+请求头中的connection值为：${ connection }。
 ` );
 
   let routeHandle: TypeResult001;

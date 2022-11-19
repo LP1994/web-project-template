@@ -43,40 +43,10 @@ serve(
     request: Request,
     connInfo: ConnInfo,
   ): TypeResponse001 => {
-    /*
-     {
-     bodyUsed: false,
-     headers: Headers {
-     accept: "image/avif,image/webp,image/apng,image/svg+xml,image/!*,*!/!*;q=0.8",
-     "accept-encoding": "gzip, deflate, br",
-     "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
-     connection: "keep-alive",
-     dnt: "1",
-     host: "127.0.0.1:9300",
-     referer: "http://127.0.0.1:9300/",
-     "sec-ch-ua": '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
-     "sec-ch-ua-mobile": "?0",
-     "sec-ch-ua-platform": '"Windows"',
-     "sec-fetch-dest": "image",
-     "sec-fetch-mode": "no-cors",
-     "sec-fetch-site": "same-origin",
-     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Sa..."
-     },
-     method: "GET",
-     redirect: "follow",
-     url: "http://127.0.0.1:9300/favicon.ico"
-     }
-     */
     MyConsole.Cyan( `\nWebSocket Server request--->Start` );
     console.dir( request );
     MyConsole.Cyan( `WebSocket Server request--->End\n` );
 
-    /*
-     {
-     localAddr: { hostname: "127.0.0.1", port: 9300, transport: "tcp" },
-     remoteAddr: { hostname: "127.0.0.1", port: 64071, transport: "tcp" }
-     }
-     */
     MyConsole.Cyan( `
 WebSocket Server connInfo--->Start
 ${ JSON.stringify( connInfo, null, ' ' ) }

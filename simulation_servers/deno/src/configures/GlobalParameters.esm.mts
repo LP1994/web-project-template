@@ -102,7 +102,7 @@ const resMessageStatus: { [ key: string | number ]: object } = {
     status: 1000,
     text: 'body empty',
   },
-  // 请求体中的content-type值不是服务端要求的类型。
+  // 请求头中的“content-type”的值不是服务端要求的类型。
   1001: {
     status: 1001,
     text: 'content-type error',
@@ -116,6 +116,11 @@ const resMessageStatus: { [ key: string | number ]: object } = {
   1003: {
     status: 1003,
     text: 'missing query parameter',
+  },
+  // 请求头中缺少“content-length属性”或其值为0。
+  1004: {
+    status: 1004,
+    text: 'content-length error',
   },
 };
 
