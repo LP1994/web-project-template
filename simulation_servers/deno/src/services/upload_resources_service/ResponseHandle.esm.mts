@@ -93,6 +93,9 @@ import UploadByMultiple from './UploadByMultiple.esm.mts';
 import UploadByBigFile from './UploadByBigFile.esm.mts';
 
 // @ts-ignore
+import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
+
+// @ts-ignore
 import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 type TypeFileSRI001 = {
@@ -269,7 +272,8 @@ function ResponseHandle( request: Request ): TypeResponse001{
     result = UploadByMultiple( request );
   }
   else if( uploadType === 'bigFile' ){
-    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request );
+    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
+      type001: string = ( url.searchParams.get( 'type' ) ?? '' ).trim();
 
     if( result001 ){
       result001 = result001 as TypeFileSRI001;
@@ -289,6 +293,9 @@ function ResponseHandle( request: Request ): TypeResponse001{
           'content-type': 'application/json; charset=utf-8',
         },
       } );
+    }
+    else if( type001 === 'part' ){
+      result = UploadByBigFileForPart( request );
     }
     else{
       result = UploadByBigFile( request );
