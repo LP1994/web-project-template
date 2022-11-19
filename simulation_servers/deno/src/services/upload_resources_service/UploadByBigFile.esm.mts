@@ -43,6 +43,7 @@ import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 type TypeFileSRI001 = {
   shaType: string;
+  sri: string;
   requestURL: string;
   savePath: string;
   filePath: string;
@@ -58,86 +59,89 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
     contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase(),
     extension: string[] | undefined = extensionsByType( contentType );
 
-  let result: string = JSON.stringify( {
-    data: {
-      success: false,
-      message: `大文件上传失败。`,
-    },
-    messageStatus: resMessageStatus[ 9999 ],
-  } );
+  let result: string;
 
   const boo001: boolean = contentType.length !== 0 && Array.isArray( extension ) && extension.length !== 0,
     boo002: boolean = contentLength.length !== 0 && Number( contentLength ) > 0;
 
-  if( boo001 && boo002 ){
-    const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
-      sri: string = toHashString( hash, 'hex' );
+  if( !request.clone().body ){
+    result = JSON.stringify( {
+      data: {
+        success: false,
+        message: `body为空，未上传任何数据。`,
+      },
+      messageStatus: resMessageStatus[ 1000 ],
+    } );
+  }
+  else if( boo001 && boo002 ){
+    try{
+      const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
+        sri: string = toHashString( hash, 'hex' );
 
-    const fileSRIInfo: boolean | TypeFileSRI001 = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] ?? false;
+      const fileSRIInfo: boolean | TypeFileSRI001 = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] ?? false;
 
-    if( fileSRIInfo ){
-      ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = Object.assign( {}, fileSRIInfo, {
-        requestURL: _request.url,
-        fileType: contentType,
-        fileSize: String( contentLength ),
-        fileLastModified: String( Date.now() ),
-      } );
+      if( fileSRIInfo ){
+        result = JSON.stringify( {
+          data: {
+            success: true,
+            message: `已存在跟此大文件（文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
+            filePath: `${ ( fileSRIInfo as TypeFileSRI001 ).filePath }`,
+          },
+          messageStatus: resMessageStatus[ 200 ],
+        } );
+      }
+      else{
+        const fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`,
+          savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
+          filePath: string = `${ myURLPathName }/big_files/${ fileName }`;
 
-      // @ts-ignore
-      Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-        create: true,
-      } );
+        // @ts-ignore
+        Deno.mkdirSync( new URL( `${ uploadDir }/big_files` ), {
+          recursive: true,
+        } );
 
-      result = JSON.stringify( {
-        data: {
-          success: true,
-          message: `已存在跟此大文件（文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件，但更新了此大文件信息。`,
-          filePath: `${ fileSRIInfo.filePath }`,
-        },
-        messageStatus: resMessageStatus[ 200 ],
-      } );
+        // @ts-ignore
+        const file001: Deno.FsFile = await Deno.open( savePath, {
+          write: true,
+          create: true,
+        } );
+
+        await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
+
+        ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = {
+          shaType: 'SHA3-512',
+          sri,
+          requestURL: decodeURI( _request.url ),
+          savePath: savePath.href,
+          filePath,
+          fileType: contentType,
+          fileSize: String( contentLength ),
+          fileLastModified: String( Date.now() ),
+          fileName,
+        };
+
+        // @ts-ignore
+        Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+          create: true,
+        } );
+
+        result = JSON.stringify( {
+          data: {
+            success: true,
+            message: `大文件（文件类型：${ contentType }）上传成功。`,
+            filePath: `${ filePath }`,
+          },
+          messageStatus: resMessageStatus[ 200 ],
+        } );
+      }
     }
-    else{
-      const fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`,
-        savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
-        filePath: string = `${ myURLPathName }/big_files/${ fileName }`;
-
-      // @ts-ignore
-      Deno.mkdirSync( new URL( `${ uploadDir }/big_files` ), {
-        recursive: true,
-      } );
-
-      // @ts-ignore
-      const file001: Deno.FsFile = await Deno.open( savePath, {
-        write: true,
-        create: true,
-      } );
-
-      await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
-
-      ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = {
-        shaType: 'SHA3-512',
-        requestURL: _request.url,
-        savePath: savePath.href,
-        filePath,
-        fileType: contentType,
-        fileSize: String( contentLength ),
-        fileLastModified: String( Date.now() ),
-        fileName,
-      };
-
-      // @ts-ignore
-      Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-        create: true,
-      } );
-
+    catch( error: unknown ){
       result = JSON.stringify( {
         data: {
-          success: true,
-          message: `大文件（文件类型：${ contentType }）上传成功。`,
-          filePath: `${ filePath }`,
+          success: false,
+          message: `${ ( error as Error ).message }`,
         },
-        messageStatus: resMessageStatus[ 200 ],
+        messageStatus: resMessageStatus[ 9999 ],
       } );
     }
   }

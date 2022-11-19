@@ -22,6 +22,8 @@ import {
 } from 'DenoStd/streams/mod.ts';
 
 import {
+  uploadDir,
+
   httpHeaders,
   resMessageStatus,
   // @ts-ignore
@@ -35,6 +37,9 @@ import {
   // @ts-ignore
 } from './UpdateFileSRI.esm.mts';
 
+// @ts-ignore
+import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
+
 async function UploadByBinary( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
 
@@ -46,23 +51,27 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  const contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
+  const contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
+    contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
   if( _request.body && contentType.length !== 0 ){
-    let blob: Blob;
-
     try{
-      blob = await _request.blob();
-
       const {
         isWriteFile,
         fileInfo,
-      }: TypeObj001 = await UpdateFileSRI( _request, blob );
+      }: TypeObj001 = await UpdateFileSRI( _request, {
+        [ Symbol.toStringTag ]: 'Blob',
+        stream: (): ReadableStream => request.clone().body as ReadableStream,
+        lastModified: String( Date.now() ),
+        type: String( contentType ),
+        size: String( contentLength ),
+      } );
 
       const {
         savePath,
         filePath,
         fileType,
+        sri,
       }: TypeFileSRI001 = fileInfo;
 
       if( !isWriteFile ){
@@ -70,7 +79,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
           data: {
             success: true,
             // @ts-ignore
-            message: `已存在跟此文件（文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
+            message: `已存在跟此文件（文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
             filePath: `${ filePath }`,
           },
           messageStatus: resMessageStatus[ 200 ],
@@ -84,7 +93,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
             create: true,
           } );
 
-          await blob.stream().pipeTo( writableStreamFromWriter( file001 ) );
+          await _request.body.pipeTo( writableStreamFromWriter( file001 ) );
 
           result001 = JSON.stringify( {
             data: {
@@ -97,6 +106,13 @@ async function UploadByBinary( request: Request ): Promise<Response>{
           } );
         }
         catch( error: unknown ){
+          delete FileSRI[ sri ];
+
+          // @ts-ignore
+          Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+            create: true,
+          } );
+
           result001 = JSON.stringify( {
             data: {
               success: false,

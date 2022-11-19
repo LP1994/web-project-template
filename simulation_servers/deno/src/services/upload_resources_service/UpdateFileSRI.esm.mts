@@ -35,6 +35,7 @@ import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 export type TypeFileSRI001 = {
   shaType: string;
+  sri: string;
   requestURL: string;
   savePath: string;
   filePath: string;
@@ -64,64 +65,65 @@ async function UpdateFileSRI( request: Request, file: File | Blob, fileName: str
    */
 
   const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() ),
-    sri: string = toHashString( hash, 'hex' ),
-    fileExtensionName: string = ( extension( ( file as Blob ).type ) ?? '' ) as string;
+    sri: string = toHashString( hash, 'hex' );
 
   let isWriteFile: boolean = true,
     fileInfo: TypeFileSRI001;
 
   if( sri in ( FileSRI as { [ key: string ]: TypeFileSRI001; } ) ){
     isWriteFile = false;
-  }
 
-  if( Object.prototype.toString.call( file ) === '[object Blob]' ){
-    file = file as Blob;
-
-    // @ts-ignore
-    file.lastModified = Date.now();
-  }
-
-  fileName = `${ sri }${ fileExtensionName.length === 0
-                         ? ``
-                         : `.${ fileExtensionName }` }`;
-
-  let savePath: URL,
-    filePath: string;
-
-  if( file.type === 'application/octet-stream' || fileExtensionName.length === 0 ){
-    savePath = new URL( `${ uploadDir }/${ fileName }` );
-
-    filePath = `${ myURLPathName }/${ fileName }`;
+    fileInfo = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] as TypeFileSRI001;
   }
   else{
-    savePath = new URL( `${ uploadDir }/${ fileExtensionName }/${ fileName }` );
+    const fileExtensionName: string = ( extension( ( file as Blob ).type ) ?? '' ) as string;
 
-    filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
+    if( Object.prototype.toString.call( file ) === '[object Blob]' ){
+      // @ts-ignore
+      file.lastModified = Date.now();
+    }
 
-    if( !( sri in ( FileSRI as { [ key: string ]: TypeFileSRI001; } ) ) ){
+    fileName = `${ sri }${ fileExtensionName.length === 0
+                           ? ``
+                           : `.${ fileExtensionName }` }`;
+
+    let savePath: URL,
+      filePath: string;
+
+    if( file.type === 'application/octet-stream' || fileExtensionName.length === 0 ){
+      savePath = new URL( `${ uploadDir }/${ fileName }` );
+
+      filePath = `${ myURLPathName }/${ fileName }`;
+    }
+    else{
+      savePath = new URL( `${ uploadDir }/${ fileExtensionName }/${ fileName }` );
+
+      filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
+
       // @ts-ignore
       Deno.mkdirSync( new URL( `${ uploadDir }/${ fileExtensionName }` ), {
         recursive: true,
       } );
     }
-  }
 
-  ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {
-    shaType: 'SHA3-512',
-    requestURL: request.url,
-    savePath: savePath.href,
-    filePath,
-    fileType: file.type,
-    fileSize: String( file.size ),
+    ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {
+      shaType: 'SHA3-512',
+      sri,
+      requestURL: decodeURI( request.url ),
+      savePath: savePath.href,
+      filePath,
+      fileType: file.type,
+      fileSize: String( file.size ),
+      // @ts-ignore
+      fileLastModified: String( file.lastModified ),
+      fileName,
+    };
+
     // @ts-ignore
-    fileLastModified: String( file.lastModified ),
-    fileName,
-  };
-
-  // @ts-ignore
-  Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-    create: true,
-  } );
+    Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+      create: true,
+    } );
+  }
 
   return {
     isWriteFile,

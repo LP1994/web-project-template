@@ -76,14 +76,8 @@ type TypeResultObj001 = {
 };
 
 async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<TypeObj001>>{
-  const result: Array<TypeObj001> = [];
-
-  for await ( let item of
-    files.map( ( file: File | Blob ): Promise<TypeObj001> => UpdateFileSRI( request, file ) ) ){
-    result.push( item );
-  }
-
-  return result;
+  // @ts-ignore
+  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<TypeObj001> => UpdateFileSRI( request, file ) ) );
 }
 
 async function WriteFileHandle( request: Request, files: Array<File | Blob> ): Promise<TypeResultObj001>{
@@ -102,9 +96,10 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
           isWriteFile,
         }: TypeObj001,
       ): boolean => isWriteFile
-    ),
-    // @ts-ignore
-    fileOpen: Array<Promise<Deno.FsFile>> = writeFile.map(
+    );
+
+  // @ts-ignore
+  const fileOpen: Array<Promise<Deno.FsFile>> = writeFile.map(
       (
         {
           fileInfo: {
@@ -116,15 +111,9 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
         write: true,
         create: true,
       } )
-    );
-
-  // @ts-ignore
-  const arr001: Array<Deno.FsFile> = [];
-
-  for await( let item of
-    fileOpen ){
-    arr001.push( item );
-  }
+    ),
+    // @ts-ignore
+    arr001: Array<Deno.FsFile> = await Array.fromAsync( fileOpen );
 
   const arr002: Array<Promise<void>> = arr001.map(
       (
@@ -134,12 +123,8 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
       ): Promise<void> => ( ( writeFile[ index ] as TypeObj001 ).file as File ).stream()
       .pipeTo( writableStreamFromWriter( item ) )
     ),
-    arr003: Array<void> = [];
-
-  for await( let item of
-    arr002 ){
-    arr003.push( item );
-  }
+    // @ts-ignore
+    arr003: Array<void> = await Array.fromAsync( arr002 );
 
   return {
     noWriteFile,
@@ -202,7 +187,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
         ): void => {
           noWriteFileInfo.push( {
             // @ts-ignore
-            message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
+            message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
             filePath: `${ filePath }`,
           } );
         }

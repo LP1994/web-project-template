@@ -27,6 +27,8 @@ import {
 } from 'DenoStd/streams/mod.ts';
 
 import {
+  uploadDir,
+
   httpHeaders,
   resMessageStatus,
   // @ts-ignore
@@ -39,6 +41,9 @@ import {
   UpdateFileSRI,
   // @ts-ignore
 } from './UpdateFileSRI.esm.mts';
+
+// @ts-ignore
+import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 async function UploadBySingle( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
@@ -60,7 +65,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
       formData = await _request.formData();
 
       let file: File | Blob | string | null = formData.get( 'file' ),
-        fileName: string = ( formData.get( 'fileName' ) ?? '' ) as string;
+        fileName: string = ( ( formData.get( 'fileName' ) ?? '' ) as string ).trim();
 
       const str001: string = Object.prototype.toString.call( file );
 
@@ -74,6 +79,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
           savePath,
           filePath,
           fileType,
+          sri,
         }: TypeFileSRI001 = fileInfo;
 
         if( !isWriteFile ){
@@ -81,7 +87,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             data: {
               success: true,
               // @ts-ignore
-              message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件，但更新了此文件信息。`,
+              message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -108,6 +114,13 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             } );
           }
           catch( error: unknown ){
+            delete FileSRI[ sri ];
+
+            // @ts-ignore
+            Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+              create: true,
+            } );
+
             result001 = JSON.stringify( {
               data: {
                 success: false,
