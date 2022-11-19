@@ -75,6 +75,12 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   }
   else if( boo001 && boo002 ){
     try{
+      let fileName001: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() );
+
+      if( fileName001.length === 0 ){
+        fileName001 = `Big_File`;
+      }
+
       const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
         sri: string = toHashString( hash, 'hex' );
 
@@ -99,7 +105,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           filePath,
           fileType: contentType,
           fileLastModified: String( Date.now() ),
-          fileName,
+          fileName: fileName001,
         } );
 
         // @ts-ignore
@@ -134,7 +140,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           fileType: contentType,
           fileSize: String( contentLength ),
           fileLastModified: String( Date.now() ),
-          fileName,
+          fileName: fileName001,
         };
 
         // @ts-ignore

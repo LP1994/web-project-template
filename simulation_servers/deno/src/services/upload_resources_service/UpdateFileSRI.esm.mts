@@ -57,6 +57,7 @@ type TypeCustomBlob = {
   lastModified: string;
   type: string;
   size: string;
+  name: string;
 };
 
 async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBlob, fileName: string = '' ): Promise<TypeObj001>{
@@ -71,6 +72,8 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
    type--->image/avif
    size--->1095740
    */
+
+  let fileName001: string = fileName;
 
   const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() ),
     sri: string = toHashString( hash, 'hex' );
@@ -89,6 +92,10 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   fileName = `${ sri }${ fileExtensionName.length === 0
                          ? ``
                          : `.${ fileExtensionName }` }`;
+
+  if( fileName001.length === 0 ){
+    fileName001 = fileName;
+  }
 
   let savePath: URL,
     filePath: string;
@@ -124,7 +131,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
       fileType: file.type,
       // @ts-ignore
       fileLastModified: String( file.lastModified ),
-      fileName,
+      fileName: fileName001,
     } );
   }
   else{
@@ -138,7 +145,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
       fileSize: String( file.size ),
       // @ts-ignore
       fileLastModified: String( file.lastModified ),
-      fileName,
+      fileName: fileName001,
     };
   }
 

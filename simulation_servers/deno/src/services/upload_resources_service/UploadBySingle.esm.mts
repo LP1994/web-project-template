@@ -16,7 +16,7 @@
  *    uploadType：值为'single'。
  *    file：其值类型可以是File、Blob二者之一。
  * 4、可选字段有：
- * fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
+ *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  */
 
 'use strict';
@@ -70,6 +70,13 @@ async function UploadBySingle( request: Request ): Promise<Response>{
       const str001: string = Object.prototype.toString.call( file );
 
       if( str001 === '[object File]' || str001 === '[object Blob]' ){
+        if( fileName.length === 0 && str001 === '[object File]' ){
+          fileName = ( file as File ).name;
+        }
+        else if( fileName.length === 0 && str001 === '[object Blob]' ){
+          fileName = `Blob_File`;
+        }
+
         const {
           isWriteFile,
           fileInfo,
@@ -87,7 +94,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             data: {
               success: true,
               // @ts-ignore
-              message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+              message: `已存在跟此文件（${ fileName }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -107,7 +114,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
               data: {
                 success: true,
                 // @ts-ignore
-                message: `文件（${ file.name }，文件类型：${ fileType }）上传成功。`,
+                message: `文件（${ fileName }，文件类型：${ fileType }）上传成功。`,
                 filePath: `${ filePath }`,
               },
               messageStatus: resMessageStatus[ 200 ],

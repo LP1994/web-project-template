@@ -39,7 +39,7 @@ import UploadByBinary from './UploadByBinary.esm.mts';
  *    uploadType：值为'single'。
  *    file：其值类型可以是File、Blob二者之一。
  * 4、可选字段有：
- * fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
+ *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  */
 // @ts-ignore
 import UploadBySingle from './UploadBySingle.esm.mts';
@@ -62,7 +62,7 @@ import UploadBySingle from './UploadBySingle.esm.mts';
  * file4：'name_004'
  * fileName4：File_004
  *
- * 第3种，也可以结合上面2种方式：
+ * 第3种，当然也可以结合上面2种方式：
  * uploadType: 'multiple'
  * files: [ File | Blob, ...... ]
  * quantity: 5
@@ -84,7 +84,7 @@ import UploadBySingle from './UploadBySingle.esm.mts';
  *    quantity：其值类型为Number，表示有多少个文件被上传。
  *    fileX：其值类型可以是File、Blob二者之一。
  * 4、可选字段有：
- * fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
+ *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
  */
 // @ts-ignore
 import UploadByMultiple from './UploadByMultiple.esm.mts';
@@ -177,7 +177,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
    *    uploadType：值为'single'。
    *    file：其值类型可以是File、Blob二者之一。
    * 4、可选字段有：
-   * fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
+   *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
    */
   else if( uploadType === 'single' ){
     let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
@@ -241,7 +241,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * file4：'name_004'
    * fileName4：File_004
    *
-   * 第3种，也可以结合上面2种方式：
+   * 第3种，当然也可以结合上面2种方式：
    * uploadType: 'multiple'
    * files: [ File | Blob, ...... ]
    * quantity: 5
@@ -263,7 +263,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
    *    quantity：其值类型为Number，表示有多少个文件被上传。
    *    fileX：其值类型可以是File、Blob二者之一。
    * 4、可选字段有：
-   * fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
+   *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
    */
   else if( uploadType === 'multiple' ){
     result = UploadByMultiple( request );

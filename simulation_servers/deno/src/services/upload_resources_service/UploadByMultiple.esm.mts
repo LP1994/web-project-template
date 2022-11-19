@@ -47,7 +47,7 @@
  *    quantity：其值类型为Number，表示有多少个文件被上传。
  *    fileX：其值类型可以是File、Blob二者之一。
  * 4、可选字段有：
- * fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行。
+ *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
  */
 
 'use strict';
@@ -77,7 +77,7 @@ type TypeResultObj001 = {
 
 async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<TypeObj001>>{
   // @ts-ignore
-  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<TypeObj001> => UpdateFileSRI( request, file ) ) );
+  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<TypeObj001> => UpdateFileSRI( request, file, file._name ) ) );
 }
 
 async function WriteFileHandle( request: Request, files: Array<File | Blob> ): Promise<TypeResultObj001>{
@@ -154,16 +154,51 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
       const quantity: number = ( formData.get( 'quantity' ) ?? 0 ) as number,
         files001: Array<File | Blob | string | null> = [];
 
+      let file001: File | Blob | string | null,
+        fileName001: string = '',
+        str001: string = '';
+
       for(
         let i = 0;
         i < quantity;
         ++i
       ){
-        files001.push( formData.get( `file${ i }` ) );
+        file001 = formData.get( `file${ i }` );
+        fileName001 = ( ( formData.get( `fileName${ i }` ) ?? '' ) as string ).trim();
+        str001 = Object.prototype.toString.call( file001 );
+
+        if( ( str001 === '[object File]' || str001 === '[object Blob]' ) && fileName001.length !== 0 ){
+          // @ts-ignore
+          file001._name = fileName001;
+        }
+        else if( str001 === '[object File]' && fileName001.length === 0 ){
+          // @ts-ignore
+          file001._name = file001.name;
+        }
+        else if( str001 === '[object Blob]' && fileName001.length === 0 ){
+          // @ts-ignore
+          file001._name = `Blob_File`;
+        }
+
+        files001.push( file001 );
       }
 
       const files: Array<File | Blob> = ( [
-        ...formData.getAll( 'files' ),
+        ...( (): Array<File | Blob | string | null> => {
+          return formData.getAll( 'files' )
+          .map( ( item: File | Blob | string | null, ): File | Blob | string | null => {
+            if( Object.prototype.toString.call( item ) === '[object File]' ){
+              // @ts-ignore
+              item._name = ( item as File ).name;
+            }
+            else if( Object.prototype.toString.call( item ) === '[object Blob]' ){
+              // @ts-ignore
+              item._name = `Blob_File`;
+            }
+
+            return item;
+          } );
+        } )(),
         ...files001,
       ].filter( ( item: File | Blob | string | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
 

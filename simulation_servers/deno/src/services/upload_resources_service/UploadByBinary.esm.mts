@@ -56,6 +56,12 @@ async function UploadByBinary( request: Request ): Promise<Response>{
 
   if( _request.body && contentType.length !== 0 ){
     try{
+      let fileName: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() );
+
+      if( fileName.length === 0 ){
+        fileName = `Binary_File`;
+      }
+
       const {
         isWriteFile,
         fileInfo,
@@ -65,7 +71,8 @@ async function UploadByBinary( request: Request ): Promise<Response>{
         lastModified: String( Date.now() ),
         type: String( contentType ),
         size: String( contentLength ),
-      } );
+        name: fileName,
+      }, fileName );
 
       const {
         savePath,
