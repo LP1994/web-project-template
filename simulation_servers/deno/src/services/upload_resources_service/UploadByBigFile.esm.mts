@@ -85,8 +85,13 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
         sri: string = toHashString( hash, 'hex' );
 
-      const fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`,
-        savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
+      let fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`;
+
+      if( contentType === 'application/octet-stream' && fileName001.length !== 0 && fileName001.includes( '.' ) ){
+        fileName = `${ sri }.${ fileName001.split( '.' ).at( -1 ) }`;
+      }
+
+      const savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
         filePath: string = `${ myURLPathName }/big_files/${ fileName }`;
 
       // @ts-ignore
@@ -148,7 +153,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
             data: {
               success: true,
               message: `已存在跟此大文件（文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
-              filePath: `${ ( fileSRIInfo as TypeFileSRI001 ).filePath }`,
+              filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
           } );

@@ -96,6 +96,10 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
                          ? ``
                          : `.${ fileExtensionName }` }`;
 
+  if( file.type === 'application/octet-stream' && fileName001.length !== 0 && fileName001.includes( '.' ) ){
+    fileName = `${ sri }.${ fileName001.split( '.' ).at( -1 ) }`;
+  }
+
   if( fileName001.length === 0 ){
     fileName001 = fileName;
   }
