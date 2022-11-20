@@ -116,15 +116,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           fileLastModified: String( Date.now() ),
           fileName: fileName001,
         };
-
-        result = JSON.stringify( {
-          data: {
-            success: true,
-            message: `大文件（文件类型：${ contentType }）上传成功。`,
-            filePath: `${ filePath }`,
-          },
-          messageStatus: resMessageStatus[ 200 ],
-        } );
       };
 
       if( fileSRIInfo ){
@@ -133,6 +124,15 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         if( isForcedWrite === 'true' ){
           await handleFun001();
+
+          result = JSON.stringify( {
+            data: {
+              success: true,
+              message: `大文件（文件类型：${ contentType }）上传成功。`,
+              filePath: `${ filePath }`,
+            },
+            messageStatus: resMessageStatus[ 200 ],
+          } );
         }
         else{
           ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = Object.assign( {}, fileSRIInfo, {
@@ -156,6 +156,15 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       }
       else{
         await handleFun001();
+
+        result = JSON.stringify( {
+          data: {
+            success: true,
+            message: `大文件（文件类型：${ contentType }）上传成功。`,
+            filePath: `${ filePath }`,
+          },
+          messageStatus: resMessageStatus[ 200 ],
+        } );
       }
 
       // @ts-ignore
@@ -192,7 +201,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
     } );
   }
 
-  // @ts-ignore
   return new Response( result, {
     status: 200,
     statusText: 'OK',
