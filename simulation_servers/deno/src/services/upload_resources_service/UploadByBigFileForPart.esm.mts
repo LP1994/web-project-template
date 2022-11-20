@@ -19,11 +19,10 @@ import {
 
 // @ts-ignore
 function UploadByBigFileForPart( request: Request ): Response{
-
   return new Response( JSON.stringify( {
     data: {
       success: true,
-      message: `大文件上传之分块上传的功能还没完成。`,
+      message: `大文件上传之分块上传的功能还未实现。`,
     },
     messageStatus: resMessageStatus[ 200 ],
   } ), {

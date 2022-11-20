@@ -75,6 +75,9 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
 
   let fileName001: string = fileName;
 
+  const isForcedWrite: string = ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim()
+  .toLowerCase();
+
   const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() ),
     sri: string = toHashString( hash, 'hex' );
 
@@ -124,15 +127,33 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
     // @ts-ignore
     Deno.renameSync( new URL( fileInfo.savePath ), savePath );
 
-    ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = Object.assign( {}, fileInfo, {
-      requestURL: decodeURI( request.url ),
-      savePath: savePath.href,
-      filePath,
-      fileType: file.type,
-      // @ts-ignore
-      fileLastModified: String( file.lastModified ),
-      fileName: fileName001,
-    } );
+    if( isForcedWrite === 'true' ){
+      isWriteFile = true;
+
+      ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {
+        shaType: 'SHA3-512',
+        sri,
+        requestURL: decodeURI( request.url ),
+        savePath: savePath.href,
+        filePath,
+        fileType: file.type,
+        fileSize: String( file.size ),
+        // @ts-ignore
+        fileLastModified: String( file.lastModified ),
+        fileName: fileName001,
+      };
+    }
+    else{
+      ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = Object.assign( {}, fileInfo, {
+        requestURL: decodeURI( request.url ),
+        savePath: savePath.href,
+        filePath,
+        fileType: file.type,
+        // @ts-ignore
+        fileLastModified: String( file.lastModified ),
+        fileName: fileName001,
+      } );
+    }
   }
   else{
     ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {

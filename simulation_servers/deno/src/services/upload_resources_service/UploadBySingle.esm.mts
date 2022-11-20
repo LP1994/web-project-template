@@ -121,6 +121,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             } );
           }
           catch( error: unknown ){
+            // @ts-ignore
             delete FileSRI[ sri ];
 
             // @ts-ignore

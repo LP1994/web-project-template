@@ -55,6 +55,7 @@ type TypeFileSRI001 = {
 
 async function UploadByBigFile( request: Request ): Promise<Response>{
   const _request: Request = request.clone(),
+    isForcedWrite: string = ( new URL( _request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase(),
     contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
     contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase(),
     extension: string[] | undefined = extensionsByType( contentType );
@@ -95,34 +96,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
       const fileSRIInfo: boolean | TypeFileSRI001 = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] ?? false;
 
-      if( fileSRIInfo ){
-        // @ts-ignore
-        Deno.renameSync( new URL( fileSRIInfo.savePath ), savePath );
-
-        ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = Object.assign( {}, fileSRIInfo, {
-          requestURL: decodeURI( _request.url ),
-          savePath: savePath.href,
-          filePath,
-          fileType: contentType,
-          fileLastModified: String( Date.now() ),
-          fileName: fileName001,
-        } );
-
-        // @ts-ignore
-        Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-          create: true,
-        } );
-
-        result = JSON.stringify( {
-          data: {
-            success: true,
-            message: `已存在跟此大文件（文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
-            filePath: `${ ( fileSRIInfo as TypeFileSRI001 ).filePath }`,
-          },
-          messageStatus: resMessageStatus[ 200 ],
-        } );
-      }
-      else{
+      const handleFun001: () => Promise<void> = async (): Promise<void> => {
         // @ts-ignore
         const file001: Deno.FsFile = await Deno.open( savePath, {
           write: true,
@@ -143,11 +117,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           fileName: fileName001,
         };
 
-        // @ts-ignore
-        Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-          create: true,
-        } );
-
         result = JSON.stringify( {
           data: {
             success: true,
@@ -156,7 +125,43 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           },
           messageStatus: resMessageStatus[ 200 ],
         } );
+      };
+
+      if( fileSRIInfo ){
+        // @ts-ignore
+        Deno.renameSync( new URL( fileSRIInfo.savePath ), savePath );
+
+        if( isForcedWrite === 'true' ){
+          await handleFun001();
+        }
+        else{
+          ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = Object.assign( {}, fileSRIInfo, {
+            requestURL: decodeURI( _request.url ),
+            savePath: savePath.href,
+            filePath,
+            fileType: contentType,
+            fileLastModified: String( Date.now() ),
+            fileName: fileName001,
+          } );
+
+          result = JSON.stringify( {
+            data: {
+              success: true,
+              message: `已存在跟此大文件（文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
+              filePath: `${ ( fileSRIInfo as TypeFileSRI001 ).filePath }`,
+            },
+            messageStatus: resMessageStatus[ 200 ],
+          } );
+        }
       }
+      else{
+        await handleFun001();
+      }
+
+      // @ts-ignore
+      Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
+        create: true,
+      } );
     }
     catch( error: unknown ){
       result = JSON.stringify( {
@@ -187,6 +192,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
     } );
   }
 
+  // @ts-ignore
   return new Response( result, {
     status: 200,
     statusText: 'OK',
