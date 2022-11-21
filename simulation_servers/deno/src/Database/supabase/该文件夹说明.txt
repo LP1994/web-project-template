@@ -1,0 +1,22 @@
+该文件夹下都是Supabase数据库相关的。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+2、要使用 Deno 连接到 Supabase，请使用 esm.sh CDN 导入 supabase-js npm 模块。
+
+使用 supabase-js npm 模块连接到 Supabase，例子：
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+const options = {
+  schema: "public",
+  headers: { "x-my-custom-header": "my-app-name" },
+  autoRefreshToken: true,
+  persistSession: true,
+  detectSessionInUrl: true,
+};
+
+const supabase = createClient(
+  "https://xyzcompany.supabase.co",
+  "public-anon-key",
+  options,
+);

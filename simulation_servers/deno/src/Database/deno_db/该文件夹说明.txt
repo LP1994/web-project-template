@@ -1,0 +1,25 @@
+该文件夹下都是DenoDB数据库相关的。
+
+ORM（对象关系映射）的想法是将您的数据模型定义为可以持久保存到数据库的类。然后，这些类及其实例为您提供了一个编程 API 来读取和写入数据库中的数据。
+Deno 支持许多流行的 ORM，包括 Prisma 和 DenoDB。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+2、Denodb 是 Deno 专用的 ORM 数据库。 ORM（对象关系映射）数据库允许将类的实例持久保存到数据库中。
+
+例子：
+import {
+  Database,
+  DataTypes,
+  Model,
+  PostgresConnector,
+} from "https://deno.land/x/denodb/mod.ts";
+
+const connection = new PostgresConnector({
+  host: "...",
+  username: "user",
+  password: "password",
+  database: "airlines",
+});
+
+const db = new Database(connection);

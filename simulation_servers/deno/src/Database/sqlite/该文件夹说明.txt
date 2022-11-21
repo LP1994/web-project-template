@@ -1,0 +1,25 @@
+该文件夹下都是SQLite数据库相关的。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+2、在 Deno 中连接到 SQLite 有2种主要的解决方案：
+
+第1种方案：
+使用 FFI 模块连接到 SQLite.
+qlite3 使用 Deno FFI 为 SQLite3 C API 提供 JavaScript 绑定。
+例子：
+import { Database } from "https://deno.land/x/sqlite3@LATEST_VERSION/mod.ts";
+
+const db = new Database("test.db");
+
+db.close();
+
+第2种方案：
+使用 WASM 优化模块连接到 SQLite。
+sqlite 是用于 JavaScript 和 TypeScript 的 SQLite 模块。包装器针对 Deno 并使用编译为 WebAssembly (WASM) 的 SQLite3 版本。
+例子：
+import { DB } from "https://deno.land/x/sqlite/mod.ts";
+
+const db = new DB("test.db");
+
+db.close();

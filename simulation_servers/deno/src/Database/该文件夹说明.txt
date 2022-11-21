@@ -1,0 +1,5 @@
+该文件夹下都是数据库相关的。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+2、目前设置了8种数据库操作，其中有7种数据库（包括：一种ORM（对象关系映射）数据库DenoDB）、1种API查询语言（GraphQL）。

@@ -1,0 +1,15 @@
+该文件夹下都是MySQL数据库相关的。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+2、deno_mysql是Deno的MySQL和MariaDB数据库驱动程序。
+
+例子：
+import { Client } from "https://deno.land/x/mysql/mod.ts";
+
+const client = await new Client().connect({
+  hostname: "127.0.0.1",
+  username: "root",
+  password: "password",
+  db: "dbname",
+});

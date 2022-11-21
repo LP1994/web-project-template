@@ -1,0 +1,10 @@
+该文件夹下都是Postgres数据库相关的。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+2、postgresjs是用于Node.js和Deno的全功能Postgres客户端。
+
+例子：
+import postgres from "https://deno.land/x/postgresjs/mod.js";
+
+const sql = postgres("postgres://username:password@host:port/database");

@@ -19,6 +19,16 @@
  * error writing a body to connection: tls handshake eof: tls handshake eof
  */
 
+/**
+ * 用于响应“upload”文件夹下的静态文件获取，如：“https://127.0.0.1:9200/simulation_servers_deno/upload/json/JSON001.json”。
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
 import {
@@ -43,6 +53,13 @@ import {
   // @ts-ignore
 } from './Condition.esm.mts';
 
+/**
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ */
 function ResponseHandle( request: Request ): TypeResponse001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
@@ -94,4 +111,5 @@ function ResponseHandle( request: Request ): TypeResponse001{
   return result;
 }
 
+// 必须部署这个默认的导出值。
 export default ResponseHandle;

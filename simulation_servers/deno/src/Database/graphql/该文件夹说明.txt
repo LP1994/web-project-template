@@ -1,0 +1,75 @@
+该文件夹下都是GraphQL相关的。
+
+GraphQL 是一种 API 查询语言，通常用于将不同的数据源组合成以客户端为中心的 API。要设置 GraphQL API，首先需要设置 GraphQL 服务器。
+此服务器将您的数据公开为 GraphQL API，您的客户端应用程序可以查询数据。
+
+PS：
+1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
+
+服务器 (GQL)
+在 Deno 中运行 GraphQL API 服务器的最简单方法是使用 gql，它是 Deno 的通用 GraphQL HTTP 中间件。
+使用 gql 运行 GraphQL API 服务器，例子：
+import { Server } from "https://deno.land/std@0.165.0/http/server.ts";
+import { GraphQLHTTP } from "https://deno.land/x/gql/mod.ts";
+import { makeExecutableSchema } from "https://deno.land/x/graphql_tools@0.0.2/mod.ts";
+import { gql } from "https://deno.land/x/graphql_tag@0.0.1/mod.ts";
+
+const typeDefs = gql`
+  type Query {
+    hello: String
+  }
+`;
+
+const resolvers = {
+  Query: {
+    hello: () => `Hello World!`,
+  },
+};
+
+const schema = makeExecutableSchema({ resolvers, typeDefs });
+
+const s = new Server({
+  handler: async (req) => {
+    const { pathname } = new URL(req.url);
+
+    return pathname === "/graphql"
+      ? await GraphQLHTTP<Request>({
+        schema,
+        graphiql: true,
+      })(req)
+      : new Response("Not Found", { status: 404 });
+  },
+  port: 3000,
+});
+
+s.listenAndServe();
+
+console.log(`Started on http://localhost:3000`);
+
+
+
+客户端
+使用 graphql npm 模块进行 GraphQL 客户端调用。
+要在 Deno 中进行 GraphQL 客户端调用，请使用 esm CDN 导入 graphql npm 模块。
+例子：
+import { buildSchema, graphql } from "https://esm.sh/graphql";
+
+const schema = buildSchema(`
+type Query {
+  hello: String
+}
+`);
+
+const rootValue = {
+  hello: () => {
+    return "Hello world!";
+  },
+};
+
+const response = await graphql({
+  schema,
+  source: "{ hello }",
+  rootValue,
+});
+
+console.log(response);

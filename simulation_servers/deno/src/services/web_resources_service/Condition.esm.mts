@@ -7,17 +7,29 @@
  * CreateDate: 2022-11-02 17:38:47 星期三
  */
 
+/**
+ * 用于响应“web”文件夹下的静态文件获取，如：“https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js”。
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
-// 发起的请求URL如：https://localhost:9200/simulation_servers_deno/web/xx_project/js/JS001.js
+// 符合处理条件的请求URL核心标头，如：https://localhost:9200/simulation_servers_deno/web/xx_project/js/JS001.js
 export const myURLPathName: string = `/simulation_servers_deno/web/`;
 
 /**
- * 一定得保证该函数返回的值类型只能是：boolean。<br />
+ * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
+ * 返回值为true、Promise<true>时，表示满足条件。<br />
+ * 返回值为false、Promise<false>时，表示不满足条件。<br />
  *
- * @param {Request} request
+ * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {boolean}
+ * @returns {boolean} 一般返回的是一个boolean类型的值，当然也允许返回的值类型为Promise<boolean>。
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
@@ -26,4 +38,5 @@ function Condition( request: Request ): boolean{
   return pathName.startsWith( myURLPathName );
 }
 
+// 必须部署这个默认的导出值。
 export default Condition;
