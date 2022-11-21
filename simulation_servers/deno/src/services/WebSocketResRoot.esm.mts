@@ -7,6 +7,16 @@
  * CreateDate: 2022-11-01 20:27:36 星期二
  */
 
+/**
+ * 用于响应WebSocket服务的根请求，如：“wss://127.0.0.1:9200/”。
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteMapConfig”中的配置。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
 import {
@@ -23,6 +33,13 @@ import {
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
+/**
+ * 响应请求的处理函数。
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ */
 function Handle( request: Request ): TypeResponse001{
   let response: Response,
     wsForServer: WebSocket,
@@ -106,4 +123,5 @@ ${ ( error as Error ).message }`,
   return result;
 }
 
+// 必须部署这个默认的导出值。
 export default Handle;

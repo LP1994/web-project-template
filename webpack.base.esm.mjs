@@ -304,7 +304,7 @@ const browserslist = [
     'Edge >= 107',
     'Firefox >= 107',
     'Safari >= 16',
-    'Opera >= 92',
+    'Opera >= 93',
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
@@ -316,8 +316,8 @@ const browserslist = [
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
-   * 1、chrome、edge、firefox、hermes、ie、ios、node、opera、rhino、safari。<br />
-   * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6。<br />
+   * 1、chrome、edge、firefox、hermes、ie、ios、node、deno、opera、rhino、safari。<br />
+   * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6、deno1.0。<br />
    *
    * @type {string[]}
    */
@@ -348,7 +348,7 @@ const browserslist = [
     'edge107',
     'firefox107',
     'safari16',
-    'opera92',
+    'opera93',
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
@@ -387,7 +387,7 @@ const browserslist = [
     edge: 107,
     firefox: 107,
     safari: 16,
-    opera: 92,
+    opera: 93,
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start

@@ -7,10 +7,20 @@
  * CreateDate: 2022-11-03 02:25:26 星期四
  */
 
+/**
+ * 用于响应WebSocket服务的上传操作，如：“wss://127.0.0.1:9200/upload”。
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteHandle”中的配置。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
 /**
- * 发起的请求URL如：
+ * 符合处理条件的请求URL核心标头，如：<br />
  * wss://localhost:9200/upload、wss://localhost:9200/upload/、
  * wss://localhost:9200/subscriptions/upload、wss://localhost:9200/subscriptions/upload/、
  * wss://localhost:9200/simulation_servers_deno/upload、wss://localhost:9200/simulation_servers_deno/upload/、
@@ -21,11 +31,13 @@
 export const myURLPathName: string = `/upload`;
 
 /**
- * 一定得保证该函数返回的值类型只能是：boolean。<br />
+ * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
+ * 返回值为true、Promise<true>时，表示满足条件。<br />
+ * 返回值为false、Promise<false>时，表示不满足条件。<br />
  *
- * @param {Request} request
+ * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {boolean}
+ * @returns {boolean} 一般返回的是一个boolean类型的值，当然也允许返回的值类型为Promise<boolean>。
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
@@ -46,4 +58,5 @@ function Condition( request: Request ): boolean{
   ].includes( pathName );
 }
 
+// 必须部署这个默认的导出值。
 export default Condition;

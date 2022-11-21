@@ -1,1 +1,1 @@
-node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 Main.test.mjs&pause
+deno run -A --watch --config=../../../../deno.json --lock=../../../../lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./Main.test.mjs --color=16m&pause

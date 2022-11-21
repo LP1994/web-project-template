@@ -18,7 +18,7 @@
  * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m
  * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
  */
-import chalk from 'DenoX/chalk_deno/source/index.js';
+import chalk from 'https://deno.land/x/chalk_deno/source/index.js';
 
 /**
  * 使用“!==”比较的对比函数Equal001。<br />

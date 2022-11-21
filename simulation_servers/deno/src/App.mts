@@ -8,6 +8,10 @@
  */
 
 /**
+ * 这是程序的启动入口。
+ */
+
+/**
  * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
  * 2、安装证书如下：
  * openssl/HTTPS001/HTTPS001CACert.crt
@@ -29,12 +33,18 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
 
 Promise.allSettled( [
+  // 这两类服务不可同时启用，启用其中之一即可。Start
+
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
   // @ts-ignore
   // import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
   // 同时提供“https:”和“wss:”协议的服务，端口都是9000，基于HTTP/1.1。
   // @ts-ignore
   // import( 'servers/HTTPSAndWebSocketSByServerForPort9000.mts' ),
+
+  // 这两类服务不可同时启用，启用其中之一即可。End
+
+  // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 提供“http:”协议的服务，端口9100，基于HTTP/1.1。
   // @ts-ignore
@@ -43,9 +53,13 @@ Promise.allSettled( [
   // @ts-ignore
   // import( 'servers/HTTPSServerForPort9100.mts' ),
 
+  // 这两类服务不可同时启用，启用其中之一即可。End
+
   // 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2，Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
   // @ts-ignore
   import( 'servers/HTTPV2AndWebSocketSServerForPort9200.mts' ),
+
+  // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 提供“ws:”协议的服务，端口9300，基于HTTP/1.1。
   // @ts-ignore
@@ -53,6 +67,8 @@ Promise.allSettled( [
   // 提供“wss:”协议的服务，端口9300，基于HTTP/1.1。
   // @ts-ignore
   // import( 'servers/WebSocketSServerForPort9300.mts' ),
+
+  // 这两类服务不可同时启用，启用其中之一即可。End
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {

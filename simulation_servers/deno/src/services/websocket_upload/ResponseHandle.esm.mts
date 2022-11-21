@@ -7,6 +7,16 @@
  * CreateDate: 2022-11-03 02:25:42 星期四
  */
 
+/**
+ * 用于响应WebSocket服务的上传操作，如：“wss://127.0.0.1:9200/upload”。
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteHandle”中的配置。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
 import {
@@ -25,6 +35,13 @@ import {
 // @ts-ignore
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
+/**
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ */
 function ResponseHandle( request: Request ): TypeResponse001{
   let response: Response,
     wsForServer: WebSocket,
@@ -108,4 +125,5 @@ ${ ( error as Error ).message }`,
   return result;
 }
 
+// 必须部署这个默认的导出值。
 export default ResponseHandle;
