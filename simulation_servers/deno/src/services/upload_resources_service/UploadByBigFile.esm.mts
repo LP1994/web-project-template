@@ -133,7 +133,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           result = JSON.stringify( {
             data: {
               success: true,
-              message: `大文件（文件类型：${ contentType }）上传成功。`,
+              message: `大文件（${ fileName001 }，文件类型：${ contentType }）上传成功。`,
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -152,7 +152,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           result = JSON.stringify( {
             data: {
               success: true,
-              message: `已存在跟此大文件（文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
+              message: `已存在跟此大文件（${ fileName001 }，文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -165,7 +165,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         result = JSON.stringify( {
           data: {
             success: true,
-            message: `大文件（文件类型：${ contentType }）上传成功。`,
+            message: `大文件（${ fileName001 }，文件类型：${ contentType }）上传成功。`,
             filePath: `${ filePath }`,
           },
           messageStatus: resMessageStatus[ 200 ],

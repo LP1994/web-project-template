@@ -8,7 +8,9 @@
  */
 
 /**
- * 用于响应“upload”文件夹下的静态文件获取，如：“https://127.0.0.1:9200/simulation_servers_deno/upload/json/JSON001.json”。
+ * 用于响应“upload”文件夹下的静态文件获取，如：
+ * 获取“upload”文件夹下的“json”文件夹下的“JSON001.json”文件
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/json/JSON001.json
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */

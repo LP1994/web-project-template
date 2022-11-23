@@ -8,7 +8,11 @@
  */
 
 /**
- * 用于响应WebSocket服务的上传操作，如：“wss://127.0.0.1:9200/upload”。
+ * 用于响应WebSocket服务的上传操作，支持的请求URL有：
+ * wss://127.0.0.1:9200/upload、wss://127.0.0.1:9200/upload/
+ * wss://127.0.0.1:9200/subscriptions/upload、wss://127.0.0.1:9200/subscriptions/upload/
+ * wss://127.0.0.1:9200/simulation_servers_deno/upload、wss://127.0.0.1:9200/simulation_servers_deno/upload/
+ * wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/upload、wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/upload/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteHandle”中的配置。
  */
@@ -109,7 +113,7 @@ ${ messageEvent.data }
 WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
 ` );
 
-      wsForServer.send( `${ new Date().toString() }：WebSocket服务端成功收到了客户端通过“${ pathName }”上传的文件。` );
+      wsForServer.send( `WebSocket的上传服务目前还未实现。` );
     } );
 
     result = response;

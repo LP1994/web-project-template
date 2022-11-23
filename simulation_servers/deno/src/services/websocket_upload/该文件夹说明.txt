@@ -1,1 +1,7 @@
 该文件夹是用于处理WebSocket的上传操作。
+
+支持的请求URL有：
+wss://127.0.0.1:9200/upload、wss://127.0.0.1:9200/upload/
+wss://127.0.0.1:9200/subscriptions/upload、wss://127.0.0.1:9200/subscriptions/upload/
+wss://127.0.0.1:9200/simulation_servers_deno/upload、wss://127.0.0.1:9200/simulation_servers_deno/upload/
+wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/upload、wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/upload/

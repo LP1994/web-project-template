@@ -2,15 +2,16 @@
 
 PS：
 1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
-2、deno_mongo是为Deno开发的MongoDB数据库驱动程序。
+2、deno_mongo（使用教程见：https://deno.land/x/mongo）是为Deno开发的MongoDB数据库驱动程序。
 
-例子：
-import { MongoClient } from "https://deno.land/x/mongo@LATEST_VERSION/mod.ts";
+例子0001：
+// 只有“v0.29.3”可用，其他更新的版本会报错。
+import { MongoClient } from "https://deno.land/x/mongo@v0.29.3/mod.ts";
 
 const client = new MongoClient();
 
 // Connecting to a Local Database
-await client.connect("mongodb://127.0.0.1:27017");
+await client.connect("mongodb://127.0.0.1:27777");
 
 // Connecting to a Mongo Atlas Database
 await client.connect({
@@ -34,3 +35,40 @@ await client.connect({
 await client.connect(
   "mongodb+srv://<username>:<password>@<db_cluster_url>/<db_name>?authMechanism=SCRAM-SHA-1",
 );
+
+
+
+例子002：
+import {
+  MongoClient,
+  // @ts-ignore
+} from 'DenoX/mongo@v0.29.3/mod.ts';
+
+  const client = new MongoClient();
+
+  const database = await client.connect( {
+    db: `local`,
+    servers: [
+      {
+        host: `127.0.0.1`,
+        port: 27777,
+      },
+    ],
+  } );
+
+  // Defining schema interface
+  interface StartupLogSchema {
+    _id: string;
+
+    hostname: string;
+
+    startTimeLocal: string;
+  }
+
+  const startupLog = database.collection<StartupLogSchema>( 'startup_log' );
+
+  const log = await startupLog.findOne( {
+    _id: `LPQAQ-1669129883637`,
+  } );
+
+  console.dir( log );

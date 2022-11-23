@@ -8,7 +8,8 @@
  */
 
 /**
- * 用于响应HTTP服务的上传操作，如：“https://127.0.0.1:9200/simulation_servers_deno/upload”。
+ * 用于响应HTTP服务的上传操作，支持的请求URL有：
+ * https://127.0.0.1:9200/simulation_servers_deno/upload、https://127.0.0.1:9200/simulation_servers_deno/upload/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”、“methodByPutForRouteHandle”中的配置。
  */

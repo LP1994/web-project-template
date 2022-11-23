@@ -87,6 +87,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
           filePath,
           fileType,
           sri,
+          fileName: fileName001,
         }: TypeFileSRI001 = fileInfo;
 
         if( !isWriteFile ){
@@ -94,7 +95,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             data: {
               success: true,
               // @ts-ignore
-              message: `已存在跟此文件（${ fileName }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+              message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -114,7 +115,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
               data: {
                 success: true,
                 // @ts-ignore
-                message: `文件（${ fileName }，文件类型：${ fileType }）上传成功。`,
+                message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
                 filePath: `${ filePath }`,
               },
               messageStatus: resMessageStatus[ 200 ],

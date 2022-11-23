@@ -216,13 +216,13 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
             fileInfo: {
               filePath,
               fileType,
+              fileName,
             },
-            file,
           }: TypeObj001,
         ): void => {
           noWriteFileInfo.push( {
             // @ts-ignore
-            message: `已存在跟此文件（${ file.name }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+            message: `已存在跟此文件（${ fileName }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
             filePath: `${ filePath }`,
           } );
         }
@@ -234,13 +234,13 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
             fileInfo: {
               filePath,
               fileType,
+              fileName,
             },
-            file,
           }: TypeObj001,
         ): void => {
           writeFileInfo.push( {
             // @ts-ignore
-            message: `文件（${ file.name }，文件类型：${ fileType }）上传成功。`,
+            message: `文件（${ fileName }，文件类型：${ fileType }）上传成功。`,
             filePath: `${ filePath }`,
           } );
         }

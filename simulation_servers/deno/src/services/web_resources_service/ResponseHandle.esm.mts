@@ -20,7 +20,9 @@
  */
 
 /**
- * 用于响应“web”文件夹下的静态文件获取，如：“https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js”。
+ * 用于响应“web”文件夹下的静态文件获取，如：
+ * 获取“web”文件夹下的“xx_project”文件夹下的“js”文件夹下的“JS001.js”文件。
+ * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
