@@ -8,7 +8,7 @@
  */
 
 /**
- * 用于响应HTTP服务的请求，如：“https://127.0.0.1:9200/simulation_servers_deno/GetJSON”。
+ * 用于响应HTTP服务的GET请求，如：“https://127.0.0.1:9200/simulation_servers_deno/GetJSON”。
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteMapConfig”中的配置。
  */

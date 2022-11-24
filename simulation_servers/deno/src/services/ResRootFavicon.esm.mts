@@ -8,7 +8,7 @@
  */
 
 /**
- * 用于响应HTTP服务的根图片请求，如：“https://127.0.0.1:9200/favicon.ico”。
+ * 用于响应HTTP服务的根图片GET请求，如：“https://127.0.0.1:9200/favicon.ico”。
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteMapConfig”中的配置。
  */

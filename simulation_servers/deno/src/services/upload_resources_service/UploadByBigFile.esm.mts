@@ -7,6 +7,22 @@
  * CreateDate: 2022-11-11 19:07:04 星期五
  */
 
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
+/**
+ * 单个大文件上传（支持POST请求、PUT请求）。
+ *
+ * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ *
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+ * 单个大文件上传不需要在URL上包含查询参数“type”，添加了它，就会执行单个大文件的分块上传的逻辑。
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+ */
+
 'use strict';
 
 import {
@@ -42,17 +58,41 @@ import {
 import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 type TypeFileSRI001 = {
+  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
   shaType: string;
+  // 文件的SRI值，全是小写字母组成的。
   sri: string;
+  // 上传本文件时，发起的请求URL。
   requestURL: string;
+  // 文件在服务端的存储路径。
   savePath: string;
+  // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
   filePath: string;
+  // 文件的媒体类型，值格式，如：“application/json”之类的。
   fileType: string;
+  // 文件大小，单位为字节。
   fileSize: string;
+  // 文件的修改时间或服务器开始写入文件的时间。
   fileLastModified: string;
+  // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
   fileName: string;
 };
 
+/**
+ * 单个大文件上传（支持POST请求、PUT请求）。<br />
+ *
+ * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ *
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false<br />
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。<br />
+ * 单个大文件上传不需要在URL上包含查询参数“type”，添加了它，就会执行单个大文件的分块上传的逻辑。<br />
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {Promise<Response>} 返回值类型为Promise<Response>。
+ */
 async function UploadByBigFile( request: Request ): Promise<Response>{
   const _request: Request = request.clone(),
     isForcedWrite: string = ( new URL( _request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase(),
@@ -132,8 +172,11 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
           result = JSON.stringify( {
             data: {
+              // true表示上传成功，反之，表示失败。
               success: true,
+              // 描述性说明。
               message: `大文件（${ fileName001 }，文件类型：${ contentType }）上传成功。`,
+              // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -151,8 +194,11 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
           result = JSON.stringify( {
             data: {
+              // true表示上传成功，反之，表示失败。
               success: true,
+              // 描述性说明。
               message: `已存在跟此大文件（${ fileName001 }，文件类型：${ contentType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
+              // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -164,8 +210,11 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         result = JSON.stringify( {
           data: {
+            // true表示上传成功，反之，表示失败。
             success: true,
+            // 描述性说明。
             message: `大文件（${ fileName001 }，文件类型：${ contentType }）上传成功。`,
+            // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
             filePath: `${ filePath }`,
           },
           messageStatus: resMessageStatus[ 200 ],
@@ -216,4 +265,5 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   } );
 }
 
+// 必须部署这个默认的导出值。
 export default UploadByBigFile;

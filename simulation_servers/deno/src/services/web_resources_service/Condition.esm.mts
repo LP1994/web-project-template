@@ -8,7 +8,7 @@
  */
 
 /**
- * 用于响应“web”文件夹下的静态文件获取，如：
+ * 用于响应“web”文件夹下的静态文件获取（GET请求），如：
  * 获取“web”文件夹下的“xx_project”文件夹下的“js”文件夹下的“JS001.js”文件。
  * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js
  *

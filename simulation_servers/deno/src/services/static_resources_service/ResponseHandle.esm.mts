@@ -20,7 +20,7 @@
  */
 
 /**
- * 用于响应“static”文件夹下的静态文件获取，如：
+ * 用于响应“static”文件夹下的静态文件获取（GET请求），如：
  * 获取“static”文件夹下的“json”文件夹下的“JSON001.json”文件
  * https://127.0.0.1:9200/simulation_servers_deno/static/json/JSON001.json
  *

@@ -8,7 +8,17 @@
  */
 
 /**
- * 单文件上传。
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
+/**
+ * 单文件上传（支持POST请求、PUT请求）。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * 查询参数“isForcedWrite”是可选的。
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ *
+ * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body必须是用FormData包装。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
@@ -45,6 +55,27 @@ import {
 // @ts-ignore
 import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
+/**
+ * 单文件上传（支持POST请求、PUT请求）。<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false<br />
+ * 查询参数“isForcedWrite”是可选的。<br />
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true<br />
+ *
+ * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ *
+ * 1、客户端上传的body必须是用FormData包装。<br />
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。<br />
+ * 3、FormData中必须要有的字段：<br />
+ *    uploadType：值为'single'。<br />
+ *    file：其值类型可以是File、Blob二者之一。<br />
+ * 4、可选字段有：<br />
+ *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {Promise<Response>} 返回值类型为Promise<Response>。
+ */
 async function UploadBySingle( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
 
@@ -93,9 +124,11 @@ async function UploadBySingle( request: Request ): Promise<Response>{
         if( !isWriteFile ){
           result001 = JSON.stringify( {
             data: {
+              // true表示上传成功，反之，表示失败。
               success: true,
-              // @ts-ignore
+              // 描述性说明。
               message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+              // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -113,9 +146,11 @@ async function UploadBySingle( request: Request ): Promise<Response>{
 
             result001 = JSON.stringify( {
               data: {
+                // true表示上传成功，反之，表示失败。
                 success: true,
-                // @ts-ignore
+                // 描述性说明。
                 message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
+                // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
                 filePath: `${ filePath }`,
               },
               messageStatus: resMessageStatus[ 200 ],
@@ -180,4 +215,5 @@ async function UploadBySingle( request: Request ): Promise<Response>{
   } );
 }
 
+// 必须部署这个默认的导出值。
 export default UploadBySingle;

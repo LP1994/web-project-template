@@ -8,7 +8,12 @@
  */
 
 /**
- * 用于响应HTTP服务的上传操作，支持的请求URL有：
+ * 测试文件上传时，不可尽信“postman”这个工具，不知道是什么原因有时测试上传会不成功，而服务器又没出现报错信息！
+ * 用浏览器测，就没出现“postman”的上述问题。
+ */
+
+/**
+ * 用于响应HTTP服务的上传操作（支持POST请求、PUT请求），支持的请求URL有：
  * https://127.0.0.1:9200/simulation_servers_deno/upload、https://127.0.0.1:9200/simulation_servers_deno/upload/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”、“methodByPutForRouteHandle”中的配置。
@@ -16,6 +21,15 @@
 
 /**
  * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
+/**
+ * 本文件上传功能，提供了5种类型的上传方式，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB（该阈值可由下面的常量maxFileSize控制调节），详细使用说明见：
+ * UploadByBigFile.esm.mts（单个大文件上传）、
+ * UploadByBigFileForPart.esm.mts（单个大文件的分块上传）、
+ * UploadByBinary.esm.mts（单个二进制文件流上传）、
+ * UploadByMultiple.esm.mts（多文件批量上传）、
+ * UploadBySingle.esm.mts（单文件上传）
  */
 
 'use strict';

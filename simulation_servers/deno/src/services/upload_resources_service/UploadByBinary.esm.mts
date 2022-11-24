@@ -8,7 +8,17 @@
  */
 
 /**
- * 单文件上传（客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型）。
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
+/**
+ * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
+ *
+ * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
@@ -40,6 +50,22 @@ import {
 // @ts-ignore
 import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
+/**
+ * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false<br />
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。<br />
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true<br />
+ *
+ * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ *
+ * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。<br />
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {Promise<Response>} 返回值类型为Promise<Response>。
+ */
 async function UploadByBinary( request: Request ): Promise<Response>{
   const _request: Request = request.clone();
 
@@ -85,9 +111,11 @@ async function UploadByBinary( request: Request ): Promise<Response>{
       if( !isWriteFile ){
         result001 = JSON.stringify( {
           data: {
+            // true表示上传成功，反之，表示失败。
             success: true,
-            // @ts-ignore
+            // 描述性说明。
             message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+            // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
             filePath: `${ filePath }`,
           },
           messageStatus: resMessageStatus[ 200 ],
@@ -105,9 +133,11 @@ async function UploadByBinary( request: Request ): Promise<Response>{
 
           result001 = JSON.stringify( {
             data: {
+              // true表示上传成功，反之，表示失败。
               success: true,
-              // @ts-ignore
+              // 描述性说明。
               message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
+              // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
             },
             messageStatus: resMessageStatus[ 200 ],
@@ -162,4 +192,5 @@ async function UploadByBinary( request: Request ): Promise<Response>{
   } );
 }
 
+// 必须部署这个默认的导出值。
 export default UploadByBinary;
