@@ -28,6 +28,7 @@ import {
 
   // uploadDir,
 
+  httpHeaders,
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -35,9 +36,6 @@ import {
   MyConsole,
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
-
-// @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
@@ -119,10 +117,12 @@ WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
     result = response;
   }
   catch( error: unknown ){
-    result = InterceptorError.ResError( {
-      title: `WebSocket服务器内部出现错误`,
-      message: `WebSocket错误信息：
-${ ( error as Error ).message }`,
+    result = new Response( null, {
+      status: 500,
+      statusText: `${ ( error as Error ).message }`,
+      headers: {
+        ...httpHeaders,
+      },
     } );
   }
 

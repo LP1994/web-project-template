@@ -22,6 +22,7 @@
 import {
   type TypeResponse001,
 
+  httpHeaders,
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -29,9 +30,6 @@ import {
   MyConsole,
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
-
-// @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
 
 /**
  * 响应请求的处理函数。
@@ -113,10 +111,12 @@ WebSocket收到了来自客户端（${ pathName }）的消息。End
     result = response;
   }
   catch( error: unknown ){
-    result = InterceptorError.ResError( {
-      title: `WebSocket服务器内部出现错误`,
-      message: `WebSocket错误信息：
-${ ( error as Error ).message }`,
+    result = new Response( null, {
+      status: 500,
+      statusText: `${ ( error as Error ).message }`,
+      headers: {
+        ...httpHeaders,
+      },
     } );
   }
 
