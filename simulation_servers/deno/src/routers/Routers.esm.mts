@@ -7,6 +7,20 @@
  * CreateDate: 2022-11-01 01:11:36 星期二
  */
 
+/**
+ * 集中处理客户端发起的请求，根据不同的请求方式分流到对应的请求方式的处理。
+ * 目前有9种请求方式：
+ * GET
+ * HEAD
+ * POST
+ * PUT
+ * DELETE
+ * CONNECT
+ * OPTIONS
+ * TRACE
+ * PATCH
+ */
+
 'use strict';
 
 import {
@@ -93,8 +107,8 @@ async function Routers( request: Request ): Promise<Response>{
       } );
 
     result = new Response( html, {
-      status: 200,
-      statusText: 'OK',
+      status: 404,
+      statusText: 'Not Found',
       headers: {
         ...httpHeaders,
         'content-type': mime.getType( filePath.href ),

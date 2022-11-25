@@ -7,6 +7,10 @@
  * CreateDate: 2022-11-01 01:16:01 星期二
  */
 
+/**
+ * 处理options请求。
+ */
+
 'use strict';
 
 import {
@@ -30,11 +34,11 @@ import {
 import InterceptorError from 'public/InterceptorError.esm.mts';
 
 /**
- * 一定得保证该函数返回的值类型只能是：Promise<Response>。<br />
+ * 处理options请求。
  *
- * @param {Request} request
+ * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<Response>}
+ * @returns {Promise<Response>} 返回Promise<Response>，注意最好别出现返回多层嵌套的Promise<Response>，也就是Promise<Promise<Promise<Response>>>等等。
  */
 async function Options( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
@@ -50,6 +54,7 @@ async function Options( request: Request ): Promise<Response>{
   else if( routeHandle = await methodByOptionsForRouteHandle( request ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
   }
+  // 默认允许所有的options请求通过，因为目前没设置其他处理，后面可以根据需要编写对应响应不成功的逻辑。
   else{
     result = new Response( null, {
       status: 200,

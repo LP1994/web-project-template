@@ -54,8 +54,8 @@ class InterceptorError {
       } );
 
     return new Response( html, {
-      status: 200,
-      statusText: 'OK',
+      status: 404,
+      statusText: 'Not Found',
       headers: {
         ...httpHeaders,
         'content-type': mime.getType( filePath.href ),

@@ -114,6 +114,7 @@ WebSocket收到了来自客户端（${ pathName }）的消息。End
     result = new Response( null, {
       status: 500,
       statusText: `${ ( error as Error ).message }`,
+      // @ts-ignore
       headers: {
         ...httpHeaders,
       },

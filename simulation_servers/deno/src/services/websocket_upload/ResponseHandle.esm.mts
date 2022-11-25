@@ -120,6 +120,7 @@ WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
     result = new Response( null, {
       status: 500,
       statusText: `${ ( error as Error ).message }`,
+      // @ts-ignore
       headers: {
         ...httpHeaders,
       },

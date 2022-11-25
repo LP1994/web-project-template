@@ -9,6 +9,7 @@
 
 /**
  * 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2，Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
+ * https://127.0.0.1:9200、wss://127.0.0.1:9200
  */
 
 /**
@@ -67,6 +68,7 @@ HTTP/2 服务，connInfo--->End
         console.dir( request );
         MyConsole.Cyan( `HTTP/2 服务，request--->End\n` );
 
+        // 不要await，会导致阻塞。
         requestEvent.respondWith( Routers( request ) );
       }
     }
@@ -133,6 +135,7 @@ HTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ a
   try{
     for await ( const conn of
       server ){
+      // 不要await，会导致阻塞。
       HandleConn( conn );
     }
   }

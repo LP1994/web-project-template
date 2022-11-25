@@ -3,7 +3,13 @@ PS:
 1、function createWatchFactory
 writeLog = function(){};
 
+
+
 一、枚举
+TypeScript支持数字的和基于字符串的枚举。
+反向映射（value -> name）、正向映射（name -> value）：
+只有“数字枚举成员”才有生成“反向映射”（value -> name），“字符串枚举成员”不生成“反向映射”（value -> name）。
+
 知道某个枚举的具体成员数值，但是不确定它映射到枚举里的哪个名字，要想知道这个名字，可以这么做：
 PS：
 1、这种只能用于数字值的枚举。
@@ -13,10 +19,110 @@ let colorName: string = Color[ 2 ];
 // 显示'Green'因为上面代码里它的值是2
 console.log( colorName );
 
+数字枚举：
+enum Direction {
+    Up = 1,
+    Down,
+    Left,
+    Right
+}
+Up使用初始化为1。 其余的成员会从1开始自动增长。 换句话说，Direction.Up的值为1，Down为2，Left为3，Right为4。
+
+没有初始化器的成员要么在首位，要么必须在用数值常量或其他常量枚举成员初始化的数值枚举之后。 换句话说，下面的情况是不被允许的：
+enum E {
+    A = getSomeValue(),
+    B, // 错误！枚举成员必须有初始值设定项。
+}
+
+字符串枚举：
+在一个字符串枚举里，每个成员都必须用字符串字面量，或另外一个字符串枚举成员进行初始化。
+enum Direction {
+    Up = "UP",
+    Down = "DOWN",
+    Left = "LEFT",
+    Right = "RIGHT",
+}
+
+异构枚举：
+从技术的角度来说，枚举可以混合字符串和数字成员。
+enum BooleanLikeHeterogeneousEnum {
+    No = 0,
+    Yes = "YES",
+}
+
+计算的和常量成员：
+它是枚举的第一个成员且没有初始化器，这种情况下它被赋予值0：
+// E.X is constant:
+enum E { X }
+它不带有初始化器且它之前的枚举成员是一个_数字_常量。 这种情况下，当前枚举成员的值为它上一个枚举成员的值加1。
+// All enum members in 'E1' and 'E2' are constant.
+
+enum E1 { X, Y, Z }
+
+enum E2 {
+    A = 1, B, C
+}
+
+关于keyof在枚举上的使用：
+尽管一个枚举是在运行时真正存在的对象，但keyof关键字的行为与其作用在对象上时有所不同。应该使用keyof typeof来获取一个表示枚举里所有字符串key的类型。
+enum LogLevel {
+    ERROR, WARN, INFO, DEBUG
+}
+
+/**
+ * 等同于：
+ * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type LogLevelStrings = keyof typeof LogLevel;
+
+function printImportant(key: LogLevelStrings, message: string) {
+    const num = LogLevel[key];
+    if (num <= LogLevel.WARN) {
+       console.log('Log level key is: ', key);
+       console.log('Log level value is: ', num);
+       console.log('Log level message is: ', message);
+    }
+}
+printImportant('ERROR', 'This is a message');
+
+反向映射（value -> name）、正向映射（name -> value）：
+只有“数字枚举成员”才有生成“反向映射”（value -> name），“字符串枚举成员”不生成“反向映射”（value -> name）。
+
+const枚举：
+为了避免在额外生成的代码上的开销和额外的非直接的对枚举成员的访问，我们可以使用const枚举。 常量枚举通过在枚举上使用const修饰符来定义。
+const enum Enum {
+    A = 1,
+    B = A * 2
+}
+常量枚举只能使用常量枚举表达式，并且不同于常规的枚举，它们在编译阶段会被删除。 常量枚举成员在使用的地方会被内联进来。 之所以可以这么做是因为，常量枚举不允许包含计算成员。
+const enum Directions {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right]
+生成后的代码为：
+var directions = [0 /* Up */, 1 /* Down */, 2 /* Left */, 3 /* Right */];
+
+外部枚举：
+外部枚举用来描述已经存在的枚举类型的形状。
+declare enum Enum {
+    A = 1,
+    B,
+    C = 2
+}
+外部枚举和非外部枚举之间有一个重要的区别，在正常的枚举里，没有初始化方法的成员被当成常量成员。 对于非常量的外部枚举而言，没有初始化方法时被当做需要经过计算的。
+
+
+
 二、元组
 解构元组，元组可以像数组一样解构；解构后的变量获得对应元组“元素的值”。
 PS：
 虽然文档说是"元素的类型"，但是实际输出的却是"元素的值"。
+
+
 
 三、函数参数的解构的默认值
 PS：
@@ -32,6 +138,627 @@ function Fun1( { a: a1 = 0, b: b1 = 1, }: { a: number, b?: number, } = {
             };
         }
 
+
+
 四、不能给类的构造函数的返回值设置数据类型！
 
-五、
+
+
+五、用type来声明一个自定义类型时，也可以像interface那样在声明体内使用readonly来描述一个属性是只读的，也就是在初始化赋值后，不能再修改了。
+interface Point {
+  readonly x: number;
+  readonly y: number;
+}
+如同：
+type Point = {
+  readonly x: number;
+  readonly y: number;
+};
+
+
+
+六、Array<T>类型的值可以直接赋值给ReadonlyArray<T>类型的值，反之，不行，得用“as”来进行类型断言才可以：Array<T> = ReadonlyArray<T> as Array<T>。
+
+
+
+七、可索引的类型
+interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
+
+PS：
+Typescript 支持两种索引签名：字符串和数字。 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。
+这是因为当使用number来索引时，JavaScript 会将它转换成string然后再去索引对象。 也就是说用100（一个number）去索引等同于使用"100"（一个string）去索引，因此两者需要保持一致。
+class Animal {
+  name: string;
+}
+class Dog extends Animal {
+  breed: string;
+}
+
+// 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
+interface NotOkay {
+  [x: number]: Animal;
+  [x: string]: Dog;
+}
+
+字符串索引签名能够很好的描述“字典”模式，并且它们也会确保所有属性与其返回值类型相匹配。
+因为字符串索引声明了obj.property和obj["property"]两种形式都可以。
+下面的例子里，name的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
+interface NumberDictionary {
+  [index: string]: number;
+  length: number; // 可以，length是number类型
+  name: string; // 错误，`name`的类型与索引类型返回值的类型不匹配
+}
+
+但如果索引签名是包含属性类型的联合类型，那么使用不同类型的属性就是允许的。
+interface NumberOrStringDictionary {
+   [index: string]: number | string;
+   length: number;    // ok, length is a number
+   name: string;      // ok, name is a string
+}
+
+最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：
+interface ReadonlyStringArray {
+  readonly [index: number]: string;
+}
+let myArray: ReadonlyStringArray = ["Alice", "Bob"];
+myArray[2] = "Mallory"; // error!
+你不能设置myArray[2]，因为索引签名是只读的。
+
+
+
+八、interface在类中使用时的描述
+与 C# 或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的强制一个类去符合某种契约。
+interface ClockInterface {
+  currentTime: Date;
+  setTime(d: Date): void;
+}
+
+class Clock implements ClockInterface {
+  currentTime: Date = new Date();
+  setTime(d: Date) {
+    this.currentTime = d;
+  }
+  constructor(h: number, m: number) {}
+}
+PS：
+“接口”描述了“类的公共部分”，而不是“公共”和“私有”两部分。它不会帮你检查“类”是否具有“某些私有成员”，只对“类”的“公共部分”进行类型检查。
+“接口”描述了“类的实例部分”，而不是“实例”和“静态”两部分。它不会帮你检查“类”是否具有“某些静态成员”，只对“类”的“实例部分”进行类型检查。
+注意：
+类的“constructor构造函数”其实也是“类的静态函数”，用不用“static”关键字描述它都系一样的。
+
+
+
+九、类静态部分与实例部分的区别
+当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
+interface ClockConstructor {
+  new (hour: number, minute: number);
+}
+
+class Clock implements ClockConstructor {
+  currentTime: Date;
+  constructor(h: number, m: number) {}
+}
+因为当一个“类”实现了一个“接口”时，“接口”只对“类的实例”部分进行“类型检查”。“constructor构造函数”存在于“类的静态部分”，所以不在“接口”的检查范围内。
+“接口”描述了“类的公共部分”，而不是“公共”和“私有”两部分。它不会帮你检查“类”是否具有“某些私有成员”，只对“类”的“公共部分”进行类型检查。
+“接口”描述了“类的实例部分”，而不是“实例”和“静态”两部分。它不会帮你检查“类”是否具有“某些静态成员”，只对“类”的“实例部分”进行类型检查。
+注意：
+类的“constructor构造函数”其实也是“类的静态函数”，用不用“static”关键字描述它都系一样的。
+
+
+
+十、使用interface检查“类的构造函数”定义是否满足interface定义的类型
+推荐使用“类表达式”来声明类：
+interface ClockConstructor {
+  new (hour: number, minute: number);
+}
+
+interface ClockInterface {
+  tick();
+}
+
+const Clock: ClockConstructor = class Clock implements ClockInterface {
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log("beep beep");
+  }
+};
+
+
+
+十一、和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
+interface Shape {
+  color: string;
+}
+
+interface Square extends Shape {
+  sideLength: number;
+}
+
+let square = {} as Square;
+square.color = "blue";
+square.sideLength = 10;
+
+
+
+十二、一个接口可以继承多个接口，创建出多个接口的合成接口。
+interface Shape {
+  color: string;
+}
+
+interface PenStroke {
+  penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+  sideLength: number;
+}
+
+let square = {} as Square;
+square.color = "blue";
+square.sideLength = 10;
+square.penWidth = 5.0;
+
+
+
+十三、用interface定义一个类的构造函数的描述、用interface定义一个函数的描述
+类的构造函数的描述：
+interface ClockConstructor {
+  new (hour: number, minute: number);
+}
+函数的描述：
+interface Counter {
+  (start: number): string;
+}
+
+
+
+十四、interface接口继承类
+当“接口”继承了一个“类”类型时，它会继承“类的成员”但不包括其实现。 
+接口同样会继承到类的 private 和 protected 成员。
+这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
+
+
+
+十五、函数的可选参数和默认参数
+函数的可选参数必须在那些必须参数之后，默认参数则没有这个限制。
+
+
+
+十六、函数的可选参数与函数的末尾默认参数共享函数类型中的参数类型描述。
+
+
+
+十七、在函数中使用“arguments”来获取调用函数时传入的参数个数、具体值时，“arguments”完全取决于在函数调用时传入的参数个数、值，
+而不会因为函数声明时在参数列表中设置了某些参数的默认值而包含这些参数。
+
+
+
+十八、函数类型声明中也可以使用“剩余参数”描述函数参数的
+function buildName(firstName: string, ...restOfName: string[]) {
+  return firstName + " " + restOfName.join(" ");
+}
+
+let buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
+
+
+
+十九、在函数的参数列表中定义“this参数”可以保证在函数里正常、正确的使用“this”，这样TypeScript编译器能正常理解该函数中this的使用。
+
+
+
+二十、函数重载的声明写法
+function Fun001( arg: number ): number;
+function Fun001( arg: string ): string;
+function Fun001( arg: unknown ): number | string{
+  if( typeof arg === 'number' ){
+    return arg * 10;
+  }
+  else if( typeof arg === 'string' ){
+    return `${ arg }__`;
+  }
+  else{
+    return 'Error';
+  }
+}
+
+console.log( Fun001( '111' ) );
+console.log( Fun001( 111 ) );
+
+
+
+二十一、字面量类型
+目前 TypeScript 中有3种可用的字面量类型集合，分别是：字符串、数字和布尔值。通过使用字面量类型，你可以规定一个字符串、数字或布尔值必须含有的确定值。
+用明确的字面量值作为类型，可以明确限定变量的值只能满足提供的字面量类型才能通过。
+type Easing = "ease-in" | "ease-out" | "ease-in-out";
+
+function Fun001( easing: Easing ){}
+
+
+
+二十二、字符串字面可以通过相同的方式用来分别重载
+function createElement(tagName: "img"): HTMLImageElement;
+function createElement(tagName: "input"): HTMLInputElement;
+// ... more overloads ...
+function createElement(tagName: string): Element {
+  // ... code goes here ...
+}
+
+
+
+二十三、联合类型（|）
+一个联合类型表示一个值的类型可以是几个类型中的一个。 我们用竖线（|）来分隔不同类型，所以number | string | boolean是一个可以是number、string或boolean的值的类型。
+
+
+
+二十四、具有公共字段的联合
+如果我们有一个联合类型的值，则只能访问联合中所有类型共有的成员。
+
+
+
+二十五、交叉类型（&）
+交叉类型将多个类型合并为一个。 这允许你把现有的类型加在一起，得到一个具有你需要的所有功能的单个类型。 
+这意味着这种类型的对象将拥有这三种类型的所有成员。
+
+
+
+二十六、默认为public
+如果没明确的声明成员的修饰符，在TypeScript里，成员都默认为public。
+
+
+
+二十七、理解private
+当成员被标记成private时，它就不能在声明它的类的外部访问。
+当我们比较带有private或protected成员的类型的时候，情况就不同了。 
+如果其中一个类型里包含一个private成员，那么只有当另外一个类型中也存在这样一个private成员， 并且它们都是来自同一处声明时，我们才认为这两个类型是兼容的。
+对于protected成员也使用这个规则。
+被private修饰的类成员只能在本类的内部中调用，其他（包括本类的实例）都不行。
+
+
+
+二十八、理解protected
+protected修饰符与private修饰符的行为很相似，但有一点不同，protected成员在派生类中仍然可以访问。
+被protected修饰的类成员只能在本类、子类的内部中调用，其他（包括本类的实例、子类的实例）都不行。
+
+
+
+二十九、“构造函数”也可以被标记成“protected”。这意味着这个类不能在包含它的类外被实例化，但是能被继承。
+
+
+
+三十、readonly修饰符
+只读属性必须在声明时或构造函数里被初始化。
+
+
+
+三十一、参数属性
+参数属性通过给构造函数参数添加一个访问限定符来声明。 使用private限定一个参数属性会声明并初始化一个私有成员；对于public和protected来说也是一样。
+class Animal {
+    constructor(private name: string) { }
+    move(distanceInMeters: number) {
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
+    }
+}
+
+
+
+三十二、存取器
+TypeScript支持通过getters/setters来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。
+存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。 
+其次，只带有get不带有set的存取器自动被推断为readonly。 
+这在从代码生成.d.ts文件时是有帮助的，因为利用这个属性的用户会看到不允许够改变它的值。
+
+
+
+三十三、类的实例成员
+类的实例成员，仅当类被实例化的时候才会被初始化的属性。
+
+
+
+三十四、类的静态属性
+类的静态成员，这些属性存在于类本身上面而不是类的实例上。
+
+
+
+三十五、抽象类
+抽象类做为其它派生类的基类使用。
+它们一般不会直接被实例化。
+不同于接口，抽象类可以包含成员的实现细节（抽象类中除抽象函数之外，其他函数可以包含具体实现）。
+abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+abstract class Animal {
+    abstract makeSound(): void;
+    move(): void {
+        console.log("roaming the earth...");
+    }
+}
+
+抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。
+抽象方法的语法与接口方法相似。
+两者都是定义方法签名但不包含方法体。
+然而，抽象方法必须包含abstract关键字并且可以包含“访问修饰符”。
+
+
+
+三十六、泛型
+不仅要创建一致的定义良好的API，同时也要考虑可重用性。 
+组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型。 
+使用泛型来创建可重用的组件，一个组件可以支持多种类型的数据。 这样用户就可以以自己的数据类型来使用组件。
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+T帮助我们捕获用户传入的类型（比如：number），之后我们就可以使用这个类型。
+之后我们再次使用了T当做返回值类型。现在我们可以知道参数类型与返回值类型是相同的了。 这允许我们跟踪函数里使用的类型的信息。
+我们把这个版本的identity函数叫做泛型，因为它可以适用于多个类型。 不同于使用any，它不会丢失类型信息。
+
+定义了泛型函数后，可以用两种方法使用。 第一种是，传入所有的参数，包含类型参数：
+let output = identity<string>("myString");  // 输出类型将为“字符串”。
+
+第二种方法更普遍。利用了“类型推论”，即编译器会根据传入的参数自动地帮助我们确定T的类型：
+let output = identity("myString");  // 输出类型将为“字符串”。
+
+注意我们没必要使用尖括号（<>）来明确地传入类型；编译器可以查看myString的值，然后把T设置为它的类型。 
+类型推论帮助我们保持代码精简和高可读性。
+如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
+
+可以使用“带有调用签名的对象字面量”来定义泛型函数：
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let myIdentity: {<T>(arg: T): T} = identity;
+这引导我们去写第一个泛型接口了。 我们把上面例子里的对象字面量拿出来做为一个接口：
+interface GenericIdentityFn {
+    <T>(arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let myIdentity: GenericIdentityFn = identity;
+
+一个相似的例子，我们可能想把泛型参数当作整个接口的一个参数。 
+这样我们就能清楚的知道使用的具体是哪个泛型类型（比如：Dictionary<string>而不只是Dictionary）。 
+这样接口里的其它成员也能知道这个参数的类型了。
+interface GenericIdentityFn<T> {
+    (arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let myIdentity: GenericIdentityFn<number> = identity;
+当我们使用GenericIdentityFn的时候，还得传入一个类型参数来指定泛型类型（这里是：number），锁定了之后代码里使用的类型。 
+也就是说以后使用“myIdentity”时，只能使用“number”类型了。
+
+除了泛型接口，我们还可以创建泛型类。 注意，无法创建泛型枚举和泛型命名空间。
+
+
+
+三十七、泛型接口的定义
+推荐使用这种方式来创建泛型接口：
+interface GenericIdentityFn<T> {
+    (arg: T): T;
+}
+这样在使用这个泛型接口时，就必须指定明确的泛型参数，这里就是指“number”了：
+let myIdentity: GenericIdentityFn<number> = identity;
+
+
+
+三十八、泛型类
+泛型类使用（<>）括起泛型类型，跟在类名后面。
+class GenericNumber<T> {
+    zeroValue: T;
+    add: (x: T, y: T) => T;
+}
+
+let myGenericNumber = new GenericNumber<number>();
+myGenericNumber.zeroValue = 0;
+myGenericNumber.add = function(x, y) { return x + y; };
+
+泛型类指的是实例部分的类型，所以类的静态属性不能使用这个泛型类型。
+
+
+
+三十九、泛型约束
+定义一个接口来描述约束条件。 创建一个包含.length属性的接口，使用这个接口和extends关键字来实现约束：
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length);  // 现在我们知道它有一个 .length 属性，所以不再有错误
+    return arg;
+}
+
+我们需要传入符合约束类型的值，必须包含必须的属性：
+loggingIdentity({length: 10, value: 3});
+
+现在这个泛型函数被定义了约束，因此它不再是适用于任意类型：
+loggingIdentity(3);  // Error, number doesn't have a .length property
+
+
+
+四十、在泛型约束中使用类型参数
+你可以声明一个类型参数，且它被另一个类型参数所约束。 
+比如，现在我们想要用属性名从对象里获取这个属性。 并且我们想要确保这个属性存在于对象obj上，因此我们需要在这两个类型之间使用约束。
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
+}
+
+let x = { a: 1, b: 2, c: 3, d: 4 };
+
+getProperty(x, "a"); // okay
+getProperty(x, "m"); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
+
+
+
+四十一、在泛型里使用类类型
+使用原型属性推断并约束构造函数与类实例的关系。
+class BeeKeeper {
+    hasMask: boolean;
+}
+
+class ZooKeeper {
+    nametag: string;
+}
+
+class Animal {
+    numLegs: number;
+}
+
+class Bee extends Animal {
+    keeper: BeeKeeper;
+}
+
+class Lion extends Animal {
+    keeper: ZooKeeper;
+}
+
+function createInstance<A extends Animal>(c: new () => A): A {
+    return new c();
+}
+
+createInstance(Lion).keeper.nametag;  // typechecks!
+createInstance(Bee).keeper.hasMask;   // typechecks!
+
+
+
+四十二、用户自定义的类型守卫
+使用类型判定：pet is Fish
+要定义一个类型守卫，我们只要简单地定义一个函数，它的返回值是一个_类型谓词_：pet is Fish
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (pet as Fish).swim !== undefined;
+}
+谓词为parameterName is Type这种形式，parameterName必须是来自于当前函数签名里的一个参数名。
+
+使用in操作符：
+function move(pet: Fish | Bird) {
+    if ("swim" in pet) {
+        return pet.swim();
+    }
+    return pet.fly();
+}
+
+typeof类型守卫：
+这些_typeof类型守卫_只有两种形式能被识别：typeof v === "typename"和typeof v !== "typename"，
+"typename"必须是"number"，"string"，"boolean"或"symbol"。 
+但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型守卫。
+function padLeft(value: string, padding: string | number) {
+    if (typeof padding === "number") {
+        return Array(padding + 1).join(" ") + value;
+    }
+    if (typeof padding === "string") {
+        return padding + value;
+    }
+    throw new Error(`Expected string or number, got '${padding}'.`);
+}
+
+instanceof类型守卫：
+instanceof的右侧要求是一个构造函数，TypeScript将细化为：
+1、此构造函数的prototype属性的类型，如果它的类型不为any的话
+2、构造签名所返回的类型的联合
+interface Padder {
+    getPaddingString(): string
+}
+
+class SpaceRepeatingPadder implements Padder {
+    constructor(private numSpaces: number) { }
+    getPaddingString() {
+        return Array(this.numSpaces + 1).join(" ");
+    }
+}
+
+class StringPadder implements Padder {
+    constructor(private value: string) { }
+    getPaddingString() {
+        return this.value;
+    }
+}
+
+function getRandomPadder() {
+    return Math.random() < 0.5 ?
+        new SpaceRepeatingPadder(4) :
+        new StringPadder("  ");
+}
+
+// 类型为SpaceRepeatingPadder | StringPadder
+let padder: Padder = getRandomPadder();
+
+if (padder instanceof SpaceRepeatingPadder) {
+    padder; // 类型细化为'SpaceRepeatingPadder'
+}
+if (padder instanceof StringPadder) {
+    padder; // 类型细化为'StringPadder'
+}
+
+如果编译器不能够去除null或undefined，你可以使用类型断言手动去除。 语法是添加“!”后缀：identifier!从identifier的类型里去除了null和undefined：
+function broken(name: string | null): string {
+  function postfix(epithet: string) {
+    return name.charAt(0) + '.  the ' + epithet; // error, 'name' is possibly null
+  }
+  name = name || "Bob";
+  return postfix("great");
+}
+
+function fixed(name: string | null): string {
+  function postfix(epithet: string) {
+    return name!.charAt(0) + '.  the ' + epithet; // ok
+  }
+  name = name || "Bob";
+  return postfix("great");
+}
+
+
+
+四十三、类型别名（type）
+类型别名会给一个类型起个新名字。 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
+起别名不会新建一个类型 - 它创建了一个新_名字_来引用那个类型。 给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。
+
+同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：
+type Container<T> = { value: T };
+
+我们也可以使用类型别名来在属性里引用自己：
+type Tree<T> = {
+    value: T;
+    left: Tree<T>;
+    right: Tree<T>;
+}
+
+与交叉类型一起使用，我们可以创建出一些十分稀奇古怪的类型：
+type LinkedList<T> = T & { next: LinkedList<T> };
+
+interface Person {
+    name: string;
+}
+
+var people: LinkedList<Person>;
+var s = people.name;
+var s = people.next.name;
+var s = people.next.next.name;
+var s = people.next.next.next.name;
+
+然而，类型别名不能出现在声明右侧的任何地方，“泛型”除外，就如上面的例子：
+type Yikes = Array<Yikes>; // error
+
+
+
+
+
+
+
+
+
+
+
+
+
+
