@@ -918,7 +918,7 @@
     "svg-url-loader": "^8.0.0",
     "svgo": "^3.0.2",
     "swiper": "^8.4.5",
-    "terser": "^5.15.1",
+    "terser": "^5.16.0",
     "terser-webpack-plugin": "^5.3.6",
     "thread-loader": "^3.0.4",
     "three": "^0.146.0",

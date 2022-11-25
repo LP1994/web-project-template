@@ -16,6 +16,7 @@
     "ejs/": "./src/template/ejs/",
     "tools/": "./src/tools/",
     "static/": "./static/",
+    "test/": "./test/",
     "upload/": "./upload/",
     "web/": "./web/"
   }

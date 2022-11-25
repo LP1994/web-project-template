@@ -214,7 +214,9 @@ myArray[2] = "Mallory"; // error!
 
 
 八、interface在类中使用时的描述
-与 C# 或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的强制一个类去符合某种契约。
+与 C# 或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的“强制”一个类去符合某种契约。
+也就是说当一个“类”实现（implements）了“某个接口”时，该类必须部署实现的接口里所有的成员。
+接口的声明中不能使用“访问修饰符”、“static”关键字、“abstract”关键字、“override”关键字。
 interface ClockInterface {
   currentTime: Date;
   setTime(d: Date): void;
@@ -467,6 +469,7 @@ TypeScript支持通过getters/setters来截取对对象成员的访问。 它能
 
 
 三十五、抽象类
+“static”、“private”不能跟“abstract”关键字一起使用，“访问修饰符”一定得在“abstract”关键字之前，“访问修饰符”一定得在“static”，“访问修饰符”一定得在“override”关键字之前。
 抽象类做为其它派生类的基类使用。
 它们一般不会直接被实例化。
 不同于接口，抽象类可以包含成员的实现细节（抽象类中除抽象函数之外，其他函数可以包含具体实现）。
