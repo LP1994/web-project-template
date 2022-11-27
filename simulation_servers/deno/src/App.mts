@@ -71,6 +71,8 @@ Promise.allSettled( [
   // import( 'servers/WebSocketSServerForPort9300.mts' ),
 
   // 这两类服务不可同时启用，启用其中之一即可。End
+
+  import('test/Test001.mts'),
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {

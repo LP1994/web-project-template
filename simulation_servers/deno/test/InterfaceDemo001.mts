@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/test/InterfaceDemo001.esm.mts
+ * FileDirPath: simulation_servers/deno/test/InterfaceDemo001.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm

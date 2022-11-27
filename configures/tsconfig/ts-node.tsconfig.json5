@@ -11,17 +11,14 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "display": "node for ts-node",
   "_version": "1.0.0",
   "_ts-node_version": "10.9.1",
-  "_typescript_version": "4.8.4",
+  "_typescript_version": "4.9.3",
   "_description": "这是给基于ts-node运行TypeScript的Node一类的项目使用的基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
+  "_ts-node_schema": "https://unpkg.com/ts-node/tsconfig.schema.json",
+  "_ts-node_docs": "https://typestrong.org/ts-node/docs",
   "_tsc_cli": "tsc -p ./configures/tsconfig/ts-node.tsconfig.json5 --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   "extends": "./bases.tsconfig.json5",
-  /*
-  大多数ts-node选项可以在此处使用它们的编程名称指定。
-  1、https://unpkg.com/ts-node@10.8.1/tsconfig.schema.json
-  2、https://typestrong.org/ts-node/docs/configuration#via-tsconfigjson-recommended
-  */
   "ts-node": {
     /*
     指定自定义的TypeScript编译器。
@@ -42,7 +39,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     有两个有效值：explicit、node。
     */
     "experimentalSpecifierResolution": "node",
-    "files": true,
+    "experimentalTsImportSpecifiers": true,
+    "files": false,
     /*
     不应编译的路径。
     */

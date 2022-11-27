@@ -216,7 +216,7 @@ myArray[2] = "Mallory"; // error!
 八、interface在类中使用时的描述
 与 C# 或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的“强制”一个类去符合某种契约。
 也就是说当一个“类”实现（implements）了“某个接口”时，该类必须部署实现的接口里所有的成员。
-接口的声明中不能使用“访问修饰符”、“static”关键字、“abstract”关键字、“override”关键字。
+接口的声明中不能使用“访问修饰符”、“static”关键字、“abstract”关键字、“override”关键字，但是“readonly”关键字可以用于修饰接口里的各个成员。
 interface ClockInterface {
   currentTime: Date;
   setTime(d: Date): void;
@@ -636,7 +636,7 @@ createInstance(Bee).keeper.hasMask;   // typechecks!
 
 
 四十二、用户自定义的类型守卫
-使用类型判定：pet is Fish
+使用类型判定（pet is Fish）：
 要定义一个类型守卫，我们只要简单地定义一个函数，它的返回值是一个_类型谓词_：pet is Fish
 function isFish(pet: Fish | Bird): pet is Fish {
     return (pet as Fish).swim !== undefined;
@@ -703,6 +703,7 @@ if (padder instanceof StringPadder) {
     padder; // 类型细化为'StringPadder'
 }
 
+关于用于过滤掉“null和undefined”的“identifier!”的使用：
 如果编译器不能够去除null或undefined，你可以使用类型断言手动去除。 语法是添加“!”后缀：identifier!从identifier的类型里去除了null和undefined：
 function broken(name: string | null): string {
   function postfix(epithet: string) {
@@ -720,6 +721,35 @@ function fixed(name: string | null): string {
   return postfix("great");
 }
 
+例子001：
+function Fun001( name: string | null | undefined ): string | null | undefined{
+  return name!.toUpperCase();
+}
+
+// 输出：QWE
+console.log( Fun001( 'qwe' ) );
+//  不会有任何输出。
+console.log( Fun001( null ) );
+//  不会有任何输出。
+console.log( Fun001( undefined ) );
+
+例子002：
+function Fun001( name: string | null | undefined ): string | null | undefined{
+  if( name! ){
+    return name!.toUpperCase();
+  }
+  else{
+    return name;
+  }
+}
+
+// 输出：QWE
+console.log( Fun001( 'qwe' ) );
+// 输出：null
+console.log( Fun001( null ) );
+// 输出：undefined
+console.log( Fun001( undefined ) );
+
 
 
 四十三、类型别名（type）
@@ -735,6 +765,7 @@ type Tree<T> = {
     left: Tree<T>;
     right: Tree<T>;
 }
+// 这个例子只是用来说明“类型别名的泛型定义”可以自己使用自己，但是显然上面的类型在具体使用中会出现死循环。
 
 与交叉类型一起使用，我们可以创建出一些十分稀奇古怪的类型：
 type LinkedList<T> = T & { next: LinkedList<T> };
@@ -749,8 +780,284 @@ var s = people.next.name;
 var s = people.next.next.name;
 var s = people.next.next.next.name;
 
-然而，类型别名不能出现在声明右侧的任何地方，“泛型”除外，就如上面的例子：
+然而，类型别名不能出现在声明右侧的任何地方，“类型别名的泛型”除外，就如上面的例子：
 type Yikes = Array<Yikes>; // error
+实际写了也运行了一下，没报错。
+
+
+
+四十四、接口 vs. 类型别名
+其一，接口创建了一个新的名字，可以在其它任何地方使用。 类型别名并不创建新名字—比如，错误信息就不会使用别名。
+在旧版本的TypeScript里，“类型别名”不能被继承和实现（它们也不能继承和实现其它类型）。
+从TypeScript 2.7开始，“类型别名”可以被继承并生成新的交叉类型。例如：type Cat = Animal & { purrs: true }。
+另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。
+因为软件中的对象应该对于扩展是开放的，但是对于修改是封闭的，你应该尽量去使用接口代替类型别名。
+个人见解：当用“函数式编程范式”配合TypeScript编写时，“类型别名”的使用应优先于“接口”，毕竟，“接口”在“范式”上更符合“面向对象编程范式”，
+而在“函数式编程范式”中，更多的是用类型来校验、限制数据类型，这种情况下“类型别名”更合适。
+但如果是“面向对象编程范式”配合TypeScript编写时，“接口”的使用应优先于“类型别名”，
+因为在“面向对象编程范式”中，“接口”不只是用于类型检验、数据限制，还有属于“面向对象编程范式”的继承、实现等特点。
+
+
+
+四十五、索引类型（Index types）
+function pluck<T, K extends keyof T>(o: T, propertyNames: K[]): T[K][] {
+  return propertyNames.map(n => o[n]);
+}
+
+interface Car {
+    manufacturer: string;
+    model: string;
+    year: number;
+}
+let taxi: Car = {
+    manufacturer: 'Toyota',
+    model: 'Camry',
+    year: 2014
+};
+
+// Manufacturer and model are both of type string,
+// so we can pluck them both into a typed string array
+let makeAndModel: string[] = pluck(taxi, ['manufacturer', 'model']);
+
+// If we try to pluck model and year, we get an
+// array of a union type: (string | number)[]
+let modelYear = pluck(taxi, ['model', 'year'])
+
+对于任何类型T，keyof T的结果为T上已知的公共属性名的联合。 
+let carProps: keyof Car; // the union of ('manufacturer' | 'model' | 'year')
+keyof Car是完全可以与'manufacturer' | 'model' | 'year'互相替换的。
+
+第一个操作符是keyof T，索引类型查询操作符。
+第二个操作符是T[K]，索引访问操作符。
+function getProperty<T, K extends keyof T>(o: T, propertyName: K): T[K] {
+    return o[propertyName]; // o[propertyName] is of type T[K]
+}
+
+
+
+四十六、索引类型和字符串索引签名
+索引签名的参数类型必须为number或string。 
+如果你有一个带有字符串索引签名的类型，那么keyof T会是string | number。 
+并非只有string，因为在JavaScript里，你可以使用字符串object['42'或 数字object[42]索引来访问对象属性。
+并且T[string]为索引签名的类型：
+interface Dictionary<T> {
+    [key: string]: T;
+}
+let keys: keyof Dictionary<number>; // string | number
+let value: Dictionary<number>['foo']; // number
+
+如果一个类型带有数字索引签名，那么keyof T为number。
+interface Dictionary<T> {
+    [key: number]: T;
+}
+let keys: keyof Dictionary<number>; // number
+let value: Dictionary<number>['foo']; // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
+let value: Dictionary<number>[42]; // number
+
+
+
+四十六、关于“keyof typeof 枚举”、“keyof T”的使用
+“keyof typeof 枚举”：
+获取一个表示枚举里所有字符串key的类型。
+例子001：
+enum LogLevel {
+    ERROR, WARN, INFO, DEBUG
+}
+/**
+ * 等同于：
+ * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type LogLevelStrings = keyof typeof LogLevel;
+
+例子002：
+enum Sex {
+  男,
+  女,
+}
+let sex: keyof typeof Sex = '男';
+// let sex: keyof typeof Sex = '女';
+
+“keyof T”：
+任何类型T，keyof T的结果为T上已知的公共属性名的联合。 
+例子001：
+interface Car {
+    manufacturer: string;
+    model: string;
+    year: number;
+}
+
+let carProps: keyof Car; // 等同于 let carProps: 'manufacturer' | 'model' | 'year';
+keyof Car是完全可以与'manufacturer' | 'model' | 'year'互相替换的。
+
+例子002：
+interface QQQ {
+  name: string;
+
+  age: number;
+
+  sex: Sex;
+}
+let sex: keyof QQQ = 'name';
+// let sex: keyof QQQ = 'age';
+// let sex: keyof QQQ = 'sex';
+
+
+
+四十七、映射类型
+只读类型：
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+}
+可选类型：
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+}
+
+例子001：
+interface Person {
+    name: string;
+    age: number;
+}
+type ReadonlyPerson = Readonly<Person>;
+type PartialPerson = Partial<Person>;
+新建的类型别名“ReadonlyPerson”的类型就是接口“Person”的属性只读版本，等同于：
+type ReadonlyPerson = {
+    readonly name: string;
+    readonly age: number;
+}
+新建的类型别名“PartialPerson”的类型就是接口“Person”的属性可选版本，等同于：
+type PartialPerson = {
+    name?: string;
+    age?: number;
+}
+
+需要注意的是“映射类型”这个语法描述的是类型而非成员。
+若想添加成员，则可以使用交叉类型：
+// 这样使用
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+} & { newMember: boolean }
+// 不要这样使用。这会报错！
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+  newMember: boolean;
+}
+
+例子002：
+type Keys = 'option1' | 'option2';
+type Flags = { [K in Keys]: boolean };
+等同
+type Flags = {
+    option1: boolean;
+    option2: boolean;
+}
+
+在真正的应用里，可能不同于上面的Readonly或Partial。 它们会基于一些已存在的类型，且按照一定的方式转换字段。 这就是keyof和索引访问类型要做的事情：
+type NullablePerson = { [P in keyof Person]: Person[P] | null }
+type PartialPerson = { [P in keyof Person]?: Person[P] }
+
+但它更有用的地方是可以有一些通用版本。
+type Nullable<T> = { [P in keyof T]: T[P] | null }
+type Partial<T> = { [P in keyof T]?: T[P] }
+在这些例子里，属性列表是keyof T且结果类型是T[P]的变体。
+这是使用通用映射类型的一个好模版。
+因为这类转换是同态的，映射只作用于T的属性而没有其它的。 
+编译器知道在添加任何新属性之前可以拷贝所有存在的属性修饰符。 
+例如，假设Person.name是只读的，那么Partial<Person>.name也将是只读的且为可选的。
+
+Readonly<T>和Partial<T>用处不小，因此它们与Pick和Record一同被包含进了TypeScript的标准库里：
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+}
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
+}
+Readonly，Partial和Pick是同态的。
+但Record不是，因为Record并不需要输入类型来拷贝属性，所以它不属于同态：
+type ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
+“非同态类型”本质上会创建新的属性，因此它们不会从他处拷贝属性修饰符，比如：“readonly”只读修饰符等等。
+“同态类型”会从他处拷贝属性修饰符，比如：“readonly”只读修饰符等等。
+
+例子003：
+在使用泛型类型“Pick”时，第二个泛型参数可以是接口“Pick001”中所有属性名的任意一个，也可以是这些属性名的联合，但是不能包含不属于接口“Pick001”中的属性名。
+keyof T表示的是一个接口“Pick001”中所有属性名的联合：'name' | 'age' | 'sex'。
+extends在这里表示“extends”关键字的左边是否是右边的子集、全集。
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+interface Pick001 {
+  name: string;
+
+  age: number;
+
+  sex: string;
+}
+let pickDemo001: Pick<Pick001, 'name' | 'age' | 'sex'> = {
+  name: `LP`,
+  age: 11,
+  sex: '男',
+};
+
+
+
+四十八、由映射类型进行推断
+包装了一个类型的属性，那么接下来就是如何拆包。 其实这也非常容易：
+function unproxify<T>(t: Proxify<T>): T {
+    let result = {} as T;
+    for (const k in t) {
+        result[k] = t[k].get();
+    }
+    return result;
+}
+
+let originalProps = unproxify(proxyProps);
+注意这个拆包推断只适用于同态的映射类型。 如果映射类型不是同态的，那么需要给拆包函数一个明确的类型参数。
+
+
+
+四十九、有条件类型
+有条件的类型会以一个条件表达式进行类型关系检测，从而在两种类型中选择其一：
+T extends U ? X : Y
+上面的类型意思是，若T能够赋值给U，那么类型是X，否则为Y。
+
+下面是一个有条件类型被推迟解析的例子:
+interface Foo {
+    propA: boolean;
+    propB: boolean;
+}
+
+declare function f<T>(x: T): T extends Foo ? string : number;
+
+function foo<U>(x: U) {
+    // Has type 'U extends Foo ? string : number'
+    let a = f(x);
+
+    // This assignment is allowed though!
+    let b: string | number = a;
+}
+这里，a变量含有未确定的有条件类型。 当有另一段代码调用foo，它会用其它类型替换U，TypeScript将重新计算有条件类型，决定它是否可以选择一个分支。
+
+与此同时，我们可以将有条件类型赋值给其它类型，只要有条件类型的每个分支都可以赋值给目标类型。
+因此在我们的例子里，我们可以将U extends Foo ? string : number赋值给string | number，因为不管这个有条件类型最终结果是什么，它只能是string或number。
+
+
+
+五十、分布式有条件类型
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
