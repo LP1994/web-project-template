@@ -2989,7 +2989,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.20.1',
+          } )() || '7.20.6',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -4364,7 +4364,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.26.0',
+            } )() || '3.26.1',
             proposals: true,
           },
           /**

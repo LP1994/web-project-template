@@ -1,4 +1,9 @@
-js_doc文件夹下都是用于生成JS文件对应的注释文档的bat命令。
+js_doc文件夹下都是用于生成JS文件对应的注释文档的bat命令，使用“jsdoc”，目前其只支持对“.js”后缀的文件生成文档。
 
 例如：
-cd ../../src/tools/js/currency_tools&rd /s /q doc&jsdoc -d doc CurrencyTools.esm.mjs&pause
+cd ../../src/tools/js/currency_tools&rd /s /q doc&jsdoc -d doc CurrencyTools.esm.js&pause
+
+tsc --project ./tsc-tsconfig.json
+copy UniversalTools.esm.mjs UniversalTools.esm.js
+rd /s /q doc
+jsdoc -d doc UniversalTools.esm.js

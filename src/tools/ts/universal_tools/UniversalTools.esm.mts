@@ -8,7 +8,7 @@
  */
 
 /**
- * 该工具支持在浏览器（需要转码成JavaScript）、Node、Deno等多种支持TypeScript的宿主环境中使用，使用“ECMAScript modules(ECMAScript模块)”写法。
+ * 该工具支持在浏览器（需要转码成JavaScript）、Node、Deno等多种支持TypeScript的宿主环境中使用，并且不是特定于某个项目才能使用的，使用“ECMAScript modules(ECMAScript模块)”写法。
  */
 
 /**
@@ -77,7 +77,7 @@
  * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';<br />
  * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';<br />
  *
- * @param {*} equalArg1 数据，必需。
+ * @param {any} equalArg1 数据，必需。
  *
  * @param {string} equalArg2 可以是诸如'Arguments'、'ArrayBuffer'等等表示目标数据类型名的字符串，必需。
  *
@@ -96,7 +96,7 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
  * PS:<br />
  * 1、如果传入的是被Proxy代理过的对象，会报错！<br />
  *
- * @param {*} arg 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {string} 表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。
  */
@@ -109,7 +109,7 @@ export function GetDataType( arg: any ): string{
 /**
  * 判断数据是否为Array类型。<br />
  *
- * @param {*} arg 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {boolean} 是数组返回true，不是数组返回false。
  */
@@ -122,7 +122,7 @@ export function IsArray( arg: any ): boolean{
 /**
  * 判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />
  *
- * @param {*} arg 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {boolean} 是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。
  */
@@ -133,7 +133,7 @@ export function IsNumber( arg: any ): boolean{
 /**
  * 判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />
  *
- * @param {*} arg 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {boolean} 是String原始值返回true，不是String原始值返回false。
  */

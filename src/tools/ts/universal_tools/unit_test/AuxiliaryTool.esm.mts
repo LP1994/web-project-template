@@ -82,7 +82,7 @@ export type TypeError001 = {
  * PS：<br />
  * 1、如果不相等，会抛出一个异常类MyError001的实例。<br />
  *
- * @param {*} result 被测试对象的实际返回值，必需。
+ * @param {any} result 被测试对象的实际返回值，必需。
  *
  * @returns {{toBe: (expect: (TypeMyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */

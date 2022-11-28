@@ -1,0 +1,1561 @@
+{
+	"id": 0,
+	"name": "UniversalTools.esm.mts的API文档 - v6.0.0",
+	"kind": 1,
+	"kindString": "Project",
+	"flags": {},
+	"originalName": "UniversalTools.esm.mts的API文档",
+	"children": [
+		{
+			"id": 1,
+			"name": "GetDataType",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 103,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L103"
+				}
+			],
+			"signatures": [
+				{
+					"id": 2,
+					"name": "GetDataType",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "获取数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。<br />\r\nPS:<br />\r\n1、如果传入的是被Proxy代理过的对象，会报错！<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 3,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "IsArray",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 116,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L116"
+				}
+			],
+			"signatures": [
+				{
+					"id": 5,
+					"name": "IsArray",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为Array类型。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是数组返回true，不是数组返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 6,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 7,
+			"name": "IsNumber",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 129,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L129"
+				}
+			],
+			"signatures": [
+				{
+					"id": 8,
+					"name": "IsNumber",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 9,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 10,
+			"name": "IsString",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 140,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L140"
+				}
+			],
+			"signatures": [
+				{
+					"id": 11,
+					"name": "IsString",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是String原始值返回true，不是String原始值返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 12,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 13,
+			"name": "Difference",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 157,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L157"
+				}
+			],
+			"signatures": [
+				{
+					"id": 14,
+					"name": "Difference",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组，一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 15,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 16,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 17,
+			"name": "Intersection",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 181,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L181"
+				}
+			],
+			"signatures": [
+				{
+					"id": 18,
+					"name": "Intersection",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "交集Intersection：由既是数组A的成员又是数组B的成员组成的数组。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组，由既是数组A的成员又是数组B的成员组成的数组。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 19,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 20,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 21,
+			"name": "SymmetricDifference",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 208,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L208"
+				}
+			],
+			"signatures": [
+				{
+					"id": 22,
+					"name": "SymmetricDifference",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "对称差集SymmetricDifference：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 23,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 24,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 25,
+			"name": "Union",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 227,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L227"
+				}
+			],
+			"signatures": [
+				{
+					"id": 26,
+					"name": "Union",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "并集Union：由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组，由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 27,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 28,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 29,
+			"name": "default",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+					"line": 236,
+					"character": 0,
+					"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L236"
+				}
+			],
+			"type": {
+				"type": "reflection",
+				"declaration": {
+					"id": 30,
+					"name": "__type",
+					"kind": 65536,
+					"kindString": "Type literal",
+					"flags": {},
+					"children": [
+						{
+							"id": 31,
+							"name": "GetDataType",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 238,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L238"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 32,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 103,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L103"
+										}
+									],
+									"signatures": [
+										{
+											"id": 33,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "获取数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。<br />\r\nPS:<br />\r\n1、如果传入的是被Proxy代理过的对象，会报错！<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 34,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 35,
+							"name": "IsArray",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 239,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L239"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 36,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 116,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L116"
+										}
+									],
+									"signatures": [
+										{
+											"id": 37,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "判断数据是否为Array类型。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "是数组返回true，不是数组返回false。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 38,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 39,
+							"name": "IsNumber",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 240,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L240"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 40,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 129,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L129"
+										}
+									],
+									"signatures": [
+										{
+											"id": 41,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 42,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 43,
+							"name": "IsString",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 241,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L241"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 44,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 140,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L140"
+										}
+									],
+									"signatures": [
+										{
+											"id": 45,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "是String原始值返回true，不是String原始值返回false。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 46,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 47,
+							"name": "Difference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 245,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L245"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 48,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 157,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L157"
+										}
+									],
+									"signatures": [
+										{
+											"id": 49,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组，一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 50,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 51,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 52,
+							"name": "Intersection",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 246,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L246"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 53,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 181,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L181"
+										}
+									],
+									"signatures": [
+										{
+											"id": 54,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "交集Intersection：由既是数组A的成员又是数组B的成员组成的数组。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组，由既是数组A的成员又是数组B的成员组成的数组。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 55,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 56,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 57,
+							"name": "SymmetricDifference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 247,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L247"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 58,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 208,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L208"
+										}
+									],
+									"signatures": [
+										{
+											"id": 59,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "对称差集SymmetricDifference：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 60,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 61,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 62,
+							"name": "Union",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+									"line": 248,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L248"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 63,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+											"line": 227,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L227"
+										}
+									],
+									"signatures": [
+										{
+											"id": 64,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "并集Union：由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组，由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 65,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 66,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								31,
+								35,
+								39,
+								43,
+								47,
+								52,
+								57,
+								62
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+							"line": 236,
+							"character": 15,
+							"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L236"
+						}
+					]
+				}
+			}
+		}
+	],
+	"groups": [
+		{
+			"title": "Functions",
+			"children": [
+				1,
+				4,
+				7,
+				10,
+				13,
+				17,
+				21,
+				25
+			]
+		},
+		{
+			"title": "Variables",
+			"children": [
+				29
+			]
+		}
+	],
+	"sources": [
+		{
+			"fileName": "src/tools/ts/universal_tools/UniversalTools.esm.mts",
+			"line": 70,
+			"character": 0,
+			"url": "https://github.com/LP1994/web-project-template/blob/4d833ce/src/tools/ts/universal_tools/UniversalTools.esm.mts#L70"
+		}
+	]
+}

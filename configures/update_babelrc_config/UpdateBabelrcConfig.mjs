@@ -72,7 +72,7 @@ const __dirname = Get__dirname( import.meta.url );
     else{
       throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
     }
-  } )() || '7.20.1';
+  } )() || '7.20.6';
 
   new Map( item[ 'presets' ] ).get( '@babel/preset-env' ).corejs.version = ( () => {
     const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
@@ -90,7 +90,7 @@ const __dirname = Get__dirname( import.meta.url );
     else{
       throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
     }
-  } )() || '3.26.0';
+  } )() || '3.26.1';
 } );
 
 writeFileSync( join( __dirname, '../babelrc/.babelrc.dev.json' ), JSON.stringify( babelrcDevConfig ) );

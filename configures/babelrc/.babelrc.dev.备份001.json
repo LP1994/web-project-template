@@ -23,7 +23,7 @@
         "modules": "auto",
         "useBuiltIns": "entry",
         "corejs": {
-          "version": "3.26.0",
+          "version": "3.26.1",
           "proposals": true
         },
         "forceAllTransforms": false,
@@ -39,7 +39,7 @@
           "version": 3,
           "proposals": true
         },
-        "version": "7.20.1",
+        "version": "7.20.6",
         "helpers": false,
         "regenerator": true,
         "absoluteRuntime": false
