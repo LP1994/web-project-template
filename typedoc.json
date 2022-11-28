@@ -12,7 +12,9 @@
     "protected": false,
     "private": false,
     "inherited": true,
-    "external": false
+    "external": false,
+    "@alpha": false,
+    "@beta": false
   },
   "tsconfig": "./typedoc_tsconfig.json",
   "basePath": "",
