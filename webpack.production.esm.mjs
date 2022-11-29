@@ -31,6 +31,8 @@ import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
+import TypedocWebpackPlugin from 'typedoc-webpack-plugin';
+
 import {
   VueLoaderPlugin,
 } from 'vue-loader';
@@ -69,6 +71,7 @@ import {
   providePluginConfig,
   recordsPathConfig,
   targetConfig,
+  typedocWebpackPluginConfig,
 } from './webpack.base.esm.mjs';
 
 export default {
@@ -241,6 +244,12 @@ export default {
     new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
+
+    ...( () => {
+      return typedocWebpackPluginConfig.map( item => {
+        return new TypedocWebpackPlugin( ...item );
+      } );
+    } )(),
   ],
   /**
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />
