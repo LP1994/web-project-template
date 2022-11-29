@@ -245,11 +245,7 @@ export default {
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
 
-    ...( () => {
-      return typedocWebpackPluginConfig.map( item => {
-        return new TypedocWebpackPlugin( ...item );
-      } );
-    } )(),
+    ...( () => typedocWebpackPluginConfig.map( item => new TypedocWebpackPlugin( item ) ) )(),
   ],
   /**
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />

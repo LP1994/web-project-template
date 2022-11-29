@@ -32,15 +32,7 @@ var merge = require( 'lodash.merge' );
 
 var path = require( 'path' );
 
-function TypedocWebpackPlugin( options, input ){
-  this.inputFiles = [ './' ];
-
-  if( input ){
-    this.inputFiles = ( input.constructor === Array )
-                      ? input
-                      : [ input ];
-  }
-
+function TypedocWebpackPlugin( options ){
   this.startTime = Date.now();
 
   this.prevTimestamps = {};
@@ -83,62 +75,18 @@ function TypedocWebpackPlugin( options, input ){
     'logLevel': 1,
     'preserveWatchOutput': true,
     'pretty': true,
+    'readme': 'none',
     'showConfig': false,
     'skipErrorChecking': false,
     'theme': 'default',
     'treatWarningsAsErrors': false,
     'watch': false,
     'externalPattern': [
-      '**/node_modules/**',
-      '**/simulation_servers/**'
+      '**/node_modules/**'
     ],
     'exclude': [
-      '**/node_modules/**',
-      '**/simulation_servers/**'
-    ],
-
-    'compilerOptions': {
-      'allowUnreachableCode': false,
-      'allowUnusedLabels': false,
-      'alwaysStrict': true,
-      'exactOptionalPropertyTypes': true,
-      'noFallthroughCasesInSwitch': true,
-      'noImplicitAny': true,
-      'noImplicitOverride': true,
-      'noImplicitReturns': true,
-      'noImplicitThis': true,
-      'noPropertyAccessFromIndexSignature': true,
-      'noUncheckedIndexedAccess': true,
-      'noUnusedLocals': true,
-      'noUnusedParameters': true,
-      'strict': true,
-      'strictBindCallApply': true,
-      'strictFunctionTypes': true,
-      'strictNullChecks': true,
-      'strictPropertyInitialization': true,
-      'useUnknownInCatchVariables': true,
-      'allowUmdGlobalAccess': true,
-      'noStrictGenericChecks': false,
-      'emitDecoratorMetadata': true,
-      'experimentalDecorators': true,
-      'suppressExcessPropertyErrors': false,
-      'suppressImplicitAnyIndexErrors': false,
-      'typeRoots': [],
-      'types': [],
-      'moduleSuffixes': [],
-      'target': 'esnext',
-      'module': 'esnext',
-      'jsx': 'react',
-      'jsxFactory': 'React.createElement',
-      'jsxFragmentFactory': 'React.Fragment',
-      'allowJs': true,
-      'checkJs': false,
-      'maxNodeModuleJsDepth': 0,
-      'disableSizeLimit': true,
-      'moduleDetection': 'auto',
-      'traceResolution': false,
-      'skipLibCheck': true
-    },
+      '**/node_modules/**'
+    ]
   };
 
   // merge user options into default options and assign
@@ -154,7 +102,7 @@ function TypedocWebpackPlugin( options, input ){
 TypedocWebpackPlugin.prototype.apply = function ( compiler ){
   var self = this;
 
-  compiler.hooks.emit.tapAsync( 'typedoc-webpack-plugin', function ( compilation, callback ){
+  compiler.hooks.emit.tapAsync( 'typedoc-webpack-plugin', async function ( compilation, callback ){
     var arr002 = Array.from( compilation.fileSystemInfo._fileTimestamps.map.entries() )
     .filter( function ( [ keyName, keyValue ] ){
       return ( this.prevTimestamps?.get?.( keyName )?.safeTime || this.startTime ) < ( keyValue?.safeTime || Infinity );
@@ -200,18 +148,21 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
       }
 
       if( project ){
-        if( typedocOptions.out ){
+        var outPath = typedocApp.options.getValue( 'out' );
+        var jsonPath = typedocApp.options.getValue( 'json' );
+
+        if( outPath ){
           console.log( 'Generating updated typedocs.' );
 
           // generateDocs(project: ProjectReflection, out: string): Promise<void>
-          typedocApp.generateDocs( project, typedocOptions.out );
+          await typedocApp.generateDocs( project, outPath );
         }
 
-        if( typedocOptions.json ){
+        if( jsonPath ){
           console.log( 'Generating typedoc json.' );
 
           // generateJson(project: ProjectReflection, out: string): Promise<void>
-          typedocApp.generateJson( project, typedocOptions.json );
+          typedocApp.generateJson( project, jsonPath );
         }
       }
     }

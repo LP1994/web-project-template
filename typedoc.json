@@ -42,13 +42,10 @@
   "theme": "default",
   "treatWarningsAsErrors": false,
   "watch": false,
-  "tsconfig": "./typedoc_tsconfig.json",
   "externalPattern": [
-    "**/node_modules/**",
-    "**/simulation_servers/**"
+    "**/node_modules/**"
   ],
   "exclude": [
-    "**/node_modules/**",
-    "**/simulation_servers/**"
+    "**/node_modules/**"
   ]
 }
