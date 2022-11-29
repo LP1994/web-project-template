@@ -8,7 +8,8 @@
  */
 
 /**
- * 该工具支持在浏览器（需要转码成JavaScript）、Node、Deno等多种支持TypeScript的宿主环境中使用，并且不是特定于某个项目才能使用的，使用“ECMAScript modules(ECMAScript模块)”写法。
+ * 该工具库是使用“TypeScript”编写的公共的、通用的、不特定于某个项目使用的脚本工具库。
+ * 其支持在浏览器（需要转码成JavaScript）、Node、Deno等多种支持TypeScript的宿主环境中使用，并且不是特定于某个项目才能使用的，使用“ECMAScript modules(ECMAScript模块)”写法。
  */
 
 /**
@@ -21,7 +22,7 @@
  *
  * 4、那些不被导出供外部调用使用的、属于内部7788的处理函数、类等等，要以“HandleBy”打头命名。
  *
- * 5、那些需要被导出供外部调用使用的函数、类等等，一定要记得部署在“默认导出”中。
+ * 5、那些需要被导出供外部调用使用的函数、类等等，一定要记得也要同时部署在“默认导出”中。
  *
  * 6、编程范式使用“函数式编程”，结合“TypeScript”编写，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
  *
@@ -74,8 +75,10 @@
 /**
  * 一种字符串的相等比较（使用===比较），用于辅助判断数据类型。<br />
  * 大多是如下的比较：<br />
- * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';<br />
- * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';<br />
+ * ```js
+ * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';
+ * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';
+ * ```
  *
  * @param {any} equalArg1 数据，必需。
  *
@@ -233,6 +236,9 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
 
 // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
 
+/**
+ * 默认导出，部署了该工具库所有的导出函数、类等等。
+ */
 export default {
   // 判断数据类型。Start
   GetDataType,

@@ -5,7 +5,7 @@
     "../UniversalTools.esm.mts"
   ],
   "out": "./doc",
-  "readme": "./README.md",
+  "readme": "../README.md",
   "extends": [
     "../../../../../typedoc.json"
   ]
