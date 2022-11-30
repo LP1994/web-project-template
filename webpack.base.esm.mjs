@@ -138,7 +138,7 @@ import proxyConfig from './configures/ProxyConfig.esm.mjs';
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
  *
- * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
  *
  * @returns {string} 返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。
  */
@@ -149,7 +149,7 @@ function Get__dirname( import_meta_url = import.meta.url ){
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。<br />
  *
- * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
  *
  * @returns {string} 返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。
  */
@@ -1171,7 +1171,7 @@ ThreadLoader.warmup( vueWorkerPoolConfig, [
 /**
  * 返回传入时间对象的年、月、日、时、分、秒、周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。<br />
  *
- * @param nowDate {Date} 一个时间对象，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ * @param {Date} nowDate 一个时间对象，默认值（当前时间）：new Date( Date.now() )，可选。<br />
  *
  * @returns {{year: string, month: string, date: string, hours: string, minutes: string, seconds: string, day: string}} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。
  */
@@ -2366,7 +2366,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         /**
          * 处理哪些远程链接要被处理，哪些不需要被处理。<br />
          *
-         * @param uri {string} 远程链接，值如：https://www.xxx.com/1.jpg，必需。
+         * @param {string} uri 远程链接，值如：https://www.xxx.com/1.jpg，必需。
          *
          * @returns {boolean} true表示会处理该远程链接，反之不处理。
          */
@@ -5279,9 +5279,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
              * 4、注意，目前无法识别到那些无http:、https:协议头的远程链接，也就是无法识别那些以'//'开头的远程链接，会直接原样将其保留在源码中。<br />
              *
-             * @param url {string} 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
+             * @param {string} url 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
              *
-             * @param resourcePath {string} css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+             * @param {string} resourcePath css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
              *
              * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
              */
@@ -7578,9 +7578,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
-                 * @param source {Buffer} source.byteLength表示图片的大小，单位为字节。<br />
+                 * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
                  *
-                 * @param sourcePath {string} 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
+                 * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
                  *
                  * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
                  */
@@ -7644,9 +7644,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
-                 * @param source {Buffer} source.byteLength表示图片的大小，单位为字节。<br />
+                 * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
                  *
-                 * @param sourcePath {string} 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
+                 * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
                  *
                  * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
                  */
@@ -7742,9 +7742,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   /**
                    * 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。<br />
                    *
-                   * @param width {number} 最终结果图片的宽度值。<br />
+                   * @param {number} width 最终结果图片的宽度值。<br />
                    *
-                   * @param height {number} 最终结果图片的高度值。<br />
+                   * @param {number} height 最终结果图片的高度值。<br />
                    *
                    * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
                    */
@@ -8821,7 +8821,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 2、请注意，尽管此文件是由编译器生成的，但您可能仍希望在源代码管理中对其进行跟踪，以保留其随时间变化的历史记录。<br />
    * 3、设置recordsPath本质上会将recordsInputPath和recordsOutputPath设置为相同的位置。这通常是所有必要的，除非您决定更改包含记录的文件的名称。<br />
    *
-   * @param folderName {string} 取上面的顶层变量env_platform即可。<br />
+   * @param {string} folderName 取上面的顶层变量env_platform即可。<br />
    *
    * @returns {string}
    */
