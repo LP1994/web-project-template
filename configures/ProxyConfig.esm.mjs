@@ -80,7 +80,7 @@ import {
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
  *
- * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
  *
  * @returns {string} 返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。
  */
@@ -91,7 +91,7 @@ function Get__dirname( import_meta_url = import.meta.url ){
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。<br />
  *
- * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
  *
  * @returns {string} 返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。
  */
@@ -102,7 +102,7 @@ function Get__filename( import_meta_url = import.meta.url ){
 /**
  * 返回传入时间对象的年、月、日、时、分、秒、周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。<br />
  *
- * @param nowDate {Date} 一个时间对象，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ * @param {Date} nowDate 一个时间对象，默认值（当前时间）：new Date( Date.now() )，可选。<br />
  *
  * @returns {{year: string, month: string, date: string, hours: string, minutes: string, seconds: string, day: string}} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。
  */
@@ -275,9 +275,9 @@ const proxyConfig = {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
-     * @param req {Request}
-     * @param res {Response}
-     * @param proxyOptions {proxyConfig}
+     * @param {Request} req
+     * @param {Response} res
+     * @param {proxyConfig} proxyOptions
      *
      * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
@@ -300,8 +300,8 @@ const proxyConfig = {
      * 删除路径：pathRewrite: {'^/remove' : ''}，原来的http://localhost:3000/remove/api，现在的http://localhost:3000/api。<br />
      * 添加基本路径：pathRewrite: {'^/' : '/basepath/'}，原来的http://localhost:3000/xxx，现在的http://localhost:3000/basepath/xxx。<br />
      *
-     * @param path {string}
-     * @param req {Request}
+     * @param {string} path
+     * @param {Request} req
      *
      * @returns {string} 新路径。
      */
@@ -354,7 +354,7 @@ const proxyConfig = {
     /**
      * 修改或替换日志提供程序，该选项默认值为console。<br />
      *
-     * @param provider {LogProvider}
+     * @param {LogProvider} provider
      *
      * @returns {myCustomProvider} 修改或替换日志提供程序。
      */
@@ -573,10 +573,10 @@ const proxyConfig = {
     /**
      * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
      *
-     * @param proxyReq {http.ClientRequest}
-     * @param req {Request}
-     * @param res {Response}
-     * @param options {httpProxy.ServerOptions}
+     * @param {http.ClientRequest} proxyReq
+     * @param {Request} req
+     * @param {Response} res
+     * @param {httpProxy.ServerOptions} options
      *
      * @returns {void} 无返回值。
      */
@@ -601,11 +601,11 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
      *
-     * @param proxyReq {http.ClientRequest}
-     * @param req {Request}
-     * @param socket {net.Socket}
-     * @param options {httpProxy.ServerOptions}
-     * @param head {*}
+     * @param {http.ClientRequest} proxyReq
+     * @param {Request} req
+     * @param {net.Socket} socket
+     * @param {httpProxy.ServerOptions} options
+     * @param {any} head
      *
      * @returns {void} 无返回值。
      */
@@ -615,9 +615,9 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 如果对目标的请求得到响应，则会发出此事件。<br />
      *
-     * @param proxyRes {http.IncomingMessage}
-     * @param req {Request}
-     * @param res {Response}
+     * @param {http.IncomingMessage} proxyRes
+     * @param {Request} req
+     * @param {Response} res
      *
      * @returns {void} 无返回值。
      */
@@ -629,7 +629,7 @@ HTTP代理--->${ req.originalUrl }<---End
      * PS：<br />
      * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
      *
-     * @param proxySocket {net.Socket}
+     * @param {net.Socket} proxySocket
      *
      * @returns {void} 无返回值。
      */
@@ -639,9 +639,9 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 一旦代理websocket关闭，就会发出此事件。<br />
      *
-     * @param proxyRes {Response}
-     * @param proxySocket {net.Socket}
-     * @param proxyHead {*}
+     * @param {Response} proxyRes
+     * @param {net.Socket} proxySocket
+     * @param {any} proxyHead
      *
      * @returns {void} 无返回值。
      */
@@ -651,10 +651,10 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
      *
-     * @param err {Error}
-     * @param req {Request}
-     * @param res {Response}
-     * @param target {string|Partial<url.Url>} 可选的参数，不一定都有存在。<br />
+     * @param {Error} err
+     * @param {Request} req
+     * @param {Response} res
+     * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
      *
      * @returns {void} 无返回值。
      */
@@ -671,9 +671,9 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
-     * @param req {Request}
-     * @param res {Response}
-     * @param proxyOptions {proxyConfig}
+     * @param {Request} req
+     * @param {Response} res
+     * @param {proxyConfig} proxyOptions
      *
      * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
@@ -696,8 +696,8 @@ HTTP代理--->${ req.originalUrl }<---End
      * 删除路径：pathRewrite: {'^/remove' : ''}，原来的http://localhost:3000/remove/api，现在的http://localhost:3000/api。<br />
      * 添加基本路径：pathRewrite: {'^/' : '/basepath/'}，原来的http://localhost:3000/xxx，现在的http://localhost:3000/basepath/xxx。<br />
      *
-     * @param path {string}
-     * @param req {Request}
+     * @param {string} path
+     * @param {Request} req
      *
      * @returns {string} 新路径。
      */
@@ -750,7 +750,7 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 修改或替换日志提供程序，该选项默认值为console。<br />
      *
-     * @param provider {LogProvider}
+     * @param {LogProvider} provider
      *
      * @returns {myCustomProvider} 修改或替换日志提供程序。
      */
@@ -969,10 +969,10 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
      *
-     * @param proxyReq {http.ClientRequest}
-     * @param req {Request}
-     * @param res {Response}
-     * @param options {httpProxy.ServerOptions}
+     * @param {http.ClientRequest} proxyReq
+     * @param {Request} req
+     * @param {Response} res
+     * @param {httpProxy.ServerOptions} options
      *
      * @returns {void} 无返回值。
      */
@@ -982,11 +982,11 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
      *
-     * @param proxyReq {http.ClientRequest}
-     * @param req {Request}
-     * @param socket {net.Socket}
-     * @param options {httpProxy.ServerOptions}
-     * @param head {*}
+     * @param {http.ClientRequest} proxyReq
+     * @param {Request} req
+     * @param {net.Socket} socket
+     * @param {httpProxy.ServerOptions} options
+     * @param {any} head
      *
      * @returns {void} 无返回值。
      */
@@ -1011,9 +1011,9 @@ WebSocket代理--->${ options.context }<---End
     /**
      * 如果对目标的请求得到响应，则会发出此事件。<br />
      *
-     * @param proxyRes {http.IncomingMessage}
-     * @param req {Request}
-     * @param res {Response}
+     * @param {http.IncomingMessage} proxyRes
+     * @param {Request} req
+     * @param {Response} res
      *
      * @returns {void} 无返回值。
      */
@@ -1025,7 +1025,7 @@ WebSocket代理--->${ options.context }<---End
      * PS：<br />
      * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
      *
-     * @param proxySocket {net.Socket}
+     * @param {net.Socket} proxySocket
      *
      * @returns {void} 无返回值。
      */
@@ -1035,9 +1035,9 @@ WebSocket代理--->${ options.context }<---End
     /**
      * 一旦代理websocket关闭，就会发出此事件。<br />
      *
-     * @param proxyRes {Response}
-     * @param proxySocket {net.Socket}
-     * @param proxyHead {*}
+     * @param {Response} proxyRes
+     * @param {net.Socket} proxySocket
+     * @param {any} proxyHead
      *
      * @returns {void} 无返回值。
      */
@@ -1047,10 +1047,10 @@ WebSocket代理--->${ options.context }<---End
     /**
      * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
      *
-     * @param err {Error}
-     * @param req {Request}
-     * @param res {Response}
-     * @param target {string|Partial<url.Url>} 可选的参数，不一定都有存在。<br />
+     * @param {Error} err
+     * @param {Request} req
+     * @param {Response} res
+     * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
      *
      * @returns {void} 无返回值。
      */

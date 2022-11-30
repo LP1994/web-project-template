@@ -83,9 +83,9 @@ import chalk from 'chalk';
  * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';<br />
  * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';<br />
  *
- * @param equalArg1 {any} 数据，必需。
+ * @param {any} equalArg1 数据，必需。
  *
- * @param equalArg2 {string} 可以是诸如"Arguments"、'ArrayBuffer'等等表示目标数据类型名的字符串，必需。
+ * @param {string} equalArg2 可以是诸如"Arguments"、'ArrayBuffer'等等表示目标数据类型名的字符串，必需。
  *
  * @returns {boolean} 使用===比较，相等则返回true，否则返回false。
  */
@@ -98,7 +98,7 @@ function EqualForString001( equalArg1, equalArg2 ){
  * PS:<br />
  * 1、如果传入的是被Proxy代理过的对象，会报错！<br />
  *
- * @param arg {any} 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {string} 表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。
  */
@@ -111,7 +111,7 @@ function GetDataType( arg ){
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
  *
- * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
  *
  * @returns {string} 返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。
  */
@@ -122,7 +122,7 @@ function Get__dirname( import_meta_url = import.meta.url ){
 /**
  * 该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。<br />
  *
- * @param import_meta_url {string} 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
  *
  * @returns {string} 返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。
  */
@@ -133,7 +133,7 @@ function Get__filename( import_meta_url = import.meta.url ){
 /**
  * 判断数据是否为Array类型。<br />
  *
- * @param arg {any} 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {boolean} 是数组返回true，不是数组返回false。
  */
@@ -146,7 +146,7 @@ function IsArray( arg ){
 /**
  * 判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />
  *
- * @param arg {any} 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {boolean} 是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。
  */
@@ -157,7 +157,7 @@ function IsNumber( arg ){
 /**
  * 判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />
  *
- * @param arg {any} 数据，必需。
+ * @param {any} arg 数据，必需。
  *
  * @returns {boolean} 是String原始值返回true，不是String原始值返回false。
  */
@@ -190,7 +190,7 @@ class MyConsole {
    *
    * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
    *
-   * @param config {object} 初始化字体颜色（color）、背景色（bgColor），可选。
+   * @param {object} config 初始化字体颜色（color）、背景色（bgColor），可选。
    * <br />选项说明：<br />
    * color：值类型可以是：number[]（rgb值，如：[255, 136, 0]）、string（hex值，如：'#FF8800'）、number（ansi256值，如：194），默认值null，可选。<br />
    * bgColor：值类型可以是：number[]（rgb值，如：[255, 136, 0]）、string（hex值，如：'#FF8800'）、number（ansi256值，如：194），默认值null，可选。<br />
@@ -237,7 +237,7 @@ class MyConsole {
   /**
    * 使用rgb值设置字体颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />
    *
-   * @param rgbArr {number[]} rgb值，如：[ 255, 136, 0 ]，必需。
+   * @param {number[]} rgbArr rgb值，如：[ 255, 136, 0 ]，必需。
    */
   setRGB( rgbArr ){
     if( IsArray( rgbArr ) ){
@@ -248,7 +248,7 @@ class MyConsole {
   /**
    * 使用hex值设置字体颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />
    *
-   * @param hexStr {string} hex值，如：'#FF8800'，必需。
+   * @param {string} hexStr hex值，如：'#FF8800'，必需。
    */
   setHEX( hexStr ){
     if( IsString( hexStr ) ){
@@ -259,7 +259,7 @@ class MyConsole {
   /**
    * 使用ansi256值设置字体颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />
    *
-   * @param ansi256Num {number} ansi256值，如：194，必需。
+   * @param {number} ansi256Num ansi256值，如：194，必需。
    */
   setANSI256( ansi256Num ){
     if( IsNumber( ansi256Num ) ){
@@ -274,7 +274,7 @@ class MyConsole {
   /**
    * 使用rgb值设置背景颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />
    *
-   * @param rgbArr {number[]} rgb值，如：[ 255, 136, 0 ]，必需。
+   * @param {number[]} rgbArr rgb值，如：[ 255, 136, 0 ]，必需。
    */
   setBgRGB( rgbArr ){
     if( IsArray( rgbArr ) ){
@@ -285,7 +285,7 @@ class MyConsole {
   /**
    * 使用hex值设置背景颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />
    *
-   * @param hexStr {string} hex值，如：'#FF8800'，必需。
+   * @param {string} hexStr hex值，如：'#FF8800'，必需。
    */
   setBgHEX( hexStr ){
     if( IsString( hexStr ) ){
@@ -296,7 +296,7 @@ class MyConsole {
   /**
    * 使用ansi256值设置背景颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />
    *
-   * @param ansi256Num {number} ansi256值，如：194，必需。
+   * @param {number} ansi256Num ansi256值，如：194，必需。
    */
   setBgANSI256( ansi256Num ){
     if( IsNumber( ansi256Num ) ){
@@ -313,7 +313,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bold( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。
    */
   bold( data ){
     console.log( this.#myChalk.bold( data ) );
@@ -324,7 +324,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).dim( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。
    */
   dim( data ){
     console.log( this.#myChalk.dim( data ) );
@@ -335,7 +335,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).italic( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。
    */
   italic( data ){
     console.log( this.#myChalk.italic( data ) );
@@ -346,7 +346,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).underline( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。
    */
   underline( data ){
     console.log( this.#myChalk.underline( data ) );
@@ -357,7 +357,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).overline( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。
    */
   overline( data ){
     console.log( this.#myChalk.overline( data ) );
@@ -368,7 +368,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).inverse( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。
    */
   inverse( data ){
     console.log( this.#myChalk.inverse( data ) );
@@ -379,7 +379,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).hidden( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。
    */
   hidden( data ){
     console.log( this.#myChalk.hidden( data ) );
@@ -390,7 +390,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).strikethrough( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。
    */
   strikethrough( data ){
     console.log( this.#myChalk.strikethrough( data ) );
@@ -401,7 +401,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).visible( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。
    */
   visible( data ){
     console.log( this.#myChalk.visible( data ) );
@@ -412,7 +412,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Bold( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。
    */
   static Bold( data ){
     console.log( chalk.bold( data ) );
@@ -423,7 +423,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Dim( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。
    */
   static Dim( data ){
     console.log( chalk.dim( data ) );
@@ -434,7 +434,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Italic( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。
    */
   static Italic( data ){
     console.log( chalk.italic( data ) );
@@ -445,7 +445,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Underline( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。
    */
   static Underline( data ){
     console.log( chalk.underline( data ) );
@@ -456,7 +456,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Overline( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。
    */
   static Overline( data ){
     console.log( chalk.overline( data ) );
@@ -467,7 +467,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Inverse( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。
    */
   static Inverse( data ){
     console.log( chalk.inverse( data ) );
@@ -478,7 +478,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Hidden( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。
    */
   static Hidden( data ){
     console.log( chalk.hidden( data ) );
@@ -489,7 +489,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Strikethrough( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。
    */
   static Strikethrough( data ){
     console.log( chalk.strikethrough( data ) );
@@ -500,7 +500,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Visible( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。
    */
   static Visible( data ){
     console.log( chalk.visible( data ) );
@@ -515,7 +515,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).black( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。
    */
   black( data ){
     console.log( this.#myChalk.black( data ) );
@@ -526,7 +526,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).red( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。
    */
   red( data ){
     console.log( this.#myChalk.red( data ) );
@@ -537,7 +537,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).green( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。
    */
   green( data ){
     console.log( this.#myChalk.green( data ) );
@@ -548,7 +548,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).yellow( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。
    */
   yellow( data ){
     console.log( this.#myChalk.yellow( data ) );
@@ -559,7 +559,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).blue( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。
    */
   blue( data ){
     console.log( this.#myChalk.blue( data ) );
@@ -570,7 +570,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).magenta( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。
    */
   magenta( data ){
     console.log( this.#myChalk.magenta( data ) );
@@ -581,7 +581,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).cyan( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。
    */
   cyan( data ){
     console.log( this.#myChalk.cyan( data ) );
@@ -592,7 +592,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).white( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。
    */
   white( data ){
     console.log( this.#myChalk.white( data ) );
@@ -603,7 +603,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).gray( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。
    */
   gray( data ){
     console.log( this.#myChalk.gray( data ) );
@@ -614,7 +614,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).grey( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。
    */
   grey( data ){
     console.log( this.#myChalk.grey( data ) );
@@ -625,7 +625,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).blackBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。
    */
   blackBright( data ){
     console.log( this.#myChalk.blackBright( data ) );
@@ -636,7 +636,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).redBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。
    */
   redBright( data ){
     console.log( this.#myChalk.redBright( data ) );
@@ -647,7 +647,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).greenBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。
    */
   greenBright( data ){
     console.log( this.#myChalk.greenBright( data ) );
@@ -658,7 +658,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).yellowBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。
    */
   yellowBright( data ){
     console.log( this.#myChalk.yellowBright( data ) );
@@ -669,7 +669,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).blueBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。
    */
   blueBright( data ){
     console.log( this.#myChalk.blueBright( data ) );
@@ -680,7 +680,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).magentaBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。
    */
   magentaBright( data ){
     console.log( this.#myChalk.magentaBright( data ) );
@@ -691,7 +691,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).cyanBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。
    */
   cyanBright( data ){
     console.log( this.#myChalk.cyanBright( data ) );
@@ -702,7 +702,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).whiteBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。
    */
   whiteBright( data ){
     console.log( this.#myChalk.whiteBright( data ) );
@@ -713,7 +713,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Black( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。
    */
   static Black( data ){
     console.log( chalk.black( data ) );
@@ -724,7 +724,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Red( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。
    */
   static Red( data ){
     console.log( chalk.red( data ) );
@@ -735,7 +735,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Green( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。
    */
   static Green( data ){
     console.log( chalk.green( data ) );
@@ -746,7 +746,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Yellow( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。
    */
   static Yellow( data ){
     console.log( chalk.yellow( data ) );
@@ -757,7 +757,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Blue( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。
    */
   static Blue( data ){
     console.log( chalk.blue( data ) );
@@ -768,7 +768,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Magenta( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。
    */
   static Magenta( data ){
     console.log( chalk.magenta( data ) );
@@ -779,7 +779,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Cyan( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。
    */
   static Cyan( data ){
     console.log( chalk.cyan( data ) );
@@ -790,7 +790,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.White( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。
    */
   static White( data ){
     console.log( chalk.white( data ) );
@@ -801,7 +801,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Gray( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。
    */
   static Gray( data ){
     console.log( chalk.gray( data ) );
@@ -812,7 +812,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.Grey( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。
    */
   static Grey( data ){
     console.log( chalk.grey( data ) );
@@ -823,7 +823,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BlackBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。
    */
   static BlackBright( data ){
     console.log( chalk.blackBright( data ) );
@@ -834,7 +834,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.RedBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。
    */
   static RedBright( data ){
     console.log( chalk.redBright( data ) );
@@ -845,7 +845,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.GreenBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。
    */
   static GreenBright( data ){
     console.log( chalk.greenBright( data ) );
@@ -856,7 +856,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.YellowBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。
    */
   static YellowBright( data ){
     console.log( chalk.yellowBright( data ) );
@@ -867,7 +867,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BlueBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。
    */
   static BlueBright( data ){
     console.log( chalk.blueBright( data ) );
@@ -878,7 +878,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.MagentaBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。
    */
   static MagentaBright( data ){
     console.log( chalk.magentaBright( data ) );
@@ -889,7 +889,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.CyanBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。
    */
   static CyanBright( data ){
     console.log( chalk.cyanBright( data ) );
@@ -900,7 +900,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.WhiteBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。
    */
   static WhiteBright( data ){
     console.log( chalk.whiteBright( data ) );
@@ -915,7 +915,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgBlack( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlack方法，可参见chalk模块的bgBlack方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlack方法，可参见chalk模块的bgBlack方法的参数说明，必需。
    */
   bgBlack( data ){
     console.log( this.#myChalk.bgBlack( data ) );
@@ -926,7 +926,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgRed( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgRed方法，可参见chalk模块的bgRed方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgRed方法，可参见chalk模块的bgRed方法的参数说明，必需。
    */
   bgRed( data ){
     console.log( this.#myChalk.bgRed( data ) );
@@ -937,7 +937,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgGreen( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGreen方法，可参见chalk模块的bgGreen方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGreen方法，可参见chalk模块的bgGreen方法的参数说明，必需。
    */
   bgGreen( data ){
     console.log( this.#myChalk.bgGreen( data ) );
@@ -948,7 +948,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgYellow( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgYellow方法，可参见chalk模块的bgYellow方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgYellow方法，可参见chalk模块的bgYellow方法的参数说明，必需。
    */
   bgYellow( data ){
     console.log( this.#myChalk.bgYellow( data ) );
@@ -959,7 +959,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgBlue( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlue方法，可参见chalk模块的bgBlue方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlue方法，可参见chalk模块的bgBlue方法的参数说明，必需。
    */
   bgBlue( data ){
     console.log( this.#myChalk.bgBlue( data ) );
@@ -970,7 +970,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgMagenta( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgMagenta方法，可参见chalk模块的bgMagenta方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgMagenta方法，可参见chalk模块的bgMagenta方法的参数说明，必需。
    */
   bgMagenta( data ){
     console.log( this.#myChalk.bgMagenta( data ) );
@@ -981,7 +981,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgCyan( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgCyan方法，可参见chalk模块的bgCyan方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgCyan方法，可参见chalk模块的bgCyan方法的参数说明，必需。
    */
   bgCyan( data ){
     console.log( this.#myChalk.bgCyan( data ) );
@@ -992,7 +992,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgWhite( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgWhite方法，可参见chalk模块的bgWhite方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgWhite方法，可参见chalk模块的bgWhite方法的参数说明，必需。
    */
   bgWhite( data ){
     console.log( this.#myChalk.bgWhite( data ) );
@@ -1003,7 +1003,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgGray( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGray方法，可参见chalk模块的bgGray方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGray方法，可参见chalk模块的bgGray方法的参数说明，必需。
    */
   bgGray( data ){
     console.log( this.#myChalk.bgGray( data ) );
@@ -1014,7 +1014,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgGrey( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGrey方法，可参见chalk模块的bgGrey方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGrey方法，可参见chalk模块的bgGrey方法的参数说明，必需。
    */
   bgGrey( data ){
     console.log( this.#myChalk.bgGrey( data ) );
@@ -1025,7 +1025,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgBlackBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlackBright方法，可参见chalk模块的bgBlackBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlackBright方法，可参见chalk模块的bgBlackBright方法的参数说明，必需。
    */
   bgBlackBright( data ){
     console.log( this.#myChalk.bgBlackBright( data ) );
@@ -1036,7 +1036,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgRedBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgRedBright方法，可参见chalk模块的bgRedBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgRedBright方法，可参见chalk模块的bgRedBright方法的参数说明，必需。
    */
   bgRedBright( data ){
     console.log( this.#myChalk.bgRedBright( data ) );
@@ -1047,7 +1047,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgGreenBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGreenBright方法，可参见chalk模块的bgGreenBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGreenBright方法，可参见chalk模块的bgGreenBright方法的参数说明，必需。
    */
   bgGreenBright( data ){
     console.log( this.#myChalk.bgGreenBright( data ) );
@@ -1058,7 +1058,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgYellowBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgYellowBright方法，可参见chalk模块的bgYellowBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgYellowBright方法，可参见chalk模块的bgYellowBright方法的参数说明，必需。
    */
   bgYellowBright( data ){
     console.log( this.#myChalk.bgYellowBright( data ) );
@@ -1069,7 +1069,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgBlueBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlueBright方法，可参见chalk模块的bgBlueBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlueBright方法，可参见chalk模块的bgBlueBright方法的参数说明，必需。
    */
   bgBlueBright( data ){
     console.log( this.#myChalk.bgBlueBright( data ) );
@@ -1080,7 +1080,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgMagentaBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgMagentaBright方法，可参见chalk模块的bgMagentaBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgMagentaBright方法，可参见chalk模块的bgMagentaBright方法的参数说明，必需。
    */
   bgMagentaBright( data ){
     console.log( this.#myChalk.bgMagentaBright( data ) );
@@ -1091,7 +1091,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgCyanBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgCyanBright方法，可参见chalk模块的bgCyanBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgCyanBright方法，可参见chalk模块的bgCyanBright方法的参数说明，必需。
    */
   bgCyanBright( data ){
     console.log( this.#myChalk.bgCyanBright( data ) );
@@ -1102,7 +1102,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>new MyConsole( { color: [ 255, 136, 0 ], } ).bgWhiteBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgWhiteBright方法，可参见chalk模块的bgWhiteBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgWhiteBright方法，可参见chalk模块的bgWhiteBright方法的参数说明，必需。
    */
   bgWhiteBright( data ){
     console.log( this.#myChalk.bgWhiteBright( data ) );
@@ -1113,7 +1113,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgBlack( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlack方法，可参见chalk模块的bgBlack方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlack方法，可参见chalk模块的bgBlack方法的参数说明，必需。
    */
   static BgBlack( data ){
     console.log( chalk.bgBlack( data ) );
@@ -1124,7 +1124,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgRed( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgRed方法，可参见chalk模块的bgRed方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgRed方法，可参见chalk模块的bgRed方法的参数说明，必需。
    */
   static BgRed( data ){
     console.log( chalk.bgRed( data ) );
@@ -1135,7 +1135,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgGreen( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGreen方法，可参见chalk模块的bgGreen方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGreen方法，可参见chalk模块的bgGreen方法的参数说明，必需。
    */
   static BgGreen( data ){
     console.log( chalk.bgGreen( data ) );
@@ -1146,7 +1146,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgYellow( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgYellow方法，可参见chalk模块的bgYellow方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgYellow方法，可参见chalk模块的bgYellow方法的参数说明，必需。
    */
   static BgYellow( data ){
     console.log( chalk.bgYellow( data ) );
@@ -1157,7 +1157,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgBlue( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlue方法，可参见chalk模块的bgBlue方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlue方法，可参见chalk模块的bgBlue方法的参数说明，必需。
    */
   static BgBlue( data ){
     console.log( chalk.bgBlue( data ) );
@@ -1168,7 +1168,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgMagenta( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgMagenta方法，可参见chalk模块的bgMagenta方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgMagenta方法，可参见chalk模块的bgMagenta方法的参数说明，必需。
    */
   static BgMagenta( data ){
     console.log( chalk.bgMagenta( data ) );
@@ -1179,7 +1179,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgCyan( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgCyan方法，可参见chalk模块的bgCyan方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgCyan方法，可参见chalk模块的bgCyan方法的参数说明，必需。
    */
   static BgCyan( data ){
     console.log( chalk.bgCyan( data ) );
@@ -1190,7 +1190,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgWhite( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgWhite方法，可参见chalk模块的bgWhite方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgWhite方法，可参见chalk模块的bgWhite方法的参数说明，必需。
    */
   static BgWhite( data ){
     console.log( chalk.bgWhite( data ) );
@@ -1201,7 +1201,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgGray( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGray方法，可参见chalk模块的bgGray方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGray方法，可参见chalk模块的bgGray方法的参数说明，必需。
    */
   static BgGray( data ){
     console.log( chalk.bgGray( data ) );
@@ -1212,7 +1212,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgGrey( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGrey方法，可参见chalk模块的bgGrey方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGrey方法，可参见chalk模块的bgGrey方法的参数说明，必需。
    */
   static BgGrey( data ){
     console.log( chalk.bgGrey( data ) );
@@ -1223,7 +1223,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgBlackBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlackBright方法，可参见chalk模块的bgBlackBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlackBright方法，可参见chalk模块的bgBlackBright方法的参数说明，必需。
    */
   static BgBlackBright( data ){
     console.log( chalk.bgBlackBright( data ) );
@@ -1234,7 +1234,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgRedBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgRedBright方法，可参见chalk模块的bgRedBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgRedBright方法，可参见chalk模块的bgRedBright方法的参数说明，必需。
    */
   static BgRedBright( data ){
     console.log( chalk.bgRedBright( data ) );
@@ -1245,7 +1245,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgGreenBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgGreenBright方法，可参见chalk模块的bgGreenBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgGreenBright方法，可参见chalk模块的bgGreenBright方法的参数说明，必需。
    */
   static BgGreenBright( data ){
     console.log( chalk.bgGreenBright( data ) );
@@ -1256,7 +1256,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgYellowBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgYellowBright方法，可参见chalk模块的bgYellowBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgYellowBright方法，可参见chalk模块的bgYellowBright方法的参数说明，必需。
    */
   static BgYellowBright( data ){
     console.log( chalk.bgYellowBright( data ) );
@@ -1267,7 +1267,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgBlueBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgBlueBright方法，可参见chalk模块的bgBlueBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgBlueBright方法，可参见chalk模块的bgBlueBright方法的参数说明，必需。
    */
   static BgBlueBright( data ){
     console.log( chalk.bgBlueBright( data ) );
@@ -1278,7 +1278,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgMagentaBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgMagentaBright方法，可参见chalk模块的bgMagentaBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgMagentaBright方法，可参见chalk模块的bgMagentaBright方法的参数说明，必需。
    */
   static BgMagentaBright( data ){
     console.log( chalk.bgMagentaBright( data ) );
@@ -1289,7 +1289,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgCyanBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgCyanBright方法，可参见chalk模块的bgCyanBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgCyanBright方法，可参见chalk模块的bgCyanBright方法的参数说明，必需。
    */
   static BgCyanBright( data ){
     console.log( chalk.bgCyanBright( data ) );
@@ -1300,7 +1300,7 @@ class MyConsole {
    * 使用例子：<br />
    * <code>MyConsole.BgWhiteBright( 'XXX' );</code><br />
    *
-   * @param data {any} data参数传给chalk模块的bgWhiteBright方法，可参见chalk模块的bgWhiteBright方法的参数说明，必需。
+   * @param {any} data data参数传给chalk模块的bgWhiteBright方法，可参见chalk模块的bgWhiteBright方法的参数说明，必需。
    */
   static BgWhiteBright( data ){
     console.log( chalk.bgWhiteBright( data ) );

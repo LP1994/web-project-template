@@ -53,9 +53,9 @@ const isProduction = ( argv => {
  * webpack-dev-server/client/index.js?logging=info&progress=true&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=Infinity&hot=true&live-reload=true
  * 3、等这个BUG被webpack修复后，该工具就可以删掉不用了，已经提交了BUG修复申请：https://github.com/webpack/webpack/issues/16091。
  *
- * @param entryImport {string|string[]} 入口要导入的模块，必需。<br />
+ * @param {string|string[]} entryImport 入口要导入的模块，必需。<br />
  *
- * @param isHMR {boolean} 如果启用了experiments.buildHttp，才能把isHMR选项设置为true，否则还是要设置成false，默认值为true，必需。<br />
+ * @param {boolean} isHMR 如果启用了experiments.buildHttp，才能把isHMR选项设置为true，否则还是要设置成false，默认值为true，必需。<br />
  *
  * @returns {string|string[]} 修复后的入口要导入的模块。
  */
