@@ -18,7 +18,7 @@ import {
   Test001,
 
   // @ts-ignore
-} from './AuxiliaryTool.esm.mts';
+} from './AuxiliaryTool.esm.test.mts';
 
 import {
   // 判断数据类型。Start

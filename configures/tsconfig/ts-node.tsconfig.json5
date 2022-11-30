@@ -8,7 +8,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 */
 
 {
-  "display": "node for ts-node",
+  "display": "ts-node.tsconfig.json5",
   "_version": "1.0.0",
   "_ts-node_version": "10.9.1",
   "_typescript_version": "4.9.3",
@@ -17,7 +17,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "docs": "https://www.typescriptlang.org/tsconfig",
   "_ts-node_schema": "https://unpkg.com/ts-node/tsconfig.schema.json",
   "_ts-node_docs": "https://typestrong.org/ts-node/docs",
-  "_tsc_cli": "tsc -p ./configures/tsconfig/ts-node.tsconfig.json5 --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   "extends": "./bases.tsconfig.json5",
   "ts-node": {
     /*
@@ -29,17 +28,47 @@ CreateDate: 2022-01-01 00:00:00 星期六
     */
     "compilerHost": false,
     /*
-    将输出文件发射到“.ts-node”目录。
+    将输出文件发射到“.ts-node”目录，依赖选项“compilerHost”。
     */
     "emit": false,
+    /*启用原生的ESM支持。*/
     "esm": true,
-    "experimentalReplAwait": true,
-    "experimentalResolver": true,
     /*
-    有两个有效值：explicit、node。
+    允许在REPL中使用顶级Await。    
+    使用Node的实现，通过AST语法转换实现这一点。
+    当tsconfig目标为es2018或更高版本时，默认启用。设置为false将禁用。
+    注意：如果tsconfig目标太低，则设置为“true”将引发错误。保留为"undefined"，以获得默认的自动行为。
     */
-    "experimentalSpecifierResolution": "node",
+    "experimentalReplAwait": true,
+    /*
+    启用重新映射导入并需要调用支持的实验性挂钩。
+    重新映射扩展，例如这样 import "./foo.js" 就会执行 foo.ts。目前将映射以下扩展：
+    .js to .ts, .tsx, or .jsx
+    .cjs to .cts
+    .mjs to .mts
+    .jsx to .tsx
+    包括 CommonJS 中的文件扩展名，以与 ESM 保持一致，这通常是强制性的。
+    未来，这个钩子还将支持：
+    baseUrl、paths、rootDirs、复合项目和 monorepos 的 outDir 到 rootDir 映射
+    默认值：false，但可能会在未来版本中默认启用 只能通过 tsconfig.json 或 API 指定。
+    */
+    "experimentalResolver": false,
+    /*
+    有两个有效值：explicit（默认值）、node。
+    与node的--experimental-specifier-resolution一样，但也可以在tsconfig.json中设置以方便使用。需要启用选项esm。
+    */
+    // "experimentalSpecifierResolution": "node",
+    /*
+    允许使用".ts"导入说明符中的文件扩展名。
+    通常，在ESM项目中，导入说明符必须具有扩展名“.js”、“cjs”、“.mjs”，
+    并且我们自动映射到相应的“.ts”、“.cts”、“.mts”的源文件。这是建议的方法。
+    但是，如果您真的想使用“.ts”在导入说明符中，并且知道这可能break工具，您可以启用此标志。
+    */
     "experimentalTsImportSpecifiers": true,
+    /*
+    在启动时从tsconfig.json加载files、include、exclude等选项。这可以避免某些类型检查的失败。详见缺失的类型（https://typestrong.org/ts-node/docs/troubleshooting#missing-types）。
+    true表示启用上面说的那种情况。
+    */
     "files": false,
     /*
     不应编译的路径。
@@ -53,7 +82,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     ],
     */
     /*
-    按诊断代码忽略TypeScript警告。
+    通过诊断代码忽略TypeScript的警告。
     */
     // "ignoreDiagnostics": [],
     /*
@@ -77,7 +106,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     */
     // "scope": false,
     /*
-    First of: `tsconfig.json` "rootDir" if specified, directory containing `tsconfig.json`, or cwd if no `tsconfig.json` is loaded.
+    启用“scope”时编译器在其中受到限制的目录。
+    默认情况下。第一个：tsconfig.json "rootDir"，如果指定了，包含tsconfig.json的目录，或cwd，如果没有加载tsconfig.json。
     */
     // "scopeDir": "",
     /*
@@ -85,6 +115,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     */
     "skipIgnore": false,
     /*
+    用swc进行transpile。意味着--transpileOnly。
     使用swc而不是TypeScript编译器进行传输，并跳过类型检查。
     1、等效于同时设置transpileOnly: true和transpiler: 'ts-node/transpilers/swc'。
     2、有关完整说明：https://typestrong.org/ts-node/docs/transpilers。

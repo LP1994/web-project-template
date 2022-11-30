@@ -1,1 +1,1 @@
-ts-node-esm -P ../../../../../ts-node-tsconfig.json ./Main.test.mts&pause
+ts-node-esm -P ../../../../../ts-node_tsconfig.json ./Main.test.mts&pause

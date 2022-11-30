@@ -32,6 +32,8 @@
     "./subsystems/**/*.tsx.vue"
   ],
   "exclude": [
+    "./src/**/*.test.*",
+    "./subsystems/**/*.test.*",
     "./dist",
     "./node_modules",
     "./bower_components",
@@ -261,5 +263,9 @@
       "webworker.importscripts",
       "webworker.iterable"
     ]
+  },
+  "ts-node": {
+    "experimentalReplAwait": true,
+    "experimentalTsImportSpecifiers": true
   }
 }

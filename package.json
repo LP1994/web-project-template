@@ -921,7 +921,7 @@
     "terser": "^5.16.0",
     "terser-webpack-plugin": "^5.3.6",
     "thread-loader": "^3.0.4",
-    "three": "^0.146.0",
+    "three": "^0.147.0",
     "tinify": "^1.7.1",
     "toml": "^3.0.0",
     "touchjs": "^0.2.14",

@@ -1,0 +1,35 @@
+{
+  "display": "web-project-template for ts-node-esm",
+  "_version": "1.0.0",
+  "_typescript_version": "4.9.3",
+  "_description": "这是给ts-node-esm使用的tsconfig.json。",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "docs": "https://www.typescriptlang.org/tsconfig",
+  "_ts-node_schema": "https://unpkg.com/ts-node/tsconfig.schema.json",
+  "_ts-node_docs": "https://typestrong.org/ts-node/docs",
+  "_tsc_cli": "tsc -p ./ts-node_tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "tslib": [
+        "./node_modules/tslib/"
+      ]
+    }
+  },
+  "ts-node": {
+    "compiler": "typescript",
+    "compilerHost": false,
+    "emit": false,
+    "esm": true,
+    "experimentalReplAwait": true,
+    "experimentalResolver": false,
+    "experimentalTsImportSpecifiers": true,
+    "files": false,
+    "logError": false,
+    "preferTsExts": true,
+    "pretty": true,
+    "skipIgnore": false,
+    "swc": false,
+    "transpileOnly": false
+  }
+}

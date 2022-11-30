@@ -8,13 +8,12 @@ CreateDate: 2022-01-01 00:00:00 星期六
 */
 
 {
-  "display": "bases",
+  "display": "bases.tsconfig.json5",
   "_version": "1.0.0",
   "_typescript_version": "4.9.3",
   "_description": "这是基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
-  "_tsc_cli": "tsc -p ./configures/tsconfig/bases.tsconfig.json5 --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   /*
   1、指定要包含在程序中的文件允许列表，如果找不到任何文件，则会发生错误，所以也不要设置成空数组。
   2、当您只有少量文件并且不需要使用全局来引用许多文件时，这很有用，如果您需要全局来引用许多文件时，请使用“include”选项。
@@ -72,6 +71,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
   5、匹配模式的用法可以参见“include”选项的说明，在这个选项里当“/”为打头时极可能代表磁盘的根目录，但是还没验证，使用时切记注意。
   */
   //  "exclude": [
+  //    "./src/**/*.test.*",
+  //    "./subsystems/**/*.test.*",
   //    "./dist",
   //    "./node_modules",
   //    "./bower_components",
