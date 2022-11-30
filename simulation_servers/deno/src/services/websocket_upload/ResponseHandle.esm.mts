@@ -35,7 +35,7 @@ import {
 import {
   MyConsole,
   // @ts-ignore
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。

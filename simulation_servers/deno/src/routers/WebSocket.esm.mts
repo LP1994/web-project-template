@@ -24,7 +24,7 @@ import {
 import {
   MyConsole,
   // @ts-ignore
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
   IterateToNestForPromise,

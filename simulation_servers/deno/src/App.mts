@@ -32,7 +32,7 @@ import 'DenoX/corejs/index.js';
 import {
   MyConsole,
   // @ts-ignore
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mjs';
+} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start

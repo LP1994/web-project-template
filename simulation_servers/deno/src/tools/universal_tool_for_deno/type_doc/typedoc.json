@@ -1,0 +1,13 @@
+{
+  "name": "UniversalToolForDeno.esm.mts的API文档",
+  "entryPoints": [
+    "../UniversalToolForDeno.esm.mts"
+  ],
+  "extends": [
+    "../../../../../../typedoc.json"
+  ],
+  "json": "./doc/UniversalToolForDeno.doc.json",
+  "readme": "./README.md",
+  "tsconfig": "./typedoc_tsconfig.json",
+  "out": "./doc"
+}
