@@ -299,7 +299,7 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20221002。Start
-    'Chrome >= 107',
+    'Chrome >= 108',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 107',
     'Firefox >= 107',
@@ -308,8 +308,8 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
-    'ChromeAndroid >= 107',
-    'Android >= 107',
+    'ChromeAndroid >= 108',
+    'Android >= 108',
     'FirefoxAndroid >= 107',
     'iOS >= 16',
     // 移动端各主流浏览器的最新版本，至20221002。End
@@ -344,7 +344,7 @@ const browserslist = [
     'es2022',
 
     // PC端各主流浏览器的最新版本，至20221002。Start
-    'chrome107',
+    'chrome108',
     'edge107',
     'firefox107',
     'safari16',
@@ -383,7 +383,7 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20221002。Start
-    chrome: 107,
+    chrome: 108,
     edge: 107,
     firefox: 107,
     safari: 16,
@@ -391,7 +391,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。End
 
     // 移动端各主流浏览器的最新版本，至20221002。Start
-    android: 107,
+    android: 108,
     ios: 16,
     // 移动端各主流浏览器的最新版本，至20221002。End
   },

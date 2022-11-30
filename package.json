@@ -84,9 +84,9 @@
     "npm": ">=9.1.2"
   },
   "browserslist": [
-    "Chrome >= 107",
-    "Android >= 107",
-    "ChromeAndroid >= 107",
+    "Chrome >= 108",
+    "Android >= 108",
+    "ChromeAndroid >= 108",
     "Edge >= 107",
     "Firefox >= 107",
     "FirefoxAndroid >= 107",
