@@ -8,6 +8,7 @@
  */
 
 /**
+ * html-webpack-plugin插件的配置。
  * 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
  */
 
@@ -32,7 +33,13 @@ import {
 
 import StartupImgForApple from './StartupImgForApple.esm.mjs';
 
-// 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误，顶级变量就算不需要也要保证它们被设置为null。
+/**
+ * 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误。
+ * 顶级变量就算不需要也要保证它们被设置为null。
+ * 各个属性具体表示什么，值是什么，可参见“src/template/ejs/head_meta”、“src/template/ejs/tool”中的描述。
+ *
+ * @type {object}
+ */
 const defaultData = {
   contentSecurityPolicy: null,
   expires: 0,
@@ -132,7 +139,7 @@ const defaultData = {
 };
 
 /**
- * 根据传入的函数参数currentEntryName做处理，排除掉非当前入口的模块，避免在当前页面引入非此页面需要的模块。<br />
+ * 根据传入的参数currentEntryName做处理，排除掉非当前入口的模块，避免在当前页面引入非此页面需要的模块。<br />
  * PS：<br />
  * 1、已经对当前入口依赖的其他入口项做了处理，不会排除依赖项的。<br />
  *

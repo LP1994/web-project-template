@@ -7,6 +7,10 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
+/**
+ * webpack顶级配置项“entry”的配置。
+ */
+
 'use strict';
 
 import {
@@ -51,6 +55,9 @@ const isProduction = ( argv => {
  * 1、如果启用了experiments.buildHttp，才能把isHMR选项的默认值设置为true，以及调用该函数时，第2个参数传入true，否则还是要设置成false（默认值和调用该函数时的第2个参数都要设置成false）。<br />
  * 2、开发模式下会引入HMR相关的1个JS文件，生产模式不会引入：<br />
  * webpack-dev-server/client/index.js?logging=info&progress=true&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=Infinity&hot=true&live-reload=true
+ * 目前它被注释掉，是因为个人直接修改了“webpack-dev-server/lib/Server.js”，从而暂时修复这个了BUG。<br />
+ * 文件夹“backups”下的“webpack-dev-server/lib/Server_个人修复版.js”就是修改后的代码。<br />
+ * “backups”下的“webpack-dev-server/lib/Server_原版.js”是“webpack-dev-server”的原来的带BUG的版本。<br />
  * 3、等这个BUG被webpack修复后，该工具就可以删掉不用了，已经提交了BUG修复申请：https://github.com/webpack/webpack/issues/16091。
  *
  * @param {string|string[]} entryImport 入口要导入的模块，必需。<br />
