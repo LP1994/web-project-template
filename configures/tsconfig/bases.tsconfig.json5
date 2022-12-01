@@ -163,7 +163,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、打开标志会引发错误，因为未知字段使用点语法而不是索引语法。
     5、设置成true时（推荐设置成true），只能使用“索引”（obj[“key”]）的语法对未知字段进行调用，如果用“.”（obj.key）语法就会报错，这么做的目标是在您的调用语法中表明您对该属性存在的确定程度。
     */
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     /*
     使用索引访问时，向类型添加“undefined”，强烈建议设置为true。
     1、TypeScript有一种方法可以通过索引签名来描述对象上具有未知键但已知值的对象。

@@ -31,7 +31,7 @@
     "importsNotUsedAsValues": "preserve",
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "preserveValueImports": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,

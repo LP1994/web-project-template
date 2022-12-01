@@ -88,7 +88,7 @@ export type TypeError001 = {
   result: any;
 };
 
-export const chalk: any = new Chalk();
+export const chalk: { [ keyName: string ]: any; } = new Chalk();
 
 /**
  * 使用“!==”比较的对比函数Equal001。<br />

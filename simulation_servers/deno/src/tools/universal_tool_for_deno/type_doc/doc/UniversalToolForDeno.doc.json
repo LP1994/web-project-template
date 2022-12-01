@@ -17,7 +17,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 117,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L117"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L117"
 				}
 			],
 			"signatures": [
@@ -85,7 +85,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 130,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L130"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L130"
 				}
 			],
 			"signatures": [
@@ -153,7 +153,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 143,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L143"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L143"
 				}
 			],
 			"signatures": [
@@ -221,7 +221,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 154,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L154"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L154"
 				}
 			],
 			"signatures": [
@@ -289,7 +289,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 171,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L171"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L171"
 				}
 			],
 			"signatures": [
@@ -387,7 +387,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 195,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L195"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L195"
 				}
 			],
 			"signatures": [
@@ -485,7 +485,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 222,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L222"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L222"
 				}
 			],
 			"signatures": [
@@ -583,7 +583,7 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 241,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L241"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L241"
 				}
 			],
 			"signatures": [
@@ -686,7 +686,7 @@
 			},
 			"children": [
 				{
-					"id": 172,
+					"id": 175,
 					"name": "#myChalk",
 					"kind": 1024,
 					"kindString": "Property",
@@ -704,14 +704,51 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 269,
+							"line": 271,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L269"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L271"
 						}
 					],
 					"type": {
-						"type": "intrinsic",
-						"name": "any"
+						"type": "reflection",
+						"declaration": {
+							"id": 176,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForDeno.esm.mts",
+									"line": 271,
+									"character": 12,
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L271"
+								}
+							],
+							"indexSignature": {
+								"id": 177,
+								"name": "__index",
+								"kind": 8192,
+								"kindString": "Index signature",
+								"flags": {},
+								"parameters": [
+									{
+										"id": 178,
+										"name": "keyName",
+										"kind": 32768,
+										"flags": {},
+										"type": {
+											"type": "intrinsic",
+											"name": "string"
+										}
+									}
+								],
+								"type": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							}
+						}
 					},
 					"defaultValue": "chalk"
 				},
@@ -735,19 +772,56 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 276,
+							"line": 280,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L276"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L280"
 						}
 					],
 					"type": {
-						"type": "intrinsic",
-						"name": "any"
+						"type": "reflection",
+						"declaration": {
+							"id": 31,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForDeno.esm.mts",
+									"line": 280,
+									"character": 19,
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L280"
+								}
+							],
+							"indexSignature": {
+								"id": 32,
+								"name": "__index",
+								"kind": 8192,
+								"kindString": "Index signature",
+								"flags": {},
+								"parameters": [
+									{
+										"id": 33,
+										"name": "keyName",
+										"kind": 32768,
+										"flags": {},
+										"type": {
+											"type": "intrinsic",
+											"name": "string"
+										}
+									}
+								],
+								"type": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							}
+						}
 					},
 					"defaultValue": "chalk"
 				},
 				{
-					"id": 166,
+					"id": 169,
 					"name": "constructor",
 					"kind": 512,
 					"kindString": "Constructor",
@@ -757,14 +831,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 296,
+							"line": 300,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L296"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L300"
 						}
 					],
 					"signatures": [
 						{
-							"id": 167,
+							"id": 170,
 							"name": "new MyConsole",
 							"kind": 16384,
 							"kindString": "Constructor signature",
@@ -779,7 +853,7 @@
 							},
 							"parameters": [
 								{
-									"id": 168,
+									"id": 171,
 									"name": "config",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -796,14 +870,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 169,
+											"id": 172,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 170,
+													"id": 173,
 													"name": "color",
 													"kind": 1024,
 													"kindString": "Property",
@@ -819,9 +893,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForDeno.esm.mts",
-															"line": 300,
+															"line": 304,
 															"character": 4,
-															"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L300"
+															"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L304"
 														}
 													],
 													"type": {
@@ -850,7 +924,7 @@
 													}
 												},
 												{
-													"id": 171,
+													"id": 174,
 													"name": "bgColor",
 													"kind": 1024,
 													"kindString": "Property",
@@ -866,9 +940,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForDeno.esm.mts",
-															"line": 301,
+															"line": 305,
 															"character": 4,
-															"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L301"
+															"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L305"
 														}
 													],
 													"type": {
@@ -901,17 +975,17 @@
 												{
 													"title": "Properties",
 													"children": [
-														170,
-														171
+														173,
+														174
 													]
 												}
 											],
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 299,
+													"line": 303,
 													"character": 5,
-													"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L299"
+													"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L303"
 												}
 											]
 										}
@@ -928,7 +1002,7 @@
 					]
 				},
 				{
-					"id": 173,
+					"id": 179,
 					"name": "reset",
 					"kind": 2048,
 					"kindString": "Method",
@@ -938,14 +1012,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 330,
+							"line": 334,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L330"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L334"
 						}
 					],
 					"signatures": [
 						{
-							"id": 174,
+							"id": 180,
 							"name": "reset",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -966,7 +1040,7 @@
 					]
 				},
 				{
-					"id": 175,
+					"id": 181,
 					"name": "setRGB",
 					"kind": 2048,
 					"kindString": "Method",
@@ -976,14 +1050,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 343,
+							"line": 347,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L343"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L347"
 						}
 					],
 					"signatures": [
 						{
-							"id": 176,
+							"id": 182,
 							"name": "setRGB",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -998,7 +1072,7 @@
 							},
 							"parameters": [
 								{
-									"id": 177,
+									"id": 183,
 									"name": "rgbArr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1028,7 +1102,7 @@
 					]
 				},
 				{
-					"id": 178,
+					"id": 184,
 					"name": "setHEX",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1038,14 +1112,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 354,
+							"line": 358,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L354"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L358"
 						}
 					],
 					"signatures": [
 						{
-							"id": 179,
+							"id": 185,
 							"name": "setHEX",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1060,7 +1134,7 @@
 							},
 							"parameters": [
 								{
-									"id": 180,
+									"id": 186,
 									"name": "hexStr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1087,7 +1161,7 @@
 					]
 				},
 				{
-					"id": 181,
+					"id": 187,
 					"name": "setANSI256",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1097,14 +1171,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 365,
+							"line": 369,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L365"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L369"
 						}
 					],
 					"signatures": [
 						{
-							"id": 182,
+							"id": 188,
 							"name": "setANSI256",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1119,7 +1193,7 @@
 							},
 							"parameters": [
 								{
-									"id": 183,
+									"id": 189,
 									"name": "ansi256Num",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1146,7 +1220,7 @@
 					]
 				},
 				{
-					"id": 184,
+					"id": 190,
 					"name": "setBgRGB",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1156,14 +1230,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 380,
+							"line": 384,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L380"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L384"
 						}
 					],
 					"signatures": [
 						{
-							"id": 185,
+							"id": 191,
 							"name": "setBgRGB",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1178,7 +1252,7 @@
 							},
 							"parameters": [
 								{
-									"id": 186,
+									"id": 192,
 									"name": "rgbArr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1208,7 +1282,7 @@
 					]
 				},
 				{
-					"id": 187,
+					"id": 193,
 					"name": "setBgHEX",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1218,14 +1292,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 391,
+							"line": 395,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L391"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L395"
 						}
 					],
 					"signatures": [
 						{
-							"id": 188,
+							"id": 194,
 							"name": "setBgHEX",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1240,7 +1314,7 @@
 							},
 							"parameters": [
 								{
-									"id": 189,
+									"id": 195,
 									"name": "hexStr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1267,7 +1341,7 @@
 					]
 				},
 				{
-					"id": 190,
+					"id": 196,
 					"name": "setBgANSI256",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1277,14 +1351,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 402,
+							"line": 406,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L402"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L406"
 						}
 					],
 					"signatures": [
 						{
-							"id": 191,
+							"id": 197,
 							"name": "setBgANSI256",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1299,7 +1373,7 @@
 							},
 							"parameters": [
 								{
-									"id": 192,
+									"id": 198,
 									"name": "ansi256Num",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1326,7 +1400,7 @@
 					]
 				},
 				{
-					"id": 193,
+					"id": 199,
 					"name": "bold",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1336,14 +1410,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 421,
+							"line": 425,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L421"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L425"
 						}
 					],
 					"signatures": [
 						{
-							"id": 194,
+							"id": 200,
 							"name": "bold",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1362,132 +1436,6 @@
 							},
 							"parameters": [
 								{
-									"id": 195,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 196,
-					"name": "dim",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 434,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L434"
-						}
-					],
-					"signatures": [
-						{
-							"id": 197,
-							"name": "dim",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出暗淡的文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).dim( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 198,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 199,
-					"name": "italic",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 447,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L447"
-						}
-					],
-					"signatures": [
-						{
-							"id": 200,
-							"name": "italic",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出斜体文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).italic( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
 									"id": 201,
 									"name": "data",
 									"kind": 32768,
@@ -1497,7 +1445,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。"
 											}
 										]
 									},
@@ -1516,7 +1464,7 @@
 				},
 				{
 					"id": 202,
-					"name": "underline",
+					"name": "dim",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
@@ -1525,15 +1473,15 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 460,
+							"line": 438,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L460"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L438"
 						}
 					],
 					"signatures": [
 						{
 							"id": 203,
-							"name": "underline",
+							"name": "dim",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -1541,460 +1489,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出带下划线的文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出暗淡的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).underline( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).dim( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
 									"id": 204,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 205,
-					"name": "overline",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 473,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L473"
-						}
-					],
-					"signatures": [
-						{
-							"id": 206,
-							"name": "overline",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出带上划线的文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).overline( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 207,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 208,
-					"name": "inverse",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 486,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L486"
-						}
-					],
-					"signatures": [
-						{
-							"id": 209,
-							"name": "inverse",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出反转背景色和前景色（也就是将背景色用作字体颜色，字体颜色用作背景色）的文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).inverse( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 210,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 211,
-					"name": "hidden",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 499,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L499"
-						}
-					],
-					"signatures": [
-						{
-							"id": 212,
-							"name": "hidden",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出但是隐藏文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).hidden( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 213,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 214,
-					"name": "strikethrough",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 512,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L512"
-						}
-					],
-					"signatures": [
-						{
-							"id": 215,
-							"name": "strikethrough",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出带删除线的文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).strikethrough( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 216,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 217,
-					"name": "visible",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 525,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L525"
-						}
-					],
-					"signatures": [
-						{
-							"id": 218,
-							"name": "visible",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出常规的可见文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).visible( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 219,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 31,
-					"name": "Bold",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true,
-						"isStatic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 538,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L538"
-						}
-					],
-					"signatures": [
-						{
-							"id": 32,
-							"name": "Bold",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用默认样式在控制台输出粗体文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nMyConsole.Bold( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 33,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 34,
-					"name": "Dim",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true,
-						"isStatic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 551,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L551"
-						}
-					],
-					"signatures": [
-						{
-							"id": 35,
-							"name": "Dim",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用默认样式在控制台输出暗淡的文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nMyConsole.Dim( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 36,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2021,26 +1526,25 @@
 					]
 				},
 				{
-					"id": 37,
-					"name": "Italic",
+					"id": 205,
+					"name": "italic",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 564,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L564"
+							"line": 451,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L451"
 						}
 					],
 					"signatures": [
 						{
-							"id": 38,
-							"name": "Italic",
+							"id": 206,
+							"name": "italic",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2048,17 +1552,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出斜体文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出斜体文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Italic( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).italic( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 39,
+									"id": 207,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2085,26 +1589,25 @@
 					]
 				},
 				{
-					"id": 40,
-					"name": "Underline",
+					"id": 208,
+					"name": "underline",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 577,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L577"
+							"line": 464,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L464"
 						}
 					],
 					"signatures": [
 						{
-							"id": 41,
-							"name": "Underline",
+							"id": 209,
+							"name": "underline",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2112,17 +1615,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出带下划线的文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出带下划线的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Underline( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).underline( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 42,
+									"id": 210,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2149,26 +1652,25 @@
 					]
 				},
 				{
-					"id": 43,
-					"name": "Overline",
+					"id": 211,
+					"name": "overline",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 590,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L590"
+							"line": 477,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L477"
 						}
 					],
 					"signatures": [
 						{
-							"id": 44,
-							"name": "Overline",
+							"id": 212,
+							"name": "overline",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2176,17 +1678,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出带上划线的文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出带上划线的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Overline( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).overline( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 45,
+									"id": 213,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2213,26 +1715,25 @@
 					]
 				},
 				{
-					"id": 46,
-					"name": "Inverse",
+					"id": 214,
+					"name": "inverse",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 603,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L603"
+							"line": 490,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L490"
 						}
 					],
 					"signatures": [
 						{
-							"id": 47,
-							"name": "Inverse",
+							"id": 215,
+							"name": "inverse",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2240,17 +1741,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出反转背景色和前景色（也就是将背景色用作字体颜色，字体颜色用作背景色）的文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出反转背景色和前景色（也就是将背景色用作字体颜色，字体颜色用作背景色）的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Inverse( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).inverse( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 48,
+									"id": 216,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2277,26 +1778,25 @@
 					]
 				},
 				{
-					"id": 49,
-					"name": "Hidden",
+					"id": 217,
+					"name": "hidden",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 616,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L616"
+							"line": 503,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L503"
 						}
 					],
 					"signatures": [
 						{
-							"id": 50,
-							"name": "Hidden",
+							"id": 218,
+							"name": "hidden",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2304,17 +1804,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出但是隐藏文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出但是隐藏文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Hidden( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).hidden( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 51,
+									"id": 219,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2341,26 +1841,25 @@
 					]
 				},
 				{
-					"id": 52,
-					"name": "Strikethrough",
+					"id": 220,
+					"name": "strikethrough",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 629,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L629"
+							"line": 516,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L516"
 						}
 					],
 					"signatures": [
 						{
-							"id": 53,
-							"name": "Strikethrough",
+							"id": 221,
+							"name": "strikethrough",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2368,17 +1867,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出带删除线的文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出带删除线的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Strikethrough( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).strikethrough( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 54,
+									"id": 222,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2405,26 +1904,25 @@
 					]
 				},
 				{
-					"id": 55,
-					"name": "Visible",
+					"id": 223,
+					"name": "visible",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 642,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L642"
+							"line": 529,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L529"
 						}
 					],
 					"signatures": [
 						{
-							"id": 56,
-							"name": "Visible",
+							"id": 224,
+							"name": "visible",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2432,17 +1930,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出常规的可见文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出常规的可见文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Visible( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).visible( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 57,
+									"id": 225,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2469,25 +1967,26 @@
 					]
 				},
 				{
-					"id": 220,
-					"name": "black",
+					"id": 34,
+					"name": "Bold",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 659,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L659"
+							"line": 542,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L542"
 						}
 					],
 					"signatures": [
 						{
-							"id": 221,
-							"name": "black",
+							"id": 35,
+							"name": "Bold",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2495,17 +1994,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出黑色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出粗体文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).black( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Bold( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 222,
+									"id": 36,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2514,7 +2013,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2532,25 +2031,26 @@
 					]
 				},
 				{
-					"id": 223,
-					"name": "red",
+					"id": 37,
+					"name": "Dim",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 672,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L672"
+							"line": 555,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L555"
 						}
 					],
 					"signatures": [
 						{
-							"id": 224,
-							"name": "red",
+							"id": 38,
+							"name": "Dim",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2558,17 +2058,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出红色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出暗淡的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).red( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Dim( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 225,
+									"id": 39,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2577,7 +2077,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2595,25 +2095,26 @@
 					]
 				},
 				{
-					"id": 226,
-					"name": "green",
+					"id": 40,
+					"name": "Italic",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 685,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L685"
+							"line": 568,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L568"
 						}
 					],
 					"signatures": [
 						{
-							"id": 227,
-							"name": "green",
+							"id": 41,
+							"name": "Italic",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2621,17 +2122,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出绿色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出斜体文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).green( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Italic( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 228,
+									"id": 42,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2640,7 +2141,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2658,25 +2159,26 @@
 					]
 				},
 				{
-					"id": 229,
-					"name": "yellow",
+					"id": 43,
+					"name": "Underline",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 698,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L698"
+							"line": 581,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L581"
 						}
 					],
 					"signatures": [
 						{
-							"id": 230,
-							"name": "yellow",
+							"id": 44,
+							"name": "Underline",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2684,17 +2186,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出黄色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出带下划线的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).yellow( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Underline( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 231,
+									"id": 45,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2703,7 +2205,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2721,25 +2223,26 @@
 					]
 				},
 				{
-					"id": 232,
-					"name": "blue",
+					"id": 46,
+					"name": "Overline",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 711,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L711"
+							"line": 594,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L594"
 						}
 					],
 					"signatures": [
 						{
-							"id": 233,
-							"name": "blue",
+							"id": 47,
+							"name": "Overline",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2747,17 +2250,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出蓝色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出带上划线的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blue( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Overline( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 234,
+									"id": 48,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2766,7 +2269,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2784,25 +2287,26 @@
 					]
 				},
 				{
-					"id": 235,
-					"name": "magenta",
+					"id": 49,
+					"name": "Inverse",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 724,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L724"
+							"line": 607,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L607"
 						}
 					],
 					"signatures": [
 						{
-							"id": 236,
-							"name": "magenta",
+							"id": 50,
+							"name": "Inverse",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2810,17 +2314,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出洋红色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出反转背景色和前景色（也就是将背景色用作字体颜色，字体颜色用作背景色）的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).magenta( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Inverse( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 237,
+									"id": 51,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2829,7 +2333,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2847,25 +2351,26 @@
 					]
 				},
 				{
-					"id": 238,
-					"name": "cyan",
+					"id": 52,
+					"name": "Hidden",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 737,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L737"
+							"line": 620,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L620"
 						}
 					],
 					"signatures": [
 						{
-							"id": 239,
-							"name": "cyan",
+							"id": 53,
+							"name": "Hidden",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2873,17 +2378,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出青色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出但是隐藏文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).cyan( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Hidden( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 240,
+									"id": 54,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2892,7 +2397,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。"
 											}
 										]
 									},
@@ -2910,25 +2415,26 @@
 					]
 				},
 				{
-					"id": 241,
-					"name": "white",
+					"id": 55,
+					"name": "Strikethrough",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true
+						"isPublic": true,
+						"isStatic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 750,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L750"
+							"line": 633,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L633"
 						}
 					],
 					"signatures": [
 						{
-							"id": 242,
-							"name": "white",
+							"id": 56,
+							"name": "Strikethrough",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2936,17 +2442,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用自定义的样式在控制台输出白色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出带删除线的文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).white( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Strikethrough( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 243,
+									"id": 57,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2955,637 +2461,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 244,
-					"name": "gray",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 763,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L763"
-						}
-					],
-					"signatures": [
-						{
-							"id": 245,
-							"name": "gray",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出灰色文字（blackBright的别名）。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).gray( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 246,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 247,
-					"name": "grey",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 776,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L776"
-						}
-					],
-					"signatures": [
-						{
-							"id": 248,
-							"name": "grey",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出灰色文字（blackBright的别名）。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).grey( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 249,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 250,
-					"name": "blackBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 789,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L789"
-						}
-					],
-					"signatures": [
-						{
-							"id": 251,
-							"name": "blackBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出黑亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blackBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 252,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 253,
-					"name": "redBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 802,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L802"
-						}
-					],
-					"signatures": [
-						{
-							"id": 254,
-							"name": "redBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出红亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).redBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 255,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 256,
-					"name": "greenBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 815,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L815"
-						}
-					],
-					"signatures": [
-						{
-							"id": 257,
-							"name": "greenBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出绿亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).greenBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 258,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 259,
-					"name": "yellowBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 828,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L828"
-						}
-					],
-					"signatures": [
-						{
-							"id": 260,
-							"name": "yellowBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出黄亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).yellowBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 261,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 262,
-					"name": "blueBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 841,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L841"
-						}
-					],
-					"signatures": [
-						{
-							"id": 263,
-							"name": "blueBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出蓝亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blueBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 264,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 265,
-					"name": "magentaBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 854,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L854"
-						}
-					],
-					"signatures": [
-						{
-							"id": 266,
-							"name": "magentaBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出洋红亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).magentaBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 267,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 268,
-					"name": "cyanBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 867,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L867"
-						}
-					],
-					"signatures": [
-						{
-							"id": 269,
-							"name": "cyanBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出青亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).cyanBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 270,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。"
-											}
-										]
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					]
-				},
-				{
-					"id": 271,
-					"name": "whiteBright",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 880,
-							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L880"
-						}
-					],
-					"signatures": [
-						{
-							"id": 272,
-							"name": "whiteBright",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "使用自定义的样式在控制台输出白亮文字。<br />\r\n使用例子：<br />\r\n"
-									},
-									{
-										"kind": "code",
-										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).whiteBright( 'XXX' );\r\n```"
-									}
-								]
-							},
-							"parameters": [
-								{
-									"id": 273,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"summary": [
-											{
-												"kind": "text",
-												"text": "data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。"
+												"text": "data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。"
 											}
 										]
 									},
@@ -3604,7 +2480,7 @@
 				},
 				{
 					"id": 58,
-					"name": "Black",
+					"name": "Visible",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
@@ -3614,15 +2490,15 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 893,
+							"line": 646,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L893"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L646"
 						}
 					],
 					"signatures": [
 						{
 							"id": 59,
-							"name": "Black",
+							"name": "Visible",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -3630,17 +2506,80 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出黑色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用默认样式在控制台输出常规的可见文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Black( 'XXX' );\r\n```"
+										"text": "```ts\r\nMyConsole.Visible( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
 									"id": 60,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 226,
+					"name": "black",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 663,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L663"
+						}
+					],
+					"signatures": [
+						{
+							"id": 227,
+							"name": "black",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出黑色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).black( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 228,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3667,26 +2606,25 @@
 					]
 				},
 				{
-					"id": 61,
-					"name": "Red",
+					"id": 229,
+					"name": "red",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 906,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L906"
+							"line": 676,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L676"
 						}
 					],
 					"signatures": [
 						{
-							"id": 62,
-							"name": "Red",
+							"id": 230,
+							"name": "red",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -3694,17 +2632,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出红色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出红色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Red( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).red( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 63,
+									"id": 231,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3731,26 +2669,25 @@
 					]
 				},
 				{
-					"id": 64,
-					"name": "Green",
+					"id": 232,
+					"name": "green",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 919,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L919"
+							"line": 689,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L689"
 						}
 					],
 					"signatures": [
 						{
-							"id": 65,
-							"name": "Green",
+							"id": 233,
+							"name": "green",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -3758,17 +2695,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出绿色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出绿色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Green( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).green( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 66,
+									"id": 234,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3795,26 +2732,25 @@
 					]
 				},
 				{
-					"id": 67,
-					"name": "Yellow",
+					"id": 235,
+					"name": "yellow",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 932,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L932"
+							"line": 702,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L702"
 						}
 					],
 					"signatures": [
 						{
-							"id": 68,
-							"name": "Yellow",
+							"id": 236,
+							"name": "yellow",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -3822,17 +2758,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出黄色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出黄色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Yellow( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).yellow( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 69,
+									"id": 237,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3859,26 +2795,25 @@
 					]
 				},
 				{
-					"id": 70,
-					"name": "Blue",
+					"id": 238,
+					"name": "blue",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 945,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L945"
+							"line": 715,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L715"
 						}
 					],
 					"signatures": [
 						{
-							"id": 71,
-							"name": "Blue",
+							"id": 239,
+							"name": "blue",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -3886,17 +2821,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出蓝色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出蓝色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Blue( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blue( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 72,
+									"id": 240,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3923,26 +2858,25 @@
 					]
 				},
 				{
-					"id": 73,
-					"name": "Magenta",
+					"id": 241,
+					"name": "magenta",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 958,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L958"
+							"line": 728,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L728"
 						}
 					],
 					"signatures": [
 						{
-							"id": 74,
-							"name": "Magenta",
+							"id": 242,
+							"name": "magenta",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -3950,17 +2884,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出洋红色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出洋红色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Magenta( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).magenta( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 75,
+									"id": 243,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3987,26 +2921,25 @@
 					]
 				},
 				{
-					"id": 76,
-					"name": "Cyan",
+					"id": 244,
+					"name": "cyan",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 971,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L971"
+							"line": 741,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L741"
 						}
 					],
 					"signatures": [
 						{
-							"id": 77,
-							"name": "Cyan",
+							"id": 245,
+							"name": "cyan",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4014,17 +2947,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出青色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出青色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Cyan( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).cyan( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 78,
+									"id": 246,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4051,26 +2984,25 @@
 					]
 				},
 				{
-					"id": 79,
-					"name": "White",
+					"id": 247,
+					"name": "white",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 984,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L984"
+							"line": 754,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L754"
 						}
 					],
 					"signatures": [
 						{
-							"id": 80,
-							"name": "White",
+							"id": 248,
+							"name": "white",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4078,17 +3010,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出白色文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出白色文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.White( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).white( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 81,
+									"id": 249,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4115,26 +3047,25 @@
 					]
 				},
 				{
-					"id": 82,
-					"name": "Gray",
+					"id": 250,
+					"name": "gray",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 997,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L997"
+							"line": 767,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L767"
 						}
 					],
 					"signatures": [
 						{
-							"id": 83,
-							"name": "Gray",
+							"id": 251,
+							"name": "gray",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4142,17 +3073,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出灰色文字（BlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出灰色文字（blackBright的别名）。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Gray( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).gray( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 84,
+									"id": 252,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4179,26 +3110,25 @@
 					]
 				},
 				{
-					"id": 85,
-					"name": "Grey",
+					"id": 253,
+					"name": "grey",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1010,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1010"
+							"line": 780,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L780"
 						}
 					],
 					"signatures": [
 						{
-							"id": 86,
-							"name": "Grey",
+							"id": 254,
+							"name": "grey",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4206,17 +3136,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出灰色文字（BlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出灰色文字（blackBright的别名）。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.Grey( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).grey( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 87,
+									"id": 255,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4243,26 +3173,25 @@
 					]
 				},
 				{
-					"id": 88,
-					"name": "BlackBright",
+					"id": 256,
+					"name": "blackBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1023,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1023"
+							"line": 793,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L793"
 						}
 					],
 					"signatures": [
 						{
-							"id": 89,
-							"name": "BlackBright",
+							"id": 257,
+							"name": "blackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4270,17 +3199,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出黑亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出黑亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.BlackBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blackBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 90,
+									"id": 258,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4307,26 +3236,25 @@
 					]
 				},
 				{
-					"id": 91,
-					"name": "RedBright",
+					"id": 259,
+					"name": "redBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1036,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1036"
+							"line": 806,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L806"
 						}
 					],
 					"signatures": [
 						{
-							"id": 92,
-							"name": "RedBright",
+							"id": 260,
+							"name": "redBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4334,17 +3262,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出红亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出红亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.RedBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).redBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 93,
+									"id": 261,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4371,26 +3299,25 @@
 					]
 				},
 				{
-					"id": 94,
-					"name": "GreenBright",
+					"id": 262,
+					"name": "greenBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1049,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1049"
+							"line": 819,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L819"
 						}
 					],
 					"signatures": [
 						{
-							"id": 95,
-							"name": "GreenBright",
+							"id": 263,
+							"name": "greenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4398,17 +3325,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出绿亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出绿亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.GreenBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).greenBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 96,
+									"id": 264,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4435,26 +3362,25 @@
 					]
 				},
 				{
-					"id": 97,
-					"name": "YellowBright",
+					"id": 265,
+					"name": "yellowBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1062,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1062"
+							"line": 832,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L832"
 						}
 					],
 					"signatures": [
 						{
-							"id": 98,
-							"name": "YellowBright",
+							"id": 266,
+							"name": "yellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4462,17 +3388,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出黄亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出黄亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.YellowBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).yellowBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 99,
+									"id": 267,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4499,26 +3425,25 @@
 					]
 				},
 				{
-					"id": 100,
-					"name": "BlueBright",
+					"id": 268,
+					"name": "blueBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1075,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1075"
+							"line": 845,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L845"
 						}
 					],
 					"signatures": [
 						{
-							"id": 101,
-							"name": "BlueBright",
+							"id": 269,
+							"name": "blueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4526,17 +3451,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出蓝亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出蓝亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.BlueBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blueBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 102,
+									"id": 270,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4563,26 +3488,25 @@
 					]
 				},
 				{
-					"id": 103,
-					"name": "MagentaBright",
+					"id": 271,
+					"name": "magentaBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1088,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1088"
+							"line": 858,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L858"
 						}
 					],
 					"signatures": [
 						{
-							"id": 104,
-							"name": "MagentaBright",
+							"id": 272,
+							"name": "magentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4590,17 +3514,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出洋红亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出洋红亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.MagentaBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).magentaBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 105,
+									"id": 273,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4627,26 +3551,25 @@
 					]
 				},
 				{
-					"id": 106,
-					"name": "CyanBright",
+					"id": 274,
+					"name": "cyanBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1101,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1101"
+							"line": 871,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L871"
 						}
 					],
 					"signatures": [
 						{
-							"id": 107,
-							"name": "CyanBright",
+							"id": 275,
+							"name": "cyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4654,17 +3577,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出青亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出青亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.CyanBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).cyanBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 108,
+									"id": 276,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4691,26 +3614,25 @@
 					]
 				},
 				{
-					"id": 109,
-					"name": "WhiteBright",
+					"id": 277,
+					"name": "whiteBright",
 					"kind": 2048,
 					"kindString": "Method",
 					"flags": {
-						"isPublic": true,
-						"isStatic": true
+						"isPublic": true
 					},
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1114,
-							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1114"
+							"line": 884,
+							"character": 9,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L884"
 						}
 					],
 					"signatures": [
 						{
-							"id": 110,
-							"name": "WhiteBright",
+							"id": 278,
+							"name": "whiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -4718,17 +3640,17 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "使用默认样式在控制台输出白亮文字。<br />\r\n使用例子：<br />\r\n"
+										"text": "使用自定义的样式在控制台输出白亮文字。<br />\r\n使用例子：<br />\r\n"
 									},
 									{
 										"kind": "code",
-										"text": "```ts\r\nMyConsole.WhiteBright( 'XXX' );\r\n```"
+										"text": "```ts\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).whiteBright( 'XXX' );\r\n```"
 									}
 								]
 							},
 							"parameters": [
 								{
-									"id": 111,
+									"id": 279,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4755,7 +3677,1159 @@
 					]
 				},
 				{
-					"id": 274,
+					"id": 61,
+					"name": "Black",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 897,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L897"
+						}
+					],
+					"signatures": [
+						{
+							"id": 62,
+							"name": "Black",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黑色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Black( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 63,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 64,
+					"name": "Red",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 910,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L910"
+						}
+					],
+					"signatures": [
+						{
+							"id": 65,
+							"name": "Red",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出红色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Red( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 66,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 67,
+					"name": "Green",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 923,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L923"
+						}
+					],
+					"signatures": [
+						{
+							"id": 68,
+							"name": "Green",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出绿色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Green( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 69,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 70,
+					"name": "Yellow",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 936,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L936"
+						}
+					],
+					"signatures": [
+						{
+							"id": 71,
+							"name": "Yellow",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黄色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Yellow( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 72,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 73,
+					"name": "Blue",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 949,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L949"
+						}
+					],
+					"signatures": [
+						{
+							"id": 74,
+							"name": "Blue",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出蓝色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Blue( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 75,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 76,
+					"name": "Magenta",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 962,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L962"
+						}
+					],
+					"signatures": [
+						{
+							"id": 77,
+							"name": "Magenta",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出洋红色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Magenta( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 78,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 79,
+					"name": "Cyan",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 975,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L975"
+						}
+					],
+					"signatures": [
+						{
+							"id": 80,
+							"name": "Cyan",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出青色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Cyan( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 81,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 82,
+					"name": "White",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 988,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L988"
+						}
+					],
+					"signatures": [
+						{
+							"id": 83,
+							"name": "White",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出白色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.White( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 84,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 85,
+					"name": "Gray",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1001,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1001"
+						}
+					],
+					"signatures": [
+						{
+							"id": 86,
+							"name": "Gray",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出灰色文字（BlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Gray( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 87,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 88,
+					"name": "Grey",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1014,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1014"
+						}
+					],
+					"signatures": [
+						{
+							"id": 89,
+							"name": "Grey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出灰色文字（BlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.Grey( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 90,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 91,
+					"name": "BlackBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1027,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1027"
+						}
+					],
+					"signatures": [
+						{
+							"id": 92,
+							"name": "BlackBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黑亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.BlackBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 93,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 94,
+					"name": "RedBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1040,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1040"
+						}
+					],
+					"signatures": [
+						{
+							"id": 95,
+							"name": "RedBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出红亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.RedBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 96,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 97,
+					"name": "GreenBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1053,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1053"
+						}
+					],
+					"signatures": [
+						{
+							"id": 98,
+							"name": "GreenBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出绿亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.GreenBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 99,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 100,
+					"name": "YellowBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1066,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1066"
+						}
+					],
+					"signatures": [
+						{
+							"id": 101,
+							"name": "YellowBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黄亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.YellowBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 102,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 103,
+					"name": "BlueBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1079,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1079"
+						}
+					],
+					"signatures": [
+						{
+							"id": 104,
+							"name": "BlueBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出蓝亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.BlueBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 105,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 106,
+					"name": "MagentaBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1092,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1092"
+						}
+					],
+					"signatures": [
+						{
+							"id": 107,
+							"name": "MagentaBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出洋红亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.MagentaBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 108,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 109,
+					"name": "CyanBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1105,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1105"
+						}
+					],
+					"signatures": [
+						{
+							"id": 110,
+							"name": "CyanBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出青亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.CyanBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 111,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 112,
+					"name": "WhiteBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true,
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForDeno.esm.mts",
+							"line": 1118,
+							"character": 16,
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1118"
+						}
+					],
+					"signatures": [
+						{
+							"id": 113,
+							"name": "WhiteBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出白亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```ts\r\nMyConsole.WhiteBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 114,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 280,
 					"name": "bgBlack",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4765,14 +4839,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1131,
+							"line": 1135,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1131"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1135"
 						}
 					],
 					"signatures": [
 						{
-							"id": 275,
+							"id": 281,
 							"name": "bgBlack",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4791,7 +4865,7 @@
 							},
 							"parameters": [
 								{
-									"id": 276,
+									"id": 282,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4818,7 +4892,7 @@
 					]
 				},
 				{
-					"id": 277,
+					"id": 283,
 					"name": "bgRed",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4828,14 +4902,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1144,
+							"line": 1148,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1144"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1148"
 						}
 					],
 					"signatures": [
 						{
-							"id": 278,
+							"id": 284,
 							"name": "bgRed",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4854,7 +4928,7 @@
 							},
 							"parameters": [
 								{
-									"id": 279,
+									"id": 285,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4881,7 +4955,7 @@
 					]
 				},
 				{
-					"id": 280,
+					"id": 286,
 					"name": "bgGreen",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4891,14 +4965,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1157,
+							"line": 1161,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1157"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1161"
 						}
 					],
 					"signatures": [
 						{
-							"id": 281,
+							"id": 287,
 							"name": "bgGreen",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4917,7 +4991,7 @@
 							},
 							"parameters": [
 								{
-									"id": 282,
+									"id": 288,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4944,7 +5018,7 @@
 					]
 				},
 				{
-					"id": 283,
+					"id": 289,
 					"name": "bgYellow",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4954,14 +5028,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1170,
+							"line": 1174,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1170"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1174"
 						}
 					],
 					"signatures": [
 						{
-							"id": 284,
+							"id": 290,
 							"name": "bgYellow",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4980,7 +5054,7 @@
 							},
 							"parameters": [
 								{
-									"id": 285,
+									"id": 291,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5007,7 +5081,7 @@
 					]
 				},
 				{
-					"id": 286,
+					"id": 292,
 					"name": "bgBlue",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5017,14 +5091,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1183,
+							"line": 1187,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1183"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1187"
 						}
 					],
 					"signatures": [
 						{
-							"id": 287,
+							"id": 293,
 							"name": "bgBlue",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5043,7 +5117,7 @@
 							},
 							"parameters": [
 								{
-									"id": 288,
+									"id": 294,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5070,7 +5144,7 @@
 					]
 				},
 				{
-					"id": 289,
+					"id": 295,
 					"name": "bgMagenta",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5080,14 +5154,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1196,
+							"line": 1200,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1196"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1200"
 						}
 					],
 					"signatures": [
 						{
-							"id": 290,
+							"id": 296,
 							"name": "bgMagenta",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5106,7 +5180,7 @@
 							},
 							"parameters": [
 								{
-									"id": 291,
+									"id": 297,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5133,7 +5207,7 @@
 					]
 				},
 				{
-					"id": 292,
+					"id": 298,
 					"name": "bgCyan",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5143,14 +5217,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1209,
+							"line": 1213,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1209"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1213"
 						}
 					],
 					"signatures": [
 						{
-							"id": 293,
+							"id": 299,
 							"name": "bgCyan",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5169,7 +5243,7 @@
 							},
 							"parameters": [
 								{
-									"id": 294,
+									"id": 300,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5196,7 +5270,7 @@
 					]
 				},
 				{
-					"id": 295,
+					"id": 301,
 					"name": "bgWhite",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5206,14 +5280,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1222,
+							"line": 1226,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1222"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1226"
 						}
 					],
 					"signatures": [
 						{
-							"id": 296,
+							"id": 302,
 							"name": "bgWhite",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5232,7 +5306,7 @@
 							},
 							"parameters": [
 								{
-									"id": 297,
+									"id": 303,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5259,7 +5333,7 @@
 					]
 				},
 				{
-					"id": 298,
+					"id": 304,
 					"name": "bgGray",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5269,14 +5343,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1235,
+							"line": 1239,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1235"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1239"
 						}
 					],
 					"signatures": [
 						{
-							"id": 299,
+							"id": 305,
 							"name": "bgGray",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5295,7 +5369,7 @@
 							},
 							"parameters": [
 								{
-									"id": 300,
+									"id": 306,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5322,7 +5396,7 @@
 					]
 				},
 				{
-					"id": 301,
+					"id": 307,
 					"name": "bgGrey",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5332,14 +5406,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1248,
+							"line": 1252,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1248"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1252"
 						}
 					],
 					"signatures": [
 						{
-							"id": 302,
+							"id": 308,
 							"name": "bgGrey",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5358,7 +5432,7 @@
 							},
 							"parameters": [
 								{
-									"id": 303,
+									"id": 309,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5385,7 +5459,7 @@
 					]
 				},
 				{
-					"id": 304,
+					"id": 310,
 					"name": "bgBlackBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5395,14 +5469,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1261,
+							"line": 1265,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1261"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1265"
 						}
 					],
 					"signatures": [
 						{
-							"id": 305,
+							"id": 311,
 							"name": "bgBlackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5421,7 +5495,7 @@
 							},
 							"parameters": [
 								{
-									"id": 306,
+									"id": 312,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5448,7 +5522,7 @@
 					]
 				},
 				{
-					"id": 307,
+					"id": 313,
 					"name": "bgRedBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5458,14 +5532,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1274,
+							"line": 1278,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1274"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1278"
 						}
 					],
 					"signatures": [
 						{
-							"id": 308,
+							"id": 314,
 							"name": "bgRedBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5484,7 +5558,7 @@
 							},
 							"parameters": [
 								{
-									"id": 309,
+									"id": 315,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5511,7 +5585,7 @@
 					]
 				},
 				{
-					"id": 310,
+					"id": 316,
 					"name": "bgGreenBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5521,14 +5595,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1287,
+							"line": 1291,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1287"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1291"
 						}
 					],
 					"signatures": [
 						{
-							"id": 311,
+							"id": 317,
 							"name": "bgGreenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5547,7 +5621,7 @@
 							},
 							"parameters": [
 								{
-									"id": 312,
+									"id": 318,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5574,7 +5648,7 @@
 					]
 				},
 				{
-					"id": 313,
+					"id": 319,
 					"name": "bgYellowBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5584,14 +5658,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1300,
+							"line": 1304,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1300"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1304"
 						}
 					],
 					"signatures": [
 						{
-							"id": 314,
+							"id": 320,
 							"name": "bgYellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5610,7 +5684,7 @@
 							},
 							"parameters": [
 								{
-									"id": 315,
+									"id": 321,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5637,7 +5711,7 @@
 					]
 				},
 				{
-					"id": 316,
+					"id": 322,
 					"name": "bgBlueBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5647,14 +5721,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1313,
+							"line": 1317,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1313"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1317"
 						}
 					],
 					"signatures": [
 						{
-							"id": 317,
+							"id": 323,
 							"name": "bgBlueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5673,7 +5747,7 @@
 							},
 							"parameters": [
 								{
-									"id": 318,
+									"id": 324,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5700,7 +5774,7 @@
 					]
 				},
 				{
-					"id": 319,
+					"id": 325,
 					"name": "bgMagentaBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5710,14 +5784,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1326,
+							"line": 1330,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1326"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1330"
 						}
 					],
 					"signatures": [
 						{
-							"id": 320,
+							"id": 326,
 							"name": "bgMagentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5736,7 +5810,7 @@
 							},
 							"parameters": [
 								{
-									"id": 321,
+									"id": 327,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5763,7 +5837,7 @@
 					]
 				},
 				{
-					"id": 322,
+					"id": 328,
 					"name": "bgCyanBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5773,14 +5847,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1339,
+							"line": 1343,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1339"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1343"
 						}
 					],
 					"signatures": [
 						{
-							"id": 323,
+							"id": 329,
 							"name": "bgCyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5799,7 +5873,7 @@
 							},
 							"parameters": [
 								{
-									"id": 324,
+									"id": 330,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5826,7 +5900,7 @@
 					]
 				},
 				{
-					"id": 325,
+					"id": 331,
 					"name": "bgWhiteBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5836,14 +5910,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1352,
+							"line": 1356,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1352"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1356"
 						}
 					],
 					"signatures": [
 						{
-							"id": 326,
+							"id": 332,
 							"name": "bgWhiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5862,7 +5936,7 @@
 							},
 							"parameters": [
 								{
-									"id": 327,
+									"id": 333,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5889,7 +5963,7 @@
 					]
 				},
 				{
-					"id": 112,
+					"id": 115,
 					"name": "BgBlack",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5900,14 +5974,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1365,
+							"line": 1369,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1365"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1369"
 						}
 					],
 					"signatures": [
 						{
-							"id": 113,
+							"id": 116,
 							"name": "BgBlack",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5926,7 +6000,7 @@
 							},
 							"parameters": [
 								{
-									"id": 114,
+									"id": 117,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5953,7 +6027,7 @@
 					]
 				},
 				{
-					"id": 115,
+					"id": 118,
 					"name": "BgRed",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5964,14 +6038,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1378,
+							"line": 1382,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1378"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1382"
 						}
 					],
 					"signatures": [
 						{
-							"id": 116,
+							"id": 119,
 							"name": "BgRed",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5990,7 +6064,7 @@
 							},
 							"parameters": [
 								{
-									"id": 117,
+									"id": 120,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6017,7 +6091,7 @@
 					]
 				},
 				{
-					"id": 118,
+					"id": 121,
 					"name": "BgGreen",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6028,14 +6102,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1391,
+							"line": 1395,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1391"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1395"
 						}
 					],
 					"signatures": [
 						{
-							"id": 119,
+							"id": 122,
 							"name": "BgGreen",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6054,7 +6128,7 @@
 							},
 							"parameters": [
 								{
-									"id": 120,
+									"id": 123,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6081,7 +6155,7 @@
 					]
 				},
 				{
-					"id": 121,
+					"id": 124,
 					"name": "BgYellow",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6092,14 +6166,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1404,
+							"line": 1408,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1404"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1408"
 						}
 					],
 					"signatures": [
 						{
-							"id": 122,
+							"id": 125,
 							"name": "BgYellow",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6118,7 +6192,7 @@
 							},
 							"parameters": [
 								{
-									"id": 123,
+									"id": 126,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6145,7 +6219,7 @@
 					]
 				},
 				{
-					"id": 124,
+					"id": 127,
 					"name": "BgBlue",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6156,14 +6230,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1417,
+							"line": 1421,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1417"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1421"
 						}
 					],
 					"signatures": [
 						{
-							"id": 125,
+							"id": 128,
 							"name": "BgBlue",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6182,7 +6256,7 @@
 							},
 							"parameters": [
 								{
-									"id": 126,
+									"id": 129,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6209,7 +6283,7 @@
 					]
 				},
 				{
-					"id": 127,
+					"id": 130,
 					"name": "BgMagenta",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6220,14 +6294,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1430,
+							"line": 1434,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1430"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1434"
 						}
 					],
 					"signatures": [
 						{
-							"id": 128,
+							"id": 131,
 							"name": "BgMagenta",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6246,7 +6320,7 @@
 							},
 							"parameters": [
 								{
-									"id": 129,
+									"id": 132,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6273,7 +6347,7 @@
 					]
 				},
 				{
-					"id": 130,
+					"id": 133,
 					"name": "BgCyan",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6284,14 +6358,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1443,
+							"line": 1447,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1443"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1447"
 						}
 					],
 					"signatures": [
 						{
-							"id": 131,
+							"id": 134,
 							"name": "BgCyan",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6310,7 +6384,7 @@
 							},
 							"parameters": [
 								{
-									"id": 132,
+									"id": 135,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6337,7 +6411,7 @@
 					]
 				},
 				{
-					"id": 133,
+					"id": 136,
 					"name": "BgWhite",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6348,14 +6422,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1456,
+							"line": 1460,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1456"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1460"
 						}
 					],
 					"signatures": [
 						{
-							"id": 134,
+							"id": 137,
 							"name": "BgWhite",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6374,7 +6448,7 @@
 							},
 							"parameters": [
 								{
-									"id": 135,
+									"id": 138,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6401,7 +6475,7 @@
 					]
 				},
 				{
-					"id": 136,
+					"id": 139,
 					"name": "BgGray",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6412,14 +6486,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1469,
+							"line": 1473,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1469"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1473"
 						}
 					],
 					"signatures": [
 						{
-							"id": 137,
+							"id": 140,
 							"name": "BgGray",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6438,7 +6512,7 @@
 							},
 							"parameters": [
 								{
-									"id": 138,
+									"id": 141,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6465,7 +6539,7 @@
 					]
 				},
 				{
-					"id": 139,
+					"id": 142,
 					"name": "BgGrey",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6476,14 +6550,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1482,
+							"line": 1486,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1482"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1486"
 						}
 					],
 					"signatures": [
 						{
-							"id": 140,
+							"id": 143,
 							"name": "BgGrey",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6502,7 +6576,7 @@
 							},
 							"parameters": [
 								{
-									"id": 141,
+									"id": 144,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6529,7 +6603,7 @@
 					]
 				},
 				{
-					"id": 142,
+					"id": 145,
 					"name": "BgBlackBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6540,14 +6614,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1495,
+							"line": 1499,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1495"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1499"
 						}
 					],
 					"signatures": [
 						{
-							"id": 143,
+							"id": 146,
 							"name": "BgBlackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6566,7 +6640,7 @@
 							},
 							"parameters": [
 								{
-									"id": 144,
+									"id": 147,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6593,7 +6667,7 @@
 					]
 				},
 				{
-					"id": 145,
+					"id": 148,
 					"name": "BgRedBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6604,14 +6678,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1508,
+							"line": 1512,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1508"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1512"
 						}
 					],
 					"signatures": [
 						{
-							"id": 146,
+							"id": 149,
 							"name": "BgRedBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6630,7 +6704,7 @@
 							},
 							"parameters": [
 								{
-									"id": 147,
+									"id": 150,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6657,7 +6731,7 @@
 					]
 				},
 				{
-					"id": 148,
+					"id": 151,
 					"name": "BgGreenBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6668,14 +6742,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1521,
+							"line": 1525,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1521"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1525"
 						}
 					],
 					"signatures": [
 						{
-							"id": 149,
+							"id": 152,
 							"name": "BgGreenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6694,7 +6768,7 @@
 							},
 							"parameters": [
 								{
-									"id": 150,
+									"id": 153,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6721,7 +6795,7 @@
 					]
 				},
 				{
-					"id": 151,
+					"id": 154,
 					"name": "BgYellowBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6732,14 +6806,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1534,
+							"line": 1538,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1534"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1538"
 						}
 					],
 					"signatures": [
 						{
-							"id": 152,
+							"id": 155,
 							"name": "BgYellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6758,7 +6832,7 @@
 							},
 							"parameters": [
 								{
-									"id": 153,
+									"id": 156,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6785,7 +6859,7 @@
 					]
 				},
 				{
-					"id": 154,
+					"id": 157,
 					"name": "BgBlueBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6796,14 +6870,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1547,
+							"line": 1551,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1547"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1551"
 						}
 					],
 					"signatures": [
 						{
-							"id": 155,
+							"id": 158,
 							"name": "BgBlueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6822,7 +6896,7 @@
 							},
 							"parameters": [
 								{
-									"id": 156,
+									"id": 159,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6849,7 +6923,7 @@
 					]
 				},
 				{
-					"id": 157,
+					"id": 160,
 					"name": "BgMagentaBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6860,14 +6934,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1560,
+							"line": 1564,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1560"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1564"
 						}
 					],
 					"signatures": [
 						{
-							"id": 158,
+							"id": 161,
 							"name": "BgMagentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6886,7 +6960,7 @@
 							},
 							"parameters": [
 								{
-									"id": 159,
+									"id": 162,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6913,7 +6987,7 @@
 					]
 				},
 				{
-					"id": 160,
+					"id": 163,
 					"name": "BgCyanBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6924,14 +6998,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1573,
+							"line": 1577,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1573"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1577"
 						}
 					],
 					"signatures": [
 						{
-							"id": 161,
+							"id": 164,
 							"name": "BgCyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6950,7 +7024,7 @@
 							},
 							"parameters": [
 								{
-									"id": 162,
+									"id": 165,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6977,7 +7051,7 @@
 					]
 				},
 				{
-					"id": 163,
+					"id": 166,
 					"name": "BgWhiteBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6988,14 +7062,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1586,
+							"line": 1590,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1586"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1590"
 						}
 					],
 					"signatures": [
 						{
-							"id": 164,
+							"id": 167,
 							"name": "BgWhiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -7014,7 +7088,7 @@
 							},
 							"parameters": [
 								{
-									"id": 165,
+									"id": 168,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -7045,22 +7119,20 @@
 				{
 					"title": "Properties",
 					"children": [
-						172,
+						175,
 						30
 					]
 				},
 				{
 					"title": "Constructors",
 					"children": [
-						166
+						169
 					]
 				},
 				{
 					"title": "Methods",
 					"children": [
-						173,
-						175,
-						178,
+						179,
 						181,
 						184,
 						187,
@@ -7074,7 +7146,8 @@
 						211,
 						214,
 						217,
-						31,
+						220,
+						223,
 						34,
 						37,
 						40,
@@ -7083,8 +7156,7 @@
 						49,
 						52,
 						55,
-						220,
-						223,
+						58,
 						226,
 						229,
 						232,
@@ -7101,7 +7173,8 @@
 						265,
 						268,
 						271,
-						58,
+						274,
+						277,
 						61,
 						64,
 						67,
@@ -7119,8 +7192,7 @@
 						103,
 						106,
 						109,
-						274,
-						277,
+						112,
 						280,
 						283,
 						286,
@@ -7137,7 +7209,8 @@
 						319,
 						322,
 						325,
-						112,
+						328,
+						331,
 						115,
 						118,
 						121,
@@ -7154,7 +7227,8 @@
 						154,
 						157,
 						160,
-						163
+						163,
+						166
 					]
 				}
 			],
@@ -7163,12 +7237,12 @@
 					"fileName": "UniversalToolForDeno.esm.mts",
 					"line": 262,
 					"character": 13,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L262"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L262"
 				}
 			]
 		},
 		{
-			"id": 328,
+			"id": 334,
 			"name": "default",
 			"kind": 32,
 			"kindString": "Variable",
@@ -7184,22 +7258,22 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 1597,
+					"line": 1601,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1597"
+					"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1601"
 				}
 			],
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 329,
+					"id": 335,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
 					"flags": {},
 					"children": [
 						{
-							"id": 330,
+							"id": 336,
 							"name": "GetDataType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7207,15 +7281,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1599,
+									"line": 1603,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1599"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1603"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 331,
+									"id": 337,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7225,12 +7299,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 117,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L117"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L117"
 										}
 									],
 									"signatures": [
 										{
-											"id": 332,
+											"id": 338,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7256,7 +7330,7 @@
 											},
 											"parameters": [
 												{
-													"id": 333,
+													"id": 339,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7285,7 +7359,7 @@
 							}
 						},
 						{
-							"id": 334,
+							"id": 340,
 							"name": "IsArray",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7293,15 +7367,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1600,
+									"line": 1604,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1600"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1604"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 335,
+									"id": 341,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7311,12 +7385,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 130,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L130"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L130"
 										}
 									],
 									"signatures": [
 										{
-											"id": 336,
+											"id": 342,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7342,7 +7416,7 @@
 											},
 											"parameters": [
 												{
-													"id": 337,
+													"id": 343,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7371,7 +7445,7 @@
 							}
 						},
 						{
-							"id": 338,
+							"id": 344,
 							"name": "IsNumber",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7379,15 +7453,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1601,
+									"line": 1605,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1601"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1605"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 339,
+									"id": 345,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7397,12 +7471,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 143,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L143"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L143"
 										}
 									],
 									"signatures": [
 										{
-											"id": 340,
+											"id": 346,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7428,7 +7502,7 @@
 											},
 											"parameters": [
 												{
-													"id": 341,
+													"id": 347,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7457,7 +7531,7 @@
 							}
 						},
 						{
-							"id": 342,
+							"id": 348,
 							"name": "IsString",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7465,15 +7539,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1602,
+									"line": 1606,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1602"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1606"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 343,
+									"id": 349,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7483,12 +7557,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 154,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L154"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L154"
 										}
 									],
 									"signatures": [
 										{
-											"id": 344,
+											"id": 350,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7514,7 +7588,7 @@
 											},
 											"parameters": [
 												{
-													"id": 345,
+													"id": 351,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7543,7 +7617,7 @@
 							}
 						},
 						{
-							"id": 346,
+							"id": 352,
 							"name": "Difference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7551,15 +7625,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1606,
+									"line": 1610,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1606"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1610"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 347,
+									"id": 353,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7569,12 +7643,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 171,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L171"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L171"
 										}
 									],
 									"signatures": [
 										{
-											"id": 348,
+											"id": 354,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7600,7 +7674,7 @@
 											},
 											"parameters": [
 												{
-													"id": 349,
+													"id": 355,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7623,7 +7697,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 350,
+													"id": 356,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7659,7 +7733,7 @@
 							}
 						},
 						{
-							"id": 351,
+							"id": 357,
 							"name": "Intersection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7667,15 +7741,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1607,
+									"line": 1611,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1607"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1611"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 352,
+									"id": 358,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7685,12 +7759,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 195,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L195"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L195"
 										}
 									],
 									"signatures": [
 										{
-											"id": 353,
+											"id": 359,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7716,7 +7790,7 @@
 											},
 											"parameters": [
 												{
-													"id": 354,
+													"id": 360,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7739,7 +7813,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 355,
+													"id": 361,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7775,7 +7849,7 @@
 							}
 						},
 						{
-							"id": 356,
+							"id": 362,
 							"name": "SymmetricDifference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7783,15 +7857,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1608,
+									"line": 1612,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1608"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1612"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 357,
+									"id": 363,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7801,12 +7875,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 222,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L222"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L222"
 										}
 									],
 									"signatures": [
 										{
-											"id": 358,
+											"id": 364,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7832,7 +7906,7 @@
 											},
 											"parameters": [
 												{
-													"id": 359,
+													"id": 365,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7855,7 +7929,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 360,
+													"id": 366,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7891,7 +7965,7 @@
 							}
 						},
 						{
-							"id": 361,
+							"id": 367,
 							"name": "Union",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7899,15 +7973,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1609,
+									"line": 1613,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1609"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1613"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 362,
+									"id": 368,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7917,12 +7991,12 @@
 											"fileName": "UniversalToolForDeno.esm.mts",
 											"line": 241,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L241"
+											"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L241"
 										}
 									],
 									"signatures": [
 										{
-											"id": 363,
+											"id": 369,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7948,7 +8022,7 @@
 											},
 											"parameters": [
 												{
-													"id": 364,
+													"id": 370,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7971,7 +8045,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 365,
+													"id": 371,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -8007,7 +8081,7 @@
 							}
 						},
 						{
-							"id": 366,
+							"id": 372,
 							"name": "MyConsole",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8015,9 +8089,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1612,
+									"line": 1616,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1612"
+									"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1616"
 								}
 							],
 							"type": {
@@ -8034,24 +8108,24 @@
 						{
 							"title": "Properties",
 							"children": [
-								330,
-								334,
-								338,
-								342,
-								346,
-								351,
-								356,
-								361,
-								366
+								336,
+								340,
+								344,
+								348,
+								352,
+								357,
+								362,
+								367,
+								372
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1597,
+							"line": 1601,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1597"
+							"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1601"
 						}
 					]
 				}
@@ -8081,7 +8155,7 @@
 		{
 			"title": "Variables",
 			"children": [
-				328
+				334
 			]
 		}
 	],
@@ -8090,7 +8164,7 @@
 			"fileName": "UniversalToolForDeno.esm.mts",
 			"line": 71,
 			"character": 0,
-			"url": "https://github.com/LP1994/web-project-template/blob/3353eed/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L71"
+			"url": "https://github.com/LP1994/web-project-template/blob/2fbcb24/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L71"
 		}
 	]
 }

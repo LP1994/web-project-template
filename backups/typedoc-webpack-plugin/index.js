@@ -48,12 +48,17 @@ function TypedocWebpackPlugin( options ){
       'notDocumented': true
     },
     'visibilityFilters': {
-      'protected': false,
-      'private': false,
+      'protected': true,
+      'private': true,
       'inherited': true,
-      'external': false,
-      '@alpha': false,
-      '@beta': false
+      'external': true,
+      '@alpha': true,
+      '@beta': true,
+      '@experimental': true,
+      '@deprecated': true,
+      '@enum': true,
+      '@hidden': true,
+      '@internal': true
     },
     'categorizeByGroup': true,
     'cleanOutputDir': true,
