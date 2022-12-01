@@ -91,6 +91,8 @@ import {
  * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';
  * ```
  *
+ * @internal
+ *
  * @param {any} equalArg1 数据，必需。
  *
  * @param {string} equalArg2 可以是诸如'Arguments'、'ArrayBuffer'等等表示目标数据类型名的字符串，必需。
