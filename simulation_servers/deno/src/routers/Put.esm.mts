@@ -34,7 +34,7 @@ import {
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
 // @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
+import ResponseError from 'public/ResponseError.esm.mts';
 
 /**
  * 处理put请求。
@@ -58,7 +58,7 @@ async function Put( request: Request ): Promise<Response>{
     result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
   }
   else{
-    result = await new InterceptorError( request ).res404();
+    result = await new ResponseError( request ).res404();
   }
 
   return result;

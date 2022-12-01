@@ -49,7 +49,7 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 // @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
+import ResponseError from 'public/ResponseError.esm.mts';
 
 import {
   Routers,
@@ -122,7 +122,7 @@ ${ ( error as Error ).message }
 HTTPS and WebSocket Server onError--->End
 ` );
 
-      return InterceptorError.ResError( {
+      return ResponseError.ResError( {
         title: `HTTPS and WebSocket Server服务器内部出现错误`,
         message: `当路由处理程序抛出错误时会调用该错误处理程序。
 错误信息：

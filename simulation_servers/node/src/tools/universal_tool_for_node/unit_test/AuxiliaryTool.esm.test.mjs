@@ -105,10 +105,31 @@ export function Equal001( result ){
 export class MyError001
   extends Error {
 
+  /**
+   * 预期值。
+   *
+   * @type {string | number | boolean | bigint | symbol | null | undefined}
+   */
   expect;
 
+  /**
+   * 实际值。
+   *
+   * @type {any}
+   */
   result;
 
+  /**
+   * 构造函数，必传一个对象作为初始化数据，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。
+   *
+   * @param {object} config 构造函数的初始参数，是一个对象。
+   *
+   * @param {string | number | boolean | bigint | symbol | null | undefined} config.expect 预期值，必需。
+   *
+   * @param {string} config.message 一个用于描述错误信息的字符串，必需。
+   *
+   * @param {any} config.result 实际值，必需。
+   */
   constructor( {
     expect,
     message,

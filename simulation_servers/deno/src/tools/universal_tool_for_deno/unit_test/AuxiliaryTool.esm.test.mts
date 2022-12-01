@@ -83,8 +83,11 @@ import {
 export type TypeMyExpect001 = string | number | boolean | bigint | symbol | null | undefined;
 
 export type TypeError001 = {
+  // 预期值。
   expect: TypeMyExpect001;
+  // 一个用于描述错误信息的字符串。
   message: string;
+  // 实际值。
   result: any;
 };
 
@@ -126,11 +129,32 @@ export function Equal001( result: any ): { toBe: ( expect: TypeMyExpect001 ) => 
 export class MyError001
   extends Error {
 
+  /**
+   * 预期值。
+   *
+   * @type {TypeMyExpect001}
+   */
   public expect: TypeMyExpect001;
 
+  /**
+   * 实际值。
+   *
+   * @type {any}
+   */
   public result: any;
 
-  constructor( {
+  /**
+   * 构造函数，必传一个对象作为初始化数据，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。
+   *
+   * @param {object} config 构造函数的初始参数，是一个对象。
+   *
+   * @param {TypeMyExpect001} config.expect 预期值，必需。
+   *
+   * @param {string} config.message 一个用于描述错误信息的字符串，必需。
+   *
+   * @param {any} config.result 实际值，必需。
+   */
+  public constructor( {
     expect,
     message,
     result,

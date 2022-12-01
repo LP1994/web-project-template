@@ -39,7 +39,7 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 // @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
+import ResponseError from 'public/ResponseError.esm.mts';
 
 import {
   Routers,

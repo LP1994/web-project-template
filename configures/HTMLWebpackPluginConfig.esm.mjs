@@ -180,11 +180,13 @@ function ExcludeChunks( currentEntryName ){
 /**
  * 生成一个或多个HtmlWebpackPlugin配置。<br />
  *
- * @param {boolean} isProduction 值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值，必需。<br />
+ * @param {object} config 对象参数。
  *
- * @param {boolean} isSPA 是否将项目设置成单页面应用程序(SPA)，true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)，必需。<br />
+ * @param {boolean} config.isProduction 值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值，必需。<br />
  *
- * @param {object} HTMLMinifyConfig 压缩HTML的配置选项，必需。<br />
+ * @param {boolean} config.isSPA 是否将项目设置成单页面应用程序(SPA)，true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)，必需。<br />
+ *
+ * @param {object} config.HTMLMinifyConfig 压缩HTML的配置选项，必需。<br />
  *
  * @returns {HtmlWebpackPlugin[]} 返回一个数组，里面是HtmlWebpackPlugin实例。
  */

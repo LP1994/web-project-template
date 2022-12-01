@@ -34,7 +34,7 @@ import {
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
 // @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
+import ResponseError from 'public/ResponseError.esm.mts';
 
 /**
  * 处理options请求。

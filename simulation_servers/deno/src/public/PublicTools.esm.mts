@@ -7,6 +7,10 @@
  * CreateDate: 2022-11-01 19:35:23 星期二
  */
 
+/**
+ * 特定于这个项目的公共的、通用的工具脚本。
+ */
+
 'use strict';
 
 import {
@@ -37,6 +41,13 @@ mime.define( {
   ],
 }, true );
 
+/**
+ * 处理嵌套的“Promise”（形如：Promise<Promise<Promise<T>>>等等这样的多层嵌套，嵌套层数也是未知的），使其只返回最终的不带“Promise”的结果值。
+ *
+ * @param {Promise<T> | T} arg 需要被处理的数据，无默认值，必需。
+ *
+ * @returns {Promise<T>} 返回最终的不带“Promise”的结果值（就是“T”）。
+ */
 async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
   let result: T;
 

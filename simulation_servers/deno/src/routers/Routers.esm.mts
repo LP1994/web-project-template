@@ -79,11 +79,21 @@ const requestMethods: {
 };
 
 /**
- * 一定得保证该函数返回的值类型只能是：Promise<Response>。<br />
+ * 集中处理客户端发起的请求，根据不同的请求方式分流到对应的请求方式的处理。
+ * 目前有9种请求方式：
+ * GET
+ * HEAD
+ * POST
+ * PUT
+ * DELETE
+ * CONNECT
+ * OPTIONS
+ * TRACE
+ * PATCH
  *
- * @param {Request} request
+ * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<Response>}
+ * @returns {Promise<Response>} 返回Promise<Response>，注意最好别出现返回多层嵌套的Promise<Response>，也就是Promise<Promise<Promise<Response>>>等等。
  */
 async function Routers( request: Request ): Promise<Response>{
   const method: string = request.method.toLowerCase().trim();

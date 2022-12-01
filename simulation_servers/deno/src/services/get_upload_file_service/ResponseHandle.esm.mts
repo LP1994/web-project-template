@@ -50,7 +50,7 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 // @ts-ignore
-import InterceptorError from 'public/InterceptorError.esm.mts';
+import ResponseError from 'public/ResponseError.esm.mts';
 
 import {
   myURLPathName,
@@ -97,20 +97,20 @@ function ResponseHandle( request: Request ): TypeResponse001{
       } );
     }
     else if( fileState.isDirectory ){
-      result = InterceptorError.ResError( {
+      result = ResponseError.ResError( {
         title: `Error`,
         message: `当前无法获取该文件夹（${ pathName }）的信息。`,
       } );
     }
     else{
-      result = InterceptorError.ResError( {
+      result = ResponseError.ResError( {
         title: `Error`,
         message: `该路径（${ pathName }）既不指向有效的文件也不指向有效的文件夹。`,
       } );
     }
   }
   catch( error: unknown ){
-    result = new InterceptorError( request ).res404();
+    result = new ResponseError( request ).res404();
   }
 
   return result;
