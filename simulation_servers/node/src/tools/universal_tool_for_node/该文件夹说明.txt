@@ -1,4 +1,5 @@
-UniversalToolForNode.esm.mjs是一个提供给Node实现的服务器的公共工具类代码，它无关于特定的项目代码，可通用于任何由Node实现的项目。
+该工具库是公共的、通用的、不特定于某个项目使用的脚本工具库。
+该通用工具仅用于Node环境，并且不是特定于某个项目才能使用的，使用“ECMAScript modules(ECMAScript模块)”写法。
 
-说明：
-1、使用ES6标准中的ESM模块化。
+1、该工具库中的每个工具函数、类都有对应的单元测试可供测试，详细见“unit_test”文件夹。
+2、“type_doc”文件夹中是使用“typedoc”（其支持对“.mts”、“.ts”、“.cts”、“.mjs”、“.js”、“.cjs”等等后缀名生成文档）为“UniversalToolForNode.esm.mjs”生成用于描述其API文档说明。

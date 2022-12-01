@@ -14,6 +14,7 @@
 'use strict';
 
 import {
+  chalk,
   Equal001,
   Test001,
 
@@ -38,7 +39,7 @@ import {
   // @ts-ignore
 } from '../UniversalTools.esm.mts';
 
-console.log( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` );
+console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
 
 // GetDataType
 if( true ){

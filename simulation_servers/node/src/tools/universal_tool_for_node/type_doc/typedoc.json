@@ -1,0 +1,13 @@
+{
+  "name": "UniversalToolForNode.esm.mjs的API文档",
+  "entryPoints": [
+    "../UniversalToolForNode.esm.mjs"
+  ],
+  "extends": [
+    "../../../../../../typedoc.json"
+  ],
+  "json": "./doc/UniversalToolForNode.doc.json",
+  "readme": "./README.md",
+  "tsconfig": "./typedoc_tsconfig.json",
+  "out": "./doc"
+}

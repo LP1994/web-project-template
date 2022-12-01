@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: src/tools/ts/universal_tools/unit_test/AuxiliaryTool.esm.test.mts
+ * FileDirPath: simulation_servers/node/src/tools/universal_tool_for_node/unit_test/AuxiliaryTool.esm.test.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -23,9 +23,7 @@
  *
  * 5、那些需要被导出供外部调用使用的函数、类等等，一定要记得部署在“默认导出”中。
  *
- * 6、编程范式使用“函数式编程”，结合“TypeScript”编写，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
- *
- * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type TypeMyString001 = string。
+ * 6、编程范式使用“函数式编程”，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
  */
 
 /**
@@ -69,16 +67,7 @@
 
 'use strict';
 
-// @ts-ignore
 import chalk from 'chalk';
-
-export type TypeMyExpect001 = string | number | boolean | bigint | symbol | null | undefined;
-
-export type TypeError001 = {
-  expect: TypeMyExpect001;
-  message: string;
-  result: any;
-};
 
 /**
  * 使用“!==”比较的对比函数Equal001。<br />
@@ -87,16 +76,16 @@ export type TypeError001 = {
  *
  * @param {any} result 被测试对象的实际返回值，必需。
  *
- * @returns {{toBe: (expect: (TypeMyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
+ * @returns {{toBe: (expect: (string | number | boolean | bigint | symbol | null | undefined)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */
-export function Equal001( result: any ): { toBe: ( expect: TypeMyExpect001 ) => void; }{
+export function Equal001( result ){
   return {
     /**
      * toBe函数，它接收一个预期值expect，用于跟实际值对比。
      *
-     * @param {TypeMyExpect001} expect 预期值，必需。
+     * @param {string | number | boolean | bigint | symbol | null | undefined} expect 预期值，必需。
      */
-    toBe( expect: TypeMyExpect001 ): void{
+    toBe( expect ){
       if( result !== expect ){
         throw new MyError001( {
           message: '实际值和预期值不全等（使用“!==”比较）！',
@@ -116,15 +105,15 @@ export function Equal001( result: any ): { toBe: ( expect: TypeMyExpect001 ) => 
 export class MyError001
   extends Error {
 
-  public expect: TypeMyExpect001;
+  expect;
 
-  public result: any;
+  result;
 
   constructor( {
     expect,
     message,
     result,
-  }: TypeError001 ){
+  } ){
     super();
 
     this.expect = expect;
@@ -143,16 +132,16 @@ export class MyError001
  *
  * @param {() => void} fn 执行函数，必需。
  */
-export function Test001( desc: string, fn: () => void ): void{
+export function Test001( desc, fn ){
   try{
     fn();
   }
-  catch( error: unknown ){
+  catch( error ){
     const {
       expect,
       message,
       result,
-    } = ( error as TypeError001 );
+    } = error;
 
     console.error( chalk.red( `
 ${ desc }，${ message }

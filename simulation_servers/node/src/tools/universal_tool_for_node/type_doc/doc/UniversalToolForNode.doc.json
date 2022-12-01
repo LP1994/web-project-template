@@ -1,0 +1,8123 @@
+{
+	"id": 0,
+	"name": "UniversalToolForNode.esm.mjs的API文档 - v6.0.0",
+	"kind": 1,
+	"kindString": "Project",
+	"flags": {},
+	"originalName": "UniversalToolForNode.esm.mjs的API文档",
+	"children": [
+		{
+			"id": 1,
+			"name": "Get__dirname",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 114,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 2,
+					"name": "Get__dirname",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\tools。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\tools。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 3,
+							"name": "import_meta_url",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "..."
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "Get__filename",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 125,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 5,
+					"name": "Get__filename",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\7788.mjs。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\7788.mjs。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 6,
+							"name": "import_meta_url",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "..."
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			]
+		},
+		{
+			"id": 7,
+			"name": "GetDataType",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 142,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 8,
+					"name": "GetDataType",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "获取数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。<br />\r\nPS:<br />\r\n1、如果传入的是被Proxy代理过的对象，会报错！<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 9,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			]
+		},
+		{
+			"id": 10,
+			"name": "IsArray",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 155,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 11,
+					"name": "IsArray",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为Array类型。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是数组返回true，不是数组返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 12,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 13,
+			"name": "IsNumber",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 168,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 14,
+					"name": "IsNumber",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 15,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 16,
+			"name": "IsString",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 179,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 17,
+					"name": "IsString",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是String原始值返回true，不是String原始值返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 18,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 19,
+			"name": "Difference",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 196,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 20,
+					"name": "Difference",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组，一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 21,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 22,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 23,
+			"name": "Intersection",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 220,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 24,
+					"name": "Intersection",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "交集Intersection：由既是数组A的成员又是数组B的成员组成的数组。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组，由既是数组A的成员又是数组B的成员组成的数组。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 25,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 26,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 27,
+			"name": "SymmetricDifference",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 247,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 28,
+					"name": "SymmetricDifference",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "对称差集SymmetricDifference：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 29,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 30,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 31,
+			"name": "Union",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 266,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 32,
+					"name": "Union",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "并集Union：由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "新数组，由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 33,
+							"name": "arrA",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组A，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						},
+						{
+							"id": 34,
+							"name": "arrB",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数组B，默认值为空数组，可选。"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "any"
+								}
+							},
+							"defaultValue": "[]"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 35,
+			"name": "MyConsole",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />\r\nPS：<br />\r\n1、“chalk”模块文档：<br />\r\nhttps://deno.land/x/chalk_deno<br />\r\n\r\n2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 178,
+					"name": "#myChalk",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isPrivate": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "私有实例属性。<br />"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 292,
+							"character": 2
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "ChalkInstance"
+					},
+					"defaultValue": "chalk"
+				},
+				{
+					"id": 36,
+					"name": "#MyChalk",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isPrivate": true,
+						"isStatic": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "私有静态属性。<br />"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 301,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "ChalkInstance"
+					},
+					"defaultValue": "chalk"
+				},
+				{
+					"id": 172,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 317,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 173,
+							"name": "new MyConsole",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />\r\nPS：<br />\r\n1、“chalk”模块文档：<br />\r\nhttps://deno.land/x/chalk_deno<br />\r\n\r\n2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 174,
+									"name": "config",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "初始化字体颜色（color）、背景色（bgColor），可选。<br />"
+											}
+										]
+									},
+									"originalName": "__namedParameters",
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 175,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"children": [
+												{
+													"id": 176,
+													"name": "color",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "初始化字体颜色（color），值类型可以是：number[]（rgb值，如：[255, 136, 0]）、string（hex值，如：'#FF8800'）、number（ansi256值，如：194），默认值null，可选。<br />"
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "UniversalToolForNode.esm.mjs",
+															"line": 313,
+															"character": 5
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															},
+															{
+																"type": "intrinsic",
+																"name": "number"
+															},
+															{
+																"type": "array",
+																"elementType": {
+																	"type": "intrinsic",
+																	"name": "number"
+																}
+															}
+														]
+													}
+												},
+												{
+													"id": 177,
+													"name": "bgColor",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "初始化背景色（bgColor），值类型可以是：number[]（rgb值，如：[255, 136, 0]）、string（hex值，如：'#FF8800'）、number（ansi256值，如：194），默认值null，可选。<br />"
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "UniversalToolForNode.esm.mjs",
+															"line": 315,
+															"character": 5
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															},
+															{
+																"type": "intrinsic",
+																"name": "number"
+															},
+															{
+																"type": "array",
+																"elementType": {
+																	"type": "intrinsic",
+																	"name": "number"
+																}
+															}
+														]
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														176,
+														177
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "UniversalToolForNode.esm.mjs",
+													"line": 313,
+													"character": 5
+												}
+											]
+										}
+									},
+									"defaultValue": "..."
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 35,
+								"name": "MyConsole"
+							}
+						}
+					]
+				},
+				{
+					"id": 179,
+					"name": "reset",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 348,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 180,
+							"name": "reset",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "重置当前已经自定义的样式，回到默认样式。<br />"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 181,
+					"name": "setRGB",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 361,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 182,
+							"name": "setRGB",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用rgb值设置字体颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 183,
+									"name": "rgbArr",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "rgb值，如：[ 255, 136, 0 ]，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 184,
+					"name": "setHEX",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 372,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 185,
+							"name": "setHEX",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用hex值设置字体颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 186,
+									"name": "hexStr",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "hex值，如：'#FF8800'，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 187,
+					"name": "setANSI256",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 383,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 188,
+							"name": "setANSI256",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用ansi256值设置字体颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 189,
+									"name": "ansi256Num",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "ansi256值，如：194，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 190,
+					"name": "setBgRGB",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 398,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 191,
+							"name": "setBgRGB",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用rgb值设置背景颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 192,
+									"name": "rgbArr",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "rgb值，如：[ 255, 136, 0 ]，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 193,
+					"name": "setBgHEX",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 409,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 194,
+							"name": "setBgHEX",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用hex值设置背景颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 195,
+									"name": "hexStr",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "hex值，如：'#FF8800'，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 196,
+					"name": "setBgANSI256",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 420,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 197,
+							"name": "setBgANSI256",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用ansi256值设置背景颜色，该方法也可以用于改变调用构造函数时设置的颜色。<br />"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 198,
+									"name": "ansi256Num",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "ansi256值，如：194，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 199,
+					"name": "bold",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 439,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 200,
+							"name": "bold",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出粗体文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bold( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 201,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 202,
+					"name": "dim",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 452,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 203,
+							"name": "dim",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出暗淡的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).dim( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 204,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 205,
+					"name": "italic",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 465,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 206,
+							"name": "italic",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出斜体文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).italic( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 207,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 208,
+					"name": "underline",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 478,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 209,
+							"name": "underline",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出带下划线的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).underline( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 210,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 211,
+					"name": "overline",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 491,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 212,
+							"name": "overline",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出带上划线的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).overline( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 213,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 214,
+					"name": "inverse",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 504,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 215,
+							"name": "inverse",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出反转背景色和前景色（也就是将背景色用作字体颜色，字体颜色用作背景色）的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).inverse( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 216,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 217,
+					"name": "hidden",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 517,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 218,
+							"name": "hidden",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出但是隐藏文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).hidden( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 219,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 220,
+					"name": "strikethrough",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 530,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 221,
+							"name": "strikethrough",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出带删除线的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).strikethrough( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 222,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 223,
+					"name": "visible",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 543,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 224,
+							"name": "visible",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出常规的可见文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).visible( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 225,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 37,
+					"name": "Bold",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 556,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 38,
+							"name": "Bold",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出粗体文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Bold( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 39,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bold方法，可参见chalk模块的bold方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 40,
+					"name": "Dim",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 569,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 41,
+							"name": "Dim",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出暗淡的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Dim( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 42,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的dim方法，可参见chalk模块的dim方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 43,
+					"name": "Italic",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 582,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 44,
+							"name": "Italic",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出斜体文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Italic( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 45,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的italic方法，可参见chalk模块的italic方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 46,
+					"name": "Underline",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 595,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 47,
+							"name": "Underline",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出带下划线的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Underline( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 48,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的underline方法，可参见chalk模块的underline方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 49,
+					"name": "Overline",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 608,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 50,
+							"name": "Overline",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出带上划线的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Overline( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 51,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的overline方法，可参见chalk模块的overline方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 52,
+					"name": "Inverse",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 621,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 53,
+							"name": "Inverse",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出反转背景色和前景色（也就是将背景色用作字体颜色，字体颜色用作背景色）的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Inverse( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 54,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的inverse方法，可参见chalk模块的inverse方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 55,
+					"name": "Hidden",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 634,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 56,
+							"name": "Hidden",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出但是隐藏文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Hidden( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 57,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的hidden方法，可参见chalk模块的hidden方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 58,
+					"name": "Strikethrough",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 647,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 59,
+							"name": "Strikethrough",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出带删除线的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Strikethrough( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 60,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的strikethrough方法，可参见chalk模块的strikethrough方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 61,
+					"name": "Visible",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 660,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 62,
+							"name": "Visible",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出常规的可见文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Visible( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 63,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的visible方法，可参见chalk模块的visible方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 226,
+					"name": "black",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 677,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 227,
+							"name": "black",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出黑色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).black( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 228,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 229,
+					"name": "red",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 690,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 230,
+							"name": "red",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出红色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).red( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 231,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 232,
+					"name": "green",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 703,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 233,
+							"name": "green",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出绿色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).green( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 234,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 235,
+					"name": "yellow",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 716,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 236,
+							"name": "yellow",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出黄色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).yellow( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 237,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 238,
+					"name": "blue",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 729,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 239,
+							"name": "blue",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出蓝色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blue( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 240,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 241,
+					"name": "magenta",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 742,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 242,
+							"name": "magenta",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出洋红色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).magenta( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 243,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 244,
+					"name": "cyan",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 755,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 245,
+							"name": "cyan",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出青色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).cyan( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 246,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 247,
+					"name": "white",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 768,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 248,
+							"name": "white",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出白色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).white( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 249,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 250,
+					"name": "gray",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 781,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 251,
+							"name": "gray",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出灰色文字（blackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).gray( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 252,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 253,
+					"name": "grey",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 794,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 254,
+							"name": "grey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出灰色文字（blackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).grey( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 255,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 256,
+					"name": "blackBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 807,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 257,
+							"name": "blackBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出黑亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blackBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 258,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 259,
+					"name": "redBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 820,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 260,
+							"name": "redBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出红亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).redBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 261,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 262,
+					"name": "greenBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 833,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 263,
+							"name": "greenBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出绿亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).greenBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 264,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 265,
+					"name": "yellowBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 846,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 266,
+							"name": "yellowBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出黄亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).yellowBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 267,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 268,
+					"name": "blueBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 859,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 269,
+							"name": "blueBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出蓝亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).blueBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 270,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 271,
+					"name": "magentaBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 872,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 272,
+							"name": "magentaBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出洋红亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).magentaBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 273,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 274,
+					"name": "cyanBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 885,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 275,
+							"name": "cyanBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出青亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).cyanBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 276,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 277,
+					"name": "whiteBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 898,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 278,
+							"name": "whiteBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出白亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).whiteBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 279,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 64,
+					"name": "Black",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 911,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 65,
+							"name": "Black",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黑色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Black( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 66,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的black方法，可参见chalk模块的black方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 67,
+					"name": "Red",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 924,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 68,
+							"name": "Red",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出红色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Red( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 69,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的red方法，可参见chalk模块的red方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 70,
+					"name": "Green",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 937,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 71,
+							"name": "Green",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出绿色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Green( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 72,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的green方法，可参见chalk模块的green方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 73,
+					"name": "Yellow",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 950,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 74,
+							"name": "Yellow",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黄色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Yellow( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 75,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的yellow方法，可参见chalk模块的yellow方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 76,
+					"name": "Blue",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 963,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 77,
+							"name": "Blue",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出蓝色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Blue( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 78,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blue方法，可参见chalk模块的blue方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 79,
+					"name": "Magenta",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 976,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 80,
+							"name": "Magenta",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出洋红色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Magenta( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 81,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的magenta方法，可参见chalk模块的magenta方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 82,
+					"name": "Cyan",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 989,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 83,
+							"name": "Cyan",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出青色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Cyan( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 84,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的cyan方法，可参见chalk模块的cyan方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 85,
+					"name": "White",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1002,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 86,
+							"name": "White",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出白色文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.White( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 87,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的white方法，可参见chalk模块的white方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 88,
+					"name": "Gray",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1015,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 89,
+							"name": "Gray",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出灰色文字（BlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Gray( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 90,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的gray方法，可参见chalk模块的gray方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 91,
+					"name": "Grey",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1028,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 92,
+							"name": "Grey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出灰色文字（BlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.Grey( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 93,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的grey方法，可参见chalk模块的grey方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 94,
+					"name": "BlackBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1041,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 95,
+							"name": "BlackBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黑亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BlackBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 96,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blackBright方法，可参见chalk模块的blackBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 97,
+					"name": "RedBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1054,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 98,
+							"name": "RedBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出红亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.RedBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 99,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的redBright方法，可参见chalk模块的redBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 100,
+					"name": "GreenBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1067,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 101,
+							"name": "GreenBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出绿亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.GreenBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 102,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的greenBright方法，可参见chalk模块的greenBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 103,
+					"name": "YellowBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1080,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 104,
+							"name": "YellowBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出黄亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.YellowBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 105,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的yellowBright方法，可参见chalk模块的yellowBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 106,
+					"name": "BlueBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1093,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 107,
+							"name": "BlueBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出蓝亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BlueBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 108,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的blueBright方法，可参见chalk模块的blueBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 109,
+					"name": "MagentaBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1106,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 110,
+							"name": "MagentaBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出洋红亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.MagentaBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 111,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的magentaBright方法，可参见chalk模块的magentaBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 112,
+					"name": "CyanBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1119,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 113,
+							"name": "CyanBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出青亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.CyanBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 114,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的cyanBright方法，可参见chalk模块的cyanBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 115,
+					"name": "WhiteBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1132,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 116,
+							"name": "WhiteBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出白亮文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.WhiteBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 117,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的whiteBright方法，可参见chalk模块的whiteBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 280,
+					"name": "bgBlack",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1149,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 281,
+							"name": "bgBlack",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为黑色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgBlack( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 282,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlack方法，可参见chalk模块的bgBlack方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 283,
+					"name": "bgRed",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1162,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 284,
+							"name": "bgRed",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为红色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgRed( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 285,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgRed方法，可参见chalk模块的bgRed方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 286,
+					"name": "bgGreen",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1175,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 287,
+							"name": "bgGreen",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为绿色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgGreen( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 288,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGreen方法，可参见chalk模块的bgGreen方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 289,
+					"name": "bgYellow",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1188,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 290,
+							"name": "bgYellow",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为黄色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgYellow( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 291,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgYellow方法，可参见chalk模块的bgYellow方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 292,
+					"name": "bgBlue",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1201,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 293,
+							"name": "bgBlue",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为蓝色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgBlue( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 294,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlue方法，可参见chalk模块的bgBlue方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 295,
+					"name": "bgMagenta",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1214,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 296,
+							"name": "bgMagenta",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为洋红色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgMagenta( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 297,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgMagenta方法，可参见chalk模块的bgMagenta方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 298,
+					"name": "bgCyan",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1227,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 299,
+							"name": "bgCyan",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为青色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgCyan( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 300,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgCyan方法，可参见chalk模块的bgCyan方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 301,
+					"name": "bgWhite",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1240,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 302,
+							"name": "bgWhite",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为白色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgWhite( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 303,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgWhite方法，可参见chalk模块的bgWhite方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 304,
+					"name": "bgGray",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1253,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 305,
+							"name": "bgGray",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为灰色的文字（bgBlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgGray( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 306,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGray方法，可参见chalk模块的bgGray方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 307,
+					"name": "bgGrey",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1266,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 308,
+							"name": "bgGrey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为灰色的文字（bgBlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgGrey( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 309,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGrey方法，可参见chalk模块的bgGrey方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 310,
+					"name": "bgBlackBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1279,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 311,
+							"name": "bgBlackBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为黑亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgBlackBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 312,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlackBright方法，可参见chalk模块的bgBlackBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 313,
+					"name": "bgRedBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1292,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 314,
+							"name": "bgRedBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为红亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgRedBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 315,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgRedBright方法，可参见chalk模块的bgRedBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 316,
+					"name": "bgGreenBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1305,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 317,
+							"name": "bgGreenBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为绿亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgGreenBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 318,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGreenBright方法，可参见chalk模块的bgGreenBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 319,
+					"name": "bgYellowBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1318,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 320,
+							"name": "bgYellowBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为黄亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgYellowBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 321,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgYellowBright方法，可参见chalk模块的bgYellowBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 322,
+					"name": "bgBlueBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1331,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 323,
+							"name": "bgBlueBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为蓝亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgBlueBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 324,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlueBright方法，可参见chalk模块的bgBlueBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 325,
+					"name": "bgMagentaBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1344,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 326,
+							"name": "bgMagentaBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为洋红亮的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgMagentaBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 327,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgMagentaBright方法，可参见chalk模块的bgMagentaBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 328,
+					"name": "bgCyanBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1357,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 329,
+							"name": "bgCyanBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为青亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgCyanBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 330,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgCyanBright方法，可参见chalk模块的bgCyanBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 331,
+					"name": "bgWhiteBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1370,
+							"character": 2
+						}
+					],
+					"signatures": [
+						{
+							"id": 332,
+							"name": "bgWhiteBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用自定义的样式在控制台输出背景为白亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nnew MyConsole( { color: [ 255, 136, 0 ], } ).bgWhiteBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 333,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgWhiteBright方法，可参见chalk模块的bgWhiteBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 118,
+					"name": "BgBlack",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1383,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 119,
+							"name": "BgBlack",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为黑色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgBlack( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 120,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlack方法，可参见chalk模块的bgBlack方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 121,
+					"name": "BgRed",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1396,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 122,
+							"name": "BgRed",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为红色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgRed( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 123,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgRed方法，可参见chalk模块的bgRed方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 124,
+					"name": "BgGreen",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1409,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 125,
+							"name": "BgGreen",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为绿色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgGreen( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 126,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGreen方法，可参见chalk模块的bgGreen方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 127,
+					"name": "BgYellow",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1422,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 128,
+							"name": "BgYellow",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为黄色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgYellow( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 129,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgYellow方法，可参见chalk模块的bgYellow方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 130,
+					"name": "BgBlue",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1435,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 131,
+							"name": "BgBlue",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为蓝色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgBlue( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 132,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlue方法，可参见chalk模块的bgBlue方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 133,
+					"name": "BgMagenta",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1448,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 134,
+							"name": "BgMagenta",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为洋红色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgMagenta( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 135,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgMagenta方法，可参见chalk模块的bgMagenta方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 136,
+					"name": "BgCyan",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1461,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 137,
+							"name": "BgCyan",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为青色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgCyan( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 138,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgCyan方法，可参见chalk模块的bgCyan方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 139,
+					"name": "BgWhite",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1474,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 140,
+							"name": "BgWhite",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为白色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgWhite( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 141,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgWhite方法，可参见chalk模块的bgWhite方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 142,
+					"name": "BgGray",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1487,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 143,
+							"name": "BgGray",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为灰色的文字（BgBlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgGray( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 144,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGray方法，可参见chalk模块的bgGray方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 145,
+					"name": "BgGrey",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1500,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 146,
+							"name": "BgGrey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为灰色的文字（BgBlackBright的别名）。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgGrey( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 147,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGrey方法，可参见chalk模块的bgGrey方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 148,
+					"name": "BgBlackBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1513,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 149,
+							"name": "BgBlackBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为黑亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgBlackBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 150,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlackBright方法，可参见chalk模块的bgBlackBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 151,
+					"name": "BgRedBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1526,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 152,
+							"name": "BgRedBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为红亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgRedBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 153,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgRedBright方法，可参见chalk模块的bgRedBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 154,
+					"name": "BgGreenBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1539,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 155,
+							"name": "BgGreenBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为绿亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgGreenBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 156,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgGreenBright方法，可参见chalk模块的bgGreenBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 157,
+					"name": "BgYellowBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1552,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 158,
+							"name": "BgYellowBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为黄亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgYellowBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 159,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgYellowBright方法，可参见chalk模块的bgYellowBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 160,
+					"name": "BgBlueBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1565,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 161,
+							"name": "BgBlueBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为蓝亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgBlueBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 162,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgBlueBright方法，可参见chalk模块的bgBlueBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 163,
+					"name": "BgMagentaBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1578,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 164,
+							"name": "BgMagentaBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为洋红亮的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgMagentaBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 165,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgMagentaBright方法，可参见chalk模块的bgMagentaBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 166,
+					"name": "BgCyanBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1591,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 167,
+							"name": "BgCyanBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为青亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgCyanBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 168,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgCyanBright方法，可参见chalk模块的bgCyanBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 169,
+					"name": "BgWhiteBright",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1604,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 170,
+							"name": "BgWhiteBright",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "使用默认样式在控制台输出背景为白亮色的文字。<br />\r\n使用例子：<br />\r\n"
+									},
+									{
+										"kind": "code",
+										"text": "```js\r\nMyConsole.BgWhiteBright( 'XXX' );\r\n```"
+									}
+								]
+							},
+							"parameters": [
+								{
+									"id": 171,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "data参数传给chalk模块的bgWhiteBright方法，可参见chalk模块的bgWhiteBright方法的参数说明，必需。"
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"children": [
+						178,
+						36
+					]
+				},
+				{
+					"title": "Constructors",
+					"children": [
+						172
+					]
+				},
+				{
+					"title": "Methods",
+					"children": [
+						179,
+						181,
+						184,
+						187,
+						190,
+						193,
+						196,
+						199,
+						202,
+						205,
+						208,
+						211,
+						214,
+						217,
+						220,
+						223,
+						37,
+						40,
+						43,
+						46,
+						49,
+						52,
+						55,
+						58,
+						61,
+						226,
+						229,
+						232,
+						235,
+						238,
+						241,
+						244,
+						247,
+						250,
+						253,
+						256,
+						259,
+						262,
+						265,
+						268,
+						271,
+						274,
+						277,
+						64,
+						67,
+						70,
+						73,
+						76,
+						79,
+						82,
+						85,
+						88,
+						91,
+						94,
+						97,
+						100,
+						103,
+						106,
+						109,
+						112,
+						115,
+						280,
+						283,
+						286,
+						289,
+						292,
+						295,
+						298,
+						301,
+						304,
+						307,
+						310,
+						313,
+						316,
+						319,
+						322,
+						325,
+						328,
+						331,
+						118,
+						121,
+						124,
+						127,
+						130,
+						133,
+						136,
+						139,
+						142,
+						145,
+						148,
+						151,
+						154,
+						157,
+						160,
+						163,
+						166,
+						169
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 283,
+					"character": 13
+				}
+			]
+		},
+		{
+			"id": 334,
+			"name": "default",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "默认导出，部署了该工具库所有的导出函数、类等等。"
+					}
+				]
+			},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 1615,
+					"character": 0
+				}
+			],
+			"type": {
+				"type": "reflection",
+				"declaration": {
+					"id": 335,
+					"name": "__type",
+					"kind": 65536,
+					"kindString": "Type literal",
+					"flags": {},
+					"children": [
+						{
+							"id": 336,
+							"name": "Get__dirname",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1617,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 337,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 114,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 338,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\tools。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\tools。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 339,
+													"name": "import_meta_url",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 340,
+							"name": "Get__filename",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1618,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 341,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 125,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 342,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\7788.mjs。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\\WebStormWS\\xx\\7788.mjs。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 343,
+													"name": "import_meta_url",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 344,
+							"name": "GetDataType",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1622,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 345,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 142,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 346,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "获取数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。<br />\r\nPS:<br />\r\n1、如果传入的是被Proxy代理过的对象，会报错！<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 347,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 348,
+							"name": "IsArray",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1623,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 349,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 155,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 350,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "判断数据是否为Array类型。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "是数组返回true，不是数组返回false。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 351,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 352,
+							"name": "IsNumber",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1624,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 353,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 168,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 354,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 355,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 356,
+							"name": "IsString",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1625,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 357,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 179,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 358,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "是String原始值返回true，不是String原始值返回false。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 359,
+													"name": "arg",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 360,
+							"name": "Difference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1629,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 361,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 196,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 362,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组，一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 363,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 364,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 365,
+							"name": "Intersection",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1630,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 366,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 220,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 367,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "交集Intersection：由既是数组A的成员又是数组B的成员组成的数组。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组，由既是数组A的成员又是数组B的成员组成的数组。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 368,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 369,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 370,
+							"name": "SymmetricDifference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1631,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 371,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 247,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 372,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "对称差集SymmetricDifference：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 373,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 374,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 375,
+							"name": "Union",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1632,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 376,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 266,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 377,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "并集Union：由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "新数组，由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 378,
+													"name": "arrA",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组A，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												},
+												{
+													"id": 379,
+													"name": "arrB",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "数组B，默认值为空数组，可选。"
+															}
+														]
+													},
+													"type": {
+														"type": "array",
+														"elementType": {
+															"type": "intrinsic",
+															"name": "any"
+														}
+													},
+													"defaultValue": "[]"
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 380,
+							"name": "MyConsole",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1635,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "query",
+								"queryType": {
+									"type": "reference",
+									"id": 35,
+									"name": "MyConsole"
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								336,
+								340,
+								344,
+								348,
+								352,
+								356,
+								360,
+								365,
+								370,
+								375,
+								380
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "UniversalToolForNode.esm.mjs",
+							"line": 1615,
+							"character": 15
+						}
+					]
+				}
+			}
+		}
+	],
+	"groups": [
+		{
+			"title": "Functions",
+			"children": [
+				1,
+				4,
+				7,
+				10,
+				13,
+				16,
+				19,
+				23,
+				27,
+				31
+			]
+		},
+		{
+			"title": "Classes",
+			"children": [
+				35
+			]
+		},
+		{
+			"title": "Variables",
+			"children": [
+				334
+			]
+		}
+	],
+	"sources": [
+		{
+			"fileName": "UniversalToolForNode.esm.mjs",
+			"line": 69,
+			"character": 0
+		}
+	]
+}
