@@ -23,7 +23,7 @@
 关于“严格模式”的注意事项：<br />
 1、'use strict'严格模式会在函数内部自动深度的传递严格模式的效果。<br />
 如：<br />
-```js
+```ts
 function Fun1( x ){
   'use strict';
 
@@ -49,7 +49,7 @@ Fun1里的'use strict'严格模式的效果会传递到Fun2内部！<br />
 
 5、严格模式下的this还是可以通过apply、bind、call来设置的，否则还是undefined。<br />
 如：<br />
-```js
+```ts
 'use strict';
 
 function Fun1(){

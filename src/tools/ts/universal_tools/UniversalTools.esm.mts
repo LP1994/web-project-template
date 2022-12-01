@@ -75,7 +75,7 @@
 /**
  * 一种字符串的相等比较（使用===比较），用于辅助判断数据类型。<br />
  * 大多是如下的比较：<br />
- * ```js
+ * ```ts
  * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';
  * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';
  * ```
