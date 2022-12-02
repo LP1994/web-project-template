@@ -22,9 +22,13 @@ import {
 } from './AuxiliaryTool.esm.test.mts';
 
 import {
-  // Date格式处理。End
-  DateFormatForObject,
+  // 类型转换。Start
+  StringToUint8Array,
+  // 类型转换。End
+
   // Date格式处理。Start
+  DateFormatForObject,
+  // Date格式处理。End
 
   // 判断数据类型。Start
   GetDataType,
@@ -44,6 +48,13 @@ import {
 } from '../UniversalToolForDeno.esm.mts';
 
 console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
+
+// StringToUint8Array
+if( true ){
+  Test001( 'StringToUint8Array', (): void => {
+    Equal001( new TextDecoder().decode( StringToUint8Array( 'StringToUint8Array' ) ) ).toBe( 'StringToUint8Array' );
+  } );
+}
 
 // DateFormatForObject
 if( true ){

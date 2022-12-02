@@ -128,6 +128,21 @@ export function Get__filename( import_meta_url = import.meta.url ){
 
 // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+// 类型转换。Start
+
+/**
+ * 将“String”类型的数据转换成“Uint8Array”类型。
+ *
+ * @param {string} data “String”类型的数据，必需。
+ *
+ * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
+ */
+export function StringToUint8Array( data ){
+  return new TextEncoder().encode( data );
+}
+
+// 类型转换。End
+
 // Date格式处理。Start
 
 /**
@@ -1652,9 +1667,13 @@ export default {
   Get__filename,
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
-  // Date格式处理。End
-  DateFormatForObject,
+  // 类型转换。Start
+  StringToUint8Array,
+  // 类型转换。End
+
   // Date格式处理。Start
+  DateFormatForObject,
+  // Date格式处理。End
 
   // 判断数据类型。Start
   GetDataType,

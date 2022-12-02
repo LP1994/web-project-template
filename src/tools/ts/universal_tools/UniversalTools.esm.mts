@@ -115,6 +115,21 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
 
 // 内部使用的7788的处理函数。End
 
+// 类型转换。Start
+
+/**
+ * 将“String”类型的数据转换成“Uint8Array”类型。
+ *
+ * @param {string} data “String”类型的数据，必需。
+ *
+ * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
+ */
+export function StringToUint8Array( data: string ): Uint8Array{
+  return new TextEncoder().encode( data );
+}
+
+// 类型转换。End
+
 // Date格式处理。Start
 
 /**
@@ -297,9 +312,13 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
 export default {
-  // Date格式处理。End
-  DateFormatForObject,
+  // 类型转换。Start
+  StringToUint8Array,
+  // 类型转换。End
+
   // Date格式处理。Start
+  DateFormatForObject,
+  // Date格式处理。End
 
   // 判断数据类型。Start
   GetDataType,
