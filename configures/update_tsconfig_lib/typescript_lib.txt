@@ -212,3 +212,15 @@ tsconfig.json中在用（20221203）的（64个）：
 "webworker",
 "webworker.importscripts",
 "webworker.iterable",
+
+
+
+typescript_4.9.3可以通过验证并被成功使用的有（69个）
+-
+tsconfig.json中在用（20221203）的（64个）
+=
+"es7",
+"esnext.array",
+"esnext.asynciterable",
+"esnext.bigint",
+"esnext.symbol"
