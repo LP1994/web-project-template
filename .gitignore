@@ -2,13 +2,13 @@
 
 /.idea/
 
-/dist/
+# /dist/
 
-/log/
+# /log/
 
 /node_modules/
 /node_modules.7z
 /node_modules.zip
 
-/test/
-/ts_compiled/
+# /test/
+# /ts_compiled/
