@@ -7,9 +7,14 @@
  * CreateDate: 2022-11-01 19:53:39 星期二
  */
 
+/**
+ * 用于存放特定于这个项目的各种全局参数、变量、配置等等。
+ * 1、尽量在这里写供全局用的属性、变量等等，方便一处修改自动作用到任何使用它们的地方。
+ */
+
 'use strict';
 
-// custom type、interface Start
+// 自定义的type（命名以“Type”开头，如：type TypeMyString = string;）、interface Start
 
 export type TypeResponse001 = Response | Promise<Response>;
 
@@ -21,17 +26,40 @@ export type TypeFilePath001 = string | URL;
 
 export type TypeResult001 = boolean | TypeFun001;
 
-// custom type、interface End
+// 自定义的type（命名以“Type”开头，如：type TypeMyString = string;）、interface End
 
-// aliasConfig Start
+// 自定义的路径别名aliasConfig Start
 
 // @ts-ignore
 const opensslDir: string = import.meta.resolve( '../../openssl' );
 
 // @ts-ignore
 const srcDir: string = import.meta.resolve( '../../src' );
+
 // @ts-ignore
 const configuresDir: string = import.meta.resolve( '../configures' );
+// @ts-ignore
+const route_map_configDir: string = import.meta.resolve( '../configures/route_map_config' );
+
+// @ts-ignore
+const databaseDir: string = import.meta.resolve( '../database' );
+// @ts-ignore
+const deno_dbDir: string = import.meta.resolve( '../database/deno_db' );
+// @ts-ignore
+const firebaseDir: string = import.meta.resolve( '../database/firebase' );
+// @ts-ignore
+const graphqlDir: string = import.meta.resolve( '../database/graphql' );
+// @ts-ignore
+const mongoDir: string = import.meta.resolve( '../database/mongo' );
+// @ts-ignore
+const mysqlDir: string = import.meta.resolve( '../database/mysql' );
+// @ts-ignore
+const postgresDir: string = import.meta.resolve( '../database/postgres' );
+// @ts-ignore
+const sqliteDir: string = import.meta.resolve( '../database/sqlite' );
+// @ts-ignore
+const supabaseDir: string = import.meta.resolve( '../database/supabase' );
+
 // @ts-ignore
 const publicDir: string = import.meta.resolve( '../public' );
 // @ts-ignore
@@ -47,21 +75,40 @@ const ssrDir: string = import.meta.resolve( '../ssr' );
 const templateDir: string = import.meta.resolve( '../template' );
 // @ts-ignore
 const ejsDir: string = import.meta.resolve( '../template/ejs' );
+// @ts-ignore
+const handlebarsDir: string = import.meta.resolve( '../template/handlebars' );
+// @ts-ignore
+const htmlDir: string = import.meta.resolve( '../template/html' );
+// @ts-ignore
+const markdownDir: string = import.meta.resolve( '../template/markdown' );
+// @ts-ignore
+const mustacheDir: string = import.meta.resolve( '../template/mustache' );
+// @ts-ignore
+const pug_jadeDir: string = import.meta.resolve( '../template/pug_jade' );
 
 // @ts-ignore
 const toolsDir: string = import.meta.resolve( '../tools' );
 // @ts-ignore
 const third_party_modulesDir: string = import.meta.resolve( '../tools/third_party_modules' );
+// @ts-ignore
+const universal_tool_for_denoDir: string = import.meta.resolve( '../tools/universal_tool_for_deno' );
 
 // @ts-ignore
 const staticDir: string = import.meta.resolve( '../../static' );
+// @ts-ignore
+const testDir: string = import.meta.resolve( '../../test' );
 // @ts-ignore
 const uploadDir: string = import.meta.resolve( '../../upload' );
 // @ts-ignore
 const webDir: string = import.meta.resolve( '../../web' );
 
-// aliasConfig End
+// 自定义的路径别名aliasConfig End
 
+/**
+ * 自定义的响应头。
+ *
+ * @type {object}
+ */
 const httpHeaders: {
   [ key: string ]: string | number | boolean;
 } = {
@@ -130,11 +177,24 @@ const resMessageStatus: { [ key: string | number ]: object } = {
 };
 
 export {
-  // aliasConfig Start
+  // 自定义的路径别名aliasConfig Start
   opensslDir,
 
   srcDir,
+
   configuresDir,
+  route_map_configDir,
+
+  databaseDir,
+  deno_dbDir,
+  firebaseDir,
+  graphqlDir,
+  mongoDir,
+  mysqlDir,
+  postgresDir,
+  sqliteDir,
+  supabaseDir,
+
   publicDir,
   routersDir,
   serversDir,
@@ -143,25 +203,45 @@ export {
 
   templateDir,
   ejsDir,
+  handlebarsDir,
+  htmlDir,
+  markdownDir,
+  mustacheDir,
+  pug_jadeDir,
 
   toolsDir,
   third_party_modulesDir,
+  universal_tool_for_denoDir,
 
   staticDir,
+  testDir,
   uploadDir,
   webDir,
-  // aliasConfig End
+  // 自定义的路径别名aliasConfig End
 
   httpHeaders,
   resMessageStatus,
 };
 
 export default {
-  // aliasConfig Start
+  // 自定义的路径别名aliasConfig Start
   opensslDir,
 
   srcDir,
+
   configuresDir,
+  route_map_configDir,
+
+  databaseDir,
+  deno_dbDir,
+  firebaseDir,
+  graphqlDir,
+  mongoDir,
+  mysqlDir,
+  postgresDir,
+  sqliteDir,
+  supabaseDir,
+
   publicDir,
   routersDir,
   serversDir,
@@ -170,14 +250,21 @@ export default {
 
   templateDir,
   ejsDir,
+  handlebarsDir,
+  htmlDir,
+  markdownDir,
+  mustacheDir,
+  pug_jadeDir,
 
   toolsDir,
   third_party_modulesDir,
+  universal_tool_for_denoDir,
 
   staticDir,
+  testDir,
   uploadDir,
   webDir,
-  // aliasConfig End
+  // 自定义的路径别名aliasConfig End
 
   httpHeaders,
   resMessageStatus,

@@ -43,6 +43,13 @@ type TypeObj001 = {
   [ key: string ]: string;
 };
 
+/**
+ * Handle001
+ *
+ * @param {TypeFilePath001} filePath
+ *
+ * @returns {string}
+ */
 function Handle001( filePath: TypeFilePath001 ): string{
   if( Object.prototype.toString.call( filePath ) === '[object URL]' ){
     if( ( filePath as URL ).protocol === 'file:' ){
@@ -57,6 +64,13 @@ function Handle001( filePath: TypeFilePath001 ): string{
   }
 }
 
+/**
+ * GeneratorRouteMap
+ *
+ * @param {TypeRouteMapConfig} routeMapConfig
+ *
+ * @returns {Promise<TypeRouteMapHandle>}
+ */
 async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<TypeRouteMapHandle>{
   const obj001: TypeObj001 = Object.fromEntries(
     Object.entries( routeMapConfig ).map(
@@ -104,6 +118,13 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
   return Object.fromEntries( arr002 );
 }
 
+/**
+ * GeneratorRouteHandle
+ *
+ * @param {TypeRouteHandleConfig} routeHandleConfig
+ *
+ * @returns {TypeRouteHandle}
+ */
 function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeRouteHandle{
   return async ( request: Request ): Promise<TypeResult001> => {
     let myRouteHandleConfig: TypeRouteHandleConfig | TypeMap001 = routeHandleConfig;
