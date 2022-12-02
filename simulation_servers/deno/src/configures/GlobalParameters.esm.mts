@@ -31,6 +31,9 @@ export type TypeResult001 = boolean | TypeFun001;
 // 自定义的路径别名aliasConfig Start
 
 // @ts-ignore
+const logDir: string = import.meta.resolve( '../../log' );
+
+// @ts-ignore
 const opensslDir: string = import.meta.resolve( '../../openssl' );
 
 // @ts-ignore
@@ -178,6 +181,7 @@ const resMessageStatus: { [ key: string | number ]: object } = {
 
 export {
   // 自定义的路径别名aliasConfig Start
+  logDir,
   opensslDir,
 
   srcDir,
@@ -225,6 +229,7 @@ export {
 
 export default {
   // 自定义的路径别名aliasConfig Start
+  logDir,
   opensslDir,
 
   srcDir,

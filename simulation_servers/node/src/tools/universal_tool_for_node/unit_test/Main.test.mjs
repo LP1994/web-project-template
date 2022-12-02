@@ -25,6 +25,10 @@ import {
   Get__filename,
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+  // Date格式处理。End
+  DateFormatForObject,
+  // Date格式处理。Start
+
   // 判断数据类型。Start
   GetDataType,
   IsArray,
@@ -41,6 +45,21 @@ import {
 } from '../UniversalToolForNode.esm.mjs';
 
 console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
+
+// DateFormatForObject
+if( true ){
+  Test001( 'DateFormatForObject', () => {
+    Equal001( JSON.stringify( DateFormatForObject( new Date( 1670010887679 ) ) ) ).toBe( JSON.stringify( {
+      year: '2022',
+      month: '12',
+      date: '03',
+      hours: '03',
+      minutes: '54',
+      seconds: '47',
+      day: '6'
+    } ) );
+  } );
+}
 
 // Get__dirname、Get__filename
 if( true ){

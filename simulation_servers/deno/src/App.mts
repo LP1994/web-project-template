@@ -35,6 +35,18 @@ import {
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+import {
+  type TypeMyCusDenoFsFile,
+
+  GetLogWriteStreamForSingleton,
+  GetErrorWriteStreamForSingleton,
+
+  // @ts-ignore
+} from 'public/PublicTools.esm.mts';
+
+const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+
 Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
@@ -75,23 +87,52 @@ Promise.allSettled( [
 ] )
 .then(
   ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
-    MyConsole.Red( `\nresolve--->Start` );
-    /*
-     [ { status: "fulfilled", value: Module {} } ]
-     */
-    console.dir( resolve );
-    MyConsole.Red( `resolve--->End\n` );
+    // resolve ---> [ { status: "fulfilled", value: Module {} } ]
+    logWriteStream.write( `
+来自：simulation_servers/deno/src/App.mts
+resolve--->Start
+
+${ JSON.stringify( resolve ) }
+
+resolve--->End
+` );
   },
   ( reject: Array<PromiseSettledResult<unknown>> ): void => {
-    MyConsole.Red( `\nreject--->Start` );
+    MyConsole.Red( `
+来自：simulation_servers/deno/src/App.mts
+reject--->Start
+` );
     console.dir( reject );
-    MyConsole.Red( `reject--->End\n` );
+    MyConsole.Red( `
+reject--->End
+` );
+
+    errorWriteStream.write( `
+来自：simulation_servers/deno/src/App.mts
+reject--->Start
+
+${ JSON.stringify( reject ) }
+
+reject--->End
+` );
   }
 )
 .catch( ( error: unknown ): void => {
   MyConsole.Red( `
+来自：simulation_servers/deno/src/App.mts
 catch error--->Start
+
 ${ ( error as Error ).message }
+
+catch error--->End
+` );
+
+  errorWriteStream.write( `
+来自：simulation_servers/deno/src/App.mts
+catch error--->Start
+
+${ ( error as Error ).message }
+
 catch error--->End
 ` );
 } );

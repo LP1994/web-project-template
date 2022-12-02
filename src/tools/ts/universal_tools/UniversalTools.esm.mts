@@ -70,6 +70,27 @@
 
 'use strict';
 
+// 自定义的类型别名。Start
+
+export type TypeDateFormatForObject = {
+  // 年
+  year: string;
+  // 月
+  month: string;
+  // 日
+  date: string;
+  // 时
+  hours: string;
+  // 分
+  minutes: string;
+  // 秒
+  seconds: string;
+  // 周
+  day: string;
+};
+
+// 自定义的类型别名。End
+
 // 内部使用的7788的处理函数。Start
 
 /**
@@ -93,6 +114,40 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
 }
 
 // 内部使用的7788的处理函数。End
+
+// Date格式处理。Start
+
+/**
+ * 返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
+ *
+ * @param {Date} dateInstance 一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ *
+ * @returns {TypeDateFormatForObject} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ */
+export function DateFormatForObject( dateInstance: Date = new Date( Date.now() ) ): TypeDateFormatForObject{
+  const year: string = String( dateInstance.getFullYear() ),
+    month: string = String( dateInstance.getMonth() + 1 ).padStart( 2, '0' ),
+    date: string = String( dateInstance.getDate() ).padStart( 2, '0' ),
+    hours: string = String( dateInstance.getHours() ).padStart( 2, '0' ),
+    minutes: string = String( dateInstance.getMinutes() ).padStart( 2, '0' ),
+    seconds: string = String( dateInstance.getSeconds() ).padStart( 2, '0' ),
+    day001: number = dateInstance.getDay(),
+    day: string = String( day001 === 0
+                          ? '日'
+                          : day001 );
+
+  return {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  };
+}
+
+// Date格式处理。End
 
 // 判断数据类型。Start
 
@@ -242,6 +297,10 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
 export default {
+  // Date格式处理。End
+  DateFormatForObject,
+  // Date格式处理。Start
+
   // 判断数据类型。Start
   GetDataType,
   IsArray,

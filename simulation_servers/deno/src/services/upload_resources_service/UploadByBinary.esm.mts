@@ -30,7 +30,7 @@ import {
   writableStreamFromWriter,
 
   // @ts-ignore
-} from 'DenoStd/streams/mod.ts';
+} from 'DenoStd/streams/writable_stream_from_writer.ts';
 
 import {
   uploadDir,

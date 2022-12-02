@@ -38,6 +38,15 @@ import {
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+import {
+  type TypeMyCusDenoFsFile,
+
+  GetLogWriteStreamForSingleton,
+  GetErrorWriteStreamForSingleton,
+
+  // @ts-ignore
+} from 'public/PublicTools.esm.mts';
+
 // @ts-ignore
 import ResponseError from 'public/ResponseError.esm.mts';
 
@@ -47,14 +56,20 @@ import {
   // @ts-ignore
 } from 'routers/Routers.esm.mts';
 
+const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+
 // @ts-ignore
 async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
-  MyConsole.Cyan( `
+  logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务，connInfo--->Start
+
 ${ JSON.stringify( {
     localAddr: conn.localAddr,
     remoteAddr: conn.remoteAddr,
   }, null, ' ' ) }
+
 HTTP/2 服务，connInfo--->End
 ` );
 
@@ -67,9 +82,33 @@ HTTP/2 服务，connInfo--->End
       if( requestEvent ){
         const request: Request = requestEvent.request;
 
-        MyConsole.Cyan( `\nHTTP/2 服务，request--->Start` );
-        console.dir( request );
-        MyConsole.Cyan( `HTTP/2 服务，request--->End\n` );
+        logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
+HTTP/2 服务，request--->Start
+
+${ JSON.stringify( {
+          method: request.method,
+          url: request.url,
+          redirect: request.redirect,
+          bodyUsed: request.bodyUsed,
+          headers: ( () => {
+            const result: { [ keyName: string ]: string; } = {};
+
+            request.headers.forEach( (
+              value: string,
+              key: string,
+              // @ts-ignore
+              parent: Headers
+            ): void => {
+              result[ key ] = value;
+            } );
+
+            return result;
+          } )(),
+        }, null, ' ' ) }
+
+HTTP/2 服务，request--->End
+` );
 
         // 不要await，会导致阻塞。
         requestEvent.respondWith( Routers( request ) );
@@ -81,8 +120,20 @@ HTTP/2 服务，connInfo--->End
     // httpConn.close();
 
     MyConsole.Red( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务，报错--->Start
+
 ${ ( error as Error ).message }
+
+HTTP/2 服务，报错--->End
+` );
+
+    errorWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
+HTTP/2 服务，报错--->Start
+
+${ ( error as Error ).message }
+
 HTTP/2 服务，报错--->End
 ` );
   }
@@ -131,6 +182,13 @@ try{
   const addr: Deno.NetAddr = server.addr as Deno.NetAddr;
 
   MyConsole.Cyan( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
+HTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
+说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
+` );
+
+  logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
@@ -147,16 +205,40 @@ HTTP/2 服务已开启：https://${ addr.hostname }:${ addr.port }/、wss://${ a
     // server.close();
 
     MyConsole.Red( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务，监听器报错--->Start
+
 ${ ( error as Error ).message }
+
+HTTP/2 服务，监听器报错--->End
+` );
+
+    errorWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
+HTTP/2 服务，监听器报错--->Start
+
+${ ( error as Error ).message }
+
 HTTP/2 服务，监听器报错--->End
 ` );
   }
 }
 catch( error: unknown ){
   MyConsole.Red( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务，打开网络端口时出现问题--->Start
+
 ${ ( error as Error ).message }
+
+HTTP/2 服务，打开网络端口时出现问题--->End
+` );
+
+  errorWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
+HTTP/2 服务，打开网络端口时出现问题--->Start
+
+${ ( error as Error ).message }
+
 HTTP/2 服务，打开网络端口时出现问题--->End
 ` );
 }
