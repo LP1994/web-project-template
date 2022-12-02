@@ -83,20 +83,38 @@ import {
 
 // 自定义的类型别名。Start
 
+/**
+ * 自定义的类型别名TypeDateFormatForObject，表示一个对象：
+ * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ */
 export type TypeDateFormatForObject = {
-  // 年
+  /**
+   * 表示年。
+   */
   year: string;
-  // 月
+  /**
+   * 表示月。
+   */
   month: string;
-  // 日
+  /**
+   * 表示日。
+   */
   date: string;
-  // 时
+  /**
+   * 表示时。
+   */
   hours: string;
-  // 分
+  /**
+   * 表示分。
+   */
   minutes: string;
-  // 秒
+  /**
+   * 表示秒。
+   */
   seconds: string;
-  // 周
+  /**
+   * 表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。
+   */
   day: string;
 };
 
@@ -1693,5 +1711,17 @@ export default {
   Union,
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
 
+  /**
+   * 自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />
+   * PS：<br />
+   * 1、“chalk”模块文档：<br />
+   * https://deno.land/x/chalk_deno<br />
+   *
+   * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
+   *
+   * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
+   * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m <br />
+   * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
+   */
   MyConsole,
 };

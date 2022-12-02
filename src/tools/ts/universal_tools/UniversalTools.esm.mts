@@ -72,20 +72,38 @@
 
 // 自定义的类型别名。Start
 
+/**
+ * 自定义的类型别名TypeDateFormatForObject，表示一个对象：
+ * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ */
 export type TypeDateFormatForObject = {
-  // 年
+  /**
+   * 表示年。
+   */
   year: string;
-  // 月
+  /**
+   * 表示月。
+   */
   month: string;
-  // 日
+  /**
+   * 表示日。
+   */
   date: string;
-  // 时
+  /**
+   * 表示时。
+   */
   hours: string;
-  // 分
+  /**
+   * 表示分。
+   */
   minutes: string;
-  // 秒
+  /**
+   * 表示秒。
+   */
   seconds: string;
-  // 周
+  /**
+   * 表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。
+   */
   day: string;
 };
 

@@ -17,7 +17,7 @@
 					"fileName": "UniversalToolForNode.esm.mjs",
 					"line": 114,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L114"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L114"
 				}
 			],
 			"signatures": [
@@ -86,7 +86,7 @@
 					"fileName": "UniversalToolForNode.esm.mjs",
 					"line": 125,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L125"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L125"
 				}
 			],
 			"signatures": [
@@ -146,6 +146,310 @@
 		},
 		{
 			"id": 7,
+			"name": "StringToUint8Array",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 140,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L140"
+				}
+			],
+			"signatures": [
+				{
+					"id": 8,
+					"name": "StringToUint8Array",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "将“String”类型的数据转换成“Uint8Array”类型。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "转换成“Uint8Array”类型的数据。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 9,
+							"name": "data",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "“String”类型的数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Uint8Array",
+						"qualifiedName": "Uint8Array",
+						"package": "typescript"
+					}
+				}
+			]
+		},
+		{
+			"id": 10,
+			"name": "DateFormatForObject",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalToolForNode.esm.mjs",
+					"line": 155,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L155"
+				}
+			],
+			"signatures": [
+				{
+					"id": 11,
+					"name": "DateFormatForObject",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 12,
+							"name": "dateInstance",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />"
+									}
+								]
+							},
+							"type": {
+								"type": "reference",
+								"name": "Date",
+								"qualifiedName": "Date",
+								"package": "typescript"
+							},
+							"defaultValue": "..."
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 13,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 14,
+									"name": "year",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 14,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 15,
+									"name": "month",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 28,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 16,
+									"name": "date",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 43,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 17,
+									"name": "hours",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 57,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 18,
+									"name": "minutes",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 72,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 19,
+									"name": "seconds",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 89,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 20,
+									"name": "day",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 153,
+											"character": 106,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"children": [
+										14,
+										15,
+										16,
+										17,
+										18,
+										19,
+										20
+									]
+								}
+							],
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 153,
+									"character": 13,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 21,
 			"name": "GetDataType",
 			"kind": 64,
 			"kindString": "Function",
@@ -153,14 +457,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 142,
+					"line": 191,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L191"
 				}
 			],
 			"signatures": [
 				{
-					"id": 8,
+					"id": 22,
 					"name": "GetDataType",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -186,7 +490,7 @@
 					},
 					"parameters": [
 						{
-							"id": 9,
+							"id": 23,
 							"name": "arg",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -213,7 +517,7 @@
 			]
 		},
 		{
-			"id": 10,
+			"id": 24,
 			"name": "IsArray",
 			"kind": 64,
 			"kindString": "Function",
@@ -221,14 +525,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 155,
+					"line": 204,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L155"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L204"
 				}
 			],
 			"signatures": [
 				{
-					"id": 11,
+					"id": 25,
 					"name": "IsArray",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -254,7 +558,7 @@
 					},
 					"parameters": [
 						{
-							"id": 12,
+							"id": 26,
 							"name": "arg",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -281,7 +585,7 @@
 			]
 		},
 		{
-			"id": 13,
+			"id": 27,
 			"name": "IsNumber",
 			"kind": 64,
 			"kindString": "Function",
@@ -289,14 +593,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 168,
+					"line": 217,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L168"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L217"
 				}
 			],
 			"signatures": [
 				{
-					"id": 14,
+					"id": 28,
 					"name": "IsNumber",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -322,7 +626,7 @@
 					},
 					"parameters": [
 						{
-							"id": 15,
+							"id": 29,
 							"name": "arg",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -349,7 +653,7 @@
 			]
 		},
 		{
-			"id": 16,
+			"id": 30,
 			"name": "IsString",
 			"kind": 64,
 			"kindString": "Function",
@@ -357,14 +661,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 179,
+					"line": 228,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L179"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L228"
 				}
 			],
 			"signatures": [
 				{
-					"id": 17,
+					"id": 31,
 					"name": "IsString",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -390,7 +694,7 @@
 					},
 					"parameters": [
 						{
-							"id": 18,
+							"id": 32,
 							"name": "arg",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -417,7 +721,7 @@
 			]
 		},
 		{
-			"id": 19,
+			"id": 33,
 			"name": "Difference",
 			"kind": 64,
 			"kindString": "Function",
@@ -425,14 +729,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 196,
+					"line": 245,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L196"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L245"
 				}
 			],
 			"signatures": [
 				{
-					"id": 20,
+					"id": 34,
 					"name": "Difference",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -458,7 +762,7 @@
 					},
 					"parameters": [
 						{
-							"id": 21,
+							"id": 35,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -481,7 +785,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 22,
+							"id": 36,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -515,7 +819,7 @@
 			]
 		},
 		{
-			"id": 23,
+			"id": 37,
 			"name": "Intersection",
 			"kind": 64,
 			"kindString": "Function",
@@ -523,14 +827,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 220,
+					"line": 269,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L220"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L269"
 				}
 			],
 			"signatures": [
 				{
-					"id": 24,
+					"id": 38,
 					"name": "Intersection",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -556,7 +860,7 @@
 					},
 					"parameters": [
 						{
-							"id": 25,
+							"id": 39,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -579,7 +883,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 26,
+							"id": 40,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -613,7 +917,7 @@
 			]
 		},
 		{
-			"id": 27,
+			"id": 41,
 			"name": "SymmetricDifference",
 			"kind": 64,
 			"kindString": "Function",
@@ -621,14 +925,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 247,
+					"line": 296,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L247"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L296"
 				}
 			],
 			"signatures": [
 				{
-					"id": 28,
+					"id": 42,
 					"name": "SymmetricDifference",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -654,7 +958,7 @@
 					},
 					"parameters": [
 						{
-							"id": 29,
+							"id": 43,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -677,7 +981,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 30,
+							"id": 44,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -711,7 +1015,7 @@
 			]
 		},
 		{
-			"id": 31,
+			"id": 45,
 			"name": "Union",
 			"kind": 64,
 			"kindString": "Function",
@@ -719,14 +1023,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 266,
+					"line": 315,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L266"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L315"
 				}
 			],
 			"signatures": [
 				{
-					"id": 32,
+					"id": 46,
 					"name": "Union",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -752,7 +1056,7 @@
 					},
 					"parameters": [
 						{
-							"id": 33,
+							"id": 47,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -775,7 +1079,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 34,
+							"id": 48,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -809,7 +1113,7 @@
 			]
 		},
 		{
-			"id": 35,
+			"id": 49,
 			"name": "MyConsole",
 			"kind": 128,
 			"kindString": "Class",
@@ -824,7 +1128,7 @@
 			},
 			"children": [
 				{
-					"id": 178,
+					"id": 192,
 					"name": "#myChalk",
 					"kind": 1024,
 					"kindString": "Property",
@@ -842,9 +1146,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 292,
+							"line": 341,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L292"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L341"
 						}
 					],
 					"type": {
@@ -854,7 +1158,7 @@
 					"defaultValue": "chalk"
 				},
 				{
-					"id": 36,
+					"id": 50,
 					"name": "#MyChalk",
 					"kind": 1024,
 					"kindString": "Property",
@@ -873,9 +1177,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 301,
+							"line": 350,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L301"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L350"
 						}
 					],
 					"type": {
@@ -885,7 +1189,7 @@
 					"defaultValue": "chalk"
 				},
 				{
-					"id": 172,
+					"id": 186,
 					"name": "constructor",
 					"kind": 512,
 					"kindString": "Constructor",
@@ -893,14 +1197,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 317,
+							"line": 366,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L317"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L366"
 						}
 					],
 					"signatures": [
 						{
-							"id": 173,
+							"id": 187,
 							"name": "new MyConsole",
 							"kind": 16384,
 							"kindString": "Constructor signature",
@@ -915,7 +1219,7 @@
 							},
 							"parameters": [
 								{
-									"id": 174,
+									"id": 188,
 									"name": "config",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -932,14 +1236,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 175,
+											"id": 189,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 176,
+													"id": 190,
 													"name": "color",
 													"kind": 1024,
 													"kindString": "Property",
@@ -955,9 +1259,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 313,
+															"line": 362,
 															"character": 5,
-															"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L313"
+															"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L362"
 														}
 													],
 													"type": {
@@ -986,7 +1290,7 @@
 													}
 												},
 												{
-													"id": 177,
+													"id": 191,
 													"name": "bgColor",
 													"kind": 1024,
 													"kindString": "Property",
@@ -1002,9 +1306,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 315,
+															"line": 364,
 															"character": 5,
-															"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L315"
+															"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L364"
 														}
 													],
 													"type": {
@@ -1037,17 +1341,17 @@
 												{
 													"title": "Properties",
 													"children": [
-														176,
-														177
+														190,
+														191
 													]
 												}
 											],
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 313,
+													"line": 362,
 													"character": 5,
-													"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L313"
+													"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L362"
 												}
 											]
 										}
@@ -1057,14 +1361,14 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 35,
+								"id": 49,
 								"name": "MyConsole"
 							}
 						}
 					]
 				},
 				{
-					"id": 179,
+					"id": 193,
 					"name": "reset",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1072,14 +1376,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 348,
+							"line": 397,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L348"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L397"
 						}
 					],
 					"signatures": [
 						{
-							"id": 180,
+							"id": 194,
 							"name": "reset",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1100,7 +1404,7 @@
 					]
 				},
 				{
-					"id": 181,
+					"id": 195,
 					"name": "setRGB",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1108,14 +1412,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 361,
+							"line": 410,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L361"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L410"
 						}
 					],
 					"signatures": [
 						{
-							"id": 182,
+							"id": 196,
 							"name": "setRGB",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1130,7 +1434,7 @@
 							},
 							"parameters": [
 								{
-									"id": 183,
+									"id": 197,
 									"name": "rgbArr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1160,7 +1464,7 @@
 					]
 				},
 				{
-					"id": 184,
+					"id": 198,
 					"name": "setHEX",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1168,14 +1472,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 372,
+							"line": 421,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L372"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L421"
 						}
 					],
 					"signatures": [
 						{
-							"id": 185,
+							"id": 199,
 							"name": "setHEX",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1190,7 +1494,7 @@
 							},
 							"parameters": [
 								{
-									"id": 186,
+									"id": 200,
 									"name": "hexStr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1217,7 +1521,7 @@
 					]
 				},
 				{
-					"id": 187,
+					"id": 201,
 					"name": "setANSI256",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1225,14 +1529,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 383,
+							"line": 432,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L383"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L432"
 						}
 					],
 					"signatures": [
 						{
-							"id": 188,
+							"id": 202,
 							"name": "setANSI256",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1247,7 +1551,7 @@
 							},
 							"parameters": [
 								{
-									"id": 189,
+									"id": 203,
 									"name": "ansi256Num",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1274,7 +1578,7 @@
 					]
 				},
 				{
-					"id": 190,
+					"id": 204,
 					"name": "setBgRGB",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1282,14 +1586,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 398,
+							"line": 447,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L398"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L447"
 						}
 					],
 					"signatures": [
 						{
-							"id": 191,
+							"id": 205,
 							"name": "setBgRGB",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1304,7 +1608,7 @@
 							},
 							"parameters": [
 								{
-									"id": 192,
+									"id": 206,
 									"name": "rgbArr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1334,7 +1638,7 @@
 					]
 				},
 				{
-					"id": 193,
+					"id": 207,
 					"name": "setBgHEX",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1342,14 +1646,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 409,
+							"line": 458,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L409"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L458"
 						}
 					],
 					"signatures": [
 						{
-							"id": 194,
+							"id": 208,
 							"name": "setBgHEX",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1364,7 +1668,7 @@
 							},
 							"parameters": [
 								{
-									"id": 195,
+									"id": 209,
 									"name": "hexStr",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1391,7 +1695,7 @@
 					]
 				},
 				{
-					"id": 196,
+					"id": 210,
 					"name": "setBgANSI256",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1399,14 +1703,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 420,
+							"line": 469,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L420"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L469"
 						}
 					],
 					"signatures": [
 						{
-							"id": 197,
+							"id": 211,
 							"name": "setBgANSI256",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1421,7 +1725,7 @@
 							},
 							"parameters": [
 								{
-									"id": 198,
+									"id": 212,
 									"name": "ansi256Num",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1448,7 +1752,7 @@
 					]
 				},
 				{
-					"id": 199,
+					"id": 213,
 					"name": "bold",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1456,14 +1760,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 439,
+							"line": 488,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L439"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L488"
 						}
 					],
 					"signatures": [
 						{
-							"id": 200,
+							"id": 214,
 							"name": "bold",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1482,7 +1786,7 @@
 							},
 							"parameters": [
 								{
-									"id": 201,
+									"id": 215,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1509,7 +1813,7 @@
 					]
 				},
 				{
-					"id": 202,
+					"id": 216,
 					"name": "dim",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1517,14 +1821,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 452,
+							"line": 501,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L452"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L501"
 						}
 					],
 					"signatures": [
 						{
-							"id": 203,
+							"id": 217,
 							"name": "dim",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1543,7 +1847,7 @@
 							},
 							"parameters": [
 								{
-									"id": 204,
+									"id": 218,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1570,7 +1874,7 @@
 					]
 				},
 				{
-					"id": 205,
+					"id": 219,
 					"name": "italic",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1578,14 +1882,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 465,
+							"line": 514,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L465"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L514"
 						}
 					],
 					"signatures": [
 						{
-							"id": 206,
+							"id": 220,
 							"name": "italic",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1604,7 +1908,7 @@
 							},
 							"parameters": [
 								{
-									"id": 207,
+									"id": 221,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1631,7 +1935,7 @@
 					]
 				},
 				{
-					"id": 208,
+					"id": 222,
 					"name": "underline",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1639,14 +1943,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 478,
+							"line": 527,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L478"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L527"
 						}
 					],
 					"signatures": [
 						{
-							"id": 209,
+							"id": 223,
 							"name": "underline",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1665,7 +1969,7 @@
 							},
 							"parameters": [
 								{
-									"id": 210,
+									"id": 224,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1692,7 +1996,7 @@
 					]
 				},
 				{
-					"id": 211,
+					"id": 225,
 					"name": "overline",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1700,14 +2004,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 491,
+							"line": 540,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L491"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L540"
 						}
 					],
 					"signatures": [
 						{
-							"id": 212,
+							"id": 226,
 							"name": "overline",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1726,7 +2030,7 @@
 							},
 							"parameters": [
 								{
-									"id": 213,
+									"id": 227,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1753,7 +2057,7 @@
 					]
 				},
 				{
-					"id": 214,
+					"id": 228,
 					"name": "inverse",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1761,14 +2065,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 504,
+							"line": 553,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L504"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L553"
 						}
 					],
 					"signatures": [
 						{
-							"id": 215,
+							"id": 229,
 							"name": "inverse",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1787,7 +2091,7 @@
 							},
 							"parameters": [
 								{
-									"id": 216,
+									"id": 230,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1814,7 +2118,7 @@
 					]
 				},
 				{
-					"id": 217,
+					"id": 231,
 					"name": "hidden",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1822,14 +2126,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 517,
+							"line": 566,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L517"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L566"
 						}
 					],
 					"signatures": [
 						{
-							"id": 218,
+							"id": 232,
 							"name": "hidden",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1848,7 +2152,7 @@
 							},
 							"parameters": [
 								{
-									"id": 219,
+									"id": 233,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1875,7 +2179,7 @@
 					]
 				},
 				{
-					"id": 220,
+					"id": 234,
 					"name": "strikethrough",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1883,14 +2187,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 530,
+							"line": 579,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L530"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L579"
 						}
 					],
 					"signatures": [
 						{
-							"id": 221,
+							"id": 235,
 							"name": "strikethrough",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1909,7 +2213,7 @@
 							},
 							"parameters": [
 								{
-									"id": 222,
+									"id": 236,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1936,7 +2240,7 @@
 					]
 				},
 				{
-					"id": 223,
+					"id": 237,
 					"name": "visible",
 					"kind": 2048,
 					"kindString": "Method",
@@ -1944,14 +2248,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 543,
+							"line": 592,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L543"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L592"
 						}
 					],
 					"signatures": [
 						{
-							"id": 224,
+							"id": 238,
 							"name": "visible",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -1970,7 +2274,7 @@
 							},
 							"parameters": [
 								{
-									"id": 225,
+									"id": 239,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1997,7 +2301,7 @@
 					]
 				},
 				{
-					"id": 37,
+					"id": 51,
 					"name": "Bold",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2007,14 +2311,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 556,
+							"line": 605,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L556"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L605"
 						}
 					],
 					"signatures": [
 						{
-							"id": 38,
+							"id": 52,
 							"name": "Bold",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2033,7 +2337,7 @@
 							},
 							"parameters": [
 								{
-									"id": 39,
+									"id": 53,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2060,7 +2364,7 @@
 					]
 				},
 				{
-					"id": 40,
+					"id": 54,
 					"name": "Dim",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2070,14 +2374,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 569,
+							"line": 618,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L569"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L618"
 						}
 					],
 					"signatures": [
 						{
-							"id": 41,
+							"id": 55,
 							"name": "Dim",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2096,7 +2400,7 @@
 							},
 							"parameters": [
 								{
-									"id": 42,
+									"id": 56,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2123,7 +2427,7 @@
 					]
 				},
 				{
-					"id": 43,
+					"id": 57,
 					"name": "Italic",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2133,14 +2437,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 582,
+							"line": 631,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L582"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L631"
 						}
 					],
 					"signatures": [
 						{
-							"id": 44,
+							"id": 58,
 							"name": "Italic",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2159,7 +2463,7 @@
 							},
 							"parameters": [
 								{
-									"id": 45,
+									"id": 59,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2186,7 +2490,7 @@
 					]
 				},
 				{
-					"id": 46,
+					"id": 60,
 					"name": "Underline",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2196,14 +2500,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 595,
+							"line": 644,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L595"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L644"
 						}
 					],
 					"signatures": [
 						{
-							"id": 47,
+							"id": 61,
 							"name": "Underline",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2222,7 +2526,7 @@
 							},
 							"parameters": [
 								{
-									"id": 48,
+									"id": 62,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2249,7 +2553,7 @@
 					]
 				},
 				{
-					"id": 49,
+					"id": 63,
 					"name": "Overline",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2259,14 +2563,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 608,
+							"line": 657,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L608"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L657"
 						}
 					],
 					"signatures": [
 						{
-							"id": 50,
+							"id": 64,
 							"name": "Overline",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2285,7 +2589,7 @@
 							},
 							"parameters": [
 								{
-									"id": 51,
+									"id": 65,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2312,7 +2616,7 @@
 					]
 				},
 				{
-					"id": 52,
+					"id": 66,
 					"name": "Inverse",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2322,14 +2626,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 621,
+							"line": 670,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L621"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L670"
 						}
 					],
 					"signatures": [
 						{
-							"id": 53,
+							"id": 67,
 							"name": "Inverse",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2348,7 +2652,7 @@
 							},
 							"parameters": [
 								{
-									"id": 54,
+									"id": 68,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2375,7 +2679,7 @@
 					]
 				},
 				{
-					"id": 55,
+					"id": 69,
 					"name": "Hidden",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2385,14 +2689,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 634,
+							"line": 683,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L634"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L683"
 						}
 					],
 					"signatures": [
 						{
-							"id": 56,
+							"id": 70,
 							"name": "Hidden",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2411,7 +2715,7 @@
 							},
 							"parameters": [
 								{
-									"id": 57,
+									"id": 71,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2438,7 +2742,7 @@
 					]
 				},
 				{
-					"id": 58,
+					"id": 72,
 					"name": "Strikethrough",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2448,14 +2752,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 647,
+							"line": 696,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L647"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L696"
 						}
 					],
 					"signatures": [
 						{
-							"id": 59,
+							"id": 73,
 							"name": "Strikethrough",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2474,7 +2778,7 @@
 							},
 							"parameters": [
 								{
-									"id": 60,
+									"id": 74,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2501,7 +2805,7 @@
 					]
 				},
 				{
-					"id": 61,
+					"id": 75,
 					"name": "Visible",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2511,14 +2815,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 660,
+							"line": 709,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L660"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L709"
 						}
 					],
 					"signatures": [
 						{
-							"id": 62,
+							"id": 76,
 							"name": "Visible",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2537,7 +2841,7 @@
 							},
 							"parameters": [
 								{
-									"id": 63,
+									"id": 77,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2564,7 +2868,7 @@
 					]
 				},
 				{
-					"id": 226,
+					"id": 240,
 					"name": "black",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2572,14 +2876,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 677,
+							"line": 726,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L677"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L726"
 						}
 					],
 					"signatures": [
 						{
-							"id": 227,
+							"id": 241,
 							"name": "black",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2598,7 +2902,7 @@
 							},
 							"parameters": [
 								{
-									"id": 228,
+									"id": 242,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2625,7 +2929,7 @@
 					]
 				},
 				{
-					"id": 229,
+					"id": 243,
 					"name": "red",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2633,14 +2937,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 690,
+							"line": 739,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L690"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L739"
 						}
 					],
 					"signatures": [
 						{
-							"id": 230,
+							"id": 244,
 							"name": "red",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2659,7 +2963,7 @@
 							},
 							"parameters": [
 								{
-									"id": 231,
+									"id": 245,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2686,7 +2990,7 @@
 					]
 				},
 				{
-					"id": 232,
+					"id": 246,
 					"name": "green",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2694,14 +2998,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 703,
+							"line": 752,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L703"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L752"
 						}
 					],
 					"signatures": [
 						{
-							"id": 233,
+							"id": 247,
 							"name": "green",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2720,7 +3024,7 @@
 							},
 							"parameters": [
 								{
-									"id": 234,
+									"id": 248,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2747,7 +3051,7 @@
 					]
 				},
 				{
-					"id": 235,
+					"id": 249,
 					"name": "yellow",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2755,14 +3059,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 716,
+							"line": 765,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L716"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L765"
 						}
 					],
 					"signatures": [
 						{
-							"id": 236,
+							"id": 250,
 							"name": "yellow",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2781,7 +3085,7 @@
 							},
 							"parameters": [
 								{
-									"id": 237,
+									"id": 251,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2808,7 +3112,7 @@
 					]
 				},
 				{
-					"id": 238,
+					"id": 252,
 					"name": "blue",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2816,14 +3120,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 729,
+							"line": 778,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L729"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L778"
 						}
 					],
 					"signatures": [
 						{
-							"id": 239,
+							"id": 253,
 							"name": "blue",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2842,7 +3146,7 @@
 							},
 							"parameters": [
 								{
-									"id": 240,
+									"id": 254,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2869,7 +3173,7 @@
 					]
 				},
 				{
-					"id": 241,
+					"id": 255,
 					"name": "magenta",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2877,14 +3181,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 742,
+							"line": 791,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L742"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L791"
 						}
 					],
 					"signatures": [
 						{
-							"id": 242,
+							"id": 256,
 							"name": "magenta",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2903,7 +3207,7 @@
 							},
 							"parameters": [
 								{
-									"id": 243,
+									"id": 257,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2930,7 +3234,7 @@
 					]
 				},
 				{
-					"id": 244,
+					"id": 258,
 					"name": "cyan",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2938,14 +3242,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 755,
+							"line": 804,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L755"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L804"
 						}
 					],
 					"signatures": [
 						{
-							"id": 245,
+							"id": 259,
 							"name": "cyan",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2964,7 +3268,7 @@
 							},
 							"parameters": [
 								{
-									"id": 246,
+									"id": 260,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2991,7 +3295,7 @@
 					]
 				},
 				{
-					"id": 247,
+					"id": 261,
 					"name": "white",
 					"kind": 2048,
 					"kindString": "Method",
@@ -2999,14 +3303,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 768,
+							"line": 817,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L768"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L817"
 						}
 					],
 					"signatures": [
 						{
-							"id": 248,
+							"id": 262,
 							"name": "white",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3025,7 +3329,7 @@
 							},
 							"parameters": [
 								{
-									"id": 249,
+									"id": 263,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3052,7 +3356,7 @@
 					]
 				},
 				{
-					"id": 250,
+					"id": 264,
 					"name": "gray",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3060,14 +3364,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 781,
+							"line": 830,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L781"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L830"
 						}
 					],
 					"signatures": [
 						{
-							"id": 251,
+							"id": 265,
 							"name": "gray",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3086,7 +3390,7 @@
 							},
 							"parameters": [
 								{
-									"id": 252,
+									"id": 266,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3113,7 +3417,7 @@
 					]
 				},
 				{
-					"id": 253,
+					"id": 267,
 					"name": "grey",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3121,14 +3425,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 794,
+							"line": 843,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L794"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L843"
 						}
 					],
 					"signatures": [
 						{
-							"id": 254,
+							"id": 268,
 							"name": "grey",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3147,7 +3451,7 @@
 							},
 							"parameters": [
 								{
-									"id": 255,
+									"id": 269,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3174,7 +3478,7 @@
 					]
 				},
 				{
-					"id": 256,
+					"id": 270,
 					"name": "blackBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3182,14 +3486,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 807,
+							"line": 856,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L807"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L856"
 						}
 					],
 					"signatures": [
 						{
-							"id": 257,
+							"id": 271,
 							"name": "blackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3208,7 +3512,7 @@
 							},
 							"parameters": [
 								{
-									"id": 258,
+									"id": 272,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3235,7 +3539,7 @@
 					]
 				},
 				{
-					"id": 259,
+					"id": 273,
 					"name": "redBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3243,14 +3547,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 820,
+							"line": 869,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L820"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L869"
 						}
 					],
 					"signatures": [
 						{
-							"id": 260,
+							"id": 274,
 							"name": "redBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3269,7 +3573,7 @@
 							},
 							"parameters": [
 								{
-									"id": 261,
+									"id": 275,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3296,7 +3600,7 @@
 					]
 				},
 				{
-					"id": 262,
+					"id": 276,
 					"name": "greenBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3304,14 +3608,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 833,
+							"line": 882,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L833"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L882"
 						}
 					],
 					"signatures": [
 						{
-							"id": 263,
+							"id": 277,
 							"name": "greenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3330,7 +3634,7 @@
 							},
 							"parameters": [
 								{
-									"id": 264,
+									"id": 278,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3357,7 +3661,7 @@
 					]
 				},
 				{
-					"id": 265,
+					"id": 279,
 					"name": "yellowBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3365,14 +3669,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 846,
+							"line": 895,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L846"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L895"
 						}
 					],
 					"signatures": [
 						{
-							"id": 266,
+							"id": 280,
 							"name": "yellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3391,7 +3695,7 @@
 							},
 							"parameters": [
 								{
-									"id": 267,
+									"id": 281,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3418,7 +3722,7 @@
 					]
 				},
 				{
-					"id": 268,
+					"id": 282,
 					"name": "blueBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3426,14 +3730,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 859,
+							"line": 908,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L859"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L908"
 						}
 					],
 					"signatures": [
 						{
-							"id": 269,
+							"id": 283,
 							"name": "blueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3452,7 +3756,7 @@
 							},
 							"parameters": [
 								{
-									"id": 270,
+									"id": 284,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3479,7 +3783,7 @@
 					]
 				},
 				{
-					"id": 271,
+					"id": 285,
 					"name": "magentaBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3487,14 +3791,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 872,
+							"line": 921,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L872"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L921"
 						}
 					],
 					"signatures": [
 						{
-							"id": 272,
+							"id": 286,
 							"name": "magentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3513,7 +3817,7 @@
 							},
 							"parameters": [
 								{
-									"id": 273,
+									"id": 287,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3540,7 +3844,7 @@
 					]
 				},
 				{
-					"id": 274,
+					"id": 288,
 					"name": "cyanBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3548,14 +3852,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 885,
+							"line": 934,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L885"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L934"
 						}
 					],
 					"signatures": [
 						{
-							"id": 275,
+							"id": 289,
 							"name": "cyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3574,7 +3878,7 @@
 							},
 							"parameters": [
 								{
-									"id": 276,
+									"id": 290,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3601,7 +3905,7 @@
 					]
 				},
 				{
-					"id": 277,
+					"id": 291,
 					"name": "whiteBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3609,14 +3913,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 898,
+							"line": 947,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L898"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L947"
 						}
 					],
 					"signatures": [
 						{
-							"id": 278,
+							"id": 292,
 							"name": "whiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3635,7 +3939,7 @@
 							},
 							"parameters": [
 								{
-									"id": 279,
+									"id": 293,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3662,7 +3966,7 @@
 					]
 				},
 				{
-					"id": 64,
+					"id": 78,
 					"name": "Black",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3672,14 +3976,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 911,
+							"line": 960,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L911"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L960"
 						}
 					],
 					"signatures": [
 						{
-							"id": 65,
+							"id": 79,
 							"name": "Black",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3698,7 +4002,7 @@
 							},
 							"parameters": [
 								{
-									"id": 66,
+									"id": 80,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3725,7 +4029,7 @@
 					]
 				},
 				{
-					"id": 67,
+					"id": 81,
 					"name": "Red",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3735,14 +4039,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 924,
+							"line": 973,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L924"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L973"
 						}
 					],
 					"signatures": [
 						{
-							"id": 68,
+							"id": 82,
 							"name": "Red",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3761,7 +4065,7 @@
 							},
 							"parameters": [
 								{
-									"id": 69,
+									"id": 83,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3788,7 +4092,7 @@
 					]
 				},
 				{
-					"id": 70,
+					"id": 84,
 					"name": "Green",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3798,14 +4102,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 937,
+							"line": 986,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L937"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L986"
 						}
 					],
 					"signatures": [
 						{
-							"id": 71,
+							"id": 85,
 							"name": "Green",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3824,7 +4128,7 @@
 							},
 							"parameters": [
 								{
-									"id": 72,
+									"id": 86,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3851,7 +4155,7 @@
 					]
 				},
 				{
-					"id": 73,
+					"id": 87,
 					"name": "Yellow",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3861,14 +4165,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 950,
+							"line": 999,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L950"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L999"
 						}
 					],
 					"signatures": [
 						{
-							"id": 74,
+							"id": 88,
 							"name": "Yellow",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3887,7 +4191,7 @@
 							},
 							"parameters": [
 								{
-									"id": 75,
+									"id": 89,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3914,7 +4218,7 @@
 					]
 				},
 				{
-					"id": 76,
+					"id": 90,
 					"name": "Blue",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3924,14 +4228,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 963,
+							"line": 1012,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L963"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1012"
 						}
 					],
 					"signatures": [
 						{
-							"id": 77,
+							"id": 91,
 							"name": "Blue",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -3950,7 +4254,7 @@
 							},
 							"parameters": [
 								{
-									"id": 78,
+									"id": 92,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -3977,7 +4281,7 @@
 					]
 				},
 				{
-					"id": 79,
+					"id": 93,
 					"name": "Magenta",
 					"kind": 2048,
 					"kindString": "Method",
@@ -3987,14 +4291,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 976,
+							"line": 1025,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L976"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1025"
 						}
 					],
 					"signatures": [
 						{
-							"id": 80,
+							"id": 94,
 							"name": "Magenta",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4013,7 +4317,7 @@
 							},
 							"parameters": [
 								{
-									"id": 81,
+									"id": 95,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4040,7 +4344,7 @@
 					]
 				},
 				{
-					"id": 82,
+					"id": 96,
 					"name": "Cyan",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4050,14 +4354,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 989,
+							"line": 1038,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L989"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1038"
 						}
 					],
 					"signatures": [
 						{
-							"id": 83,
+							"id": 97,
 							"name": "Cyan",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4076,7 +4380,7 @@
 							},
 							"parameters": [
 								{
-									"id": 84,
+									"id": 98,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4103,7 +4407,7 @@
 					]
 				},
 				{
-					"id": 85,
+					"id": 99,
 					"name": "White",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4113,14 +4417,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1002,
+							"line": 1051,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1002"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1051"
 						}
 					],
 					"signatures": [
 						{
-							"id": 86,
+							"id": 100,
 							"name": "White",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4139,7 +4443,7 @@
 							},
 							"parameters": [
 								{
-									"id": 87,
+									"id": 101,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4166,7 +4470,7 @@
 					]
 				},
 				{
-					"id": 88,
+					"id": 102,
 					"name": "Gray",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4176,14 +4480,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1015,
+							"line": 1064,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1015"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1064"
 						}
 					],
 					"signatures": [
 						{
-							"id": 89,
+							"id": 103,
 							"name": "Gray",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4202,7 +4506,7 @@
 							},
 							"parameters": [
 								{
-									"id": 90,
+									"id": 104,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4229,7 +4533,7 @@
 					]
 				},
 				{
-					"id": 91,
+					"id": 105,
 					"name": "Grey",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4239,14 +4543,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1028,
+							"line": 1077,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1028"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1077"
 						}
 					],
 					"signatures": [
 						{
-							"id": 92,
+							"id": 106,
 							"name": "Grey",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4265,7 +4569,7 @@
 							},
 							"parameters": [
 								{
-									"id": 93,
+									"id": 107,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4292,7 +4596,7 @@
 					]
 				},
 				{
-					"id": 94,
+					"id": 108,
 					"name": "BlackBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4302,14 +4606,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1041,
+							"line": 1090,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1041"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1090"
 						}
 					],
 					"signatures": [
 						{
-							"id": 95,
+							"id": 109,
 							"name": "BlackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4328,7 +4632,7 @@
 							},
 							"parameters": [
 								{
-									"id": 96,
+									"id": 110,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4355,7 +4659,7 @@
 					]
 				},
 				{
-					"id": 97,
+					"id": 111,
 					"name": "RedBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4365,14 +4669,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1054,
+							"line": 1103,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1054"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1103"
 						}
 					],
 					"signatures": [
 						{
-							"id": 98,
+							"id": 112,
 							"name": "RedBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4391,7 +4695,7 @@
 							},
 							"parameters": [
 								{
-									"id": 99,
+									"id": 113,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4418,7 +4722,7 @@
 					]
 				},
 				{
-					"id": 100,
+					"id": 114,
 					"name": "GreenBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4428,14 +4732,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1067,
+							"line": 1116,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1067"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1116"
 						}
 					],
 					"signatures": [
 						{
-							"id": 101,
+							"id": 115,
 							"name": "GreenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4454,7 +4758,7 @@
 							},
 							"parameters": [
 								{
-									"id": 102,
+									"id": 116,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4481,7 +4785,7 @@
 					]
 				},
 				{
-					"id": 103,
+					"id": 117,
 					"name": "YellowBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4491,14 +4795,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1080,
+							"line": 1129,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1080"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1129"
 						}
 					],
 					"signatures": [
 						{
-							"id": 104,
+							"id": 118,
 							"name": "YellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4517,7 +4821,7 @@
 							},
 							"parameters": [
 								{
-									"id": 105,
+									"id": 119,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4544,7 +4848,7 @@
 					]
 				},
 				{
-					"id": 106,
+					"id": 120,
 					"name": "BlueBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4554,14 +4858,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1093,
+							"line": 1142,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1093"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1142"
 						}
 					],
 					"signatures": [
 						{
-							"id": 107,
+							"id": 121,
 							"name": "BlueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4580,7 +4884,7 @@
 							},
 							"parameters": [
 								{
-									"id": 108,
+									"id": 122,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4607,7 +4911,7 @@
 					]
 				},
 				{
-					"id": 109,
+					"id": 123,
 					"name": "MagentaBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4617,14 +4921,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1106,
+							"line": 1155,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1106"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1155"
 						}
 					],
 					"signatures": [
 						{
-							"id": 110,
+							"id": 124,
 							"name": "MagentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4643,7 +4947,7 @@
 							},
 							"parameters": [
 								{
-									"id": 111,
+									"id": 125,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4670,7 +4974,7 @@
 					]
 				},
 				{
-					"id": 112,
+					"id": 126,
 					"name": "CyanBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4680,14 +4984,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1119,
+							"line": 1168,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1119"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1168"
 						}
 					],
 					"signatures": [
 						{
-							"id": 113,
+							"id": 127,
 							"name": "CyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4706,7 +5010,7 @@
 							},
 							"parameters": [
 								{
-									"id": 114,
+									"id": 128,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4733,7 +5037,7 @@
 					]
 				},
 				{
-					"id": 115,
+					"id": 129,
 					"name": "WhiteBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4743,14 +5047,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1132,
+							"line": 1181,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1132"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1181"
 						}
 					],
 					"signatures": [
 						{
-							"id": 116,
+							"id": 130,
 							"name": "WhiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4769,7 +5073,7 @@
 							},
 							"parameters": [
 								{
-									"id": 117,
+									"id": 131,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4796,7 +5100,7 @@
 					]
 				},
 				{
-					"id": 280,
+					"id": 294,
 					"name": "bgBlack",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4804,14 +5108,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1149,
+							"line": 1198,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1149"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1198"
 						}
 					],
 					"signatures": [
 						{
-							"id": 281,
+							"id": 295,
 							"name": "bgBlack",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4830,7 +5134,7 @@
 							},
 							"parameters": [
 								{
-									"id": 282,
+									"id": 296,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4857,7 +5161,7 @@
 					]
 				},
 				{
-					"id": 283,
+					"id": 297,
 					"name": "bgRed",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4865,14 +5169,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1162,
+							"line": 1211,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1162"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1211"
 						}
 					],
 					"signatures": [
 						{
-							"id": 284,
+							"id": 298,
 							"name": "bgRed",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4891,7 +5195,7 @@
 							},
 							"parameters": [
 								{
-									"id": 285,
+									"id": 299,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4918,7 +5222,7 @@
 					]
 				},
 				{
-					"id": 286,
+					"id": 300,
 					"name": "bgGreen",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4926,14 +5230,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1175,
+							"line": 1224,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1175"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1224"
 						}
 					],
 					"signatures": [
 						{
-							"id": 287,
+							"id": 301,
 							"name": "bgGreen",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -4952,7 +5256,7 @@
 							},
 							"parameters": [
 								{
-									"id": 288,
+									"id": 302,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -4979,7 +5283,7 @@
 					]
 				},
 				{
-					"id": 289,
+					"id": 303,
 					"name": "bgYellow",
 					"kind": 2048,
 					"kindString": "Method",
@@ -4987,14 +5291,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1188,
+							"line": 1237,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1188"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1237"
 						}
 					],
 					"signatures": [
 						{
-							"id": 290,
+							"id": 304,
 							"name": "bgYellow",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5013,7 +5317,7 @@
 							},
 							"parameters": [
 								{
-									"id": 291,
+									"id": 305,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5040,7 +5344,7 @@
 					]
 				},
 				{
-					"id": 292,
+					"id": 306,
 					"name": "bgBlue",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5048,14 +5352,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1201,
+							"line": 1250,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1201"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1250"
 						}
 					],
 					"signatures": [
 						{
-							"id": 293,
+							"id": 307,
 							"name": "bgBlue",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5074,7 +5378,7 @@
 							},
 							"parameters": [
 								{
-									"id": 294,
+									"id": 308,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5101,7 +5405,7 @@
 					]
 				},
 				{
-					"id": 295,
+					"id": 309,
 					"name": "bgMagenta",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5109,14 +5413,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1214,
+							"line": 1263,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1214"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1263"
 						}
 					],
 					"signatures": [
 						{
-							"id": 296,
+							"id": 310,
 							"name": "bgMagenta",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5135,7 +5439,7 @@
 							},
 							"parameters": [
 								{
-									"id": 297,
+									"id": 311,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5162,7 +5466,7 @@
 					]
 				},
 				{
-					"id": 298,
+					"id": 312,
 					"name": "bgCyan",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5170,14 +5474,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1227,
+							"line": 1276,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1227"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1276"
 						}
 					],
 					"signatures": [
 						{
-							"id": 299,
+							"id": 313,
 							"name": "bgCyan",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5196,7 +5500,7 @@
 							},
 							"parameters": [
 								{
-									"id": 300,
+									"id": 314,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5223,7 +5527,7 @@
 					]
 				},
 				{
-					"id": 301,
+					"id": 315,
 					"name": "bgWhite",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5231,14 +5535,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1240,
+							"line": 1289,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1240"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1289"
 						}
 					],
 					"signatures": [
 						{
-							"id": 302,
+							"id": 316,
 							"name": "bgWhite",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5257,7 +5561,7 @@
 							},
 							"parameters": [
 								{
-									"id": 303,
+									"id": 317,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5284,7 +5588,7 @@
 					]
 				},
 				{
-					"id": 304,
+					"id": 318,
 					"name": "bgGray",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5292,14 +5596,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1253,
+							"line": 1302,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1253"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1302"
 						}
 					],
 					"signatures": [
 						{
-							"id": 305,
+							"id": 319,
 							"name": "bgGray",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5318,7 +5622,7 @@
 							},
 							"parameters": [
 								{
-									"id": 306,
+									"id": 320,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5345,7 +5649,7 @@
 					]
 				},
 				{
-					"id": 307,
+					"id": 321,
 					"name": "bgGrey",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5353,14 +5657,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1266,
+							"line": 1315,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1266"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1315"
 						}
 					],
 					"signatures": [
 						{
-							"id": 308,
+							"id": 322,
 							"name": "bgGrey",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5379,7 +5683,7 @@
 							},
 							"parameters": [
 								{
-									"id": 309,
+									"id": 323,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5406,7 +5710,7 @@
 					]
 				},
 				{
-					"id": 310,
+					"id": 324,
 					"name": "bgBlackBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5414,14 +5718,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1279,
+							"line": 1328,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1279"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1328"
 						}
 					],
 					"signatures": [
 						{
-							"id": 311,
+							"id": 325,
 							"name": "bgBlackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5440,7 +5744,7 @@
 							},
 							"parameters": [
 								{
-									"id": 312,
+									"id": 326,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5467,7 +5771,7 @@
 					]
 				},
 				{
-					"id": 313,
+					"id": 327,
 					"name": "bgRedBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5475,14 +5779,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1292,
+							"line": 1341,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1292"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1341"
 						}
 					],
 					"signatures": [
 						{
-							"id": 314,
+							"id": 328,
 							"name": "bgRedBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5501,7 +5805,7 @@
 							},
 							"parameters": [
 								{
-									"id": 315,
+									"id": 329,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5528,7 +5832,7 @@
 					]
 				},
 				{
-					"id": 316,
+					"id": 330,
 					"name": "bgGreenBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5536,14 +5840,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1305,
+							"line": 1354,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1305"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1354"
 						}
 					],
 					"signatures": [
 						{
-							"id": 317,
+							"id": 331,
 							"name": "bgGreenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5562,7 +5866,7 @@
 							},
 							"parameters": [
 								{
-									"id": 318,
+									"id": 332,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5589,7 +5893,7 @@
 					]
 				},
 				{
-					"id": 319,
+					"id": 333,
 					"name": "bgYellowBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5597,14 +5901,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1318,
+							"line": 1367,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1318"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1367"
 						}
 					],
 					"signatures": [
 						{
-							"id": 320,
+							"id": 334,
 							"name": "bgYellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5623,7 +5927,7 @@
 							},
 							"parameters": [
 								{
-									"id": 321,
+									"id": 335,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5650,7 +5954,7 @@
 					]
 				},
 				{
-					"id": 322,
+					"id": 336,
 					"name": "bgBlueBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5658,14 +5962,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1331,
+							"line": 1380,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1331"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1380"
 						}
 					],
 					"signatures": [
 						{
-							"id": 323,
+							"id": 337,
 							"name": "bgBlueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5684,7 +5988,7 @@
 							},
 							"parameters": [
 								{
-									"id": 324,
+									"id": 338,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5711,7 +6015,7 @@
 					]
 				},
 				{
-					"id": 325,
+					"id": 339,
 					"name": "bgMagentaBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5719,14 +6023,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1344,
+							"line": 1393,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1344"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1393"
 						}
 					],
 					"signatures": [
 						{
-							"id": 326,
+							"id": 340,
 							"name": "bgMagentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5745,7 +6049,7 @@
 							},
 							"parameters": [
 								{
-									"id": 327,
+									"id": 341,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5772,7 +6076,7 @@
 					]
 				},
 				{
-					"id": 328,
+					"id": 342,
 					"name": "bgCyanBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5780,14 +6084,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1357,
+							"line": 1406,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1357"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1406"
 						}
 					],
 					"signatures": [
 						{
-							"id": 329,
+							"id": 343,
 							"name": "bgCyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5806,7 +6110,7 @@
 							},
 							"parameters": [
 								{
-									"id": 330,
+									"id": 344,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5833,7 +6137,7 @@
 					]
 				},
 				{
-					"id": 331,
+					"id": 345,
 					"name": "bgWhiteBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5841,14 +6145,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1370,
+							"line": 1419,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1370"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1419"
 						}
 					],
 					"signatures": [
 						{
-							"id": 332,
+							"id": 346,
 							"name": "bgWhiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5867,7 +6171,7 @@
 							},
 							"parameters": [
 								{
-									"id": 333,
+									"id": 347,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5894,7 +6198,7 @@
 					]
 				},
 				{
-					"id": 118,
+					"id": 132,
 					"name": "BgBlack",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5904,14 +6208,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1383,
+							"line": 1432,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1383"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1432"
 						}
 					],
 					"signatures": [
 						{
-							"id": 119,
+							"id": 133,
 							"name": "BgBlack",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5930,7 +6234,7 @@
 							},
 							"parameters": [
 								{
-									"id": 120,
+									"id": 134,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5957,7 +6261,7 @@
 					]
 				},
 				{
-					"id": 121,
+					"id": 135,
 					"name": "BgRed",
 					"kind": 2048,
 					"kindString": "Method",
@@ -5967,14 +6271,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1396,
+							"line": 1445,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1396"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1445"
 						}
 					],
 					"signatures": [
 						{
-							"id": 122,
+							"id": 136,
 							"name": "BgRed",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5993,7 +6297,7 @@
 							},
 							"parameters": [
 								{
-									"id": 123,
+									"id": 137,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6020,7 +6324,7 @@
 					]
 				},
 				{
-					"id": 124,
+					"id": 138,
 					"name": "BgGreen",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6030,14 +6334,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1409,
+							"line": 1458,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1409"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1458"
 						}
 					],
 					"signatures": [
 						{
-							"id": 125,
+							"id": 139,
 							"name": "BgGreen",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6056,7 +6360,7 @@
 							},
 							"parameters": [
 								{
-									"id": 126,
+									"id": 140,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6083,7 +6387,7 @@
 					]
 				},
 				{
-					"id": 127,
+					"id": 141,
 					"name": "BgYellow",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6093,14 +6397,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1422,
+							"line": 1471,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1422"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1471"
 						}
 					],
 					"signatures": [
 						{
-							"id": 128,
+							"id": 142,
 							"name": "BgYellow",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6119,7 +6423,7 @@
 							},
 							"parameters": [
 								{
-									"id": 129,
+									"id": 143,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6146,7 +6450,7 @@
 					]
 				},
 				{
-					"id": 130,
+					"id": 144,
 					"name": "BgBlue",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6156,14 +6460,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1435,
+							"line": 1484,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1435"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1484"
 						}
 					],
 					"signatures": [
 						{
-							"id": 131,
+							"id": 145,
 							"name": "BgBlue",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6182,7 +6486,7 @@
 							},
 							"parameters": [
 								{
-									"id": 132,
+									"id": 146,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6209,7 +6513,7 @@
 					]
 				},
 				{
-					"id": 133,
+					"id": 147,
 					"name": "BgMagenta",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6219,14 +6523,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1448,
+							"line": 1497,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1448"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1497"
 						}
 					],
 					"signatures": [
 						{
-							"id": 134,
+							"id": 148,
 							"name": "BgMagenta",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6245,7 +6549,7 @@
 							},
 							"parameters": [
 								{
-									"id": 135,
+									"id": 149,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6272,7 +6576,7 @@
 					]
 				},
 				{
-					"id": 136,
+					"id": 150,
 					"name": "BgCyan",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6282,14 +6586,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1461,
+							"line": 1510,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1461"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1510"
 						}
 					],
 					"signatures": [
 						{
-							"id": 137,
+							"id": 151,
 							"name": "BgCyan",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6308,7 +6612,7 @@
 							},
 							"parameters": [
 								{
-									"id": 138,
+									"id": 152,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6335,7 +6639,7 @@
 					]
 				},
 				{
-					"id": 139,
+					"id": 153,
 					"name": "BgWhite",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6345,14 +6649,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1474,
+							"line": 1523,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1474"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1523"
 						}
 					],
 					"signatures": [
 						{
-							"id": 140,
+							"id": 154,
 							"name": "BgWhite",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6371,7 +6675,7 @@
 							},
 							"parameters": [
 								{
-									"id": 141,
+									"id": 155,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6398,7 +6702,7 @@
 					]
 				},
 				{
-					"id": 142,
+					"id": 156,
 					"name": "BgGray",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6408,14 +6712,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1487,
+							"line": 1536,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1487"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1536"
 						}
 					],
 					"signatures": [
 						{
-							"id": 143,
+							"id": 157,
 							"name": "BgGray",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6434,7 +6738,7 @@
 							},
 							"parameters": [
 								{
-									"id": 144,
+									"id": 158,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6461,7 +6765,7 @@
 					]
 				},
 				{
-					"id": 145,
+					"id": 159,
 					"name": "BgGrey",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6471,14 +6775,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1500,
+							"line": 1549,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1500"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1549"
 						}
 					],
 					"signatures": [
 						{
-							"id": 146,
+							"id": 160,
 							"name": "BgGrey",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6497,7 +6801,7 @@
 							},
 							"parameters": [
 								{
-									"id": 147,
+									"id": 161,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6524,7 +6828,7 @@
 					]
 				},
 				{
-					"id": 148,
+					"id": 162,
 					"name": "BgBlackBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6534,14 +6838,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1513,
+							"line": 1562,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1513"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1562"
 						}
 					],
 					"signatures": [
 						{
-							"id": 149,
+							"id": 163,
 							"name": "BgBlackBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6560,7 +6864,7 @@
 							},
 							"parameters": [
 								{
-									"id": 150,
+									"id": 164,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6587,7 +6891,7 @@
 					]
 				},
 				{
-					"id": 151,
+					"id": 165,
 					"name": "BgRedBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6597,14 +6901,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1526,
+							"line": 1575,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1526"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1575"
 						}
 					],
 					"signatures": [
 						{
-							"id": 152,
+							"id": 166,
 							"name": "BgRedBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6623,7 +6927,7 @@
 							},
 							"parameters": [
 								{
-									"id": 153,
+									"id": 167,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6650,7 +6954,7 @@
 					]
 				},
 				{
-					"id": 154,
+					"id": 168,
 					"name": "BgGreenBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6660,14 +6964,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1539,
+							"line": 1588,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1539"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1588"
 						}
 					],
 					"signatures": [
 						{
-							"id": 155,
+							"id": 169,
 							"name": "BgGreenBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6686,7 +6990,7 @@
 							},
 							"parameters": [
 								{
-									"id": 156,
+									"id": 170,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6713,7 +7017,7 @@
 					]
 				},
 				{
-					"id": 157,
+					"id": 171,
 					"name": "BgYellowBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6723,14 +7027,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1552,
+							"line": 1601,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1552"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1601"
 						}
 					],
 					"signatures": [
 						{
-							"id": 158,
+							"id": 172,
 							"name": "BgYellowBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6749,7 +7053,7 @@
 							},
 							"parameters": [
 								{
-									"id": 159,
+									"id": 173,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6776,7 +7080,7 @@
 					]
 				},
 				{
-					"id": 160,
+					"id": 174,
 					"name": "BgBlueBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6786,14 +7090,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1565,
+							"line": 1614,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1565"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1614"
 						}
 					],
 					"signatures": [
 						{
-							"id": 161,
+							"id": 175,
 							"name": "BgBlueBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6812,7 +7116,7 @@
 							},
 							"parameters": [
 								{
-									"id": 162,
+									"id": 176,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6839,7 +7143,7 @@
 					]
 				},
 				{
-					"id": 163,
+					"id": 177,
 					"name": "BgMagentaBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6849,14 +7153,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1578,
+							"line": 1627,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1578"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1627"
 						}
 					],
 					"signatures": [
 						{
-							"id": 164,
+							"id": 178,
 							"name": "BgMagentaBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6875,7 +7179,7 @@
 							},
 							"parameters": [
 								{
-									"id": 165,
+									"id": 179,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6902,7 +7206,7 @@
 					]
 				},
 				{
-					"id": 166,
+					"id": 180,
 					"name": "BgCyanBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6912,14 +7216,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1591,
+							"line": 1640,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1591"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1640"
 						}
 					],
 					"signatures": [
 						{
-							"id": 167,
+							"id": 181,
 							"name": "BgCyanBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -6938,7 +7242,7 @@
 							},
 							"parameters": [
 								{
-									"id": 168,
+									"id": 182,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -6965,7 +7269,7 @@
 					]
 				},
 				{
-					"id": 169,
+					"id": 183,
 					"name": "BgWhiteBright",
 					"kind": 2048,
 					"kindString": "Method",
@@ -6975,14 +7279,14 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1604,
+							"line": 1653,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1604"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1653"
 						}
 					],
 					"signatures": [
 						{
-							"id": 170,
+							"id": 184,
 							"name": "BgWhiteBright",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -7001,7 +7305,7 @@
 							},
 							"parameters": [
 								{
-									"id": 171,
+									"id": 185,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -7032,130 +7336,130 @@
 				{
 					"title": "Properties",
 					"children": [
-						178,
-						36
+						192,
+						50
 					]
 				},
 				{
 					"title": "Constructors",
 					"children": [
-						172
+						186
 					]
 				},
 				{
 					"title": "Methods",
 					"children": [
-						179,
-						181,
-						184,
-						187,
-						190,
 						193,
-						196,
-						199,
-						202,
-						205,
-						208,
-						211,
-						214,
-						217,
-						220,
-						223,
-						37,
-						40,
-						43,
-						46,
-						49,
-						52,
-						55,
-						58,
-						61,
-						226,
-						229,
-						232,
-						235,
-						238,
-						241,
-						244,
-						247,
-						250,
-						253,
-						256,
-						259,
-						262,
-						265,
-						268,
-						271,
-						274,
-						277,
-						64,
-						67,
-						70,
-						73,
-						76,
-						79,
-						82,
-						85,
-						88,
-						91,
-						94,
-						97,
-						100,
-						103,
-						106,
-						109,
-						112,
-						115,
-						280,
-						283,
-						286,
-						289,
-						292,
-						295,
-						298,
-						301,
-						304,
-						307,
-						310,
-						313,
-						316,
-						319,
-						322,
-						325,
-						328,
-						331,
-						118,
-						121,
-						124,
-						127,
-						130,
-						133,
-						136,
-						139,
-						142,
-						145,
-						148,
-						151,
-						154,
-						157,
-						160,
-						163,
-						166,
-						169
+						195,
+						198,
+						201,
+						204,
+						207,
+						210,
+						213,
+						216,
+						219,
+						222,
+						225,
+						228,
+						231,
+						234,
+						237,
+						51,
+						54,
+						57,
+						60,
+						63,
+						66,
+						69,
+						72,
+						75,
+						240,
+						243,
+						246,
+						249,
+						252,
+						255,
+						258,
+						261,
+						264,
+						267,
+						270,
+						273,
+						276,
+						279,
+						282,
+						285,
+						288,
+						291,
+						78,
+						81,
+						84,
+						87,
+						90,
+						93,
+						96,
+						99,
+						102,
+						105,
+						108,
+						111,
+						114,
+						117,
+						120,
+						123,
+						126,
+						129,
+						294,
+						297,
+						300,
+						303,
+						306,
+						309,
+						312,
+						315,
+						318,
+						321,
+						324,
+						327,
+						330,
+						333,
+						336,
+						339,
+						342,
+						345,
+						132,
+						135,
+						138,
+						141,
+						144,
+						147,
+						150,
+						153,
+						156,
+						159,
+						162,
+						165,
+						168,
+						171,
+						174,
+						177,
+						180,
+						183
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 283,
+					"line": 332,
 					"character": 13,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L283"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L332"
 				}
 			]
 		},
 		{
-			"id": 334,
+			"id": 348,
 			"name": "default",
 			"kind": 32,
 			"kindString": "Variable",
@@ -7171,22 +7475,22 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 1615,
+					"line": 1664,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1615"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1664"
 				}
 			],
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 335,
+					"id": 349,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
 					"flags": {},
 					"children": [
 						{
-							"id": 336,
+							"id": 350,
 							"name": "Get__dirname",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7194,15 +7498,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1617,
+									"line": 1666,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1617"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1666"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 337,
+									"id": 351,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7212,12 +7516,12 @@
 											"fileName": "UniversalToolForNode.esm.mjs",
 											"line": 114,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L114"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L114"
 										}
 									],
 									"signatures": [
 										{
-											"id": 338,
+											"id": 352,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7243,7 +7547,7 @@
 											},
 											"parameters": [
 												{
-													"id": 339,
+													"id": 353,
 													"name": "import_meta_url",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7273,7 +7577,7 @@
 							}
 						},
 						{
-							"id": 340,
+							"id": 354,
 							"name": "Get__filename",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7281,15 +7585,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1618,
+									"line": 1667,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1618"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1667"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 341,
+									"id": 355,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7299,12 +7603,12 @@
 											"fileName": "UniversalToolForNode.esm.mjs",
 											"line": 125,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L125"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L125"
 										}
 									],
 									"signatures": [
 										{
-											"id": 342,
+											"id": 356,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7330,7 +7634,7 @@
 											},
 											"parameters": [
 												{
-													"id": 343,
+													"id": 357,
 													"name": "import_meta_url",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7360,23 +7664,23 @@
 							}
 						},
 						{
-							"id": 344,
-							"name": "GetDataType",
+							"id": 358,
+							"name": "StringToUint8Array",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {},
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1622,
+									"line": 1671,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1622"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1671"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 345,
+									"id": 359,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7384,14 +7688,354 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 142,
+											"line": 140,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L140"
 										}
 									],
 									"signatures": [
 										{
-											"id": 346,
+											"id": 360,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "将“String”类型的数据转换成“Uint8Array”类型。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "转换成“Uint8Array”类型的数据。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 361,
+													"name": "data",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "“String”类型的数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"name": "Uint8Array",
+												"qualifiedName": "Uint8Array",
+												"package": "typescript"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 362,
+							"name": "DateFormatForObject",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1675,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1675"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 363,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 155,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L155"
+										}
+									],
+									"signatures": [
+										{
+											"id": 364,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 365,
+													"name": "dateInstance",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />"
+															}
+														]
+													},
+													"type": {
+														"type": "reference",
+														"name": "Date",
+														"qualifiedName": "Date",
+														"package": "typescript"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 366,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"children": [
+														{
+															"id": 367,
+															"name": "year",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 14,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														},
+														{
+															"id": 368,
+															"name": "month",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 28,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														},
+														{
+															"id": 369,
+															"name": "date",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 43,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														},
+														{
+															"id": 370,
+															"name": "hours",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 57,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														},
+														{
+															"id": 371,
+															"name": "minutes",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 72,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														},
+														{
+															"id": 372,
+															"name": "seconds",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 89,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														},
+														{
+															"id": 373,
+															"name": "day",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"sources": [
+																{
+																	"fileName": "UniversalToolForNode.esm.mjs",
+																	"line": 153,
+																	"character": 106,
+																	"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "string"
+															}
+														}
+													],
+													"groups": [
+														{
+															"title": "Properties",
+															"children": [
+																367,
+																368,
+																369,
+																370,
+																371,
+																372,
+																373
+															]
+														}
+													],
+													"sources": [
+														{
+															"fileName": "UniversalToolForNode.esm.mjs",
+															"line": 153,
+															"character": 13,
+															"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L153"
+														}
+													]
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 374,
+							"name": "GetDataType",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalToolForNode.esm.mjs",
+									"line": 1679,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1679"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 375,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalToolForNode.esm.mjs",
+											"line": 191,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L191"
+										}
+									],
+									"signatures": [
+										{
+											"id": 376,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7417,7 +8061,7 @@
 											},
 											"parameters": [
 												{
-													"id": 347,
+													"id": 377,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7446,7 +8090,7 @@
 							}
 						},
 						{
-							"id": 348,
+							"id": 378,
 							"name": "IsArray",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7454,15 +8098,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1623,
+									"line": 1680,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1623"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1680"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 349,
+									"id": 379,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7470,14 +8114,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 155,
+											"line": 204,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L155"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L204"
 										}
 									],
 									"signatures": [
 										{
-											"id": 350,
+											"id": 380,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7503,7 +8147,7 @@
 											},
 											"parameters": [
 												{
-													"id": 351,
+													"id": 381,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7532,7 +8176,7 @@
 							}
 						},
 						{
-							"id": 352,
+							"id": 382,
 							"name": "IsNumber",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7540,15 +8184,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1624,
+									"line": 1681,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1624"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1681"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 353,
+									"id": 383,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7556,14 +8200,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 168,
+											"line": 217,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L168"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L217"
 										}
 									],
 									"signatures": [
 										{
-											"id": 354,
+											"id": 384,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7589,7 +8233,7 @@
 											},
 											"parameters": [
 												{
-													"id": 355,
+													"id": 385,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7618,7 +8262,7 @@
 							}
 						},
 						{
-							"id": 356,
+							"id": 386,
 							"name": "IsString",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7626,15 +8270,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1625,
+									"line": 1682,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1625"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1682"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 357,
+									"id": 387,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7642,14 +8286,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 179,
+											"line": 228,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L179"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L228"
 										}
 									],
 									"signatures": [
 										{
-											"id": 358,
+											"id": 388,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7675,7 +8319,7 @@
 											},
 											"parameters": [
 												{
-													"id": 359,
+													"id": 389,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7704,7 +8348,7 @@
 							}
 						},
 						{
-							"id": 360,
+							"id": 390,
 							"name": "Difference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7712,15 +8356,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1629,
+									"line": 1686,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1629"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1686"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 361,
+									"id": 391,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7728,14 +8372,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 196,
+											"line": 245,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L196"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L245"
 										}
 									],
 									"signatures": [
 										{
-											"id": 362,
+											"id": 392,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7761,7 +8405,7 @@
 											},
 											"parameters": [
 												{
-													"id": 363,
+													"id": 393,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7784,7 +8428,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 364,
+													"id": 394,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7820,7 +8464,7 @@
 							}
 						},
 						{
-							"id": 365,
+							"id": 395,
 							"name": "Intersection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7828,15 +8472,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1630,
+									"line": 1687,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1630"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1687"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 366,
+									"id": 396,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7844,14 +8488,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 220,
+											"line": 269,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L220"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L269"
 										}
 									],
 									"signatures": [
 										{
-											"id": 367,
+											"id": 397,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7877,7 +8521,7 @@
 											},
 											"parameters": [
 												{
-													"id": 368,
+													"id": 398,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7900,7 +8544,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 369,
+													"id": 399,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -7936,7 +8580,7 @@
 							}
 						},
 						{
-							"id": 370,
+							"id": 400,
 							"name": "SymmetricDifference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7944,15 +8588,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1631,
+									"line": 1688,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1631"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1688"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 371,
+									"id": 401,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -7960,14 +8604,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 247,
+											"line": 296,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L247"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L296"
 										}
 									],
 									"signatures": [
 										{
-											"id": 372,
+											"id": 402,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -7993,7 +8637,7 @@
 											},
 											"parameters": [
 												{
-													"id": 373,
+													"id": 403,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -8016,7 +8660,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 374,
+													"id": 404,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -8052,7 +8696,7 @@
 							}
 						},
 						{
-							"id": 375,
+							"id": 405,
 							"name": "Union",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8060,15 +8704,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1632,
+									"line": 1689,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1632"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1689"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 376,
+									"id": 406,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -8076,14 +8720,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 266,
+											"line": 315,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L266"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L315"
 										}
 									],
 									"signatures": [
 										{
-											"id": 377,
+											"id": 407,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -8109,7 +8753,7 @@
 											},
 											"parameters": [
 												{
-													"id": 378,
+													"id": 408,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -8132,7 +8776,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 379,
+													"id": 409,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -8168,7 +8812,7 @@
 							}
 						},
 						{
-							"id": 380,
+							"id": 410,
 							"name": "MyConsole",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8176,16 +8820,16 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1635,
+									"line": 1692,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1635"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1692"
 								}
 							],
 							"type": {
 								"type": "query",
 								"queryType": {
 									"type": "reference",
-									"id": 35,
+									"id": 49,
 									"name": "MyConsole"
 								}
 							}
@@ -8195,26 +8839,28 @@
 						{
 							"title": "Properties",
 							"children": [
-								336,
-								340,
-								344,
-								348,
-								352,
-								356,
-								360,
-								365,
-								370,
-								375,
-								380
+								350,
+								354,
+								358,
+								362,
+								374,
+								378,
+								382,
+								386,
+								390,
+								395,
+								400,
+								405,
+								410
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1615,
+							"line": 1664,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1615"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1664"
 						}
 					]
 				}
@@ -8229,24 +8875,26 @@
 				4,
 				7,
 				10,
-				13,
-				16,
-				19,
-				23,
+				21,
+				24,
 				27,
-				31
+				30,
+				33,
+				37,
+				41,
+				45
 			]
 		},
 		{
 			"title": "Classes",
 			"children": [
-				35
+				49
 			]
 		},
 		{
 			"title": "Variables",
 			"children": [
-				334
+				348
 			]
 		}
 	],
@@ -8255,7 +8903,7 @@
 			"fileName": "UniversalToolForNode.esm.mjs",
 			"line": 69,
 			"character": 0,
-			"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L69"
+			"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L69"
 		}
 	]
 }

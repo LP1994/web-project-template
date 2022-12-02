@@ -7,7 +7,395 @@
 	"originalName": "UniversalTools.esm.mts的API文档",
 	"children": [
 		{
+			"id": 35,
+			"name": "TypeDateFormatForObject",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "自定义的类型别名TypeDateFormatForObject，表示一个对象：\r\nyear：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。"
+					}
+				]
+			},
+			"sources": [
+				{
+					"fileName": "UniversalTools.esm.mts",
+					"line": 79,
+					"character": 12,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L79"
+				}
+			],
+			"type": {
+				"type": "reflection",
+				"declaration": {
+					"id": 36,
+					"name": "__type",
+					"kind": 65536,
+					"kindString": "Type literal",
+					"flags": {},
+					"children": [
+						{
+							"id": 37,
+							"name": "year",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示年。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 83,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L83"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 38,
+							"name": "month",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示月。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 87,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L87"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 39,
+							"name": "date",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示日。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 91,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L91"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 40,
+							"name": "hours",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示时。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 95,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L95"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 41,
+							"name": "minutes",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示分。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 99,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L99"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 42,
+							"name": "seconds",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示秒。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 103,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L103"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 43,
+							"name": "day",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 107,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L107"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								37,
+								38,
+								39,
+								40,
+								41,
+								42,
+								43
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "UniversalTools.esm.mts",
+							"line": 79,
+							"character": 38,
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L79"
+						}
+					]
+				}
+			}
+		},
+		{
 			"id": 1,
+			"name": "StringToUint8Array",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalTools.esm.mts",
+					"line": 145,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L145"
+				}
+			],
+			"signatures": [
+				{
+					"id": 2,
+					"name": "StringToUint8Array",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "将“String”类型的数据转换成“Uint8Array”类型。"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "转换成“Uint8Array”类型的数据。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 3,
+							"name": "data",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "“String”类型的数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Uint8Array",
+						"qualifiedName": "Uint8Array",
+						"package": "typescript"
+					}
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "DateFormatForObject",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalTools.esm.mts",
+					"line": 160,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L160"
+				}
+			],
+			"signatures": [
+				{
+					"id": 5,
+					"name": "DateFormatForObject",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 6,
+							"name": "dateInstance",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />"
+									}
+								]
+							},
+							"type": {
+								"type": "reference",
+								"name": "Date",
+								"qualifiedName": "Date",
+								"package": "typescript"
+							},
+							"defaultValue": "..."
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 35,
+						"name": "TypeDateFormatForObject"
+					}
+				}
+			]
+		},
+		{
+			"id": 7,
 			"name": "GetDataType",
 			"kind": 64,
 			"kindString": "Function",
@@ -15,14 +403,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 108,
+					"line": 196,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L108"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L196"
 				}
 			],
 			"signatures": [
 				{
-					"id": 2,
+					"id": 8,
 					"name": "GetDataType",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -41,142 +429,6 @@
 									{
 										"kind": "text",
 										"text": "表示数据类型的字符串，如：'[object HTMLDocument]'、'[object HTMLDocument XXX]'。"
-									}
-								]
-							}
-						]
-					},
-					"parameters": [
-						{
-							"id": 3,
-							"name": "arg",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "数据，必需。"
-									}
-								]
-							},
-							"type": {
-								"type": "intrinsic",
-								"name": "any"
-							}
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				}
-			]
-		},
-		{
-			"id": 4,
-			"name": "IsArray",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {},
-			"sources": [
-				{
-					"fileName": "UniversalTools.esm.mts",
-					"line": 121,
-					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L121"
-				}
-			],
-			"signatures": [
-				{
-					"id": 5,
-					"name": "IsArray",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"comment": {
-						"summary": [
-							{
-								"kind": "text",
-								"text": "判断数据是否为Array类型。<br />"
-							}
-						],
-						"blockTags": [
-							{
-								"tag": "@returns",
-								"content": [
-									{
-										"kind": "text",
-										"text": "是数组返回true，不是数组返回false。"
-									}
-								]
-							}
-						]
-					},
-					"parameters": [
-						{
-							"id": 6,
-							"name": "arg",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"comment": {
-								"summary": [
-									{
-										"kind": "text",
-										"text": "数据，必需。"
-									}
-								]
-							},
-							"type": {
-								"type": "intrinsic",
-								"name": "any"
-							}
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					}
-				}
-			]
-		},
-		{
-			"id": 7,
-			"name": "IsNumber",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {},
-			"sources": [
-				{
-					"fileName": "UniversalTools.esm.mts",
-					"line": 134,
-					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L134"
-				}
-			],
-			"signatures": [
-				{
-					"id": 8,
-					"name": "IsNumber",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"comment": {
-						"summary": [
-							{
-								"kind": "text",
-								"text": "判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />"
-							}
-						],
-						"blockTags": [
-							{
-								"tag": "@returns",
-								"content": [
-									{
-										"kind": "text",
-										"text": "是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。"
 									}
 								]
 							}
@@ -205,29 +457,29 @@
 					],
 					"type": {
 						"type": "intrinsic",
-						"name": "boolean"
+						"name": "string"
 					}
 				}
 			]
 		},
 		{
 			"id": 10,
-			"name": "IsString",
+			"name": "IsArray",
 			"kind": 64,
 			"kindString": "Function",
 			"flags": {},
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 145,
+					"line": 209,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L145"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L209"
 				}
 			],
 			"signatures": [
 				{
 					"id": 11,
-					"name": "IsString",
+					"name": "IsArray",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
@@ -235,7 +487,7 @@
 						"summary": [
 							{
 								"kind": "text",
-								"text": "判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />"
+								"text": "判断数据是否为Array类型。<br />"
 							}
 						],
 						"blockTags": [
@@ -244,7 +496,7 @@
 								"content": [
 									{
 										"kind": "text",
-										"text": "是String原始值返回true，不是String原始值返回false。"
+										"text": "是数组返回true，不是数组返回false。"
 									}
 								]
 							}
@@ -280,6 +532,142 @@
 		},
 		{
 			"id": 13,
+			"name": "IsNumber",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalTools.esm.mts",
+					"line": 222,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L222"
+				}
+			],
+			"signatures": [
+				{
+					"id": 14,
+					"name": "IsNumber",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 15,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 16,
+			"name": "IsString",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "UniversalTools.esm.mts",
+					"line": 233,
+					"character": 16,
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L233"
+				}
+			],
+			"signatures": [
+				{
+					"id": 17,
+					"name": "IsString",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "是String原始值返回true，不是String原始值返回false。"
+									}
+								]
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 18,
+							"name": "arg",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "数据，必需。"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			]
+		},
+		{
+			"id": 19,
 			"name": "Difference",
 			"kind": 64,
 			"kindString": "Function",
@@ -287,14 +675,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 162,
+					"line": 250,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L162"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L250"
 				}
 			],
 			"signatures": [
 				{
-					"id": 14,
+					"id": 20,
 					"name": "Difference",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -320,7 +708,7 @@
 					},
 					"parameters": [
 						{
-							"id": 15,
+							"id": 21,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -343,7 +731,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 16,
+							"id": 22,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -377,7 +765,7 @@
 			]
 		},
 		{
-			"id": 17,
+			"id": 23,
 			"name": "Intersection",
 			"kind": 64,
 			"kindString": "Function",
@@ -385,14 +773,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 186,
+					"line": 274,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L186"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L274"
 				}
 			],
 			"signatures": [
 				{
-					"id": 18,
+					"id": 24,
 					"name": "Intersection",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -418,7 +806,7 @@
 					},
 					"parameters": [
 						{
-							"id": 19,
+							"id": 25,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -441,7 +829,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 20,
+							"id": 26,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -475,7 +863,7 @@
 			]
 		},
 		{
-			"id": 21,
+			"id": 27,
 			"name": "SymmetricDifference",
 			"kind": 64,
 			"kindString": "Function",
@@ -483,14 +871,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 213,
+					"line": 301,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L213"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L301"
 				}
 			],
 			"signatures": [
 				{
-					"id": 22,
+					"id": 28,
 					"name": "SymmetricDifference",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -516,7 +904,7 @@
 					},
 					"parameters": [
 						{
-							"id": 23,
+							"id": 29,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -539,7 +927,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 24,
+							"id": 30,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -573,7 +961,7 @@
 			]
 		},
 		{
-			"id": 25,
+			"id": 31,
 			"name": "Union",
 			"kind": 64,
 			"kindString": "Function",
@@ -581,14 +969,14 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 232,
+					"line": 320,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L232"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L320"
 				}
 			],
 			"signatures": [
 				{
-					"id": 26,
+					"id": 32,
 					"name": "Union",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -614,7 +1002,7 @@
 					},
 					"parameters": [
 						{
-							"id": 27,
+							"id": 33,
 							"name": "arrA",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -637,7 +1025,7 @@
 							"defaultValue": "[]"
 						},
 						{
-							"id": 28,
+							"id": 34,
 							"name": "arrB",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -671,7 +1059,7 @@
 			]
 		},
 		{
-			"id": 29,
+			"id": 44,
 			"name": "default",
 			"kind": 32,
 			"kindString": "Variable",
@@ -687,38 +1075,38 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 244,
+					"line": 332,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L244"
+					"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L332"
 				}
 			],
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 30,
+					"id": 45,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
 					"flags": {},
 					"children": [
 						{
-							"id": 31,
-							"name": "GetDataType",
+							"id": 46,
+							"name": "StringToUint8Array",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {},
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 246,
+									"line": 334,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L246"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L334"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 32,
+									"id": 47,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -726,14 +1114,192 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 108,
+											"line": 145,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L108"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L145"
 										}
 									],
 									"signatures": [
 										{
-											"id": 33,
+											"id": 48,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "将“String”类型的数据转换成“Uint8Array”类型。"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "转换成“Uint8Array”类型的数据。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 49,
+													"name": "data",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "“String”类型的数据，必需。"
+															}
+														]
+													},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"name": "Uint8Array",
+												"qualifiedName": "Uint8Array",
+												"package": "typescript"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 50,
+							"name": "DateFormatForObject",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 338,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L338"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 51,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalTools.esm.mts",
+											"line": 160,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L160"
+										}
+									],
+									"signatures": [
+										{
+											"id": 52,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"summary": [
+													{
+														"kind": "text",
+														"text": "返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />"
+													}
+												],
+												"blockTags": [
+													{
+														"tag": "@returns",
+														"content": [
+															{
+																"kind": "text",
+																"text": "year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。"
+															}
+														]
+													}
+												]
+											},
+											"parameters": [
+												{
+													"id": 53,
+													"name": "dateInstance",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />"
+															}
+														]
+													},
+													"type": {
+														"type": "reference",
+														"name": "Date",
+														"qualifiedName": "Date",
+														"package": "typescript"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 35,
+												"name": "TypeDateFormatForObject"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 54,
+							"name": "GetDataType",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "UniversalTools.esm.mts",
+									"line": 342,
+									"character": 2,
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L342"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 55,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "UniversalTools.esm.mts",
+											"line": 196,
+											"character": 16,
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L196"
+										}
+									],
+									"signatures": [
+										{
+											"id": 56,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -759,7 +1325,7 @@
 											},
 											"parameters": [
 												{
-													"id": 34,
+													"id": 57,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -788,7 +1354,7 @@
 							}
 						},
 						{
-							"id": 35,
+							"id": 58,
 							"name": "IsArray",
 							"kind": 1024,
 							"kindString": "Property",
@@ -796,15 +1362,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 247,
+									"line": 343,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L247"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L343"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 36,
+									"id": 59,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -812,14 +1378,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 121,
+											"line": 209,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L121"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L209"
 										}
 									],
 									"signatures": [
 										{
-											"id": 37,
+											"id": 60,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -845,7 +1411,7 @@
 											},
 											"parameters": [
 												{
-													"id": 38,
+													"id": 61,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -874,7 +1440,7 @@
 							}
 						},
 						{
-							"id": 39,
+							"id": 62,
 							"name": "IsNumber",
 							"kind": 1024,
 							"kindString": "Property",
@@ -882,15 +1448,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 248,
+									"line": 344,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L248"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L344"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 40,
+									"id": 63,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -898,14 +1464,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 134,
+											"line": 222,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L134"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L222"
 										}
 									],
 									"signatures": [
 										{
-											"id": 41,
+											"id": 64,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -931,7 +1497,7 @@
 											},
 											"parameters": [
 												{
-													"id": 42,
+													"id": 65,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -960,7 +1526,7 @@
 							}
 						},
 						{
-							"id": 43,
+							"id": 66,
 							"name": "IsString",
 							"kind": 1024,
 							"kindString": "Property",
@@ -968,15 +1534,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 249,
+									"line": 345,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L249"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L345"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 44,
+									"id": 67,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -984,14 +1550,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 145,
+											"line": 233,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L145"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L233"
 										}
 									],
 									"signatures": [
 										{
-											"id": 45,
+											"id": 68,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -1017,7 +1583,7 @@
 											},
 											"parameters": [
 												{
-													"id": 46,
+													"id": 69,
 													"name": "arg",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1046,7 +1612,7 @@
 							}
 						},
 						{
-							"id": 47,
+							"id": 70,
 							"name": "Difference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1054,15 +1620,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 253,
+									"line": 349,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L253"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L349"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 48,
+									"id": 71,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -1070,14 +1636,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 162,
+											"line": 250,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L162"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L250"
 										}
 									],
 									"signatures": [
 										{
-											"id": 49,
+											"id": 72,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -1103,7 +1669,7 @@
 											},
 											"parameters": [
 												{
-													"id": 50,
+													"id": 73,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1126,7 +1692,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 51,
+													"id": 74,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1162,7 +1728,7 @@
 							}
 						},
 						{
-							"id": 52,
+							"id": 75,
 							"name": "Intersection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1170,15 +1736,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 254,
+									"line": 350,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L254"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L350"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 53,
+									"id": 76,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -1186,14 +1752,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 186,
+											"line": 274,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L186"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L274"
 										}
 									],
 									"signatures": [
 										{
-											"id": 54,
+											"id": 77,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -1219,7 +1785,7 @@
 											},
 											"parameters": [
 												{
-													"id": 55,
+													"id": 78,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1242,7 +1808,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 56,
+													"id": 79,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1278,7 +1844,7 @@
 							}
 						},
 						{
-							"id": 57,
+							"id": 80,
 							"name": "SymmetricDifference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1286,15 +1852,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 255,
+									"line": 351,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L255"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L351"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 58,
+									"id": 81,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -1302,14 +1868,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 213,
+											"line": 301,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L213"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L301"
 										}
 									],
 									"signatures": [
 										{
-											"id": 59,
+											"id": 82,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -1335,7 +1901,7 @@
 											},
 											"parameters": [
 												{
-													"id": 60,
+													"id": 83,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1358,7 +1924,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 61,
+													"id": 84,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1394,7 +1960,7 @@
 							}
 						},
 						{
-							"id": 62,
+							"id": 85,
 							"name": "Union",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1402,15 +1968,15 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 256,
+									"line": 352,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L256"
+									"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L352"
 								}
 							],
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 63,
+									"id": 86,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -1418,14 +1984,14 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 232,
+											"line": 320,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L232"
+											"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L320"
 										}
 									],
 									"signatures": [
 										{
-											"id": 64,
+											"id": 87,
 											"name": "__type",
 											"kind": 4096,
 											"kindString": "Call signature",
@@ -1451,7 +2017,7 @@
 											},
 											"parameters": [
 												{
-													"id": 65,
+													"id": 88,
 													"name": "arrA",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1474,7 +2040,7 @@
 													"defaultValue": "[]"
 												},
 												{
-													"id": 66,
+													"id": 89,
 													"name": "arrB",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1514,23 +2080,25 @@
 						{
 							"title": "Properties",
 							"children": [
-								31,
-								35,
-								39,
-								43,
-								47,
-								52,
-								57,
-								62
+								46,
+								50,
+								54,
+								58,
+								62,
+								66,
+								70,
+								75,
+								80,
+								85
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 244,
+							"line": 332,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L244"
+							"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L332"
 						}
 					]
 				}
@@ -1539,6 +2107,12 @@
 	],
 	"groups": [
 		{
+			"title": "Type Aliases",
+			"children": [
+				35
+			]
+		},
+		{
 			"title": "Functions",
 			"children": [
 				1,
@@ -1546,15 +2120,17 @@
 				7,
 				10,
 				13,
-				17,
-				21,
-				25
+				16,
+				19,
+				23,
+				27,
+				31
 			]
 		},
 		{
 			"title": "Variables",
 			"children": [
-				29
+				44
 			]
 		}
 	],
@@ -1563,7 +2139,7 @@
 			"fileName": "UniversalTools.esm.mts",
 			"line": 71,
 			"character": 0,
-			"url": "https://github.com/LP1994/web-project-template/blob/d19ceac/src/tools/ts/universal_tools/UniversalTools.esm.mts#L71"
+			"url": "https://github.com/LP1994/web-project-template/blob/a6007d5/src/tools/ts/universal_tools/UniversalTools.esm.mts#L71"
 		}
 	]
 }
