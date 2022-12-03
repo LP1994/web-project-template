@@ -47,6 +47,15 @@ import {
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+import {
+  type TypeMyCusDenoFsFile,
+
+  GetLogWriteStreamForSingleton,
+  GetErrorWriteStreamForSingleton,
+
+  // @ts-ignore
+} from 'public/PublicTools.esm.mts';
+
 // @ts-ignore
 import ResponseError from 'public/ResponseError.esm.mts';
 
@@ -56,18 +65,48 @@ import {
   // @ts-ignore
 } from 'routers/Routers.esm.mts';
 
+const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+
 serveTls(
   (
     request: Request,
     connInfo: ConnInfo,
   ): TypeResponse001 => {
-    MyConsole.Cyan( `\nHTTPS Server request--->Start` );
-    console.dir( request );
-    MyConsole.Cyan( `HTTPS Server request--->End\n` );
+    logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
+HTTPS Server request--->Start
 
-    MyConsole.Cyan( `
+${ JSON.stringify( {
+      method: request.method,
+      url: request.url,
+      redirect: request.redirect,
+      bodyUsed: request.bodyUsed,
+      headers: ( () => {
+        const result: { [ keyName: string ]: string; } = {};
+
+        request.headers.forEach( (
+          value: string,
+          key: string,
+          // @ts-ignore
+          parent: Headers
+        ): void => {
+          result[ key ] = value;
+        } );
+
+        return result;
+      } )(),
+    }, null, ' ' ) }
+
+HTTPS Server request--->End
+` );
+
+    logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
 HTTPS Server connInfo--->Start
+
 ${ JSON.stringify( connInfo, null, ' ' ) }
+
 HTTPS Server connInfo--->End
 ` );
 
@@ -112,12 +151,32 @@ HTTPS Server connInfo--->End
         port: number;
       }
     ): void => {
-      MyConsole.Cyan( `\nHTTPS Server已启动：https://${ hostname }:${ port }/。\n` );
+      MyConsole.Cyan( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
+HTTPS Server已启动：https://${ hostname }:${ port }/。
+` );
+
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
+HTTPS Server已启动：https://${ hostname }:${ port }/。
+` );
     },
     onError: ( error: unknown ): TypeResponse001 => {
       MyConsole.Red( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
 HTTPS Server onError--->Start
+
 ${ ( error as Error ).message }
+
+HTTPS Server onError--->End
+` );
+
+      errorWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
+HTTPS Server onError--->Start
+
+${ ( error as Error ).message }
+
 HTTPS Server onError--->End
 ` );
 
