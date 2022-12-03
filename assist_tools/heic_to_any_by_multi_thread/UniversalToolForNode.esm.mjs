@@ -128,6 +128,66 @@ export function Get__filename( import_meta_url = import.meta.url ){
 
 // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+// 类型转换。Start
+
+/**
+ * 将“String”类型的数据转换成“Uint8Array”类型。
+ *
+ * @param {string} data “String”类型的数据，必需。
+ *
+ * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
+ */
+export function StringToUint8Array( data ){
+  return new TextEncoder().encode( data );
+}
+
+/**
+ * 将“Uint8Array”类型的数据转换成“String”类型。
+ *
+ * @param {Uint8Array} data “Uint8Array”类型的数据，必需。
+ *
+ * @returns {string} 转换成“String”类型的数据。
+ */
+export function Uint8ArrayToString( data ){
+  return new TextDecoder().decode( data );
+}
+
+// 类型转换。End
+
+// Date格式处理。Start
+
+/**
+ * 返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
+ *
+ * @param {Date} dateInstance 一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ *
+ * @returns {{year: string, month: string, date: string, hours: string, minutes: string, seconds: string, day: string}} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ */
+export function DateFormatForObject( dateInstance = new Date( Date.now() ) ){
+  const year = String( dateInstance.getFullYear() ),
+    month = String( dateInstance.getMonth() + 1 ).padStart( 2, '0' ),
+    date = String( dateInstance.getDate() ).padStart( 2, '0' ),
+    hours = String( dateInstance.getHours() ).padStart( 2, '0' ),
+    minutes = String( dateInstance.getMinutes() ).padStart( 2, '0' ),
+    seconds = String( dateInstance.getSeconds() ).padStart( 2, '0' ),
+    day001 = dateInstance.getDay(),
+    day = String( day001 === 0
+                  ? '日'
+                  : day001 );
+
+  return {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  };
+}
+
+// Date格式处理。End
+
 // 判断数据类型。Start
 
 /**
@@ -1617,6 +1677,15 @@ export default {
   Get__dirname,
   Get__filename,
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
+
+  // 类型转换。Start
+  StringToUint8Array,
+  Uint8ArrayToString,
+  // 类型转换。End
+
+  // Date格式处理。Start
+  DateFormatForObject,
+  // Date格式处理。End
 
   // 判断数据类型。Start
   GetDataType,
