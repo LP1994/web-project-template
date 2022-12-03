@@ -58,7 +58,7 @@ async function Put( request: Request ): Promise<Response>{
     result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
   }
   else{
-    result = await new ResponseError( request ).res404();
+    result = await new ResponseError( request ).resPage404();
   }
 
   return result;

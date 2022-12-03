@@ -51,13 +51,13 @@ function UploadByBigFileForPart(
 ): Response{
   return new Response( JSON.stringify( {
     data: {
-      success: true,
+      success: false,
       message: `大文件上传之分块上传的功能还未实现。`,
     },
-    messageStatus: resMessageStatus[ 200 ],
+    messageStatus: resMessageStatus[ 9999 ],
   } ), {
-    status: 200,
-    statusText: 'OK',
+    status: 500,
+    statusText: 'Internal Server Error',
     headers: {
       ...httpHeaders,
       'content-type': 'application/json; charset=utf-8',

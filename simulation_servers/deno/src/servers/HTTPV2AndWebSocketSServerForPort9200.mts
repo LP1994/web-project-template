@@ -47,9 +47,6 @@ import {
   // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
-// @ts-ignore
-import ResponseError from 'public/ResponseError.esm.mts';
-
 import {
   Routers,
 

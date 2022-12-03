@@ -112,7 +112,7 @@ class ResponseError {
    *
    * @returns {Promise<Response>}
    */
-  public async res404(): Promise<Response>{
+  public async resPage404(): Promise<Response>{
     // @ts-ignore
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
       // @ts-ignore
@@ -131,7 +131,7 @@ class ResponseError {
   }
 
   /**
-   * 返回给客户端的是一个HTML页面，里面有错误信息，但响应状态为200。
+   * 返回给客户端的是一个HTML页面，里面有错误信息，响应状态为500。
    * 通常表示服务端在处理中遇到某些错误（可能是客户端引起的，也可能是服务端处理出现异常等等），它将返回给客户端，表明是什么样的错误。
    *
    * @param {object} config 对象参数。
@@ -142,7 +142,7 @@ class ResponseError {
    *
    * @returns {Promise<Response>}
    */
-  public static async ResError( {
+  public static async ResPageError( {
     title = '',
     message = '',
   }: {
@@ -161,8 +161,8 @@ class ResponseError {
       } );
 
     return new Response( html, {
-      status: 200,
-      statusText: 'OK',
+      status: 500,
+      statusText: 'Internal Server Error',
       headers: {
         ...httpHeaders,
         'content-type': mime.getType( filePath.href ),

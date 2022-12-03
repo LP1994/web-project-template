@@ -162,7 +162,7 @@ ${ ( error as Error ).message }
 WebSocket Server onError--->End
 ` );
 
-      return ResponseError.ResError( {
+      return ResponseError.ResPageError( {
         title: `WebSocket Server服务器内部出现错误`,
         message: `当路由处理程序抛出错误时会调用该错误处理程序。
 错误信息：
