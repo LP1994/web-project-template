@@ -27,6 +27,7 @@ import {
 
   // 类型转换。Start
   StringToUint8Array,
+  Uint8ArrayToString,
   // 类型转换。End
 
   // Date格式处理。Start
@@ -50,10 +51,13 @@ import {
 
 console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
 
-// StringToUint8Array
+// StringToUint8Array、Uint8ArrayToString
 if( true ){
   Test001( 'StringToUint8Array', () => {
-    Equal001( new TextDecoder().decode( StringToUint8Array( 'StringToUint8Array' ) ) ).toBe( 'StringToUint8Array' );
+    Equal001( Uint8ArrayToString( StringToUint8Array( 'StringToUint8Array' ) ) ).toBe( 'StringToUint8Array' );
+  } );
+  Test001( 'Uint8ArrayToString', () => {
+    Equal001( Uint8ArrayToString( StringToUint8Array( 'Uint8ArrayToString' ) ) ).toBe( 'Uint8ArrayToString' );
   } );
 }
 

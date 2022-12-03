@@ -141,6 +141,17 @@ export function StringToUint8Array( data ){
   return new TextEncoder().encode( data );
 }
 
+/**
+ * 将“Uint8Array”类型的数据转换成“String”类型。
+ *
+ * @param {Uint8Array} data “Uint8Array”类型的数据，必需。
+ *
+ * @returns {string} 转换成“String”类型的数据。
+ */
+export function Uint8ArrayToString( data ){
+  return new TextDecoder().decode( data );
+}
+
 // 类型转换。End
 
 // Date格式处理。Start
@@ -1669,6 +1680,7 @@ export default {
 
   // 类型转换。Start
   StringToUint8Array,
+  Uint8ArrayToString,
   // 类型转换。End
 
   // Date格式处理。Start
