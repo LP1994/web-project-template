@@ -33,6 +33,18 @@ import {
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+import {
+  type TypeMyCusDenoFsFile,
+
+  GetLogWriteStreamForSingleton,
+  GetErrorWriteStreamForSingleton,
+
+  // @ts-ignore
+} from 'public/PublicTools.esm.mts';
+
+const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+
 /**
  * 响应请求的处理函数。
  *
@@ -84,26 +96,47 @@ function Handle( request: Request ): TypeResponse001{
 
     // @ts-ignore
     wsForServer.addEventListener( 'open', ( event: Event ): void => {
-      MyConsole.Green( `\nWebSocket针对“${ pathName }”的服务已打开。\n` );
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/services/WebSocketResRoot.esm.mts
+WebSocket针对“${ pathName }”的服务已打开。
+` );
     } );
 
     // @ts-ignore
     wsForServer.addEventListener( 'close', ( closeEvent: CloseEvent ): void => {
-      MyConsole.Green( `\nWebSocket针对“${ pathName }”的服务已关闭。\n` );
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/services/WebSocketResRoot.esm.mts
+WebSocket针对“${ pathName }”的服务已关闭。
+` );
     } );
 
     wsForServer.addEventListener( 'error', ( errorEvent: Event | ErrorEvent ): void => {
       MyConsole.Red( `
+来自：simulation_servers/deno/src/services/WebSocketResRoot.esm.mts
 WebSocket针对“${ pathName }”的服务出现错误。Start
+
 ${ ( errorEvent as ErrorEvent ).message }
+
+WebSocket针对“${ pathName }”的服务出现错误。End
+` );
+
+      errorWriteStream.write( `
+来自：simulation_servers/deno/src/services/WebSocketResRoot.esm.mts
+WebSocket针对“${ pathName }”的服务出现错误。Start
+
+${ ( errorEvent as ErrorEvent ).message }
+
 WebSocket针对“${ pathName }”的服务出现错误。End
 ` );
     } );
 
     wsForServer.addEventListener( 'message', ( messageEvent: MessageEvent ): void => {
-      MyConsole.Blue( `
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/services/WebSocketResRoot.esm.mts
 WebSocket收到了来自客户端（${ pathName }）的消息。Start
+
 ${ messageEvent.data }
+
 WebSocket收到了来自客户端（${ pathName }）的消息。End
 ` );
 

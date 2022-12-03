@@ -39,6 +39,18 @@ import {
   // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+import {
+  type TypeMyCusDenoFsFile,
+
+  GetLogWriteStreamForSingleton,
+  GetErrorWriteStreamForSingleton,
+
+  // @ts-ignore
+} from 'public/PublicTools.esm.mts';
+
+const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
  *
@@ -90,26 +102,47 @@ function ResponseHandle( request: Request ): TypeResponse001{
 
     // @ts-ignore
     wsForServer.addEventListener( 'open', ( event: Event ): void => {
-      MyConsole.Green( `\nWebSocket针对“${ pathName }”的服务已打开。\n` );
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
+WebSocket针对“${ pathName }”的服务已打开。
+` );
     } );
 
     // @ts-ignore
     wsForServer.addEventListener( 'close', ( closeEvent: CloseEvent ): void => {
-      MyConsole.Green( `\nWebSocket针对“${ pathName }”的服务已关闭。\n` );
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
+WebSocket针对“${ pathName }”的服务已关闭。
+` );
     } );
 
     wsForServer.addEventListener( 'error', ( errorEvent: Event | ErrorEvent ): void => {
       MyConsole.Red( `
+来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
 WebSocket针对“${ pathName }”的服务出现错误。Start
+
 ${ ( errorEvent as ErrorEvent ).message }
+
+WebSocket针对“${ pathName }”的服务出现错误。End
+` );
+
+      errorWriteStream.write( `
+来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
+WebSocket针对“${ pathName }”的服务出现错误。Start
+
+${ ( errorEvent as ErrorEvent ).message }
+
 WebSocket针对“${ pathName }”的服务出现错误。End
 ` );
     } );
 
     wsForServer.addEventListener( 'message', ( messageEvent: MessageEvent ): void => {
-      MyConsole.Blue( `
+      logWriteStream.write( `
+来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
 WebSocket收到了来自客户端通过“${ pathName }”上传的文件。Start
+
 ${ messageEvent.data }
+
 WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
 ` );
 

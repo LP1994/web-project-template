@@ -23,12 +23,9 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  MyConsole,
+  type TypeMyCusDenoFsFile,
 
-  // @ts-ignore
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
+  GetLogWriteStreamForSingleton,
   IterateToNestForPromise,
 
   // @ts-ignore
@@ -40,6 +37,8 @@ import {
 
   // @ts-ignore
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
+
+const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
  * 处理WebSocket请求。
@@ -57,7 +56,8 @@ async function WebSocket( request: Request ): Promise<Response>{
 
   let result: Response;
 
-  MyConsole.Blue( `
+  logWriteStream.write( `
+来自：simulation_servers/deno/src/routers/WebSocket.esm.mts
 请求头中的upgrade值为：${ upgrade }。
 请求头中的connection值为：${ connection }。
 ` );
