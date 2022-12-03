@@ -9,28 +9,9 @@
 
 'use strict';
 
-document.querySelector( 'main' ).textContent = `Hello World!`;
+import {
+  Test001ForModule001,
+  Test001ForModule002,
+} from './Module001.esm.mts';
 
-const webSocket = new WebSocket( `${ ws4DevURLDemo001 }/simulation_servers_deno/subscriptions`, 'simulation_servers_deno_WebSocket' );
-
-webSocket.addEventListener( 'message', (
-  {
-    data,
-  }
-) => {
-  console.log( `\n\n我是服务器发过来的消息。Start` );
-  console.dir( data );
-  console.log( `我是服务器发过来的消息。End\n\n` );
-} );
-
-document.querySelector( 'main' ).addEventListener( 'click', event => {
-  webSocket.send( `\n\n我是客户端发过来的消息：7788。\n\n` );
-
-  axios.get( `${ devURLDemo001 }/simulation_servers_deno/GetJSON` ).then( res => {
-    console.dir( res );
-  } );
-
-  axios.post( `${ devURLDemo001 }/simulation_servers_deno/upload` ).then( res => {
-    console.dir( res );
-  } );
-} );
+document.querySelector( 'main' ).textContent = `Hello World!---${ Test001ForModule001 }---${ Test001ForModule002 }`;
