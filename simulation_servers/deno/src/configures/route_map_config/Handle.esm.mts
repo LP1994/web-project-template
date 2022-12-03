@@ -44,11 +44,11 @@ type TypeObj001 = {
 };
 
 /**
- * Handle001
+ * 根据传入的“文件地址”值返回其对应的文件地址的字符串形式的值，给import()使用的。
  *
- * @param {TypeFilePath001} filePath
+ * @param {TypeFilePath001} filePath 文件地址，必需。
  *
- * @returns {string}
+ * @returns {string} 文件地址的字符串形式的值，给import()使用的。
  */
 function Handle001( filePath: TypeFilePath001 ): string{
   if( Object.prototype.toString.call( filePath ) === '[object URL]' ){
@@ -65,11 +65,11 @@ function Handle001( filePath: TypeFilePath001 ): string{
 }
 
 /**
- * GeneratorRouteMap
+ * “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  *
- * @param {TypeRouteMapConfig} routeMapConfig
+ * @param {TypeRouteMapConfig} routeMapConfig “一对一”的路由映射配置，必需。
  *
- * @returns {Promise<TypeRouteMapHandle>}
+ * @returns {Promise<TypeRouteMapHandle>} “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  */
 async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<TypeRouteMapHandle>{
   const obj001: TypeObj001 = Object.fromEntries(
@@ -108,22 +108,18 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
         ];
       }
     ),
-    arr002: Array<[ string, TypeFun001 ]> = [];
-
-  for await ( let item001 of
-    arr001 ){
-    arr002.push( item001 );
-  }
+    // @ts-ignore
+    arr002: Array<[ string, TypeFun001 ]> = await Array.fromAsync( arr001 );
 
   return Object.fromEntries( arr002 );
 }
 
 /**
- * GeneratorRouteHandle
+ * 有“条件”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  *
- * @param {TypeRouteHandleConfig} routeHandleConfig
+ * @param {TypeRouteHandleConfig} routeHandleConfig 有“条件”的路由映射配置，必需。
  *
- * @returns {TypeRouteHandle}
+ * @returns {TypeRouteHandle} 有“条件”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  */
 function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeRouteHandle{
   return async ( request: Request ): Promise<TypeResult001> => {
@@ -139,12 +135,8 @@ function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeR
           ];
         }
       ),
-      arr002: Array<[ TypeFun002, TypeFun001 ]> = [];
-
-    for await ( let item001 of
-      arr001 ){
-      arr002.push( item001 );
-    }
+      // @ts-ignore
+      arr002: Array<[ TypeFun002, TypeFun001 ]> = await Array.fromAsync( arr001 );
 
     myRouteHandleConfig = new Map( arr002 );
 
