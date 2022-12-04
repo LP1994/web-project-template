@@ -139,9 +139,9 @@ HTTPS Server connInfo--->End
      */
     hostname: '0.0.0.0',
     // @ts-ignore
-    key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Key.pem` ) ),
+    key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101_Key.key` ) ),
     // @ts-ignore
-    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS001/HTTPS001Server.crt` ) ),
+    cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101_CA.crt` ) ),
     onListen: (
       {
         hostname,
