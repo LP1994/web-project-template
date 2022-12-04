@@ -1,28 +1,84 @@
+魔术注解详细见官方文档：
+https://webpack.js.org/api/module-methods/#magic-comments
+
+
+
 /* webpackChunkName: "my-chunk-name" */
 /* webpackMode: "lazy" */
+
+// 告诉 webpack 只捆绑动态 import() 模块的指定导出。它可以减少块的输出大小。从 webpack 5.0.0-beta.18 开始可用。
 /* webpackExports: [ "default", "named" ] */
+
+// 在导入解析期间将匹配的正则表达式。只有匹配的模块才会被捆绑。请注意，webpackInclude 和 webpackExclude 选项不会干扰前缀。例如：./locale。
 /* webpackInclude: /\.(js|cjs|mjs|ts|cts|mts|json)$/ */
+
+// 在导入解析期间将匹配的正则表达式。任何匹配的模块都不会被捆绑。请注意，webpackInclude 和 webpackExclude 选项不会干扰前缀。例如：./locale。
 /* webpackExclude: /\.noimport\.json$/ */
-// 预取：将来可能需要一些导航资源
-/* webpackPrefetch: true */
-// 预加载：在当前导航期间也将需要资源，不正确地使用webpackPreload实际上会损害性能，因此使用它时要小心。
-/* webpackPreload: true */
+
+// 设置为 true 时禁用动态导入解析。请注意，将 webpackIgnore 设置为 true 会选择退出代码拆分。。
 /* webpackIgnore: true */
 
+// 预取：将来可能需要一些导航资源，值类型：boolean、number（支持负数，估计是表示加载的优先顺序）。
+/* webpackPrefetch: true */
+
+// 预加载：在当前导航期间也将需要资源，不正确地使用webpackPreload实际上会损害性能，因此使用它时要小心，值类型：boolean、number（支持负数，估计是表示加载的优先顺序）。
+/* webpackPreload: true */
+
+
+
 用于worker的魔术注解：
-const worker = new Worker( new URL( './Worker001.worker.js', import.meta.url ), {
-  /* webpackEntryOptions: { filename: "workers/[name]_[contenthash].worker.js" } */
-  type: 'classic',
-  credentials: 'omit',
-  name: 'Worker001',
-} );
+const worker = new Worker( new URL( "./fib-worker.js", import.meta.url ), {
+    name: "fibonacci",
+    type: "module",
+    /* webpackEntryOptions: { filename: "workers/[name].js" } */
+});
 注意：
-1、worker的魔术注解中的[name]受Worker构造函数的第二个参数中的name选项控制，
+1、注意用于worker的魔术注解的位置，貌似有后面的魔术注解会使用前面设置的选项（如：name: "fibonacci"）的意味。
+
+2、worker的魔术注解中的[name]受Worker构造函数的第二个参数中的name选项控制，
 如果没有设置name，则会使用一串数字组成的值作为[name]，
 如果设置了, 那么设置成什么值，[name]就会是什么。
 
-2、如果没使用worker的魔术注解，那么worker文件的输出文件名受output.chunkFilename选项控制，
+3、如果没使用worker的魔术注解，那么worker文件的输出文件名受output.chunkFilename选项控制，
 当chunkFilename选项的值类型为函数时：( pathData, assetInfo ) => string，
 pathData.chunk.name受Worker构造函数的第二个参数中的name选项控制，
 name选项设置成什么值，pathData.chunk.name就会是什么，
 如果没有设置name选项，那么pathData.chunk.name为undefined。
+
+4、从webpack的源码（webpack-5.75.0/lib/dependencies/WorkerPlugin.js）中还知道了这几个可用于worker的魔术注解：
+/* webpackIgnore: true */
+/* webpackChunkName: "my-chunk-name" */
+/* webpackEntryOptions: 值同“entryOptions”选项的值，具体见如下的“entryOptions”选项中各个属性 */
+其中webpackEntryOptions.runtime、webpackEntryOptions.wasmLoading、webpackEntryOptions.chunkLoading在源码中有出现，webpackEntryOptions.filename在webpack自己的示例Demo（webpack-5.75.0/examples/worker/example.js）中有出现。
+PS：在源码（webpack-5.75.0/lib/dependencies/WorkerPlugin.js）中只出现了webpackIgnore、webpackChunkName、webpackEntryOptions这三个选项，系不系表示用于worker的有效魔术注解也就这3个呢！
+
+
+
+entryOptions选项，它就是“https://webpack.js.org/configuration/entry-context/#entry-descriptor”中的webpack的顶级配置选项“entry”的配置：
+注意：
+1、确保runtime选项不能指向现有的入口点名称。
+2、runtime选项和dependOn选项不应一起使用。
+具体选项说明：
+{
+runtime：false、string，运行时块的名称。设置后，将创建一个新的运行时块。它可以设置为false以避免从webpack 5.43.0开始出现新的运行时块。
+
+wasmLoading：同output.wasmLoading。
+
+chunkLoading：同output.chunkLoading。
+
+filename：同output.filename。
+
+publicPath：同output.publicPath。
+
+asyncChunks：boolean，启用或禁用创建按需加载的异步块。
+
+baseUri：string，设置入口的基本URL。
+
+dependOn：string、[ string ]（强烈建议优先使用这个值类型设置），当前入口点所依赖的入口点。加载此入口点时，必须加载它们。
+
+import：string、[ string ]（强烈建议优先使用这个值类型设置），启动时加载的模块。
+
+layer：string，指定放置此入口点模块的层。
+
+library：同output.library。
+}

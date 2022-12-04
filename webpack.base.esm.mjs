@@ -2880,9 +2880,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    *   
    *   dynamicImportMode：string（只有4个内置值：'eager'、'weak'、'lazy'、'lazy-once'），5.73.0+开始支持，指定动态导入的全局模式。<br />
    *   
-   *   dynamicImportPrefetch：boolean、number，5.73.0+开始支持，指定动态导入的全局预取。<br />
+   *   dynamicImportPrefetch：boolean、number（支持负数，估计是表示加载的优先顺序），5.73.0+开始支持，指定动态导入的全局预取。<br />
    *   
-   *   dynamicImportPreload：boolean、number，5.73.0+开始支持，指定动态导入的全局预加载。<br />
+   *   dynamicImportPreload：boolean、number（支持负数，估计是表示加载的优先顺序），5.73.0+开始支持，指定动态导入的全局预加载。<br />
    *   
    *   exportsPresence：false、string（只有3个内置值：'error'、'warn'、'auto'），5.62.0+开始支持，指定“import ... from ...”和“export ... from ...”中无效导出名称的行为。<br />
    *   
@@ -5401,6 +5401,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       unknownContextRecursive: true,
       wrappedContextCritical: true,
       wrappedContextRecursive: true,
+      /**
+       * 自定义WebWorker对javascript文件的处理，'...'是指默认值。
+       * 值类型有：string[]、布尔值（true，表示使用默认值，也就是[ '...' ]，false表示禁用该选项）。
+       */
+      /*
+       worker: [
+       '...',
+       ],
+       */
     };
 
     return {
