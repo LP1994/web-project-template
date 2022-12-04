@@ -62,6 +62,6 @@ function Get__filename( import_meta_url = import.meta.url ){
 const __dirname = Get__dirname( import.meta.url );
 
 writeFileSync(
-  join( __dirname, './HTTPS001CACert.p12.base64' ),
-  readFileSync( join( __dirname, './HTTPS001CACert.p12' ) ).toString( 'base64' )
+  join( __dirname, './HTTPSRootCA.p12.base64' ),
+  readFileSync( join( __dirname, './HTTPSRootCA.p12' ) ).toString( 'base64' )
 );

@@ -2022,10 +2022,11 @@ const aliasConfig = {
     /**
      * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。<br />
      * 2、安装证书如下：<br />
-     * configures/openssl/HTTPS001/HTTPS001CACert.crt
-     * configures/openssl/HTTPS001/HTTPS001Client.crt
-     * configures/openssl/HTTPS001/HTTPS001Server.crt
-     * configures/openssl/HTTPS001/HTTPS001CACert.p12
+     * “configures/openssl/HTTPS_192_168_10_101”文件夹下的4个：
+     * 001根CA证书：HTTPSRootCA.crt
+     * 002中间签名CA证书：HTTPSMiddlemanSigningCA.crt
+     * 003成员_服务端CA证书：HTTPSServers_192_168_10_101_CA.crt
+     * 004客户端CA证书：HTTPSClients_192_168_10_101_CA.crt
      * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。<br />
      * 4、就算安装了上述的证书到iPhone 13 Pro Max上，其上的谷歌浏览器、火狐浏览器（但Safari浏览器却不会）在访问相关链接时，还是会报如下错误提示，但还是能顺利访问，只是会输出这个错误提示：<br />
      * error writing a body to connection: tls handshake eof: tls handshake eof
@@ -2036,9 +2037,9 @@ const aliasConfig = {
         /**
          * Path to an SSL CA certificate or content of an SSL CA certificate.<br />
          *
-         * 1、一般指的是CA证书，CA证书用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。<br />
+         * 1、一般指的是“根CA证书，HTTPSRootCA.crt”，“根CA证书，HTTPSRootCA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。<br />
          */
-        ca: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CACert.crt' ), 'utf8' ),
+        ca: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/001根CA证书/HTTPSRootCA.crt' ), 'utf8' ),
 
         /**
          * Request for an SSL certificate.<br />
@@ -2052,24 +2053,24 @@ const aliasConfig = {
          * Path to an SSL key or content of an SSL key.<br />
          *
          * 注意：<br />
-         * 1、在生成HTTPS001Key.key文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+         * 1、在生成“成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt”的“HTTPSServers_192_168_10_101_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
          */
-        key: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Key.pem' ), 'utf8' ),
-        // Path to an SSL certificate or content of an SSL certificate.
-        cert: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001Server.crt' ), 'utf8' ),
+        key: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101_Key.key' ), 'utf8' ),
+        // Path to an SSL certificate or content of an SSL certificate，一般就是指：成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt。
+        cert: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101_CA.crt' ), 'utf8' ),
 
         // Passphrase for a pfx file.
-        passphrase: 'opensslHTTPS001',
+        passphrase: '20220101001',
         /**
          * 1、Path to an SSL pfx file or content of an SSL pfx file.<br />
          *
          * PS：<br />
          * 启用后会导致证书出现警告。<br />
          */
-        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS001/HTTPS001CACert.p12' ) ),
+        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/001根CA证书/HTTPSRootCA.p12' ) ),
 
         // Path to PEM formatted CRLs (Certificate Revocation Lists) or content of PEM formatted CRLs (Certificate Revocation Lists).
-        // crl: readFileSync( join( __dirname, './configures/openssl/HTTPS001/XXX.pem' ), 'utf8' ),
+        // crl: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101.pem' ), 'utf8' ),
       },
     },
     setupExitSignals: true,
