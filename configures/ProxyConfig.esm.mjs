@@ -409,9 +409,15 @@ const proxyConfig = {
     // agent,
 
     /**
+     * 是否要验证SSL证书。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    secure: false,
+
+    /**
      * 要传递给https.createServer()的对象。<br />
      */
-    // ssl,
+    // ssl: {},
 
     /**
      * 是否启用对websockets的代理。<br />
@@ -424,12 +430,6 @@ const proxyConfig = {
      * 1、有效值类型：boolean、undefined。<br />
      */
     // xfwd: false,
-
-    /**
-     * 是否要验证SSL证书。<br />
-     * 1、有效值类型：boolean、undefined。<br />
-     */
-    secure: false,
 
     /**
      * 显式指定是否代理到另一个代理。<br />
@@ -805,9 +805,15 @@ HTTP代理--->${ req.originalUrl }<---End
     // agent,
 
     /**
+     * 是否要验证SSL证书。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    secure: false,
+
+    /**
      * 要传递给https.createServer()的对象。<br />
      */
-    // ssl,
+    // ssl: {},
 
     /**
      * 是否启用对websockets的代理。<br />
@@ -820,12 +826,6 @@ HTTP代理--->${ req.originalUrl }<---End
      * 1、有效值类型：boolean、undefined。<br />
      */
     // xfwd: false,
-
-    /**
-     * 是否要验证SSL证书。<br />
-     * 1、有效值类型：boolean、undefined。<br />
-     */
-    secure: false,
 
     /**
      * 显式指定是否代理到另一个代理。<br />
