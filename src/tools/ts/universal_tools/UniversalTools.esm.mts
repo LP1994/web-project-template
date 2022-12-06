@@ -247,7 +247,55 @@ export function IsString( arg: any ): boolean{
 
 // 判断数据类型。End
 
-// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。Start
+// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。Start
+
+/**
+ * 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
+ *
+ * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
+ *
+ * @returns {boolean} 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
+ */
+export function IsDisjointFrom( arrA: Array<any> = [], arrB: Array<any> = [] ): boolean{
+  if( arrA.length === 0 || arrB.length === 0 ){
+    return true;
+  }
+
+  return Intersection( arrA, arrB ).length === 0;
+}
+
+/**
+ * 数组B是否是数组A的子集，true表示是，反之表示不是。
+ *
+ * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
+ *
+ * @returns {boolean} 数组B是否是数组A的子集，true表示是，反之表示不是。
+ */
+export function IsSubsetOf( arrA: Array<any> = [], arrB: Array<any> = [] ): boolean{
+  if( arrA.length === 0 || arrB.length === 0 ){
+    return false;
+  }
+
+  return Intersection( arrA, arrB ).length === Array.from( new Set( arrB ) ).length;
+}
+
+/**
+ * 数组B是否是数组A的超集，true表示是，反之表示不是。
+ *
+ * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
+ *
+ * @returns {boolean} 数组B是否是数组A的超集，true表示是，反之表示不是。
+ */
+export function IsSupersetOf( arrA: Array<any> = [], arrB: Array<any> = [] ): boolean{
+  if( arrA.length === 0 || arrB.length === 0 ){
+    return false;
+  }
+
+  return Intersection( arrA, arrB ).length === Array.from( new Set( arrA ) ).length;
+}
 
 /**
  * 差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。
@@ -335,7 +383,7 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
   ] ) );
 }
 
-// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
+// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
@@ -357,10 +405,13 @@ export default {
   IsString,
   // 判断数据类型。End
 
-  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。Start
+  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。Start
+  IsDisjointFrom,
+  IsSubsetOf,
+  IsSupersetOf,
   Difference,
   Intersection,
   SymmetricDifference,
   Union,
-  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
+  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 };

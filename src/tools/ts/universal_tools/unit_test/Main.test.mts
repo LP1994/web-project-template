@@ -38,12 +38,15 @@ import {
   IsString,
   // 判断数据类型。End
 
-  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。Start
+  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。Start
+  IsDisjointFrom,
+  IsSubsetOf,
+  IsSupersetOf,
   Difference,
   Intersection,
   SymmetricDifference,
   Union,
-  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
+  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
   // @ts-ignore
 } from '../UniversalTools.esm.mts';
@@ -133,7 +136,7 @@ if( true ){
   } );
 }
 
-// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。
+// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。
 if( true ){
   // 差集Difference。
   Test001( 'Difference', (): void => {
@@ -227,5 +230,79 @@ if( true ){
       5,
       6,
     ] ) );
+  } );
+
+  // IsDisjointFrom（是否不相交）。
+  Test001( 'IsDisjointFrom', (): void => {
+    Equal001( IsDisjointFrom(
+      [
+        1,
+        2,
+        3,
+        4,
+        3,
+        4,
+      ],
+      [
+        2,
+        3,
+        4,
+        5,
+        4,
+        5,
+        6,
+      ]
+    ) ).toBe( false );
+  } );
+
+  // IsSubsetOf（是否是子集）。
+  Test001( 'IsSubsetOf', (): void => {
+    Equal001( IsSubsetOf(
+      [
+        1,
+        2,
+        3,
+        4,
+        3,
+        4,
+        5,
+        6,
+        7,
+      ],
+      [
+        2,
+        3,
+        4,
+        5,
+        6,
+        4,
+        5,
+        6,
+      ]
+    ) ).toBe( true );
+  } );
+
+  // IsSupersetOf（是否是超集）。
+  Test001( 'IsSupersetOf', (): void => {
+    Equal001( IsSupersetOf(
+      [
+        1,
+        2,
+        3,
+        4,
+        3,
+        4,
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        3,
+        4,
+        5,
+        6,
+      ]
+    ) ).toBe( true );
   } );
 }
