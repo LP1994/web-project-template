@@ -301,7 +301,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20221002。Start
     'Chrome >= 108',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 107',
+    'Edge >= 108',
     'Firefox >= 107',
     'Safari >= 16',
     'Opera >= 93',
@@ -345,7 +345,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20221002。Start
     'chrome108',
-    'edge107',
+    'edge108',
     'firefox107',
     'safari16',
     'opera93',
@@ -384,7 +384,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20221002。Start
     chrome: 108,
-    edge: 107,
+    edge: 108,
     firefox: 107,
     safari: 16,
     opera: 93,
@@ -2045,8 +2045,7 @@ const aliasConfig = {
          * 1、一般指的是“根CA证书，HTTPSRootCA.crt”、“中间签名CA证书，HTTPSMiddlemanSigningCA.crt”，“根CA证书，HTTPSRootCA.crt”、“中间签名CA证书，HTTPSMiddlemanSigningCA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。<br />
          */
         ca: [
-          readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/001根CA证书/HTTPSRootCA.crt' ), 'utf8' ),
-          readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/002中间签名CA证书/HTTPSMiddlemanSigningCA.crt' ), 'utf8' ),
+          readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
         ],
 
         /**
@@ -2057,12 +2056,12 @@ const aliasConfig = {
          * 1、在生成“成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt”的“HTTPSServers_192_168_10_101_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
          * 2、当前“HTTPSServers_192_168_10_101_Key.key”没使用加密。<br />
          */
-        key: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101_Key.key' ), 'utf8' ),
+        key: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
         /**
          * PEM格式的证书链（成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt）。每个私钥（HTTPSServers_192_168_10_101_Key.key）应提供一个证书链（成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt）。<br />
          */
-        cert: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/003成员_服务端CA证书/HTTPSServers_192_168_10_101_CA.crt' ), 'utf8' ),
+        cert: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
 
         /**
          * 如果SSL/TLS握手未在指定的毫秒数内完成，则中止连接。只要握手超时，就会在tls.Server对象上发出“tlsClientError”。默认值：120000（120000毫秒 = 120秒）。<br />
@@ -2092,19 +2091,21 @@ const aliasConfig = {
         /**
          * 用于单个私钥和/或PFX的共享密码。<br />
          */
-        // passphrase: '20220101001',
+        passphrase: '@HTTPSSL001.2022#',
 
         /**
          * PEM格式的CRL（证书吊销列表）。<br />
          */
-        // crl: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/证书吊销列表/证书吊销列表.pem' ), 'utf8' ),
+        // crl: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/证书吊销列表/证书吊销列表.pem' ), 'utf8' ),
 
         /**
          * PFX或PKCS12编码的私钥和证书链。<br />
          * pfx是单独提供密钥和证书的替代方案。<br />
          * PFX通常是加密的，如果是，将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
+         *
+         * 该选项跟上面的“key”、“cert”选项是互斥的，也就是不要同时设置该选项跟“key”、“cert”选项，否则会报错，说什么太长了。<br />
          */
-        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPS_192_168_10_101/PFX/PFX.p12' ), 'utf8' ),
+        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
       },
     },
     setupExitSignals: true,

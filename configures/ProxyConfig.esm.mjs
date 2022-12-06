@@ -53,6 +53,10 @@
 'use strict';
 
 import {
+  readFileSync,
+} from 'node:fs';
+
+import {
   dirname,
   join,
 } from 'node:path';
@@ -417,7 +421,29 @@ const proxyConfig = {
     /**
      * 要传递给https.createServer()的对象。<br />
      */
-    // ssl: {},
+    ssl: {
+      ca: [
+        readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
+      ],
+
+      key: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
+
+      cert: readFileSync( join( __dirname, './openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
+
+      handshakeTimeout: 120000,
+
+      requestCert: false,
+
+      minVersion: 'TLSv1.2',
+
+      maxVersion: 'TLSv1.3',
+
+      passphrase: '@HTTPSSL001.2022#',
+
+      // crl: readFileSync( join( __dirname, './openssl/HTTPSSL001/证书吊销列表/证书吊销列表.pem' ), 'utf8' ),
+
+      // pfx: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
+    },
 
     /**
      * 是否启用对websockets的代理。<br />
@@ -813,7 +839,29 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 要传递给https.createServer()的对象。<br />
      */
-    // ssl: {},
+    ssl: {
+      ca: [
+        readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
+      ],
+
+      key: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
+
+      cert: readFileSync( join( __dirname, './openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
+
+      handshakeTimeout: 120000,
+
+      requestCert: false,
+
+      minVersion: 'TLSv1.2',
+
+      maxVersion: 'TLSv1.3',
+
+      passphrase: '@HTTPSSL001.2022#',
+
+      // crl: readFileSync( join( __dirname, './openssl/HTTPSSL001/证书吊销列表/证书吊销列表.pem' ), 'utf8' ),
+
+      // pfx: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
+    },
 
     /**
      * 是否启用对websockets的代理。<br />
