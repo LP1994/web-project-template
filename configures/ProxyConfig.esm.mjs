@@ -420,28 +420,80 @@ const proxyConfig = {
 
     /**
      * 要传递给https.createServer()的对象。<br />
+     * 保证跟服务端（webpack-dev-server、Deno）设置的各个证书一样就行。<br />
+     * 该选项里头的各个有效属性其实可以参考webpack的顶级配置项“devServer”中的“server.options”选项里的各个属性。<br />
+     * 因为它们都是属于“tls.createSecureContext([options])”中的“options”选项，具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions。<br />
      */
     ssl: {
+      /**
+       * 覆盖受信任的CA证书。<br />
+       * 默认情况是信任Mozilla策划的知名CA。<br />
+       * 当使用此选项显式指定CA时，Mozilla的CA将被完全替换。<br />
+       *
+       * PS：<br />
+       * 1、一般指的是“根CA证书，HTTPSSL001_Root_CA.crt”，“根CA证书，HTTPSSL001_Root_CA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
+       */
       ca: [
         readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
       ],
 
+      /**
+       * PEM格式的私钥（“HTTPSSL001_Root_CA_Key.key”）。<br />
+       * PEM允许选择加密私钥，加密密钥将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
+       *
+       * 注意：<br />
+       * 1、在生成“服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+       * 2、当前“HTTPSSL001_Root_CA_Key.key”没使用加密。<br />
+       */
       key: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
+      /**
+       * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt）。<br />
+       */
       cert: readFileSync( join( __dirname, './openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
 
+      /**
+       * 如果SSL/TLS握手未在指定的毫秒数内完成，则中止连接。只要握手超时，就会在tls.Server对象上发出“tlsClientError”。默认值：120000（120000毫秒 = 120秒）。<br />
+       */
       handshakeTimeout: 120000,
 
+      /**
+       * 如果为true，服务器将从连接的客户端请求证书并尝试验证该证书。默认值：false。<br />
+       *
+       * PS：<br />
+       * 启用该项会导致浏览器无法从https加载，因为服务器将从连接的客户端请求证书并尝试验证该证书，如果客户端没能提供“证书”，那么就会报错，这通常出现在浏览器端。<br />
+       */
       requestCert: false,
 
+      /**
+       * （可选）设置允许的最低TLS版本。“TLSv1.3”、“TLSv1.2”、“TLSv1.1”或“TLSv1”之一。不能与“secureProtocol”选项一起指定。<br />
+       * 使用一个或另一个。避免设置为低于TLSv1.2，但互操作性可能需要它。默认值：tls.DEFAULT_MIN_VERSION（也就是：TLSv1.2）。<br />
+       */
       minVersion: 'TLSv1.2',
 
+      /**
+       * （可选）设置允许的最大TLS版本。“TLSv1.3”、“TLSv1.2”、“TLSv1.1”或“TLSv1”之一。不能与“secureProtocol”选项一起指定。<br />
+       * 使用一个或另一个。默认值：tls.DEFAULT_MAX_VERSION（也就是：TLSv1.3）。<br />
+       */
       maxVersion: 'TLSv1.3',
 
+      /**
+       * 用于单个私钥和/或PFX的共享密码。<br />
+       */
       passphrase: '@HTTPSSL001.2022#',
 
+      /**
+       * PEM格式的CRL（证书吊销列表）。<br />
+       */
       // crl: readFileSync( join( __dirname, './openssl/HTTPSSL001/证书吊销列表/证书吊销列表.pem' ), 'utf8' ),
 
+      /**
+       * PFX或PKCS12编码的私钥和证书链。<br />
+       * pfx是单独提供密钥和证书的替代方案。<br />
+       * PFX通常是加密的，如果是，将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
+       *
+       * 该选项跟上面的“key”、“cert”选项是互斥的，也就是不要同时设置该选项跟“key”、“cert”选项，否则会报错，说什么太长了。<br />
+       */
       // pfx: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
     },
 
@@ -838,28 +890,80 @@ HTTP代理--->${ req.originalUrl }<---End
 
     /**
      * 要传递给https.createServer()的对象。<br />
+     * 保证跟服务端（webpack-dev-server、Deno）设置的各个证书一样就行。<br />
+     * 该选项里头的各个有效属性其实可以参考webpack的顶级配置项“devServer”中的“server.options”选项里的各个属性。<br />
+     * 因为它们都是属于“tls.createSecureContext([options])”中的“options”选项，具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions。<br />
      */
     ssl: {
+      /**
+       * 覆盖受信任的CA证书。<br />
+       * 默认情况是信任Mozilla策划的知名CA。<br />
+       * 当使用此选项显式指定CA时，Mozilla的CA将被完全替换。<br />
+       *
+       * PS：<br />
+       * 1、一般指的是“根CA证书，HTTPSSL001_Root_CA.crt”，“根CA证书，HTTPSSL001_Root_CA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
+       */
       ca: [
         readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
       ],
 
+      /**
+       * PEM格式的私钥（“HTTPSSL001_Root_CA_Key.key”）。<br />
+       * PEM允许选择加密私钥，加密密钥将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
+       *
+       * 注意：<br />
+       * 1、在生成“服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+       * 2、当前“HTTPSSL001_Root_CA_Key.key”没使用加密。<br />
+       */
       key: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
+      /**
+       * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt）。<br />
+       */
       cert: readFileSync( join( __dirname, './openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
 
+      /**
+       * 如果SSL/TLS握手未在指定的毫秒数内完成，则中止连接。只要握手超时，就会在tls.Server对象上发出“tlsClientError”。默认值：120000（120000毫秒 = 120秒）。<br />
+       */
       handshakeTimeout: 120000,
 
+      /**
+       * 如果为true，服务器将从连接的客户端请求证书并尝试验证该证书。默认值：false。<br />
+       *
+       * PS：<br />
+       * 启用该项会导致浏览器无法从https加载，因为服务器将从连接的客户端请求证书并尝试验证该证书，如果客户端没能提供“证书”，那么就会报错，这通常出现在浏览器端。<br />
+       */
       requestCert: false,
 
+      /**
+       * （可选）设置允许的最低TLS版本。“TLSv1.3”、“TLSv1.2”、“TLSv1.1”或“TLSv1”之一。不能与“secureProtocol”选项一起指定。<br />
+       * 使用一个或另一个。避免设置为低于TLSv1.2，但互操作性可能需要它。默认值：tls.DEFAULT_MIN_VERSION（也就是：TLSv1.2）。<br />
+       */
       minVersion: 'TLSv1.2',
 
+      /**
+       * （可选）设置允许的最大TLS版本。“TLSv1.3”、“TLSv1.2”、“TLSv1.1”或“TLSv1”之一。不能与“secureProtocol”选项一起指定。<br />
+       * 使用一个或另一个。默认值：tls.DEFAULT_MAX_VERSION（也就是：TLSv1.3）。<br />
+       */
       maxVersion: 'TLSv1.3',
 
+      /**
+       * 用于单个私钥和/或PFX的共享密码。<br />
+       */
       passphrase: '@HTTPSSL001.2022#',
 
+      /**
+       * PEM格式的CRL（证书吊销列表）。<br />
+       */
       // crl: readFileSync( join( __dirname, './openssl/HTTPSSL001/证书吊销列表/证书吊销列表.pem' ), 'utf8' ),
 
+      /**
+       * PFX或PKCS12编码的私钥和证书链。<br />
+       * pfx是单独提供密钥和证书的替代方案。<br />
+       * PFX通常是加密的，如果是，将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
+       *
+       * 该选项跟上面的“key”、“cert”选项是互斥的，也就是不要同时设置该选项跟“key”、“cert”选项，否则会报错，说什么太长了。<br />
+       */
       // pfx: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
     },
 

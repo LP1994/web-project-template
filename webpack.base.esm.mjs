@@ -2022,14 +2022,11 @@ const aliasConfig = {
     /**
      * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。<br />
      * 2、安装证书如下：<br />
-     * “configures/openssl/HTTPS_192_168_10_101”文件夹下的4个：
-     * 001根CA证书：HTTPSRootCA.crt
-     * 002中间签名CA证书：HTTPSMiddlemanSigningCA.crt
-     * 003成员_服务端CA证书：HTTPSServers_192_168_10_101_CA.crt
-     * 004客户端CA证书：HTTPSClients_192_168_10_101_CA.crt
+     * “configures/openssl/HTTPSSL001”文件夹下的3个：<br />
+     * 001根CA证书：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
+     * 002服务端CA证书：HTTPSSL001_Servers_192_168_10_101_CA.crt，安装到“受信任的根证书颁发机构”。<br />
+     * 003客户端CA证书：HTTPSSL001_Clients_192_168_10_101_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。<br />
      * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。<br />
-     * 4、就算安装了上述的证书到iPhone 13 Pro Max上，其上的谷歌浏览器、火狐浏览器（但Safari浏览器却不会）在访问相关链接时，还是会报如下错误提示，但还是能顺利访问，只是会输出这个错误提示：<br />
-     * error writing a body to connection: tls handshake eof: tls handshake eof
      */
     server: {
       // 'http'（使用HTTP/1.1）、'https'（使用HTTP/1.1）、'spdy'（使用HTTP/2）
@@ -2042,24 +2039,24 @@ const aliasConfig = {
          * 当使用此选项显式指定CA时，Mozilla的CA将被完全替换。<br />
          *
          * PS：<br />
-         * 1、一般指的是“根CA证书，HTTPSRootCA.crt”、“中间签名CA证书，HTTPSMiddlemanSigningCA.crt”，“根CA证书，HTTPSRootCA.crt”、“中间签名CA证书，HTTPSMiddlemanSigningCA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中。<br />
+         * 1、一般指的是“根CA证书，HTTPSSL001_Root_CA.crt”，“根CA证书，HTTPSSL001_Root_CA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
          */
         ca: [
           readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
         ],
 
         /**
-         * PEM格式的私钥（“HTTPSServers_192_168_10_101_Key.key”）。<br />
+         * PEM格式的私钥（“HTTPSSL001_Root_CA_Key.key”）。<br />
          * PEM允许选择加密私钥，加密密钥将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
          *
          * 注意：<br />
-         * 1、在生成“成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt”的“HTTPSServers_192_168_10_101_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
-         * 2、当前“HTTPSServers_192_168_10_101_Key.key”没使用加密。<br />
+         * 1、在生成“服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+         * 2、当前“HTTPSSL001_Root_CA_Key.key”没使用加密。<br />
          */
         key: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
         /**
-         * PEM格式的证书链（成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt）。每个私钥（HTTPSServers_192_168_10_101_Key.key）应提供一个证书链（成员_服务端CA证书，HTTPSServers_192_168_10_101_CA.crt）。<br />
+         * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt）。<br />
          */
         cert: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
 

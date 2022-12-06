@@ -16,14 +16,11 @@
 /**
  * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
  * 2、安装证书如下：
- * “openssl/HTTPS_192_168_10_101”文件夹下的4个：
- * 001根CA证书：HTTPSRootCA.crt
- * 002中间签名CA证书：HTTPSMiddlemanSigningCA.crt
- * 003成员_服务端CA证书：HTTPSServers_192_168_10_101_CA.crt
- * 004客户端CA证书：HTTPSClients_192_168_10_101_CA.crt
+ * “openssl/HTTPSSL001”文件夹下的3个：
+ * 001根CA证书：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
+ * 002服务端CA证书：HTTPSSL001_Servers_192_168_10_101_CA.crt，安装到“受信任的根证书颁发机构”。
+ * 003客户端CA证书：HTTPSSL001_Clients_192_168_10_101_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
  * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
- * 4、就算安装了上述的证书到iPhone 13 Pro Max上，其上的谷歌浏览器、火狐浏览器（但Safari浏览器却不会）在访问相关链接时，还是会报如下错误提示，但还是能顺利访问，只是会输出这个错误提示：
- * error writing a body to connection: tls handshake eof: tls handshake eof
  */
 
 'use strict';
