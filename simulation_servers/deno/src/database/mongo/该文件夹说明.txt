@@ -1,11 +1,13 @@
 该文件夹下都是MongoDB数据库相关的。
 
+实际试了一下，用“deno_mongo”进行TLS连接，失败了！这个包BUG满天，还是使用npm的“mongodb”包吧，deno中也能使用npm的包的：import mongodb from "npm:mongodb";
+
 PS：
 1、关于Deno连接数据库教程见：https://deno.land/manual/basics/connecting_to_databases
 2、deno_mongo（使用教程见：https://deno.land/x/mongo）是为Deno开发的MongoDB数据库驱动程序。
 
 例子0001：
-// 只有“v0.29.3”可用，其他更新的版本会报错。
+// 目前只有“v0.29.3”可用，其他更新的版本会报错。
 import { MongoClient } from "https://deno.land/x/mongo@v0.29.3/mod.ts";
 
 const client = new MongoClient();
@@ -41,6 +43,8 @@ await client.connect(
 例子002：
 import {
   MongoClient,
+
+  // 目前只有“v0.29.3”可用，其他更新的版本会报错。
   // @ts-ignore
 } from 'DenoX/mongo@v0.29.3/mod.ts';
 
