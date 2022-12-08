@@ -57,7 +57,7 @@ interface StartupLogCollectionSchema {
 
   pid: string;
 
-  buildinfo: object;
+  // buildinfo: object;
 }
 
 /**
@@ -77,13 +77,15 @@ async function Handle(
     hostname: 'LPQAQ',
   }, {
     projection: {
-      _id: 1,
+      // 这种属于文档的内置属性是可以设置成0、1的，0表示结果中不要包含该内置属性，1表示结果中一定要包含该内置属性。
+      _id: 0,
       hostname: 1,
       startTime: 1,
       startTimeLocal: 1,
       cmdLine: 1,
       pid: 1,
-      buildinfo: 1,
+      // 这种不属于文档的内置属性是不可以设置成0的，否则会报错。
+      // buildinfo: 1,
     },
   } ).toArray();
 
