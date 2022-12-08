@@ -37,7 +37,6 @@ import {
 
 import {
   Collection,
-  FindCursor,
 
   mongoDBClient,
   mongoDB,
@@ -74,7 +73,7 @@ async function Handle(
 ): Promise<Response>{
   const startupLogCollection: Collection<StartupLogCollectionSchema> = mongoDB.collection<StartupLogCollectionSchema>( 'startup_log' );
 
-  const logs: FindCursor<StartupLogCollectionSchema> = await startupLogCollection.find( {
+  const logs: Array<StartupLogCollectionSchema> = await startupLogCollection.find( {
     hostname: 'LPQAQ',
   }, {
     projection: {
