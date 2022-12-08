@@ -8,7 +8,7 @@
  */
 
 /**
- * 连接MongoDB数据库，并返回一个数据库连接实例MongoClient、数据库实例Database。
+ * 开始连接MongoDB数据库，并返回：数据库连接实例，用于关闭、切换数据库等等操作、初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定）。
  */
 
 'use strict';
@@ -27,13 +27,24 @@ import {
 import config from './MongoDBConfig.esm.mts';
 
 export type TypeMongoDBConnect = {
+  /**
+   * 数据库连接实例，用于关闭、切换数据库等等操作。
+   */
   mongoDBClient: MongoClient;
 
+  /**
+   * 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定）。
+   */
   mongoDB: Database;
 };
 
 let mongoDBConnectForSingleton: TypeMongoDBConnect | null;
 
+/**
+ * 开始连接MongoDB数据库，并返回一个对象：{ mongoDBClient: 数据库连接实例，用于关闭、切换数据库等等操作, mongoDB: 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定） }。
+ *
+ * @returns {Promise<TypeMongoDBConnect>} 其中的TypeMongoDBConnect是一个对象：{ mongoDBClient: 数据库连接实例，用于关闭、切换数据库等等操作, mongoDB: 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定） }。
+ */
 async function MongoDBConnect(): Promise<TypeMongoDBConnect>{
   const mongoDBClient: MongoClient = new MongoClient();
 
@@ -45,6 +56,11 @@ async function MongoDBConnect(): Promise<TypeMongoDBConnect>{
   };
 }
 
+/**
+ * 单例的，开始连接MongoDB数据库，并返回一个对象：{ mongoDBClient: 数据库连接实例，用于关闭、切换数据库等等操作, mongoDB: 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定） }。
+ *
+ * @returns {Promise<TypeMongoDBConnect>} 其中的TypeMongoDBConnect是一个对象：{ mongoDBClient: 数据库连接实例，用于关闭、切换数据库等等操作, mongoDB: 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定） }。
+ */
 async function MongoDBConnectForSingleton(): Promise<TypeMongoDBConnect>{
   if( !mongoDBConnectForSingleton ){
     const mongoDBClient: MongoClient = new MongoClient( ( methodName: string ): void => {
