@@ -1,7 +1,7 @@
 {
   "display": "web-project-template for ts-node-esm",
   "_version": "1.0.0",
-  "_typescript_version": "4.9.3",
+  "_typescript_version": "4.9.4",
   "_description": "这是给ts-node-esm使用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
