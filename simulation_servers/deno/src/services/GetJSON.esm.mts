@@ -38,7 +38,6 @@ import {
 import {
   Collection,
 
-  mongoDBClient,
   mongoDB,
 
   // @ts-ignore
@@ -88,8 +87,6 @@ async function Handle(
       // buildinfo: 1,
     },
   } ).toArray();
-
-  mongoDBClient.close();
 
   return new Response( JSON.stringify( {
     db: 'local',
