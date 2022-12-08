@@ -134,24 +134,6 @@ const BSON_INT32_MIN = -0x80000000;
 const BSON_INT64_MAX = 0x7fffffffffffffff;
 const BSON_INT64_MIN = -0x8000000000000000;
 
-const keysToCodecs = {
-  $oid: ObjectId,
-  // @ts-ignore
-  $binary: Binary,
-  // @ts-ignore
-  $uuid: Binary,
-  $symbol: BSONSymbol,
-  $numberInt: Int32,
-  $numberDecimal: Decimal128,
-  $numberDouble: Double,
-  $numberLong: Long,
-  $minKey: MinKey,
-  $maxKey: MaxKey,
-  $regex: BSONRegExp,
-  $regularExpression: BSONRegExp,
-  $timestamp: Timestamp,
-} as const;
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function deserializeValue( value: any, options: Options = {} ){
   if( typeof value === 'number' ){
@@ -186,14 +168,32 @@ function deserializeValue( value: any, options: Options = {} ){
 
   const keys = Object.keys( value ).filter(
     ( k ) => k.startsWith( '$' ) && value[ k ] != null,
-  ) as ( keyof typeof keysToCodecs )[];
+  ) as ( '$oid' | '$binary' | '$uuid' | '$symbol' | '$numberInt' | '$numberDecimal' | '$numberDouble' | '$numberLong' | '$minKey' | '$maxKey' | '$regex' | '$regularExpression' | '$timestamp' )[];
   for(
     let i = 0;
     i < keys.length;
     i++
   ){
     // @ts-ignore
-    const c = keysToCodecs[ keys[ i ] ];
+    const c = ( {
+      // @ts-ignore
+      $oid: ObjectId,
+      // @ts-ignore
+      $binary: Binary,
+      // @ts-ignore
+      $uuid: Binary,
+      $symbol: BSONSymbol,
+      $numberInt: Int32,
+      $numberDecimal: Decimal128,
+      $numberDouble: Double,
+      $numberLong: Long,
+      $minKey: MinKey,
+      $maxKey: MaxKey,
+      $regex: BSONRegExp,
+      $regularExpression: BSONRegExp,
+      $timestamp: Timestamp,
+      // @ts-ignore
+    } )[ keys[ i ] ];
     if( c ){
       return c.fromExtendedJSON( value, options );
     }

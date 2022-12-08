@@ -47,6 +47,12 @@ export {
   // @ts-ignore
 } from './src/gridfs/bucket.ts';
 
+export {
+  FindCursor,
+
+  // @ts-ignore
+} from './src/collection/commands/find.ts';
+
 // @ts-ignore
 export * as Bson from './deps.ts';
 

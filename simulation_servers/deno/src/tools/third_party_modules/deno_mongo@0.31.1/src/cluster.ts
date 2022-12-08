@@ -51,43 +51,54 @@ export class Cluster {
 
   connectToServer( server: Server, options: ConnectOptions ){
     // @ts-ignore
-    const denoConnectOps: Deno.ConnectTlsOptions = {
+    const denoConnectOps: Deno.ConnectTlsOptions | Deno.ConnectOptions = {
       hostname: server.host,
       port: server.port,
     };
 
     if( !options.tls ){
       // @ts-ignore
-      return Deno.connect( denoConnectOps );
+      return Deno.connect( {
+        transport: 'tcp',
+        ...denoConnectOps,
+      } );
     }
-
-    if( options.caCert ){
-      denoConnectOps.caCerts = [
+    else{
+      if( options.caCert ){
         // @ts-ignore
-        Deno.readTextFileSync( options.caCert ),
-      ];
-    }
-
-    if( options.privateKey ){
-      // @ts-ignore
-      denoConnectOps.privateKey = Deno.readTextFileSync( options.privateKey );
-
-      //TODO: need something like const key = decrypt(options.keyFile) ...
-      //TODO: need Deno.connectTls with something like key or keyFile option.
-      if( options.keyFilePassword ){
-        throw new MongoDriverError(
-          'Tls keyFilePassword not implemented in Deno driver',
-        );
+        ( denoConnectOps as Deno.ConnectTlsOptions ).caCerts = [
+          // @ts-ignore
+          Deno.readTextFileSync( options.caCert ),
+        ];
       }
-    }
 
-    if( options.certChain ){
+      if( options.privateKey ){
+        // @ts-ignore
+        ( denoConnectOps as Deno.ConnectTlsOptions ).privateKey = Deno.readTextFileSync( options.privateKey );
+
+        //TODO: need something like const key = decrypt(options.keyFile) ...
+        //TODO: need Deno.connectTls with something like key or keyFile option.
+        if( options.keyFilePassword ){
+          throw new MongoDriverError(
+            'Tls keyFilePassword not implemented in Deno driver',
+          );
+        }
+      }
+
+      if( options.certChain ){
+        // @ts-ignore
+        ( denoConnectOps as Deno.ConnectTlsOptions ).certChain = Deno.readTextFileSync( options.certChain );
+      }
+
       // @ts-ignore
-      denoConnectOps.certChain = Deno.readTextFileSync( options.certChain );
+      return Deno.connectTls( {
+        alpnProtocols: [
+          'h2',
+          'http/1.1',
+        ],
+        ...denoConnectOps,
+      } );
     }
-
-    // @ts-ignore
-    return Deno.connectTls( denoConnectOps );
   }
 
   async authenticate(){

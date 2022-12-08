@@ -8,7 +8,7 @@
  */
 
 /**
- * 连接MongoDB数据库。
+ * 连接MongoDB数据库，并返回一个数据库连接实例MongoClient、数据库实例Database。
  */
 
 'use strict';

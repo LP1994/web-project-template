@@ -42,6 +42,7 @@ export * as b64 from 'https://deno.land/std/encoding/base64.ts';
 export * as hex from 'https://deno.land/std/encoding/hex.ts';
 // @0.154.0
 
-// export * from 'third_party_modules/deno_bson@0.2.5/mod.ts';
 // @ts-ignore
-export * from 'https://deno.land/x/web_bson@v0.1.10/mod.ts';
+export * from 'third_party_modules/deno_bson@0.2.5/mod.ts';
+// @ts-ignore
+// export * from 'https://deno.land/x/web_bson@v0.1.10/mod.ts';

@@ -30,20 +30,17 @@
 'use strict';
 
 import {
-  // type TypeResponse001,
+  Collection,
+  FindCursor,
 
-  staticDir,
+  // @ts-ignore
+} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
+import {
   httpHeaders,
 
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
-
-import {
-  mime,
-
-  // @ts-ignore
-} from 'public/PublicTools.esm.mts';
 
 import {
   mongoDBClient,
@@ -52,10 +49,12 @@ import {
   // @ts-ignore
 } from 'mongo/Connect.esm.mts';
 
-interface StartupLogSchema {
+interface StartupLogCollectionSchema {
   _id: string;
 
   hostname: string;
+
+  startTime: string;
 
   startTimeLocal: string;
 }
@@ -65,39 +64,40 @@ interface StartupLogSchema {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {Promise<Response>} 返回值类型为Promise<Response>。
  */
 async function Handle(
   // @ts-ignore
   request: Request
 ): Promise<Response>{
-  // @ts-ignore
-  let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/json/JSON001.json` ) );
+  const startupLogCollection: Collection<StartupLogCollectionSchema> = mongoDB.collection<StartupLogCollectionSchema>( 'startup_log' );
 
-  console.log( `\n\n\nmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDB Start\n\n\n` );
-
-  console.dir( mongoDBClient );
-  console.dir( mongoDB );
-
-  // @ts-ignore
-  const startupLog = mongoDB.collection<StartupLogSchema>( 'startup_log' );
-
-  // @ts-ignore
-  const log = await startupLog.find( {
-    _id: `LPQAQ-1670364636573`,
+  const logs: FindCursor<StartupLogCollectionSchema> = await startupLogCollection.find( {
+    hostname: 'LPQAQ',
+  }, {
+    projection: {
+      _id: 1,
+      hostname: 1,
+      startTime: 1,
+      startTimeLocal: 1,
+      cmdLine: 1,
+      pid: 1,
+      buildinfo: 1,
+    },
   } );
 
-  console.dir( log );
+  mongoDBClient.close();
 
-  console.log( `\n\n\nmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDB End\n\n\n` );
-
-  // @ts-ignore
-  return new Response( Deno.readTextFileSync( filePath ), {
+  return new Response( JSON.stringify( {
+    db: 'local',
+    collection: 'startup_log',
+    documents: logs,
+  } ), {
     status: 200,
     statusText: 'OK',
     headers: {
       ...httpHeaders,
-      'content-type': `${ mime.getType( filePath.href ) }; charset=utf-8`,
+      'content-type': `application/json; charset=utf-8`,
     },
   } );
 }
