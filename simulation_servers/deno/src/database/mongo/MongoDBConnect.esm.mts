@@ -14,6 +14,7 @@
 'use strict';
 
 import {
+  ObjectId,
   Collection,
   FindCursor,
 
@@ -81,6 +82,13 @@ async function MongoDBConnectForSingleton(): Promise<TypeMongoDBConnect>{
 }
 
 export {
+  type InsertDocument,
+
+  // @ts-ignore
+} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
+
+export {
+  ObjectId,
   Collection,
   FindCursor,
 
@@ -92,6 +100,7 @@ export {
 };
 
 export default {
+  ObjectId,
   Collection,
   FindCursor,
 

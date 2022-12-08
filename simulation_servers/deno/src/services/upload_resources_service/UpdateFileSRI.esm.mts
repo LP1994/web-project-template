@@ -38,35 +38,21 @@ import {
   // @ts-ignore
 } from './Condition.esm.mts';
 
-// @ts-ignore
-import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
+import {
+  type FileSRICollectionSchema,
 
-export type TypeFileSRI001 = {
-  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
-  shaType: string;
-  // 文件的SRI值，全是小写字母组成的。
-  sri: string;
-  // 上传本文件时，发起的请求URL。
-  requestURL: string;
-  // 文件在服务端的存储路径。
-  savePath: string;
-  // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
-  filePath: string;
-  // 文件的媒体类型，值格式，如：“application/json”之类的。
-  fileType: string;
-  // 文件大小，单位为字节。
-  fileSize: string;
-  // 文件的修改时间或服务器开始写入文件的时间。
-  fileLastModified: string;
-  // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
-  fileName: string;
-};
+  Insert,
+  Update,
+  Query,
+
+  // @ts-ignore
+} from './DBHandle.esm.mts';
 
 export type TypeObj001 = {
   // true表示开始写入文件，反之，不用写入文件。
   isWriteFile: boolean;
   // 存放文件信息的对象。
-  fileInfo: TypeFileSRI001;
+  fileInfo: FileSRICollectionSchema;
   // 表示文件本体对象。
   file: File | Blob | TypeCustomBlob;
 };
@@ -118,8 +104,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() ),
     sri: string = toHashString( hash, 'hex' );
 
-  let isWriteFile: boolean = true,
-    fileInfo: TypeFileSRI001;
+  let isWriteFile: boolean = true;
 
   if( Object.prototype.toString.call( file ) === '[object Blob]' ){
     // @ts-ignore
@@ -160,18 +145,18 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
     } );
   }
 
-  if( sri in ( FileSRI as { [ key: string ]: TypeFileSRI001; } ) ){
+  let fileSRI: FileSRICollectionSchema | undefined = await Query( sri );
+
+  if( fileSRI !== undefined ){
     isWriteFile = false;
 
-    fileInfo = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] as TypeFileSRI001;
-
     // @ts-ignore
-    Deno.renameSync( new URL( fileInfo.savePath ), savePath );
+    Deno.renameSync( new URL( fileSRI.savePath ), savePath );
 
     if( isForcedWrite === 'true' ){
       isWriteFile = true;
 
-      ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {
+      Object.assign( fileSRI, {
         shaType: 'SHA3-512',
         sri,
         requestURL: decodeURI( request.url ),
@@ -182,10 +167,10 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
         // @ts-ignore
         fileLastModified: String( file.lastModified ),
         fileName: fileName001,
-      };
+      } );
     }
     else{
-      ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = Object.assign( {}, fileInfo, {
+      Object.assign( fileSRI, {
         requestURL: decodeURI( request.url ),
         savePath: savePath.href,
         filePath,
@@ -195,9 +180,11 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
         fileName: fileName001,
       } );
     }
+
+    await Update( fileSRI );
   }
   else{
-    ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = fileInfo = {
+    fileSRI = {
       shaType: 'SHA3-512',
       sri,
       requestURL: decodeURI( request.url ),
@@ -209,19 +196,22 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
       fileLastModified: String( file.lastModified ),
       fileName: fileName001,
     };
-  }
 
-  // @ts-ignore
-  Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-    create: true,
-  } );
+    await Insert( fileSRI );
+  }
 
   return {
     isWriteFile,
-    fileInfo,
+    fileInfo: fileSRI,
     file,
   };
 }
+
+export {
+  type FileSRICollectionSchema,
+
+  // @ts-ignore
+} from './DBHandle.esm.mts';
 
 export {
   UpdateFileSRI,

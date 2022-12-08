@@ -48,8 +48,6 @@ import {
 } from 'DenoStd/streams/writable_stream_from_writer.ts';
 
 import {
-  uploadDir,
-
   httpHeaders,
   resMessageStatus,
 
@@ -57,16 +55,19 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  Delete,
+
+  // @ts-ignore
+} from './DBHandle.esm.mts';
+
+import {
   type TypeObj001,
-  type TypeFileSRI001,
+  type FileSRICollectionSchema,
 
   UpdateFileSRI,
 
   // @ts-ignore
 } from './UpdateFileSRI.esm.mts';
-
-// @ts-ignore
-import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
 
 /**
  * 单文件上传（支持POST请求、PUT请求）。<br />
@@ -132,7 +133,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
           fileType,
           sri,
           fileName: fileName001,
-        }: TypeFileSRI001 = fileInfo;
+        }: FileSRICollectionSchema = fileInfo;
 
         if( !isWriteFile ){
           result001 = JSON.stringify( {
@@ -170,13 +171,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             } );
           }
           catch( error: unknown ){
-            // @ts-ignore
-            delete FileSRI[ sri ];
-
-            // @ts-ignore
-            Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-              create: true,
-            } );
+            await Delete( sri );
 
             result001 = JSON.stringify( {
               data: {

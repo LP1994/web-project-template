@@ -64,34 +64,19 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  type FileSRICollectionSchema,
+
+  Update,
+  Query,
+
+  // @ts-ignore
+} from './DBHandle.esm.mts';
+
+import {
   myURLPathName,
 
   // @ts-ignore
 } from './Condition.esm.mts';
-
-// @ts-ignore
-import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
-
-type TypeFileSRI001 = {
-  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
-  shaType: string;
-  // 文件的SRI值，全是小写字母组成的。
-  sri: string;
-  // 上传本文件时，发起的请求URL。
-  requestURL: string;
-  // 文件在服务端的存储路径。
-  savePath: string;
-  // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
-  filePath: string;
-  // 文件的媒体类型，值格式，如：“application/json”之类的。
-  fileType: string;
-  // 文件大小，单位为字节。
-  fileSize: string;
-  // 文件的修改时间或服务器开始写入文件的时间。
-  fileLastModified: string;
-  // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
-  fileName: string;
-};
 
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。<br />
@@ -154,7 +139,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         recursive: true,
       } );
 
-      const fileSRIInfo: boolean | TypeFileSRI001 = ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] ?? false;
+      let fileSRIInfo: FileSRICollectionSchema | undefined = ( await Query( sri ) );
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
         // @ts-ignore
@@ -165,7 +150,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
 
-        ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = {
+        Object.assign( fileSRIInfo, {
           shaType: 'SHA3-512',
           sri,
           requestURL: decodeURI( _request.url ),
@@ -175,7 +160,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           fileSize: String( contentLength ),
           fileLastModified: String( Date.now() ),
           fileName: fileName001,
-        };
+        } );
       };
 
       if( fileSRIInfo ){
@@ -198,7 +183,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           } );
         }
         else{
-          ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ sri ] = Object.assign( {}, fileSRIInfo, {
+          Object.assign( fileSRIInfo, {
             requestURL: decodeURI( _request.url ),
             savePath: savePath.href,
             filePath,
@@ -221,6 +206,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         }
       }
       else{
+        fileSRIInfo = {};
+
         await handleFun001();
 
         result = JSON.stringify( {
@@ -236,10 +223,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         } );
       }
 
-      // @ts-ignore
-      Deno.writeTextFileSync( new URL( `${ uploadDir }/_FileSRI.json` ), JSON.stringify( FileSRI, null, ' ' ), {
-        create: true,
-      } );
+      await Update( fileSRIInfo );
     }
     catch( error: unknown ){
       result = JSON.stringify( {

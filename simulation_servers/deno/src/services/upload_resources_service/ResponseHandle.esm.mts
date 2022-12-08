@@ -53,6 +53,14 @@ import {
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  type FileSRICollectionSchema,
+
+  Query,
+
+  // @ts-ignore
+} from './DBHandle.esm.mts';
+
 /**
  * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
@@ -163,30 +171,6 @@ import UploadByBigFile from './UploadByBigFile.esm.mts';
 // @ts-ignore
 import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
 
-// @ts-ignore
-import FileSRI from 'upload/_FileSRI.json' assert { type: 'json', };
-
-type TypeFileSRI001 = {
-  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
-  shaType: string;
-  // 文件的SRI值，全是小写字母组成的。
-  sri: string;
-  // 上传本文件时，发起的请求URL。
-  requestURL: string;
-  // 文件在服务端的存储路径。
-  savePath: string;
-  // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
-  filePath: string;
-  // 文件的媒体类型，值格式，如：“application/json”之类的。
-  fileType: string;
-  // 文件大小，单位为字节。
-  fileSize: string;
-  // 文件的修改时间或服务器开始写入文件的时间。
-  fileLastModified: string;
-  // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
-  fileName: string;
-};
-
 /**
  * 单位为字节，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB。
  *
@@ -199,17 +183,17 @@ const maxFileSize: number = 1 * 1024 * 1024 * 1024;
  * PS：<br />
  * 1、取自定义的请求头标识“x-file-sri”的值会被转成全部小写的字符串。<br />
  * 2、如果没取到自定义的请求头标识“x-file-sri”的值，也就是请求头中不带该自定义的请求头标识“x-file-sri”，会直接使用空字符串代替。<br />
- * 3、最后该函数的返回值要么是一个false表示没有找到对应SRI值（自定义的请求头标识“x-file-sri”的值）的文件信息，要么是一个为自定义类型TypeFileSRI001的对象，表示找到了跟SRI值（自定义的请求头标识“x-file-sri”的值）一样的文件信息。<br />
+ * 3、最后该函数的返回值要么是一个false表示没有找到对应SRI值（自定义的请求头标识“x-file-sri”的值）的文件信息，要么是一个为自定义类型FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“x-file-sri”的值）一样的文件信息。<br />
  * 4、该自定义的请求头标识“x-file-sri”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {boolean | TypeFileSRI001} 返回值类型为boolean（false表示没有找到对应SRI值（自定义的请求头标识“x-file-sri”的值）的文件信息）、自定义类型TypeFileSRI001（是一个对象，表示找到了跟SRI值（自定义的请求头标识“x-file-sri”的值）一样的文件信息）。
+ * @returns {boolean | FileSRICollectionSchema} 返回值类型为boolean（false表示没有找到对应SRI值（自定义的请求头标识“x-file-sri”的值）的文件信息）、自定义类型FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“x-file-sri”的值）一样的文件信息）。
  */
-function ValidateReqHeadSRI( request: Request ): boolean | TypeFileSRI001{
+async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollectionSchema | undefined>{
   const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).trim().toLowerCase();
 
-  return ( FileSRI as { [ key: string ]: TypeFileSRI001; } )[ x_file_sri ] ?? false;
+  return await Query( x_file_sri );
 }
 
 /**
@@ -219,7 +203,7 @@ function ValidateReqHeadSRI( request: Request ): boolean | TypeFileSRI001{
  *
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): TypeResponse001{
+async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
   const url: URL = new URL( request.url ),
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
 
@@ -238,14 +222,14 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
    */
   if( uploadType === 'binary' ){
-    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
+    let result001: FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
       contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     /**
      * 如果已经存在跟上传的文件一样的SRI值，那么就直接响应给客户端该文件的信息。
      */
     if( result001 ){
-      result001 = result001 as TypeFileSRI001;
+      result001 = result001 as FileSRICollectionSchema;
 
       result = new Response( JSON.stringify( {
         data: {
@@ -309,14 +293,14 @@ function ResponseHandle( request: Request ): TypeResponse001{
    *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
    */
   else if( uploadType === 'single' ){
-    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
+    let result001: FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
       contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     /**
      * 如果已经存在跟上传的文件一样的SRI值，那么就直接响应给客户端该文件的信息。
      */
     if( result001 ){
-      result001 = result001 as TypeFileSRI001;
+      result001 = result001 as FileSRICollectionSchema;
 
       result = new Response( JSON.stringify( {
         data: {
@@ -422,14 +406,14 @@ function ResponseHandle( request: Request ): TypeResponse001{
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
    */
   else if( uploadType === 'bigFile' ){
-    let result001: boolean | TypeFileSRI001 = ValidateReqHeadSRI( request ),
+    let result001: FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
       type001: string = ( url.searchParams.get( 'type' ) ?? '' ).trim();
 
     /**
      * 如果已经存在跟上传的文件一样的SRI值，那么就直接响应给客户端该文件的信息。
      */
     if( result001 ){
-      result001 = result001 as TypeFileSRI001;
+      result001 = result001 as FileSRICollectionSchema;
 
       result = new Response( JSON.stringify( {
         data: {
