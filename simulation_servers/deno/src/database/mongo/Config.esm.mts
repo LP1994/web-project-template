@@ -14,26 +14,34 @@
 'use strict';
 
 import {
-  type MongoClientOptions,
+  type ConnectOptions,
 
   // @ts-ignore
-} from 'npm:mongodb';
+} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
-import {
-  opensslDir,
+/*
+ import {
+ opensslDir,
 
-  // @ts-ignore
-} from 'configures/GlobalParameters.esm.mts';
+ // @ts-ignore
+ } from 'configures/GlobalParameters.esm.mts';
+ */
 
-// @ts-ignore
-const config: MongoClientOptions = {
-  appName: 'simulation_servers_deno',
-  tls: true,
-  tlsInsecure: false,
-  tlsAllowInvalidCertificates: false,
-  tlsAllowInvalidHostnames: false,
-  tlsCAFile: new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ).href,
-  tlsCertificateKeyFile: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA.pem` ).href,
+const config: ConnectOptions = {
+  appname: 'simulation_servers_deno',
+  db: 'admin',
+  servers: [
+    {
+      host: '192.168.10.101',
+      port: 27777,
+    },
+  ],
+  tls: false,
+  // safe: false,
+  // retryWrites: true,
+  // caCert: new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ),
+  // privateKey: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA_Key.key` ),
+  // certChain: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA.crt` ),
 };
 
 export {

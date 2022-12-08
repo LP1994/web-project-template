@@ -15,20 +15,24 @@
 
 import {
   MongoClient,
+  Database,
 
   // @ts-ignore
-} from 'npm:mongodb';
+} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 // @ts-ignore
 import config from './Config.esm.mts';
 
-// @ts-ignore
-const mongoDBClient: MongoClient = new MongoClient( `mongodb://localhost:27777`, config );
+const mongoDBClient: MongoClient = new MongoClient();
+
+const mongoDB: Database = await mongoDBClient.connect( config );
 
 export {
   mongoDBClient,
+  mongoDB,
 };
 
 export default {
   mongoDBClient,
+  mongoDB,
 };

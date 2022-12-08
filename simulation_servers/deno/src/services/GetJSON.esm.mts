@@ -30,7 +30,7 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  // type TypeResponse001,
 
   staticDir,
 
@@ -45,6 +45,21 @@ import {
   // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
+import {
+  mongoDBClient,
+  mongoDB,
+
+  // @ts-ignore
+} from 'mongo/Connect.esm.mts';
+
+interface StartupLogSchema {
+  _id: string;
+
+  hostname: string;
+
+  startTimeLocal: string;
+}
+
 /**
  * 响应请求的处理函数。
  *
@@ -52,12 +67,29 @@ import {
  *
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
-function Handle(
+async function Handle(
   // @ts-ignore
   request: Request
-): TypeResponse001{
+): Promise<Response>{
   // @ts-ignore
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/json/JSON001.json` ) );
+
+  console.log( `\n\n\nmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDB Start\n\n\n` );
+
+  console.dir( mongoDBClient );
+  console.dir( mongoDB );
+
+  // @ts-ignore
+  const startupLog = mongoDB.collection<StartupLogSchema>( 'startup_log' );
+
+  // @ts-ignore
+  const log = await startupLog.find( {
+    _id: `LPQAQ-1670364636573`,
+  } );
+
+  console.dir( log );
+
+  console.log( `\n\n\nmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDBmongoDB End\n\n\n` );
 
   // @ts-ignore
   return new Response( Deno.readTextFileSync( filePath ), {
