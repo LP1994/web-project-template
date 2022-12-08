@@ -36,12 +36,14 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  type TypeMongoDBConnect,
+
   Collection,
 
-  mongoDB,
+  MongoDBConnectForSingleton,
 
   // @ts-ignore
-} from 'mongo/Connect.esm.mts';
+} from 'mongo/MongoDBConnect.esm.mts';
 
 interface StartupLogCollectionSchema {
   _id: string;
@@ -70,6 +72,11 @@ async function Handle(
   // @ts-ignore
   request: Request
 ): Promise<Response>{
+  const {
+    mongoDBClient,
+    mongoDB,
+  }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
+
   const startupLogCollection: Collection<StartupLogCollectionSchema> = mongoDB.collection<StartupLogCollectionSchema>( 'startup_log' );
 
   const logs: Array<StartupLogCollectionSchema> = await startupLogCollection.find( {
@@ -87,6 +94,8 @@ async function Handle(
       // buildinfo: 1,
     },
   } ).toArray();
+
+  mongoDBClient.close();
 
   return new Response( JSON.stringify( {
     db: 'local',

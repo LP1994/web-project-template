@@ -43,6 +43,16 @@ export class MongoClient {
 
   #buildInfo?: BuildInfo;
 
+  // @ts-ignore
+  #cb: any;
+
+  // @ts-ignore
+  constructor( cb? = ( methodName: string ): void => {
+  } ){
+    // @ts-ignore
+    this.#cb = cb;
+  }
+
   get buildInfo(){
     return this.#buildInfo;
   }
@@ -112,6 +122,12 @@ export class MongoClient {
   close(){
     if( this.#cluster ){
       this.#cluster.close();
+
+      // @ts-ignore
+      if( this.#cb ){
+        // @ts-ignore
+        this.#cb( 'close' );
+      }
     }
   }
 }
