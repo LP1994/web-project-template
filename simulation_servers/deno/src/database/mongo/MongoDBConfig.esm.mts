@@ -27,7 +27,7 @@ import {
 
 const config: ConnectOptions = {
   appname: 'simulation_servers_deno',
-  db: 'local',
+  db: 'simulation_servers_deno',
   servers: [
     {
       host: '127.0.0.1',

@@ -39,6 +39,7 @@ import {
   type TypeMongoDBConnect,
 
   Collection,
+  Database,
 
   MongoDBConnectForSingleton,
 
@@ -56,7 +57,7 @@ interface StartupLogCollectionSchema {
 
   cmdLine: object;
 
-  pid: string;
+  pid: number;
 
   // buildinfo: object;
 }
@@ -74,8 +75,10 @@ async function Handle(
 ): Promise<Response>{
   const {
     mongoDBClient,
-    mongoDB,
+    // mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
+
+  const mongoDB: Database = mongoDBClient.database( 'local' );
 
   const startupLogCollection: Collection<StartupLogCollectionSchema> = mongoDB.collection<StartupLogCollectionSchema>( 'startup_log' );
 
