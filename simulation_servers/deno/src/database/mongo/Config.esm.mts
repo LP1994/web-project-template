@@ -14,16 +14,16 @@
 'use strict';
 
 import {
-  type ConnectOptions,
-
-  // @ts-ignore
-} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
-
-import {
   opensslDir,
 
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  type ConnectOptions,
+
+  // @ts-ignore
+} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 const config: ConnectOptions = {
   appname: 'simulation_servers_deno',
@@ -37,7 +37,7 @@ const config: ConnectOptions = {
   tls: false,
   safe: true,
   retryWrites: true,
-  caCert: new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ),
+  caCert: new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.crt` ),
   privateKey: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA_Key.key` ),
   certChain: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA.crt` ),
 };

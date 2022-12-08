@@ -14,6 +14,9 @@
 'use strict';
 
 import {
+  Collection,
+  FindCursor,
+
   MongoClient,
   Database,
 
@@ -28,11 +31,17 @@ const mongoDBClient: MongoClient = new MongoClient();
 const mongoDB: Database = await mongoDBClient.connect( config );
 
 export {
+  Collection,
+  FindCursor,
+
   mongoDBClient,
   mongoDB,
 };
 
 export default {
+  Collection,
+  FindCursor,
+
   mongoDBClient,
   mongoDB,
 };

@@ -30,19 +30,15 @@
 'use strict';
 
 import {
-  Collection,
-  FindCursor,
-
-  // @ts-ignore
-} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
-
-import {
   httpHeaders,
 
   // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  Collection,
+  FindCursor,
+
   mongoDBClient,
   mongoDB,
 
@@ -54,9 +50,15 @@ interface StartupLogCollectionSchema {
 
   hostname: string;
 
-  startTime: string;
+  startTime: Date;
 
   startTimeLocal: string;
+
+  cmdLine: object;
+
+  pid: string;
+
+  buildinfo: object;
 }
 
 /**
@@ -84,7 +86,7 @@ async function Handle(
       pid: 1,
       buildinfo: 1,
     },
-  } );
+  } ).toArray();
 
   mongoDBClient.close();
 
