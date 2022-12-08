@@ -54,16 +54,6 @@ export type TypeMyCusDenoFsFile = {
   close(): void;
 };
 
-const {
-  year,
-  month,
-  date,
-  hours,
-  minutes,
-  seconds,
-  day,
-}: TypeDateFormatForObject = DateFormatForObject();
-
 let loggerForSingleton: TypeMyCusDenoFsFile | null = null;
 
 /**
@@ -92,6 +82,16 @@ async function CreateLogger( filePath: string | URL, denoOpenOptions: TypeDenoOp
      * @returns {Promise<number>} 返回的是本次写入的字节数。
      */
     write( data: string = '' ): Promise<number>{
+      const {
+        year,
+        month,
+        date,
+        hours,
+        minutes,
+        seconds,
+        day,
+      }: TypeDateFormatForObject = DateFormatForObject();
+
       return file.write( new TextEncoder().encode( `
 ------------------>${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒_周${ day }<------------------
 ${ data }` ) );
@@ -134,6 +134,16 @@ async function CreateLoggerForSingleton( filePath: string | URL, denoOpenOptions
        * @returns {Promise<number>} 返回的是本次写入的字节数。
        */
       write( data: string = '' ): Promise<number>{
+        const {
+          year,
+          month,
+          date,
+          hours,
+          minutes,
+          seconds,
+          day,
+        }: TypeDateFormatForObject = DateFormatForObject();
+
         return file.write( new TextEncoder().encode( `
 ------------------>${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒_周${ day }<------------------
 ${ data }` ) );
