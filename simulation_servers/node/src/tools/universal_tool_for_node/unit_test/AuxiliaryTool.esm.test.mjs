@@ -76,14 +76,14 @@ import chalk from 'chalk';
  *
  * @param {any} result 被测试对象的实际返回值，必需。
  *
- * @returns {{toBe: (expect: (string | number | boolean | bigint | symbol | null | undefined)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
+ * @returns {{toBe: (expect: (any)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */
 export function Equal001( result ){
   return {
     /**
      * toBe函数，它接收一个预期值expect，用于跟实际值对比。
      *
-     * @param {string | number | boolean | bigint | symbol | null | undefined} expect 预期值，必需。
+     * @param {any} expect 预期值，必需。
      */
     toBe( expect ){
       if( result !== expect ){
@@ -108,7 +108,7 @@ export class MyError001
   /**
    * 预期值。
    *
-   * @type {string | number | boolean | bigint | symbol | null | undefined}
+   * @type {any}
    */
   expect;
 
@@ -124,7 +124,7 @@ export class MyError001
    *
    * @param {object} config 构造函数的初始参数，是一个对象。
    *
-   * @param {string | number | boolean | bigint | symbol | null | undefined} config.expect 预期值，必需。
+   * @param {any} config.expect 预期值，必需。
    *
    * @param {string} config.message 一个用于描述错误信息的字符串，必需。
    *

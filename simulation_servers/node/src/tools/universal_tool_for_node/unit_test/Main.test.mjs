@@ -25,6 +25,10 @@ import {
   Get__filename,
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+  // 支持泛型参数的单例工厂。Start
+  SingletonFactory,
+  // 支持泛型参数的单例工厂。End
+
   // 类型转换。Start
   StringToUint8Array,
   Uint8ArrayToString,
@@ -53,6 +57,50 @@ import {
 } from '../UniversalToolForNode.esm.mjs';
 
 console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
+
+// SingletonFactory
+if( true ){
+  class MyClassA {
+
+    name = 'LP';
+
+    #age = 11;
+
+    constructor(){
+    }
+
+    getName(){
+      return this.name;
+    }
+
+    getAge(){
+      return this.#age;
+    }
+
+    toString(){
+      return '[object MyClassA]';
+    }
+
+    static toString(){
+      return '[object MyClassA]';
+    }
+
+  }
+
+  const myClassA001 = new MyClassA(),
+    myClassA002 = new MyClassA();
+
+  const fun001 = SingletonFactory( () => myClassA001 );
+
+  const {
+    singleton,
+    clear,
+  } = fun001();
+
+  Test001( 'SingletonFactory', () => {
+    Equal001( singleton ).toBe( myClassA001 );
+  } );
+}
 
 // StringToUint8Array、Uint8ArrayToString
 if( true ){
