@@ -128,6 +128,58 @@ export function Get__filename( import_meta_url = import.meta.url ){
 
 // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+// 支持泛型参数的单例工厂。Start
+
+/**
+ * 支持泛型参数的单例工厂。
+ *
+ * @param {() => any} func 包装函数，当它被执行时，会返回期望中的单例对象，必需。
+ *
+ * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。
+ */
+export function SingletonFactory( func = () => {
+} ){
+  let singleton = null;
+
+  /**
+   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+   *
+   * @returns {() => TypeSingleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+   */
+  return () => {
+    if( singleton === null ){
+      singleton = func();
+    }
+
+    return {
+      /**
+       * 已生成的期望的单例对象。
+       */
+      singleton,
+      /**
+       * 用于清除并置空已经生成的期望的单例对象，支持清除后的回调函数操作。
+       *
+       * @param {() => any} cb 完成清除并置空已经生成的期望的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+       *
+       * @returns {any|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+       */
+      clear( cb = () => {
+      } ){
+        singleton = null;
+
+        if( cb && typeof cb === 'function' ){
+          return cb();
+        }
+      },
+    };
+  };
+}
+
+// 支持泛型参数的单例工厂。End
+
 // 类型转换。Start
 
 /**
@@ -1725,6 +1777,10 @@ export default {
   Get__dirname,
   Get__filename,
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
+
+  // 支持泛型参数的单例工厂。Start
+  SingletonFactory,
+  // 支持泛型参数的单例工厂。End
 
   // 类型转换。Start
   StringToUint8Array,
