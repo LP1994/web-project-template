@@ -150,7 +150,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
 
-        Object.assign( fileSRIInfo, {
+        Object.assign( fileSRIInfo as FileSRICollectionSchema, {
           shaType: 'SHA3-512',
           sri,
           requestURL: decodeURI( _request.url ),
@@ -206,7 +206,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         }
       }
       else{
-        fileSRIInfo = {};
+        fileSRIInfo = {} as FileSRICollectionSchema;
 
         await handleFun001();
 
@@ -223,7 +223,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         } );
       }
 
-      await UpdateOne( fileSRIInfo );
+      await UpdateOne( fileSRIInfo as FileSRICollectionSchema );
     }
     catch( error: unknown ){
       result = JSON.stringify( {

@@ -56,7 +56,7 @@ import {
 import {
   type FileSRICollectionSchema,
 
-  Query,
+  QueryOne,
 
   // @ts-ignore
 } from './DBHandle.esm.mts';
@@ -197,7 +197,7 @@ async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollection
     return undefined;
   }
   else{
-    return await Query( x_file_sri );
+    return await QueryOne( x_file_sri );
   }
 }
 
