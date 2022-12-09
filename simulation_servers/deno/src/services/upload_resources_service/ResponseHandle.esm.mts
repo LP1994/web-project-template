@@ -193,7 +193,12 @@ const maxFileSize: number = 1 * 1024 * 1024 * 1024;
 async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollectionSchema | undefined>{
   const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).trim().toLowerCase();
 
-  return await Query( x_file_sri );
+  if( x_file_sri.length === 0 ){
+    return undefined;
+  }
+  else{
+    return await Query( x_file_sri );
+  }
 }
 
 /**
