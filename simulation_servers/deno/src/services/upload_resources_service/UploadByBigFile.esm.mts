@@ -66,8 +66,8 @@ import {
 import {
   type FileSRICollectionSchema,
 
-  Update,
-  Query,
+  UpdateOne,
+  QueryOne,
 
   // @ts-ignore
 } from './DBHandle.esm.mts';
@@ -139,7 +139,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         recursive: true,
       } );
 
-      let fileSRIInfo: FileSRICollectionSchema | undefined = ( await Query( sri ) );
+      let fileSRIInfo: FileSRICollectionSchema | undefined = ( await QueryOne( sri ) );
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
         // @ts-ignore
@@ -223,7 +223,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         } );
       }
 
-      await Update( fileSRIInfo );
+      await UpdateOne( fileSRIInfo );
     }
     catch( error: unknown ){
       result = JSON.stringify( {

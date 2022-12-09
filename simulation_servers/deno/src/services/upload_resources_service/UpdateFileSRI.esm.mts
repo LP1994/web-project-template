@@ -41,9 +41,9 @@ import {
 import {
   type FileSRICollectionSchema,
 
-  Insert,
-  Update,
-  Query,
+  InsertOne,
+  UpdateOne,
+  QueryOne,
 
   // @ts-ignore
 } from './DBHandle.esm.mts';
@@ -145,7 +145,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
     } );
   }
 
-  let fileSRI: FileSRICollectionSchema | undefined = await Query( sri );
+  let fileSRI: FileSRICollectionSchema | undefined = await QueryOne( sri );
 
   if( fileSRI !== undefined ){
     isWriteFile = false;
@@ -181,7 +181,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
       } );
     }
 
-    await Update( fileSRI );
+    await UpdateOne( fileSRI );
   }
   else{
     fileSRI = {
@@ -197,7 +197,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
       fileName: fileName001,
     };
 
-    await Insert( fileSRI );
+    await InsertOne( fileSRI );
   }
 
   return {

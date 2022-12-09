@@ -55,7 +55,7 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  Delete,
+  DeleteOne,
 
   // @ts-ignore
 } from './DBHandle.esm.mts';
@@ -171,7 +171,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
             } );
           }
           catch( error: unknown ){
-            await Delete( sri );
+            await DeleteOne( sri );
 
             result001 = JSON.stringify( {
               data: {
