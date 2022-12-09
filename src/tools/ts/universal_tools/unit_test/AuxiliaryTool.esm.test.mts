@@ -72,7 +72,7 @@
 // @ts-ignore
 import chalk from 'chalk';
 
-export type TypeMyExpect001 = string | number | boolean | bigint | symbol | null | undefined;
+export type TypeMyExpect001 = any;
 
 export type TypeError001 = {
   // 预期值。

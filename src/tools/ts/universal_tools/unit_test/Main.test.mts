@@ -22,6 +22,12 @@ import {
 } from './AuxiliaryTool.esm.test.mts';
 
 import {
+  // 支持泛型参数的单例工厂。Start
+  type TypeSingleton,
+
+  SingletonFactory,
+  // 支持泛型参数的单例工厂。End
+
   // 类型转换。Start
   StringToUint8Array,
   Uint8ArrayToString,
@@ -52,6 +58,52 @@ import {
 } from '../UniversalTools.esm.mts';
 
 console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
+
+// SingletonFactory
+if( true ){
+  class MyClassA {
+
+    public name: string = 'LP';
+
+    #age: number = 11;
+
+    public constructor(){
+    }
+
+    public getName(): string{
+      return this.name;
+    }
+
+    public getAge(): number{
+      return this.#age;
+    }
+
+    public toString(): string{
+      return '[object MyClassA]';
+    }
+
+    public static toString(): string{
+      return '[object MyClassA]';
+    }
+
+  }
+
+  const myClassA001: MyClassA = new MyClassA(),
+    // @ts-ignore
+    myClassA002: MyClassA = new MyClassA();
+
+  const fun001: () => TypeSingleton<MyClassA> = SingletonFactory<MyClassA>( (): MyClassA => myClassA001 );
+
+  const {
+    singleton,
+    // @ts-ignore
+    clear,
+  }: TypeSingleton<MyClassA> = fun001();
+
+  Test001( 'SingletonFactory', (): void => {
+    Equal001( singleton ).toBe( myClassA001 );
+  } );
+}
 
 // StringToUint8Array、Uint8ArrayToString
 if( true ){

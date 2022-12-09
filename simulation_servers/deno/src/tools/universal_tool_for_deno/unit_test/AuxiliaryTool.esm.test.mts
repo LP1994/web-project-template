@@ -80,7 +80,7 @@ import {
   // @ts-ignore
 } from 'https://deno.land/x/chalk_deno/source/index.js';
 
-export type TypeMyExpect001 = string | number | boolean | bigint | symbol | null | undefined;
+export type TypeMyExpect001 = any;
 
 export type TypeError001 = {
   // 预期值。
