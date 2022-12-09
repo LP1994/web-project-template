@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="zh-CN"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>IsString | UniversalToolForNode.esm.mjs的API文档 - v6.0.0</title><meta name="description" content="Documentation for UniversalToolForNode.esm.mjs的API文档 - v6.0.0"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><style>.container {
+<!DOCTYPE html><html class="default" lang="zh-CN"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>SingletonFactory | UniversalToolForNode.esm.mjs的API文档 - v6.0.0</title><meta name="description" content="Documentation for UniversalToolForNode.esm.mjs的API文档 - v6.0.0"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><style>.container {
   padding: 0 2rem;
 }
 .tsd-page-toolbar {
@@ -131,7 +131,7 @@ code.tsd-tag {
 <li class="tsd-kind-function"><a href="Get__filename.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
 <div>Get__filename
 <div class="menu-item-desc">该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。&lt;br /&gt;</div></div></a></li>
-<li class="tsd-kind-function"><a href="SingletonFactory.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
+<li class="current tsd-kind-function"><a href="SingletonFactory.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
 <div>Singleton<wbr/>Factory
 <div class="menu-item-desc">支持泛型参数的单例工厂。</div></div></a></li>
 <li class="tsd-kind-function"><a href="StringToUint8Array.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
@@ -152,7 +152,7 @@ code.tsd-tag {
 <li class="tsd-kind-function"><a href="IsNumber.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
 <div>Is<wbr/>Number
 <div class="menu-item-desc">判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。&lt;br /&gt;</div></div></a></li>
-<li class="current tsd-kind-function"><a href="IsString.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
+<li class="tsd-kind-function"><a href="IsString.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
 <div>Is<wbr/>String
 <div class="menu-item-desc">判断数据是否为String类型的原始值，String对象、String实例会返回false。&lt;br /&gt;</div></div></a></li>
 <li class="tsd-kind-function"><a href="IsDisjointFrom.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>
@@ -186,24 +186,40 @@ code.tsd-tag {
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">UniversalToolForNode.esm.mjs的API文档 - v6.0.0</a></li>
-<li><a href="IsString.html">IsString</a></li></ul>
-<h1>Function IsString</h1></div>
+<li><a href="SingletonFactory.html">SingletonFactory</a></li></ul>
+<h1>Function SingletonFactory</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures tsd-kind-function">
-<li class="tsd-signature tsd-anchor-link" id="IsString">Is<wbr/>String<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#IsString" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="SingletonFactory">Singleton<wbr/>Factory<span class="tsd-signature-symbol">(</span>func<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>singleton<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">其值就是上面的</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">)</span><a href="#SingletonFactory" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>判断数据是否为String类型的原始值，String对象、String实例会返回false。<br /></p>
+<div class="tsd-comment tsd-typography"><p>支持泛型参数的单例工厂。</p>
 
-<h3>Returns</h3><p>是String原始值返回true，不是String原始值返回false。</p>
+<h3>Returns</h3><p>返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>arg: <span class="tsd-signature-type">any</span></h5>
-<div class="tsd-comment tsd-typography"><p>数据，必需。</p>
-</div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<h5>func: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> = ...</span></h5>
+<div class="tsd-comment tsd-typography"><p>包装函数，当它被执行时，会返回期望中的单例对象，必需。</p>
+</div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures tsd-kind-type-literal">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>singleton<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">其值就是上面的</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">)</span></h4>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures tsd-kind-type-literal">
+<li class="tsd-signature" id="SingletonFactory.__type.__type-1"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>singleton<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">其值就是上面的</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span><br/><span>    </span>singleton<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">其值就是上面的</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h4>
+<ul class="tsd-parameters">
+<li class="tsd-parameter">
+<h5>singleton<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">其值就是上面的</span></h5></li></ul></li></ul></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/LP1994/web-project-template/blob/4e6a26a/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L291">UniversalToolForNode.esm.mjs:291</a></li></ul></aside></li></ul></section></div></div>
+<li>Defined in <a href="https://github.com/LP1994/web-project-template/blob/4e6a26a/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L141">UniversalToolForNode.esm.mjs:141</a></li></ul></aside></li></ul></section></div></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>
