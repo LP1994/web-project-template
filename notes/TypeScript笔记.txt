@@ -63,7 +63,7 @@ enum E2 {
     A = 1, B, C
 }
 
-关于keyof在枚举上的使用：
+关于“keyof typeof”在枚举上的使用：
 尽管一个枚举是在运行时真正存在的对象，但keyof关键字的行为与其作用在对象上时有所不同。应该使用keyof typeof来获取一个表示枚举里所有字符串key的类型。
 enum LogLevel {
     ERROR, WARN, INFO, DEBUG
@@ -74,6 +74,7 @@ enum LogLevel {
  * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
  */
 type LogLevelStrings = keyof typeof LogLevel;
+注意这时“keyof typeof LogLevel”中的“keyof typeof”是一个整体。
 
 function printImportant(key: LogLevelStrings, message: string) {
     const num = LogLevel[key];
@@ -128,7 +129,7 @@ PS：
 PS：
 1、在使用模式的函数参数解构及其默认值的设置。
 例子：
-function Fun1( { a: a1 = 0, b: b1 = 1, }: { a: number, b?: number, } = {
+function Fun1( { a: a1 = 0, b: b1 = 1, }: { a: number; b?: number; } = {
             a: -1,
             b: -2,
         } ): object{
@@ -141,6 +142,7 @@ function Fun1( { a: a1 = 0, b: b1 = 1, }: { a: number, b?: number, } = {
 
 
 四、不能给类的构造函数的返回值设置数据类型！
+for...of也不能给迭代变量设置类型！
 
 
 
@@ -240,12 +242,14 @@ PS：
 九、类静态部分与实例部分的区别
 当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
 interface ClockConstructor {
-  new (hour: number, minute: number);
+  new( hour: number, minute: number ): any;
 }
-
-class Clock implements ClockConstructor {
-  currentTime: Date;
-  constructor(h: number, m: number) {}
+class Clock
+  implements ClockConstructor {
+  constructor( public h: number, public m: number ){
+    this.h = h;
+    this.m = m;
+  }
 }
 因为当一个“类”实现了一个“接口”时，“接口”只对“类的实例”部分进行“类型检查”。“constructor构造函数”存在于“类的静态部分”，所以不在“接口”的检查范围内。
 “接口”描述了“类的公共部分”，而不是“公共”和“私有”两部分。它不会帮你检查“类”是否具有“某些私有成员”，只对“类”的“公共部分”进行类型检查。
@@ -258,19 +262,22 @@ class Clock implements ClockConstructor {
 十、使用interface检查“类的构造函数”定义是否满足interface定义的类型
 推荐使用“类表达式”来声明类：
 interface ClockConstructor {
-  new (hour: number, minute: number);
+  new( hour: number, minute: number ): void;
 }
-
 interface ClockInterface {
-  tick();
+  tick(): void;
 }
-
-const Clock: ClockConstructor = class Clock implements ClockInterface {
-  constructor(h: number, m: number) {}
-  tick() {
-    console.log("beep beep");
+const Clock: ClockConstructor = class Clock
+  implements ClockInterface {
+  constructor( public h: number, public m: number ){
+    this.h = h;
+    this.m = m;
+  }
+  tick(): void{
+    console.log( 'beep beep' );
   }
 };
+console.dir( new Clock( 1, 2 ) );
 
 
 
@@ -322,7 +329,7 @@ interface Counter {
 
 
 十四、interface接口继承类
-当“接口”继承了一个“类”类型时，它会继承“类的成员”但不包括其实现。 
+当“接口”继承了一个“类”类型时，它会继承“类的成员”但不包括其实现。
 接口同样会继承到类的 private 和 protected 成员。
 这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
 
@@ -376,7 +383,7 @@ console.log( Fun001( 111 ) );
 
 
 二十一、字面量类型
-目前 TypeScript 中有3种可用的字面量类型集合，分别是：字符串、数字和布尔值。通过使用字面量类型，你可以规定一个字符串、数字或布尔值必须含有的确定值。
+目前 TypeScript 中有3种可用的字面量类型集合，分别是：字符串、数字和布尔值。通过使用字面量类型，你可以规定一个字符串、数字或布尔值必须含有确定的值。
 用明确的字面量值作为类型，可以明确限定变量的值只能满足提供的字面量类型才能通过。
 type Easing = "ease-in" | "ease-out" | "ease-in-out";
 
@@ -405,8 +412,8 @@ function createElement(tagName: string): Element {
 
 
 二十五、交叉类型（&）
-交叉类型将多个类型合并为一个。 这允许你把现有的类型加在一起，得到一个具有你需要的所有功能的单个类型。 
-这意味着这种类型的对象将拥有这三种类型的所有成员。
+交叉类型将多个类型合并为一个。 这允许你把现有的类型加在一起，得到一个具有你需要的所有功能的单个类型。
+这意味着这种类型的对象将拥有这些类型的所有成员。
 
 
 
@@ -417,8 +424,8 @@ function createElement(tagName: string): Element {
 
 二十七、理解private
 当成员被标记成private时，它就不能在声明它的类的外部访问。
-当我们比较带有private或protected成员的类型的时候，情况就不同了。 
-如果其中一个类型里包含一个private成员，那么只有当另外一个类型中也存在这样一个private成员， 并且它们都是来自同一处声明时，我们才认为这两个类型是兼容的。
+当我们比较带有private或protected成员的类型的时候，情况就不同了。
+如果其中一个类型里包含一个private成员，那么只有当另外一个类型中也存在这样一个private成员，并且它们都是来自同一处声明时，我们才认为这两个类型是兼容的。
 对于protected成员也使用这个规则。
 被private修饰的类成员只能在本类的内部中调用，其他（包括本类的实例）都不行。
 
@@ -452,8 +459,8 @@ class Animal {
 
 三十二、存取器
 TypeScript支持通过getters/setters来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。
-存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。 
-其次，只带有get不带有set的存取器自动被推断为readonly。 
+存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。
+其次，只带有get不带有set的存取器自动被推断为readonly。
 这在从代码生成.d.ts文件时是有帮助的，因为利用这个属性的用户会看到不允许够改变它的值。
 
 
@@ -469,7 +476,7 @@ TypeScript支持通过getters/setters来截取对对象成员的访问。 它能
 
 
 三十五、抽象类
-“static”、“private”不能跟“abstract”关键字一起使用，“访问修饰符”一定得在“abstract”关键字之前，“访问修饰符”一定得在“static”，“访问修饰符”一定得在“override”关键字之前。
+“static”、“private”不能跟“abstract”关键字一起使用，“访问修饰符”一定得在“abstract”关键字之前，“访问修饰符”一定得在“static”、“override”关键字之前。
 抽象类做为其它派生类的基类使用。
 它们一般不会直接被实例化。
 不同于接口，抽象类可以包含成员的实现细节（抽象类中除抽象函数之外，其他函数可以包含具体实现）。
@@ -480,7 +487,6 @@ abstract class Animal {
         console.log("roaming the earth...");
     }
 }
-
 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。
 抽象方法的语法与接口方法相似。
 两者都是定义方法签名但不包含方法体。
@@ -489,10 +495,9 @@ abstract class Animal {
 
 
 三十六、泛型
-不仅要创建一致的定义良好的API，同时也要考虑可重用性。 
-组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型。 
+不仅要创建一致的定义良好的API，同时也要考虑可重用性。
+组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型。
 使用泛型来创建可重用的组件，一个组件可以支持多种类型的数据。 这样用户就可以以自己的数据类型来使用组件。
-
 function identity<T>(arg: T): T {
     return arg;
 }
@@ -505,8 +510,7 @@ let output = identity<string>("myString");  // 输出类型将为“字符串”
 
 第二种方法更普遍。利用了“类型推论”，即编译器会根据传入的参数自动地帮助我们确定T的类型：
 let output = identity("myString");  // 输出类型将为“字符串”。
-
-注意我们没必要使用尖括号（<>）来明确地传入类型；编译器可以查看myString的值，然后把T设置为它的类型。 
+注意我们没必要使用尖括号（<>）来明确地传入类型；编译器可以查看myString的值，然后把T设置为它的类型。
 类型推论帮助我们保持代码精简和高可读性。
 如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
 
@@ -514,32 +518,26 @@ let output = identity("myString");  // 输出类型将为“字符串”。
 function identity<T>(arg: T): T {
     return arg;
 }
-
 let myIdentity: {<T>(arg: T): T} = identity;
 这引导我们去写第一个泛型接口了。 我们把上面例子里的对象字面量拿出来做为一个接口：
 interface GenericIdentityFn {
     <T>(arg: T): T;
 }
-
 function identity<T>(arg: T): T {
     return arg;
 }
-
 let myIdentity: GenericIdentityFn = identity;
-
-一个相似的例子，我们可能想把泛型参数当作整个接口的一个参数。 
-这样我们就能清楚的知道使用的具体是哪个泛型类型（比如：Dictionary<string>而不只是Dictionary）。 
+一个相似的例子，我们可能想把泛型参数当作整个接口的一个参数。
+这样我们就能清楚的知道使用的具体是哪个泛型类型（比如：Dictionary<string>而不只是Dictionary）。
 这样接口里的其它成员也能知道这个参数的类型了。
 interface GenericIdentityFn<T> {
     (arg: T): T;
 }
-
 function identity<T>(arg: T): T {
     return arg;
 }
-
 let myIdentity: GenericIdentityFn<number> = identity;
-当我们使用GenericIdentityFn的时候，还得传入一个类型参数来指定泛型类型（这里是：number），锁定了之后代码里使用的类型。 
+当我们使用GenericIdentityFn的时候，还得传入一个类型参数来指定泛型类型（这里是：number），锁定了之后代码里使用的类型。
 也就是说以后使用“myIdentity”时，只能使用“number”类型了。
 
 除了泛型接口，我们还可以创建泛型类。 注意，无法创建泛型枚举和泛型命名空间。
@@ -578,7 +576,7 @@ interface Lengthwise {
 }
 
 function loggingIdentity<T extends Lengthwise>(arg: T): T {
-    console.log(arg.length);  // 现在我们知道它有一个 .length 属性，所以不再有错误
+    console.log(arg.length);  // 现在我们知道它有一个.length属性，所以不再有错误
     return arg;
 }
 
@@ -591,7 +589,7 @@ loggingIdentity(3);  // Error, number doesn't have a .length property
 
 
 四十、在泛型约束中使用类型参数
-你可以声明一个类型参数，且它被另一个类型参数所约束。 
+你可以声明一个类型参数，且它被另一个类型参数所约束。
 比如，现在我们想要用属性名从对象里获取这个属性。 并且我们想要确保这个属性存在于对象obj上，因此我们需要在这两个类型之间使用约束。
 function getProperty<T, K extends keyof T>(obj: T, key: K) {
     return obj[key];
@@ -630,8 +628,8 @@ function createInstance<A extends Animal>(c: new () => A): A {
     return new c();
 }
 
-createInstance(Lion).keeper.nametag;  // typechecks!
 createInstance(Bee).keeper.hasMask;   // typechecks!
+createInstance(Lion).keeper.nametag;  // typechecks!
 
 
 
@@ -653,7 +651,7 @@ function move(pet: Fish | Bird) {
 
 typeof类型守卫：
 这些_typeof类型守卫_只有两种形式能被识别：typeof v === "typename"和typeof v !== "typename"，
-"typename"必须是"number"，"string"，"boolean"或"symbol"。 
+"typename"必须是"number"，"string"，"boolean"或"symbol"。
 但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型守卫。
 function padLeft(value: string, padding: string | number) {
     if (typeof padding === "number") {
@@ -836,8 +834,8 @@ function getProperty<T, K extends keyof T>(o: T, propertyName: K): T[K] {
 
 
 四十六、索引类型和字符串索引签名
-索引签名的参数类型必须为number或string。 
-如果你有一个带有字符串索引签名的类型，那么keyof T会是string | number。 
+索引签名的参数类型必须为number或string。
+如果你有一个带有字符串索引签名的类型，那么keyof T会是string | number。
 并非只有string，因为在JavaScript里，你可以使用字符串object['42'或 数字object[42]索引来访问对象属性。
 并且T[string]为索引签名的类型：
 interface Dictionary<T> {
