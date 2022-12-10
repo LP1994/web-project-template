@@ -821,7 +821,7 @@ let makeAndModel: string[] = pluck(taxi, ['manufacturer', 'model']);
 // array of a union type: (string | number)[]
 let modelYear = pluck(taxi, ['model', 'year'])
 
-对于任何类型T，keyof T的结果为T上已知的公共属性名的联合。 
+对于任何类型T，keyof T的结果为T上已知的公共属性名的联合。
 let carProps: keyof Car; // the union of ('manufacturer' | 'model' | 'year')
 keyof Car是完全可以与'manufacturer' | 'model' | 'year'互相替换的。
 
@@ -876,7 +876,7 @@ let sex: keyof typeof Sex = '男';
 // let sex: keyof typeof Sex = '女';
 
 “keyof T”：
-任何类型T，keyof T的结果为T上已知的公共属性名的联合。 
+任何类型T，keyof T的结果为T上已知的公共属性名的联合。
 例子001：
 interface Car {
     manufacturer: string;

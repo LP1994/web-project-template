@@ -128,6 +128,118 @@ export function Get__filename( import_meta_url = import.meta.url ){
 
 // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+// 支持泛型参数的单例工厂。Start
+
+/**
+ * 支持泛型参数的单例工厂。
+ *
+ * @param {() => any} func 包装函数，当它被执行时，会返回期望中的单例对象，必需。
+ *
+ * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。
+ */
+export function SingletonFactory( func = () => {
+} ){
+  let singleton = null;
+
+  /**
+   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+   *
+   * @returns {() => TypeSingleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+   */
+  return () => {
+    if( singleton === null ){
+      singleton = func();
+    }
+
+    return {
+      /**
+       * 已生成的期望的单例对象。
+       */
+      singleton,
+      /**
+       * 用于清除并置空已经生成的期望的单例对象，支持清除后的回调函数操作。
+       *
+       * @param {() => any} cb 完成清除并置空已经生成的期望的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+       *
+       * @returns {any|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+       */
+      clear( cb = () => {
+      } ){
+        singleton = null;
+
+        if( cb && typeof cb === 'function' ){
+          return cb();
+        }
+      },
+    };
+  };
+}
+
+// 支持泛型参数的单例工厂。End
+
+// 类型转换。Start
+
+/**
+ * 将“String”类型的数据转换成“Uint8Array”类型。
+ *
+ * @param {string} data “String”类型的数据，必需。
+ *
+ * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
+ */
+export function StringToUint8Array( data ){
+  return new TextEncoder().encode( data );
+}
+
+/**
+ * 将“Uint8Array”类型的数据转换成“String”类型。
+ *
+ * @param {Uint8Array} data “Uint8Array”类型的数据，必需。
+ *
+ * @returns {string} 转换成“String”类型的数据。
+ */
+export function Uint8ArrayToString( data ){
+  return new TextDecoder().decode( data );
+}
+
+// 类型转换。End
+
+// Date格式处理。Start
+
+/**
+ * 返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
+ *
+ * @param {Date} dateInstance 一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />
+ *
+ * @returns {{year: string, month: string, date: string, hours: string, minutes: string, seconds: string, day: string}} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ */
+export function DateFormatForObject( dateInstance = new Date( Date.now() ) ){
+  const year = String( dateInstance.getFullYear() ),
+    month = String( dateInstance.getMonth() + 1 ).padStart( 2, '0' ),
+    date = String( dateInstance.getDate() ).padStart( 2, '0' ),
+    hours = String( dateInstance.getHours() ).padStart( 2, '0' ),
+    minutes = String( dateInstance.getMinutes() ).padStart( 2, '0' ),
+    seconds = String( dateInstance.getSeconds() ).padStart( 2, '0' ),
+    day001 = dateInstance.getDay(),
+    day = String( day001 === 0
+                  ? '日'
+                  : day001 );
+
+  return {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  };
+}
+
+// Date格式处理。End
+
 // 判断数据类型。Start
 
 /**
@@ -182,7 +294,55 @@ export function IsString( arg ){
 
 // 判断数据类型。End
 
-// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。Start
+// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。Start
+
+/**
+ * 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
+ *
+ * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
+ *
+ * @returns {boolean} 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
+ */
+export function IsDisjointFrom( arrA = [], arrB = [] ){
+  if( arrA.length === 0 || arrB.length === 0 ){
+    return true;
+  }
+
+  return Intersection( arrA, arrB ).length === 0;
+}
+
+/**
+ * 数组B是否是数组A的子集，true表示是，反之表示不是。
+ *
+ * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
+ *
+ * @returns {boolean} 数组B是否是数组A的子集，true表示是，反之表示不是。
+ */
+export function IsSubsetOf( arrA = [], arrB = [] ){
+  if( arrA.length === 0 || arrB.length === 0 ){
+    return false;
+  }
+
+  return Intersection( arrA, arrB ).length === Array.from( new Set( arrB ) ).length;
+}
+
+/**
+ * 数组B是否是数组A的超集，true表示是，反之表示不是。
+ *
+ * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
+ *
+ * @returns {boolean} 数组B是否是数组A的超集，true表示是，反之表示不是。
+ */
+export function IsSupersetOf( arrA = [], arrB = [] ){
+  if( arrA.length === 0 || arrB.length === 0 ){
+    return false;
+  }
+
+  return Intersection( arrA, arrB ).length === Array.from( new Set( arrA ) ).length;
+}
 
 /**
  * 差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。
@@ -270,7 +430,7 @@ export function Union( arrA = [], arrB = [] ){
   ] ) );
 }
 
-// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
+// 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
 /**
  * 自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />
@@ -1618,6 +1778,19 @@ export default {
   Get__filename,
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 End
 
+  // 支持泛型参数的单例工厂。Start
+  SingletonFactory,
+  // 支持泛型参数的单例工厂。End
+
+  // 类型转换。Start
+  StringToUint8Array,
+  Uint8ArrayToString,
+  // 类型转换。End
+
+  // Date格式处理。Start
+  DateFormatForObject,
+  // Date格式处理。End
+
   // 判断数据类型。Start
   GetDataType,
   IsArray,
@@ -1625,12 +1798,15 @@ export default {
   IsString,
   // 判断数据类型。End
 
-  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。Start
+  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。Start
+  IsDisjointFrom,
+  IsSubsetOf,
+  IsSupersetOf,
   Difference,
   Intersection,
   SymmetricDifference,
   Union,
-  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union。End
+  // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
   MyConsole,
 };
