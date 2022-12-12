@@ -46,7 +46,7 @@ import {
   QueryOne,
 
   // @ts-ignore
-} from './DBHandle.esm.mts';
+} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 export type TypeObj001 = {
   // true表示开始写入文件，反之，不用写入文件。
@@ -207,11 +207,11 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   };
 }
 
-export {
-  type FileSRICollectionSchema,
+export type{
+  FileSRICollectionSchema,
 
   // @ts-ignore
-} from './DBHandle.esm.mts';
+} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 export {
   UpdateFileSRI,

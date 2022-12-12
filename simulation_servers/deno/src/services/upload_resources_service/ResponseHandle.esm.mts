@@ -59,7 +59,7 @@ import {
   QueryOne,
 
   // @ts-ignore
-} from './DBHandle.esm.mts';
+} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 /**
  * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。

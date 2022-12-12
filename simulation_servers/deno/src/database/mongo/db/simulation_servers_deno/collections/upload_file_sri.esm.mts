@@ -14,24 +14,20 @@
 'use strict';
 
 import {
-  type TypeMongoDBConnect,
+  type TypeResultForUpdateOne,
 
   ObjectId,
-  Collection,
 
-  MongoDBConnectForSingleton,
+  InsertOne as _InsertOne,
+  DeleteOne as _DeleteOne,
+  UpdateOne as _UpdateOne,
+  QueryOne as _QueryOne,
 
   // @ts-ignore
-} from 'mongo/MongoDBConnect.esm.mts';
-
-type TypeUpdateOneForResult = {
-  modifiedCount: number;
-  matchedCount: number;
-  upsertedCount: number;
-  upsertedId: ObjectId | undefined;
-};
+} from 'mongo/tools/CRUDForMongoDB.esm.mts';
 
 export interface FileSRICollectionSchema {
+
   // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
   shaType: string;
 
@@ -58,10 +54,10 @@ export interface FileSRICollectionSchema {
 
   // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
   fileName: string;
+
 }
 
-const dbName: string = 'simulation_servers_deno',
-  collectionName: string = 'upload_file_sri';
+const collectionName: string = 'upload_file_sri';
 
 /**
  * 插入一个新的自定义的文件FileSRI对象的文档数据。
@@ -71,20 +67,7 @@ const dbName: string = 'simulation_servers_deno',
  * @returns {Promise<string>} 返回一个字符串，它表示刚刚插入的文档数据在成功后所生成的新的“_id”属性的字符串形式的值。注意，通过“deno_mongo”这个数据库驱动工具所操作的结果里，新增的文档中的“_id”属性值类型并不是string，而是“deno_mongo”自定义的一个名为ObjectId类型。
  */
 async function InsertOne( fileSRI: FileSRICollectionSchema ): Promise<string>{
-  let {
-    mongoDBClient,
-    mongoDB,
-  }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
-
-  if( mongoDB.name !== dbName ){
-    mongoDB = mongoDBClient.database( dbName );
-  }
-
-  const fileSRICollection: Collection<FileSRICollectionSchema> = mongoDB.collection<FileSRICollectionSchema>( collectionName );
-
-  const insertedId: ObjectId = ( await fileSRICollection.insertOne( fileSRI ) ) as ObjectId;
-
-  mongoDBClient.close();
+  const insertedId: ObjectId = await _InsertOne<FileSRICollectionSchema>( collectionName, fileSRI );
 
   return insertedId.toString();
 }
@@ -97,24 +80,13 @@ async function InsertOne( fileSRI: FileSRICollectionSchema ): Promise<string>{
  * @returns {Promise<boolean>} true表示删除成功，反之失败。
  */
 async function DeleteOne( sri: string ): Promise<boolean>{
-  let {
-    mongoDBClient,
-    mongoDB,
-  }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
-
-  if( mongoDB.name !== dbName ){
-    mongoDB = mongoDBClient.database( dbName );
-  }
-
-  const fileSRICollection: Collection<FileSRICollectionSchema> = mongoDB.collection<FileSRICollectionSchema>( collectionName );
-
-  const deleteCount: number = await fileSRICollection.deleteOne( {
+  const deleteCount: number = await _DeleteOne<FileSRICollectionSchema>( collectionName, {
     sri,
   }, {
-    limit: 1,
+    options: {
+      limit: 1,
+    },
   } );
-
-  mongoDBClient.close();
 
   return deleteCount === 1;
 }
@@ -127,32 +99,21 @@ async function DeleteOne( sri: string ): Promise<boolean>{
  * @returns {Promise<boolean>} true表示更新成功，反之失败。
  */
 async function UpdateOne( fileSRI: FileSRICollectionSchema ): Promise<boolean>{
-  let {
-    mongoDBClient,
-    mongoDB,
-  }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
-
-  if( mongoDB.name !== dbName ){
-    mongoDB = mongoDBClient.database( dbName );
-  }
-
-  const fileSRICollection: Collection<FileSRICollectionSchema> = mongoDB.collection<FileSRICollectionSchema>( collectionName );
-
   const {
     matchedCount,
     modifiedCount,
     upsertedCount,
     // upsertedId,
-  }: TypeUpdateOneForResult = await fileSRICollection.updateOne( {
+  }: TypeResultForUpdateOne = await _UpdateOne<FileSRICollectionSchema>( collectionName, {
     sri: fileSRI[ 'sri' ],
   }, {
     $set: fileSRI,
   }, {
-    multi: false,
-    upsert: true,
+    options: {
+      multi: false,
+      upsert: true,
+    },
   } );
-
-  mongoDBClient.close();
 
   return Number( matchedCount ) >= 1 || Number( modifiedCount ) >= 1 || Number( upsertedCount ) >= 1;
 }
@@ -165,30 +126,22 @@ async function UpdateOne( fileSRI: FileSRICollectionSchema ): Promise<boolean>{
  * @returns {Promise<FileSRICollectionSchema|undefined>} 返回undefined表示没找到对应的文档数据，反之，会返回一个自定义的文件FileSRI对象的文档数据。
  */
 async function QueryOne( sri: string ): Promise<FileSRICollectionSchema | undefined>{
-  let {
-    mongoDBClient,
-    mongoDB,
-  }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
-
-  if( mongoDB.name !== dbName ){
-    mongoDB = mongoDBClient.database( dbName );
-  }
-
-  const fileSRICollection: Collection<FileSRICollectionSchema> = mongoDB.collection<FileSRICollectionSchema>( collectionName );
-
-  const fileSRI: FileSRICollectionSchema | undefined = await fileSRICollection.findOne( {
+  const fileSRI: FileSRICollectionSchema | undefined = await _QueryOne<FileSRICollectionSchema>( collectionName, {
     sri,
   }, {
-    projection: {
-      // 这种属于文档的内置属性是可以设置成0、1的，0表示结果中不要包含该内置属性，1表示结果中一定要包含该内置属性。
-      _id: 0,
+    options: {
+      projection: {
+        // 这种属于文档的内置属性是可以设置成0、1的，0表示结果中不要包含该内置属性，1表示结果中一定要包含该内置属性。
+        _id: 0,
+      },
     },
   } );
 
-  mongoDBClient.close();
-
   return fileSRI;
 }
+
+// @ts-ignore
+export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {
   InsertOne,
