@@ -219,7 +219,7 @@ function HTMLWebpackPluginConfig( {
     {
       title: 'Home',
       filename: 'pages/Home.html',
-      template: './src/template/ejs/HelloWorld.ejs',
+      template: './src/pages/home/Home.ejs',
       excludeChunks: isSPA
                      ? []
                      : ExcludeChunks( 'Home' ),

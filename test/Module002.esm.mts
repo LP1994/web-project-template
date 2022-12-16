@@ -9,7 +9,30 @@
 
 'use strict';
 
-const Test001ForModule002: string = 'Test001ForModule002';
+enum Enum001 {
+  ERROR = 111,
+  WARN = 222,
+  INFO = 'INFO001',
+  DEBUG = 333,
+}
+
+/**
+ * 等同于：type TypeEnum001 = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type TypeEnum001 = typeof Enum001;
+
+type Type001<T> = {
+  [P in keyof T]: T[P];
+};
+
+let Test001ForModule002: Type001<TypeEnum001> = {
+  ERROR: -10,
+  WARN: 2,
+  INFO: Enum001.INFO,
+  DEBUG: 333444,
+};
+
+console.dir( Test001ForModule002 );
 
 export {
   Test001ForModule002,

@@ -164,12 +164,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
         http-equiv = 'Cache-Control'
         content = 'no-store' />
 <!--
+该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
+
 详见：
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
 -->
 <meta
         http-equiv = 'Clear-Site-Data'
-        content = 'cache' />
+        content = '"cache"' />
 <!--
 该meta项用途：
 是否开启cleartype显示效果，微软的一种让字体清晰的能力。
