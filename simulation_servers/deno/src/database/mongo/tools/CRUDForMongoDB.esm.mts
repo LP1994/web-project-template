@@ -95,6 +95,36 @@ export type TypeResultForUpdateOne = {
 };
 
 /**
+ * matchedCount：与“查找条件”匹配的文档数。
+ * modifiedCount：修改的文档数。
+ * upsertedCount：“更新插入”的文档数。
+ * upsertedIds：如果发生“更新插入”，则该字段表示插入文档的“_id”数组。
+ */
+export type TypeResultForUpdate = {
+
+  /**
+   * 与“查找条件”匹配的文档数。
+   */
+  matchedCount: number;
+
+  /**
+   * 修改的文档数。
+   */
+  modifiedCount: number;
+
+  /**
+   * “更新插入”的文档数。
+   */
+  upsertedCount: number;
+
+  /**
+   * 如果发生“更新插入”，则该字段表示插入文档的“_id”数组。
+   */
+  upsertedIds: ObjectId[] | undefined;
+
+};
+
+/**
  * insertedIds：插入的多个文档的“_id”数组。
  * insertedCount：插入的文档数。
  */
@@ -112,6 +142,14 @@ export type TypeResultForInsert = {
 
 };
 
+export interface InterfaceConstraint001 {
+
+  _id?: ObjectId;
+
+  [ key: string ]: any;
+
+}
+
 /**
  * 支持泛型参数（用于描述“集合collection”的）的根据指定的集合名插入一个文档数据。
  *
@@ -125,7 +163,7 @@ export type TypeResultForInsert = {
  *
  * @returns {Promise<ObjectId>} 返回一个名为ObjectId类型的值，通过“deno_mongo”这个数据库驱动工具所操作的结果里，新增的文档中的“_id”属性值类型并不是string，而是“deno_mongo”自定义的一个名为ObjectId类型。
  */
-async function InsertOne<T>( collectionName: string, insertDocument: InsertDocument<T>, args?: TypeArgsForInsertOne ): Promise<ObjectId>{
+async function InsertOne<T extends InterfaceConstraint001>( collectionName: string, insertDocument: InsertDocument<T>, args?: TypeArgsForInsertOne ): Promise<ObjectId>{
   const {
     mongoDBClient,
     mongoDB,
@@ -136,10 +174,10 @@ async function InsertOne<T>( collectionName: string, insertDocument: InsertDocum
   let result: ObjectId;
 
   if( args && args.options ){
-    result = await collectionHandle.insertOne( insertDocument, args.options );
+    result = ( await collectionHandle.insertOne( insertDocument, args.options ) ) as ObjectId;
   }
   else{
-    result = await collectionHandle.insertOne( insertDocument );
+    result = ( await collectionHandle.insertOne( insertDocument ) ) as ObjectId;
   }
 
   mongoDBClient.close();
@@ -160,7 +198,7 @@ async function InsertOne<T>( collectionName: string, insertDocument: InsertDocum
  *
  * @returns {Promise<TypeResultForInsert>} 返回一个结果对象：{ insertedIds: 插入的多个文档的“_id”数组, insertedCount: 插入的文档数, }。
  */
-async function Insert<T>( collectionName: string, insertDocuments: InsertDocument<T>[], args?: TypeArgsForInsertOne ): Promise<TypeResultForInsert>{
+async function Insert<T extends InterfaceConstraint001>( collectionName: string, insertDocuments: InsertDocument<T>[], args?: TypeArgsForInsertOne ): Promise<TypeResultForInsert>{
   const {
     mongoDBClient,
     mongoDB,
@@ -171,10 +209,10 @@ async function Insert<T>( collectionName: string, insertDocuments: InsertDocumen
   let result: TypeResultForInsert;
 
   if( args && args.options ){
-    result = await collectionHandle.insertMany( insertDocuments, args.options );
+    result = ( await collectionHandle.insertMany( insertDocuments, args.options ) ) as TypeResultForInsert;
   }
   else{
-    result = await collectionHandle.insertMany( insertDocuments );
+    result = ( await collectionHandle.insertMany( insertDocuments ) ) as TypeResultForInsert;
   }
 
   mongoDBClient.close();
@@ -187,7 +225,7 @@ async function Insert<T>( collectionName: string, insertDocuments: InsertDocumen
  *
  * @param {string} collectionName 集合名，必需。
  *
- * @param {Filter} filter 查找条件，必需。
+ * @param {Filter<T>} filter 查找条件，必需。
  *
  * @param {TypeArgsForDeleteOne} args 其他参数，里面包含供“deleteOne”使用的options参数，可选。
  *
@@ -195,7 +233,7 @@ async function Insert<T>( collectionName: string, insertDocuments: InsertDocumen
  *
  * @returns {Promise<number>} 被删除的文档数。
  */
-async function DeleteOne<T>( collectionName: string, filter: Filter, args?: TypeArgsForDeleteOne ): Promise<number>{
+async function DeleteOne<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, args?: TypeArgsForDeleteOne ): Promise<number>{
   const {
     mongoDBClient,
     mongoDB,
@@ -222,7 +260,7 @@ async function DeleteOne<T>( collectionName: string, filter: Filter, args?: Type
  *
  * @param {string} collectionName 集合名，必需。
  *
- * @param {Filter} filter 查找条件，必需。
+ * @param {Filter<T>} filter 查找条件，必需。
  *
  * @param {TypeArgsForDeleteOne} args 其他参数，里面包含供“deleteMany”使用的options参数，可选。
  *
@@ -230,7 +268,7 @@ async function DeleteOne<T>( collectionName: string, filter: Filter, args?: Type
  *
  * @returns {Promise<number>} 被删除的文档数。
  */
-async function Delete<T>( collectionName: string, filter: Filter, args?: TypeArgsForDeleteOne ): Promise<number>{
+async function Delete<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, args?: TypeArgsForDeleteOne ): Promise<number>{
   const {
     mongoDBClient,
     mongoDB,
@@ -257,9 +295,9 @@ async function Delete<T>( collectionName: string, filter: Filter, args?: TypeArg
  *
  * @param {string} collectionName 集合名，必需。
  *
- * @param {Filter} filter 查找条件，必需。
+ * @param {Filter<T>} filter 查找条件，必需。
  *
- * @param {UpdateFilter} update 更新数据，必需。
+ * @param {UpdateFilter<T>} update 更新数据，必需。
  *
  * @param {TypeArgsForUpdateOne} args 其他参数，里面包含供“updateOne”使用的options参数，可选。
  *
@@ -267,7 +305,7 @@ async function Delete<T>( collectionName: string, filter: Filter, args?: TypeArg
  *
  * @returns {Promise<TypeResultForUpdateOne>} 返回一个结果对象：{ matchedCount: 与“查找条件”匹配的文档数, modifiedCount: 修改的文档数, upsertedCount: “更新插入”的文档数, upsertedId: 如果发生“更新插入”，则该字段表示插入文档的“_id” }。
  */
-async function UpdateOne<T>( collectionName: string, filter: Filter, update: UpdateFilter, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdateOne>{
+async function UpdateOne<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdateOne>{
   const {
     mongoDBClient,
     mongoDB,
@@ -294,17 +332,17 @@ async function UpdateOne<T>( collectionName: string, filter: Filter, update: Upd
  *
  * @param {string} collectionName 集合名，必需。
  *
- * @param {Filter} filter 查找条件，必需。
+ * @param {Filter<T>} filter 查找条件，必需。
  *
- * @param {UpdateFilter} update 更新数据，必需。
+ * @param {UpdateFilter<T>} update 更新数据，必需。
  *
  * @param {TypeArgsForUpdateOne} args 其他参数，里面包含供“updateMany”使用的options参数，可选。
  *
  * @param {UpdateOptions} args.options 供“updateMany”使用的配置参数，可选。
  *
- * @returns {Promise<TypeResultForUpdateOne>} 返回一个结果对象：{ matchedCount: 与“查找条件”匹配的文档数, modifiedCount: 修改的文档数, upsertedCount: “更新插入”的文档数, upsertedId: 如果发生“更新插入”，则该字段表示插入文档的“_id” }。
+ * @returns {Promise<TypeResultForUpdate>} 返回一个结果对象：{ matchedCount: 与“查找条件”匹配的文档数, modifiedCount: 修改的文档数, upsertedCount: “更新插入”的文档数, upsertedIds: 如果发生“更新插入”，则该字段表示插入文档的“_id”数组 }。
  */
-async function Update<T>( collectionName: string, filter: Filter, update: UpdateFilter, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdateOne>{
+async function Update<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdate>{
   const {
     mongoDBClient,
     mongoDB,
@@ -312,7 +350,7 @@ async function Update<T>( collectionName: string, filter: Filter, update: Update
 
   const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
 
-  let result: TypeResultForUpdateOne;
+  let result: TypeResultForUpdate;
 
   if( args && args.options ){
     result = await collectionHandle.updateMany( filter, update, args.options );
@@ -331,7 +369,7 @@ async function Update<T>( collectionName: string, filter: Filter, update: Update
  *
  * @param {string} collectionName 集合名，必需。
  *
- * @param {Filter} filter 查找条件，可选。
+ * @param {Filter<T>} filter 查找条件，可选。
  *
  * @param {TypeArgsForFindOne} args 其他参数，里面包含供“findOne”使用的options参数，可选。
  *
@@ -339,7 +377,7 @@ async function Update<T>( collectionName: string, filter: Filter, update: Update
  *
  * @returns {Promise<T | undefined>} 如果找到匹配查找条件的文档就返回找到的所有文档数据中的第1个文档数据，否则会返回undefined，表示没找到符合查找条件的。
  */
-async function QueryOne<T>( collectionName: string, filter?: Filter, args?: TypeArgsForFindOne ): Promise<T | undefined>{
+async function QueryOne<T extends InterfaceConstraint001>( collectionName: string, filter?: Filter<T>, args?: TypeArgsForFindOne ): Promise<T | undefined>{
   const {
     mongoDBClient,
     mongoDB,
@@ -372,7 +410,7 @@ async function QueryOne<T>( collectionName: string, filter?: Filter, args?: Type
  *
  * @param {string} collectionName 集合名，必需。
  *
- * @param {Filter} filter 查找条件，可选。
+ * @param {Filter<T>} filter 查找条件，可选。
  *
  * @param {TypeArgsForFindOne} args 其他参数，里面包含供“find”使用的options参数，可选。
  *
@@ -380,7 +418,7 @@ async function QueryOne<T>( collectionName: string, filter?: Filter, args?: Type
  *
  * @returns {FindCursor<T>} 返回一个游标，具体使用见“FindCursor”的描述。
  */
-async function Query<T>( collectionName: string, filter?: Filter, args?: TypeArgsForFindOne ): Promise<FindCursor<T>>{
+async function Query<T extends InterfaceConstraint001>( collectionName: string, filter?: Filter<T>, args?: TypeArgsForFindOne ): Promise<FindCursor<T>>{
   const {
     mongoDBClient,
     mongoDB,

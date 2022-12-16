@@ -18,7 +18,10 @@ CreateDate: 2022-09-11 12:04:03 星期日
 -1：表示在任何时候都不能被Cache存储。
 
 注意：
-必须使用GMT的时间格式，如：Fri, 12 Jan 2001 18:18:18 GMT。
+必须使用GMT的时间格式，如：Wed, 21 Oct 2015 07:28:00 GMT。
+
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
 -->
 <% if(expires !== null && expires !== undefined){ %>
     <meta
@@ -33,22 +36,15 @@ cookie过期设定，如果网页过期，存盘的cookie将被删除。需要�
 
 注意：
 必须使用GMT的时间格式，如：Fri, 12 Jan 2001 18:18:18 GMT。
+
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 -->
 <% if(setCookieExpires !== null && setCookieExpires !== undefined){ %>
     <meta
-            http-equiv = 'set-cookie'
+            http-equiv = 'Set-Cookie'
             content = '<%= setCookieExpires %>' />
 <% } %>
-<!--
-该meta项用途：
-用于定义页面缓存机制。
-
-值说明：
-no-cache：禁止浏览器从本地计算机的缓存中访问页面内容，这样设定，访问者将无法脱机浏览。
--->
-<meta
-        http-equiv = 'Pragma'
-        content = 'no-cache' />
 <!--
 该meta项用途：
 指定是否显示图片工具栏。
@@ -100,10 +96,27 @@ off：不启用。
 <!--
 该meta项用途：
 表示允许跨域访问。
+
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
 -->
 <meta
         http-equiv = 'Access-Control-Allow-Origin'
         content = '*' />
+<!--
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
+-->
+<meta
+        http-equiv = 'Access-Control-Request-Headers'
+        content = 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language' />
+<!--
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
+-->
+<meta
+        http-equiv = 'Access-Control-Request-Method'
+        content = 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH' />
 <!--
 该meta项用途：
 W3C网页规范，指明页面中脚本的类型。
@@ -145,10 +158,18 @@ no-siteapp：禁止百度转码。
 
 详见：
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#attributes
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
 -->
 <meta
         http-equiv = 'Cache-Control'
-        content = 'no-cache,no-store,must-revalidate,no-siteapp' />
+        content = 'no-store' />
+<!--
+详见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
+-->
+<meta
+        http-equiv = 'Clear-Site-Data'
+        content = 'cache' />
 <!--
 该meta项用途：
 是否开启cleartype显示效果，微软的一种让字体清晰的能力。

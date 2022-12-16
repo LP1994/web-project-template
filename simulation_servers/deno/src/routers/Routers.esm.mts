@@ -120,8 +120,8 @@ async function Routers( request: Request ): Promise<Response>{
       } );
 
     result = new Response( html, {
-      status: 404,
-      statusText: 'Not Found',
+      status: 405,
+      statusText: 'Method Not Allowed',
       headers: {
         ...httpHeaders,
         'content-type': mime.getType( filePath.href ),

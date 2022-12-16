@@ -28,6 +28,8 @@ import {
 
 export interface FileSRICollectionSchema {
 
+  _id?: ObjectId;
+
   // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
   shaType: string;
 

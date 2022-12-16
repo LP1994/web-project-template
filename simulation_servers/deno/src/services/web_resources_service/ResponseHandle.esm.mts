@@ -32,6 +32,12 @@
 'use strict';
 
 import {
+  parse,
+
+  // @ts-ignore
+} from 'DenoStd/path/mod.ts';
+
+import {
   type TypeResponse001,
 
   webDir,
@@ -87,10 +93,42 @@ function ResponseHandle( request: Request ): TypeResponse001{
       result = new Response( file.readable, {
         status: 200,
         statusText: 'OK',
+        // @ts-ignore
         headers: {
           ...httpHeaders,
-          'accept-ranges': 'bytes',
-          'content-type': `${ mime.getType( filePath.href ) }`,
+          'Content-Type': `${ mime.getType( filePath.href ) }`,
+          'Content-Length': Number( fileState.size ),
+          ...( (): { 'Content-Encoding'?: string; } => {
+            const acceptEncoding: string | null = request.clone().headers.get( 'Accept-Encoding' );
+
+            if( acceptEncoding ){
+              return {
+                'Content-Encoding': acceptEncoding,
+              };
+            }
+            else{
+              return {};
+            }
+          } )(),
+          'Accept-Ranges': 'bytes',
+          /**
+           * Content-Disposition：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
+           * 1、Content-Disposition响应头是一个表示内容是否有望在浏览器中内联显示的头，即作为网页或网页的一部分，或作为附件，被下载并保存在本地。
+           * 2、在multipart/form-data主体中，Content-Disposition通用头是一个必须在multipart主体的每个子部分上使用的头，以给出它所适用的领域的信息。
+           * 3、子部分是由Content-Type头中定义的边界划定的。在正文本身上使用，Content-Disposition没有任何作用。
+           * 4、Content-Disposition头是在电子邮件的MIME信息的大背景下定义的，但只有一个可能的参数子集适用于HTTP表单和POST请求。只有值form-data，以及可选的指令名和文件名，可以在HTTP上下文中使用。
+           * 5、第1个参数要么是内联“inline”（默认值，表示可以在网页内显示，或作为网页显示），要么是附件“attachment”（表示应该下载；大多数浏览器呈现一个"另存为"对话框，如果存在文件名“filename”参数的值，则预填）：
+           * 作为主体的响应头：
+           * 'Content-Disposition': 'inline'、'Content-Disposition': 'attachment'、'Content-Disposition': 'attachment; filename="filename.jpg"'
+           * 6、注意：Chrome和Firefox 82及更高版本将HTML的<a>元素的下载属性“download”优先于Content-Disposition: inline参数（对于同源URL）。较早的Firefox版本优先显示标题并将内联显示内容。
+           * 7、一个multipart/form-data主体需要一个Content-Disposition头来为表单的每个子部分提供信息（例如，为每个表单字段和作为字段数据一部分的任何文件）。
+           * 第一个指令总是form-data，而且头文件还必须包括一个“name”名称参数来识别相关的字段。
+           * 其他指令不区分大小写，其参数在'='号之后使用引号字符串语法。多个参数用分号（';'）分开。
+           * 作为多部分正文的标题：
+           * 'Content-Disposition': 'form-data; name=fieldName'、'Content-Disposition': 'form-data; name=fieldName; filename="filename.jpg"'
+           * 8、警告。“filename”文件名后面的字符串应该总是放在引号里；但是，由于兼容性的原因，许多浏览器试图解析含有空格的无引号名称。
+           */
+          'Content-Disposition': `attachment; filename="${ parse( filePath.href ).base }"`,
         },
       } );
     }

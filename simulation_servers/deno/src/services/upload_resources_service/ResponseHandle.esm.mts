@@ -179,19 +179,19 @@ import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
 const maxFileSize: number = 1 * 1024 * 1024 * 1024;
 
 /**
- * 校验请求头中是否携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值。<br />
+ * 校验请求头中是否携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值。<br />
  * PS：<br />
- * 1、取自定义的请求头标识“x-file-sri”的值会被转成全部小写的字符串。<br />
- * 2、如果没取到自定义的请求头标识“x-file-sri”的值，也就是请求头中不带该自定义的请求头标识“x-file-sri”，会直接使用空字符串代替。<br />
- * 3、最后该函数的返回值要么是一个false表示没有找到对应SRI值（自定义的请求头标识“x-file-sri”的值）的文件信息，要么是一个为自定义类型FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“x-file-sri”的值）一样的文件信息。<br />
- * 4、该自定义的请求头标识“x-file-sri”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
+ * 1、取自定义的请求头标识“X-Custom-Header-File-SRI”的值会被转成全部小写的字符串。<br />
+ * 2、如果没取到自定义的请求头标识“X-Custom-Header-File-SRI”的值，也就是请求头中不带该自定义的请求头标识“X-Custom-Header-File-SRI”，会直接使用空字符串代替。<br />
+ * 3、最后该函数的返回值要么是一个undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息，要么是一个为自定义类型FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息。<br />
+ * 4、该自定义的请求头标识“X-Custom-Header-File-SRI”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {boolean | FileSRICollectionSchema} 返回值类型为boolean（false表示没有找到对应SRI值（自定义的请求头标识“x-file-sri”的值）的文件信息）、自定义类型FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“x-file-sri”的值）一样的文件信息）。
+ * @returns {Promise<FileSRICollectionSchema | undefined>} 返回值类型为undefined（undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息）、自定义类型FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息）。
  */
 async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollectionSchema | undefined>{
-  const x_file_sri: string = ( request.headers.get( 'x-file-sri' ) ?? '' ).trim().toLowerCase();
+  const x_file_sri: string = ( request.headers.get( 'X-Custom-Header-File-SRI' ) ?? '' ).trim().toLowerCase();
 
   if( x_file_sri.length === 0 ){
     return undefined;
@@ -206,7 +206,7 @@ async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollection
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {Promise<TypeResponse001>} 返回值类型为Promise<TypeResponse001>。
  */
 async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
   const url: URL = new URL( request.url ),
