@@ -1,10 +1,11 @@
-该文件夹下都是用于创建服务的，目前有7个供使用，具体见各个的文件里描述：
+该文件夹下都是用于创建服务的，目前有8个供使用，具体见各个的文件里描述：
 HTTPAndWebSocketByServerForPort9000.mts
 HTTPSAndWebSocketSByServerForPort9000.mts
 HTTPServerForPort9100.mts
 HTTPSServerForPort9100.mts
+HTTPV2AndWebSocketServerForPort9200.mts
 HTTPV2AndWebSocketSServerForPort9200.mts
 WebSocketServerForPort9300.mts
 WebSocketSServerForPort9300.mts
 
-如果需要创建其他服务配置，可以参照上面的服务配置写法，上面的7个服务配置里都有文档描述。
+如果需要创建其他服务配置，可以参照上面的服务配置写法，上面的8个服务配置里都有文档描述。
