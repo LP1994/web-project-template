@@ -1,0 +1,506 @@
+Vue3笔记
+
+
+
+1、
+应用根组件的内容将会被渲染在容器元素里面。容器元素自己将不会被视为应用的一部分。
+.mount() 方法应该始终在整个应用配置和资源注册完成后被调用。同时请注意，不同于其他资源注册方法，它的返回值是根组件实例而非应用实例。
+
+2、
+确保在挂载应用实例之前完成所有应用配置！
+
+3、
+如果你对虚拟 DOM 的概念比较熟悉，并且偏好直接使用 JavaScript，你也可以结合可选的 JSX 支持直接手写渲染函数而不采用模板。但请注意，这将不会享受到和模板同等级别的编译时优化。
+
+4、
+<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+span 的内容将会被替换为 rawHtml 属性的值，插值为纯 HTML——数据绑定将会被忽略。
+
+5、
+如果v-bind 指令绑定的值是 null 或者 undefined，那么该 attribute 将会从渲染的元素上移除。
+
+6、
+<button :disabled="isButtonDisabled">Button</button>
+当 isButtonDisabled 为真值或一个空字符串 (即 <button disabled="">) 时，元素会包含这个 disabled attribute。而当其为其他假值时 attribute 将被忽略。
+
+7、
+在 Vue 模板内，JavaScript 表达式可以被使用在如下场景上：
+在文本插值中 (双大括号)
+在任何 Vue 指令 (以 v- 开头的特殊 attribute) attribute 的值中
+
+8、
+仅支持表达式
+每个绑定仅支持单一表达式，也就是一段能够被求值的 JavaScript 代码。一个简单的判断方法是是否可以合法地写在 return 后面。
+
+9、
+<span :title="toTitleDate(date)">
+  {{ formatDate(date) }}
+</span>
+绑定在表达式中的方法在组件每次更新时都会被重新调用，因此不应该产生任何副作用，比如改变数据或触发异步操作。
+
+10、
+受限的全局访问
+模板中的表达式将被沙盒化，仅能够访问到有限的全局对象列表。该列表中会暴露常用的内置全局对象，比如 Math 和 Date。
+没有显式包含在列表中的全局对象将不能在模板内表达式中访问，例如用户附加在 window 上的属性。然而，你也可以自行在 app.config.globalProperties 上显式地添加它们，供所有的 Vue 表达式使用。
+一定要按需添加，千万别一股脑全部添加！
+
+11、
+指令 attribute 的期望值为一个 JavaScript 表达式 (除了少数几个例外，即之后要讨论到的 v-for、v-on 和 v-slot)。一个指令的任务是在其表达式的值变化时响应式地更新 DOM。
+
+12、
+动态参数值的限制
+动态参数中表达式的值应当是一个字符串，或者是 null。特殊值 null 意为显式移除该绑定。其他非字符串的值会触发警告。
+
+13、
+动态参数语法的限制
+动态参数表达式因为某些字符的缘故有一些语法限制，比如空格和引号，在 HTML attribute 名称中都是不合法的。例如下面的示例：
+<!-- 这会触发一个编译器警告 -->
+<a :['foo' + bar]="value"> ... </a>
+如果你需要传入一个复杂的动态参数，我们推荐使用“计算属性”替换复杂的表达式，也是 Vue 最基础的概念之一，我们很快就会讲到。
+当使用 DOM 内嵌模板 (直接写在 HTML 文件里的模板) 时，我们需要避免在名称中使用大写字母，因为浏览器会强制将其转换为小写：
+<a :[someAttr]="value"> ... </a>
+上面的例子将会在 DOM 内嵌模板中被转换为 :[someattr]。如果你的组件拥有 “someAttr” 属性而非 “someattr”，这段代码将不会工作。
+单文件组件内的模板不受此限制。
+
+14、
+DOM 更新时机
+当你更改响应式状态后，DOM 会自动更新。然而，你得注意 DOM 的更新并不是同步的。相反，Vue 将缓冲它们直到更新周期的 “下个时机” 以确保无论你进行了多少次状态更改，每个组件都只更新一次。
+若要等待一个状态改变后的 DOM 更新完成，你可以使用 nextTick() 这个全局 API：
+import { nextTick } from 'vue'
+function increment() {
+  state.count++
+  nextTick(() => {
+    // 访问更新后的 DOM
+  })
+}
+
+15、
+响应式代理 vs. 原始对象
+const raw = {}
+const proxy = reactive(raw)
+// 代理对象和原始对象不是全等的
+console.log(proxy === raw) // false
+为保证访问代理的一致性，对同一个原始对象调用 reactive() 会总是返回同样的代理对象，而对一个已存在的代理对象调用 reactive() 会返回其本身：
+// 在同一个对象上调用 reactive() 会返回相同的代理
+console.log(reactive(raw) === proxy) // true
+// 在一个代理上调用 reactive() 会返回它自己
+console.log(reactive(proxy) === proxy) // true
+
+16、
+reactive() 的局限性
+1）
+仅对对象类型有效（对象、数组和 Map、Set 这样的集合类型），而对 string、number 和 boolean 这样的 原始类型 无效。
+2）
+因为 Vue 的响应式系统是通过属性访问进行追踪的，因此我们必须始终保持对该响应式对象的相同引用。这意味着我们不可以随意地“替换”一个响应式对象，因为这将导致对初始引用的响应性连接丢失：
+let state = reactive({ count: 0 })
+// 上面的引用 ({ count: 0 }) 将不再被追踪（响应性连接已丢失！）
+state = reactive({ count: 1 })
+同时这也意味着当我们将响应式对象的属性赋值或解构至本地变量时，或是将该属性传入一个函数时，我们会失去响应性：
+const state = reactive({ count: 0 })
+// n 是一个局部变量，同 state.count
+// 失去响应性连接
+let n = state.count
+// 不影响原始的 state
+n++
+// count 也和 state.count 失去了响应性连接
+let { count } = state
+// 不会影响原始的 state
+count++
+// 该函数接收一个普通数字，并且
+// 将无法跟踪 state.count 的变化
+callSomeFunction(state.count)
+
+17、
+用 ref() 定义响应式变量
+reactive() 的种种限制归根结底是因为 JavaScript 没有可以作用于所有值类型的 “引用” 机制。为此，Vue 提供了一个 ref() 方法来允许我们创建可以使用任何值类型的响应式 ref：
+import { ref } from 'vue'
+const count = ref(0)
+ref() 将传入参数的值包装为一个带 .value 属性的 ref 对象：
+const count = ref(0)
+console.log(count) // { value: 0 }
+console.log(count.value) // 0
+count.value++
+console.log(count.value) // 1
+和响应式对象的属性类似，ref 的 .value 属性也是响应式的。同时，当值为对象类型时，会用 reactive() 自动转换它的 .value。
+
+一个包含对象类型值的 ref 可以响应式地替换整个对象：
+const objectRef = ref({ count: 0 })
+
+// 这是响应式的替换
+objectRef.value = { count: 1 }
+ref 被传递给函数或是从一般对象上被解构时，不会丢失响应性：
+const obj = {
+  foo: ref(1),
+  bar: ref(2)
+}
+
+// 该函数接收一个 ref
+// 需要通过 .value 取值
+// 但它会保持响应性
+callSomeFunction(obj.foo)
+
+// 仍然是响应式的
+const { foo, bar } = obj
+简言之，ref() 让我们能创造一种对任意值的 “引用”，并能够在不丢失响应性的前提下传递这些引用。这个功能很重要，因为它经常用于将逻辑提取到 组合函数 中。
+
+18、
+ref 在模板中的解包
+当 ref 在模板中作为顶层属性被访问时，它们会被自动“解包”，所以不需要使用 .value。下面是之前的计数器例子，用 ref() 代替：
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(0)
+
+function increment() {
+  count.value++
+}
+</script>
+
+<template>
+  <button @click="increment">
+    {{ count }} <!-- 无需 .value -->
+  </button>
+</template>
+请注意，仅当 ref 是模板渲染上下文的顶层属性时才适用自动“解包”。 例如， foo 是顶层属性，但 object.foo 不是。
+
+所以我们给出以下 object：
+const object = { foo: ref(1) }
+下面的表达式将不会像预期的那样工作：
+{{ object.foo + 1 }}
+// 上面的改成这样也是可以的，也就是手动解包：{{ object.foo.value + 1 }}
+渲染的结果会是一个 [object Object]，因为 object.foo 是一个 ref 对象。我们可以通过将 foo 改成顶层属性来解决这个问题：
+const { foo } = object
+{{ foo + 1 }}
+需要注意的是，如果一个 ref 是文本插值（即一个 {{ }} 符号）计算的最终值，它也将被解包。因此下面的渲染结果将为 1：
+{{ object.foo }}
+这只是文本插值的一个方便功能，相当于 {{ object.foo.value }}。
+
+19、
+ref 在响应式对象中的解包
+当一个 ref 被嵌套在一个响应式对象中，作为属性被访问或更改时，它会自动解包，因此会表现得和一般的属性一样：
+const count = ref(0)
+const state = reactive({
+  count
+})
+
+console.log(state.count) // 0
+
+state.count = 1
+console.log(count.value) // 1
+如果将一个新的 ref 赋值给一个关联了已有 ref 的属性，那么它会替换掉旧的 ref：
+const otherCount = ref(2)
+
+state.count = otherCount
+console.log(state.count) // 2
+// 原始 ref 现在已经和 state.count 失去联系
+console.log(count.value) // 1
+只有当嵌套在一个深层响应式对象内时，才会发生 ref 解包。当其作为浅层响应式对象的属性被访问时不会解包。
+
+20、
+数组和集合类型的 ref 解包
+跟响应式对象不同，当 ref 作为响应式数组或像 Map 这种原生集合类型的元素被访问时，不会进行解包。
+const books = reactive([ref('Vue 3 Guide')])
+// 这里需要 .value
+console.log(books[0].value)
+
+const map = reactive(new Map([['count', ref(0)]]))
+// 这里需要 .value
+console.log(map.get('count').value)
+
+21、响应性语法糖（Experimental）
+相对于普通的 JavaScript 变量，我们不得不用相对繁琐的 .value 来获取 ref 的值。这是一个受限于 JavaScript 语言限制的缺点。然而，通过编译时转换，我们可以让编译器帮我们省去使用 .value 的麻烦。Vue 提供了一种编译时转换，使得我们可以像这样书写之前的“计数器”示例：
+<script setup>
+let count = $ref(0)
+
+function increment() {
+  // 无需 .value
+  count++
+}
+</script>
+
+<template>
+  <button @click="increment">{{ count }}</button>
+</template>
+你可以在 响应性语法糖 章节中了解更多细节。请注意它仍处于实验性阶段，在最终提案落地前仍可能发生改动。
+
+22、
+计算属性
+computed() 方法期望接收一个 getter 函数，返回值为一个计算属性 ref。和其他一般的 ref 类似，你可以通过 publishedBooksMessage.value 访问计算结果。计算属性 ref 也会在模板中自动解包，因此在模板表达式中引用时无需添加 .value。
+
+23、
+计算属性缓存 vs 方法
+不同之处在于计算属性值会基于其响应式依赖被缓存。一个计算属性仅会在其响应式依赖更新时才重新计算。这意味着只要 author.books 不改变，无论多少次访问 publishedBooksMessage 都会立即返回先前的计算结果，而不用重复执行 getter 函数。
+
+这也解释了为什么下面的计算属性永远不会更新，因为 Date.now() 并不是一个响应式依赖：
+const now = computed(() => Date.now())
+相比之下，方法调用总是会在重渲染发生时再次执行函数。
+
+23、
+可写计算属性
+计算属性默认是只读的。当你尝试修改一个计算属性时，你会收到一个运行时警告。只在某些特殊场景中你可能才需要用到“可写”的属性，你可以通过同时提供 getter 和 setter 来创建：
+<script setup>
+import { ref, computed } from 'vue'
+
+const firstName = ref('John')
+const lastName = ref('Doe')
+
+const fullName = computed({
+  // getter
+  get() {
+    return firstName.value + ' ' + lastName.value
+  },
+  // setter
+  set(newValue) {
+    // 注意：我们这里使用的是解构赋值语法
+    [firstName.value, lastName.value] = newValue.split(' ')
+  }
+})
+</script>
+
+24、
+计算属性的最佳实践
+1）Getter 不应有副作用
+计算属性的 getter 应只做计算而没有任何其他的副作用，这一点非常重要，请务必牢记。举例来说，不要在 getter 中做异步请求或者更改 DOM！一个计算属性的声明中描述的是如何根据其他值派生一个值。因此 getter 的职责应该仅为计算和返回该值。在之后的指引中我们会讨论如何使用监听器根据其他响应式状态的变更来创建副作用。
+2）避免直接修改计算属性值
+从计算属性返回的值是派生状态。可以把它看作是一个“临时快照”，每当源状态发生变化时，就会创建一个新的快照。更改快照是没有意义的，因此计算属性的返回值应该被视为只读的，并且永远不应该被更改——应该更新它所依赖的源状态以触发新的计算。
+
+25、
+<!-- 子组件模板 -->
+<p class="foo bar">Hi!</p>
+<!-- 在使用组件时 -->
+<MyComponent class="baz boo" />
+渲染出的 HTML 为：
+<p class="foo bar baz boo">Hi</p>
+也就是说，“子组件模板”上的class优先排在“使用组件时”添加的class。
+如果你的组件有多个根元素，你将需要指定哪个根元素来接收这个 class。你可以通过组件的 $attrs 属性来实现指定：
+<!-- MyComponent 模板使用 $attrs 时 -->
+<p :class="$attrs.class">Hi!</p>
+<span>This is a child component</span>
+<MyComponent class="baz" />
+这将被渲染为：
+<p class="baz">Hi!</p>
+<span>This is a child component</span>
+
+26、
+v-show 不支持在 <template> 元素上使用，也不能和 v-else 搭配使用。
+但是v-if没有如上的限制。
+
+27、
+v-if vs. v-show
+v-if 是“真实的”按条件渲染，因为它确保了在切换时，条件区块内的事件监听器和子组件都会被销毁与重建。
+
+v-if 也是惰性的：如果在初次渲染时条件值为 false，则不会做任何事。条件区块只有当条件首次变为 true 时才被渲染。
+
+相比之下，v-show 简单许多，元素无论初始条件如何，始终会被渲染，只有 CSS display 属性会被切换。
+
+总的来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要频繁切换，则使用 v-show 较好；如果在运行时绑定条件很少改变，则 v-if 会更合适。
+
+28、
+v-if 和 v-for
+当 v-if 和 v-for 同时存在于一个元素上的时候，v-if 会首先被执行。
+
+29、
+你也可以使用 v-for 来遍历一个对象的所有属性。遍历的顺序会基于对该对象调用 Object.keys() 的返回值来决定。
+<li v-for="(value, key, index) in myObject">
+  {{ index }}. {{ key }}: {{ value }}
+</li>
+
+30、
+v-for 可以直接接受一个整数值。在这种用例中，会将该模板基于 1...n 的取值范围重复多次。
+<span v-for="n in 10">{{ n }}</span>
+注意此处 n 的初值是从 1 开始而非 0。
+
+31、<template> 上的 v-for
+与模板上的 v-if 类似，你也可以在 <template> 标签上使用 v-for 来渲染一个包含多个元素的块。例如：
+<ul>
+  <template v-for="item in items">
+    <li>{{ item.msg }}</li>
+    <li class="divider" role="presentation"></li>
+  </template>
+</ul>
+
+32、
+v-for 与 v-if
+当它们同时存在于一个节点上时，v-if 比 v-for 的优先级更高。这意味着 v-if 的条件将无法访问到 v-for 作用域内定义的变量别名：
+<!--
+ 这会抛出一个错误，因为属性 todo 此时
+ 没有在该实例上定义
+-->
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo.name }}
+</li>
+在外新包装一层 <template> 再在其上使用 v-for 可以解决这个问题 (这也更加明显易读)：
+<template v-for="todo in todos">
+  <li v-if="!todo.isComplete">
+    {{ todo.name }}
+  </li>
+</template>
+
+33、
+通过 key 管理状态
+推荐在任何可行的时候为 v-for 提供一个 key attribute，除非所迭代的 DOM 内容非常简单 (例如：不包含组件或有状态的 DOM 元素)，或者你想有意采用默认行为来提高性能。
+key 绑定的值期望是一个基础类型的值，例如字符串或 number 类型。不要用对象作为 v-for 的 key。
+
+34、
+组件上使用 v-for
+我们可以直接在组件上使用 v-for，和在一般的元素上使用没有区别 (别忘记提供一个 key)：
+<MyComponent v-for="item in items" :key="item.id" />
+但是，这不会自动将任何数据传递给组件，因为组件有自己独立的作用域。为了将迭代后的数据传递到组件中，我们还需要传递 props：
+<MyComponent
+  v-for="(item, index) in items"
+  :item="item"
+  :index="index"
+  :key="item.id"
+/>
+不自动将 item 注入组件的原因是，这会使组件与 v-for 的工作方式紧密耦合。明确其数据的来源可以使组件在其他情况下重用。
+
+35、
+数组变化侦测
+在计算属性中使用 reverse() 和 sort() 的时候务必小心！这两个方法将变更原始数组，“计算函数”（计算属性/函数应当只是作为一个目标的快照，其只依赖目标做值的计算和输出，而不是在计算属性中做会变更目标、DOM等等导致触发响应式系统更新的行为）中不应该这么做。请在调用这些方法之前创建一个原数组的副本。
+
+36、
+事件处理
+事件处理器的值可以是：
+1）内联事件处理器：事件被触发时执行的内联 JavaScript 语句 (与 onclick 类似)。
+2）方法事件处理器：一个指向组件上定义的方法的属性名或是路径。
+
+37、
+内联事件处理器
+内联事件处理器通常用于简单场景，例如：
+const count = ref(0)
+<button @click="count++">Add 1</button>
+<p>Count is: {{ count }}</p>
+
+38、
+方法事件处理器
+v-on 也可以接受一个“方法名”或对“某个方法的调用”。
+const name = ref('Vue.js')
+
+function greet(event) {
+  alert(`Hello ${name.value}!`)
+  // `event` 是 DOM 原生事件
+  if (event) {
+    alert(event.target.tagName)
+  }
+}
+<!-- `greet` 是上面定义过的方法名，greet函数被执行时会收到一个event参数，数据类型为Event -->
+<button @click="greet">Greet</button>
+// 当然也可以显示传入变量$event，来表示一个event参数。
+<button @click="greet( $event )">Greet</button>
+方法事件处理器会自动接收原生 DOM 事件并触发执行。在上面的例子中，我们能够通过被触发事件的 event.target.tagName 访问到该 DOM 元素。
+
+39、
+方法与内联事件判断
+模板编译器会通过检查 v-on 的值是否是合法的 JavaScript 标识符或属性访问路径来断定是何种形式的事件处理器。举例来说，foo、foo.bar 和 foo['bar'] 会被视为方法事件处理器，而 foo() 和 count++ 会被视为内联事件处理器。
+
+40、
+在内联处理器中调用方法
+除了直接绑定方法名，你还可以在内联事件处理器中调用方法。这允许我们向方法传入自定义参数以代替原生事件：
+function say(message) {
+  alert(message)
+}
+<button @click="say('hello')">Say hello</button>
+<button @click="say('bye')">Say bye</button>
+
+41、
+事件修饰符：
+.stop
+.prevent
+.self
+.capture
+.once
+.passive：修饰符一般用于触摸事件的监听器，可以用来改善移动端设备的滚屏性能。
+<!-- 单击事件将停止传递 -->
+<a @click.stop="doThis"></a>
+
+<!-- 提交事件将不再重新加载页面 -->
+<form @submit.prevent="onSubmit"></form>
+
+<!-- 修饰语可以使用链式书写 -->
+<a @click.stop.prevent="doThat"></a>
+
+<!-- 也可以只有修饰符 -->
+<form @submit.prevent></form>
+
+<!-- 仅当 event.target 是元素本身时才会触发事件处理器 -->
+<!-- 例如：事件处理器不来自子元素 -->
+<div @click.self="doThat">...</div>
+使用修饰符时需要注意调用顺序，因为相关代码是以相同的顺序生成的。因此使用 @click.prevent.self 会阻止元素及其子元素的所有点击事件的默认行为而 @click.self.prevent 则只会阻止对元素本身的点击事件的默认行为。
+.capture、.once 和 .passive 修饰符与原生 addEventListener 事件相对应：
+<!-- 添加事件监听器时，使用 `capture` 捕获模式 -->
+<!-- 例如：指向内部元素的事件，在被内部元素处理前，先被外部处理 -->
+<div @click.capture="doThis">...</div>
+
+<!-- 点击事件最多被触发一次 -->
+<a @click.once="doThis"></a>
+
+<!-- 滚动事件的默认行为 (scrolling) 将立即发生而非等待 `onScroll` 完成 -->
+<!-- 以防其中包含 `event.preventDefault()` -->
+<div @scroll.passive="onScroll">...</div>
+.passive 修饰符一般用于触摸事件的监听器，可以用来改善移动端设备的滚屏性能。
+请勿同时使用 .passive 和 .prevent，因为 .passive 已经向浏览器表明了你不想阻止事件的默认行为。如果你这么做了，则 .prevent 会被忽略，并且浏览器会抛出警告。
+
+42、
+按键修饰符
+<!-- 仅在 `key` 为 `Enter` 时调用 `submit` -->
+<input @keyup.enter="submit" />
+你可以直接使用 KeyboardEvent.key 暴露的按键名称作为修饰符，但需要转为 kebab-case 形式。
+<input @keyup.page-down="onPageDown" />
+在上面的例子中，仅会在 $event.key 为 'PageDown' 时调用事件处理。
+
+按键别名：
+.enter
+.tab
+.delete (捕获“Delete”和“Backspace”两个按键)
+.esc
+.space
+.up
+.down
+.left
+.right
+
+系统按键修饰符：
+.ctrl
+.alt
+.shift
+.meta：在 Mac 键盘上，meta 是 Command 键 (⌘)。在 Windows 键盘上，meta 键是 Windows 键 (⊞)。在 Sun 微机系统键盘上，meta 是钻石键 (◆)。在某些键盘上，特别是 MIT 和 Lisp 机器的键盘及其后代版本的键盘，如 Knight 键盘，space-cadet 键盘，meta 都被标记为“META”。在 Symbolics 键盘上，meta 也被标识为“META”或“Meta”。
+
+举例来说：
+<!-- Alt + Enter -->
+<input @keyup.alt.enter="clear" />
+
+<!-- Ctrl + 点击 -->
+<div @click.ctrl="doSomething">Do something</div>
+
+请注意，系统按键修饰符和常规按键不同。与 keyup 事件一起使用时，该按键必须在事件发出时处于按下状态。换句话说，keyup.ctrl 只会在你仍然按住 ctrl 但松开了另一个键时被触发。若你单独松开 ctrl 键将不会触发。
+
+43、
+.exact 修饰符
+.exact 修饰符允许控制触发一个事件所需的确定组合的系统按键修饰符。
+<!-- 当按下 Ctrl 时，即使同时按下 Alt 或 Shift 也会触发 -->
+<button @click.ctrl="onClick">A</button>
+
+<!-- 仅当按下 Ctrl 且未按任何其他键时才会触发 -->
+<button @click.ctrl.exact="onCtrlClick">A</button>
+
+<!-- 仅当没有按下任何系统按键时触发 -->
+<button @click.exact="onClick">A</button>
+
+44、
+鼠标按键修饰符
+.left
+.right
+.middle
+这些修饰符将处理程序限定为由特定鼠标按键触发的事件。
+
+45、
+
+
+
+46、
+
+
+
+
+
+
