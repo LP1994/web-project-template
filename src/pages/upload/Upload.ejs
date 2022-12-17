@@ -1,6 +1,6 @@
 <!--
 Project: web-project-template
-FileDirPath: src/pages/home/Home.ejs
+FileDirPath: src/pages/upload/Upload.ejs
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
@@ -45,17 +45,9 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
         id = 'LocalScroll'
         class = 'css-reset full-screen overflow-auto'>
     <!--该节点说明：保证PC端下标准的最小尺寸(对于“pc-min”因为在相关样式中写好了媒体查询所以保持这样就行了)，在这个节点里写HTML。-->
-    <div class = 'css-reset pc-min overflow-hidden'>
-        <!--*********弹窗、悬浮一类节点的书写区域 Start*********-->
-        <!--
-        说明：
-        1、这些弹窗、悬浮一类节点的最外层节点的定位建议使用“position: absolute”。
-        2、这样就算这些节点中有可滚动的内容，也不会出现滚动穿透BUG！
-        -->
-        <!--<dialog style = 'position: absolute;'>例子：可以滚动的内容。</dialog>-->
-        <!--*********弹窗、悬浮一类节点的书写区域 End*********-->
-        <!--在main这个节点里写主体HTML。-->
-        <main class = 'css-reset full-screen overflow-hidden-auto'></main>
+    <div
+            class = 'css-reset pc-min overflow-hidden'
+            id = 'UploadAPP'>
     </div>
 </div>
 <%= require( 'ejsDir/tool/WeinreTool.ejs' )( htmlWebpackPluginOptionsData ) %>

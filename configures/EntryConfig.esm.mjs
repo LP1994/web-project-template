@@ -124,10 +124,10 @@ const entryConfig = {
     ] ),
   },
 
-  Home: {
+  Upload: {
     import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
-      './src/pages/home/Home.css',
-      './src/pages/home/Home.mjs',
+      './src/pages/upload/Upload.css',
+      './src/pages/upload/Upload.mjs',
     ] ),
   },
 };

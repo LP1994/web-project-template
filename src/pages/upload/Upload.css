@@ -1,6 +1,6 @@
 /*
 Project: web-project-template
-FileDirPath: src/pages/home/Home.css
+FileDirPath: src/pages/upload/Upload.css
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
@@ -70,12 +70,4 @@ only screen and (max-width: 1300px) and (max-device-pixel-ratio: 1.9) and (min-d
 
 .overflow-hidden-auto {
   overflow: hidden auto;
-}
-
-main {
-  font-family: 'MyFont_Helvetica', serif;
-  color: black;
-
-  line-height: 1;
-  text-align: center;
 }

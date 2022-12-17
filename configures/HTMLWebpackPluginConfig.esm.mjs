@@ -217,15 +217,62 @@ function HTMLWebpackPluginConfig( {
     },
 
     {
-      title: 'Home',
-      filename: 'pages/Home.html',
-      template: './src/pages/home/Home.ejs',
+      title: 'Upload',
+      filename: 'pages/Upload.html',
+      template: './src/pages/upload/Upload.ejs',
       excludeChunks: isSPA
                      ? []
-                     : ExcludeChunks( 'Home' ),
+                     : ExcludeChunks( 'Upload' ),
       meta: {},
       data: {
         ...defaultData,
+        description: 'This is a page for Upload.',
+        appName: 'Upload',
+        itemprop: {
+          type: 'website',
+          url: 'https://192.168.10.101:8100/dev_server/pages/Upload.html',
+          name: 'Upload',
+          description: 'This is a page for Upload.',
+          image: 'https://192.168.10.101:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+        },
+        appLinks: {
+          web: {
+            url: 'https://192.168.10.101:8100/dev_server/pages/Upload.html',
+          },
+          share: {
+            type: 'website',
+            url: 'https://192.168.10.101:8100/dev_server/pages/Upload.html',
+            title: 'Upload',
+            description: 'This is a page for Upload.',
+            image: 'https://192.168.10.101:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+          },
+        },
+        og: {
+          og: 'website',
+          title: 'Upload',
+          url: 'https://192.168.10.101:8100/dev_server/pages/Upload.html',
+          siteName: 'Upload',
+          description: 'This is a page for Upload.',
+          locale: 'zh_CN',
+          image: {
+            url: 'https://192.168.10.101:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+            secureURL: 'https://192.168.10.101:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+            type: 'image/png',
+            width: '512',
+            height: '512',
+            alt: '网站图片_512x512.png',
+          },
+        },
+        twitter: {
+          type: 'website',
+          creator: '1227839175@qq.com',
+          site: 'https://192.168.10.101:8100/dev_server/pages/Upload.html',
+          url: 'https://192.168.10.101:8100/dev_server/pages/Upload.html',
+          title: 'Upload',
+          description: 'This is a page for Upload.',
+          card: 'summary_large_image',
+          image: 'https://192.168.10.101:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+        },
       },
     },
   ];
