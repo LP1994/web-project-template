@@ -24,7 +24,7 @@
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。
  *
- * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
@@ -81,7 +81,7 @@ import {
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。<br />
  *
- * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false<br />
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。<br />

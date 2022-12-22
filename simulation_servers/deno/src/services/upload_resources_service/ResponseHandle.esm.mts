@@ -68,7 +68,7 @@ import {
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
@@ -83,7 +83,7 @@ import UploadByBinary from './UploadByBinary.esm.mts';
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body必须是用FormData包装。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
@@ -147,7 +147,7 @@ import UploadByMultiple from './UploadByMultiple.esm.mts';
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。
  *
- * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
@@ -221,7 +221,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
    * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
    *
-   * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+   * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
@@ -287,7 +287,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
    * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
    *
-   * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+   * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 1、客户端上传的body必须是用FormData包装。
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
@@ -402,7 +402,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
   /**
    * 单个大文件上传（支持POST请求、PUT请求）。
    *
-   * 允许在请求头中携带自定义的请求头标识“x-file-sri”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+   * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
    * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。

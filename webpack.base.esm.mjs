@@ -268,7 +268,7 @@ const __dirname = Get__dirname( import.meta.url ),
    *
    * @type {boolean}
    */
-  isUseESBuildLoader = false;
+  isUseESBuildLoader = true;
 
 /**
  * 目标浏览器版本。
@@ -1481,9 +1481,9 @@ const aliasConfig = {
        * 使用例子：
        * axios.get( '${ devURLDemo001 }/graphql' )
        */
-      devURLDemo001: isProduction
-                     ? '""'
-                     : '"/devURLDemo001"',
+      devURL001: isProduction
+                 ? '""'
+                 : '"/devURL001"',
       /**
        * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.10.101:9000/subscriptions
        * 注意：
@@ -1491,9 +1491,9 @@ const aliasConfig = {
        * 使用例子：
        * new WebSocket( '${ ws4DevURLDemo001 }/subscriptions' )
        */
-      ws4DevURLDemo001: isProduction
-                        ? `${ wsHost001 }""`
-                        : `${ wsHost001 }"/ws4DevURLDemo001"`,
+      ws4DevURL001: isProduction
+                    ? `${ wsHost001 }""`
+                    : `${ wsHost001 }"/ws4DevURL001"`,
     };
   } )(),
   /**
@@ -3019,7 +3019,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.20.6',
+          } )() || '7.20.7',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,

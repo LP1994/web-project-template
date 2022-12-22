@@ -7,7 +7,7 @@ Deno（读音：/ˈdiːnoʊ/）将是Node的终结者。未来，自己编写的
 2、“src/App.mts”是程序的启动入口。
 
 3、本模拟服务器的基本的使用说明：
-  1）如果现有的“src/servers”文件夹下的8个服务配置不满足需要，可以参照那8个创建自己的服务配置。
+  1）如果现有的“src/servers”文件夹下的7个服务配置不满足需要，可以参照那7个创建自己的服务配置。
   2）然后在“src/App.mts”中引入上面创建的服务配置，同一个端口的多个服务配置只能启用一个服务配置。
   3）再到“src/configures/route_map_config/RouteMapConfig.esm.mts”中根据请求方式配置对应的“路由响应”配置，详细见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的文档描述。
   4）再到“src/services”中去编写对上面配置好的路由的响应处理。

@@ -70,10 +70,7 @@ Promise.allSettled( [
 
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
-  // 首选，提供“http:”和“ws:”协议的服务，端口都是9200，基于HTTP/2，Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
-  // @ts-ignore
-  // import( 'servers/HTTPV2AndWebSocketServerForPort9200.mts' ),
-  // 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2，Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
+  // 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2（使用HTTP/2要必需使用HTTPS，这是强制的），Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
   // @ts-ignore
   import( 'servers/HTTPV2AndWebSocketSServerForPort9200.mts' ),
 

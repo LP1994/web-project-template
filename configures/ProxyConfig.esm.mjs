@@ -275,7 +275,7 @@ const proxyConfig = {
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://127.0.0.1:9200/simulation_servers_deno/GetJSON。<br />
    */
-  '/devURLDemo001/simulation_servers_deno/': {
+  '/devURL001/simulation_servers_deno/': {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
@@ -287,7 +287,7 @@ const proxyConfig = {
      */
     bypass: ( req, res, proxyOptions ) => {
       // 正在跳过浏览器请求的代理。
-      if( req.headers.accept.indexOf( 'xxx7788' ) !== -1 ){
+      if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
         return '/xxx7788.html';
       }
     },
@@ -310,7 +310,7 @@ const proxyConfig = {
      * @returns {string} 新路径。
      */
     pathRewrite: {
-      '^/devURLDemo001': '',
+      '^/devURL001': '',
     },
 
     /**
@@ -745,7 +745,7 @@ HTTP代理--->${ req.originalUrl }<---End
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://127.0.0.1:9200/simulation_servers_deno/subscriptions。<br />
    */
-  '/ws4DevURLDemo001/simulation_servers_deno/': {
+  '/ws4DevURL001/simulation_servers_deno/': {
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      *
@@ -757,7 +757,7 @@ HTTP代理--->${ req.originalUrl }<---End
      */
     bypass: ( req, res, proxyOptions ) => {
       // 正在跳过浏览器请求的代理。
-      if( req.headers.accept.indexOf( 'xxx7788' ) !== -1 ){
+      if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
         return '/xxx7788.html';
       }
     },
@@ -780,7 +780,7 @@ HTTP代理--->${ req.originalUrl }<---End
      * @returns {string} 新路径。
      */
     pathRewrite: {
-      '^/ws4DevURLDemo001': '',
+      '^/ws4DevURL001': '',
     },
 
     /**
