@@ -117,6 +117,20 @@ main {
   <main class = 'css-reset full-screen overflow-hidden-auto'>
     <h1 class = 'css-reset title'>{{ state.titleText }}</h1>
     <article class = 'css-reset upload'>
+      <h3 class = 'css-reset'>单个二进制文件流上传（uploadType=binary）：</h3>
+      <section class = 'css-reset'>
+        <input
+          id = 'UploadForBinary'
+          class = 'css-reset'
+          type = 'file' />
+        <button
+          class = 'css-reset'
+          type = 'submit'
+          @click.prevent = 'UploadForBinary'>上传
+        </button>
+      </section>
+    </article>
+    <article class = 'css-reset upload'>
       <h3 class = 'css-reset'>FormData的单文件上传（uploadType=single）：</h3>
       <section class = 'css-reset'>
         <input
@@ -125,7 +139,7 @@ main {
           type = 'file' />
         <button
           class = 'css-reset'
-          type = 'button'
+          type = 'submit'
           @click.prevent = 'UploadForSingle'>上传
         </button>
       </section>
@@ -140,22 +154,8 @@ main {
           multiple = 'multiple' />
         <button
           class = 'css-reset'
-          type = 'button'
+          type = 'submit'
           @click.prevent = 'UploadForMultiple'>上传
-        </button>
-      </section>
-    </article>
-    <article class = 'css-reset upload'>
-      <h3 class = 'css-reset'>单个二进制文件流上传（uploadType=binary）：</h3>
-      <section class = 'css-reset'>
-        <input
-          id = 'UploadForBinary'
-          class = 'css-reset'
-          type = 'file' />
-        <button
-          class = 'css-reset'
-          type = 'button'
-          @click.prevent = 'UploadForBinary'>上传
         </button>
       </section>
     </article>
@@ -175,6 +175,42 @@ import {
 type TypeState = {
   [ key: string | number ]: any;
 };
+
+function UploadForBinary( event: Event ): void{
+  const uploadForBinary: HTMLInputElement = document.querySelector( '#UploadForBinary' ) as HTMLInputElement,
+    files: FileList = uploadForBinary.files as FileList;
+
+  if( files.length !== 0 ){
+    const file: File = files[ 0 ] as File;
+
+    console.dir( file );
+
+    // @ts-ignore
+    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
+      body: file,
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+        'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+      },
+      method: 'POST',
+      mode: 'cors',
+    } ).then(
+      async ( res: Response ): Promise<Response> => {
+        console.dir( await res.clone().json() );
+
+        return res;
+      },
+      ( reject: unknown ): void => {
+        console.error( reject );
+      },
+    ).catch( ( error: unknown ): void => {
+      console.error( error );
+    } );
+  }
+}
 
 function UploadForSingle( event: Event ): void{
   const uploadForSingle: HTMLInputElement = document.querySelector( '#UploadForSingle' ) as HTMLInputElement,
@@ -197,7 +233,7 @@ function UploadForSingle( event: Event ): void{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
         'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
@@ -239,43 +275,7 @@ function UploadForMultiple( event: Event ): void{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
-        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
-      },
-      method: 'POST',
-      mode: 'cors',
-    } ).then(
-      async ( res: Response ): Promise<Response> => {
-        console.dir( await res.clone().json() );
-
-        return res;
-      },
-      ( reject: unknown ): void => {
-        console.error( reject );
-      },
-    ).catch( ( error: unknown ): void => {
-      console.error( error );
-    } );
-  }
-}
-
-function UploadForBinary( event: Event ): void{
-  const uploadForBinary: HTMLInputElement = document.querySelector( '#UploadForBinary' ) as HTMLInputElement,
-    files: FileList = uploadForBinary.files as FileList;
-
-  if( files.length !== 0 ){
-    const file: File = files[ 0 ] as File;
-
-    console.dir( file );
-
-    // @ts-ignore
-    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
-      body: file,
-      cache: 'no-store',
-      credentials: 'omit',
-      headers: {
-        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
         'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },

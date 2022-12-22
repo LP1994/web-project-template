@@ -545,13 +545,42 @@ setTimeout(() => {
 
 
 
+>>>和/deep/已经被弃用，要用:deep()代替
 
 
 
-
-
-
-
+style module
+style 标签中带有 module。其样式和 style scoped一样只能作用域于当前组件。
+此方式会将css 编译为 css modules.且暴露给组件$styles对象来使用css样式
+Copy to clipboard
+<template>
+  <p :class="$style.red">
+    This should be red
+  </p>
+</template>
+<style module>
+.red {
+  color: red;
+}
+</style>
+可以给module赋值来自定义暴露的对象名称
+Copy to clipboard
+<template>
+  <p :class="style.red">
+    This should be red
+  </p>
+</template>
+<style module='style'>
+.red {
+  color: red;
+}
+</style>
+在组合式api中可以使用 useCssModule() api来使用cssModule.
+Copy to clipboard
+// 默认, 返回 <style module> 中的类
+useCssModule()
+// 命名, 返回 <style module="classes"> 中的类
+useCssModule('classes')
 
 
 
