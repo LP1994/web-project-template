@@ -125,7 +125,8 @@ main {
           type = 'file' />
         <button
           class = 'css-reset'
-          @click = 'UploadForSingle'>上传
+          type = 'button'
+          @click.prevent = 'UploadForSingle'>上传
         </button>
       </section>
     </article>
@@ -139,7 +140,8 @@ main {
           multiple = 'multiple' />
         <button
           class = 'css-reset'
-          @click = 'UploadForMultiple'>上传
+          type = 'button'
+          @click.prevent = 'UploadForMultiple'>上传
         </button>
       </section>
     </article>
@@ -152,20 +154,8 @@ main {
           type = 'file' />
         <button
           class = 'css-reset'
-          @click = 'UploadForBinary'>上传
-        </button>
-      </section>
-    </article>
-    <article class = 'css-reset upload'>
-      <h3 class = 'css-reset'>单个大文件上传（uploadType=bigFile）：</h3>
-      <section class = 'css-reset'>
-        <input
-          id = 'UploadForBigFile'
-          class = 'css-reset'
-          type = 'file' />
-        <button
-          class = 'css-reset'
-          @click = 'UploadForBigFile'>上传
+          type = 'button'
+          @click.prevent = 'UploadForBinary'>上传
         </button>
       </section>
     </article>
@@ -191,7 +181,40 @@ function UploadForSingle( event: Event ): void{
     files: FileList = uploadForSingle.files as FileList;
 
   if( files.length !== 0 ){
-    console.dir( files[ 0 ] );
+    const file: File = files[ 0 ] as File;
+
+    console.dir( file );
+
+    const formData: FormData = new FormData();
+
+    formData.append( 'uploadType', 'single' );
+    formData.append( 'file', file, file.name );
+    formData.append( 'fileName', `${ file.name }` );
+
+    // @ts-ignore
+    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
+      body: formData,
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+      },
+      method: 'POST',
+      mode: 'cors',
+    } ).then(
+      async ( res: Response ): Promise<Response> => {
+        console.dir( await res.clone().json() );
+
+        return res;
+      },
+      ( reject: unknown ): void => {
+        console.error( reject );
+      },
+    ).catch( ( error: unknown ): void => {
+      console.error( error );
+    } );
   }
 }
 
@@ -201,6 +224,39 @@ function UploadForMultiple( event: Event ): void{
 
   if( files.length !== 0 ){
     console.dir( files );
+
+    const formData: FormData = new FormData();
+
+    formData.append( 'uploadType', 'multiple' );
+
+    Array.from( files ).forEach( ( file: File ): void => {
+      formData.append( 'files', file, file.name );
+    } );
+
+    // @ts-ignore
+    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
+      body: formData,
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+      },
+      method: 'POST',
+      mode: 'cors',
+    } ).then(
+      async ( res: Response ): Promise<Response> => {
+        console.dir( await res.clone().json() );
+
+        return res;
+      },
+      ( reject: unknown ): void => {
+        console.error( reject );
+      },
+    ).catch( ( error: unknown ): void => {
+      console.error( error );
+    } );
   }
 }
 
@@ -209,16 +265,34 @@ function UploadForBinary( event: Event ): void{
     files: FileList = uploadForBinary.files as FileList;
 
   if( files.length !== 0 ){
-    console.dir( files[ 0 ] );
-  }
-}
+    const file: File = files[ 0 ] as File;
 
-function UploadForBigFile( event: Event ): void{
-  const uploadForBigFile: HTMLInputElement = document.querySelector( '#UploadForBigFile' ) as HTMLInputElement,
-    files: FileList = uploadForBigFile.files as FileList;
+    console.dir( file );
 
-  if( files.length !== 0 ){
-    console.dir( files[ 0 ] );
+    // @ts-ignore
+    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
+      body: file,
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+      },
+      method: 'POST',
+      mode: 'cors',
+    } ).then(
+      async ( res: Response ): Promise<Response> => {
+        console.dir( await res.clone().json() );
+
+        return res;
+      },
+      ( reject: unknown ): void => {
+        console.error( reject );
+      },
+    ).catch( ( error: unknown ): void => {
+      console.error( error );
+    } );
   }
 }
 
@@ -227,6 +301,6 @@ const state: TypeState = reactive( {
 } );
 
 onMounted( (): void => {
-  console.log( `\n\n\nDOM以挂载。\n\n\n` );
+  console.log( `\n\n\nDOM已挂载。\n\n\n` );
 } );
 </script>
