@@ -170,6 +170,10 @@ main {
 'use strict';
 
 import {
+  sha3_512,
+} from 'js-sha3';
+
+import {
   reactive,
   onMounted,
 } from 'vue';
@@ -178,7 +182,11 @@ type TypeState = {
   [ key: string | number ]: any;
 };
 
-function UploadForBinary( event: Event ): void{
+function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
+  return sha3_512.create().update( data ).hex();
+}
+
+async function UploadForBinary( event: Event ): Promise<void>{
   const uploadForBinary: HTMLInputElement = document.querySelector( '#UploadForBinary' ) as HTMLInputElement,
     files: FileList = uploadForBinary.files as FileList;
 
@@ -193,7 +201,7 @@ function UploadForBinary( event: Event ): void{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'X-Custom-Header-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
         'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
@@ -214,7 +222,7 @@ function UploadForBinary( event: Event ): void{
   }
 }
 
-function UploadForSingle( event: Event ): void{
+async function UploadForSingle( event: Event ): Promise<void>{
   const uploadForSingle: HTMLInputElement = document.querySelector( '#UploadForSingle' ) as HTMLInputElement,
     files: FileList = uploadForSingle.files as FileList;
 
@@ -235,7 +243,7 @@ function UploadForSingle( event: Event ): void{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        'X-Custom-Header-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
         'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
@@ -302,6 +310,8 @@ const state: TypeState = reactive( {
 } );
 
 onMounted( (): void => {
-  console.log( `\n\n\nDOM已挂载。\n\n\n` );
+  console.log( `\n\n
+DOM已挂载。
+\n\n` );
 } );
 </script>
