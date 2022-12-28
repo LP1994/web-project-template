@@ -122,6 +122,11 @@ const httpHeaders: {
   [ key: string ]: string | number | boolean;
 } = {
   // 'Content-Security-Policy': 'require-sri-for script style',
+  /**
+   * Clear-Site-Data：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
+   * 1、该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
+   */
+  // 'Clear-Site-Data': '"cache"',
   'Service-Worker-Allowed': '/',
   /**
    * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
@@ -131,11 +136,6 @@ const httpHeaders: {
    * Expires：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
    */
   'Expires': 0,
-  /**
-   * Clear-Site-Data：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
-   * 1、该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
-   */
-  // 'Clear-Site-Data': '"cache"',
   /**
    * Allow：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow
    */

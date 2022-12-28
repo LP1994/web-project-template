@@ -1924,21 +1924,19 @@ const aliasConfig = {
     liveReload: true,
     open: [
       // Windows平台上的Edge浏览器。
-      /*
-       {
-       target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
-       ],
-       app: {
-       name: [
-       'msedge',
-       ],
-       arguments: [
-       '--new-window',
-       ],
-       },
-       },
-       */
+      {
+        target: [
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+        ],
+        app: {
+          name: [
+            'msedge',
+          ],
+          arguments: [
+            '--new-window',
+          ],
+        },
+      },
       // Windows平台上的Chrome浏览器。
       /*
        {
@@ -1956,19 +1954,21 @@ const aliasConfig = {
        },
        */
       // Windows平台上的Firefox浏览器。
-      {
-        target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
-        ],
-        app: {
-          name: [
-            'firefox',
-          ],
-          arguments: [
-            '--new-window',
-          ],
-        },
-      },
+      /*
+       {
+       target: [
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       ],
+       app: {
+       name: [
+       'firefox',
+       ],
+       arguments: [
+       '--new-window',
+       ],
+       },
+       },
+       */
       // Windows平台上的Opera浏览器。
       /*
        {

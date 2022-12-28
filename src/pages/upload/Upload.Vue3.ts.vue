@@ -63,24 +63,26 @@ main {
         display: inline-block !important;
         height: 100% !important;
         color: red;
-      }
 
-      > input[type='file' i]::-webkit-file-upload-button {
-        display: inline-block !important;
-        width: 80px !important;
-        height: 100% !important;
-        color: green;
+        &::-webkit-file-upload-button {
+          display: inline-block !important;
+          width: 80px !important;
+          height: 100% !important;
+          color: green;
 
-        padding: 0;
-        border: 1px solid palevioletred;
-        border-radius: 5px;
-        margin: 0 20px 0 0;
-        outline: none;
+          padding: 0;
+          border: 1px solid palevioletred;
+          border-radius: 5px;
+          margin: 0 20px 0 0;
+          outline: none;
 
-        background-color: white;
+          background-color: white;
+        }
       }
 
       > button {
+        box-sizing: border-box;
+
         width: 100px;
         height: 100%;
 
@@ -88,7 +90,7 @@ main {
         color: black;
         font-size: 20px;
 
-        line-height: 1;
+        line-height: 48px;
         text-align: center;
 
         border: 1px solid palevioletred;
@@ -125,7 +127,7 @@ main {
           type = 'file' />
         <button
           class = 'css-reset'
-          type = 'submit'
+          type = 'button'
           @click.prevent = 'UploadForBinary'>上传
         </button>
       </section>
@@ -139,7 +141,7 @@ main {
           type = 'file' />
         <button
           class = 'css-reset'
-          type = 'submit'
+          type = 'button'
           @click.prevent = 'UploadForSingle'>上传
         </button>
       </section>
@@ -154,7 +156,7 @@ main {
           multiple = 'multiple' />
         <button
           class = 'css-reset'
-          type = 'submit'
+          type = 'button'
           @click.prevent = 'UploadForMultiple'>上传
         </button>
       </section>
@@ -233,7 +235,7 @@ function UploadForSingle( event: Event ): void{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
+        // 'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
         'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
@@ -275,7 +277,6 @@ function UploadForMultiple( event: Event ): void{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        'X-Custom-Header-File-SRI': '4e130a6be13689dfa86ef787ee7a0634bc6db670ae1e2d0d3fb022c75bb8ad9175aaee7f8beb3ad22cc6605d7dbabd14bfb19a42e22dfc79bcdd1cbd77492ea7',
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
         'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
