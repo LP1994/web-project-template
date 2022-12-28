@@ -268,7 +268,7 @@ const __dirname = Get__dirname( import.meta.url ),
    *
    * @type {boolean}
    */
-  isUseESBuildLoader = true;
+  isUseESBuildLoader = false;
 
 /**
  * 目标浏览器版本。
@@ -279,8 +279,8 @@ const browserslist = [
     // PC端完全支持ES 5的主流浏览器 Start
     // 'Chrome >= 23',
     // 'Firefox >= 21',
-    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
-    // 'IE >= 9',
+    // ie 9不支持ECMAScript 5的"use strict"，但是ie 10真正的完全支持ECMAScript 5了。
+    // 'ie >= 9',
     // 'Safari >= 6',
     // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
     // 'Opera >= 15',
@@ -295,21 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20221002。Start
+    // PC端各主流浏览器的最新版本，至20221228。Start
     'Chrome >= 108',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 108',
     'Firefox >= 108',
     'Safari >= 16',
     'Opera >= 94',
-    // PC端各主流浏览器的最新版本，至20221002。End
+    // PC端各主流浏览器的最新版本，至20221228。End
 
-    // 移动端各主流浏览器的最新版本，至20221002。Start
+    // 移动端各主流浏览器的最新版本，至20221228。Start
     'ChromeAndroid >= 108',
+    // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 108',
     'FirefoxAndroid >= 108',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20221002。End
+    // 移动端各主流浏览器的最新版本，至20221228。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -322,7 +323,7 @@ const browserslist = [
     // PC端完全支持ES 5的主流浏览器 Start
     // 'chrome23',
     // 'firefox21',
-    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
+    // ie 9不支持ECMAScript 5的"use strict"，但是ie 10真正的完全支持ECMAScript 5了。
     // 'ie9',
     // 'safari6',
     // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
@@ -340,22 +341,27 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20221002。Start
+    // PC端各主流浏览器的最新版本，至20221228。Start
     'chrome108',
     'edge108',
     'firefox108',
     'safari16',
     'opera94',
-    // PC端各主流浏览器的最新版本，至20221002。End
+    // PC端各主流浏览器的最新版本，至20221228。End
 
-    // 移动端各主流浏览器的最新版本，至20221002。Start
+    // 移动端各主流浏览器的最新版本，至20221228。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20221002。End
+    // 移动端各主流浏览器的最新版本，至20221228。End
   ],
   /**
    * 目标浏览器版本。<br />
-   * 1、支持的标识符有：android、chrome、deno（支持的最低版本为'1.0'）、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
-   * 2、也支持其他的别名标识符，不建议用别名标识符，会报错：and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera），其他的会报错。<br />
+   * 1、支持的标识符有：<br />
+   * android、chrome、deno（支持的最低版本为'1.0'）、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
+   * 具体见：node_modules/@babel/helper-compilation-targets/lib/options.js。<br />
+   * 2、也支持其他的别名标识符，但是不建议用别名标识符，因为如果设置了这些别名会报错（因为相关代码貌似并没使用这个别名映射）：<br />
+   * and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera）。<br />
+   * 其他的别名会报错。<br />
+   * 具体见：node_modules/@babel/core/lib/config/validation/option-assertions.js。<br />
    *
    * @type {object}
    */
@@ -363,7 +369,7 @@ const browserslist = [
     // PC端完全支持ES 5的主流浏览器 Start
     // chrome: 23,
     // firefox: 21,
-    // IE 9不支持ECMAScript 5的"use strict"，但是IE 10真正的完全支持ES 5了。
+    // ie 9不支持ECMAScript 5的"use strict"，但是ie 10真正的完全支持ECMAScript 5了。
     // ie: 9,
     // safari: 6,
     // Opera 15开始改用基于Chromium 28的，也是从15开始其内核跟Chrome一致了。
@@ -379,18 +385,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20221002。Start
+    // PC端各主流浏览器的最新版本，至20221228。Start
     chrome: 108,
     edge: 108,
     firefox: 108,
     safari: 16,
     opera: 94,
-    // PC端各主流浏览器的最新版本，至20221002。End
+    // PC端各主流浏览器的最新版本，至20221228。End
 
-    // 移动端各主流浏览器的最新版本，至20221002。Start
+    // 移动端各主流浏览器的最新版本，至20221228。Start
+    // 从Android 4.4后Android WebView直接跟Chrome同步。
     android: 108,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20221002。End
+    // 移动端各主流浏览器的最新版本，至20221228。End
   },
   /**
    * 编译目标配置。
