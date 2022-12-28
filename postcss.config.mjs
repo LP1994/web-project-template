@@ -94,10 +94,14 @@ export default {
     // postcss-single-charset，当文件中存在多个@charset规则时，会将最后一个@charset规则提取到文件顶部，并删除其他@charset规则。
     'postcss-single-charset',
 
-    // postcss-remove-nested-calc（说是已弃用），calc(100vw - calc(20% - 10px))到calc(100vw - (20% - 10px))以实现IE 11兼容性（其实IE 9及其以上版本也都不支持calc函数嵌套）。
+    /**
+     * postcss-remove-nested-calc
+     * 1、说是已弃用，calc(100vw - calc(20% - 10px))到calc(100vw - (20% - 10px))以实现IE 11兼容性（其实IE 9及其以上版本也都不支持calc函数嵌套）。<br />
+     * 2、使用下面的“@csstools/postcss-nested-calc”来代替它也行。<br />
+     */
     // 'postcss-remove-nested-calc',
 
-    // @csstools/postcss-nested-calc，处理calc函数的嵌套。
+    // @csstools/postcss-nested-calc，处理calc函数的嵌套，文档见：https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-nested-calc。<br />
     [
       '@csstools/postcss-nested-calc',
       {
