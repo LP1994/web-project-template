@@ -295,22 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20221228。Start
-    'Chrome >= 108',
+    // PC端各主流浏览器的最新版本，至20230118。Start
+    'Chrome >= 109',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 108',
-    'Firefox >= 108',
+    'Edge >= 109',
+    'Firefox >= 109',
     'Safari >= 16',
     'Opera >= 94',
-    // PC端各主流浏览器的最新版本，至20221228。End
+    // PC端各主流浏览器的最新版本，至20230118。End
 
-    // 移动端各主流浏览器的最新版本，至20221228。Start
-    'ChromeAndroid >= 108',
+    // 移动端各主流浏览器的最新版本，至20230118。Start
+    'ChromeAndroid >= 109',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 108',
-    'FirefoxAndroid >= 108',
+    'Android >= 109',
+    'FirefoxAndroid >= 109',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20221228。End
+    // 移动端各主流浏览器的最新版本，至20230118。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -341,17 +341,17 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20221228。Start
-    'chrome108',
-    'edge108',
-    'firefox108',
+    // PC端各主流浏览器的最新版本，至20230118。Start
+    'chrome109',
+    'edge109',
+    'firefox109',
     'safari16',
     'opera94',
-    // PC端各主流浏览器的最新版本，至20221228。End
+    // PC端各主流浏览器的最新版本，至20230118。End
 
-    // 移动端各主流浏览器的最新版本，至20221228。Start
+    // 移动端各主流浏览器的最新版本，至20230118。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20221228。End
+    // 移动端各主流浏览器的最新版本，至20230118。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -385,19 +385,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20221228。Start
-    chrome: 108,
-    edge: 108,
-    firefox: 108,
+    // PC端各主流浏览器的最新版本，至20230118。Start
+    chrome: 109,
+    edge: 109,
+    firefox: 109,
     safari: 16,
     opera: 94,
-    // PC端各主流浏览器的最新版本，至20221228。End
+    // PC端各主流浏览器的最新版本，至20230118。End
 
-    // 移动端各主流浏览器的最新版本，至20221228。Start
+    // 移动端各主流浏览器的最新版本，至20230118。Start
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    android: 108,
+    android: 109,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20221228。End
+    // 移动端各主流浏览器的最新版本，至20230118。End
   },
   /**
    * 编译目标配置。
@@ -2773,6 +2773,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         // string。传入要在代码中突出显示的位置旁边内联显示的字符串（如果可能）。如果它不能内联定位，它将被放置在代码框的上方。
         message: '关键错误',
       },
+      pathType: 'absolute',
     },
     logger: 'webpack-infrastructure',
     // 如果设置为false，则不会向Webpack Dev Server报告错误。
@@ -4384,7 +4385,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
            */
           corejs: {
-            // 截至20220803，core-js版本为3.24.1。
+            // 截至20230119，core-js版本为3.27.2。
             version: ( () => {
               const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
 
@@ -4401,7 +4402,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.27.0',
+            } )() || '3.27.2',
             proposals: true,
           },
           /**
