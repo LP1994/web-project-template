@@ -72,7 +72,7 @@ const __dirname = Get__dirname( import.meta.url );
     else{
       throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
     }
-  } )() || '7.20.7';
+  } )() || '7.20.13';
 
   new Map( item[ 'presets' ] ).get( '@babel/preset-env' ).corejs.version = ( () => {
     const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
