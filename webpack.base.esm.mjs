@@ -295,22 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230203。Start
-    'Chrome >= 109',
+    // PC端各主流浏览器的最新版本，至20230208。Start
+    'Chrome >= 110',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 109',
     'Firefox >= 109',
     'Safari >= 16',
     'Opera >= 95',
-    // PC端各主流浏览器的最新版本，至20230203。End
+    // PC端各主流浏览器的最新版本，至20230208。End
 
-    // 移动端各主流浏览器的最新版本，至20230203。Start
-    'ChromeAndroid >= 109',
+    // 移动端各主流浏览器的最新版本，至20230208。Start
+    'ChromeAndroid >= 110',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 109',
+    'Android >= 110',
     'FirefoxAndroid >= 109',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20230203。End
+    // 移动端各主流浏览器的最新版本，至20230208。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -341,17 +341,17 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20230203。Start
-    'chrome109',
+    // PC端各主流浏览器的最新版本，至20230208。Start
+    'chrome110',
     'edge109',
     'firefox109',
     'safari16',
     'opera95',
-    // PC端各主流浏览器的最新版本，至20230203。End
+    // PC端各主流浏览器的最新版本，至20230208。End
 
-    // 移动端各主流浏览器的最新版本，至20230203。Start
+    // 移动端各主流浏览器的最新版本，至20230208。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20230203。End
+    // 移动端各主流浏览器的最新版本，至20230208。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -385,19 +385,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230203。Start
-    chrome: 109,
+    // PC端各主流浏览器的最新版本，至20230208。Start
+    chrome: 110,
     edge: 109,
     firefox: 109,
     safari: 16,
     opera: 95,
-    // PC端各主流浏览器的最新版本，至20230203。End
+    // PC端各主流浏览器的最新版本，至20230208。End
 
-    // 移动端各主流浏览器的最新版本，至20230203。Start
-    // 从Android 4.4后Android WebView直接跟Chrome同步。
-    android: 109,
+    // 移动端各主流浏览器的最新版本，至20230208。Start
+    /*从Android 4.4后Android WebView直接跟Chrome同步。*/
+    android: 110,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20230203。End
+    // 移动端各主流浏览器的最新版本，至20230208。End
   },
   /**
    * 编译目标配置。
@@ -5000,7 +5000,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         loader: 'ts',
         /**
          * 1、从esbuild-loader包的代码中可知，其会自动判断有没有设置tsconfigRaw选项，没有的话，会自动从项目根目录尝试加载tsconfig.json文件。<br />
-         * 2、tsconfigRaw的值类型得是字符串文本，而不是object。<br />
+         * 2、tsconfigRaw的值类型得是字符串文本，而不是object，但它不会解析extends属性。<br />
          * 3、但是从esbuild包的代码中可知，它会自动判断，如果是字符串文本，它就直接使用，如果不是字符串文本，会直接使用JSON.stringify()转成字符串文本。<br />
          * 4、esbuild仅支持tsconfig选项的子集（请参阅TransformOptions接口，也就是只支持tsconfig.json文件中的compilerOptions选项）并且不进行类型检查。<br />
          * 5、esbuild文档还建议在您的tsconfig中启用isolatedModules和esModuleInterop选项。<br />
@@ -7204,7 +7204,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         '...',
         /**
          * 1、这个插件，个人将其配置成用来压缩JS，但是不做语法转译。<br />
-         * 2、TerserPlugin比ESBuildMinifyPlugin更好地支持esbuild，即TerserPlugin支持缓存和多线程。<br />
+         * 2、TerserPlugin比EsbuildPlugin更好地支持esbuild，即TerserPlugin支持缓存和多线程。<br />
          */
         new TerserPlugin( {
           test: /\.(js|cjs|mjs)$/i,
