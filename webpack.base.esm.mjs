@@ -298,7 +298,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20230208。Start
     'Chrome >= 110',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 109',
+    'Edge >= 110',
     'Firefox >= 109',
     'Safari >= 16',
     'Opera >= 95',
@@ -343,7 +343,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20230208。Start
     'chrome110',
-    'edge109',
+    'edge110',
     'firefox109',
     'safari16',
     'opera95',
@@ -387,7 +387,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20230208。Start
     chrome: 110,
-    edge: 109,
+    edge: 110,
     firefox: 109,
     safari: 16,
     opera: 95,
@@ -4385,7 +4385,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
            */
           corejs: {
-            // 截至20230128，core-js版本为3.27.2。
+            // 截至20230214，core-js版本为3.28.0。
             version: ( () => {
               const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
 
@@ -4402,7 +4402,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.27.2',
+            } )() || '3.28.0',
             proposals: true,
           },
           /**
