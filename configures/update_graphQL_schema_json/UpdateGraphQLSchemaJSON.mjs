@@ -54,9 +54,9 @@ const __dirname = Get__dirname( import.meta.url ),
 
 // 获取"系统默认"的"GraphQL的Schema文档"。
 if( false ){
-  // 一般形如：http://192.168.1.196:8087/graphql/schema.json
+  // 一般形如：http://192.168.1.3:8087/graphql/schema.json
   const devURL001 = {
-    host: '192.168.1.196',
+    host: '192.168.1.3',
     port: '8087',
     path: '/graphql/schema.json',
     method: 'GET',
@@ -131,9 +131,9 @@ if( false ){
 
 // 获取"自己定义"的更加全面详细的"GraphQL的Schema文档"。
 if( false ){
-  // 一般形如：http://192.168.1.196:8087/graphql/
+  // 一般形如：http://192.168.1.3:8087/graphql/
   const devURL001 = {
-    host: '192.168.1.196',
+    host: '192.168.1.3',
     port: '8087',
     path: '/graphql/',
     method: 'POST',

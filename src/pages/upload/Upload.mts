@@ -16,6 +16,7 @@ import {
   createApp,
 } from 'vue';
 
+// @ts-ignore
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
 /**

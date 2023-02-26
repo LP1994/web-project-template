@@ -320,11 +320,11 @@ const proxyConfig = {
      * { [ hostOrPath: string ]: httpProxy.ServerOptions['target'] }、( req: Request ) => httpProxy.ServerOptions['target']、( req: Request ) => Promise<httpProxy.ServerOptions['target']>。<br />
      * 2、使用host、path来匹配请求时，将优先使用第一个匹配到的规则，所以配置的顺序很重要，具体使用例如：<br />
      * host only：<br />
-     * 'localhost:3000': 'http://192.168.1.196:8087'
+     * 'localhost:3000': 'http://192.168.1.3:8087'
      * host + path：<br />
-     * 'localhost:3000/api': 'http://192.168.1.196:8087'
+     * 'localhost:3000/api': 'http://192.168.1.3:8087'
      * path only：<br />
-     * '/rest': 'http://192.168.1.196:8087'
+     * '/rest': 'http://192.168.1.3:8087'
      *
      * 当设置为'0.0.0.0'时的注意事项：<br />
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -341,13 +341,11 @@ const proxyConfig = {
     router: {
       'localhost:8100': 'https://0.0.0.0:9200',
       '127.0.0.1:8100': 'https://0.0.0.0:9200',
-      '192.168.10.101:8100': 'https://0.0.0.0:9200',
-      '192.168.10.103:8100': 'https://0.0.0.0:9200',
+      '192.168.1.3:8100': 'https://0.0.0.0:9200',
 
       'localhost:8200': 'https://0.0.0.0:9200',
       '127.0.0.1:8200': 'https://0.0.0.0:9200',
-      '192.168.10.101:8200': 'https://0.0.0.0:9200',
-      '192.168.10.103:8200': 'https://0.0.0.0:9200',
+      '192.168.1.3:8200': 'https://0.0.0.0:9200',
     },
 
     /**
@@ -790,11 +788,11 @@ HTTP代理--->${ req.originalUrl }<---End
      * { [ hostOrPath: string ]: httpProxy.ServerOptions['target'] }、( req: Request ) => httpProxy.ServerOptions['target']、( req: Request ) => Promise<httpProxy.ServerOptions['target']>。<br />
      * 2、使用host、path来匹配请求时，将优先使用第一个匹配到的规则，所以配置的顺序很重要，具体使用例如：<br />
      * host only：<br />
-     * 'localhost:3000': 'http://192.168.1.196:8087'
+     * 'localhost:3000': 'http://192.168.1.3:8087'
      * host + path：<br />
-     * 'localhost:3000/api': 'http://192.168.1.196:8087'
+     * 'localhost:3000/api': 'http://192.168.1.3:8087'
      * path only：<br />
-     * '/rest': 'http://192.168.1.196:8087'
+     * '/rest': 'http://192.168.1.3:8087'
      *
      * 当设置为'0.0.0.0'时的注意事项：<br />
      * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -811,13 +809,11 @@ HTTP代理--->${ req.originalUrl }<---End
     router: {
       'localhost:8100': 'wss://0.0.0.0:9200',
       '127.0.0.1:8100': 'wss://0.0.0.0:9200',
-      '192.168.10.101:8100': 'wss://0.0.0.0:9200',
-      '192.168.10.103:8100': 'wss://0.0.0.0:9200',
+      '192.168.1.3:8100': 'wss://0.0.0.0:9200',
 
       'localhost:8200': 'wss://0.0.0.0:9200',
       '127.0.0.1:8200': 'wss://0.0.0.0:9200',
-      '192.168.10.101:8200': 'wss://0.0.0.0:9200',
-      '192.168.10.103:8200': 'wss://0.0.0.0:9200',
+      '192.168.1.3:8200': 'wss://0.0.0.0:9200',
     },
 
     /**

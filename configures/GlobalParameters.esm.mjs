@@ -16,7 +16,7 @@
 
 /**
  * 给浏览器调试用的主机名，不是给“devServer.host”用的。<br />
- * 1、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（192.168.1.6）、IPV6等等，但是不能用'0.0.0.0'来访问（Windows系统上是访问不了'0.0.0.0'的！），还是得通过：本地（localhost）、局域网（192.168.1.6）来访问的。<br />
+ * 1、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（192.168.1.3）、IPV6等等，但是不能用'0.0.0.0'来访问（Windows系统上是访问不了'0.0.0.0'的！），还是得通过：本地（localhost）、局域网（192.168.1.3）来访问的。<br />
  */
 const localHost = 'localhost';
 
@@ -46,7 +46,7 @@ const devServerGlobalParameters = {
     dev_server: {
       /**
        * 不是给“devServer.host”用的，是给“devServer.open”用的在浏览器打开页面的host。<br />
-       * 1、可以是：'localhost'、'192.168.1.6'等等。<br />
+       * 1、可以是：'localhost'、'192.168.1.3'等等。<br />
        */
       host: localHost,
       /**
@@ -62,7 +62,7 @@ const devServerGlobalParameters = {
     local_server: {
       /**
        * 不是给“devServer.host”用的，是给“devServer.open”用的在浏览器打开页面的host。<br />
-       * 1、可以是：'localhost'、'192.168.1.6'等等。<br />
+       * 1、可以是：'localhost'、'192.168.1.3'等等。<br />
        */
       host: localHost,
       /**

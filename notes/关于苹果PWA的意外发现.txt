@@ -150,7 +150,7 @@ Darwin
 
 ------/apple-touch-icon-120x120-precomposed.png------Start
 {
-  host: '192.168.10.101:8100',
+  host: '192.168.1.3:8100',
   accept: '*/*',
   'accept-language': 'zh-CN,zh-Hans;q=0.9',
   connection: 'keep-alive',
@@ -162,7 +162,7 @@ Darwin
 
 ------/apple-touch-icon-120x120.png------Start
 {
-  host: '192.168.10.101:8100',
+  host: '192.168.1.3:8100',
   accept: '*/*',
   'accept-language': 'zh-CN,zh-Hans;q=0.9',
   connection: 'keep-alive',

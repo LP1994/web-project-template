@@ -48,8 +48,8 @@ main {
 
     > section {
       display: flex;
-      justify-content: start;
-      align-items: start;
+      justify-content: flex-start;
+      align-items: flex-start;
 
       width: 100%;
       height: 50px;
