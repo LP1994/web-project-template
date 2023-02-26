@@ -84,6 +84,10 @@ main {
     padding: 100px 0 100px 200px !important;
   }
 
+  & :is(article section) {
+    color: black !important;
+  }
+
   > header {
     position: absolute;
     top: 0;

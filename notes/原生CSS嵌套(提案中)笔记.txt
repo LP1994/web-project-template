@@ -1,0 +1,727 @@
+原生CSS嵌套(提案中)笔记（更新于2023-02-27）
+https://drafts.csswg.org/css-nesting/
+https://www.w3.org/TR/css-nesting-1/
+https://w3c.github.io/csswg-drafts/css-nesting-1/
+
+
+
+1、
+“原生CSS嵌套模块”介绍了将“一个样式规则”嵌套在“另一个样式规则”中的能力，“子规则的选择器”与“父规则的选择器”相对。
+这增加了CSS样式表的“模块化”和“可维护性”。
+
+
+
+2、
+“嵌套的样式规则”与“普通的样式规则”完全一样，除了它的选择器不能以“标识符”或“功能符号”开始。
+此外，“嵌套的样式规则”可以使用“相对选择器”。
+
+为什么对嵌套规则选择器有限制？
+答：
+不幸的是，将样式规则天真地嵌套在其他样式规则中是不明确的--选择器的语法与声明的语法相重叠，所以一个实现需要无界的前瞻来判断给定的文本是一个声明还是一个样式规则的开始。
+
+例如，如果一个解析器从看到color:hover开始......，它就无法判断那是color属性（被设置为一个无效的值hover......）还是一个<color>元素的选择器。它甚至不能依靠寻找有效的属性来区分；这将导致解析取决于实现所支持的属性，并可能随时间而改变。
+
+禁止嵌套的样式规则以标识符开始，可以解决这个问题--所有的声明都以一个标识符开始，给出属性名称，所以解析器可以立即分辨出它是在解析一个声明还是样式规则。
+
+一些非浏览器的嵌套规则的实现并不强加这一要求。在大多数情况下，最终有可能将属性和选择器区分开来，但这样做需要在解析器中进行无限制的前瞻；也就是说，解析器可能不得不在分辨出它应该以何种方式解释内容之前保留未知数量的内容。迄今为止，CSS在其解析中只需要少量的、已知的前瞻，这允许更有效的解析算法，所以在CSS的浏览器实现中，无界的前瞻通常被认为是不可接受的。
+
+总结：
+1、不明确；
+2、无界的前瞻通常被认为是不可接受的。
+
+
+
+3、
+例子：
+.foo {
+  color: red;
+
+  .bar {
+    color: blue;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: red;
+}
+.foo .bar {
+  color: blue;
+}
+------------------------
+使用相对选择器语法来指定 "子孙 "以外的关系：
+.foo {
+  color: red;
+
+  &:hover {
+    color: blue;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: red;
+}
+.foo:hover {
+  color: blue;
+}
+------------------------
+使用相对选择器语法来指定 "子孙 "以外的关系：
+.foo {
+  color: red;
+
+  + .bar {
+    color: blue;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: red;
+}
+.foo + .bar {
+  color: blue;
+}
+------------------------
+用一个标识符（换句话说，一个类型选择器）开始嵌套选择器是无效的：
+div {
+  color: red;
+
+  input {
+    margin: 1em;
+  }
+}
+无效，因为“input”是一个标识符。
+正确的嵌套的写法：
+div {
+  color: red;
+
+  & input {
+    margin: 1em;
+  }
+}
+或者：
+div {
+  color: red;
+
+  :is(input) {
+    margin: 1em;
+  }
+}
+------------------------
+“&”可以单独使用：
+.foo {
+  color: blue;
+
+  & > .bar {
+    color: red;
+  }
+
+  > .baz {
+    color: green;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: blue;
+}
+.foo > .bar {
+  color: red;
+}
+.foo > .baz {
+  color: green;
+}
+------------------------
+或在一个复合选择器中，以完善父类的选择器。
+.foo {
+  color: blue;
+
+  &.bar {
+    color: red;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: blue;
+}
+.foo.bar {
+  color: red;
+}
+------------------------
+列表中的多个选择器都是相对于父级的：
+.foo, .bar {
+  color: blue;
+
+  + .baz, &.qux {
+    color: red;
+  }
+}
+是有效的，并且等同于：
+.foo, .bar {
+  color: blue;
+}
+:is(.foo, .bar) + .baz,
+:is(.foo, .bar).qux {
+  color: red;
+}
+也等同于：
+.foo, .bar {
+  color: blue;
+}
+.foo + .baz,
+.bar + .baz,
+.foo.qux,
+.bar.qux {
+  color: red;
+}
+------------------------
+“&”可以在一个选择器中多次使用：
+.foo {
+  color: blue;
+
+  & .bar & .baz & .qux {
+    color: red;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: blue;
+}
+.foo .bar .foo .baz .foo .qux {
+  color: red;
+}
+------------------------
+“&”并不一定要在选择器的开头：
+.foo {
+  color: red;
+
+  .parent & {
+    color: blue;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: red;
+}
+.parent .foo {
+  color: blue;
+}
+------------------------
+“&”并不一定要在选择器的开头：
+.foo {
+  color: red;
+
+  :not(&) {
+    color: blue;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: red;
+}
+:not(.foo) {
+  color: blue;
+}
+------------------------
+但如果你使用一个相对选择器，就会自动隐含一个初始的“&”：
+.foo {
+  color: red;
+
+  + .bar + & {
+    color: blue;
+  }
+}
+也等同于：
+.foo {
+  color: red;
+
+  & + .bar + & {
+    color: blue;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: red;
+}
+.foo + .bar + .foo {
+  color: blue;
+}
+------------------------
+有点傻，但“&”也可以单独使用：
+.foo {
+  color: blue;
+
+  & {
+    padding: 2ch;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: blue;
+}
+.foo {
+  padding: 2ch;
+}
+也等同于：
+.foo {
+  color: blue;
+  padding: 2ch;
+}
+------------------------
+同样，很傻，但甚至可以翻倍使用“&”：
+.foo {
+  color: blue;
+
+  && {
+    padding: 2ch;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  color: blue;
+}
+.foo.foo {
+  padding: 2ch;
+}
+------------------------
+父级选择器可以是任意复杂的：
+.error, #404 {
+  &:hover > .baz {
+    color: red;
+  }
+}
+是有效的，并且等同于：
+:is(.error, #404):hover > .baz {
+  color: red;
+}
+也等同于：
+.error:hover > .baz,
+#404:hover > .baz {
+  color: red;
+}
+------------------------
+父级选择器可以是任意复杂的：
+.ancestor .el {
+  .other-ancestor & {
+    color: red;
+  }
+}
+是有效的，并且等同于：
+.other-ancestor :is(.ancestor .el) {
+  color: red;
+}
+也等同于：
+.other-ancestor .ancestor .el {
+  color: red;
+}
+------------------------
+正如嵌套选择器可以：
+.foo {
+  & :is(.bar, &.baz) {
+    color: red;
+  }
+}
+是有效的，并且等同于：
+.foo :is(.bar, .foo.baz) {
+  color: red;
+}
+------------------------
+多层嵌套“叠加”选择器：
+figure {
+  margin: 0;
+
+  > figcaption {
+    background: hsl(0 0% 0% / 50%);
+
+    > p {
+      font-size: .9rem;
+    }
+  }
+}
+是有效的，并且等同于：
+figure {
+  margin: 0;
+}
+figure > figcaption {
+  background: hsl(0 0% 0% / 50%);
+}
+figure > figcaption > p {
+  font-size: .9rem;
+}
+------------------------
+使用层叠式图层的例子：
+@layer base {
+  html {
+    block-size: 100%;
+
+    & body {
+      min-block-size: 100%;
+    }
+  }
+}
+是有效的，并且等同于：
+@layer base {
+  html {
+    block-size: 100%;
+  }
+  html body {
+    min-block-size: 100%;
+  }
+}
+------------------------
+嵌套级联层的例子：
+@layer base {
+  html {
+    block-size: 100%;
+
+    @layer support {
+      & body {
+        min-block-size: 100%;
+      }
+    }
+  }
+}
+是有效的，并且等同于：
+@layer base {
+  html {
+    block-size: 100%;
+  }
+}
+@layer base.support {
+  html body {
+    min-block-size: 100%;
+  }
+}
+------------------------
+使用范围的例子：
+@scope (.card) to (> header) {
+  :scope {
+    inline-size: 40ch;
+    aspect-ratio: 3/4;
+
+    > header {
+      border-block-end: 1px solid white;
+    }
+  }
+}
+是有效的，并且等同于：
+@scope (.card) to (> header) {
+  :scope {
+    inline-size: 40ch;
+    aspect-ratio: 3/4;
+  }
+  :scope > header {
+    border-block-end: 1px solid white;
+  }
+}
+------------------------
+嵌套实例范围：
+.card {
+  inline-size: 40ch;
+  aspect-ratio: 3/4;
+
+  @scope (&) to (> header > *) {
+    :scope > header {
+      border-block-end: 1px solid white;
+    }
+  }
+}
+是有效的，并且等同于：
+.card {
+  inline-size: 40ch;
+  aspect-ratio: 3/4;
+}
+@scope (.card) to (> header > *) {
+  :scope > header {
+    border-block-end: 1px solid white;
+  }
+}
+
+
+
+4、
+一些预处理嵌套的CSS生成工具会将选择器连接成字符串，允许作者跨嵌套层建立一个简单的选择器。当选择器本身有明显的内部重复时，这有时会被用于像BEM这样的分层名称模式，以减少整个文件的重复性。
+例如，如果一个组件使用.foo类，而一个嵌套组件使用.fooBar，你可以在Sass中写成：
+.foo {
+  color: blue;
+
+  &Bar {
+    color: red;
+  }
+}
+在Sass中，这等同于：
+.foo {
+  color: blue;
+}
+.fooBar {
+  color: red;
+}
+不幸的是，这种基于字符串的解释在作者试图在嵌套规则中添加一个类型选择器时是模糊的。例如，Bar是HTML中一个有效的自定义元素名称。
+CSS不会这样做：嵌套的选择器组件被原子化地解释，而不是字符串连缀：
+.foo {
+  color: blue;
+
+  &Bar {
+    color: red;
+  }
+}
+在CSS中，这反而相当于（直到2023-02-27在Windows 11的Google Chrome v110.0.5481.178上并没有如其所言实现了这个等价效果）：
+.foo {
+  color: blue;
+}
+Bar.foo {
+  color: red;
+}
+
+
+
+5、
+嵌套其他at-rule
+
+除了嵌套的样式规则外，本规范还允许在样式规则中嵌套组规则：任何主体包含样式规则的at-rule也可以嵌套在样式规则中。
+当以这种方式嵌套时，嵌套的组规则的内容被解析为<style-block>而不是<stylesheet>。
+样式规则是嵌套的样式规则，其嵌套的选择器从最近的祖先样式规则中获取其定义。
+属性可以直接使用，就像它们被嵌套在& {...}块中一样。
+
+具体来说，这些规则能够成为嵌套组规则：
+所有的条件组规则 (如：@media, @supports)、@layer、@scope、@container。
+
+例子：
+属性可以直接使用：
+.foo {
+  display: grid;
+
+  @media (orientation: landscape) {
+    grid-auto-flow: column;
+  }
+}
+是有效的，并且等同于：
+.foo {
+  display: grid;
+
+  @media (orientation: landscape) {
+    & {
+      grid-auto-flow: column;
+    }
+  }
+}
+最后相当于：
+.foo {
+  display: grid;
+}
+@media (orientation: landscape) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+------------------------
+条件语句可以进一步嵌套：
+.foo {
+  display: grid;
+
+  @media (orientation: landscape) {
+    grid-auto-flow: column;
+
+    @media (min-width > 1024px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+是有效的，并且等同于：
+.foo {
+  display: grid;
+}
+@media (orientation: landscape) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+@media (orientation: landscape) and (min-width > 1024px) {
+  .foo {
+    max-inline-size: 1024px;
+  }
+}
+------------------------
+嵌套级联层的例子：
+html {
+  @layer base {
+    block-size: 100%;
+
+    @layer support {
+      & body {
+        min-block-size: 100%;
+      }
+    }
+  }
+}
+是有效的，并且等同于：
+@layer base {
+  html {
+    block-size: 100%;
+  }
+}
+@layer base.support {
+  html body {
+    min-block-size: 100%;
+  }
+}
+------------------------
+嵌套实例范围：
+.card {
+  inline-size: 40ch;
+  aspect-ratio: 3/4;
+
+  @scope (&) {
+    :scope {
+      border: 1px solid white;
+    }
+  }
+}
+是有效的，并且等同于：
+.card {
+  inline-size: 40ch;
+  aspect-ratio: 3/4;
+}
+@scope (.card) {
+  :scope {
+    border-block-end: 1px solid white;
+  }
+}
+所有直接嵌套的属性都被视为按顺序收集在一起，并嵌套在一个带有选择符&的嵌套样式规则中，并放在所有其他子规则之前。这包括在OM中。（也就是说，childRules属性实际上从这个嵌套的样式规则开始，包含所有直接嵌套的属性。）
+如：
+.foo {
+  display: grid;
+
+  @media (orientation: landscape) {
+    grid-auto-flow: column;
+  }
+}
+等同于：
+.foo {
+  display: grid;
+
+  @media (orientation: landscape) {
+    & {
+      grid-auto-flow: column;
+    }
+  }
+}
+实际上是完全等同的，产生的CSSOM结构完全相同。CSSMediaRule对象在其.childRules属性中会有一个CSSStyleRule对象，包含grid-auto-flow属性。
+这确实意味着这种规则的序列化将不同于它们最初的写法，在序列化中没有直接嵌套的属性。
+
+
+
+6、
+当@scope规则是一个嵌套的组规则时，<scope-start>选择器中的&指的是被最近的祖先样式规则匹配的元素。
+对于它的主体和它自己的<scope-end>选择器中的样式规则来说，@scope规则被看作是一个祖先样式规则，与它的<scope-start>选择器所匹配的元素匹配。
+例子：
+.parent {
+  color: blue;
+
+  @scope (& > .scope) to (& .limit) {
+    & .content {
+      color: red;
+    }
+  }
+}
+是有效的，并且等同于：
+.parent {
+  color: blue;
+}
+@scope (.parent > .scope) to (.parent > .scope .limit) {
+  .parent > .scope .content {
+    color: red;
+  }
+}
+
+
+
+7、
+嵌套规则和声明的混合
+当一个样式规则同时包含声明和嵌套的样式规则或嵌套的条件组规则时，这三者可以任意地混合。然而，声明与其他规则的相对顺序不会以任何方式被保留。
+例子：
+article {
+  color: green;
+
+  & {
+    color: blue;
+  }
+
+  color: red;
+}
+等同于：
+article {
+  color: green;
+
+  color: red;
+
+  & {
+    color: blue;
+  }
+}
+故上述的例子，最后生效的是：“color: blue”。
+
+为了确定外观顺序，嵌套的样式规则和嵌套的条件组规则被认为是在其父规则之后。
+例子：
+article {
+  color: blue;
+
+  & {
+    color: red;
+  }
+}
+两个声明都有相同的特异性（0,0,1），但嵌套规则被认为是在其父规则之后，所以“color: red”声明赢得了级联。
+故上述的例子，最后生效的是：“color: red”。
+
+另一方面，在这个例子中：
+article {
+  color: blue;
+
+  :where(&) {
+    color: red;
+  }
+}
+:where()伪类将嵌套选择器的特异性降低到0，所以“color: red”声明现在的特异性是(0,0,0)，在 "Order Of Appearance "被考虑到之前，它输给了color: blue声明。
+故上述的例子，最后生效的是：“color: blue”。
+也就是说“:where()伪类”修饰的声明的权重为0，为最低，也就输给了其父规则的“color: blue”。
+
+注意：虽然我们可以自由地混合声明和嵌套规则，但这样做更难阅读，而且有些混乱，因为所有的属性都好像是在所有规则之前。为了提高可读性，我们建议作者把所有的属性放在样式规则的第一位，在任何嵌套规则之前。(这在旧的用户代理中也恰好表现得稍微好一些；由于解析和错误恢复工作的特殊性，出现在嵌套规则之后的属性会被跳过)。
+
+注意：就像其他类型的规则一样，在嵌套的情况下，样式规则的序列化可能与它们最初的编写方式不同。值得注意的是，所有直接嵌套的属性将在任何嵌套的规则之前被序列化，这是在规则之前编写属性的另一个原因。
+
+
+
+8、
+“&”嵌套选择器不能代表“伪元素”（与“:is()”伪类的行为相同）。
+例子：
+.foo, .foo::before, .foo::after {
+  color: red;
+
+  &:hover {
+    color: blue;
+  }
+}
+其中有效的等同写法只剩：
+.foo, .foo::before, .foo::after {
+  color: red;
+}
+.foo:hover {
+  color: blue;
+}
+
+
+
+9、
+#a, b {
+  & c {
+    color: blue;
+  }
+}
+
+.foo c {
+  color: red;
+}
+然后在一个DOM结构中，如：
+<b class=foo>
+  <c>蓝色文本</c>
+</b>
+文字将是蓝色的，而不是红色。
+&的特异性是#a（[1,0,0]）和b（[0,0,1]）的特异性中较大的一个，所以它是[1,0,0]，整个&c选择器因此具有特异性[1,0,1]，比.foo c（[0,1,1]）的特异性大。
+值得注意的是，这与你在手动将嵌套扩展为非嵌套规则时得到的结果不同，因为此时color: blue声明将由于b c选择器（[0,0,2]）而不是#a c（[1,0,1]）而被匹配。
