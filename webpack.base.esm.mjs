@@ -2028,8 +2028,8 @@ const aliasConfig = {
      * 2、安装证书如下：<br />
      * “configures/openssl/HTTPSSL001”文件夹下的3个：<br />
      * 001根CA证书：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
-     * 002服务端CA证书：HTTPSSL001_Servers_192_168_10_101_CA.crt，安装到“受信任的根证书颁发机构”。<br />
-     * 003客户端CA证书：HTTPSSL001_Clients_192_168_10_101_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。<br />
+     * 002服务端CA证书：HTTPSSL001_Servers_192_168_2_7_CA.crt，安装到“受信任的根证书颁发机构”。<br />
+     * 003客户端CA证书：HTTPSSL001_Clients_192_168_2_7_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。<br />
      * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。<br />
      */
     server: {
@@ -2054,15 +2054,15 @@ const aliasConfig = {
          * PEM允许选择加密私钥，加密密钥将使用“options.passphrase”（用于单个私钥或PFX的共享密码）解密。<br />
          *
          * 注意：<br />
-         * 1、在生成“服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
+         * 1、在生成“服务端CA证书，HTTPSSL001_Servers_192_168_2_7_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
          * 2、当前“HTTPSSL001_Root_CA_Key.key”没使用加密。<br />
          */
         key: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
         /**
-         * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_192_168_10_101_CA.crt）。<br />
+         * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_192_168_2_7_CA.crt）。<br />
          */
-        cert: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_10_101_CA.crt' ), 'utf8' ),
+        cert: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_2_7_CA.crt' ), 'utf8' ),
 
         /**
          * 如果SSL/TLS握手未在指定的毫秒数内完成，则中止连接。只要握手超时，就会在tls.Server对象上发出“tlsClientError”。默认值：120000（120000毫秒 = 120秒）。<br />
@@ -2092,7 +2092,7 @@ const aliasConfig = {
         /**
          * 用于单个私钥和/或PFX的共享密码。<br />
          */
-        passphrase: '@HTTPSSL001.2022#',
+        passphrase: '@HTTPSSL001.2023#',
 
         /**
          * PEM格式的CRL（证书吊销列表）。<br />

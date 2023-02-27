@@ -38,8 +38,8 @@ const config: ConnectOptions = {
   safe: true,
   retryWrites: true,
   caCert: new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.crt` ),
-  privateKey: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA_Key.key` ),
-  certChain: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_10_101_CA.crt` ),
+  privateKey: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA_Key.key` ),
+  certChain: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ),
 };
 
 // @ts-ignore
