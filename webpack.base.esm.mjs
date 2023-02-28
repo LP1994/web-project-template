@@ -2129,7 +2129,6 @@ const aliasConfig = {
           setHeaders: ( res, path, stat ) => {
             res.set( 'x-env-platform', `${ env_platform }` );
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-            res.set( 'x-path', `${ path }` );
 
             Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
