@@ -8,7 +8,7 @@ mongod --config D:\MongoDB\App\bin\mongod.cfg
 
 
 2、命令行中使用mongosh连接MongodDB数据库：
-mongosh --port 27777 --tls --tlsCertificateKeyFile D:\MongoDB\App\bin\MongoDBClients_192_168_10_101.pem --tlsCAFile D:\MongoDB\App\bin\MongoDBRootCA.pem
+mongosh --port 27777 --tls --tlsCertificateKeyFile D:\MongoDB\App\bin\MongoDBClients_192_168_2_7.pem --tlsCAFile D:\MongoDB\App\bin\MongoDBRootCA.pem
 
 
 

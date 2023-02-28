@@ -5,8 +5,8 @@ Windows查看证书的命令：certmgr.msc（当前用户）、mmc（本地计�
 关于在生成操作的过程中，对于输入值的说明：
 1、以生成“MongoDBSSL001_Root_CA.crt”中的输入值为基准。
 2、生成“MongoDBSSL001_MiddlemanSigning_CA.csr”时，输入值中除了“Common Name”选项的值可以跟“基准”的“Common Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
-3、生成“MongoDBSSL001_Servers_192_168_10_101_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
-4、生成“MongoDBSSL001_Clients_192_168_10_101_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
+3、生成“MongoDBSSL001_Servers_192_168_2_7_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
+4、生成“MongoDBSSL001_Clients_192_168_2_7_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
 5、多个“成员_服务端CA证书”之间的输入值中，“Organizational Unit Name”选项的值必须一样。
 6、多个“客户端CA证书”之间的输入值中，“Organizational Unit Name”选项的值必须一样。
 7、多个“成员_服务端CA证书”之间的输入值中，“Common Name”选项的值可以是各自不同的域名、IP，且该值也这只能是域名、IP。当然在生成的过程中可以通过设置“subjectAltName”来设置多个域名、IP别名。
