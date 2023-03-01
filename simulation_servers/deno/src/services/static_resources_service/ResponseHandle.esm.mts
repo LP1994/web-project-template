@@ -31,11 +31,13 @@
 
 'use strict';
 
-import {
-  parse,
+/*
+ import {
+ parse,
 
-  // @ts-ignore
-} from 'DenoStd/path/mod.ts';
+ // @ts-ignore
+ } from 'DenoStd/path/mod.ts';
+ */
 
 import {
   type TypeResponse001,
@@ -98,18 +100,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
           ...httpHeaders,
           'Content-Type': `${ mime.getType( filePath.href ) }`,
           'Content-Length': Number( fileState.size ),
-          ...( (): { 'Content-Encoding'?: string; } => {
-            const acceptEncoding: string | null = request.clone().headers.get( 'Accept-Encoding' );
-
-            if( acceptEncoding ){
-              return {
-                'Content-Encoding': acceptEncoding,
-              };
-            }
-            else{
-              return {};
-            }
-          } )(),
+          // 该属性用于下载。
           'Accept-Ranges': 'bytes',
           /**
            * Content-Disposition：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
@@ -128,7 +119,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
            * 'Content-Disposition': 'form-data; name=fieldName'、'Content-Disposition': 'form-data; name=fieldName; filename="filename.jpg"'
            * 8、警告。“filename”文件名后面的字符串应该总是放在引号里；但是，由于兼容性的原因，许多浏览器试图解析含有空格的无引号名称。
            */
-          'Content-Disposition': `attachment; filename="${ parse( filePath.href ).base }"`,
+          // 'Content-Disposition': `attachment; filename="${ parse( filePath.href ).base }"`,
         },
       } );
     }

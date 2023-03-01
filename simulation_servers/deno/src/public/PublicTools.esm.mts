@@ -60,6 +60,7 @@ mime.define( {
   ],
   'text/plain; charset=utf-8': [
     'gitignore',
+    'txt',
   ],
 }, true );
 
