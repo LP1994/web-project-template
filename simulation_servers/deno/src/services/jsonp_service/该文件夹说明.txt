@@ -1,0 +1,4 @@
+该文件夹是用于响应“jsonp”（GET请求）。
+
+如：
+https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information

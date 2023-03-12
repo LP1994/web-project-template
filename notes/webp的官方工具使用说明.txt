@@ -2,7 +2,7 @@ webp的官方工具使用说明
 
 一、cwebp(将图像文件压缩为WebP文件)
 描述：
-输入格式可以是PNG，JPEG，TIFF，WebP或raw Y'CbCr样本。
+输入格式可以是PNG，JPEG，TIFF，WebP或原始 Y'CbCr 样本。
 注：
 在将大分辨率的jpg转换成webp时，转换后的webp会出现90度的旋转！
 解决方案是命令参数添加"-metadata all"
@@ -605,12 +605,12 @@ vwebp -mt -- out1.webp
 选项参数：
 
 1、-h
-打印使用摘要。
+打印使用情况摘要。
 如：
 vwebp -h
 
 2、-version
-打印版本号并退出。
+输出版本号并退出。
 如：
 vwebp -version
 
@@ -620,7 +620,7 @@ vwebp -version
 vwebp -noicc
 
 4、-nofancy
-不要使用花哨的YUV420升级版。
+不要使用时尚的 YUV420 高档产品。
 如：
 vwebp -nofancy
 
@@ -630,7 +630,7 @@ vwebp -nofancy
 vwebp -nofilter
 
 6、-dither strength
-指定0到100之间的抖动强度。抖动是应用于有损压缩中的色度分量的后处理效果。它有助于平滑渐变并避免条带伪影。默认值：50。
+指定 0 和 100 之间的抖动强度。去抖动是对采用有损压缩的色度组件施加的后期处理效果。它能帮助平滑渐变效果并避免带状伪影。默认值：50。
 如：
 vwebp -dither 100
 
@@ -645,7 +645,7 @@ vwebp -mt
 vwebp -info
 
 9、-- string
-显式指定输入文件。例如，如果输入文件以“-”开头，则此选项很有用。此选项必须出现在最后。以后的任何其他选项都将被忽略。如果输入文件为“-”，则将从stdin而不是文件读取数据。
+明确指定输入文件。例如，如果输入文件以 '-' 开头，此选项会非常有用。此选项必须显示为 last。之后，系统会忽略任何其他选项。如果输入文件为“-”，则会从 stdin 而不是文件读取数据。
 如：
 vwebp -- out1.webp
 
@@ -656,10 +656,78 @@ vwebp -- out1.webp
 切换使用颜色配置文件
 
 11、i
-覆盖文件信息
+叠加层文件信息
 
 12、d
-禁用混合和处理过程，以进行调试。
+出于调试目的，停用混合和处理流程。
 
 13、q / Q / Esc
 退出
+
+
+
+
+
+
+六、webpinfo(输出 WebP 文件的区块级结构以及基本完整性检查)
+webpinfo -diag -summary -bitstream_info 2.webp
+
+输入：
+以 WebP 格式输入文件。输入文件必须位于最后，且有以下选项（若有）。可以有多个输入文件。
+
+说明：
+webpinfo 可用于输出 WebP 文件的区块级结构和比特流标头信息。它还可以检查文件是否为有效的 WebP 格式。
+
+摘要：
+webpinfo OPTIONS INPUT
+webpinfo [-h|-help|-H|-longhelp]
+
+选项：
+1、-version
+输出版本号（如 main.minor.revision）并退出。
+该参数最好单独使用，因为排在它之后的参数都会被忽略，因为这个参数会在输出版本号后并退出！
+
+2、-quiet
+不显示分块解析信息。
+
+3、-diag
+显示解析错误诊断。
+
+4、-summary
+显示分块统计信息摘要。
+
+5、-bitstream_info
+解析比特流标头。
+
+6、-h, -help
+简短的使用情况摘要。
+
+7、-H, -longhelp
+详细的使用说明。
+
+示例：
+webpinfo -h
+webpinfo -diag -summary input_file.webp
+webpinfo -bitstream_info input_file_1.webp input_file_2.webp
+webpinfo *.webp
+
+
+
+
+
+
+WebP无损：
+压缩到 WebP 无损：
+cwebp input.png -lossless -m 6 -q 100 -o webp_lossless.webp
+
+将 WebP 无损图片转换回 PNG：
+dwebp webp_lossless.webp -o output.png
+
+
+
+具有 Alpha 值的 WebP有损（透明度支持）：
+压缩为 WebP 有损状态（使用 Alpha 版）：
+cwebp input.png -q 90 -alpha_q 100 -m 6 -o webp_alpha.webp
+
+渲染 WebP-有损（使用 Alpha 版）：
+dwebp webp_alpha.webp -o output.png

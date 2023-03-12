@@ -195,6 +195,10 @@ const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
     // @ts-ignore
     new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandle.esm.mts` ) ),
   ],
+  [
+    `${ servicesDir }/jsonp_service/Condition.esm.mts`,
+    `${ servicesDir }/jsonp_service/ResponseHandle.esm.mts`,
+  ],
 ] );
 
 /**

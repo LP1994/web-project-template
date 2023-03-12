@@ -6,6 +6,8 @@
 
 # /log/
 
+# /simulation_servers/deno/log/
+
 /node_modules/
 /node_modules.7z
 /node_modules.zip
