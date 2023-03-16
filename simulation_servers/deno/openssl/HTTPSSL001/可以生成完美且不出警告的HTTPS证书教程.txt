@@ -1,5 +1,7 @@
 发现本机系统的OpenSSL版本默认指向：OpenSSL 1.1.1i  8 Dec 2020。
-无论怎么配置系统环境变量都没法更改这个默认的版本，所以，要使用OpenSSL 3.X进行生成证书，那就进到“D:\OpenSSL\App\bin”，然后在其下进行各种证书配置操作。
+原因是因为上面安装的“StrawberryPerl”里面有一个“openssl.exe”，见：D:\StrawberryPerl\App\c\bin\openssl.exe
+可以在安装、配置完后，将环境变量“D:\StrawberryPerl\App\c\bin”删除。
+实在不行就进到“D:\OpenSSL\App\bin”，然后在其下进行各种证书配置操作。
 
 Windows查看证书的命令：certmgr.msc（当前用户）、mmc（本地计算机）
 
