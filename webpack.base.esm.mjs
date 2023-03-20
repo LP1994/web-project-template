@@ -1897,6 +1897,7 @@ const aliasConfig = {
     client: {
       logging: 'info',
       overlay: {
+        runtimeErrors: true,
         errors: true,
         warnings: false,
       },
@@ -3151,7 +3152,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             /**
              * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator
              * 1、“pipeline operator”有几个相互竞争的提议。使用所需的“proposal”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
-             * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"。<br />
+             * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"、"topicToken": "%"、"topicToken": "@@"。<br />
              * 3、"proposal": "minimal"、"fsharp"、"smart"这3个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
              * 4、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
@@ -3216,23 +3217,24 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               '@babel/plugin-proposal-decorators',
               {
                 /**
-                 * 从v7.17.0开始添加这个新的version选项，有效值有：'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
+                 * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
                  * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
                  * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
                  * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
                  * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
-                 * 5、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
+                 * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本，见：https://github.com/tc39/proposal-decorators
+                 * 6、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
                  */
-                version: '2022-03',
+                version: '2023-01',
                 /**
                  * 添加此选项是为了帮助tc39通过允许对两种可能的语法进行试验来收集来自社区的反馈。<br />
                  * 1、当上面的version选项值为"legacy"时，该选项被禁用，也就是说该选项不能设置。<br />
                  * 2、当上面的version选项值为"2018-09"时，该选项被启用，设置成true或false都行。<br />
                  * 3、当上面的version选项值为"2021-12"时，该选项是可选的，设置成true或false都行，且默认值为false。<br />
-                 * 4、当上面的version选项值为"2022-03"时，该选项被禁用，也就是说该选项不能设置。<br />
+                 * 4、当上面的version选项值为"2022-03"、"2023-01"时，该选项被禁用，也就是说该选项不能设置。<br />
                  * 5、从最新的源码中可知当该选项值为undefined时，上面的version选项值为"2021-12"和"2022-03"时，会被设置为false。<br />
                  * 6、从最新的源码中可知当该选项值为undefined时，上面的version为"2018-09"或未指定时，会通过抛出异常错误来提示该选项值类型必须为布尔类型，也就是设置为true或false。<br />
-                 * 7、从最新的源码中可知当该选项值不为undefined时，上面的version选项值为"legacy"和"2022-03"时，会抛出异常错误。<br />
+                 * 7、从最新的源码中可知当该选项值不为undefined时，上面的version选项值为"legacy"和"2022-03"、"2023-01"时，会抛出异常错误。<br />
                  */
                 // decoratorsBeforeExport: true,
 
@@ -3268,6 +3270,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              */
             [
               '@babel/plugin-proposal-unicode-sets-regex',
+            ],
+            /**
+             * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers
+             * 1、目前该提案处于第3阶段。<br />
+             */
+            [
+              '@babel/plugin-proposal-regexp-modifiers',
             ],
 
             // 处于无效提案，但是有新的替代提案处于讨论中！
@@ -5029,8 +5038,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           return JSON.stringify( {
             compilerOptions: {
               ...resultCompilerOptionsObj,
-              isolatedModules: true,
               esModuleInterop: true,
+              // 选项'isolatedModules'是多余的，不能与选项'verbatimModuleSyntax'一起指定，优先使用verbatimModuleSyntax。
+              // isolatedModules: true,
             },
           } );
         } )( './tsconfig.json' ),

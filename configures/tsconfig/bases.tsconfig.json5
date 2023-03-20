@@ -10,7 +10,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 {
   "display": "bases.tsconfig.json5",
   "_version": "1.0.0",
-  "_typescript_version": "4.9.5",
+  "_typescript_version": "5.0.2",
   "_description": "这是基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -96,6 +96,67 @@ CreateDate: 2022-01-01 00:00:00 星期六
   // 确保你在运行程序前自动编译已保存变更后的代码。
   "compileOnSave": true,
   "compilerOptions": {
+    /*
+    解析定制标志 Start
+    JavaScript工具现在可以模拟"混合"解析规则，就像我们上面描述的“bundler”模式。
+    因为工具的支持可能略有不同，TypeScript 5.0提供了启用或禁用一些功能的方法，这些功能可能与你的配置一起使用，也可能不使用。
+    */
+    /*
+    允许TypeScript文件以TypeScript特定的扩展名（如.ts、.mts或.tsx）相互导入。
+    1、这个标志只有在启用了noEmit或emitDeclarationOnly时才允许，因为这些导入路径在运行时无法在JavaScript输出文件中解析。
+    这里的期望是，你的解析器（例如你的捆绑器、运行时或其他工具）将使这些.ts文件之间的导入发挥作用。
+    */
+    "allowImportingTsExtensions": true,
+    /*
+    resolvePackageJsonExports迫使TypeScript在从node_modules中的包中读取数据时查阅package.json文件的exports字段。
+    1、这个选项在node16、nodenext和bundler的-moduleResolution选项下默认为true。
+    */
+    // "resolvePackageJsonExports": false,
+    /*
+    resolvePackageJsonImports强制TypeScript在执行以#开头的查找时，查阅package.json文件的进口字段，该文件的祖先目录包含package.json。
+    1、这个选项在node16、nodenext和bundler的--moduleResolution选项下默认为true。
+    */
+    // "resolvePackageJsonImports": false,
+    /*
+    在TypeScript 5.0中，当导入路径以扩展名结尾，而该扩展名不是已知的JavaScript或TypeScript文件扩展名时，编译器会以{file basename}.d.{extension}.ts的形式为该路径寻找声明文件。
+    1、例如，如果你在一个捆绑项目中使用一个CSS加载器，你可能想为这些样式表编写（或生成）声明文件：
+    // app.css
+    .cookie-banner {
+      display: none;
+    }
+
+    // app.d.css.ts
+    declare const css: {
+      cookieBanner: string;
+    };
+    export default css;
+
+    // App.tsx
+    import styles from "./app.css";
+
+    // string
+    styles.cookieBanner;
+
+    默认情况下，这种导入会引发一个错误，让你知道TypeScript不理解这种文件类型，你的运行时可能不支持导入它。
+    但如果你已经配置了你的运行时或捆绑器来处理它，你可以用新的--allowArbitraryExtensions编译器选项来抑制这个错误。
+
+    2、请注意，在历史上，类似的效果往往可以通过添加一个名为app.css.d.ts而不是app.d.css.ts的声明文件来实现。
+    然而，这只是通过Node对CommonJS的要求解析规则来实现。
+    严格来说，前者被解释为一个名为app.css.js的JavaScript文件的声明文件。
+    因为相对文件的导入需要在Node的ESM支持中包含扩展名，所以TypeScript会在-moduleResolution为node16或nodenext下的ESM文件中对我们的例子出错。
+    */
+    "allowArbitraryExtensions": true,
+    /*
+    解析定制标志 End
+    JavaScript工具现在可以模拟"混合"解析规则，就像我们上面描述的“bundler”模式。
+    因为工具的支持可能略有不同，TypeScript 5.0提供了启用或禁用一些功能的方法，这些功能可能与你的配置一起使用，也可能不使用。
+    */
+
+    /*
+    TypeScript 5.0引入了一个名为verbatimModuleSyntax的新选项，详细见：https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#verbatimmodulesyntax
+    verbatimModuleSyntax提供了一个比importsNotUsedAsValues和preserveValueImports更加一致的故事，这2个现有的标志正在被废弃，以支持verbatimModuleSyntax。
+    */
+    "verbatimModuleSyntax": true,
     /*
     允许无法访问的代码。
     1、有三个值：
@@ -234,16 +295,18 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、允许的值有：none（等同于commonjs）、commonjs、amd、umd、system、es6（别名：es2015）、es2020、es2022、esnext、node16、nodenext。
     5、如果“target”选项值为ES3或ES5，强烈建议将该选项值设置为commonjs。
     6、如果你想知道es6（别名：es2015）和es2020之间的区别，es2020增加了对“动态导入”和“import.meta”的支持。
-    7、从4.7+开始，node16和nodeext模式与Node的原生ECMAScript模块支持集成。
+    7、从4.7+开始，node16和nodenext模式与Node的原生ECMAScript模块支持集成。
     8、发出的JavaScript使用commonjs或es2020输出，具体取决于“文件扩展名”和最近的package.json中“type”设置的值，“Module resolution”的工作方式也不同，您可以在手册中了解更多信息。
     9、确保避免设置module为“commonjs”，否则webpack将无法对您的代码进行tree-shaking。
-    10、。
+    10、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
+    这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
+    例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
     */
     "module": "es2022",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
     1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
-    2、允许的值有：classic、node、node16、nodenext。
+    2、允许的值有：classic、node、node16、nodenext、bundler（TypeScript 5.0新增的，见：https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#moduleresolution-bundler）。
     3、选项值node用于Node.js的CommonJS实现。
     4、选项值node16、nodenext从TypeScript 4.5开始，用于Node.js的ECMAScript模块支持。
     5、选项值classic用于TypeScript 1.6之前的版本。您可能不需要在现代代码中使用“classic”值。
@@ -253,6 +316,17 @@ CreateDate: 2022-01-01 00:00:00 星期六
     9、如果您在TypeScript中遇到导入和导出的解析问题，请尝试设置moduleResolution: "node" 以查看它是否解决了问题。
     10、强烈建议设置成：node、node16、nodenext其中之一，并且尽可能以“相对路径”（./、../）或“设置路径别名”来作为导入路径中的打头开始。
     11、优先设置成“node”，可以解决很多情况下的报错！
+    12、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
+    这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
+    例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
+    13、但是对于许多使用捆绑器等工具的开发者来说，node16、nodenext的设置是很麻烦的，因为捆绑器没有大部分的这些限制。
+    在某些方面，设置成“node”解析模式对任何使用捆绑器的人来说都是更好的。
+    但在某些方面，最初的“node”解析模式已经过时了。
+    大多数现代捆绑器在Node.js中使用了ECMAScript模块和CommonJS查询规则的融合。
+    例如，无扩展的导入和CommonJS中一样，可以正常工作，但是当翻看一个包的导出条件时，他们会像ECMAScript文件中一样，更喜欢导入条件。
+    14、为了模拟捆绑器的工作方式，TypeScript现在引入了一个新的策略：bundler，如果你正在使用现代捆绑器，如Vite、esbuild、swc、Webpack、Parcel和其他实施混合查找策略的捆绑器，新的捆绑器选项值“bundler”应该很适合你。
+    另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
+    所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
     */
     "moduleResolution": "node",
     /*
@@ -343,6 +417,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     "emitBOM": false,
     /*
     仅输出d.ts文件，不输出JavaScript文件。
+    1、这一设置在2种情况下是有用的：
+    你正在使用TypeScript以外的转码器来生成你的JavaScript。
+    你正在使用TypeScript只为你的消费者生成d.ts文件。
     */
     "emitDeclarationOnly": false,
     /*
@@ -360,8 +437,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     error：这会保留所有导入（与 preserve 选项相同），但当值导入仅用作类型时会出错。如果您想确保没有意外导入任何值，但仍使副作用导入显式，这可能很有用。
     2、此标志有效，因为您可以使用导入类型显式创建一个永远不应发送到JavaScript中的导入语句。
     3、优先设置成“remove”，《但是fork-ts-checker-webpack-plugin插件建议设置成“preserve”，如果TypeScript >= 3.8.0的话》。
+    4、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，并且importsNotUsedAsValues选项不能与选项'verbatimModuleSyntax'一起指定。
     */
-    "importsNotUsedAsValues": "preserve",
+    // "importsNotUsedAsValues": "preserve",
     /*
     在发出的JavaScript中包含sourceMap文件。
     1、与sourceMap互斥。
@@ -430,8 +508,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     2、当与isolatedModules结合使用时：导入的类型必须标记为“type-only”，因为一次处理单个文件的编译器无法知道导入是否是未使用的值，或必须删除以避免运行时崩溃的类型。
     3、可以通过在TitleComponentProps前加上“type”来将其标记为仅类型导入来修复：
     import { TitleComponent, type TitleComponentProps } from "./TitleComponent.js";
+    4、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，“preserveValueImports”选项不能与选项'verbatimModuleSyntax'一起指定。
     */
-    "preserveValueImports": true,
+    // "preserveValueImports": true,
     /*
     转换为JavaScript时从TypeScript文件中删除所有注释。默认为false，设置成false才能保留webpack魔术注解，以供webpack处理。
     */
@@ -456,7 +535,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*
     允许JavaScript文件成为程序的一部分。使用“checkJs”选项从这些文件中获取错误。
     */
-    "allowJs": true,
+    "allowJs": false,
     /*
     在已检查类型的JavaScript文件中启用错误报告。
     1、与“allowJs”选项协同工作。启用“checkJs”选项后，会在JavaScript文件中报告错误。这相当于在项目中包含的所有JavaScript文件的顶部包含“// @ts-check”。
@@ -502,8 +581,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、虽然您可以使用TypeScript从TypeScript代码生成JavaScript代码，但使用Babel等其他转译器也很常见。
     5、但是，其他转译器一次只对单个文件进行操作，这意味着它们不能应用依赖于对完整类型系统的理解的代码转换。
     6、此限制也适用于某些构建工具使用的TypeScript的ts.transpileModule API。
+    7、isolatedModules选项不能与选项'verbatimModuleSyntax'一起指定。
     */
-    "isolatedModules": false,
+    // "isolatedModules": false,
     /*
     这是为了在Node.js中反映相同的标志；它不解析符号链接的实际路径。
     1、此标志还显示与Webpack的resolve.symlinks选项相反的行为（即将TypeScript的preserveSymlinks设置为true与将Webpack的resolve.symlinks设置为false并行，反之亦然）。
@@ -513,43 +593,50 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*
     不再支持。在早期版本中，手动设置读取文件的文本编码。
     1、在以前的TypeScript版本中，这控制了从磁盘读取文本文件时使用的编码。今天，TypeScript采用UTF-8编码，但可以正确检测UTF-16（BE和LE）或UTF-8 BOM。
+    2、在TypeScript 5.0中已经放弃该选项。
     */
     // "charset": "utf8",
     /*
     不推荐使用，使keyof仅返回字符串，而不是字符串、数字或符号。
     1、此标志用于帮助人们在TypeScript 2.9发布之前保持这种行为。
+    2、在TypeScript 5.0中已经放弃该选项。
     */
-    "keyofStringsOnly": false,
+    // "keyofStringsOnly": false,
     /*
     禁止在发出的JavaScript文件中添加"use strict"指令。
     1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
+    2、在TypeScript 5.0中已经放弃该选项。
     */
-    "noImplicitUseStrict": false,
+    // "noImplicitUseStrict": false,
     /*
     禁用对函数类型中的泛型签名进行严格检查。
     1、TypeScript在比较两个泛型函数时会统一类型参数。
     2、此标志可用于删除该检查。
+    3、在TypeScript 5.0中已经放弃该选项。
     */
-    "noStrictGenericChecks": false,
+    // "noStrictGenericChecks": false,
     /*
     请改用outFile选项。已弃用。
     1、out选项以不可预测或一致的方式计算最终文件位置。保留此选项仅是为了向后兼容并且已弃用。
+    2、在TypeScript 5.0中已经放弃该选项。
     */
     // "out": "./ts_compiled/AllOut.js",
     /*
      true将禁用报告多余的属性错误。在创建对象文字期间，禁用报告多余的属性错误。
      1、添加此标志是为了帮助人们迁移到TypeScript 1.6中对新对象文字进行更严格的检查。
      2、我们不建议在现代代码库中使用此标志，您可以使用“// @ts-ignore”抑制一次性需要的情况。
+     3、在TypeScript 5.0中已经放弃该选项。
      */
-    "suppressExcessPropertyErrors": false,
+    // "suppressExcessPropertyErrors": false,
     /*
      启用“suppressImplicitAnyIndexErrors”将禁止在索引到对象时报告有关隐式Any的错误。
      1、使用suppressImplicitAnyIndexErrors是一种非常严格的方法。建议使用'// @ts-ignore'注释代替。
      2、对缺少索引签名的对象进行索引时，禁止出现“noImplicitAny”错误。
      3、将suppressImplicitAnyIndexErrors设为true将禁止在对对象进行索引时报告有关隐式anys的错误。
      4、使用suppressImplicitAnyIndexErrors是一种非常激进的方法。建议改用“@ts-ignore”注释。
+     5、在TypeScript 5.0中已经放弃该选项。
      */
-    "suppressImplicitAnyIndexErrors": false,
+    // "suppressImplicitAnyIndexErrors": false,
     /*
     启用对与模块反射元数据一起使用的装饰器发射类型元数据的实验性支持。
     1、为源文件中的修饰声明发出设计类型元数据。
@@ -706,7 +793,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     // "reactNamespace": "React",
     /*
     为发出的JavaScript设置JavaScript语言版本，并包含兼容的库声明。
-    1、有效值：es3、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、esnext。
+    1、有效值：es3（在TypeScript 5.0中已经放弃该选项）、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、esnext。
     2、更改目标也会更改lib的默认值。您可以根据需要“混合和匹配”目标和库设置，但为了方便起见，您可以设置目标。
     3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
     4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
@@ -735,8 +822,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*
     您可以使用此标志来发现TypeScript在编译时花费的时间。这是一个用于了解代码库整体性能特征的工具。
     1、生成后输出更详细的编译器性能信息。
+    2、设置成false就不会输出辣么多的冗余信息。
     */
-    "extendedDiagnostics": true,
+    "extendedDiagnostics": false,
     /*
     此选项使您有机会在编译器运行期间让TypeScript发出v8 CPU配置文件。CPU配置文件可以让您深入了解构建速度缓慢的原因。
     1、此选项只能通过CLI使用（所以tsconfig.json中的设置系无效的）：--generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5，如：npm run tsc --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5。

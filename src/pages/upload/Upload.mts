@@ -11,12 +11,12 @@
 
 import {
   type ComponentPublicInstance,
-  App,
+  type App,
 
   createApp,
 } from 'vue';
 
-// @ts-ignore
+// @ts-expect-error
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
 /**

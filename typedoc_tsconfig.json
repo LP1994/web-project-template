@@ -20,14 +20,13 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
     "allowUmdGlobalAccess": true,
-    "noStrictGenericChecks": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "suppressExcessPropertyErrors": false,
-    "suppressImplicitAnyIndexErrors": false,
     "typeRoots": [],
     "types": [],
-    "moduleSuffixes": [],
+    "moduleSuffixes": [
+      ""
+    ],
     "paths": {
       "tslib": [
         "./node_modules/tslib/"
@@ -99,8 +98,8 @@
       "webworker.importscripts",
       "webworker.iterable"
     ],
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es2022",
+    "module": "es2022",
     "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",

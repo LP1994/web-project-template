@@ -1,7 +1,7 @@
 {
   "display": "web-project-template for ts-node-esm",
   "_version": "1.0.0",
-  "_typescript_version": "4.9.5",
+  "_typescript_version": "5.0.2",
   "_description": "这是给ts-node-esm使用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -10,6 +10,7 @@
   "_tsc_cli": "tsc -p ./ts-node_tsconfig.json --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5",
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "node",
     "paths": {
       "tslib": [
         "./node_modules/tslib/"
