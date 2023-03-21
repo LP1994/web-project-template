@@ -74,6 +74,7 @@
       "es2018.regexp",
       "es2019",
       "es2019.array",
+      "es2019.intl",
       "es2019.object",
       "es2019.string",
       "es2019.symbol",
@@ -101,10 +102,7 @@
       "es5",
       "es6",
       "esnext",
-      "esnext.intl",
-      "esnext.promise",
-      "esnext.string",
-      "esnext.weakref"
+      "esnext.intl"
     ]
   },
   "importMap": "./import_map.json"
