@@ -421,7 +421,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     你正在使用TypeScript以外的转码器来生成你的JavaScript。
     你正在使用TypeScript只为你的消费者生成d.ts文件。
     */
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": true,
     /*
     允许在每个项目中从tslib导入一次助手函数，而不是在每个文件中包含它们。
     1、对于某些降级操作，TypeScript使用一些帮助代码进行扩展类、扩展数组或对象以及异步操作等操作。
