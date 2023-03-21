@@ -5,7 +5,7 @@
     "esmSH/": "https://esm.sh/",
     "preact/jsx-runtime": "https://cdn.skypack.dev/preact/jsx-runtime?dts",
     "preact/jsx-dev-runtime": "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts",
-    "src/": "./src/",
+    "DenoSrc/": "./src/",
     "configures/": "./src/configures/",
     "route_map_config/": "./src/configures/route_map_config/",
     "database/": "./src/database/",

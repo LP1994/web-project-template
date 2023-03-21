@@ -29,8 +29,6 @@ import 'DenoX/corejs/index.js';
 
 import {
   MyConsole,
-
-  // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
@@ -38,8 +36,6 @@ import {
 
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
@@ -49,10 +45,8 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
-  // @ts-ignore
   // import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
   // 同时提供“https:”和“wss:”协议的服务，端口都是9000，基于HTTP/1.1。
-  // @ts-ignore
   // import( 'servers/HTTPSAndWebSocketSByServerForPort9000.mts' ),
 
   // 这两类服务不可同时启用，启用其中之一即可。End
@@ -60,10 +54,8 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 提供“http:”协议的服务，端口9100，基于HTTP/1.1。
-  // @ts-ignore
   // import('servers/HTTPServerForPort9100.mts'),
   // 提供“https:”协议的服务，端口9100，基于HTTP/1.1。
-  // @ts-ignore
   // import( 'servers/HTTPSServerForPort9100.mts' ),
 
   // 这两类服务不可同时启用，启用其中之一即可。End
@@ -71,7 +63,6 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2（使用HTTP/2要必需使用HTTPS，这是强制的），Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
-  // @ts-ignore
   import( 'servers/HTTPV2AndWebSocketSServerForPort9200.mts' ),
 
   // 这两类服务不可同时启用，启用其中之一即可。End
@@ -79,10 +70,8 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 提供“ws:”协议的服务，端口9300，基于HTTP/1.1。
-  // @ts-ignore
   // import( 'servers/WebSocketServerForPort9300.mts' ),
   // 提供“wss:”协议的服务，端口9300，基于HTTP/1.1。
-  // @ts-ignore
   // import( 'servers/WebSocketSServerForPort9300.mts' ),
 
   // 这两类服务不可同时启用，启用其中之一即可。End

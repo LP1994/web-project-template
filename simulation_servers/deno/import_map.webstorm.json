@@ -5,7 +5,7 @@
     "esmSH/": "https://esm.sh/",
     "preact/jsx-runtime": "https://cdn.skypack.dev/preact/jsx-runtime?dts",
     "preact/jsx-dev-runtime": "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts",
-    "src/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\",
+    "DenoSrc/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\",
     "configures/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\configures\\",
     "route_map_config/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\configures\\route_map_config\\",
     "database/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\database\\",

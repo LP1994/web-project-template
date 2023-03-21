@@ -237,6 +237,114 @@
       ],
       "webWorkersDir/*": [
         "./src/workers/web_workers/*"
+      ],
+      "DenoStd/*": [
+        "https://deno.land/std/*"
+      ],
+      "DenoX/*": [
+        "https://deno.land/x/*"
+      ],
+      "esmSH/*": [
+        "https://esm.sh/*"
+      ],
+      "preact/jsx-runtime/*": [
+        "https://cdn.skypack.dev/preact/jsx-runtime?dts/*"
+      ],
+      "preact/jsx-dev-runtime/*": [
+        "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts/*"
+      ],
+      "DenoSrc/*": [
+        "./simulation_servers/deno/src/*"
+      ],
+      "configures/*": [
+        "./simulation_servers/deno/src/configures/*"
+      ],
+      "route_map_config/*": [
+        "./simulation_servers/deno/src/configures/route_map_config/*"
+      ],
+      "database/*": [
+        "./simulation_servers/deno/src/database/*"
+      ],
+      "deno_db/*": [
+        "./simulation_servers/deno/src/database/deno_db/*"
+      ],
+      "firebase/*": [
+        "./simulation_servers/deno/src/database/firebase/*"
+      ],
+      "graphql/*": [
+        "./simulation_servers/deno/src/database/graphql/*"
+      ],
+      "mongo/*": [
+        "./simulation_servers/deno/src/database/mongo/*"
+      ],
+      "mysql/*": [
+        "./simulation_servers/deno/src/database/mysql/*"
+      ],
+      "postgres/*": [
+        "./simulation_servers/deno/src/database/postgres/*"
+      ],
+      "sqlite/*": [
+        "./simulation_servers/deno/src/database/sqlite/*"
+      ],
+      "supabase/*": [
+        "./simulation_servers/deno/src/database/supabase/*"
+      ],
+      "public/*": [
+        "./simulation_servers/deno/src/public/*"
+      ],
+      "routers/*": [
+        "./simulation_servers/deno/src/routers/*"
+      ],
+      "servers/*": [
+        "./simulation_servers/deno/src/servers/*"
+      ],
+      "services/*": [
+        "./simulation_servers/deno/src/services/*"
+      ],
+      "ssr/*": [
+        "./simulation_servers/deno/src/ssr/*"
+      ],
+      "template/*": [
+        "./simulation_servers/deno/src/template/*"
+      ],
+      "ejs/*": [
+        "./simulation_servers/deno/src/template/ejs/*"
+      ],
+      "handlebars/*": [
+        "./simulation_servers/deno/src/template/handlebars/*"
+      ],
+      "html/*": [
+        "./simulation_servers/deno/src/template/html/*"
+      ],
+      "markdown/*": [
+        "./simulation_servers/deno/src/template/markdown/*"
+      ],
+      "mustache/*": [
+        "./simulation_servers/deno/src/template/mustache/*"
+      ],
+      "pug_jade/*": [
+        "./simulation_servers/deno/src/template/pug_jade/*"
+      ],
+      "tools/*": [
+        "./simulation_servers/deno/src/tools/*"
+      ],
+      "third_party_modules/*": [
+        "./simulation_servers/deno/src/tools/third_party_modules/*"
+      ],
+      "universal_tool_for_deno/*": [
+        "./simulation_servers/deno/src/tools/universal_tool_for_deno/*"
+      ],
+      "static/*": [
+        "./simulation_servers/deno/static/*"
+      ],
+      "test/*": [
+        "./simulation_servers/deno/test/*"
+      ],
+      "upload/*": [
+        "./simulation_servers/deno/upload/*"
+      ],
+      "web/*": [
+        "./simulation_servers/deno/web/*"
       ]
     },
     "lib": [
