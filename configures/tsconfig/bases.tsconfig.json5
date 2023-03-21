@@ -480,8 +480,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     如果报告了任何类型检查错误，则禁用发送文件。
     1、如果报告了任何错误，请不要发出编译器输出文件，如JavaScript源代码、源映射或声明。
     2、这默认为false，这使得在“watch-like”的环境中使用TypeScript变得更容易，在这种环境中，您可能希望在确保解决所有错误之前在另一个环境中查看代码更改的结果。
+    3、当使用typescript 5.0.2时，用ts-node编译运行时，该选项为true时会报错！
     */
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     /*
     为所有发出的文件指定输出文件夹。
     1、如果指定，.js（以及 .d.ts、.js.map 等）文件将被发送到此目录。保留原始源文件的目录结构。
@@ -534,8 +535,22 @@ CreateDate: 2022-01-01 00:00:00 星期六
     "stripInternal": false,
     /*
     允许JavaScript文件成为程序的一部分。使用“checkJs”选项从这些文件中获取错误。
+    注意！
+    在typescript 5.0.2中，出现一个奇怪的现象，就是当allowJs为true，checkJs为false时，allowImportingTsExtensions为true时，总是报错！
+    但是，这些组合却不会出现上面提到的报错！
+    allowJs为true
+    checkJs为true
+    allowImportingTsExtensions为true
+
+    allowJs为false
+    checkJs为false
+    allowImportingTsExtensions为true
+
+    allowJs为false
+    checkJs为true
+    allowImportingTsExtensions为true
     */
-    "allowJs": false,
+    "allowJs": true,
     /*
     在已检查类型的JavaScript文件中启用错误报告。
     1、与“allowJs”选项协同工作。启用“checkJs”选项后，会在JavaScript文件中报告错误。这相当于在项目中包含的所有JavaScript文件的顶部包含“// @ts-check”。
@@ -793,7 +808,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     // "reactNamespace": "React",
     /*
     为发出的JavaScript设置JavaScript语言版本，并包含兼容的库声明。
-    1、有效值：es3（在TypeScript 5.0中已经放弃该选项）、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、esnext。
+    1、有效值：es3（在TypeScript 5.0中已经将该选项作为默认值了）、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、esnext。
     2、更改目标也会更改lib的默认值。您可以根据需要“混合和匹配”目标和库设置，但为了方便起见，您可以设置目标。
     3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
     4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
@@ -848,7 +863,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、当您尝试调试未包含模块的原因时。您可以将traceResolutions设置为true，以使TypeScript打印有关每个已处理文件的解析过程的信息。
     2、设置成false就不会在控制台输出详细的处理信息，但是这样就不能清楚的知道各个的文件处理过程。
     */
-    "traceResolution": true,
+    "traceResolution": false,
     /*
     启用允许TypeScript项目与项目引用一起使用的约束。
     1、复合选项强制执行某些约束，使构建工具（包括TypeScript本身，在--build模式下）能够快速确定项目是否已经构建。

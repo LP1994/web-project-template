@@ -17,8 +17,6 @@ import {
   chalk,
   Equal001,
   Test001,
-
-  // @ts-ignore
 } from './AuxiliaryTool.esm.test.mts';
 
 import {
@@ -53,8 +51,6 @@ import {
   SymmetricDifference,
   Union,
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
-
-  // @ts-ignore
 } from '../UniversalTools.esm.mts';
 
 console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输出不符合期望值所导致的错误信息。\n` ) );
@@ -89,14 +85,14 @@ if( true ){
   }
 
   const myClassA001: MyClassA = new MyClassA(),
-    // @ts-ignore
+    // @ts-expect-error
     myClassA002: MyClassA = new MyClassA();
 
   const fun001: () => TypeSingleton<MyClassA> = SingletonFactory<MyClassA>( (): MyClassA => myClassA001 );
 
   const {
     singleton,
-    // @ts-ignore
+    // @ts-expect-error
     clear,
   }: TypeSingleton<MyClassA> = fun001();
 

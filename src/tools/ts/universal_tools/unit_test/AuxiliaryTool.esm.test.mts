@@ -69,7 +69,6 @@
 
 'use strict';
 
-// @ts-ignore
 import chalk from 'chalk';
 
 export type TypeMyExpect001 = any;
