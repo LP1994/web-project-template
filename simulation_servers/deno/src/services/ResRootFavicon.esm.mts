@@ -35,14 +35,10 @@ import {
   staticDir,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   mime,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 /**
@@ -60,37 +56,30 @@ function Handle( request: Request ): TypeResponse001{
 
   switch( pathName ){
   case '/favicon.ico':
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
 
     break;
   case '/favicon.png':
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
     break;
   case '/apple-touch-icon.png':
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
     break;
   case '/apple-touch-icon-precomposed.png':
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
     break;
   case '/apple-touch-icon-120x120.png':
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
     break;
   case '/apple-touch-icon-120x120-precomposed.png':
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
     break;
   default:
-    // @ts-ignore
     filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
     break;

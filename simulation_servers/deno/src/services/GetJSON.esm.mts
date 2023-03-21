@@ -31,8 +31,6 @@
 
 import {
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -42,8 +40,6 @@ import {
   Database,
 
   MongoDBConnectForSingleton,
-
-  // @ts-ignore
 } from 'mongo/MongoDBConnect.esm.mts';
 
 interface StartupLogCollectionSchema {
@@ -70,7 +66,7 @@ interface StartupLogCollectionSchema {
  * @returns {Promise<Response>} 返回值类型为Promise<Response>。
  */
 async function Handle(
-  // @ts-ignore
+  // @ts-expect-error
   request: Request
 ): Promise<Response>{
   const {

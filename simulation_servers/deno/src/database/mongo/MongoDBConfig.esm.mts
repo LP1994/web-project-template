@@ -15,14 +15,10 @@
 
 import {
   opensslDir,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   type ConnectOptions,
-
-  // @ts-ignore
 } from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 const config: ConnectOptions = {
@@ -42,7 +38,6 @@ const config: ConnectOptions = {
   certChain: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ),
 };
 
-// @ts-ignore
 export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {

@@ -16,30 +16,22 @@
 import {
   // Deno自己有一个名为media_types的API功能跟它一样。
   mimetypes,
-
-  // @ts-ignore
 } from './ThirdPartyModules.esm.mts';
 
 import {
   logDir,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   type TypeDateFormatForObject,
 
   DateFormatForObject,
-
-  // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
   type TypeMyCusDenoFsFile,
 
   CreateLogger,
-
-  // @ts-ignore
 } from 'public/Logger.esm.mts';
 
 // Deno自己有一个名为media_types的API功能跟它一样。

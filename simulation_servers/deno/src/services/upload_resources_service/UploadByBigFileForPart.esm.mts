@@ -37,8 +37,6 @@
 import {
   httpHeaders,
   resMessageStatus,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 /**
@@ -56,7 +54,7 @@ import {
  * @returns {Response} 返回值类型为Response。
  */
 function UploadByBigFileForPart(
-  // @ts-ignore
+  // @ts-expect-error
   request: Request
 ): Response{
   return new Response( JSON.stringify( {

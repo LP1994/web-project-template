@@ -22,8 +22,6 @@ import {
   DeleteOne as _DeleteOne,
   UpdateOne as _UpdateOne,
   QueryOne as _QueryOne,
-
-  // @ts-ignore
 } from 'mongo/tools/CRUDForMongoDB.esm.mts';
 
 export interface FileSRICollectionSchema {
@@ -142,7 +140,6 @@ async function QueryOne( sri: string ): Promise<FileSRICollectionSchema | undefi
   return fileSRI;
 }
 
-// @ts-ignore
 export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {

@@ -39,14 +39,10 @@ import {
   // uploadDir,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   MyConsole,
-
-  // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
@@ -54,8 +50,6 @@ import {
 
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
@@ -110,7 +104,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
     url = new URL( request.url );
     pathName = url.pathname;
 
-    // @ts-ignore
+    // @ts-expect-error
     wsForServer.addEventListener( 'open', ( event: Event ): void => {
       logWriteStream.write( `
 来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
@@ -118,7 +112,7 @@ WebSocket针对“${ pathName }”的服务已打开。
 ` );
     } );
 
-    // @ts-ignore
+    // @ts-expect-error
     wsForServer.addEventListener( 'close', ( closeEvent: CloseEvent ): void => {
       logWriteStream.write( `
 来自：simulation_servers/deno/src/services/websocket_upload/ResponseHandle.esm.mts
@@ -165,7 +159,6 @@ WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
     result = new Response( null, {
       status: 500,
       statusText: `${ ( error as Error ).message }`,
-      // @ts-ignore
       headers: {
         ...httpHeaders,
       },

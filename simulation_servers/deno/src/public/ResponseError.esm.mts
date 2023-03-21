@@ -17,20 +17,14 @@ import {
   ejsDir,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   dejs,
-
-  // @ts-ignore
 } from './ThirdPartyModules.esm.mts';
 
 import {
   mime,
-
-  // @ts-ignore
 } from './PublicTools.esm.mts';
 
 /**
@@ -113,7 +107,6 @@ class ResponseError {
    * @returns {Promise<Response>}
    */
   public async resPage404(): Promise<Response>{
-    // @ts-ignore
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
       // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
@@ -152,7 +145,6 @@ class ResponseError {
     title: '',
     message: '',
   } ): Promise<Response>{
-    // @ts-ignore
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/Error.ejs` ) ),
       // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {

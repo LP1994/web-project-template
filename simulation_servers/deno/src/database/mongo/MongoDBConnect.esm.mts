@@ -16,11 +16,8 @@
 import {
   MongoClient,
   Database,
-
-  // @ts-ignore
 } from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
-// @ts-ignore
 import config from './MongoDBConfig.esm.mts';
 
 export type TypeMongoDBConnect = {
@@ -77,7 +74,6 @@ async function MongoDBConnectForSingleton(): Promise<TypeMongoDBConnect>{
   return mongoDBConnectForSingleton as TypeMongoDBConnect;
 }
 
-// @ts-ignore
 export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {

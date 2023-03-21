@@ -28,8 +28,6 @@ import {
   FindCursor,
 
   MongoDBConnectForSingleton,
-
-  // @ts-ignore
 } from 'mongo/MongoDBConnect.esm.mts';
 
 export type TypeArgsForFindOne = {
@@ -446,7 +444,6 @@ async function Query<T extends InterfaceConstraint001>( collectionName: string, 
   return result;
 }
 
-// @ts-ignore
 export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {

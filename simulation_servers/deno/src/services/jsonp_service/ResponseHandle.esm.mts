@@ -34,11 +34,9 @@ import {
   type TypeResponse001,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
-// @ts-ignore
+// @ts-expect-error
 import ResponseError from 'public/ResponseError.esm.mts';
 
 /**

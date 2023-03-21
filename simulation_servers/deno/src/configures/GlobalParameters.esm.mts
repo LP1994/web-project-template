@@ -30,79 +30,46 @@ export type TypeResult001 = boolean | TypeFun001;
 
 // 自定义的路径别名aliasConfig Start
 
-// @ts-ignore
 const logDir: string = import.meta.resolve( '../../log' );
 
-// @ts-ignore
 const opensslDir: string = import.meta.resolve( '../../openssl' );
 
-// @ts-ignore
 const srcDir: string = import.meta.resolve( '../../src' );
 
-// @ts-ignore
 const configuresDir: string = import.meta.resolve( '../configures' );
-// @ts-ignore
 const route_map_configDir: string = import.meta.resolve( '../configures/route_map_config' );
 
-// @ts-ignore
 const databaseDir: string = import.meta.resolve( '../database' );
-// @ts-ignore
 const deno_dbDir: string = import.meta.resolve( '../database/deno_db' );
-// @ts-ignore
 const firebaseDir: string = import.meta.resolve( '../database/firebase' );
-// @ts-ignore
 const graphqlDir: string = import.meta.resolve( '../database/graphql' );
-// @ts-ignore
 const mongoDir: string = import.meta.resolve( '../database/mongo' );
-// @ts-ignore
 const mysqlDir: string = import.meta.resolve( '../database/mysql' );
-// @ts-ignore
 const postgresDir: string = import.meta.resolve( '../database/postgres' );
-// @ts-ignore
 const sqliteDir: string = import.meta.resolve( '../database/sqlite' );
-// @ts-ignore
 const supabaseDir: string = import.meta.resolve( '../database/supabase' );
 
-// @ts-ignore
 const publicDir: string = import.meta.resolve( '../public' );
-// @ts-ignore
 const routersDir: string = import.meta.resolve( '../routers' );
-// @ts-ignore
 const serversDir: string = import.meta.resolve( '../servers' );
-// @ts-ignore
 const servicesDir: string = import.meta.resolve( '../services' );
-// @ts-ignore
 const ssrDir: string = import.meta.resolve( '../ssr' );
 
-// @ts-ignore
 const templateDir: string = import.meta.resolve( '../template' );
-// @ts-ignore
 const ejsDir: string = import.meta.resolve( '../template/ejs' );
-// @ts-ignore
 const handlebarsDir: string = import.meta.resolve( '../template/handlebars' );
-// @ts-ignore
 const htmlDir: string = import.meta.resolve( '../template/html' );
-// @ts-ignore
 const markdownDir: string = import.meta.resolve( '../template/markdown' );
-// @ts-ignore
 const mustacheDir: string = import.meta.resolve( '../template/mustache' );
-// @ts-ignore
 const pug_jadeDir: string = import.meta.resolve( '../template/pug_jade' );
 
-// @ts-ignore
 const toolsDir: string = import.meta.resolve( '../tools' );
-// @ts-ignore
 const third_party_modulesDir: string = import.meta.resolve( '../tools/third_party_modules' );
-// @ts-ignore
 const universal_tool_for_denoDir: string = import.meta.resolve( '../tools/universal_tool_for_deno' );
 
-// @ts-ignore
 const staticDir: string = import.meta.resolve( '../../static' );
-// @ts-ignore
 const testDir: string = import.meta.resolve( '../../test' );
-// @ts-ignore
 const uploadDir: string = import.meta.resolve( '../../upload' );
-// @ts-ignore
 const webDir: string = import.meta.resolve( '../../web' );
 
 // 自定义的路径别名aliasConfig End
@@ -118,9 +85,7 @@ const webDir: string = import.meta.resolve( '../../web' );
  *
  * @type {{ [ key: string ]: string | number | boolean; }}
  */
-const httpHeaders: {
-  [ key: string ]: string | number | boolean;
-} = {
+const httpHeaders: HeadersInit = {
   // 'Content-Security-Policy': 'require-sri-for script style',
   /**
    * Clear-Site-Data：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
@@ -135,7 +100,7 @@ const httpHeaders: {
   /**
    * Expires：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
    */
-  'Expires': 0,
+  'Expires': '0',
   /**
    * Allow：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow
    */
@@ -156,7 +121,7 @@ const httpHeaders: {
    * 8、此标头的唯一有效值为true（区分大小写）。如果您不需要凭据，请完全省略此标头（而不是将其值设置为 false）。
    * 9、当此标头设置为true时，客户端发起的请求，相应的也要设置：如果请求使用XMLHttpRequest发出，请确保withCredentials为true、如果使用Fetch API，请确保Request.credentials是"include"。
    */
-  'Access-Control-Allow-Credentials': true,
+  'Access-Control-Allow-Credentials': 'true',
   /**
    * Access-Control-Allow-Headers：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
    * 1、Access-Control-Allow-Headers响应标头用于响应预检请求，其中包括Access-Control-Request-Headers以指示在实际请求期间可以使用哪些HTTP标头。
@@ -205,7 +170,7 @@ const httpHeaders: {
    * 2、可以缓存结果的最大秒数，作为无符号非负整数。Firefox的上限为24小时（86400秒）。
    * 3、Chromium（v76之前）的上限为10分钟（600秒）。Chromium（从v76开始）的上限为2小时（7200秒）。
    */
-  'Access-Control-Max-Age': 2 * 60 * 60,
+  'Access-Control-Max-Age': `${ 2 * 60 * 60 }`,
   /**
    * Access-Control-Request-Headers：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
    * 1、浏览器在发出预检请求时使用Access-Control-Request-Headers请求标头，让服务器知道在发出实际请求时客户端可能发送哪些HTTP标头（例如使用setRequestHeader()）。

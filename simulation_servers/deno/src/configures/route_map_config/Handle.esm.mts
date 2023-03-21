@@ -13,14 +13,10 @@ import {
   type TypeFun001,
   type TypeFilePath001,
   type TypeResult001,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   IterateToNestForPromise,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 type TypeRouteMapConfig = {
@@ -108,7 +104,7 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
         ];
       }
     ),
-    // @ts-ignore
+    // @ts-expect-error
     arr002: Array<[ string, TypeFun001 ]> = await Array.fromAsync( arr001 );
 
   return Object.fromEntries( arr002 );
@@ -135,7 +131,7 @@ function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeR
           ];
         }
       ),
-      // @ts-ignore
+      // @ts-expect-error
       arr002: Array<[ TypeFun002, TypeFun001 ]> = await Array.fromAsync( arr001 );
 
     myRouteHandleConfig = new Map( arr002 );

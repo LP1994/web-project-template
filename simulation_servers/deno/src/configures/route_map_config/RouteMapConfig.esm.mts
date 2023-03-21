@@ -28,15 +28,11 @@ import {
   type TypeResult001,
 
   servicesDir,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   GeneratorRouteMap,
   GeneratorRouteHandle,
-
-  // @ts-ignore
 } from './Handle.esm.mts';
 
 type TypeRouteMapHandle = {
@@ -86,7 +82,6 @@ const methodByPostForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMa
  * @type {TypeRouteMapHandle}
  */
 const methodByGetForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( {
-  // @ts-ignore
   '/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
 
   '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
@@ -190,9 +185,7 @@ const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
     `${ servicesDir }/static_resources_service/ResponseHandle.esm.mts`,
   ],
   [
-    // @ts-ignore
     new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/Condition.esm.mts` ) ),
-    // @ts-ignore
     new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandle.esm.mts` ) ),
   ],
   [

@@ -59,8 +59,6 @@ import {
 
   httpHeaders,
   resMessageStatus,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -68,14 +66,10 @@ import {
 
   UpdateOne,
   QueryOne,
-
-  // @ts-ignore
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 import {
   myURLPathName,
-
-  // @ts-ignore
 } from './Condition.esm.mts';
 
 /**

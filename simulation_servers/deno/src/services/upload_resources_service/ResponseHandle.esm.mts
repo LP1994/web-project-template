@@ -49,16 +49,12 @@ import {
 
   httpHeaders,
   resMessageStatus,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   type FileSRICollectionSchema,
 
   QueryOne,
-
-  // @ts-ignore
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 /**
@@ -73,7 +69,6 @@ import {
  * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
  */
-// @ts-ignore
 import UploadByBinary from './UploadByBinary.esm.mts';
 
 /**
@@ -93,7 +88,6 @@ import UploadByBinary from './UploadByBinary.esm.mts';
  * 4、可选字段有：
  *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  */
-// @ts-ignore
 import UploadBySingle from './UploadBySingle.esm.mts';
 
 /**
@@ -141,7 +135,6 @@ import UploadBySingle from './UploadBySingle.esm.mts';
  * 4、可选字段有：
  *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
  */
-// @ts-ignore
 import UploadByMultiple from './UploadByMultiple.esm.mts';
 
 /**
@@ -155,7 +148,6 @@ import UploadByMultiple from './UploadByMultiple.esm.mts';
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
  */
-// @ts-ignore
 import UploadByBigFile from './UploadByBigFile.esm.mts';
 
 /**
@@ -168,7 +160,6 @@ import UploadByBigFile from './UploadByBigFile.esm.mts';
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=true
  */
-// @ts-ignore
 import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
 
 /**

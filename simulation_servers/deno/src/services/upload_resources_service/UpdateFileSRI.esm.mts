@@ -28,14 +28,10 @@ import {
 
 import {
   uploadDir,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   myURLPathName,
-
-  // @ts-ignore
 } from './Condition.esm.mts';
 
 import {
@@ -44,8 +40,6 @@ import {
   InsertOne,
   UpdateOne,
   QueryOne,
-
-  // @ts-ignore
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 export type TypeObj001 = {
@@ -107,11 +101,10 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   let isWriteFile: boolean = true;
 
   if( Object.prototype.toString.call( file ) === '[object Blob]' ){
-    // @ts-ignore
+    // @ts-expect-error
     file.lastModified = String( Date.now() );
   }
 
-  // @ts-ignore
   const fileExtensionName: string = ( extension( file.type ) ?? '' ) as string;
 
   fileName = `${ sri }${ fileExtensionName.length === 0
@@ -164,7 +157,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
         filePath,
         fileType: file.type,
         fileSize: String( file.size ),
-        // @ts-ignore
+        // @ts-expect-error
         fileLastModified: String( file.lastModified ),
         fileName: fileName001,
       } );
@@ -175,7 +168,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
         savePath: savePath.href,
         filePath,
         fileType: file.type,
-        // @ts-ignore
+        // @ts-expect-error
         fileLastModified: String( file.lastModified ),
         fileName: fileName001,
       } );
@@ -192,7 +185,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
       filePath,
       fileType: file.type,
       fileSize: String( file.size ),
-      // @ts-ignore
+      // @ts-expect-error
       fileLastModified: String( file.lastModified ),
       fileName: fileName001,
     };
@@ -209,8 +202,6 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
 
 export type{
   FileSRICollectionSchema,
-
-  // @ts-ignore
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 export {

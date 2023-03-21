@@ -17,8 +17,6 @@ import {
   type TypeDateFormatForObject,
 
   DateFormatForObject,
-
-  // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 /**
@@ -70,7 +68,7 @@ async function CreateLogger( filePath: string | URL, denoOpenOptions: TypeDenoOp
   write: true,
   append: true,
 } ): Promise<TypeMyCusDenoFsFile>{
-  //@ts-ignore
+  // @ts-ignore
   const file: Deno.FsFile = await Deno.open( new URL( filePath ), denoOpenOptions );
 
   return {
@@ -122,7 +120,7 @@ async function CreateLoggerForSingleton( filePath: string | URL, denoOpenOptions
   append: true,
 } ): Promise<TypeMyCusDenoFsFile>{
   if( !loggerForSingleton ){
-    //@ts-ignore
+    // @ts-ignore
     const file: Deno.FsFile = await Deno.open( new URL( filePath ), denoOpenOptions );
 
     loggerForSingleton = {

@@ -18,8 +18,6 @@ import {
   type TypeResult001,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -27,15 +25,11 @@ import {
 
   GetLogWriteStreamForSingleton,
   IterateToNestForPromise,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 import {
   websocketForRouteMapConfig,
   websocketForRouteHandle,
-
-  // @ts-ignore
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
@@ -74,7 +68,6 @@ async function WebSocket( request: Request ): Promise<Response>{
     result = new Response( null, {
       status: 404,
       statusText: 'Not Found',
-      // @ts-ignore
       headers: {
         ...httpHeaders,
       },

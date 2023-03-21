@@ -30,40 +30,28 @@ import {
   ejsDir,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   dejs,
-
-  // @ts-ignore
 } from 'public/ThirdPartyModules.esm.mts';
 
 import {
   mime,
 
   IterateToNestForPromise,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
-// @ts-ignore
 import Put from './Put.esm.mts';
 
-// @ts-ignore
 import Delete from './Delete.esm.mts';
 
-// @ts-ignore
 import Post from './Post.esm.mts';
 
-// @ts-ignore
 import Get from './Get.esm.mts';
 
-// @ts-ignore
 import Options from './Options.esm.mts';
 
-// @ts-ignore
 import WebSocket from './WebSocket.esm.mts';
 
 type TypeFun003 = TypeFun001 | TypeFun002;
@@ -111,7 +99,6 @@ async function Routers( request: Request ): Promise<Response>{
     result = ( await IterateToNestForPromise( ( requestMethods[ method ] as TypeFun003 )( request ) ) ) as Response;
   }
   else{
-    // @ts-ignore
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
       // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {

@@ -78,16 +78,12 @@ import {
 import {
   httpHeaders,
   resMessageStatus,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   type TypeObj001,
 
   UpdateFileSRI,
-
-  // @ts-ignore
 } from './UpdateFileSRI.esm.mts';
 
 type TypeResultObj001 = {
@@ -107,7 +103,7 @@ type TypeResultObj001 = {
  * @returns {Promise<Array<TypeObj001>>} 返回值类型为Promise<Array<TypeObj001>>。
  */
 async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<TypeObj001>>{
-  // @ts-ignore
+  // @ts-expect-error
   return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<TypeObj001> => UpdateFileSRI( request, file, file._name ) ) );
 }
 
@@ -155,16 +151,13 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
     // @ts-ignore
     arr001: Array<Deno.FsFile> = await Array.fromAsync( fileOpen );
 
-  const arr002: Array<Promise<void>> = arr001.map(
+  arr001.map(
       (
         // @ts-ignore
         item: Deno.FsFile,
         index: number,
-      ): Promise<void> => ( ( writeFile[ index ] as TypeObj001 ).file as File ).stream()
-      .pipeTo( writableStreamFromWriter( item ) )
-    ),
-    // @ts-ignore
-    arr003: Array<void> = await Array.fromAsync( arr002 );
+      ): Promise<void> => ( ( writeFile[ index ] as TypeObj001 ).file as File ).stream().pipeTo( writableStreamFromWriter( item ) )
+    );
 
   return {
     noWriteFile,
@@ -257,15 +250,15 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
         str001 = Object.prototype.toString.call( file001 );
 
         if( ( str001 === '[object File]' || str001 === '[object Blob]' ) && fileName001.length !== 0 ){
-          // @ts-ignore
+          // @ts-expect-error
           file001._name = fileName001;
         }
         else if( str001 === '[object File]' && fileName001.length === 0 ){
-          // @ts-ignore
+          // @ts-expect-error
           file001._name = file001.name;
         }
         else if( str001 === '[object Blob]' && fileName001.length === 0 ){
-          // @ts-ignore
+          // @ts-expect-error
           file001._name = `Blob_File`;
         }
 
@@ -277,11 +270,11 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
           return formData.getAll( 'files' )
           .map( ( item: File | Blob | string | null, ): File | Blob | string | null => {
             if( Object.prototype.toString.call( item ) === '[object File]' ){
-              // @ts-ignore
+              // @ts-expect-error
               item._name = ( item as File ).name;
             }
             else if( Object.prototype.toString.call( item ) === '[object Blob]' ){
-              // @ts-ignore
+              // @ts-expect-error
               item._name = `Blob_File`;
             }
 

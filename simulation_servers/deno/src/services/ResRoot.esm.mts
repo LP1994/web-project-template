@@ -35,14 +35,10 @@ import {
   staticDir,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   mime,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 /**
@@ -53,10 +49,9 @@ import {
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
 function Handle(
-  // @ts-ignore
+  // @ts-expect-error
   request: Request
 ): TypeResponse001{
-  // @ts-ignore
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
 
   // @ts-ignore

@@ -50,14 +50,10 @@ import {
 import {
   httpHeaders,
   resMessageStatus,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   DeleteOne,
-
-  // @ts-ignore
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 import {
@@ -65,8 +61,6 @@ import {
   type FileSRICollectionSchema,
 
   UpdateFileSRI,
-
-  // @ts-ignore
 } from './UpdateFileSRI.esm.mts';
 
 /**

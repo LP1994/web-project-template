@@ -45,23 +45,16 @@ import {
   webDir,
 
   httpHeaders,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   mime,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
-// @ts-ignore
 import ResponseError from 'public/ResponseError.esm.mts';
 
 import {
   myURLPathName,
-
-  // @ts-ignore
 } from './Condition.esm.mts';
 
 /**
@@ -78,7 +71,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
 
   let result: TypeResponse001;
 
-  //@ts-ignore
+  // @ts-ignore
   let fileState: Deno.FileInfo;
 
   try{
@@ -86,20 +79,18 @@ function ResponseHandle( request: Request ): TypeResponse001{
     fileState = Deno.statSync( filePath );
 
     if( fileState.isFile ){
-      //@ts-ignore
+      // @ts-ignore
       const file: Deno.FsFile = Deno.openSync( filePath, {
         read: true,
       } );
 
-      // @ts-ignore
       result = new Response( file.readable, {
         status: 200,
         statusText: 'OK',
-        // @ts-ignore
         headers: {
           ...httpHeaders,
           'Content-Type': `${ mime.getType( filePath.href ) }`,
-          'Content-Length': Number( fileState.size ),
+          'Content-Length': `${ Number( fileState.size ) }`,
           // 该属性用于下载。
           'Accept-Ranges': 'bytes',
           /**

@@ -26,14 +26,10 @@
 
 import {
   opensslDir,
-
-  // @ts-ignore
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   MyConsole,
-
-  // @ts-ignore
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
@@ -41,14 +37,10 @@ import {
 
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
-
-  // @ts-ignore
 } from 'public/PublicTools.esm.mts';
 
 import {
   Routers,
-
-  // @ts-ignore
 } from 'routers/Routers.esm.mts';
 
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
@@ -92,7 +84,7 @@ ${ JSON.stringify( {
             request.headers.forEach( (
               value: string,
               key: string,
-              // @ts-ignore
+              // @ts-expect-error
               parent: Headers
             ): void => {
               result[ key ] = value;
