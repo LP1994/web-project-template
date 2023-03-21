@@ -2370,11 +2370,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      */
     backCompat: true,
     /**
-     * 该实验性选项启用会导致HMR无效！开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源，切记远程资源的url一定得是带明确的文件扩展后缀名，不然没法被各自的loader处理，从而webpack报处理错误。<br />
+     * 开始可用版本：5.49.0+，启用后，webpack可以构建以http(s):协议开头的远程资源，切记远程资源的url一定得是带明确的文件扩展后缀名，不然没法被各自的loader处理，从而webpack报处理错误。<br />
      * 1、启用后的使用例子：import pMap1 from 'https://cdn.skypack.dev/p-map.js';<br />
      * 2、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
      * 3、当使用以'//'开头的远程链接时，会报错！尤其是在js文件中使用，所以要使用以http:、https:协议头为开头的远程链接才能正确编译输出。<br />
-     * 4、除了设置成Boolean值，还可以是更加详细的Object值：<br />
+     * 4、该实验性选项启用会导致HMR无效！但是在“webpack-dev-server”的“4.12.0 (2023-03-14)”版本中被修复了。<br />
+     * 5、除了设置成Boolean值，还可以是更加详细的Object值：<br />
      * {<br />
      * allowedUris：[ string，例如：http://localhost:9990/ ]、[ RegExp，例如：^https?:// ]、[ Function，例如：(uri: string) => boolean ]，允许的URI列表（分别是它们的开头）。<br />
      * 
