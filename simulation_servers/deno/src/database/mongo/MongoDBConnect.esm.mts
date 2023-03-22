@@ -15,6 +15,7 @@
 
 import {
   type Database,
+  type TypeMongoClient,
 
   MongoClient,
 } from 'mongo/mongo_types.esm.mts';
@@ -25,7 +26,7 @@ export type TypeMongoDBConnect = {
   /**
    * 数据库连接实例，用于关闭、切换数据库等等操作。
    */
-  mongoDBClient: MongoClient;
+  mongoDBClient: TypeMongoClient;
 
   /**
    * 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定）。
@@ -41,7 +42,7 @@ let mongoDBConnectForSingleton: TypeMongoDBConnect | null;
  * @returns {Promise<TypeMongoDBConnect>} 其中的TypeMongoDBConnect是一个对象：{ mongoDBClient: 数据库连接实例，用于关闭、切换数据库等等操作, mongoDB: 初始化数据库连接成功后的默认数据库实例（在连接数据库的配置中指定） }。
  */
 async function MongoDBConnect(): Promise<TypeMongoDBConnect>{
-  const mongoDBClient: MongoClient = new MongoClient();
+  const mongoDBClient: TypeMongoClient = new MongoClient();
 
   const mongoDB: Database = await mongoDBClient.connect( config );
 
@@ -58,7 +59,7 @@ async function MongoDBConnect(): Promise<TypeMongoDBConnect>{
  */
 async function MongoDBConnectForSingleton(): Promise<TypeMongoDBConnect>{
   if( !mongoDBConnectForSingleton ){
-    const mongoDBClient: MongoClient = new MongoClient( ( methodName: string ): void => {
+    const mongoDBClient: TypeMongoClient = new MongoClient( ( methodName: string ): void => {
       if( methodName === 'close' ){
         mongoDBConnectForSingleton = null;
       }

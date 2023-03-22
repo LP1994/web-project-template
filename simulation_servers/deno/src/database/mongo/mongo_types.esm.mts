@@ -9,68 +9,76 @@
 
 'use strict';
 
-import {
-  Binary,
-  BSONRegExp,
-  Decimal128,
-  Document,
-  Double,
-  Int32,
-  Long,
-  ObjectId,
-  Timestamp,
+// @ts-ignore 
+import * as deno_mongo_deps from 'DenoX/mongo/deps.ts';
 
-  // @ts-ignore
-} from 'DenoX/mongo/deps.ts';
+export type Binary = deno_mongo_deps.Binary;
+export type BSONRegExp = deno_mongo_deps.BSONRegExp;
+export type Decimal128 = deno_mongo_deps.Decimal128;
+export type Document = {
+  [ key: string ]: any;
+};
+export type Double = deno_mongo_deps.Double;
+export type Int32 = deno_mongo_deps.Int32;
+export type Long = deno_mongo_deps.Long;
+export type Timestamp = deno_mongo_deps.Timestamp;
 
-import {
-  WriteConcern,
+// @ts-ignore 
+import * as deno_mongo_find from 'DenoX/mongo/src/collection/commands/find.ts';
 
-  // @ts-ignore
-} from 'DenoX/mongo/src/types/read_write_concern.ts';
+export type FindCursor<T> = deno_mongo_find.FindCursor<T>;
 
-import {
-  $geoAny,
-  $geoMultiPolygon,
-  $geoPolygon,
-  CenterSpecifier,
-  ShapeOperator,
+// @ts-ignore 
+import * as deno_mongo from 'DenoX/mongo/mod.ts';
 
-  // @ts-ignore
-} from 'DenoX/mongo/src/types/geospatial.ts';
+export const MongoClient: any = deno_mongo.MongoClient;
+export type TypeMongoClient = deno_mongo.MongoClient;
 
-export {
-  FindCursor,
+export type Database = deno_mongo.Database;
+export type Collection<T extends Document> = deno_mongo.Collection<T>;
 
-  // @ts-ignore
-} from 'DenoX/mongo/src/collection/commands/find.ts';
+export type Bson = deno_mongo.Bson;
 
-export {
-  MongoClient,
-  Database,
-  Collection,
+export type BSONSymbol = deno_mongo.BSONSymbol;
+export type Code = deno_mongo.Code;
+export type DBRef = deno_mongo.DBRef;
+export type MaxKey = deno_mongo.MaxKey;
+export type MinKey = deno_mongo.MinKey;
+export type ObjectId = deno_mongo.ObjectId;
+export type UUID = deno_mongo.UUID;
 
-  Bson,
+export type GridFSBucket = deno_mongo.GridFSBucket;
 
-  Binary,
-  BSONRegExp,
-  BSONSymbol,
-  Code,
-  DBRef,
-  Decimal128,
-  Double,
-  Int32,
-  Long,
-  MaxKey,
-  MinKey,
-  ObjectId,
-  Timestamp,
-  UUID,
+/**
+ * interface for WriteConcern documents used by MongoDB
+ *
+ * @see https://docs.mongodb.com/manual/reference/write-concern/
+ */
+export interface WriteConcern {
+  /**
+   * The number of instances the write operation needs to be propagated to
+   * before proceeding.
+   *
+   * The string based values are:
+   *
+   * - majority: The calculated majority of nodes in a cluster has accepted the
+   *    the write
+   * - custom write name: Writes have been acknowledged by nodes tagged with the
+   *    custom write concern.
+   */
+  w: number | 'majority' | string;
 
-  GridFSBucket,
+  /**
+   * If true, the server only returns after the operation has been commited to
+   * disk
+   */
+  j: boolean;
 
-  // @ts-ignore
-} from 'DenoX/mongo/mod.ts';
+  /**
+   * An optional timeout value after which to stop the write operation
+   */
+  wtimeout?: number;
+}
 
 export interface Server {
   host: string;
@@ -1100,3 +1108,461 @@ export interface CreateCollectionOptions {
 
   writeConcern?: Document;
 }
+
+// Note:
+// Copied from the link below
+// - https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/geojson/index.d.ts
+//
+// See also
+// - https://www.npmjs.com/package/@types/geojson
+
+// Type definitions for non-npm package geojson 7946.0
+// Project: https://geojson.org/
+// Definitions by: Jacob Bruun <https://github.com/cobster>
+//                 Arne Schubert <https://github.com/atd-schubert>
+//                 Jeff Jacobson <https://github.com/JeffJacobson>
+//                 Ilia Choly <https://github.com/icholy>
+//                 Dan Vanderkam <https://github.com/danvk>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+// TypeScript Version: 2.3
+
+// Note: as of the RFC 7946 version of GeoJSON, Coordinate Reference Systems
+// are no longer supported. (See https://tools.ietf.org/html/rfc7946#appendix-B)}
+
+// export as namespace GeoJSON;
+
+/**
+ * The valid values for the "type" property of GeoJSON geometry objects.
+ * https://tools.ietf.org/html/rfc7946#section-1.4
+ */
+export type GeoJsonGeometryTypes = Geometry['type'];
+
+/**
+ * The value values for the "type" property of GeoJSON Objects.
+ * https://tools.ietf.org/html/rfc7946#section-1.4
+ */
+export type GeoJsonTypes = GeoJSON['type'];
+
+/**
+ * Bounding box
+ * https://tools.ietf.org/html/rfc7946#section-5
+ */
+export type BBox = [ number, number, number, number ] | [
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+];
+
+/**
+ * A Position is an array of coordinates.
+ * https://tools.ietf.org/html/rfc7946#section-3.1.1
+ * Array should contain between two and three elements.
+ * The previous GeoJSON specification allowed more elements (e.g., which could be used to represent M values),
+ * but the current specification only allows X, Y, and (optionally) Z to be defined.
+ */
+export type Position = number[]; // [number, number] | [number, number, number];
+
+/**
+ * The base GeoJSON object.
+ * https://tools.ietf.org/html/rfc7946#section-3
+ * The GeoJSON specification also allows foreign members
+ * (https://tools.ietf.org/html/rfc7946#section-6.1)
+ * Developers should use "&" type in TypeScript or extend the interface
+ * to add these foreign members.
+ */
+export interface GeoJsonObject {
+  // Don't include foreign members directly into this type def.
+  // in order to preserve type safety.
+  // [key: string]: any;
+  /**
+   * Specifies the type of GeoJSON object.
+   */
+  type: GeoJsonTypes;
+
+  /**
+   * Bounding box of the coordinate range of the object's Geometries, Features, or Feature Collections.
+   * The value of the bbox member is an array of length 2*n where n is the number of dimensions
+   * represented in the contained geometries, with all axes of the most southwesterly point
+   * followed by all axes of the more northeasterly point.
+   * The axes order of a bbox follows the axes order of geometries.
+   * https://tools.ietf.org/html/rfc7946#section-5
+   */
+  bbox?: BBox | undefined;
+}
+
+/**
+ * Union of GeoJSON objects.
+ */
+export type GeoJSON = Geometry | Feature | FeatureCollection;
+
+/**
+ * Geometry object.
+ * https://tools.ietf.org/html/rfc7946#section-3
+ */
+export type Geometry =
+  | Point
+  | MultiPoint
+  | LineString
+  | MultiLineString
+  | Polygon
+  | MultiPolygon
+  | GeometryCollection;
+export type GeometryObject = Geometry;
+
+/**
+ * Point geometry object.
+ * https://tools.ietf.org/html/rfc7946#section-3.1.2
+ */
+export interface Point
+  extends GeoJsonObject {
+  type: 'Point';
+
+  coordinates: Position;
+}
+
+/**
+ * MultiPoint geometry object.
+ *  https://tools.ietf.org/html/rfc7946#section-3.1.3
+ */
+export interface MultiPoint
+  extends GeoJsonObject {
+  type: 'MultiPoint';
+
+  coordinates: Position[];
+}
+
+/**
+ * LineString geometry object.
+ * https://tools.ietf.org/html/rfc7946#section-3.1.4
+ */
+export interface LineString
+  extends GeoJsonObject {
+  type: 'LineString';
+
+  coordinates: Position[];
+}
+
+/**
+ * MultiLineString geometry object.
+ * https://tools.ietf.org/html/rfc7946#section-3.1.5
+ */
+export interface MultiLineString
+  extends GeoJsonObject {
+  type: 'MultiLineString';
+
+  coordinates: Position[][];
+}
+
+/**
+ * Polygon geometry object.
+ * https://tools.ietf.org/html/rfc7946#section-3.1.6
+ */
+export interface Polygon
+  extends GeoJsonObject {
+  type: 'Polygon';
+
+  coordinates: Position[][];
+}
+
+/**
+ * MultiPolygon geometry object.
+ * https://tools.ietf.org/html/rfc7946#section-3.1.7
+ */
+export interface MultiPolygon
+  extends GeoJsonObject {
+  type: 'MultiPolygon';
+
+  coordinates: Position[][][];
+}
+
+/**
+ * Geometry Collection
+ * https://tools.ietf.org/html/rfc7946#section-3.1.8
+ */
+export interface GeometryCollection
+  extends GeoJsonObject {
+  type: 'GeometryCollection';
+
+  geometries: Geometry[];
+}
+
+// deno-lint-ignore no-explicit-any
+export type GeoJsonProperties = { [ name: string ]: any } | null;
+
+/**
+ * A feature object which contains a geometry and associated properties.
+ * https://tools.ietf.org/html/rfc7946#section-3.2
+ */
+export interface Feature<
+  G extends Geometry | null = Geometry,
+  P = GeoJsonProperties,
+>
+  extends GeoJsonObject {
+  type: 'Feature';
+
+  /**
+   * The feature's geometry
+   */
+  geometry: G;
+
+  /**
+   * A value that uniquely identifies this feature in a
+   * https://tools.ietf.org/html/rfc7946#section-3.2.
+   */
+  id?: string | number | undefined;
+
+  /**
+   * Properties associated with this feature.
+   */
+  properties: P;
+}
+
+/**
+ * A collection of feature objects.
+ *  https://tools.ietf.org/html/rfc7946#section-3.3
+ */
+export interface FeatureCollection<
+  G extends Geometry | null = Geometry,
+  P = GeoJsonProperties,
+>
+  extends GeoJsonObject {
+  type: 'FeatureCollection';
+
+  features: Array<Feature<G, P>>;
+}
+
+/**
+ * https://www.mongodb.com/docs/manual/reference/operator/query/geometry/#mongodb-query-op.-geometry
+ */
+interface GeoJsonOperators<G extends GeoJsonObject> {
+  $geometry: G & CoordinateReferenceSystem;
+}
+
+/**
+ * https://datatracker.ietf.org/doc/html/rfc7946#section-4
+ */
+interface CoordinateReferenceSystem {
+  crs?: {
+    type: string;
+    properties: { name: string };
+  };
+}
+
+/**
+ * https://www.mongodb.com/docs/manual/reference/operator/query/minDistance/
+ * https://www.mongodb.com/docs/manual/reference/operator/query/maxDistance/
+ */
+export interface DistanceConstraint {
+  $minDistance?: number;
+
+  $maxDistance?: number;
+}
+
+export type LegacyPoint = Position;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *    $geometry: GeometryObject, // any GeoJSON object
+ * }
+ * ```
+ */
+export type $geoAny = GeoJsonOperators<GeometryObject>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: { type: "Point", coordinates: [ 40, 5 ] },
+ * }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/geojson/#point
+ */
+export type $geoPoint = GeoJsonOperators<Point>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: { type: "LineString", coordinates: [ [ 40, 5 ], [ 41, 6 ] ] }
+ * }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/geojson/#linestring
+ */
+export type $geoLineString = GeoJsonOperators<LineString>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: {
+ *     type: "Polygon",
+ *     coordinates: [ [ [ 0 , 0 ] , [ 3 , 6 ] , [ 6 , 1 ] , [ 0 , 0 ] ] ]
+ *   },
+ * }
+ *
+ * ```
+ * https://www.mongodb.com/docs/manual/reference/geojson/#polygon
+ */
+export type $geoPolygon = GeoJsonOperators<Polygon>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: {
+ *     type: "MultiPoint",
+ *     coordinates: [
+ *       [ -73.9580, 40.8003 ],
+ *       [ -73.9498, 40.7968 ],
+ *       [ -73.9737, 40.7648 ],
+ *       [ -73.9814, 40.7681 ]
+ *     ]
+ *   },
+ * }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/geojson/#multipoint
+ */
+export type $geoMultiPoint = GeoJsonOperators<MultiPoint>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: {
+ *     type: "MultiLineString",
+ *     coordinates: [
+ *       [ [ -73.96943, 40.78519 ], [ -73.96082, 40.78095 ] ],
+ *       [ [ -73.96415, 40.79229 ], [ -73.95544, 40.78854 ] ],
+ *       [ [ -73.97162, 40.78205 ], [ -73.96374, 40.77715 ] ],
+ *       [ [ -73.97880, 40.77247 ], [ -73.97036, 40.76811 ] ]
+ *     ]
+ *   }
+ * }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/geojson/#multilinestring
+ */
+export type $geoMultiLineString = GeoJsonOperators<MultiLineString>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: {
+ *     type: "MultiPolygon",
+ *     coordinates: [
+ *       [ [ [ -73.958, 40.8003 ], [ -73.9498, 40.7968 ], [ -73.9737, 40.7648 ], [ -73.9814, 40.7681 ], [ -73.958, 40.8003 ] ] ],
+ *       [ [ [ -73.958, 40.8003 ], [ -73.9498, 40.7968 ], [ -73.9737, 40.7648 ], [ -73.958, 40.8003 ] ] ]
+ *     ]
+ *   },
+ * }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/geojson/#multipolygon
+ */
+export type $geoMultiPolygon = GeoJsonOperators<MultiPolygon>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * {
+ *   $geometry: {
+ *     type: "GeometryCollection",
+ *     geometries: [
+ *       {
+ *         type: "MultiPoint",
+ *         coordinates: [
+ *           [ -73.9580, 40.8003 ],
+ *           [ -73.9498, 40.7968 ],
+ *           [ -73.9737, 40.7648 ],
+ *           [ -73.9814, 40.7681 ]
+ *         ]
+ *       },
+ *       {
+ *         type: "MultiLineString",
+ *         coordinates: [
+ *           [ [ -73.96943, 40.78519 ], [ -73.96082, 40.78095 ] ],
+ *           [ [ -73.96415, 40.79229 ], [ -73.95544, 40.78854 ] ],
+ *           [ [ -73.97162, 40.78205 ], [ -73.96374, 40.77715 ] ],
+ *           [ [ -73.97880, 40.77247 ], [ -73.97036, 40.76811 ] ]
+ *         ]
+ *       }
+ *     ]
+ *   }
+ * }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/geojson/#geometrycollection
+ */
+export type $geoCollection = GeoJsonOperators<GeometryCollection>;
+
+/**
+ * Example:
+ *
+ * ```ts
+ * { $box:  [ [ 0, 0 ], [ 100, 100 ] ] }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/operator/query/box/#-box
+ */
+export type $box = { $box: [ LegacyPoint, LegacyPoint ] };
+
+/**
+ * Example:
+ *
+ * ```ts
+ * { $polygon: [ [ 0 , 0 ], [ 3 , 6 ], [ 6 , 0 ] ] }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/operator/query/polygon/#-polygon
+ */
+export type $polygon = { $polygon: LegacyPoint[] };
+
+/**
+ * Example:
+ *
+ * ```ts
+ * { $center: [ [-74, 40.74], 10 ] }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/operator/query/center/#definition
+ */
+export type $center = { $center: [ LegacyPoint, number ] };
+
+/**
+ * Example:
+ *
+ * ```ts
+ * { $centerSphere: [ [ -88, 30 ], 10/3963.2 ] }
+ * ```
+ *
+ * https://www.mongodb.com/docs/manual/reference/operator/query/centerSphere/#-centersphere
+ */
+export type $centerSphere = { $centerSphere: [ LegacyPoint, number ] };
+
+export type ShapeOperator =
+  | $box
+  | $polygon
+  | $center
+  | $centerSphere;
+
+export type CenterSpecifier =
+  | ( $geoPoint & DistanceConstraint )
+  | LegacyPoint
+  | Document;
