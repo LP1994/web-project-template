@@ -132,7 +132,6 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
 
     filePath = `${ myURLPathName }/${ fileExtensionName }/${ fileName }`;
 
-    // @ts-ignore
     Deno.mkdirSync( new URL( `${ uploadDir }/${ fileExtensionName }` ), {
       recursive: true,
     } );
@@ -143,7 +142,6 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   if( fileSRI !== undefined ){
     isWriteFile = false;
 
-    // @ts-ignore
     Deno.renameSync( new URL( fileSRI.savePath ), savePath );
 
     if( isForcedWrite === 'true' ){

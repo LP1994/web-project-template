@@ -128,7 +128,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       const savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName }` ),
         filePath: string = `${ myURLPathName }/big_files/${ fileName }`;
 
-      // @ts-ignore
       Deno.mkdirSync( new URL( `${ uploadDir }/big_files` ), {
         recursive: true,
       } );
@@ -136,7 +135,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       let fileSRIInfo: FileSRICollectionSchema | undefined = ( await QueryOne( sri ) );
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
-        // @ts-ignore
         const file001: Deno.FsFile = await Deno.open( savePath, {
           write: true,
           create: true,
@@ -158,7 +156,6 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       };
 
       if( fileSRIInfo ){
-        // @ts-ignore
         Deno.renameSync( new URL( fileSRIInfo.savePath ), savePath );
 
         if( isForcedWrite === 'true' ){

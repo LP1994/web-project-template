@@ -36,8 +36,8 @@ import {
 import {
   type TypeMongoDBConnect,
 
-  Collection,
-  Database,
+  // Collection,
+  // Database,
 
   MongoDBConnectForSingleton,
 } from 'mongo/MongoDBConnect.esm.mts';
@@ -74,9 +74,9 @@ async function Handle(
     // mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const mongoDB: Database = mongoDBClient.database( 'local' );
+  const mongoDB: any = mongoDBClient.database( 'local' );
 
-  const startupLogCollection: Collection<StartupLogCollectionSchema> = mongoDB.collection<StartupLogCollectionSchema>( 'startup_log' );
+  const startupLogCollection: any = mongoDB.collection( 'startup_log' );
 
   const logs: Array<StartupLogCollectionSchema> = await startupLogCollection.find( {
     hostname: 'LPQAQ',

@@ -100,7 +100,6 @@ async function Routers( request: Request ): Promise<Response>{
   }
   else{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
-      // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
         message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
         .join( '、' ) }。`,

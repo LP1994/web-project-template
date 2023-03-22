@@ -134,7 +134,6 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
       ): boolean => isWriteFile
     );
 
-  // @ts-ignore
   const fileOpen: Array<Promise<Deno.FsFile>> = writeFile.map(
       (
         {
@@ -142,18 +141,16 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
             savePath,
           },
         }: TypeObj001,
-        // @ts-ignore
       ): Promise<Deno.FsFile> => Deno.open( new URL( savePath ), {
         write: true,
         create: true,
       } )
     ),
-    // @ts-ignore
+    // @ts-expect-error
     arr001: Array<Deno.FsFile> = await Array.fromAsync( fileOpen );
 
   arr001.map(
       (
-        // @ts-ignore
         item: Deno.FsFile,
         index: number,
       ): Promise<void> => ( ( writeFile[ index ] as TypeObj001 ).file as File ).stream().pipeTo( writableStreamFromWriter( item ) )

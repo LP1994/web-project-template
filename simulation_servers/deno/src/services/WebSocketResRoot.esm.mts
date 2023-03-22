@@ -69,7 +69,6 @@ function Handle( request: Request ): TypeResponse001{
       {
         response,
         socket: wsForServer,
-        // @ts-ignore
       } = Deno.upgradeWebSocket( request, {
         /**
          * 1、将客户端Web套接字上的“protocol”属性设置为此处提供的值，该值应该是请求Web套接字时在协议参数中指定的字符串之一。<br />

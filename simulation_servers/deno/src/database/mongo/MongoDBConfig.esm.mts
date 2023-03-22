@@ -17,11 +17,7 @@ import {
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
 
-import {
-  type ConnectOptions,
-} from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
-
-const config: ConnectOptions = {
+const config: any = {
   appname: 'simulation_servers_deno',
   db: 'simulation_servers_deno',
   servers: [
@@ -37,8 +33,6 @@ const config: ConnectOptions = {
   privateKey: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA_Key.key` ),
   certChain: new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ),
 };
-
-export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {
   config,

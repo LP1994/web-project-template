@@ -127,9 +127,7 @@ HTTPS Server connInfo--->End
      * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9100。<br />
      */
     hostname: '0.0.0.0',
-    // @ts-ignore
     key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key` ) ),
-    // @ts-ignore
     cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_2_7_CA.crt` ) ),
     onListen: (
       {

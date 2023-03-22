@@ -71,15 +71,12 @@ function ResponseHandle( request: Request ): TypeResponse001{
 
   let result: TypeResponse001;
 
-  // @ts-ignore
   let fileState: Deno.FileInfo;
 
   try{
-    // @ts-ignore
     fileState = Deno.statSync( filePath );
 
     if( fileState.isFile ){
-      // @ts-ignore
       const file: Deno.FsFile = Deno.openSync( filePath, {
         read: true,
       } );

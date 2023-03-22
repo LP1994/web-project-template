@@ -85,7 +85,6 @@ function Handle( request: Request ): TypeResponse001{
     break;
   }
 
-  // @ts-ignore
   return new Response( Deno.readFileSync( filePath ), {
     status: 200,
     statusText: 'OK',

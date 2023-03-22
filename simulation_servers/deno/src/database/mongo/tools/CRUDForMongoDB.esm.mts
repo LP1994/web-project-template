@@ -15,24 +15,29 @@
 
 import {
   type TypeMongoDBConnect,
-  type Filter,
-  type FindOptions,
-  type UpdateFilter,
-  type UpdateOptions,
-  type DeleteOptions,
-  type InsertOptions,
-  type InsertDocument,
 
-  ObjectId,
-  Collection,
-  FindCursor,
+  // type Filter,
+  // type FindOptions,
+  // type UpdateFilter,
+  // type UpdateOptions,
+  // type DeleteOptions,
+  // type InsertOptions,
+  // type InsertDocument,
+
+  // ObjectId,
+  // Collection,
+  // FindCursor,
 
   MongoDBConnectForSingleton,
 } from 'mongo/MongoDBConnect.esm.mts';
 
+/*export {
+ // ObjectId,
+ };*/
+
 export type TypeArgsForFindOne = {
 
-  options?: FindOptions;
+  options?: any;
 
   [ key: string ]: any;
 
@@ -40,7 +45,7 @@ export type TypeArgsForFindOne = {
 
 export type TypeArgsForUpdateOne = {
 
-  options?: UpdateOptions;
+  options?: any;
 
   [ key: string ]: any;
 
@@ -48,7 +53,7 @@ export type TypeArgsForUpdateOne = {
 
 export type TypeArgsForDeleteOne = {
 
-  options?: DeleteOptions;
+  options?: any;
 
   [ key: string ]: any;
 
@@ -56,7 +61,7 @@ export type TypeArgsForDeleteOne = {
 
 export type TypeArgsForInsertOne = {
 
-  options?: InsertOptions;
+  options?: any;
 
   [ key: string ]: any;
 
@@ -88,7 +93,7 @@ export type TypeResultForUpdateOne = {
   /**
    * 如果发生“更新插入”，则该字段表示插入文档的“_id”。
    */
-  upsertedId: ObjectId | undefined;
+  upsertedId: any | undefined;
 
 };
 
@@ -118,7 +123,7 @@ export type TypeResultForUpdate = {
   /**
    * 如果发生“更新插入”，则该字段表示插入文档的“_id”数组。
    */
-  upsertedIds: ObjectId[] | undefined;
+  upsertedIds: any[] | undefined;
 
 };
 
@@ -131,7 +136,7 @@ export type TypeResultForInsert = {
   /**
    * 插入的多个文档的“_id”数组。
    */
-  insertedIds: ObjectId[];
+  insertedIds: any[];
 
   /**
    * 插入的文档数。
@@ -142,7 +147,7 @@ export type TypeResultForInsert = {
 
 export interface InterfaceConstraint001 {
 
-  _id?: ObjectId;
+  _id?: any;
 
   [ key: string ]: any;
 
@@ -161,21 +166,21 @@ export interface InterfaceConstraint001 {
  *
  * @returns {Promise<ObjectId>} 返回一个名为ObjectId类型的值，通过“deno_mongo”这个数据库驱动工具所操作的结果里，新增的文档中的“_id”属性值类型并不是string，而是“deno_mongo”自定义的一个名为ObjectId类型。
  */
-async function InsertOne<T extends InterfaceConstraint001>( collectionName: string, insertDocument: InsertDocument<T>, args?: TypeArgsForInsertOne ): Promise<ObjectId>{
+async function InsertOne( collectionName: string, insertDocument: any, args?: TypeArgsForInsertOne ): Promise<any>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
-  let result: ObjectId;
+  let result: any;
 
   if( args && args.options ){
-    result = ( await collectionHandle.insertOne( insertDocument, args.options ) ) as ObjectId;
+    result = ( await collectionHandle.insertOne( insertDocument, args.options ) ) as any;
   }
   else{
-    result = ( await collectionHandle.insertOne( insertDocument ) ) as ObjectId;
+    result = ( await collectionHandle.insertOne( insertDocument ) ) as any;
   }
 
   mongoDBClient.close();
@@ -196,13 +201,13 @@ async function InsertOne<T extends InterfaceConstraint001>( collectionName: stri
  *
  * @returns {Promise<TypeResultForInsert>} 返回一个结果对象：{ insertedIds: 插入的多个文档的“_id”数组, insertedCount: 插入的文档数, }。
  */
-async function Insert<T extends InterfaceConstraint001>( collectionName: string, insertDocuments: InsertDocument<T>[], args?: TypeArgsForInsertOne ): Promise<TypeResultForInsert>{
+async function Insert( collectionName: string, insertDocuments: any[], args?: TypeArgsForInsertOne ): Promise<TypeResultForInsert>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
   let result: TypeResultForInsert;
 
@@ -231,13 +236,13 @@ async function Insert<T extends InterfaceConstraint001>( collectionName: string,
  *
  * @returns {Promise<number>} 被删除的文档数。
  */
-async function DeleteOne<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, args?: TypeArgsForDeleteOne ): Promise<number>{
+async function DeleteOne( collectionName: string, filter: any, args?: TypeArgsForDeleteOne ): Promise<number>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
   let result: number;
 
@@ -266,13 +271,13 @@ async function DeleteOne<T extends InterfaceConstraint001>( collectionName: stri
  *
  * @returns {Promise<number>} 被删除的文档数。
  */
-async function Delete<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, args?: TypeArgsForDeleteOne ): Promise<number>{
+async function Delete( collectionName: string, filter: any, args?: TypeArgsForDeleteOne ): Promise<number>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
   let result: number;
 
@@ -303,13 +308,13 @@ async function Delete<T extends InterfaceConstraint001>( collectionName: string,
  *
  * @returns {Promise<TypeResultForUpdateOne>} 返回一个结果对象：{ matchedCount: 与“查找条件”匹配的文档数, modifiedCount: 修改的文档数, upsertedCount: “更新插入”的文档数, upsertedId: 如果发生“更新插入”，则该字段表示插入文档的“_id” }。
  */
-async function UpdateOne<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdateOne>{
+async function UpdateOne( collectionName: string, filter: any, update: any, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdateOne>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
   let result: TypeResultForUpdateOne;
 
@@ -340,13 +345,13 @@ async function UpdateOne<T extends InterfaceConstraint001>( collectionName: stri
  *
  * @returns {Promise<TypeResultForUpdate>} 返回一个结果对象：{ matchedCount: 与“查找条件”匹配的文档数, modifiedCount: 修改的文档数, upsertedCount: “更新插入”的文档数, upsertedIds: 如果发生“更新插入”，则该字段表示插入文档的“_id”数组 }。
  */
-async function Update<T extends InterfaceConstraint001>( collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdate>{
+async function Update( collectionName: string, filter: any, update: any, args?: TypeArgsForUpdateOne ): Promise<TypeResultForUpdate>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
   let result: TypeResultForUpdate;
 
@@ -375,15 +380,15 @@ async function Update<T extends InterfaceConstraint001>( collectionName: string,
  *
  * @returns {Promise<T | undefined>} 如果找到匹配查找条件的文档就返回找到的所有文档数据中的第1个文档数据，否则会返回undefined，表示没找到符合查找条件的。
  */
-async function QueryOne<T extends InterfaceConstraint001>( collectionName: string, filter?: Filter<T>, args?: TypeArgsForFindOne ): Promise<T | undefined>{
+async function QueryOne( collectionName: string, filter?: any, args?: TypeArgsForFindOne ): Promise<undefined>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
-  let result: T | undefined = undefined;
+  let result: undefined = undefined;
 
   if( filter && args && args.options ){
     result = await collectionHandle.findOne( filter, args.options );
@@ -414,17 +419,17 @@ async function QueryOne<T extends InterfaceConstraint001>( collectionName: strin
  *
  * @param {FindOptions} args.options 供“find”使用的配置参数，可选。
  *
- * @returns {FindCursor<T>} 返回一个游标，具体使用见“FindCursor”的描述。
+ * @returns {any} 返回一个游标，具体使用见“FindCursor”的描述。
  */
-async function Query<T extends InterfaceConstraint001>( collectionName: string, filter?: Filter<T>, args?: TypeArgsForFindOne ): Promise<FindCursor<T>>{
+async function Query( collectionName: string, filter?: any, args?: TypeArgsForFindOne ): Promise<any>{
   const {
     mongoDBClient,
     mongoDB,
   }: TypeMongoDBConnect = await MongoDBConnectForSingleton();
 
-  const collectionHandle: Collection<T> = mongoDB.collection<T>( collectionName );
+  const collectionHandle: any = mongoDB.collection( collectionName );
 
-  let result: FindCursor<T>;
+  let result: any;
 
   if( filter && args && args.options ){
     result = await collectionHandle.find( filter, args.options );
@@ -443,8 +448,6 @@ async function Query<T extends InterfaceConstraint001>( collectionName: string, 
 
   return result;
 }
-
-export * from 'third_party_modules/deno_mongo@0.31.1/mod.ts';
 
 export {
   InsertOne,

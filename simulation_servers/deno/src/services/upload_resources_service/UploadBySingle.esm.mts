@@ -144,7 +144,6 @@ async function UploadBySingle( request: Request ): Promise<Response>{
         }
         else{
           try{
-            // @ts-ignore
             const file001: Deno.FsFile = await Deno.open( new URL( savePath ), {
               write: true,
               create: true,

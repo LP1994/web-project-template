@@ -108,7 +108,6 @@ class ResponseError {
    */
   public async resPage404(): Promise<Response>{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
-      // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
         message: `未找到“${ this.#method }”请求方法的“${ this.#pathName + this.#search }”资源。`,
       } );
@@ -146,7 +145,6 @@ class ResponseError {
     message: '',
   } ): Promise<Response>{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/Error.ejs` ) ),
-      // @ts-ignore
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
         title,
         message,

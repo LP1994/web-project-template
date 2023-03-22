@@ -46,7 +46,6 @@ import {
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-// @ts-ignore
 async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
   logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
@@ -60,7 +59,6 @@ ${ JSON.stringify( {
 HTTP/2 服务，connInfo--->End
 ` );
 
-  // @ts-ignore
   const httpConn: Deno.HttpConn = Deno.serveHttp( conn );
 
   try{
@@ -127,7 +125,6 @@ HTTP/2 服务，报错--->End
 }
 
 try{
-  // @ts-ignore
   const server: Deno.TlsListener = Deno.listenTls( {
     port: 9200,
     /**
@@ -154,9 +151,7 @@ try{
      * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9200。<br />
      */
     hostname: '0.0.0.0',
-    // @ts-ignore
     key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key` ) ),
-    // @ts-ignore
     cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_2_7_CA.crt` ) ),
     transport: 'tcp',
     alpnProtocols: [
@@ -165,7 +160,6 @@ try{
     ],
   } );
 
-  // @ts-ignore
   const addr: Deno.NetAddr = server.addr as Deno.NetAddr;
 
   MyConsole.Cyan( `
