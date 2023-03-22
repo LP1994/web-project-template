@@ -98,7 +98,7 @@
     "FirefoxAndroid >= 111",
     "Safari >= 16",
     "iOS >= 16",
-    "Opera >= 96"
+    "Opera >= 97"
   ],
   "sideEffects": [
     "**/*.se.js",

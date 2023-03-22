@@ -12,16 +12,16 @@
 // @ts-ignore 
 import * as deno_mongo_deps from 'DenoX/mongo/deps.ts';
 
-export type Binary = deno_mongo_deps.Binary;
-export type BSONRegExp = deno_mongo_deps.BSONRegExp;
-export type Decimal128 = deno_mongo_deps.Decimal128;
-export type Document = {
+type Binary = deno_mongo_deps.Binary;
+type BSONRegExp = deno_mongo_deps.BSONRegExp;
+type Decimal128 = deno_mongo_deps.Decimal128;
+type Document = {
   [ key: string ]: any;
 };
-export type Double = deno_mongo_deps.Double;
-export type Int32 = deno_mongo_deps.Int32;
-export type Long = deno_mongo_deps.Long;
-export type Timestamp = deno_mongo_deps.Timestamp;
+type Double = deno_mongo_deps.Double;
+type Int32 = deno_mongo_deps.Int32;
+type Long = deno_mongo_deps.Long;
+type Timestamp = deno_mongo_deps.Timestamp;
 
 // @ts-ignore 
 import * as deno_mongo_find from 'DenoX/mongo/src/collection/commands/find.ts';
@@ -31,23 +31,53 @@ export type FindCursor<T> = deno_mongo_find.FindCursor<T>;
 // @ts-ignore 
 import * as deno_mongo from 'DenoX/mongo/mod.ts';
 
-export const MongoClient: any = deno_mongo.MongoClient;
-export type TypeMongoClient = deno_mongo.MongoClient;
+type TypeCBFun001 = ( methodName: string ) => void;
+
+const MyMongoClient: any = deno_mongo.MongoClient;
+
+export class MongoClient
+  extends MyMongoClient {
+
+  #cb: TypeCBFun001 = (
+    // @ts-expect-error
+    methodName: string
+  ): void => {
+  };
+
+  constructor( cb: TypeCBFun001 = (
+    // @ts-expect-error
+    methodName: string
+  ): void => {
+  } ){
+    super();
+
+    this.#cb = cb;
+  }
+
+  close(): void{
+    if( this.getCluster() ){
+      super.close();
+
+      this.#cb( 'close' );
+    }
+  }
+
+}
 
 export type Database = deno_mongo.Database;
 export type Collection<T extends Document> = deno_mongo.Collection<T>;
 
-export type Bson = deno_mongo.Bson;
+// export type Bson = deno_mongo.Bson;
 
-export type BSONSymbol = deno_mongo.BSONSymbol;
-export type Code = deno_mongo.Code;
-export type DBRef = deno_mongo.DBRef;
-export type MaxKey = deno_mongo.MaxKey;
-export type MinKey = deno_mongo.MinKey;
+// export type BSONSymbol = deno_mongo.BSONSymbol;
+// export type Code = deno_mongo.Code;
+// export type DBRef = deno_mongo.DBRef;
+// export type MaxKey = deno_mongo.MaxKey;
+// export type MinKey = deno_mongo.MinKey;
 export type ObjectId = deno_mongo.ObjectId;
-export type UUID = deno_mongo.UUID;
+// export type UUID = deno_mongo.UUID;
 
-export type GridFSBucket = deno_mongo.GridFSBucket;
+// export type GridFSBucket = deno_mongo.GridFSBucket;
 
 /**
  * interface for WriteConcern documents used by MongoDB

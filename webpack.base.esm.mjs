@@ -301,7 +301,7 @@ const browserslist = [
     'Edge >= 111',
     'Firefox >= 111',
     'Safari >= 16',
-    'Opera >= 96',
+    'Opera >= 97',
     // PC端各主流浏览器的最新版本，至20230315。End
 
     // 移动端各主流浏览器的最新版本，至20230315。Start
@@ -346,7 +346,7 @@ const browserslist = [
     'edge111',
     'firefox111',
     'safari16',
-    'opera96',
+    'opera97',
     // PC端各主流浏览器的最新版本，至20230315。End
 
     // 移动端各主流浏览器的最新版本，至20230315。Start
@@ -390,7 +390,7 @@ const browserslist = [
     edge: 111,
     firefox: 111,
     safari: 16,
-    opera: 96,
+    opera: 97,
     // PC端各主流浏览器的最新版本，至20230315。End
 
     // 移动端各主流浏览器的最新版本，至20230315。Start
