@@ -1635,6 +1635,11 @@ export type CenterSpecifier =
   | LegacyPoint
   | Document;
 
+/**
+ * 自定义类型，表示一个函数类型。<br />
+ *
+ * 有一个函数参数：methodName，该参数的值目前仅有一个：'close'，表示“deno_mongo”驱动器提供的“MongoClient”类执行了“close()”，无默认值，可选。
+ */
 type TypeCBFun001 = ( methodName: string ) => void;
 
 // @ts-expect-error
@@ -1663,15 +1668,33 @@ interface MyMongoClientConstructor {
 
 const MyMongoClient: any = deno_mongo.MongoClient;
 
+/**
+ * 该自定义“MongoClient”类是继承了“deno_mongo”驱动器提供的“MongoClient”类。<br />
+ * 1、扩展了在关闭数据库连接时（即执行“deno_mongo”驱动器提供的“MongoClient”类的“close()”）执行回调函数（函数类型见TypeCBFun001），用于处理指定的逻辑。<br />
+ * 2、这个回调函数（函数类型见TypeCBFun001）的初始化是在该自定义“MongoClient”类在被实例化时，传给构造函数的参数，该参数的数据类型为一个函数（函数类型见TypeCBFun001）。<br />
+ */
 export class MongoClient
   extends MyMongoClient {
 
+  /**
+   * 该私有属性是一个函数（函数类型见TypeCBFun001）。<br />
+   * 该函数（函数类型见TypeCBFun001）是在关闭数据库连接时（即执行“deno_mongo”驱动器提供的“MongoClient”类的“close()”）执行的，用于处理指定的逻辑。<br />
+   *
+   * @param {string} methodName 该参数的值目前仅有一个：'close'，表示“deno_mongo”驱动器提供的“MongoClient”类执行了“close()”，无默认值，可选。
+   */
   #cb: TypeCBFun001 = (
     // @ts-expect-error
     methodName: string
   ): void => {
   };
 
+  /**
+   * 该自定义“MongoClient”类是继承了“deno_mongo”驱动器提供的“MongoClient”类。<br />
+   * 1、扩展了在关闭数据库连接时（即执行“deno_mongo”驱动器提供的“MongoClient”类的“close()”）执行回调函数（函数类型见TypeCBFun001），用于处理指定的逻辑。<br />
+   * 2、这个回调函数（函数类型见TypeCBFun001）的初始化是在该自定义“MongoClient”类在被实例化时，传给构造函数的参数，该参数的数据类型为一个函数（函数类型见TypeCBFun001）。<br />
+   *
+   * @param {TypeCBFun001 | undefined} cb 该函数（函数类型见TypeCBFun001）是在关闭数据库连接时（即执行“deno_mongo”驱动器提供的“MongoClient”类的“close()”）执行的，用于处理指定的逻辑，默认值：( methodName?: string ): void => {}，可选。
+   */
   constructor( cb: TypeCBFun001 | undefined = (
     // @ts-expect-error
     methodName: string
@@ -1682,6 +1705,9 @@ export class MongoClient
     this.#cb = cb;
   }
 
+  /**
+   * 用于关闭数据库连接，并在关闭后执行指定的回调函数（函数类型见TypeCBFun001），并为该回调函数传入一个字符串'close'，表示“deno_mongo”驱动器提供的“MongoClient”类执行了“close()”。
+   */
   close(): void{
     if( this.getCluster() ){
       super.close();
