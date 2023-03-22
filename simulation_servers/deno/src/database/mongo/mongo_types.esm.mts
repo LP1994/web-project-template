@@ -10,74 +10,112 @@
 'use strict';
 
 // @ts-ignore 
-import * as deno_mongo_deps from 'DenoX/mongo/deps.ts';
+import * as deno_mongo from 'DenoX/mongo/mod.ts';
 
-type Binary = deno_mongo_deps.Binary;
-type BSONRegExp = deno_mongo_deps.BSONRegExp;
-type Decimal128 = deno_mongo_deps.Decimal128;
-type Document = {
-  [ key: string ]: any;
-};
-type Double = deno_mongo_deps.Double;
-type Int32 = deno_mongo_deps.Int32;
-type Long = deno_mongo_deps.Long;
-type Timestamp = deno_mongo_deps.Timestamp;
+// @ts-ignore 
+import * as deno_mongo_deps from 'DenoX/mongo/deps.ts';
 
 // @ts-ignore 
 import * as deno_mongo_find from 'DenoX/mongo/src/collection/commands/find.ts';
 
-export type FindCursor<T> = deno_mongo_find.FindCursor<T>;
-
-// @ts-ignore 
-import * as deno_mongo from 'DenoX/mongo/mod.ts';
-
-type TypeCBFun001 = ( methodName: string ) => void;
-
-const MyMongoClient: any = deno_mongo.MongoClient;
-
-export class MongoClient
-  extends MyMongoClient {
-
-  #cb: TypeCBFun001 = (
-    // @ts-expect-error
-    methodName: string
-  ): void => {
-  };
-
-  constructor( cb: TypeCBFun001 = (
-    // @ts-expect-error
-    methodName: string
-  ): void => {
-  } ){
-    super();
-
-    this.#cb = cb;
-  }
-
-  close(): void{
-    if( this.getCluster() ){
-      super.close();
-
-      this.#cb( 'close' );
-    }
-  }
-
-}
-
 export type Database = deno_mongo.Database;
 export type Collection<T extends Document> = deno_mongo.Collection<T>;
 
-// export type Bson = deno_mongo.Bson;
+type TypeBson = {
+  BSON: any;
+  BSONError: any;
+  BSONRegExp: any;
+  BSONSymbol: any;
+  BSONType: any;
+  BSONValue: any;
+  BSONVersionError: any;
+  Binary: any;
+  BufReader: any;
+  Code: any;
+  DBRef: any;
+  Decimal128: any;
+  Double: any;
+  EJSON: any;
+  Int32: any;
+  Long: any;
+  MaxKey: any;
+  MinKey: any;
+  ObjectId: any;
+  Timestamp: any;
+  UUID: any;
+  b64: any;
+  calculateObjectSize: any;
+  crypto: any;
+  deferred: any;
+  deserialize: any;
+  deserializeStream: any;
+  hex: any;
+  serialize: any;
+  serializeWithBufferAndIndex: any;
+  setInternalBufferSize: any;
+  writeAll: any;
+};
 
-// export type BSONSymbol = deno_mongo.BSONSymbol;
-// export type Code = deno_mongo.Code;
-// export type DBRef = deno_mongo.DBRef;
-// export type MaxKey = deno_mongo.MaxKey;
-// export type MinKey = deno_mongo.MinKey;
+/*
+ deno_mongo.Bson的数据类型为：[object Module]。
+ deno_mongo.Bson里有如下属性：
+ BSON,
+ BSONError,
+ BSONRegExp,
+ BSONSymbol,
+ BSONType,
+ BSONValue,
+ BSONVersionError,
+ Binary,
+ BufReader,
+ Code,
+ DBRef,
+ Decimal128,
+ Double,
+ EJSON,
+ Int32,
+ Long,
+ MaxKey,
+ MinKey,
+ ObjectId,
+ Timestamp,
+ UUID,
+ b64,
+ calculateObjectSize,
+ crypto,
+ deferred,
+ deserialize,
+ deserializeStream,
+ hex,
+ serialize,
+ serializeWithBufferAndIndex,
+ setInternalBufferSize,
+ writeAll
+ */
+export const Bson: TypeBson = deno_mongo.Bson;
+
+export type Binary = deno_mongo_deps.Binary;
+export type BSONRegExp = deno_mongo_deps.BSONRegExp;
+export type BSONSymbol = deno_mongo.BSONSymbol;
+export type Code = deno_mongo.Code;
+export type DBRef = deno_mongo.DBRef;
+export type Decimal128 = deno_mongo_deps.Decimal128;
+export type Double = deno_mongo_deps.Double;
+export type Int32 = deno_mongo_deps.Int32;
+export type Long = deno_mongo_deps.Long;
+export type MaxKey = deno_mongo.MaxKey;
+export type MinKey = deno_mongo.MinKey;
 export type ObjectId = deno_mongo.ObjectId;
-// export type UUID = deno_mongo.UUID;
+export type Timestamp = deno_mongo_deps.Timestamp;
+export type UUID = deno_mongo.UUID;
 
-// export type GridFSBucket = deno_mongo.GridFSBucket;
+export type Document = {
+  [ key: string ]: any;
+};
+
+export type GridFSBucket = deno_mongo.GridFSBucket;
+
+export type FindCursor<T> = deno_mongo_find.FindCursor<T>;
 
 /**
  * interface for WriteConcern documents used by MongoDB
@@ -1596,3 +1634,60 @@ export type CenterSpecifier =
   | ( $geoPoint & DistanceConstraint )
   | LegacyPoint
   | Document;
+
+type TypeCBFun001 = ( methodName: string ) => void;
+
+// @ts-expect-error
+interface MyMongoClientConstructor {
+  new(): this;
+
+  get buildInfo(): BuildInfo;
+
+  getCluster: () => any;
+
+  connect: ( options: ConnectOptions | string ) => Promise<Database>;
+
+  listDatabases: ( options: {
+    filter?: Document;
+    nameOnly?: boolean;
+    authorizedCollections?: boolean;
+    comment?: Document;
+  } | undefined ) => Promise<ListDatabaseInfo[]>;
+
+  runCommand<T = any>( db: string, body: Document ): Promise<T>;
+
+  database: ( name: string | undefined ) => Database;
+
+  close: () => void;
+}
+
+const MyMongoClient: any = deno_mongo.MongoClient;
+
+export class MongoClient
+  extends MyMongoClient {
+
+  #cb: TypeCBFun001 = (
+    // @ts-expect-error
+    methodName: string
+  ): void => {
+  };
+
+  constructor( cb: TypeCBFun001 | undefined = (
+    // @ts-expect-error
+    methodName: string
+  ): void => {
+  } ){
+    super();
+
+    this.#cb = cb;
+  }
+
+  close(): void{
+    if( this.getCluster() ){
+      super.close();
+
+      this.#cb( 'close' );
+    }
+  }
+
+}
