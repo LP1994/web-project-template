@@ -14,9 +14,11 @@
 'use strict';
 
 import {
-  type TypeResultForUpdateOne,
+  type ObjectId,
+} from 'mongo/mongo_types.esm.mts';
 
-  // ObjectId,
+import {
+  type TypeResultForUpdateOne,
 
   InsertOne as _InsertOne,
   DeleteOne as _DeleteOne,
@@ -26,7 +28,7 @@ import {
 
 export interface FileSRICollectionSchema {
 
-  _id?: any;
+  _id?: ObjectId;
 
   // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
   shaType: string;
@@ -67,7 +69,7 @@ const collectionName: string = 'upload_file_sri';
  * @returns {Promise<string>} 返回一个字符串，它表示刚刚插入的文档数据在成功后所生成的新的“_id”属性的字符串形式的值。注意，通过“deno_mongo”这个数据库驱动工具所操作的结果里，新增的文档中的“_id”属性值类型并不是string，而是“deno_mongo”自定义的一个名为ObjectId类型。
  */
 async function InsertOne( fileSRI: FileSRICollectionSchema ): Promise<string>{
-  const insertedId: any = await _InsertOne( collectionName, fileSRI );
+  const insertedId: ObjectId = await _InsertOne<FileSRICollectionSchema>( collectionName, fileSRI );
 
   return insertedId.toString();
 }
@@ -80,7 +82,7 @@ async function InsertOne( fileSRI: FileSRICollectionSchema ): Promise<string>{
  * @returns {Promise<boolean>} true表示删除成功，反之失败。
  */
 async function DeleteOne( sri: string ): Promise<boolean>{
-  const deleteCount: number = await _DeleteOne( collectionName, {
+  const deleteCount: number = await _DeleteOne<FileSRICollectionSchema>( collectionName, {
     sri,
   }, {
     options: {
@@ -104,7 +106,7 @@ async function UpdateOne( fileSRI: FileSRICollectionSchema ): Promise<boolean>{
     modifiedCount,
     upsertedCount,
     // upsertedId,
-  }: TypeResultForUpdateOne = await _UpdateOne( collectionName, {
+  }: TypeResultForUpdateOne = await _UpdateOne<FileSRICollectionSchema>( collectionName, {
     sri: fileSRI[ 'sri' ],
   }, {
     $set: fileSRI,
@@ -126,7 +128,7 @@ async function UpdateOne( fileSRI: FileSRICollectionSchema ): Promise<boolean>{
  * @returns {Promise<FileSRICollectionSchema|undefined>} 返回undefined表示没找到对应的文档数据，反之，会返回一个自定义的文件FileSRI对象的文档数据。
  */
 async function QueryOne( sri: string ): Promise<FileSRICollectionSchema | undefined>{
-  const fileSRI: FileSRICollectionSchema | undefined = await _QueryOne( collectionName, {
+  const fileSRI: FileSRICollectionSchema | undefined = await _QueryOne<FileSRICollectionSchema>( collectionName, {
     sri,
   }, {
     options: {
