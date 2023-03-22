@@ -19,7 +19,7 @@ import {
 
 import {
   type ConnectOptions,
-} from 'mongo/mongo_types.esm.mts';
+} from 'mongo/deno_mongo.esm.mts';
 
 const config: ConnectOptions = {
   appname: 'simulation_servers_deno',

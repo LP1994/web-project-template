@@ -36,7 +36,7 @@ import {
 import {
   type Collection,
   type Database,
-} from 'mongo/mongo_types.esm.mts';
+} from 'mongo/deno_mongo.esm.mts';
 
 import {
   type TypeMongoDBConnect,

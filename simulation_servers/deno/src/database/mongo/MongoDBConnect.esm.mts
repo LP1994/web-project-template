@@ -17,7 +17,7 @@ import {
   type Database,
 
   MongoClient,
-} from 'mongo/mongo_types.esm.mts';
+} from 'mongo/deno_mongo.esm.mts';
 
 import config from './MongoDBConfig.esm.mts';
 

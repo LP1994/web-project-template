@@ -15,7 +15,7 @@
 
 import {
   type ObjectId,
-} from 'mongo/mongo_types.esm.mts';
+} from 'mongo/deno_mongo.esm.mts';
 
 import {
   type TypeResultForUpdateOne,
