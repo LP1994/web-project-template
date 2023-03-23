@@ -10,12 +10,16 @@
 'use strict';
 
 import {
+  type MongoClientOptions,
+
   MongoClient,
 
   // @ts-ignore
 } from 'npm:mongodb';
 
-const client = new MongoClient( 'mongodb://localhost:27777' );
+const client: MongoClient = new MongoClient( 'mongodb://localhost:27777', {
+  appName: 'npm_mongodb_driver',
+} as MongoClientOptions );
 
 async function run(){
   try{
@@ -35,4 +39,4 @@ async function run(){
   }
 }
 
-run().catch( console.dir );
+run().catch( console.error );

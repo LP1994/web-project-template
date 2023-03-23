@@ -44,7 +44,6 @@
       "deno.unstable",
       "deno.url",
       "deno.web",
-      "deno.webgpu",
       "deno.websocket",
       "deno.webstorage",
       "deno.window",
