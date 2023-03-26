@@ -11,6 +11,8 @@
 
 import {
   type MongoClientOptions,
+  type Db,
+  type Collection,
 
   MongoClient,
 
@@ -20,6 +22,20 @@ import {
 import {
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
+
+const str001: string = encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' );
+console.log( `
+
+
+${ decodeURIComponent( str001 ) }
+
+
+` );
+console.log( `\n\n\n` );
+console.log( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ) );
+console.log( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` ) );
+console.log( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ) );
+console.log( `\n\n\n` );
 
 /**
  * node版本的mongodb驱动程序的客户端连接配置选项。
@@ -90,7 +106,7 @@ const mongoClientConfig: MongoClientOptions = {
    *
    * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
-  // authMechanism: 'MONGODB-X509',
+  authMechanism: 'MONGODB-X509',
   /**
    * @type {AuthMechanismProperties} 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -108,7 +124,7 @@ const mongoClientConfig: MongoClientOptions = {
   /**
    * @type {string} 指定与用户凭证相关的数据库名称。指定连接应针对的数据库进行验证。
    */
-  // authSource: '',
+  authSource: '$external',
   /**
    * @type {string | ("none" | "snappy" | "zlib" | "zstd")[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -237,7 +253,7 @@ const mongoClientConfig: MongoClientOptions = {
   /**
    * @type {boolean} ssl是tls选项的别名。
    */
-  ssl: false,
+  // ssl: true,
   /**
    * @type {number} 指定操作完全执行的超时时间（以毫秒为单位，非负整数），取消设置（默认情况下未启用该功能）。
    */
@@ -245,30 +261,36 @@ const mongoClientConfig: MongoClientOptions = {
   /**
    * @type {boolean} 指定连接到服务器是否需要TLS。使用“mongodb+srv”的srvServiceName，或指定其他以tls为前缀的选项，将默认tls为true。
    */
-  tls: false,
+  tls: true,
   /**
    * @type {boolean} 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
    * 注意！“tlsInsecure”选项不能与“tlsAllowInvalidCertificates”选项一起使用。
    */
-  // tlsAllowInvalidCertificates: false,
+  tlsAllowInvalidCertificates: false,
   /**
    * @type {boolean} 指定当服务器的主机名与TLS证书指定的主机名不匹配时，驱动程序是否应该出错。<br />
    * 禁止对mongod/mongos实例提交的证书进行主机名验证。<br />
    * 注意！“tlsInsecure”选项不能与“tlsAllowInvalidHostnames”选项一起使用。
    */
-  // tlsAllowInvalidHostnames: false,
+  tlsAllowInvalidHostnames: false,
   /**
    * @type {string} 指定在进行TLS连接时要信任的具有单个或多个证书颁发机构的文件的路径。<br />
    * 指定本地.pem文件的位置，该文件包含来自证书颁发机构的根证书链。该文件用于验证mongod/mongos实例提交的证书。<br />
-   * 文件的路径，该文件包含在TLS连接中使用的单个或一捆受信任的证书授权。
+   * 文件的路径，该文件包含在TLS连接中使用的单个或一捆受信任的证书授权。<br />
+   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem'。<br />
+   * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
+   * 作为连接字符串时，tlsCAFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCAFile: decodeURI( new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ).href.slice( 8 ) ),
+  tlsCAFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
   /**
    * @type {string} 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
-   * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。
+   * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
+   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem'。<br />
+   * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
+   * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateKeyFile: decodeURI( new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` ).href.slice( 8 ) ),
+  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
@@ -277,7 +299,7 @@ const mongoClientConfig: MongoClientOptions = {
    * @type {boolean} 指定尽可能放宽TLS约束，例如允许无效证书或主机名不匹配。<br />
    * 注意！“tlsInsecure”选项不能与“tlsAllowInvalidCertificates”、“tlsAllowInvalidHostnames”选项一起使用。
    */
-  tlsInsecure: false,
+  // tlsInsecure: false,
   /**
    * @type {number|string} 该选项已经废弃！请使用writeConcern选项代替，指定客户端的默认写入问题“w”字段，值类型为：非负整数或字符串。
    */
@@ -581,11 +603,14 @@ const mongoClientConfig: MongoClientOptions = {
   /**
    * @type {boolean} 根据证书机构验证mongod服务器证书。
    */
-  sslValidate: true,
+  // sslValidate: true,
   /**
-   * @type {string} 指定本地TLS证书的位置。
+   * @type {string} 指定本地TLS证书的位置。<br />
+   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt'。<br />
+   * 但是作为连接字符串时，tlsCertificateFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt' )。<br />
+   * 作为连接字符串时，tlsCertificateFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateFile: decodeURI( new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ).href.slice( 8 ) ),
+  // tlsCertificateFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt',
   /**
    * @type {boolean} 当对Long进行反序列化时，将以BigInt的形式返回，true表示启用。
    */
@@ -610,20 +635,20 @@ const mongoClientConfig: MongoClientOptions = {
 
 const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoClientConfig );
 
-async function run(){
+async function run(): Promise<void>{
   try{
-    const database = client.db( 'local' );
-
-    const movies = database.collection( 'startup_log' );
-
-    const movie = await movies.find( {
-      hostname: 'LPQAQ',
-    } ).toArray();
+    const database: Db = client.db( 'local' ),
+      movies: Collection = database.collection( 'startup_log' ),
+      movie: Array<any> = await movies.find( {
+        hostname: 'LPQAQ',
+      } ).toArray();
 
     console.dir( movie );
   }
+  catch( e: unknown ){
+    console.error( e );
+  }
   finally{
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
