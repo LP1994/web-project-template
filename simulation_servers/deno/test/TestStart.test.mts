@@ -13,8 +13,15 @@
 
 'use strict';
 
-if( true ){
+if( false ){
+  // @ts-ignore
   import('./npm_mongodb_for_deno.test.mts').catch( ( error: unknown ): void => {
+    console.error( error );
+  } );
+}
+
+if( true ){
+  import('./npm_mongoose_for_deno.test.mts').catch( ( error: unknown ): void => {
     console.error( error );
   } );
 }
