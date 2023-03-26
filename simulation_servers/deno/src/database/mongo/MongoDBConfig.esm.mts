@@ -33,6 +33,10 @@ const config: ConnectOptions = {
   tls: false,
   safe: true,
   retryWrites: true,
+  credential: {
+    db: '$external',
+    mechanism: 'MONGODB-X509',
+  },
 
   /**
    * 从“deno_mongo@v0.31.2”源码中可知该选项还未被实现，详细见：https://deno.land/x/mongo@v0.31.2/src/cluster.ts?source#L39。
@@ -59,6 +63,7 @@ const config: ConnectOptions = {
   alpnProtocols: [
     'h2',
     'http/1.1',
+    'http/1.0',
   ],
 
   // 之所以还强制使用了“as”，是因为添加了非“deno_mongo@v0.31.2”提供的参数，但是这些参数来自：https://deno.land/api@v1.32.0?s=Deno.ConnectTlsOptions&unstable=
