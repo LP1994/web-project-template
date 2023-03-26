@@ -1,10 +1,31 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/test/npm_mongodb.test.mts
+ * FileDirPath: simulation_servers/deno/test/npm_mongodb_for_deno.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
  * CreateDate: 2023-03-22 20:40:24 星期三
+ */
+
+/**
+ * 1、直到2023年03月26日，基于：npm包mongodb@5.1.0、MongoDB社区版@6.0.5、deno@1.32.1，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongodb@5.1.0、MongoDB社区版@6.0.5在node中是可以的。
+ *
+ * 2、报错信息：
+ * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
+ * Sending fatal alert BadCertificate
+ * error: Uncaught Error: read UNKNOWN
+ *     at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
+ *     at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
+ *     at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
+ *     at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
+ *
+ * 当连接地址为：localhost，也就是域名时，会报如下错误：
+ * error: Uncaught Error: read ECONNRESET
+ *    at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
+ *    at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
+ *    at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
+ *    at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
  */
 
 'use strict';
@@ -22,20 +43,6 @@ import {
 import {
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
-
-const str001: string = encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' );
-console.log( `
-
-
-${ decodeURIComponent( str001 ) }
-
-
-` );
-console.log( `\n\n\n` );
-console.log( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ) );
-console.log( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` ) );
-console.log( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ) );
-console.log( `\n\n\n` );
 
 /**
  * node版本的mongodb驱动程序的客户端连接配置选项。
@@ -282,7 +289,8 @@ const mongoClientConfig: MongoClientOptions = {
    * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
    * 作为连接字符串时，tlsCAFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCAFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
+  tlsCAFile: decodeURIComponent( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` )
+  .slice( 8 ) ),
   /**
    * @type {string} 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
    * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
@@ -290,7 +298,8 @@ const mongoClientConfig: MongoClientOptions = {
    * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
+  tlsCertificateKeyFile: decodeURIComponent( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` )
+  .slice( 8 ) ),
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
@@ -610,7 +619,7 @@ const mongoClientConfig: MongoClientOptions = {
    * 但是作为连接字符串时，tlsCertificateFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt' )。<br />
    * 作为连接字符串时，tlsCertificateFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  // tlsCertificateFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt',
+  // tlsCertificateFile: decodeURIComponent( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ).slice( 8 ) ),
   /**
    * @type {boolean} 当对Long进行反序列化时，将以BigInt的形式返回，true表示启用。
    */
