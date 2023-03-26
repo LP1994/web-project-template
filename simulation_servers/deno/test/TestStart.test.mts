@@ -14,7 +14,7 @@
 'use strict';
 
 if( true ){
-  import('./npm_mongodb.test.mts').catch( ( error: unknown ): void => {
+  import('./npm_mongodb_for_deno.test.mts').catch( ( error: unknown ): void => {
     console.error( error );
   } );
 }
