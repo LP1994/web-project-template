@@ -309,6 +309,8 @@ interface ImageEncodeOptions {
 
 interface ImportMeta {
     url: string;
+    main: boolean;
+    resolve(specifier: string): string;
 }
 
 interface JsonWebKey {

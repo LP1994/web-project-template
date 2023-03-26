@@ -616,7 +616,9 @@ interface TemplateStringsArray extends ReadonlyArray<string> {
  * this type may be augmented via interface merging.
  */
 interface ImportMeta {
-    [key: string]: any;
+    url: string;
+    main: boolean;
+    resolve(specifier: string): string;
 }
 
 /**
