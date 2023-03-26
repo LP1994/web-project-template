@@ -26,3 +26,4 @@ D:\WebStorm\Config\system\plugins\deno\deno-service\node_modules\typescript-deno
 D:\WebStorm\Config\system\javascript\deno
 D:\NodeJS\node_global\node_modules\typescript\lib
 G:\WebStormWS\web-project-template\node_modules\typescript\lib
+G:\WebStormWS\web-project-template\simulation_servers\deno\ts_declare_lib
