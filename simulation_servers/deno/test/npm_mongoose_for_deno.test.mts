@@ -8,8 +8,8 @@
  */
 
 /**
- * 1、直到2023年03月26日，基于：npm包mongodb@5.1.0、MongoDB社区版@6.0.5、deno@1.32.1，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongodb@5.1.0、MongoDB社区版@6.0.5在node中是可以的。
+ * 1、直到2023年03月26日，基于：npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5、deno@1.32.1，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5在node中是可以的。
  *
  * 2、报错信息：
  * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
@@ -31,34 +31,51 @@
 'use strict';
 
 import {
-  type MongoClientOptions,
-  type Db,
+  type ConnectOptions,
+  type Connection,
   type Collection,
 
-  MongoClient,
+  Mongoose,
 
   // @ts-ignore
-} from 'npm:mongodb';
+} from 'npm:mongoose';
 
 import {
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
 
+interface StartupLogCollectionSchema {
+  _id: string;
+
+  hostname: string;
+
+  startTime: Date;
+
+  startTimeLocal: string;
+
+  pid: number;
+
+  cmdLine: object;
+
+  buildinfo: object;
+}
+
 /**
- * node版本的mongodb驱动程序的客户端连接配置选项。
+ * node版本的mongoose驱动程序的客户端连接配置选项。
  *
- * @type {MongoClientOptions} 该驱动程序的配置选项详细见：
+ * @type {ConnectOptions} 该驱动程序的配置选项详细见：
+ * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongoClientConfig: MongoClientOptions = {
+const mongooseClientConfig: ConnectOptions = {
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**
    * @type {string} 指定驱动程序在客户端元数据中作为连接握手的一部分传递给服务器的应用程序名称。服务器在建立连接时将应用名称打印到MongoDB日志中。它也会被记录在慢速查询日志和配置文件集合中。<br />
    * 创建该MongoClient实例的应用程序的名称。MongoDB 3.4和更新版本会在建立每个连接时在服务器日志中打印这个值。它也会被记录在慢速查询日志和配置文件集合中。
    */
-  appName: 'npm_mongodb_driver',
+  appName: 'npm_mongoose_driver_for_deno',
   /**
    * @type {string} 指定与服务器连接时要使用的认证机制方法。如果你没有指定一个值，驱动程序会使用默认的机制，根据服务器的版本，SCRAM-SHA-1或SCRAM-SHA-256。参见认证机制以了解可用的认证机制。<br />
    * 详细见：<br />
@@ -427,9 +444,9 @@ const mongoClientConfig: MongoClientOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongodb_driver',
-    platform: 'Node.js X64',
-    version: '5.1.0',
+    name: 'npm_mongoose_driver',
+    platform: 'node@19.8.1 X64',
+    version: 'mongoose@7.0.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -640,26 +657,27 @@ const mongoClientConfig: MongoClientOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as MongoClientOptions;
+} as ConnectOptions;
 
-const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoClientConfig );
+const mongoose: Mongoose = new Mongoose(),
+  client: Connection = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
 
 async function run(): Promise<void>{
   try{
-    const database: Db = client.db( 'local' ),
-      movies: Collection = database.collection( 'startup_log' ),
-      movie: Array<any> = await movies.find( {
-        hostname: 'LPQAQ',
-      } ).toArray();
+    const startup_log_collection: Collection<StartupLogCollectionSchema> = client.collection<StartupLogCollectionSchema>( 'startup_log' );
 
-    console.dir( movie );
+    const startup_log: Array<StartupLogCollectionSchema> = await ( await startup_log_collection.find<StartupLogCollectionSchema>( {
+      hostname: 'LPQAQ',
+    } ) ).toArray();
+
+    console.dir( startup_log );
   }
   catch( e: unknown ){
     console.error( e );
   }
   finally{
-    await client.close();
+    await client.close( true );
   }
 }
 
-run().catch( console.error );
+await run();

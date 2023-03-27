@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/test/npm_mongodb_for_deno.test.mts
+ * FileDirPath: simulation_servers/deno/test/npm_mongoose_for_node.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -8,41 +8,19 @@
  */
 
 /**
- * 1、直到2023年03月26日，基于：npm包mongodb@5.1.0、MongoDB社区版@6.0.5、deno@1.32.1，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongodb@5.1.0、MongoDB社区版@6.0.5在node中是可以的。
- *
- * 2、报错信息：
- * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
- * Sending fatal alert BadCertificate
- * error: Uncaught Error: read UNKNOWN
- *     at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *     at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *     at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *     at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
- *
- * 当连接地址为：localhost，也就是域名时，会报如下错误：
- * error: Uncaught Error: read ECONNRESET
- *    at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *    at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *    at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *    at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
+ * 2023年03月26日，基于：npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5、npm@9.6.2、node@19.8.1，带客户端证书的与数据库进行的TLS连接测试成功！
+ * 注意该文件不是deno版！
  */
 
 'use strict';
 
 import {
-  type MongoClientOptions,
-  type Db,
+  type ConnectOptions,
+  type Connection,
   type Collection,
 
-  MongoClient,
-
-  // @ts-ignore
-} from 'npm:mongodb';
-
-import {
-  opensslDir,
-} from 'configures/GlobalParameters.esm.mts';
+  Mongoose,
+} from 'mongoose';
 
 interface StartupLogCollectionSchema {
   _id: string;
@@ -61,20 +39,21 @@ interface StartupLogCollectionSchema {
 }
 
 /**
- * node版本的mongodb驱动程序的客户端连接配置选项。
+ * node版本的mongoose驱动程序的客户端连接配置选项。
  *
- * @type {MongoClientOptions} 该驱动程序的配置选项详细见：
+ * @type {ConnectOptions} 该驱动程序的配置选项详细见：
+ * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongoClientConfig: MongoClientOptions = {
+const mongooseClientConfig: ConnectOptions = {
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**
    * @type {string} 指定驱动程序在客户端元数据中作为连接握手的一部分传递给服务器的应用程序名称。服务器在建立连接时将应用名称打印到MongoDB日志中。它也会被记录在慢速查询日志和配置文件集合中。<br />
    * 创建该MongoClient实例的应用程序的名称。MongoDB 3.4和更新版本会在建立每个连接时在服务器日志中打印这个值。它也会被记录在慢速查询日志和配置文件集合中。
    */
-  appName: 'npm_mongodb_driver_for_deno',
+  appName: 'npm_mongoose_driver_for_node',
   /**
    * @type {string} 指定与服务器连接时要使用的认证机制方法。如果你没有指定一个值，驱动程序会使用默认的机制，根据服务器的版本，SCRAM-SHA-1或SCRAM-SHA-256。参见认证机制以了解可用的认证机制。<br />
    * 详细见：<br />
@@ -129,7 +108,7 @@ const mongoClientConfig: MongoClientOptions = {
    *
    * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
-  // authMechanism: 'MONGODB-X509',
+  authMechanism: 'MONGODB-X509',
   /**
    * @type {AuthMechanismProperties} 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -147,7 +126,7 @@ const mongoClientConfig: MongoClientOptions = {
   /**
    * @type {string} 指定与用户凭证相关的数据库名称。指定连接应针对的数据库进行验证。
    */
-  // authSource: '$external',
+  authSource: '$external',
   /**
    * @type {string | ("none" | "snappy" | "zlib" | "zstd")[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -284,7 +263,7 @@ const mongoClientConfig: MongoClientOptions = {
   /**
    * @type {boolean} 指定连接到服务器是否需要TLS。使用“mongodb+srv”的srvServiceName，或指定其他以tls为前缀的选项，将默认tls为true。
    */
-  tls: false,
+  tls: true,
   /**
    * @type {boolean} 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
@@ -305,8 +284,7 @@ const mongoClientConfig: MongoClientOptions = {
    * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
    * 作为连接字符串时，tlsCAFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCAFile: decodeURIComponent( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` )
-  .slice( 8 ) ),
+  tlsCAFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
   /**
    * @type {string} 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
    * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
@@ -314,8 +292,7 @@ const mongoClientConfig: MongoClientOptions = {
    * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateKeyFile: decodeURIComponent( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` )
-  .slice( 8 ) ),
+  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
@@ -443,9 +420,9 @@ const mongoClientConfig: MongoClientOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongodb_driver',
-    platform: 'deno@1.32.1 X64',
-    version: 'mongodb@5.1.0',
+    name: 'npm_mongoose_driver',
+    platform: 'node@19.8.1 X64',
+    version: 'mongoose@7.0.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -635,7 +612,7 @@ const mongoClientConfig: MongoClientOptions = {
    * 但是作为连接字符串时，tlsCertificateFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt' )。<br />
    * 作为连接字符串时，tlsCertificateFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  // tlsCertificateFile: decodeURIComponent( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.crt` ).slice( 8 ) ),
+  // tlsCertificateFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt',
   /**
    * @type {boolean} 当对Long进行反序列化时，将以BigInt的形式返回，true表示启用。
    */
@@ -656,17 +633,18 @@ const mongoClientConfig: MongoClientOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as MongoClientOptions;
+} as ConnectOptions;
 
-const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoClientConfig );
+const mongoose: Mongoose = new Mongoose(),
+  client: Connection = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
 
 async function run(): Promise<void>{
   try{
-    const database: Db = client.db( 'local' ),
-      startup_log_collection: Collection<StartupLogCollectionSchema> = database.collection<StartupLogCollectionSchema>( 'startup_log' ),
-      startup_log: Array<StartupLogCollectionSchema> = await startup_log_collection.find<StartupLogCollectionSchema>( {
-        hostname: 'LPQAQ',
-      } ).toArray();
+    const startup_log_collection: Collection<StartupLogCollectionSchema> = client.collection<StartupLogCollectionSchema>( 'startup_log' );
+
+    const startup_log: Array<StartupLogCollectionSchema> = await ( await startup_log_collection.find<StartupLogCollectionSchema>( {
+      hostname: 'LPQAQ',
+    } ) ).toArray();
 
     console.dir( startup_log );
   }

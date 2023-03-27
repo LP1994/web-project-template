@@ -22,6 +22,22 @@ import {
   MongoClient,
 } from 'mongodb';
 
+interface StartupLogCollectionSchema {
+  _id: string;
+
+  hostname: string;
+
+  startTime: Date;
+
+  startTimeLocal: string;
+
+  pid: number;
+
+  cmdLine: object;
+
+  buildinfo: object;
+}
+
 /**
  * node版本的mongodb驱动程序的客户端连接配置选项。
  *
@@ -36,7 +52,7 @@ const mongoClientConfig: MongoClientOptions = {
    * @type {string} 指定驱动程序在客户端元数据中作为连接握手的一部分传递给服务器的应用程序名称。服务器在建立连接时将应用名称打印到MongoDB日志中。它也会被记录在慢速查询日志和配置文件集合中。<br />
    * 创建该MongoClient实例的应用程序的名称。MongoDB 3.4和更新版本会在建立每个连接时在服务器日志中打印这个值。它也会被记录在慢速查询日志和配置文件集合中。
    */
-  appName: 'npm_mongodb_driver',
+  appName: 'npm_mongodb_driver_for_node',
   /**
    * @type {string} 指定与服务器连接时要使用的认证机制方法。如果你没有指定一个值，驱动程序会使用默认的机制，根据服务器的版本，SCRAM-SHA-1或SCRAM-SHA-256。参见认证机制以了解可用的认证机制。<br />
    * 详细见：<br />
@@ -404,8 +420,8 @@ const mongoClientConfig: MongoClientOptions = {
    */
   driverInfo: {
     name: 'npm_mongodb_driver',
-    platform: 'Node.js X64',
-    version: '5.1.0',
+    platform: 'node@19.8.1 X64',
+    version: 'mongodb@5.1.0',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -623,19 +639,19 @@ const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoC
 async function run(): Promise<void>{
   try{
     const database: Db = client.db( 'local' ),
-      movies: Collection = database.collection( 'startup_log' ),
-      movie: Array<any> = await movies.find( {
+      startup_log_collection: Collection<StartupLogCollectionSchema> = database.collection<StartupLogCollectionSchema>( 'startup_log' ),
+      startup_log: Array<StartupLogCollectionSchema> = await ( startup_log_collection.find<StartupLogCollectionSchema>( {
         hostname: 'LPQAQ',
-      } ).toArray();
+      } ) ).toArray();
 
-    console.dir( movie );
+    console.dir( startup_log );
   }
   catch( e: unknown ){
     console.error( e );
   }
   finally{
-    await client.close();
+    await client.close( true );
   }
 }
 
-run().catch( console.error );
+await run();
