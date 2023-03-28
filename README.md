@@ -9,3 +9,5 @@ This is a WEB project template.<br /><br />
 6、“subsystems”文件夹下都是“微前端架构”中各个“子系统”工程的文件夹。<br />
 7、“element-ui”有2.0的也有3.0（element-plus）的，默认使用3.0的element-plus。<br />
 8、“simulation_servers/deno”下有基于HTTP/2实现的服务端（提供https://、wss://服务），本人亲自对比过，HTTP/2确实在并发方面强于HTTP1.1，强的不是一星半点，对比见“simulation_servers/deno/notes/关于HTTP2跟HTTP1_1的直观对比”文件夹下的4张图片。<br />
+9、在“webpack.base.esm.mjs”中对“webpack-dev-server”开发服务器也是启用“HTTP/2”的。<br />
+10、在“simulation_servers/deno/src/database/mongo/test”中有“npm包的mongoose”、“npm包的mongodb”的配置参考，编写了这两者的“deno”、“node”版本，都测试通过了，可用，但是有些许差异。<br />
