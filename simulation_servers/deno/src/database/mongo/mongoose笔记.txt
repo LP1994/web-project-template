@@ -7,9 +7,9 @@ https://mongoosejs.com/docs/index.html
 1、关于“mongoose”的介绍
 mongoose，为node.js建立优雅的mongodb对象模型。
 让我们面对现实吧，编写MongoDB验证、铸造和业务逻辑的模板是一种拖累。这就是为什么我们写了Mongoose。
-Mongoose提供了一个直接的、基于模式的解决方案来为你的应用程序数据建模。它包括内置的类型转换、验证、查询构建、业务逻辑挂钩等，开箱即用。
-在Mongoose中，所有的东西都来自于一个Schema，即模式。
-
+Mongoose提供了一个直接的、基于“Schema，即：模式”的解决方案来为你的应用程序数据建模。它包括内置的类型转换、验证、查询构建、业务逻辑挂钩等，开箱即用。
+在Mongoose中，所有的东西都来自于一个“Schema，即：模式”。
+Mongoose中的一切都以“Schema，即：模式”开始。每个“Schema，即：模式”都映射到MongoDB的“Collection”，并定义了该“Collection”中的“Document”的形状。
 
 
 
