@@ -13,6 +13,154 @@ Mongoose中的一切都以“Schema，即：模式”开始。每个“Schema，
 
 
 
+2、Types.ObjectId、Schema.Types.ObjectId
+在TypeScript中创建一个interface接口时，如果需要在其中定义一个ObjectId类型的属性时，应该使用“Types.ObjectId”。
+例如：
+interface IUser {
+  name: string;
+  email: string;
+  organization: Types.ObjectId;
+}
+但是如果是在Schema中定义一个ObjectId类型的属性时，应该使用“Schema.Types.ObjectId”。
+例如：
+const userSchema = new Schema<IUser>({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  organization: { type: Schema.Types.ObjectId, ref: 'Organization' }
+});
+这是因为Schema.Types.ObjectId是一个继承自SchemaType的类，而不是你用来创建一个新的MongoDB ObjectId的类。
+
+
+
+3、自动类型推理
+Mongoose的Schema是你如何告诉Mongoose你的Document是什么样子的。
+Mongoose的Schema与TypeScript的interfaces是分开的，所以你需要同时定义一个TypeScript的interfaces和一个Mongoose的Schema；或者依靠Mongoose从Schema定义中自动推断类型。
+Mongoose还可以从你的Schema定义中自动推断出文档类型（相当于TypeScript的interfaces、type），如下所示。
+import { Schema, InferSchemaType } from 'mongoose';
+
+// Document interface
+// No need to define TS interface any more.
+// interface User {
+//   name: string;
+//   email: string;
+//   avatar?: string;
+// }
+
+// Schema
+const schema = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  avatar: String
+});
+
+type User = InferSchemaType<typeof schema>;
+// InferSchemaType will determine the type as follows:
+// type User = {
+//   name: string;
+//   email: string;
+//   avatar?: string;
+// }
+
+// `UserModel` will have `name: string`, etc.
+const UserModel = mongoose.model('User', schema);
+
+使用自动类型推理有一些注意事项：
+1、你需要在你的tsconfig.json中设置 strictNullChecks: true 或 strict: true。或者，如果你在命令行中设置标志，则为--strictNullChecks或--strict。在禁用严格模式的情况下，自动类型推理存在已知的问题。
+2、你需要在new Schema()调用中定义你的模式。不要把你的模式定义分配给一个临时变量。像 const schemaDefinition = { name: String }; const schema = new Schema(schemaDefinition); 这样做是行不通的。
+3、如果你在模式中指定了timestamps选项，Mongoose会将createdAt和updateAt添加到你的模式中，除非你还指定了方法、虚拟或静态。在使用时间戳和方法/虚拟/静态选项的类型推理中存在一个已知的问题。如果你使用方法、虚拟和静态，你要负责在你的模式定义中添加createdAt和updateAt。
+
+如果自动类型推理对你不起作用，你总是可以退回到文档接口定义。
+
+
+
+4、通用参数
+TypeScript中的Mongoose Schema类有4个通用参数：
+DocType：一个描述数据如何保存在MongoDB中的接口，相当于TypeScript的interfaces、type。
+M：Mongoose的Model类型。如果没有要定义的“查询助手”或“实例方法”，可以省略。默认值：Model<DocType, any, any>
+TInstanceMethods：一个包含Schema的“实例方法”的接口。默认值：{}
+TQueryHelpers：一个包含在Schema上定义的“查询助手”的接口。默认值：{}
+
+
+
+5、Schema vs Interface fields
+会报错！因为Schema类中定义的属性都必须在interface中列出！
+import { Schema, Model } from 'mongoose';
+
+interface User {
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+// Object literal may only specify known properties, but 'emaill' does not exist in type ...
+// Did you mean to write 'email'?
+const schema = new Schema<User>({
+  name: { type: String, required: true },
+  emaill: { type: String, required: true },
+  avatar: String
+});
+
+不会报错！在interface中定义的属性不一定全要在Schema类中定义，但是Schema类中定义的属性都必须在interface中列出！
+import { Schema, Model } from 'mongoose';
+
+interface User {
+  name: string;
+  email: string;
+  avatar?: string;
+  createdAt: number;
+}
+
+const schema = new Schema<User, Model<User>>({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  avatar: String
+});
+
+
+
+6、关于定义“文档接口（即interface）”中的数组
+当你在“文档接口（即interface）”中定义一个数组时，我们建议对“原始数组”使用Mongoose的Types.Array类型，或对“文档数组”使用Types.DocumentArray。
+例如：
+import { Schema, Model, Types } from 'mongoose';
+
+interface BlogPost {
+  _id: Types.ObjectId;
+  title: string;
+}
+
+interface User {
+  tags: Types.Array<string>;
+  blogPosts: Types.DocumentArray<BlogPost>;
+}
+
+const schema = new Schema<User, Model<User>>({
+  tags: [String],
+  blogPosts: [{ title: String }]
+});
+
+也就是说，原本是这么定义的：
+interface User {
+  tags: Array<string>;
+  blogPosts: Array< { title: string; } >;
+}
+现在是这么定义的：
+interface User {
+  tags: Types.Array<string>;
+  blogPosts: Types.DocumentArray<{ title: string; }>;
+}
+
+在处理默认值时，使用Types.DocumentArray很有帮助。
+例如，BlogPost有一个_id属性，Mongoose会默认设置。
+如果你在上述情况下使用Types.DocumentArray，你就可以push()一个没有_id的子文档。
+例如：
+const user = new User({ blogPosts: [] });
+
+user.blogPosts.push({ title: 'test' });
+
+// Would not work if you did `blogPosts: BlogPost[]`
+
+
+
 
 
 

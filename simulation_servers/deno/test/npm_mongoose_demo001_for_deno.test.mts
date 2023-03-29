@@ -33,11 +33,11 @@
 import {
   type ConnectOptions,
   type Connection,
+  type HydratedDocument,
 
   Mongoose,
   Schema,
-  InferSchemaType,
-  HydratedDocument,
+  Model,
 
   // @ts-ignore
 } from 'npm:mongoose';
@@ -650,10 +650,39 @@ const mongoose: Mongoose = new Mongoose(),
 
 async function run(): Promise<void>{
   try{
-    type Typekitty = InferSchemaType<typeof kittySchema>;
+    interface IKitty {
+      name: string;
+
+      color: string;
+
+      sex: string;
+
+      time: number;
+
+      eye: string;
+
+      foot: string;
+    }
+
+    interface IKittyMethods {
+      speak(): void;
+
+      getColor(): string;
+
+      getSex(): string;
+    }
+
+    interface IKittyModel
+      extends Model<IKitty, {}, IKittyMethods> {
+      GetTime( kitten: HydratedDocument<IKitty, IKittyMethods> ): number;
+
+      GetEye( kitten: HydratedDocument<IKitty, IKittyMethods> ): string;
+
+      GetFoot( kitten: HydratedDocument<IKitty, IKittyMethods> ): string;
+    }
 
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
-    const kittySchema: Schema = new Schema(
+    const KittySchema: Schema<IKitty, IKittyModel, IKittyMethods> = new Schema<IKitty, IKittyModel, IKittyMethods>(
       // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
       {
         name: {
@@ -682,68 +711,99 @@ async function run(): Promise<void>{
           default: '白手套',
         },
       },
+      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
       {
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
         methods: {
-          getColor( this: HydratedDocument<Typekitty> ): string{
+          speak( this: HydratedDocument<IKitty, IKittyMethods> ): void{
+            const greeting: string = this.name
+                                     ? `Meow name is ${ this.name }.`
+                                     : 'I don\'t have a name.';
+
+            console.log( `\n${ greeting }\n` );
+          },
+          getColor( this: HydratedDocument<IKitty, IKittyMethods> ): string{
             console.log( `\nMy color is ${ this.color }.\n` );
 
             return this.color;
           },
+          getSex( this: HydratedDocument<IKitty, IKittyMethods> ): string{
+            console.log( `\nMy sex is ${ this.sex }.\n` );
+
+            return this.sex;
+          },
         },
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
         statics: {
-          GetTime( kitten: HydratedDocument<Typekitty> ): number{
+          GetTime( kitten: HydratedDocument<IKitty, IKittyMethods> ): number{
             console.log( `\nMy time is ${ kitten.time }.\n` );
 
             return kitten.time;
+          },
+          GetEye( kitten: HydratedDocument<IKitty, IKittyMethods> ): string{
+            console.log( `\nMy eye is ${ kitten.eye }.\n` );
+
+            return kitten.eye;
+          },
+          GetFoot( kitten: HydratedDocument<IKitty, IKittyMethods> ): string{
+            console.log( `\nMy foot is ${ kitten.foot }.\n` );
+
+            return kitten.foot;
           },
         },
       },
     );
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
-    kittySchema.methods.speak = function ( this: HydratedDocument<Typekitty> ): void{
-      const greeting: string = this.name
-                               ? `Meow name is ${ this.name }.`
-                               : 'I don\'t have a name.';
+    /*
+     KittySchema.methods.speak = function ( this: HydratedDocument<IKitty, IKittyMethods> ): void{
+     const greeting: string = this.name
+     ? `Meow name is ${ this.name }.`
+     : 'I don\'t have a name.';
 
-      console.log( `\n${ greeting }\n` );
-    };
+     console.log( `\n${ greeting }\n` );
+     };
+     */
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
-    kittySchema.statics.GetEye = function ( kitten: HydratedDocument<Typekitty> ): string{
-      console.log( `\nMy eye is ${ kitten.eye }.\n` );
+    /*
+     KittySchema.statics.GetEye = function ( kitten: HydratedDocument<IKitty, IKittyMethods> ): string{
+     console.log( `\nMy eye is ${ kitten.eye }.\n` );
 
-      return kitten.eye;
-    };
+     return kitten.eye;
+     };
+     */
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
-    kittySchema.method( {
-      getSex( this: HydratedDocument<Typekitty> ): string{
-        console.log( `\nMy sex is ${ this.sex }.\n` );
+    /*
+     KittySchema.method( {
+     getSex( this: HydratedDocument<IKitty, IKittyMethods> ): string{
+     console.log( `\nMy sex is ${ this.sex }.\n` );
 
-        return this.sex;
-      },
-    } );
+     return this.sex;
+     },
+     } );
+     */
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
-    kittySchema.static( {
-      GetFoot( kitten: HydratedDocument<Typekitty> ): string{
-        console.log( `\nMy foot is ${ kitten.foot }.\n` );
+    /*
+     KittySchema.static( {
+     GetFoot( kitten: HydratedDocument<IKitty, IKittyMethods> ): string{
+     console.log( `\nMy foot is ${ kitten.foot }.\n` );
 
-        return kitten.foot;
-      },
-    } );
+     return kitten.foot;
+     },
+     } );
+     */
 
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
-    const Kitten: any = client.model<Typekitty>( 'Kitten'/*modelName*/, kittySchema/*schema*/, 'Kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
+    const Kitten: any = client.model<IKitty, IKittyModel>( 'Kitten'/*modelName*/, KittySchema/*schema*/, 'kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
 
     // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
-    const kitten001: HydratedDocument<Typekitty> = new Kitten( {
+    const kitten001: HydratedDocument<IKitty, IKittyMethods> = new Kitten( {
       name: '喵喵一号',
       color: 'black',
       sex: '翠花',
     } );
-    const kitten002: HydratedDocument<Typekitty> = new Kitten( {
+    const kitten002: HydratedDocument<IKitty, IKittyMethods> = new Kitten( {
       name: '喵喵二号',
     } );
 
@@ -752,8 +812,8 @@ async function run(): Promise<void>{
     await kitten002.save();
 
     // 查找。
-    const kittens: Array<HydratedDocument<Typekitty>> = await Kitten.find();
-    kittens.forEach( ( kitten: HydratedDocument<Typekitty>, ): void => {
+    const kittens: Array<HydratedDocument<IKitty, IKittyMethods>> = await Kitten.find();
+    kittens.forEach( ( kitten: HydratedDocument<IKitty, IKittyMethods>, ): void => {
       kitten.speak();
       kitten.getColor();
       kitten.getSex();
