@@ -851,7 +851,7 @@
     "postcss-partial-import": "^4.1.0",
     "postcss-place": "^8.0.1",
     "postcss-prefix-selector": "^1.16.0",
-    "postcss-preset-env": "^8.1.0",
+    "postcss-preset-env": "^8.2.0",
     "postcss-pseudo-class-any-link": "^8.0.2",
     "postcss-pseudo-element-colons": "^1.0.2",
     "postcss-pseudoelements": "^5.0.0",

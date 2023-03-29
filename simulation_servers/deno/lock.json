@@ -3,7 +3,6 @@
   "remote": {},
   "npm": {
     "specifiers": {
-      "mongodb": "mongodb@5.1.0",
       "mongoose": "mongoose@7.0.3"
     },
     "packages": {

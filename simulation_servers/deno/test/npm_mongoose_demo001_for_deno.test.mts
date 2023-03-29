@@ -36,6 +36,8 @@ import {
 
   Mongoose,
   Schema,
+  InferSchemaType,
+  HydratedDocument,
 
   // @ts-ignore
 } from 'npm:mongoose';
@@ -648,11 +650,17 @@ const mongoose: Mongoose = new Mongoose(),
 
 async function run(): Promise<void>{
   try{
+    type Typekitty = InferSchemaType<typeof kittySchema>;
+
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
     const kittySchema: Schema = new Schema(
       // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
       {
-        name: String,
+        name: {
+          type: String,
+          default: '喵喵',
+          required: true,
+        },
         color: {
           type: String,
           default: 'white',
@@ -677,7 +685,7 @@ async function run(): Promise<void>{
       {
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
         methods: {
-          getColor( this: any ): string{
+          getColor( this: HydratedDocument<Typekitty> ): string{
             console.log( `\nMy color is ${ this.color }.\n` );
 
             return this.color;
@@ -685,7 +693,7 @@ async function run(): Promise<void>{
         },
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
         statics: {
-          GetTime( kitten: any ): number{
+          GetTime( kitten: HydratedDocument<Typekitty> ): number{
             console.log( `\nMy time is ${ kitten.time }.\n` );
 
             return kitten.time;
@@ -695,7 +703,7 @@ async function run(): Promise<void>{
     );
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
-    kittySchema.methods.speak = function ( this: any ): void{
+    kittySchema.methods.speak = function ( this: HydratedDocument<Typekitty> ): void{
       const greeting: string = this.name
                                ? `Meow name is ${ this.name }.`
                                : 'I don\'t have a name.';
@@ -703,7 +711,7 @@ async function run(): Promise<void>{
       console.log( `\n${ greeting }\n` );
     };
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
-    kittySchema.statics.GetEye = function ( kitten: any ): string{
+    kittySchema.statics.GetEye = function ( kitten: HydratedDocument<Typekitty> ): string{
       console.log( `\nMy eye is ${ kitten.eye }.\n` );
 
       return kitten.eye;
@@ -711,7 +719,7 @@ async function run(): Promise<void>{
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     kittySchema.method( {
-      getSex( this: any ): string{
+      getSex( this: HydratedDocument<Typekitty> ): string{
         console.log( `\nMy sex is ${ this.sex }.\n` );
 
         return this.sex;
@@ -719,7 +727,7 @@ async function run(): Promise<void>{
     } );
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
     kittySchema.static( {
-      GetFoot( kitten: any ): string{
+      GetFoot( kitten: HydratedDocument<Typekitty> ): string{
         console.log( `\nMy foot is ${ kitten.foot }.\n` );
 
         return kitten.foot;
@@ -727,15 +735,15 @@ async function run(): Promise<void>{
     } );
 
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
-    const Kitten: any = client.model<typeof kittySchema>( 'Kitten'/*modelName*/, kittySchema/*schema*/, 'Kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
+    const Kitten: any = client.model<Typekitty>( 'Kitten'/*modelName*/, kittySchema/*schema*/, 'Kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
 
     // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
-    const kitten001: any = new Kitten( {
+    const kitten001: HydratedDocument<Typekitty> = new Kitten( {
       name: '喵喵一号',
       color: 'black',
       sex: '翠花',
     } );
-    const kitten002: any = new Kitten( {
+    const kitten002: HydratedDocument<Typekitty> = new Kitten( {
       name: '喵喵二号',
     } );
 
@@ -744,8 +752,8 @@ async function run(): Promise<void>{
     await kitten002.save();
 
     // 查找。
-    const kittens: Array<any> = await Kitten.find();
-    kittens.forEach( ( kitten: any, ): void => {
+    const kittens: Array<HydratedDocument<Typekitty>> = await Kitten.find();
+    kittens.forEach( ( kitten: HydratedDocument<Typekitty>, ): void => {
       kitten.speak();
       kitten.getColor();
       kitten.getSex();

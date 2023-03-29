@@ -15,7 +15,7 @@
 
 console.log( `\n\n\n` );
 
-if( false ){
+if( true ){
   // @ts-ignore
   import('./npm_mongodb_for_deno.test.mts').catch( ( error: unknown ): void => {
     console.error( error );
@@ -24,7 +24,7 @@ if( false ){
   } );
 }
 
-if( false ){
+if( true ){
   // @ts-ignore
   import('./npm_mongoose_for_deno.test.mts').catch( ( error: unknown ): void => {
     console.error( error );
