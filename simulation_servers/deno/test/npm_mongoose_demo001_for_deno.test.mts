@@ -651,6 +651,10 @@ const mongoose: Mongoose = new Mongoose(),
 
 async function run(): Promise<void>{
   try{
+    type TQueryWithHelpers = QueryWithHelpers<Array<TKittenInstance>, TKittenInstance, IKittyQueryHelpers>;
+    type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
+    type TKittenInstance = HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>;
+
     interface IKitty {
       name: string;
 
@@ -666,11 +670,9 @@ async function run(): Promise<void>{
     }
 
     interface IKittyQueryHelpers {
-      FindByName( name: string ): QueryWithHelpers<
-        Array<HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>>,
-        HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>,
-        IKittyQueryHelpers
-      >;
+      FindByName( name: string ): TQueryWithHelpers;
+
+      FindBySex( sex: string ): TQueryWithHelpers;
     }
 
     interface IKittyMethods {
@@ -683,11 +685,11 @@ async function run(): Promise<void>{
 
     interface IKittyModel
       extends Model<IKitty, IKittyQueryHelpers, IKittyMethods> {
-      GetTime( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): number;
+      GetTime( kitten: TKittenInstance ): number;
 
-      GetEye( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string;
+      GetEye( kitten: TKittenInstance ): string;
 
-      GetFoot( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string;
+      GetFoot( kitten: TKittenInstance ): string;
     }
 
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
@@ -701,7 +703,7 @@ async function run(): Promise<void>{
         },
         color: {
           type: String,
-          default: 'white',
+          default: '灰蓝',
         },
         sex: {
           type: String,
@@ -724,19 +726,19 @@ async function run(): Promise<void>{
       {
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
         methods: {
-          speak( this: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): void{
+          speak( this: TKittenInstance ): void{
             const greeting: string = this.name
                                      ? `Meow name is ${ this.name }.`
                                      : 'I don\'t have a name.';
 
             console.log( `\n${ greeting }\n` );
           },
-          getColor( this: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+          getColor( this: TKittenInstance ): string{
             console.log( `\nMy color is ${ this.color }.\n` );
 
             return this.color;
           },
-          getSex( this: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+          getSex( this: TKittenInstance ): string{
             console.log( `\nMy sex is ${ this.sex }.\n` );
 
             return this.sex;
@@ -744,17 +746,17 @@ async function run(): Promise<void>{
         },
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
         statics: {
-          GetTime( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): number{
+          GetTime( kitten: TKittenInstance ): number{
             console.log( `\nMy time is ${ kitten.time }.\n` );
 
             return kitten.time;
           },
-          GetEye( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+          GetEye( kitten: TKittenInstance ): string{
             console.log( `\nMy eye is ${ kitten.eye }.\n` );
 
             return kitten.eye;
           },
-          GetFoot( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+          GetFoot( kitten: TKittenInstance ): string{
             console.log( `\nMy foot is ${ kitten.foot }.\n` );
 
             return kitten.foot;
@@ -763,19 +765,19 @@ async function run(): Promise<void>{
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
         query: {
           FindByName(
-            this: QueryWithHelpers<
-              Array<HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>>,
-              HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>,
-              IKittyQueryHelpers
-            >,
+            this: TQueryWithHelpers,
             name: string
-          ): QueryWithHelpers<
-            Array<HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>>,
-            HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>,
-            IKittyQueryHelpers
-          >{
+          ): TQueryWithHelpers{
             return this.find( {
               name,
+            } );
+          },
+          FindBySex(
+            this: TQueryWithHelpers,
+            sex: string
+          ): TQueryWithHelpers{
+            return this.find( {
+              sex,
             } );
           },
         },
@@ -784,7 +786,7 @@ async function run(): Promise<void>{
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     /*
-     KittySchema.methods.speak = function ( this: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): void{
+     KittySchema.methods.speak = function ( this: TKittenInstance ): void{
      const greeting: string = this.name
      ? `Meow name is ${ this.name }.`
      : 'I don\'t have a name.';
@@ -794,7 +796,7 @@ async function run(): Promise<void>{
      */
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
     /*
-     KittySchema.statics.GetEye = function ( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+     KittySchema.statics.GetEye = function ( kitten: TKittenInstance ): string{
      console.log( `\nMy eye is ${ kitten.eye }.\n` );
 
      return kitten.eye;
@@ -803,16 +805,8 @@ async function run(): Promise<void>{
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
     /*
      KittySchema.query.FindByName = function (
-     this: QueryWithHelpers<
-     Array<HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>>,
-     HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>,
-     IKittyQueryHelpers
-     >,
-     name: string ): QueryWithHelpers<
-     Array<HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>>,
-     HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>,
-     IKittyQueryHelpers
-     >{
+     this: TQueryWithHelpers,
+     name: string ): TQueryWithHelpers{
      return this.find( {
      name,
      } );
@@ -822,7 +816,7 @@ async function run(): Promise<void>{
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     /*
      KittySchema.method( {
-     getSex( this: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+     getSex( this: TKittenInstance ): string{
      console.log( `\nMy sex is ${ this.sex }.\n` );
 
      return this.sex;
@@ -832,7 +826,7 @@ async function run(): Promise<void>{
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
     /*
      KittySchema.static( {
-     GetFoot( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> ): string{
+     GetFoot( kitten: TKittenInstance ): string{
      console.log( `\nMy foot is ${ kitten.foot }.\n` );
 
      return kitten.foot;
@@ -841,16 +835,17 @@ async function run(): Promise<void>{
      */
 
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
-    const Kitten: Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel = client.model<IKitty, IKittyModel, IKittyQueryHelpers>( 'Kitten'/*modelName*/, KittySchema/*schema*/, 'kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
+    const Kitten: TKittenModel = client.model<IKitty, IKittyModel, IKittyQueryHelpers>( 'Kitten'/*modelName*/, KittySchema/*schema*/, 'kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
+
+    let kittenQuantity: number = ( await Kitten.find() ).length;
 
     // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
-    const kitten001: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> = new Kitten( {
-      name: '喵喵一号',
-      color: 'black',
+    const kitten001: TKittenInstance = new Kitten( {
+      name: `喵喵${ ++kittenQuantity }号`,
       sex: '翠花',
     } );
-    const kitten002: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers> = new Kitten( {
-      name: '喵喵二号',
+    const kitten002: TKittenInstance = new Kitten( {
+      name: `喵喵${ ++kittenQuantity }号`,
     } );
 
     // 保存到数据库中。
@@ -858,9 +853,9 @@ async function run(): Promise<void>{
     await kitten002.save();
 
     // 查找。
-    const kittens: Array<HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>> = await Kitten.find()
-    .FindByName( '喵喵二号' );
-    kittens.forEach( ( kitten: HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>, ): void => {
+    const kittens: Array<TKittenInstance> = await Kitten.find()
+    .FindBySex( '翠花' );
+    kittens.forEach( ( kitten: TKittenInstance, ): void => {
       kitten.speak();
       kitten.getColor();
       kitten.getSex();
