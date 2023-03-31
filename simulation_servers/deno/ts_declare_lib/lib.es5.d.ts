@@ -617,8 +617,10 @@ interface TemplateStringsArray extends ReadonlyArray<string> {
  */
 interface ImportMeta {
     url: string;
+
     main: boolean;
-    resolve(specifier: string): string;
+
+    resolve( specifier: string ): string;
 }
 
 /**
