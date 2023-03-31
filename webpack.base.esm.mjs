@@ -8353,13 +8353,58 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
      * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
      */
-    assetModuleFilename: 'assets/[name]_[contenthash][ext]',
+    assetModuleFilename( pathData, assetInfo ){
+      return 'assets/[name]_[contenthash][ext]';
+    },
     charset: false,
     /**
      * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
      * 1、请注意，这些文件名需要在运行时生成以发送对块的请求。<br />
+     * 2、关于该选项配合处理worker文件的说明：<br />
+     * 强烈建议在new Worker()的时候，给构造函数的第二个参数设置这样的参数：{ name: 'Worker文件名.worker', }，这样设置之后，就可以把worker文件打包到“workers”这个文件夹内。<br />
+     * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
      */
     chunkFilename( pathData, assetInfo ){
+      let name = pathData.chunk.name,
+        id = pathData.chunk.id,
+        boo001 = String( name ).endsWith( '.worker' ),
+        boo002 = String( name ).endsWith( '.worker.js' ),
+        boo003 = String( name ).endsWith( '_worker' ),
+        boo004 = String( name ).endsWith( '_worker_js' ),
+        boo005 = String( name ).endsWith( '_worker.js' ),
+        boo006 = String( name ).endsWith( '.worker_js' ),
+        fileName = '';
+
+      if( name !== undefined && name !== null && ( boo001 || boo002 || boo003 || boo004 || boo005 || boo006 ) ){
+        if( boo001 ){
+          fileName = String( name ).split( '.worker' ).join( '' );
+        }
+        else if( boo002 ){
+          fileName = String( name ).split( '.worker.js' ).join( '' );
+        }
+        else if( boo003 ){
+          fileName = String( name ).split( '_worker' ).join( '' );
+        }
+        else if( boo004 ){
+          fileName = String( name ).split( '_worker_js' ).join( '' );
+        }
+        else if( boo005 ){
+          fileName = String( name ).split( '_worker.js' ).join( '' );
+        }
+        else{
+          fileName = String( name ).split( '.worker_js' ).join( '' );
+        }
+
+        return `workers/${ fileName }_[contenthash].worker.js`;
+      }
+
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && String( id )
+      .endsWith( '_worker_js' ) ){
+        fileName = String( id ).split( '_worker_js' ).join( '' );
+
+        return `workers/${ fileName }_[contenthash].worker.js`;
+      }
+
       return `js/[name]_Chunk_[contenthash].js`;
     },
     /**
@@ -8435,8 +8480,51 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 1、对于单个入口点，这可以是静态名称。<br />
      * 2、请注意，此选项不会影响按需加载块的输出文件。它只影响最初加载的输出文件。<br />
      * 3、对于按需加载的块文件，使用output.chunkFilename选项。加载程序创建的文件也不受影响。在这种情况下，您必须尝试特定加载程序的可用选项。<br />
+     * 4、关于该选项配合处理worker文件的说明：<br />
+     * 强烈建议在new Worker()的时候，给构造函数的第二个参数设置这样的参数：{ name: 'Worker文件名.worker', }，这样设置之后，就可以把worker文件打包到“workers”这个文件夹内。<br />
+     * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
      */
     filename( pathData, assetInfo ){
+      let name = pathData.chunk.name,
+        id = pathData.chunk.id,
+        boo001 = String( name ).endsWith( '.worker' ),
+        boo002 = String( name ).endsWith( '.worker.js' ),
+        boo003 = String( name ).endsWith( '_worker' ),
+        boo004 = String( name ).endsWith( '_worker_js' ),
+        boo005 = String( name ).endsWith( '_worker.js' ),
+        boo006 = String( name ).endsWith( '.worker_js' ),
+        fileName = '';
+
+      if( name !== undefined && name !== null && ( boo001 || boo002 || boo003 || boo004 || boo005 || boo006 ) ){
+        if( boo001 ){
+          fileName = String( name ).split( '.worker' ).join( '' );
+        }
+        else if( boo002 ){
+          fileName = String( name ).split( '.worker.js' ).join( '' );
+        }
+        else if( boo003 ){
+          fileName = String( name ).split( '_worker' ).join( '' );
+        }
+        else if( boo004 ){
+          fileName = String( name ).split( '_worker_js' ).join( '' );
+        }
+        else if( boo005 ){
+          fileName = String( name ).split( '_worker.js' ).join( '' );
+        }
+        else{
+          fileName = String( name ).split( '.worker_js' ).join( '' );
+        }
+
+        return `workers/${ fileName }_[contenthash].worker.js`;
+      }
+
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && String( id )
+      .endsWith( '_worker_js' ) ){
+        fileName = String( id ).split( '_worker_js' ).join( '' );
+
+        return `workers/${ fileName }_[contenthash].worker.js`;
+      }
+
       return 'js/[name]_Bundle_[contenthash].js';
     },
     hashDigest: 'hex',
@@ -8503,6 +8591,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 1、有效值：'require'、'import-scripts'、'async-node'、'import'、'universal'、false。<br />
      */
     workerChunkLoading: 'import-scripts',
+    /**
+     * 为Worker设置一个公共路径，默认为“output.publicPath”的值。只有当你的Worker脚本与你的其他脚本位于不同的路径时，才使用这个选项。<br />
+     * 注意：<br />
+     * 1、目前该选项有点鸡肋：<br />
+     * 因为这个选项设置的值只是并到打包后的请求该worker文件的路径上，但是目前没有可以单独设置“worker文件”输出到某个文件夹的选项。<br />
+     * 不过可以使用“output.filename”、“output.chunkFilename”这两个选项的函数值，做过滤输出，倒是可以指定输出到某个文件夹，目前个人已经这样做了些处理。<br />
+     * 所以，强烈建议在new Worker()的时候，给构造函数的第二个参数设置这样的参数：{ name: 'Worker文件名.worker', }，这样设置之后，就可以把worker文件打包到“workers”这个文件夹内。<br />
+     * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
+     * 2、当然也可以在new Worker()的时候在第二个参数里使用“魔术注解”来设置打包后的“worker”代码要存放的文件夹，比如放到“workers”这个文件夹内。关于worker中的更多“魔术注解”的使用，见：notes/webpack魔术注解.txt。<br />
+     */
+    // workerPublicPath: null,
   },
   /**
    * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
