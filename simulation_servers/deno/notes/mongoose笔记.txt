@@ -73,12 +73,23 @@ const UserModel = mongoose.model('User', schema);
 
 
 
-4、通用参数
+4、通用参数，Schema类的泛型参数
 TypeScript中的Mongoose Schema类有4个通用参数：
 DocType：一个描述数据如何保存在MongoDB中的接口，相当于TypeScript的interfaces、type。
 M：Mongoose的Model类型。如果没有要定义的“查询助手”或“实例方法”，可以省略。默认值：Model<DocType, any, any>
 TInstanceMethods：一个包含Schema的“实例方法”的接口。默认值：{}
 TQueryHelpers：一个包含在Schema上定义的“查询助手”的接口。默认值：{}
+例如：
+Schema<
+// 通常指“文档接口”类型
+IKitty,
+// Model类型
+IKittyModel,
+// 通常指定义“实例方法”的接口类型
+IKittyMethods,
+// 通常指定义“查询助手”的接口类型
+IKittyQueryHelpers
+>
 
 
 
@@ -161,24 +172,307 @@ user.blogPosts.push({ title: 'test' });
 
 
 
+7、Model类的泛型参数说明
+Model<
+// 通常指“文档接口”类型
+TRawDocType,
+
+// 通常指定义“查询助手”的接口类型
+TQueryHelpers = {},
+// 通常指定义“实例方法”的接口类型
+TInstanceMethods = {},
+// 通常指定义“虚方法”的接口类型
+TVirtuals = {},
+
+// 通常指通过“Model”new出来的“实例对象”的类型
+THydratedDocumentType = HydratedDocument<TRawDocType, TVirtuals & TInstanceMethods, TQueryHelpers>,
+
+TSchema = any
+>
+----------------------------
+Model<
+// 通常指“文档接口”
+InferSchemaType<TSchema>,
+
+// 通常指定义“查询助手”的接口类型
+ObtainSchemaGeneric<TSchema, 'TQueryHelpers'>,
+// 通常指定义“实例方法”的接口类型
+ObtainSchemaGeneric<TSchema, 'TInstanceMethods'>,
+// 通常指定义“虚方法”的接口类型
+{},
+
+// 通常指通过“Model对象”new出来的“实例对象”的类型
+HydratedDocument< InferSchemaType<TSchema>, ObtainSchemaGeneric<TSchema, 'TInstanceMethods'>, ObtainSchemaGeneric<TSchema, 'TQueryHelpers'> >,
+
+TSchema
+>
 
 
 
+8、model、client.model的泛型参数说明以及其创建出来的值的类型
+model<
+// 通常指“文档接口”类型
+IKitty,
+
+// Model类型
+IKittyModel,
+
+// 通常指定义“查询助手”的接口类型
+IKittyQueryHelpers
+>
+
+其创建出来的值的类型通常是个“联合类型”，例如：
+Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
+前者就是上面提到的“Model类”类型，后者通常是表示一个继承了“Model类”类型的又定义了“静态方法”的接口类型的“Model类”类型。
 
 
 
+9、QueryWithHelpers泛型参数说明
+type QueryWithHelpers<
+// 通常是指通过“Model对象.find()”返回的结果类型，通常是数组类型，其成员类型通常也是指“Model对象”new出来的“实例对象”的类型
+ResultType,
+
+// 通常也是指“Model对象”new出来的“实例对象”的类型
+DocType,
+
+// 通常指定义“查询助手”的接口类型
+THelpers = {},
+
+RawDocType = DocType
+>
+=
+Query<ResultType, DocType, THelpers, RawDocType> & THelpers;
 
 
 
+10、“Model对象”new出来的“实例对象”的类型
+HydratedDocument<
+// 通常指“文档接口”类型
+IKitty,
+
+// 通常指定义“实例方法”的接口类型
+IKittyMethods,
+
+// 通常指定义“查询助手”的接口类型
+IKittyQueryHelpers
+>
 
 
 
+这里给出一个实际解释上面记录的几个点的代码例子：
+    type TQueryWithHelpers = QueryWithHelpers<Array<TKittenInstance>, TKittenInstance, IKittyQueryHelpers>;
+    type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
+    type TKittenInstance = HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>;
 
+    interface IKitty {
+      name: string;
 
+      color: string;
 
+      sex: string;
 
+      time: number;
 
+      eye: string;
 
+      foot: string;
+    }
+
+    interface IKittyQueryHelpers {
+      FindByName( name: string ): TQueryWithHelpers;
+
+      FindBySex( sex: string ): TQueryWithHelpers;
+    }
+
+    interface IKittyMethods {
+      speak(): void;
+
+      getColor(): string;
+
+      getSex(): string;
+    }
+
+    interface IKittyModel
+      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods> {
+      GetTime( kitten: TKittenInstance ): number;
+
+      GetEye( kitten: TKittenInstance ): string;
+
+      GetFoot( kitten: TKittenInstance ): string;
+    }
+
+    // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
+    const KittySchema: Schema<IKitty, IKittyModel, IKittyMethods, IKittyQueryHelpers> = new Schema<IKitty, IKittyModel, IKittyMethods, IKittyQueryHelpers>(
+      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
+      {
+        name: {
+          type: String,
+          default: '喵喵',
+          required: true,
+        },
+        color: {
+          type: String,
+          default: '灰蓝',
+        },
+        sex: {
+          type: String,
+          default: '铁蛋',
+        },
+        time: {
+          type: Number,
+          default: Date.now(),
+        },
+        eye: {
+          type: String,
+          default: '蓝眼睛',
+        },
+        foot: {
+          type: String,
+          default: '白手套',
+        },
+      },
+      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
+      {
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
+        methods: {
+          speak( this: TKittenInstance ): void{
+            const greeting: string = this.name
+                                     ? `Meow name is ${ this.name }.`
+                                     : 'I don\'t have a name.';
+
+            console.log( `\n${ greeting }\n` );
+          },
+          getColor( this: TKittenInstance ): string{
+            console.log( `\nMy color is ${ this.color }.\n` );
+
+            return this.color;
+          },
+          getSex( this: TKittenInstance ): string{
+            console.log( `\nMy sex is ${ this.sex }.\n` );
+
+            return this.sex;
+          },
+        },
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
+        statics: {
+          GetTime( kitten: TKittenInstance ): number{
+            console.log( `\nMy time is ${ kitten.time }.\n` );
+
+            return kitten.time;
+          },
+          GetEye( kitten: TKittenInstance ): string{
+            console.log( `\nMy eye is ${ kitten.eye }.\n` );
+
+            return kitten.eye;
+          },
+          GetFoot( kitten: TKittenInstance ): string{
+            console.log( `\nMy foot is ${ kitten.foot }.\n` );
+
+            return kitten.foot;
+          },
+        },
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
+        query: {
+          FindByName(
+            this: TQueryWithHelpers,
+            name: string
+          ): TQueryWithHelpers{
+            return this.find( {
+              name,
+            } );
+          },
+          FindBySex(
+            this: TQueryWithHelpers,
+            sex: string
+          ): TQueryWithHelpers{
+            return this.find( {
+              sex,
+            } );
+          },
+        },
+      },
+    );
+
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
+    /*
+     KittySchema.methods.speak = function ( this: TKittenInstance ): void{
+     const greeting: string = this.name
+     ? `Meow name is ${ this.name }.`
+     : 'I don\'t have a name.';
+
+     console.log( `\n${ greeting }\n` );
+     };
+     */
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
+    /*
+     KittySchema.statics.GetEye = function ( kitten: TKittenInstance ): string{
+     console.log( `\nMy eye is ${ kitten.eye }.\n` );
+
+     return kitten.eye;
+     };
+     */
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
+    /*
+     KittySchema.query.FindByName = function (
+     this: TQueryWithHelpers,
+     name: string ): TQueryWithHelpers{
+     return this.find( {
+     name,
+     } );
+     };
+     */
+
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
+    /*
+     KittySchema.method( {
+     getSex( this: TKittenInstance ): string{
+     console.log( `\nMy sex is ${ this.sex }.\n` );
+
+     return this.sex;
+     },
+     } );
+     */
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
+    /*
+     KittySchema.static( {
+     GetFoot( kitten: TKittenInstance ): string{
+     console.log( `\nMy foot is ${ kitten.foot }.\n` );
+
+     return kitten.foot;
+     },
+     } );
+     */
+
+    // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
+    const Kitten: TKittenModel = client.model<IKitty, IKittyModel, IKittyQueryHelpers>( 'Kitten'/*modelName*/, KittySchema/*schema*/, 'kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
+
+    // 查找。
+    let kittenQuantity: number = ( await Kitten.find() ).length;
+
+    // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
+    const kitten001: TKittenInstance = new Kitten( {
+      name: `喵喵${ ++kittenQuantity }号`,
+      sex: '翠花',
+    } );
+    const kitten002: TKittenInstance = new Kitten( {
+      name: `喵喵${ ++kittenQuantity }号`,
+    } );
+
+    // 保存到数据库中。
+    await kitten001.save();
+    await kitten002.save();
+
+    // 查找。
+    const kittens: Array<TKittenInstance> = await Kitten.find()
+    .FindBySex( '翠花' );
+    kittens.forEach( ( kitten: TKittenInstance, ): void => {
+      kitten.speak();
+      kitten.getColor();
+      kitten.getSex();
+      Kitten.GetTime( kitten );
+      Kitten.GetEye( kitten );
+      Kitten.GetFoot( kitten );
+    } );
 
 
 

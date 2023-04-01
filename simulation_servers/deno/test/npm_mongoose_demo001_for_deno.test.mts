@@ -837,6 +837,7 @@ async function run(): Promise<void>{
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
     const Kitten: TKittenModel = client.model<IKitty, IKittyModel, IKittyQueryHelpers>( 'Kitten'/*modelName*/, KittySchema/*schema*/, 'kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
 
+    // 查找。
     let kittenQuantity: number = ( await Kitten.find() ).length;
 
     // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
