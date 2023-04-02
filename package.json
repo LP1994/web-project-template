@@ -653,7 +653,7 @@
     "ejs-loader": "^0.5.0",
     "element-plus": "^2.3.2",
     "element-ui": "^2.15.13",
-    "esbuild": "^0.17.14",
+    "esbuild": "^0.17.15",
     "esbuild-loader": "^3.0.1",
     "eslint": "^8.37.0",
     "exif-js": "^2.3.0",
