@@ -4394,7 +4394,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
            */
           corejs: {
-            // 截至20230314，core-js版本为3.29.1。
+            // 截至20230404，core-js版本为3.30.0。
             version: ( () => {
               const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
 
@@ -4411,7 +4411,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.29.1',
+            } )() || '3.30.0',
             proposals: true,
           },
           /**
