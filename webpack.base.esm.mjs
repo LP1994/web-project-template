@@ -298,7 +298,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20230315。Start
     'Chrome >= 112',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 111',
+    'Edge >= 112',
     'Firefox >= 111',
     'Safari >= 16',
     'Opera >= 97',
@@ -343,7 +343,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20230315。Start
     'chrome112',
-    'edge111',
+    'edge112',
     'firefox111',
     'safari16',
     'opera97',
@@ -387,7 +387,7 @@ const browserslist = [
 
     // PC端各主流浏览器的最新版本，至20230315。Start
     chrome: 112,
-    edge: 111,
+    edge: 112,
     firefox: 111,
     safari: 16,
     opera: 97,
