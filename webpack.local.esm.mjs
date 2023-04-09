@@ -47,7 +47,6 @@ import {
   entryConfig,
   experimentsConfig,
   extensionsConfig,
-  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
@@ -231,7 +230,6 @@ export default {
      */
     enforceExtension: false,
     extensions: extensionsConfig,
-    extensionAlias: extensionAliasConfig,
     modules: [
       'node_modules',
     ],

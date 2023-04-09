@@ -2552,35 +2552,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     '.vue',
   ],
   /**
-   * @type {object}
-   */
-  extensionAliasConfig = {
-    '.js': [
-      '.js',
-      '.cjs',
-      '.mjs',
-      '.ts',
-      '.cts',
-      '.mts',
-    ],
-    '.cjs': [
-      '.js',
-      '.cjs',
-      '.mjs',
-      '.ts',
-      '.cts',
-      '.mts',
-    ],
-    '.mjs': [
-      '.js',
-      '.cjs',
-      '.mjs',
-      '.ts',
-      '.cts',
-      '.mts',
-    ],
-  },
-  /**
    * externals配置选项提供了一种从输出包中排除依赖项的方法。此功能通常对库开发人员最有用，但它有多种应用程序。<br />
    * 1、防止捆绑某些导入的包，而是在运行时检索这些外部依赖项。<br />
    * 2、有效值类型：string、object、function、RegExp、[ string ]、[ object ]、[ function ]、[ RegExp ]。<br />
@@ -8880,7 +8851,6 @@ export {
   entryConfig,
   experimentsConfig,
   extensionsConfig,
-  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
@@ -8924,7 +8894,6 @@ export default {
   entryConfig,
   experimentsConfig,
   extensionsConfig,
-  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,

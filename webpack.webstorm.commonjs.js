@@ -177,32 +177,6 @@ module.exports = {
 
       '.vue',
     ],
-    extensionAlias: {
-      '.js': [
-        '.js',
-        '.cjs',
-        '.mjs',
-        '.ts',
-        '.cts',
-        '.mts',
-      ],
-      '.cjs': [
-        '.js',
-        '.cjs',
-        '.mjs',
-        '.ts',
-        '.cts',
-        '.mts',
-      ],
-      '.mjs': [
-        '.js',
-        '.cjs',
-        '.mjs',
-        '.ts',
-        '.cts',
-        '.mts',
-      ],
-    },
     modules: [
       'node_modules',
     ],

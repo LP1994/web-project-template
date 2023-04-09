@@ -683,6 +683,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     2、TypeScript还包括与您指定的目标匹配的更新JS功能的API；例如，如果目标是ES6或更高版本，则可以使用Map的定义。
     */
     "lib": [
+      "decorators",
+      "decorators.legacy",
       // DOM定义 - 窗口、文档等等。
       "dom",
       "dom.iterable",
@@ -723,6 +725,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
       // ES2019中可用的其他API - array.flat, array.flatMap, Object.fromEntries, string.trimStart, string.trimEnd等等。
       "es2019",
       "es2019.array",
+      "es2019.intl",
       // .full的不能包含。
       // "es2019.full",
       "es2019.object",
@@ -755,7 +758,11 @@ CreateDate: 2022-01-01 00:00:00 星期六
       // "es2022.full",
       "es2022.intl",
       "es2022.object",
+      "es2022.regexp",
+      "es2022.sharedmemory",
       "es2022.string",
+      "es2023",
+      "es2023.array",
       //  所有ES3和ES5功能的核心定义。
       "es5",
       // “ES2015”的别名。
@@ -765,9 +772,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
       // .full的不能包含。
       // "esnext.full",
       "esnext.intl",
-      "esnext.promise",
-      "esnext.string",
-      "esnext.weakref",
       // 适用于Windows脚本托管系统的API。
       "scripthost",
       // WebWorker上下文中可用的API。
