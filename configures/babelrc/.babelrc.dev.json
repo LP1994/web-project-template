@@ -4,17 +4,15 @@
       "@babel/preset-env",
       {
         "targets": {
-          "chrome": 23,
-          "firefox": 21,
-          "ie": 9,
-          "safari": 6,
-          "opera": 15,
+          "chrome": 58,
+          "firefox": 54,
+          "safari": 10,
+          "opera": 55,
           "browsers": [
-            "Chrome >= 23",
-            "Firefox >= 21",
-            "IE >= 9",
-            "Safari >= 6",
-            "Opera >= 15"
+            "Chrome >= 58",
+            "Firefox >= 54",
+            "Safari >= 10",
+            "Opera >= 55"
           ]
         },
         "bugfixes": true,
