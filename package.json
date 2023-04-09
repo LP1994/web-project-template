@@ -143,6 +143,7 @@
     "weinre": "weinre --boundHost -all- --httpPort 8300 --verbose false --debug false"
   },
   "devDependencies": {
+    "@appium/typedoc-plugin-appium": "^0.6.0",
     "@babel/cli": "^7.21.0",
     "@babel/code-frame": "^7.21.4",
     "@babel/compat-data": "^7.21.4",
@@ -942,7 +943,7 @@
     "ts-node": "^10.9.1",
     "ts-transform-graphql-tag": "^0.2.1",
     "tslib": "^2.5.0",
-    "typedoc": "^0.23.28",
+    "typedoc": "^0.24.1",
     "typedoc-theme-hierarchy": "^3.1.0",
     "typedoc-webpack-plugin": "^1.1.4",
     "typescript": "^5.0.4",

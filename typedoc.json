@@ -44,7 +44,7 @@
   "readme": "none",
   "showConfig": false,
   "skipErrorChecking": false,
-  "theme": "my-theme",
+  "theme": "default",
   "plugin": [
     "@mxssfd/typedoc-theme"
   ],
