@@ -1,0 +1,65 @@
+{
+  "extends": "../.bases.babelrc.json",
+  "presets": [
+    [
+      "minify",
+      {
+        "booleans": true,
+        "builtIns": false,
+        "consecutiveAdds": true,
+        "deadcode": {
+          "optimizeRawSize": true,
+          "keepFnName": true,
+          "keepFnArgs": true,
+          "keepClassName": true,
+          "tdz": true
+        },
+        "evaluate": {
+          "tdz": true
+        },
+        "flipComparisons": false,
+        "guards": false,
+        "infinity": false,
+        "mangle": {
+          "exclude": {},
+          "eval": false,
+          "keepFnName": true,
+          "topLevel": false,
+          "keepClassName": true
+        },
+        "memberExpressions": false,
+        "mergeVars": true,
+        "numericLiterals": true,
+        "propertyLiterals": false,
+        "regexpConstructors": true,
+        "removeConsole": false,
+        "removeDebugger": false,
+        "removeUndefined": {
+          "tdz": true
+        },
+        "replace": false,
+        "simplify": false,
+        "simplifyComparisons": false,
+        "typeConstructors": false,
+        "undefinedToVoid": true
+      }
+    ],
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": 58,
+          "firefox": 54,
+          "safari": 10,
+          "opera": 55,
+          "browsers": [
+            "Chrome >= 58",
+            "Firefox >= 54",
+            "Safari >= 10",
+            "Opera >= 55"
+          ]
+        }
+      }
+    ]
+  ]
+}

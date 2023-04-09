@@ -1,4 +1,4 @@
-该文件夹下都是babel的.babelrc.json配置文件，根据不同编译目标有做分类：
+该文件夹下都是babel的.babelrc.json配置文件（编译目标为ES2015），根据不同编译目标有做分类：
 默认（.babelrc.json，同生产）、开发（.babelrc.dev.json）、测试（.babelrc.test.json）、生产（.babelrc.production.json）。
 
 测试（.babelrc.test.json）：removeConsole、removeDebugger皆为false。
@@ -13,7 +13,3 @@
 例如：
 将.babelrc.production.json（生产）的内容复制且覆盖到“.babelrc.json”中。
 那么那些使用了“.babelrc.json”的地方在编译时就会使用生产模式编译了。
-
-文件夹“es5”下的是编译目标为ES5。
-文件夹“es2015”下的是编译目标为ES2015。
-文件“.bases.babelrc.json”是编译目标为ES2015、不压缩的配置。

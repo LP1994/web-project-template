@@ -295,22 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230315。Start
+    // PC端各主流浏览器的最新版本，至20230409。Start
     'Chrome >= 112',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 112',
     'Firefox >= 111',
     'Safari >= 16',
     'Opera >= 97',
-    // PC端各主流浏览器的最新版本，至20230315。End
+    // PC端各主流浏览器的最新版本，至20230409。End
 
-    // 移动端各主流浏览器的最新版本，至20230315。Start
+    // 移动端各主流浏览器的最新版本，至20230409。Start
     'ChromeAndroid >= 112',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 112',
     'FirefoxAndroid >= 111',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20230315。End
+    // 移动端各主流浏览器的最新版本，至20230409。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -341,17 +341,17 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20230315。Start
+    // PC端各主流浏览器的最新版本，至20230409。Start
     'chrome112',
     'edge112',
     'firefox111',
     'safari16',
     'opera97',
-    // PC端各主流浏览器的最新版本，至20230315。End
+    // PC端各主流浏览器的最新版本，至20230409。End
 
-    // 移动端各主流浏览器的最新版本，至20230315。Start
+    // 移动端各主流浏览器的最新版本，至20230409。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20230315。End
+    // 移动端各主流浏览器的最新版本，至20230409。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -385,19 +385,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230315。Start
+    // PC端各主流浏览器的最新版本，至20230409。Start
     chrome: 112,
     edge: 112,
     firefox: 111,
     safari: 16,
     opera: 97,
-    // PC端各主流浏览器的最新版本，至20230315。End
+    // PC端各主流浏览器的最新版本，至20230409。End
 
-    // 移动端各主流浏览器的最新版本，至20230315。Start
+    // 移动端各主流浏览器的最新版本，至20230409。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 112,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20230315。End
+    // 移动端各主流浏览器的最新版本，至20230409。End
   },
   /**
    * 编译目标配置。
@@ -4394,7 +4394,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
            */
           corejs: {
-            // 截至20230404，core-js版本为3.30.0。
+            // 截至20230409，core-js版本为3.30.0。
             version: ( () => {
               const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
 

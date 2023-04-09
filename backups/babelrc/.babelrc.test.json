@@ -1,0 +1,163 @@
+{
+  "presets": [
+    [
+      "minify",
+      {
+        "booleans": true,
+        "builtIns": false,
+        "consecutiveAdds": true,
+        "deadcode": {
+          "optimizeRawSize": true,
+          "keepFnName": true,
+          "keepFnArgs": true,
+          "keepClassName": true,
+          "tdz": true
+        },
+        "evaluate": {
+          "tdz": true
+        },
+        "flipComparisons": false,
+        "guards": false,
+        "infinity": false,
+        "mangle": {
+          "exclude": {},
+          "eval": false,
+          "keepFnName": true,
+          "topLevel": false,
+          "keepClassName": true
+        },
+        "memberExpressions": false,
+        "mergeVars": true,
+        "numericLiterals": true,
+        "propertyLiterals": false,
+        "regexpConstructors": true,
+        "removeConsole": false,
+        "removeDebugger": false,
+        "removeUndefined": {
+          "tdz": true
+        },
+        "replace": false,
+        "simplify": false,
+        "simplifyComparisons": false,
+        "typeConstructors": false,
+        "undefinedToVoid": true
+      }
+    ],
+    [
+      "@babel/preset-env",
+      {
+        "debug": true,
+        "targets": {
+          "chrome": 58,
+          "firefox": 54,
+          "safari": 10,
+          "opera": 55,
+          "browsers": [
+            "Chrome >= 58",
+            "Firefox >= 54",
+            "Safari >= 10",
+            "Opera >= 55"
+          ]
+        },
+        "bugfixes": true,
+        "spec": true,
+        "loose": false,
+        "modules": "auto",
+        "useBuiltIns": "entry",
+        "corejs": {
+          "version": "3.30.0",
+          "proposals": true
+        },
+        "forceAllTransforms": false,
+        "shippedProposals": true
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": {
+          "version": 3,
+          "proposals": true
+        },
+        "version": "7.21.0",
+        "helpers": false,
+        "regenerator": true,
+        "absoluteRuntime": false
+      }
+    ],
+    [
+      "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression"
+    ],
+    [
+      "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining"
+    ],
+    [
+      "@babel/plugin-syntax-decimal"
+    ],
+    [
+      "@babel/plugin-proposal-do-expressions"
+    ],
+    [
+      "@babel/plugin-proposal-async-do-expressions"
+    ],
+    [
+      "@babel/plugin-proposal-export-default-from"
+    ],
+    [
+      "@babel/plugin-proposal-partial-application"
+    ],
+    [
+      "@babel/plugin-syntax-module-blocks"
+    ],
+    [
+      "@babel/plugin-proposal-function-sent"
+    ],
+    [
+      "@babel/plugin-proposal-pipeline-operator",
+      {
+        "proposal": "hack",
+        "topicToken": "^^"
+      }
+    ],
+    [
+      "@babel/plugin-proposal-record-and-tuple",
+      {
+        "importPolyfill": true,
+        "polyfillModuleName": "@bloomberg/record-tuple-polyfill",
+        "syntaxType": "hash"
+      }
+    ],
+    [
+      "@babel/plugin-proposal-throw-expressions"
+    ],
+    [
+      "@babel/plugin-proposal-destructuring-private"
+    ],
+    [
+      "@babel/plugin-syntax-import-assertions"
+    ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "version": "2023-01"
+      }
+    ],
+    [
+      "@babel/plugin-proposal-duplicate-named-capturing-groups-regex",
+      {
+        "runtime": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-unicode-sets-regex"
+    ],
+    [
+      "@babel/plugin-proposal-regexp-modifiers"
+    ],
+    [
+      "@babel/plugin-proposal-function-bind"
+    ]
+  ]
+}

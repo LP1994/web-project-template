@@ -1,0 +1,24 @@
+{
+  "extends": "../.bases.babelrc.json",
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": 23,
+          "firefox": 21,
+          "ie": 9,
+          "safari": 6,
+          "opera": 15,
+          "browsers": [
+            "Chrome >= 23",
+            "Firefox >= 21",
+            "IE >= 9",
+            "Safari >= 6",
+            "Opera >= 15"
+          ]
+        }
+      }
+    ]
+  ]
+}

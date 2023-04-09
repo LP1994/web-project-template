@@ -8,14 +8,8 @@
  */
 
 /**
- * UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的这4个文件：
- * .babelrc.dev.json、.babelrc.json、.babelrc.production.json、.babelrc.test.json
- * 中的“@babel/preset-env”的corejs.version、“@babel/plugin-transform-runtime”的corejs.version值。
- *
- * 默认（.babelrc.json，同生产）、开发（.babelrc.dev.json）、测试（.babelrc.test.json）、生产（.babelrc.production.json）。
- *
- * 测试（.babelrc.test.json）：removeConsole、removeDebugger皆为false。
- * 生产（.babelrc.production.json）：removeConsole、removeDebugger皆为true。
+ * UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的“.bases.babelrc.json”文件中：
+ * “@babel/preset-env”的corejs.version、“@babel/plugin-transform-runtime”的corejs.version值。
  */
 
 'use strict';
@@ -35,10 +29,7 @@ import {
 
 import package_json from '../../package.json' assert { type: 'json', };
 
-import babelrcDevConfig from '../babelrc/.babelrc.dev.json' assert { type: 'json', };
-import babelrcConfig from '../babelrc/.babelrc.json' assert { type: 'json', };
-import babelrcProductionConfig from '../babelrc/.babelrc.production.json' assert { type: 'json', };
-import babelrcTestConfig from '../babelrc/.babelrc.test.json' assert { type: 'json', };
+import BasesBabelrcConfig from '../babelrc/.bases.babelrc.json' assert { type: 'json', };
 
 function Get__dirname( import_meta_url = import.meta.url ){
   return dirname( Get__filename( import_meta_url ) );
@@ -51,10 +42,7 @@ function Get__filename( import_meta_url = import.meta.url ){
 const __dirname = Get__dirname( import.meta.url );
 
 [
-  babelrcDevConfig,
-  babelrcConfig,
-  babelrcProductionConfig,
-  babelrcTestConfig,
+  BasesBabelrcConfig,
 ].forEach( item => {
   new Map( item[ 'plugins' ] ).get( '@babel/plugin-transform-runtime' ).version = ( () => {
     const runtimeCoreJS3VersionStr = package_json.devDependencies[ '@babel/runtime-corejs3' ];
@@ -93,7 +81,4 @@ const __dirname = Get__dirname( import.meta.url );
   } )() || '3.30.0';
 } );
 
-writeFileSync( join( __dirname, '../babelrc/.babelrc.dev.json' ), JSON.stringify( babelrcDevConfig ) );
-writeFileSync( join( __dirname, '../babelrc/.babelrc.json' ), JSON.stringify( babelrcConfig ) );
-writeFileSync( join( __dirname, '../babelrc/.babelrc.production.json' ), JSON.stringify( babelrcProductionConfig ) );
-writeFileSync( join( __dirname, '../babelrc/.babelrc.test.json' ), JSON.stringify( babelrcTestConfig ) );
+writeFileSync( join( __dirname, '../babelrc/.bases.babelrc.json' ), JSON.stringify( BasesBabelrcConfig ) );

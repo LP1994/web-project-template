@@ -1,0 +1,22 @@
+es6+_compiler_es2015文件夹下都是用于将ES6+转为ES2015的bat命令。
+PS：
+1、注意，文件夹“configures/babelrc/es2015”下的各个版本的babelrc配置都还是将编译后的浏览器目标配置为第1批完全支持“ES2015”的主流PC端的浏览器版本。
+
+
+
+如：
+默认（同开发）：
+npx babel --config-file=../../configures/babelrc/es2015/.babelrc.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+开发：
+npx babel --config-file=../../configures/babelrc/es2015/.babelrc.dev.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+测试：
+npx babel --no-comments --compact=true --minified --config-file=../../configures/babelrc/es2015/.babelrc.test.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+生产：
+npx babel --no-comments --compact=true --minified --config-file=../../configures/babelrc/es2015/.babelrc.production.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+
+CurrencyTools.esm.mjs
+--->
+CurrencyTools.compiler.js
