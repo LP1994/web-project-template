@@ -108,12 +108,12 @@ HTTPS and WebSocket Server connInfo--->End
      * 用postman测试时：<br />
      * 1、当设置为'localhost'时，用如“https://localhost:9000”能连接上（https、wss皆是如此）。<br />
      * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9000”、“https://localhost:9000”能连接上（https、wss皆是如此）。<br />
-     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9000”、“https://127.0.0.1:9000”、“https://192.168.1.3:9000”能连接上（https、wss皆是如此）。<br />
+     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9000”、“https://127.0.0.1:9000”、“https://192.168.2.7:9000”能连接上（https、wss皆是如此）。<br />
      *
      * 用浏览器测试时：<br />
      * 1、当设置为'localhost'时，用如“https://localhost:9000”能连接上（https、wss皆是如此）。<br />
      * 2、当设置为'127.0.0.1'时，用如“https://127.0.0.1:9000”、“https://localhost:9000”能连接上（https、wss皆是如此）。<br />
-     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9000”、“https://127.0.0.1:9000”、“https://192.168.1.3:9000”能连接上（https、wss皆是如此）。<br />
+     * 3、当设置为'0.0.0.0'时，用如“https://localhost:9000”、“https://127.0.0.1:9000”、“https://192.168.2.7:9000”能连接上（https、wss皆是如此）。<br />
      *
      * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
      * 1、当页面地址（如“https://localhost:9000”）跟其中的websocket服务地址（如“wss://localhost:9200”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
