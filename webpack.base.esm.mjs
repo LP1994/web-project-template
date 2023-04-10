@@ -270,6 +270,10 @@ const __dirname = Get__dirname( import.meta.url ),
    */
   isUseESBuildLoader = false;
 
+console.log( chalk.cyan( `\n\n\n当前使用“${ isUseESBuildLoader
+                                            ? 'ESBuild'
+                                            : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n\n\n` ) );
+
 /**
  * 目标浏览器版本。
  *
