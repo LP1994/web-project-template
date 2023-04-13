@@ -8331,6 +8331,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     assetModuleFilename( pathData, assetInfo ){
       return 'assets/[name]_[contenthash][ext]';
     },
+    /**
+     * 创建异步块，按需加载。
+     */
+    // asyncChunks: true,
+    /**
+     * 告诉webpack将charset="utf-8"添加到HTML的<script>标签。<br />
+     * 提示：<br />
+     * 1、虽然<script>标签的charset属性已被废弃，但webpack仍然默认添加它，以兼容非现代的浏览器。<br />
+     */
     charset: false,
     /**
      * 此选项确定非初始块文件的名称。如，那些动态导入的JS文件。<br />
@@ -8383,20 +8392,43 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       return `js/[name]_Chunk_[contenthash].js`;
     },
     /**
-     * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)，但其他格式可能由插件添加。<br />
+     * 指定磁盘上的初始输出css文件的文件名模板。<br />
+     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
+     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
+     */
+    cssFilename( pathData, assetInfo ){
+      return 'styles/[name]_Bundle_[contenthash].css';
+    },
+    /**
+     * 指定磁盘上的非初始输出css文件的文件名模板。<br />
+     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
+     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
+     */
+    cssChunkFilename( pathData, assetInfo ){
+      return 'styles/[name]_Chunk_[contenthash].css';
+    },
+    /**
+     * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)、'module'(ESM)，但其他格式可能由插件添加。<br />
+     * 1、这个选项的默认值取决于目标和output.module设置。<br />
      */
     chunkFormat: 'array-push',
     /**
      * 块请求过期前的毫秒数。从webpack 2.6.0开始支持此选项。<br />
      */
     chunkLoadTimeout: 120000,
+    /**
+     * 全局变量被webpack用于加载chunks。<br />
+     */
     chunkLoadingGlobal: 'WebpackGlobal',
     /**
-     * 加载块的方法，默认包括的方法：'jsonp'（web）、'import'（ESM）、'importScripts'（WebWorker）、'require'（同步node.js）、'async-node'（异步node.js），但其他可能由插件添加。<br />
+     * 加载块的方法，默认包括的方法：'jsonp'（web）、'import'（ESM）、'import-scripts'（WebWorker）、'require'（同步node.js）、'async-node'（异步node.js），但其他可能由插件添加。<br />
+     * 1、这个选项的默认值取决于目标和chunkFormat设置。<br />
      */
     chunkLoading: 'jsonp',
     /**
-     * 在发出之前清理输出目录，不要用这个选项，用clean-webpack-plugin插件，因为用这个选项，无法设置排除项。<br />
+     * 在发出之前清理输出目录，不要用这个选项，用clean-webpack-plugin插件，因为用这个选项，无法设置排除项（后来可以了，通过设置对象类型的值，就可以进一步细化该选项的配置了）。<br />
+     * 1、5.20.0+新增的选项。<br />
+     * 2、该选项除了有一个boolean类型的选项值，还有一个对象类型的选项值，详细见：node_modules/webpack/schemas/WebpackOptions.json:310<br />
      */
     clean: false,
     /**
@@ -8407,6 +8439,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     compareBeforeEmit: false,
     /**
      * 告诉webpack启用块的跨域加载。仅在目标设置为“web”时生效，它使用JSONP通过添加脚本标签来加载按需块。<br />
+     * 1、选项值有：<br />
+     * false：表示禁用。<br />
+     * 'anonymous'：启用跨源加载，不需要凭证。<br />
+     * 'use-credentials'：启用有证书的跨源加载。<br />
      */
     crossOriginLoading: 'anonymous',
     /**
@@ -8553,17 +8589,30 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 1、如果output.module设置为true，则output.scriptType将默认为'module'而不是false。<br />
      */
     scriptType: 'text/javascript',
-    sourceMapFilename: 'map/[name]_Map_[contenthash:16].map',
+    sourceMapFilename: 'map/[name]_[contenthash:16].map',
     /**
-     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)，但其他方法可能由插件添加。<br />
+     * 根据EcmaScript模块规范处理模块加载中的错误，但要付出性能代价。<br />
+     * 1、5.25.0+新增的选项。<br />
+     * 2、告诉webpack，如果一个模块在被要求时抛出了一个异常，就把它从模块实例缓存（require.cache）中删除。<br />
+     * 由于性能原因，它默认为false。<br />
+     * 当设置为false时，模块不会从缓存中移除，这将导致异常只在第一次调用require时被抛出（这与node.js不兼容）。<br />
+     * 当设置为true时，这个模块的所有调用都会抛出一个异常。<br />
+     */
+    strictModuleErrorHandling: !isProduction,
+    /**
+     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)、'fetch-streaming'，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
      * Defaults to 'fetch' if target is set to 'web', 'webworker', 'electron-renderer' or 'node-webkit'.<br />
      * Defaults to 'async-node' if target is set to 'node', 'async-node', 'electron-main' or 'electron-preload'.<br />
      */
     wasmLoading: 'fetch',
     /**
+     * 该选项基本同上面的“wasmLoading”选项。<br />
+     */
+    workerWasmLoading: 'fetch',
+    /**
      * 新选项workerChunkLoading控制worker的块加载。<br />
-     * 1、有效值：'require'、'import-scripts'、'async-node'、'import'、'universal'、false。<br />
+     * 1、有效值：'jsonp' (web)、'require'(sync node.js)、'import-scripts'(WebWorker)、'async-node'(async node.js)、'import'(ESM)、'universal'、false。<br />
      */
     workerChunkLoading: 'import-scripts',
     /**
@@ -8577,6 +8626,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 2、当然也可以在new Worker()的时候在第二个参数里使用“魔术注解”来设置打包后的“worker”代码要存放的文件夹，比如放到“workers”这个文件夹内。关于worker中的更多“魔术注解”的使用，见：notes/webpack魔术注解.txt。<br />
      */
     // workerPublicPath: null,
+    /**
+     * WebAssembly模块的文件名作为'output.path'目录内的相对路径。<br />
+     * 1、值类型为string。<br />
+     * 2、值不是一个绝对路径，是相对路径，相对于'output.path'。<br />
+     */
+    webassemblyModuleFilename: 'wasm/[name]_[contenthash:16].wasm',
   },
   /**
    * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
