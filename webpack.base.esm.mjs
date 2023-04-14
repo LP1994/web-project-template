@@ -8630,8 +8630,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * WebAssembly模块的文件名作为'output.path'目录内的相对路径。<br />
      * 1、值类型为string。<br />
      * 2、值不是一个绝对路径，是相对路径，相对于'output.path'。<br />
+     * 3、该选项值的占位参数目前只支持：[id]、[hash]。<br />
      */
-    webassemblyModuleFilename: 'wasm/[name]_[contenthash:16].wasm',
+    webassemblyModuleFilename: 'wasm/[id]_[hash].wasm',
   },
   /**
    * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
