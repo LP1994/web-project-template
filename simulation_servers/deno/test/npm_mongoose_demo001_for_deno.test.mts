@@ -8,7 +8,7 @@
  */
 
 /**
- * 1、直到2023年03月26日，基于：npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5、deno@1.32.1，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 1、直到2023年04月14日，基于：npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5、deno@1.32.4，还是无法使用TLS以及客户端证书跟数据库进行连接。
  * 但是同样的npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5在node中是可以的。
  *
  * 2、报错信息：
