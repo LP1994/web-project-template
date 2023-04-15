@@ -4354,6 +4354,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 3、由于@babel/polyfill在7.4.0中已弃用，我们建议直接添加core-js并通过corejs选项设置版本。<br />
            * 4、'entry'表示在入口处显示的导入core-js，如：import "core-js";，这样的代码在项目中只能存在1次，如果出现第2次会报错，个人不建议用这个值，'usage'这个值最好了。<br />
            * 5、'usage'在每个文件中使用polyfill时为它们添加特定的import。我们利用了捆绑器只会加载相同的polyfill一次这一事实。这个值最好了。<br />
+           * 6、关于3个值的说明：<br />
+           * false：无视target.browsers将所有Polyfill加载进来。<br />
+           * entry：根据target.browsers将部分Polyfill加载进来(仅引入有浏览器不支持的Polyfill，需在入口文件import 'core-js/stable')。<br />
+           * usage：根据target.browsers和检测代码里ES6的使用情况将部分Polyfill加载进来(无需在入口文件import 'core-js/stable')。<br />
            */
           useBuiltIns: 'usage',
           /**
