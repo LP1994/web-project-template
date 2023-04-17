@@ -39,6 +39,7 @@ import {
   Mongoose,
   Schema,
   Model,
+  Types,
 
   // @ts-ignore
 } from 'npm:mongoose';
@@ -655,6 +656,11 @@ async function run(): Promise<void>{
     type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
     type TKittenInstance = HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>;
 
+    // Subdocument definition.
+    interface IInfo {
+      text: string;
+    }
+
     interface IKitty {
       name: string;
 
@@ -667,20 +673,8 @@ async function run(): Promise<void>{
       eye: string;
 
       foot: string;
-    }
 
-    interface IKittyQueryHelpers {
-      FindByName( name: string ): TQueryWithHelpers;
-
-      FindBySex( sex: string ): TQueryWithHelpers;
-    }
-
-    interface IKittyMethods {
-      speak(): void;
-
-      getColor(): string;
-
-      getSex(): string;
+      info: Types.Subdocument<Types.ObjectId> & IInfo;
     }
 
     interface IKittyModel
@@ -692,8 +686,34 @@ async function run(): Promise<void>{
       GetFoot( kitten: TKittenInstance ): string;
     }
 
+    interface IKittyMethods {
+      speak(): void;
+
+      getColor(): string;
+
+      getSex(): string;
+
+      getInfo(): string;
+    }
+
+    interface IKittyQueryHelpers {
+      FindByName( name: string ): TQueryWithHelpers;
+
+      FindBySex( sex: string ): TQueryWithHelpers;
+    }
+
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
-    const KittySchema: Schema<IKitty, IKittyModel, IKittyMethods, IKittyQueryHelpers> = new Schema<IKitty, IKittyModel, IKittyMethods, IKittyQueryHelpers>(
+    const KittySchema: Schema<
+      IKitty,
+      IKittyModel,
+      IKittyMethods,
+      IKittyQueryHelpers
+    > = new Schema<
+      IKitty,
+      IKittyModel,
+      IKittyMethods,
+      IKittyQueryHelpers
+    >(
       // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
       {
         name: {
@@ -721,6 +741,13 @@ async function run(): Promise<void>{
           type: String,
           default: '白手套',
         },
+        info: new Schema<IInfo>( {
+          text: {
+            type: String,
+            default: '关于这只喵喵的一些信息。',
+            required: true,
+          },
+        } ),
       },
       // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
       {
@@ -742,6 +769,12 @@ async function run(): Promise<void>{
             console.log( `\nMy sex is ${ this.sex }.\n` );
 
             return this.sex;
+          },
+          getInfo( this: TKittenInstance ): string{
+            console.log( `\nMy info is { _id: ${ this.info._id }, text: ${ this.info.text } }.` );
+            console.log( `this.info.ownerDocument(): ${ this.info.ownerDocument() }.\n` );
+
+            return `{ _id: ${ this.info._id }, text: ${ this.info.text } }`;
           },
         },
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
@@ -835,7 +868,18 @@ async function run(): Promise<void>{
      */
 
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
-    const Kitten: TKittenModel = client.model<IKitty, IKittyModel, IKittyQueryHelpers>( 'Kitten'/*modelName*/, KittySchema/*schema*/, 'kittens'/*这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合*/ );
+    const Kitten: TKittenModel = client.model<
+      IKitty,
+      IKittyModel,
+      IKittyQueryHelpers
+    >(
+      // modelName
+      'Kitten',
+      // schema
+      KittySchema,
+      // 这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合。
+      'kittens'
+    );
 
     // 查找。
     let kittenQuantity: number = ( await Kitten.find() ).length;
@@ -844,9 +888,15 @@ async function run(): Promise<void>{
     const kitten001: TKittenInstance = new Kitten( {
       name: `喵喵${ ++kittenQuantity }号`,
       sex: '翠花',
+      info: {
+        text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
+      },
     } );
     const kitten002: TKittenInstance = new Kitten( {
       name: `喵喵${ ++kittenQuantity }号`,
+      info: {
+        text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
+      },
     } );
 
     // 保存到数据库中。
@@ -860,6 +910,7 @@ async function run(): Promise<void>{
       kitten.speak();
       kitten.getColor();
       kitten.getSex();
+      kitten.getInfo();
       Kitten.GetTime( kitten );
       Kitten.GetEye( kitten );
       Kitten.GetFoot( kitten );
