@@ -661,6 +661,10 @@ async function run(): Promise<void>{
       text: string;
     }
 
+    interface IInfoMethods {
+      getText(): string;
+    }
+
     interface IKitty {
       name: string;
 
@@ -674,7 +678,7 @@ async function run(): Promise<void>{
 
       foot: string;
 
-      info: Types.Subdocument<Types.ObjectId> & IInfo;
+      info: Types.Subdocument<Types.ObjectId> & IInfo & HydratedDocument<IInfo, IInfoMethods>;
     }
 
     interface IKittyModel
@@ -741,13 +745,26 @@ async function run(): Promise<void>{
           type: String,
           default: '白手套',
         },
-        info: new Schema<IInfo>( {
-          text: {
-            type: String,
-            default: '关于这只喵喵的一些信息。',
-            required: true,
+        info: new Schema<
+          IInfo,
+          Model<IInfo, {}, IInfoMethods>,
+          IInfoMethods
+        >(
+          {
+            text: {
+              type: String,
+              default: '关于这只喵喵的一些信息。',
+              required: true,
+            },
           },
-        } ),
+          {
+            methods: {
+              getText( this: HydratedDocument<IInfo, IInfoMethods> ): string{
+                return `{ _id: ${ this._id }, text: ${ this.text } }`;
+              },
+            },
+          }
+        ),
       },
       // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
       {
@@ -771,10 +788,15 @@ async function run(): Promise<void>{
             return this.sex;
           },
           getInfo( this: TKittenInstance ): string{
-            console.log( `\nMy info is { _id: ${ this.info._id }, text: ${ this.info.text } }.` );
-            console.log( `this.info.ownerDocument(): ${ this.info.ownerDocument() }.\n` );
+            console.log( `\nMy info is ${ this.info.getText() }.\n` );
+            // 返回此子文档的顶级文档：this.info.ownerDocument()。
+            // console.log( `this.info.ownerDocument(): ${ this.info.ownerDocument() }.\n` );
+            // 返回此子文档父文档：this.info.parent()。
+            // console.log( `this.info.parent(): ${ this.info.parent() }.\n` );
+            // 返回此子文档父文档：this.info.$parent()。
+            // console.log( `this.info.$parent(): ${ this.info.$parent() }.\n` );
 
-            return `{ _id: ${ this.info._id }, text: ${ this.info.text } }`;
+            return this.info.getText();
           },
         },
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
