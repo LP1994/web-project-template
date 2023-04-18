@@ -39,8 +39,8 @@ function DefinePluginConfig( {
   const wsHost001 = `( location.protocol === "http:" ? "ws:" : "wss:" ) + "//" + location.hostname + ":" + location.port + `;
 
   return {
-    isProduction: JSON.stringify( isProduction ),
     env_platform: JSON.stringify( env_platform ),
+    isProduction: JSON.stringify( isProduction ),
 
     /**
      * 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.1.3:9000/graphql
@@ -52,6 +52,7 @@ function DefinePluginConfig( {
     devURL001: isProduction
                ? '""'
                : '"/devURL001"',
+
     /**
      * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.1.3:9000/subscriptions
      * 注意：

@@ -21,6 +21,42 @@ const path = require( 'path' ),
 //noinspection WebpackConfigHighlighting
 module.exports = {
   plugins: [
+    new webpack.DefinePlugin( {
+      /**
+       * env_platform: JSON.stringify( env_platform )
+       */
+      'env_platform': '',
+      /**
+       * isProduction: JSON.stringify( isProduction )
+       */
+      'isProduction': '',
+
+      /**
+       * 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.1.3:9000/graphql
+       * 注意：
+       * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
+       * 使用例子：
+       * axios.get( '${ devURLDemo001 }/graphql' )
+       *
+       * devURL001: isProduction
+       *            ? '""'
+       *            : '"/devURL001"'
+       */
+      'devURL001': '',
+
+      /**
+       * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.1.3:9000/subscriptions
+       * 注意：
+       * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
+       * 使用例子：
+       * new WebSocket( '${ ws4DevURLDemo001 }/subscriptions' )
+       *
+       * ws4DevURL001: isProduction
+       *               ? `${ wsHost001 }""`
+       *               : `${ wsHost001 }"/ws4DevURL001"`
+       */
+      'ws4DevURL001': '',
+    } ),
     /**
      * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
      * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
@@ -33,31 +69,52 @@ module.exports = {
      * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
      */
     new webpack.ProvidePlugin( {
-      axios: 'axios',
+      'axios': 'axios',
 
-      echarts: 'echarts',
+      'Ckeditor5ClassicEditor': '@ckeditor/ckeditor5-build-classic',
+
+      'd3': 'd3',
+
+      'echarts': 'echarts',
 
       /**
        * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
        * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
        */
-      ELEMENT: 'element-ui',
-      ElementPlus: 'element-plus',
+      'ELEMENT': 'element-ui',
+      'ElementPlus': 'element-plus',
 
-      $: 'jquery',
-      jQuery: 'jquery',
+      '$': 'jquery',
+      'jQuery': 'jquery',
       'window.$': 'jquery',
       'window.jQuery': 'jquery',
 
-      Swiper: 'swiper',
+      'JSSHA3': 'js-sha3',
+      'JSSHA512': 'js-sha512',
+      'JSSHA256': 'js-sha256',
+      'JSSHA1': 'js-sha1',
+      'JSMD5': 'js-md5',
+      'JSBase64': 'js-base64',
+
+      'localforage': 'localforage',
+
+      'lodash': 'lodash',
+
+      'PIXI': 'pixi.js',
+
+      'Swiper': 'swiper',
+
+      'THREE': 'three',
+
+      'underscore': 'underscore',
 
       /**
        * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
        * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
        */
-      Vue: 'vue',
-      VueRouter: 'vue-router',
-      Vuex: 'vuex',
+      'Vue': 'vue',
+      'VueRouter': 'vue-router',
+      'Vuex': 'vuex',
     } ),
   ],
   resolve: {

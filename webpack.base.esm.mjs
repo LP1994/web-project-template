@@ -1367,6 +1367,22 @@ const aliasConfig = {
     },
   },
   /**
+   * 缓存生成的webpack模块和块以提高构建速度，开发启用，生产禁用。<br />
+   * 1、true：启用内存缓存（等同于cache: { type: 'memory' }）；false：禁用内存缓存。<br />
+   * 2、将cache.type设置为'filesystem'会打开更多配置选项。<br />
+   * 3、将cache.type设置为'memory'，它告诉webpack将缓存存储在内存中，并且只允许几个其他配置！<br />
+   * 4、cache.type设置为'memory'时，可以配合使用的部分选项说明：<br />
+   * cacheUnaffected：启用版本5.54.0+，缓存未更改的模块的计算并仅引用未更改的模块。它只能与cache.type设置为'memory'一起使用，此外，必须启用experiments.cacheUnaffected才能使用它。<br />
+   * maxGenerations：启用版本5.30.0+，定义内存缓存中未使用的缓存条目的寿命，它只能与cache.type设置为'memory'一起使用，cache.maxGenerations: 1，缓存条目在未用于单个编译后被删除；cache.maxGenerations: Infinity，缓存条目被永久保存。<br />
+   *
+   * @type {{cacheUnaffected: boolean, maxGenerations: number, type: string}}
+   */
+  cacheConfig = {
+    type: 'memory',
+    cacheUnaffected: false,
+    maxGenerations: Infinity,
+  },
+  /**
    * 默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件，以及所有未使用的webpack资产。<br />
    *
    * @type {object}
@@ -1484,6 +1500,18 @@ const aliasConfig = {
     env_platform,
     isProduction,
   } ),
+  /**
+   * @type {{maxLength: number}}
+   */
+  deterministicChunkIdsPluginConfig = {
+    maxLength: 9,
+  },
+  /**
+   * @type {{maxLength: number}}
+   */
+  deterministicModuleIdsPluginConfig = {
+    maxLength: 9,
+  },
   /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
    * 1、如果您通过Node.js API使用dev-server，则devServer中的选项将被忽略。<br />
@@ -2760,6 +2788,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     isSPA,
     HTMLMinifyConfig,
   } ),
+  /**
+   * 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
+   *
+   * @type {{maxChunks: number}}
+   */
+  limitChunkCountPluginConfig = {
+    maxChunks: 100,
+  },
   /**
    * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
    * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
@@ -8799,6 +8835,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     return join( __dirname, recordsPath );
   },
   /**
+   * @type {{hashLoading: string, hashFuncNames: string[], enabled: boolean}}
+   */
+  subresourceIntegrityPluginConfig = {
+    hashFuncNames: [
+      'sha512',
+    ],
+    enabled: isProduction,
+    hashLoading: 'eager',
+  },
+  /**
    * 指示webpack以特定环境为目标，当没有找到browserslist配置时，默认为“browserslist”或“web”。<br />
    * 1、值格式：string、[ string ]、false，如：[ 'web', 'es2022', ]。<br />
    * 2、当传递多个目标时，将使用公共特征子集：[ 'web', 'es2022', ]，目前，并非所有目标都可能是混合的。<br />
@@ -8885,9 +8931,12 @@ export {
 
   aliasConfig,
   assetsWebpackPluginConfig,
+  cacheConfig,
   cleanWebpackPluginConfig,
   copyPluginConfig,
   definePluginConfig,
+  deterministicChunkIdsPluginConfig,
+  deterministicModuleIdsPluginConfig,
   devServerConfig,
   entryConfig,
   experimentsConfig,
@@ -8896,6 +8945,7 @@ export {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  limitChunkCountPluginConfig,
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   nodeConfig,
@@ -8906,6 +8956,7 @@ export {
   prefetchPluginConfig,
   providePluginConfig,
   recordsPathConfig,
+  subresourceIntegrityPluginConfig,
   targetConfig,
   typedocWebpackPluginConfig,
   watchOptionsConfig,
@@ -8928,9 +8979,12 @@ export default {
 
   aliasConfig,
   assetsWebpackPluginConfig,
+  cacheConfig,
   cleanWebpackPluginConfig,
   copyPluginConfig,
   definePluginConfig,
+  deterministicChunkIdsPluginConfig,
+  deterministicModuleIdsPluginConfig,
   devServerConfig,
   entryConfig,
   experimentsConfig,
@@ -8939,6 +8993,7 @@ export default {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  limitChunkCountPluginConfig,
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   nodeConfig,
@@ -8949,6 +9004,7 @@ export default {
   prefetchPluginConfig,
   providePluginConfig,
   recordsPathConfig,
+  subresourceIntegrityPluginConfig,
   targetConfig,
   typedocWebpackPluginConfig,
   watchOptionsConfig,

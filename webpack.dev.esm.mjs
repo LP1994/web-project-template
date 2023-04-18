@@ -40,6 +40,7 @@ import {
 
   aliasConfig,
   assetsWebpackPluginConfig,
+  cacheConfig,
   cleanWebpackPluginConfig,
   copyPluginConfig,
   definePluginConfig,
@@ -51,6 +52,7 @@ import {
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
   htmlWebpackPluginConfig,
+  limitChunkCountPluginConfig,
   minChunkSizePluginConfig,
   moduleConfig,
   nodeConfig,
@@ -80,11 +82,7 @@ export default {
    * cacheUnaffected：启用版本5.54.0+，缓存未更改的模块的计算并仅引用未更改的模块。它只能与cache.type设置为'memory'一起使用，此外，必须启用experiments.cacheUnaffected才能使用它。<br />
    * maxGenerations：启用版本5.30.0+，定义内存缓存中未使用的缓存条目的寿命，它只能与cache.type设置为'memory'一起使用，cache.maxGenerations: 1，缓存条目在未用于单个编译后被删除；cache.maxGenerations: Infinity，缓存条目被永久保存。<br />
    */
-  cache: {
-    type: 'memory',
-    cacheUnaffected: false,
-    maxGenerations: Infinity,
-  },
+  cache: cacheConfig,
   context: resolve( __dirname, './' ),
   devServer: devServerConfig,
   /**
@@ -204,10 +202,7 @@ export default {
     new ForkTsCheckerNotifierWebpackPlugin( forkTsCheckerNotifierWebpackPluginConfig ),
 
     new webpack.DefinePlugin( definePluginConfig ),
-    new webpack.optimize.LimitChunkCountPlugin( {
-      // 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
-      maxChunks: 100,
-    } ),
+    new webpack.optimize.LimitChunkCountPlugin( limitChunkCountPluginConfig ),
     /**
      * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
      * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
