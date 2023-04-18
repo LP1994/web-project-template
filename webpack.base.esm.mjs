@@ -1888,7 +1888,7 @@ const aliasConfig = {
    * 2、可以配置用于从static.directory观看静态文件的高级选项。有关可能的选项，请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
    * }<br />
    * 
-   * watchFiles：此选项允许您配置“globs/directories/files”以监视文件更改。<br />
+   * watchFiles：此选项允许您配置“globs/directories/files”以监视文件更改。一般情况下不需要设置该选项。<br />
    * 1、有效值类型：string、object、[string, object]。<br />
    * 2、当值类型为object时，有关可能的选项（paths、options），请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
    * 
@@ -1939,6 +1939,13 @@ const aliasConfig = {
     host: '0.0.0.0',
     hot: true,
     liveReload: true,
+    onListening( devServer ){
+      if( !devServer ){
+        throw new Error( 'webpack-dev-server is not defined!' );
+      }
+
+      console.log( chalk.cyan( `\n\n\nwebpack-dev-server开始监听端口：${ devServer.server.address().port }！！！\n\n\n` ) );
+    },
     open: [
       // Windows平台上的Edge浏览器。
       {
@@ -2120,79 +2127,6 @@ const aliasConfig = {
       },
     },
     setupExitSignals: true,
-    webSocketServer: 'ws',
-    static: ( arr => {
-      const obj1 = {
-        staticOptions: {
-          dotfiles: 'deny',
-          etag: true,
-          extensions: [
-            'html',
-            'htm',
-          ],
-          fallthrough: true,
-          immutable: false,
-          index: false,
-          lastModified: true,
-          maxAge: 0,
-          redirect: true,
-          setHeaders: ( res, path, stat ) => {
-            res.set( 'x-env-platform', `${ env_platform }` );
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
-
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
-            } );
-          },
-        },
-        serveIndex: {
-          hidden: false,
-          icons: true,
-          view: 'details',
-        },
-        watch: true,
-      };
-
-      return arr.map( item => {
-        return {
-          ...obj1,
-          ...item,
-        };
-      } );
-    } )( [
-      {
-        directory: join( __dirname, './dist/' ),
-        publicPath: '/dev-server-static/dist',
-      },
-      {
-        directory: join( __dirname, './simulation_servers/' ),
-        publicPath: '/dev-server-static/simulation_servers',
-      },
-      {
-        directory: join( __dirname, './src/' ),
-        publicPath: '/dev-server-static/src',
-      },
-      {
-        directory: join( __dirname, './subsystems/' ),
-        publicPath: '/dev-server-static/subsystems',
-      },
-      {
-        directory: join( __dirname, './test/' ),
-        publicPath: '/dev-server-static/test',
-      },
-      {
-        directory: join( __dirname, './ts_compiled/' ),
-        publicPath: '/dev-server-static/ts_compiled',
-      },
-      {
-        directory: join( __dirname, './webpack_location/' ),
-        publicPath: '/dev-server-static/webpack_location',
-      },
-      {
-        directory: join( __dirname, './webpack_records/' ),
-        publicPath: '/dev-server-static/webpack_records',
-      },
-    ] ),
     setupMiddlewares: ( middlewares, devServer ) => {
       if( !devServer ){
         throw new Error( 'webpack-dev-server is not defined!' );
@@ -2360,6 +2294,90 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
       return middlewares;
     },
+    static: ( arr => {
+      const obj1 = {
+        staticOptions: {
+          dotfiles: 'deny',
+          etag: true,
+          extensions: [
+            'html',
+            'htm',
+          ],
+          fallthrough: true,
+          immutable: false,
+          index: false,
+          lastModified: true,
+          maxAge: 0,
+          redirect: true,
+          setHeaders: ( res, path, stat ) => {
+            res.set( 'x-env-platform', `${ env_platform }` );
+            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+
+            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+              res.set( keyName, keyValue );
+            } );
+          },
+        },
+        serveIndex: {
+          hidden: false,
+          icons: true,
+          view: 'details',
+        },
+        watch: true,
+      };
+
+      return arr.map( item => {
+        return {
+          ...obj1,
+          ...item,
+        };
+      } );
+    } )( [
+      {
+        directory: join( __dirname, './dist/' ),
+        publicPath: '/dev-server-static/dist',
+      },
+      {
+        directory: join( __dirname, './simulation_servers/' ),
+        publicPath: '/dev-server-static/simulation_servers',
+      },
+      {
+        directory: join( __dirname, './src/' ),
+        publicPath: '/dev-server-static/src',
+      },
+      {
+        directory: join( __dirname, './subsystems/' ),
+        publicPath: '/dev-server-static/subsystems',
+      },
+      {
+        directory: join( __dirname, './test/' ),
+        publicPath: '/dev-server-static/test',
+      },
+      {
+        directory: join( __dirname, './ts_compiled/' ),
+        publicPath: '/dev-server-static/ts_compiled',
+      },
+      {
+        directory: join( __dirname, './webpack_location/' ),
+        publicPath: '/dev-server-static/webpack_location',
+      },
+      {
+        directory: join( __dirname, './webpack_records/' ),
+        publicPath: '/dev-server-static/webpack_records',
+      },
+    ] ),
+    // 该选项“watchFiles”不需要设置。
+    /*
+     watchFiles: {
+     paths: [
+     'src/!**!/!*',
+     ],
+     options: {
+     usePolling: false,
+     },
+     },
+     */
+    webSocketServer: 'ws',
   },
   /**
    * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
