@@ -272,9 +272,9 @@ const __dirname = Get__dirname( import.meta.url ),
    */
   isUseESBuildLoader = false;
 
-console.log( chalk.cyan( `\n\n\n当前使用“${ isUseESBuildLoader
+console.log( chalk.cyan( `\n当前使用“${ isUseESBuildLoader
                                             ? 'ESBuild'
-                                            : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n\n\n` ) );
+                                            : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n` ) );
 
 /**
  * 目标浏览器版本。
@@ -1944,7 +1944,7 @@ const aliasConfig = {
         throw new Error( 'webpack-dev-server is not defined!' );
       }
 
-      console.log( chalk.cyan( `\n\n\nwebpack-dev-server开始监听端口：${ devServer.server.address().port }！！！\n\n\n` ) );
+      console.log( chalk.cyan( `\nwebpack-dev-server开始监听端口：${ devServer.server.address().port }！！！\n` ) );
     },
     open: [
       // Windows平台上的Edge浏览器。
@@ -2691,7 +2691,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        │  Dump types   │ 76.64220000058413  │
        └───────────────┴────────────────────┘
        */
-      profile: true,
+      profile: false,
       // 如果提供，这是可以在其中找到TypeScript的自定义路径。
       typescriptPath: resolve( __dirname, './node_modules/typescript/lib/typescript.js' ),
     },
