@@ -273,8 +273,8 @@ const __dirname = Get__dirname( import.meta.url ),
   isUseESBuildLoader = false;
 
 console.log( chalk.cyan( `\n当前使用“${ isUseESBuildLoader
-                                            ? 'ESBuild'
-                                            : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n` ) );
+                                        ? 'ESBuild'
+                                        : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n` ) );
 
 /**
  * 目标浏览器版本。
@@ -1085,10 +1085,12 @@ const jsWorkerPoolConfig = {
     // 工作人员并行处理的作业数。
     workerParallelJobs: 20,
     // 其他的node.js参数
-    workerNodeArgs: [
-      // 单位为MB，本来想通过代码来动态的根据本机空闲内存来设置，但是不知为何会报错，只能写死设置。
-      `--max-old-space-size=${ 1 * 1024 }`,
-    ],
+    /*
+     workerNodeArgs: [
+     // 单位为MB，本来想通过代码来动态的根据本机空闲内存来设置，但是不知为何会报错，只能写死设置。
+     `--max-old-space-size=${ 1 * 1024 }`,
+     ],
+     */
     // 允许重新启动一个已死亡的工作线程池。重新启动会减慢整个编译过程，在开发时应设置为false。
     poolRespawn: isProduction,
     // 空闲默认值为500（ms）时终止工作进程的超时，可以设置为Infinity无穷大，以便监视生成以保持工作进程的活动性。Infinity：可用于开发模式，600000ms也就是10分钟。

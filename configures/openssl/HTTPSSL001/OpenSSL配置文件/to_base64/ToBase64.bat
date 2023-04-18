@@ -1,1 +1,1 @@
-node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --trace-warnings --trace-deprecation --max-old-space-size=8192 ToBase64.mjs&pause
+node --experimental-network-imports --experimental-import-meta-resolve --experimental-wasm-modules --experimental-top-level-await --experimental-vm-modules --experimental-json-modules --experimental-shadow-realm --no-warnings --no-deprecation --loader ts-node/esm ToBase64.mjs&pause
