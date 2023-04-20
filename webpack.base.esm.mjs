@@ -1940,7 +1940,7 @@ const aliasConfig = {
     },
     host: '0.0.0.0',
     hot: true,
-    liveReload: true,
+    liveReload: false,
     onListening( devServer ){
       if( !devServer ){
         throw new Error( 'webpack-dev-server is not defined!' );

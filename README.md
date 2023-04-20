@@ -12,5 +12,5 @@ This is a WEB project template.<br /><br />
 9、在“webpack.base.esm.mjs”中对“webpack-dev-server”开发服务器是启用“HTTP/1.1”的。<br />
 PS：当前发现一个小问题！使用“HTTP/2”时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
 GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
-只能再次手动刷新页面才能正常加载资源。所以，还是用回“HTTP/1.1”。<br />
+只能再次手动“清空缓存并硬性重新加载”页面才能正常加载资源。所以，还是用回“HTTP/1.1”。<br />
 10、在“simulation_servers/deno/src/database/mongo/test”中有“npm包的mongoose”、“npm包的mongodb”的配置参考，编写了这两者的“deno”、“node”版本，都测试通过了，可用，但是有些许差异。<br />
