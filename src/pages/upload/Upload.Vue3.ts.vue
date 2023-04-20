@@ -306,7 +306,7 @@ function UploadForMultiple( event: Event ): void{
 }
 
 const state: TypeState = reactive( {
-  titleText: `上传测试`,
+  titleText: `测试DIY的Deno服务器的文件上传`,
 } );
 
 onMounted( (): void => {

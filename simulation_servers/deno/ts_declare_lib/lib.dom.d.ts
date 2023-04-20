@@ -640,7 +640,7 @@ interface ImportMeta {
 
     main: boolean;
 
-    resolve( specifier: string ): string;
+    resolve( specified: string, parent?: string | URL ): string;
 }
 
 interface InputEventInit extends UIEventInit {

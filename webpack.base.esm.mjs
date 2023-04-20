@@ -307,7 +307,7 @@ const browserslist = [
     'Edge >= 112',
     'Firefox >= 112',
     'Safari >= 16',
-    'Opera >= 97',
+    'Opera >= 98',
     // PC端各主流浏览器的最新版本，至20230409。End
 
     // 移动端各主流浏览器的最新版本，至20230409。Start
@@ -352,7 +352,7 @@ const browserslist = [
     'edge112',
     'firefox112',
     'safari16',
-    'opera97',
+    'opera98',
     // PC端各主流浏览器的最新版本，至20230409。End
 
     // 移动端各主流浏览器的最新版本，至20230409。Start
@@ -396,7 +396,7 @@ const browserslist = [
     edge: 112,
     firefox: 112,
     safari: 16,
-    opera: 97,
+    opera: 98,
     // PC端各主流浏览器的最新版本，至20230409。End
 
     // 移动端各主流浏览器的最新版本，至20230409。Start
@@ -2050,10 +2050,13 @@ const aliasConfig = {
      * 002服务端CA证书：HTTPSSL001_Servers_192_168_2_7_CA.crt，安装到“受信任的根证书颁发机构”。<br />
      * 003客户端CA证书：HTTPSSL001_Clients_192_168_2_7_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。<br />
      * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。<br />
+     * 4、当前发现一个小问题！使用'spdy'（使用HTTP/2）时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
+     * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
+     * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
      */
     server: {
       // 'http'（使用HTTP/1.1）、'https'（使用HTTP/1.1）、'spdy'（使用HTTP/2）
-      type: 'spdy',
+      type: 'https',
       // 具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions
       options: {
         /**
