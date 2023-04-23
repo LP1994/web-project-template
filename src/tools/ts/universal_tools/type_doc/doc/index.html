@@ -45,7 +45,7 @@
 1、&#39;use strict&#39;严格模式会在函数内部自动深度的传递严格模式的效果。<br />
 如：<br /></p>
 <pre><code class="language-ts"><span class="hl-0">function</span><span class="hl-1"> </span><span class="hl-2">Fun1</span><span class="hl-1">( </span><span class="hl-3">x</span><span class="hl-1"> ){</span><br/><span class="hl-1">  </span><span class="hl-4">&#39;use strict&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-1">  </span><span class="hl-0">function</span><span class="hl-1"> </span><span class="hl-2">Fun2</span><span class="hl-1">( </span><span class="hl-3">y</span><span class="hl-1"> = </span><span class="hl-5">1</span><span class="hl-1"> ){</span><br/><span class="hl-1">    </span><span class="hl-3">console</span><span class="hl-1">.</span><span class="hl-2">log</span><span class="hl-1">( </span><span class="hl-3">y</span><span class="hl-1"> );</span><br/><br/><span class="hl-1">    </span><span class="hl-3">console</span><span class="hl-1">.</span><span class="hl-2">log</span><span class="hl-1">( </span><span class="hl-0">this</span><span class="hl-1"> );</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-2">Fun2</span><span class="hl-1">();</span><br/><span class="hl-1">}</span>
-</code></pre>
+</code><button>Copy</button></pre>
 <p>说明：<br />
 Fun1里的&#39;use strict&#39;严格模式的效果会传递到Fun2内部！<br />
 但是，Fun1里的&#39;use strict&#39;严格模式却不会作用于Fun2的默认函数参数，但是Fun2里的this还是会为undefined！<br />
@@ -56,7 +56,7 @@ Fun1里的&#39;use strict&#39;严格模式的效果会传递到Fun2内部！<br 
 <p>5、严格模式下的this还是可以通过apply、bind、call来设置的，否则还是undefined。<br />
 如：<br /></p>
 <pre><code class="language-ts"><span class="hl-4">&#39;use strict&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">function</span><span class="hl-1"> </span><span class="hl-2">Fun1</span><span class="hl-1">(){</span><br/><span class="hl-1">  </span><span class="hl-4">&#39;use strict&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-1">  </span><span class="hl-3">console</span><span class="hl-1">.</span><span class="hl-2">dir</span><span class="hl-1">( </span><span class="hl-0">this</span><span class="hl-1"> );</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">Fun1</span><span class="hl-1">.</span><span class="hl-2">call</span><span class="hl-1">( { </span><span class="hl-3">a:</span><span class="hl-1"> </span><span class="hl-5">1</span><span class="hl-1">, } ); </span><span class="hl-6">// 输出：{ a: 1, }，而不是undefined。</span>
-</code></pre>
+</code><button>Copy</button></pre>
 </div></div>
 <div class="col-sidebar">
 <div class="page-menu"></div>

@@ -48,13 +48,10 @@
 <li class="tsd-signature" id="__type.SingletonFactory.__type-1.__type-2"><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">func</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/TypeSingleton.html" class="tsd-signature-type tsd-kind-type-alias">TypeSingleton</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>支持泛型参数的单例工厂。</p>
-
-<h3>Returns</h3><p>返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“TypeSingleton<T>”），用于清除并置空已经生成的期望的单例对象。</p>
 </div>
-<section class="tsd-panel tsd-type-parameters">
+<section class="tsd-panel">
 <h4>Type Parameters</h4>
-<ul class="tsd-type-parameters">
+<ul class="tsd-type-parameter-list">
 <li>
 <h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
 <div class="tsd-parameters">
@@ -70,7 +67,9 @@
 <li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></li>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4></li></ul></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/TypeSingleton.html" class="tsd-signature-type tsd-kind-type-alias">TypeSingleton</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h4>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/TypeSingleton.html" class="tsd-signature-type tsd-kind-type-alias">TypeSingleton</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h4><p>返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“TypeSingleton<T>”），用于清除并置空已经生成的期望的单例对象。</p>
+
 <ul class="tsd-parameters">
 <li class="tsd-parameter-signature">
 <ul class="tsd-signatures">
@@ -85,8 +84,6 @@
 <li class="tsd-signature" id="__type.StringToUint8Array.__type-5.__type-6"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Uint8Array</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>将“String”类型的数据转换成“Uint8Array”类型。</p>
-
-<h3>Returns</h3><p>转换成“Uint8Array”类型的数据。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -95,7 +92,8 @@
 <h5><span class="tsd-kind-parameter">data</span>: <span class="tsd-signature-type">string</span></h5>
 <div class="tsd-comment tsd-typography"><p>“String”类型的数据，必需。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Uint8Array</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Uint8Array</span></h4><p>转换成“Uint8Array”类型的数据。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Uint8<wbr/>Array<wbr/>To<wbr/>String</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -104,8 +102,6 @@
 <li class="tsd-signature" id="__type.Uint8ArrayToString.__type-7.__type-8"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>将“Uint8Array”类型的数据转换成“String”类型。</p>
-
-<h3>Returns</h3><p>转换成“String”类型的数据。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -114,7 +110,8 @@
 <h5><span class="tsd-kind-parameter">data</span>: <span class="tsd-signature-type ">Uint8Array</span></h5>
 <div class="tsd-comment tsd-typography"><p>“Uint8Array”类型的数据，必需。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>转换成“String”类型的数据。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Date<wbr/>Format<wbr/>For<wbr/>Object</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">dateInstance</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/TypeDateFormatForObject.html" class="tsd-signature-type tsd-kind-type-alias">TypeDateFormatForObject</a><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -123,8 +120,6 @@
 <li class="tsd-signature" id="__type.DateFormatForObject.__type-9.__type-10"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">dateInstance</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../types/TypeDateFormatForObject.html" class="tsd-signature-type tsd-kind-type-alias">TypeDateFormatForObject</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br /></p>
-
-<h3>Returns</h3><p>year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -133,7 +128,8 @@
 <h5><span class="tsd-kind-parameter">dateInstance</span>: <span class="tsd-signature-type ">Date</span><span class="tsd-signature-symbol"> = ...</span></h5>
 <div class="tsd-comment tsd-typography"><p>一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br /></p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="../types/TypeDateFormatForObject.html" class="tsd-signature-type tsd-kind-type-alias">TypeDateFormatForObject</a></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <a href="../types/TypeDateFormatForObject.html" class="tsd-signature-type tsd-kind-type-alias">TypeDateFormatForObject</a></h4><p>year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Get<wbr/>Data<wbr/>Type</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -144,8 +140,6 @@
 <div class="tsd-comment tsd-typography"><p>获取数据类型的字符串，如：&#39;[object HTMLDocument]&#39;、&#39;[object HTMLDocument XXX]&#39;。<br />
 PS:<br />
 1、如果传入的是被Proxy代理过的对象，会报错！<br /></p>
-
-<h3>Returns</h3><p>表示数据类型的字符串，如：&#39;[object HTMLDocument]&#39;、&#39;[object HTMLDocument XXX]&#39;。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -154,7 +148,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arg</span>: <span class="tsd-signature-type">any</span></h5>
 <div class="tsd-comment tsd-typography"><p>数据，必需。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>表示数据类型的字符串，如：&#39;[object HTMLDocument]&#39;、&#39;[object HTMLDocument XXX]&#39;。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Is<wbr/>Array</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -163,8 +158,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.IsArray.__type-13.__type-14"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>判断数据是否为Array类型。<br /></p>
-
-<h3>Returns</h3><p>是数组返回true，不是数组返回false。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,7 +166,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arg</span>: <span class="tsd-signature-type">any</span></h5>
 <div class="tsd-comment tsd-typography"><p>数据，必需。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>是数组返回true，不是数组返回false。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Is<wbr/>Number</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -182,8 +176,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.IsNumber.__type-15.__type-16"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>判断数据是否为Number类型的原始值，包括NaN值，但是Number对象、Number实例会返回false。<br /></p>
-
-<h3>Returns</h3><p>是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -192,7 +184,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arg</span>: <span class="tsd-signature-type">any</span></h5>
 <div class="tsd-comment tsd-typography"><p>数据，必需。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>是Number原始值、NaN值返回true，不是Number原始值、NaN值返回false。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Is<wbr/>String</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -201,8 +194,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.IsString.__type-17.__type-18"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arg</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>判断数据是否为String类型的原始值，String对象、String实例会返回false。<br /></p>
-
-<h3>Returns</h3><p>是String原始值返回true，不是String原始值返回false。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -211,7 +202,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arg</span>: <span class="tsd-signature-type">any</span></h5>
 <div class="tsd-comment tsd-typography"><p>数据，必需。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>是String原始值返回true，不是String原始值返回false。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Is<wbr/>Disjoint<wbr/>From</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -220,8 +212,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.IsDisjointFrom.__type-19.__type-20"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。</p>
-
-<h3>Returns</h3><p>数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -234,7 +224,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Is<wbr/>Subset<wbr/>Of</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -243,8 +234,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.IsSubsetOf.__type-21.__type-22"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>数组B是否是数组A的子集，true表示是，反之表示不是。</p>
-
-<h3>Returns</h3><p>数组B是否是数组A的子集，true表示是，反之表示不是。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -257,7 +246,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>数组B是否是数组A的子集，true表示是，反之表示不是。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Is<wbr/>Superset<wbr/>Of</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -266,8 +256,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.IsSupersetOf.__type-23.__type-24"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>数组B是否是数组A的超集，true表示是，反之表示不是。</p>
-
-<h3>Returns</h3><p>数组B是否是数组A的超集，true表示是，反之表示不是。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -280,7 +268,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>数组B是否是数组A的超集，true表示是，反之表示不是。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Difference</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -289,8 +278,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.Difference.__type-25.__type-26"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>差集Difference：一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。</p>
-
-<h3>Returns</h3><p>新数组，一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,7 +290,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4><p>新数组，一个由属于数组A的成员但不属于数组B的成员组成的数组，可记作：数组A - 数组B。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Intersection</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -312,8 +300,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.Intersection.__type-27.__type-28"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>交集Intersection：由既是数组A的成员又是数组B的成员组成的数组。</p>
-
-<h3>Returns</h3><p>新数组，由既是数组A的成员又是数组B的成员组成的数组。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -326,7 +312,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4><p>新数组，由既是数组A的成员又是数组B的成员组成的数组。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Symmetric<wbr/>Difference</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -335,8 +322,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.SymmetricDifference.__type-29.__type-30"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>对称差集SymmetricDifference：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。</p>
-
-<h3>Returns</h3><p>新数组：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -349,7 +334,8 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4></li></ul></li></ul></li>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4><p>新数组：由“数组A、数组B的并集”在剔除“数组A、数组B的交集”后的数组，可记作：数组A、数组B的并集 - 数组A、数组B的交集。</p>
+</li></ul></li></ul></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">Union</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span></h5>
 <ul class="tsd-parameters">
@@ -358,8 +344,6 @@ PS:<br />
 <li class="tsd-signature" id="__type.Union.__type-31.__type-32"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">arrA</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">arrB</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>并集Union：由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。</p>
-
-<h3>Returns</h3><p>新数组，由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -372,9 +356,10 @@ PS:<br />
 <h5><span class="tsd-kind-parameter">arrB</span>: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
 <div class="tsd-comment tsd-typography"><p>数组B，默认值为空数组，可选。</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4></li></ul></li></ul></li></ul></div><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4><p>新数组，由数组A的所有成员和数组B的所有成员组成的新数组，且该新数组剔除了内部重复的成员，留下唯一的。</p>
+</li></ul></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/LP1994/web-project-template/blob/45f0cd8/src/tools/ts/universal_tools/UniversalTools.esm.mts#L463">UniversalTools.esm.mts:463</a></li></ul></aside></div>
+<li>Defined in UniversalTools.esm.mts:463</li></ul></aside></div>
 <div class="col-sidebar">
 <div class="page-menu"></div>
 <div class="site-menu">
