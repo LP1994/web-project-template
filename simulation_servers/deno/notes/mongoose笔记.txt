@@ -263,305 +263,47 @@ IKittyQueryHelpers
 
 
 
+11、关于“Aliases(别名)”
+const childSchema = new Schema({
+  n: {
+    type: String,
+    alias: 'name'
+  }
+}, { _id: false });
+
+const parentSchema = new Schema({
+  // 如果在子架构中，别名不需要包含完整的嵌套路径。
+  c: childSchema,
+  name: {
+    f: {
+      type: String,
+      // 如果以内联方式声明，别名需要包含完整的嵌套路径。
+      alias: 'name.first'
+    }
+  }
+});
+
+
+
+12、模式有一个loadClass()方法，你可以用它来从ES6类中创建一个Mongoose模式（https://mongoosejs.com/docs/guide.html#es6-classes）：
+ES6 class methods become Mongoose methods
+ES6 class statics become Mongoose statics
+ES6 getters and setters become Mongoose virtuals
+例子：
+class MyClass {
+  myMethod() { return 42; }
+  static myStatic() { return 42; }
+  get myVirtual() { return 42; }
+}
+
+const schema = new mongoose.Schema();
+schema.loadClass(MyClass);
+
+console.log(schema.methods); // { myMethod: [Function: myMethod] }
+console.log(schema.statics); // { myStatic: [Function: myStatic] }
+console.log(schema.virtuals); // { myVirtual: VirtualType { ... } }
+
+
+
 这里给出一个实际解释上面记录的几个点的代码例子：
-    import {
-      type ConnectOptions,
-      type Connection,
-      type HydratedDocument,
-      type QueryWithHelpers,
-
-      Mongoose,
-      Schema,
-      Model,
-      Types,
-
-      // @ts-ignore
-    } from 'npm:mongoose';
-
-
-
-    type TQueryWithHelpers = QueryWithHelpers<Array<TKittenInstance>, TKittenInstance, IKittyQueryHelpers>;
-    type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
-    type TKittenInstance = HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>;
-
-    // Subdocument definition.
-    interface IInfo {
-      text: string;
-    }
-
-    interface IInfoMethods {
-      getText(): string;
-    }
-
-    interface IKitty {
-      name: string;
-
-      color: string;
-
-      sex: string;
-
-      time: number;
-
-      eye: string;
-
-      foot: string;
-
-      info: Types.Subdocument<Types.ObjectId> & IInfo & HydratedDocument<IInfo, IInfoMethods>;
-    }
-
-    interface IKittyModel
-      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods> {
-      GetTime( kitten: TKittenInstance ): number;
-
-      GetEye( kitten: TKittenInstance ): string;
-
-      GetFoot( kitten: TKittenInstance ): string;
-    }
-
-    interface IKittyMethods {
-      speak(): void;
-
-      getColor(): string;
-
-      getSex(): string;
-
-      getInfo(): string;
-    }
-
-    interface IKittyQueryHelpers {
-      FindByName( name: string ): TQueryWithHelpers;
-
-      FindBySex( sex: string ): TQueryWithHelpers;
-    }
-
-    // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
-    const KittySchema: Schema<
-      IKitty,
-      IKittyModel,
-      IKittyMethods,
-      IKittyQueryHelpers
-    > = new Schema<
-      IKitty,
-      IKittyModel,
-      IKittyMethods,
-      IKittyQueryHelpers
-    >(
-      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
-      {
-        name: {
-          type: String,
-          default: '喵喵',
-          required: true,
-        },
-        color: {
-          type: String,
-          default: '灰蓝',
-        },
-        sex: {
-          type: String,
-          default: '铁蛋',
-        },
-        time: {
-          type: Number,
-          default: Date.now(),
-        },
-        eye: {
-          type: String,
-          default: '蓝眼睛',
-        },
-        foot: {
-          type: String,
-          default: '白手套',
-        },
-        info: new Schema<
-          IInfo,
-          Model<IInfo, {}, IInfoMethods>,
-          IInfoMethods
-        >(
-          {
-            text: {
-              type: String,
-              default: '关于这只喵喵的一些信息。',
-              required: true,
-            },
-          },
-          {
-            methods: {
-              getText( this: HydratedDocument<IInfo, IInfoMethods> ): string{
-                return `{ _id: ${ this._id }, text: ${ this.text } }`;
-              },
-            },
-          }
-        ),
-      },
-      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
-      {
-        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
-        methods: {
-          speak( this: TKittenInstance ): void{
-            const greeting: string = this.name
-                                     ? `Meow name is ${ this.name }.`
-                                     : 'I don\'t have a name.';
-
-            console.log( `\n${ greeting }\n` );
-          },
-          getColor( this: TKittenInstance ): string{
-            console.log( `\nMy color is ${ this.color }.\n` );
-
-            return this.color;
-          },
-          getSex( this: TKittenInstance ): string{
-            console.log( `\nMy sex is ${ this.sex }.\n` );
-
-            return this.sex;
-          },
-          getInfo( this: TKittenInstance ): string{
-            console.log( `\nMy info is ${ this.info.getText() }.\n` );
-            // 返回此子文档的顶级文档：this.info.ownerDocument()。
-            // console.log( `this.info.ownerDocument(): ${ this.info.ownerDocument() }.\n` );
-            // 返回此子文档父文档：this.info.parent()。
-            // console.log( `this.info.parent(): ${ this.info.parent() }.\n` );
-            // 返回此子文档父文档：this.info.$parent()。
-            // console.log( `this.info.$parent(): ${ this.info.$parent() }.\n` );
-
-            return this.info.getText();
-          },
-        },
-        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
-        statics: {
-          GetTime( kitten: TKittenInstance ): number{
-            console.log( `\nMy time is ${ kitten.time }.\n` );
-
-            return kitten.time;
-          },
-          GetEye( kitten: TKittenInstance ): string{
-            console.log( `\nMy eye is ${ kitten.eye }.\n` );
-
-            return kitten.eye;
-          },
-          GetFoot( kitten: TKittenInstance ): string{
-            console.log( `\nMy foot is ${ kitten.foot }.\n` );
-
-            return kitten.foot;
-          },
-        },
-        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
-        query: {
-          FindByName(
-            this: TQueryWithHelpers,
-            name: string
-          ): TQueryWithHelpers{
-            return this.find( {
-              name,
-            } );
-          },
-          FindBySex(
-            this: TQueryWithHelpers,
-            sex: string
-          ): TQueryWithHelpers{
-            return this.find( {
-              sex,
-            } );
-          },
-        },
-      },
-    );
-
-    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
-    /*
-     KittySchema.methods.speak = function ( this: TKittenInstance ): void{
-     const greeting: string = this.name
-     ? `Meow name is ${ this.name }.`
-     : 'I don\'t have a name.';
-
-     console.log( `\n${ greeting }\n` );
-     };
-     */
-    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
-    /*
-     KittySchema.statics.GetEye = function ( kitten: TKittenInstance ): string{
-     console.log( `\nMy eye is ${ kitten.eye }.\n` );
-
-     return kitten.eye;
-     };
-     */
-    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
-    /*
-     KittySchema.query.FindByName = function (
-     this: TQueryWithHelpers,
-     name: string ): TQueryWithHelpers{
-     return this.find( {
-     name,
-     } );
-     };
-     */
-
-    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
-    /*
-     KittySchema.method( {
-     getSex( this: TKittenInstance ): string{
-     console.log( `\nMy sex is ${ this.sex }.\n` );
-
-     return this.sex;
-     },
-     } );
-     */
-    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
-    /*
-     KittySchema.static( {
-     GetFoot( kitten: TKittenInstance ): string{
-     console.log( `\nMy foot is ${ kitten.foot }.\n` );
-
-     return kitten.foot;
-     },
-     } );
-     */
-
-    // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
-    const Kitten: TKittenModel = client.model<
-      IKitty,
-      IKittyModel,
-      IKittyQueryHelpers
-    >(
-      // modelName
-      'Kitten',
-      // schema
-      KittySchema,
-      // 这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合。
-      'kittens'
-    );
-
-    // 查找。
-    let kittenQuantity: number = ( await Kitten.find() ).length;
-
-    // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
-    const kitten001: TKittenInstance = new Kitten( {
-      name: `喵喵${ ++kittenQuantity }号`,
-      sex: '翠花',
-      info: {
-        text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
-      },
-    } );
-    const kitten002: TKittenInstance = new Kitten( {
-      name: `喵喵${ ++kittenQuantity }号`,
-      info: {
-        text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
-      },
-    } );
-
-    // 保存到数据库中。
-    await kitten001.save();
-    await kitten002.save();
-
-    // 查找。
-    const kittens: Array<TKittenInstance> = await Kitten.find()
-    .FindBySex( '翠花' );
-    kittens.forEach( ( kitten: TKittenInstance, ): void => {
-      kitten.speak();
-      kitten.getColor();
-      kitten.getSex();
-      kitten.getInfo();
-      Kitten.GetTime( kitten );
-      Kitten.GetEye( kitten );
-      Kitten.GetFoot( kitten );
-    } );
+simulation_servers/deno/test/npm_mongoose_demo001_for_deno.test.mts

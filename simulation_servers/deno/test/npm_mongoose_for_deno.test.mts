@@ -69,6 +69,30 @@ interface StartupLogCollectionSchema {
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
 const mongooseClientConfig: ConnectOptions = {
+  // 以下选项是mongoose自己的选项。Start
+
+  /**
+   * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
+   * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
+   * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
+   * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
+   * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
+   */
+  autoIndex: false,
+  /**
+   * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
+   * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
+   * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
+   */
+  autoCreate: false,
+  /**
+   * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
+   * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
+   */
+  // bufferCommands: true,
+
+  // 以上选项是mongoose自己的选项。End
+
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**

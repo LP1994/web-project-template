@@ -35,6 +35,7 @@ import {
   type Connection,
   type HydratedDocument,
   type QueryWithHelpers,
+  type VirtualType,
 
   Mongoose,
   Schema,
@@ -57,6 +58,30 @@ import {
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
 const mongooseClientConfig: ConnectOptions = {
+  // 以下选项是mongoose自己的选项。Start
+
+  /**
+   * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
+   * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
+   * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
+   * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
+   * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
+   */
+  autoIndex: false,
+  /**
+   * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
+   * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
+   * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
+   */
+  autoCreate: false,
+  /**
+   * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
+   * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
+   */
+  // bufferCommands: true,
+
+  // 以上选项是mongoose自己的选项。End
+
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**
@@ -652,9 +677,9 @@ const mongoose: Mongoose = new Mongoose(),
 
 async function run(): Promise<void>{
   try{
+    type TKittenInstance = HydratedDocument<IKitty, IKittyMethods & IKittyVirtuals, IKittyQueryHelpers>;
     type TQueryWithHelpers = QueryWithHelpers<Array<TKittenInstance>, TKittenInstance, IKittyQueryHelpers>;
-    type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
-    type TKittenInstance = HydratedDocument<IKitty, IKittyMethods, IKittyQueryHelpers>;
+    type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, TKittenInstance> & IKittyModel;
 
     // Subdocument definition.
     interface IInfo {
@@ -682,7 +707,7 @@ async function run(): Promise<void>{
     }
 
     interface IKittyModel
-      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods> {
+      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, TKittenInstance> {
       GetTime( kitten: TKittenInstance ): number;
 
       GetEye( kitten: TKittenInstance ): string;
@@ -704,6 +729,12 @@ async function run(): Promise<void>{
       FindByName( name: string ): TQueryWithHelpers;
 
       FindBySex( sex: string ): TQueryWithHelpers;
+    }
+
+    interface IKittyVirtuals {
+      fullName: string;
+
+      toFullString: string;
     }
 
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
@@ -768,6 +799,217 @@ async function run(): Promise<void>{
       },
       // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
       {
+        /**
+         * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
+         * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
+         * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
+         * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
+         * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
+         */
+        autoIndex: false,
+        /**
+         * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
+         * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
+         * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
+         */
+        autoCreate: false,
+        /**
+         * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
+         * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
+         */
+        // bufferCommands: true,
+        /**
+         * @type {number} 如果bufferCommands是打开的，这个选项设置Mongoose缓冲在抛出错误之前的最大等待时间，单位是毫秒。<br />
+         * 如果不指定，Mongoose将使用10000（10秒）。<br />
+         */
+        // bufferTimeoutMS: 10000,
+        /**
+         * @type {object|number} Mongoose支持MongoDB的封顶集合。<br />
+         * 要指定底层的MongoDB集合是有上限的，将capped选项设置为集合的最大尺寸，单位为字节。<br />
+         * 如果你想传递额外的选项，比如最大，也可以将封顶选项设置为一个对象。在这种情况下，你必须明确地传递大小选项，这是必须的。<br />
+         */
+        /*
+         capped: {
+         size: 1024,
+         max: 1000,
+         autoIndexId: true,
+         },
+         */
+        /**
+         * @type {string} Mongoose默认通过将模型名称传递给utils.toCollectionName方法来产生一个集合名称。<br />
+         * 这个方法将名字复数化。<br />
+         * 如果你需要为你的集合使用不同的名字，请设置这个选项。<br />
+         * PS：<br />
+         * 但是，该选项设置的值会被下面client.model()的第3个参数覆盖！！！<br />
+         */
+        collection: 'kittens',
+        /**
+         * @type {string} 当你定义一个判别器时，Mongoose会在你的模式中添加一个路径，用来存储一个文档是哪个判别器的实例。<br />
+         * 默认情况下，Mongoose添加了一个__t路径，但是你可以设置discriminatorKey来覆盖这个默认值。<br />
+         */
+        // discriminatorKey: 'type',
+        /**
+         * @type {boolean} Mongoose默认为你的每个模式分配了一个id虚拟获取器。<br />
+         * 该获取器返回文档的_id字段，并将其转换为一个字符串，或者在ObjectIds的情况下，返回其hexString。<br />
+         * 如果你不希望在你的模式中添加一个id获取器，你可以在构建模式时通过这个选项来禁用它。<br />
+         */
+        // id: true,
+        /**
+         * @type {boolean} 如果你没有在模式构造函数中传递一个字段，Mongoose会默认为你的每个模式分配一个_id字段。<br />
+         * 分配的类型是一个ObjectId，以便与MongoDB的默认行为相吻合。<br />
+         * 如果你根本不希望在你的模式中添加_id，你可以使用这个选项禁用它。<br />
+         * PS：<br />
+         * 你只能在subdocuments上使用这个选项。Mongoose不能在不知道其ID的情况下保存一个文档，所以如果你试图保存一个没有_ID的文档，你会得到一个错误。<br />
+         */
+        // _id: true,
+        /**
+         * @type {boolean} Mongoose默认会通过删除空对象来“最小化”模式。<br />
+         * 这个行为可以通过设置最小化选项为false来重写。然后，它将存储空对象。<br />
+         * 要检查一个对象是否为空，你可以使用$isEmpty()帮助器：<br />
+         * const sam = new Character({ name: 'Sam', inventory: {} });
+         * sam.$isEmpty('inventory'); // true
+         *
+         * sam.inventory.barrowBlade = 1;
+         * sam.$isEmpty('inventory'); // false
+         */
+        minimize: false,
+        /**
+         * @type {string} https://mongoosejs.com/docs/guide.html#read
+         */
+        // read: '',
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#writeConcern
+         */
+        /*
+         writeConcern: {
+         w: 'majority',
+         j: true,
+         wtimeout: 1000,
+         },
+         */
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#shardKey
+         */
+        /*
+         shardKey: {
+         tag: 1,
+         name: 1,
+         },
+         */
+        /**
+         * @type {boolean|string} 严格选项（默认启用）确保传递给我们的模型构造函数的值不会被保存到数据库中，这些值在我们的模式中没有指定。<br />
+         * 例子001：<br />
+         * const thingSchema = new Schema({ ... })
+         * const Thing = mongoose.model('Thing', thingSchema);
+         * const thing = new Thing({ iAmNotInTheSchema: true });
+         * thing.save(); // iAmNotInTheSchema没有被保存到数据库中。
+         *
+         * // set to false..
+         * const thingSchema = new Schema({ ... }, { strict: false });
+         * const thing = new Thing({ iAmNotInTheSchema: true });
+         * thing.save(); // iAmNotInTheSchema现在被保存到数据库中了！！！
+         *
+         * 这也会影响到使用doc.set()来设置一个属性值。<br />
+         * 例子001：<br />
+         * const thingSchema = new Schema({ ... });
+         * const Thing = mongoose.model('Thing', thingSchema);
+         * const thing = new Thing;
+         * thing.set('iAmNotInTheSchema', true);
+         * thing.save(); // iAmNotInTheSchema没有被保存到数据库中。
+         *
+         * 这个值可以通过传递第2个布尔参数在模型实例层面上被重写：<br />
+         * const Thing = mongoose.model('Thing');
+         * const thing = new Thing(doc, true);  // enables strict mode
+         * const thing = new Thing(doc, false); // disables strict mode
+         *
+         * strict选项也可以设置为“throw”，这将导致产生错误而不是丢弃坏数据。<br />
+         *
+         * 注意：在实例上设置的任何键/值，如果在你的模式中不存在，则总是被忽略，不管模式选项如何：<br />
+         * const thingSchema = new Schema({ ... });
+         * const Thing = mongoose.model('Thing', thingSchema);
+         * const thing = new Thing;
+         * thing.iAmNotInTheSchema = true;
+         * thing.save(); // iAmNotInTheSchema从未被保存到数据库中。
+         */
+        strict: 'throw',
+        /**
+         * @type {boolean} Mongoose支持一个单独的strictQuery选项来避免查询过滤器的严格模式。<br />
+         * 这是因为空的查询过滤器会导致Mongoose返回模型中的所有文档，这可能导致问题。<br />
+         * 详细见：<br />
+         * https://mongoosejs.com/docs/guide.html#strictQuery
+         */
+        strictQuery: true,
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#toJSON
+         * 更多选项见：<br />
+         * https://mongoosejs.com/docs/api/document.html#Document.prototype.toObject()
+         */
+        // toJSON: { getters: true, virtuals: true, },
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#toObject
+         * 更多选项见：<br />
+         * https://mongoosejs.com/docs/api/document.html#Document.prototype.toObject()
+         */
+        // toObject: { getters: true, virtuals: true, },
+        /**
+         * @type {string} https://mongoosejs.com/docs/guide.html#typeKey
+         */
+        // typeKey: 'type',
+        /**
+         * @type {boolean} 默认情况下，documents在被保存到数据库之前会被自动验证。<br />
+         * 这是为了防止保存一个无效的documents。<br />
+         * 如果你想手动处理验证，并且能够保存没有通过验证的对象，你可以把validateBeforeSave设置为false。<br />
+         */
+        validateBeforeSave: true,
+        /**
+         * @type {string} https://mongoosejs.com/docs/guide.html#versionKey
+         */
+        // versionKey: '__v',
+        /**
+         * @type {boolean} https://mongoosejs.com/docs/guide.html#optimisticConcurrency
+         */
+        optimisticConcurrency: true,
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#collation
+         */
+        /*
+         collation: {
+         locale: 'en_US',
+         // 表示忽略大小写。
+         strength: 1,
+         },
+         */
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#timeseries
+         */
+        /*
+         timeseries: {
+         timeField: 'timestamp',
+         metaField: 'metadata',
+         granularity: 'hours',
+         },
+         */
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#skipVersioning
+         */
+        // skipVersioning: {},
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#timestamps
+         */
+        // timestamps: {},
+        /**
+         * @type {array} https://mongoosejs.com/docs/guide.html#pluginTags
+         */
+        // pluginTags: [],
+        /**
+         * @type {boolean} https://mongoosejs.com/docs/guide.html#selectPopulatedPaths
+         */
+        // selectPopulatedPaths: true,
+        /**
+         * @type {boolean} https://mongoosejs.com/docs/guide.html#storeSubdocValidationError
+         */
+        storeSubdocValidationError: true,
+
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
         methods: {
           speak( this: TKittenInstance ): void{
@@ -836,6 +1078,53 @@ async function run(): Promise<void>{
             } );
           },
         },
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“虚方法”，类似于vue中的“computed（计算属性）”。
+        virtuals: {
+          fullName: {
+            get(
+              this: TKittenInstance,
+              /**
+               * 前一个getter所返回的值。如果只有一个getter，值将是未定义的。
+               */
+              // @ts-expect-error
+              value: string | undefined,
+              /**
+               * 你调用.get()的虚拟对象。
+               */
+              // @ts-expect-error
+              virtual: VirtualType<TKittenInstance>,
+              /**
+               * 此虚拟所附的文件。相当于this。
+               */
+              // @ts-expect-error
+              doc: TKittenInstance
+            ): string{
+              return `${ this.color }的${ this.name }`;
+            },
+            set(
+              this: TKittenInstance,
+              /**
+               * 被设置的值。
+               */
+              value: string,
+              /**
+               * 你正在调用.set()的虚拟对象。
+               */
+              // @ts-expect-error
+              virtual: VirtualType<TKittenInstance>,
+              /**
+               * 此虚拟所附的文件。相当于this。
+               */
+              // @ts-expect-error
+              doc: TKittenInstance
+            ): void{
+              [
+                this.color,
+                this.name,
+              ] = value.split( ' ' ) as [ string, string ];
+            },
+          },
+        },
       },
     );
 
@@ -867,6 +1156,50 @@ async function run(): Promise<void>{
      } );
      };
      */
+
+    KittySchema.virtual( 'toFullString' ).get(
+      function (
+        this: TKittenInstance,
+        /**
+         * 前一个getter所返回的值。如果只有一个getter，值将是未定义的。
+         */
+        // @ts-expect-error
+        value: string | undefined,
+        /**
+         * 你调用.get()的虚拟对象。
+         */
+        // @ts-expect-error
+        virtual: VirtualType<TKittenInstance>,
+        /**
+         * 此虚拟所附的文件。相当于this。
+         */
+        // @ts-expect-error
+        doc: TKittenInstance
+      ): string{
+        return this.info.getText();
+      }
+    )
+    .set(
+      function (
+        this: TKittenInstance,
+        /**
+         * 被设置的值。
+         */
+        value: string,
+        /**
+         * 你正在调用.set()的虚拟对象。
+         */
+        // @ts-expect-error
+        virtual: VirtualType<TKittenInstance>,
+        /**
+         * 此虚拟所附的文件。相当于this。
+         */
+        // @ts-expect-error
+        doc: TKittenInstance
+      ): void{
+        console.error( `toFullString不接受设置值：${ value }。` );
+      }
+    );
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     /*
@@ -913,26 +1246,35 @@ async function run(): Promise<void>{
       info: {
         text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
       },
-    } );
+    }, true );
     const kitten002: TKittenInstance = new Kitten( {
       name: `喵喵${ ++kittenQuantity }号`,
       info: {
         text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
       },
-    } );
+    }, true );
 
     // 保存到数据库中。
     await kitten001.save();
     await kitten002.save();
 
     // 查找。
-    const kittens: Array<TKittenInstance> = await Kitten.find()
-    .FindBySex( '翠花' );
+    const kittens: Array<TKittenInstance> = await Kitten.find().FindBySex( '翠花' );
     kittens.forEach( ( kitten: TKittenInstance, ): void => {
       kitten.speak();
       kitten.getColor();
       kitten.getSex();
       kitten.getInfo();
+
+      console.log( `kitten.fullName: ${ kitten.fullName }` );
+      kitten.fullName = `五彩斑斓 喵喵X号`;
+      console.log( `kitten.fullName: ${ kitten.fullName }` );
+      console.log( `kitten.color: ${ kitten.color }` );
+      console.log( `kitten.name: ${ kitten.name }` );
+
+      console.log( `kitten.toFullString: ${ kitten.toFullString }` );
+      kitten.toFullString = `XXXXXXXXXXXXX`;
+
       Kitten.GetTime( kitten );
       Kitten.GetEye( kitten );
       Kitten.GetFoot( kitten );
