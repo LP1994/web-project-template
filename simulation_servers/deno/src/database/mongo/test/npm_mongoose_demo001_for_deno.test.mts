@@ -73,7 +73,7 @@ const mongooseClientConfig: ConnectOptions = {
    * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
    * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
    */
-  autoCreate: false,
+  autoCreate: true,
   /**
    * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
    * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
@@ -836,7 +836,7 @@ async function run(): Promise<void>{
          * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
          * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
          */
-        autoCreate: false,
+        autoCreate: true,
         /**
          * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
          * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
@@ -1252,7 +1252,10 @@ async function run(): Promise<void>{
       IKittyModel,
       IKittyQueryHelpers
     >(
-      // modelName
+      /**
+       * 第1个参数是你的model的collection的单数名称。Mongoose会自动寻找你的model名称的复数，小写版本。
+       * 因此，“model（模型）”Kitten是为数据库中的kittens集合准备的。
+       */
       'Kitten',
       // schema
       KittySchema,
