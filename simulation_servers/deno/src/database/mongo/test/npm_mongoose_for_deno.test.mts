@@ -683,11 +683,14 @@ const mongooseClientConfig: ConnectOptions = {
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
 } as ConnectOptions;
 
-const mongoose: Mongoose = new Mongoose(),
-  client: Connection = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
+const mongoose: Mongoose = new Mongoose();
+
+let client: Connection;
 
 async function run(): Promise<void>{
   try{
+    client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
+
     const startup_log_collection: Collection<StartupLogCollectionSchema> = client.collection<StartupLogCollectionSchema>( 'startup_log' );
 
     const startup_log: Array<StartupLogCollectionSchema> = await ( await startup_log_collection.find<StartupLogCollectionSchema>( {

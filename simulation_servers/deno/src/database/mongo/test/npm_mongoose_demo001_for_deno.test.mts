@@ -672,11 +672,14 @@ const mongooseClientConfig: ConnectOptions = {
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
 } as ConnectOptions;
 
-const mongoose: Mongoose = new Mongoose(),
-  client: Connection = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'test' );
+const mongoose: Mongoose = new Mongoose();
+
+let client: Connection;
 
 async function run(): Promise<void>{
   try{
+    client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'test' );
+
     type TKittenInstance = HydratedDocument<IKitty, IKittyMethods & IKittyVirtuals, IKittyQueryHelpers>;
     type TQueryWithHelpers = QueryWithHelpers<Array<TKittenInstance>, TKittenInstance, IKittyQueryHelpers>;
     type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, TKittenInstance> & IKittyModel;
@@ -749,20 +752,35 @@ async function run(): Promise<void>{
       IKittyMethods,
       IKittyQueryHelpers
     >(
-      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
+      /**
+       * 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
+       * SchemaType Options：
+       * https://mongoosejs.com/docs/schematypes.html#schematype-options
+       */
       {
+        // name: String,
+        // Equivalent
+        // name: 'String',
+        // Equivalent
         name: {
           type: String,
           default: '喵喵',
           required: true,
+          trim: true,
+          minLength: 1,
         },
         color: {
           type: String,
           default: '灰蓝',
+          trim: true,
+          minLength: 1,
         },
         sex: {
           type: String,
           default: '铁蛋',
+          trim: true,
+          minLength: 2,
+          maxLength: 2,
         },
         time: {
           type: Number,
@@ -771,10 +789,14 @@ async function run(): Promise<void>{
         eye: {
           type: String,
           default: '蓝眼睛',
+          trim: true,
+          minLength: 1,
         },
         foot: {
           type: String,
           default: '白手套',
+          trim: true,
+          minLength: 1,
         },
         info: new Schema<
           IInfo,
@@ -786,6 +808,8 @@ async function run(): Promise<void>{
               type: String,
               default: '关于这只喵喵的一些信息。',
               required: true,
+              trim: true,
+              minLength: 1,
             },
           },
           {
@@ -942,7 +966,7 @@ async function run(): Promise<void>{
         /**
          * @type {object} https://mongoosejs.com/docs/guide.html#toJSON
          * 更多选项见：<br />
-         * https://mongoosejs.com/docs/api/document.html#Document.prototype.toObject()
+         * https://mongoosejs.com/docs/api/document.html#Document.prototype.toJSON()
          */
         // toJSON: { getters: true, virtuals: true, },
         /**
