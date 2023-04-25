@@ -306,4 +306,4 @@ console.log(schema.virtuals); // { myVirtual: VirtualType { ... } }
 
 
 这里给出一个实际解释上面记录的几个点的代码例子：
-simulation_servers/deno/test/npm_mongoose_demo001_for_deno.test.mts
+simulation_servers/deno/src/database/mongo/test/npm_mongoose_demo001_for_deno.test.mts
