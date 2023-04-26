@@ -55,9 +55,7 @@ function Get__filename( import_meta_url = import.meta.url ){
 }
 
 /**
- * 表示项目文件夹根目录，不是磁盘根目录。<br />
- *
- * @type {string}
+ * @type {string} 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url );
 

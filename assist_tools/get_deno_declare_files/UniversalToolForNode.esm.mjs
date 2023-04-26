@@ -443,18 +443,14 @@ export function Union( arrA = [], arrB = [] ){
 export class MyConsole {
 
   /**
-   * 私有实例属性。<br />
-   *
-   * @type {ChalkInstance}
+   * @type {ChalkInstance} 私有实例属性。<br />
    *
    * @private
    */
   #myChalk = chalk;
 
   /**
-   * 私有静态属性。<br />
-   *
-   * @type {ChalkInstance}
+   * @type {ChalkInstance} 私有静态属性。<br />
    *
    * @private
    */

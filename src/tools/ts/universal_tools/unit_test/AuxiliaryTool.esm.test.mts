@@ -119,16 +119,12 @@ export class MyError001
   extends Error {
 
   /**
-   * 预期值。
-   *
-   * @type {TypeMyExpect001}
+   * @type {TypeMyExpect001} 预期值。
    */
   public expect: TypeMyExpect001;
 
   /**
-   * 实际值。
-   *
-   * @type {any}
+   * @type {any} 实际值。
    */
   public result: any;
 

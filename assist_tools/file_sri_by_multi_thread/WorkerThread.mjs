@@ -52,11 +52,9 @@ let startTimer001 = 0,
     },
   },
   /**
-   * 1、1 * 1024 * 1024 * 1024 = 1GB
+   * @type {number} 1、1 * 1024 * 1024 * 1024 = 1GB
    * 2、要是设置了buffer.constants.MAX_LENGTH，不报错、也不执行，直接结束了，奇怪：
    * buffer.constants.MAX_LENGTH = 2GB
-   *
-   * @type {number}
    */
   bufferSize = 1 * 1024 * 1024 * 1024,
   resultObj = null,

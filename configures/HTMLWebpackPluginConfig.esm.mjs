@@ -34,11 +34,9 @@ import {
 import StartupImgForApple from './StartupImgForApple.esm.mjs';
 
 /**
- * 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误。
+ * @type {object} 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误。
  * 顶级变量就算不需要也要保证它们被设置为null。
  * 各个属性具体表示什么，值是什么，可参见“src/template/ejs/head_meta”、“src/template/ejs/tool”中的描述。
- *
- * @type {object}
  */
 const defaultData = {
   contentSecurityPolicy: null,

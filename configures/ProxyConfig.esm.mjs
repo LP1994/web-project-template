@@ -134,16 +134,12 @@ function DateHandle( nowDate = new Date( Date.now() ) ){
 }
 
 /**
- * 表示项目文件夹根目录，不是磁盘根目录。<br />
- *
- * @type {string}
+ * @type {string} 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url ),
   /**
-   * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
+   * @type {boolean} isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
-   *
-   * @type {boolean}
    */
   isProduction = ( argv => {
     const num1 = argv.findIndex( c => c === '--mode' );
@@ -170,10 +166,8 @@ const __dirname = Get__dirname( import.meta.url ),
     }
   } )( argv ),
   /**
-   * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
+   * @type {string|undefined} env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
    * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
-   *
-   * @type {string|undefined}
    */
   env_platform = ( argv => {
     const envArr = [];

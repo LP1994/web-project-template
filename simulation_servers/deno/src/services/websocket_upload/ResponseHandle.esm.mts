@@ -87,14 +87,14 @@ function ResponseHandle( request: Request ): TypeResponse001{
          * 发出的请求的请求头就会自动加一个键值对：<br />
          * "Sec-WebSocket-Protocol": "simulation_servers_deno_WebSocket"。<br />
          *
-         * @type string
+         * @type {string}
          */
         protocol: `simulation_servers_deno_WebSocket`,
         /**
          * 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
          * 2、默认值为120秒。设置为0以禁用超时。<br />
          *
-         * @type number
+         * @type {number}
          */
         idleTimeout: 0,
       } )
