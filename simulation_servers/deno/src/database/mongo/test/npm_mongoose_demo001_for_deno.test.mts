@@ -31,15 +31,15 @@
 'use strict';
 
 import {
-  type ConnectOptions,
   type Connection,
+  type ConnectOptions,
   type HydratedDocument,
   type QueryWithHelpers,
   type VirtualType,
 
+  Model,
   Mongoose,
   Schema,
-  Model,
   Types,
 
   // @ts-ignore
@@ -709,6 +709,12 @@ async function run(): Promise<void>{
       info: Types.Subdocument<Types.ObjectId> & IInfo & HydratedDocument<IInfo, IInfoMethods>;
     }
 
+    interface IKittyVirtuals {
+      fullName: string;
+
+      toFullString: string;
+    }
+
     interface IKittyModel
       extends Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, TKittenInstance> {
       GetTime( kitten: TKittenInstance ): number;
@@ -732,12 +738,6 @@ async function run(): Promise<void>{
       FindByName( name: string ): TQueryWithHelpers;
 
       FindBySex( sex: string ): TQueryWithHelpers;
-    }
-
-    interface IKittyVirtuals {
-      fullName: string;
-
-      toFullString: string;
     }
 
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
