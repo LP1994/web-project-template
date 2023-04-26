@@ -157,16 +157,12 @@ function Get__filename( import_meta_url = import.meta.url ){
 }
 
 /**
- * 表示项目文件夹根目录，不是磁盘根目录。<br />
- *
- * @type {string}
+ * @type {string} 表示项目文件夹根目录，不是磁盘根目录。<br />
  */
 const __dirname = Get__dirname( import.meta.url ),
   /**
-   * env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
+   * @type {string|undefined} env_platform的值是字符串，有4个值：'dev_server'、'local_server'、'test'、'production'，来源是CLI参数中的“--env”参数值，注意“--env”参数是允许多个的哦。<br />
    * 1、但是必须有这么一个“--env”参数设置，这4个之中的其中一个即可：--env platform=dev_server、--env platform=local_server、--env platform=test、--env platform=production。<br />
-   *
-   * @type {string|undefined}
    */
   env_platform = ( argv => {
     const envArr = [];
@@ -219,17 +215,13 @@ const __dirname = Get__dirname( import.meta.url ),
     }
   } )( argv ),
   /**
-   * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
+   * @type {boolean} 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
    * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
-   *
-   * @type {boolean}
    */
   isHandle_experiments_buildHttp_in_CSSLoader = true,
   /**
-   * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
+   * @type {boolean} isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
-   *
-   * @type {boolean}
    */
   isProduction = ( argv => {
     const num1 = argv.findIndex( c => c === '--mode' );
@@ -256,19 +248,15 @@ const __dirname = Get__dirname( import.meta.url ),
     }
   } )( argv ),
   /**
-   * 是否将项目设置成单页面应用程序(SPA)，true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)。<br />
-   *
-   * @type {boolean}
+   * @type {boolean} 是否将项目设置成单页面应用程序(SPA)，true表示单页面应用程序(SPA)，false表示多页面应用程序(MPA)。<br />
    */
   isSPA = false,
   /**
-   * true表示启用esbuild-loader来转译js、ts，false表示用babel来转译js、ts，esbuild-loader是不需要thread-loader来加速的！它自己已经是很快很快很快了。<br />
+   * @type {boolean} true表示启用esbuild-loader来转译js、ts，false表示用babel来转译js、ts，esbuild-loader是不需要thread-loader来加速的！它自己已经是很快很快很快了。<br />
    * 1、如果需要兼容到低端平台，即转译到ES5、ES3的话，还是使用babel来转译，将isUseESBuildLoader设置成false。<br />
    * 2、如果是兼容到新的现代浏览器，也就是支持ES6的平台，那么还是用esbuild吧，它有这方面的优越性，但就是对ES5不是很友好。<br />
    * 3、目前esbuild对有些处于提案阶段的实验性语法还不能支持，而且“Tree Shaking”功能也还没完善，所以，如果需要兼顾前面两点，那还是要继续使用babel来转译的。<br />
    * 4、截至2022年11月08日，基于最新的esbuild版本做测试，其只能支持对静态的导入、导出的代码做“Tree Shaking”，动态的还不支持，而webpack在“Tree Shaking”做的会比它好，希望其未来能做到跟webpack一样的“Tree Shaking”功能吧。<br />
-   *
-   * @type {boolean}
    */
   isUseESBuildLoader = false;
 
@@ -277,9 +265,7 @@ console.log( chalk.cyan( `\n当前使用“${ isUseESBuildLoader
                                         : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n` ) );
 
 /**
- * 目标浏览器版本。
- *
- * @type {string[]}
+ * @type {string[]} 目标浏览器版本。
  */
 const browserslist = [
     // PC端完全支持ES 5的主流浏览器 Start
@@ -319,11 +305,9 @@ const browserslist = [
     // 移动端各主流浏览器的最新版本，至20230409。End
   ],
   /**
-   * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
+   * @type {string[]} 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
    * 1、chrome、edge、firefox、hermes、ie、ios、node、deno、opera、rhino、safari。<br />
    * 2、还可以是这样的：es2020、esnext、node12、node12.19.0、es5、es6、deno1.0。<br />
-   *
-   * @type {string[]}
    */
   esbuildMinify_target = [
     // PC端完全支持ES 5的主流浏览器 Start
@@ -360,7 +344,7 @@ const browserslist = [
     // 移动端各主流浏览器的最新版本，至20230409。End
   ],
   /**
-   * 目标浏览器版本。<br />
+   * @type {object} 目标浏览器版本。<br />
    * 1、支持的标识符有：<br />
    * android、chrome、deno（支持的最低版本为'1.0'）、edge、electron、firefox、ie、ios、node、opera、rhino、safari、samsung，其他的会报错。<br />
    * 具体见：node_modules/@babel/helper-compilation-targets/lib/options.js。<br />
@@ -368,8 +352,6 @@ const browserslist = [
    * and_chr（对应：chrome）、and_ff（对应：firefox）、ios_saf（对应：ios）、ie_mob（对应：ie）、op_mob（对应：opera）。<br />
    * 其他的别名会报错。<br />
    * 具体见：node_modules/@babel/core/lib/config/validation/option-assertions.js。<br />
-   *
-   * @type {object}
    */
   vue_loader_options_transpileOptions_target = {
     // PC端完全支持ES 5的主流浏览器 Start
@@ -406,9 +388,7 @@ const browserslist = [
     // 移动端各主流浏览器的最新版本，至20230409。End
   },
   /**
-   * 编译目标配置。
-   *
-   * @type {object}
+   * @type {object} 编译目标配置。
    */
   babel_targets = {
     ...vue_loader_options_transpileOptions_target,
@@ -707,7 +687,7 @@ const autoprefixerConfig = {
     resolve( __dirname, './webpack_records/' ),
   ],
   /**
-   * 默认情况下，它只影响按需块，因为更改初始块会影响HTML文件应包含以运行项目的脚本标记。<br />
+   * @type {object} 默认情况下，它只影响按需块，因为更改初始块会影响HTML文件应包含以运行项目的脚本标记。<br />
    * 1、Webpack将根据这些条件自动拆分块：<br />
    * 可以共享新块或模块来自node_modules文件夹。<br />
    * 新块将大于20kb（在min+gz 之前）。<br />
@@ -716,8 +696,6 @@ const autoprefixerConfig = {
    * 2、当试图满足上述最后2个条件时，首选更大的块。<br />
    * 3、选择默认配置以适应Web性能最佳实践，但您的项目的最佳策略可能会有所不同。如果您要更改配置，您应该衡量更改的效果，以确保有真正的好处。<br />
    * 4、从webpack 5开始，不再允许将条目名称传递给{cacheGroup}.test并将现有块的名称用于{cacheGroup}.name。<br />
-   *
-   * @type {object}
    */
   splitChunksConfig = {
     /**
@@ -1228,7 +1206,7 @@ if( !isProduction ){
 }
 
 /**
- * 设置路径别名。<br />
+ * @type {object} 设置路径别名。<br />
  * 1、resolve.alias优先于其他模块解析。<br />
  * 2、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。<br />
  * 3、为第三方包设置别名时，只能是以包名开始，其他任何都不行，因为webpack会自动从“node_modules”中查找，包括：“./”、“./node_modules/”、“node_modules/”等等都是不行的，当然如果是指向自己的模块文件夹，那还是要指定完整路径。<br />
@@ -1241,8 +1219,6 @@ if( !isProduction ){
  * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets）最尾部都不会包含“\”。<br />
  * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）最尾部就会包含“\”，反之不会。<br />
  * 8、设置文件夹的路径别名时，建议使用path.resolve，这样在后续使用路径别名时，就可以按正常的习惯使用：import JSONDemo001 from 'jsonDir/Demo001.json';<br />
- *
- * @type {object}
  */
 const aliasConfig = {
     'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
@@ -1369,15 +1345,13 @@ const aliasConfig = {
     },
   },
   /**
-   * 缓存生成的webpack模块和块以提高构建速度，开发启用，生产禁用。<br />
+   * @type {{cacheUnaffected: boolean, maxGenerations: number, type: string}} 缓存生成的webpack模块和块以提高构建速度，开发启用，生产禁用。<br />
    * 1、true：启用内存缓存（等同于cache: { type: 'memory' }）；false：禁用内存缓存。<br />
    * 2、将cache.type设置为'filesystem'会打开更多配置选项。<br />
    * 3、将cache.type设置为'memory'，它告诉webpack将缓存存储在内存中，并且只允许几个其他配置！<br />
    * 4、cache.type设置为'memory'时，可以配合使用的部分选项说明：<br />
    * cacheUnaffected：启用版本5.54.0+，缓存未更改的模块的计算并仅引用未更改的模块。它只能与cache.type设置为'memory'一起使用，此外，必须启用experiments.cacheUnaffected才能使用它。<br />
    * maxGenerations：启用版本5.30.0+，定义内存缓存中未使用的缓存条目的寿命，它只能与cache.type设置为'memory'一起使用，cache.maxGenerations: 1，缓存条目在未用于单个编译后被删除；cache.maxGenerations: Infinity，缓存条目被永久保存。<br />
-   *
-   * @type {{cacheUnaffected: boolean, maxGenerations: number, type: string}}
    */
   cacheConfig = {
     type: 'memory',
@@ -1385,9 +1359,7 @@ const aliasConfig = {
     maxGenerations: Infinity,
   },
   /**
-   * 默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件，以及所有未使用的webpack资产。<br />
-   *
-   * @type {object}
+   * @type {object} 默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件，以及所有未使用的webpack资产。<br />
    */
   cleanWebpackPluginConfig = {
     // 模拟删除文件的操作，true开启，开启后，不会真的删除硬盘上的文件。<br />
@@ -1425,10 +1397,8 @@ const aliasConfig = {
     dangerouslyAllowCleanPatternsOutsideProject: false,
   },
   /**
-   * copy-webpack-plugin并非旨在复制从构建过程中生成的文件；相反，它是复制源树中已经存在的文件，作为构建过程的一部分。<br />
+   * @type {object} copy-webpack-plugin并非旨在复制从构建过程中生成的文件；相反，它是复制源树中已经存在的文件，作为构建过程的一部分。<br />
    * 1、如果啥都没有复制到，会报错，所以至少得复制到一个，当然被排除的不算。<br />
-   *
-   * @type {object}
    */
   copyPluginConfig = ( patternsArr => {
     const arr1 = [],
@@ -1488,15 +1458,13 @@ const aliasConfig = {
     },
   ] ),
   /**
-   * DefinePlugin在编译时用其他值或表达式替换代码中的变量。这对于允许开发构建和生产构建之间的不同行为很有用。<br />
+   * @type {object} DefinePlugin在编译时用其他值或表达式替换代码中的变量。这对于允许开发构建和生产构建之间的不同行为很有用。<br />
    * 1、传递给DefinePlugin的每个键都是一个标识符或多个用.连接的标识符：'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)。<br />
    * 2、如果该值是一个字符串，它将被用作代码片段：TWO: '1+1'。<br />
    * 3、如果值不是字符串，它将被字符串化（包括函数）。<br />
    * 4、如果你在key前加上typeof前缀，它只为typeof调用定义：'typeof window': JSON.stringify('object111')。<br />
    * 5、如果需要定义一个值是字符串值，得单引号内部嵌套双引号，如：'"例子"'（或者JSON.stringify('例子')），否则没法真正输出这个字符串。<br />
    * 6、如果值不是字符串，它将被字符串化，相当于使用JSON.stringify处理，但是如果是函数，直接这么设置就行，别用JSON.stringify：'fun1': () => {}。<br />
-   *
-   * @type {object}
    */
   definePluginConfig = DefinePluginConfig( {
     env_platform,
@@ -1515,7 +1483,7 @@ const aliasConfig = {
     maxLength: 9,
   },
   /**
-   * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
+   * @type {object} 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
    * 1、如果您通过Node.js API使用dev-server，则devServer中的选项将被忽略。<br />
    * 2、使用WebpackDevServer时不能使用第2个编译器参数（系一个回调函数）。<br />
    * 3、请注意，在导出多个配置时，只会考虑第一个配置的devServer选项并将其用于阵列中的所有配置。<br />
@@ -1674,7 +1642,7 @@ const aliasConfig = {
    * index：覆盖索引（默认/index.html），这是中间件识别请求路径需要重写时将使用的请求路径。<br />
    *   1)这不是磁盘上文件的路径。相反它是HTTP请求路径。下游connect/express中间件负责将这个重写的HTTP请求路径转换为实际响应，例如通过从磁盘读取文件。<br />
    *   2)有效值类型：string，默认值'/index.html'。<br />
-   *
+   * 
    * rewrites：当请求url匹配正则表达式模式时覆盖索引，您可以重写为“静态字符串”或使用“函数”来转换传入请求。<br />
    *   1)下面会将匹配/\/soccer/模式的请求重写为/soccer.html：<br />
    *   rewrites: [ { from: /\/soccer/, to: '/soccer.html' }, ]
@@ -1899,8 +1867,6 @@ const aliasConfig = {
    * 2、当模式是“ws”时。此模式使用ws作为服务器，在客户端使用原生WebSocket。<br />
    * 3、要创建自定义服务器实现，请创建一个扩展BaseServer的类。<br />
    * }<br />
-   *
-   * @type {object}
    */
   devServerConfig = {
     allowedHosts: 'all',
@@ -2390,11 +2356,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     webSocketServer: 'ws',
   },
   /**
-   * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
+   * @type {object} 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
    * 1、由于实验性功能具有宽松的语义版本控制并且可能包含重大更改，因此请确保将webpack的版本修复为次要版本，例如webpack: ~5.4.3而不是webpack: ^5.4.3或者在使用实验时使用锁定文件。<br />
    * 2、禁用所有实验性功能：experiments: false。<br />
-   *
-   * @type {object}
    */
   experimentsConfig = {
     /**
@@ -2447,9 +2411,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          */
           uri => {
           /**
-           * 允许以哪些开头的远程链接。<br />
-           *
-           * @type {string[]}
+           * @type {string[]} 允许以哪些开头的远程链接。<br />允许以哪些开头的远程链接。<br />
            */
           const allowedCondition = [
             'http://',
@@ -2589,7 +2551,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     '.vue',
   ],
   /**
-   * externals配置选项提供了一种从输出包中排除依赖项的方法。此功能通常对库开发人员最有用，但它有多种应用程序。<br />
+   * @type {object} externals配置选项提供了一种从输出包中排除依赖项的方法。此功能通常对库开发人员最有用，但它有多种应用程序。<br />
    * 1、防止捆绑某些导入的包，而是在运行时检索这些外部依赖项。<br />
    * 2、有效值类型：string、object、function、RegExp、[ string ]、[ object ]、[ function ]、[ RegExp ]。<br />
    * 3、使用说明及其例子：<br />
@@ -2620,8 +2582,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 第1步得在externals选项中有所设置；<br />
    * 第2步得在代码中import了第1步中设置的包名；<br />
    * 第3步得在全局环境中存在一个可以供全局都能访问到的变量名，可以是在HTML中引入外部链接脚本，也可以是在代码中明确写了挂载在window上的全局变量，例如：window.xxx = () => {}。<br />
-   *
-   * @type {object}
    */
   externalsConfig = {
     axios: 'window.axios',
@@ -2630,7 +2590,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     swiper: 'window.Swiper',
   },
   /**
-   * 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
+   * @type {object} 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
    * 1、如果您使用ts-loader < 9.3.0，请添加transpileOnly: true。<br />
    * 2、请务必注意，此插件使用TypeScript，而不是webpack的模块解析。这意味着您必须正确设置tsconfig.json。<br />
    * 3、这是因为性能——使用TypeScript的模块解析，我们不必等待webpack编译文件。<br />
@@ -2640,8 +2600,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * JSON或YAML格式的.fork-ts-checkerrc文件。<br />
    * 导出JS对象的fork-ts-checker.config.js文件。<br />
    * 6、传递给插件构造函数的选项将覆盖cosmiconfig中的选项（使用deepmerge）。<br />
-   *
-   * @type {object}
    */
   forkTsCheckerWebpackPluginConfig = {
     // 如果为true，则在完成webpack的编译后报告问题。因此，它不会阻止编译。仅在"watch"模式下使用。
@@ -2789,10 +2747,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     devServer: !isProduction,
   },
   /**
-   * 该插件将通知您第一次运行（成功/失败）、所有失败的运行以及从构建失败中恢复后的第一次成功运行。换句话说：如果您的构建一切正常，它将保持沉默。<br />
+   * @type {object} 该插件将通知您第一次运行（成功/失败）、所有失败的运行以及从构建失败中恢复后的第一次成功运行。换句话说：如果您的构建一切正常，它将保持沉默。<br />
    * 1、带插件必须依赖forkTsCheckerWebpackPlugin，在forkTsCheckerWebpackPlugin之后执行。<br />
-   *
-   * @type {object}
    */
   forkTsCheckerNotifierWebpackPluginConfig = {
     // 通知中显示的标题前缀。
@@ -2807,9 +2763,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     skipSuccessful: true,
   },
   /**
-   * 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
-   *
-   * @type {array}
+   * @type {array} 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
    */
   htmlWebpackPluginConfig = HTMLWebpackPluginConfig( {
     isProduction,
@@ -2817,29 +2771,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     HTMLMinifyConfig,
   } ),
   /**
-   * 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
-   *
-   * @type {{maxChunks: number}}
+   * @type {{maxChunks: number}} 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
    */
   limitChunkCountPluginConfig = {
     maxChunks: 100,
   },
   /**
-   * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
+   * @type {object} 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
    * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
-   *
-   * @type {object}
    */
   minChunkSizePluginConfig = {
     minChunkSize: 5 * 1024,
   },
   /**
-   * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+   * @type {object} 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
    * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
    * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
    * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-   *
-   * @type {object}
    */
   miniCssExtractPluginConfig = {
     // 此选项确定每个输出CSS文件的名称。
@@ -2856,13 +2804,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     },
   },
   /**
-   * 以下选项表示是否填充或模拟某些Node.js的全局变量。<br />
+   * @type {object} 以下选项表示是否填充或模拟某些Node.js的全局变量。<br />
    * 1、此功能由webpack内部的NodeStuffPlugin插件提供。<br />
    * 2、从webpack 5开始，只能在node选项下配置global、__filename、__dirname。<br />
    * 3、如果正在寻找如何在webpack 5下的Node.js中以类似方式填充fs等等node模块，请查看resolve.fallback以获取帮助。<br />
    * 4、从webpack 3.0.0开始，可以将node选项直接设置为false以完全关闭NodeStuffPlugin插件。<br />
-   *
-   * @type {object}
    */
   nodeConfig = {
     global: false,
@@ -2870,7 +2816,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     __dirname: false,
   },
   /**
-   * moduleConfig必须在nodeConfig之后，因为有引用。<br />
+   * @type {object} moduleConfig必须在nodeConfig之后，因为有引用。<br />
    * 这些选项决定了如何处理项目中不同类型的模块。<br />
    * 1、module.generator，5.12.0+开始支持，可以使用module.generator在一个地方配置所有生成器的选项，目前有效的就下述3个顶级选项：<br />
    * {<br />
@@ -2992,8 +2938,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 4、为include、exclude选项设置值时，需要注意：<br />
    * path.resolve(__dirname, 'app/styles')，没加'/'将匹配`app/styles.css`、`app/styles/styles.css`、`app/stylesheet.css`。<br />
    * path.resolve(__dirname, 'vendor/styles/')，加'/'将仅包含目录`vendor/styles/`的内容。<br />
-   *
-   * @type {object}
    */
   moduleConfig = ( {
     MiniCssExtractPlugin = null,
@@ -5222,9 +5166,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       };
 
     /**
-     * 将资产内联为DataUrl的条件，其属性同module.generator.asset.dataUrl，单位字节。<br />
-     *
-     * @type {{maxSize: number}}
+     * @type {{maxSize: number}} 将资产内联为DataUrl的条件，其属性同module.generator.asset.dataUrl，单位字节。<br />
      */
     const dataUrlCondition = {
       // 单位字节，设置为10KB。
@@ -8680,11 +8622,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     webassemblyModuleFilename: 'wasm/[id]_[hash].wasm',
   },
   /**
-   * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
+   * @type {object} 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
    * 1、配置性能提示的显示方式。例如，如果您的资产超过250kb，webpack将发出警告通知您。<br />
    * 2、设置为false时，直接关闭该功能。<br />
-   *
-   * @type {object}
    */
   performanceConfig = {
     // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
@@ -8716,13 +8656,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     maxEntrypointSize: 50 * 1024 * 1024,
   },
   /**
-   * 用于设置预取将来可能需要一些导航资源（目前该插件只支持JS类的资源），会在页面上通过link标签设置一个预取资源。<br />
+   * @type {array} 用于设置预取将来可能需要一些导航资源（目前该插件只支持JS类的资源），会在页面上通过link标签设置一个预取资源。<br />
    * PS：<br />
    * 1、数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。<br />
    * 2、在浏览器中测试预取时，记得关闭“禁用缓存”。<br />
    * 3、不同浏览器（火狐、谷歌）对预取的表现有所不同，如：状态码之类，测的时候，记得多对比不同浏览器（火狐、谷歌）之间的表现。<br />
-   *
-   * @type {array}
    */
   prefetchPluginConfig = ( paths => {
     return paths.map( item => {
@@ -8732,7 +8670,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径（目前该插件只支持JS类的资源），值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
   ] ),
   /**
-   * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
+   * @type {object} 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
    * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
    * 2、要导入ES2015模块的“默认导出”，必须指定模块的“默认属性”，也就是说模块必须指定“默认属性”。<br />
    * 3、每当在模块中遇到标识符作为自由变量时，模块会自动加载，并且标识符会填充加载模块的导出（或“属性”以支持“命名导出”）。<br />
@@ -8743,8 +8681,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
    * 8、注意，不同的包，因为其package.json中"exports"字段值的不同，如下设置也会不同的，最好每次都要在代码中测试是否如期望一样达到目的效果。<br />
    * 9、鉴于某些低版本浏览器不支持ES6+的语法，而如下设置又直接使用了第三方包的ESM版本，那么最终的打包代码中会直接使用其ESM版本的代码，从而导致不支持某些低版本浏览器。<br />
-   *
-   * @type {object}
    */
   providePluginConfig = {
     axios: [
@@ -8873,19 +8809,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     hashLoading: 'eager',
   },
   /**
-   * 指示webpack以特定环境为目标，当没有找到browserslist配置时，默认为“browserslist”或“web”。<br />
+   * @type {array} 指示webpack以特定环境为目标，当没有找到browserslist配置时，默认为“browserslist”或“web”。<br />
    * 1、值格式：string、[ string ]、false，如：[ 'web', 'es2022', ]。<br />
    * 2、当传递多个目标时，将使用公共特征子集：[ 'web', 'es2022', ]，目前，并非所有目标都可能是混合的。<br />
    * 3、当没有提供有关“target”或“environment features”的信息时，将使用“es2015”。<br />
-   *
-   * @type {array}
    */
   targetConfig = [
     'web',
     'es2022',
   ],
   /**
-   * 供插件“typedoc-webpack-plugin”使用的配置参数。<br />
+   * @type {[{options: string}]} 供插件“typedoc-webpack-plugin”使用的配置参数。<br />
    * 说明：<br />
    * 1、该插件用于为使用TypeScript编写的代码生成其对应的文档，底层是基于“typedoc”的。<br />
    * 2、目前只建议该插件用于生产、测试环境下为指定的用TypeScript编写的文件生成其文档。<br />
@@ -8905,8 +8839,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 3、“typedoc”的官方文档见：<br />
    * https://typedoc.org/guides/overview/ <br />
    * 4、参数“options”是描述配置文件的路径，所以要使用绝对路径（其他参数如果也是表示路径什么的，也要如此），如：options: resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' )。<br />
-   *
-   * @type {[{options: string}]}
    */
   typedocWebpackPluginConfig = [
     {
@@ -8914,7 +8846,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     },
   ],
   /**
-   * 一组用于自定义手表模式的选项。<br />
+   * @type {object} 一组用于自定义手表模式的选项。<br />
    * 1、值类型为object，结构如下：
    * {<br />
    * aggregateTimeout：number，第1个文件更改后，在重建之前添加延迟。这允许webpack将在此时间段内所做的任何其他更改聚合到一个重建中。以“毫秒”为单位传递一个值。<br />
@@ -8932,8 +8864,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * stdin：boolean，当标准输入流结束时停止watching。<br />
    * 1、stdin: false，表示当标准输入流结束时不停止watching。<br />
    * }<br />
-   *
-   * @type {object}
    */
     // ignored选项的例子：ignored: /node_modules/、'**/node_modules'、[ '**/files/**/*.js', '**/node_modules' ]、[ path.posix.resolve(__dirname, './ignored-dir') ]
   watchOptionsConfig = {
