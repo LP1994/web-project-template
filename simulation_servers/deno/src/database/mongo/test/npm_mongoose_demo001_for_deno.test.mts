@@ -50,9 +50,7 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 /**
- * node版本的mongoose驱动程序的客户端连接配置选项。
- *
- * @type {ConnectOptions} 该驱动程序的配置选项详细见：
+ * @type {ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html

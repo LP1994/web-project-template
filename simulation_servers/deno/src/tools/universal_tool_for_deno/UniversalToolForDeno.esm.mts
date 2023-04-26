@@ -483,18 +483,14 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
 export class MyConsole {
 
   /**
-   * 私有实例属性。<br />
-   *
-   * @type {{[p: string]: any}}
+   * @type {{[p: string]: any}} 私有实例属性。<br />
    *
    * @private
    */
   #myChalk: { [ keyName: string ]: any; } = chalk;
 
   /**
-   * 私有静态属性。<br />
-   *
-   * @type {{[p: string]: any}}
+   * @type {{[p: string]: any}} 私有静态属性。<br />
    *
    * @private
    */

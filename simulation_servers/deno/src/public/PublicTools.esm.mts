@@ -57,15 +57,11 @@ mime.define( {
 }, true );
 
 /**
- * 一个logWriteStream单例变量，一般用于记录常规日志信息什么的。
- *
- * @type {TypeMyCusDenoFsFile}
+ * @type {TypeMyCusDenoFsFile} 一个logWriteStream单例变量，一般用于记录常规日志信息什么的。
  */
 let logWriteStream: TypeMyCusDenoFsFile | null = null;
 /**
- * 一个errorWriteStream单例变量，一般用于记录错误信息什么的。
- *
- * @type {TypeMyCusDenoFsFile}
+ * @type {TypeMyCusDenoFsFile} 一个errorWriteStream单例变量，一般用于记录错误信息什么的。
  */
 let errorWriteStream: TypeMyCusDenoFsFile | null = null;
 

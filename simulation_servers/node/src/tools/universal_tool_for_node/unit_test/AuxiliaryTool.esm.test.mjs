@@ -106,16 +106,12 @@ export class MyError001
   extends Error {
 
   /**
-   * 预期值。
-   *
-   * @type {any}
+   * @type {any} 预期值。
    */
   expect;
 
   /**
-   * 实际值。
-   *
-   * @type {any}
+   * @type {any} 实际值。
    */
   result;
 

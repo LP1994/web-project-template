@@ -75,15 +75,13 @@ const webDir: string = import.meta.resolve( '../../web' );
 // 自定义的路径别名aliasConfig End
 
 /**
- * 自定义的响应头。
+ * @type {{ [ key: string ]: string | number | boolean; }} 自定义的响应头。
  * 1、关于跨域请求头。<br />
  *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即withCredentials:true）。<br />
  *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
  *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
  *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
  *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
- *
- * @type {{ [ key: string ]: string | number | boolean; }}
  */
 const httpHeaders: HeadersInit = {
   // 'Content-Security-Policy': 'require-sri-for script style',
@@ -188,9 +186,7 @@ const httpHeaders: HeadersInit = {
 };
 
 /**
- * 自定义的响应状态码映射对象。
- *
- * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }}
+ * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }} 自定义的响应状态码映射对象。
  */
 const resMessageStatus: { [ key: string | number ]: { status: number; statusText: string; }; } = {
   // 通用的表示服务端处理报错的错误状态码。
@@ -238,10 +234,8 @@ const resMessageStatus: { [ key: string | number ]: { status: number; statusText
 };
 
 /**
- * 标准的HTTP响应状态码映射对象。
+ * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }} 标准的HTTP响应状态码映射对象。
  * 详细见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
- *
- * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }}
  */
 const HTTPStatus: { [ key: string | number ]: { status: number; statusText: string; }; } = {
   // 信息响应。

@@ -61,9 +61,7 @@ interface StartupLogCollectionSchema {
 }
 
 /**
- * node版本的mongodb驱动程序的客户端连接配置选项。
- *
- * @type {MongoClientOptions} 该驱动程序的配置选项详细见：
+ * @type {MongoClientOptions} node版本的mongodb驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */

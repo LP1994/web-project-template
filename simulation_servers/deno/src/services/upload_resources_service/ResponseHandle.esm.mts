@@ -163,9 +163,7 @@ import UploadByBigFile from './UploadByBigFile.esm.mts';
 import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
 
 /**
- * 单位为字节，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB。
- *
- * @type {number}
+ * @type {number} 单位为字节，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB。
  */
 const maxFileSize: number = 1 * 1024 * 1024 * 1024;
 
