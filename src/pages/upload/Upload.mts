@@ -16,7 +16,6 @@ import {
   createApp,
 } from 'vue';
 
-// @ts-expect-error
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
 /**

@@ -95,7 +95,8 @@
       ""
     ],
     "typeRoots": [
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "./src/custom_declare_types"
     ],
     "paths": {
       "element-ui-css": [

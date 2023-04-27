@@ -195,7 +195,6 @@ async function UploadForBinary( event: Event ): Promise<void>{
 
     console.dir( file );
 
-    // @ts-expect-error
     fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
       body: file,
       cache: 'no-store',
@@ -237,7 +236,6 @@ async function UploadForSingle( event: Event ): Promise<void>{
     formData.append( 'file', file, file.name );
     formData.append( 'fileName', `${ file.name }` );
 
-    // @ts-expect-error
     fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
       body: formData,
       cache: 'no-store',
@@ -279,7 +277,6 @@ function UploadForMultiple( event: Event ): void{
       formData.append( 'files', file, file.name );
     } );
 
-    // @ts-expect-error
     fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
       body: formData,
       cache: 'no-store',
