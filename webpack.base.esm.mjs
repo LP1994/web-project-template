@@ -1752,9 +1752,9 @@ const aliasConfig = {
    * onListening：当webpack-dev-server开始侦听端口上的连接时，提供执行自定义函数的能力。<br />
    * 1、有效值类型：Function，形如：function(devServer){}。<br />
    * 
-   * open：告诉dev-server在服务器启动后打开浏览器。将其设置为true以打开默认浏览器。<br />
+   * open：告诉dev-server在服务器启动后打开浏览器。将其设置为true以打开默认浏览器。详细见：https://github.com/sindresorhus/open
    * 1、有效值类型：boolean、string（指的是要打开的页面）、object、[ string、object ]。<br />
-   * 2、浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
+   * 2、浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”、“google chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
    * 3、当值类型为object时有如下选项：<br />
    * {<br />
    * target：在浏览器中打开指定页面。<br />
@@ -1765,7 +1765,7 @@ const aliasConfig = {
    *   2)当值类型为object时有如下选项：<br />
    *   {<br />
    *   name：string、[ string ]，打开指定浏览器的名，例如：[ 'Google Chrome', 'google-chrome', 'chrome', ]。<br />
-   *   浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
+   *   浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”、“google chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
    *   实际测试，当name的值为数组时，只能对数组里第一个应用生效。<br />
    *   在Windows上测试出能打开的Windows平台上这些浏览器应用名（不同系统应用名可能会不一样）：chrome、msedge、firefox、opera。<br />
    *   
@@ -2039,6 +2039,16 @@ const aliasConfig = {
       type: 'https',
       // 具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions
       options: {
+        /**
+         * 使用一个不安全的HTTP解析器，在真实时接受无效的HTTP头。应该避免使用不安全的解析器。参见--insecure-http-parser获取更多信息。默认值：false。
+         */
+        insecureHTTPParser: true,
+
+        /**
+         * 可选择覆盖该服务器收到的请求的--max-http-header-size的值，即请求头的最大长度（字节）。默认值：16384（16 KiB）。
+         */
+        maxHeaderSize: 1024000,
+
         /**
          * 覆盖受信任的CA证书。<br />
          * 默认情况是信任Mozilla策划的知名CA。<br />
@@ -8451,8 +8461,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      */
     enabledWasmLoadingTypes: [
       'fetch',
-      'fetch-streaming',
       'async-node',
+
+      // 从源码中可知，该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:95
+      'async-node-module',
+
+      /**
+       * 该值会报错！
+       * 报：
+       * Error: Unsupported wasm loading type fetch-streaming.
+       * Plugins which provide custom wasm loading types must call EnableWasmLoadingPlugin.setEnabled(compiler, type) to disable this error.
+       *
+       * 详细见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:74
+       */
+      // 'fetch-streaming',
+
+      // 从源码中可知，目前还没实现！该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:103
+      // 'universal',
     ],
     /**
      * 告诉webpack在生成的运行时代码中可以使用哪种ES特性。<br />
@@ -8613,10 +8638,22 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      */
     strictModuleErrorHandling: !isProduction,
     /**
-     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)、'fetch-streaming'，但其他方法可能由插件添加。<br />
+     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)、'fetch-streaming'（会报错）、'async-node-module'（从源码中可知）、'universal'（从源码中可知，目前还没实现！），但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
      * Defaults to 'fetch' if target is set to 'web', 'webworker', 'electron-renderer' or 'node-webkit'.<br />
      * Defaults to 'async-node' if target is set to 'node', 'async-node', 'electron-main' or 'electron-preload'.<br />
+     *
+     * 2、“fetch-streaming”会报错：
+     * 报：
+     * Error: Unsupported wasm loading type fetch-streaming.
+     * Plugins which provide custom wasm loading types must call EnableWasmLoadingPlugin.setEnabled(compiler, type) to disable this error.
+     * 详细见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:74
+     *
+     * 3、从源码中可知，还有这个选项值：async-node-module
+     * 该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:95
+     *
+     * 4、从源码中可知，还有这个选项值：universal
+     * 目前还没实现！该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:103
      */
     wasmLoading: 'fetch',
     /**

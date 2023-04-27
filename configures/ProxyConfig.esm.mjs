@@ -418,6 +418,16 @@ const proxyConfig = {
      */
     ssl: {
       /**
+       * 使用一个不安全的HTTP解析器，在真实时接受无效的HTTP头。应该避免使用不安全的解析器。参见--insecure-http-parser获取更多信息。默认值：false。
+       */
+      insecureHTTPParser: true,
+
+      /**
+       * 可选择覆盖该服务器收到的请求的--max-http-header-size的值，即请求头的最大长度（字节）。默认值：16384（16 KiB）。
+       */
+      maxHeaderSize: 1024000,
+
+      /**
        * 覆盖受信任的CA证书。<br />
        * 默认情况是信任Mozilla策划的知名CA。<br />
        * 当使用此选项显式指定CA时，Mozilla的CA将被完全替换。<br />
