@@ -36,8 +36,6 @@ import {
   type Collection,
 
   MongoClient,
-
-  // @ts-ignore
 } from 'npm:mongodb';
 
 import {

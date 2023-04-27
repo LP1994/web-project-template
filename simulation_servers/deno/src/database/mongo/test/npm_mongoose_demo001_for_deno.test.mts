@@ -41,8 +41,6 @@ import {
   Mongoose,
   Schema,
   Types,
-
-  // @ts-ignore
 } from 'npm:mongoose';
 
 import {

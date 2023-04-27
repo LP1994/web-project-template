@@ -36,8 +36,6 @@ import {
   type Collection,
 
   Mongoose,
-
-  // @ts-ignore
 } from 'npm:mongoose';
 
 import {

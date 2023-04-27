@@ -96,7 +96,8 @@
     ],
     "typeRoots": [
       "./node_modules/@types",
-      "./src/custom_declare_types"
+      "./src/custom_declare_types",
+      "./simulation_servers/deno/src/custom_declare_types"
     ],
     "paths": {
       "element-ui-css": [
