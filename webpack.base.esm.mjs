@@ -255,7 +255,7 @@ const __dirname = Get__dirname( import.meta.url ),
    * @type {boolean} true表示启用esbuild-loader来转译js、ts，false表示用babel来转译js、ts，esbuild-loader是不需要thread-loader来加速的！它自己已经是很快很快很快了。<br />
    * 1、如果需要兼容到低端平台，即转译到ES5、ES3的话，还是使用babel来转译，将isUseESBuildLoader设置成false。<br />
    * 2、如果是兼容到新的现代浏览器，也就是支持ES6的平台，那么还是用esbuild吧，它有这方面的优越性，但就是对ES5不是很友好。<br />
-   * 3、目前esbuild对有些处于提案阶段的实验性语法还不能支持，而且“Tree Shaking”功能也还没完善，所以，如果需要兼顾前面两点，那还是要继续使用babel来转译的。<br />
+   * 3、目前esbuild对有些处于提案阶段的实验性语法还不能支持，所以，如果需要兼顾前面两点，那还是要继续使用babel来转译的。<br />
    * 4、截至2022年11月08日，基于最新的esbuild版本做测试，其只能支持对静态的导入、导出的代码做“Tree Shaking”，动态的还不支持，而webpack在“Tree Shaking”做的会比它好，希望其未来能做到跟webpack一样的“Tree Shaking”功能吧。<br />
    */
   isUseESBuildLoader = false;
@@ -488,6 +488,15 @@ const autoprefixerConfig = {
      })();
      */
     treeShaking: isProduction,
+    /**
+     * 代码拆分仍然是一项正在进行的工作。
+     * 它目前只适用于esm输出格式，也就是说当选项“format”的值为'esm'时，该选项有效。
+     * 还有一个已知的跨代码拆分块的导入语句的排序问题。你可以关注跟踪问题，以了解关于这个功能的更新。
+     * 详细见：https://esbuild.github.io/api/#splitting
+     */
+    splitting: true,
+    // 详细见：https://esbuild.github.io/api/#ignore-annotations
+    ignoreAnnotations: false,
     // 有效值有：browser、node、neutral。
     platform: 'browser',
     keepNames: true,
@@ -4968,6 +4977,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         jsxFactory: 'React.createElement',
         // 有效值有：'React.Fragment'（默认值）、'Fragment'，当jsx转换设置为'automatic'时，此设置不适用。
         jsxFragment: 'React.Fragment',
+        // 默认情况下，esbuild假定JSX表达式是无副作用的，这意味着它们被注释为/* @__PURE__ */，并且在捆绑过程中，当它们未被使用时被删除。
+        // 这遵循了JSX在虚拟DOM中的普遍使用，适用于绝大多数的JSX库。
+        // 然而，有些人编写的JSX库没有这个属性（特别是JSX表达式可以有任意的副作用，在未使用时不能被删除）。
+        // 如果你正在使用这样的库，你可以使用这个设置来告诉esbuild，JSX表达式有副作用：jsxSideEffects: true。
+        jsxSideEffects: true,
       } ),
       esbuildLoaderConfigForTS = Object.assign( {}, esbuildLoaderConfigForJS, {
         loader: 'ts',
