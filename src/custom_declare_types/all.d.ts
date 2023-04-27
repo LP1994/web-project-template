@@ -14,3 +14,11 @@
 /**
  * 自定义的TS类型描述。
  */
+
+interface ArrayConstructor {
+  fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
+
+  fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any ): Promise<[]>;
+
+  fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any, thisArg?: any ): Promise<[]>;
+}
