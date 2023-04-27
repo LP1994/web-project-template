@@ -8433,6 +8433,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      */
     crossOriginLoading: 'anonymous',
     /**
+     * 启用入口点使用的wasm装载类型列表。
+     */
+    enabledWasmLoadingTypes: [
+      'fetch',
+      'fetch-streaming',
+      'async-node',
+    ],
+    /**
      * 告诉webpack在生成的运行时代码中可以使用哪种ES特性。<br />
      */
     environment: {
@@ -8534,6 +8542,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 从webpack v5.54.0+开始，hashFunction支持xxhash64作为一种更快的算法，在启用experiments.futureDefaults时将默认使用该算法。<br />
      */
     hashFunction: 'sha512',
+    /**
+     * 忽略浏览器中的警告。
+     */
+    ignoreBrowserWarnings: false,
     /**
      * 告诉webpack在发出的代码周围添加IIFE包装器。<br />
      */
