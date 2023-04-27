@@ -421,7 +421,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     你正在使用TypeScript以外的转码器来生成你的JavaScript。
     你正在使用TypeScript只为你的消费者生成d.ts文件。
     */
-    // "emitDeclarationOnly": true,
+    "emitDeclarationOnly": true,
     /*
     允许在每个项目中从tslib导入一次助手函数，而不是在每个文件中包含它们。
     1、对于某些降级操作，TypeScript使用一些帮助代码进行扩展类、扩展数组或对象以及异步操作等操作。
@@ -470,7 +470,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     2、这为Babel或swc等其他工具腾出空间来处理将TypeScript文件转换为可以在JavaScript环境中运行的文件。
     3、然后，您可以将TypeScript用作提供编辑器集成的工具，并用作源代码类型检查器。
     */
-    "noEmit": true,
+    "noEmit": false,
     /*
     禁用在编译输出中生成自定义帮助程序函数，如“__extends”。
     1、您可以在全局范围内为您使用的助手提供实现，并完全关闭助手函数的发射，而不是使用importHelpers导入助手。
