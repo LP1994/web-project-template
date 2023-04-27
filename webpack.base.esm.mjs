@@ -5640,7 +5640,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
          */
         {
-          test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
+          test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
           /**
            * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
            * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6212,7 +6212,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理音频。
         {
-          test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
+          test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
           /**
            * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
            * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -8641,7 +8641,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
   performanceConfig = {
     // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
     assetFilter( assetFilename ){
-      const arr1 = Array.from( new Set( JSON.parse( '["3gp","3gpp","aac","aiff","amr","ape","apng","arw","asf","asx","au","avi","avif","bmp","bpg","cda","cjs","cr2","cson","css","csv","cts","cur","dat","dcx","dng","ejs","eot","flac","flif","flv","fon","font","gif","gql","graphql","graphqls","handlebars","hbs","heic","heif","htm","html","icns","ico","j2c","j2k","jade","jbig2","jng","jp2","jpe","jpeg","jpg","jpm","jpx","js","json","json5","jsx","jxl","jxr","kar","ktx","less","m4a","m4v","markdown","md","mid","midi","mj2","mjs","mkv","mng","mod","mov","mp1","mp2","mp3","mp4","mpeg","mpeg-1","mpeg-2","mpeg-4","mpeg-layer3","mpg","mts","mustache","nef","ogg","orf","otf","pam","pbm","pcss","pcx","pgm","png","pnm","postcss","ppm","psd","pug","ra","raf","raw","rgbe","rm","rmvb","rmx","rw2","sass","scss","styl","stylus","svg","svgz","tga","tif","tiff","toml","ts","tsv","tsx","ttc","ttf","txt","vob","vorbis","vqf","vue","wasm","wav","wave","wbmp","webm","webp","wp2","wma","wmv","woff","woff2","xbm","xhtml","xml","xpm","yaml"]' ) ) );
+      const arr1 = Array.from( new Set( JSON.parse( '["3gp","3gpp","aac","aiff","amr","ape","apng","arw","asf","asx","au","avi","avif","bmp","bpg","cda","cjs","cr2","cson","css","csv","cts","cur","dat","dcx","dng","ejs","eot","flac","flif","flv","fon","font","gif","gql","graphql","graphqls","handlebars","hbs","heic","heif","htm","html","icns","ico","j2c","j2k","jade","jbig2","jng","jp2","jpe","jpeg","jpg","jpm","jpx","js","json","json5","jsx","jxl","jxr","kar","ktx","less","m4a","m4v","markdown","md","mid","midi","mj2","mjs","mkv","mng","mod","mov","mp1","mp2","opus","mp3","mp4","mpeg","mpeg-1","mpeg-2","mpeg-4","mpeg-layer3","mpg","mts","mustache","nef","ogg","orf","otf","pam","pbm","pcss","pcx","pgm","jfif","pjpeg","pjp","png","pnm","postcss","ppm","psd","pug","ra","raf","raw","rgbe","rm","rmvb","rmx","rw2","sass","scss","styl","stylus","svg","svgz","tga","tif","tiff","toml","ts","tsv","tsx","ttc","ttf","txt","vob","vorbis","vqf","vue","wasm","wav","wave","wbmp","webm","webp","wp2","wma","wmv","woff","woff2","xbm","xhtml","xml","xpm","yaml"]' ) ) );
 
       return new RegExp( `\\.(${ arr1.join( '|' ) })$`, 'i' ).test( assetFilename );
     },
