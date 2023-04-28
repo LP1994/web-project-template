@@ -23,8 +23,8 @@ nest=true，表示输出的文件夹层级跟原先的一致；nest=false，不�
 需要更新的地方：
 D:\Deno\App\Install\Bin
 D:\NodeJS\node_global\node_modules\typescript\lib
-D:\WebStorm\Config\system\plugins\deno\deno-service\node_modules\typescript-deno-plugin\lib
 D:\WebStorm\Config\system\javascript\deno
 G:\WebStormWS\web-project-template\node_modules\typescript\lib
 G:\WebStormWS\web-project-template\simulation_servers\deno\ts_declare_lib
 G:\WebStormWS\web-for-vite-project-template\node_modules\typescript\lib
+G:\WebStormWS\web-for-vite-project-template\simulation_servers\deno\ts_declare_lib
