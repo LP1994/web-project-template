@@ -157,14 +157,14 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
         var jsonPath = typedocApp.options.getValue( 'json' );
 
         if( outPath ){
-          console.log( 'Generating updated typedocs.' );
+          console.log( '\nGenerating updated typedocs.\n' );
 
           // generateDocs(project: ProjectReflection, out: string): Promise<void>
           await typedocApp.generateDocs( project, outPath );
         }
 
         if( jsonPath ){
-          console.log( 'Generating typedoc json.' );
+          console.log( '\nGenerating typedoc json.\n' );
 
           // generateJson(project: ProjectReflection, out: string): Promise<void>
           typedocApp.generateJson( project, jsonPath );
@@ -172,7 +172,7 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
       }
     }
     else{
-      console.warn( 'No ts filed changed. Not recompling typedocs.' );
+      console.warn( '\nNo ts filed changed. Not recompling typedocs.\n' );
     }
 
     this.prevTimestamps = compilation.fileSystemInfo._fileTimestamps.map;
@@ -181,7 +181,7 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
   } );
 
   compiler.hooks.done.tap( 'typedoc-webpack-plugin', function ( stats ){
-    console.log( 'Typedoc finished generating.' );
+    console.log( '\nTypedoc finished generating.\n' );
   } );
 };
 
