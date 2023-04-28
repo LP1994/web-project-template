@@ -104,6 +104,7 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
         ];
       }
     ),
+    // @ts-ignore
     arr002: Array<[ string, TypeFun001 ]> = await Array.fromAsync( arr001 );
 
   return Object.fromEntries( arr002 );
@@ -130,6 +131,7 @@ function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeR
           ];
         }
       ),
+      // @ts-ignore
       arr002: Array<[ TypeFun002, TypeFun001 ]> = await Array.fromAsync( arr001 );
 
     myRouteHandleConfig = new Map( arr002 );

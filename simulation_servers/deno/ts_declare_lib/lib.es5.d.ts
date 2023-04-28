@@ -1496,6 +1496,12 @@ interface ArrayConstructor {
     <T>(...items: T[]): T[];
     isArray(arg: any): arg is any[];
     readonly prototype: any[];
+
+    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
+
+    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any ): Promise<[]>;
+
+    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any, thisArg?: any ): Promise<[]>;
 }
 
 declare var Array: ArrayConstructor;

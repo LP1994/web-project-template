@@ -277,7 +277,7 @@ const proxyConfig = {
      * @param {Response} res
      * @param {proxyConfig} proxyOptions
      *
-     * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
+     * @returns {void | null | undefined | false | string} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
     bypass: ( req, res, proxyOptions ) => {
       // 正在跳过浏览器请求的代理。
@@ -755,7 +755,7 @@ HTTP代理--->${ req.originalUrl }<---End
      * @param {Response} res
      * @param {proxyConfig} proxyOptions
      *
-     * @returns {*} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
+     * @returns {void | null | undefined | false | string} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
     bypass: ( req, res, proxyOptions ) => {
       // 正在跳过浏览器请求的代理。

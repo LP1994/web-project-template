@@ -82,6 +82,12 @@ interface ArrayConstructor {
      * @param items A set of elements to include in the new array object.
      */
     of<T>(...items: T[]): T[];
+
+    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
+
+    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any ): Promise<[]>;
+
+    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any, thisArg?: any ): Promise<[]>;
 }
 
 interface DateConstructor {
