@@ -38,7 +38,7 @@
           "version": 3,
           "proposals": true
         },
-        "version": "7.21.0",
+        "version": "7.21.5",
         "helpers": false,
         "regenerator": true,
         "absoluteRuntime": false
