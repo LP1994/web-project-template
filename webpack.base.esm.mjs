@@ -7104,7 +7104,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    * `function`模式将产生一个单一的“const { helpers... } = Vue”语句并返回渲染函数。它希望`Vue`是全局可用的（或者通过用IIFE包装代码来传递）。它是用来与`new Function(code)()`一起使用，在运行时生成一个渲染函数。<br />
                    *
                    * 当mode: 'function'时，会报“scopeId”错误，说是“scopeId”只能跟“mode: 'module'”一起使用，见：node_modules/@vue/compiler-core/dist/compiler-core.d.ts:1151
-                   * 当在Vue的SFC里书写“<script type = 'module'>”时，就会使用“mode: 'module'”了。
+                   * 当在Vue的SFC里书写“<script type = 'module'>”时，就会使用“mode: 'module'”了。<br />
+                   * 该选项一般不用设置，内部会自动设置。<br />
                    *
                    * 详细见：<br />
                    * node_modules/@vue/compiler-core/dist/compiler-core.d.ts:170
