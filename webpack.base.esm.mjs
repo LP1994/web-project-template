@@ -7074,45 +7074,114 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   ],
                   audio: 'src',
                 },
+                /**
+                 * @type {TemplateCompiler | string} 设置编译器，用于编译单文件组件中的<template>块。<br />
+                 * 1、对于Vue 2.X使用“vue-template-compiler”，对于Vue 3.X使用“@vue/compiler-sfc”。<br />
+                 * 2、该选项值可以是字符串的包名，如：'@vue/compiler-sfc'、'vue-template-compiler'。<br />
+                 * 3、也可以是上面两个包导出的对象（该对象必需包含2个函数实现：compile、parse），详细见：node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:304<br />
+                 * 该选项详细见：<br />
+                 * node_modules/vue-loader/dist/index.d.ts:8
+                 * node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:304
+                 *
+                 * PS：<br />
+                 * 1、实际测试了一下，当该选项设置值为'@vue/compiler-sfc'时，会报错！因为没有找到“compile”函数！<br />
+                 * 在'@vue/compiler-sfc'源码中发现，有“parse”函数的实现（见：node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:95）。<br />
+                 * 但是没有“compile”函数的实现，貌似是被命名为“compileTemplate”（见：node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:61），<br />
+                 * 但是该“compileTemplate”函数的声明不是符合规定的“compile”函数的声明（见：node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:305）。<br />
+                 *
+                 * 2、顺便查看了“vue-template-compiler”源码，发现了“compile”函数的实现，见：<br />
+                 * node_modules/vue-template-compiler/types/index.d.ts:214
+                 * node_modules/vue-template-compiler/types/index.d.ts:219
+                 * 而“parse”函数的实现，貌似被重命名为“parseComponent”函数，见：node_modules/vue-template-compiler/types/index.d.ts:238
+                 *
+                 * 因此，该选项不用设置，貌似内部自动处理设置了。<br />
+                 */
+                // compiler: '@vue/compiler-sfc',
                 compilerOptions: {
+                  /**
+                   * 值有："module"、"function"。<br />
+                   * `module`模式将为帮助器生成ES模块导入语句 并将渲染函数作为默认导出。<br />
+                   * `function`模式将产生一个单一的“const { helpers... } = Vue”语句并返回渲染函数。它希望`Vue`是全局可用的（或者通过用IIFE包装代码来传递）。它是用来与`new Function(code)()`一起使用，在运行时生成一个渲染函数。<br />
+                   *
+                   * 详细见：<br />
+                   * node_modules/@vue/compiler-core/dist/compiler-core.d.ts:170
+                   */
+                  mode: 'function',
+                  /**
+                   * 将表达式（如 {{ foo }} 转换为 _ctx.foo）。如果此选项为 false，则生成的代码将被包装在一个 with (this) { ... } 块中。
+                   * 这在mode === 'module'是强制启用的，因为模块默认是严格的，不能使用with。
+                   */
+                  prefixIdentifiers: true,
+                  /**
+                   * 缓存v-on处理程序以避免在每次渲染时创建新的内联函数，也避免了通过包装动态修补处理程序的需要。<br />
+                   * 例如`@click="foo"`默认编译为`{onClick: foo }`。<br />
+                   * 有了这个选项，它就被编译成：<br />
+                   * { onClick: _cache[0] || (_cache[0] = e => _ctx.foo(e)) }
+                   * 需要启用 "prefixIdentifiers"，因为它依靠范围分析来确定处理程序是否可以安全缓存。<br />
+                   * 分析来确定一个处理程序是否可以安全地进行缓存。<br />
+                   * 详细见：<br />
+                   * node_modules/@vue/compiler-core/dist/compiler-core.d.ts:1141
+                   */
+                  cacheHandlers: true,
+                  /**
+                   * 通过变量赋值优化帮助程序导入绑定的选项（仅用于webpack代码拆分），默认值为：false。
+                   * 详细见：node_modules/@vue/compiler-core/dist/compiler-core.d.ts:185
+                   */
+                  optimizeImports: isProduction,
+                  comments: !isProduction,
                   whitespace: !isProduction
                               ? 'preserve'
                               : 'condense',
                 },
                 transpileOptions: {
                   target: vue_loader_options_transpileOptions_target,
-                  // transforms里的选项值，true表示转换特性，false表示直接使用该特性。
-                  transforms: {
-                    arrow: false,
-                    classes: false,
-                    collections: false,
-                    computedProperty: false,
-                    conciseMethodProperty: false,
-                    constLoop: false,
-                    // 危险的转换！设置成false会直接使用该特性！
-                    dangerousForOf: false,
-                    // 危险的转换！设置成false会直接使用该特性！
-                    dangerousTaggedTemplateString: false,
-                    defaultParameter: false,
-                    destructuring: false,
-                    forOf: false,
-                    generator: false,
-                    letConst: false,
-                    modules: false,
-                    numericLiteral: false,
-                    parameterDestructuring: false,
-                    reservedProperties: false,
-                    spreadRest: false,
-                    stickyRegExp: false,
-                    templateString: false,
-                    unicodeRegExp: false,
-                    exponentiation: false,
-                  },
+                  /**
+                   * transforms里的选项值，true表示转换特性，false表示直接使用该特性。<br />
+                   * PS：<br />
+                   * 1、该选项会覆盖来自上面选项“target”中的特性！故该选项要慎重使用！一般交给选项“target”控制即可。<br />
+                   */
+                  /*
+                   transforms: {
+                   arrow: false,
+                   classes: false,
+                   collections: false,
+                   computedProperty: false,
+                   conciseMethodProperty: false,
+                   constLoop: false,
+                   // 危险的转换！设置成false会直接使用该特性！
+                   dangerousForOf: false,
+                   // 危险的转换！设置成false会直接使用该特性！
+                   dangerousTaggedTemplateString: false,
+                   defaultParameter: false,
+                   destructuring: false,
+                   forOf: false,
+                   generator: false,
+                   letConst: false,
+                   modules: false,
+                   numericLiteral: false,
+                   parameterDestructuring: false,
+                   reservedProperties: false,
+                   spreadRest: false,
+                   stickyRegExp: false,
+                   templateString: false,
+                   unicodeRegExp: false,
+                   exponentiation: false,
+                   },
+                   */
+                  jsx: 'React.createElement',
                   // 对于IE 8需要将它设置成namedFunctionExpressions: false。
                   namedFunctionExpressions: true,
                 },
+                hotReload: !isProduction,
+                productionMode: isProduction,
                 prettify: !isProduction,
                 exposeFilename: !isProduction,
+                /**
+                 * @type {boolean} 该选项不设置时，内部都为false处理，见：node_modules/vue-loader/dist/index.js:90
+                 * 详细见：<br />
+                 * node_modules/vue-loader/dist/index.d.ts:14
+                 */
+                // appendExtension: false,
                 // vue-loader v16+才有的选项。Start
                 /**
                  * 在使用Vue的反应性API时，引入一组编译器转换来改善人体工程学，特别是能够使用没有.value的refs。<br />
