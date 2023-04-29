@@ -2784,6 +2784,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     },
     formatter: {
       type: 'codeframe',
+      // 详细见：node_modules/fork-ts-checker-webpack-plugin/lib/formatter/types/babel__code-frame.d.ts:1
       options: {
         // boolean, defaults to false。切换语法，将代码突出显示为终端的JavaScript。
         highlightCode: true,
@@ -2794,7 +2795,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         // boolean, defaults to false。启用此选项以强制将代码语法高亮为JavaScript（对于非终端）；覆盖highlightCode选项。
         forceColor: true,
         // string。传入要在代码中突出显示的位置旁边内联显示的字符串（如果可能）。如果它不能内联定位，它将被放置在代码框的上方。
-        message: '关键错误',
+        message: '关键错误(Caused by)',
       },
       pathType: 'absolute',
     },
