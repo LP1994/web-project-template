@@ -436,8 +436,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     preserve：保留其值或类型从未使用过的所有导入语句。这可能会导致保留导入/副作用。
     error：这会保留所有导入（与 preserve 选项相同），但当值导入仅用作类型时会出错。如果您想确保没有意外导入任何值，但仍使副作用导入显式，这可能很有用。
     2、此标志有效，因为您可以使用导入类型显式创建一个永远不应发送到JavaScript中的导入语句。
-    3、优先设置成“remove”，《但是fork-ts-checker-webpack-plugin插件建议设置成“preserve”，如果TypeScript >= 3.8.0的话》。
-    4、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，并且importsNotUsedAsValues选项不能与选项'verbatimModuleSyntax'一起指定。
+    3、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，并且importsNotUsedAsValues选项不能与选项'verbatimModuleSyntax'一起指定。
     */
     // "importsNotUsedAsValues": "preserve",
     /*
