@@ -5407,6 +5407,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5451,6 +5452,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5497,6 +5499,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5533,6 +5536,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5580,6 +5584,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5622,6 +5627,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/doc/' ),
             join( __dirname, './src/graphQL/test/' ),
             join( __dirname, './src/pwa_manifest/' ),
@@ -5659,6 +5665,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5703,6 +5710,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5753,6 +5761,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/fonts/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5796,6 +5805,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './node_modules/' ),
 
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5838,6 +5848,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5878,6 +5889,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -5914,6 +5926,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6014,6 +6027,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6054,6 +6068,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6086,6 +6101,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6120,6 +6136,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './node_modules/' ),
 
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/native_components/' ),
             join( __dirname, './src/pages/' ),
@@ -6156,6 +6173,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './node_modules/' ),
 
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/native_components/' ),
             join( __dirname, './src/pages/' ),
@@ -6203,6 +6221,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6278,6 +6297,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6319,6 +6339,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/fonts/' ),
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6352,6 +6373,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6401,6 +6423,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6437,6 +6460,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6623,6 +6647,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6809,6 +6834,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6888,6 +6914,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6932,6 +6959,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -6971,6 +6999,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -7007,6 +7036,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/fonts/' ),
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -7119,6 +7149,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -7145,6 +7176,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -7181,6 +7213,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -7216,6 +7249,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './src/assets/img/' ),
             join( __dirname, './src/assets/music/' ),
             join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
             join( __dirname, './src/pwa_manifest/' ),
             join( __dirname, './src/static/' ),
@@ -7447,6 +7481,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             ],
             exclude: [
               join( __dirname, './src/static/' ),
+              join( __dirname, './src/custom_declare_types/' ),
             ],
           };
 
