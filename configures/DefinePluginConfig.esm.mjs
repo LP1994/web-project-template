@@ -9,6 +9,8 @@
 
 /**
  * new webpack.DefinePlugin插件的配置。
+ * 注意：
+ * 在这里定义的全局常量，当在TS中使用时，一般会被“TS类型检查”鉴定为未定义的错误！可以在“src/custom_declare_types/define.d.ts”这里定义这些全局常量的类型描述。这样就不会报类型错误了。
  */
 
 'use strict';
@@ -21,6 +23,9 @@
  * 4、如果你在key前加上typeof前缀，它只为typeof调用定义：'typeof window': JSON.stringify('object111')。<br />
  * 5、如果需要定义一个值是字符串值，得单引号内部嵌套双引号，如：'"例子"'（或者JSON.stringify('例子')），否则没法真正输出这个字符串。<br />
  * 6、如果值不是字符串，它将被字符串化，相当于使用JSON.stringify处理，但是如果是函数，直接这么设置就行，别用JSON.stringify：'fun1': () => {}。<br />
+ *
+ * 注意：<br />
+ * 在这里定义的全局常量，当在TS中使用时，一般会被“TS类型检查”鉴定为未定义的错误！可以在“src/custom_declare_types/define.d.ts”这里定义这些全局常量的类型描述。这样就不会报类型错误了。<br />
  *
  * @param {object} config 对象参数。
  *
