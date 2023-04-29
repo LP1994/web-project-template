@@ -2570,6 +2570,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     '.vue',
   ],
   /**
+   * @type {object} 之所以设置该选项，系为了配合ts-loader的使用。
+   */
+  extensionAliasConfig = {
+    '.js': [
+      '.js',
+      '.ts',
+    ],
+    '.cjs': [
+      '.cjs',
+      '.cts',
+    ],
+    '.mjs': [
+      '.mjs',
+      '.mts',
+    ],
+  },
+  /**
    * @type {object} externals配置选项提供了一种从输出包中排除依赖项的方法。此功能通常对库开发人员最有用，但它有多种应用程序。<br />
    * 1、防止捆绑某些导入的包，而是在运行时检索这些外部依赖项。<br />
    * 2、有效值类型：string、object、function、RegExp、[ string ]、[ object ]、[ function ]、[ RegExp ]。<br />
@@ -2610,7 +2627,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
   },
   /**
    * @type {object} 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
-   * 1、如果您使用ts-loader < 9.3.0，请添加transpileOnly: true。<br />
+   * 1、如果您使用ts-loader < 9.3.0，请为“ts-loader”的配置添加transpileOnly: true。<br />
    * 2、请务必注意，此插件使用TypeScript，而不是webpack的模块解析。这意味着您必须正确设置tsconfig.json。<br />
    * 3、这是因为性能——使用TypeScript的模块解析，我们不必等待webpack编译文件。<br />
    * 4、要调试TypeScript的模块解析，可以使用tsc --traceResolution命令（会打印出详细的模块解析信息）。<br />
@@ -2619,6 +2636,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * JSON或YAML格式的.fork-ts-checkerrc文件。<br />
    * 导出JS对象的fork-ts-checker.config.js文件。<br />
    * 6、传递给插件构造函数的选项将覆盖cosmiconfig中的选项（使用deepmerge）。<br />
+   * 7、如果你需要Vue.js的支持，请使用该插件的第6版，该插件最新系第8版（直到20230429）。<br />
+   * 8、该插件的第8版删除了对Vue.js的支持，也就是说选项typescript.extensions被删除了。<br />
    */
   forkTsCheckerWebpackPluginConfig = {
     // 如果为true，则在完成webpack的编译后报告问题。因此，它不会阻止编译。仅在"watch"模式下使用。
@@ -2632,14 +2651,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       // 相当于tsc命令的--build标志。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。
       build: false,
       /**
-       * 该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。有4个内置字符串值："readonly"、"write-tsbuildinfo"、"write-dts"、"write-references"。<br />
+       * 该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。有4个内置字符串值："readonly"、"write-dts"、"write-tsbuildinfo"、"write-references"。<br />
        * 1、如果您不想在磁盘上写入任何内容，请使用readonly。<br />
-       * 2、write-dts仅写入.d.ts文件，write-tsbuildinfo仅写入.tsbuildinfo文件。<br />
-       * 3、write-references用于编写项目引用的.js和.d.ts文件（最后2种模式需要build:true）。<br />
-       * 4、如果使用“babel-loader”，建议使用"write-references"模式来提高初始编译时间。如果使用“ts-loader”，建议使用"write-tsbuildinfo"模式，以不覆盖“ts-loader”发出的文件。<br />
-       * 5、默认值：build === true ? 'write-tsbuildinfo' ? 'readonly'。<br />
+       * 2、write-dts仅写入.d.ts文件。<br />
+       * 3、write-tsbuildinfo仅写入.tsbuildinfo文件。<br />
+       * 4、write-references用于编写项目引用的.js和.d.ts文件（最后2种模式需要build:true）。<br />
+       * 5、如果使用“babel-loader”，建议使用"write-references"模式来提高初始编译时间。如果使用“ts-loader”，建议使用"write-tsbuildinfo"模式，以不覆盖“ts-loader”发出的文件。<br />
+       * 6、默认值：build === true ? 'write-tsbuildinfo' : 'readonly'。<br />
+       * 7、由于在“ts-loader”的配置中将配置项transpileOnly设置为true，会导致“ts-loader”不发出声明文件，如果需要发出声明文件可以将插件“fork-ts-checker-webpack-plugin”的typescript.mode选项设置为“write-dts”。<br />
        */
-      mode: 'readonly',
+      mode: 'write-dts',
       // 用于选择我们要执行哪些诊断的设置。
       diagnosticOptions: {
         // 句法。
@@ -2651,7 +2672,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         // 全局。
         global: true,
       },
-      // TypeScript检查器扩展的选项（typescript.extensions选项对象）。
+      /**
+       * TypeScript检查器扩展的选项（typescript.extensions选项对象）。且保留着吧！<br />
+       * PS：<br />
+       * 1、如果你需要Vue.js的支持，请使用该插件的第6版，该插件最新系第8版（直到20230429）。<br />
+       * 2、该插件的第8版删除了对Vue.js的支持，也就是说选项typescript.extensions被删除了。<br />
+       */
       extensions: {
         vue: {
           enabled: true,
@@ -2679,7 +2705,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        └───────────────┴────────────────────┘
        */
       profile: false,
-      // 如果提供，这是可以在其中找到TypeScript的自定义路径。
+      // 如果提供，这是可以在其中找到TypeScript的自定义路径。必须指向到“typescript.js”这个文件的路径，也就是值为: resolve( __dirname, './node_modules/typescript/lib/typescript.js' )。
       typescriptPath: resolve( __dirname, './node_modules/typescript/lib/typescript.js' ),
     },
     issue: {
@@ -5134,7 +5160,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       tsLoaderConfig = {
         loader: 'ts-loader',
         options: {
-          // true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。
+          /**
+           * 1、true表示禁用类型检查器-我们将在"fork-ts-checker-webpack-plugin"插件中使用类型检查。如果你使用ts-loader < 9.3.0，添加transpileOnly选项。<br />
+           * 2、transpileOnly: true会使你没有类型检查，也不会输出声明文件，如果需要输出声明文件，你将需要配置fork-ts-checker-webpack-plugin来输出定义文件。<br />
+           */
           transpileOnly: true,
           // 如果您使用HappyPack或thread-loader来并行化您的构建，那么您需要将其设置为true。这隐含地将*transpileOnly*设置为true和警告！停止向webpack注册所有错误。
           happyPackMode: true,
@@ -5179,9 +5208,26 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             };
           } )( './tsconfig.json' ),
           colors: true,
-          appendTsSuffixTo: [],
-          appendTsxSuffixTo: [],
+          /**
+           * 一个与文件名匹配的正则表达式的列表。<br />
+           * 如果文件名匹配其中一个正则表达式，一个.ts或.tsx后缀将被附加到该文件名上。<br />
+           * 如果你使用HappyPack或者带有ts-loader的thread-loader，你需要为正则表达式使用字符串类型，而不是RegExp对象。<br />
+           */
+          appendTsSuffixTo: [
+            // '\\.ts\\.vue$',
+            // '\\.cts\\.vue$',
+            // '\\.mts\\.vue$',
+          ],
+          /**
+           * 一个与文件名匹配的正则表达式的列表。<br />
+           * 如果文件名匹配其中一个正则表达式，一个.ts或.tsx后缀将被附加到该文件名上。<br />
+           * 如果你使用HappyPack或者带有ts-loader的thread-loader，你需要为正则表达式使用字符串类型，而不是RegExp对象。<br />
+           */
+          appendTsxSuffixTo: [
+            // '\\.tsx\\.vue$',
+          ],
           onlyCompileBundledFiles: true,
+          useCaseSensitiveFileNames: true,
           allowTsInNodeModules: false,
           context: resolve( __dirname, './' ),
           experimentalFileCaching: true,
@@ -8962,6 +9008,7 @@ export {
   entryConfig,
   experimentsConfig,
   extensionsConfig,
+  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
@@ -9010,6 +9057,7 @@ export default {
   entryConfig,
   experimentsConfig,
   extensionsConfig,
+  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,

@@ -48,6 +48,7 @@ import {
   entryConfig,
   experimentsConfig,
   extensionsConfig,
+  extensionAliasConfig,
   externalsConfig,
   forkTsCheckerWebpackPluginConfig,
   forkTsCheckerNotifierWebpackPluginConfig,
@@ -225,6 +226,8 @@ export default {
      */
     enforceExtension: false,
     extensions: extensionsConfig,
+    // 之所以设置该选项，系为了配合ts-loader的使用。
+    extensionAlias: extensionAliasConfig,
     modules: [
       'node_modules',
     ],
