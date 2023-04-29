@@ -28,17 +28,16 @@
               "Sec-Fetch-Mode": "cors",
               "Sec-Fetch-Dest": "empty",
               "Pragma": "no-cache",
-              "Cache-Control": "no-siteApp, no-cache, must-revalidate, no-transform",
+              "Cache-Control": "no-store",
               "Connection": "keep-alive",
               "Accept": "*/*",
               "Expires": 0,
+              "Allow": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
+              "X-DNS-Prefetch-Control": "on",
               "Access-Control-Allow-Origin": "*",
-              "Access-Control-Max-Age": "365 * 1 * 24 * 60 * 60",
-              "Access-Control-Allow-Credentials": true,
-              "Access-Control-Expose-Headers": "Transfer-Encoding, Content-Encoding, Content-Length, Accept-Language, Accept-Encoding, Accept-Charset, Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma",
-              "Access-Control-Allow-Headers": "application/x-www-form-urlencoded, multipart/form-data, text/plain, Content-Type, Content-Length, Accept, Accept-Language, X-Requested-With, Cache-Control",
-              "Access-Control-Allow-Methods": "PUT, POST, GET, DELETE, OPTIONS, CONNECT, HEAD, PATCH, TRACE",
-              "Access-Control-Request-Method": "PUT, POST, GET, DELETE, OPTIONS, CONNECT, HEAD, PATCH, TRACE"
+              "Access-Control-Max-Age": 7200,
+              "Access-Control-Request-Headers": "X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language",
+              "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH"
             },
             "introspect": false
           }
