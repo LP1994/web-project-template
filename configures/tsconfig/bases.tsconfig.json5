@@ -922,6 +922,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     2、在“-incremental”和“-watch”中进行重新编译假定文件中的更改只会直接影响依赖于它的文件。需要TypeScript版本3.8或更高版本。
     */
     "assumeChangesOnlyAffectDirectDependencies": true,
+    // 该选项属于CIL命令行中设置的，不该在配置文件中设置！
     // "generateTrace": "./ts_compiled/",
     "moduleSuffixes": [
       "",

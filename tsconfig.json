@@ -89,7 +89,6 @@
     "types": [],
     "declarationDir": "./ts_compiled/",
     "outDir": "./ts_compiled/",
-    "generateTrace": "./ts_compiled/",
     "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
     "moduleSuffixes": [
       ""
