@@ -161,7 +161,7 @@ main {
           id = 'UploadForMultiple'
           class = 'css-reset'
           type = 'file'
-          multiple = 'multiple' />
+          multiple />
         <button
           class = 'css-reset'
           type = 'button'
@@ -194,6 +194,7 @@ function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
   return sha3_512.create().update( data ).hex();
 }
 
+// @ts-expect-error
 async function UploadForBinary( event: Event ): Promise<void>{
   const uploadForBinary: HTMLInputElement = document.querySelector( '#UploadForBinary' ) as HTMLInputElement,
     files: FileList = uploadForBinary.files as FileList;
@@ -229,6 +230,7 @@ async function UploadForBinary( event: Event ): Promise<void>{
   }
 }
 
+// @ts-expect-error
 async function UploadForSingle( event: Event ): Promise<void>{
   const uploadForSingle: HTMLInputElement = document.querySelector( '#UploadForSingle' ) as HTMLInputElement,
     files: FileList = uploadForSingle.files as FileList;
@@ -270,6 +272,7 @@ async function UploadForSingle( event: Event ): Promise<void>{
   }
 }
 
+// @ts-expect-error
 function UploadForMultiple( event: Event ): void{
   const uploadForMultiple: HTMLInputElement = document.querySelector( '#UploadForMultiple' ) as HTMLInputElement,
     files: FileList = uploadForMultiple.files as FileList;
