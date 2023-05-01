@@ -81,22 +81,19 @@
     "target": "es2022",
     "module": "es2022",
     "moduleResolution": "bundler",
-    "traceResolution": false,
-    "explainFiles": false,
-    "extendedDiagnostics": false,
     "baseUrl": "./",
     "rootDir": ".",
-    "types": [],
     "declarationDir": "./ts_compiled/",
     "outDir": "./ts_compiled/",
     "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
-    "moduleSuffixes": [
-      ""
-    ],
+    "types": [],
     "typeRoots": [
       "./node_modules/@types",
       "./src/custom_declare_types",
       "./simulation_servers/deno/src/custom_declare_types"
+    ],
+    "moduleSuffixes": [
+      ""
     ],
     "paths": {
       "element-ui-css": [
