@@ -7113,10 +7113,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    */
                   // mode: 'module',
                   /**
-                   * 将表达式（如 {{ foo }} 转换为 _ctx.foo）。如果此选项为 false，则生成的代码将被包装在一个 with (this) { ... } 块中。
-                   * 这在mode === 'module'是强制启用的，因为模块默认是严格的，不能使用with。
+                   * 将表达式（如 {{ foo }} 转换为 _ctx.foo）。如果此选项为 false，则生成的代码将被包装在一个 with (this) { ... } 块中。<br />
+                   * 这在mode === 'module'是强制启用的，因为模块默认是严格的，不能使用with。<br />
+                   * 一般不要设置这个选项，交由内部自行处理。<br />
                    */
-                  prefixIdentifiers: true,
+                  // prefixIdentifiers: true,
                   /**
                    * 缓存v-on处理程序以避免在每次渲染时创建新的内联函数，也避免了通过包装动态修补处理程序的需要。<br />
                    * 例如`@click="foo"`默认编译为`{onClick: foo }`。<br />
@@ -7124,15 +7125,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    * { onClick: _cache[0] || (_cache[0] = e => _ctx.foo(e)) }
                    * 需要启用 "prefixIdentifiers"，因为它依靠范围分析来确定处理程序是否可以安全缓存。<br />
                    * 分析来确定一个处理程序是否可以安全地进行缓存。<br />
+                   * 一般不要设置这个选项，交由内部自行处理。<br />
                    * 详细见：<br />
                    * node_modules/@vue/compiler-core/dist/compiler-core.d.ts:1141
                    */
-                  cacheHandlers: true,
+                  // cacheHandlers: true,
                   /**
-                   * 通过变量赋值优化帮助程序导入绑定的选项（仅用于webpack代码拆分），默认值为：false。
+                   * 通过变量赋值优化帮助程序导入绑定的选项（仅用于webpack代码拆分），默认值为：false。<br />
+                   * 一般不要设置这个选项，交由内部自行处理。<br />
                    * 详细见：node_modules/@vue/compiler-core/dist/compiler-core.d.ts:185
                    */
-                  optimizeImports: isProduction,
+                  // optimizeImports: isProduction,
                   comments: !isProduction,
                   whitespace: !isProduction
                               ? 'preserve'
