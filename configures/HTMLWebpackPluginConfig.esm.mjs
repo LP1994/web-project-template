@@ -208,7 +208,6 @@ function HTMLWebpackPluginConfig( {
                      ? []
         // 注意这里传入的字符串必须跟entry配置（EntryConfig.esm.mjs）中对应的入口项的key名一致。
                      : ExcludeChunks( 'HelloWorld' ),
-      meta: {},
       data: {
         ...defaultData,
       },
@@ -221,7 +220,6 @@ function HTMLWebpackPluginConfig( {
       excludeChunks: isSPA
                      ? []
                      : ExcludeChunks( 'Upload' ),
-      meta: {},
       data: {
         ...defaultData,
         description: 'This is a page for Upload.',
@@ -289,6 +287,7 @@ function HTMLWebpackPluginConfig( {
       showErrors: !isProduction,
       chunksSortMode: 'auto',
       xhtml: true,
+      meta: {},
       ...item,
     } );
   } );

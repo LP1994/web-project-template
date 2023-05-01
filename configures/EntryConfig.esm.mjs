@@ -101,6 +101,18 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  * chunkLoading：同output.chunkLoading。<br />
  * 
  * dependOn：string、[ string ]（强烈建议优先使用这个值类型设置），当前入口点所依赖的入口点。加载此入口点时，必须加载它们。<br />
+ * 注意：<br />
+ * 1、该选项配置的不是文件地址（如：'./src/xxx.js'），而是入口点的key名。例如这样的配置：<br />
+ * entry: {
+ *   a: {
+ *     import: [
+ *     './a.js',
+ *     './a.css',
+ *     ],
+ *     dependOn: [ 'bbb', ],
+ *   },
+ *   bbb: './b.js',
+ * }
  * 
  * filename：同output.filename。<br />
  * 
