@@ -420,6 +420,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、这一设置在2种情况下是有用的：
     你正在使用TypeScript以外的转码器来生成你的JavaScript。
     你正在使用TypeScript只为你的消费者生成d.ts文件。
+    2、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为false，并且noEmit选项要设置为true，否则会报错，说这两个选项不能一起使用。
     */
     "emitDeclarationOnly": true,
     /*
@@ -468,6 +469,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、不要发出编译器输出文件，如JavaScript源代码、源映射或声明。
     2、这为Babel或swc等其他工具腾出空间来处理将TypeScript文件转换为可以在JavaScript环境中运行的文件。
     3、然后，您可以将TypeScript用作提供编辑器集成的工具，并用作源代码类型检查器。
+    4、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为true，并且emitDeclarationOnly选项要设置为false，否则会报错，说这两个选项不能一起使用。
     */
     "noEmit": false,
     /*
@@ -582,6 +584,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     5、但是，其他转译器一次只对单个文件进行操作，这意味着它们不能应用依赖于对完整类型系统的理解的代码转换。
     6、此限制也适用于某些构建工具使用的TypeScript的ts.transpileModule API。
     7、isolatedModules选项不能与选项'verbatimModuleSyntax'一起指定。
+    8、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为true，也是Vite要求设置为true的。
     */
     // "isolatedModules": false,
     /*
@@ -861,6 +864,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     rootDir选项设置，如果没有明确设置，默认为包含tsconfig.json文件的目录。
     所有实现文件必须由包含模式匹配或列在文件数组中。如果违反此约束，tsc 将通知您未指定哪些文件。
     declaration选项值默认为true。
+    3、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为false。当出现类型错误什么的通不过校验时，会很神奇的报错而且还终止编译！且报这种鬼错误提示：
+    Debug.assert(getRootLength(fromDirectory) > 0 === getRootLength(to) > 0, "Paths must either both be absolute or both be relative");
+    Error: Debug Failure. False expression: Paths must either both be absolute or both be relative
     */
     "composite": true,
     /*
@@ -887,11 +893,17 @@ CreateDate: 2022-01-01 00:00:00 星期六
     3、告诉TypeScript将上次编译的项目图信息保存到磁盘上存储的文件中。这会在编译输出所在的文件夹中创建一系列.tsbuildinfo文件。
     4、您的JavaScript在运行时不使用它们，可以安全地删除它们。您可以在3.4发行说明中阅读有关该标志的更多信息。
     5、要控制要将文件构建到哪些文件夹，请使用配置选项tsBuildInfoFile。
+    6、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为false。当出现类型错误什么的通不过校验时，会很神奇的报错而且还终止编译！且报这种鬼错误提示：
+    Debug.assert(getRootLength(fromDirectory) > 0 === getRootLength(to) > 0, "Paths must either both be absolute or both be relative");
+    Error: Debug Failure. False expression: Paths must either both be absolute or both be relative
     */
     "incremental": true,
     /*
     此设置允许您指定用于存储增量编译信息的文件作为复合项目的一部分，从而可以更快地构建更大的TypeScript代码库。您可以在手册中阅读有关复合项目的更多信息。
     1、此选项提供了一种配置TypeScript跟踪其存储在磁盘上的文件以指示项目的构建状态的位置的方法——默认情况下，它们与您发出的JavaScript位于同一文件夹中。
+    2、当跟Vite以及vite-plugin-checker一起使用时，该选项不要设置！当出现类型错误什么的通不过校验时，会很神奇的报错而且还终止编译！且报这种鬼错误提示：
+    Debug.assert(getRootLength(fromDirectory) > 0 === getRootLength(to) > 0, "Paths must either both be absolute or both be relative");
+    Error: Debug Failure. False expression: Paths must either both be absolute or both be relative
     */
     // "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
     /*
