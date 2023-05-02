@@ -845,8 +845,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     您想将TypeScript转换为终端中构建链的一部分，该终端在下一条命令中处理文件名。
     您不确定TypeScript是否包含了所需的文件，这是调试文件包含设置的一部分。
     3、通常，TypeScript会在成功时静默返回。
+    4、设置成false，就不会打印出辣么多日志了。
     */
-    "listEmittedFiles": true,
+    "listEmittedFiles": false,
     /*
     打印文件名称的一部分。当您不确定TypeScript是否包含所需的文件时，此功能很有用。
     1、请注意，如果使用TypeScript 4.2，请更喜欢explainFiles，它也解释了为什么添加了文件。
