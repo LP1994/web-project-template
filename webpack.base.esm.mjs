@@ -596,6 +596,8 @@ const autoprefixerConfig = {
   },
   /**
    * @type {object}
+   * 详细见：
+   * node_modules/@types/html-minifier-terser/index.d.ts:15
    */
   HTMLMinifyConfig = {
     // 以区分大小写的方式处理属性（对自定义HTML标签有用）。
