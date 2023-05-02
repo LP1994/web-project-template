@@ -85,7 +85,10 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
 }
 
 /**
- * 开始应用程序捆绑过程的一个或多个点。如果传递了一个数组，则将处理所有项目，强烈要求以Object的配置来配置入口点！<br />
+ * 开始应用程序捆绑过程的一个或多个点。如果传递了一个数组，则将处理所有项目。<br />
+ * PS：<br />
+ * 强烈要求以Object的配置来配置入口点！这样才能正确的配合“configures/HTMLWebpackPluginConfig.esm.mjs”文件中“ExcludeChunks函数”的使用。<br />
+ *
  * 1、动态加载的模块不是入口点。<br />
  * 2、需要考虑的规则：每个HTML页面有一个入口点。SPA：一个入口点，MPA：多个入口点。<br />
  * 3、允许为每个入口点设置不同类型的文件，如：entry: { a: [ './a.js', './a.css', ], }，这种设置，会在输出目录下生成对应的JS、CSS文件。<br />
@@ -173,6 +176,23 @@ const entryConfig = {
     ] ),
   },
 };
+
+/**
+ * 注意：校验上面的常量“entryConfig”的值类型是不是一个Object类型，并且该常量“entryConfig”里面的每一个“键”对应的值也必须都得是一个Object类型。这是一个强制检验！<br />
+ * 如果在实际开发过程中出现某些原因，不得不取消这个强制校验，那么除了要改“configures/EntryConfig.esm.mjs”文件里的逻辑，也要改“configures/HTMLWebpackPluginConfig.esm.mjs”文件里的逻辑。<br />
+ */
+( function VerifyEntryConfig( entryConfig ){
+  if( Object.prototype.toString.call( entryConfig ) === '[object Object]' ){
+    Array.from( Object.values( entryConfig ) ).forEach( ( item, index ) => {
+      if( Object.prototype.toString.call( item ) !== '[object Object]' ){
+        throw new Error( `\n\n\n键“${ Array.from( Object.keys( entryConfig ) )[ index ] }”的值类型必须是一个Object类型！这是强制要求的！\n如果在实际开发过程中出现某些原因，不得不取消这个强制规定，那么除了要改“configures/EntryConfig.esm.mjs”文件里的逻辑，也要改“configures/HTMLWebpackPluginConfig.esm.mjs”文件里的逻辑。\n\n\n` );
+      }
+    } );
+  }
+  else{
+    throw new Error( `\n\n\n常量“entryConfig”的值类型必须是一个Object类型！这是强制要求的！\n如果在实际开发过程中出现某些原因，不得不取消这个强制规定，那么除了要改“configures/EntryConfig.esm.mjs”文件里的逻辑，也要改“configures/HTMLWebpackPluginConfig.esm.mjs”文件里的逻辑。\n\n\n` );
+  }
+} )( entryConfig );
 
 export {
   entryConfig,
