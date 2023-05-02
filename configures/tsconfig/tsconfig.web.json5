@@ -1,6 +1,6 @@
 /*
 Project: web-project-template
-FileDirPath: configures/tsconfig/web.tsconfig.json5
+FileDirPath: configures/tsconfig/tsconfig.web.json5
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
@@ -8,13 +8,13 @@ CreateDate: 2022-01-01 00:00:00 星期六
 */
 
 {
-  "display": "web.tsconfig.json5",
+  "display": "tsconfig.web.json5",
   "_version": "1.0.0",
   "_typescript_version": "5.0.4",
   "_description": "这是给WEB一类的项目使用的基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
-  "extends": "./bases.tsconfig.json5",
+  "extends": "./tsconfig.bases.json5",
   "compilerOptions": {
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
