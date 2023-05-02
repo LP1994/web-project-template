@@ -1,6 +1,6 @@
 该文件夹中是使用“typedoc”（其支持对“.mts”、“.ts”、“.cts”、“.mjs”、“.js”、“.cjs”等等后缀名生成文档）为使用TypeScript编写的代码生成的用于描述“UniversalTools.esm.mts”的文档说明。
 
-1、确保“type_doc”文件夹下有一个“typedoc.json” 、“typedoc_tsconfig.json”、“README.md”配置文件，然后在该文件下执行生成文档的命令：typedoc --options typedoc.json。
+1、确保“type_doc”文件夹下有一个“typedoc.json” 、“tsconfig.typedoc.json”、“README.md”配置文件，然后在该文件下执行生成文档的命令：typedoc --options typedoc.json。
 2、也可以直接双击执行“GenerateDocument.bat”。
 3、生成的文档都在“doc”文件夹下。
 4、配置文件中如果涉及路径，那么在参照使用时要注意修改这些路径，毕竟它们都是相对路径。
@@ -10,15 +10,15 @@ https://typedoc.org/guides/options/
 https://typedoc.org/guides/overview/
 
 关键配置文件说明：
-1、“typedoc_tsconfig.json”（其中的参数同tsconfig.json的参数）：
+1、“tsconfig.typedoc.json”（其中的参数同tsconfig.json的参数）：
 {
-  "extends": "../../../../../typedoc_tsconfig.json",
+  "extends": "../../../../../tsconfig.typedoc.json",
   "files": [
     "../UniversalTools.esm.mts"
   ]
 }
-参数“extends”的值是一个字符串路径，使用相对路径，指向项目根目录下的“typedoc_tsconfig.json”。
-参数“files”的值是一个字符串路径，使用相对路径，指向需要生成文档的目标文件，值格式是相对于文件夹“src/tools/ts/universal_tools/type_doc”下的“typedoc_tsconfig.json”文件所在的目录的相对路径。
+参数“extends”的值是一个字符串路径，使用相对路径，指向项目根目录下的“tsconfig.typedoc.json”。
+参数“files”的值是一个字符串路径，使用相对路径，指向需要生成文档的目标文件，值格式是相对于文件夹“src/tools/ts/universal_tools/type_doc”下的“tsconfig.typedoc.json”文件所在的目录的相对路径。
 
 2、“typedoc.json”：
 {
@@ -31,7 +31,7 @@ https://typedoc.org/guides/overview/
   ],
   "json": "./doc/UniversalTools.doc.json",
   "readme": "./README.md",
-  "tsconfig": "./typedoc_tsconfig.json",
+  "tsconfig": "./tsconfig.typedoc.json",
   "out": "./doc"
 }
 参数“name”是用于设置生成文档后，HTML文件中显示的文档标题。

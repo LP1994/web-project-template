@@ -8,6 +8,6 @@
   ],
   "json": "./doc/UniversalTools.doc.json",
   "readme": "./README.md",
-  "tsconfig": "./typedoc_tsconfig.json",
+  "tsconfig": "./tsconfig.typedoc.json",
   "out": "./doc"
 }
