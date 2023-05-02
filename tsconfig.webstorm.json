@@ -2,7 +2,7 @@
   "display": "tsconfig.webstorm.json",
   "_version": "1.0.0",
   "_typescript_version": "5.0.4",
-  "_description": "这是给WebStorm这个IDE使用的tsconfig.json，只做类型校验、代码规范等等，以便辅助编码过程，提供各种提示。该配置也被tsconfig.typedoc.json复制使用。",
+  "_description": "这是给WebStorm这个IDE使用的tsconfig.json，只做类型校验、代码规范等等，以便辅助编码过程，提供各种提示。该配置也被tsconfig.typedoc.json复制使用。该配置也被tsconfig.ts-node.json扩展使用。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
   "include": [
@@ -60,7 +60,7 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
