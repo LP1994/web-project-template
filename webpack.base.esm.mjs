@@ -1927,7 +1927,7 @@ const aliasConfig = {
       // Windows平台上的Edge浏览器。
       {
         target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
         ],
         app: {
           name: [
@@ -1942,7 +1942,7 @@ const aliasConfig = {
       /*
        {
        target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
        ],
        app: {
        name: [
@@ -1958,7 +1958,7 @@ const aliasConfig = {
       /*
        {
        target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
        ],
        app: {
        name: [
@@ -1974,7 +1974,7 @@ const aliasConfig = {
       /*
        {
        target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
        ],
        app: {
        name: [
@@ -1989,7 +1989,7 @@ const aliasConfig = {
       // MacOS平台上的Chrome浏览器。
       {
         target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
         ],
         app: {
           name: [
@@ -2003,7 +2003,7 @@ const aliasConfig = {
       // Linux平台上的Chrome浏览器。
       {
         target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/pages/HelloWorld.html`,
+          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
         ],
         app: {
           name: [
