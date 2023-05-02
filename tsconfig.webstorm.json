@@ -1,0 +1,441 @@
+{
+  "display": "tsconfig.webstorm.json",
+  "_version": "1.0.0",
+  "_typescript_version": "5.0.4",
+  "_description": "这是给WebStorm这个IDE使用的tsconfig.json，只做类型校验、代码规范等等，以便辅助编码过程，提供各种提示。",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "docs": "https://www.typescriptlang.org/tsconfig",
+  "include": [
+    "**/*.ts",
+    "**/*.cts",
+    "**/*.mts",
+    "**/*.tsx",
+    "**/*.d.ts",
+    "**/*.d.cts",
+    "**/*.d.mts",
+    "**/*.ts.vue",
+    "**/*.cts.vue",
+    "**/*.mts.vue",
+    "**/*.tsx.vue"
+  ],
+  "exclude": [
+    "./.git",
+    "./.idea",
+    "./node_modules"
+  ],
+  "compileOnSave": true,
+  "ts-node": {
+    "compiler": "typescript",
+    "compilerHost": false,
+    "emit": false,
+    "esm": true,
+    "experimentalReplAwait": true,
+    "experimentalResolver": false,
+    "experimentalTsImportSpecifiers": true,
+    "files": false,
+    "logError": false,
+    "preferTsExts": true,
+    "pretty": true,
+    "skipIgnore": false,
+    "swc": false,
+    "transpileOnly": false
+  },
+  "typeAcquisition": {
+    "enable": true,
+    "disableFilenameBasedTypeAcquisition": false
+  },
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "allowArbitraryExtensions": true,
+    "verbatimModuleSyntax": true,
+
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    "allowUmdGlobalAccess": true,
+
+    "noResolve": false,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "noEmit": true,
+    "sourceMap": false,
+    "allowJs": true,
+    "checkJs": false,
+    "maxNodeModuleJsDepth": 0,
+    "disableSizeLimit": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveSymlinks": false,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
+    "moduleDetection": "auto",
+    "noLib": false,
+    "explainFiles": false,
+    "extendedDiagnostics": false,
+    "listEmittedFiles": false,
+    "traceResolution": false,
+    "disableReferencedProjectLoad": false,
+    "disableSolutionSearching": false,
+    "disableSourceOfProjectReferenceRedirect": false,
+    "skipLibCheck": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "rootDir": ".",
+    "outDir": "./ts_compiled/",
+    "types": [],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/custom_declare_types",
+      "./simulation_servers/deno/src/custom_declare_types"
+    ],
+    "moduleSuffixes": [
+      ""
+    ],
+    "paths": {
+      "element-ui-css": [
+        "./node_modules/element-ui/lib/theme-chalk/index.css"
+      ],
+      "element-plus-css": [
+        "./node_modules/element-plus/dist/index.css"
+      ],
+      "swiper-css": [
+        "./node_modules/swiper/swiper-bundle.min.css"
+      ],
+      "tslib": [
+        "./node_modules/tslib/"
+      ],
+      "assetsDir/*": [
+        "./src/assets/*"
+      ],
+      "docDir/*": [
+        "./src/assets/doc/*"
+      ],
+      "csonDir/*": [
+        "./src/assets/doc/cson/*"
+      ],
+      "csvDir/*": [
+        "./src/assets/doc/csv/*"
+      ],
+      "jsonDir/*": [
+        "./src/assets/doc/json/*"
+      ],
+      "json5Dir/*": [
+        "./src/assets/doc/json5/*"
+      ],
+      "tomlDir/*": [
+        "./src/assets/doc/toml/*"
+      ],
+      "tsvDir/*": [
+        "./src/assets/doc/tsv/*"
+      ],
+      "txtDir/*": [
+        "./src/assets/doc/txt/*"
+      ],
+      "xmlDir/*": [
+        "./src/assets/doc/xml/*"
+      ],
+      "yamlDir/*": [
+        "./src/assets/doc/yaml/*"
+      ],
+      "fontsDir/*": [
+        "./src/assets/fonts/*"
+      ],
+      "imgDir/*": [
+        "./src/assets/img/*"
+      ],
+      "musicDir/*": [
+        "./src/assets/music/*"
+      ],
+      "videosDir/*": [
+        "./src/assets/videos/*"
+      ],
+      "gQLAPIDir/*": [
+        "./src/graphQL/api/*"
+      ],
+      "nativeComponentsDir/*": [
+        "./src/native_components/*"
+      ],
+      "pagesDir/*": [
+        "./src/pages/*"
+      ],
+      "pwaManifestDir/*": [
+        "./src/pwa_manifest/*"
+      ],
+      "stylesDir/*": [
+        "./src/styles/*"
+      ],
+      "cssDir/*": [
+        "./src/styles/css/*"
+      ],
+      "lessDir/*": [
+        "./src/styles/less/*"
+      ],
+      "postcssDir/*": [
+        "./src/styles/postcss/*"
+      ],
+      "sassDir/*": [
+        "./src/styles/sass/*"
+      ],
+      "scssDir/*": [
+        "./src/styles/scss/*"
+      ],
+      "stylusDir/*": [
+        "./src/styles/stylus/*"
+      ],
+      "templateDir/*": [
+        "./src/template/*"
+      ],
+      "ejsDir/*": [
+        "./src/template/ejs/*"
+      ],
+      "handlebarsDir/*": [
+        "./src/template/handlebars/*"
+      ],
+      "htmlDir/*": [
+        "./src/template/html/*"
+      ],
+      "markdownDir/*": [
+        "./src/template/markdown/*"
+      ],
+      "mustacheDir/*": [
+        "./src/template/mustache/*"
+      ],
+      "pug_jadeDir/*": [
+        "./src/template/pug_jade/*"
+      ],
+      "toolsDir/*": [
+        "./src/tools/*"
+      ],
+      "jsDir/*": [
+        "./src/tools/js/*"
+      ],
+      "tsDir/*": [
+        "./src/tools/ts/*"
+      ],
+      "wasmDir/*": [
+        "./src/wasm/build/*"
+      ],
+      "webComponentsDir/*": [
+        "./src/web_components/*"
+      ],
+      "workersDir/*": [
+        "./src/workers/*"
+      ],
+      "serviceWorkersDir/*": [
+        "./src/workers/service_workers/*"
+      ],
+      "sharedWorkersDir/*": [
+        "./src/workers/shared_workers/*"
+      ],
+      "workersToolsDir/*": [
+        "./src/workers/tools/*"
+      ],
+      "webWorkersDir/*": [
+        "./src/workers/web_workers/*"
+      ],
+      "DenoStd/*": [
+        "https://deno.land/std/*"
+      ],
+      "DenoX/*": [
+        "https://deno.land/x/*"
+      ],
+      "esmSH/*": [
+        "https://esm.sh/*"
+      ],
+      "preact/jsx-runtime/*": [
+        "https://cdn.skypack.dev/preact/jsx-runtime?dts/*"
+      ],
+      "preact/jsx-dev-runtime/*": [
+        "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts/*"
+      ],
+      "DenoSrc/*": [
+        "./simulation_servers/deno/src/*"
+      ],
+      "configures/*": [
+        "./simulation_servers/deno/src/configures/*"
+      ],
+      "route_map_config/*": [
+        "./simulation_servers/deno/src/configures/route_map_config/*"
+      ],
+      "database/*": [
+        "./simulation_servers/deno/src/database/*"
+      ],
+      "deno_db/*": [
+        "./simulation_servers/deno/src/database/deno_db/*"
+      ],
+      "firebase/*": [
+        "./simulation_servers/deno/src/database/firebase/*"
+      ],
+      "graphql/*": [
+        "./simulation_servers/deno/src/database/graphql/*"
+      ],
+      "mongo/*": [
+        "./simulation_servers/deno/src/database/mongo/*"
+      ],
+      "mysql/*": [
+        "./simulation_servers/deno/src/database/mysql/*"
+      ],
+      "postgres/*": [
+        "./simulation_servers/deno/src/database/postgres/*"
+      ],
+      "sqlite/*": [
+        "./simulation_servers/deno/src/database/sqlite/*"
+      ],
+      "supabase/*": [
+        "./simulation_servers/deno/src/database/supabase/*"
+      ],
+      "public/*": [
+        "./simulation_servers/deno/src/public/*"
+      ],
+      "routers/*": [
+        "./simulation_servers/deno/src/routers/*"
+      ],
+      "servers/*": [
+        "./simulation_servers/deno/src/servers/*"
+      ],
+      "services/*": [
+        "./simulation_servers/deno/src/services/*"
+      ],
+      "ssr/*": [
+        "./simulation_servers/deno/src/ssr/*"
+      ],
+      "template/*": [
+        "./simulation_servers/deno/src/template/*"
+      ],
+      "ejs/*": [
+        "./simulation_servers/deno/src/template/ejs/*"
+      ],
+      "handlebars/*": [
+        "./simulation_servers/deno/src/template/handlebars/*"
+      ],
+      "html/*": [
+        "./simulation_servers/deno/src/template/html/*"
+      ],
+      "markdown/*": [
+        "./simulation_servers/deno/src/template/markdown/*"
+      ],
+      "mustache/*": [
+        "./simulation_servers/deno/src/template/mustache/*"
+      ],
+      "pug_jade/*": [
+        "./simulation_servers/deno/src/template/pug_jade/*"
+      ],
+      "tools/*": [
+        "./simulation_servers/deno/src/tools/*"
+      ],
+      "third_party_modules/*": [
+        "./simulation_servers/deno/src/tools/third_party_modules/*"
+      ],
+      "universal_tool_for_deno/*": [
+        "./simulation_servers/deno/src/tools/universal_tool_for_deno/*"
+      ],
+      "static/*": [
+        "./simulation_servers/deno/static/*"
+      ],
+      "test/*": [
+        "./simulation_servers/deno/test/*"
+      ],
+      "upload/*": [
+        "./simulation_servers/deno/upload/*"
+      ],
+      "web/*": [
+        "./simulation_servers/deno/web/*"
+      ]
+    },
+    "lib": [
+      "decorators",
+      "decorators.legacy",
+      "dom",
+      "dom.iterable",
+      "es2015",
+      "es2015.collection",
+      "es2015.core",
+      "es2015.generator",
+      "es2015.iterable",
+      "es2015.promise",
+      "es2015.proxy",
+      "es2015.reflect",
+      "es2015.symbol",
+      "es2015.symbol.wellknown",
+      "es2016",
+      "es2016.array.include",
+      "es2017",
+      "es2017.intl",
+      "es2017.object",
+      "es2017.sharedmemory",
+      "es2017.string",
+      "es2017.typedarrays",
+      "es2018",
+      "es2018.asyncgenerator",
+      "es2018.asynciterable",
+      "es2018.intl",
+      "es2018.promise",
+      "es2018.regexp",
+      "es2019",
+      "es2019.array",
+      "es2019.intl",
+      "es2019.object",
+      "es2019.string",
+      "es2019.symbol",
+      "es2020",
+      "es2020.bigint",
+      "es2020.date",
+      "es2020.intl",
+      "es2020.number",
+      "es2020.promise",
+      "es2020.sharedmemory",
+      "es2020.string",
+      "es2020.symbol.wellknown",
+      "es2021",
+      "es2021.intl",
+      "es2021.promise",
+      "es2021.string",
+      "es2021.weakref",
+      "es2022",
+      "es2022.array",
+      "es2022.error",
+      "es2022.intl",
+      "es2022.object",
+      "es2022.regexp",
+      "es2022.sharedmemory",
+      "es2022.string",
+      "es2023",
+      "es2023.array",
+      "es5",
+      "es6",
+      "esnext",
+      "esnext.intl",
+      "scripthost",
+      "webworker",
+      "webworker.importscripts",
+      "webworker.iterable"
+    ]
+  }
+}
