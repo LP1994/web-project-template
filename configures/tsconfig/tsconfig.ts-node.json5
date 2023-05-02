@@ -1,6 +1,6 @@
 /*
 Project: web-project-template
-FileDirPath: configures/tsconfig/ts-node.tsconfig.json5
+FileDirPath: configures/tsconfig/tsconfig.ts-node.json5
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
@@ -8,7 +8,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 */
 
 {
-  "display": "ts-node.tsconfig.json5",
+  "display": "tsconfig.ts-node.json5",
   "_version": "1.0.0",
   "_ts-node_version": "10.9.1",
   "_typescript_version": "5.0.4",
@@ -17,7 +17,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "docs": "https://www.typescriptlang.org/tsconfig",
   "_ts-node_schema": "https://unpkg.com/ts-node/tsconfig.schema.json",
   "_ts-node_docs": "https://typestrong.org/ts-node/docs",
-  "extends": "./bases.tsconfig.json5",
+  "extends": "./tsconfig.bases.json5",
   "ts-node": {
     /*
     指定自定义的TypeScript编译器。
