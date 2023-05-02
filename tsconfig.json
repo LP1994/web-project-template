@@ -34,7 +34,10 @@
   "exclude": [
     "./.git",
     "./.idea",
-    "./node_modules"
+    "./node_modules",
+    "**/*.test.ts",
+    "**/*.test.cts",
+    "**/*.test.mts"
   ],
   "ts-node": {
     "compiler": "typescript",
