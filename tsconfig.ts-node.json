@@ -1,5 +1,5 @@
 {
-  "display": "tsconfig.ts_node.json",
+  "display": "tsconfig.ts-node.json",
   "_version": "1.0.0",
   "_typescript_version": "5.0.4",
   "_description": "这是给ts-node-esm使用的tsconfig.json。该配置扩展自tsconfig.webstorm.json。",
