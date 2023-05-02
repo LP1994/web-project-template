@@ -10,6 +10,11 @@
 /**
  * html-webpack-plugin插件的配置。
  * 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
+ * 详细的配置见：
+ * node_modules/html-webpack-plugin/typings.d.ts:39
+ * https://github.com/jantimon/html-webpack-plugin#options
+ * 内部默认值见：
+ * node_modules/html-webpack-plugin/index.js:45
  */
 
 'use strict';
@@ -177,6 +182,11 @@ function ExcludeChunks( currentEntryName ){
 
 /**
  * 生成一个或多个HtmlWebpackPlugin配置。<br />
+ * 详细的配置见：<br />
+ * node_modules/html-webpack-plugin/typings.d.ts:39
+ * https://github.com/jantimon/html-webpack-plugin#options
+ * 内部默认值见：<br />
+ * node_modules/html-webpack-plugin/index.js:45
  *
  * @param {object} config 对象参数。
  *
@@ -197,6 +207,12 @@ function HTMLWebpackPluginConfig( {
    * 一般只要配置该变量就行。<br />
    * PS：<br />
    * 1、当isSPA为true时，会只取config里的第1个配置，因为此时项目被设置为单页应用，这个也将作为标准模板配置供参考，复制它后再改改某些具体的参数值即可。<br />
+   *
+   * 详细的配置见：
+   * node_modules/html-webpack-plugin/typings.d.ts:39
+   * https://github.com/jantimon/html-webpack-plugin#options
+   * 内部默认值见：
+   * node_modules/html-webpack-plugin/index.js:45
    */
   const config = [
     // 当isSPA为true时，会只取config里的第1个配置，因为此时项目被设置为单页应用，这个也将作为标准模板配置供参考，复制它后再改改某些具体的参数值即可。
@@ -274,20 +290,110 @@ function HTMLWebpackPluginConfig( {
   ];
 
   const arr = config.map( item => {
+    /**
+     * 详细的配置见：
+     * node_modules/html-webpack-plugin/typings.d.ts:39
+     * https://github.com/jantimon/html-webpack-plugin#options
+     * 内部默认值见：
+     * node_modules/html-webpack-plugin/index.js:45
+     */
     return new HtmlWebpackPlugin( {
-      inject: 'body',
+      /**
+       * @type {boolean} 只有在文件被改变的情况下才发出。默认值：true。
+       */
+      cache: !isProduction,
+      /**
+       * @type {"all" | string[]} 列出应注入的所有块，只负责确保哪些块会被注入到模板中，不负责这些块的先后顺序。<br />
+       * 1、该选项默认值也是'all'，也就是说就算不设置该选项，该插件的内部也会将其设置为'all'，'all'表示将所有“块”都注入到该模板中。<br />
+       * 2、如果某个块既在选项“excludeChunks”中又在选项“chunks”中，那么这个块最后也还是会被排除掉。<br />
+       */
+      chunks: 'all',
+      /**
+       * @type {'auto'|'manual'|((entryNameA: string, entryNameB: string) => number)} 允许控制在html中包含块之前应该如何排序的问题。默认值：'auto'。
+       */
+      chunksSortMode: 'auto',
+      /**
+       * @type {string[]} 列出所有不应注入的块。<br />
+       * 1、默认值为空数组，空数组表示什么块都不排除。<br />
+       * 2、如果某个块既在选项“excludeChunks”中又在选项“chunks”中，那么这个块最后也还是会被排除掉。<br />
+       */
+      // excludeChunks: [],
+      /**
+       * @type {false | string} favicon图标的路径。默认值为false。
+       */
+      // favicon: false,
+      /**
+       * @type {string | ((entryName: string) => string)} 要写入HTML的文件。支持子目录，例如：`assets/admin.html`。[name]将被条目名称所取代，支持一个函数来生成名称。默认值为：'index.html'。<br />
+       * 1、例如设置为：filename: 'pages/HelloWorld.html'，最后会在文件夹“pages”下生成一个“HelloWorld.html”文件，文件夹“pages”则是在输出文件夹下。<br />
+       */
+      // filename: '',
+      /**
+       * @type {string | "auto"} 默认值为'auto'。默认情况下，publicPath被设置为 "auto"--这样一来，html-webpack-plugin会尝试根据当前文件名和webpack的公共路径设置来设置公共路径。
+       */
       publicPath: 'auto',
+      /**
+       * @type {boolean} 如果为true，则将唯一的webpack编译哈希附加到所有包含的脚本和CSS文件。这对于缓存破坏很有用。默认值为false。
+       */
+      hash: true,
+      /**
+       * @type {false|true|'body'|'head'} 要将生成的“scripts”标签注入到哪个HTML节点内。默认值为：head。
+       * 1、false表示不要将生成的“scripts”标签注入到任何HTML节点内。
+       * 2、true表示要将生成的“scripts”标签注入到body节点内。
+       * 3、'body'表示要将生成的“scripts”标签注入到body节点内。
+       * 4、'head'表示要将生成的“scripts”标签注入到head节点内。
+       */
+      inject: 'body',
+      /**
+       * @type {"blocking" | "defer" | "module"} 默认值为'defer'。设置脚本加载的形式。
+       * 1、blocking表示生成这样的：<script src="..."></script>
+       * 2、defer表示生成这样的：<script defer src="..."></script>
+       * 3、module表示生成这样的：<script type="module" src="..."></script>
+       */
       scriptLoading: 'defer',
+      /**
+       * @type {false|{ [name: string]: | string | false | { [attributeName: string]: string | boolean }; }} 注入meta标签，默认值：{}。
+       */
+      meta: {},
+      /**
+       * @type {"auto" | boolean | MinifyOptions} HTML最小化选项。默认值'auto'。
+       * 1、Set to `false` to disable minifcation
+       * 2、Set to `'auto'` to enable minifcation only for production mode
+       * 3、Set to custom minification according to：node_modules/@types/html-minifier-terser/index.d.ts:15
+       */
       minify: isProduction
               ? HTMLMinifyConfig
               : false,
-      // 如果为true，则将唯一的webpack编译哈希附加到所有包含的脚本和CSS文件。这对于缓存破坏很有用。
-      hash: isProduction,
-      cache: !isProduction,
+      /**
+       * @type {boolean} 将错误渲染到HTML页面中。默认值true。
+       */
       showErrors: !isProduction,
-      chunksSortMode: 'auto',
+      /**
+       * @type {string} 'webpack'需要的模板路径。默认值是一个字符串：'auto'。<br />
+       * 1、例如：设置成：'./src/template/ejs/HelloWorld.ejs'，就表示说模板的位置是在这里。<br />
+       * 2、注意，由于“configures/HTMLWebpackPluginConfig.esm.mjs”最后是被“webpack.base.esm.mjs”文件引入使用，所以，当设置为相对路径时，也应该是以“webpack.base.esm.mjs”文件所在的文件夹路径开始。<br />
+       */
+      // template: '',
+      /**
+       * @type {false|string|((templateParameters: { [option: string]: any; }) => string | Promise<string>)|Promise<string>} 允许使用一个html字符串，而不是从文件中读取。默认值是false。
+       */
+      // templateContent: false,
+      /**
+       * @type {false|(( compilation: any, assets: { publicPath: string; js: Array<string>; css: Array<string>; manifest?: string; favicon?: string; }, assetTags: { headTags: HtmlTagObject[]; bodyTags: HtmlTagObject[]; }, options: ProcessedOptions ) => { [option: string]: any } | Promise<{ [option: string]: any }>)|{ [option: string]: any }} 允许覆盖模板中使用的参数。默认值为：templateParametersGenerator。
+       */
+      // templateParameters: templateParametersGenerator,
+      /**
+       * @type {string} 生成的HTML文档要使用的标题。默认值为：'Webpack App'。
+       */
+      // title: '',
+      /**
+       * @type {boolean} 强制执行自我关闭标签，如<link />。默认值为：false。
+       */
       xhtml: true,
-      meta: {},
+      /**
+       * 除了这个插件实际使用的选项（也就是上面列出的那些选项）之外，你还可以自定义任意的选项，将它们作为额外的数据注入到模板中。
+       * 1、在模板中，可以直接通过“htmlWebpackPlugin”取到“options”，而“options”上就有能直接取到自定义的那些选项，从而取到自定义的数据。如：使用htmlWebpackPlugin.options。
+       */
+      // [option: string]: any;
       ...item,
     } );
   } );
