@@ -421,7 +421,15 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、这一设置在2种情况下是有用的：
     你正在使用TypeScript以外的转码器来生成你的JavaScript。
     你正在使用TypeScript只为你的消费者生成d.ts文件。
-    2、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为false，并且noEmit选项要设置为true，否则会报错，说这两个选项不能一起使用。
+    2、当跟Vite以及vite-plugin-checker（基于并依赖了vue-tsc）一起使用时，该选项要设置为false，并且noEmit选项要设置为true，否则会报错，说这两个选项不能一起使用。
+    之所以会有这么个设置，是因为当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，要想使用类型检查，就必须是“noEmit”为true，表示开启该选项（true代表不在构建时发出任何文件，诸如：编译后的.js、类型描述文件等等），并且“emitDeclarationOnly”为false，表示关闭该选项（false代表不在构建时发出描述文件）。
+    3、当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，该选项交由CIL命令行中设置，不用在配置文件中设置，直接注释掉即可，如：
+    开发模式的构建：
+    vue-tsc --noEmit && vite serve --force --mode dev_server --config ./vite.config.mjs
+    生产模式的构建：
+    vue-tsc --noEmit && vite build --force --mode production --config ./vite.config.mjs
+    只希望进行生成类型描述文件：
+    vue-tsc --declaration --emitDeclarationOnly
     */
     "emitDeclarationOnly": true,
     /*
@@ -470,7 +478,15 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、不要发出编译器输出文件，如JavaScript源代码、源映射或声明。
     2、这为Babel或swc等其他工具腾出空间来处理将TypeScript文件转换为可以在JavaScript环境中运行的文件。
     3、然后，您可以将TypeScript用作提供编辑器集成的工具，并用作源代码类型检查器。
-    4、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为true，并且emitDeclarationOnly选项要设置为false，否则会报错，说这两个选项不能一起使用。
+    4、当跟Vite以及vite-plugin-checker（基于并依赖了vue-tsc）一起使用时，该选项要设置为true，并且emitDeclarationOnly选项要设置为false，否则会报错，说这两个选项不能一起使用。
+    之所以会有这么个设置，是因为当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，要想使用类型检查，就必须是“noEmit”为true，表示开启该选项（true代表不在构建时发出任何文件，诸如：编译后的.js、类型描述文件等等），并且“emitDeclarationOnly”为false，表示关闭该选项（false代表不在构建时发出描述文件）。
+    5、当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，该选项交由CIL命令行中设置，不用在配置文件中设置，直接注释掉即可，如：
+    开发模式的构建：
+    vue-tsc --noEmit && vite serve --force --mode dev_server --config ./vite.config.mjs
+    生产模式的构建：
+    vue-tsc --noEmit && vite build --force --mode production --config ./vite.config.mjs
+    只希望进行生成类型描述文件：
+    vue-tsc --declaration --emitDeclarationOnly
     */
     "noEmit": false,
     /*
