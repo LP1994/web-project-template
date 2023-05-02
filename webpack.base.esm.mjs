@@ -692,9 +692,9 @@ const autoprefixerConfig = {
     resolve( __dirname, './notes/' ),
     resolve( __dirname, './read_me/' ),
     resolve( __dirname, './simulation_servers/' ),
-    resolve( __dirname, './subsystems/' ),
     resolve( __dirname, './test/' ),
     resolve( __dirname, './ts_compiled/' ),
+    resolve( __dirname, './webpack_location/' ),
     resolve( __dirname, './webpack_records/' ),
   ],
   /**
@@ -855,7 +855,7 @@ const autoprefixerConfig = {
         VendorsJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            .join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -871,14 +871,14 @@ const autoprefixerConfig = {
         ] ),
 
         EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
           name: 'EchartsJS',
         },
 
         Vendors001JS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            .join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'Vendors001JS',
           };
         } )( [
@@ -890,7 +890,7 @@ const autoprefixerConfig = {
         VueFamilyJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            .join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -902,7 +902,7 @@ const autoprefixerConfig = {
         ElementUIJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            .join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'ElementUIJS',
           };
         } )( [
@@ -980,7 +980,7 @@ const autoprefixerConfig = {
         VendorsJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            .join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -996,27 +996,27 @@ const autoprefixerConfig = {
         ] ),
 
         EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
           name: 'EchartsJS',
         },
 
         AxiosJS: {
-          test: /node_modules[\\/]axios[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]axios[\\/].*\.(js)$/i,
           name: 'AxiosJS',
         },
         jQueryJS: {
-          test: /node_modules[\\/]jquery[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]jquery[\\/].*\.(js)$/i,
           name: 'jQueryJS',
         },
         SwiperJS: {
-          test: /node_modules[\\/]swiper[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]swiper[\\/].*\.(js)$/i,
           name: 'SwiperJS',
         },
 
         VueFamilyJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js|cjs|mjs)$`, 'i' ),
+            .join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -1026,11 +1026,11 @@ const autoprefixerConfig = {
         ] ),
 
         ELEMENTJS: {
-          test: /node_modules[\\/]element-ui[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]element-ui[\\/].*\.(js)$/i,
           name: 'ELEMENTJS',
         },
         ElementPlusJS: {
-          test: /node_modules[\\/]element-plus[\\/].*\.(js|cjs|mjs)$/i,
+          test: /node_modules[\\/]element-plus[\\/].*\.(js)$/i,
           name: 'ElementPlusJS',
         },
       };
@@ -2748,6 +2748,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
       ],
       exclude: [
+        {
+          file: '**/*.test.ts',
+        },
+        {
+          file: '**/*.test.cts',
+        },
+        {
+          file: '**/*.test.mts',
+        },
         {
           file: '**/*.spec.ts',
         },
@@ -5191,6 +5200,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             'src/**/*.cts.vue',
             'src/**/*.mts.vue',
             'src/**/*.tsx.vue',
+            '!src/**/*.test.ts',
+            '!src/**/*.test.cts',
+            '!src/**/*.test.mts',
           ],
           // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
           compiler: 'typescript',
@@ -5228,8 +5240,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            */
           appendTsSuffixTo: [
             // '\\.ts\\.vue$',
-            // '\\.cts\\.vue$',
-            // '\\.mts\\.vue$',
           ],
           /**
            * 一个与文件名匹配的正则表达式的列表。<br />
