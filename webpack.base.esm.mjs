@@ -287,22 +287,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230409。Start
-    'Chrome >= 112',
+    // PC端各主流浏览器的最新版本，至20230504。Start
+    'Chrome >= 113',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 112',
     'Firefox >= 112',
     'Safari >= 16',
     'Opera >= 98',
-    // PC端各主流浏览器的最新版本，至20230409。End
+    // PC端各主流浏览器的最新版本，至20230504。End
 
-    // 移动端各主流浏览器的最新版本，至20230409。Start
-    'ChromeAndroid >= 112',
+    // 移动端各主流浏览器的最新版本，至20230504。Start
+    'ChromeAndroid >= 113',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 112',
+    'Android >= 113',
     'FirefoxAndroid >= 112',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20230409。End
+    // 移动端各主流浏览器的最新版本，至20230504。End
   ],
   /**
    * @type {string[]} 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -331,17 +331,17 @@ const browserslist = [
 
     'es2022',
 
-    // PC端各主流浏览器的最新版本，至20230409。Start
-    'chrome112',
+    // PC端各主流浏览器的最新版本，至20230504。Start
+    'chrome113',
     'edge112',
     'firefox112',
     'safari16',
     'opera98',
-    // PC端各主流浏览器的最新版本，至20230409。End
+    // PC端各主流浏览器的最新版本，至20230504。End
 
-    // 移动端各主流浏览器的最新版本，至20230409。Start
+    // 移动端各主流浏览器的最新版本，至20230504。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20230409。End
+    // 移动端各主流浏览器的最新版本，至20230504。End
   ],
   /**
    * @type {object} 目标浏览器版本。<br />
@@ -373,19 +373,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230409。Start
-    chrome: 112,
+    // PC端各主流浏览器的最新版本，至20230504。Start
+    chrome: 113,
     edge: 112,
     firefox: 112,
     safari: 16,
     opera: 98,
-    // PC端各主流浏览器的最新版本，至20230409。End
+    // PC端各主流浏览器的最新版本，至20230504。End
 
-    // 移动端各主流浏览器的最新版本，至20230409。Start
+    // 移动端各主流浏览器的最新版本，至20230504。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 112,
+    android: 113,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20230409。End
+    // 移动端各主流浏览器的最新版本，至20230504。End
   },
   /**
    * @type {object} 编译目标配置。
