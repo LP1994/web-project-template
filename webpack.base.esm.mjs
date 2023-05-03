@@ -1896,7 +1896,7 @@ const aliasConfig = {
     compress: true,
     devMiddleware: {
       headers: httpHeaders,
-      index: true,
+      index: 'index.html',
       methods: [
         'GET',
         'HEAD',
