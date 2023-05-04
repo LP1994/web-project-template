@@ -1488,6 +1488,12 @@ declare namespace Deno {
      * would resolve to `n` < `p.byteLength`. `write()` must not modify the
      * slice data, even temporarily.
      *
+     * This function is one of the lowest
+     * level APIs and most users should not work with this directly, but rather use
+     * [`writeAll()`](https://deno.land/std/streams/write_all.ts?s=writeAll) from
+     * [`std/streams/write_all.ts`](https://deno.land/std/streams/write_all.ts)
+     * instead.
+     *
      * Implementations should not retain a reference to `p`.
      */
     write(p: Uint8Array): Promise<number>;
@@ -1832,7 +1838,7 @@ declare namespace Deno {
    * // Seek 2 more bytes from the current position
    * console.log(await Deno.seek(file.rid, 2, Deno.SeekMode.Current)); // "8"
    * // Seek backwards 2 bytes from the end of the file
-   * console.log(await Deno.seek(file.rid, -2, Deno.SeekMode.End)); // "9" (e.g. 11-2)
+   * console.log(await Deno.seek(file.rid, -2, Deno.SeekMode.End)); // "9" (i.e. 11-2)
    * file.close();
    * ```
    *
@@ -1879,7 +1885,7 @@ declare namespace Deno {
    * // Seek 2 more bytes from the current position
    * console.log(Deno.seekSync(file.rid, 2, Deno.SeekMode.Current)); // "8"
    * // Seek backwards 2 bytes from the end of the file
-   * console.log(Deno.seekSync(file.rid, -2, Deno.SeekMode.End)); // "9" (e.g. 11-2)
+   * console.log(Deno.seekSync(file.rid, -2, Deno.SeekMode.End)); // "9" (i.e. 11-2)
    * file.close();
    * ```
    *
@@ -2200,7 +2206,7 @@ declare namespace Deno {
      * // Seek 2 more bytes from the current position
      * console.log(await file.seek(2, Deno.SeekMode.Current)); // "8"
      * // Seek backwards 2 bytes from the end of the file
-     * console.log(await file.seek(-2, Deno.SeekMode.End)); // "9" (e.g. 11-2)
+     * console.log(await file.seek(-2, Deno.SeekMode.End)); // "9" (i.e. 11-2)
      * ```
      */
     seek(offset: number | bigint, whence: SeekMode): Promise<number>;
@@ -2238,7 +2244,7 @@ declare namespace Deno {
      * // Seek 2 more bytes from the current position
      * console.log(file.seekSync(2, Deno.SeekMode.Current)); // "8"
      * // Seek backwards 2 bytes from the end of the file
-     * console.log(file.seekSync(-2, Deno.SeekMode.End)); // "9" (e.g. 11-2)
+     * console.log(file.seekSync(-2, Deno.SeekMode.End)); // "9" (i.e. 11-2)
      * file.close();
      * ```
      */
@@ -4003,11 +4009,14 @@ declare namespace Deno {
    *     "console.log('Hello World')",
    *   ],
    *   stdin: "piped",
+   *   stdout: "piped",
    * });
    * const child = command.spawn();
    *
    * // open a file and pipe the subprocess output to it.
-   * child.stdout.pipeTo(Deno.openSync("output").writable);
+   * child.stdout.pipeTo(
+   *   Deno.openSync("output", { write: true, create: true }).writable,
+   * );
    *
    * // manually close stdin
    * child.stdin.close();
@@ -4044,6 +4053,7 @@ declare namespace Deno {
    * console.assert("world\n" === new TextDecoder().decode(stderr));
    * ```
    *
+   * @tags allow-run
    * @category Sub Process
    */
   export class Command {
