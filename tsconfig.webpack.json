@@ -2,7 +2,7 @@
   "display": "tsconfig.webpack.json",
   "_version": "1.0.0",
   "_typescript_version": "5.0.4",
-  "_description": "这是给基于webpack及其插件、加载器等等配置的web-project-template使用的适用于WEB一类项目的tsconfig.json。",
+  "_description": "这是给基于Webpack及其插件、加载器等等配置的web-project-template使用的适用于WEB一类项目的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
   "_tsc_cli": "tsc -p ./tsconfig.webpack.json",
