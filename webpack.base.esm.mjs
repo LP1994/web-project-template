@@ -20,6 +20,7 @@
  * 变量vue_loader_options_transpileOptions_target。
  * package.json中的browserslist字段，值同变量browserslist。
  * tsconfig.json中的compilerOptions.module、compilerOptions.target。
+ * tsconfig.webpack.json中的compilerOptions.module、compilerOptions.target。
  * webpack的配置项：experiments、target、output.environment。
  * 变量babel_targets中的esmodules选项、browsers选项。
  * @babel/preset-env中的forceAllTransforms选项。
@@ -111,7 +112,7 @@ import ThreadLoader from 'thread-loader';
 
 import Toml from 'toml';
 
-import tsconfig_json from './tsconfig.json' assert { type: 'json', };
+import tsconfig_webpack_json from './tsconfig.webpack.json' assert { type: 'json', };
 
 import webpack from 'webpack';
 
@@ -2630,7 +2631,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
   /**
    * @type {object} 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
    * 1、如果您使用ts-loader < 9.3.0，请为“ts-loader”的配置添加transpileOnly: true。<br />
-   * 2、请务必注意，此插件使用TypeScript，而不是webpack的模块解析。这意味着您必须正确设置tsconfig.json。<br />
+   * 2、请务必注意，此插件使用TypeScript，而不是webpack的模块解析。这意味着您必须正确设置tsconfig.json、tsconfig.webpack.json。<br />
    * 3、这是因为性能——使用TypeScript的模块解析，我们不必等待webpack编译文件。<br />
    * 4、要调试TypeScript的模块解析，可以使用tsc --traceResolution命令（会打印出详细的模块解析信息）。<br />
    * 5、这个插件使用cosmiconfig。这意味着除了插件构造函数之外，您还可以将配置放在：<br />
@@ -2648,18 +2649,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       // 检查器进程的内存限制（以MB为单位）。如果进程退出并出现分配失败错误，请尝试增加此数字。
       memoryLimit: 10 * 1024,
       // tsconfig.json的路径。默认情况下，插件使用上下文或process.cwd()来本地化tsconfig.json文件。
-      configFile: resolve( __dirname, './tsconfig.json' ),
+      configFile: resolve( __dirname, './tsconfig.webpack.json' ),
       /**
-       * 该配置将覆盖tsconfig.json文件中的配置。支持的字段有：extends、compilerOptions、include、exclude、files和references。
-       * 1、由于项目根目录的“tsconfig.json”不仅是给webpack使用的，也给WebStorm这个代码编写器使用的。<br />
-       * 所以，为了能为文件夹“simulation_servers”下的代码提供TS代码提示等等，也就把文件夹“simulation_servers”加入到了“tsconfig.json”中的include选项。<br />
-       * 但是对于webpack而言，文件夹“simulation_servers”下的代码并不是要处理打包的，也不用被处理，故要将其从webpack中将其排除掉。<br />
+       * 该配置将覆盖tsconfig.webpack.json文件中的配置。支持的字段有：extends、compilerOptions、include、exclude、files和references。
        */
-      configOverwrite: ( () => {
-        return {
-          include: tsconfig_json.include.filter( item => !item.includes( '/simulation_servers/' ) || !item.includes( 'simulation_servers/' ) || !item.includes( '/simulation_servers' ) ),
-        };
-      } )(),
+      /*
+       configOverwrite: ( () => {
+       return {
+       include: tsconfig_webpack_json.include.filter( item => !item.includes( '/simulation_servers/' ) || !item.includes( 'simulation_servers/' ) || !item.includes( '/simulation_servers' ) ),
+       };
+       } )(),
+       */
       context: resolve( __dirname, './' ),
       // 相当于tsc命令的--build标志。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。
       build: false,
@@ -5051,10 +5051,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 4、esbuild仅支持tsconfig选项的子集（请参阅TransformOptions接口，也就是只支持tsconfig.json文件中的compilerOptions选项）并且不进行类型检查。<br />
          * 5、esbuild文档还建议在您的tsconfig中启用isolatedModules和esModuleInterop选项。<br />
          * 6、如：tsconfigRaw: string | { compilerOptions: {} }。<br />
-         * 7、必须在项目根目录存在一个有效的tsconfig.json文件。<br />
+         * 7、必须在项目根目录存在一个有效的tsconfig.json、tsconfig.webpack.json文件。<br />
          */
         tsconfigRaw: ( tsconfigPath => {
-          let obj1 = tsconfig_json,
+          let obj1 = tsconfig_webpack_json,
             resultCompilerOptionsObj = Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
                                        ? obj1.compilerOptions
                                        : {},
@@ -5081,7 +5081,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               // isolatedModules: true,
             },
           } );
-        } )( './tsconfig.json' ),
+        } )( './tsconfig.webpack.json' ),
       } ),
       esbuildLoaderConfigForTSX = Object.assign( {}, esbuildLoaderConfigForTS, {
         loader: 'tsx',
@@ -5196,21 +5196,21 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           silent: true,
           // 仅报告与这些glob模式匹配的文件的错误。
           reportFiles: [
-            '!src/**/*.test.ts',
-            '!src/**/*.test.cts',
-            '!src/**/*.test.mts',
             'src/**/*.{ts,cts,mts,tsx}',
             'src/**/*.ts.vue',
             'src/**/*.cts.vue',
             'src/**/*.mts.vue',
             'src/**/*.tsx.vue',
+            '!src/**/*.test.ts',
+            '!src/**/*.test.cts',
+            '!src/**/*.test.mts',
           ],
           // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
           compiler: 'typescript',
           // 允许您指定在哪里可以找到TypeScript配置文件。
-          // configFile: resolve( __dirname, './tsconfig.json' ),
+          // configFile: resolve( __dirname, './tsconfig.webpack.json' ),
           compilerOptions: ( tsconfigPath => {
-            let obj1 = tsconfig_json,
+            let obj1 = tsconfig_webpack_json,
               resultCompilerOptionsObj = Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
                                          ? obj1.compilerOptions
                                          : {},
@@ -5232,7 +5232,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             return {
               ...resultCompilerOptionsObj,
             };
-          } )( './tsconfig.json' ),
+          } )( './tsconfig.webpack.json' ),
           colors: true,
           /**
            * 一个与文件名匹配的正则表达式的列表。<br />
