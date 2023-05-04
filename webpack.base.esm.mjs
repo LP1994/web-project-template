@@ -2650,15 +2650,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       // tsconfig.json的路径。默认情况下，插件使用上下文或process.cwd()来本地化tsconfig.json文件。
       configFile: resolve( __dirname, './tsconfig.json' ),
       /**
-       * 该配置将覆盖tsconfig.json文件中的配置。支持的字段有：extends、compilerOptions、include、exclude、files和references。<br />
+       * 该配置将覆盖tsconfig.json文件中的配置。支持的字段有：extends、compilerOptions、include、exclude、files和references。
+       * 1、由于项目根目录的“tsconfig.json”不仅是给webpack使用的，也给WebStorm这个代码编写器使用的。<br />
+       * 所以，为了能为文件夹“simulation_servers”下的代码提供TS代码提示等等，也就把文件夹“simulation_servers”加入到了“tsconfig.json”中的include选项。<br />
+       * 但是对于webpack而言，文件夹“simulation_servers”下的代码并不是要处理打包的，也不用被处理，故要将其从webpack中将其排除掉。<br />
        */
-      /*
-       configOverwrite: ( () => {
-       return {
-       include: tsconfig_json.include.filter( item => !item.includes( '/simulation_servers/' ) || !item.includes( 'simulation_servers/' ) || !item.includes( '/simulation_servers' ) ),
-       };
-       } )(),
-       */
+      configOverwrite: ( () => {
+        return {
+          include: tsconfig_json.include.filter( item => !item.includes( '/simulation_servers/' ) || !item.includes( 'simulation_servers/' ) || !item.includes( '/simulation_servers' ) ),
+        };
+      } )(),
       context: resolve( __dirname, './' ),
       // 相当于tsc命令的--build标志。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。
       build: false,
@@ -5195,14 +5196,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           silent: true,
           // 仅报告与这些glob模式匹配的文件的错误。
           reportFiles: [
+            '!src/**/*.test.ts',
+            '!src/**/*.test.cts',
+            '!src/**/*.test.mts',
             'src/**/*.{ts,cts,mts,tsx}',
             'src/**/*.ts.vue',
             'src/**/*.cts.vue',
             'src/**/*.mts.vue',
             'src/**/*.tsx.vue',
-            '!src/**/*.test.ts',
-            '!src/**/*.test.cts',
-            '!src/**/*.test.mts',
           ],
           // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
           compiler: 'typescript',
