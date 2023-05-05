@@ -1415,6 +1415,7 @@ const aliasConfig = {
   copyPluginConfig = ( patternsArr => {
     const arr1 = [],
       ignoreArr = [
+        '**/.gitignore',
         '**/*.gitignore',
         '**/该文件夹说明.txt',
       ];
