@@ -4620,6 +4620,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 // ECMAScript proposals Start
 
                 'doExpressions',
+                'explicitResourceManagement',
                 // asyncDoExpressions依赖上面的doExpressions。
                 'asyncDoExpressions',
                 'decimal',
@@ -4641,6 +4642,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 'functionBind',
                 // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
                 'importAssertions',
+                'importReflection',
                 // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
                 /*
                  [

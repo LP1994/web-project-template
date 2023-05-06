@@ -633,7 +633,7 @@
     "buble-loader": "^0.5.1",
     "bundle-loader": "^0.5.6",
     "cache-loader": "^4.1.0",
-    "caniuse-lite": "^1.0.30001482",
+    "caniuse-lite": "^1.0.30001485",
     "chalk": "^5.2.0",
     "cheerio": "^1.0.0-rc.12",
     "clean-webpack-plugin": "^4.0.0",
