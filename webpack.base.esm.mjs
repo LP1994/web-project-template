@@ -4552,6 +4552,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         allowImportExportEverywhere: false,
         // 默认情况下，await只允许在异步函数内部使用，或者在启用topLevelAwait插件时，在模块的顶级范围内使用。将此设置为true以在脚本的顶级范围内也接受它。不鼓励使用此选项以支持topLevelAwait插件。
         allowAwaitOutsideFunction: true,
+        // 默认情况下，new.target的使用在函数或类之外是不允许的。将此设置为 "true "以接受此类代码。
+        allowNewTargetOutsideFunction: false,
         // 默认情况下，顶层的return语句会引发错误。将此设置为true以接受此类代码。
         allowReturnOutsideFunction: true,
         // 默认情况下，不允许在类和对象方法之外使用super。将此设置为true以接受此类代码。
@@ -4567,6 +4569,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          */
         // 1、@babel/eslint-parser会为你设置。不建议将attachComment: false与Babel转换一起使用，因为这样做会删除输出代码中的所有注释，并呈现/* istanbul ignore next */等注释。
         attachComment: true,
+        // 默认情况下，Babel根据ECMAScript的附件B "网络浏览器的附加ECMAScript功能 "语法来解析JavaScript。当这个选项设置为false时，Babel将解析没有附件B特定扩展的语法。
+        // annexb: true,
         // 同上面的sourceType选项。
         sourceType: 'unambiguous',
         // 默认情况下，仅当存在'use strict'指令或解析的文件是ECMAScript模块时，ECMAScript代码才会解析为严格。将此选项设置为true以始终以严格模式解析文件。
