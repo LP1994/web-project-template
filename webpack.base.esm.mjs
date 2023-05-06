@@ -2624,10 +2624,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 第3步得在全局环境中存在一个可以供全局都能访问到的变量名，可以是在HTML中引入外部链接脚本，也可以是在代码中明确写了挂载在window上的全局变量，例如：window.xxx = () => {}。<br />
    */
   externalsConfig = {
-    axios: 'window.axios',
-    echarts: 'window.echarts',
-    jquery: 'window.$',
-    swiper: 'window.Swiper',
+    // axios: 'window.axios',
+    // echarts: 'window.echarts',
+    // jquery: 'window.$',
+    // swiper: 'window.Swiper',
   },
   /**
    * @type {object} 在单独的进程上运行typescript类型检查器的Webpack插件。该插件我们最好只做语法检查，不做其他事情，其他事情交由ts-loader之类的工具去做。<br />
@@ -9091,11 +9091,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * https://typedoc.org/guides/overview/ <br />
    * 4、参数“options”是描述配置文件的路径，所以要使用绝对路径（其他参数如果也是表示路径什么的，也要如此），如：options: resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' )。<br />
    */
-  typedocWebpackPluginConfig = [
-    {
-      options: resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' ),
-    },
-  ],
+  typedocWebpackPluginConfig = ( arr => {
+    return arr.map( item => ( {
+      options: item,
+    } ) );
+  } )( [
+    // 如果需要在生产模式构建时，顺便生成你想要的某些代码的文档，可以在此设置。
+
+    // 参照这个的写法即可。
+    // resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' ),
+  ] ),
   /**
    * @type {object} 一组用于自定义手表模式的选项。<br />
    * 1、值类型为object，结构如下：
