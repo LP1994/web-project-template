@@ -78,7 +78,7 @@ const __dirname = Get__dirname( import.meta.url );
     else{
       throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
     }
-  } )() || '3.30.1';
+  } )() || '3.30.2';
 } );
 
 writeFileSync( join( __dirname, '../babelrc/.bases.babelrc.json' ), JSON.stringify( BasesBabelrcConfig ) );
