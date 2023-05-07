@@ -7318,9 +7318,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
-        // 处理.yaml文件。
+        // 处理.yaml文件、.yml文件。
         {
-          test: /\.yaml$/i,
+          test: /\.(yaml|yml)$/i,
           type: 'json',
           parser: {
             parse: Yaml.parse,
