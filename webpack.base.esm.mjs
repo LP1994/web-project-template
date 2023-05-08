@@ -259,7 +259,14 @@ const __dirname = Get__dirname( import.meta.url ),
    * 3、目前esbuild对有些处于提案阶段的实验性语法还不能支持，所以，如果需要兼顾前面两点，那还是要继续使用babel来转译的。<br />
    * 4、截至2022年11月08日，基于最新的esbuild版本做测试，其只能支持对静态的导入、导出的代码做“Tree Shaking”，动态的还不支持，而webpack在“Tree Shaking”做的会比它好，希望其未来能做到跟webpack一样的“Tree Shaking”功能吧。<br />
    */
-  isUseESBuildLoader = false;
+  isUseESBuildLoader = false,
+  /**
+   * @type {boolean} 是否在控制台输出Babel的插件调试日志。<br />
+   * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
+   * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
+   * 说明：表示当编译目标为chrome < 94, firefox < 93, opera < 80, safari这些时，会启用“proposal-class-static-block”。<br />
+   */
+  isBabelDebug = false;
 
 console.log( chalk.cyan( `\n当前使用“${ isUseESBuildLoader
                                         ? 'ESBuild'
@@ -4368,7 +4375,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
            * 说明：表示当编译目标为chrome < 94, firefox < 93, opera < 80, safari这些时，会启用“proposal-class-static-block”。<br />
            */
-          debug: true,
+          debug: isBabelDebug,
           targets: babel_targets,
           /**
            * 注意：这些优化将在Babel 8中默认启用。<br />
