@@ -8,7 +8,7 @@
  */
 
 /**
- * 2023年03月26日，基于：npm包mongoose@7.0.3（该版本的mongoose也是基于npm包mongodb@5.1.0）、MongoDB社区版@6.0.5、npm@9.6.2、node@19.8.1，带客户端证书的与数据库进行的TLS连接测试成功！
+ * 2023年05月12日，基于：npm包mongoose@7.1.1（该版本的mongoose也是基于npm包mongodb@5.5.0）、MongoDB社区版@6.0.5、npm@9.6.6、node@20.1.0，带客户端证书的与数据库进行的TLS连接测试成功！
  * 注意该文件不是deno版！
  */
 
@@ -302,19 +302,19 @@ const mongooseClientConfig: ConnectOptions = {
    * @type {string} 指定在进行TLS连接时要信任的具有单个或多个证书颁发机构的文件的路径。<br />
    * 指定本地.pem文件的位置，该文件包含来自证书颁发机构的根证书链。该文件用于验证mongod/mongos实例提交的证书。<br />
    * 文件的路径，该文件包含在TLS连接中使用的单个或一捆受信任的证书授权。<br />
-   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem'。<br />
-   * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
+   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem'。<br />
+   * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
    * 作为连接字符串时，tlsCAFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCAFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
+  tlsCAFile: 'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
   /**
    * @type {string} 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
    * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
-   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem'。<br />
-   * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
+   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem'。<br />
+   * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
+  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
@@ -630,11 +630,11 @@ const mongooseClientConfig: ConnectOptions = {
   // sslValidate: true,
   /**
    * @type {string} 指定本地TLS证书的位置。<br />
-   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt'。<br />
-   * 但是作为连接字符串时，tlsCertificateFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt' )。<br />
+   * 该选项值在用作配置选项连接数据库时，值保持这样的字符串格式即可：'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt'。<br />
+   * 但是作为连接字符串时，tlsCertificateFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt' )。<br />
    * 作为连接字符串时，tlsCertificateFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  // tlsCertificateFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt',
+  // tlsCertificateFile: 'G:\\WebStormWS\\web-for-vite-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.crt',
   /**
    * @type {boolean} 当对Long进行反序列化时，将以BigInt的形式返回，true表示启用。
    */
