@@ -87,7 +87,7 @@
   "private": true,
   "engines": {
     "node": ">=20.2.0",
-    "npm": ">=9.6.6"
+    "npm": ">=9.6.7"
   },
   "browserslist": [
     "Chrome >= 113",
@@ -429,7 +429,7 @@
     "@types/minimist": "^1.2.2",
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
-    "@types/node": "^20.2.0",
+    "@types/node": "^20.2.1",
     "@types/node-fetch": "^3.0.3",
     "@types/normalize-package-data": "^2.4.1",
     "@types/parse-json": "^4.0.0",
@@ -777,7 +777,7 @@
     "node-gyp": "^9.3.1",
     "node-html-parser": "^6.1.5",
     "nodemon": "^2.0.22",
-    "npm": "^9.6.6",
+    "npm": "^9.6.7",
     "npm-check-updates": "^16.10.12",
     "nrm": "^1.2.5",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
