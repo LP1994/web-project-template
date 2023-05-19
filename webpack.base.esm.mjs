@@ -2207,19 +2207,19 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         ResFaviconIco( req, response );
       } );
       devServer.app.get( '/favicon.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
       } );
       devServer.app.get( '/apple-touch-icon.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
       } );
       devServer.app.get( '/apple-touch-icon-precomposed.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
       } );
       devServer.app.get( '/apple-touch-icon-120x120.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
       } );
       devServer.app.get( '/apple-touch-icon-120x120-precomposed.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/uncompressed/ico_120_120.png' ) );
+        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
       } );
 
       /**

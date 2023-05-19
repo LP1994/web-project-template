@@ -17,6 +17,10 @@ import {
   resolve,
 } from 'node:path';
 
+import {
+  env,
+} from 'node:process';
+
 import AssetsWebpackPlugin from 'assets-webpack-plugin';
 
 import {
@@ -34,6 +38,8 @@ import {
 } from 'vue-loader';
 
 import webpack from 'webpack';
+
+import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
 
 import {
   __dirname,
@@ -186,6 +192,14 @@ export default {
   parallelism: 100,
   performance: performanceConfig,
   plugins: [
+    ...( () => {
+      return env.npm_lifecycle_script.includes( 'webpack-dashboard' )
+             ? [
+          new DashboardPlugin(),
+        ]
+             : [];
+    } )(),
+
     // 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
     ...htmlWebpackPluginConfig,
 
