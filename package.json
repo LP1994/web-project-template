@@ -676,7 +676,7 @@
     "echarts": "^5.4.2",
     "ejs": "^3.1.9",
     "ejs-loader": "^0.5.0",
-    "element-plus": "^2.3.4",
+    "element-plus": "^2.3.5",
     "element-ui": "^2.15.13",
     "esbuild": "^0.17.19",
     "esbuild-loader": "^3.0.1",
