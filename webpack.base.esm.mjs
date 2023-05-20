@@ -2161,6 +2161,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           } );
         },
         ResRoot = ( req, response ) => {
+          logWriteStream.write( `--->${ req.originalUrl }<---Start
+请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
+--->${ req.originalUrl }<---End
+\n` );
+
           response.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
           response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
           response.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -2180,7 +2186,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                      <title>index</title>
                    </head>
                    <body>
-                     <p>This is a index page.</p>
+                     <p>This is a index page(${ req.originalUrl }) for webpack-dev-server config.</p>
                    </body>
                    </html>
                    `, 'utf8' );
