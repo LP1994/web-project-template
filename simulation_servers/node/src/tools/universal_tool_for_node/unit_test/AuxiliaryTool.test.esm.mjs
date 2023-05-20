@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/tools/universal_tool_for_deno/unit_test/AuxiliaryTool.esm.test.mts
+ * FileDirPath: simulation_servers/node/src/tools/universal_tool_for_node/unit_test/AuxiliaryTool.test.esm.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -23,9 +23,7 @@
  *
  * 5、那些需要被导出供外部调用使用的函数、类等等，一定要记得部署在“默认导出”中。
  *
- * 6、编程范式使用“函数式编程”，结合“TypeScript”编写，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
- *
- * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type TypeMyString001 = string。
+ * 6、编程范式使用“函数式编程”，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
  */
 
 /**
@@ -69,29 +67,7 @@
 
 'use strict';
 
-/**
- * 在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
- * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m
- * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
- */
-import {
-  Chalk,
-
-  // @ts-ignore
-} from 'https://deno.land/x/chalk_deno/source/index.js';
-
-export type TypeMyExpect001 = any;
-
-export type TypeError001 = {
-  // 预期值。
-  expect: TypeMyExpect001;
-  // 一个用于描述错误信息的字符串。
-  message: string;
-  // 实际值。
-  result: any;
-};
-
-export const chalk: { [ keyName: string ]: any; } = new Chalk();
+import chalk from 'chalk';
 
 /**
  * 使用“!==”比较的对比函数Equal001。<br />
@@ -100,16 +76,16 @@ export const chalk: { [ keyName: string ]: any; } = new Chalk();
  *
  * @param {any} result 被测试对象的实际返回值，必需。
  *
- * @returns {{toBe: (expect: (TypeMyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
+ * @returns {{toBe: (expect: (any)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */
-export function Equal001( result: any ): { toBe: ( expect: TypeMyExpect001 ) => void; }{
+export function Equal001( result ){
   return {
     /**
      * toBe函数，它接收一个预期值expect，用于跟实际值对比。
      *
-     * @param {TypeMyExpect001} expect 预期值，必需。
+     * @param {any} expect 预期值，必需。
      */
-    toBe( expect: TypeMyExpect001 ): void{
+    toBe( expect ){
       if( result !== expect ){
         throw new MyError001( {
           message: '实际值和预期值不全等（使用“!==”比较）！',
@@ -130,31 +106,31 @@ export class MyError001
   extends Error {
 
   /**
-   * @type {TypeMyExpect001} 预期值。
+   * @type {any} 预期值。
    */
-  public expect: TypeMyExpect001;
+  expect;
 
   /**
    * @type {any} 实际值。
    */
-  public result: any;
+  result;
 
   /**
    * 构造函数，必传一个对象作为初始化数据，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。
    *
    * @param {object} config 构造函数的初始参数，是一个对象。
    *
-   * @param {TypeMyExpect001} config.expect 预期值，必需。
+   * @param {any} config.expect 预期值，必需。
    *
    * @param {string} config.message 一个用于描述错误信息的字符串，必需。
    *
    * @param {any} config.result 实际值，必需。
    */
-  public constructor( {
+  constructor( {
     expect,
     message,
     result,
-  }: TypeError001 ){
+  } ){
     super();
 
     this.expect = expect;
@@ -173,16 +149,16 @@ export class MyError001
  *
  * @param {() => void} fn 执行函数，必需。
  */
-export function Test001( desc: string, fn: () => void ): void{
+export function Test001( desc, fn ){
   try{
     fn();
   }
-  catch( error: unknown ){
+  catch( error ){
     const {
       expect,
       message,
       result,
-    } = ( error as TypeError001 );
+    } = error;
 
     console.error( chalk.red( `
 ${ desc }，${ message }
@@ -194,9 +170,12 @@ ${ String( expect ) }
   }
 }
 
+export {
+  chalk,
+};
+
 export default {
   chalk,
-
   Equal001,
   MyError001,
   Test001,

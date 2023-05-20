@@ -17,7 +17,7 @@ import {
   chalk,
   Equal001,
   Test001,
-} from './AuxiliaryTool.esm.test.mts';
+} from './AuxiliaryTool.test.esm.mts';
 
 import {
   // 支持泛型参数的单例工厂。Start

@@ -17,7 +17,7 @@ import {
   chalk,
   Equal001,
   Test001,
-} from './AuxiliaryTool.esm.test.mjs';
+} from './AuxiliaryTool.test.esm.mjs';
 
 import {
   // 模拟Node环境下“CommonJS”模块化中的“__filename”、“__dirname”。 Start

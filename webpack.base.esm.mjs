@@ -2767,6 +2767,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           file: '**/*.test.mts',
         },
         {
+          file: '**/*.test.esm.ts',
+        },
+        {
+          file: '**/*.test.esm.cts',
+        },
+        {
+          file: '**/*.test.esm.mts',
+        },
+        {
           file: '**/*.spec.ts',
         },
         {
@@ -5212,6 +5221,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             '!src/**/*.test.ts',
             '!src/**/*.test.cts',
             '!src/**/*.test.mts',
+            '!src/**/*.test.esm.ts',
+            '!src/**/*.test.esm.cts',
+            '!src/**/*.test.esm.mts',
           ],
           // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
           compiler: 'typescript',

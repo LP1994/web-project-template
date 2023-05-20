@@ -37,7 +37,10 @@
     "./node_modules",
     "./**/*.test.ts",
     "./**/*.test.cts",
-    "./**/*.test.mts"
+    "./**/*.test.mts",
+    "./**/*.test.esm.ts",
+    "./**/*.test.esm.cts",
+    "./**/*.test.esm.mts"
   ],
   "ts-node": {
     "compiler": "typescript",
