@@ -3280,16 +3280,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/en/babel-plugin-proposal-duplicated-named-capturing-groups-regex
+             * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-proposal-duplicate-named-capturing-groups-regex
              * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
              * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
              * 3、目前该提案处于第3阶段。<br />
-             * 4、可能是因为babel的拼写错误，babel官网介绍该插件的网址为：https://babeljs.io/docs/en/babel-plugin-proposal-duplicated-named-capturing-groups-regex<br />
-             * 但是有效的该插件名为：@babel/plugin-proposal-duplicate-named-capturing-groups-regex<br />
-             * 而tc39在github上介绍该插件的网址为：https://github.com/tc39/proposal-duplicate-named-capturing-groups<br />
-             * 而babel在github上介绍该插件的网址为：https://github.com/babel/babel/tree/main/packages/babel-plugin-proposal-duplicate-named-capturing-groups-regex<br />
-             * 所以要想正确的安装该插件，npm的执行命令为：npm --force install -D @babel/plugin-proposal-duplicate-named-capturing-groups-regex<br />
-             * 正确的拼写应该是“duplicate”，错误的是“duplicated”。<br />
              */
             [
               '@babel/plugin-proposal-duplicate-named-capturing-groups-regex',

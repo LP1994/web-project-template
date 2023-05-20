@@ -8,7 +8,7 @@
  */
 
 /**
- * UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的“.bases.babelrc.json”文件中：
+ * UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的“.babelrc.bases.json”文件中：
  * “@babel/preset-env”的corejs.version、“@babel/plugin-transform-runtime”的corejs.version值。
  */
 
@@ -29,7 +29,7 @@ import {
 
 import package_json from '../../package.json' assert { type: 'json', };
 
-import BasesBabelrcConfig from '../babelrc/.bases.babelrc.json' assert { type: 'json', };
+import BasesBabelrcConfig from '../babelrc/.babelrc.bases.json' assert { type: 'json', };
 
 function Get__dirname( import_meta_url = import.meta.url ){
   return dirname( Get__filename( import_meta_url ) );
@@ -81,4 +81,4 @@ const __dirname = Get__dirname( import.meta.url );
   } )() || '3.30.2';
 } );
 
-writeFileSync( join( __dirname, '../babelrc/.bases.babelrc.json' ), JSON.stringify( BasesBabelrcConfig ) );
+writeFileSync( join( __dirname, '../babelrc/.babelrc.bases.json' ), JSON.stringify( BasesBabelrcConfig ) );

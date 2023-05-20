@@ -1,2 +1,2 @@
-UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的“.bases.babelrc.json”文件中：
+UpdateBabelrcConfig.mjs用于更新文件夹“configures/babelrc”下的“.babelrc.bases.json”文件中：
 “@babel/preset-env”的corejs.version、“@babel/plugin-transform-runtime”的corejs.version值。
