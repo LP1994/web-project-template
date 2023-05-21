@@ -89,7 +89,7 @@ const httpHeaders: HeadersInit = {
    * Clear-Site-Data：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
    * 1、该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
    */
-  // 'Clear-Site-Data': '"cache"',
+  // 'Clear-Site-Data': '"cache", "cookies", "storage"',
   'Service-Worker-Allowed': '/',
   /**
    * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
