@@ -1906,19 +1906,57 @@ const aliasConfig = {
     devMiddleware: {
       headers: httpHeaders,
       index: 'index.html',
-      methods: [
-        'GET',
-        'HEAD',
-        'POST',
-        'PUT',
-        'DELETE',
-        'CONNECT',
-        'OPTIONS',
-        'TRACE',
-        'PATCH',
-      ],
+      methods: ( methods => methods.split( ',' )
+      .map( item => item.trim() ) )( httpHeaders[ 'Access-Control-Allow-Methods' ] ),
       publicPath: `/${ env_platform }`,
       writeToDisk: false,
+      /**
+       * 该选项可让您精确控制显示的捆绑信息。<br />
+       * 1、值类型有3种：string、boolean、object。<br />
+       * 2、值类型为string时表示webpack带有一些可用于统计输出的预设：<br />
+       * errors-only：仅在发生错误时输出。<br />
+       * errors-warnings：仅输出错误和警告。<br />
+       * minimal：仅在发生错误或新编译时输出。<br />
+       * none：无输出，等同于stats: false。<br />
+       * normal：标准输出，等同于stats: true。<br />
+       * verbose：输出一切。<br />
+       * detailed：输出除了chunkModules和chunkRootModules之外的所有内容。<br />
+       * summary：输出webpack版本、警告计数和错误计数。<br />
+       */
+      stats: 'normal',
+      /**
+       * 允许设置一个回调以改变响应数据。<br />
+       * 1、如果响应的响应头中有“Range”，将有一个数据类型为“ReadStream”的data参数。<br />
+       * 关于响应头“Range”见：<br />
+       * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range
+       * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Range
+       * 2、data的数据类型也可以是string、Buffer。<br />
+       * 3、逻辑里不可以使用res.end()、res.send()。<br />
+       *
+       * @param {Request} req
+       *
+       * @param {Response} res
+       *
+       * @param {ReadStream | string | Buffer} data 响应数据。<br />
+       * 1、如果响应的响应头中有“Range”，将有一个数据类型为“ReadStream”的data参数。<br />
+       * 关于响应头“Range”见：<br />
+       * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range
+       * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Range
+       *
+       * @param {number} byteLength
+       *
+       * @returns {{data, byteLength}}
+       */
+      /*
+       modifyResponseData( req, res, data, byteLength ){
+       // 注意！！！这里不可以使用res.end()、res.send()。
+
+       return {
+       data,
+       byteLength,
+       };
+       },
+       */
     },
     headers: httpHeaders,
     historyApiFallback: {
