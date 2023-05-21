@@ -18,10 +18,6 @@ import {
 
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
-import {
-  DateFormatForObject,
-} from 'toolsDir/ts/universal_tools/UniversalTools.esm.mts';
-
 /**
  * @type {App<Element>} 创建了一个Vue 3的应用实例。
  */
@@ -45,6 +41,6 @@ UploadAPP.config.errorHandler = ( error: unknown, instance: ComponentPublicInsta
  */
 const RootComponent: ComponentPublicInstance = UploadAPP.mount( '#UploadAPP' );
 
-console.log( `\n\n\n一个Vue 3的根组件实例${ JSON.stringify( DateFormatForObject() ) }：` );
+console.log( `\n\n\n一个Vue 3的根组件实例：` );
 console.dir( RootComponent );
 console.log( `\n\n\n` );
