@@ -1133,6 +1133,7 @@ const jsWorkerPoolConfig = {
  * 1、为了防止启动工作程序时的高延迟，可以预热工作程序池。<br />
  * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
  * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
+ * 4、当使用esbuild-loader来处理脚本文件时，就不要预热这3个配置。<br />
  */
 if( !isUseESBuildLoader ){
   ThreadLoader.warmup( jsWorkerPoolConfig, [
@@ -1150,6 +1151,13 @@ if( !isUseESBuildLoader ){
     '@babel/preset-env',
   ] );
 }
+
+/**
+ * 预热：<br />
+ * 1、为了防止启动工作程序时的高延迟，可以预热工作程序池。<br />
+ * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
+ * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
+ */
 ThreadLoader.warmup( cssWorkerPoolConfig, [
   'postcss-loader',
   'css-loader',
