@@ -2278,6 +2278,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          */
         path: '/test001/first/',
         middleware: ( req, res ) => {
+          logWriteStream.write( `--->${ req.url }<---Start
+请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
+--->${ req.url }<---End
+\n` );
+
           res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
           res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
           res.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -2316,6 +2322,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          */
         path: '/test001/last/',
         middleware: ( req, res ) => {
+          logWriteStream.write( `--->${ req.url }<---Start
+请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
+--->${ req.url }<---End
+\n` );
+
           res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
           res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
           res.setHeader( 'x-dev-type', `${ env_platform }` );
