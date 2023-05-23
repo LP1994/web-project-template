@@ -5339,26 +5339,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * import { Black, ... } from './css_modules/example.module.css';
          * 不仅取不到“Black”属性的值，还会报错！因为内部模块只部署了默认导出（也就是只部署了default属性）。<br />
          *
-         * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。<br />
-         *
-         * 3、“.module.pcss”、“.module.postcss”导出的各个属性名和值都有点与众不同！可以自行写点代码体会一下！奇葩！真奇葩！<br />
-         * 如：<br />
-         * {
-         *   Black: "iLUwnbqpcs_iODcp",
-         *   blue-color: "pGxpQer5D3jhGzQx",
-         *   palegreenColor: "MvIKiJozvI_0x2H0",
-         *   plum_color: "jt7BzJEA59wq1fMA",
-         *   red: "eA3ft2QhCnhp4zaF",
-         * }
-         * 而其他是：<br />
-         * {
-         *   Black: "example-module_Black_f0ea39ba",
-         *   blue-color: "example-module_blue-color_ceb839b9",
-         *   blueColor: "example-module_blue-color_ceb839b9",
-         *   palegreenColor: "example-module_palegreenColor_bfc0a4bc",
-         *   plum_color: "example-module_plum_color_d4201a7a",
-         *   red: "example-module_red_e28a5c78",
-         * }
+         * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。因为内部模块部署了默认导出（也就是部署了default属性），Vue的SFC就是使用了这个默认导出。<br />
          */
         namedExport: false,
         exportGlobals: true,
@@ -7082,7 +7063,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   } )( styleLoader ),
                 ];
             } )(),
-            cssLoader,
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, { options, } );
+            } )( cssLoader ),
             postCSSLoaderModules,
           ],
           include: [
