@@ -5292,10 +5292,78 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         localIdentHashDigest: 'hex',
         localIdentHashDigestLength: 16,
         hashStrategy: 'resource-path-and-local-name',
-        namedExport: true,
+        /**
+         * 注意：<br />
+         * 1、namedExport选项如果设置成true时，就只能使用具名的按需导出，而不能使用默认导出（因为内部模块的default这个属性的值为undefined）。<br />
+         * 例如：<br />
+         * namedExport选项如果设置成true时，就只能使用具名的按需导出：<br />
+         * import { red: 'xxx', blueColor: 'xxx', plumColor: 'xxx', ... } from './css_modules/example.module.css';
+         *
+         * 如果是使用默认导出：<br />
+         * import exampleCSS from './css_modules/example.module.css';
+         * 那么“exampleCSS”的值会变成一个undefined，因为内部模块的default这个属性的值为undefined。<br />
+         *
+         * 但是可以使用全部导出：<br />
+         * import * as exampleCSS from './css_modules/example.module.css';
+         * 那么“exampleCSS”里就会包含所有的属性，但是里面的default属性的值为undefined。<br />
+         * “exampleCSS”的值形如：{ red: 'xxx', blueColor: 'xxx', plumColor: 'xxx', default: undefined, ... }。<br />
+         *
+         * 奇葩的是！！！“.module.pcss”、“.module.postcss”却没有上述的现象！！！但是有另外的表象。<br />
+         * 不能使用具名的按需导出：<br />
+         * import { Black, ... } from './css_modules/example.module.pcss';
+         * 不仅取不到“Black”属性的值，还会报错！因为内部模块只部署了默认导出（也就是只部署了default属性）。<br />
+         * 因为内部模块只部署了默认导出（也就是只部署了default属性），因此只能使用默认导出：<br />
+         * import examplePcss from './css_modules/example.module.pcss';
+         * examplePcss.Black就能取到值。<br />
+         * 当使用全部导出时：<br />
+         * import * as examplePcss from './css_modules/example.module.pcss';
+         * “examplePcss”的值形如：<br />
+         * { default: { Black: 'xxx', red: 'xxx', palegreenColor: 'xxx', [ 'blue-color' ]: 'xxx', plum_color: 'xxx' }, }
+         * 可见，即使是全部导出，也只有default属性。<br />
+         *
+         * 而且！在Vue的SFC中，也会导致除“.module.pcss”、“.module.postcss”以外的其他都无法注入成功并无法使用，就“.module.pcss”、“.module.postcss”成功注入并可使用（如：useCssModule( 'examplePcss' )）。<br />
+         * 因为对于Vue的SFC来说，只有内部模块部署了default属性并且其上有各个样式值，才能成功注入并处于可使用状态。<br />
+         *
+         * 2、当namedExport选项如果设置成false时（也是推荐设置成false），只能使用默认导出（因为内部模块只部署了default这个属性），而不能使用具名的按需导出。<br />
+         * 使用默认导出：<br />
+         * import exampleCSS from './css_modules/example.module.css';
+         * 通过exampleCSS.Black就能取到值。<br />
+         *
+         * 当使用全部导出时：<br />
+         * import * as exampleCSS from './css_modules/example.module.css';
+         * “exampleCSS”的值形如：<br />
+         * { default: { Black: 'xxx', red: 'xxx', palegreenColor: 'xxx', [ 'blue-color' ]: 'xxx', plum_color: 'xxx' }, }
+         * 可见，即使是全部导出，也只有default属性。<br />
+         *
+         * 不能使用具名的按需导出：<br />
+         * import { Black, ... } from './css_modules/example.module.css';
+         * 不仅取不到“Black”属性的值，还会报错！因为内部模块只部署了默认导出（也就是只部署了default属性）。<br />
+         *
+         * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。<br />
+         *
+         * 3、“.module.pcss”、“.module.postcss”导出的各个属性名和值都有点与众不同！可以自行写点代码体会一下！奇葩！真奇葩！<br />
+         * 如：<br />
+         * {
+         *   Black: "iLUwnbqpcs_iODcp",
+         *   blue-color: "pGxpQer5D3jhGzQx",
+         *   palegreenColor: "MvIKiJozvI_0x2H0",
+         *   plum_color: "jt7BzJEA59wq1fMA",
+         *   red: "eA3ft2QhCnhp4zaF",
+         * }
+         * 而其他是：<br />
+         * {
+         *   Black: "example-module_Black_f0ea39ba",
+         *   blue-color: "example-module_blue-color_ceb839b9",
+         *   blueColor: "example-module_blue-color_ceb839b9",
+         *   palegreenColor: "example-module_palegreenColor_bfc0a4bc",
+         *   plum_color: "example-module_plum_color_d4201a7a",
+         *   red: "example-module_red_e28a5c78",
+         * }
+         */
+        namedExport: false,
         exportGlobals: true,
         // 当namedExport选项为true时，该选项的值只能为：camelCaseOnly。
-        exportLocalsConvention: 'camelCaseOnly',
+        exportLocalsConvention: 'dashes',
         exportOnlyLocals: false,
       },
       /**

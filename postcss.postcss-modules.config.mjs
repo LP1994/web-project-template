@@ -74,7 +74,7 @@ postcssConfig.plugins.unshift( [
      * dashes：只有class名中的破折号（“-”）会被驼峰化（如：.apply-color -> applyColor）。<br />
      * dashesOnly：class名中的破折号（“-”）将被驼峰化（如：.apply-color -> applyColor），原来的class名将被从local删除。<br />
      */
-    localsConvention: 'camelCaseOnly',
+    localsConvention: 'dashes',
   },
 ] );
 
