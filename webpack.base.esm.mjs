@@ -4970,17 +4970,28 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     ];
 
     const postCSSLoader = {
-      loader: 'postcss-loader',
-      options: {
-        implementation: postcss,
-        // 在CSS-in-JS中启用PostCSS Parser支持。如果您使用JS样式的postcss-js解析器，请添加执行选项为true。
-        execute: false,
-        sourceMap: false,
-        postcssOptions: {
-          config: resolve( __dirname, './postcss.config.mjs' ),
+        loader: 'postcss-loader',
+        options: {
+          implementation: postcss,
+          // 在CSS-in-JS中启用PostCSS Parser支持。如果您使用JS样式的postcss-js解析器，请添加执行选项为true。
+          execute: false,
+          sourceMap: false,
+          postcssOptions: {
+            config: resolve( __dirname, './postcss.config.mjs' ),
+          },
         },
       },
-    };
+      postCSSLoaderModules = ( postCSSLoader => {
+        const options = Object.assign( {}, postCSSLoader.options ),
+          postcssOptions = Object.assign( {}, options.postcssOptions );
+
+        postcssOptions.config = resolve( __dirname, './postcss.postcss-modules.config.mjs' );
+        options.postcssOptions = postcssOptions;
+
+        return Object.assign( {}, postCSSLoader, {
+          options,
+        } );
+      } )( postCSSLoader );
 
     /**
      * 1、请注意，虽然支持包含顶级等待的转换代码，但仅当format选项设置为esm时，才支持包含顶级等待的捆绑代码。<br />
@@ -5924,7 +5935,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
               return Object.assign( {}, cssLoader, { options, } );
             } )( cssLoader ),
-            postCSSLoader,
+            postCSSLoaderModules,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -6519,7 +6530,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoader,
+            postCSSLoaderModules,
             /**
              * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
              * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
@@ -7004,7 +7015,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 ];
             } )(),
             cssLoader,
-            postCSSLoader,
+            postCSSLoaderModules,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -7167,7 +7178,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoader,
+            postCSSLoaderModules,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
              * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
@@ -7333,7 +7344,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoader,
+            postCSSLoaderModules,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
              * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
@@ -7499,7 +7510,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoader,
+            postCSSLoaderModules,
             stylusLoader,
           ],
           include: [

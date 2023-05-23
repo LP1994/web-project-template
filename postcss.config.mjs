@@ -7,6 +7,10 @@
  * CreateDate: 2022-12-17 09:31:26 星期六
  */
 
+/**
+ * 该postcss的配置不包含CSS Modules的处理。
+ */
+
 'use strict';
 
 import {
