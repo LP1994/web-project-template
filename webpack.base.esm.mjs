@@ -5911,6 +5911,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
                     obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-css' ] = `true`;
 
                     return obj1;
                   } )( styleLoader ),
@@ -5968,7 +5969,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: cssWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
             cssLoader,
@@ -6496,6 +6503,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
                     obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-less' ] = `true`;
 
                     return obj1;
                   } )( styleLoader ),
@@ -6562,7 +6570,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: lessWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-less' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
             ( cssLoader => {
@@ -6983,6 +6997,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
                     obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-postcss' ] = `true`;
 
                     return obj1;
                   } )( styleLoader ),
@@ -7034,7 +7049,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: cssWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-postcss' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
             cssLoader,
@@ -7130,6 +7151,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
                     obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-sass' ] = `true`;
 
                     return obj1;
                   } )( styleLoader ),
@@ -7206,7 +7228,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: sassWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-sass' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
             ( cssLoader => {
@@ -7289,6 +7317,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
                     obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-scss' ] = `true`;
 
                     return obj1;
                   } )( styleLoader ),
@@ -7365,7 +7394,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: sassWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-scss' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
             ( cssLoader => {
@@ -7448,6 +7483,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
                     obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-stylus' ] = `true`;
 
                     return obj1;
                   } )( styleLoader ),
@@ -7509,7 +7545,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: stylusWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-stylus' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
             ( cssLoader => {
