@@ -1544,7 +1544,7 @@ const aliasConfig = {
    *     {<br />
    *     errors：boolean，当出现编译器错误时，在浏览器中启用全屏覆盖。<br />
    *     
-   *     warnings：boolean，当出现编译器警告时，在浏览器中启用全屏覆盖。。<br />
+   *     warnings：boolean，当出现编译器警告时，在浏览器中启用全屏覆盖。<br />
    *     
    *     trustedTypesPolicyName：string，覆盖的受信任类型策略的名称。默认为“webpack-dev-server#overlay”。<br />
    *     }<br />
@@ -2939,13 +2939,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
    */
   miniCssExtractPluginConfig = {
-    // 此选项确定每个输出CSS文件的名称。
-    filename: 'styles/[name]_Bundle_[contenthash].css',
+    /**
+     * 此选项确定每个输出CSS文件的名称。<br />
+     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
+     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
+     */
+    filename( pathData, assetInfo ){
+      return 'styles/[name]_Bundle_[contenthash].css';
+    },
     /**
      * 此选项确定非入口块文件的名称。<br />
-     * 1、将chunkFilename指定为函数仅在webpack@5中可用。<br />
+     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
+     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
+     * 3、将chunkFilename指定为函数仅在webpack@5中可用。<br />
      */
-    chunkFilename: 'styles/[name]_Chunk_[contenthash].css',
+    chunkFilename( pathData, assetInfo ){
+      return 'styles/[name]_Chunk_[contenthash].css';
+    },
     // 启用以删除有关顺序冲突的警告。对于通过一致使用范围或命名约定来减轻css排序的项目，可以通过将插件的ignoreOrder标志设置为true来禁用css顺序警告。
     ignoreOrder: false,
     attributes: {
@@ -5135,9 +5145,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 7、必须在项目根目录存在一个有效的tsconfig.json、tsconfig.webpack.json文件。<br />
          */
         tsconfigRaw: ( tsconfigPath => {
-          let obj1 = tsconfig_webpack_json,
+          let obj1 = JSON.parse( JSON.stringify( tsconfig_webpack_json ) ),
             resultCompilerOptionsObj = Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
-                                       ? obj1.compilerOptions
+                                       ? JSON.parse( JSON.stringify( obj1.compilerOptions ) )
                                        : {},
             path1 = '',
             dirNamePath1 = dirname( resolve( __dirname, tsconfigPath ) );
@@ -5150,13 +5160,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             obj1 = JSON5.parse( String( readFileSync( path1 ) ) );
 
             resultCompilerOptionsObj = Object.assign( {}, Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
-                                                          ? obj1.compilerOptions
-                                                          : {}, resultCompilerOptionsObj );
+                                                          ? JSON.parse( JSON.stringify( obj1.compilerOptions ) )
+                                                          : {}, JSON.parse( JSON.stringify( resultCompilerOptionsObj ) ) );
           }
 
           return JSON.stringify( {
             compilerOptions: {
-              ...resultCompilerOptionsObj,
+              ...JSON.parse( JSON.stringify( resultCompilerOptionsObj ) ),
               esModuleInterop: true,
               // 选项'isolatedModules'是多余的，不能与选项'verbatimModuleSyntax'一起指定，优先使用verbatimModuleSyntax。
               // isolatedModules: true,
@@ -5221,7 +5231,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         loader: 'css-loader',
         options: {
           /**
-           * 在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
            * 1、允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
            * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
            * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
@@ -5231,10 +5240,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           url: {
             /**
              * 允许过滤url()。所有过滤的url()都不会被解析（在编写时留在代码中）。<br />
-             * 1、在css文件中使用webpack设置好的路径别名时，需要用~打头，然后才是webpack设置好的路径别名，如：url(~xxxAlias/image.png)。<br />
-             * 2、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
-             * 3、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
-             * 4、注意，目前无法识别到那些无http:、https:协议头的远程链接，也就是无法识别那些以'//'开头的远程链接，会直接原样将其保留在源码中。<br />
+             * 1、函数里返回true表示处理，返回false就是不处理，其原样留在代码里。<br />
+             * 2、可以在此url()函数中使用相对地址。相对地址相对于CSS样式表的URL（而不是网页的URL）。<br />
+             * 3、注意，目前无法识别到那些无http:、https:协议头的远程链接，也就是无法识别那些以'//'开头的远程链接，会直接原样将其保留在源码中。<br />
              *
              * @param {string} url 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
              *
@@ -5248,6 +5256,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               return !boo;
             },
           },
+          /**
+           * 参见上面的url选项。<br />
+           */
+          // 使用，/* webpackIgnore: true */，魔术注释来开启禁用@import解析。
           import: {
             filter: ( url, media, resourcePath ) => {
               const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
@@ -5259,6 +5271,364 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           sourceMap: false,
           // 该loader的这个选项默认值是true，并且，在启用experiments.buildHttp后，要想CSS文件里的远程资源能自动被各自对应的loader处理，就必须将该选项设置为true。
           // esModule: true,
+        },
+      },
+      cssLoaderModules = {
+        // mode: 'local',
+        auto: true,
+        localIdentName: '[name]_[local]_[sha512:contenthash:hex:8]',
+        localIdentHashFunction: 'sha512',
+        localIdentHashDigest: 'hex',
+        localIdentHashDigestLength: 16,
+        hashStrategy: 'resource-path-and-local-name',
+        namedExport: true,
+        exportGlobals: true,
+        // 当namedExport选项为true时，该选项的值只能为：camelCaseOnly。
+        exportLocalsConvention: 'camelCaseOnly',
+        exportOnlyLocals: false,
+      },
+      /**
+       * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
+       * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
+       * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
+       */
+      lessLoader = {
+        loader: 'less-loader',
+        options: {
+          implementation: less,
+          sourceMap: false,
+          // 在某些情况下，这可以提高性能。谨慎使用它，因为来自node_modules的别名和@import将不起作用。
+          webpackImporter: true,
+          lessOptions: {
+            // 该选项不建议使用，已弃用，它已由math选项代替，该选项为true时，会将math选项设置为2。
+            // strictMath: true,
+            // 已弃用。该选项为true时，rewriteUrls选项会被设置为2，2对应'all'。
+            // relativeUrls: true,
+            // 兼容IE 8，不推荐使用，已废弃，从v3.0.0开始默认为false。当前仅用于data-uri函数，以确保不会创建太大的图像，以至于浏览器无法处理。
+            // ieCompat: false,
+            // 已废弃，从v3.0.0开始默认为false。替换为@plugin选项。
+            // javascriptEnabled: false,
+            // 已废弃，生成内联源映射。这是浏览器开始支持源地图之前的唯一选择，有效值：'comments'、'mediaquery'、'all'。
+            // dumpLineNumbers: 'comments',
+            // 已废弃，
+            // compress: false,
+
+            /**
+             * math选项的4个有效值，具体设置时，设置成字符串值也行，设置成number也行（优先用number设置吧），它们是一一对应的，less包的代码里会进行自动判断：<br />
+             * 1、always（对应：0）：less 3.x版本的默认值，总是执行数学运算。<br />
+             * 2、parens-division（对应：1）：less 4.0版本的默认值，对使用“/”且两边的操作数没有被括号括起来的不进行计算（不计算：2px / 2），其他都进行数学计算（做计算：(2px / 2)）。<br />
+             * 3、parens、strict（对应：2）：这两个都表示同一个，只对被括号包裹的进行计算，其他都不计算。<br />
+             * 4、strict-legacy（对应：3）：该值在less 4.0版本中被删除了，都不做计算，原样保留。<br />
+             */
+            math: 2,
+            /**
+             * 1、启用严格单位后，我们假设这是计算中的错误并引发错误：.class { property: 1px * 2px; }，因为在这种情况下，事情显然不对，长度乘以长度得到一个区域，但css不支持指定区域。<br />
+             * 2、如果没有此选项，Less在进行数学运算时会尝试猜测输出单元。所以我们假设用户希望其中一个值是一个值，而不是一个长度单位，我们输出2px。<br />
+             */
+            strictUnits: true,
+            // 只报告错误，没有任何输出，设置成false表示不会启用。
+            lint: false,
+            // 允许从不安全的HTTPS主机导入。
+            insecure: true,
+            // 将生成文件导入依赖项列表输出到标准输出。
+            depends: false,
+            // 终端中的颜色输出。
+            color: true,
+            // strictImports选项控制编译器是否允许在@media块或（稍后添加的）其他选择器块内进行@import。
+            strictImports: false,
+          },
+        },
+      },
+      /**
+       * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+       * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+       * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+       * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+       * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+       * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+       * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+       * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+       * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+       * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+       * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+       * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+       * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+       */
+      sassLoader = {
+        loader: 'sass-loader',
+        options: {
+          // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
+          implementation: DartSass,
+          // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
+          sourceMap: false,
+          /**
+           * 启用、禁用默认的Webpack导入器。<br />
+           * 1、值类型：boolean，默认值：true。<br />
+           * 2、在某些情况下，这可以提高性能。请谨慎使用，因为以~开头的别名和@import规则将不起作用。<br />
+           */
+          webpackImporter: true,
+          /**
+           * 将@warn规则视为webpack警告。<br />
+           * 1、默认值：false，值类型：boolean，在下一个主要版本中默认值将为true。<br />
+           * 2、该值设置为true时，呈现的代码将抛出webpack警告而不是日志记录，要忽略不必要的警告，您可以使用ignoreWarnings选项。<br />
+           */
+          warnRuleAsWarning: true,
+          /**
+           * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
+           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
+           * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
+           * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           */
+          api: 'modern',
+          /**
+           * 1、data、file这两个选项是不可用的，会被忽略。<br />
+           * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
+           * 3、sass(dart-sass)和node-sass选项之间存在细微差别。<br />
+           * 4、sass(dart-sass)的'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           * 5、使用Dart Sass实现和sass-embedded实现则sassOptions选项里面不支持以下选项：precision、sourceComments。<br />
+           * 6、使用sass-embedded实现则sassOptions选项里面不支持以下选项，但是Dart Sass实现还是支持的：indentWidth、indentType、linefeed。<br />
+           * 7、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+           * 8、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+           * 9、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+           * 10、上面的api选项的值也会影响sassOptions选项里的各个选项。'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           */
+          sassOptions: {
+            // 作者自己说这个库已经过时了，不建议再使用它了！设置成false就可以禁用它，而不是不设置，因为默认是启用它的。
+            fiber: false,
+            /**
+             * dart-sass的charset选项默认值为true，我们强烈建议不要将值更改为false，因为webpack不支持utf-8以外的文件。<br />
+             * 1、值类型：boolean，默认值：true。<br />
+             * 2、如果为true，编译器可能会在前面加上@charset "UTF-8";如果输出非ASCII CSS，则为U+FEFF（字节顺序标记）。<br />
+             * 3、如果为false，编译器永远不会发出这些字节序列。这在连接或嵌入HTML <style>标记时非常理想（输出仍然是UTF-8）。<br />
+             */
+            // charset: true,
+            quietDeps: false,
+            verbose: false,
+
+            // 以下分别列出新旧选项，个人觉得最好就这么全留着两者，按理会根据上面的api选项来使用对应的选项，应该不会有冲突的，毕竟它们之间没有选项覆盖。
+
+            // 旧版选项。
+            ...{
+              /**
+               * 处理.scss文件时，该选项值设置为false即可，但是如果是处理.sass文件，则还是要设置成true的。<br />
+               * 1、值类型：boolean，默认值：false。<br />
+               */
+              indentedSyntax: true,
+              /**
+               * 生成的CSS是否应该使用空格或制表符进行缩进。<br />
+               * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
+               * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+               */
+              indentType: 'space',
+              /**
+               * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
+               * 1、值类型：number，默认值：2。<br />
+               * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+               */
+              indentWidth: 4,
+              /**
+               * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
+               * 1、'lf'使用U+000A换行。<br />
+               * 2、'lfcr'使用U+000A换行符，后跟U+000D回车符。<br />
+               * 3、'cr'使用U+000D回车。<br />
+               * 4、'crlf'使用U+000D回车符，后跟U+000A换行符。<br />
+               * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
+               * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+               */
+              linefeed: 'lf',
+              /**
+               * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+               * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+               * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+               * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+               * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+               */
+              outputStyle: isProduction
+                           ? 'compressed'
+                           : 'expanded',
+            },
+
+            // 新版选项。
+            ...{
+              /**
+               * .scss文件用'scss'，.sass文件用'indented'，.css文件用'css'。<br />
+               * 1、默认值：'scss'，值类型：string。<br />
+               */
+              syntax: 'indented',
+              // 设置成false会使用非ASCII码以支持更多的字符编码，设置成true会使用ASCII码（ASCII码只有128个字符编码）。
+              alertAscii: false,
+              alertColor: true,
+              /**
+               * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+               * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+               * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+               * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+               * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+               */
+              style: isProduction
+                     ? 'compressed'
+                     : 'expanded',
+            },
+          },
+        },
+      },
+      /**
+       * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+       * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+       * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+       * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+       * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+       * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+       * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+       * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+       * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+       * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+       * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+       * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+       * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+       */
+      scssLoader = {
+        loader: 'sass-loader',
+        options: {
+          // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
+          implementation: DartSass,
+          // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
+          sourceMap: false,
+          /**
+           * 启用、禁用默认的Webpack导入器。<br />
+           * 1、值类型：boolean，默认值：true。<br />
+           * 2、在某些情况下，这可以提高性能。请谨慎使用，因为以~开头的别名和@import规则将不起作用。<br />
+           */
+          webpackImporter: true,
+          /**
+           * 将@warn规则视为webpack警告。<br />
+           * 1、默认值：false，值类型：boolean，在下一个主要版本中默认值将为true。<br />
+           * 2、该值设置为true时，呈现的代码将抛出webpack警告而不是日志记录，要忽略不必要的警告，您可以使用ignoreWarnings选项。<br />
+           */
+          warnRuleAsWarning: true,
+          /**
+           * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
+           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
+           * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
+           * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           */
+          api: 'modern',
+          /**
+           * 1、data、file这两个选项是不可用的，会被忽略。<br />
+           * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
+           * 3、sass(dart-sass)和node-sass选项之间存在细微差别。<br />
+           * 4、sass(dart-sass)的'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           * 5、使用Dart Sass实现和sass-embedded实现则sassOptions选项里面不支持以下选项：precision、sourceComments。<br />
+           * 6、使用sass-embedded实现则sassOptions选项里面不支持以下选项，但是Dart Sass实现还是支持的：indentWidth、indentType、linefeed。<br />
+           * 7、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+           * 8、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+           * 9、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+           * 10、上面的api选项的值也会影响sassOptions选项里的各个选项。'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           */
+          sassOptions: {
+            // 作者自己说这个库已经过时了，不建议再使用它了！设置成false就可以禁用它，而不是不设置，因为默认是启用它的。
+            fiber: false,
+            /**
+             * dart-sass的charset选项默认值为true，我们强烈建议不要将值更改为false，因为webpack不支持utf-8以外的文件。<br />
+             * 1、值类型：boolean，默认值：true。<br />
+             * 2、如果为true，编译器可能会在前面加上@charset "UTF-8";如果输出非ASCII CSS，则为U+FEFF（字节顺序标记）。<br />
+             * 3、如果为false，编译器永远不会发出这些字节序列。这在连接或嵌入HTML <style>标记时非常理想（输出仍然是UTF-8）。<br />
+             */
+            // charset: true,
+            quietDeps: false,
+            verbose: false,
+
+            // 以下分别列出新旧选项，个人觉得最好就这么全留着两者，按理会根据上面的api选项来使用对应的选项，应该不会有冲突的，毕竟它们之间没有选项覆盖。
+
+            // 旧版选项。
+            ...{
+              /**
+               * 处理.scss文件时，该选项值设置为false即可，但是如果是处理.sass文件，则还是要设置成true的。<br />
+               * 1、值类型：boolean，默认值：false。<br />
+               */
+              indentedSyntax: false,
+              /**
+               * 生成的CSS是否应该使用空格或制表符进行缩进。<br />
+               * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
+               * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+               */
+              indentType: 'space',
+              /**
+               * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
+               * 1、值类型：number，默认值：2。<br />
+               * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+               */
+              indentWidth: 2,
+              /**
+               * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
+               * 1、'lf'使用U+000A换行。<br />
+               * 2、'lfcr'使用U+000A换行符，后跟U+000D回车符。<br />
+               * 3、'cr'使用U+000D回车。<br />
+               * 4、'crlf'使用U+000D回车符，后跟U+000A换行符。<br />
+               * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
+               * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
+               */
+              linefeed: 'lf',
+              /**
+               * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+               * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+               * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+               * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+               * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+               */
+              outputStyle: isProduction
+                           ? 'compressed'
+                           : 'expanded',
+            },
+
+            // 新版选项。
+            ...{
+              /**
+               * .scss文件用'scss'，.sass文件用'indented'，.css文件用'css'。<br />
+               * 1、默认值：'scss'，值类型：string。<br />
+               */
+              syntax: 'scss',
+              // 设置成false会使用非ASCII码以支持更多的字符编码，设置成true会使用ASCII码（ASCII码只有128个字符编码）。
+              alertAscii: false,
+              alertColor: true,
+              /**
+               * 已编译CSS的输出样式。有4种可能的输出样式：<br />
+               * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
+               * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
+               * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
+               * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
+               */
+              style: isProduction
+                     ? 'compressed'
+                     : 'expanded',
+            },
+          },
+        },
+      },
+      stylusLoader = {
+        loader: 'stylus-loader',
+        options: {
+          implementation: Stylus,
+          // 在某些情况下，这可以提高性能。请谨慎使用，因为以~开头的别名和@import规则将不起作用。
+          webpackImporter: true,
+          sourceMap: false,
+          stylusOptions: {
+            // 值类型：boolean，默认值是：false，在@import上包含常规CSS。
+            includeCSS: true,
+            // 值类型：boolean、Object，默认值：{ nocheck: true }，resolveURL: true等价于默认值，解析导入文件中的相对url()。
+            resolveURL: {
+              // 其他解析路径。
+              // paths: '',
+              // 不要检查文件是否存在。
+              nocheck: true,
+            },
+            // 值类型：boolean，默认值是：false，在生成的CSS中发出注释，指示相应的Stylus行。
+            lineNumbers: !isProduction,
+            // 值类型：boolean，默认值是：false，将@import和@charset移到顶部。
+            hoistAtrules: true,
+            // 值类型：boolean，默认值是：false，压缩CSS输出。
+            compress: isProduction,
+          },
         },
       },
       tsLoaderConfig = {
@@ -5294,9 +5664,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           // 允许您指定在哪里可以找到TypeScript配置文件。
           // configFile: resolve( __dirname, './tsconfig.webpack.json' ),
           compilerOptions: ( tsconfigPath => {
-            let obj1 = tsconfig_webpack_json,
+            let obj1 = JSON.parse( JSON.stringify( tsconfig_webpack_json ) ),
               resultCompilerOptionsObj = Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
-                                         ? obj1.compilerOptions
+                                         ? JSON.parse( JSON.stringify( obj1.compilerOptions ) )
                                          : {},
               path1 = '',
               dirNamePath1 = dirname( resolve( __dirname, tsconfigPath ) );
@@ -5309,12 +5679,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               obj1 = JSON5.parse( String( readFileSync( path1 ) ) );
 
               resultCompilerOptionsObj = Object.assign( {}, Object.prototype.toString.call( obj1.compilerOptions ) === '[object Object]'
-                                                            ? obj1.compilerOptions
-                                                            : {}, resultCompilerOptionsObj );
+                                                            ? JSON.parse( JSON.stringify( obj1.compilerOptions ) )
+                                                            : {}, JSON.parse( JSON.stringify( resultCompilerOptionsObj ) ) );
             }
 
             return {
-              ...resultCompilerOptionsObj,
+              ...JSON.parse( JSON.stringify( resultCompilerOptionsObj ) ),
             };
           } )( './tsconfig.webpack.json' ),
           colors: true,
@@ -5513,6 +5883,70 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
+        /**
+         * 处理.module.css文件，也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
+        {
+          test: /\.module\.css$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  {
+                    loader: 'thread-loader',
+                    options: cssWorkerPoolConfig,
+                  },
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
+                ];
+            } )(),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, { options, } );
+            } )( cssLoader ),
+            postCSSLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
         // 处理.css文件。
         {
           test: /\.css$/i,
@@ -5522,7 +5956,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
              */
             ...( () => {
               return isProduction
@@ -5548,6 +5982,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            /\.module\.css$/i,
+
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
@@ -6032,6 +6468,79 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
+        /**
+         * 处理.module.less文件，也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
+        {
+          test: /\.module\.less$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  {
+                    loader: 'thread-loader',
+                    options: lessWorkerPoolConfig,
+                  },
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
+                ];
+            } )(),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
+            postCSSLoader,
+            /**
+             * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
+             * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
+             * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
+             */
+            lessLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
         // 处理.less文件。
         {
           test: /\.less$/i,
@@ -6041,7 +6550,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
              */
             ...( () => {
               return isProduction
@@ -6056,64 +6565,22 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   styleLoader,
                 ];
             } )(),
-            Object.assign( {}, cssLoader, {
-              options: {
-                importLoaders: 2,
-              }
-            } ),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
             postCSSLoader,
             /**
              * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
              * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
              * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
              */
-            {
-              loader: 'less-loader',
-              options: {
-                implementation: less,
-                sourceMap: false,
-                // 在某些情况下，这可以提高性能。谨慎使用它，因为来自node_modules的别名和@import将不起作用。
-                webpackImporter: true,
-                lessOptions: {
-                  // 该选项不建议使用，已弃用，它已由math选项代替，该选项为true时，会将math选项设置为2。
-                  // strictMath: true,
-                  // 已弃用。该选项为true时，rewriteUrls选项会被设置为2，2对应'all'。
-                  // relativeUrls: true,
-                  // 兼容IE 8，不推荐使用，已废弃，从v3.0.0开始默认为false。当前仅用于data-uri函数，以确保不会创建太大的图像，以至于浏览器无法处理。
-                  // ieCompat: false,
-                  // 已废弃，从v3.0.0开始默认为false。替换为@plugin选项。
-                  // javascriptEnabled: false,
-                  // 已废弃，生成内联源映射。这是浏览器开始支持源地图之前的唯一选择，有效值：'comments'、'mediaquery'、'all'。
-                  // dumpLineNumbers: 'comments',
-                  // 已废弃，
-                  // compress: false,
-
-                  /**
-                   * math选项的4个有效值，具体设置时，设置成字符串值也行，设置成number也行（优先用number设置吧），它们是一一对应的，less包的代码里会进行自动判断：<br />
-                   * 1、always（对应：0）：less 3.x版本的默认值，总是执行数学运算。<br />
-                   * 2、parens-division（对应：1）：less 4.0版本的默认值，对使用“/”且两边的操作数没有被括号括起来的不进行计算（不计算：2px / 2），其他都进行数学计算（做计算：(2px / 2)）。<br />
-                   * 3、parens、strict（对应：2）：这两个都表示同一个，只对被括号包裹的进行计算，其他都不计算。<br />
-                   * 4、strict-legacy（对应：3）：该值在less 4.0版本中被删除了，都不做计算，原样保留。<br />
-                   */
-                  math: 2,
-                  /**
-                   * 1、启用严格单位后，我们假设这是计算中的错误并引发错误：.class { property: 1px * 2px; }，因为在这种情况下，事情显然不对，长度乘以长度得到一个区域，但css不支持指定区域。<br />
-                   * 2、如果没有此选项，Less在进行数学运算时会尝试猜测输出单元。所以我们假设用户希望其中一个值是一个值，而不是一个长度单位，我们输出2px。<br />
-                   */
-                  strictUnits: true,
-                  // 只报告错误，没有任何输出，设置成false表示不会启用。
-                  lint: false,
-                  // 允许从不安全的HTTPS主机导入。
-                  insecure: true,
-                  // 将生成文件导入依赖项列表输出到标准输出。
-                  depends: false,
-                  // 终端中的颜色输出。
-                  color: true,
-                  // strictImports选项控制编译器是否允许在@media块或（稍后添加的）其他选择器块内进行@import。
-                  strictImports: false,
-                },
-              },
-            },
+            lessLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -6123,6 +6590,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            /\.module\.less$/i,
+
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
@@ -6306,6 +6775,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            /\.manifest\.json$/i,
+
             join( __dirname, './src/assets/doc/cson/' ),
             join( __dirname, './src/assets/doc/csv/' ),
             join( __dirname, './src/assets/doc/json5/' ),
@@ -6484,6 +6955,64 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
+        /**
+         * 处理.module.postcss文件、.module.pcss文件，也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
+        {
+          test: /\.module\.(pcss|postcss)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  {
+                    loader: 'thread-loader',
+                    options: cssWorkerPoolConfig,
+                  },
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
+                ];
+            } )(),
+            cssLoader,
+            postCSSLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
         // 处理.postcss文件、.pcss文件。
         {
           test: /\.(pcss|postcss)$/i,
@@ -6493,7 +7022,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
              */
             ...( () => {
               return isProduction
@@ -6519,6 +7048,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            /\.module\.(pcss|postcss)$/i,
+
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),
@@ -6571,16 +7102,19 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
-        // 处理.sass文件。
+        /**
+         * 处理.module.sass文件，也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
         {
-          test: /\.sass$/i,
+          test: /\.module\.sass$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
              */
             ...( () => {
               return isProduction
@@ -6592,14 +7126,25 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     loader: 'thread-loader',
                     options: sassWorkerPoolConfig,
                   },
-                  styleLoader,
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
                 ];
             } )(),
-            Object.assign( {}, cssLoader, {
-              options: {
-                importLoaders: 2,
-              }
-            } ),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
             postCSSLoader,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
@@ -6609,131 +7154,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
              * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
              * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
-             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。。<br />
+             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
              * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
              * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
              * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
              * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
              * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
              */
-            {
-              loader: 'sass-loader',
-              options: {
-                // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
-                implementation: DartSass,
-                // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
-                sourceMap: false,
-                /**
-                 * 启用、禁用默认的Webpack导入器。<br />
-                 * 1、值类型：boolean，默认值：true。<br />
-                 * 2、在某些情况下，这可以提高性能。请谨慎使用，因为以〜开头的别名和@import规则将不起作用。<br />
-                 */
-                webpackImporter: true,
-                /**
-                 * 将@warn规则视为webpack警告。<br />
-                 * 1、默认值：false，值类型：boolean，在下一个主要版本中默认值将为true。<br />
-                 * 2、该值设置为true时，呈现的代码将抛出webpack警告而不是日志记录，要忽略不必要的警告，您可以使用ignoreWarnings选项。<br />
-                 */
-                warnRuleAsWarning: true,
-                /**
-                 * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
-                 * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
-                 * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
-                 * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
-                 */
-                api: 'modern',
-                /**
-                 * 1、data、file这两个选项是不可用的，会被忽略。<br />
-                 * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
-                 * 3、sass(dart-sass)和node-sass选项之间存在细微差别。<br />
-                 * 4、sass(dart-sass)的'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
-                 * 5、使用Dart Sass实现和sass-embedded实现则sassOptions选项里面不支持以下选项：precision、sourceComments。<br />
-                 * 6、使用sass-embedded实现则sassOptions选项里面不支持以下选项，但是Dart Sass实现还是支持的：indentWidth、indentType、linefeed。<br />
-                 * 7、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
-                 * 8、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
-                 * 9、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
-                 * 10、上面的api选项的值也会影响sassOptions选项里的各个选项。'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
-                 */
-                sassOptions: {
-                  // 作者自己说这个库已经过时了，不建议再使用它了！设置成false就可以禁用它，而不是不设置，因为默认是启用它的。
-                  fiber: false,
-                  /**
-                   * dart-sass的charset选项默认值为true，我们强烈建议不要将值更改为false，因为webpack不支持utf-8以外的文件。<br />
-                   * 1、值类型：boolean，默认值：true。<br />
-                   * 2、如果为true，编译器可能会在前面加上@charset "UTF-8";如果输出非ASCII CSS，则为U+FEFF（字节顺序标记）。<br />
-                   * 3、如果为false，编译器永远不会发出这些字节序列。这在连接或嵌入HTML <style>标记时非常理想（输出仍然是UTF-8）。<br />
-                   */
-                  // charset: true,
-                  quietDeps: false,
-                  verbose: false,
-
-                  // 以下分别列出新旧选项，个人觉得最好就这么全留着两者，按理会根据上面的api选项来使用对应的选项，应该不会有冲突的，毕竟它们之间没有选项覆盖。
-
-                  // 旧版选项。
-                  ...{
-                    /**
-                     * 处理.scss文件时，该选项值设置为false即可，但是如果是处理.sass文件，则还是要设置成true的。<br />
-                     * 1、值类型：boolean，默认值：false。<br />
-                     */
-                    indentedSyntax: true,
-                    /**
-                     * 生成的CSS是否应该使用空格或制表符进行缩进。<br />
-                     * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
-                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
-                     */
-                    indentType: 'space',
-                    /**
-                     * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
-                     * 1、值类型：number，默认值：2。<br />
-                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
-                     */
-                    indentWidth: 4,
-                    /**
-                     * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
-                     * 1、'lf'使用U+000A换行。<br />
-                     * 2、'lfcr'使用U+000A换行符，后跟U+000D回车符。<br />
-                     * 3、'cr'使用U+000D回车。<br />
-                     * 4、'crlf'使用U+000D回车符，后跟U+000A换行符。<br />
-                     * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
-                     * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
-                     */
-                    linefeed: 'lf',
-                    /**
-                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
-                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
-                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
-                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
-                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
-                     */
-                    outputStyle: isProduction
-                                 ? 'compressed'
-                                 : 'expanded',
-                  },
-
-                  // 新版选项。
-                  ...{
-                    /**
-                     * .scss文件用'scss'，.sass文件用'indented'，.css文件用'css'。<br />
-                     * 1、默认值：'scss'，值类型：string。<br />
-                     */
-                    syntax: 'indented',
-                    // 设置成false会使用非ASCII码以支持更多的字符编码，设置成true会使用ASCII码（ASCII码只有128个字符编码）。
-                    alertAscii: false,
-                    alertColor: true,
-                    /**
-                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
-                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
-                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
-                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
-                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
-                     */
-                    style: isProduction
-                           ? 'compressed'
-                           : 'expanded',
-                  },
-                },
-              },
-            },
+            sassLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -6757,17 +7185,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
           sideEffects: true,
         },
-
-        // 处理.scss文件。
+        // 处理.sass文件。
         {
-          test: /\.scss$/i,
+          test: /\.sass$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
              */
             ...( () => {
               return isProduction
@@ -6782,11 +7209,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   styleLoader,
                 ];
             } )(),
-            Object.assign( {}, cssLoader, {
-              options: {
-                importLoaders: 2,
-              }
-            } ),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
             postCSSLoader,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
@@ -6796,131 +7227,100 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
              * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
              * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
-             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。。<br />
+             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
              * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
              * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
              * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
              * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
              * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
              */
-            {
-              loader: 'sass-loader',
-              options: {
-                // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
-                implementation: DartSass,
-                // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
-                sourceMap: false,
-                /**
-                 * 启用、禁用默认的Webpack导入器。<br />
-                 * 1、值类型：boolean，默认值：true。<br />
-                 * 2、在某些情况下，这可以提高性能。请谨慎使用，因为以〜开头的别名和@import规则将不起作用。<br />
-                 */
-                webpackImporter: true,
-                /**
-                 * 将@warn规则视为webpack警告。<br />
-                 * 1、默认值：false，值类型：boolean，在下一个主要版本中默认值将为true。<br />
-                 * 2、该值设置为true时，呈现的代码将抛出webpack警告而不是日志记录，要忽略不必要的警告，您可以使用ignoreWarnings选项。<br />
-                 */
-                warnRuleAsWarning: true,
-                /**
-                 * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
-                 * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
-                 * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
-                 * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
-                 */
-                api: 'modern',
-                /**
-                 * 1、data、file这两个选项是不可用的，会被忽略。<br />
-                 * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
-                 * 3、sass(dart-sass)和node-sass选项之间存在细微差别。<br />
-                 * 4、sass(dart-sass)的'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
-                 * 5、使用Dart Sass实现和sass-embedded实现则sassOptions选项里面不支持以下选项：precision、sourceComments。<br />
-                 * 6、使用sass-embedded实现则sassOptions选项里面不支持以下选项，但是Dart Sass实现还是支持的：indentWidth、indentType、linefeed。<br />
-                 * 7、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
-                 * 8、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
-                 * 9、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
-                 * 10、上面的api选项的值也会影响sassOptions选项里的各个选项。'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
-                 */
-                sassOptions: {
-                  // 作者自己说这个库已经过时了，不建议再使用它了！设置成false就可以禁用它，而不是不设置，因为默认是启用它的。
-                  fiber: false,
-                  /**
-                   * dart-sass的charset选项默认值为true，我们强烈建议不要将值更改为false，因为webpack不支持utf-8以外的文件。<br />
-                   * 1、值类型：boolean，默认值：true。<br />
-                   * 2、如果为true，编译器可能会在前面加上@charset "UTF-8";如果输出非ASCII CSS，则为U+FEFF（字节顺序标记）。<br />
-                   * 3、如果为false，编译器永远不会发出这些字节序列。这在连接或嵌入HTML <style>标记时非常理想（输出仍然是UTF-8）。<br />
-                   */
-                  // charset: true,
-                  quietDeps: false,
-                  verbose: false,
+            sassLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
 
-                  // 以下分别列出新旧选项，个人觉得最好就这么全留着两者，按理会根据上面的api选项来使用对应的选项，应该不会有冲突的，毕竟它们之间没有选项覆盖。
+            join( __dirname, './src/' ),
 
-                  // 旧版选项。
-                  ...{
-                    /**
-                     * 处理.scss文件时，该选项值设置为false即可，但是如果是处理.sass文件，则还是要设置成true的。<br />
-                     * 1、值类型：boolean，默认值：false。<br />
-                     */
-                    indentedSyntax: false,
-                    /**
-                     * 生成的CSS是否应该使用空格或制表符进行缩进。<br />
-                     * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
-                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
-                     */
-                    indentType: 'space',
-                    /**
-                     * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
-                     * 1、值类型：number，默认值：2。<br />
-                     * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
-                     */
-                    indentWidth: 2,
-                    /**
-                     * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
-                     * 1、'lf'使用U+000A换行。<br />
-                     * 2、'lfcr'使用U+000A换行符，后跟U+000D回车符。<br />
-                     * 3、'cr'使用U+000D回车。<br />
-                     * 4、'crlf'使用U+000D回车符，后跟U+000A换行符。<br />
-                     * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
-                     * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
-                     */
-                    linefeed: 'lf',
-                    /**
-                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
-                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
-                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
-                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
-                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
-                     */
-                    outputStyle: isProduction
-                                 ? 'compressed'
-                                 : 'expanded',
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            /\.module\.sass$/i,
+
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
+
+        /**
+         * 处理.module.scss文件，也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
+        {
+          test: /\.module\.scss$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  {
+                    loader: 'thread-loader',
+                    options: sassWorkerPoolConfig,
                   },
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                  // 新版选项。
-                  ...{
-                    /**
-                     * .scss文件用'scss'，.sass文件用'indented'，.css文件用'css'。<br />
-                     * 1、默认值：'scss'，值类型：string。<br />
-                     */
-                    syntax: 'scss',
-                    // 设置成false会使用非ASCII码以支持更多的字符编码，设置成true会使用ASCII码（ASCII码只有128个字符编码）。
-                    alertAscii: false,
-                    alertColor: true,
-                    /**
-                     * 已编译CSS的输出样式。有4种可能的输出样式：<br />
-                     * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
-                     * 2、'compressed'：尽可能多的删除额外字符，并将整个样式表放在一行上。<br />
-                     * 3、'nested'：Node Sass的默认值，Dart Sass和sass-embedded实现不支持，缩进CSS规则以匹配Sass源的嵌套。<br />
-                     * 4、'compact'：Dart Sass和sass-embedded实现不支持，将每个CSS规则放在自己的单行上。<br />
-                     */
-                    style: isProduction
-                           ? 'compressed'
-                           : 'expanded',
-                  },
-                },
-              },
-            },
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
+                ];
+            } )(),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
+            postCSSLoader,
+            /**
+             * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+             * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+             * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+             * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+             * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+             * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+             * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+             * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+             * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+             * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+             * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+             * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+             */
+            scssLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -6944,7 +7344,150 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
           sideEffects: true,
         },
+        // 处理.scss文件。
+        {
+          test: /\.scss$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  {
+                    loader: 'thread-loader',
+                    options: sassWorkerPoolConfig,
+                  },
+                  styleLoader,
+                ];
+            } )(),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
 
+              options.importLoaders = 2;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
+            postCSSLoader,
+            /**
+             * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+             * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+             * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+             * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+             * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+             * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+             * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+             * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+             * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+             * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+             * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+             * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+             * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+             */
+            scssLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            /\.module\.scss$/i,
+
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
+
+        /**
+         * 处理.module.styl文件、.module.stylus文件，也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
+        {
+          test: /\.module\.(styl|stylus)$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             */
+            ...( () => {
+              return isProduction
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  {
+                    loader: 'thread-loader',
+                    options: stylusWorkerPoolConfig,
+                  },
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
+                ];
+            } )(),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
+            postCSSLoader,
+            stylusLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
         // 处理.styl文件、.stylus文件。
         {
           test: /\.(styl|stylus)$/i,
@@ -6954,7 +7497,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
              */
             ...( () => {
               return isProduction
@@ -6969,38 +7512,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   styleLoader,
                 ];
             } )(),
-            Object.assign( {}, cssLoader, {
-              options: {
-                importLoaders: 2,
-              }
-            } ),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.importLoaders = 2;
+
+              return Object.assign( {}, cssLoader, {
+                options,
+              } );
+            } )( cssLoader ),
             postCSSLoader,
-            {
-              loader: 'stylus-loader',
-              options: {
-                implementation: Stylus,
-                // 在某些情况下，这可以提高性能。请谨慎使用，因为以〜开头的别名和@import规则将不起作用。
-                webpackImporter: true,
-                sourceMap: false,
-                stylusOptions: {
-                  // 值类型：boolean，默认值是：false，在@import上包含常规CSS。
-                  includeCSS: true,
-                  // 值类型：boolean、Object，默认值：{ nocheck: true }，resolveURL: true等价于默认值，解析导入文件中的相对url()。
-                  resolveURL: {
-                    // 其他解析路径。
-                    // paths: '',
-                    // 不要检查文件是否存在。
-                    nocheck: true,
-                  },
-                  // 值类型：boolean，默认值是：false，在生成的CSS中发出注释，指示相应的Stylus行。
-                  lineNumbers: !isProduction,
-                  // 值类型：boolean，默认值是：false，将@import和@charset移到顶部。
-                  hoistAtrules: true,
-                  // 值类型：boolean，默认值是：false，压缩CSS输出。
-                  compress: isProduction,
-                },
-              },
-            },
+            stylusLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -7010,6 +7532,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             join( __dirname, './webpack_location/' ),
           ],
           exclude: [
+            /\.module\.(styl|stylus)$/i,
+
             join( __dirname, './src/assets/' ),
             join( __dirname, './src/custom_declare_types/' ),
             join( __dirname, './src/graphQL/' ),

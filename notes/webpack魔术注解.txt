@@ -15,7 +15,7 @@ https://webpack.js.org/api/module-methods/#magic-comments
 // 在导入解析期间将匹配的正则表达式。任何匹配的模块都不会被捆绑。请注意，webpackInclude 和 webpackExclude 选项不会干扰前缀。例如：./locale。
 /* webpackExclude: /\.noimport\.json$/ */
 
-// 设置为 true 时禁用动态导入解析。请注意，将 webpackIgnore 设置为 true 会选择退出代码拆分。。
+// 设置为 true 时禁用动态导入解析。请注意，将 webpackIgnore 设置为 true 会选择退出代码拆分。
 /* webpackIgnore: true */
 
 // 预取：将来可能需要一些导航资源，值类型：boolean、number（支持负数，估计是表示加载的优先顺序）。

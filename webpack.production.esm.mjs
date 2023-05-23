@@ -276,7 +276,7 @@ export default {
      * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
      * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
      * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-     * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。。<br />
+     * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
      */
     new MiniCssExtractPlugin( miniCssExtractPluginConfig ),
 
