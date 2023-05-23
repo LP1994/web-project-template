@@ -33,3 +33,12 @@ declare module '*.module.postcss' {
 
   export default classes;
 }
+
+declare module '*.postcss' {
+  /**
+   * @deprecated Use `import style from './style.pcss?inline'` instead.
+   */
+  const css: string;
+
+  export default css;
+}
