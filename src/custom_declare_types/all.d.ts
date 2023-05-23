@@ -1,6 +1,9 @@
 /// <reference types="vite/client" />
 /// <reference types="./define.d.ts" />
 /// <reference types="./vue.d.ts" />
+/// <reference types="./img.d.ts" />
+/// <reference types="./music.d.ts" />
+/// <reference types="./videos.d.ts" />
 
 /**
  * Project: web-project-template
@@ -41,4 +44,208 @@ declare module '*.postcss' {
   const css: string;
 
   export default css;
+}
+
+declare module '*.cson' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.csv' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.tsv' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.ejs' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.eot' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.otf' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.fon' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.font' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.ttf' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.ttc' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.woff' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.woff2' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.graphql' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.graphqls' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.gql' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.handlebars' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.hbs' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.htm' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.html' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.xhtml' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.json5' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.toml' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.txt' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.manifest.json' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.webmanifest' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.markdown' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.md' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.mustache' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.pug' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.jade' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.wasm' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.xml' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.yaml' {
+  const src: string;
+
+  export default src;
+}
+
+declare module '*.yml' {
+  const src: string;
+
+  export default src;
 }

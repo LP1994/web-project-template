@@ -39,6 +39,7 @@ postcssConfig.plugins.unshift( [
   {
     /**
      * 默认情况下，一个带有导出类的JSON文件将被放在相应的CSS旁边。但你可以自由地使用导出的类来做你想做的一切，只要使用getJSON回调。getJSON也可以返回一个Promise。<br />
+     * 1、实际发现，无论是开发模式还是生产模式，该选项都没有生效！！！<br />
      *
      * @param {string} cssFileName 如：G:/WebStormWS/xxx/Upload.Vue3.ts.vue?used&vue&type=style&index=1&lang.module.scss
      *
