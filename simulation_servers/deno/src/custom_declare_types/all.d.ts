@@ -21,6 +21,10 @@ type CSSModuleClasses = {
   readonly [ key: string ]: string;
 };
 
+type WASMObject = {
+  readonly [ key: string ]: any;
+};
+
 declare module 'npm:mongodb' {
   export * from 'mongodb';
 }
@@ -233,9 +237,9 @@ declare module '*.jade' {
 }
 
 declare module '*.wasm' {
-  const src: string;
+  const wasmObject: WASMObject;
 
-  export default src;
+  export default wasmObject;
 }
 
 declare module '*.xml' {

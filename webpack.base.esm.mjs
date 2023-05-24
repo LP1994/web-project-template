@@ -8176,30 +8176,91 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
-        /**
-         * 处理.wasm文件。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
-         * 1、使用案例：<br />
-         * import { sum, } from './program.wasm';
-         * console.log( sum( 1,2 ) );
-         */
+        // 处理.wasm文件，区分结尾带“?url”和不带“?url”的2种处理。
         {
-          test: /\.wasm$/i,
-          type: 'webassembly/async',
-          include: [
-            join( __dirname, './node_modules/' ),
+          oneOf: [
+            /**
+             * 处理以“.wasm?url”结尾的文件导入。会返回一个URL连接。
+             */
+            {
+              test: /\.wasm$/i,
+              resourceQuery: /url/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/resource',
+              generator: {
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './wasm/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../wasm/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
 
-            join( __dirname, './src/' ),
+                join( __dirname, './src/' ),
 
-            join( __dirname, './webpack_location/' ),
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+              ].concat( exclude001 ),
+            },
+            /**
+             * 处理.wasm文件，但是不带“?url”查询参数的。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
+             * 1、使用案例：<br />
+             * import { sum, } from './program.wasm';
+             * console.log( sum( 1,2 ) );
+             * 2、当前设置下，不支持默认导出，既不支持这样的写法：<br />
+             * import MathTool from 'wasmDir/c++/math_tool/MathTool.wasm';
+             * console.dir( MathTool );
+             * 会报错：<br />
+             * export 'default' (imported as 'MathTool') was not found in 'wasmDir/c++/math_tool/MathTool.wasm' (possible exports: Add, Div, Fib, Mod, Mul, Sub, __wasm_apply_data_relocs, __wasm_call_ctors)
+             * 3、但是可以按需导出，就像上面第1点的使用案例那样。<br />
+             * 4、或者全部导出：<br />
+             * import * as MathTool from 'wasmDir/c++/math_tool/MathTool.wasm';
+             * console.dir( MathTool );
+             * MathTool的值形如：{ Add, Div, Fib, Mod, Mul, Sub, __wasm_apply_data_relocs, __wasm_call_ctors }。<br />
+             */
+            {
+              test: /\.wasm$/i,
+              resourceQuery: {
+                not: [
+                  /url/,
+                ],
+              },
+              type: 'webassembly/async',
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+              ].concat( exclude001 ),
+            },
           ],
-          exclude: [
-            join( __dirname, './src/assets/' ),
-            join( __dirname, './src/custom_declare_types/' ),
-            join( __dirname, './src/graphQL/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-          ].concat( exclude001 ),
         },
 
         // 处理.xml文件。

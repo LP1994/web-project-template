@@ -23,6 +23,10 @@ type CSSModuleClasses = {
   readonly [ key: string ]: string;
 };
 
+type WASMObject = {
+  readonly [ key: string ]: any;
+};
+
 interface ArrayConstructor {
   fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
 
@@ -227,9 +231,9 @@ declare module '*.jade' {
 }
 
 declare module '*.wasm' {
-  const src: string;
+  const wasmObject: WASMObject;
 
-  export default src;
+  export default wasmObject;
 }
 
 declare module '*.xml' {
