@@ -6998,8 +6998,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
            * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
            */
-          type: 'asset/resource',
+          type: 'asset',
+          parser: {
+            dataUrlCondition,
+          },
           generator: {
+            dataUrl: {
+              encoding: 'base64',
+            },
             emit: true,
             filename( pathData, assetInfo ){
               return '[name]_[contenthash][ext]';
@@ -7788,8 +7794,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
            * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
            */
-          type: 'asset/resource',
+          type: 'asset',
+          parser: {
+            dataUrlCondition,
+          },
           generator: {
+            dataUrl: {
+              encoding: 'base64',
+            },
             emit: true,
             filename( pathData, assetInfo ){
               return '[name]_[contenthash][ext]';
@@ -8191,8 +8203,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
-              type: 'asset/resource',
+              type: 'asset',
+              parser: {
+                dataUrlCondition,
+              },
               generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
                 emit: true,
                 filename( pathData, assetInfo ){
                   return '[name]_[contenthash][ext]';
