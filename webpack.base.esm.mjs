@@ -5843,9 +5843,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          encoding: 'base64',
          },
          emit: true,
-         filename: '[name]_[contenthash][ext]',
-         outputPath: './assets/',
-         publicPath: '../assets/',
+         filename( pathData, assetInfo ){
+         return '[name]_[contenthash][ext]';
+         },
+         outputPath( pathData, assetInfo ){
+         return './assets/';
+         },
+         publicPath( pathData, assetInfo ){
+         return '../assets/';
+         },
          },
          */
         /**
@@ -5871,9 +5877,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          */
         'asset/resource': {
           emit: true,
-          filename: '[name]_[contenthash][ext]',
-          outputPath: './assets/',
-          publicPath: '../assets/',
+          filename( pathData, assetInfo ){
+            return '[name]_[contenthash][ext]';
+          },
+          outputPath( pathData, assetInfo ){
+            return './assets/';
+          },
+          publicPath( pathData, assetInfo ){
+            return '../assets/';
+          },
         },
       },
       parser: {
@@ -6168,9 +6180,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               encoding: 'base64',
             },
             emit: true,
-            filename: '[name]_[contenthash][ext]',
-            outputPath: './fonts/',
-            publicPath: '../fonts/',
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash][ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './fonts/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../fonts/';
+            },
           },
           include: [
             join( __dirname, './node_modules/' ),
@@ -6345,9 +6363,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               encoding: 'base64',
             },
             emit: true,
-            filename: '[name]_[contenthash][ext]',
-            outputPath: './img/',
-            publicPath: '../img/',
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash][ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './img/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../img/';
+            },
           },
           include: [
             join( __dirname, './node_modules/' ),
@@ -6762,9 +6786,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           type: 'asset/resource',
           generator: {
             emit: true,
-            filename: '[name]_[contenthash].manifest[ext]',
-            outputPath: './pwa_manifest/',
-            publicPath: '../pwa_manifest/',
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash].manifest[ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './pwa_manifest/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../pwa_manifest/';
+            },
           },
           include: [
             join( __dirname, './src/pwa_manifest/' ),
@@ -6799,9 +6829,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           type: 'asset/resource',
           generator: {
             emit: true,
-            filename: '[name]_[contenthash].manifest[ext]',
-            outputPath: './pwa_manifest/',
-            publicPath: '../pwa_manifest/',
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash].manifest[ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './pwa_manifest/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../pwa_manifest/';
+            },
           },
           include: [
             join( __dirname, './src/pwa_manifest/' ),
@@ -6965,9 +7001,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           type: 'asset/resource',
           generator: {
             emit: true,
-            filename: '[name]_[contenthash][ext]',
-            outputPath: './music/',
-            publicPath: '../music/',
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash][ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './music/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../music/';
+            },
           },
           include: [
             join( __dirname, './node_modules/' ),
@@ -7749,9 +7791,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           type: 'asset/resource',
           generator: {
             emit: true,
-            filename: '[name]_[contenthash][ext]',
-            outputPath: './videos/',
-            publicPath: '../videos/',
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash][ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './videos/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../videos/';
+            },
           },
           include: [
             join( __dirname, './node_modules/' ),
