@@ -17,14 +17,14 @@ import {
   extension,
 
   // @ts-ignore
-} from 'DenoStd/media_types/mod.ts';
+} from 'media_types';
 
 import {
   crypto,
   toHashString,
 
   // @ts-ignore
-} from 'DenoStd/crypto/mod.ts';
+} from 'deno_crypto';
 
 import {
   uploadDir,

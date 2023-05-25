@@ -29,7 +29,7 @@ import {
   serveTls,
 
   // @ts-ignore
-} from 'DenoStd/http/server.ts';
+} from 'http_server';
 
 import {
   type TypeResponse001,

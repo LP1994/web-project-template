@@ -114,5 +114,8 @@
       "esnext.weakref"
     ]
   },
-  "importMap": "./import_map.json"
+  "exclude": [],
+  "nodeModulesDir": true,
+  "importMap": "./import_map.json",
+  "lock": "./lock.json"
 }

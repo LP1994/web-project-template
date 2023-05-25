@@ -10,7 +10,7 @@
 'use strict';
 
 // @ts-ignore 
-import * as deno_mongo from 'DenoX/mongo/mod.ts';
+import * as deno_mongo from 'deno_mongo';
 
 // @ts-ignore 
 import * as deno_mongo_deps from 'DenoX/mongo/deps.ts';

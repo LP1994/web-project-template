@@ -39,20 +39,20 @@ import {
   extensionsByType,
 
   // @ts-ignore
-} from 'DenoStd/media_types/mod.ts';
+} from 'media_types';
 
 import {
   writableStreamFromWriter,
 
   // @ts-ignore
-} from 'DenoStd/streams/writable_stream_from_writer.ts';
+} from 'deno_streams/writable_stream_from_writer.ts';
 
 import {
   crypto,
   toHashString,
 
   // @ts-ignore
-} from 'DenoStd/crypto/mod.ts';
+} from 'deno_crypto';
 
 import {
   uploadDir,

@@ -2,6 +2,10 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 
+当在deno.json配置文件中指定“imports”或“scopes”时，将忽略“importMap”设置。
+
+
+
 使用指令解决 linting 问题
 // deno-lint-ignore no-explicit-any
 目前，构建过程使用 dlint 来验证代码中的 linting 问题。如果任务需要不符合 linter 的代码，请使用 deno-lint-ignore <code> 指令来抑制警告。

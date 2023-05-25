@@ -1,5 +1,15 @@
 {
   "imports": {
+    "/": "./",
+    "./": "./",
+
+    "deno_ejs": "https://deno.land/x/dejs/mod.ts",
+    "deno_mongo": "https://deno.land/x/mongo/mod.ts",
+    "http_server": "https://deno.land/std/http/server.ts",
+    "media_types": "https://deno.land/std/media_types/mod.ts",
+    "deno_crypto": "https://deno.land/std/crypto/mod.ts",
+    "deno_streams/": "https://deno.land/std/streams/",
+
     "DenoStd/": "https://deno.land/std/",
     "DenoX/": "https://deno.land/x/",
     "esmSH/": "https://esm.sh/",
