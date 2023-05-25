@@ -39,7 +39,7 @@
     "./**/*.test.cts",
     "./**/*.test.mts",
     "./**/*.test.esm.ts",
-    "./**/*.test.esm.cts",
+    "./**/*.test.commonjs.cts",
     "./**/*.test.esm.mts"
   ],
   "ts-node": {

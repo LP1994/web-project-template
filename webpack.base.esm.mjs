@@ -2834,7 +2834,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           file: '**/*.test.esm.ts',
         },
         {
-          file: '**/*.test.esm.cts',
+          file: '**/*.test.commonjs.cts',
         },
         {
           file: '**/*.test.esm.mts',
@@ -5716,7 +5716,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             '!src/**/*.test.cts',
             '!src/**/*.test.mts',
             '!src/**/*.test.esm.ts',
-            '!src/**/*.test.esm.cts',
+            '!src/**/*.test.commonjs.cts',
             '!src/**/*.test.esm.mts',
           ],
           // 允许使用非官方的TypeScript编译器。应该设置为编译器的NPM名称，例如：ntypescript（已死！）。
@@ -9591,42 +9591,26 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
      */
     chunkFilename( pathData, assetInfo ){
-      let name = pathData.chunk.name,
-        id = pathData.chunk.id,
+      let name = pathData?.chunk?.name,
+        id = pathData?.chunk?.id,
         boo001 = String( name ).endsWith( '.worker' ),
-        boo002 = String( name ).endsWith( '.worker.js' ),
-        boo003 = String( name ).endsWith( '_worker' ),
-        boo004 = String( name ).endsWith( '_worker_js' ),
-        boo005 = String( name ).endsWith( '_worker.js' ),
-        boo006 = String( name ).endsWith( '.worker_js' ),
+        boo002 = String( id ).endsWith( '_worker_js' ),
+        boo003 = String( id ).endsWith( '_worker_ts' ),
         fileName = '';
 
-      if( name !== undefined && name !== null && ( boo001 || boo002 || boo003 || boo004 || boo005 || boo006 ) ){
-        if( boo001 ){
-          fileName = String( name ).split( '.worker' ).join( '' );
-        }
-        else if( boo002 ){
-          fileName = String( name ).split( '.worker.js' ).join( '' );
-        }
-        else if( boo003 ){
-          fileName = String( name ).split( '_worker' ).join( '' );
-        }
-        else if( boo004 ){
-          fileName = String( name ).split( '_worker_js' ).join( '' );
-        }
-        else if( boo005 ){
-          fileName = String( name ).split( '_worker.js' ).join( '' );
-        }
-        else{
-          fileName = String( name ).split( '.worker_js' ).join( '' );
-        }
+      if( name !== undefined && name !== null && boo001 ){
+        fileName = String( name ).split( '.worker' )[ 0 ];
 
         return `workers/${ fileName }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && String( id )
-      .endsWith( '_worker_js' ) ){
-        fileName = String( id ).split( '_worker_js' ).join( '' );
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( boo002 || boo003 ) ){
+        if( boo002 ){
+          fileName = String( id ).split( '_worker_js' )[ 0 ];
+        }
+        else if( boo003 ){
+          fileName = String( id ).split( '_worker_ts' )[ 0 ];
+        }
 
         return `workers/${ fileName }_[contenthash].worker.js`;
       }
@@ -9761,42 +9745,26 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
      */
     filename( pathData, assetInfo ){
-      let name = pathData.chunk.name,
-        id = pathData.chunk.id,
+      let name = pathData?.chunk?.name,
+        id = pathData?.chunk?.id,
         boo001 = String( name ).endsWith( '.worker' ),
-        boo002 = String( name ).endsWith( '.worker.js' ),
-        boo003 = String( name ).endsWith( '_worker' ),
-        boo004 = String( name ).endsWith( '_worker_js' ),
-        boo005 = String( name ).endsWith( '_worker.js' ),
-        boo006 = String( name ).endsWith( '.worker_js' ),
+        boo002 = String( id ).endsWith( '_worker_js' ),
+        boo003 = String( id ).endsWith( '_worker_ts' ),
         fileName = '';
 
-      if( name !== undefined && name !== null && ( boo001 || boo002 || boo003 || boo004 || boo005 || boo006 ) ){
-        if( boo001 ){
-          fileName = String( name ).split( '.worker' ).join( '' );
-        }
-        else if( boo002 ){
-          fileName = String( name ).split( '.worker.js' ).join( '' );
-        }
-        else if( boo003 ){
-          fileName = String( name ).split( '_worker' ).join( '' );
-        }
-        else if( boo004 ){
-          fileName = String( name ).split( '_worker_js' ).join( '' );
-        }
-        else if( boo005 ){
-          fileName = String( name ).split( '_worker.js' ).join( '' );
-        }
-        else{
-          fileName = String( name ).split( '.worker_js' ).join( '' );
-        }
+      if( name !== undefined && name !== null && boo001 ){
+        fileName = String( name ).split( '.worker' )[ 0 ];
 
         return `workers/${ fileName }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && String( id )
-      .endsWith( '_worker_js' ) ){
-        fileName = String( id ).split( '_worker_js' ).join( '' );
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( boo002 || boo003 ) ){
+        if( boo002 ){
+          fileName = String( id ).split( '_worker_js' )[ 0 ];
+        }
+        else if( boo003 ){
+          fileName = String( id ).split( '_worker_ts' )[ 0 ];
+        }
 
         return `workers/${ fileName }_[contenthash].worker.js`;
       }
