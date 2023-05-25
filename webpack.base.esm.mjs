@@ -6211,48 +6211,90 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ].concat( exclude001 ),
         },
 
-        // 处理.graphql文件、.graphqls文件、.gql文件，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
+        // 处理.graphql文件、.graphqls文件、.gql文件，区分结尾带“?raw”和不带“?raw”的2种处理，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
-          test: /\.(graphql|graphqls|gql)$/i,
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
+          oneOf: [
+            /**
+             * 处理以.graphql、.graphqls、.gql结尾的带“?raw”的文件导入，会返回字符串。
+             */
             {
-              loader: 'webpack-graphql-loader',
-              options: {
-                // graphql自省查询架构JSON文件的位置。如果与validate选项一起使用，它将用于验证导入的查询和片段。
-                schema: './src/graphQL/GraphQL.Schema.json',
-                // 如果为true，则加载程序将根据您指定的模式文件验证导入的文档。
-                validate: true,
-                // 'string'、'document'
-                output: 'string',
-                // 如果为true且输出选项为字符串，则加载程序将从graphql文档字符串中删除注释和空格。这有助于减小捆绑的代码大小。
-                minify: isProduction,
-                /**
-                 * 如果为true，则加载程序将从导入的文档中删除未使用的碎片。<br />
-                 * 1、如果查询要从文件导入片段，但未使用该文件中的所有片段，则这可能很有用。<br />
-                 * 2、另请参阅此问题https://github.com/apollographql/graphql-tag/issues/102。<br />
-                 */
-                removeUnusedFragments: false,
+              test: /\.(graphql|graphqls|gql)$/i,
+              resourceQuery: /raw/,
+              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+              use: [
+                {
+                  loader: 'webpack-graphql-loader',
+                  options: {
+                    // graphql自省查询架构JSON文件的位置。如果与validate选项一起使用，它将用于验证导入的查询和片段。
+                    schema: './src/graphQL/GraphQL.Schema.json',
+                    // 如果为true，则加载程序将根据您指定的模式文件验证导入的文档。
+                    validate: true,
+                    // 'string'、'document'
+                    output: 'string',
+                    // 如果为true且输出选项为字符串，则加载程序将从graphql文档字符串中删除注释和空格。这有助于减小捆绑的代码大小。
+                    minify: isProduction,
+                    /**
+                     * 如果为true，则加载程序将从导入的文档中删除未使用的碎片。<br />
+                     * 1、如果查询要从文件导入片段，但未使用该文件中的所有片段，则这可能很有用。<br />
+                     * 2、另请参阅此问题https://github.com/apollographql/graphql-tag/issues/102。<br />
+                     */
+                    removeUnusedFragments: false,
+                  },
+                },
+              ],
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/doc/' ),
+                join( __dirname, './src/graphQL/test/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            /**
+             * 处理以.graphql、.graphqls、.gql结尾的不带“?raw”的文件导入，会返回对象。
+             */
+            {
+              test: /\.(graphql|graphqls|gql)$/i,
+              resourceQuery: {
+                not: [
+                  /raw/,
+                ],
               },
+              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+              use: [
+                {
+                  loader: 'graphql-tag/loader',
+                },
+              ],
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/doc/' ),
+                join( __dirname, './src/graphQL/test/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
             },
           ],
-          include: [
-            join( __dirname, './node_modules/' ),
-
-            join( __dirname, './src/' ),
-
-            join( __dirname, './webpack_location/' ),
-          ],
-          exclude: [
-            join( __dirname, './src/assets/' ),
-            join( __dirname, './src/custom_declare_types/' ),
-            join( __dirname, './src/graphQL/doc/' ),
-            join( __dirname, './src/graphQL/test/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-            join( __dirname, './src/wasm/' ),
-          ].concat( exclude001 ),
         },
 
         // handlebars-loader，处理.handlebars文件、.hbs文件。
