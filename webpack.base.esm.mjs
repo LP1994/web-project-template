@@ -9592,27 +9592,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      */
     chunkFilename( pathData, assetInfo ){
       let name = pathData?.chunk?.name,
-        id = pathData?.chunk?.id,
-        boo001 = String( name ).endsWith( '.worker' ),
-        boo002 = String( id ).endsWith( '_worker_js' ),
-        boo003 = String( id ).endsWith( '_worker_ts' ),
-        fileName = '';
+        id = pathData?.chunk?.id;
 
-      if( name !== undefined && name !== null && boo001 ){
-        fileName = String( name ).split( '.worker' )[ 0 ];
-
-        return `workers/${ fileName }_[contenthash].worker.js`;
+      if( name !== undefined && name !== null && String( name ).endsWith( '.worker' ) ){
+        return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( boo002 || boo003 ) ){
-        if( boo002 ){
-          fileName = String( id ).split( '_worker_js' )[ 0 ];
-        }
-        else if( boo003 ){
-          fileName = String( id ).split( '_worker_ts' )[ 0 ];
-        }
-
-        return `workers/${ fileName }_[contenthash].worker.js`;
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id )
+      .endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
+        return `workers/${ String( id ).split( '_worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
       return `js/[name]_Chunk_[contenthash].js`;
@@ -9746,27 +9734,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      */
     filename( pathData, assetInfo ){
       let name = pathData?.chunk?.name,
-        id = pathData?.chunk?.id,
-        boo001 = String( name ).endsWith( '.worker' ),
-        boo002 = String( id ).endsWith( '_worker_js' ),
-        boo003 = String( id ).endsWith( '_worker_ts' ),
-        fileName = '';
+        id = pathData?.chunk?.id;
 
-      if( name !== undefined && name !== null && boo001 ){
-        fileName = String( name ).split( '.worker' )[ 0 ];
-
-        return `workers/${ fileName }_[contenthash].worker.js`;
+      if( name !== undefined && name !== null && String( name ).endsWith( '.worker' ) ){
+        return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( boo002 || boo003 ) ){
-        if( boo002 ){
-          fileName = String( id ).split( '_worker_js' )[ 0 ];
-        }
-        else if( boo003 ){
-          fileName = String( id ).split( '_worker_ts' )[ 0 ];
-        }
-
-        return `workers/${ fileName }_[contenthash].worker.js`;
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id )
+      .endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
+        return `workers/${ String( id ).split( '_worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
       return 'js/[name]_Bundle_[contenthash].js';
