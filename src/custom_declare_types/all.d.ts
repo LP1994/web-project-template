@@ -27,12 +27,8 @@ interface WASMObject {
   readonly [ key: string ]: any;
 }
 
-interface ArrayConstructor {
-  fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
-
-  fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any ): Promise<[]>;
-
-  fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any, thisArg?: any ): Promise<[]>;
+interface Object001 {
+  readonly [ key: string ]: any;
 }
 
 declare module '*.module.postcss' {
@@ -51,27 +47,39 @@ declare module '*.postcss' {
 }
 
 declare module '*.cson' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.csv' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.tsv' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.ejs' {
-  const src: string;
+  import {
+    type TemplateFunction,
+  } from '@types/ejs';
 
-  export default src;
+  const module: TemplateFunction;
+
+  export = module;
+
+  export default module;
 }
 
 declare module '*.eot' {
@@ -159,15 +167,19 @@ declare module '*.gql' {
 }
 
 declare module '*.handlebars' {
-  const src: string;
+  const module: ( data: Object001 ) => string;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.hbs' {
-  const src: string;
+  const module: ( data: Object001 ) => string;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.htm' {
@@ -189,15 +201,19 @@ declare module '*.xhtml' {
 }
 
 declare module '*.json5' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.toml' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.txt' {
@@ -231,21 +247,27 @@ declare module '*.md' {
 }
 
 declare module '*.mustache' {
-  const src: string;
+  const module: ( data: Object001 ) => string;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.pug' {
-  const src: string;
+  const module: ( data: Object001 ) => string;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.jade' {
-  const src: string;
+  const module: ( data: Object001 ) => string;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.wasm' {
@@ -257,19 +279,25 @@ declare module '*.wasm' {
 }
 
 declare module '*.xml' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.yaml' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
 
 declare module '*.yml' {
-  const src: string;
+  const module: Object001;
 
-  export default src;
+  export = module;
+
+  export default module;
 }
