@@ -14,3 +14,12 @@ PS：当前发现一个小问题！使用“HTTP/2”时，在自动更新代码
 GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
 只能再次手动“清空缓存并硬性重新加载”页面才能正常加载资源。所以，还是用回“HTTP/1.1”。<br />
 10、在“simulation_servers/deno/src/database/mongo/test”中有“npm包的mongoose”、“npm包的mongodb”的配置参考，编写了这两者的“deno”、“node”版本，都测试通过了，可用，但是有些许差异。<br />
+
+
+
+基于webpack的使用Worker的说明和注意事项。
+1、要想让webpack处理Worker文件中的各种文件的导入处理、第3方库的导入处理、ts代码的编译等等，就要使用并且也只能使用这个写法来创建Worker：
+new Worker( new URL( './test.worker.ts', import.meta.url ) )
+2、且不可以使用变量、常量来设置Worker构造函数的第1个参数，即这种写法也是不行的：
+const url = new URL( './test.worker.ts', import.meta.url );
+new Worker( url )
