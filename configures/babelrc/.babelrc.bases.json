@@ -32,9 +32,6 @@
   ],
   "plugins": [
     [
-      "@babel/plugin-syntax-export-extensions"
-    ],
-    [
       "@babel/plugin-syntax-import-reflection"
     ],
     [

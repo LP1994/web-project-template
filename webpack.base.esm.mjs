@@ -3216,14 +3216,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-syntax-export-extensions：https://www.npmjs.com/package/@babel/plugin-syntax-export-extensions
-             * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
-             * 2、允许解析出口扩展。
-             */
-            [
-              '@babel/plugin-syntax-export-extensions',
-            ],
-            /**
              * @babel/plugin-syntax-import-reflection：https://babeljs.io/docs/babel-plugin-syntax-import-reflection
              * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
              * 2、此插件使Babel能够解析导入反射：
@@ -4844,7 +4836,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 'exportDefaultFrom',
                 'functionBind',
                 // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                'importAssertions',
+                // 'importAssertions',
+                // importAttributes已经取代了importAssertions。
+                [
+                  'importAttributes',
+                  {
+                    deprecatedAssertSyntax: true,
+                  },
+                ],
                 'importReflection',
                 // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
                 /*
@@ -4886,7 +4885,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 'regexpUnicodeSets',
                 'throwExpressions',
                 'importMeta',
-                'estree',
+                [
+                  'estree',
+                  {
+                    classFeatures: true,
+                  },
+                ],
 
                 // ECMAScript proposals End
 
@@ -4894,9 +4898,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
                 'asyncGenerators',
                 'bigInt',
-                'classProperties',
-                'classPrivateProperties',
                 'classPrivateMethods',
+                'classPrivateProperties',
+                'classProperties',
                 // Enabled by default
                 'classStaticBlock',
                 'dynamicImport',
@@ -8087,7 +8091,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         'exportDefaultFrom',
                         'functionBind',
                         // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                        'importAssertions',
+                        // 'importAssertions',
+                        // importAttributes已经取代了importAssertions。
+                        [
+                          'importAttributes',
+                          {
+                            deprecatedAssertSyntax: true,
+                          },
+                        ],
                         'importReflection',
                         // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
                         /*
@@ -8129,7 +8140,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         'regexpUnicodeSets',
                         'throwExpressions',
                         'importMeta',
-                        'estree',
+                        [
+                          'estree',
+                          {
+                            classFeatures: true,
+                          },
+                        ],
 
                         // ECMAScript proposals End
 
@@ -8137,9 +8153,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
                         'asyncGenerators',
                         'bigInt',
-                        'classProperties',
-                        'classPrivateProperties',
                         'classPrivateMethods',
+                        'classPrivateProperties',
+                        'classProperties',
                         // Enabled by default
                         'classStaticBlock',
                         'dynamicImport',
