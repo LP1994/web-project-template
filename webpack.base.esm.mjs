@@ -3389,11 +3389,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 2、该提案目前被指向新的提案：https://babeljs.io/docs/babel-plugin-syntax-import-attributes、https://github.com/tc39/proposal-import-attributes。<br />
              * 3、关于废弃旧的“assert”提案详细见：<br />
              * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
-             * 4、当前，个人建议保留这个语法识别插件，因为该提案对于https://github.com/tc39/proposal-json-modules（第3阶段）还是有用的。<br />
+             * 4、@babel/plugin-syntax-import-attributes跟@babel/plugin-syntax-import-assertions不能同时使用，故优先使用@babel/plugin-syntax-import-attributes。<br />
              */
-            [
-              '@babel/plugin-syntax-import-assertions',
-            ],
+            /*
+             [
+             '@babel/plugin-syntax-import-assertions',
+             ],
+             */
             /**
              * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
              * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
