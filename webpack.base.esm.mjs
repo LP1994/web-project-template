@@ -9729,13 +9729,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       let name = pathData?.chunk?.name,
         id = pathData?.chunk?.id;
 
-      if( name !== undefined && name !== null && String( name ).endsWith( '.worker' ) ){
+      if( name !== undefined && name !== null && String( name ).includes( '.worker' ) ){
         return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
       if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id )
       .endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
-        return `workers/${ String( id ).split( '_worker' )[ 0 ] }_[contenthash].worker.js`;
+        return `workers/[name]_[contenthash].worker.js`;
       }
 
       return `js/[name]_Chunk_[contenthash].js`;
@@ -9871,13 +9871,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       let name = pathData?.chunk?.name,
         id = pathData?.chunk?.id;
 
-      if( name !== undefined && name !== null && String( name ).endsWith( '.worker' ) ){
+      if( name !== undefined && name !== null && String( name ).includes( '.worker' ) ){
         return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
       if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id )
       .endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
-        return `workers/${ String( id ).split( '_worker' )[ 0 ] }_[contenthash].worker.js`;
+        return `workers/[name]_[contenthash].worker.js`;
       }
 
       return 'js/[name]_Bundle_[contenthash].js';
