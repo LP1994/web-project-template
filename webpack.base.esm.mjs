@@ -3147,7 +3147,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.21.5',
+          } )() || '7.22.0',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -3215,6 +3215,24 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       ...( isEnable => {
         return isEnable
                ? [
+            /**
+             * @babel/plugin-syntax-export-extensions：https://www.npmjs.com/package/@babel/plugin-syntax-export-extensions
+             * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
+             * 2、允许解析出口扩展。
+             */
+            [
+              '@babel/plugin-syntax-export-extensions',
+            ],
+            /**
+             * @babel/plugin-syntax-import-reflection：https://babeljs.io/docs/babel-plugin-syntax-import-reflection
+             * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
+             * 2、此插件使Babel能够解析导入反射：
+             * import module foo from "./foo.wasm";
+             */
+            [
+              '@babel/plugin-syntax-import-reflection',
+            ],
+
             // 处于提案第1阶段！
             /**
              * @babel/plugin-syntax-decimal：https://github.com/tc39/proposal-decimal
@@ -3224,7 +3242,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               '@babel/plugin-syntax-decimal',
             ],
             /**
-             * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-do-expressions
+             * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-do-expressions、https://github.com/tc39/proposal-do-expressions
              * 1、它可以看作是三元运算符的复杂版本。<br />
              * 2、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
@@ -3232,7 +3250,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               '@babel/plugin-proposal-do-expressions',
             ],
             /**
-             * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-async-do-expressions
+             * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-async-do-expressions、https://github.com/tc39/proposal-async-do-expressions
              * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
              * 2、该插件需要在@babel/plugin-transform-async-to-generator之前。<br />
              */
@@ -3240,14 +3258,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               '@babel/plugin-proposal-async-do-expressions',
             ],
             /**
-             * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from
+             * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from、https://github.com/tc39/proposal-export-default-from
              * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
             [
               '@babel/plugin-proposal-export-default-from',
             ],
             /**
-             * @babel/plugin-proposal-partial-application：https://babeljs.io/docs/en/babel-plugin-proposal-partial-application
+             * @babel/plugin-proposal-partial-application：https://babeljs.io/docs/en/babel-plugin-proposal-partial-application、https://github.com/tc39/proposal-partial-application
              * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
             [
@@ -3256,21 +3274,21 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
             // 处于提案第2阶段！
             /**
-             * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-js-module-blocks
+             * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-js-module-blocks、https://github.com/tc39/proposal-module-expressions
              * 1、目前该提案处于第2阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
              */
             [
               '@babel/plugin-syntax-module-blocks',
             ],
             /**
-             * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent
+             * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent、https://github.com/tc39/proposal-function.sent
              * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
             [
               '@babel/plugin-proposal-function-sent',
             ],
             /**
-             * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator
+             * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator、https://github.com/tc39/proposal-pipeline-operator
              * 1、“pipeline operator”有几个相互竞争的提议。使用所需的“proposal”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
              * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"、"topicToken": "%"、"topicToken": "@@"。<br />
              * 3、"proposal": "minimal"、"fsharp"、"smart"这3个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
@@ -3284,7 +3302,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-record-and-tuple：https://babeljs.io/docs/en/babel-plugin-proposal-record-and-tuple
+             * @babel/plugin-proposal-record-and-tuple：https://babeljs.io/docs/en/babel-plugin-proposal-record-and-tuple、https://github.com/tc39/proposal-record-tuple
              * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
             [
@@ -3305,31 +3323,79 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-throw-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-throw-expressions
+             * @babel/plugin-proposal-throw-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-throw-expressions、https://github.com/tc39/proposal-throw-expressions
              * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              */
             [
               '@babel/plugin-proposal-throw-expressions',
             ],
             /**
-             * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/en/babel-plugin-proposal-destructuring-private
+             * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/en/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
              * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
              * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
              */
             [
               '@babel/plugin-proposal-destructuring-private',
             ],
+            /**
+             * @babel/plugin-syntax-import-attributes：https://babeljs.io/docs/babel-plugin-syntax-import-attributes
+             * 1、目前该提案处于第2阶段，且此插件仅使Babel能够解析这种语法，Babel不支持转换这种语法。<br />
+             * import pkg from "./package.json" with { type: "json" }，很强大的提案，可以前往提案的文档详细了解！<br />
+             * 2、详细提案见：<br />
+             * https://github.com/tc39/proposal-import-attributes（https://github.com/tc39/proposal-import-assertions也会指向https://github.com/tc39/proposal-import-attributes这个网址）。<br />
+             * https://github.com/tc39/proposal-json-modules（第3阶段），该提案是从https://github.com/tc39/proposal-import-attributes提案单独分出来的。<br />
+             * 3、关于废弃旧的“assert”提案详细见：<br />
+             * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+             */
+            [
+              '@babel/plugin-syntax-import-attributes',
+              {
+                /**
+                 * 1、默认值为：false。<br />
+                 * 2、如果启用，支持使用废弃的assert关键字解析导入属性：<br />
+                 * import foo from "./foo.json" assert { type: "json" };
+                 * “assert”这种语法只在基于V8的引擎中支持，目前正在调查将其从WEB中移除，使用更为规范的“with”提案，其很强大的提案，可以前往“with”提案（https://github.com/tc39/proposal-import-attributes）的文档详细了解！<br />
+                 */
+                deprecatedAssertSyntax: true,
+              },
+            ],
+            /**
+             * @babel/plugin-proposal-import-attributes-to-assertions：https://babeljs.io/docs/babel-plugin-proposal-import-attributes-to-assertions
+             * 1、这是一个WEB兼容的插件，其提案是：https://github.com/tc39/proposal-import-attributes（目前该提案处于第2阶段）、https://github.com/tc39/proposal-json-modules（目前该提案处于第3阶段）。<br />
+             * 2、这个插件将生成与当前ECMAScript规范或任何当前提议的补充规范不兼容的代码。<br />
+             * 3、只有当你正在运送本地ES模块，并且需要专门与<br />
+             * 不支持导入属性语法（import pkg from "./package.json" with { type: "json" }）
+             * 但<br />
+             * 支持旧的导入断言语法（import pkg from "./package.json" assert { type: "json" }）
+             * 的工具兼容时，才使用它，例如Chrome 91+和Node.js 17.2+。<br />
+             * 4、该插件会将最新的规范<br />
+             * import pkg from "./package.json" with { type: "json" }
+             * 转为旧的规范<br />
+             * import pkg from "./package.json" assert { type: "json" }
+             * 5、目前，个人建议不启用该插件。<br />
+             * 6、关于废弃旧的“assert”提案详细见：<br />
+             * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+             */
+            /*
+             [
+             '@babel/plugin-proposal-import-attributes-to-assertions',
+             ],
+             */
 
             // 处于提案第3阶段！
             /**
              * @babel/plugin-syntax-import-assertions：https://github.com/tc39/proposal-import-assertions
              * 1、目前该提案处于第3阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+             * 2、该提案目前被指向新的提案：https://babeljs.io/docs/babel-plugin-syntax-import-attributes、https://github.com/tc39/proposal-import-attributes。<br />
+             * 3、关于废弃旧的“assert”提案详细见：<br />
+             * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+             * 4、当前，个人建议保留这个语法识别插件，因为该提案对于https://github.com/tc39/proposal-json-modules（第3阶段）还是有用的。<br />
              */
             [
               '@babel/plugin-syntax-import-assertions',
             ],
             /**
-             * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators
+             * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
              * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
              * 2、目前该提案处于第3阶段。<br />
              */
@@ -3363,7 +3429,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-proposal-duplicate-named-capturing-groups-regex
+             * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-proposal-duplicate-named-capturing-groups-regex、https://github.com/tc39/proposal-duplicate-named-capturing-groups
              * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
              * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
              * 3、目前该提案处于第3阶段。<br />
@@ -3379,24 +3445,29 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-unicode-sets-regex：https://babeljs.io/docs/en/babel-plugin-proposal-unicode-sets-regex
-             * 1、目前该提案处于第3阶段。<br />
-             */
-            [
-              '@babel/plugin-proposal-unicode-sets-regex',
-            ],
-            /**
-             * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers
+             * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers、https://github.com/tc39/proposal-regexp-modifiers
              * 1、目前该提案处于第3阶段。<br />
              */
             [
               '@babel/plugin-proposal-regexp-modifiers',
             ],
+            /**
+             * @babel/plugin-proposal-explicit-resource-management：https://babeljs.io/docs/babel-plugin-proposal-explicit-resource-management
+             * 1、目前该提案处于第3阶段。<br />
+             * 2、详细提案见：<br />
+             * https://github.com/tc39/proposal-explicit-resource-management
+             * 异步的提案：https://github.com/tc39/proposal-async-explicit-resource-management
+             */
+            [
+              '@babel/plugin-proposal-explicit-resource-management',
+            ],
 
             // 处于无效提案，但是有新的替代提案处于讨论中！
             /**
-             * @babel/plugin-proposal-function-bind：https://babeljs.io/docs/en/babel-plugin-proposal-function-bind
+             * @babel/plugin-proposal-function-bind：https://babeljs.io/docs/en/babel-plugin-proposal-function-bind、https://github.com/tc39/proposal-bind-operator
              * 1、该提案目前已无效，但是有3个包含该提案的新提案。<br />
+             * 2、详细见：<br />
+             * https://babeljs.io/blog/2015/05/14/function-bind
              */
             [
               '@babel/plugin-proposal-function-bind',
@@ -3406,21 +3477,58 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       } )( true ),
       // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） End
 
+      // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+      ...( isEnable => {
+        return isEnable
+               ? [
+            /**
+             * @babel/plugin-transform-unicode-sets-regex：https://babeljs.io/docs/babel-plugin-transform-unicode-sets-regex
+             * 1、注意：这个插件包含在@babel/preset-env中，在ES2024中。<br />
+             * 2、这个插件将使用v标志的正则表达式（由RegExp set notation + properties of strings提案引入）转换为使用u标志的正则表达式。<br />
+             */
+            [
+              '@babel/plugin-transform-unicode-sets-regex',
+            ],
+          ]
+               : [];
+      } )( false ),
+      // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+      // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+      ...( isEnable => {
+        return isEnable
+               ? []
+               : [];
+      } )( false ),
+      // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
       // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
       ...( isEnable => {
         return isEnable
                ? [
             /**
-             * @babel/plugin-proposal-class-static-block：https://babeljs.io/docs/en/babel-plugin-proposal-class-static-block
+             * @babel/plugin-transform-class-static-block：https://babeljs.io/docs/babel-plugin-transform-class-static-block
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
              * 2、具有静态块的类将被转换为静态私有属性，其初始化程序是包装在IIAFE（立即调用箭头函数表达式）中的静态块。<br />
              * 3、因为输出代码包含私有类属性，如果你已经在使用其他类特性插件（例如`@babel/plugin-proposal-class-properties），一定要把它放在其他的前面。<br />
              */
             [
-              '@babel/plugin-proposal-class-static-block',
+              '@babel/plugin-transform-class-static-block',
             ],
             /**
-             * @babel/plugin-proposal-class-properties：https://babeljs.io/docs/en/babel-plugin-proposal-class-properties
+             * @babel/plugin-transform-private-methods：https://babeljs.io/docs/babel-plugin-transform-private-methods
+             */
+            [
+              '@babel/plugin-transform-private-methods',
+              {
+                /**
+                 * 1、注意：松散模式的配置设置必须与@babel/plugin-transform-class-properties相同。
+                 */
+                loose: false,
+              },
+            ],
+            /**
+             * @babel/plugin-transform-class-properties：https://babeljs.io/docs/babel-plugin-transform-class-properties
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
              * 2、该插件已经包含了语法：<br />
              * https://github.com/tc39/proposal-private-methods<br />
@@ -3429,7 +3537,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 3、插件@babel/plugin-proposal-private-methods（https://babeljs.io/docs/en/babel-plugin-proposal-private-methods）也合并到该插件中。<br />
              */
             [
-              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-transform-class-properties',
               {
                 /**
                  * 如果为true，则编译类属性以使用赋值表达式而不是Object.defineProperty。<br />
@@ -3441,11 +3549,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-private-property-in-object：https://babeljs.io/docs/en/babel-plugin-proposal-private-property-in-object
+             * @babel/plugin-transform-private-property-in-object：https://babeljs.io/docs/babel-plugin-transform-private-property-in-object
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
              */
             [
-              '@babel/plugin-proposal-private-property-in-object',
+              '@babel/plugin-transform-private-property-in-object',
               {
                 /**
                  * 当为true时，表达式中的私有属性将检查对象上自己的属性（而不是继承的属性），而不是检查WeakSet中是否存在。这会提高性能和调试（普通属性访问与.get()），但代价是可能通过Object.getOwnPropertyNames等方式泄漏“私有”。<br />
@@ -3458,7 +3566,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-syntax-top-level-await：https://babeljs.io/docs/en/babel-plugin-syntax-top-level-await
+             * @babel/plugin-syntax-top-level-await：https://babeljs.io/docs/babel-plugin-syntax-top-level-await
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
              * 2、此插件仅启用对此功能的语法解析。Babel目前还不支持转换顶层await，但是你可以使用Rollup的experimentalTopLevelAwait或webpack@5的experiments.topLevelAwait选项。<br />
              */
@@ -3475,14 +3583,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-proposal-logical-assignment-operators：https://babeljs.io/docs/en/babel-plugin-proposal-logical-assignment-operators
+             * @babel/plugin-transform-logical-assignment-operators：https://babeljs.io/docs/babel-plugin-transform-logical-assignment-operators
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2021。<br />
              */
             [
-              '@babel/plugin-proposal-logical-assignment-operators',
+              '@babel/plugin-transform-logical-assignment-operators',
             ],
             /**
-             * @babel/plugin-proposal-numeric-separator：https://babeljs.io/docs/en/babel-plugin-proposal-numeric-separator
+             * @babel/plugin-transform-numeric-separator：https://babeljs.io/docs/babel-plugin-transform-numeric-separator
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2021。<br />
              * 2、八进制非常适合权限，但以0o0000形式表示时也更好看。这里的分隔符没有真正的好处。<br />
              * 3、如果您需要进一步将ES2015十进制、二进制、十六进制和八进制数字表示编译为ES2015之前的数字文字形式，请添加“@babel/plugin-transform-literals”插件。<br />
@@ -3490,7 +3598,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 5、@babel/plugin-transform-literals得在@babel/plugin-proposal-numeric-separator之后。<br />
              */
             [
-              '@babel/plugin-proposal-numeric-separator',
+              '@babel/plugin-transform-numeric-separator',
             ],
           ]
                : [];
@@ -3502,19 +3610,19 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-proposal-export-namespace-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-namespace-from
+             * @babel/plugin-transform-export-namespace-from：https://babeljs.io/docs/babel-plugin-transform-export-namespace-from
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
              */
             [
-              '@babel/plugin-proposal-export-namespace-from',
+              '@babel/plugin-transform-export-namespace-from',
             ],
             /**
-             * @babel/plugin-proposal-nullish-coalescing-operator：https://babeljs.io/docs/en/babel-plugin-proposal-nullish-coalescing-operator
+             * @babel/plugin-transform-nullish-coalescing-operator：https://babeljs.io/docs/babel-plugin-transform-nullish-coalescing-operator
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
              * 2、注意：我们不能在这里使用!=null因为document.all==null并且document.all被认为不是“nullish（无效的）”。<br />
              */
             [
-              '@babel/plugin-proposal-nullish-coalescing-operator',
+              '@babel/plugin-transform-nullish-coalescing-operator',
               {
                 /**
                  * 如果为true，此转换将假装document.all不存在，并使用null执行松散的相等检查，而不是针对null和undefined的严格相等检查。<br />
@@ -3526,12 +3634,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-optional-chaining：https://babeljs.io/docs/en/babel-plugin-proposal-optional-chaining
+             * @babel/plugin-transform-optional-chaining：https://babeljs.io/docs/babel-plugin-transform-optional-chaining
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
              * 2、访问深度嵌套的属性、调用深度嵌套的函数、构建深度嵌套的类、删除深度嵌套的属性（在v 7.8.0添加的）。<br />
              */
             [
-              '@babel/plugin-proposal-optional-chaining',
+              '@babel/plugin-transform-optional-chaining',
               {
                 /**
                  * 如果为true，此转换将假装document.all不存在，并使用null执行松散的相等检查，而不是针对null和undefined的严格相等检查。<br />
@@ -3543,7 +3651,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-syntax-bigint：https://babeljs.io/docs/en/babel-plugin-syntax-bigint
+             * @babel/plugin-syntax-bigint：https://babeljs.io/docs/babel-plugin-syntax-bigint
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
              * 2、此插件仅启用对此功能的语法解析。Babel不支持转换bigint。一个建议是使用JSBI库并最终运行babel-plugin-transform-jsbi-to-bigint以在将来将其代码修改为BigInt。<br />
              */
@@ -3551,29 +3659,38 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               '@babel/plugin-syntax-bigint',
             ],
             /**
-             * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import
+             * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/babel-plugin-syntax-dynamic-import
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+             * 2、如果使用@babel/core 7.8.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
              */
             [
               '@babel/plugin-syntax-dynamic-import',
             ],
             /**
+             * @babel/plugin-proposal-dynamic-import：https://babeljs.io/docs/babel-plugin-proposal-dynamic-import
              * 启用该插件时会报如下错误：
              * “@babel/plugin-proposal-dynamic-import”依赖以下“模块转换插件”中的任何一个：
              * @babel/plugin-transform-modules-commonjs ^7.4.0
              * @babel/plugin-transform-modules-amd ^7.4.0
              * @babel/plugin-transform-modules-systemjs ^7.4.0
              *
-             * 如果您正在使用Webpack或Rollup，因此不想babel来转译你的输入、输出，你可以用“@babel/plugin-syntax-dynamic-import”插件，让你的绑定器（Webpack或Rollup）处理动态导入（import()）。
+             * 1、如果您正在使用Webpack或Rollup，因此不想babel来转译你的输入、输出，你可以用“@babel/plugin-syntax-dynamic-import”插件，让你的绑定器（Webpack或Rollup）处理动态导入（import()）。
+             * 2、不使用此插件，如果你正在使用一个捆绑器，如Webpack、Rollup或Parcel，你不应该使用这个插件，让你的捆绑器处理import()表达式。
+             * 3、你应该使用这个插件，如果：
+             * 你正在ESM中编写一个Node.js库，但想在CommonJS(CJS)中发布它：安装这个插件和 @babel/plugin-transform-modules-commonjs
+             * 你使用RequireJS在浏览器中加载模块：安装这个插件和 @babel/plugin-transform-modules-amd
+             * 你使用SystemJS在浏览器中加载模块：安装此插件和 @babel/plugin-transform-modules-systemjs
              */
             /*
              [
-             '@babel/plugin-proposal-dynamic-import',
+             // '@babel/plugin-proposal-dynamic-import',
+             '@babel/plugin-transform-dynamic-import',
              ],
              */
             /**
-             * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/en/babel-plugin-syntax-import-meta
+             * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/babel-plugin-syntax-import-meta
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+             * 2、如果使用@babel/core 7.10.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
              */
             [
               '@babel/plugin-syntax-import-meta',
@@ -3588,18 +3705,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-proposal-json-strings：https://babeljs.io/docs/en/babel-plugin-proposal-json-strings
+             * @babel/plugin-transform-json-strings：https://babeljs.io/docs/babel-plugin-transform-json-strings
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
              */
             [
-              '@babel/plugin-proposal-json-strings',
+              '@babel/plugin-transform-json-strings',
             ],
             /**
-             * @babel/plugin-proposal-optional-catch-binding：https://babeljs.io/docs/en/babel-plugin-proposal-optional-catch-binding
+             * @babel/plugin-transform-optional-catch-binding：https://babeljs.io/docs/babel-plugin-transform-optional-catch-binding
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
              */
             [
-              '@babel/plugin-proposal-optional-catch-binding',
+              '@babel/plugin-transform-optional-catch-binding',
             ],
           ]
                : [];
@@ -3611,21 +3728,21 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-proposal-async-generator-functions：https://babeljs.io/docs/en/babel-plugin-proposal-async-generator-functions
+             * @babel/plugin-transform-async-generator-functions：https://babeljs.io/docs/babel-plugin-transform-async-generator-functions
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
              */
             [
-              '@babel/plugin-proposal-async-generator-functions',
+              '@babel/plugin-transform-async-generator-functions',
             ],
             /**
-             * @babel/plugin-transform-dotall-regex：https://babeljs.io/docs/en/babel-plugin-transform-dotall-regex
+             * @babel/plugin-transform-dotall-regex：https://babeljs.io/docs/babel-plugin-transform-dotall-regex
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
              */
             [
               '@babel/plugin-transform-dotall-regex',
             ],
             /**
-             * @babel/plugin-transform-named-capturing-groups-regex：https://babeljs.io/docs/en/babel-plugin-transform-named-capturing-groups-regex
+             * @babel/plugin-transform-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-transform-named-capturing-groups-regex
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
              * 2、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
              * 3、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
@@ -3641,12 +3758,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-object-rest-spread：https://babeljs.io/docs/en/babel-plugin-proposal-object-rest-spread
+             * @babel/plugin-transform-object-rest-spread：https://babeljs.io/docs/babel-plugin-transform-object-rest-spread
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
              * 2、默认情况下，此插件将使用Babel的objectSpread帮助器生成符合规范的代码。<br />
              */
             [
-              '@babel/plugin-proposal-object-rest-spread',
+              '@babel/plugin-transform-object-rest-spread',
               {
                 /**
                  * 启用此选项将使用Babel的extends帮助器，它与Object.assign基本相同（请参阅下面的useBuiltIns直接使用它）。<br />
@@ -3664,11 +3781,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ],
             /**
-             * @babel/plugin-proposal-unicode-property-regex：https://babeljs.io/docs/en/babel-plugin-proposal-unicode-property-regex
+             * @babel/plugin-transform-unicode-property-regex：https://babeljs.io/docs/babel-plugin-transform-unicode-property-regex
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
              */
             [
-              '@babel/plugin-proposal-unicode-property-regex',
+              '@babel/plugin-transform-unicode-property-regex',
               {
                 /**
                  * 当使用false禁用时，转换会将Unicode正则表达式转换为非Unicode正则表达式以获得更广泛的支持，并删除u标志。<br />
@@ -3688,7 +3805,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-transform-async-to-generator：https://babeljs.io/docs/en/babel-plugin-transform-async-to-generator
+             * @babel/plugin-transform-async-to-generator：https://babeljs.io/docs/babel-plugin-transform-async-to-generator
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2017 Babel 7中，transform-async-to-module-method被合并到这个插件中。<br />
              * 2、当使用带有非承诺值的等待时，Bluebird将抛出“Error: A value was yielded that could not be treated as a promise（错误：产生的值不能被视为承诺）”。由于Babel无法自动处理此运行时错误，因此您应该手动将其转换为Promise：<br />
              * 如：<br />
@@ -3714,7 +3831,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return isEnable
                ? [
             /**
-             * @babel/plugin-transform-exponentiation-operator：https://babeljs.io/docs/en/babel-plugin-transform-exponentiation-operator
+             * @babel/plugin-transform-exponentiation-operator：https://babeljs.io/docs/babel-plugin-transform-exponentiation-operator
              * 1、注意：这个插件包含在@babel/preset-env中，在ES2016。<br />
              */
             [
@@ -3729,6 +3846,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       ...( isEnable => {
         return isEnable
                ? [
+            /**
+             * @babel/plugin-transform-block-scoped-functions：https://babeljs.io/docs/en/babel-plugin-transform-block-scoped-functions
+             * 1、注意：这个插件包含在@babel/preset-env。<br />
+             */
+            [
+              '@babel/plugin-transform-block-scoped-functions',
+            ],
             /**
              * @babel/plugin-transform-arrow-functions：https://babeljs.io/docs/en/babel-plugin-transform-arrow-functions
              * 1、注意：这个插件包含在@babel/preset-env。<br />
@@ -3745,13 +3869,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  */
                 spec: true,
               },
-            ],
-            /**
-             * @babel/plugin-transform-block-scoped-functions：https://babeljs.io/docs/en/babel-plugin-transform-block-scoped-functions
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-block-scoped-functions',
             ],
             /**
              * @babel/plugin-transform-block-scoping：https://babeljs.io/docs/en/babel-plugin-transform-block-scoping
@@ -4063,12 +4180,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       } )( false ),
       // ES2015（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
-      // ES5（除非是需要兼容到低端平台，否则不要启用这些） Start
+      // ES5（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
       ...( isEnable => {
         return isEnable
                ? [
             /**
-             * @babel/plugin-transform-property-mutators：https://babeljs.io/docs/en/babel-plugin-transform-property-mutators
+             * @babel/plugin-transform-property-mutators：https://babeljs.io/docs/babel-plugin-transform-property-mutators
              * 1、注意：这个插件包含在@babel/preset-env。<br />
              */
             [
@@ -4077,28 +4194,28 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ]
                : [];
       } )( false ),
-      // ES5（除非是需要兼容到低端平台，否则不要启用这些） End
+      // ES5（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
-      // ES3（除非是需要兼容到低端平台，否则不要启用这些） Start
+      // ES3（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
       ...( isEnable => {
         return isEnable
                ? [
             /**
-             * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/en/babel-plugin-transform-member-expression-literals
+             * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/babel-plugin-transform-member-expression-literals
              * 1、注意：这个插件包含在@babel/preset-env。<br />
              */
             [
               '@babel/plugin-transform-member-expression-literals',
             ],
             /**
-             * @babel/plugin-transform-property-literals：https://babeljs.io/docs/en/babel-plugin-transform-property-literals
+             * @babel/plugin-transform-property-literals：https://babeljs.io/docs/babel-plugin-transform-property-literals
              * 1、注意：这个插件包含在@babel/preset-env。<br />
              */
             [
               '@babel/plugin-transform-property-literals',
             ],
             /**
-             * @babel/plugin-transform-reserved-words：https://babeljs.io/docs/en/babel-plugin-transform-reserved-words
+             * @babel/plugin-transform-reserved-words：https://babeljs.io/docs/babel-plugin-transform-reserved-words
              * 1、注意：这个插件包含在@babel/preset-env。<br />
              * 2、有些词在ES3中保留为潜在的未来关键字，但在ES5及更高版本中没有保留。此插件在针对ES3环境时使用，可重命名该组单词中的变量。<br />
              */
@@ -4108,7 +4225,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ]
                : [];
       } )( false ),
-      // ES3（除非是需要兼容到低端平台，否则不要启用这些） End
+      // ES3（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
       // 其他插件（除非是需要兼容到低端平台，否则不要启用这些） Start
       ...( isEnable => {

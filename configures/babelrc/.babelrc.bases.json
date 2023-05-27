@@ -32,13 +32,19 @@
   ],
   "plugins": [
     [
+      "@babel/plugin-syntax-export-extensions"
+    ],
+    [
+      "@babel/plugin-syntax-import-reflection"
+    ],
+    [
       "@babel/plugin-transform-runtime",
       {
         "corejs": {
           "version": 3,
           "proposals": true
         },
-        "version": "7.21.5",
+        "version": "7.22.0",
         "helpers": false,
         "regenerator": true,
         "absoluteRuntime": false
@@ -93,6 +99,12 @@
       "@babel/plugin-proposal-destructuring-private"
     ],
     [
+      "@babel/plugin-syntax-import-attributes",
+      {
+        "deprecatedAssertSyntax": true
+      }
+    ],
+    [
       "@babel/plugin-syntax-import-assertions"
     ],
     [
@@ -108,10 +120,10 @@
       }
     ],
     [
-      "@babel/plugin-proposal-unicode-sets-regex"
+      "@babel/plugin-proposal-regexp-modifiers"
     ],
     [
-      "@babel/plugin-proposal-regexp-modifiers"
+      "@babel/plugin-proposal-explicit-resource-management"
     ],
     [
       "@babel/plugin-proposal-function-bind"

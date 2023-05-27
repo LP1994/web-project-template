@@ -301,3 +301,67 @@ declare module '*.yml' {
 
   export default module;
 }
+
+declare module '*?worker' {
+  interface IOptions {
+    type?: 'classic' | 'module';
+
+    credentials?: 'omit' | 'same-origin' | 'include';
+
+    name?: string;
+  }
+
+  const workerConstructor: {
+    new( options?: IOptions ): Worker
+  }
+
+  export default workerConstructor
+}
+
+declare module '*?worker&inline' {
+  interface IOptions {
+    type?: 'classic' | 'module';
+
+    credentials?: 'omit' | 'same-origin' | 'include';
+
+    name?: string;
+  }
+
+  const workerConstructor: {
+    new( options?: IOptions ): Worker
+  }
+
+  export default workerConstructor
+}
+
+declare module '*?sharedworker' {
+  interface IOptions {
+    type?: 'classic' | 'module';
+
+    credentials?: 'omit' | 'same-origin' | 'include';
+
+    name?: string;
+  }
+
+  const sharedWorkerConstructor: {
+    new( options?: IOptions | string ): SharedWorker
+  }
+
+  export default sharedWorkerConstructor
+}
+
+declare module '*?sharedworker&inline' {
+  interface IOptions {
+    type?: 'classic' | 'module';
+
+    credentials?: 'omit' | 'same-origin' | 'include';
+
+    name?: string;
+  }
+
+  const sharedWorkerConstructor: {
+    new( options?: IOptions | string ): SharedWorker
+  }
+
+  export default sharedWorkerConstructor
+}
