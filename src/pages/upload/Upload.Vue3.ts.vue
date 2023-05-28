@@ -187,7 +187,8 @@ import {
   // useCssModule,
 } from 'vue';
 
-type TypeState = {
+type TState = {
+  titleText: string;
   [ key: string | number ]: any;
 };
 
@@ -314,7 +315,7 @@ function UploadForMultiple( event: Event ): void{
   }
 }
 
-const state: TypeState = reactive( {
+const state: TState = reactive( {
   titleText: `测试DIY的Deno服务器的文件上传`,
 } );
 
