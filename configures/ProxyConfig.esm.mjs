@@ -750,6 +750,73 @@ HTTP代理--->${ req.originalUrl }<---End
 
     // http-proxy events End
   },
+  '/simulation_servers_deno/': {
+    bypass: ( req, res, proxyOptions ) => {
+      if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
+        return '/xxx7788.html';
+      }
+    },
+
+    // http-proxy-middleware options Start
+
+    // pathRewrite: {},
+
+    router: {
+      'localhost:8100': 'https://0.0.0.0:9200',
+      '127.0.0.1:8100': 'https://0.0.0.0:9200',
+      '192.168.2.7:8100': 'https://0.0.0.0:9200',
+
+      'localhost:8200': 'https://0.0.0.0:9200',
+      '127.0.0.1:8200': 'https://0.0.0.0:9200',
+      '192.168.2.7:8200': 'https://0.0.0.0:9200',
+    },
+
+    logLevel: 'info',
+
+    // http-proxy-middleware options End
+
+    // http-proxy options Start
+
+    target: 'https://0.0.0.0:9200',
+
+    secure: false,
+
+    ssl,
+
+    ws: false,
+
+    changeOrigin,
+
+    headers: httpHeaders,
+
+    proxyTimeout: 120000,
+
+    timeout: 120000,
+
+    // http-proxy options End
+
+    // http-proxy events Start
+
+    onProxyReq: ( proxyReq, req, res, options ) => {
+      const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
+
+      logWriteStream.write( `HTTP代理--->${ req.originalUrl }<---Start
+原请求方法：${ req.method }
+原请求头：
+${ JSON.stringify( req.headers, null, ' ' ) }
+
+代理请求方法：${ proxyReq.method }
+代理请求的protocol：${ proxyReq.protocol }
+代理请求的host：${ proxyReq.host }
+代理请求的path：${ proxyReq.path }
+代理的请求头：
+${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
+HTTP代理--->${ req.originalUrl }<---End
+\n\n` );
+    },
+
+    // http-proxy events End
+  },
 
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://127.0.0.1:9200/simulation_servers_deno/subscriptions。<br />
