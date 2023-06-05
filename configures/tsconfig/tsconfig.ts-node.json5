@@ -136,6 +136,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     // "typeCheck": true,
   },
   "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
     1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
