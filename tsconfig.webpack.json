@@ -59,8 +59,8 @@
     "transpileOnly": false
   },
   "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
+    "target": "es2023",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "baseUrl": "./",
     "rootDir": ".",

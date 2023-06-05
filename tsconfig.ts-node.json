@@ -98,8 +98,8 @@
     "skipLibCheck": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
 
-    "target": "es2022",
-    "module": "es2022",
+    "target": "es2023",
+    "module": "esnext",
     "moduleResolution": "nodenext",
     "baseUrl": "./",
     "rootDir": ".",

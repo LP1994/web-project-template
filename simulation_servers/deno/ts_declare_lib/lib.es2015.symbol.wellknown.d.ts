@@ -314,12 +314,6 @@ interface Float64Array {
 
 interface ArrayConstructor {
     readonly [Symbol.species]: ArrayConstructor;
-
-    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
-
-    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any ): Promise<[]>;
-
-    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any, thisArg?: any ): Promise<[]>;
 }
 interface MapConstructor {
     readonly [Symbol.species]: MapConstructor;

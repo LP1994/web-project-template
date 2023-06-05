@@ -56,10 +56,10 @@ interface Array<T> {
      * @param target If target is negative, it is treated as length+target where length is the
      * length of the array.
      * @param start If start is negative, it is treated as length+start. If end is negative, it
-     * is treated as length+end.
+     * is treated as length+end. If start is omitted, `0` is used.
      * @param end If not specified, length of the this object is used as its default value.
      */
-    copyWithin(target: number, start: number, end?: number): this;
+    copyWithin(target: number, start?: number, end?: number): this;
 }
 
 interface ArrayConstructor {
@@ -82,12 +82,6 @@ interface ArrayConstructor {
      * @param items A set of elements to include in the new array object.
      */
     of<T>(...items: T[]): T[];
-
-    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike ): Promise<[]>;
-
-    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any ): Promise<[]>;
-
-    fromAsync( asyncItems: AsyncIterable | Iterable | ArrayLike, mapfn?: ( v: any, k: number ) => any, thisArg?: any ): Promise<[]>;
 }
 
 interface DateConstructor {
