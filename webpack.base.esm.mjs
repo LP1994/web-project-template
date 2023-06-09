@@ -102,7 +102,13 @@ import package_json from './package.json' assert { type: 'json', };
 
 import postcss from 'postcss';
 
-import DartSass from 'sass';
+// import DartSass from 'sass';
+import {
+  createRequire,
+} from 'node:module';
+
+const require = createRequire( import.meta.url );
+const DartSass = require( 'sass' );
 
 import Stylus from 'stylus';
 
