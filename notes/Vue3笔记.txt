@@ -564,7 +564,6 @@ Copy to clipboard
 }
 </style>
 可以给module赋值来自定义暴露的对象名称
-Copy to clipboard
 <template>
   <p :class="style.red">
     This should be red
@@ -576,28 +575,7 @@ Copy to clipboard
 }
 </style>
 在组合式api中可以使用 useCssModule() api来使用cssModule.
-Copy to clipboard
 // 默认, 返回 <style module> 中的类
 useCssModule()
 // 命名, 返回 <style module="classes"> 中的类
 useCssModule('classes')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

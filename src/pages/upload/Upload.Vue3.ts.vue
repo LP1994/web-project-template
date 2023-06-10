@@ -114,17 +114,6 @@ main {
 
 }
 </style>
-<style
-  module
-  lang = 'scss'>
-.red {
-  color: red;
-}
-
-.bold {
-  font-weight: bold;
-}
-</style>
 <template>
   <!--*********弹窗、悬浮一类节点的书写区域 Start*********-->
   <!--
