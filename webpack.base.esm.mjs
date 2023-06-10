@@ -6358,51 +6358,139 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理字体文件。
         {
-          test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
-          /**
-           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
-           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
-           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
-           */
-          type: 'asset',
-          parser: {
-            dataUrlCondition,
-          },
-          generator: {
-            dataUrl: {
-              encoding: 'base64',
-            },
-            emit: true,
-            filename( pathData, assetInfo ){
-              return '[name]_[contenthash][ext]';
-            },
-            outputPath( pathData, assetInfo ){
-              return './fonts/';
-            },
-            publicPath( pathData, assetInfo ){
-              return '../fonts/';
-            },
-          },
-          include: [
-            join( __dirname, './node_modules/' ),
+          oneOf: [
+            {
+              test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
+              resourceQuery: /url/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/resource',
+              generator: {
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './fonts/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../fonts/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
 
-            join( __dirname, './src/' ),
+                join( __dirname, './src/' ),
 
-            join( __dirname, './webpack_location/' ),
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
+              resourceQuery: /raw/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/inline',
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: false,
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
+              resourceQuery: {
+                not: [
+                  /url/,
+                  /raw/,
+                ],
+              },
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset',
+              parser: {
+                dataUrlCondition,
+              },
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './fonts/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../fonts/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
           ],
-          exclude: [
-            join( __dirname, './src/assets/doc/' ),
-            join( __dirname, './src/assets/img/' ),
-            join( __dirname, './src/assets/music/' ),
-            join( __dirname, './src/assets/videos/' ),
-            join( __dirname, './src/custom_declare_types/' ),
-            join( __dirname, './src/graphQL/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-            join( __dirname, './src/wasm/' ),
-          ].concat( exclude001 ),
         },
 
         // 处理.graphql文件、.graphqls文件、.gql文件，区分结尾带“?raw”和不带“?raw”的2种处理，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
@@ -6583,51 +6671,139 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
          */
         {
-          test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
-          /**
-           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
-           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
-           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
-           */
-          type: 'asset',
-          parser: {
-            dataUrlCondition,
-          },
-          generator: {
-            dataUrl: {
-              encoding: 'base64',
-            },
-            emit: true,
-            filename( pathData, assetInfo ){
-              return '[name]_[contenthash][ext]';
-            },
-            outputPath( pathData, assetInfo ){
-              return './img/';
-            },
-            publicPath( pathData, assetInfo ){
-              return '../img/';
-            },
-          },
-          include: [
-            join( __dirname, './node_modules/' ),
+          oneOf: [
+            {
+              test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
+              resourceQuery: /url/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/resource',
+              generator: {
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './img/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../img/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
 
-            join( __dirname, './src/' ),
+                join( __dirname, './src/' ),
 
-            join( __dirname, './webpack_location/' ),
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
+              resourceQuery: /raw/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/inline',
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: false,
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
+              resourceQuery: {
+                not: [
+                  /url/,
+                  /raw/,
+                ],
+              },
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset',
+              parser: {
+                dataUrlCondition,
+              },
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './img/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../img/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
           ],
-          exclude: [
-            join( __dirname, './src/assets/doc/' ),
-            join( __dirname, './src/assets/fonts/' ),
-            join( __dirname, './src/assets/music/' ),
-            join( __dirname, './src/assets/videos/' ),
-            join( __dirname, './src/custom_declare_types/' ),
-            join( __dirname, './src/graphQL/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-            join( __dirname, './src/wasm/' ),
-          ].concat( exclude001 ),
         },
 
         // 处理.js文件。
@@ -7307,51 +7483,139 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理音频。
         {
-          test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
-          /**
-           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
-           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
-           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
-           */
-          type: 'asset',
-          parser: {
-            dataUrlCondition,
-          },
-          generator: {
-            dataUrl: {
-              encoding: 'base64',
-            },
-            emit: true,
-            filename( pathData, assetInfo ){
-              return '[name]_[contenthash][ext]';
-            },
-            outputPath( pathData, assetInfo ){
-              return './music/';
-            },
-            publicPath( pathData, assetInfo ){
-              return '../music/';
-            },
-          },
-          include: [
-            join( __dirname, './node_modules/' ),
+          oneOf: [
+            {
+              test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
+              resourceQuery: /url/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/resource',
+              generator: {
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './music/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../music/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
 
-            join( __dirname, './src/' ),
+                join( __dirname, './src/' ),
 
-            join( __dirname, './webpack_location/' ),
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
+              resourceQuery: /raw/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/inline',
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: false,
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
+              resourceQuery: {
+                not: [
+                  /url/,
+                  /raw/,
+                ],
+              },
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset',
+              parser: {
+                dataUrlCondition,
+              },
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './music/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../music/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/videos/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
           ],
-          exclude: [
-            join( __dirname, './src/assets/doc/' ),
-            join( __dirname, './src/assets/fonts/' ),
-            join( __dirname, './src/assets/img/' ),
-            join( __dirname, './src/assets/videos/' ),
-            join( __dirname, './src/custom_declare_types/' ),
-            join( __dirname, './src/graphQL/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-            join( __dirname, './src/wasm/' ),
-          ].concat( exclude001 ),
         },
 
         // mustache-loader，处理.mustache文件。
@@ -8429,51 +8693,139 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理视频。
         {
-          test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
-          /**
-           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
-           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
-           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
-           */
-          type: 'asset',
-          parser: {
-            dataUrlCondition,
-          },
-          generator: {
-            dataUrl: {
-              encoding: 'base64',
-            },
-            emit: true,
-            filename( pathData, assetInfo ){
-              return '[name]_[contenthash][ext]';
-            },
-            outputPath( pathData, assetInfo ){
-              return './videos/';
-            },
-            publicPath( pathData, assetInfo ){
-              return '../videos/';
-            },
-          },
-          include: [
-            join( __dirname, './node_modules/' ),
+          oneOf: [
+            {
+              test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
+              resourceQuery: /url/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/resource',
+              generator: {
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './videos/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../videos/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
 
-            join( __dirname, './src/' ),
+                join( __dirname, './src/' ),
 
-            join( __dirname, './webpack_location/' ),
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
+              resourceQuery: /raw/,
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset/inline',
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: false,
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
+              resourceQuery: {
+                not: [
+                  /url/,
+                  /raw/,
+                ],
+              },
+              /**
+               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+               */
+              type: 'asset',
+              parser: {
+                dataUrlCondition,
+              },
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './videos/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../videos/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+              ],
+              exclude: [
+                join( __dirname, './src/assets/doc/' ),
+                join( __dirname, './src/assets/fonts/' ),
+                join( __dirname, './src/assets/img/' ),
+                join( __dirname, './src/assets/music/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+            },
           ],
-          exclude: [
-            join( __dirname, './src/assets/doc/' ),
-            join( __dirname, './src/assets/fonts/' ),
-            join( __dirname, './src/assets/img/' ),
-            join( __dirname, './src/assets/music/' ),
-            join( __dirname, './src/custom_declare_types/' ),
-            join( __dirname, './src/graphQL/' ),
-            join( __dirname, './src/pwa_manifest/' ),
-            join( __dirname, './src/static/' ),
-            join( __dirname, './src/styles/' ),
-            join( __dirname, './src/wasm/' ),
-          ].concat( exclude001 ),
         },
 
         // 处理.vue文件，该loader一定得在html-loader之后。
@@ -8857,14 +9209,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
-              type: 'asset',
-              parser: {
-                dataUrlCondition,
-              },
+              type: 'asset/resource',
               generator: {
-                dataUrl: {
-                  encoding: 'base64',
-                },
                 emit: true,
                 filename( pathData, assetInfo ){
                   return '[name]_[contenthash][ext]';
