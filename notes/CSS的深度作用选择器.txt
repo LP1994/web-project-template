@@ -2,3 +2,22 @@
 /deep/：Sass（scss）
 >>>：vue，vue中上面两个都是这个的别名
 > > >：
+
+
+
+Vue 3.0的":deep()"：
+详细见：
+https://vuejs.org/api/sfc-css-features.html#scoped-css
+
+例子：
+<style scoped>
+.a :deep(.b) {
+  /* ... */
+}
+</style>
+
+输出：
+
+.a[data-v-f3f3eg9] .b {
+  /* ... */
+}
