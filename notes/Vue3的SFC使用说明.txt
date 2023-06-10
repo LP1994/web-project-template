@@ -3,3 +3,7 @@
 详细见：
 node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:236
 实际开发中还发现，还有2个属性值：'pcss'、'postcss'。
+
+2、基于webpack配置的对.vue中的<style module>处理
+目前死活无法正确处理类似<style module lang = 'scss'> ... </style>的内联语法。
+只能处理类似<style module src = './xxx.module.scss'>这样的外联语法。
