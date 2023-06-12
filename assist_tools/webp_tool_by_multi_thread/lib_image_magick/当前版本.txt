@@ -1,0 +1,4 @@
+ImageMagick-7.1.1-5-Q16-HDRI-x64-dll
+
+下载：
+https://imagemagick.org/script/download.php#windows

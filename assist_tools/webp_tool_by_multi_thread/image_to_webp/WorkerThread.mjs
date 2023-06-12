@@ -33,13 +33,16 @@ import {
   workerData,
 } from 'node:worker_threads';
 
+import FastEXIF from 'fast-exif';
+
 import {
   MyConsole,
 } from '../UniversalToolForNode.esm.mjs';
 
 let startTimer001 = 0,
   resultFilePath = '',
-  resultFilePathParseObj = null;
+  resultFilePathParseObj = null,
+  degree = 0;
 
 parentPort.on( 'close', () => {
   MyConsole.Cyan( `
@@ -58,7 +61,7 @@ ${ errorObject }
 ` );
 } );
 
-parentPort.on( 'message', ( {
+parentPort.on( 'message', async ( {
   photoPath,
 } ) => {
   startTimer001 = performance.now();
@@ -73,8 +76,46 @@ parentPort.on( 'message', ( {
 
   resultFilePath += '.webp';
 
+  const {
+    image: {
+      Orientation,
+    },
+  } = await FastEXIF.read( photoPath );
+
+  switch( String( Orientation ) ){
+  case '1':
+    degree = 0;
+
+    break;
+  case '3':
+    degree = 180;
+
+    break;
+  case '6':
+    degree = 90;
+
+    break;
+  case '8':
+    degree = -90;
+
+    break;
+  default:
+    degree = 0;
+
+    MyConsole.Red( `
+isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID }--->Start
+Orientation属性值“${ Orientation }”不在处理的范畴！
+isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID }--->End
+` );
+
+    break;
+  }
+
   execSync( `cwebp -mt -metadata icc -o ${ resultFilePath } -- ${ photoPath }`, {
     cwd: new URL( '../lib_webp/bin', import.meta.url ),
+  } );
+  execSync( `convert -rotate ${ degree } ${ resultFilePath } ${ resultFilePath }`, {
+    cwd: new URL( '../lib_image_magick', import.meta.url ),
   } );
 
   parentPort.postMessage( {
