@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: webp_tool_by_multi_thread/WorkerThread.mjs
+ * FileDirPath: webp_tool_by_multi_thread/webp_to_png/WorkerThread.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -14,9 +14,8 @@
 'use strict';
 
 import {
-  readFile,
-  writeFile,
-} from 'node:fs/promises';
+  execSync,
+} from 'node:child_process';
 
 import {
   join,
@@ -34,15 +33,11 @@ import {
   workerData,
 } from 'node:worker_threads';
 
-import HeicConvert from 'heic-convert';
-
 import {
   MyConsole,
-} from './UniversalToolForNode.esm.mjs';
+} from '../UniversalToolForNode.esm.mjs';
 
 let startTimer001 = 0,
-  photoFileStream = null,
-  resultBuffer = null,
   resultFilePath = '',
   resultFilePathParseObj = null;
 
@@ -57,28 +52,18 @@ close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsI
 parentPort.on( 'messageerror', errorObject => {
   MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
-typeof errorObject--->${ typeof errorObject }
+Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
 } );
 
-parentPort.on( 'message', async ( {
+parentPort.on( 'message', ( {
   photoPath,
 } ) => {
   startTimer001 = performance.now();
 
-  // photoFileStream--->Uint8Array   photoFileStream.buffer--->ArrayBuffer
-  photoFileStream = await readFile( photoPath );
-
-  // resultBuffer--->Uint8Array
-  resultBuffer = await HeicConvert( {
-    buffer: photoFileStream,
-    format: String( workerData.photoType ),
-    quality: Number( workerData.quality ),
-  } );
-
-  resultFilePath = photoPath.replace( join( workerData.initPath, '/' ), join( workerData.savePath, '/' ) ) + String( workerData.suffix );
+  resultFilePath = photoPath.replace( join( workerData.initPath, '/' ), join( workerData.savePath, '/' ) );
 
   if( !workerData.isNest ){
     resultFilePathParseObj = parse( resultFilePath );
@@ -86,7 +71,13 @@ parentPort.on( 'message', async ( {
     resultFilePath = join( workerData.savePath, `/${ resultFilePathParseObj.name }_${ Number.parseInt( String( Date.now() ) ) }${ resultFilePathParseObj.ext }` );
   }
 
-  await writeFile( resultFilePath, resultBuffer );
+  resultFilePathParseObj = parse( resultFilePath );
+
+  resultFilePath = join( resultFilePathParseObj.dir, `./${ resultFilePathParseObj.name }.png` );
+
+  execSync( `dwebp -mt -o ${ resultFilePath } -- ${ photoPath }`, {
+    cwd: new URL( '../lib_webp/bin', import.meta.url ),
+  } );
 
   parentPort.postMessage( {
     photoPath,

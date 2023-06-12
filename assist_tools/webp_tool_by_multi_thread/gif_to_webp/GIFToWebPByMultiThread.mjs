@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: webp_tool_by_multi_thread/WebPToolByMultiThread.mjs
+ * FileDirPath: webp_tool_by_multi_thread/gif_to_webp/GIFToWebPByMultiThread.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -8,17 +8,15 @@
  */
 
 /**
- * 本工具用于将“.heic”、“.heif”转为“.png”、“.jpeg”。
+ * 本工具用于将“.gif”格式的动图转换为“.webp”格式的动图。
  *
  * 说明：
  * 1、
- * 将需要转换的图片放在“in”文件夹下，支持文件夹嵌套存放，转换后的图片会出现在“out”文件夹下，默认转成“.png”、文件夹层级跟原先的一致。
+ * 将需要转换的图片放在“in”文件夹下，支持文件夹嵌套存放，转换后的图片会出现在“out”文件夹下，默认文件夹层级跟原先的一致。
  * 2、
- * 支持通过执行时传参来指定转成“.png”还是“.jpeg”。
- * 3、
  * 支持通过执行时传参来指定是不是按原来的文件夹层级来输出，如果不需要按原来的层级，则会把输出的图片全都直接放在“out”文件夹下，没文件夹嵌套，但是会为照片名附加时间戳，以免同名覆盖。
- * 4、
- * 双击执行“HeicToAnyByMultiThread.bat”即可开始转换。
+ * 3、
+ * 双击执行“GIFToWebPByMultiThread.bat”即可开始转换。
  *
  * PS：
  * 1、
@@ -27,12 +25,25 @@
  * 参数说明：
  * 1、
  * nest=true，表示输出的文件夹层级跟原先的一致；nest=false，不需要按原来的层级，会把输出的图片全都直接放在“out”文件夹下，没文件夹嵌套，但是会为照片名附加时间戳，以免同名覆盖。
- * 2、
- * type=PNG，转成“.png”；type=JPEG，转成“.jpeg”。
  *
  * 参数使用示例：
  * 1、
- * “node HeicToAnyByMultiThread.mjs”全等于“node HeicToAnyByMultiThread.mjs nest=true type=PNG”，也是默认的。
+ * “node GIFToWebPByMultiThread.mjs”全等于“node GIFToWebPByMultiThread.mjs nest=true”，也是默认的。
+ *
+ *
+ *
+ * 亲测已解决iOS的旋转BUG！！！
+ *  “iPhoneX(兼容模式)顺时针180度”、“iPhoneX(兼容模式)逆时针180度”会出现顺时针旋转90度
+ *  (处理方法：使用fast-exif.js读出Orientation属性为8，然后我们逆时针旋转90度就会使它变为原图的方向)
+ *
+ *  “iPhoneX(兼容模式)顺时针90度”、“iPhoneX(兼容模式)逆时针270度”会出现旋转180度
+ *  (处理方法：使用fast-exif.js读出Orientation属性为3，然后我们旋转180度就会使它变为原图的方向)
+ *
+ *  “iPhoneX(兼容模式)顺时针270度”、“iPhoneX(兼容模式)逆时针90度”不会旋转
+ *  (使用fast-exif.js读出Orientation属性为1，不需要转)
+ *
+ *  “iPhoneX(兼容模式)正竖”会出现逆时针旋转90度
+ *  (处理方法：使用fast-exif.js读出Orientation属性为6，然后我们顺时针旋转90度就会使它变为原图的方向)
  */
 
 'use strict';
@@ -69,23 +80,20 @@ import {
 import {
   Get__dirname,
   MyConsole,
-} from './UniversalToolForNode.esm.mjs';
+} from '../UniversalToolForNode.esm.mjs';
 
 const defaultArgs = {
     nest: true,
-    type: 'PNG',
   },
   threadQuantity = cpus().length - 1,
   inDir = 'in',
   outDir = 'out',
-  quality = 1,
   workerThreadFilePath = './WorkerThread.mjs',
   dirPathArr = [],
   photoPathArr = [];
 
 const {
   nest: isNest,
-  type: photoType,
 } = ( argv => {
   if( argv.length <= 2 ){
     return defaultArgs;
@@ -95,16 +103,11 @@ const {
       if( v === 'nest=false' ){
         defaultArgs.nest = false;
       }
-      else if( v === 'type=JPEG' ){
-        defaultArgs.type = 'JPEG';
-      }
     } );
 
     return defaultArgs;
   }
 } )( argv );
-
-const suffix = `.${ photoType.toLocaleLowerCase() }`;
 
 function PathJoinForStart( path ){
   return join( Get__dirname( import.meta.url ), path );
@@ -139,8 +142,7 @@ function RetrieveForDir( path ){
       suffix001 = extname( path001 ).slice( 1 ).toLocaleLowerCase().trim();
 
       if( [
-        'heif',
-        'heic',
+        'gif',
       ].includes( suffix001 ) ){
         if( Number( fsStats.size ) > 0 ){
           photoPathArr.push( path001 );
@@ -155,7 +157,7 @@ ${ path001 }
       else{
         MyConsole.Yellow( `
 ${ path001 }
-不支持后缀名不是“heic”、“heif”的图片。
+目前只支持转换后缀为gif的图片。
 ` );
       }
     }
@@ -171,8 +173,8 @@ const photoQuantity = photoPathArr.length;
 
 MyConsole.Cyan( `\n一共有${ photoQuantity }张图片需要转换。\n` );
 
-let toDoneNum = 0,
-  startTimer = 0;
+let startTimer = 0,
+  successTotal = 0;
 
 function CreateWorkerIns( photoPath, workerInsIndex ){
   const workerIns = new Worker( workerThreadFilePath, {
@@ -180,17 +182,14 @@ function CreateWorkerIns( photoPath, workerInsIndex ){
       workerInsID: `workerInsID${ workerInsIndex }`,
       initPath,
       savePath,
-      quality,
-      suffix,
       isNest,
-      photoType,
     },
   } );
 
   workerIns.on( 'error', errorEventData => {
     MyConsole.Red( `
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-typeof errorEventData--->${ typeof errorEventData }
+Object.prototype.toString.call( errorEventData )--->${ Object.prototype.toString.call( errorEventData ) }
 ${ errorEventData }
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
@@ -209,16 +208,16 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
   } );
 
   workerIns.on( 'message', messageData => {
-    ++toDoneNum;
+    ++successTotal;
 
-    MyConsole.Blue( `
+    MyConsole.Green( `
 message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 
 ${ messageData.photoPath }
-本张图片转换完成。
+本张图片转换成功。
 本张图片转换耗时${ messageData.takeUpTime.toFixed( 3 ) }秒。
-已有${ toDoneNum }张转换完成。
-还有${ photoQuantity - toDoneNum }张未开始转换。
+已有${ successTotal }张转换完成。
+还有${ photoQuantity - successTotal }张未进行转换。
 
 message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
@@ -228,7 +227,7 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
         photoPath: photoPathArr.shift(),
       } );
     }
-    else if( toDoneNum === photoQuantity ){
+    else if( successTotal === photoQuantity ){
       MyConsole.Green( `\n全部转换完成，总共耗时${ ( ( performance.now() - startTimer ) / 1000 / 60 ).toFixed( 3 ) }分钟！\n` );
 
       // If the worker was terminated, the exitCode parameter is 1.
@@ -248,7 +247,7 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
   workerIns.on( 'messageerror', errorObject => {
     MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-typeof errorObject--->${ typeof errorObject }
+Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
@@ -283,5 +282,5 @@ if( photoQuantity > 0 ){
     workerInsArr.push( CreateWorkerIns( photoPathArr.shift(), i ) );
   }
 
-  MyConsole.Cyan( `\n创建了${ createWorkerThreadQuantity }个Worker线程！\n` );
+  MyConsole.Cyan( `\n创建了${ workerInsArr.length }个Worker线程！\n` );
 }
