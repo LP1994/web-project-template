@@ -677,7 +677,7 @@
     "clipboard": "^2.0.11",
     "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",
-    "core-js": "^3.30.2",
+    "core-js": "^3.31.0",
     "create-vite": "^4.3.2",
     "cson": "^7.20.0",
     "cson-loader": "^0.1.0",
