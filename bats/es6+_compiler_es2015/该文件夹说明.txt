@@ -6,10 +6,10 @@ PS：
 
 如：
 默认（同开发）：
-npx babel --config-file=../../configures/babelrc/es2015/.babelrc.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+npx babel --no-comments --config-file=../../configures/babelrc/es2015/.babelrc.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
 
 开发：
-npx babel --config-file=../../configures/babelrc/es2015/.babelrc.dev.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
+npx babel --no-comments --config-file=../../configures/babelrc/es2015/.babelrc.dev.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
 
 测试：
 npx babel --no-comments --compact=true --minified --config-file=../../configures/babelrc/es2015/.babelrc.test.json ../../src/tools/js/currency_tools/CurrencyTools.esm.mjs -o ../../src/tools/js/currency_tools/CurrencyTools.compiler.js&pause
