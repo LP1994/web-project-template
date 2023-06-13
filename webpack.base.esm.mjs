@@ -3173,8 +3173,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       } )( false ),
 
       /**
-       * @babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression：https://github.com/babel/babel/tree/main/packages/babel-plugin-bugfix-safari-id-destructuring-collision-in-function-expression
-       * 1、该插件所要解决的BUG描述见：https://bugs.webkit.org/show_bug.cgi?id=220517。<br />
+       * @babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression：https://babeljs.io/docs/babel-plugin-bugfix-safari-id-destructuring-collision-in-function-expression
+       * 1、这个错误修复插件重新命名了结构化参数，以解决影响10至16.2版本的Safari浏览器的一个错误。该插件所要解决的BUG描述见：https://bugs.webkit.org/show_bug.cgi?id=220517。<br />
        * 2、主要描述：<br />
        * 可以正常工作的写法：
        * function a({ test: a }) { console.log(a); }
@@ -3182,6 +3182,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        *
        * 不可以正常工作，且会报语法错误的写法：Duplicate parameter <name> not allowed in function with destructuring parameters.
        * let b = function a({ test: a }) { console.log(a); };
+       * 3、这个插件包含在@babel/preset-env中。将bugfixes选项设置为true，这样当你的目标受到浏览器bug影响时，Babel会自动为你启用这个插件。
        */
       ...( isEnable => {
         return isEnable
@@ -3191,15 +3192,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             ],
           ]
                : [];
-      } )( true ),
+      } )( false ),
 
       /**
-       * @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining：https://github.com/babel/babel/tree/main/packages/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining
-       * 1、该插件所要解决的BUG描述见：https://bugs.chromium.org/p/v8/issues/detail?id=11558。<br />
+       * @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining：https://babeljs.io/docs/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining
+       * 1、这个bugfix插件转换了可选的链式运算符, 以解决一个影响8.0至9.0版本的V8 bug。该插件所要解决的BUG描述见：https://bugs.chromium.org/p/v8/issues/detail?id=11558。<br />
        * 2、主要描述：TypeError: Function.prototype.apply was called on undefined, which is a undefined and not a function.<br />
        * Input: undefined?.(...[], 1)
        * Output（报错）:
        * undefined?.(...[], 1)
+       * 3、这个插件包含在@babel/preset-env中。将bugfixes选项设置为true，这样当你的目标受到浏览器bug影响时，Babel会自动为你启用这个插件。
        */
       ...( isEnable => {
         return isEnable
@@ -3209,7 +3211,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             ],
           ]
                : [];
-      } )( true ),
+      } )( false ),
 
       // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） Start
       ...( isEnable => {
