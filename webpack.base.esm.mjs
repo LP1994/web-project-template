@@ -579,17 +579,28 @@ const autoprefixerConfig = {
       'impossible-typeof': 'error',
       'indirect-require': 'error',
       'private-name-will-throw': 'error',
+      'semicolon-after-return': 'warning',
       // 代码“!x in y”被解析为“(!x) in y”。您需要插入括号才能获得“!(x in y)”。
       'suspicious-boolean-not': 'error',
-      'unsupported-jsx-comment': 'error',
-      'semicolon-after-return': 'warning',
       // 当文件是ECMAScript模块[this-is-undefined-in-esm]，因此顶级“this”将被替换为undefined。
       'this-is-undefined-in-esm': 'warning',
-      // 正则表达式标志“d”在配置的目标环境（“chrome50”）中不可用。此正则表达式文字已转换为“new RegExp()”构造函数以避免生成带有语法错误的代码。但是，您需要为“RegExp”包含一个polyfill您的代码在运行时具有正确的行为。
-      'unsupported-regexp': 'warning',
       // 此“import”表达式不会被捆绑（import(foo)），因为参数不是字符串文字。
       'unsupported-dynamic-import': 'warning',
+      'unsupported-jsx-comment': 'error',
+      // 正则表达式标志“d”在配置的目标环境（“chrome50”）中不可用。此正则表达式文字已转换为“new RegExp()”构造函数以避免生成带有语法错误的代码。但是，您需要为“RegExp”包含一个polyfill您的代码在运行时具有正确的行为。
+      'unsupported-regexp': 'warning',
       'unsupported-require-call': 'warning',
+
+      'css-syntax-error': 'error',
+      'invalid-@charset': 'error',
+      'invalid-@import': 'warning',
+      'invalid-@layer': 'warning',
+      'invalid-calc': 'error',
+      'js-comment-in-css': 'warning',
+      'unsupported-@charset': 'error',
+      'unsupported-@namespace': 'error',
+      'unsupported-css-property': 'warning',
+      'unsupported-css-nesting': 'error',
 
       'ambiguous-reexport': 'warning',
       'different-path-case': 'silent',
