@@ -6557,6 +6557,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             },
             /**
              * 处理以.graphql、.graphqls、.gql结尾的不带“?raw”的文件导入，会返回对象。
+             * 1、如果想将对象转为字符串，可以这么干，而且这种方法还能按需导入：
+             * import {
+             *   print,
+             * } from 'graphql';
+             *
+             * import {
+             *   AlertQuery,
+             * } from './gql/Query.graphql';
+             *
+             * // 会是完整的、包括各种嵌套导入的片段的字符串。
+             * print( AlertQuery );
              */
             {
               test: /\.(graphql|graphqls|gql)$/i,
