@@ -751,15 +751,7 @@ HTTP代理--->${ req.originalUrl }<---End
     // http-proxy events End
   },
   '/simulation_servers_deno/': {
-    bypass: ( req, res, proxyOptions ) => {
-      if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
-        return '/xxx7788.html';
-      }
-    },
-
     // http-proxy-middleware options Start
-
-    // pathRewrite: {},
 
     router: {
       'localhost:8100': 'https://0.0.0.0:9200',
