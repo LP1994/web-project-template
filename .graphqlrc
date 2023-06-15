@@ -1,0 +1,35 @@
+{
+  "projects": {
+    "web-project-template": {
+      "name": "web-project-template",
+      "schema": "./src/graphQL/GraphQL.Schema.json",
+      "documents": "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
+      "include": [
+        "./src/graphQL/api/**/*.{graphql,graphqls,gql}",
+        "./src/graphQL/test/**/*.{graphql,graphqls,gql}"
+      ],
+      "exclude": [
+        "./src/graphQL/doc/**/*.{graphql,graphqls,gql}"
+      ],
+      "extensions": {
+        "endpoints": {
+          "例子001": {
+            "url": "http://127.0.0.1:9200/graphql",
+            "introspect": false,
+            "headers": {
+              "Accept": "*/*",
+              "Accept-Encoding": "gzip",
+              "Cache-Control": "no-cache",
+              "Connection": "keep-alive",
+              "Content-Type": "application/json",
+              "Pragma": "no-cache",
+              "user-agent": "web-project-template JS GraphQL for 例子001",
+              "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
+              "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH"
+            }
+          }
+        }
+      }
+    }
+  }
+}
