@@ -8868,15 +8868,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 设置该选项后会报错！因为内部代码有BUG！
                  * 详细见：
                  * TypeError: Cannot read properties of undefined (reading 'name')
-                 *     at registerBinding (G:\WebStormWS\web-for-vite-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4653:19)
-                 *     at walkObjectPattern (G:\WebStormWS\web-for-vite-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4734:13)
-                 *     at walkDeclaration (G:\WebStormWS\web-for-vite-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4698:21)
-                 *     at Object.compileScript (G:\WebStormWS\web-for-vite-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4263:13)
-                 *     at resolveScript (file:///G:/WebStormWS/web-for-vite-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:283:31)
-                 *     at genScriptCode (file:///G:/WebStormWS/web-for-vite-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2469:18)
-                 *     at transformMain (file:///G:/WebStormWS/web-for-vite-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2282:54)
-                 *     at Object.transform (file:///G:/WebStormWS/web-for-vite-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2785:16)
-                 *     at file:///G:/WebStormWS/web-for-vite-project-template/node_modules/rollup/dist/es/shared/node-entry.js:24551:40
+                 *     at registerBinding (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4653:19)
+                 *     at walkObjectPattern (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4734:13)
+                 *     at walkDeclaration (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4698:21)
+                 *     at Object.compileScript (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4263:13)
+                 *     at resolveScript (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:283:31)
+                 *     at genScriptCode (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2469:18)
+                 *     at transformMain (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2282:54)
+                 *     at Object.transform (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2785:16)
+                 *     at file:///G:/WebStormWS/web-project-template/node_modules/rollup/dist/es/shared/node-entry.js:24551:40
                  */
                 ...( isEnabled => {
                   return isEnabled
