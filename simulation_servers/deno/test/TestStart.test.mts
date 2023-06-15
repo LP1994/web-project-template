@@ -15,18 +15,12 @@
 
 console.log( `\n\n\n` );
 
-if( true ){
-  import('./npm_mongodb_for_deno.test.mts').catch( ( error: unknown ): void => {
-    console.error( error );
-  } ).finally( (): void => {
-    console.log( `\n\n\n` );
-  } );
-}
-
-if( true ){
-  import('./npm_mongoose_for_deno.test.mts').catch( ( error: unknown ): void => {
-    console.error( error );
-  } ).finally( (): void => {
-    console.log( `\n\n\n` );
-  } );
-}
+/*
+ if( false ){
+ import('./xxx.mts').catch( ( error: unknown ): void => {
+ console.error( error );
+ } ).finally( (): void => {
+ console.log( `\n\n\n` );
+ } );
+ }
+ */

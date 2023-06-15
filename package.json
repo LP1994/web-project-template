@@ -990,7 +990,7 @@
     "sha3": "^2.1.4",
     "shared-worker-loader": "^0.2.0",
     "sharp": "^0.32.1",
-    "single-spa": "^5.9.4",
+    "single-spa": "^5.9.5",
     "single-spa-vue": "^2.5.1",
     "socket.io": "^4.6.2",
     "sockjs": "^0.3.24",
