@@ -74,7 +74,7 @@ const mongooseClientConfig: ConnectOptions = {
    * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
    * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
    */
-  // bufferCommands: true,
+  bufferCommands: true,
 
   // 以上选项是mongoose自己的选项。End
 
@@ -837,7 +837,7 @@ async function run(): Promise<void>{
          * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
          * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
          */
-        // bufferCommands: true,
+        bufferCommands: true,
         /**
          * @type {number} 如果bufferCommands是打开的，这个选项设置Mongoose缓冲在抛出错误之前的最大等待时间，单位是毫秒。<br />
          * 如果不指定，Mongoose将使用10000（10秒）。<br />

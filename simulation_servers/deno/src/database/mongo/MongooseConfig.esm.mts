@@ -67,7 +67,7 @@ const config: ConnectOptions = {
    * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
    * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
    */
-  // bufferCommands: true,
+  bufferCommands: true,
 
   // 以上选项是mongoose自己的选项。End
 
