@@ -45,9 +45,7 @@ async function run(): Promise<void>{
     const mongooseConnectForSingleton: TypeMongooseConnectForSingleton = await MongooseConnectForSingleton();
 
     myMongooseConnection = mongooseConnectForSingleton.MyMongooseConnection;
-    MongooseClient = mongooseConnectForSingleton.MongooseClient;
-
-    MongooseClient = MongooseClient.useDb( 'local' );
+    MongooseClient = mongooseConnectForSingleton.MongooseClient.useDb( 'local' );
 
     console.log( `\n\n${ MongooseClient.db.databaseName }\n\n` );
 
@@ -58,16 +56,6 @@ async function run(): Promise<void>{
     } ) ).toArray();
 
     console.dir( startup_log );
-
-    await myMongooseConnection.close( true );
-
-    const startup_log_collection001: Collection<StartupLogCollectionSchema> = MongooseClient.collection<StartupLogCollectionSchema>( 'startup_log' );
-
-    const startup_log001: Array<StartupLogCollectionSchema> = await ( await startup_log_collection001.find<StartupLogCollectionSchema>( {
-      hostname: 'LPQAQ',
-    } ) ).toArray();
-
-    console.dir( startup_log001 );
   }
   catch( e: unknown ){
     console.error( e );
