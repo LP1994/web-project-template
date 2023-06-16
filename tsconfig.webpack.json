@@ -35,6 +35,7 @@
     "./.git",
     "./.idea",
     "./node_modules",
+    "./simulation_servers/deno/node_modules",
     "./**/*.test.ts",
     "./**/*.test.cts",
     "./**/*.test.mts",

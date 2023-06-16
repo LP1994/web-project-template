@@ -15,10 +15,7 @@ import {
 } from 'npm:mongoose';
 
 import {
-  type MyMongooseConnection,
-  type TypeMongooseConnectForSingleton,
-
-  MongooseConnectForSingleton,
+  MongooseConnect,
 } from './MongooseConnect.esm.mts';
 
 interface StartupLogCollectionSchema {
@@ -37,17 +34,13 @@ interface StartupLogCollectionSchema {
   buildinfo: object;
 }
 
-let myMongooseConnection: MyMongooseConnection,
-  MongooseClient: Connection;
+let MongooseClient: Connection;
 
 async function run(): Promise<void>{
   try{
-    const mongooseConnectForSingleton: TypeMongooseConnectForSingleton = await MongooseConnectForSingleton();
+    MongooseClient = MongooseConnect().useDb( 'local' );
 
-    myMongooseConnection = mongooseConnectForSingleton.MyMongooseConnection;
-    MongooseClient = mongooseConnectForSingleton.MongooseClient.useDb( 'local' );
-
-    console.log( `\n\n${ MongooseClient.db.databaseName }\n\n` );
+    console.dir( MongooseClient.name );
 
     const startup_log_collection: Collection<StartupLogCollectionSchema> = MongooseClient.collection<StartupLogCollectionSchema>( 'startup_log' );
 
@@ -61,7 +54,7 @@ async function run(): Promise<void>{
     console.error( e );
   }
   finally{
-    await myMongooseConnection.close( true );
+    await MongooseClient.close( true );
   }
 }
 

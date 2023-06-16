@@ -726,7 +726,7 @@
     "filemanager-webpack-plugin": "^8.0.0",
     "fork-ts-checker-notifier-webpack-plugin": "^7.0.0",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
-    "formidable": "^3.2.5",
+    "formidable": "^3.3.2",
     "generate-package-json-webpack-plugin": "^2.6.0",
     "gif2webp-bin": "^5.0.0",
     "gifsicle": "^7.0.1",
