@@ -114,8 +114,11 @@
       "esnext.weakref"
     ]
   },
+  "tasks": {
+    "start": "deno run -A --watch --config=./deno.json --lock=./deno.lock --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m"
+  },
   "exclude": [],
-  "nodeModulesDir": true,
+  "nodeModulesDir": false,
   "importMap": "./import_map.json",
-  "lock": "./lock.json"
+  "lock": "./deno.lock"
 }

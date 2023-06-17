@@ -72,7 +72,7 @@
 
 /**
  * 在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：
- * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m
+ * deno run -A --watch --config=./deno.json --lock=./deno.lock --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m
  * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。
  */
 import {
@@ -477,7 +477,7 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
  * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
  *
  * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
- * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m <br />
+ * deno run -A --watch --config=./deno.json --lock=./deno.lock --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m <br />
  * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
  */
 export class MyConsole {
@@ -505,7 +505,7 @@ export class MyConsole {
    * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
    *
    * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
-   * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m <br />
+   * deno run -A --watch --config=./deno.json --lock=./deno.lock --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m <br />
    * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
    *
    * @param {object} config 初始化字体颜色（color）、背景色（bgColor），可选。<br />
@@ -1855,7 +1855,7 @@ export default {
    * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
    *
    * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
-   * deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m <br />
+   * deno run -A --watch --config=./deno.json --lock=./deno.lock --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m <br />
    * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
    */
   MyConsole,

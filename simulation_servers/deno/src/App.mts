@@ -7,7 +7,7 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
-// deno run -A --watch --config=deno.json --lock=lock.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 ./src/App.mts --color=16m
+// deno run -A --watch --config=./deno.json --lock=./deno.lock --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m
 
 /**
  * 这是程序的启动入口。
