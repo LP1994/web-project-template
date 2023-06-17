@@ -7,6 +7,8 @@
  * CreateDate: 2023-06-16 07:49:37 星期五
  */
 
+// deno run -A --watch --config=../../../deno.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./Test001.mts --color=16m
+
 'use strict';
 
 import {
