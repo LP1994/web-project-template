@@ -1242,7 +1242,7 @@ async function run(): Promise<void>{
      } );
      */
 
-    // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”。
+    // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”，也就是一个Collection（相当于一张表）。
     const Kitten: TKittenModel = client.model<
       IKitty,
       IKittyModel,
@@ -1262,7 +1262,7 @@ async function run(): Promise<void>{
     // 查找。
     let kittenQuantity: number = ( await Kitten.find() ).length;
 
-    // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象。
+    // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象，也就是一个Document（相当于一条记录）。
     const kitten001: TKittenInstance = new Kitten( {
       name: `喵喵${ ++kittenQuantity }号`,
       sex: '翠花',
