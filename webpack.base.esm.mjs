@@ -102,7 +102,7 @@ import package_json from './package.json' assert { type: 'json', };
 
 import postcss from 'postcss';
 
-import * as DartSass from 'sass';
+import DartSass from 'sass';
 
 import Stylus from 'stylus';
 
