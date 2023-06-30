@@ -1098,7 +1098,7 @@ async function run(): Promise<void>{
             } );
           },
         },
-        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“虚方法”，类似于vue中的“computed（计算属性）”。
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“虚方法”，类似于vue中的“computed（计算属性），也类似ES6语法中class类里的getter、setter”。
         virtuals: {
           fullName: {
             get(
