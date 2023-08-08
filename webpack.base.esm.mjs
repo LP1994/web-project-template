@@ -295,22 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230719。Start
+    // PC端各主流浏览器的最新版本，至20230808。Start
     'Chrome >= 115',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 115',
-    'Firefox >= 115',
+    'Firefox >= 116',
     'Safari >= 16',
-    'Opera >= 100',
-    // PC端各主流浏览器的最新版本，至20230719。End
+    'Opera >= 101',
+    // PC端各主流浏览器的最新版本，至20230808。End
 
-    // 移动端各主流浏览器的最新版本，至20230719。Start
+    // 移动端各主流浏览器的最新版本，至20230808。Start
     'ChromeAndroid >= 115',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 115',
-    'FirefoxAndroid >= 115',
+    'FirefoxAndroid >= 116',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20230719。End
+    // 移动端各主流浏览器的最新版本，至20230808。End
   ],
   /**
    * @type {string[]} 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -339,17 +339,17 @@ const browserslist = [
 
     'es2023',
 
-    // PC端各主流浏览器的最新版本，至20230719。Start
+    // PC端各主流浏览器的最新版本，至20230808。Start
     'chrome115',
     'edge115',
-    'firefox115',
+    'firefox116',
     'safari16',
-    'opera100',
-    // PC端各主流浏览器的最新版本，至20230719。End
+    'opera101',
+    // PC端各主流浏览器的最新版本，至20230808。End
 
-    // 移动端各主流浏览器的最新版本，至20230719。Start
+    // 移动端各主流浏览器的最新版本，至20230808。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20230719。End
+    // 移动端各主流浏览器的最新版本，至20230808。End
   ],
   /**
    * @type {object} 目标浏览器版本。<br />
@@ -381,19 +381,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230719。Start
+    // PC端各主流浏览器的最新版本，至20230808。Start
     chrome: 115,
     edge: 115,
-    firefox: 115,
+    firefox: 116,
     safari: 16,
-    opera: 100,
-    // PC端各主流浏览器的最新版本，至20230719。End
+    opera: 101,
+    // PC端各主流浏览器的最新版本，至20230808。End
 
-    // 移动端各主流浏览器的最新版本，至20230719。Start
+    // 移动端各主流浏览器的最新版本，至20230808。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 115,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20230719。End
+    // 移动端各主流浏览器的最新版本，至20230808。End
   },
   /**
    * @type {object} 编译目标配置。
@@ -522,7 +522,7 @@ const autoprefixerConfig = {
      *
      * for( const item of arr001 ){
      *   str001 + = item;
-     *   
+     *
      *   console.log( `index--->${ ++index }` );
      * }
      * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
@@ -1538,33 +1538,33 @@ const aliasConfig = {
    *   当设置为'auto'时，此选项始终允许localhost、host和client.webSocketURL.hostname。<br />
    *   2)当为[ string ]时，值例子：[ 'host.com', 'subdomain.host.com', 'subdomain2.host.com', 'host2.com', ]。<br />
    *   模仿Django的ALLOWED_HOSTS，一个以.开头的值。可以用作子域通配符。.host.com将匹配host.com、www.host.com和host.com的任何其他子域。 <br />
-   * 
+   *
    * bonjour：此选项在启动时通过ZeroConf网络广播服务器。<br />
    * 1、有效值类型有2种：boolean（true表示启用，false表示禁用）、object。<br />
-   * 
+   *
    * client：允许在浏览器中为客户端脚本指定选项或禁用客户端脚本。<br />
    * 1、有效值类型有2种：boolean（只有一个有效可用的false用来表示禁用，true会报错！）、object。<br />
    * 2、当为object时，其选项如下：<br />
    *   {<br />
    *   logging：允许在浏览器中设置日志级别，例如在重新加载之前、发生错误之前或启用热模块更换时。<br />
    *   有效值：'log'、'info'、'warn'、'error'、'none'、'verbose'。<br />
-   *   
+   *
    *   overlay：当出现编译器错误或警告时，在浏览器中显示全屏覆盖。<br />
    *     1)值类型有：boolean（true表示启用，false表示禁用）、object。<br />
    *     2)当为object时，选项如下：<br />
    *     {<br />
    *     errors：boolean，当出现编译器错误时，在浏览器中启用全屏覆盖。<br />
-   *     
+   *
    *     warnings：boolean，当出现编译器警告时，在浏览器中启用全屏覆盖。<br />
-   *     
+   *
    *     trustedTypesPolicyName：string，覆盖的受信任类型策略的名称。默认为“webpack-dev-server#overlay”。<br />
    *     }<br />
-   *   
+   *
    *   progress：在浏览器中以百分比形式打印编译进度。<br />
-   *   
+   *
    *   reconnect：告诉dev-server它应该尝试重新连接客户端的次数。如果为true，它将尝试无限次重新连接。<br />
    *   值类型有：boolean（true，它将尝试无限次重新连接，false表示告诉开发人员服务器不要尝试重新连接客户端），number（指定尝试重新连接客户端的次数，最小值为0）。<br />
-   *   
+   *
    *   webSocketTransport：此选项允许我们为客户端单独选择当前的devServer传输模式或提供自定义客户端实现。这允许指定浏览器或其他客户端如何与devServer通信。<br />
    *     1）允许设置自定义web socket传输以与开发人员服务器通信。<br />
    *     2）值类型为string，其中有2个预设值：sockjs、ws。<br />
@@ -1585,7 +1585,7 @@ const aliasConfig = {
    *     },
    *     webSocketServer: require.resolve('./CustomServer'),
    *     }
-   *     
+   *
    *   webSocketURL：此选项允许指Web套接字服务器的URL（当您代理开发服务器并且客户端脚本并不总是知道连接到哪里时很有用）。<br />
    *     1)有效值类型有2种：string（如：'ws://0.0.0.0:8080/ws'）、object。<br />
    *     2)为object时，有如下选项：<br />
@@ -1599,9 +1599,9 @@ const aliasConfig = {
    *     }<br />
    *     3)要从浏览器获取“protocol/hostname/port”，请使用 webSocketURL：'auto://0.0.0.0:0/ws'。
    *   }<br />
-   * 
+   *
    * compress：为服务启用gzip压缩（true表示为所有服务启用gzip压缩，false表示禁用所有服务的gzip压缩）。<br />
-   * 
+   *
    * devMiddleware：为处理webpack资产的webpack-dev-middleware提供选项。<br />
    * 其中的选项有：<br />
    * {<br />
@@ -1617,11 +1617,11 @@ const aliasConfig = {
    *     res.setHeader( "Last-Modified", new Date() );
    *   }
    *   第3种：headers: () => [ { key: "X-custom-header", value: "foo" }, ]
-   * 
+   *
    * index：允许提供目录索引。<br />
    * 1、如果为false（但不是undefined），服务器将不会响应对根URL的请求。<br />
    * 2、有效值类型：Boolean、String，默认值系index.html：<br />
-   * 
+   *
    * methods：允许传递中间件接受的HTTP请求方法列表。<br />
    * 1、有效值类型：Array，默认值：[ 'GET', 'HEAD' ]。<br />
    * 2、到目前为止的9种HTTP请求方法：<br />
@@ -1634,26 +1634,26 @@ const aliasConfig = {
    * OPTIONS：OPTIONS方法描述了目标资源的通信选项。<br />
    * TRACE：TRACE方法沿到目标资源的路径执行消息环回测试。<br />
    * PATCH：PATCH方法将部分修改应用于资源。<br />
-   * 
+   *
    * mimeTypes：允许注册自定义mime类型或扩展映射。<br />
    * 1、有效值类型：Object，默认值为undefined，值形如：mimeTypes: { phtml: 'text/html' }。<br />
-   * 
+   *
    * outputFileSystem：设置webpack将使用的默认文件系统作为生成文件的主要目标。<br />
    * 1、有效值类型：Object，默认值为memfs。<br />
    * 2、设置webpack将使用的默认文件系统作为生成文件的主要目标。此选项不受writeToDisk选项的影响。<br />
    * 3、您必须手动为outputFileSystem实例提供.join()和mkdirp方法，以便与webpack@4兼容。<br />
-   * 
+   *
    * publicPath：中间件绑定的公共路径，指定在浏览器中引用时输出文件的公共URL地址。<br />
    * 1、有效值类型：String、Function，默认值取webpack配置中的output.publicPath。<br />
    * 2、当值类型为String时，有1个预置值：auto。<br />
    * 3、当设置值为如'/XXX1'时，浏览器请求的资源URL就得如：http://localhost:8100/XXX1/js/a.js、http://localhost:8100/XXX1/html/a.html。<br />
    * 4、这个值设置需要注意，'./'、'../'这种尤其注意！并不会都如期望的那样。<br />
-   * 
+   *
    * serverSideRender：指示模块启用或禁用服务器端渲染模式。<br />
    * 1、有效值类型：Boolean，默认值为undefined。<br />
-   * 
+   *
    * stats：stats选项对象或预设名称，默认值取webpack配置中的stats选项的值。<br />
-   * 
+   *
    * writeToDisk：指示模块将文件写入webpack配置中指定的磁盘上配置的位置。<br />
    * 1、有效值类型：Boolean、Function，默认值为false。<br />
    * 2、如果为true，该选项将指示模块将文件写入磁盘上的配置位置，如webpack配置文件中指定的那样。<br />
@@ -1661,9 +1661,9 @@ const aliasConfig = {
    * 4、此选项还接受一个Function值，该值可用于过滤哪些文件写入磁盘。该函数遵循与Array.filter相同的前提，其中返回值为false时不会写入文件，返回值为true时会将文件写入磁盘，例如：<br />
    * writeToDisk: filePath => /superman\.css$/.test(filePath)
    * }<br />
-   * 
+   *
    * headers：为所有响应添加标头，同devMiddleware.headers。<br />
-   * 
+   *
    * historyApiFallback：使用HTML5 History API时，可能必须提供index.html页面来代替任何404响应。通过将devServer.historyApiFallback设置为true来启用它。<br />
    * 1、允许通过指定的索引页（默认为“index.html”）代理请求，这对于使用HTML5历史API的单页应用程序很有用。
    * 2、有效值：boolean（false表示不允许通过指定的索引页代理请求）、object。<br />
@@ -1681,7 +1681,7 @@ const aliasConfig = {
    * index：覆盖索引（默认/index.html），这是中间件识别请求路径需要重写时将使用的请求路径。<br />
    *   1)这不是磁盘上文件的路径。相反它是HTTP请求路径。下游connect/express中间件负责将这个重写的HTTP请求路径转换为实际响应，例如通过从磁盘读取文件。<br />
    *   2)有效值类型：string，默认值'/index.html'。<br />
-   * 
+   *
    * rewrites：当请求url匹配正则表达式模式时覆盖索引，您可以重写为“静态字符串”或使用“函数”来转换传入请求。<br />
    *   1)下面会将匹配/\/soccer/模式的请求重写为/soccer.html：<br />
    *   rewrites: [ { from: /\/soccer/, to: '/soccer.html' }, ]
@@ -1699,31 +1699,31 @@ const aliasConfig = {
    *   context.parsedUrl：URL模块的url.parse提供的有关URL的信息。<br />
    *   context.match：由String.match()提供的匹配结果数组。<br />
    *   context.request：HTTP请求对象。<br />
-   * 
+   *
    * verbose：该中间件默认不记录任何信息。如果您希望激活日志记录，则可以通过详细选项或指定记录器函数来执行此操作。<br />
    *   1)为true表示启用。<br />
-   * 
+   *
    * htmlAcceptHeaders：覆盖默认的Accepts:，匹配HTML内容请求时查询的标头，如：['text/html', 'application/xhtml+xml']。<br />
-   * 
+   *
    * disableDotRule：在路径中使用点时（在Angular中很常见），禁用点规则disableDotRule: true。<br />
    * }<br />
-   * 
+   *
    * host：允许指定要使用的主机名。<br />
    * 1、有效值类型：string，其中有3个预设值：'local-ip'、'local-ipv4'、'local-ipv6'。<br />
    * 2、如果您希望您的服务器可以从外部访问，可以将值设置为'0.0.0.0'。<br />
    * 3、'local-ip'：指定为主机将尝试将主机选项解析为您的本地IPv4地址（如果可用），如果IPv4不可用，它将尝试解析您的本地IPv6地址。<br />
    * 4、实测注意一点，当用'0.0.0.0'这个值设置给“devServer.host”时，会让服务器可以从外部访问，包括：本地（localhost）、局域网（如：192.168.1.3）、IPV6等等，但是不能用'0.0.0.0'来访问（访问不了！），还是得通过：本地（localhost）、局域网（如：192.168.1.3）来访问的。<br />
-   * 
+   *
    * hot：是否启用webpack的热模块替换功能。<br />
    * 1、有效值类型：boolean、string（只有一个有效值'only'）。<br />
    * 2、为了在构建失败的情况下启用热模块替换而不刷新页面作为后备，请使用hot: 'only'。<br />
    * 3、从webpack-dev-server v4开始，默认启用HMR。它会自动应用启用HMR所需的webpack.HotModuleReplacementPlugin。因此，当hot在config中或通过CLI选项--hot设置为true时，您不必将此插件添加到webpack.config.js中。<br />
-   * 
+   *
    * http2：允许使用SPDY通过HTTP2提供服务。已弃用，请使用devServer.server。<br />
    * 1、有效值类型：boolean，true表示启用带有自签名证书的HTTP/2。<br />
    * 2、使用spdy通过HTTP/2服务。对于Node 15.0.0及更高版本，此选项将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
    * 3、也可以使用devServer.https选项提供您自己的证书。<br />
-   * 
+   *
    * https：默认情况下，dev-server将通过HTTP提供服务。它可以选择通过HTTPS提供服务。此选项已弃用，取而代之的是devServer.server选项。<br />
    * 1、允许为TLS配置服务器的侦听套接字（默认情况下，dev-server将通过HTTP提供服务）。已弃用，请使用“devServer.server”选项。<br />
    * 2、有效值类型：boolean、object，此对象直接传递给Node.js HTTPS模块，因此请参阅HTTPS文档（https://nodejs.org/api/https.html）了解更多信息。<br />
@@ -1731,57 +1731,57 @@ const aliasConfig = {
    * devServer: {
    *   https: {
    *     minVersion: 'TLSv1.1',
-   *     
+   *
    *     // string、Buffer、[ string、Buffer ]，SSL密钥的路径或SSL密钥的内容。已弃用，请使用“devServer.devServer.server.options.key”选项。
    *     key: fs.readFileSync(path.join(__dirname, './server.key')),
-   *     
+   *
    *     // string、Buffer、[ string、Buffer ]，SSL pfx文件的路径或SSL pfx文件的内容。已弃用，请使用“devServer.devServer.server.options.pfx”选项。
    *     pfx: fs.readFileSync(path.join(__dirname, './server.pfx')),
-   *     
+   *
    *     // string、Buffer、[ string、Buffer ]，SSL证书的路径或SSL证书的内容。已弃用，请使用“devServer.server.options.cert”选项。
    *     cert: fs.readFileSync(path.join(__dirname, './server.crt')),
-   *     
+   *
    *     // string、Buffer、[ string、Buffer ]，SSL CA证书的路径或SSL CA证书的内容。已弃用，请使用“devServer.server.options.ca”选项。
    *     ca: fs.readFileSync(path.join(__dirname, './ca.pem')),
-   *     
+   *
    *     // string、Buffer、[ string、Buffer ]，SSL CA证书的路径或SSL CA证书的内容。已弃用，请使用“devServer.server.options.ca”选项。
    *     cacert,
-   *     
+   *
    *     // string、Buffer、[ string、Buffer ]，PEM格式CRL（证书吊销列表）的路径或PEM格式CRL（证书吊销列表）的内容。已弃用，请使用“devServer.server.options.crl”选项。
    *     crl,
-   *     
+   *
    *     // string，pfx文件的密码短语。已弃用，请使用“devServer.server.options.passphrase”选项。
    *     passphrase: 'webpack-dev-server',
-   *     
+   *
    *     // boolean，请求SSL证书。已弃用，请使用“devServer.server.options.requestCert”选项。
    *     requestCert: true,
    *   },
    * }
    * 4、不要同时指定https.ca和https.cacert选项，如果指定了https.ca将被使用。https.cacert已弃用，将在下一个主要版本中删除。<br />
-   * 
+   *
    * ipc：是否收听unix套接字（而不是devServer.host）。<br />
    * 1、有效值类型：boolean（只有一个有效值true，将其设置为true将监听/your-os-temp-dir/webpack-dev-server.sock中的套接字）、string。<br />
    * 2、还可以使用以下命令监听不同的套接字：ipc: path.join(__dirname, 'my-socket.sock')。<br />
-   * 
+   *
    * liveReload：启用重新加载检测到文件更改时重新加载/刷新页面（默认情况下启用）。<br />
    * 1、有效值类型：boolean。<br />
    * 2、必须禁用devServer.hot选项或启用devServer.watchFiles选项才能使liveReload生效。通过将devServer.liveReload设置为false来禁用它。<br />
    * 3、实时重新加载仅适用于与web相关的target，例如将target选项设置为：web、webworker、electron-renderer、node-webkit。<br />
-   * 
+   *
    * magicHtml：从v4.1.0+开始启用，告诉dev-server是否启用魔法HTML路由（与webpack输出相对应的路由，例如：/main for main.js，“main”代表“main.js”）。<br />
    * 1、有效值类型：boolean。<br />
-   * 
+   *
    * onAfterSetupMiddleware：提供在服务器内部的所有其他中间件之后执行自定义中间件的能力。<br />
    * 1、有效值类型：Function，形如：function(devServer){}。<br />
    * 2、此选项已弃用，取而代之的是devServer.setupMiddlewares选项。<br />
-   * 
+   *
    * onBeforeSetupMiddleware：提供在服务器内部的所有其他中间件之前执行自定义中间件的能力。这可用于定义自定义处理程序。<br />
    * 1、有效值类型：Function，形如：function(devServer){}。<br />
    * 2、此选项已弃用，取而代之的是devServer.setupMiddlewares选项。<br />
-   * 
+   *
    * onListening：当webpack-dev-server开始侦听端口上的连接时，提供执行自定义函数的能力。<br />
    * 1、有效值类型：Function，形如：function(devServer){}。<br />
-   * 
+   *
    * open：告诉dev-server在服务器启动后打开浏览器。将其设置为true以打开默认浏览器。详细见：https://github.com/sindresorhus/open
    * 1、有效值类型：boolean、string（指的是要打开的页面）、object、[ string、object ]。<br />
    * 2、浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”、“google chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
@@ -1789,7 +1789,7 @@ const aliasConfig = {
    * {<br />
    * target：在浏览器中打开指定页面。<br />
    *   1)有效值类型有：string、[ string ]，例如：'/index.html'、'http://localhost:8080/index.html'。<br />
-   * 
+   *
    * app：打开指定的浏览器。<br />
    *   1)有效值类型有：string（该值类型已经弃用，请用值类型为object时，其中的name选项）、object。<br />
    *   2)当值类型为object时有如下选项：<br />
@@ -1798,30 +1798,30 @@ const aliasConfig = {
    *   浏览器应用程序名称取决于平台。不要在可重用的模块中对其进行硬编码。例如，“Chrome”在macOS上是“Google Chrome”、“google chrome”，在Linux上是“google-chrome”，在Windows上是“chrome”。<br />
    *   实际测试，当name的值为数组时，只能对数组里第一个应用生效。<br />
    *   在Windows上测试出能打开的Windows平台上这些浏览器应用名（不同系统应用名可能会不一样）：chrome、msedge、firefox、opera。<br />
-   *   
+   *
    *   arguments：[ string ]，[ '--incognito', '--new-window', ]，打开浏览器应用时所传给它的参数，这些参数取决于浏览器应用。检查浏览器应用的文档以了解它接受哪些参数。<br />
    *   --incognito：以隐私模式打开浏览器。<br />
    *   }<br />
    * }<br />
-   * 
+   *
    * port：指定一个端口号来监听请求。<br />
    * 1、有效值类型有：string（有一个预设值'auto'，表示自动使用空闲端口）、number。<br />
    * 2、该选项值不能为null或空字符串，要自动使用空闲端口，请使用port: 'auto'。<br />
-   * 
+   *
    * proxy：当你有一个单独的API后端开发服务器并且你想在同一个域上发送API请求时，代理一些URL会很有用。<br />
    * 1、有效值类型有：object、[ object、function ]。<br />
    * 2、默认情况下，不接受在HTTPS上运行且证书无效的后端服务器。如果您愿意，请像这样修改您的配置secure: false。<br />
    * 3、默认情况下，代理时会保留主机头的来源，您可以将changeOrigin设置为true以覆盖此行为。它在某些情况下很有用，例如使用基于名称的虚拟托管站点。<br />
    * 4、请注意，http-proxy-middleware的某些功能不需要“target”选项，例如它的“router”选项，但是您仍然需要在此处的配置中包含“target”选项，否则webpack-dev-server不会将其传递给http-proxy-middleware。<br />
    * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v2.0.6”的，因为“webpack 5”也是引用“http-proxy-middleware”的，而“http-proxy-middleware”有一个3.X的版本正在预备中，其配置写法有很大的变化。<br />
-   * 
+   *
    * server：从v4.4.0+开始启用，允许设置服务器和选项（默认为“http”）。<br />
    * 1、有效值类型：string（其中预设的有：http、https、spdy）、object。<br />
    * 2、关于值“spdy”的注意事项，对于Node 15.0.0及更高版本，此选项值将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
    * 3、使用对象语法提供您自己的证书：<br />
    * {<br />
    * type：可选http、https、spdy三者其中之一。<br />
-   * 
+   *
    * options：有8个属性，它还允许您设置其他TLS选项，例如：minVersion: 'TLSv1.1'。<br />
    *   {<br />
    *   passphrase：有效值类型为string，pfx文件的密码短语，就是生成数字证书时设置的密码。<br />
@@ -1835,72 +1835,72 @@ const aliasConfig = {
    *   }<br />
    * 如果将使用指定的server.options.ca，请不要同时指定server.options.ca和server.options.cacert选项。server.options.cacert已弃用，将在下一个主要版本中删除。<br />
    * }<br />
-   * 
+   *
    * setupExitSignals：允许关闭开发服务器并在SIGINT和SIGTERM信号上退出进程。<br />
    * 1、有效值类型为boolean。<br />
-   * 
+   *
    * setupMiddlewares：从v4.7.0+开始启用，提供执行自定义函数和应用自定义中间件的能力。<br />
    * 1、有效值类型为一个函数（有两个函数参数：middlewares、devServer），返回值必须将第一个函数参数middlewares返回。<br />
    * 2、middlewares.unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
    * 3、middlewares.push方法对标之前的onAfterSetupMiddleware方法。<br />
-   * 
+   *
    * static：此选项允许配置用于从目录（默认为“public”目录）提供静态文件的选项。<br />
    * 1、有效值类型有：boolean、string、object、[string, object]，值为false表示禁用该项。<br />
    * 2、值类型为string时，一般表示文件夹名、路径名之类的。<br />
    * 3、值类型为object时，有如下属性：<br />
    * {<br />
    * directory：string，告诉服务器从哪里提供内容。仅当您要提供静态文件时才需要这样做，建议使用绝对路径。<br />
-   * 
+   *
    * staticOptions：object，可以配置用于从static.directory提供静态文件的高级选项。有关可能的选项，请参阅Express文档（http://expressjs.com/en/4x/api.html#express.static、http://expressjs.com/en/starter/static-files.html）。<br />
    *   {<br />
    *   dotfiles：string，默认值：ignore，确定如何处理点文件（以点“.”开头的文件或目录）。<br />
    *   1、有效值为：allow（点文件没有特殊处理）、deny（拒绝对点文件的请求，以403响应，然后调用next()）、ignore（就当点文件不存在，响应404，然后调用next()）。<br />
    *   2、注意：使用默认值ignore，它不会忽略以点开头的目录中的文件。<br />
-   *   
+   *
    *   etag：boolean，默认值true，启用或禁用etag生成。<br />
    *   1、注意：express.static总是发送弱ETag。<br />
-   *   
+   *
    *   extensions：[ string ]，默认值false，设置文件扩展名后备：如果找不到文件，则搜索具有指定扩展名的文件并提供找到的第一个文件。<br />
-   *   
+   *
    *   fallthrough：boolean，默认值true，让客户端错误作为未处理的请求通过，否则转发客户端错误。<br />
    *   1、当此选项为true时，客户端错误（例如错误请求或对不存在文件的请求）将导致此中间件简单地调用next()来调用堆栈中的下一个中间件，当为false时，这些错误（甚至是404）将调用next(err)。<br />
    *   2、将此选项设置为true，这样您就可以将多个物理目录映射到同一个Web地址或路由以填充不存在的文件。<br />
    *   3、如果您已将此中间件安装在严格设计为单个文件系统目录的路径上，请使用false，这允许短路404以减少开销。这个中间件也会回复所有的方法。<br />
-   *   
+   *
    *   immutable：boolean，默认值false，在Cache-Control响应标头中启用或禁用不可变指令。如果启用，还应指定maxAge选项以启用缓存。<br />
    *   1、immutable指令将阻止受支持的客户端在maxAge选项的生命周期内发出条件请求以检查文件是否已更改。<br />
-   *   
+   *
    *   index：发送指定的目录索引文件。设置为false以禁用目录索引。<br />
-   *   
+   *
    *   lastModified：boolean，默认值true，将Last-Modified标头设置为操作系统上文件的最后修改日期。<br />
-   *   
+   *
    *   maxAge：number、string（如：'1d'表示1天），默认值为0，设置Cache-Control标头的max-age属性（以毫秒为单位）或ms格式的字符串。<br />
-   *   
+   *
    *   redirect：boolean，默认值true，当路径名是目录时，重定向到结尾的“/”。<br />
-   *   
+   *
    *   setHeaders：function，用于设置HTTP标头以与文件一起服务的功能。<br />
    *   1、对于此选项，指定一个函数来设置自定义响应标头。对标头的更改必须同步发生。<br />
    *   2、fn(res, path, stat)，res：响应对象，path：正在发送的文件路径，stat：正在发送的文件的stat对象。<br />
    *   }<br />
-   * 
+   *
    * publicPath：告诉服务器在哪个URL上提供static.directory内容。<br />
    * 1、有效值类型：string。<br />
    * 2、publicPath: '/dev-server-static-public-path'，效果示意为浏览器将发起这样的请求：http://localhost:3000/dev-server-static-public-path/css/style.css，而该中间件将从directory选项指定的目录下查找层级为“css/style.css”的文件。<br />
    * 3、这个值设置需要注意，'./'、'../'这种尤其注意！并不会都如期望的那样。<br />
-   * 
+   *
    * serveIndex：告诉dev-server在启用时使用serveIndex中间件，serveIndex选项为该中间件在查看没有index.html文件的目录时生成目录列表。<br />
    * 1、有效值类型：boolean、object。<br />
    * 2、值类型为object时，可查看文档（https://github.com/expressjs/serve-index#options）。<br />
-   * 
+   *
    * watch：告诉dev-server监视由static.directory选项提供的文件。它默认启用，文件更改将触发整个页面重新加载。这可以通过将watch选项设置为false来禁用。<br />
    * 1、有效值类型：boolean、object。<br />
    * 2、可以配置用于从static.directory观看静态文件的高级选项。有关可能的选项，请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
    * }<br />
-   * 
+   *
    * watchFiles：此选项允许您配置“globs/directories/files”以监视文件更改。一般情况下不需要设置该选项。<br />
    * 1、有效值类型：string、object、[string, object]。<br />
    * 2、当值类型为object时，有关可能的选项（paths、options），请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
-   * 
+   *
    * webSocketServer：此选项允许我们选择当前的web-socket服务器或提供自定义web-socket服务器实现。<br />
    * 1、有效值类型：boolean（false）、string（'sockjs'、'ws'）、function、object。<br />
    * 2、当模式是“ws”时。此模式使用ws作为服务器，在客户端使用原生WebSocket。<br />
@@ -2484,20 +2484,20 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * 5、除了设置成Boolean值，还可以是更加详细的Object值：<br />
      * {<br />
      * allowedUris：[ string，例如：http://localhost:9990/ ]、[ RegExp，例如：^https?:// ]、[ Function，例如：(uri: string) => boolean ]，允许的URI列表（分别是它们的开头）。<br />
-     * 
+     *
      * cacheLocation：string、false，定义缓存远程资源的位置。也可以通过传递false来禁用存储。<br />
      * 1、默认情况下，webpack会使用<compiler-name.>webpack.lock.data/进行缓存。<br />
      * 2、请注意，您应该将experiments.buildHttp.cacheLocation下的文件提交到版本控制系统中，因为在生产构建期间不会发出任何网络请求。<br />
-     * 
+     *
      * frozen：boolean，冻结远程资源和lockfile。对lockfile或资源内容的任何修改都将导致错误。<br />
-     * 
+     *
      * lockfileLocation：string，定义存储lockfile的位置。<br />
      * 1、默认情况下，webpack会生成一个<compiler-name.>webpack.lock>文件，您需要确保将其提交到版本控制系统中。<br />
      * 2、因为在生产构建期间，webpack将从experiments.buildHttp.cacheLocation下的lockfile和缓存提取资源来构建以http(s):开头的模块。<br />
-     * 
+     *
      * proxy：string，指定用于获取远程资源的代理服务器。<br />
      * 1、默认情况下，webpack会暗示使用代理服务器从http_proxy（不区分大小写）环境变量中获取远程资源。但是，您也可以通过代理选项指定一个。<br />
-     * 
+     *
      * upgrade：boolean，检测远程资源的更改并自动升级它们。<br />
      * 1、设置后，将获取现有lockfile条目的资源，并在资源内容发生更改时升级条目。<br />
      * }<br />
@@ -2566,51 +2566,51 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      *   参数说明：<br />
      *   Compiler：import('../lib/Compiler')
      *   BackendApi：import('../lib/hmr/LazyCompilationPlugin').BackendApi
-     *   
+     *
      *   (2)、Function<br />
      *   (compiler: Compiler) => Promise<BackendApi>
      *   参数说明：<br />
      *   Compiler：import('../lib/Compiler')
      *   BackendApi：import('../lib/hmr/LazyCompilationPlugin').BackendApi
-     *   
+     *
      *   (3)、Object<br />
      *   {<br />
      *   client：string，自定义客户端。<br />
-     *   
+     *
      *   listen：指定从服务器收听的位置。<br />
      *   1、有效值类型有3种：<br />
      *     1)number：表示一个端口。<br />
-     *     
+     *
      *     2)ListenOptions：import('net').ListenOptions
      *     参数说明：<br />
      *     {<br />
      *     host：string，表示一个主机。<br />
      *     port：number，表示一个端口。<br />
      *     }<br />
-     *     
+     *
      *     3)Function：(server: Server) => void
      *     参数说明：<br />
      *     Server：import('net').Server
-     *   
+     *
      *   protocol：指定客户端用于连接服务器的协议。<br />
      *   1、有效值："http"、"https"。<br />
-     *   
+     *
      *   server：指定如何创建处理EventSource请求的服务器。<br />
      *   1、有效值类型有3种：<br />
      *     1)ServerOptionsImport：import('http').ServerOptions
-     *     
+     *
      *     2)ServerOptionsHttps：import('https').ServerOptions
-     *     
+     *
      *     3)Function：() => Server
      *     参数说明：<br />
      *     Server：import('net').Server
      *   }<br />
-     * 
+     *
      * entries：boolean，为“entries”启用延迟编译。<br />
-     * 
+     *
      * imports：boolean，为“动态import”启用延迟编译。<br />
      * 1、开始可用版本：5.20.0+。<br />
-     * 
+     *
      * test：string、RegExp、( module: import( '../lib/Module' ) ) => boolean，指定应该延迟编译哪些导入的模块。<br />
      * 1、开始可用版本：5.20.0+。<br />
      * 2、指定应延迟编译哪些“entrypoints”或“动态import”。这与导入的模块匹配，而不是入口点名称。<br />
@@ -2999,32 +2999,32 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    *   3、当值类型为object时：<br />
    *   {<br />
    *   encoding：false、string，默认为base64，当设置为“base64”时，模块源将使用Base64算法进行编码。将encoding设置为false将禁用编码。<br />
-   *   
+   *
    *   mimetype：string，数据URI的mimetype（默认情况下从文件扩展名获取）。<br />
    *   }<br />
-   *   
+   *
    *   emit：boolean，5.25.0+开始支持，从此资源模块发出输出资源。这可以设置为false，以忽略发射，例如SSR（服务器端渲染）。<br />
-   *   
+   *
    *   filename：与output.assetModuleFilename相同，但针对特定规则。覆盖output.assetModuleFilename并且仅适用于“asset”和“asset/resource”模块类型。<br />
-   *   
+   *
    *   outputPath：5.67.0+开始支持，相对于“output.path”发出指定文件夹中的资产。只有在指定自定义“publicPath”以匹配那里的文件夹结构时，才需要此选项。<br />
-   *   
+   *
    *   publicPath：5.28.0+开始支持，为特定资产模块定制publicPath，同output.publicPath。<br />
    *   }<br />
-   * 
+   *
    * asset/inline：内联资产模块的生成器选项。<br />
    *   {<br />
    *   dataUrl：同asset.dataUrl。<br />
    *   }<br />
-   * 
+   *
    * asset/resource：asset/resource模块的生成器选项。<br />
    *   {<br />
    *   emit：同asset.emit。<br />
-   *   
+   *
    *   filename：同asset.filename。<br />
-   *   
+   *
    *   outputPath：同asset.outputPath。<br />
-   *   
+   *
    *   publicPath：同asset.publicPath。<br />
    *   }<br />
    * }<br />
@@ -3035,64 +3035,66 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    *   {<br />
    *   dataUrlCondition：object，将资产内联为DataUrl的条件，其属性同module.generator.asset.dataUrl。<br />
    *   }<br />
-   * 
+   *
    * 'javascript/auto'：同上述的“javascript”。<br />
-   * 
+   *
    * 'javascript/dynamic'：同上述的“javascript”。<br />
-   * 
+   *
    * 'javascript/esm'：同上述的“javascript”。<br />
-   * 
+   *
    * javascript：object，javascript模块的解析器选项，下述选项不是全部的，太多了，我没全部记录。<br />
    *   {<br />
    *   commonjs：boolean，分析CommonJS语法。<br />
-   *   
+   *
    *   commonjsMagicComments：boolean，5.17.0+开始支持，分析CommonJS语法中的魔术注释，请注意，目前仅支持webpackIgnore注释。<br />
    *   1、如：const x = require(/星号 webpackIgnore: true 星号/ 'x');<br />
-   *   
+   *
+   *   dynamicImportFetchPriority：'low' | 'high' | 'auto' | false，5.87.0+开始支持，为动态导入指定全局fetchPriority（详见：https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority）。
+   *
    *   dynamicImportMode：string（只有4个内置值：'eager'、'weak'、'lazy'、'lazy-once'），5.73.0+开始支持，指定动态导入的全局模式。<br />
-   *   
+   *
    *   dynamicImportPrefetch：boolean、number（支持负数，估计是表示加载的优先顺序），5.73.0+开始支持，指定动态导入的全局预取。<br />
-   *   
+   *
    *   dynamicImportPreload：boolean、number（支持负数，估计是表示加载的优先顺序），5.73.0+开始支持，指定动态导入的全局预加载。<br />
-   *   
+   *
    *   exportsPresence：false、string（只有3个内置值：'error'、'warn'、'auto'），5.62.0+开始支持，指定“import ... from ...”和“export ... from ...”中无效导出名称的行为。<br />
-   *   
+   *
    *   exprContextCritical：boolean，为完全动态依赖项启用警告。<br />
-   *   
+   *
    *   exprContextRecursive：boolean，启用递归目录查找以获得完整的动态依赖项。<br />
-   *   
+   *
    *   exprContextRegExp：RegExp、boolean，为完全动态依赖项设置默认正则表达式。<br />
-   *   
+   *
    *   exprContextRequest：string，为完全动态依赖项设置默认请求。<br />
-   *   
+   *
    *   harmony：boolean，解析ECMAScript的模块语法。<br />
-   *   
+   *
    *   import：boolean，解析import()语法。<br />
-   *   
+   *
    *   importExportsPresence：false、string（只有3个内置值：'error'、'warn'、'auto'），5.62.0+开始支持，指定“import ... from ...”中无效导出名称的行为。<br />
-   *   
+   *
    *   importMeta：boolean，5.68.0+开始其支持，评估import.meta。<br />
-   *   
+   *
    *   importMetaContext：boolean，5.70.0+开始其支持，评估import.meta.webpackContext。<br />
-   *   
+   *
    *   node：同webpack的顶级选项node。<br />
-   *   
+   *
    *   reexportExportsPresence：false、string（只有3个内置值：'error'、'warn'、'auto'），5.62.0+开始支持，指定“export ... from ...”中无效导出名称的行为。在TypeScript中重新导出类型时，在从“export ... from ...”迁移到“export type ... from ...”期间禁用此功能可能很有用。<br />
-   *   
+   *
    *   requireContext：boolean，解析require.context语法。<br />
-   *   
+   *
    *   requireEnsure：boolean，解析require.ensure语法。<br />
-   *   
+   *
    *   requireInclude：boolean，解析require.include语法。<br />
-   *   
+   *
    *   requireJs：boolean，解析require.js的特殊语法，如：require.config、requirejs.config、require.version、requirejs.onError。<br />
-   *   
+   *
    *   strictExportPresence：boolean，同上述的exportsPresence选项，已弃用，推荐使用exportsPresence选项代替该选项。<br />
-   *   
+   *
    *   strictThisContextOnImports：boolean，根据命名空间对象的规范正确处理此上下文。<br />
-   *   
+   *
    *   system：boolean，解析System.js的特殊语法，如：System.import、System.get、System.set、System.register。<br />
-   *   
+   *
    *   url：boolean、string（仅有一个内置值'relative'），解析new URL()语法。<br />
    *   1、'relative'值在webpack 5.23.0及其以上版本启用，使用时，webpack将为 new URL()语法生成相对URL，结果URL中不包含基本URL。<br />
    *   如：<br />
@@ -3158,7 +3160,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.22.6',
+          } )() || '7.22.10',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
@@ -4310,7 +4312,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        *
        * for( const item of arr001 ){
        *   str001 + = item;
-       *   
+       *
        *   console.log( `index--->${ ++index }` );
        * }
        * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
@@ -4442,7 +4444,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  *
                  * for( const item of arr001 ){
                  *   str001 + = item;
-                 * 
+                 *
                  *   console.log( `index--->${ ++index }` );
                  * }
                  * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
@@ -4486,7 +4488,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  *
                  * for( const item of arr001 ){
                  *   str001 + = item;
-                 * 
+                 *
                  *   console.log( `index--->${ ++index }` );
                  * }
                  * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
@@ -4635,7 +4637,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
            */
           corejs: {
-            // 截至20230708，core-js版本为3.31.1。
+            // 截至20230808，core-js版本为3.32.0。
             version: ( () => {
               const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
 
@@ -4652,7 +4654,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.31.1',
+            } )() || '3.32.0',
             proposals: true,
           },
           /**
@@ -5152,7 +5154,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            *
            * for( const item of arr001 ){
            *   str001 + = item;
-           *   
+           *
            *   console.log( `index--->${ ++index }` );
            * }
            * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
@@ -5924,6 +5926,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       commonjs: true,
       browserify: true,
       commonjsMagicComments: true,
+      dynamicImportFetchPriority: 'auto',
       dynamicImportMode: 'lazy',
       dynamicImportPrefetch: true,
       dynamicImportPreload: true,
@@ -11075,17 +11078,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 1、值类型为object，结构如下：
    * {<br />
    * aggregateTimeout：number，第1个文件更改后，在重建之前添加延迟。这允许webpack将在此时间段内所做的任何其他更改聚合到一个重建中。以“毫秒”为单位传递一个值。<br />
-   * 
+   *
    * followSymlinks：boolean，在查找文件时遵循符号链接。这通常不需要，因为webpack已经使用resolve.symlinks解析了符号链接。<br />
-   * 
+   *
    * ignored：RegExp、string、[ string ]，对于某些系统，查看许多文件可能会导致大量CPU或内存使用。可以使用正则表达式排除像node_modules这样的巨大文件夹。<br />
    * 1、如果你使用require.context，webpack会监视你的整个目录。您将需要忽略文件和/或目录，以便不需要的更改不会触发重建。<br />
-   * 
+   *
    * poll：boolean、number，通过传递true或指定以“毫秒”为单位的轮询间隔来打开轮询。<br />
    * 1、如果观看对您不起作用，请尝试此选项。这可能有助于解决NFS和VirtualBox、WSL、Containers或Docker中的机器问题。<br />
    * 2、在这些情况下，请使用轮询间隔并忽略/node_modules/等大型文件夹，以将CPU使用率降至最低。<br />
    * 3、poll: 500，表示每500毫秒检查一次更改。<br />
-   * 
+   *
    * stdin：boolean，当标准输入流结束时停止watching。<br />
    * 1、stdin: false，表示当标准输入流结束时不停止watching。<br />
    * }<br />
