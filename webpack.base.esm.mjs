@@ -3412,21 +3412,23 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               '@babel/plugin-proposal-decorators',
               {
                 /**
-                 * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
+                 * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-05'、'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
                  * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
                  * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
                  * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
                  * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
-                 * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本，见：https://github.com/tc39/proposal-decorators
-                 * 6、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
+                 * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本。<br />
+                 * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/tc39/proposal-decorators。<br />
+                 * 7、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
+                 * 8、Babel 8仅支持'2023-05'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-05'。<br />
                  */
-                version: '2023-01',
+                version: '2023-05',
                 /**
                  * 添加此选项是为了帮助tc39通过允许对两种可能的语法进行试验来收集来自社区的反馈。<br />
                  * 1、当上面的version选项值为"legacy"时，该选项被禁用，也就是说该选项不能设置。<br />
                  * 2、当上面的version选项值为"2018-09"时，该选项被启用，设置成true或false都行。<br />
                  * 3、当上面的version选项值为"2021-12"时，该选项是可选的，设置成true或false都行，且默认值为false。<br />
-                 * 4、当上面的version选项值为"2022-03"、"2023-01"时，该选项被禁用，也就是说该选项不能设置。<br />
+                 * 4、当上面的version选项值为"2022-03"、"2023-01"、'2023-05'时，该选项被禁用，也就是说该选项不能设置。<br />
                  * 5、从最新的源码中可知当该选项值为undefined时，上面的version选项值为"2021-12"和"2022-03"时，会被设置为false。<br />
                  * 6、从最新的源码中可知当该选项值为undefined时，上面的version为"2018-09"或未指定时，会通过抛出异常错误来提示该选项值类型必须为布尔类型，也就是设置为true或false。<br />
                  * 7、从最新的源码中可知当该选项值不为undefined时，上面的version选项值为"legacy"和"2022-03"、"2023-01"时，会抛出异常错误。<br />
