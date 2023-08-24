@@ -295,22 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230808。Start
+    // PC端各主流浏览器的最新版本，至20230824。Start
     'Chrome >= 116',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 115',
+    'Edge >= 116',
     'Firefox >= 116',
     'Safari >= 16',
-    'Opera >= 101',
-    // PC端各主流浏览器的最新版本，至20230808。End
+    'Opera >= 102',
+    // PC端各主流浏览器的最新版本，至20230824。End
 
-    // 移动端各主流浏览器的最新版本，至20230808。Start
+    // 移动端各主流浏览器的最新版本，至20230824。Start
     'ChromeAndroid >= 116',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 116',
     'FirefoxAndroid >= 116',
     'iOS >= 16',
-    // 移动端各主流浏览器的最新版本，至20230808。End
+    // 移动端各主流浏览器的最新版本，至20230824。End
   ],
   /**
    * @type {string[]} 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -339,17 +339,17 @@ const browserslist = [
 
     'es2023',
 
-    // PC端各主流浏览器的最新版本，至20230808。Start
+    // PC端各主流浏览器的最新版本，至20230824。Start
     'chrome116',
-    'edge115',
+    'edge116',
     'firefox116',
     'safari16',
-    'opera101',
-    // PC端各主流浏览器的最新版本，至20230808。End
+    'opera102',
+    // PC端各主流浏览器的最新版本，至20230824。End
 
-    // 移动端各主流浏览器的最新版本，至20230808。Start
+    // 移动端各主流浏览器的最新版本，至20230824。Start
     'ios16',
-    // 移动端各主流浏览器的最新版本，至20230808。End
+    // 移动端各主流浏览器的最新版本，至20230824。End
   ],
   /**
    * @type {object} 目标浏览器版本。<br />
@@ -381,19 +381,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20230808。Start
+    // PC端各主流浏览器的最新版本，至20230824。Start
     chrome: 116,
-    edge: 115,
+    edge: 116,
     firefox: 116,
     safari: 16,
-    opera: 101,
-    // PC端各主流浏览器的最新版本，至20230808。End
+    opera: 102,
+    // PC端各主流浏览器的最新版本，至20230824。End
 
-    // 移动端各主流浏览器的最新版本，至20230808。Start
+    // 移动端各主流浏览器的最新版本，至20230824。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 116,
     ios: 16,
-    // 移动端各主流浏览器的最新版本，至20230808。End
+    // 移动端各主流浏览器的最新版本，至20230824。End
   },
   /**
    * @type {object} 编译目标配置。
