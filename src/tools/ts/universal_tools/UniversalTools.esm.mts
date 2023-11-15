@@ -61,7 +61,7 @@
  *
  * function Fun1(){
  * 'use strict';
- * 
+ *
  * console.dir( this );
  * }
  *
