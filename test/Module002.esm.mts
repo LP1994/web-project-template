@@ -26,10 +26,10 @@ type Type001<T> = {
 };
 
 let Test001ForModule002: Type001<TypeEnum001> = {
-  ERROR: -10,
-  WARN: 2,
+  ERROR: 111,
+  WARN: 222,
   INFO: Enum001.INFO,
-  DEBUG: 333444,
+  DEBUG: 333,
 };
 
 console.dir( Test001ForModule002 );
