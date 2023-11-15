@@ -10,7 +10,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 {
   "display": "tsconfig.bases.json5",
   "_version": "1.0.0",
-  "_typescript_version": "5.1.6",
+  "_typescript_version": "5.2.2",
   "_description": "这是一个基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -725,6 +725,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
       // "es2016.full",
       // ES2017中可用的其他API - Object.entries, Object.values, Atomics, SharedArrayBuffer, date.formatToParts, typed arrays等等。
       "es2017",
+      "es2017.date",
       // .full的不能包含。
       // "es2017.full",
       "es2017.intl",
@@ -782,12 +783,15 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "es2022.string",
       "es2023",
       "es2023.array",
+      "es2023.collection",
       //  所有ES3和ES5功能的核心定义。
       "es5",
       // “ES2015”的别名。
       "es6",
       // ESNext中可用的其他API - 这随着JavaScript规范的发展而变化。
       "esnext",
+      "esnext.decorators",
+      "esnext.disposable",
       // .full的不能包含。
       // "esnext.full",
       "esnext.intl",

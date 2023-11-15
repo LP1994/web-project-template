@@ -1,5 +1,5 @@
 {
-  "name": "TypeScript的API文档",
+  "name": "使用typedoc生成TypeScript的API文档",
   "sort": [
     "source-order"
   ],
