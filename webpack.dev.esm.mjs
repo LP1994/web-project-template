@@ -144,19 +144,19 @@ export default {
    * appendOnly：保持先前的输出依旧存在而不是更新现有输出，这对状态消息很有用。此选项仅在未提供自定义控制台时使用。<br />
    * 1、启用版本：5.31.0+。<br />
    * 2、值类型boolean。<br />
-   * 
+   *
    * colors：为基础设施级别的日志记录启用彩色输出。此选项仅在未提供自定义控制台时使用。<br />
    * 1、启用版本：5.31.0+。<br />
    * 2、值类型boolean。<br />
-   * 
+   *
    * console：自定义用于基础架构级别日志记录的控制台。<br />
    * 1、启用版本：5.31.0+。<br />
    * 2、值类型Console。<br />
-   * 
+   *
    * debug：启用指定记录器的调试信息，例如插件或加载器。类似于stats.loggingDebug选项，但用于基础设施。默认为false。<br />
    * 1、有效值类型：<br />
    * string、boolean = false、RegExp、( name ) => boolean、[ string, RegExp, ( name ) => boolean ]。<br />
-   * 
+   *
    * level：值类型是string，启用基础设施日志记录输出。类似于stats.logging选项，但用于基础设施。默认为“info”。<br />
    * 1、有效值：<br />
    * none：禁用日志记录。<br />
@@ -165,7 +165,7 @@ export default {
    * info：错误、警告和信息消息。<br />
    * log：错误、警告、信息消息、日志消息、组、清除。折叠组以折叠状态显示。<br />
    * verbose：记录除调试和跟踪之外的所有内容。折叠组以展开状态显示。<br />
-   * 
+   *
    * stream：用于记录输出的流。默认为process.stderr。此选项仅在未提供自定义console时使用。<br />
    * 1、启用版本：5.31.0+。<br />
    * 2、默认值：process.stderr，值类型是NodeJS.WritableStream。<br />

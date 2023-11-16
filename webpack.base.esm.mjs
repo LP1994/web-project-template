@@ -102,7 +102,7 @@ import package_json from './package.json' assert { type: 'json', };
 
 import postcss from 'postcss';
 
-import DartSass from 'sass';
+import * as DartSass from 'sass';
 
 import Stylus from 'stylus';
 
@@ -9815,7 +9815,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         quality: 80,
                         // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
                         progressive: false,
-                        // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。     
+                        // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
                         chromaSubsampling: '4:4:4',
                         // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
                         optimiseCoding: true,
@@ -9917,7 +9917,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       tileWidth: 512,
                       // 垂直tile尺寸，值类型：number，默认值：512，可选。
                       tileHeight: 512,
-                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
                       chromaSubsampling: '4:4:4',
                     },
                     // tif
@@ -9962,7 +9962,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       lossless: false,
                       // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
                       effort: 4,
-                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
                       chromaSubsampling: '4:4:4',
                     },
                     // heic，直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
@@ -9976,7 +9976,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         lossless: false,
                         // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
                         effort: 4,
-                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
                         chromaSubsampling: '4:4:4',
                       };
 
@@ -10033,7 +10033,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                             quality: 80,
                             // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
                             progressive: false,
-                            // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。     
+                            // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
                             chromaSubsampling: '4:4:4',
                             // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
                             optimiseCoding: true,
@@ -10254,7 +10254,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         tileWidth: 512,
                         // 垂直tile尺寸，值类型：number，默认值：512，可选。
                         tileHeight: 512,
-                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
                         chromaSubsampling: '4:4:4',
                       },
                     },
@@ -10357,7 +10357,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         lossless: false,
                         // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
                         effort: 4,
-                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
                         chromaSubsampling: '4:4:4',
                       },
                     },
@@ -10401,7 +10401,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                             lossless: false,
                             // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
                             effort: 4,
-                            // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+                            // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
                             chromaSubsampling: '4:4:4',
                           },
                         },
