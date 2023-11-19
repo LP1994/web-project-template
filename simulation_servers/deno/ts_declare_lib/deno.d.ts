@@ -2,7 +2,6 @@
 
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
-/// <reference lib="esnext.disposable" />
 /// <reference lib="deno.net" />
 
 /** Deno provides extra properties on `import.meta`. These are included here
@@ -6946,6 +6945,7 @@ declare var AbortSignal: {
   readonly prototype: AbortSignal;
   new (): never;
   abort(reason?: any): AbortSignal;
+  any(signals: AbortSignal[]): AbortSignal;
   timeout(milliseconds: number): AbortSignal;
 };
 

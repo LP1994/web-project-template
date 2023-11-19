@@ -32,8 +32,6 @@ import {
 
 import {
   config,
-  dbName,
-  uri,
 } from './MongooseConfig.esm.mts';
 
 /**
@@ -130,9 +128,12 @@ export class MyMongooseConnection
 /**
  * 开始使用“mongoose”连接MongoDB数据库，并返回一个数据库连接实例，用于关闭、切换数据库等等操作。<br />
  *
+ * @param {string} dbName 要连接的数据库名。
+ * @param {string} uri 数据库连接的uri。
+ *
  * @returns {Connection} 返回一个数据库连接实例，用于关闭、切换数据库等等操作。
  */
-function MongooseConnect(): Connection{
+function MongooseConnect( dbName: string, uri: string ): Connection{
   return new Mongoose().createConnection( uri, config ).useDb( dbName );
 }
 
@@ -148,9 +149,12 @@ function MongooseConnect(): Connection{
  *   但是要关闭数据库连接，则要通过上面的“MyMongooseConnection”属性执行：MyMongooseConnection.close( true )，详细见上面的描述。<br />
  * }<br />
  *
+ * @param {string} dbName 要连接的数据库名。
+ * @param {string} uri 数据库连接的uri。
+ *
  * @returns {Promise<TypeMongooseConnectForSingleton>}
  */
-async function MongooseConnectForSingleton(): Promise<TypeMongooseConnectForSingleton>{
+async function MongooseConnectForSingleton( dbName: string, uri: string ): Promise<TypeMongooseConnectForSingleton>{
   if( !mongooseConnectForSingleton ){
     const myMongooseConnection: MyMongooseConnection = new MyMongooseConnection( ( methodName?: string ): void => {
       if( methodName === 'close' ){

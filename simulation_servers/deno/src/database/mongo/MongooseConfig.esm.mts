@@ -663,11 +663,6 @@ const config: ConnectOptions = {
 } as ConnectOptions;
 
 /**
- * @type {string} 要连接到的数据库名。
- */
-const dbName: string = 'simulation_servers_deno';
-
-/**
  * 会返回一个对象，当new一个Schema时，它是传给Schema构造函数第2个参数的部分选项。<br />
  *
  * @param {string} collection Mongoose默认通过将模型名称传递给utils.toCollectionName方法来产生一个集合名称，并将名字复数化。<br />
@@ -889,21 +884,12 @@ function GetSchemaOptions<T>( collection: string ): SchemaOptions<T>{
   };
 }
 
-/**
- * @type {string} 连接数据库的字符串uri。
- */
-const uri: string = `mongodb://127.0.0.1:27777`;
-
 export {
   config,
-  dbName,
   GetSchemaOptions,
-  uri,
 };
 
 export default {
   config,
-  dbName,
   GetSchemaOptions,
-  uri,
 };
