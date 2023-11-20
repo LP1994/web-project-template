@@ -1,7 +1,7 @@
 {
   "display": "tsconfig.ts-node.json",
   "_version": "1.0.0",
-  "_typescript_version": "5.2.2",
+  "_typescript_version": "5.3.2",
   "_description": "这是给ts-node-esm使用的tsconfig.json。该配置扩展自tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",

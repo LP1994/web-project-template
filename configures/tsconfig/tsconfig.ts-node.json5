@@ -11,7 +11,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "display": "tsconfig.ts-node.json5",
   "_version": "1.0.0",
   "_ts-node_version": "10.9.1",
-  "_typescript_version": "5.2.2",
+  "_typescript_version": "5.3.2",
   "_description": "这是给基于ts-node运行TypeScript的Node一类的项目使用的基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -34,7 +34,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*启用原生的ESM支持。*/
     "esm": true,
     /*
-    允许在REPL中使用顶级Await。    
+    允许在REPL中使用顶级Await。
     使用Node的实现，通过AST语法转换实现这一点。
     当tsconfig目标为es2018或更高版本时，默认启用。设置为false将禁用。
     注意：如果tsconfig目标太低，则设置为“true”将引发错误。保留为"undefined"，以获得默认的自动行为。
