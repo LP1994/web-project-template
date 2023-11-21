@@ -342,9 +342,43 @@ interface ImageEncodeOptions {
 }
 
 interface ImportMeta {
+    /** A string representation of the fully qualified module URL. When the
+     * module is loaded locally, the value will be a file URL (e.g.
+     * `file:///path/module.ts`).
+     *
+     * You can also parse the string as a URL to determine more information about
+     * how the current module was loaded. For example to determine if a module was
+     * local or not:
+     *
+     * ```ts
+     * const url = new URL(import.meta.url);
+     * if (url.protocol === "file:") {
+     *   console.log("this module was loaded locally");
+     * }
+     * ```
+     */
     url: string;
+
+    /** A flag that indicates if the current module is the main module that was
+     * called when starting the program under Deno.
+     *
+     * ```ts
+     * if (import.meta.main) {
+     *   // this was loaded as the main module, maybe do some bootstrapping
+     * }
+     * ```
+     */
     main: boolean;
-    resolve( specified: string, parent?: string | URL ): string;
+
+    /** A function that returns resolved specifier as if it would be imported
+     * using `import(specifier)`.
+     *
+     * ```ts
+     * console.log(import.meta.resolve("./foo.js"));
+     * // file:///dev/foo.js
+     * ```
+     */
+    resolve( specifier: string, parent?: string | URL ): string;
 }
 
 interface JsonWebKey {
@@ -5342,7 +5376,9 @@ interface SubtleCrypto {
     /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/exportKey) */
     exportKey(format: "jwk", key: CryptoKey): Promise<JsonWebKey>;
     exportKey(format: Exclude<KeyFormat, "jwk">, key: CryptoKey): Promise<ArrayBuffer>;
+    exportKey(format: KeyFormat, key: CryptoKey): Promise<ArrayBuffer | JsonWebKey>;
     /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/generateKey) */
+    generateKey(algorithm: "Ed25519", extractable: boolean, keyUsages: ReadonlyArray<"sign" | "verify">): Promise<CryptoKeyPair>;
     generateKey(algorithm: RsaHashedKeyGenParams | EcKeyGenParams, extractable: boolean, keyUsages: ReadonlyArray<KeyUsage>): Promise<CryptoKeyPair>;
     generateKey(algorithm: AesKeyGenParams | HmacKeyGenParams | Pbkdf2Params, extractable: boolean, keyUsages: ReadonlyArray<KeyUsage>): Promise<CryptoKey>;
     generateKey(algorithm: AlgorithmIdentifier, extractable: boolean, keyUsages: KeyUsage[]): Promise<CryptoKeyPair | CryptoKey>;
