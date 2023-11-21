@@ -98,11 +98,11 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  * 7、可扩展的选项（必须使用可扩展的选项进行设置，以便配合HTMLWebpackPluginConfig.esm.mjs中的其他处理，某则会报错）：<br />
  * {<br />
  * asyncChunks：boolean，启用或禁用创建按需加载的异步块。<br />
- * 
+ *
  * baseUri：string，设置入口的基本URL。<br />
- * 
+ *
  * chunkLoading：同output.chunkLoading。<br />
- * 
+ *
  * dependOn：string、[ string ]（强烈建议优先使用这个值类型设置），当前入口点所依赖的入口点。加载此入口点时，必须加载它们。<br />
  * 注意：<br />
  * 1、该选项配置的不是文件地址（如：'./src/xxx.js'），而是入口点的key名。例如这样的配置：<br />
@@ -116,21 +116,21 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  *   },
  *   bbb: './b.js',
  * }
- * 
+ *
  * filename：同output.filename。<br />
- * 
+ *
  * import：string、[ string ]（强烈建议优先使用这个值类型设置），启动时加载的模块。<br />
  * 1、例如：设置成：[ './src/pages/hello_world/HelloWorld.mjs' ]，就表示说该入口点的位置是在这里。<br />
  * 2、注意，由于“configures/EntryConfig.esm.mjs”最后是被“webpack.base.esm.mjs”文件引入使用，所以，当设置为相对路径时，也应该是以“webpack.base.esm.mjs”文件所在的文件夹路径开始。<br />
- * 
+ *
  * layer：string，指定放置此入口点模块的层。<br />
- * 
+ *
  * library：同output.library。<br />
- * 
+ *
  * publicPath：同output.publicPath。<br />
- * 
+ *
  * runtime：false、string，运行时块的名称。设置后，将创建一个新的运行时块。它可以设置为false以避免从webpack 5.43.0开始出现新的运行时块。<br />
- * 
+ *
  * wasmLoading：同output.wasmLoading。<br />
  * }<br />
  *

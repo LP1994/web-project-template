@@ -130,13 +130,11 @@ if( true ){
 // Get__dirname、Get__filename
 if( true ){
   Test001( 'Get__dirname', () => {
-    Equal001( Get__dirname( import.meta.url ) )
-    .toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\src\\tools\\universal_tool_for_node\\unit_test' );
+    Equal001( Get__dirname( import.meta.url ) ).toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\src\\tools\\universal_tool_for_node\\unit_test' );
   } );
 
   Test001( 'Get__filename', () => {
-    Equal001( Get__filename( import.meta.url ) )
-    .toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\src\\tools\\universal_tool_for_node\\unit_test\\Main.test.mjs' );
+    Equal001( Get__filename( import.meta.url ) ).toBe( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\node\\src\\tools\\universal_tool_for_node\\unit_test\\Main.test.mjs' );
   } );
 }
 

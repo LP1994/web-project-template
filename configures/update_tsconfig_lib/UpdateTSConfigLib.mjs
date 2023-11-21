@@ -40,9 +40,9 @@ function Get__filename( import_meta_url = import.meta.url ){
 
 const __dirname = Get__dirname( import.meta.url ),
   libs = readdirSync( join( __dirname, '../../node_modules/typescript/lib' ) )
-  .filter( c => !statSync( join( __dirname, `../../node_modules/typescript/lib/${ c }` ) ).isDirectory() )
-  .filter( c => c.startsWith( 'lib.' ) && c.endsWith( '.d.ts' ) && c !== 'lib.d.ts' && !c.includes( '.full' ) )
-  .map( c => c.slice( 4, -5 ).toLowerCase() );
+    .filter( c => !statSync( join( __dirname, `../../node_modules/typescript/lib/${ c }` ) ).isDirectory() )
+    .filter( c => c.startsWith( 'lib.' ) && c.endsWith( '.d.ts' ) && c !== 'lib.d.ts' && !c.includes( '.full' ) )
+    .map( c => c.slice( 4, -5 ).toLowerCase() );
 
 tsConfig[ 'compilerOptions' ][ 'lib' ] = Array.from( new Set( libs ) ).sort();
 

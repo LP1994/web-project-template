@@ -119,14 +119,14 @@ if( false ){
   }
 
   UpdateGraphQLSchemaJSON( devURL001 )
-  .then( result => {
-    writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
-      __schema: {},
-    }, result.data ) ) );
-  } )
-  .catch( e => {
-    MyConsole.Red( `\n${ e.message }\n` );
-  } );
+    .then( result => {
+      writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
+        __schema: {},
+      }, result.data ) ) );
+    } )
+    .catch( e => {
+      MyConsole.Red( `\n${ e.message }\n` );
+    } );
 }
 
 // 获取"自己定义"的更加全面详细的"GraphQL的Schema文档"。
@@ -202,12 +202,12 @@ if( false ){
   }
 
   UpdateGraphQLSchemaJSON( devURL001 )
-  .then( result => {
-    writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
-      __schema: {},
-    }, result.data ) ) );
-  } )
-  .catch( e => {
-    MyConsole.Red( `\n${ e.message }\n` );
-  } );
+    .then( result => {
+      writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
+        __schema: {},
+      }, result.data ) ) );
+    } )
+    .catch( e => {
+      MyConsole.Red( `\n${ e.message }\n` );
+    } );
 }

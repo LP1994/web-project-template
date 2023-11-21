@@ -22,7 +22,7 @@ $( () => {
 
   document.querySelector( 'main' ).addEventListener( 'click', event => {
     $( 'body' )
-    .append( `<script src = '${ location.protocol }//${ location.hostname }:9200/simulation_servers_deno/jsonp?callBack=${ callBack }&name=林沐风&age=12#personal_information'></script>` );
+      .append( `<script src = '${ location.protocol }//${ location.hostname }:9200/simulation_servers_deno/jsonp?callBack=${ callBack }&name=林沐风&age=12#personal_information'></script>` );
   } );
 
 } );

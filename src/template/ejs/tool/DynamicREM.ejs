@@ -18,13 +18,13 @@ CreateDate: 2022-10-10 13:00:18 星期一
         ? module.exports = e
         : 'function' === typeof define && ( define.amd || define.cmd )
           ? define( [], e )
-          : i.deviceInfo = e
+          : i.deviceInfo = e;
       }( 'undefined' !== typeof window
          ? window
          : this, function (){
         'use strict';
         String.prototype.includes || ( String.prototype.includes = function ( i, e ){
-          return 'number' !== typeof e && ( e = 0 ), !( e + i.length > this.length ) && -1 !== this.indexOf( i, e )
+          return 'number' !== typeof e && ( e = 0 ), !( e + i.length > this.length ) && -1 !== this.indexOf( i, e );
         } );
         var i = navigator.platform,
           e = navigator.userAgent,
@@ -105,14 +105,14 @@ CreateDate: 2022-10-10 13:00:18 星期一
           };
         return n || d || l || u || c || o || r || t
                ? R.other = !1
-               : ( R.other = !0, R.is_Android = !0, a || _ || ( R.is_PC = !0, R.is_Mobile = !1 ) ), R
+               : ( R.other = !0, R.is_Android = !0, a || _ || ( R.is_PC = !0, R.is_Mobile = !1 ) ), R;
       } );
       !function ( e, n ){
         'undefined' !== typeof module && 'object' === typeof module && 'object' === typeof exports
         ? module.exports = n()
         : 'function' === typeof define && ( define.amd || define.cmd )
           ? define( [], n() )
-          : e.dynamicREM = n()
+          : e.dynamicREM = n();
       }( 'undefined' !== typeof window
          ? window
          : this, function (){
@@ -121,10 +121,10 @@ CreateDate: 2022-10-10 13:00:18 星期一
           e || ( e = 375 );
           var n = document.documentElement,
             t = function ( t ){
-              n.style.fontSize = n.clientWidth / e * 16 + 'px'
+              n.style.fontSize = n.clientWidth / e * 16 + 'px';
             };
-          document.addEventListener( 'DOMContentLoaded', t, !1 ), window.addEventListener( 'resize', t, !1 )
-        }
+          document.addEventListener( 'DOMContentLoaded', t, !1 ), window.addEventListener( 'resize', t, !1 );
+        };
       } );
       deviceInfo().is_Mobile && dynamicREM( <%= dynamicREM === true
                                                 ? 375

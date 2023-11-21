@@ -303,7 +303,7 @@ function HTMLWebpackPluginConfig( {
        */
       cache: !isProduction,
       /**
-       * @type {"all" | string[]} 列出应注入的所有块，只负责确保哪些块会被注入到模板中，不负责这些块的先后顺序。<br />
+       * @type {'all' | string[]} 列出应注入的所有块，只负责确保哪些块会被注入到模板中，不负责这些块的先后顺序。<br />
        * 1、该选项默认值也是'all'，也就是说就算不设置该选项，该插件的内部也会将其设置为'all'，'all'表示将所有“块”都注入到该模板中。<br />
        * 2、如果某个块既在选项“excludeChunks”中又在选项“chunks”中，那么这个块最后也还是会被排除掉。<br />
        */
@@ -328,7 +328,7 @@ function HTMLWebpackPluginConfig( {
        */
       // filename: '',
       /**
-       * @type {string | "auto"} 默认值为'auto'。默认情况下，publicPath被设置为 "auto"--这样一来，html-webpack-plugin会尝试根据当前文件名和webpack的公共路径设置来设置公共路径。
+       * @type {string | 'auto'} 默认值为'auto'。默认情况下，publicPath被设置为 "auto"--这样一来，html-webpack-plugin会尝试根据当前文件名和webpack的公共路径设置来设置公共路径。
        */
       publicPath: 'auto',
       /**
@@ -344,7 +344,7 @@ function HTMLWebpackPluginConfig( {
        */
       inject: 'body',
       /**
-       * @type {"blocking" | "defer" | "module"} 默认值为'defer'。设置脚本加载的形式。
+       * @type {'blocking' | 'defer' | 'module'} 默认值为'defer'。设置脚本加载的形式。
        * 1、blocking表示生成这样的：<script src="..."></script>
        * 2、defer表示生成这样的：<script defer src="..."></script>
        * 3、module表示生成这样的：<script type="module" src="..."></script>
@@ -355,7 +355,7 @@ function HTMLWebpackPluginConfig( {
        */
       meta: {},
       /**
-       * @type {"auto" | boolean | MinifyOptions} HTML最小化选项。默认值'auto'。
+       * @type {'auto' | boolean | MinifyOptions} HTML最小化选项。默认值'auto'。
        * 1、Set to `false` to disable minifcation
        * 2、Set to `'auto'` to enable minifcation only for production mode
        * 3、Set to custom minification according to：node_modules/@types/html-minifier-terser/index.d.ts:15

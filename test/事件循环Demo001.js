@@ -65,9 +65,9 @@ setTimeout( () => {
 
 // 微任务1
 Promise.resolve()
-.then( () => {
-  console.log( 'promise1' );
-} );
+       .then( () => {
+         console.log( 'promise1' );
+       } );
 
 a1();
 

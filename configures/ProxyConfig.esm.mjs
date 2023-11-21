@@ -643,12 +643,12 @@ const proxyConfig = {
      * const proxy = new HttpProxy();
      *
      * module.exports = (req, res, next) => {
-     * 
+     *
      *   proxy.web(req, res, {
      *     target: 'http://localhost:4003/',
      *     buffer: streamify(req.rawBody)
      *   }, next);
-     * 
+     *
      * };
      */
     // buffer,
@@ -1099,12 +1099,12 @@ HTTP代理--->${ req.originalUrl }<---End
      * const proxy = new HttpProxy();
      *
      * module.exports = (req, res, next) => {
-     * 
+     *
      *   proxy.web(req, res, {
      *     target: 'http://localhost:4003/',
      *     buffer: streamify(req.rawBody)
      *   }, next);
-     * 
+     *
      * };
      */
     // buffer,

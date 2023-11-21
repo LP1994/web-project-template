@@ -61,7 +61,7 @@
  *
  * function Fun1(){
  * 'use strict';
- * 
+ *
  * console.dir( this );
  * }
  *
@@ -487,14 +487,18 @@ export class MyConsole {
    *
    * @private
    */
-  #myChalk: { [ keyName: string ]: any; } = chalk;
+  #myChalk: {
+    [ keyName: string ]: any;
+  } = chalk;
 
   /**
    * @type {{[p: string]: any}} 私有静态属性。<br />
    *
    * @private
    */
-  static #MyChalk: { [ keyName: string ]: any; } = chalk;
+  static #MyChalk: {
+    [ keyName: string ]: any;
+  } = chalk;
 
   /**
    * 自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />

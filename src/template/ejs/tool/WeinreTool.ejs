@@ -11,13 +11,10 @@ CreateDate: 2022-10-09 17:50:46 星期日
 -->
 <% if( weinreTool !== null && weinreTool !== undefined && Object.prototype.toString.call( weinreTool ) === '[object Object]' && weinreTool.isEnable === true){ %>
     <%
-        const id = Object.prototype.toString.call( weinreTool.id ) === '[object String]' && weinreTool.id.trim().length > 0 && weinreTool.id.trim()
-                .startsWith( '#' )
+        const id = Object.prototype.toString.call( weinreTool.id ) === '[object String]' && weinreTool.id.trim().length > 0 && weinreTool.id.trim().startsWith( '#' )
                    ? weinreTool.id.trim()
                    : '',
-                custom = Object.prototype.toString.call( weinreTool.custom ) === '[object String]' && weinreTool.custom.trim().length > 0 && ( weinreTool.custom.trim()
-                .startsWith( 'http' ) || weinreTool.custom.trim().startsWith( '//' ) ) && weinreTool.custom.trim()
-                .endsWith( '/' )
+                custom = Object.prototype.toString.call( weinreTool.custom ) === '[object String]' && weinreTool.custom.trim().length > 0 && ( weinreTool.custom.trim().startsWith( 'http' ) || weinreTool.custom.trim().startsWith( '//' ) ) && weinreTool.custom.trim().endsWith( '/' )
                          ? weinreTool.custom.trim()
                          : '';
     %>

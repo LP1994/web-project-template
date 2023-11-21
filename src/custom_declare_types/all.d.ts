@@ -313,9 +313,9 @@ declare module '*?worker' {
 
   const workerConstructor: {
     new( options?: IOptions ): Worker
-  }
+  };
 
-  export default workerConstructor
+  export default workerConstructor;
 }
 
 declare module '*?worker&inline' {
@@ -329,9 +329,9 @@ declare module '*?worker&inline' {
 
   const workerConstructor: {
     new( options?: IOptions ): Worker
-  }
+  };
 
-  export default workerConstructor
+  export default workerConstructor;
 }
 
 declare module '*?sharedworker' {
@@ -345,9 +345,9 @@ declare module '*?sharedworker' {
 
   const sharedWorkerConstructor: {
     new( options?: IOptions | string ): SharedWorker
-  }
+  };
 
-  export default sharedWorkerConstructor
+  export default sharedWorkerConstructor;
 }
 
 declare module '*?sharedworker&inline' {
@@ -361,7 +361,7 @@ declare module '*?sharedworker&inline' {
 
   const sharedWorkerConstructor: {
     new( options?: IOptions | string ): SharedWorker
-  }
+  };
 
-  export default sharedWorkerConstructor
+  export default sharedWorkerConstructor;
 }

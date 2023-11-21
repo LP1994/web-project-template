@@ -60,7 +60,7 @@
  *
  * function Fun1(){
  * 'use strict';
- * 
+ *
  * console.dir( this );
  * }
  *
@@ -91,7 +91,9 @@ export type TypeError001 = {
   result: any;
 };
 
-export const chalk: { [ keyName: string ]: any; } = new Chalk();
+export const chalk: {
+  [ keyName: string ]: any;
+} = new Chalk();
 
 /**
  * 使用“!==”比较的对比函数Equal001。<br />
@@ -102,7 +104,9 @@ export const chalk: { [ keyName: string ]: any; } = new Chalk();
  *
  * @returns {{toBe: (expect: (TypeMyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */
-export function Equal001( result: any ): { toBe: ( expect: TypeMyExpect001 ) => void; }{
+export function Equal001( result: any ): {
+  toBe: ( expect: TypeMyExpect001 ) => void;
+}{
   return {
     /**
      * toBe函数，它接收一个预期值expect，用于跟实际值对比。

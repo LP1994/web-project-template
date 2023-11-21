@@ -50,8 +50,7 @@ postcssConfig.plugins.unshift( [
      * @returns {void | Promise<any>}
      */
     getJSON: async ( cssFileName, json, outputFileName ) => {
-      await writeFile( resolve( __dirname, `./dist/${ env_platform }/styles/${ basename( cssFileName )
-      .replace( new URL( cssFileName ).search, '' ) }.css.modules.json` ), JSON.stringify( json ), {
+      await writeFile( resolve( __dirname, `./dist/${ env_platform }/styles/${ basename( cssFileName ).replace( new URL( cssFileName ).search, '' ) }.css.modules.json` ), JSON.stringify( json ), {
         flag: 'w+',
       } );
     },

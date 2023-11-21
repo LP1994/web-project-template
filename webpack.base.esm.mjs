@@ -1925,8 +1925,7 @@ const aliasConfig = {
     devMiddleware: {
       headers: httpHeaders,
       index: 'index.html',
-      methods: ( methods => methods.split( ',' )
-      .map( item => item.trim() ) )( httpHeaders[ 'Access-Control-Allow-Methods' ] ),
+      methods: ( methods => methods.split( ',' ).map( item => item.trim() ) )( httpHeaders[ 'Access-Control-Allow-Methods' ] ),
       publicPath: `/${ env_platform }`,
       writeToDisk: false,
       /**
@@ -10585,8 +10584,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id )
-      .endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
         return `workers/[name]_[contenthash].worker.js`;
       }
 
@@ -10727,8 +10725,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id )
-      .endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
+      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
         return `workers/[name]_[contenthash].worker.js`;
       }
 
