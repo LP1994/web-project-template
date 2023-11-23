@@ -302,4 +302,4 @@ mongod --config D:\MongoDB\App\bin\mongod.cfg
 
 2、命令行中使用mongosh连接MongodDB数据库：
 由于服务端启用了对客户端的身份认证以及客户端的操作权限限制，所以启用客户端时，需要客户端提供客户端自己的证书，并且客户端只能进行服务端已经授权给客户端自己的操作权限。
-mongosh --port 27777 --authenticationDatabase "$external" --authenticationMechanism MONGODB-X509 --tls --tlsCertificateKeyFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Clients_192_168_2_7_CA.pem --tlsCAFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Root_CA.pem
+mongosh --host 127.0.0.1 --port 27777 --tls --tlsCertificateKeyFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Clients_192_168_2_7_CA.pem --tlsCAFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Root_CA.pem --authenticationDatabase "$external" --authenticationMechanism MONGODB-X509
