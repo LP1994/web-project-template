@@ -25,6 +25,7 @@
     "compilerHost": false,
     "emit": false,
     "esm": true,
+    "noExperimentalReplAwait": false,
     "experimentalReplAwait": true,
     "experimentalResolver": false,
     "experimentalTsImportSpecifiers": true,
