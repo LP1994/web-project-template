@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run -A --watch --config=../deno.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=1024000 --reload
+
 /**
  * Project: web-project-template
  * FileDirPath: simulation_servers/deno/src/App.mts
@@ -7,7 +9,7 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
-// deno run -A --watch --config=./deno.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=8192 --reload ./src/App.mts --color=16m
+// deno run -A --watch --config=./deno.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=1024000 --reload ./src/App.mts --color=16m
 
 /**
  * 这是程序的启动入口。
