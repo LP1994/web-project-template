@@ -1,3 +1,5 @@
+#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation
+
 /**
  * Project: web-project-template
  * FileDirPath: configures/update_tsconfig_lib/UpdateTSConfigLib.mjs
