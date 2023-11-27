@@ -19,7 +19,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "extends": "./tsconfig.bases.json5",
   "compilerOptions": {
     "target": "es2023",
-    "module": "esnext",
+    "module": "NodeNext",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
     1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
@@ -45,6 +45,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
     另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
     所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
     */
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
   },
 }

@@ -60,7 +60,7 @@
 
     "target": "es2022",
     "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "NodeNext",
     "baseUrl": "./",
     "rootDir": ".",
     "outDir": "./ts_compiled/",

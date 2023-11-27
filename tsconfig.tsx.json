@@ -84,8 +84,8 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
 
     "target": "es2023",
-    "module": "esnext",
-    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "baseUrl": "./",
     "rootDir": ".",
     "outDir": "./ts_compiled/",
