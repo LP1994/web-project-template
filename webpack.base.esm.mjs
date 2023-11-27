@@ -878,16 +878,16 @@ const autoprefixerConfig = {
             name: 'VendorsJS',
           };
         } )( [
-          'axios',
-          'echarts',
-          'jquery',
-          'swiper',
-          'vue',
-          'vue-router',
-          'vuex',
-          'element-ui',
-          'element-plus',
-        ] ),
+               'axios',
+               'echarts',
+               'jquery',
+               'swiper',
+               'vue',
+               'vue-router',
+               'vuex',
+               'element-ui',
+               'element-plus',
+             ] ),
 
         EchartsJS: {
           test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
@@ -901,10 +901,10 @@ const autoprefixerConfig = {
             name: 'Vendors001JS',
           };
         } )( [
-          'axios',
-          'jquery',
-          'swiper',
-        ] ),
+               'axios',
+               'jquery',
+               'swiper',
+             ] ),
 
         VueFamilyJS: ( arr => {
           return {
@@ -913,10 +913,10 @@ const autoprefixerConfig = {
             name: 'VueFamilyJS',
           };
         } )( [
-          'vue',
-          'vue-router',
-          'vuex',
-        ] ),
+               'vue',
+               'vue-router',
+               'vuex',
+             ] ),
 
         ElementUIJS: ( arr => {
           return {
@@ -925,9 +925,9 @@ const autoprefixerConfig = {
             name: 'ElementUIJS',
           };
         } )( [
-          'element-ui',
-          'element-plus',
-        ] ),
+               'element-ui',
+               'element-plus',
+             ] ),
       };
 
       /**
@@ -957,10 +957,10 @@ const autoprefixerConfig = {
             name: 'VendorsCSS',
           };
         } )( [
-          'swiper',
-          'element-ui',
-          'element-plus',
-        ] ),
+               'swiper',
+               'element-ui',
+               'element-plus',
+             ] ),
 
         SwiperCSS: {
           test: /node_modules[\\/]swiper[\\/].*\.css$/i,
@@ -1003,16 +1003,16 @@ const autoprefixerConfig = {
             name: 'VendorsJS',
           };
         } )( [
-          'axios',
-          'echarts',
-          'jquery',
-          'swiper',
-          'vue',
-          'vue-router',
-          'vuex',
-          'element-ui',
-          'element-plus',
-        ] ),
+               'axios',
+               'echarts',
+               'jquery',
+               'swiper',
+               'vue',
+               'vue-router',
+               'vuex',
+               'element-ui',
+               'element-plus',
+             ] ),
 
         EchartsJS: {
           test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
@@ -1039,10 +1039,10 @@ const autoprefixerConfig = {
             name: 'VueFamilyJS',
           };
         } )( [
-          'vue',
-          'vue-router',
-          'vuex',
-        ] ),
+               'vue',
+               'vue-router',
+               'vuex',
+             ] ),
 
         ELEMENTJS: {
           test: /node_modules[\\/]element-ui[\\/].*\.(js)$/i,
@@ -1481,21 +1481,21 @@ const aliasConfig = {
       },
     };
   } )( [
-    {
-      // 复制src文件夹下的static文件夹。
-      from: 'static/**/*',
-      // 将上面复制的文件夹复制到output.path下。
-      to: './',
-    },
-    {
-      // 从项目的根目录下复制favicon.ico。
-      from: 'favicon.ico',
-      // 将上面复制的文件夹复制到output.path下。
-      to: './favicon.ico',
-      context: './',
-      toType: 'file',
-    },
-  ] ),
+         {
+           // 复制src文件夹下的static文件夹。
+           from: 'static/**/*',
+           // 将上面复制的文件夹复制到output.path下。
+           to: './',
+         },
+         {
+           // 从项目的根目录下复制favicon.ico。
+           from: 'favicon.ico',
+           // 将上面复制的文件夹复制到output.path下。
+           to: './favicon.ico',
+           context: './',
+           toType: 'file',
+         },
+       ] ),
   /**
    * @type {object} DefinePlugin在编译时用其他值或表达式替换代码中的变量。这对于允许开发构建和生产构建之间的不同行为很有用。<br />
    * 1、传递给DefinePlugin的每个键都是一个标识符或多个用.连接的标识符：'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)。<br />
@@ -1506,9 +1506,9 @@ const aliasConfig = {
    * 6、如果值不是字符串，它将被字符串化，相当于使用JSON.stringify处理，但是如果是函数，直接这么设置就行，别用JSON.stringify：'fun1': () => {}。<br />
    */
   definePluginConfig = DefinePluginConfig( {
-    env_platform,
-    isProduction,
-  } ),
+                                             env_platform,
+                                             isProduction,
+                                           } ),
   /**
    * @type {{maxLength: number}}
    */
@@ -2290,30 +2290,30 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        * 1、实测，启动后，可以访问到！<br />
        */
       middlewares.unshift( {
-        name: 'test001-first',
-        /**
-         * path选项是可选的，但是最好还是要有。
-         */
-        path: '/test001/first/',
-        middleware: ( req, res ) => {
-          logWriteStream.write( `--->${ req.url }<---Start
+                             name: 'test001-first',
+                             /**
+                              * path选项是可选的，但是最好还是要有。
+                              */
+                             path: '/test001/first/',
+                             middleware: ( req, res ) => {
+                               logWriteStream.write( `--->${ req.url }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, ' ' ) }
 --->${ req.url }<---End
 \n` );
 
-          res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
-          res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
-          res.setHeader( 'x-dev-type', `${ env_platform }` );
+                               res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+                               res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
+                               res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-            res.setHeader( keyName, keyValue );
-          } );
+                               Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+                                 res.setHeader( keyName, keyValue );
+                               } );
 
-          res.statusCode = 200;
-          res.statusMessage = 'OK';
+                               res.statusCode = 200;
+                               res.statusMessage = 'OK';
 
-          res.end( `
+                               res.end( `
                    <!DOCTYPE html>
                    <html lang = 'zh-CN'>
                    <head>
@@ -2325,8 +2325,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    </body>
                    </html>
                    `, 'utf8' );
-        },
-      } );
+                             },
+                           } );
 
       /**
        * push方法对标之前的onAfterSetupMiddleware方法。<br />
@@ -2334,30 +2334,30 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        * 1、实测，启动后，无法访问到！<br />
        */
       middlewares.push( {
-        name: 'test001-last',
-        /**
-         * path选项是可选的，但是最好还是要有。
-         */
-        path: '/test001/last/',
-        middleware: ( req, res ) => {
-          logWriteStream.write( `--->${ req.url }<---Start
+                          name: 'test001-last',
+                          /**
+                           * path选项是可选的，但是最好还是要有。
+                           */
+                          path: '/test001/last/',
+                          middleware: ( req, res ) => {
+                            logWriteStream.write( `--->${ req.url }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, ' ' ) }
 --->${ req.url }<---End
 \n` );
 
-          res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
-          res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
-          res.setHeader( 'x-dev-type', `${ env_platform }` );
+                            res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+                            res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
+                            res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
-            res.setHeader( keyName, keyValue );
-          } );
+                            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+                              res.setHeader( keyName, keyValue );
+                            } );
 
-          res.statusCode = 200;
-          res.statusMessage = 'OK';
+                            res.statusCode = 200;
+                            res.statusMessage = 'OK';
 
-          res.end( `
+                            res.end( `
                    <!DOCTYPE html>
                    <html lang = 'zh-CN'>
                    <head>
@@ -2369,8 +2369,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    </body>
                    </html>
                    `, 'utf8' );
-        },
-      } );
+                          },
+                        } );
 
       return middlewares;
     },
@@ -2413,39 +2413,39 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         };
       } );
     } )( [
-      {
-        directory: join( __dirname, './dist/' ),
-        publicPath: '/dev-server-static/dist',
-      },
-      {
-        directory: join( __dirname, './simulation_servers/' ),
-        publicPath: '/dev-server-static/simulation_servers',
-      },
-      {
-        directory: join( __dirname, './src/' ),
-        publicPath: '/dev-server-static/src',
-      },
-      {
-        directory: join( __dirname, './subsystems/' ),
-        publicPath: '/dev-server-static/subsystems',
-      },
-      {
-        directory: join( __dirname, './test/' ),
-        publicPath: '/dev-server-static/test',
-      },
-      {
-        directory: join( __dirname, './ts_compiled/' ),
-        publicPath: '/dev-server-static/ts_compiled',
-      },
-      {
-        directory: join( __dirname, './webpack_location/' ),
-        publicPath: '/dev-server-static/webpack_location',
-      },
-      {
-        directory: join( __dirname, './webpack_records/' ),
-        publicPath: '/dev-server-static/webpack_records',
-      },
-    ] ),
+           {
+             directory: join( __dirname, './dist/' ),
+             publicPath: '/dev-server-static/dist',
+           },
+           {
+             directory: join( __dirname, './simulation_servers/' ),
+             publicPath: '/dev-server-static/simulation_servers',
+           },
+           {
+             directory: join( __dirname, './src/' ),
+             publicPath: '/dev-server-static/src',
+           },
+           {
+             directory: join( __dirname, './subsystems/' ),
+             publicPath: '/dev-server-static/subsystems',
+           },
+           {
+             directory: join( __dirname, './test/' ),
+             publicPath: '/dev-server-static/test',
+           },
+           {
+             directory: join( __dirname, './ts_compiled/' ),
+             publicPath: '/dev-server-static/ts_compiled',
+           },
+           {
+             directory: join( __dirname, './webpack_location/' ),
+             publicPath: '/dev-server-static/webpack_location',
+           },
+           {
+             directory: join( __dirname, './webpack_records/' ),
+             publicPath: '/dev-server-static/webpack_records',
+           },
+         ] ),
     // 该选项“watchFiles”不需要设置。
     /*
      watchFiles: {
@@ -2925,10 +2925,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * @type {array} 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
    */
   htmlWebpackPluginConfig = HTMLWebpackPluginConfig( {
-    isProduction,
-    isSPA,
-    HTMLMinifyConfig,
-  } ),
+                                                       isProduction,
+                                                       isSPA,
+                                                       HTMLMinifyConfig,
+                                                     } ),
   /**
    * @type {{maxChunks: number}} 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
    */
@@ -5315,13 +5315,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           }
 
           return JSON.stringify( {
-            compilerOptions: {
-              ...JSON.parse( JSON.stringify( resultCompilerOptionsObj ) ),
-              esModuleInterop: true,
-              // 选项'isolatedModules'是多余的，不能与选项'verbatimModuleSyntax'一起指定，优先使用verbatimModuleSyntax。
-              // isolatedModules: true,
-            },
-          } );
+                                   compilerOptions: {
+                                     ...JSON.parse( JSON.stringify( resultCompilerOptionsObj ) ),
+                                     esModuleInterop: true,
+                                     // 选项'isolatedModules'是多余的，不能与选项'verbatimModuleSyntax'一起指定，优先使用verbatimModuleSyntax。
+                                     // isolatedModules: true,
+                                   },
+                                 } );
         } )( './tsconfig.webpack.json' ),
       } ),
       esbuildLoaderConfigForTSX = Object.assign( {}, esbuildLoaderConfigForTS, {
@@ -9419,168 +9419,168 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 2、TerserPlugin比EsbuildPlugin更好地支持esbuild，即TerserPlugin支持缓存和多线程。<br />
          */
         new TerserPlugin( {
-          test: /\.(js|cjs|mjs)$/i,
-          parallel: cpus().length - 1,
-          extractComments: false,
-          // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
-          minify: TerserPlugin.esbuildMinify,
-          // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
-          terserOptions: esbuildMinifyConfig,
-        } ),
+                            test: /\.(js|cjs|mjs)$/i,
+                            parallel: cpus().length - 1,
+                            extractComments: false,
+                            // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
+                            minify: TerserPlugin.esbuildMinify,
+                            // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
+                            terserOptions: esbuildMinifyConfig,
+                          } ),
         /**
          * 这个插件使用cssnano来优化和缩小你的CSS。就像optimize-css-assets-webpack-plugin但使用查询字符串对源映射和资产更准确，允许缓存并在并行模式下工作。<br />
          * 1、最好只在生产环境下使用该插件。<br />
          */
         new CssMinimizerPlugin( {
-          test: /\.css$/i,
-          // 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。
-          parallel: cpus().length - 1,
-          /**
-           * 启用并行选项时，始终在minify函数中使用require。<br />
-           * 1、该选项支持异步函数作为值。<br />
-           * 2、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
-           * 3、CssMinimizerPlugin.esbuildMinify对应的minimizerOptions选项的配置见https://esbuild.github.io/api/#transform-api。<br />
-           */
-          minify: CssMinimizerPlugin.cssnanoMinify,
-          /**
-           * 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。在这种情况下，我们不应该使用require/import。<br />
-           * 1、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
-           */
-          minimizerOptions: {
-            preset: [
-              // 有效值有：default、advanced、lite、cssnano-preset-default（要安装）、cssnano-preset-advanced（要安装）、cssnano-preset-lite（要安装）。
-              'advanced',
-              {
-                // autoprefixer共有三种类型的控制注释：
-                // /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
-                // /* autoprefixer: ignore next */：仅为下一个属性或下一个规则选择器或规则参数（但不规则/规则正文）禁用自动前缀。
-                // /* autoprefixer grid: (autoplace|no-autoplace|off) */：控制Autoprefixer如何处理整个块的网格转换：
-                // autoplace：启用带有自动放置支持的网格翻译。
-                // no-autoplace：在禁用自动放置支持的情况下启用网格转换，但不支持自动放置（该值是值on的别名，但是值on是一个已弃用的值）。
-                // off：禁用所有网格翻译。
-                // 根据浏览器选项删除不必要的前缀。请注意，默认情况下，它不会向CSS文件添加新前缀。
-                autoprefixer: autoprefixerConfig,
-                // 根据属性名称对CSS声明进行排序，gzip压缩时排序后的CSS会更小，因为会有更多相似的字符串。
-                cssDeclarationSorter: false,
-                // 尽可能减少CSS计算表达式，确保浏览器兼容性和压缩。
-                calc: postcssCalcConfig,
-                // 在hex、hsl、rgb和CSS关键字之间转换，以产生最小的等效颜色值。
-                colormin: true,
-                // 在等效长度、时间和角度值之间转换。请注意，默认情况下，不会转换长度值。
-                convertValues: {
-                  // 值类型：boolean，默认值：true，传递false以禁用从px到其他绝对长度单位的转换，例如pc&pt反之亦然。
-                  length: false,
-                  // 值类型：boolean，默认值：true，传递false以禁用从ms到s的转换，反之亦然。
-                  time: true,
-                  // 值类型：boolean，默认值：true，传递false以禁用从deg到turn的转换，反之亦然。
-                  angle: true,
-                  // 值类型：boolean、number，默认值：false，在此处指定任何数值以将px值四舍五入到那么多小数位；例如，使用{precision: 2}会将6.66667px舍入为6.67px，而{precision: 0}会将其舍入为7px。传递false将使这些值保持原样。对于大多数用例，建议将此选项设置为2。
-                  precision: 6,
-                },
-                // 删除规则、选择器和声明中和周围的注释。请注意标有!的任何特殊注释。默认情况下保留。
-                discardComments: {
-                  // 值类型：boolean，默认值：false，删除所有标记为重要的评论。
-                  removeAll: true,
-                  // 值类型：boolean，默认值：false，删除所有标记为重要的评论，但保留第一个。
-                  removeAllButFirst: false,
-                },
-                // 删除重复的规则、规则和声明。请注意，这仅适用于精确重复。
-                discardDuplicates: true,
-                // 删除空规则、媒体查询和带有空选择器的规则，因为它们不会影响输出。
-                discardEmpty: true,
-                // 删除与另一个具有相同标识符的at规则；例如@keyframes的两个实例之一。由于浏览器只会计算这些声明中的最后一个，因此可以安全地删除所有其他声明。
-                discardOverridden: true,
-                // 删除与CSS文件没有任何关系的at规则。如果您有其他符合这些规则的样式表，这是不安全的。
-                discardUnused: false,
-                // 这会将命名可能略有不同但执行相同操作的规则合并在一起。请注意，仅当您依赖JavaScript中的这些动画名称时，这才是不安全的。
-                mergeIdents: false,
-                // 将速记属性折叠为速记表示，并在可能的情况下折叠顶部/右侧/底部/左侧值。支持边距、内边距和边框。
-                mergeLonghand: true,
-                // 通过选择器和重叠的属性/值对合并相邻的规则。
-                mergeRules: true,
-                // 规范字体和字体系列声明，并可以将字体粗细关键字转换为数值。
-                minifyFontValues: false,
-                // 标准化线性和径向梯度参数。
-                minifyGradients: false,
-                // 修剪空白并规范化规则参数。
-                minifyParams: true,
-                // 删除不必要的合格通用选择器，取消引用属性选择器，修剪和规范化选择器字符串。
-                minifySelectors: true,
-                // 确保CSS文件中只存在一个@charset，并将其移动到文档的顶部。这可以防止通过简单的CSS连接发生多个无效声明。请注意，默认情况下，不会将新的@charset规则添加到CSS中。
-                normalizeCharset: false,
-                // 尽可能将用于显示的两个值语法规范化为单值语法。
-                normalizeDisplayValues: false,
-                // 在background、background-position、-webkit-perspective-origin和perspective-origin属性中规范化位置值。
-                normalizePositions: true,
-                // 在可能的情况下，在属性本身和背景速记中，将background-repeat的双值语法减少为单值语法。也适用于掩码重复。
-                normalizeRepeatStyle: true,
-                // 标准化双引号（默认情况下）或单引号字符串的使用，以实现更好的gzip压缩。还可以删除出于美观目的而插入的换行符。如果你喜欢单引号，你可以设置preferredQuote: 'single' 。
-                normalizeString: {
-                  // 值类型：string，默认值：'double'，设置首选的报价类型。可能的值是'single'或'double'。
-                  preferredQuote: 'single',
-                },
-                // 在动画、animation-timing-function、transition和transition-timing-function属性中规范化过渡时间。
-                normalizeTimingFunctions: true,
-                // 当特定值满足通配符标准时，此优化可以转换unicode范围描述符以使用较短的通配符范围。当代码在范围两侧的相同位置匹配0和f时，将转换值。因此，u+2000-2fff可以转换为u+2???，但u+2100-2fff将保持原样。
-                normalizeUnicode: true,
-                // 规范化URL字符串。它可以删除默认端口，解决不必要的目录遍历和取消引用值。
-                normalizeUrl: {
-                  // 值类型：string，默认值：'http:'，有效值：'https:'、'http:'。
-                  defaultProtocol: 'http',
-                  // 值类型：boolean，默认值：true，设置成false，不会将defaultProtocol选项的值设置给无HTTP协议头的URL。
-                  normalizeProtocol: false,
-                  // 值类型：boolean，默认值：false，将'https:'转为'http:'，设置成false，则不会转换。
-                  forceHttp: false,
-                  // 值类型：boolean，默认值：false，将'http:'转为'https:'，设置成false，则不会转换。此选项不能与forceHttp选项同时使用，也就是说这两个选项不能同时设置成true，会报错。
-                  forceHttps: false,
-                  // 值类型：boolean，默认值：true，剥离URL的身份验证部分，设置成false则不会剥离。
-                  stripAuthentication: false,
-                  // 值类型：boolean，默认值：false，去除URL的哈希部分，设置成false，就不会去除。
-                  stripHash: false,
-                  // 值类型：boolean，默认值：false，从URL中删除协议，设置成false，就不会去除。
-                  stripProtocol: false,
-                  // 值类型：boolean，默认值：true，剥离URL的文本片段部分，设置成false，就不会去除。注意：如果stripHash选项设置为true，文本片段将始终被删除，因为哈希包含文本片段。
-                  stripTextFragment: false,
-                  // 值类型：boolean，默认值：true，从URL中删除'wwww'，设置成false，就不会删除。
-                  stripWWW: false,
-                  // 值类型：Array<RegExp | string>、boolean，默认值：[/^utm_\w+/i]，删除URL中的查询参数，设置成false，就不会去除。
-                  removeQueryParameters: false,
-                  // 值类型：boolean，默认值：true，删除尾部斜杠，设置成false，就不会删除。
-                  removeTrailingSlash: false,
-                  // 值类型：boolean，默认值：true，删除输出中的唯一“/”路径名，设置成false，就不会删除。此选项独立于removeTrailingSlash选项，两者可以共存。
-                  removeSingleSlash: false,
-                  // 值类型：boolean、Array<RegExp | string>，默认值：false，从与任何提供的字符串或正则表达式匹配的路径中删除默认目录索引文件。如果为true，则使用正则表达式/^index\.[a-z]+$/，设置成false，就不会删除。
-                  removeDirectoryIndex: false,
-                  // 值类型：boolean，默认值：true，按字母顺序对查询参数进行排序。设置成false，就不会进行排序。
-                  sortQueryParameters: false,
-                },
-                // 修剪规则、选择器和声明内部和周围的空格，并删除每个选择器内的最后一个分号。
-                normalizeWhitespace: true,
-                // 受此变换影响的属性可以以任意顺序接受其参数。该模块规范了该顺序，便于更轻松地进行重复数据删除。
-                orderedValues: true,
-                // 重命名@keyframes等规则。如果其他JS/CSS文件需要读取此定义，这可能是不安全的。
-                reduceIdents: false,
-                // 当结果输出较小时，将CSS初始关键字替换为实际值。
-                reduceInitial: false,
-                // 当存在等效的速记时，在变换函数之间进行转换。
-                reduceTransforms: false,
-                // 使用SVGO压缩内联SVG定义。
-                svgo: false,
-                // 自然地对每个规则的选择器进行排序，并删除重复项。
-                uniqueSelectors: false,
-                // 重新设置z-index值。这是不安全的，因为它可能与其他样式表或JavaScript注入样式发生冲突。但是，如果您的堆叠上下文已完全提取到CSS中，则它是安全的。
-                zindex: false,
-              },
-            ],
-          },
-        } ),
+                                  test: /\.css$/i,
+                                  // 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。
+                                  parallel: cpus().length - 1,
+                                  /**
+                                   * 启用并行选项时，始终在minify函数中使用require。<br />
+                                   * 1、该选项支持异步函数作为值。<br />
+                                   * 2、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
+                                   * 3、CssMinimizerPlugin.esbuildMinify对应的minimizerOptions选项的配置见https://esbuild.github.io/api/#transform-api。<br />
+                                   */
+                                  minify: CssMinimizerPlugin.cssnanoMinify,
+                                  /**
+                                   * 如果启用了并行化，则必须通过字符串（packageName或require.resolve(packageName)）来要求minimizerOptions中的包。在这种情况下，我们不应该使用require/import。<br />
+                                   * 1、minify跟minimizerOptions是一对一的关系，具体要看文档。<br />
+                                   */
+                                  minimizerOptions: {
+                                    preset: [
+                                      // 有效值有：default、advanced、lite、cssnano-preset-default（要安装）、cssnano-preset-advanced（要安装）、cssnano-preset-lite（要安装）。
+                                      'advanced',
+                                      {
+                                        // autoprefixer共有三种类型的控制注释：
+                                        // /* autoprefixer: (on|off) */：在注释前后“启用/禁用”整个块的所有Autoprefixer翻译。
+                                        // /* autoprefixer: ignore next */：仅为下一个属性或下一个规则选择器或规则参数（但不规则/规则正文）禁用自动前缀。
+                                        // /* autoprefixer grid: (autoplace|no-autoplace|off) */：控制Autoprefixer如何处理整个块的网格转换：
+                                        // autoplace：启用带有自动放置支持的网格翻译。
+                                        // no-autoplace：在禁用自动放置支持的情况下启用网格转换，但不支持自动放置（该值是值on的别名，但是值on是一个已弃用的值）。
+                                        // off：禁用所有网格翻译。
+                                        // 根据浏览器选项删除不必要的前缀。请注意，默认情况下，它不会向CSS文件添加新前缀。
+                                        autoprefixer: autoprefixerConfig,
+                                        // 根据属性名称对CSS声明进行排序，gzip压缩时排序后的CSS会更小，因为会有更多相似的字符串。
+                                        cssDeclarationSorter: false,
+                                        // 尽可能减少CSS计算表达式，确保浏览器兼容性和压缩。
+                                        calc: postcssCalcConfig,
+                                        // 在hex、hsl、rgb和CSS关键字之间转换，以产生最小的等效颜色值。
+                                        colormin: true,
+                                        // 在等效长度、时间和角度值之间转换。请注意，默认情况下，不会转换长度值。
+                                        convertValues: {
+                                          // 值类型：boolean，默认值：true，传递false以禁用从px到其他绝对长度单位的转换，例如pc&pt反之亦然。
+                                          length: false,
+                                          // 值类型：boolean，默认值：true，传递false以禁用从ms到s的转换，反之亦然。
+                                          time: true,
+                                          // 值类型：boolean，默认值：true，传递false以禁用从deg到turn的转换，反之亦然。
+                                          angle: true,
+                                          // 值类型：boolean、number，默认值：false，在此处指定任何数值以将px值四舍五入到那么多小数位；例如，使用{precision: 2}会将6.66667px舍入为6.67px，而{precision: 0}会将其舍入为7px。传递false将使这些值保持原样。对于大多数用例，建议将此选项设置为2。
+                                          precision: 6,
+                                        },
+                                        // 删除规则、选择器和声明中和周围的注释。请注意标有!的任何特殊注释。默认情况下保留。
+                                        discardComments: {
+                                          // 值类型：boolean，默认值：false，删除所有标记为重要的评论。
+                                          removeAll: true,
+                                          // 值类型：boolean，默认值：false，删除所有标记为重要的评论，但保留第一个。
+                                          removeAllButFirst: false,
+                                        },
+                                        // 删除重复的规则、规则和声明。请注意，这仅适用于精确重复。
+                                        discardDuplicates: true,
+                                        // 删除空规则、媒体查询和带有空选择器的规则，因为它们不会影响输出。
+                                        discardEmpty: true,
+                                        // 删除与另一个具有相同标识符的at规则；例如@keyframes的两个实例之一。由于浏览器只会计算这些声明中的最后一个，因此可以安全地删除所有其他声明。
+                                        discardOverridden: true,
+                                        // 删除与CSS文件没有任何关系的at规则。如果您有其他符合这些规则的样式表，这是不安全的。
+                                        discardUnused: false,
+                                        // 这会将命名可能略有不同但执行相同操作的规则合并在一起。请注意，仅当您依赖JavaScript中的这些动画名称时，这才是不安全的。
+                                        mergeIdents: false,
+                                        // 将速记属性折叠为速记表示，并在可能的情况下折叠顶部/右侧/底部/左侧值。支持边距、内边距和边框。
+                                        mergeLonghand: true,
+                                        // 通过选择器和重叠的属性/值对合并相邻的规则。
+                                        mergeRules: true,
+                                        // 规范字体和字体系列声明，并可以将字体粗细关键字转换为数值。
+                                        minifyFontValues: false,
+                                        // 标准化线性和径向梯度参数。
+                                        minifyGradients: false,
+                                        // 修剪空白并规范化规则参数。
+                                        minifyParams: true,
+                                        // 删除不必要的合格通用选择器，取消引用属性选择器，修剪和规范化选择器字符串。
+                                        minifySelectors: true,
+                                        // 确保CSS文件中只存在一个@charset，并将其移动到文档的顶部。这可以防止通过简单的CSS连接发生多个无效声明。请注意，默认情况下，不会将新的@charset规则添加到CSS中。
+                                        normalizeCharset: false,
+                                        // 尽可能将用于显示的两个值语法规范化为单值语法。
+                                        normalizeDisplayValues: false,
+                                        // 在background、background-position、-webkit-perspective-origin和perspective-origin属性中规范化位置值。
+                                        normalizePositions: true,
+                                        // 在可能的情况下，在属性本身和背景速记中，将background-repeat的双值语法减少为单值语法。也适用于掩码重复。
+                                        normalizeRepeatStyle: true,
+                                        // 标准化双引号（默认情况下）或单引号字符串的使用，以实现更好的gzip压缩。还可以删除出于美观目的而插入的换行符。如果你喜欢单引号，你可以设置preferredQuote: 'single' 。
+                                        normalizeString: {
+                                          // 值类型：string，默认值：'double'，设置首选的报价类型。可能的值是'single'或'double'。
+                                          preferredQuote: 'single',
+                                        },
+                                        // 在动画、animation-timing-function、transition和transition-timing-function属性中规范化过渡时间。
+                                        normalizeTimingFunctions: true,
+                                        // 当特定值满足通配符标准时，此优化可以转换unicode范围描述符以使用较短的通配符范围。当代码在范围两侧的相同位置匹配0和f时，将转换值。因此，u+2000-2fff可以转换为u+2???，但u+2100-2fff将保持原样。
+                                        normalizeUnicode: true,
+                                        // 规范化URL字符串。它可以删除默认端口，解决不必要的目录遍历和取消引用值。
+                                        normalizeUrl: {
+                                          // 值类型：string，默认值：'http:'，有效值：'https:'、'http:'。
+                                          defaultProtocol: 'http',
+                                          // 值类型：boolean，默认值：true，设置成false，不会将defaultProtocol选项的值设置给无HTTP协议头的URL。
+                                          normalizeProtocol: false,
+                                          // 值类型：boolean，默认值：false，将'https:'转为'http:'，设置成false，则不会转换。
+                                          forceHttp: false,
+                                          // 值类型：boolean，默认值：false，将'http:'转为'https:'，设置成false，则不会转换。此选项不能与forceHttp选项同时使用，也就是说这两个选项不能同时设置成true，会报错。
+                                          forceHttps: false,
+                                          // 值类型：boolean，默认值：true，剥离URL的身份验证部分，设置成false则不会剥离。
+                                          stripAuthentication: false,
+                                          // 值类型：boolean，默认值：false，去除URL的哈希部分，设置成false，就不会去除。
+                                          stripHash: false,
+                                          // 值类型：boolean，默认值：false，从URL中删除协议，设置成false，就不会去除。
+                                          stripProtocol: false,
+                                          // 值类型：boolean，默认值：true，剥离URL的文本片段部分，设置成false，就不会去除。注意：如果stripHash选项设置为true，文本片段将始终被删除，因为哈希包含文本片段。
+                                          stripTextFragment: false,
+                                          // 值类型：boolean，默认值：true，从URL中删除'wwww'，设置成false，就不会删除。
+                                          stripWWW: false,
+                                          // 值类型：Array<RegExp | string>、boolean，默认值：[/^utm_\w+/i]，删除URL中的查询参数，设置成false，就不会去除。
+                                          removeQueryParameters: false,
+                                          // 值类型：boolean，默认值：true，删除尾部斜杠，设置成false，就不会删除。
+                                          removeTrailingSlash: false,
+                                          // 值类型：boolean，默认值：true，删除输出中的唯一“/”路径名，设置成false，就不会删除。此选项独立于removeTrailingSlash选项，两者可以共存。
+                                          removeSingleSlash: false,
+                                          // 值类型：boolean、Array<RegExp | string>，默认值：false，从与任何提供的字符串或正则表达式匹配的路径中删除默认目录索引文件。如果为true，则使用正则表达式/^index\.[a-z]+$/，设置成false，就不会删除。
+                                          removeDirectoryIndex: false,
+                                          // 值类型：boolean，默认值：true，按字母顺序对查询参数进行排序。设置成false，就不会进行排序。
+                                          sortQueryParameters: false,
+                                        },
+                                        // 修剪规则、选择器和声明内部和周围的空格，并删除每个选择器内的最后一个分号。
+                                        normalizeWhitespace: true,
+                                        // 受此变换影响的属性可以以任意顺序接受其参数。该模块规范了该顺序，便于更轻松地进行重复数据删除。
+                                        orderedValues: true,
+                                        // 重命名@keyframes等规则。如果其他JS/CSS文件需要读取此定义，这可能是不安全的。
+                                        reduceIdents: false,
+                                        // 当结果输出较小时，将CSS初始关键字替换为实际值。
+                                        reduceInitial: false,
+                                        // 当存在等效的速记时，在变换函数之间进行转换。
+                                        reduceTransforms: false,
+                                        // 使用SVGO压缩内联SVG定义。
+                                        svgo: false,
+                                        // 自然地对每个规则的选择器进行排序，并删除重复项。
+                                        uniqueSelectors: false,
+                                        // 重新设置z-index值。这是不安全的，因为它可能与其他样式表或JavaScript注入样式发生冲突。但是，如果您的堆叠上下文已完全提取到CSS中，则它是安全的。
+                                        zindex: false,
+                                      },
+                                    ],
+                                  },
+                                } ),
         new JsonMinimizerPlugin( {
-          test: /\.(json|json5)$/i,
-          minimizerOptions: {
-            replacer: null,
-            space: null,
-          },
-        } ),
+                                   test: /\.(json|json5)$/i,
+                                   minimizerOptions: {
+                                     replacer: null,
+                                     space: null,
+                                   },
+                                 } ),
         /**
          * 1、image-minimizer-webpack-plugin插件用于压缩图片，所以会吃性能、增加编译时间。<br />
          * 2、支持通过函数过滤图片，以便选择性的压缩图片，例如，通过图片名中带有指定名字来跳过对这些图片的压缩。<br />
@@ -9620,833 +9620,833 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 5、“width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。<br />
              */
             svgoMinify: new ImageMinimizerPlugin( {
-              test: /\.(svg)$/i,
-              ...imageMinimizerPluginConfig,
-              minimizer: {
-                implementation: ImageMinimizerPlugin.svgoMinify,
-                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
-                filename: 'img/[name]_optimize_svgo[ext]',
-                /**
-                 * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
-                 *
-                 * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
-                 *
-                 * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
-                 *
-                 * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
-                 */
-                filter( source, sourcePath ){
-                  if( Number( source.byteLength ) > 10 * 1024 ){
-                    return true;
-                  }
-                  else{
-                    return false;
-                  }
-                },
-                options: {
-                  encodeOptions: {
-                    /**
-                     * 1、是否启用多次传递SVG以确保应用所有优化，true表示启用。<br />
-                     * 2、值类型：boolean，默认值：false。<br />
-                     */
-                    multipass: false,
-                    /**
-                     * 1、精度。<br />
-                     * 2、值类型：number，默认值：3。<br />
-                     */
-                    floatPrecision: 3,
-                    /**
-                     * 1、输出为数据URI字符串的编码，预设值有：'base64'、'enc'（URI编码）、unenc（未编码）。<br />
-                     * 2、值类型：string，默认值：'base64'。<br />
-                     */
-                    datauri: 'base64',
-                    js2svg: {
-                      /**
-                       * 1、使用多少个空格进行缩进。<br />
-                       * 2、值类型：number，默认值为：4。<br />
-                       */
-                      indent: 2,
-                      /**
-                       * 1、是否美化输出。<br />
-                       * 2、值类型：boolean，默认值为：false。<br />
-                       */
-                      pretty: false,
-                    },
-                    plugins: [
-                      // 启用预设的默认插件。
-                      'preset-default',
-                    ],
-                  },
-                },
-              },
-            } ),
+                                                    test: /\.(svg)$/i,
+                                                    ...imageMinimizerPluginConfig,
+                                                    minimizer: {
+                                                      implementation: ImageMinimizerPlugin.svgoMinify,
+                                                      // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
+                                                      filename: 'img/[name]_optimize_svgo[ext]',
+                                                      /**
+                                                       * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
+                                                       *
+                                                       * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
+                                                       *
+                                                       * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
+                                                       *
+                                                       * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
+                                                       */
+                                                      filter( source, sourcePath ){
+                                                        if( Number( source.byteLength ) > 10 * 1024 ){
+                                                          return true;
+                                                        }
+                                                        else{
+                                                          return false;
+                                                        }
+                                                      },
+                                                      options: {
+                                                        encodeOptions: {
+                                                          /**
+                                                           * 1、是否启用多次传递SVG以确保应用所有优化，true表示启用。<br />
+                                                           * 2、值类型：boolean，默认值：false。<br />
+                                                           */
+                                                          multipass: false,
+                                                          /**
+                                                           * 1、精度。<br />
+                                                           * 2、值类型：number，默认值：3。<br />
+                                                           */
+                                                          floatPrecision: 3,
+                                                          /**
+                                                           * 1、输出为数据URI字符串的编码，预设值有：'base64'、'enc'（URI编码）、unenc（未编码）。<br />
+                                                           * 2、值类型：string，默认值：'base64'。<br />
+                                                           */
+                                                          datauri: 'base64',
+                                                          js2svg: {
+                                                            /**
+                                                             * 1、使用多少个空格进行缩进。<br />
+                                                             * 2、值类型：number，默认值为：4。<br />
+                                                             */
+                                                            indent: 2,
+                                                            /**
+                                                             * 1、是否美化输出。<br />
+                                                             * 2、值类型：boolean，默认值为：false。<br />
+                                                             */
+                                                            pretty: false,
+                                                          },
+                                                          plugins: [
+                                                            // 启用预设的默认插件。
+                                                            'preset-default',
+                                                          ],
+                                                        },
+                                                      },
+                                                    },
+                                                  } ),
             /**
              * 1、只支持对avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的处理。<br />
              * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
              * 3、“width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
-              test: /\.(avif|gif|jp2|jpe|jpeg|jpg|png|raw|tif|tiff|webp)$/i,
-              ...imageMinimizerPluginConfig,
-              minimizer: {
-                implementation: ImageMinimizerPlugin.sharpMinify,
-                // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
-                filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                /**
-                 * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
-                 *
-                 * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
-                 *
-                 * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
-                 *
-                 * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
-                 */
-                filter( source, sourcePath ){
-                  if( Number( source.byteLength ) > 10 * 1024 ){
-                    return true;
-                  }
-                  else{
-                    return false;
-                  }
-                },
-                // 如下的sharpMinify实现的配置参数都是从源代码中获取的：node_modules/image-minimizer-webpack-plugin/dist/utils.js:927，都在异步函数sharpTransform中。
-                options: {
-                  /**
-                   * 1、旋转图片的角度。<br />
-                   * 2、值类型：number、string（只有1个预设值：'auto'）。<br />
-                   * 3、比如设置值为：90表示顺时针旋转90度、-90表示逆时针旋转90度，支持任何角度的旋转：45、35、1、0等等。<br />
-                   */
-                  // rotate: null,
-                  /**
-                   * 1、重置图片的大小。<br />
-                   * 2、值类型：<br />
-                   * {<br />
-                   * enabled: boolean<br />
-                   * width: number（必须是正整数），如果只设置了宽度，那么高度会自动等比缩放。<br />
-                   * height: number（必须是正整数），如果只设置了高度，那么宽度会自动等比缩放。<br />
-                   *
-                   * 说明：<br />
-                   * 例如，原图片大小为宽度1920px，高度1080px。设置{ enabled: true, width: 500, height: 500 }，以下其他选项都不设置，保持其各自默认值即可，那么重置的具体步骤（这些步骤涉及的操作都可以通过以下的选项来改变的）如下：<br />
-                   * 有2种重置方案：<br />
-                   * 第1种，将图片等比缩放成宽度500px的，这时会缩放成宽度500px，高度281px，显然高度达不到设置的500，所以这个方案废弃。<br />
-                   * 第2种，将图片等比缩放成高度500px的，这时会缩放成宽度890px，高度500px，显然宽度、高度都能达到设置的，所以采用这种方案。<br />
-                   * 1、将图片等比缩放到高度为500px的大小，宽度随高度等比缩放。<br />
-                   * 2、然后从中心开始裁剪出高度为500px、宽度为500px的图片。<br />
-                   * 3、“等比缩放”、“中心”（position）、“裁剪”（fit）、“黑色填充背景色”（background）等等操作都是以下选项设置的。<br />
-                   *
-                   * 以上是常用选项。下面的选项是从“sharp”的源代码中找到的，它们一般都有默认值，除非特殊需要，否则不用设置。<br />
-                   *
-                   * fit: string，如何调整图像大小以适应上面提供的width、height，默认值是'cover'（修剪）。<br />
-                   * 其有效值有：<br />
-                   * 'contain'，对应表示'embed'（填充，其他区域会用背景色填充）。<br />
-                   * 'cover'，对应表示'crop'（修剪）。<br />
-                   * 'fill'，对应表示'ignore_aspect'（估计是强制缩放到上面提供的width、height）。<br />
-                   * 'inside'，对应表示'max'。<br />
-                   * 'outside'，对应表示'min'。<br />
-                   *
-                   * position: string、number（必须是正整数，大于等于0且小于等于8，或为16、17），当上面fit选项值为'cover'、'contain'时偏移量的设置，默认值是'center'（对应表示0）。<br />
-                   * 有效的字符串值有：<br />
-                   * 'entropy'，对应表示16。<br />
-                   * 'attention'，对应表示17。<br />
-                   * 'top'，对应表示1。<br />
-                   * 'right'，对应表示2。<br />
-                   * 'bottom'，对应表示3。<br />
-                   * 'left'，对应表示4。<br />
-                   * 'right top'，对应表示5。<br />
-                   * 'right bottom'，对应表示6。<br />
-                   * 'left bottom'，对应表示7。<br />
-                   * 'left top'，对应表示8。<br />
-                   * 'center'，对应表示0。<br />
-                   * 'centre'，对应表示0。<br />
-                   * 'north'，对应表示1。<br />
-                   * 'east'，对应表示2。<br />
-                   * 'south'，对应表示3。<br />
-                   * 'west'，对应表示4。<br />
-                   * 'northeast'，对应表示5。<br />
-                   * 'southeast'，对应表示6。<br />
-                   * 'southwest'，对应表示7。<br />
-                   * 'northwest'，对应表示8。<br />
-                   *
-                   * background: object，当上面fit选项值为'contain'时的背景颜色，默认值是{ r: 0, g: 0, b: 0, alpha: 1 }（对应黑色不透明[ 0, 0, 0, 255 ]）。<br />
-                   *
-                   * kernel: string，用于图像缩减的内核，默认值是'lanczos3'（对应'lanczos3'）。<br />
-                   * 有效的字符串值有：<br />
-                   * 'nearest'，对应表示'nearest'。<br />
-                   * 'cubic'，对应表示'cubic'。<br />
-                   * 'mitchell'，对应表示'mitchell'。<br />
-                   * 'lanczos2'，对应表示'lanczos2'。<br />
-                   * 'lanczos3'，对应表示'lanczos3'。<br />
-                   *
-                   * withoutEnlargement: boolean，如果图片的宽度或高度已经小于上面提供的width、height，是否不放大，默认值是false。<br />
-                   * false表示放大。<br />
-                   * true表示不放大。<br />
-                   *
-                   * withoutReduction: boolean，如果图片的宽度或高度已经大于上面提供的width、height，是否不缩小，默认值是false。<br />
-                   * false表示缩小。<br />
-                   * true表示不缩小。<br />
-                   *
-                   * fastShrinkOnLoad: boolean，是否充分利用JPEG和WebP的“shrink-on-load”特性，这可能会导致某些图像上出现轻微的波纹图案，默认值是true。<br />
-                   * }<br />
-                   * 3、上面的enabled选项为true时，才会启用重置图片大小的操作。<br />
-                   */
-                  // resize: null,
-                  /**
-                   * 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。<br />
-                   *
-                   * @param {number} width 最终结果图片的宽度值。<br />
-                   *
-                   * @param {number} height 最终结果图片的高度值。<br />
-                   *
-                   * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
-                   */
-                  sizeSuffix( width, height ){
-                    return ``;
-                  },
-                  /**
-                   * 1、详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。<br />
-                   * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
-                   */
-                  encodeOptions: {
-                    // jpeg
-                    ...( () => {
-                      const config = {
-                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                        quality: 80,
-                        // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
-                        progressive: false,
-                        // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
-                        chromaSubsampling: '4:4:4',
-                        // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
-                        optimiseCoding: true,
-                        // optimiseCoding的替代拼写，值类型：boolean，默认值：true，可选。
-                        optimizeCoding: true,
-                        /**
-                         * 1、是否使用mozjpeg压缩优化。
-                         * 2、值类型：boolean，默认值：false，可选。<br />
-                         * 3、设置为true（相当于使用mozjpeg默认值，相当于{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }），表示使用mozjpeg压缩优化JPEG文件大小，会耗时，较慢。<br />
-                         * 4、设置为false，表示禁用mozjpeg压缩优化，不耗时。<br />
-                         */
-                        mozjpeg: true,
-                        // 应用网格量化，值类型：boolean，默认值：false，可选。
-                        trellisQuantisation: false,
-                        // 应用过冲去环，值类型：boolean，默认值：false，可选。
-                        overshootDeringing: false,
-                        // 优化逐行扫描，强制逐行扫描，值类型：boolean，默认值：false，可选。
-                        optimiseScans: false,
-                        // optimiseScans的替代拼写，值类型：boolean，默认值：false，可选。
-                        optimizeScans: false,
-                        // 要使用的量化表，值类型：number，默认值：0，值范围：0-8，可选。
-                        quantisationTable: 0,
-                        // quantisationTable的替代拼写，值类型：number，默认值：0，值范围：0-8，可选。
-                        quantizationTable: 0,
-                        // 强制JPEG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                        force: true,
-                      };
+                                                     test: /\.(avif|gif|jp2|jpe|jpeg|jpg|png|raw|tif|tiff|webp)$/i,
+                                                     ...imageMinimizerPluginConfig,
+                                                     minimizer: {
+                                                       implementation: ImageMinimizerPlugin.sharpMinify,
+                                                       // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
+                                                       filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                       /**
+                                                        * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
+                                                        *
+                                                        * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
+                                                        *
+                                                        * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
+                                                        *
+                                                        * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
+                                                        */
+                                                       filter( source, sourcePath ){
+                                                         if( Number( source.byteLength ) > 10 * 1024 ){
+                                                           return true;
+                                                         }
+                                                         else{
+                                                           return false;
+                                                         }
+                                                       },
+                                                       // 如下的sharpMinify实现的配置参数都是从源代码中获取的：node_modules/image-minimizer-webpack-plugin/dist/utils.js:927，都在异步函数sharpTransform中。
+                                                       options: {
+                                                         /**
+                                                          * 1、旋转图片的角度。<br />
+                                                          * 2、值类型：number、string（只有1个预设值：'auto'）。<br />
+                                                          * 3、比如设置值为：90表示顺时针旋转90度、-90表示逆时针旋转90度，支持任何角度的旋转：45、35、1、0等等。<br />
+                                                          */
+                                                         // rotate: null,
+                                                         /**
+                                                          * 1、重置图片的大小。<br />
+                                                          * 2、值类型：<br />
+                                                          * {<br />
+                                                          * enabled: boolean<br />
+                                                          * width: number（必须是正整数），如果只设置了宽度，那么高度会自动等比缩放。<br />
+                                                          * height: number（必须是正整数），如果只设置了高度，那么宽度会自动等比缩放。<br />
+                                                          *
+                                                          * 说明：<br />
+                                                          * 例如，原图片大小为宽度1920px，高度1080px。设置{ enabled: true, width: 500, height: 500 }，以下其他选项都不设置，保持其各自默认值即可，那么重置的具体步骤（这些步骤涉及的操作都可以通过以下的选项来改变的）如下：<br />
+                                                          * 有2种重置方案：<br />
+                                                          * 第1种，将图片等比缩放成宽度500px的，这时会缩放成宽度500px，高度281px，显然高度达不到设置的500，所以这个方案废弃。<br />
+                                                          * 第2种，将图片等比缩放成高度500px的，这时会缩放成宽度890px，高度500px，显然宽度、高度都能达到设置的，所以采用这种方案。<br />
+                                                          * 1、将图片等比缩放到高度为500px的大小，宽度随高度等比缩放。<br />
+                                                          * 2、然后从中心开始裁剪出高度为500px、宽度为500px的图片。<br />
+                                                          * 3、“等比缩放”、“中心”（position）、“裁剪”（fit）、“黑色填充背景色”（background）等等操作都是以下选项设置的。<br />
+                                                          *
+                                                          * 以上是常用选项。下面的选项是从“sharp”的源代码中找到的，它们一般都有默认值，除非特殊需要，否则不用设置。<br />
+                                                          *
+                                                          * fit: string，如何调整图像大小以适应上面提供的width、height，默认值是'cover'（修剪）。<br />
+                                                          * 其有效值有：<br />
+                                                          * 'contain'，对应表示'embed'（填充，其他区域会用背景色填充）。<br />
+                                                          * 'cover'，对应表示'crop'（修剪）。<br />
+                                                          * 'fill'，对应表示'ignore_aspect'（估计是强制缩放到上面提供的width、height）。<br />
+                                                          * 'inside'，对应表示'max'。<br />
+                                                          * 'outside'，对应表示'min'。<br />
+                                                          *
+                                                          * position: string、number（必须是正整数，大于等于0且小于等于8，或为16、17），当上面fit选项值为'cover'、'contain'时偏移量的设置，默认值是'center'（对应表示0）。<br />
+                                                          * 有效的字符串值有：<br />
+                                                          * 'entropy'，对应表示16。<br />
+                                                          * 'attention'，对应表示17。<br />
+                                                          * 'top'，对应表示1。<br />
+                                                          * 'right'，对应表示2。<br />
+                                                          * 'bottom'，对应表示3。<br />
+                                                          * 'left'，对应表示4。<br />
+                                                          * 'right top'，对应表示5。<br />
+                                                          * 'right bottom'，对应表示6。<br />
+                                                          * 'left bottom'，对应表示7。<br />
+                                                          * 'left top'，对应表示8。<br />
+                                                          * 'center'，对应表示0。<br />
+                                                          * 'centre'，对应表示0。<br />
+                                                          * 'north'，对应表示1。<br />
+                                                          * 'east'，对应表示2。<br />
+                                                          * 'south'，对应表示3。<br />
+                                                          * 'west'，对应表示4。<br />
+                                                          * 'northeast'，对应表示5。<br />
+                                                          * 'southeast'，对应表示6。<br />
+                                                          * 'southwest'，对应表示7。<br />
+                                                          * 'northwest'，对应表示8。<br />
+                                                          *
+                                                          * background: object，当上面fit选项值为'contain'时的背景颜色，默认值是{ r: 0, g: 0, b: 0, alpha: 1 }（对应黑色不透明[ 0, 0, 0, 255 ]）。<br />
+                                                          *
+                                                          * kernel: string，用于图像缩减的内核，默认值是'lanczos3'（对应'lanczos3'）。<br />
+                                                          * 有效的字符串值有：<br />
+                                                          * 'nearest'，对应表示'nearest'。<br />
+                                                          * 'cubic'，对应表示'cubic'。<br />
+                                                          * 'mitchell'，对应表示'mitchell'。<br />
+                                                          * 'lanczos2'，对应表示'lanczos2'。<br />
+                                                          * 'lanczos3'，对应表示'lanczos3'。<br />
+                                                          *
+                                                          * withoutEnlargement: boolean，如果图片的宽度或高度已经小于上面提供的width、height，是否不放大，默认值是false。<br />
+                                                          * false表示放大。<br />
+                                                          * true表示不放大。<br />
+                                                          *
+                                                          * withoutReduction: boolean，如果图片的宽度或高度已经大于上面提供的width、height，是否不缩小，默认值是false。<br />
+                                                          * false表示缩小。<br />
+                                                          * true表示不缩小。<br />
+                                                          *
+                                                          * fastShrinkOnLoad: boolean，是否充分利用JPEG和WebP的“shrink-on-load”特性，这可能会导致某些图像上出现轻微的波纹图案，默认值是true。<br />
+                                                          * }<br />
+                                                          * 3、上面的enabled选项为true时，才会启用重置图片大小的操作。<br />
+                                                          */
+                                                         // resize: null,
+                                                         /**
+                                                          * 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。<br />
+                                                          *
+                                                          * @param {number} width 最终结果图片的宽度值。<br />
+                                                          *
+                                                          * @param {number} height 最终结果图片的高度值。<br />
+                                                          *
+                                                          * @returns {string} 该函数用于为图片名添加一个可以DIY的字符串，最终图片名为:`${图片原名}${该函数返回的字符串}.${图片后缀}`。
+                                                          */
+                                                         sizeSuffix( width, height ){
+                                                           return ``;
+                                                         },
+                                                         /**
+                                                          * 1、详细选项可见：https://sharp.pixelplumbing.com/api-output，里面有：9种配置（jpeg、png、webp、gif、jp2、tiff、avif、heif、raw）。<br />
+                                                          * 2、直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。<br />
+                                                          */
+                                                         encodeOptions: {
+                                                           // jpeg
+                                                           ...( () => {
+                                                             const config = {
+                                                               // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                               quality: 80,
+                                                               // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                                                               progressive: false,
+                                                               // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
+                                                               chromaSubsampling: '4:4:4',
+                                                               // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
+                                                               optimiseCoding: true,
+                                                               // optimiseCoding的替代拼写，值类型：boolean，默认值：true，可选。
+                                                               optimizeCoding: true,
+                                                               /**
+                                                                * 1、是否使用mozjpeg压缩优化。
+                                                                * 2、值类型：boolean，默认值：false，可选。<br />
+                                                                * 3、设置为true（相当于使用mozjpeg默认值，相当于{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }），表示使用mozjpeg压缩优化JPEG文件大小，会耗时，较慢。<br />
+                                                                * 4、设置为false，表示禁用mozjpeg压缩优化，不耗时。<br />
+                                                                */
+                                                               mozjpeg: true,
+                                                               // 应用网格量化，值类型：boolean，默认值：false，可选。
+                                                               trellisQuantisation: false,
+                                                               // 应用过冲去环，值类型：boolean，默认值：false，可选。
+                                                               overshootDeringing: false,
+                                                               // 优化逐行扫描，强制逐行扫描，值类型：boolean，默认值：false，可选。
+                                                               optimiseScans: false,
+                                                               // optimiseScans的替代拼写，值类型：boolean，默认值：false，可选。
+                                                               optimizeScans: false,
+                                                               // 要使用的量化表，值类型：number，默认值：0，值范围：0-8，可选。
+                                                               quantisationTable: 0,
+                                                               // quantisationTable的替代拼写，值类型：number，默认值：0，值范围：0-8，可选。
+                                                               quantizationTable: 0,
+                                                               // 强制JPEG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                               force: true,
+                                                             };
 
-                      return {
-                        jpe: config,
-                        jpeg: config,
-                        jpg: config,
-                      };
-                    } )(),
-                    png: {
-                      // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
-                      progressive: false,
-                      // zlib压缩级别，值类型：number，默认值：6，值范围：0（压缩速度最快，图片大小最大）-9（压缩速度最慢，图片大小最小），可选。
-                      compressionLevel: 6,
-                      // 使用自适应行过滤，值类型：boolean，默认值：false，可选。
-                      adaptiveFiltering: false,
-                      // 量化为具有Alpha透明度支持的基于调色板的图像，值类型：boolean，默认值：false，启用后压缩优化会较慢，可选。
-                      palette: true,
-                      // 使用达到给定质量所需的最少颜色数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：100，可选。
-                      quality: 100,
-                      // CPU工作量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
-                      effort: 7,
-                      // 调色板条目的最大数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
-                      colours: 256,
-                      // colours的替代拼写，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
-                      colors: 256,
-                      // Floyd-Steinberg误差扩散级别，需要将palette设置为true才可以应用该选项，值类型：number，默认值：1.0，可选。
-                      dither: 1.0,
-                      // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                      force: true,
-                    },
-                    webp: {
-                      // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                      quality: 80,
-                      // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
-                      alphaQuality: 100,
-                      // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                      lossless: false,
-                      // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
-                      nearLossless: false,
-                      // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
-                      smartSubsample: false,
-                      // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
-                      effort: 4,
-                      // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
-                      loop: 0,
-                      // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
-                      // delay: 1,
-                      // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                      force: true,
-                    },
-                    gif: {
-                      // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
-                      colours: 256,
-                      // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
-                      colors: 256,
-                      // CPU工作量，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
-                      effort: 7,
-                      // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
-                      dither: 1.0,
-                      // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
-                      loop: 0,
-                      // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
-                      // delay: 1,
-                      // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                      force: true,
-                    },
-                    jp2: {
-                      // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                      quality: 80,
-                      // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                      lossless: false,
-                      // 水平tile尺寸，值类型：number，默认值：512，可选。
-                      tileWidth: 512,
-                      // 垂直tile尺寸，值类型：number，默认值：512，可选。
-                      tileHeight: 512,
-                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
-                      chromaSubsampling: '4:4:4',
-                    },
-                    // tif
-                    ...( () => {
-                      const config = {
-                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                        quality: 80,
-                        // 强制TIFF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                        force: true,
-                        // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
-                        compression: 'jpeg',
-                        // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
-                        predictor: 'horizontal',
-                        // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
-                        pyramid: false,
-                        // 写一个tiled tiff，值类型：boolean，默认值：false，可选。
-                        tile: false,
-                        // 水平tile尺寸，值类型：number，默认值：256，可选。
-                        tileWidth: 256,
-                        // 垂直tile尺寸，值类型：number，默认值：256，可选。
-                        tileHeight: 256,
-                        // 水平分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
-                        xres: 1.0,
-                        // 垂直分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
-                        yres: 1.0,
-                        // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
-                        resolutionUnit: 'inch',
-                        // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
-                        bitdepth: 8,
-                      };
+                                                             return {
+                                                               jpe: config,
+                                                               jpeg: config,
+                                                               jpg: config,
+                                                             };
+                                                           } )(),
+                                                           png: {
+                                                             // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                                                             progressive: false,
+                                                             // zlib压缩级别，值类型：number，默认值：6，值范围：0（压缩速度最快，图片大小最大）-9（压缩速度最慢，图片大小最小），可选。
+                                                             compressionLevel: 6,
+                                                             // 使用自适应行过滤，值类型：boolean，默认值：false，可选。
+                                                             adaptiveFiltering: false,
+                                                             // 量化为具有Alpha透明度支持的基于调色板的图像，值类型：boolean，默认值：false，启用后压缩优化会较慢，可选。
+                                                             palette: true,
+                                                             // 使用达到给定质量所需的最少颜色数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：100，可选。
+                                                             quality: 100,
+                                                             // CPU工作量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                                                             effort: 7,
+                                                             // 调色板条目的最大数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                                                             colours: 256,
+                                                             // colours的替代拼写，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                                                             colors: 256,
+                                                             // Floyd-Steinberg误差扩散级别，需要将palette设置为true才可以应用该选项，值类型：number，默认值：1.0，可选。
+                                                             dither: 1.0,
+                                                             // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                             force: true,
+                                                           },
+                                                           webp: {
+                                                             // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                             quality: 80,
+                                                             // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
+                                                             alphaQuality: 100,
+                                                             // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                             lossless: false,
+                                                             // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
+                                                             nearLossless: false,
+                                                             // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
+                                                             smartSubsample: false,
+                                                             // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
+                                                             effort: 4,
+                                                             // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                                                             loop: 0,
+                                                             // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                                                             // delay: 1,
+                                                             // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                             force: true,
+                                                           },
+                                                           gif: {
+                                                             // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
+                                                             colours: 256,
+                                                             // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
+                                                             colors: 256,
+                                                             // CPU工作量，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                                                             effort: 7,
+                                                             // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
+                                                             dither: 1.0,
+                                                             // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                                                             loop: 0,
+                                                             // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                                                             // delay: 1,
+                                                             // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                             force: true,
+                                                           },
+                                                           jp2: {
+                                                             // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                             quality: 80,
+                                                             // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                             lossless: false,
+                                                             // 水平tile尺寸，值类型：number，默认值：512，可选。
+                                                             tileWidth: 512,
+                                                             // 垂直tile尺寸，值类型：number，默认值：512，可选。
+                                                             tileHeight: 512,
+                                                             // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
+                                                             chromaSubsampling: '4:4:4',
+                                                           },
+                                                           // tif
+                                                           ...( () => {
+                                                             const config = {
+                                                               // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                               quality: 80,
+                                                               // 强制TIFF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                               force: true,
+                                                               // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
+                                                               compression: 'jpeg',
+                                                               // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
+                                                               predictor: 'horizontal',
+                                                               // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
+                                                               pyramid: false,
+                                                               // 写一个tiled tiff，值类型：boolean，默认值：false，可选。
+                                                               tile: false,
+                                                               // 水平tile尺寸，值类型：number，默认值：256，可选。
+                                                               tileWidth: 256,
+                                                               // 垂直tile尺寸，值类型：number，默认值：256，可选。
+                                                               tileHeight: 256,
+                                                               // 水平分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                                                               xres: 1.0,
+                                                               // 垂直分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                                                               yres: 1.0,
+                                                               // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
+                                                               resolutionUnit: 'inch',
+                                                               // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
+                                                               bitdepth: 8,
+                                                             };
 
-                      return {
-                        tif: config,
-                        tiff: config,
-                      };
-                    } )(),
-                    // 使用这些AVIF选项输出图像。虽然可以创建小于16x16像素的AVIF图像，但大多数Web浏览器（火狐浏览器支持的）无法正确显示这些图像。不支持AVIF图像序列。
-                    avif: {
-                      // 质量，值类型：number，默认值：50，值范围：1-100，可选。
-                      quality: 50,
-                      // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                      lossless: false,
-                      // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
-                      effort: 4,
-                      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
-                      chromaSubsampling: '4:4:4',
-                    },
-                    // heic，直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
-                    ...( () => {
-                      const config = {
-                        // 质量，值类型：number，默认值：50，值范围：1-100，可选。
-                        quality: 50,
-                        // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
-                        compression: 'av1',
-                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                        lossless: false,
-                        // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
-                        effort: 4,
-                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
-                        chromaSubsampling: '4:4:4',
-                      };
+                                                             return {
+                                                               tif: config,
+                                                               tiff: config,
+                                                             };
+                                                           } )(),
+                                                           // 使用这些AVIF选项输出图像。虽然可以创建小于16x16像素的AVIF图像，但大多数Web浏览器（火狐浏览器支持的）无法正确显示这些图像。不支持AVIF图像序列。
+                                                           avif: {
+                                                             // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                                                             quality: 50,
+                                                             // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                             lossless: false,
+                                                             // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                                                             effort: 4,
+                                                             // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
+                                                             chromaSubsampling: '4:4:4',
+                                                           },
+                                                           // heic，直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
+                                                           ...( () => {
+                                                             const config = {
+                                                               // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                                                               quality: 50,
+                                                               // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
+                                                               compression: 'av1',
+                                                               // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                               lossless: false,
+                                                               // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                                                               effort: 4,
+                                                               // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
+                                                               chromaSubsampling: '4:4:4',
+                                                             };
 
-                      return {
-                        heic: config,
-                        heif: config,
-                      };
-                    } )(),
-                    // 强制输出为原始的、未压缩的像素数据。像素排序是从左到右，从上到下，没有填充。对于非灰度色彩空间，通道排序将是RGB或RGBA。
-                    raw: {
-                      // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
-                      depth: 'uchar',
-                    },
-                  },
-                },
-              },
-              /**
-               * 目前支持从其他格式生成avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp格式的图片。<br />
-               * 1、如果要处理的图片地址中没有这样的查询参数：“?as=webp”、“?as=avif”等等，就会使用上面的“minimizer”选项进行图片优化。<br />
-               * 2、当“loader”选项被设置为false时，该选项也不工作了。<br />
-               */
-              generator: [
-                // jpe、jpeg、jpg
-                ...( arr => {
-                  return arr.map( item => {
-                    return {
-                      implementation: ImageMinimizerPlugin.sharpGenerate,
-                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                      filter( source, sourcePath ){
-                        if( Number( source.byteLength ) > 10 * 1024 ){
-                          return true;
-                        }
-                        else{
-                          return false;
-                        }
-                      },
-                      /**
-                       * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                       */
-                      preset: item,
-                      /**
-                       * 1、该选项有效值有：<br />
-                       * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                       * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                       */
-                      type: 'import',
-                      /**
-                       * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                       */
-                      options: {
-                        encodeOptions: {
-                          [ item ]: {
-                            // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                            quality: 80,
-                            // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
-                            progressive: false,
-                            // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
-                            chromaSubsampling: '4:4:4',
-                            // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
-                            optimiseCoding: true,
-                            // optimiseCoding的替代拼写，值类型：boolean，默认值：true，可选。
-                            optimizeCoding: true,
-                            /**
-                             * 1、是否使用mozjpeg压缩优化。
-                             * 2、值类型：boolean，默认值：false，可选。<br />
-                             * 3、设置为true（相当于使用mozjpeg默认值，相当于{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }），表示使用mozjpeg压缩优化JPEG文件大小，会耗时，较慢。<br />
-                             * 4、设置为false，表示禁用mozjpeg压缩优化，不耗时。<br />
-                             */
-                            mozjpeg: true,
-                            // 应用网格量化，值类型：boolean，默认值：false，可选。
-                            trellisQuantisation: false,
-                            // 应用过冲去环，值类型：boolean，默认值：false，可选。
-                            overshootDeringing: false,
-                            // 优化逐行扫描，强制逐行扫描，值类型：boolean，默认值：false，可选。
-                            optimiseScans: false,
-                            // optimiseScans的替代拼写，值类型：boolean，默认值：false，可选。
-                            optimizeScans: false,
-                            // 要使用的量化表，值类型：number，默认值：0，值范围：0-8，可选。
-                            quantisationTable: 0,
-                            // quantisationTable的替代拼写，值类型：number，默认值：0，值范围：0-8，可选。
-                            quantizationTable: 0,
-                            // 强制JPEG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                            force: true,
-                          },
-                        },
-                      },
-                    };
-                  } );
-                } )( [
-                  'jpe',
-                  'jpeg',
-                  'jpg',
-                ] ),
-                // png
-                {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                  filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
-                      return true;
-                    }
-                    else{
-                      return false;
-                    }
-                  },
-                  /**
-                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                   */
-                  preset: 'png',
-                  /**
-                   * 1、该选项有效值有：<br />
-                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                   */
-                  type: 'import',
-                  /**
-                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                   */
-                  options: {
-                    encodeOptions: {
-                      png: {
-                        // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
-                        progressive: false,
-                        // zlib压缩级别，值类型：number，默认值：6，值范围：0（压缩速度最快，图片大小最大）-9（压缩速度最慢，图片大小最小），可选。
-                        compressionLevel: 6,
-                        // 使用自适应行过滤，值类型：boolean，默认值：false，可选。
-                        adaptiveFiltering: false,
-                        // 量化为具有Alpha透明度支持的基于调色板的图像，值类型：boolean，默认值：false，启用后压缩优化会较慢，可选。
-                        palette: true,
-                        // 使用达到给定质量所需的最少颜色数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：100，可选。
-                        quality: 100,
-                        // CPU工作量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
-                        effort: 7,
-                        // 调色板条目的最大数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
-                        colours: 256,
-                        // colours的替代拼写，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
-                        colors: 256,
-                        // Floyd-Steinberg误差扩散级别，需要将palette设置为true才可以应用该选项，值类型：number，默认值：1.0，可选。
-                        dither: 1.0,
-                        // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                        force: true,
-                      },
-                    },
-                  },
-                },
-                // webp
-                {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                  filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
-                      return true;
-                    }
-                    else{
-                      return false;
-                    }
-                  },
-                  /**
-                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                   */
-                  preset: 'webp',
-                  /**
-                   * 1、该选项有效值有：<br />
-                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                   */
-                  type: 'import',
-                  /**
-                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                   */
-                  options: {
-                    encodeOptions: {
-                      webp: {
-                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                        quality: 80,
-                        // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
-                        alphaQuality: 100,
-                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                        lossless: false,
-                        // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
-                        nearLossless: false,
-                        // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
-                        smartSubsample: false,
-                        // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
-                        effort: 4,
-                        // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
-                        loop: 0,
-                        // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
-                        // delay: 1,
-                        // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                        force: true,
-                      },
-                    },
-                  },
-                },
-                // gif
-                {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                  filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
-                      return true;
-                    }
-                    else{
-                      return false;
-                    }
-                  },
-                  /**
-                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                   */
-                  preset: 'gif',
-                  /**
-                   * 1、该选项有效值有：<br />
-                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                   */
-                  type: 'import',
-                  /**
-                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                   */
-                  options: {
-                    encodeOptions: {
-                      gif: {
-                        // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
-                        colours: 256,
-                        // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
-                        colors: 256,
-                        // CPU工作量，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
-                        effort: 7,
-                        // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
-                        dither: 1.0,
-                        // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
-                        loop: 0,
-                        // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
-                        // delay: 1,
-                        // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                        force: true,
-                      },
-                    },
-                  },
-                },
-                // jp2
-                {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                  filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
-                      return true;
-                    }
-                    else{
-                      return false;
-                    }
-                  },
-                  /**
-                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                   */
-                  preset: 'jp2',
-                  /**
-                   * 1、该选项有效值有：<br />
-                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                   */
-                  type: 'import',
-                  /**
-                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                   */
-                  options: {
-                    encodeOptions: {
-                      jp2: {
-                        // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                        quality: 80,
-                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                        lossless: false,
-                        // 水平tile尺寸，值类型：number，默认值：512，可选。
-                        tileWidth: 512,
-                        // 垂直tile尺寸，值类型：number，默认值：512，可选。
-                        tileHeight: 512,
-                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
-                        chromaSubsampling: '4:4:4',
-                      },
-                    },
-                  },
-                },
-                // tif、tiff
-                ...( arr => {
-                  return arr.map( item => {
-                    return {
-                      implementation: ImageMinimizerPlugin.sharpGenerate,
-                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                      filter( source, sourcePath ){
-                        if( Number( source.byteLength ) > 10 * 1024 ){
-                          return true;
-                        }
-                        else{
-                          return false;
-                        }
-                      },
-                      /**
-                       * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                       */
-                      preset: item,
-                      /**
-                       * 1、该选项有效值有：<br />
-                       * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                       * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                       */
-                      type: 'import',
-                      /**
-                       * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                       */
-                      options: {
-                        encodeOptions: {
-                          [ item ]: {
-                            // 质量，值类型：number，默认值：80，值范围：1-100，可选。
-                            quality: 80,
-                            // 强制TIFF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
-                            force: true,
-                            // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
-                            compression: 'jpeg',
-                            // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
-                            predictor: 'horizontal',
-                            // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
-                            pyramid: false,
-                            // 写一个tiled tiff，值类型：boolean，默认值：false，可选。
-                            tile: false,
-                            // 水平tile尺寸，值类型：number，默认值：256，可选。
-                            tileWidth: 256,
-                            // 垂直tile尺寸，值类型：number，默认值：256，可选。
-                            tileHeight: 256,
-                            // 水平分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
-                            xres: 1.0,
-                            // 垂直分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
-                            yres: 1.0,
-                            // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
-                            resolutionUnit: 'inch',
-                            // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
-                            bitdepth: 8,
-                          },
-                        },
-                      },
-                    };
-                  } );
-                } )( [
-                  'tif',
-                  'tiff',
-                ] ),
-                // avif
-                {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                  filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
-                      return true;
-                    }
-                    else{
-                      return false;
-                    }
-                  },
-                  /**
-                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                   */
-                  preset: 'avif',
-                  /**
-                   * 1、该选项有效值有：<br />
-                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                   */
-                  type: 'import',
-                  /**
-                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                   */
-                  options: {
-                    encodeOptions: {
-                      avif: {
-                        // 质量，值类型：number，默认值：50，值范围：1-100，可选。
-                        quality: 50,
-                        // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                        lossless: false,
-                        // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
-                        effort: 4,
-                        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
-                        chromaSubsampling: '4:4:4',
-                      },
-                    },
-                  },
-                },
-                // heic、heif
-                ...( arr => {
-                  return arr.map( item => {
-                    return {
-                      implementation: ImageMinimizerPlugin.sharpGenerate,
-                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                      filter( source, sourcePath ){
-                        if( Number( source.byteLength ) > 10 * 1024 ){
-                          return true;
-                        }
-                        else{
-                          return false;
-                        }
-                      },
-                      /**
-                       * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                       */
-                      preset: item,
-                      /**
-                       * 1、该选项有效值有：<br />
-                       * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                       * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                       */
-                      type: 'import',
-                      /**
-                       * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                       */
-                      options: {
-                        encodeOptions: {
-                          [ item ]: {
-                            // 质量，值类型：number，默认值：50，值范围：1-100，可选。
-                            quality: 50,
-                            // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
-                            compression: 'av1',
-                            // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
-                            lossless: false,
-                            // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
-                            effort: 4,
-                            // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
-                            chromaSubsampling: '4:4:4',
-                          },
-                        },
-                      },
-                    };
-                  } );
-                } )( [
-                  'heic',
-                  'heif',
-                ] ),
-                // raw
-                {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
-                  filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
-                      return true;
-                    }
-                    else{
-                      return false;
-                    }
-                  },
-                  /**
-                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
-                   */
-                  preset: 'raw',
-                  /**
-                   * 1、该选项有效值有：<br />
-                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
-                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
-                   */
-                  type: 'import',
-                  /**
-                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
-                   */
-                  options: {
-                    encodeOptions: {
-                      raw: {
-                        // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
-                        depth: 'uchar',
-                      },
-                    },
-                  },
-                },
-              ],
-            } ),
+                                                             return {
+                                                               heic: config,
+                                                               heif: config,
+                                                             };
+                                                           } )(),
+                                                           // 强制输出为原始的、未压缩的像素数据。像素排序是从左到右，从上到下，没有填充。对于非灰度色彩空间，通道排序将是RGB或RGBA。
+                                                           raw: {
+                                                             // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
+                                                             depth: 'uchar',
+                                                           },
+                                                         },
+                                                       },
+                                                     },
+                                                     /**
+                                                      * 目前支持从其他格式生成avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp格式的图片。<br />
+                                                      * 1、如果要处理的图片地址中没有这样的查询参数：“?as=webp”、“?as=avif”等等，就会使用上面的“minimizer”选项进行图片优化。<br />
+                                                      * 2、当“loader”选项被设置为false时，该选项也不工作了。<br />
+                                                      */
+                                                     generator: [
+                                                       // jpe、jpeg、jpg
+                                                       ...( arr => {
+                                                         return arr.map( item => {
+                                                           return {
+                                                             implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                             filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                             filter( source, sourcePath ){
+                                                               if( Number( source.byteLength ) > 10 * 1024 ){
+                                                                 return true;
+                                                               }
+                                                               else{
+                                                                 return false;
+                                                               }
+                                                             },
+                                                             /**
+                                                              * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                              */
+                                                             preset: item,
+                                                             /**
+                                                              * 1、该选项有效值有：<br />
+                                                              * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                              * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                              */
+                                                             type: 'import',
+                                                             /**
+                                                              * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                              */
+                                                             options: {
+                                                               encodeOptions: {
+                                                                 [ item ]: {
+                                                                   // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                                   quality: 80,
+                                                                   // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                                                                   progressive: false,
+                                                                   // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
+                                                                   chromaSubsampling: '4:4:4',
+                                                                   // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
+                                                                   optimiseCoding: true,
+                                                                   // optimiseCoding的替代拼写，值类型：boolean，默认值：true，可选。
+                                                                   optimizeCoding: true,
+                                                                   /**
+                                                                    * 1、是否使用mozjpeg压缩优化。
+                                                                    * 2、值类型：boolean，默认值：false，可选。<br />
+                                                                    * 3、设置为true（相当于使用mozjpeg默认值，相当于{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }），表示使用mozjpeg压缩优化JPEG文件大小，会耗时，较慢。<br />
+                                                                    * 4、设置为false，表示禁用mozjpeg压缩优化，不耗时。<br />
+                                                                    */
+                                                                   mozjpeg: true,
+                                                                   // 应用网格量化，值类型：boolean，默认值：false，可选。
+                                                                   trellisQuantisation: false,
+                                                                   // 应用过冲去环，值类型：boolean，默认值：false，可选。
+                                                                   overshootDeringing: false,
+                                                                   // 优化逐行扫描，强制逐行扫描，值类型：boolean，默认值：false，可选。
+                                                                   optimiseScans: false,
+                                                                   // optimiseScans的替代拼写，值类型：boolean，默认值：false，可选。
+                                                                   optimizeScans: false,
+                                                                   // 要使用的量化表，值类型：number，默认值：0，值范围：0-8，可选。
+                                                                   quantisationTable: 0,
+                                                                   // quantisationTable的替代拼写，值类型：number，默认值：0，值范围：0-8，可选。
+                                                                   quantizationTable: 0,
+                                                                   // 强制JPEG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                                   force: true,
+                                                                 },
+                                                               },
+                                                             },
+                                                           };
+                                                         } );
+                                                       } )( [
+                                                              'jpe',
+                                                              'jpeg',
+                                                              'jpg',
+                                                            ] ),
+                                                       // png
+                                                       {
+                                                         implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                         filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                         filter( source, sourcePath ){
+                                                           if( Number( source.byteLength ) > 10 * 1024 ){
+                                                             return true;
+                                                           }
+                                                           else{
+                                                             return false;
+                                                           }
+                                                         },
+                                                         /**
+                                                          * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                          */
+                                                         preset: 'png',
+                                                         /**
+                                                          * 1、该选项有效值有：<br />
+                                                          * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                          * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                          */
+                                                         type: 'import',
+                                                         /**
+                                                          * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                          */
+                                                         options: {
+                                                           encodeOptions: {
+                                                             png: {
+                                                               // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
+                                                               progressive: false,
+                                                               // zlib压缩级别，值类型：number，默认值：6，值范围：0（压缩速度最快，图片大小最大）-9（压缩速度最慢，图片大小最小），可选。
+                                                               compressionLevel: 6,
+                                                               // 使用自适应行过滤，值类型：boolean，默认值：false，可选。
+                                                               adaptiveFiltering: false,
+                                                               // 量化为具有Alpha透明度支持的基于调色板的图像，值类型：boolean，默认值：false，启用后压缩优化会较慢，可选。
+                                                               palette: true,
+                                                               // 使用达到给定质量所需的最少颜色数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：100，可选。
+                                                               quality: 100,
+                                                               // CPU工作量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                                                               effort: 7,
+                                                               // 调色板条目的最大数量，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                                                               colours: 256,
+                                                               // colours的替代拼写，需要将palette设置为true才可以应用该选项，值类型：number，默认值：256，可选。
+                                                               colors: 256,
+                                                               // Floyd-Steinberg误差扩散级别，需要将palette设置为true才可以应用该选项，值类型：number，默认值：1.0，可选。
+                                                               dither: 1.0,
+                                                               // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                               force: true,
+                                                             },
+                                                           },
+                                                         },
+                                                       },
+                                                       // webp
+                                                       {
+                                                         implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                         filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                         filter( source, sourcePath ){
+                                                           if( Number( source.byteLength ) > 10 * 1024 ){
+                                                             return true;
+                                                           }
+                                                           else{
+                                                             return false;
+                                                           }
+                                                         },
+                                                         /**
+                                                          * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                          */
+                                                         preset: 'webp',
+                                                         /**
+                                                          * 1、该选项有效值有：<br />
+                                                          * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                          * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                          */
+                                                         type: 'import',
+                                                         /**
+                                                          * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                          */
+                                                         options: {
+                                                           encodeOptions: {
+                                                             webp: {
+                                                               // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                               quality: 80,
+                                                               // alpha层的质量，值类型：number，默认值：100，值范围：0-100，可选。
+                                                               alphaQuality: 100,
+                                                               // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                               lossless: false,
+                                                               // 使用near_lossless（接近无损的）压缩模式，值类型：boolean，默认值：false，可选。
+                                                               nearLossless: false,
+                                                               // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
+                                                               smartSubsample: false,
+                                                               // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
+                                                               effort: 4,
+                                                               // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                                                               loop: 0,
+                                                               // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                                                               // delay: 1,
+                                                               // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                               force: true,
+                                                             },
+                                                           },
+                                                         },
+                                                       },
+                                                       // gif
+                                                       {
+                                                         implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                         filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                         filter( source, sourcePath ){
+                                                           if( Number( source.byteLength ) > 10 * 1024 ){
+                                                             return true;
+                                                           }
+                                                           else{
+                                                             return false;
+                                                           }
+                                                         },
+                                                         /**
+                                                          * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                          */
+                                                         preset: 'gif',
+                                                         /**
+                                                          * 1、该选项有效值有：<br />
+                                                          * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                          * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                          */
+                                                         type: 'import',
+                                                         /**
+                                                          * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                          */
+                                                         options: {
+                                                           encodeOptions: {
+                                                             gif: {
+                                                               // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
+                                                               colours: 256,
+                                                               // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
+                                                               colors: 256,
+                                                               // CPU工作量，值类型：number，默认值：7，值范围：1（最快）-10（最慢），可选。
+                                                               effort: 7,
+                                                               // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
+                                                               dither: 1.0,
+                                                               // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
+                                                               loop: 0,
+                                                               // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
+                                                               // delay: 1,
+                                                               // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                               force: true,
+                                                             },
+                                                           },
+                                                         },
+                                                       },
+                                                       // jp2
+                                                       {
+                                                         implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                         filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                         filter( source, sourcePath ){
+                                                           if( Number( source.byteLength ) > 10 * 1024 ){
+                                                             return true;
+                                                           }
+                                                           else{
+                                                             return false;
+                                                           }
+                                                         },
+                                                         /**
+                                                          * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                          */
+                                                         preset: 'jp2',
+                                                         /**
+                                                          * 1、该选项有效值有：<br />
+                                                          * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                          * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                          */
+                                                         type: 'import',
+                                                         /**
+                                                          * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                          */
+                                                         options: {
+                                                           encodeOptions: {
+                                                             jp2: {
+                                                               // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                               quality: 80,
+                                                               // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                               lossless: false,
+                                                               // 水平tile尺寸，值类型：number，默认值：512，可选。
+                                                               tileWidth: 512,
+                                                               // 垂直tile尺寸，值类型：number，默认值：512，可选。
+                                                               tileHeight: 512,
+                                                               // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
+                                                               chromaSubsampling: '4:4:4',
+                                                             },
+                                                           },
+                                                         },
+                                                       },
+                                                       // tif、tiff
+                                                       ...( arr => {
+                                                         return arr.map( item => {
+                                                           return {
+                                                             implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                             filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                             filter( source, sourcePath ){
+                                                               if( Number( source.byteLength ) > 10 * 1024 ){
+                                                                 return true;
+                                                               }
+                                                               else{
+                                                                 return false;
+                                                               }
+                                                             },
+                                                             /**
+                                                              * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                              */
+                                                             preset: item,
+                                                             /**
+                                                              * 1、该选项有效值有：<br />
+                                                              * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                              * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                              */
+                                                             type: 'import',
+                                                             /**
+                                                              * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                              */
+                                                             options: {
+                                                               encodeOptions: {
+                                                                 [ item ]: {
+                                                                   // 质量，值类型：number，默认值：80，值范围：1-100，可选。
+                                                                   quality: 80,
+                                                                   // 强制TIFF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
+                                                                   force: true,
+                                                                   // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
+                                                                   compression: 'jpeg',
+                                                                   // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
+                                                                   predictor: 'horizontal',
+                                                                   // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
+                                                                   pyramid: false,
+                                                                   // 写一个tiled tiff，值类型：boolean，默认值：false，可选。
+                                                                   tile: false,
+                                                                   // 水平tile尺寸，值类型：number，默认值：256，可选。
+                                                                   tileWidth: 256,
+                                                                   // 垂直tile尺寸，值类型：number，默认值：256，可选。
+                                                                   tileHeight: 256,
+                                                                   // 水平分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                                                                   xres: 1.0,
+                                                                   // 垂直分辨率，像素（pixels）/毫米（mm），值类型：number，默认值：1.0，可选。
+                                                                   yres: 1.0,
+                                                                   // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
+                                                                   resolutionUnit: 'inch',
+                                                                   // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
+                                                                   bitdepth: 8,
+                                                                 },
+                                                               },
+                                                             },
+                                                           };
+                                                         } );
+                                                       } )( [
+                                                              'tif',
+                                                              'tiff',
+                                                            ] ),
+                                                       // avif
+                                                       {
+                                                         implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                         filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                         filter( source, sourcePath ){
+                                                           if( Number( source.byteLength ) > 10 * 1024 ){
+                                                             return true;
+                                                           }
+                                                           else{
+                                                             return false;
+                                                           }
+                                                         },
+                                                         /**
+                                                          * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                          */
+                                                         preset: 'avif',
+                                                         /**
+                                                          * 1、该选项有效值有：<br />
+                                                          * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                          * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                          */
+                                                         type: 'import',
+                                                         /**
+                                                          * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                          */
+                                                         options: {
+                                                           encodeOptions: {
+                                                             avif: {
+                                                               // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                                                               quality: 50,
+                                                               // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                               lossless: false,
+                                                               // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                                                               effort: 4,
+                                                               // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
+                                                               chromaSubsampling: '4:4:4',
+                                                             },
+                                                           },
+                                                         },
+                                                       },
+                                                       // heic、heif
+                                                       ...( arr => {
+                                                         return arr.map( item => {
+                                                           return {
+                                                             implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                             filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                             filter( source, sourcePath ){
+                                                               if( Number( source.byteLength ) > 10 * 1024 ){
+                                                                 return true;
+                                                               }
+                                                               else{
+                                                                 return false;
+                                                               }
+                                                             },
+                                                             /**
+                                                              * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                              */
+                                                             preset: item,
+                                                             /**
+                                                              * 1、该选项有效值有：<br />
+                                                              * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                              * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                              */
+                                                             type: 'import',
+                                                             /**
+                                                              * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                              */
+                                                             options: {
+                                                               encodeOptions: {
+                                                                 [ item ]: {
+                                                                   // 质量，值类型：number，默认值：50，值范围：1-100，可选。
+                                                                   quality: 50,
+                                                                   // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
+                                                                   compression: 'av1',
+                                                                   // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
+                                                                   lossless: false,
+                                                                   // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
+                                                                   effort: 4,
+                                                                   // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
+                                                                   chromaSubsampling: '4:4:4',
+                                                                 },
+                                                               },
+                                                             },
+                                                           };
+                                                         } );
+                                                       } )( [
+                                                              'heic',
+                                                              'heif',
+                                                            ] ),
+                                                       // raw
+                                                       {
+                                                         implementation: ImageMinimizerPlugin.sharpGenerate,
+                                                         filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                                                         filter( source, sourcePath ){
+                                                           if( Number( source.byteLength ) > 10 * 1024 ){
+                                                             return true;
+                                                           }
+                                                           else{
+                                                             return false;
+                                                           }
+                                                         },
+                                                         /**
+                                                          * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                                                          */
+                                                         preset: 'raw',
+                                                         /**
+                                                          * 1、该选项有效值有：<br />
+                                                          * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                                                          * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                                                          */
+                                                         type: 'import',
+                                                         /**
+                                                          * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                                                          */
+                                                         options: {
+                                                           encodeOptions: {
+                                                             raw: {
+                                                               // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
+                                                               depth: 'uchar',
+                                                             },
+                                                           },
+                                                         },
+                                                       },
+                                                     ],
+                                                   } ),
           };
 
           return isEnable
@@ -10584,7 +10584,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
+      if(
+        !isProduction
+        && ( name === undefined || name === null )
+        && id !== undefined
+        && id !== null
+        && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) )
+      ){
         return `workers/[name]_[contenthash].worker.js`;
       }
 
@@ -10725,7 +10731,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
       }
 
-      if( !isProduction && ( name === undefined || name === null ) && id !== undefined && id !== null && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) ) ){
+      if(
+        !isProduction
+        && ( name === undefined || name === null )
+        && id !== undefined
+        && id !== null
+        && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) )
+      ){
         return `workers/[name]_[contenthash].worker.js`;
       }
 
@@ -10889,8 +10901,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       return new webpack.PrefetchPlugin( resolve( __dirname, './', item ) );
     } );
   } )( [
-    // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径（目前该插件只支持JS类的资源），值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
-  ] ),
+         // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径（目前该插件只支持JS类的资源），值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
+       ] ),
   /**
    * @type {object} 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
    * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
@@ -11067,11 +11079,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       options: item,
     } ) );
   } )( [
-    // 如果需要在生产模式构建时，顺便生成你想要的某些代码的文档，可以在此设置。
+         // 如果需要在生产模式构建时，顺便生成你想要的某些代码的文档，可以在此设置。
 
-    // 参照这个的写法即可。
-    // resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' ),
-  ] ),
+         // 参照这个的写法即可。
+         // resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' ),
+       ] ),
   /**
    * @type {object} 一组用于自定义手表模式的选项。<br />
    * 1、值类型为object，结构如下：

@@ -194,9 +194,7 @@ export default {
   plugins: [
     ...( () => {
       return env.npm_lifecycle_script.includes( 'webpack-dashboard' )
-             ? [
-          new DashboardPlugin(),
-        ]
+             ? [ new DashboardPlugin(), ]
              : [];
     } )(),
 

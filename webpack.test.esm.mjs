@@ -232,8 +232,8 @@ export default {
   },
   mode: 'production',
   module: moduleConfig( {
-    MiniCssExtractPlugin,
-  } ),
+                          MiniCssExtractPlugin,
+                        } ),
   /**
    * 配置的名称。加载多个配置时使用。<br />
    */
@@ -250,9 +250,7 @@ export default {
   plugins: [
     ...( () => {
       return env.npm_lifecycle_script.includes( 'webpack-dashboard' )
-             ? [
-          new DashboardPlugin(),
-        ]
+             ? [ new DashboardPlugin(), ]
              : [];
     } )(),
 
