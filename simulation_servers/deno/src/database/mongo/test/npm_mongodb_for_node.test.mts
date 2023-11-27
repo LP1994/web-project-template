@@ -1,3 +1,5 @@
+#!/usr/bin/env -S tsx
+
 /**
  * Project: web-project-template
  * FileDirPath: simulation_servers/deno/test/npm_mongodb_for_node.test.mts

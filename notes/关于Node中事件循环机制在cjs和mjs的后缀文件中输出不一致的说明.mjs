@@ -1,3 +1,5 @@
+#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation
+
 /**
  * Project: web-project-template
  * FileDirPath: notes/关于Node中事件循环机制在cjs和mjs的后缀文件中输出不一致的说明.mjs

@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run -A --config=../../../../deno.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=1024000 --reload
+
 /**
  * Project: web-project-template
  * FileDirPath: simulation_servers/deno/src/tools/universal_tool_for_deno/unit_test/Main.test.mts

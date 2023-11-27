@@ -1,3 +1,5 @@
+#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation
+
 /**
  * Project: web-project-template
  * FileDirPath: simulation_servers/node/src/tools/universal_tool_for_node/unit_test/Main.test.mjs
