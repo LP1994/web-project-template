@@ -1,1 +1,1 @@
-ts-node-esm -P ../../../../../tsconfig.ts-node.json ./Main.test.mts&pause
+tsx --no-cache --tsconfig ../../../../../tsconfig.json ./Main.test.mts&pause
