@@ -1,12 +1,12 @@
 {
-  "display": "tsconfig.ts-node.json",
+  "display": "tsconfig.tsx.json",
   "_version": "1.0.0",
   "_typescript_version": "5.3.2",
-  "_description": "这是给ts-node-esm使用的tsconfig.json。该配置扩展自tsconfig.json。",
+  "_tsx_version": "4.5.0",
+  "_description": "这是给tsx使用的tsconfig.json。该配置扩展自tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
-  "_ts-node_schema": "https://unpkg.com/ts-node/tsconfig.schema.json",
-  "_ts-node_docs": "https://typestrong.org/ts-node/docs",
+  "_tsx_docs": "https://github.com/privatenumber/tsx",
   "extends": "./tsconfig.json",
   "include": [
     "./**/*.ts",
@@ -20,23 +20,6 @@
     "./simulation_servers/deno/node_modules"
   ],
   "compileOnSave": true,
-  "ts-node": {
-    "compiler": "typescript",
-    "compilerHost": false,
-    "emit": false,
-    "esm": true,
-    "noExperimentalReplAwait": false,
-    "experimentalReplAwait": true,
-    "experimentalResolver": false,
-    "experimentalTsImportSpecifiers": true,
-    "files": false,
-    "logError": false,
-    "preferTsExts": true,
-    "pretty": true,
-    "skipIgnore": false,
-    "swc": false,
-    "transpileOnly": false
-  },
   "typeAcquisition": {
     "enable": true,
     "disableFilenameBasedTypeAcquisition": false
@@ -100,7 +83,7 @@
     "skipLibCheck": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
 
-    "target": "es2022",
+    "target": "es2023",
     "module": "esnext",
     "moduleResolution": "nodenext",
     "baseUrl": "./",
