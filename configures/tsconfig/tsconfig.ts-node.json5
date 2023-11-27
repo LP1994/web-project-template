@@ -33,6 +33,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     "emit": false,
     /*启用原生的ESM支持。*/
     "esm": true,
+    "noExperimentalReplAwait": false,
     /*
     允许在REPL中使用顶级Await。
     使用Node的实现，通过AST语法转换实现这一点。

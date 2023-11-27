@@ -1,0 +1,41 @@
+https://github.com/privatenumber/tsx
+
+
+
+强烈建议使用tsx代替ts-node，后者越来越狗屎了！老是不能直接的支持.mts这种后缀的TS文件！！！
+
+
+它会进行类型检查吗？
+不，esbuild 不支持类型检查。
+
+它有任何限制吗？
+转换由 esbuild 处理，因此它也有相同的限制，如：
+不保留与通过 eval() 执行的代码的兼容性
+只支持某些 tsconfig.json 属性
+不支持 emitDecoratorMetadata
+有关详情，请参阅 esbuild 的 JavaScript 注意事项和 TypeScript 注意事项文档。
+
+
+
+tsx 是一个 Node.js 封装器
+tsx 对 Node.js 进行封装，以增强其对 TypeScript 的支持。由于它是 node 的直接替代品，因此支持所有 Node.js 命令行标志。
+# --no-warnings is a Node.js flag
+tsx --no-warnings ./file.ts
+
+默认情况下，将从当前工作目录检测 tsconfig.json。
+要设置自定义路径，请使用 --tsconfig 标志：
+tsx --tsconfig ./path/to/tsconfig.custom.json ./file.ts
+
+tsx 是一个独立的二进制文件，旨在代替 node 使用，但有时你会想直接使用 node。例如，在 npm 安装的二进制文件中添加 TypeScript 和 ESM 支持时。
+要将 tsx 用作 Node.js 加载器，在 --import 标志中传递它。这将为 Module 和 CommonJS 上下文添加 TypeScript & ESM 支持。
+node --import tsx ./file.ts
+
+仅 ESM 加载器，如果只需要在模块上下文中添加 TypeScript 支持，可以使用 ESM 加载器：
+Node.js v20.6.0 及以上版本
+node --import tsx/esm ./file.ts
+
+Node.js v20.5.1 及以下版本
+node --loader tsx/esm ./file.ts
+
+仅 CommonJS 加载器，如果只需要在 CommonJS 上下文中添加 TypeScript 和 ESM 支持，则可以使用 CJS 加载器：
+node --require tsx/cjs ./file.ts

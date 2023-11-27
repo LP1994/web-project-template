@@ -1,0 +1,101 @@
+ES2023的新增语法Hashbang又叫Shebang。
+
+
+
+Shebang 或 hashbang（#!代码的英文发音）是文件的第一行，它告诉 OS 使用哪个解释器。它通常看起来像这样：
+#!/absolute/path/to/the/interpreter [optional params]
+只有 Shebang 在文件的第一行时，Node.js 才会高兴地将其忽略为注释（即使它前面有空行或//comment 行也不会起作用）。浏览器也会将其忽略（Chrome74+，FF67+）。
+
+多数人在/usr/bin/node 上都有一个 Node.js 二进制文件或符号链接。如果 Node.js 不在/usr/bin/node 上，操作系统就会抱怨了。
+例如 bash 会说 bad interpreter: No such file or directory script won’t execute。
+但有没有办法告诉操作系统使用 Node.js 运行脚本，而不用在乎它安装在哪里呢？
+#!node是没用的，因为 Shebang 需要绝对路径。
+
+在Unix、Linux上的常会看到hashbang这样语句！
+
+env 主要用于在修改后的环境中运行命令。这里的重点是“命令”，因为 env 几乎总是位于/usr/bin/env，而“命令”可以是PATH（在Windows中指的是系统环境变量PATH）上的任何内容。
+
+如果我们不是写/usr/bin/node 而是写/usr/bin/env node，我们就会告诉 OS 运行 env，而 env 将运行 node，最后 node 将依次执行脚本。
+
+这是 Node 脚本最常见的 Shebang：
+#!/usr/bin/env node
+
+将-S 选项传递给 env 会使它解析之后发生的一切，从而打开一扇新的大门：将参数传递给命令。
+例如，假设我们要运行带有特殊标志的 node，以在运行当前文件时启用 ESM 模块。我们可以使用这个 Shebang：
+#!/usr/bin/env -S node --experimental-module
+
+再举一个例子：如果我们想在运行当前脚本之前运行另一个脚本，可以使用 Node 的-r 选项：
+#!/usr/bin/env -S node -r ./my/other/file.js
+
+还记得我们说过 env 可以在修改后的环境中运行命令吗？实际上这就是它名称的来源，而且它的功能非常强大。假设我们希望脚本以生产模式运行，我们可以设置 NODE_ENV 环境变量：
+#!/usr/bin/env -S NODE_ENV=production node
+否则，运行脚本时 NODE_ENV 将为 undefined 或使用用户终端的设置。
+
+Node.js支持许多环境变量。例如，我们可以使用 NODE_OPTIONS 传递下列 CLI 标志：
+#!/usr/bin/env -S NODE_OPTIONS=--experimental-modules node
+
+如果我们希望脚本在运行时不访问用户终端上的任何环境变量，则可以使用-i 标志来运行它，该标志代表“忽略环境”：
+#!/usr/bin/env -S -i node
+符号-相当于-i，所以我们也可以这样写：
+#!/usr/bin/env -S - node
+
+也许我们不想清除所有环境变量，但要屏蔽其中一些。例如 DEBUG（如果你使用的是流行的 debug 包）。也许我们不希望脚本用户将 DEBUG 作为脚本运行时设置标志。那么我们使用-u 标志代表未设置的环境变量。
+#!/usr/bin/env -S -u=DEBUG - node
+如果用户以DEBUG=* ./yourfile.js运行脚本，他们将看不到任何调试信息，但你还是可以用DEBUG=* node ./yourfile.js运行脚本，从而看到 DEBUG 输出。
+
+锁定 Node.js 运行时版本
+#!/usr/bin/env -S npx node@6
+这可能会在运行脚本后尝试下载请求的 Node 版本（因此，如果 NPX 缓存中不存在所请求版本的 Node，则无法在没有互联网连接的情况下运行）。
+提示：你可以使用 process.version 检查节点版本
+
+在这些示例中，文件都可以使用.js 扩展名或你喜欢的其他任何文件类型，甚至可以没有扩展！
+
+注意，不一定得是node命令，ts-node、tsx这类命令也是可以运行脚本的。更多说明，见下面的说明。
+
+
+
+在Windows系统下，以“ES2023_Hashbang.mts”文件中的内容为例子！
+
+“ES2023_Hashbang.mts”文件中以如下一行的语句为直接开头
+#!/usr/bin/env -S tsx
+只有这语句在第一行，在那些支持、识别ES2023的新增语法Hashbang（又叫Shebang）的环境中才会被识别，并以形同普通注解的形式展示出来，从而不会让编辑器认为是错误的异常语法、语句。
+
+#!/usr/bin/env -S node
+#!/usr/bin/env -S ts-node
+#!/usr/bin/env -S tsx
+......
+这些语句中：node、ts-node、tsx都必须在“env”中存在，也就是说在Windows系统下，它们这些命令得出现在Windows的系统环境变量PATH中，
+node命令：
+当前node安装在“D:\NodeJS”文件夹下，所以，路径“D:\NodeJS”必须注册到系统环境变量PATH。
+
+同样的，ts-node、tsx这种npm包，它们在全局安装时，通常在“D:\NodeJS\node_global”下会出现对应的命令，所以还得保证“D:\NodeJS\node_global”也注册到系统环境变量PATH中。
+
+如此，那些被注册到系统环境变量PATH中的命令，都可以在Hashbang语句中使用了。
+
+写完这些，那么在Windows下如何才能使用Hashbang语句呢！！！
+一般情况下，无论是使用Windows系统中的命令行工具（新旧命令行工具，如：旧版的CMD，新版的Windows Terminal终端）、Windows PowerShell、node终端都不会生效Hashbang语句！！！
+为什么呢！！！
+个人认为其原因是，Hashbang这类语句是诞生于Unix、Linux上，在这两个系统中常会看到hashbang这样语句！
+Windows是不直接支持这样的语句的，要想在Windows系统上生效执行这种语句，那就得借助能识别、支持这些语句的软件中执行这些语句，比如：git。
+故而就得在git下运行带Hashbang语句的脚本了。
+如，在“git bash命令行”中执行：
+./ES2023_Hashbang.mts
+即可运行带Hashbang语句的脚本了。
+
+如何打开“git bash命令行”呢！！！
+有如下几种方法：
+1、在Windows系统中的命令行工具（新旧命令行工具，如：旧版的CMD，新版的Windows Terminal终端）、Windows PowerShell里运行“sh”即可切换到“git bash命令行”。
+2、运行git安装目录下的“git-bash.exe”（D:\Git\App\git-bash.exe）也可进入“git bash命令行”。
+3、在安装了git的Windows系统中，在任意目录文件夹中右键鼠标，一般都能看到“Open Git Bash here”，点击它，不仅能打开“git bash命令行”，也能让“git bash命令行”处于对应的目录路径。
+
+注意，在“git bash命令行”中执行带有Hashbang语句的脚本文件时，记得必须以“./”开头，如：
+./ES2023_Hashbang.mts
+
+如果不想手动运行脚本，可以写一个.sh文件来启动运行，如：Start.sh：
+#!/usr/bin/env bash
+./ES2023_Hashbang.mts message="从命令行中传入的参数：2023。"
+echo 按任意键继续
+read -n 1
+
+这种是支持外部传参的，如同在命令行中带参数启动运行一样。
+直接双击Start.sh文件即可运行了，
