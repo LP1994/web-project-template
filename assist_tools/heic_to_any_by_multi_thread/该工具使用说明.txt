@@ -23,3 +23,7 @@ type=PNG，转成“.png”；type=JPEG，转成“.jpeg”。
 参数使用示例：
 1、
 “node HeicToAnyByMultiThread.mjs”全等于“node HeicToAnyByMultiThread.mjs nest=true type=PNG”，也是默认的。
+
+
+
+npm包“libheif-js”支持在Node和浏览器中转换，如有需要在纯浏览器环境中转换，可以用这个npm包“libheif-js”，要使用最新版本的npm包“libheif-js”。
