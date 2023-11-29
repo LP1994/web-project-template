@@ -32,4 +32,8 @@ cs、de、es（英语）、fr、it、ja（日语）、ko（韩语）、pl、pt-b
 https://www.typescriptlang.org/docs/handbook/compiler-options.html
 注意 -w 或 --watch（观察输入文件）选项与此无关。
 
+原以为以下这种写法可以使用多种选项设置，但实际编译器不仅不识别，貌似还不生效了：
 --locale zh-cn --project G:\WebStormWS\web-project-template\tsconfig.json
+--locale zh-cn;--project G:\WebStormWS\web-project-template\tsconfig.json
+但是单一选项设置倒是可以正常生效，所以，目前还是先使用单一设置项吧：
+--locale zh-cn
