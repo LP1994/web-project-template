@@ -24,10 +24,6 @@ import {
   Mongoose,
 } from 'mongoose';
 
-import {
-  opensslDir,
-} from 'configures/GlobalParameters.esm.mts';
-
 interface StartupLogCollectionSchema {
   _id: string;
 
