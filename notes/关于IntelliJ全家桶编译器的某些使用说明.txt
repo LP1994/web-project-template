@@ -1,0 +1,35 @@
+1、
+如果不想让IntelliJ家族的编译器提示某些代码的警告提示、错误提示等等提示，可以手动在不需要这类编译器提示操作的代码语句上使用如下注释：
+//noinspection all   忽略所有警告。
+//noinspection unused   忽略关于未使用变量或未使用导入的警告。
+//noinspection rawtypes   忽略关于未使用泛型类型参数的警告。
+//noinspection unchecked   忽略关于未经检查的转换或操作的警告。
+//noinspection cast   忽略关于类型转换的警告。
+//noinspection deprecation   忽略关于已过时方法或类的警告。
+//noinspection ForLoopReplaceableByForEach   在这种情况下，它抑制了 For 循环可由 ForEach 代替的警告。
+//noinspection RegExpRedundantEscape   忽略RegExp冗余转义
+
+不同的编程语言和开发工具可能支持不同的参数。
+
+
+
+2、
+关于IntelliJ家族的编译器的使用、介绍可以见：
+https://www.jetbrains.com/help/webstorm/typescript-support.html#ws_ts_localize_error_messages
+
+
+
+3、
+Settings > Languages & Frameworks > TypeScript
+在“Options（选项）”选项中，键入 --locale <要使用的语言的缩写>。目前支持韩语 (ko) 和日语 (ja)。
+如：--locale zh-cn，改选项是用于设置当编译器提示“TS”相关语法错误信息时，要用哪种语言展示提示，默认是英语。
+该选项值有：
+cs、de、es（英语）、fr、it、ja（日语）、ko（韩语）、pl、pt-br、ru、tr、zh-cn、zh-tw。
+这些语言都在“typescript”包下的“lib”文件夹中。
+
+在选项（Options）字段中，指定当找不到 tsconfig.json 文件时要传递给 TypeScript 语言服务的命令行选项。
+请参阅 TSC 参数中可接受的选项列表。
+https://www.typescriptlang.org/docs/handbook/compiler-options.html
+注意 -w 或 --watch（观察输入文件）选项与此无关。
+
+--locale zh-cn --project G:\WebStormWS\web-project-template\tsconfig.json
