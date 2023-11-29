@@ -1,3 +1,5 @@
+#!/usr/bin/env -S tsx
+
 /**
  * Project: web-project-template
  * FileDirPath: src/pages/hello_world/Module002.esm.mts
