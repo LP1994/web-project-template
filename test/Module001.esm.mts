@@ -1,4 +1,4 @@
-#!/usr/bin/env -S tsx
+#!/usr/bin/env -S tsx --no-cache
 
 /**
  * Project: web-project-template
