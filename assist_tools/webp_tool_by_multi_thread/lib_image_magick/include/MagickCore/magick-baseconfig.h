@@ -68,6 +68,11 @@
 #define MAGICKCORE_QUANTUM_DEPTH 16
 
 /*
+  Channel mask depth
+*/
+#define MAGICKCORE_CHANNEL_MASK_DEPTH 64
+
+/*
   Define to enable high dynamic range imagery (HDRI)
 */
 #define MAGICKCORE_HDRI_ENABLE 1
@@ -76,6 +81,11 @@
   Define to enable OpenCL
 */
 #define MAGICKCORE_HAVE_CL_CL_H
+
+/*
+  Define to enable Distributed Pixel Cache
+*/
+#define MAGICKCORE_DPC_SUPPORT
 
 /*
   Exclude deprecated methods in MagickCore API
@@ -258,15 +268,17 @@
 */
 #define MAGICKCORE_PACKAGE_NAME  "ImageMagick"
 
-/*
-  Required or InitializeCriticalSectionandSpinCount is undefined.
-*/
-#if !defined(_WIN32_WINNT)
-#  define _WIN32_WINNT  0x0502
-#endif
-
 #define _magickcore_inline __inline
 #define _magickcore_restrict __restrict
+
+/*
+  The 64-bit channel mask requires a C++ compiler
+*/
+#if MAGICKCORE_CHANNEL_MASK_DEPTH == 64
+#  if !defined(__cplusplus) && !defined(c_plusplus)
+#    error ImageMagick was build with a 64 channel bit mask and that requires a C++ compiler
+#  endif
+#endif
 
 /*
   Visual C++ does not define double_t, float_t, or ssize_t by default.
@@ -296,37 +308,55 @@ typedef long ssize_t;
 #endif
 #define __func__  __FUNCTION__
 
-#define MAGICKCORE_SIZEOF_VOID_P 8
+#define MAGICKCORE_SIZEOF_DOUBLE 8
+#define MAGICKCORE_SIZEOF_DOUBLE_T 8
+#define MAGICKCORE_SIZEOF_FLOAT 4
+#define MAGICKCORE_SIZEOF_FLOAT_T 4
 
+#if defined(_WIN64)
+#define MAGICKCORE_SIZEOF_VOID_P 8
+#else
+#define MAGICKCORE_SIZEOF_VOID_P 4
+#endif
+
+#define MAGICKCORE_HAVE_ACOSH 1
+#define MAGICKCORE_HAVE_ASINH 1
+#define MAGICKCORE_HAVE_ATANH 1
+#define MAGICKCORE_HAVE_ATEXIT 1
+#define MAGICKCORE_HAVE_ATOLL 1
+#define MAGICKCORE_HAVE_DECL_VSNPRINTF 1
+#define MAGICKCORE_HAVE_ERF 1
+#define MAGICKCORE_HAVE_GETTIMEOFDAY 1
+#define MAGICKCORE_HAVE_INTTYPES_H 1
+#define MAGICKCORE_HAVE_J0 1
+#define MAGICKCORE_HAVE_J1 1
+#define MAGICKCORE_HAVE_LOCALE_H 1
+#define MAGICKCORE_HAVE_LOCALE_T 1
+#define MAGICKCORE_HAVE_PCLOSE 1
+#define MAGICKCORE_HAVE_POPEN 1
+#define MAGICKCORE_HAVE_POW 1
+#define MAGICKCORE_HAVE_PROCESS_H 1
+#define MAGICKCORE_HAVE_RAISE 1
+#define MAGICKCORE_HAVE_SQRT 1
+#define MAGICKCORE_HAVE_STDINT_H 1
+#define MAGICKCORE_HAVE_STDIO_H 1
+#define MAGICKCORE_HAVE_STRING_H 1
+#define MAGICKCORE_HAVE_STRTOD 1
 #define MAGICKCORE_HAVE_STRTOD_L 1
+#define MAGICKCORE_HAVE_TELLDIR 1
+#define MAGICKCORE_HAVE_UINTPTR_T 1
+#define MAGICKCORE_HAVE_VFPRINTF 1
 #define MAGICKCORE_HAVE_VFPRINTF_L 1
 #define MAGICKCORE_HAVE_VSNPRINTF 1
 #define MAGICKCORE_HAVE_VSNPRINTF_L 1
-#define MAGICKCORE_HAVE__ALIGNED_MALLOC 1
-#define MAGICKCORE_HAVE_VSNPRINTF 1
-#define MAGICKCORE_HAVE_GETTIMEOFDAY
-#define MAGICKCORE_HAVE_SETVBUF 1
-#define MAGICKCORE_HAVE_TEMPNAM 1
-#define MAGICKCORE_HAVE_RAISE 1
-#define MAGICKCORE_HAVE_PROCESS_H 1
-#define MAGICKCORE_HAVE_SPAWNVP 1
-#define MAGICKCORE_HAVE_UTIME 1
-#define MAGICKCORE_STDC_HEADERS 1
-#define MAGICKCORE_HAVE_LOCALE_H 1
-#define MAGICKCORE_HAVE_LOCALE_T 1
-#define MAGICKCORE_HAVE_STRING_H 1
-#define MAGICKCORE_HAVE_J0 1
-#define MAGICKCORE_HAVE_J1 1
+#define MAGICKCORE_HAVE__ALIGNED_MALLOC */
+#define MAGICKCORE_HAVE__EXIT 1
 #define MAGICKCORE_SETJMP_IS_THREAD_SAFE 1
+#define MAGICKCORE_STDC_HEADERS 1
 
 /*
   Disable specific warnings.
 */
-#ifdef _MSC_VER
-#if _MSC_VER < 1910
-#pragma warning(disable: 4054) /* 'conversion' : from function pointer 'type1' to data pointer 'type2' */
-#pragma warning(disable: 4055) /* 'conversion' : from data pointer 'type1' to function pointer 'type2' */
-#endif
 #if _MSC_VER < 1920
 #pragma warning(disable: 4101) /* 'identifier' : unreferenced local variable */
 #pragma warning(disable: 4130) /* 'operator' : logical operation on address of string constant */
@@ -334,7 +364,7 @@ typedef long ssize_t;
 #pragma warning(disable: 4204) /* nonstandard extension used: non-constant aggregate initializer */
 #pragma warning(disable: 4459) /* 'identifier' : declaration of 'foo' hides global declaration */
 #endif
-#pragma warning(disable: 6993) /* Code analysis ignores OpenMP constructs; analyzing single-threaded code */
-#endif
+#pragma warning(disable: 4611) /* interaction between '_setjmp' and C++ object destruction is non-portable */
+#pragma warning(disable: 6993) /* code analysis ignores OpenMP constructs; analyzing single-threaded code */
 
 #endif

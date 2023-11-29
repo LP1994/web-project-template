@@ -221,6 +221,9 @@
         <message name="IncludeElementNestedTooDeeply">
           include element nested too deeply
         </message>
+        <message name="PolicyValidationException">
+          security policy failed to validate
+        </message>
       </error>
       <warning>
         <message name="UnableToOpenConfigureFile">
@@ -703,6 +706,9 @@
         </message>
         <message name="MustSpecifyAnImageName">
           must specify an image name
+        </message>
+        <message name="MustSpecifyImageDepth">
+          must specify image depth
         </message>
         <message name="MustSpecifyImageSize">
           must specify image size
