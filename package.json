@@ -1026,6 +1026,7 @@
     "typedoc-theme-hierarchy": "^4.1.2",
     "typedoc-webpack-plugin": "^1.1.4",
     "typescript": "^5.3.3",
+    "typescript-svelte-plugin": "^0.3.36",
     "uglify-js": "^3.17.4",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "underscore": "^1.13.6",
