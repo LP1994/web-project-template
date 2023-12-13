@@ -1,7 +1,4 @@
 TypeScript笔记
-PS:
-1、function createWatchFactory
-writeLog = function(){};
 
 
 
@@ -959,8 +956,8 @@ type Nullable<T> = { [P in keyof T]: T[P] | null }
 type Partial<T> = { [P in keyof T]?: T[P] }
 在这些例子里，属性列表是keyof T且结果类型是T[P]的变体。
 这是使用通用映射类型的一个好模版。
-因为这类转换是同态的，映射只作用于T的属性而没有其它的。 
-编译器知道在添加任何新属性之前可以拷贝所有存在的属性修饰符。 
+因为这类转换是同态的，映射只作用于T的属性而没有其它的。
+编译器知道在添加任何新属性之前可以拷贝所有存在的属性修饰符。
 例如，假设Person.name是只读的，那么Partial<Person>.name也将是只读的且为可选的。
 
 Readonly<T>和Partial<T>用处不小，因此它们与Pick和Record一同被包含进了TypeScript的标准库里：
