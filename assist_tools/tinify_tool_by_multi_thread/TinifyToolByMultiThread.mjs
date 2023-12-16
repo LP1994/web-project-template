@@ -274,7 +274,7 @@ const photoQuantity = photoPathArr.length;
 MyConsole.Cyan( `
 需要压缩的图片有${ photoQuantity }张。
 可压缩次数有${ Object.values( Object.fromEntries( TinifyKeys ) )
-.reduce( ( accumulator, currentValue ) => accumulator + currentValue, 0 ) }次。
+  .reduce( ( accumulator, currentValue ) => accumulator + currentValue, 0 ) }次。
 ` );
 
 let startTimer = 0,

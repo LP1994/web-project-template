@@ -100,10 +100,10 @@ ${ filePath }
     readStream.on( 'readable', () => {
       while( null !== ( chunk = readStream.read( bufferSize ) ) ){
         hashArr.flat( Infinity )
-        .forEach( c => {
-          // createHash( 'sha256' ).update(chunk)
-          c[ 'update' ]( chunk );
-        } );
+          .forEach( c => {
+            // createHash( 'sha256' ).update(chunk)
+            c[ 'update' ]( chunk );
+          } );
 
         chunkBuf = chunk.length / 1024 / 1024;
 
@@ -127,14 +127,14 @@ ${ filePath }
     readStream.on( 'close', () => {
       // [ { hex: '', base64: '' }, { hex: '', base64: '' }, { hex: '', base64: '' } ]
       Object.values( obj001 )
-      .forEach( ( c, i, ) => {
-        // [ 'hex', 'base64' ]
-        Object.keys( c )
-        .forEach( ( c1, i1, ) => {
-          // createHash( 'sha256' ).digest( 'hex' )
-          obj001[ hash2Digest4Keys[ i ] ][ c1 ] = `${ hash2Digest4Keys[ i ] }-${ hashArr[ i ][ i1 ].digest( c1 ) }`;
+        .forEach( ( c, i, ) => {
+          // [ 'hex', 'base64' ]
+          Object.keys( c )
+            .forEach( ( c1, i1, ) => {
+              // createHash( 'sha256' ).digest( 'hex' )
+              obj001[ hash2Digest4Keys[ i ] ][ c1 ] = `${ hash2Digest4Keys[ i ] }-${ hashArr[ i ][ i1 ].digest( c1 ) }`;
+            } );
         } );
-      } );
 
       resolve( obj001 );
 

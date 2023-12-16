@@ -83,32 +83,32 @@ parentPort.on( 'message', async ( {
   } = await FastEXIF.read( photoPath );
 
   switch( String( Orientation ) ){
-  case '1':
-    degree = 0;
+    case '1':
+      degree = 0;
 
-    break;
-  case '3':
-    degree = 180;
+      break;
+    case '3':
+      degree = 180;
 
-    break;
-  case '6':
-    degree = 90;
+      break;
+    case '6':
+      degree = 90;
 
-    break;
-  case '8':
-    degree = -90;
+      break;
+    case '8':
+      degree = -90;
 
-    break;
-  default:
-    degree = 0;
+      break;
+    default:
+      degree = 0;
 
-    MyConsole.Red( `
+      MyConsole.Red( `
 isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID }--->Start
 Orientation属性值“${ Orientation }”不在处理的范畴！
 isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID }--->End
 ` );
 
-    break;
+      break;
   }
 
   execSync( `cwebp -mt -metadata icc -o ${ resultFilePath } -- ${ photoPath }`, {

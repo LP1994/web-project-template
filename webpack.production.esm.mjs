@@ -232,8 +232,8 @@ export default {
   },
   mode: 'production',
   module: moduleConfig( {
-                          MiniCssExtractPlugin,
-                        } ),
+    MiniCssExtractPlugin,
+  } ),
   /**
    * 配置的名称。加载多个配置时使用。<br />
    */

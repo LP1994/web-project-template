@@ -804,7 +804,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     ],
     /*
     三个值：
-    1、auto（默认值）：TypeScript不仅会查找import和export语句，还会检查package.json中的“type”字段是否设置为“module”，当使用module: nodeext或node16运行时，并在jsx下运行时检查当前文件是否为JSX文件：react-jsx。
+    1、auto（默认值）：TypeScript不仅会查找import和export语句，还会检查package.json中的“type”字段是否设置为“module”，当使用module: nodenext或node16运行时，并在jsx下运行时检查当前文件是否为JSX文件：react-jsx。
     2、legacy：与4.6及之前版本相同的行为，使用import和export语句来确定文件是否为模块。
     3、force：确保每个非声明文件都被视为一个模块。
     */
