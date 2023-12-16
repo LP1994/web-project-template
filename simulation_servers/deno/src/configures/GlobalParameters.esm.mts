@@ -188,7 +188,12 @@ const httpHeaders: HeadersInit = {
 /**
  * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }} 自定义的响应状态码映射对象。
  */
-const resMessageStatus: { [ key: string | number ]: { status: number; statusText: string; }; } = {
+const resMessageStatus: {
+  [ key: string | number ]: {
+    status: number;
+    statusText: string;
+  };
+} = {
   // 通用的表示服务端处理报错的错误状态码。
   9999: {
     status: 9999,
@@ -237,7 +242,12 @@ const resMessageStatus: { [ key: string | number ]: { status: number; statusText
  * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }} 标准的HTTP响应状态码映射对象。
  * 详细见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
  */
-const HTTPStatus: { [ key: string | number ]: { status: number; statusText: string; }; } = {
+const HTTPStatus: {
+  [ key: string | number ]: {
+    status: number;
+    statusText: string;
+  };
+} = {
   // 信息响应。
   100: {
     status: 100,
