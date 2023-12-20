@@ -78,10 +78,10 @@ Promise.allSettled( [
 
   // 这两类服务不可同时启用，启用其中之一即可。End
 ] )
-.then(
-  ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
-    // resolve ---> [ { status: "fulfilled", value: Module {} } ]
-    logWriteStream.write( `
+  .then(
+    ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
+      // resolve ---> [ { status: "fulfilled", value: Module {} } ]
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/App.mts
 resolve--->Start
 
@@ -89,18 +89,18 @@ ${ JSON.stringify( resolve ) }
 
 resolve--->End
 ` );
-  },
-  ( reject: Array<PromiseSettledResult<unknown>> ): void => {
-    MyConsole.Red( `
+    },
+    ( reject: Array<PromiseSettledResult<unknown>> ): void => {
+      MyConsole.Red( `
 来自：simulation_servers/deno/src/App.mts
 reject--->Start
 ` );
-    console.dir( reject );
-    MyConsole.Red( `
+      console.dir( reject );
+      MyConsole.Red( `
 reject--->End
 ` );
 
-    errorWriteStream.write( `
+      errorWriteStream.write( `
 来自：simulation_servers/deno/src/App.mts
 reject--->Start
 
@@ -108,10 +108,10 @@ ${ JSON.stringify( reject ) }
 
 reject--->End
 ` );
-  }
-)
-.catch( ( error: unknown ): void => {
-  MyConsole.Red( `
+    }
+  )
+  .catch( ( error: unknown ): void => {
+    MyConsole.Red( `
 来自：simulation_servers/deno/src/App.mts
 catch error--->Start
 
@@ -120,7 +120,7 @@ ${ ( error as Error ).message }
 catch error--->End
 ` );
 
-  errorWriteStream.write( `
+    errorWriteStream.write( `
 来自：simulation_servers/deno/src/App.mts
 catch error--->Start
 
@@ -128,4 +128,4 @@ ${ ( error as Error ).message }
 
 catch error--->End
 ` );
-} );
+  } );
