@@ -47,7 +47,7 @@ declare interface ImportMeta {
    * // file:///dev/foo.js
    * ```
    */
-  resolve(specifier: string, parent?: string): string;
+  resolve(specifier: string, parent?: string | URL): string;
 }
 
 /** Deno supports [User Timing Level 3](https://w3c.github.io/user-timing)
