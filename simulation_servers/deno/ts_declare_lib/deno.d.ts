@@ -1802,7 +1802,7 @@ declare namespace Deno {
    * the first error encountered while copying.
    *
    * @deprecated Use {@linkcode ReadableStream.pipeTo} instead.
-   * {@linkcode Deno.copy} will be removed in the future.
+   * {@linkcode Deno.copy} will be removed in v2.0.0.
    *
    * @category I/O
    *
@@ -1820,7 +1820,7 @@ declare namespace Deno {
    * Turns a Reader, `r`, into an async iterator.
    *
    * @deprecated Use {@linkcode ReadableStream} instead. {@linkcode Deno.iter}
-   * will be removed in the future.
+   * will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -1833,7 +1833,7 @@ declare namespace Deno {
    * Turns a ReaderSync, `r`, into an iterator.
    *
    * @deprecated Use {@linkcode ReadableStream} instead.
-   * {@linkcode Deno.iterSync} will be removed in the future.
+   * {@linkcode Deno.iterSync} will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -2505,7 +2505,7 @@ declare namespace Deno {
    * The Deno abstraction for reading and writing files.
    *
    * @deprecated Use {@linkcode Deno.FsFile} instead. {@linkcode Deno.File}
-   * will be removed in the future.
+   * will be removed in v2.0.0.
    *
    * @category File System
    */
@@ -2701,7 +2701,7 @@ declare namespace Deno {
    *
    * @deprecated Use the
    * [Web Streams API]{@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API}
-   * instead. {@linkcode Deno.Buffer} will be removed in the future.
+   * instead. {@linkcode Deno.Buffer} will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -2777,7 +2777,7 @@ declare namespace Deno {
    *
    * @deprecated Use {@linkcode ReadableStream} and
    * [`toArrayBuffer()`](https://deno.land/std/streams/to_array_buffer.ts?s=toArrayBuffer)
-   * instead. {@linkcode Deno.readAll} will be removed in the future.
+   * instead. {@linkcode Deno.readAll} will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -2789,7 +2789,7 @@ declare namespace Deno {
    *
    * @deprecated Use {@linkcode ReadableStream} and
    * [`toArrayBuffer()`](https://deno.land/std/streams/to_array_buffer.ts?s=toArrayBuffer)
-   * instead. {@linkcode Deno.readAllSync} will be removed in the future.
+   * instead. {@linkcode Deno.readAllSync} will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -2800,7 +2800,7 @@ declare namespace Deno {
    *
    * @deprecated Use {@linkcode WritableStream}, {@linkcode ReadableStream.from}
    * and {@linkcode ReadableStream.pipeTo} instead. {@linkcode Deno.writeAll}
-   * will be removed in the future.
+   * will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -2812,7 +2812,7 @@ declare namespace Deno {
    *
    * @deprecated Use {@linkcode WritableStream}, {@linkcode ReadableStream.from}
    * and {@linkcode ReadableStream.pipeTo} instead.
-   * {@linkcode Deno.writeAllSync} will be removed in the future.
+   * {@linkcode Deno.writeAllSync} will be removed in v2.0.0.
    *
    * @category I/O
    */
@@ -3882,7 +3882,7 @@ declare namespace Deno {
     /**
      * Stops watching the file system and closes the watcher resource.
      *
-     * @deprecated Will be removed in the future.
+     * @deprecated Will be removed in v2.0.0.
      */
     return?(value?: any): Promise<IteratorResult<FsEvent>>;
     [Symbol.asyncIterator](): AsyncIterableIterator<FsEvent>;
@@ -4958,6 +4958,7 @@ declare namespace Deno {
     os:
       | "darwin"
       | "linux"
+      | "android"
       | "windows"
       | "freebsd"
       | "netbsd"
@@ -8303,6 +8304,91 @@ declare function fetch(
   input: URL | Request | string,
   init?: RequestInit,
 ): Promise<Response>;
+
+/**
+ * @category Fetch API
+ */
+declare interface EventSourceInit {
+  withCredentials?: boolean;
+}
+
+/**
+ * @category Fetch API
+ */
+declare interface EventSourceEventMap {
+  "error": Event;
+  "message": MessageEvent;
+  "open": Event;
+}
+
+/**
+ * @category Fetch API
+ */
+declare interface EventSource extends EventTarget {
+  onerror: ((this: EventSource, ev: Event) => any) | null;
+  onmessage: ((this: EventSource, ev: MessageEvent) => any) | null;
+  onopen: ((this: EventSource, ev: Event) => any) | null;
+  /**
+   * Returns the state of this EventSource object's connection. It can have the values described below.
+   */
+  readonly readyState: number;
+  /**
+   * Returns the URL providing the event stream.
+   */
+  readonly url: string;
+  /**
+   * Returns true if the credentials mode for connection requests to the URL providing the event stream is set to "include", and false otherwise.
+   */
+  readonly withCredentials: boolean;
+  /**
+   * Aborts any instances of the fetch algorithm started for this EventSource object, and sets the readyState attribute to CLOSED.
+   */
+  close(): void;
+  readonly CONNECTING: 0;
+  readonly OPEN: 1;
+  readonly CLOSED: 2;
+  addEventListener<K extends keyof EventSourceEventMap>(
+    type: K,
+    listener: (this: EventSource, ev: EventSourceEventMap[K]) => any,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  addEventListener(
+    type: string,
+    listener: (this: EventSource, event: MessageEvent) => any,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  addEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  removeEventListener<K extends keyof EventSourceEventMap>(
+    type: K,
+    listener: (this: EventSource, ev: EventSourceEventMap[K]) => any,
+    options?: boolean | EventListenerOptions,
+  ): void;
+  removeEventListener(
+    type: string,
+    listener: (this: EventSource, event: MessageEvent) => any,
+    options?: boolean | EventListenerOptions,
+  ): void;
+  removeEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | EventListenerOptions,
+  ): void;
+}
+
+/**
+ * @category Fetch API
+ */
+declare var EventSource: {
+  prototype: EventSource;
+  new (url: string | URL, eventSourceInitDict?: EventSourceInit): EventSource;
+  readonly CONNECTING: 0;
+  readonly OPEN: 1;
+  readonly CLOSED: 2;
+};
 
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 

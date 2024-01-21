@@ -4654,7 +4654,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.35.0',
+            } )() || '3.35.1',
             proposals: true,
           },
           /**
@@ -5252,6 +5252,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   // ES2022语法 End
 
                   // ESNext语法 Start
+                  'decorators': true,
                   'hashbang': true,
                   'import-assertions': true,
                   'nested-rest-binding': true,
@@ -5535,6 +5536,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             // strictImports选项控制编译器是否允许在@media块或（稍后添加的）其他选择器块内进行@import。
             strictImports: false,
           },
+          // 如果将 lessLogAsWarnOrErr 设置为 false，它将只是一个日志，Webpack 会编译成功，但如果将该选项设置为 true，Webpack 编译失败时会发出警告。
+          lessLogAsWarnOrErr: true,
         },
       },
       /**
