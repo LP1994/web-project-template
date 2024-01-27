@@ -296,19 +296,19 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20231220。Start
-    'Chrome >= 120',
+    'Chrome >= 121',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 120',
-    'Firefox >= 121',
+    'Edge >= 121',
+    'Firefox >= 122',
     'Safari >= 17',
     'Opera >= 106',
     // PC端各主流浏览器的最新版本，至20231220。End
 
     // 移动端各主流浏览器的最新版本，至20231220。Start
-    'ChromeAndroid >= 120',
+    'ChromeAndroid >= 121',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 120',
-    'FirefoxAndroid >= 121',
+    'Android >= 121',
+    'FirefoxAndroid >= 122',
     'iOS >= 17',
     // 移动端各主流浏览器的最新版本，至20231220。End
   ],
@@ -340,9 +340,9 @@ const browserslist = [
     'es2023',
 
     // PC端各主流浏览器的最新版本，至20231220。Start
-    'chrome120',
-    'edge120',
-    'firefox121',
+    'chrome121',
+    'edge121',
+    'firefox122',
     'safari17',
     'opera106',
     // PC端各主流浏览器的最新版本，至20231220。End
@@ -382,16 +382,16 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20231220。Start
-    chrome: 120,
-    edge: 120,
-    firefox: 121,
+    chrome: 121,
+    edge: 121,
+    firefox: 122,
     safari: 17,
     opera: 106,
     // PC端各主流浏览器的最新版本，至20231220。End
 
     // 移动端各主流浏览器的最新版本，至20231220。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 120,
+    android: 121,
     ios: 17,
     // 移动端各主流浏览器的最新版本，至20231220。End
   },
@@ -3159,7 +3159,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             else{
               throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
             }
-          } )() || '7.23.8',
+          } )() || '7.23.9',
           helpers: true,
           // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
           regenerator: true,
