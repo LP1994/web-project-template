@@ -329,7 +329,7 @@ if( !isProduction ){
 /**
  * devServer启动时的代理配置。<br />
  * 1、这些文件都有引入这个代理配置文件：webpack.base.esm.mjs。<br />
- * 2、有效值类型有：object、[ object、function ]。<br />
+ * 2、有效值类型有：[ object、function ]，从webpack-dev-server v5.0开始，只接受数组类型的值。<br />
  * 其中function：( req, res, next ) => ProxyConfigArrayItem。<br />
  * 3、如果要将多个特定路径代理到同一个目标，可以使用一个或多个具有上下文属性的对象数组：<br />
  * proxy: [
@@ -353,13 +353,19 @@ if( !isProduction ){
  * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
  * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
  */
-const proxyConfig = {
+const proxyConfig = [
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://127.0.0.1:9200/simulation_servers_deno/GetJSON。<br />
    */
-  '/devURL001/simulation_servers_deno/': {
+  {
+    context: [
+      '/devURL001/simulation_servers_deno/',
+    ],
+
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
+     * PS：<br />
+     * 1、从webpack-dev-server v5.0开始，bypass选项已被弃用，转而使用router和context选项。<br />
      *
      * @param {Request} req
      * @param {Response} res
@@ -367,12 +373,14 @@ const proxyConfig = {
      *
      * @returns {void | null | undefined | false | string} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
-    bypass: ( req, res, proxyOptions ) => {
-      // 正在跳过浏览器请求的代理。
-      if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
-        return '/xxx7788.html';
-      }
-    },
+    /*
+     bypass: ( req, res, proxyOptions ) => {
+     // 正在跳过浏览器请求的代理。
+     if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
+     return '/xxx7788.html';
+     }
+     },
+     */
 
     // http-proxy-middleware options Start
 
@@ -750,7 +758,11 @@ HTTP代理--->${ req.originalUrl }<---End
 
     // http-proxy events End
   },
-  '/simulation_servers_deno/': {
+  {
+    context: [
+      '/simulation_servers_deno/',
+    ],
+
     // http-proxy-middleware options Start
 
     router: {
@@ -813,9 +825,15 @@ HTTP代理--->${ req.originalUrl }<---End
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://127.0.0.1:9200/simulation_servers_deno/subscriptions。<br />
    */
-  '/ws4DevURL001/simulation_servers_deno/': {
+  {
+    context: [
+      '/ws4DevURL001/simulation_servers_deno/',
+    ],
+
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
+     * PS：<br />
+     * 1、从webpack-dev-server v5.0开始，bypass选项已被弃用，转而使用router和context选项。<br />
      *
      * @param {Request} req
      * @param {Response} res
@@ -823,12 +841,14 @@ HTTP代理--->${ req.originalUrl }<---End
      *
      * @returns {void | null | undefined | false | string} 返回null或undefined以继续使用代理处理请求。返回false为请求生成404错误。返回一个提供服务的路径，而不是继续代理请求。
      */
-    bypass: ( req, res, proxyOptions ) => {
-      // 正在跳过浏览器请求的代理。
-      if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
-        return '/xxx7788.html';
-      }
-    },
+    /*
+     bypass: ( req, res, proxyOptions ) => {
+     // 正在跳过浏览器请求的代理。
+     if( ( req?.headers?.accept?.indexOf( 'xxx7788' ) ?? -1 ) !== -1 ){
+     return '/xxx7788.html';
+     }
+     },
+     */
 
     // http-proxy-middleware options Start
 
@@ -1206,7 +1226,7 @@ WebSocket代理--->${ options.context }<---End
 
     // http-proxy events End
   },
-};
+];
 
 export {
   proxyConfig,
