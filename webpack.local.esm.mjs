@@ -262,7 +262,10 @@ export default {
   target: targetConfig,
   /**
    * 在webpack-dev-server和webpack-dev-middleware中默认启用watch模式。<br />
+   * PS：<br />
+   * 1、当在命令行中使用“webpack serve”启动webpack时，改选项不用明文设置为true（直接不设置即可），因为在webpack-dev-server和webpack-dev-middleware中默认启用watch模式。<br />
+   * 如果设置了且设置为true的话，会在启动时收到一个警告，说不用在使用“webpack serve”启动webpack时同时设置“watch: true”。<br />
    */
-  watch: true,
+  // watch: true,
   watchOptions: watchOptionsConfig,
 };
