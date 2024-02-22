@@ -39,6 +39,22 @@ import {
 import StartupImgForApple from './StartupImgForApple.esm.mjs';
 
 /**
+ * URL开头的共同部分。<br />
+ * 例子1：<br />
+ * https://192.168.2.10:8100/dev_server
+ * 例子2：<br />
+ * ..
+ *
+ * 注意：<br />
+ * HTML的标签<meta>的值可以是相对路径，也可以是绝对路径。<br />
+ * <meta http-equiv="refresh" content="5;url=another.html">
+ * <meta http-equiv="refresh" content="5;url=https://www.runoob.com/html/html-meta.html">
+ *
+ * @type {string}
+ */
+const URLHead = '..';
+
+/**
  * @type {object} 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误。
  * 顶级变量就算不需要也要保证它们被设置为null。
  * 各个属性具体表示什么，值是什么，可参见“src/template/ejs/head_meta”、“src/template/ejs/tool”中的描述。
@@ -63,21 +79,21 @@ const defaultData = {
   ],
   itemprop: {
     type: 'website',
-    url: 'https://192.168.2.7:8100/dev_server/pages/HelloWorld.html',
+    url: URLHead + '/pages/HelloWorld.html',
     name: 'HelloWorld',
     description: 'This is a page for HelloWorld.',
-    image: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+    image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
   },
   appLinks: {
     web: {
-      url: 'https://192.168.2.7:8100/dev_server/pages/HelloWorld.html',
+      url: URLHead + '/pages/HelloWorld.html',
     },
     share: {
       type: 'website',
-      url: 'https://192.168.2.7:8100/dev_server/pages/HelloWorld.html',
+      url: URLHead + '/pages/HelloWorld.html',
       title: 'HelloWorld',
       description: 'This is a page for HelloWorld.',
-      image: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+      image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
     },
   },
   shortcutIcons: ShortcutIcons,
@@ -87,13 +103,13 @@ const defaultData = {
   og: {
     og: 'website',
     title: 'HelloWorld',
-    url: 'https://192.168.2.7:8100/dev_server/pages/HelloWorld.html',
+    url: URLHead + '/pages/HelloWorld.html',
     siteName: 'HelloWorld',
     description: 'This is a page for HelloWorld.',
     locale: 'zh_CN',
     image: {
-      url: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
-      secureURL: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+      url: URLHead + '/static/ico/uncompressed/ico_512_512.png',
+      secureURL: URLHead + '/static/ico/uncompressed/ico_512_512.png',
       type: 'image/png',
       width: '512',
       height: '512',
@@ -104,12 +120,12 @@ const defaultData = {
   twitter: {
     type: 'website',
     creator: '1227839175@qq.com',
-    site: 'https://192.168.2.7:8100/dev_server/pages/HelloWorld.html',
-    url: 'https://192.168.2.7:8100/dev_server/pages/HelloWorld.html',
+    site: URLHead + '/pages/HelloWorld.html',
+    url: URLHead + '/pages/HelloWorld.html',
     title: 'HelloWorld',
     description: 'This is a page for HelloWorld.',
     card: 'summary_large_image',
-    image: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+    image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
   },
   facebook: null,
   publisherByGooglePlus: null,
@@ -242,33 +258,33 @@ function HTMLWebpackPluginConfig( {
         appName: 'Upload',
         itemprop: {
           type: 'website',
-          url: 'https://192.168.2.7:8100/dev_server/pages/Upload.html',
+          url: URLHead + '/pages/Upload.html',
           name: 'Upload',
           description: 'This is a page for Upload.',
-          image: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+          image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
         },
         appLinks: {
           web: {
-            url: 'https://192.168.2.7:8100/dev_server/pages/Upload.html',
+            url: URLHead + '/pages/Upload.html',
           },
           share: {
             type: 'website',
-            url: 'https://192.168.2.7:8100/dev_server/pages/Upload.html',
+            url: URLHead + '/pages/Upload.html',
             title: 'Upload',
             description: 'This is a page for Upload.',
-            image: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+            image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
           },
         },
         og: {
           og: 'website',
           title: 'Upload',
-          url: 'https://192.168.2.7:8100/dev_server/pages/Upload.html',
+          url: URLHead + '/pages/Upload.html',
           siteName: 'Upload',
           description: 'This is a page for Upload.',
           locale: 'zh_CN',
           image: {
-            url: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
-            secureURL: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+            url: URLHead + '/static/ico/uncompressed/ico_512_512.png',
+            secureURL: URLHead + '/static/ico/uncompressed/ico_512_512.png',
             type: 'image/png',
             width: '512',
             height: '512',
@@ -278,12 +294,12 @@ function HTMLWebpackPluginConfig( {
         twitter: {
           type: 'website',
           creator: '1227839175@qq.com',
-          site: 'https://192.168.2.7:8100/dev_server/pages/Upload.html',
-          url: 'https://192.168.2.7:8100/dev_server/pages/Upload.html',
+          site: URLHead + '/pages/Upload.html',
+          url: URLHead + '/pages/Upload.html',
           title: 'Upload',
           description: 'This is a page for Upload.',
           card: 'summary_large_image',
-          image: 'https://192.168.2.7:8100/dev_server/static/ico/uncompressed/ico_512_512.png',
+          image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
         },
       },
     },
