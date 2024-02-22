@@ -2668,6 +2668,31 @@ declare namespace Deno {
     utimeSync(atime: number | Date, mtime: number | Date): void;
     /** **UNSTABLE**: New API, yet to be vetted.
      *
+     * Checks if the file resource is a TTY (terminal).
+     *
+     * ```ts
+     * // This example is system and context specific
+     * using file = await Deno.open("/dev/tty6");
+     * file.isTerminal(); // true
+     * ```
+     */
+    isTerminal(): boolean;
+    /** **UNSTABLE**: New API, yet to be vetted.
+     *
+     * Set TTY to be under raw mode or not. In raw mode, characters are read and
+     * returned as is, without being processed. All special processing of
+     * characters by the terminal is disabled, including echoing input
+     * characters. Reading from a TTY device in raw mode is faster than reading
+     * from a TTY device in canonical mode.
+     *
+     * ```ts
+     * using file = await Deno.open("/dev/tty6");
+     * file.setRaw(true, { cbreak: true });
+     * ```
+     */
+    setRaw(mode: boolean, options?: SetRawOptions): void;
+    /** **UNSTABLE**: New API, yet to be vetted.
+     *
      * Acquire an advisory file-system lock for the file.
      *
      * @param [exclusive=false]
@@ -11100,10 +11125,26 @@ declare namespace Deno {
      * TLS handshake.
      */
     alpnProtocols?: string[];
-    /** PEM formatted client certificate chain. */
+    /**
+     * PEM formatted client certificate chain.
+     *
+     * @deprecated This will be removed in Deno 2.0. See the
+     * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
+     * for migration instructions.
+     */
     certChain?: string;
-    /** PEM formatted (RSA or PKCS8) private key of client certificate.  */
+    /**
+     * PEM formatted (RSA or PKCS8) private key of client certificate.
+     *
+     * @deprecated This will be removed in Deno 2.0. See the
+     * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
+     * for migration instructions.
+     */
     privateKey?: string;
+    /** Server private key in PEM format. */
+    key?: string;
+    /** Cert chain in PEM format. */
+    cert?: string;
   }
 
   /** Establishes a secure connection over TLS (transport layer security) using
@@ -12444,6 +12485,7 @@ declare namespace Deno {
   export type NativeTypedPointer<T extends PointerObject> = "pointer" & {
     [brand]: T;
   };
+  /** @category FFI */
   export type NativeTypedFunction<T extends UnsafeCallbackDefinition> =
     & "function"
     & {
@@ -13195,8 +13237,6 @@ declare namespace Deno {
    * @category Fetch API
    */
   export interface HttpClient extends Disposable {
-    /** The resource ID associated with the client. */
-    rid: number;
     /** Close the HTTP client. */
     close(): void;
   }
@@ -13215,10 +13255,10 @@ declare namespace Deno {
     caCerts?: string[];
     /** A HTTP proxy to use for new connections. */
     proxy?: Proxy;
-    /** PEM formatted client certificate chain. */
-    certChain?: string;
-    /** PEM formatted (RSA or PKCS8) private key of client certificate. */
-    privateKey?: string;
+    /** Server private key in PEM format. */
+    cert?: string;
+    /** Cert chain in PEM format. */
+    key?: string;
     /** Sets the maximum numer of idle connections per host allowed in the pool. */
     poolMaxIdlePerHost?: number;
     /** Set an optional timeout for idle sockets being kept-alive.
@@ -14568,7 +14608,9 @@ declare var WebSocketStream: {
  * @category Temporal
  */
 declare namespace Temporal {
+  /** @category Temporal */
   export type ComparisonResult = -1 | 0 | 1;
+  /** @category Temporal */
   export type RoundingMode =
     | "ceil"
     | "floor"
@@ -16564,6 +16606,7 @@ declare namespace Temporal {
 
 /** @category Intl */
 declare namespace Intl {
+  /** @category Intl */
   type Formattable =
     | Date
     | Temporal.Instant
@@ -16574,6 +16617,7 @@ declare namespace Intl {
     | Temporal.PlainYearMonth
     | Temporal.PlainMonthDay;
 
+  /** @category Intl */
   interface DateTimeFormatRangePart {
     source: "shared" | "startRange" | "endRange";
   }

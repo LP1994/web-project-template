@@ -295,22 +295,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240213。Start
-    'Chrome >= 121',
+    // PC端各主流浏览器的最新版本，至20240222。Start
+    'Chrome >= 122',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 121',
-    'Firefox >= 122',
+    'Firefox >= 123',
     'Safari >= 17',
     'Opera >= 107',
-    // PC端各主流浏览器的最新版本，至20240213。End
+    // PC端各主流浏览器的最新版本，至20240222。End
 
-    // 移动端各主流浏览器的最新版本，至20240213。Start
-    'ChromeAndroid >= 121',
+    // 移动端各主流浏览器的最新版本，至20240222。Start
+    'ChromeAndroid >= 122',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 121',
-    'FirefoxAndroid >= 122',
+    'Android >= 122',
+    'FirefoxAndroid >= 123',
     'iOS >= 17',
-    // 移动端各主流浏览器的最新版本，至20240213。End
+    // 移动端各主流浏览器的最新版本，至20240222。End
   ],
   /**
    * @type {string[]} 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -339,17 +339,17 @@ const browserslist = [
 
     'es2023',
 
-    // PC端各主流浏览器的最新版本，至20240213。Start
-    'chrome121',
+    // PC端各主流浏览器的最新版本，至20240222。Start
+    'chrome122',
     'edge121',
-    'firefox122',
+    'firefox123',
     'safari17',
     'opera107',
-    // PC端各主流浏览器的最新版本，至20240213。End
+    // PC端各主流浏览器的最新版本，至20240222。End
 
-    // 移动端各主流浏览器的最新版本，至20240213。Start
+    // 移动端各主流浏览器的最新版本，至20240222。Start
     'ios17',
-    // 移动端各主流浏览器的最新版本，至20240213。End
+    // 移动端各主流浏览器的最新版本，至20240222。End
   ],
   /**
    * @type {object} 目标浏览器版本。<br />
@@ -381,19 +381,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240213。Start
-    chrome: 121,
+    // PC端各主流浏览器的最新版本，至20240222。Start
+    chrome: 122,
     edge: 121,
-    firefox: 122,
+    firefox: 123,
     safari: 17,
     opera: 107,
-    // PC端各主流浏览器的最新版本，至20240213。End
+    // PC端各主流浏览器的最新版本，至20240222。End
 
-    // 移动端各主流浏览器的最新版本，至20240213。Start
+    // 移动端各主流浏览器的最新版本，至20240222。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 121,
+    android: 122,
     ios: 17,
-    // 移动端各主流浏览器的最新版本，至20240213。End
+    // 移动端各主流浏览器的最新版本，至20240222。End
   },
   /**
    * @type {object} 编译目标配置。
