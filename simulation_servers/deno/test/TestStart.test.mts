@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A --watch --config=../deno.json --lock-write --unstable --prompt --check --v8-flags=--max-old-space-size=1024000 --reload
+#!/usr/bin/env -S deno run -A --watch --config=../deno.json --lock-write --unstable --check --v8-flags=--max-old-space-size=1024000 --reload
 
 /**
  * Project: web-project-template
