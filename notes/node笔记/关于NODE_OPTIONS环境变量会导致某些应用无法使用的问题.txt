@@ -1,0 +1,9 @@
+当为NodeJS设置系统环境变量“NODE_OPTIONS”时，某些内含了NodeJS的应用软件，会因为我们先前设置了系统环境变量“NODE_OPTIONS”，导致跟其冲突，而使得无法使用那些应用软件。
+比如：
+GeForce Experience
+迅雷11
+......
+所以，如果只是为了在当前会话中临时设置“NODE_OPTIONS”，可以这么干
+set NODE_OPTIONS=--experimental-import-meta-resolve && npm run xxx
+
+unset NODE_OPTIONS可以用来清除当前会话中的NODE_OPTIONS环境变量。
