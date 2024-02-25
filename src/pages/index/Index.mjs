@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: src/pages/hello_world/HelloWorld.mjs
+ * FileDirPath: src/pages/index/Index.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm

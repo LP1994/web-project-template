@@ -70,7 +70,7 @@ PS：
 
 
 第一种：
-import('wasmBDir/HelloWorld.wasm').then( modules => {
+import('wasmBDir/Index.wasm').then( modules => {
                                       const { Add } = modules;
 
                                       console.log( Add( 2019, 1 ) );

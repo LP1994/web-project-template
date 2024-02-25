@@ -417,7 +417,7 @@ let Global4VueComponDemo = Vue.component( 'VueComponDemo', function( resolve = (
 }
 例子2：(局部组件的标准写法！可以更改组件的相关配置属性！记得先深度拷贝再修改组件的属性，不然多次如下使用后会出现最后一个组件的修改会覆盖之前组件的修改，不要复制完整对象的描述符(也就是不要执行CT.completeAssign)，不然会出现覆盖的情况！)
 let vue4Win = new Vue( {
-    el: '#HelloWorld',
+    el: '#Index',
     data: {},
     methods: {},
     watch: {},

@@ -50,10 +50,10 @@ htmlWebpackPlugin.files的值如下：
 {
     'publicPath': '../',
     'js': [
-      '../js/RuntimeChunk_HelloWorld_Bundle_813a7d57f653030c.js?8a7877164fb5c167',
-      '../js/HelloWorld_Bundle_d0c8a537b944b35f.js?8a7877164fb5c167'
+      '../js/RuntimeChunk_Index_Bundle_813a7d57f653030c.js?8a7877164fb5c167',
+      '../js/Index_Bundle_d0c8a537b944b35f.js?8a7877164fb5c167'
     ],
-    'css': [ '../styles/HelloWorld_Bundle_95b1ca43e2a167d4.css?8a7877164fb5c167' ],
+    'css': [ '../styles/Index_Bundle_95b1ca43e2a167d4.css?8a7877164fb5c167' ],
     'jsIntegrity': [
       'sha512-gTp9V/ZTAwwbHxNllxaQU9bbLo5bwO/+PT/n7aLr5lH6C736UxpA+wZkm8F+mSRwAfReDPYMJ5km1vHfKRIgLA==',
       'sha512-0MilN7lEs1+S+rNIZ367kE2f4vXeb9ayEkWtNF5edK2tZDd1FIh+AA5eLz5qKI56PI5viBjRZvL1d7y0RnjaSg=='
@@ -64,9 +64,9 @@ htmlWebpackPlugin.files的值如下：
 {
     'publicPath': '../',
     'js': [
-      '../js/RuntimeChunk_HelloWorld_Bundle_fc8d3f2d78d16a6e.js',
+      '../js/RuntimeChunk_Index_Bundle_fc8d3f2d78d16a6e.js',
       '../js/VendorsJS_Bundle_9f78d7db41295e8c.js',
-      '../js/HelloWorld_Bundle_cc5ba65072a1c52f.js'
+      '../js/Index_Bundle_cc5ba65072a1c52f.js'
     ],
     'css': []
 }
@@ -141,25 +141,25 @@ htmlWebpackPlugin.files的值如下：
       '_cachedMaps': '[object Map]',
       '_cachedHashUpdate': '[object Undefined]'
     },
-    'styles/HelloWorld_Bundle_95b1ca43e2a167d4.css': {
+    'styles/Index_Bundle_95b1ca43e2a167d4.css': {
       '_source': {
         '_valueIsBuffer': '[object Boolean]',
         '_value': '[object String]',
         '_valueAsBuffer': '[object Undefined]',
         '_valueAsString': '[object String]'
       },
-      '_name': 'styles/HelloWorld_Bundle_95b1ca43e2a167d4.css',
+      '_name': 'styles/Index_Bundle_95b1ca43e2a167d4.css',
       '_replacements': '[object Array]',
       '_isSorted': '[object Boolean]'
     },
-    'js/HelloWorld_Bundle_d0c8a537b944b35f.js': {
+    'js/Index_Bundle_d0c8a537b944b35f.js': {
       '_source': {
         '_valueIsBuffer': '[object Boolean]',
         '_value': '[object String]',
         '_valueAsBuffer': '[object Undefined]',
         '_valueAsString': '[object String]'
       },
-      '_name': 'js/HelloWorld_Bundle_d0c8a537b944b35f.js',
+      '_name': 'js/Index_Bundle_d0c8a537b944b35f.js',
       '_replacements': '[object Array]',
       '_isSorted': '[object Boolean]'
     },
@@ -185,14 +185,14 @@ htmlWebpackPlugin.files的值如下：
       '_replacements': '[object Array]',
       '_isSorted': '[object Boolean]'
     },
-    'js/RuntimeChunk_HelloWorld_Bundle_813a7d57f653030c.js': {
+    'js/RuntimeChunk_Index_Bundle_813a7d57f653030c.js': {
       '_source': {
         '_valueIsBuffer': '[object Boolean]',
         '_value': '[object String]',
         '_valueAsBuffer': '[object Undefined]',
         '_valueAsString': '[object String]'
       },
-      '_name': 'js/RuntimeChunk_HelloWorld_Bundle_813a7d57f653030c.js',
+      '_name': 'js/RuntimeChunk_Index_Bundle_813a7d57f653030c.js',
       '_replacements': '[object Array]',
       '_isSorted': '[object Boolean]'
     },
@@ -225,7 +225,7 @@ htmlWebpackPlugin.files的值如下：
       '_valueAsBuffer': '[object Uint8Array]',
       '_valueAsString': '[object Undefined]'
     },
-    'map/HelloWorld_Map_cc7fd12c135888e0.map': {
+    'map/Index_Map_cc7fd12c135888e0.map': {
       '_valueIsBuffer': false,
       '_value': '[object String]',
       '_valueAsBuffer': '[object Undefined]',
@@ -237,7 +237,7 @@ htmlWebpackPlugin.files的值如下：
       '_valueAsBuffer': '[object Undefined]',
       '_valueAsString': '[object String]'
     },
-    'map/RuntimeChunk_HelloWorld_Map_146a35fd96a8ee1c.map': {
+    'map/RuntimeChunk_Index_Map_146a35fd96a8ee1c.map': {
       '_valueIsBuffer': false,
       '_value': '[object String]',
       '_valueAsBuffer': '[object Undefined]',
@@ -252,7 +252,7 @@ htmlWebpackPlugin.files的值如下：
 }
 开发模式：
 {
-    'js/HelloWorld_Bundle_cc5ba65072a1c52f.js': {
+    'js/Index_Bundle_cc5ba65072a1c52f.js': {
       '_source': {
         '_children': '[object Array]',
         '_isOptimized': false
@@ -290,7 +290,7 @@ htmlWebpackPlugin.files的值如下：
       '_cachedMaps': '[object Map]',
       '_cachedHashUpdate': '[object Undefined]'
     },
-    'js/RuntimeChunk_HelloWorld_Bundle_c2b1beb733d337cd.js': {
+    'js/RuntimeChunk_Index_Bundle_c2b1beb733d337cd.js': {
       '_source': {
         '_children': '[object Array]',
         '_isOptimized': false

@@ -120,7 +120,7 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  * filename：同output.filename。<br />
  *
  * import：string、[ string ]（强烈建议优先使用这个值类型设置），启动时加载的模块。<br />
- * 1、例如：设置成：[ './src/pages/hello_world/HelloWorld.mjs' ]，就表示说该入口点的位置是在这里。<br />
+ * 1、例如：设置成：[ './src/pages/index/Index.mjs' ]，就表示说该入口点的位置是在这里。<br />
  * 2、注意，由于“configures/EntryConfig.esm.mjs”最后是被“webpack.base.esm.mjs”文件引入使用，所以，当设置为相对路径时，也应该是以“webpack.base.esm.mjs”文件所在的文件夹路径开始。<br />
  *
  * layer：string，指定放置此入口点模块的层。<br />
@@ -137,10 +137,10 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  * 某些会导致编译后出现非预期的情况！<br />
  * 1、当设置如下案例时，会导致编译打包后的页面在打开后，并没执行相关JS代码：<br />
  * {
- *   HelloWorld: {
+ *   Index: {
  *     import: [
- *       './src/pages/hello_world/HelloWorld.css',
- *       './src/pages/hello_world/HelloWorld.mjs',
+ *       './src/pages/index/Index.css',
+ *       './src/pages/index/Index.mjs',
  *     ],
  *     dependOn: [
  *       'UniversalTools',
@@ -155,17 +155,17 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  * }
  * 这样的配置，在打包完成后，打开页面，会发现，JS代码没执行，导致页面上没有出现对应的效果。<br />
  * 分析原因是这样的：<br />
- * 虽然在配置的时候明确指定“HelloWorld”块依赖“UniversalTools”块，但是在“HelloWorld”块的代码内部没有明确的编码有使用“UniversalTools”块指定的文件'./src/tools/ts/universal_tools/UniversalTools.esm.mts'中的代码。<br />
- * 导致webpack在构建块之间的依赖关系时，发现“HelloWorld”块内部并没有建立跟“UniversalTools”块的依赖引用关系，自然也就不会如配置所愿，产生依赖效果。<br />
+ * 虽然在配置的时候明确指定“Index”块依赖“UniversalTools”块，但是在“Index”块的代码内部没有明确的编码有使用“UniversalTools”块指定的文件'./src/tools/ts/universal_tools/UniversalTools.esm.mts'中的代码。<br />
+ * 导致webpack在构建块之间的依赖关系时，发现“Index”块内部并没有建立跟“UniversalTools”块的依赖引用关系，自然也就不会如配置所愿，产生依赖效果。<br />
  * 从而导致打包出来的代码并不是正确的代码逻辑。<br />、
  * 切记！webpack是一个一切皆可为模块的，构建各个模块之间的相互依赖关系的模块打包神器！只有明确的、代码间有相互依赖、使用时，才能如期望的那样打包出我们期望的代码。<br />
  */
 const entryConfig = {
   // 这个也将作为标准模板配置供参考，复制它后再改改某些具体的参数值即可。
-  HelloWorld: {
+  Index: {
     import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
-      './src/pages/hello_world/HelloWorld.css',
-      './src/pages/hello_world/HelloWorld.mjs',
+      './src/pages/index/Index.css',
+      './src/pages/index/Index.mjs',
     ] ),
   },
 

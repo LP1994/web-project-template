@@ -5397,7 +5397,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              *
              * @param {string} url 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
              *
-             * @param {string} resourcePath css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\hello_world\HelloWorld.css。<br />
+             * @param {string} resourcePath css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\index\Index.css。<br />
              *
              * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
              */
@@ -10895,7 +10895,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
   /**
    * @type {array} 用于设置预取将来可能需要一些导航资源（目前该插件只支持JS类的资源），会在页面上通过link标签设置一个预取资源。<br />
    * PS：<br />
-   * 1、数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。<br />
+   * 1、数组里的各个值只能以'./'开头的基于项目根目录的文件路径，值形如：'./src/pages/index/my_module001/MyModule001.esm.mjs'。<br />
    * 2、在浏览器中测试预取时，记得关闭“禁用缓存”。<br />
    * 3、不同浏览器（火狐、谷歌）对预取的表现有所不同，如：状态码之类，测的时候，记得多对比不同浏览器（火狐、谷歌）之间的表现。<br />
    */
@@ -10904,7 +10904,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       return new webpack.PrefetchPlugin( resolve( __dirname, './', item ) );
     } );
   } )( [
-    // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径（目前该插件只支持JS类的资源），值形如：'./src/pages/hello_world/my_module001/MyModule001.esm.mjs'。
+    // 这个数组里的各个值只能以'./'开头的基于项目根目录的文件路径（目前该插件只支持JS类的资源），值形如：'./src/pages/index/my_module001/MyModule001.esm.mjs'。
   ] ),
   /**
    * @type {object} 自动加载模块，而不必在任何地方“import”或“require”它们。<br />

@@ -107,7 +107,7 @@ Darwin
   'accept-encoding': 'gzip, deflate',
   'user-agent': 'WeChatShareExtensionNew/7.0.8.32 CFNetwork/1121.2.2 Darwin/19.2.0'
 }
-客户端的请求URL--->/SimServer/WebPro/test/pages/HelloWorld.html
+客户端的请求URL--->/SimServer/WebPro/test/pages/Index.html
 客户端的请求方法--->GET
 {
   host: 'localhost:9999',

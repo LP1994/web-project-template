@@ -68,10 +68,10 @@ const defaultData = {
   refresh: null,
   color: '#0000ff',
   keywords: 'WEB,HTML5,CSS3',
-  description: 'This is a page for HelloWorld.',
+  description: 'This is a page for Index.',
   subject: '这是一个副标题。',
   generator: 'WebStorm',
-  appName: 'HelloWorld',
+  appName: 'Index',
   author: '1227839175@qq.com',
   publisher: '12278',
   creators: [
@@ -79,20 +79,20 @@ const defaultData = {
   ],
   itemprop: {
     type: 'website',
-    url: URLHead + '/pages/HelloWorld.html',
-    name: 'HelloWorld',
-    description: 'This is a page for HelloWorld.',
+    url: URLHead + '/pages/Index.html',
+    name: 'Index',
+    description: 'This is a page for Index.',
     image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
   },
   appLinks: {
     web: {
-      url: URLHead + '/pages/HelloWorld.html',
+      url: URLHead + '/pages/Index.html',
     },
     share: {
       type: 'website',
-      url: URLHead + '/pages/HelloWorld.html',
-      title: 'HelloWorld',
-      description: 'This is a page for HelloWorld.',
+      url: URLHead + '/pages/Index.html',
+      title: 'Index',
+      description: 'This is a page for Index.',
       image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
     },
   },
@@ -102,10 +102,10 @@ const defaultData = {
   appleTouchIconPrecomposed: AppleTouchIconPrecomposed,
   og: {
     og: 'website',
-    title: 'HelloWorld',
-    url: URLHead + '/pages/HelloWorld.html',
-    siteName: 'HelloWorld',
-    description: 'This is a page for HelloWorld.',
+    title: 'Index',
+    url: URLHead + '/pages/Index.html',
+    siteName: 'Index',
+    description: 'This is a page for Index.',
     locale: 'zh_CN',
     image: {
       url: URLHead + '/static/ico/uncompressed/ico_512_512.png',
@@ -120,10 +120,10 @@ const defaultData = {
   twitter: {
     type: 'website',
     creator: '1227839175@qq.com',
-    site: URLHead + '/pages/HelloWorld.html',
-    url: URLHead + '/pages/HelloWorld.html',
-    title: 'HelloWorld',
-    description: 'This is a page for HelloWorld.',
+    site: URLHead + '/pages/Index.html',
+    url: URLHead + '/pages/Index.html',
+    title: 'Index',
+    description: 'This is a page for Index.',
     card: 'summary_large_image',
     image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
   },
@@ -233,13 +233,13 @@ function HTMLWebpackPluginConfig( {
   const config = [
     // 当isSPA为true时，会只取config里的第1个配置，因为此时项目被设置为单页应用，这个也将作为标准模板配置供参考，复制它后再改改某些具体的参数值即可。
     {
-      title: 'HelloWorld',
-      filename: 'pages/HelloWorld.html',
-      template: './src/template/ejs/HelloWorld.ejs',
+      title: 'Index',
+      filename: 'pages/Index.html',
+      template: './src/template/ejs/Index.ejs',
       excludeChunks: isSPA
                      ? []
         // 注意这里传入的字符串必须跟entry配置（EntryConfig.esm.mjs）中对应的入口项的key名一致。
-                     : ExcludeChunks( 'HelloWorld' ),
+                     : ExcludeChunks( 'Index' ),
       data: {
         ...defaultData,
       },
@@ -340,7 +340,7 @@ function HTMLWebpackPluginConfig( {
       // favicon: false,
       /**
        * @type {string | ((entryName: string) => string)} 要写入HTML的文件。支持子目录，例如：`assets/admin.html`。[name]将被条目名称所取代，支持一个函数来生成名称。默认值为：'index.html'。<br />
-       * 1、例如设置为：filename: 'pages/HelloWorld.html'，最后会在文件夹“pages”下生成一个“HelloWorld.html”文件，文件夹“pages”则是在输出文件夹下。<br />
+       * 1、例如设置为：filename: 'pages/Index.html'，最后会在文件夹“pages”下生成一个“Index.html”文件，文件夹“pages”则是在输出文件夹下。<br />
        */
       // filename: '',
       /**
@@ -385,7 +385,7 @@ function HTMLWebpackPluginConfig( {
       showErrors: !isProduction,
       /**
        * @type {string} 'webpack'需要的模板路径。默认值是一个字符串：'auto'。<br />
-       * 1、例如：设置成：'./src/template/ejs/HelloWorld.ejs'，就表示说模板的位置是在这里。<br />
+       * 1、例如：设置成：'./src/template/ejs/Index.ejs'，就表示说模板的位置是在这里。<br />
        * 2、注意，由于“configures/HTMLWebpackPluginConfig.esm.mjs”最后是被“webpack.base.esm.mjs”文件引入使用，所以，当设置为相对路径时，也应该是以“webpack.base.esm.mjs”文件所在的文件夹路径开始。<br />
        */
       // template: '',

@@ -1,4 +1,0 @@
-建议保留这个“hello_world”文件夹，以便具体开发时直接复制，然后改名。
-
-1、page文件夹名建议以业务命名，如：home、personal_center、park等等。
-2、具体的page文件夹下又有各种代码文件、资源文件等等，可以参考“hello_world”文件夹里的结构。
