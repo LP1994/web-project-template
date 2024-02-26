@@ -2931,7 +2931,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     HTMLMinifyConfig,
   } ),
   /**
-   * @type {{maxChunks: number}} 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目/主块也包含在计数中。
+   * @type {{maxChunks: number}} 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目、主块也包含在计数中。
    */
   limitChunkCountPluginConfig = {
     maxChunks: 100,
