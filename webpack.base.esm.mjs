@@ -98,7 +98,7 @@ import less from 'less';
 
 import Mime from 'mime';
 
-import package_json from './package.json' assert { type: 'json', };
+import package_json from './package.json' with { type: 'json', };
 
 import postcss from 'postcss';
 
@@ -112,7 +112,7 @@ import ThreadLoader from 'thread-loader';
 
 import Toml from 'toml';
 
-import tsconfig_webpack_json from './tsconfig.webpack.json' assert { type: 'json', };
+import tsconfig_webpack_json from './tsconfig.webpack.json' with { type: 'json', };
 
 import webpack from 'webpack';
 
@@ -3471,6 +3471,33 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              */
             [
               '@babel/plugin-proposal-explicit-resource-management',
+            ],
+            /**
+             * @babel/plugin-proposal-import-wasm-source：https://babeljs.io/docs/babel-plugin-proposal-import-wasm-source
+             * 1、目前该提案处于第3阶段。<br />
+             * 2、详细提案见：<br />
+             * https://github.com/tc39/proposal-source-phase-imports/
+             * 3、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
+             * 4、使用例子：<br />
+             * import source libMod from "./lib.wasm";
+             * 注意，前面的新的关键字“source”，“import source”才是完整的导入语法。<br />
+             */
+            [
+              '@babel/plugin-proposal-import-wasm-source',
+            ],
+            /**
+             * @babel/plugin-proposal-json-modules：https://babeljs.io/docs/babel-plugin-proposal-json-modules
+             * 1、目前该提案处于第3阶段。<br />
+             * 2、详细提案见：<br />
+             * https://github.com/tc39/proposal-json-modules/
+             * 3、将“import ... with { type: "json" }”声明转换为特定平台的API，以读取并“JSON.parse”导入的文件。<br />
+             * 4、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
+             * 5、该插件只转换“import”标记，不转换动态“import()”调用。<br />
+             * 6、使用例子：<br />
+             * import data from "./data.json" with { type: "json" };
+             */
+            [
+              '@babel/plugin-proposal-json-modules',
             ],
 
             // 处于无效提案，但是有新的替代提案处于讨论中！

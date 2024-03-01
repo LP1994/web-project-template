@@ -30,7 +30,7 @@ import {
   fileURLToPath,
 } from 'node:url';
 
-import tsConfig from '../../tsconfig.json' assert { type: 'json', };
+import tsConfig from '../../tsconfig.json' with { type: 'json', };
 
 function Get__dirname( import_meta_url = import.meta.url ){
   return dirname( Get__filename( import_meta_url ) );
