@@ -1182,7 +1182,7 @@ declare namespace Deno {
      * after doing setup work which should not be measured.
      *
      * Warning: This method should not be used for benchmarks averaging less
-     * than 10μs per iteration. In such cases it will be disabled but the call
+     * than 10╬╝s per iteration. In such cases it will be disabled but the call
      * will still have noticeable overhead, resulting in a warning.
      *
      * ```ts
@@ -1199,7 +1199,7 @@ declare namespace Deno {
      * before doing teardown work which should not be measured.
      *
      * Warning: This method should not be used for benchmarks averaging less
-     * than 10μs per iteration. In such cases it will be disabled but the call
+     * than 10╬╝s per iteration. In such cases it will be disabled but the call
      * will still have noticeable overhead, resulting in a warning.
      *
      * ```ts
@@ -4070,21 +4070,21 @@ declare namespace Deno {
    *
    * ```shell
    * > console.table(Deno.metrics())
-   * ┌─────────────────────────┬────────┐
-   * │         (index)         │ Values │
-   * ├─────────────────────────┼────────┤
-   * │      opsDispatched      │   3    │
-   * │    opsDispatchedSync    │   2    │
-   * │   opsDispatchedAsync    │   1    │
-   * │ opsDispatchedAsyncUnref │   0    │
-   * │      opsCompleted       │   3    │
-   * │    opsCompletedSync     │   2    │
-   * │    opsCompletedAsync    │   1    │
-   * │ opsCompletedAsyncUnref  │   0    │
-   * │    bytesSentControl     │   73   │
-   * │      bytesSentData      │   0    │
-   * │      bytesReceived      │  375   │
-   * └─────────────────────────┴────────┘
+   * ÔöîÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö¼ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÉ
+   * Ôöé         (index)         Ôöé Values Ôöé
+   * Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+   * Ôöé      opsDispatched      Ôöé   3    Ôöé
+   * Ôöé    opsDispatchedSync    Ôöé   2    Ôöé
+   * Ôöé   opsDispatchedAsync    Ôöé   1    Ôöé
+   * Ôöé opsDispatchedAsyncUnref Ôöé   0    Ôöé
+   * Ôöé      opsCompleted       Ôöé   3    Ôöé
+   * Ôöé    opsCompletedSync     Ôöé   2    Ôöé
+   * Ôöé    opsCompletedAsync    Ôöé   1    Ôöé
+   * Ôöé opsCompletedAsyncUnref  Ôöé   0    Ôöé
+   * Ôöé    bytesSentControl     Ôöé   73   Ôöé
+   * Ôöé      bytesSentData      Ôöé   0    Ôöé
+   * Ôöé      bytesReceived      Ôöé  375   Ôöé
+   * ÔööÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö┤ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÿ
    * ```
    *
    * @category Observability
@@ -4494,7 +4494,7 @@ declare namespace Deno {
    * Environmental variables for subprocess can be specified using `opt.env`
    * mapping.
    *
-   * `opt.uid` sets the child process’s user ID. This translates to a setuid call
+   * `opt.uid` sets the child processÔÇÖs user ID. This translates to a setuid call
    * in the child process. Failure in the setuid call will cause the spawn to fail.
    *
    * `opt.gid` is similar to `opt.uid`, but sets the group ID of the child process.
@@ -4683,7 +4683,7 @@ declare namespace Deno {
     /** Environmental variables to pass to the subprocess. */
     env?: Record<string, string>;
     /**
-     * Sets the child process’s user ID. This translates to a setuid call in the
+     * Sets the child processÔÇÖs user ID. This translates to a setuid call in the
      * child process. Failure in the set uid call will cause the spawn to fail.
      */
     uid?: number;
@@ -7148,7 +7148,7 @@ declare interface EventTarget {
    *
    * When set to true, options's passive indicates that the callback will not
    * cancel the event by invoking preventDefault(). This is used to enable
-   * performance optimizations described in § 2.8 Observing event listeners.
+   * performance optimizations described in ┬º 2.8 Observing event listeners.
    *
    * When set to true, options's once indicates that the callback will only be
    * invoked once after which the event listener will be removed.
@@ -10707,7 +10707,7 @@ declare interface Crypto {
   >(
     array: T,
   ): T;
-  randomUUID(): string;
+  randomUUID(): `${string}-${string}-${string}-${string}-${string}`;
 }
 
 /** @category Web Crypto API */
@@ -11279,7 +11279,7 @@ declare namespace WebAssembly {
     constructor(descriptor: GlobalDescriptor, v?: any);
 
     /**
-     * The value contained inside the global variable — this can be used to directly set
+     * The value contained inside the global variable ÔÇö this can be used to directly set
      * and get the global's value.
      */
     value: any;
@@ -11349,7 +11349,7 @@ declare namespace WebAssembly {
 
   /**
    * A `WebAssembly.Module` object contains stateless WebAssembly code that has already been compiled
-   * by the browser — this can be efficiently shared with Workers, and instantiated multiple times.
+   * by the browser ÔÇö this can be efficiently shared with Workers, and instantiated multiple times.
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module)
    *
@@ -11389,7 +11389,7 @@ declare namespace WebAssembly {
   }
 
   /**
-   * The `WebAssembly.Table()` object is a JavaScript wrapper object — an array-like structure
+   * The `WebAssembly.Table()` object is a JavaScript wrapper object ÔÇö an array-like structure
    * representing a WebAssembly Table, which stores function references. A table created by
    * JavaScript or in WebAssembly code will be accessible and mutable from both JavaScript
    * and WebAssembly.
@@ -11405,7 +11405,7 @@ declare namespace WebAssembly {
     /** Returns the length of the table, i.e. the number of elements. */
     readonly length: number;
 
-    /** Accessor function — gets the element stored at a given index. */
+    /** Accessor function ÔÇö gets the element stored at a given index. */
     get(index: number): Function | null;
 
     /** Increases the size of the `Table` instance by a specified number of elements. */
@@ -11907,7 +11907,7 @@ declare var PerformanceEntry: {
   new (): never;
 };
 
-/** `PerformanceMark` is an abstract interface for `PerformanceEntry` objects
+/** `PerformanceMark`┬áis an abstract interface for `PerformanceEntry` objects
  * with an entryType of `"mark"`. Entries of this type are created by calling
  * `performance.mark()` to add a named `DOMHighResTimeStamp` (the mark) to the
  * performance timeline.
@@ -11919,7 +11919,7 @@ declare interface PerformanceMark extends PerformanceEntry {
   readonly entryType: "mark";
 }
 
-/** `PerformanceMark` is an abstract interface for `PerformanceEntry` objects
+/** `PerformanceMark`┬áis an abstract interface for `PerformanceEntry` objects
  * with an entryType of `"mark"`. Entries of this type are created by calling
  * `performance.mark()` to add a named `DOMHighResTimeStamp` (the mark) to the
  * performance timeline.
@@ -13191,7 +13191,7 @@ declare namespace Deno {
    * Environmental variables for subprocess can be specified using `opt.env`
    * mapping.
    *
-   * `opt.uid` sets the child process’s user ID. This translates to a setuid call
+   * `opt.uid` sets the child processÔÇÖs user ID. This translates to a setuid call
    * in the child process. Failure in the setuid call will cause the spawn to fail.
    *
    * `opt.gid` is similar to `opt.uid`, but sets the group ID of the child process.
@@ -13255,9 +13255,9 @@ declare namespace Deno {
     caCerts?: string[];
     /** A HTTP proxy to use for new connections. */
     proxy?: Proxy;
-    /** Server private key in PEM format. */
-    cert?: string;
     /** Cert chain in PEM format. */
+    cert?: string;
+    /** Server private key in PEM format. */
     key?: string;
     /** Sets the maximum numer of idle connections per host allowed in the pool. */
     poolMaxIdlePerHost?: number;
@@ -16020,7 +16020,7 @@ declare namespace Temporal {
   /**
    * A `Temporal.PlainTime` represents a wall-clock time, with a precision in
    * nanoseconds, and without any time zone. "Wall-clock time" refers to the
-   * concept of a time as expressed in everyday usage — the time that you read
+   * concept of a time as expressed in everyday usage ÔÇö the time that you read
    * off the clock on the wall. For example, it could be used to represent an
    * event that happens daily at a certain time, no matter what time zone.
    *
@@ -16602,6 +16602,11 @@ declare namespace Temporal {
 
     readonly [Symbol.toStringTag]: "Temporal.Now";
   };
+}
+
+interface Date {
+  /** @category Temporal */
+  toTemporalInstant(): Temporal.Instant;
 }
 
 /** @category Intl */
