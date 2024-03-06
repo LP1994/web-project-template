@@ -629,43 +629,6 @@ interface TemplateStringsArray extends ReadonlyArray<string> {
  * this type may be augmented via interface merging.
  */
 interface ImportMeta {
-    /** A string representation of the fully qualified module URL. When the
-     * module is loaded locally, the value will be a file URL (e.g.
-     * `file:///path/module.ts`).
-     *
-     * You can also parse the string as a URL to determine more information about
-     * how the current module was loaded. For example to determine if a module was
-     * local or not:
-     *
-     * ```ts
-     * const url = new URL(import.meta.url);
-     * if (url.protocol === "file:") {
-     *   console.log("this module was loaded locally");
-     * }
-     * ```
-     */
-    url: string;
-
-    /** A flag that indicates if the current module is the main module that was
-     * called when starting the program under Deno.
-     *
-     * ```ts
-     * if (import.meta.main) {
-     *   // this was loaded as the main module, maybe do some bootstrapping
-     * }
-     * ```
-     */
-    main: boolean;
-
-    /** A function that returns resolved specifier as if it would be imported
-     * using `import(specifier)`.
-     *
-     * ```ts
-     * console.log(import.meta.resolve("./foo.js"));
-     * // file:///dev/foo.js
-     * ```
-     */
-    resolve( specifier: string, parent?: string ): string;
 }
 
 /**
@@ -681,6 +644,7 @@ interface ImportCallOptions {
 
 /**
  * The type for the `assert` property of the optional second argument to `import()`.
+ * @deprecated
  */
 interface ImportAssertions {
     [key: string]: string;
@@ -1702,6 +1666,11 @@ type Capitalize<S extends string> = intrinsic;
  * Convert first character of string literal type to lowercase
  */
 type Uncapitalize<S extends string> = intrinsic;
+
+/**
+ * Marker for non-inference type position
+ */
+type NoInfer<T> = intrinsic;
 
 /**
  * Marker for contextual 'this' type
@@ -4455,11 +4424,14 @@ declare namespace Intl {
         compare(x: string, y: string): number;
         resolvedOptions(): ResolvedCollatorOptions;
     }
-    var Collator: {
+
+    interface CollatorConstructor {
         new (locales?: string | string[], options?: CollatorOptions): Collator;
         (locales?: string | string[], options?: CollatorOptions): Collator;
         supportedLocalesOf(locales: string | string[], options?: CollatorOptions): string[];
-    };
+    }
+
+    var Collator: CollatorConstructor;
 
     interface NumberFormatOptions {
         localeMatcher?: string | undefined;
@@ -4491,12 +4463,15 @@ declare namespace Intl {
         format(value: number): string;
         resolvedOptions(): ResolvedNumberFormatOptions;
     }
-    var NumberFormat: {
+
+    interface NumberFormatConstructor {
         new (locales?: string | string[], options?: NumberFormatOptions): NumberFormat;
         (locales?: string | string[], options?: NumberFormatOptions): NumberFormat;
         supportedLocalesOf(locales: string | string[], options?: NumberFormatOptions): string[];
         readonly prototype: NumberFormat;
-    };
+    }
+
+    var NumberFormat: NumberFormatConstructor;
 
     interface DateTimeFormatOptions {
         localeMatcher?: "best fit" | "lookup" | undefined;
@@ -4535,12 +4510,15 @@ declare namespace Intl {
         format(date?: Date | number): string;
         resolvedOptions(): ResolvedDateTimeFormatOptions;
     }
-    var DateTimeFormat: {
+
+    interface DateTimeFormatConstructor {
         new (locales?: string | string[], options?: DateTimeFormatOptions): DateTimeFormat;
         (locales?: string | string[], options?: DateTimeFormatOptions): DateTimeFormat;
         supportedLocalesOf(locales: string | string[], options?: DateTimeFormatOptions): string[];
         readonly prototype: DateTimeFormat;
-    };
+    }
+
+    var DateTimeFormat: DateTimeFormatConstructor;
 }
 
 interface String {
