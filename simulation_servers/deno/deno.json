@@ -117,7 +117,7 @@
     ]
   },
   "tasks": {
-    "start": "deno run -A --watch --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload ./src/App.mts --color=16m"
+    "start": "deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m"
   },
   "exclude": [],
   "nodeModulesDir": false,
@@ -131,7 +131,9 @@
     "kv",
     "ffi",
     "fs",
-    "net"
+    "net",
+    "http",
+    "temporal"
   ],
   "importMap": "./import_map.json",
   "lock": "./deno.lock"
