@@ -38,7 +38,7 @@
 const StartupImgForApple = [
   // iPhone Start
 
-  // 640 x 1136(dpr: 2): iPhone 5S、iPhone SE(第一代)
+  // 640 x 1136(dpr: 2): iPhone 5、iPhone 5C（最后一款支持32位操作系统）、iPhone 5S（第1个配备64位处理器的）、iPhone SE(第一代)
   {
     href: '../static/img/apple_startup/iPhone_640_1136.png',
     type: 'image/png',
@@ -49,7 +49,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 320px) and (device-height: 568px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2), ' +
       'only screen and (device-width: 320px) and (device-height: 568px) and (orientation: portrait) and (device-pixel-ratio: 2)',
   },
-  // 1136 x 640(dpr: 2): iPhone 5S、iPhone SE(第一代)
+  // 1136 x 640(dpr: 2): iPhone 5、iPhone 5C（最后一款支持32位操作系统）、iPhone 5S（第1个配备64位处理器的）、iPhone SE(第一代)
   {
     href: '../static/img/apple_startup/iPhone_1136_640.png',
     type: 'image/png',
@@ -253,7 +253,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 428px) and (device-height: 926px) and (orientation: landscape) and (device-pixel-ratio: 3)',
   },
 
-  // 1179 x 2556(dpr: 3): iPhone 14 Pro
+  // 1179 x 2556(dpr: 3): iPhone 14 Pro、iPhone 15、iPhone 15 Pro
   {
     href: '../static/img/apple_startup/iPhone_1179_2556.png',
     type: 'image/png',
@@ -264,7 +264,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 393px) and (device-height: 852px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3), ' +
       'only screen and (device-width: 393px) and (device-height: 852px) and (orientation: portrait) and (device-pixel-ratio: 3)',
   },
-  // 2556 x 1179(dpr: 3): iPhone 14 Pro
+  // 2556 x 1179(dpr: 3): iPhone 14 Pro、iPhone 15、iPhone 15 Pro
   {
     href: '../static/img/apple_startup/iPhone_2556_1179.png',
     type: 'image/png',
@@ -276,7 +276,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 393px) and (device-height: 852px) and (orientation: landscape) and (device-pixel-ratio: 3)',
   },
 
-  // 1290 x 2796(dpr: 3): iPhone 14 Pro Max
+  // 1290 x 2796(dpr: 3): iPhone 14 Pro Max、iPhone 15 Plus、iPhone 15 Pro Max
   {
     href: '../static/img/apple_startup/iPhone_1290_2796.png',
     type: 'image/png',
@@ -287,7 +287,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 430px) and (device-height: 932px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3), ' +
       'only screen and (device-width: 430px) and (device-height: 932px) and (orientation: portrait) and (device-pixel-ratio: 3)',
   },
-  // 2796 x 1290(dpr: 3): iPhone 14 Pro Max
+  // 2796 x 1290(dpr: 3): iPhone 14 Pro Max、iPhone 15 Plus、iPhone 15 Pro Max
   {
     href: '../static/img/apple_startup/iPhone_2796_1290.png',
     type: 'image/png',
@@ -303,7 +303,7 @@ const StartupImgForApple = [
 
   // iPad Start
 
-  // 1536 x 2048(dpr: 2): iPad mini(第二代)、iPad mini(第三代)、iPad mini(第四代)、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air(第二代)、9.7英寸iPad Pro、iPad mini(第五代)
+  // 1536 x 2048(dpr: 2): 7.9英寸iPad mini(第二代)、7.9英寸iPad mini(第三代)、7.9英寸iPad mini(第四代)、9.7英寸iPad(第五代)、9.7英寸iPad(第六代)、9.7英寸iPad Air(第一代)、9.7英寸iPad Air(第二代)、9.7英寸iPad Pro、7.9英寸iPad mini(第五代)
   {
     href: '../static/img/apple_startup/iPad_1536_2048.png',
     type: 'image/png',
@@ -314,7 +314,7 @@ const StartupImgForApple = [
       'only screen and (device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2), ' +
       'only screen and (device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (device-pixel-ratio: 2)',
   },
-  // 2048 x 1536(dpr: 2): iPad mini(第二代)、iPad mini(第三代)、iPad mini(第四代)、iPad(第五代)、iPad(第六代)、iPad Air(第一代)、iPad Air(第二代)、9.7英寸iPad Pro、iPad mini(第五代)
+  // 2048 x 1536(dpr: 2): 7.9英寸iPad mini(第二代)、7.9英寸iPad mini(第三代)、7.9英寸iPad mini(第四代)、9.7英寸iPad(第五代)、9.7英寸iPad(第六代)、9.7英寸iPad Air(第一代)、9.7英寸iPad Air(第二代)、9.7英寸iPad Pro、7.9英寸iPad mini(第五代)
   {
     href: '../static/img/apple_startup/iPad_2048_1536.png',
     type: 'image/png',
