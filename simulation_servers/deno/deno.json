@@ -121,6 +121,20 @@
   },
   "exclude": [],
   "nodeModulesDir": false,
+  "unstable": [
+    "bare-node-builtins",
+    "byonm",
+    "sloppy-imports",
+    "unsafe-proto",
+    "webgpu",
+    "broadcast-channel",
+    "worker-options",
+    "cron",
+    "kv",
+    "ffi",
+    "fs",
+    "net"
+  ],
   "importMap": "./import_map.json",
   "lock": "./deno.lock"
 }
