@@ -1,0 +1,135 @@
+iPhone 15 Pro Max
+6.7 英寸
+2796 x 1290 像素分辨率，460 ppi
+
+iPhone 15 Pro
+6.1 英寸
+2556 x 1179 像素分辨率，460 ppi
+
+iPhone 15 Plus
+6.7 英寸
+2796 x 1290 像素分辨率，460 ppi
+
+iPhone 15
+6.1 英寸
+2556 x 1179 像素分辨率，460 ppi
+
+iPhone 14 Pro Max
+6.7 英寸
+2796 x 1290 像素分辨率，460 ppi
+
+iPhone 14 Pro
+6.1 英寸
+2556 x 1179 像素分辨率，460 ppi
+
+iPhone 14 Plus
+6.7 英寸
+2778 x 1284 像素分辨率，458 ppi
+
+iPhone 14
+6.1 英寸
+2532 x 1170 像素分辨率，460 ppi
+
+iPhone SE (第三代)
+4.7 英寸
+1334 x 750 像素分辨率，326 ppi
+
+iPhone 13 Pro Max
+6.7 英寸
+2778 x 1284 像素分辨率，458 ppi
+
+iPhone 13 Pro
+6.1 英寸
+2532 x 1170 像素分辨率，460 ppi
+
+iPhone 13
+6.1 英寸
+2532 x 1170 像素分辨率，460 ppi
+
+iPhone 13 mini
+5.4 英寸
+2340 x 1080 像素分辨率，476 ppi
+
+iPhone 12 Pro Max
+6.7 英寸
+2778 x 1284 像素分辨率，458 ppi
+
+iPhone 12 Pro
+6.1 英寸
+2532 x 1170 像素分辨率，460 ppi
+
+iPhone 12
+6.1 英寸
+2532 x 1170 像素分辨率，460 ppi
+
+iPhone 12 mini
+5.4 英寸
+2340 x 1080 像素分辨率，476 ppi
+
+iPhone SE (第二代)
+4.7 英寸
+1334 x 750 像素分辨率，326 ppi
+
+iPhone 11 Pro Max
+6.5 英寸
+2688 x 1242 像素分辨率，458 ppi
+
+iPhone 11 Pro
+5.8 英寸
+2436 x 1125 像素分辨率，458 ppi
+
+iPhone 11
+6.1 英寸
+1792 x 828 像素分辨率，326 ppi
+
+iPhone XS Max
+6.5 英寸
+2688 x 1242 像素分辨率，458 ppi
+
+iPhone XS
+5.8 英寸
+2436 x 1125 像素分辨率，458 ppi
+
+iPhone X
+5.8 英寸
+2436 x 1125 像素分辨率，458 ppi
+
+iPhone XR
+6.1 英寸
+1792 x 828 像素分辨率，326 ppi
+
+iPhone 8 Plus
+5.5 英寸
+1920 x 1080 像素分辨率，401 ppi
+
+iPhone 8
+4.7 英寸
+1334 x 750 像素分辨率，326 ppi
+
+iPhone 7 Plus
+5.5 英寸
+1920 x 1080 像素分辨率，401 ppi
+
+iPhone 7
+4.7 英寸
+1334 x 750 像素分辨率，326 ppi
+
+iPhone 6s Plus
+5.5 英寸
+1920 x 1080 像素分辨率，401 ppi
+
+iPhone 6s
+4.7 英寸
+1334 x 750 像素分辨率，326 ppi
+
+iPhone 6 Plus
+5.5 英寸
+1920 x 1080 像素分辨率，401 ppi
+
+iPhone 6
+4.7 英寸
+1334 x 750 像素分辨率，326 ppi
+
+iPhone SE (第一代)
+4 英寸
+1136 x 640 像素分辨率，326 ppi
