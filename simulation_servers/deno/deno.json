@@ -124,8 +124,6 @@
   "unstable": [
     "bare-node-builtins",
     "byonm",
-    "sloppy-imports",
-    "unsafe-proto",
     "webgpu",
     "broadcast-channel",
     "worker-options",

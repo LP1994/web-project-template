@@ -2,6 +2,61 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 
+--unstable-bare-node-builtins
+通过该标记，您可以导入 Node.js 内置模块，而无需使用 node: 指定符，如下例所示。如果手动管理 Node.js 依赖关系，也可以使用此标记启用 npm 包，而无需 npm: 指定符（参见 byonm 标记）。
+
+--unstable-sloppy-imports
+该标记启用了从不具扩展名的导入中推断文件扩展名的行为。
+模糊导入。
+个人建议不启用为好，严格写明所有导入的文件扩展名。
+
+--unstable-unsafe-proto
+出于安全考虑，Deno 决定不支持 Object.prototype.__proto__。然而，仍有许多 npm 软件包需要依赖该属性才能正常工作。
+此标记可启用此属性。请注意，我们并不推荐使用此属性，但如果您确实需要使用依赖于此属性的软件包，那么现在您可以使用 "逃生舱门 "了。
+
+--unstable-webgpu
+像在浏览器中一样，在全局范围内启用 WebGPU API。
+
+--unstable-broadcast-channel
+启用此标记后，BroadcastChannel Web API 就可以在全局范围内使用，就像在浏览器中一样。
+
+--unstable-worker-options
+启用不稳定的 Web Worker API 选项。具体来说，它能让你指定 Worker 可用的权限：
+new Worker(`data:application/javascript;base64,${btoa(`postMessage("ok");`)}`, {
+  type: "module",
+  deno: {
+    permissions: {
+      read: true,
+    },
+  },
+}).onmessage = ({ data }) => {
+  console.log(data);
+};
+
+--unstable-cron
+启用此标记可在 Deno 命名空间中使用 Deno.cron API。
+
+--unstable-kv
+启用此标记可在 Deno 命名空间中使用 Deno KV API。
+
+--unstable-ffi
+启用不稳定的 FFI API，详细见：
+https://docs.deno.com/runtime/manual/runtime/ffi_api
+
+--unstable-fs
+在 Deno 命名空间中启用不稳定的文件系统 API。这些 API 包括：
+Deno.flock
+Deno.flockSync
+Deno.funlock
+Deno.funlockSync
+Deno.umask
+
+--unstable-net
+启用 Deno 命名空间中的不稳定 net API。这些 API 包括
+Deno.DatagramConn
+
+
+
 当在deno.json配置文件中指定“imports”或“scopes”时，将忽略“importMap”设置。
 
 
