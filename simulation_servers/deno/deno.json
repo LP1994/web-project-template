@@ -33,6 +33,7 @@
     "lib": [
       "deno.broadcast_channel",
       "deno.cache",
+      "deno.canvas",
       "deno.console",
       "deno.crypto",
       "deno.fetch",
@@ -42,6 +43,7 @@
       "deno.unstable",
       "deno.url",
       "deno.web",
+      "deno.webgpu",
       "deno.websocket",
       "deno.webstorage",
       "deno.window",
@@ -106,9 +108,12 @@
       "es5",
       "es6",
       "esnext",
+      "esnext.collection",
       "esnext.decorators",
       "esnext.disposable",
-      "esnext.intl"
+      "esnext.intl",
+      "esnext.object",
+      "esnext.promise"
     ]
   },
   "tasks": {
