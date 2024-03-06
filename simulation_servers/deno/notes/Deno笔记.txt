@@ -205,7 +205,7 @@ deno run --check main.ts
 --no-check=https://deno.land/std@0.137.0/bytes/bytes_list.ts,https://deno.land/std@0.137.0/io/buffer.ts,https://deno.land/std@0.137.0/testing/_diff.ts
 但是--no-check=[,,,]不能跟--check=all一起使用。
 例子：
-deno run -A --watch --config=./deno.json --lock-write --unstable --check --v8-flags=--max-old-space-size=1024000 --reload ./src/App.mts --color=16m
+deno run -A --watch --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload ./src/App.mts --color=16m
 这种写法，只会对自己编写的代码做类型检查，不会对第三方的代码做类型检查。
 
 
@@ -279,7 +279,7 @@ const proc = Deno.run({ cmd: ["whoami"] });
 
 
 运行时
-所有运行时函数（Web API + Deno 全局）的文档都可以在 doc.deno.land/deno/stable 上找到，其中不稳定的 API 是通过 doc.deno.land/deno/unstable 中的 --unstable 标志启用的。
+所有运行时函数（Web API + Deno 全局）的文档都可以在 doc.deno.land/deno/stable 上找到，其中不稳定的 API 是通过 doc.deno.land/deno/unstable 中的 --unstable 标志启用的（建议您使用粒度不稳定标志来代替此标志，该 --unstable标志现已弃用，并将在 Deno 2 中删除。）。
 Web Platform APIs（在某些情况下，稍微偏离规范是有意义的，因为 Deno 具有不同的安全模型。）：对于已经存在 Web 标准的 API，例如 HTTP 请求的 fetch，Deno 使用这些而不是发明新的专有 API。
 https://deno.land/manual@v1.27.0/runtime/web_platform_apis
 Deno global：所有非 Web 标准的 API 都包含在全局 Deno 命名空间中。它具有用于读取文件、打开 TCP 套接字、服务 HTTP 和执行子进程等的 API。
