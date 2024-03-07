@@ -2,8 +2,16 @@ Deno（读音：/ˈdiːnoʊ/）笔记
 
 
 
+Unstable Feature Flags：
+详细见：
+https://docs.deno.com/runtime/manual/tools/unstable_flags
+
 --unstable-bare-node-builtins
 通过该标记，您可以导入 Node.js 内置模块，而无需使用 node: 指定符，如下例所示。如果手动管理 Node.js 依赖关系，也可以使用此标记启用 npm 包，而无需 npm: 指定符（参见 byonm 标记）。
+不建议启用。
+
+--unstable-byonm
+不建议启用。
 
 --unstable-sloppy-imports
 该标记启用了从不具扩展名的导入中推断文件扩展名的行为。
@@ -271,7 +279,7 @@ deno run --check main.ts
 --no-check=https://deno.land/std@0.137.0/bytes/bytes_list.ts,https://deno.land/std@0.137.0/io/buffer.ts,https://deno.land/std@0.137.0/testing/_diff.ts
 但是--no-check=[,,,]不能跟--check=all一起使用。
 例子：
-deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-bare-node-builtins --unstable-byonm --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m
+deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m
 这种写法，只会对自己编写的代码做类型检查，不会对第三方的代码做类型检查。
 
 

@@ -122,8 +122,6 @@
   "exclude": [],
   "nodeModulesDir": false,
   "unstable": [
-    "bare-node-builtins",
-    "byonm",
     "webgpu",
     "broadcast-channel",
     "worker-options",

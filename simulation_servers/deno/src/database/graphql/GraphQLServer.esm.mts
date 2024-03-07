@@ -58,8 +58,8 @@ const schema = makeExecutableSchema( {
  *
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
-async function GraphQLServer( request: Request ): TypeResponse001{
-  return await GraphQLHTTP<Request>( {
+function GraphQLServer( request: Request ): TypeResponse001{
+  return GraphQLHTTP<Request>( {
     /**
      * 选项playgroundOptions（值类型标注是：Omit<RenderPageOptions, "endpoint">）的值详细见：
      * https://github.com/graphql/graphql-playground/blob/main/packages/graphql-playground-html/src/render-playground-page.ts
