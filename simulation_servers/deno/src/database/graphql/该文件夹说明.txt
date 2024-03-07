@@ -4,128 +4,111 @@ GraphQL 是一种 API 查询语言，通常用于将不同的数据源组合成�
 要设置 GraphQL API，首先要设置一个 GraphQL 服务器。
 该服务器会将您的数据作为 GraphQL API 公开，以便您的客户端应用程序查询数据。
 
-PS：
-1、关于Deno连接GraphQL数据库教程见：https://docs.deno.com/runtime/manual/basics/connecting_to_databases#graphql
 
-服务器 (GQL)
-您可以使用 gql（Deno 的通用 GraphQL HTTP 中间件）在 Deno 中运行 GraphQL API 服务器。
-使用 gql 运行 GraphQL API 服务器，例子：
-import { GraphQLHTTP } from "https://deno.land/x/gql/mod.ts";
-import { makeExecutableSchema } from "https://deno.land/x/graphql_tools@0.0.2/mod.ts";
-import { gql } from "https://deno.land/x/graphql_tag@0.0.1/mod.ts";
 
-const typeDefs = gql`
-  type Query {
-    hello: String
+deno关于使用GraphQL的deno官方案例：
+https://docs.deno.com/runtime/manual/basics/connecting_to_databases#server
+
+GraphQL官方教程：
+https://graphql.org/graphql-js/
+
+graphql-http中关于在deno里使用GraphQL的案例：
+https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
+
+
+
+// GraphQLServer.esm.mts
+'use strict';
+
+import {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+} from 'npm:graphql';
+
+import {
+  createHandler,
+} from 'npm:graphql-http/lib/use/fetch';
+
+import {
+  type TypeResponse001,
+
+  httpHeaders,
+} from 'configures/GlobalParameters.esm.mts';
+
+class MyGraphQLServerResponse
+  extends Response {
+
+  public constructor( body?: BodyInit | null | undefined, init?: ResponseInit | undefined ){
+    super( body, {
+      ...init,
+      headers: {
+        ...( init?.headers ?? {} ),
+        ...httpHeaders,
+      },
+    } );
   }
-`;
 
-const resolvers = {
-  Query: {
-    hello: () => `Hello World!`,
-  },
-};
-
-const schema = makeExecutableSchema({ resolvers, typeDefs });
-
-Deno.serve({ port: 3000 }, async () => {
-  const { pathname } = new URL(req.url);
-
-  return pathname === "/graphql"
-    ? await GraphQLHTTP<Request>({
-      schema,
-      graphiql: true,
-    })(req)
-    : new Response("Not Found", { status: 404 });
-});
-
-
-
-客户端
-要在 Deno 中进行 GraphQL 客户端调用，请使用 esm CDN 导入 graphql npm 模块。
-使用 graphql npm 模块进行 GraphQL 客户端调用
-例子：
-import { buildSchema, graphql } from "https://esm.sh/graphql";
-
-const schema = buildSchema(`
-type Query {
-  hello: String
 }
-`);
 
-const rootValue = {
-  hello: () => {
-    return "Hello world!";
-  },
+const schema: GraphQLSchema = new GraphQLSchema( {
+  query: new GraphQLObjectType( {
+    name: 'Query',
+    fields: {
+      hello: {
+        type: GraphQLString,
+        resolve: (): string => {
+          return `2024，Hello World！${ typeof MyGraphQLServerResponse }`;
+        },
+      },
+    },
+  } ),
+} );
+
+/**
+ * GraphQL Server。
+ *
+ * deno关于使用GraphQL的deno官方案例：
+ * https://docs.deno.com/runtime/manual/basics/connecting_to_databases#server
+ *
+ * GraphQL官方教程：
+ * https://graphql.org/graphql-js/
+ *
+ * graphql-http中关于在deno里使用GraphQL的案例：
+ * https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ */
+function GraphQLServer( request: Request ): TypeResponse001{
+  return createHandler(
+    /**
+     * 这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
+     * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
+     * 然后搜索“interface HandlerOptions”即可看到具体的说明。
+     */
+    {
+      schema,
+    },
+    /**
+     * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
+     * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
+     * 然后搜索“interface FetchAPI”即可看到具体的说明：
+     * interface FetchAPI {
+     *   Response: typeof Response;
+     *   ReadableStream: typeof ReadableStream;
+     *   TextEncoder: typeof TextEncoder;
+     * }
+     */
+    {
+      Response: MyGraphQLServerResponse,
+    },
+  )( request );
+}
+
+export {
+  GraphQLServer,
 };
 
-const response = await graphql({
-  schema,
-  source: "{ hello }",
-  rootValue,
-});
-
-console.log(response);
-
-
-
-其他例子：
-创建一个 GraphQL 服务器：
-// server.js
-import { Application } from "https://deno.land/x/oak/mod.ts";
-import { applyGraphQL } from "https://deno.land/x/oak_graphql/mod.ts";
-
-// 定义一个 GraphQL Schema
-const schema = `
-  type Query {
-    hello: String!
-  }
-`;
-
-// 定义一个 GraphQL 解析器
-const resolvers = {
-  Query: {
-    hello: () => "Hello, world!",
-  },
-};
-
-// 创建一个 GraphQL 中间件
-const GraphQLService = await applyGraphQL({
-  typeDefs: schema,
-  resolvers,
-});
-
-// 创建一个应用实例
-const app = new Application();
-
-// 使用 GraphQL 中间件
-app.use(GraphQLService.routes(), GraphQLService.allowedMethods());
-
-// 监听 4000 端口
-console.log("Server start at http://localhost:4000");
-await app.listen({ port: 4000 });
-
-
-
-在浏览器中调用一个 GraphQL 请求：
-// client.js
-// 使用 fetch API 发送一个 GraphQL 请求
-fetch("http://localhost:4000/graphql", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    query: "{ hello }",
-  }),
-})
-  .then((res) => res.json())
-  .then((data) => console.log(data));
-
-// 使用 graphql-request 库发送一个 GraphQL 请求
-import { request } from "https://cdn.skypack.dev/graphql-request";
-
-const query = "{ hello }";
-
-request("http://localhost:4000/graphql", query)
-  .then((data) => console.log(data));
+export default GraphQLServer;

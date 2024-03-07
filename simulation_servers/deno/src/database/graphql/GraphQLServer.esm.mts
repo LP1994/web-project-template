@@ -8,23 +8,29 @@
  */
 
 /**
- * GraphQL Server，详细见：
+ * GraphQL Server。
+ *
+ * deno关于使用GraphQL的deno官方案例：
  * https://docs.deno.com/runtime/manual/basics/connecting_to_databases#server
+ *
+ * GraphQL官方教程：
+ * https://graphql.org/graphql-js/
+ *
+ * graphql-http中关于在deno里使用GraphQL的案例：
+ * https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
  */
 
 'use strict';
 
 import {
-  GraphQLHTTP,
-} from 'DenoX/gql/mod.ts';
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+} from 'npm:graphql';
 
 import {
-  gql,
-} from 'DenoX/graphql_tag/mod.ts';
-
-import {
-  makeExecutableSchema,
-} from 'esmSH/@graphql-tools/schema';
+  createHandler,
+} from 'npm:graphql-http/lib/use/fetch';
 
 import {
   type TypeResponse001,
@@ -32,52 +38,75 @@ import {
   httpHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
-const typeDefs = gql`
-  type Query {
-    hello: String
+class MyGraphQLServerResponse
+  extends Response {
+
+  public constructor( body?: BodyInit | null | undefined, init?: ResponseInit | undefined ){
+    super( body, {
+      ...init,
+      headers: {
+        ...( init?.headers ?? {} ),
+        ...httpHeaders,
+      },
+    } );
   }
-`;
 
-const resolvers = {
-  Query: {
-    hello: () => `2024，Hello World！`,
-  },
-};
+}
 
-const schema = makeExecutableSchema( {
-  typeDefs,
-  resolvers,
+const schema: GraphQLSchema = new GraphQLSchema( {
+  query: new GraphQLObjectType( {
+    name: 'Query',
+    fields: {
+      hello: {
+        type: GraphQLString,
+        resolve: (): string => {
+          return `2024，Hello World！${ typeof MyGraphQLServerResponse }`;
+        },
+      },
+    },
+  } ),
 } );
 
 /**
  * GraphQL Server。
- * 关于函数“GraphQLHTTP”的使用详细见：
- * https://deno.land/x/gql/mod.ts?source=
+ *
+ * deno关于使用GraphQL的deno官方案例：
+ * https://docs.deno.com/runtime/manual/basics/connecting_to_databases#server
+ *
+ * GraphQL官方教程：
+ * https://graphql.org/graphql-js/
+ *
+ * graphql-http中关于在deno里使用GraphQL的案例：
+ * https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
 function GraphQLServer( request: Request ): TypeResponse001{
-  return GraphQLHTTP<Request>( {
+  return createHandler(
     /**
-     * 选项playgroundOptions（值类型标注是：Omit<RenderPageOptions, "endpoint">）的值详细见：
-     * https://github.com/graphql/graphql-playground/blob/main/packages/graphql-playground-html/src/render-playground-page.ts
+     * 这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
+     * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
+     * 然后搜索“interface HandlerOptions”即可看到具体的说明。
      */
-    // playgroundOptions: {},
-
-    graphiql: true,
-    headers: httpHeaders,
-
+    {
+      schema,
+    },
     /**
-     * 以下参数到底有哪些可以见：
-     * https://github.com/graphql/graphql-http/blob/main/src/handler.ts
-     * 检索“interface HandlerOptions”即可。
+     * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
+     * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
+     * 然后搜索“interface FetchAPI”即可看到具体的说明：
+     * interface FetchAPI {
+     *   Response: typeof Response;
+     *   ReadableStream: typeof ReadableStream;
+     *   TextEncoder: typeof TextEncoder;
+     * }
      */
-
-    // 选项schema：操作将在其上执行和验证的“GraphQL schema”。
-    schema,
-  } )( request );
+    {
+      Response: MyGraphQLServerResponse,
+    },
+  )( request );
 }
 
 export {

@@ -13,8 +13,14 @@
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
  *
- * 关于如何在Deno中使用GraphQL详细见：
- * https://docs.deno.com/runtime/manual/basics/connecting_to_databases#graphql
+ * deno关于使用GraphQL的deno官方案例：
+ * https://docs.deno.com/runtime/manual/basics/connecting_to_databases#server
+ *
+ * GraphQL官方教程：
+ * https://graphql.org/graphql-js/
+ *
+ * graphql-http中关于在deno里使用GraphQL的案例：
+ * https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
  */
 
 /**
