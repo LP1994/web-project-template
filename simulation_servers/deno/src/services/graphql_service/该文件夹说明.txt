@@ -1,0 +1,7 @@
+该文件夹是用于响应“GraphQL请求”（POST请求）。
+
+如：
+https://127.0.0.1:9200/graphql
+
+关于如何在Deno中使用GraphQL详细见：
+https://docs.deno.com/runtime/manual/basics/connecting_to_databases#graphql

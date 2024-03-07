@@ -1,6 +1,7 @@
 {
   "imports": {
     "/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\",
+    "./": "./",
 
     "deno_ejs": "https://deno.land/x/dejs/mod.ts",
     "deno_mongo": "https://deno.land/x/mongo/mod.ts",
