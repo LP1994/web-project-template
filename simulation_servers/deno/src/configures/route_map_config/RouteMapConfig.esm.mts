@@ -122,10 +122,12 @@ const websocketForRouteMapConfig: TypeRouteMapHandle = await GeneratorRouteMap( 
  * 数组的第1个、第2个成员都是要有一个默认导出，且默认导出的就是上面提到的“条件函数”、“处理函数”。<br />
  */
 const methodByPutForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
-    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
-  ],
+  /*
+   [
+   `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
+   `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+   ],
+   */
 ] );
 
 /**
@@ -144,9 +146,15 @@ const methodByDeleteForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [] )
  */
 const methodByPostForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
   [
-    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
-    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+    `${ servicesDir }/graphql_service/Condition.esm.mts`,
+    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
   ],
+  /*
+   [
+   `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
+   `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+   ],
+   */
 ] );
 
 /**

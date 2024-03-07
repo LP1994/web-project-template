@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A --config=../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-bare-node-builtins --unstable-byonm --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr
+#!/usr/bin/env -S deno run -A --config=../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr
 
 /**
  * Project: web-project-template
@@ -9,7 +9,7 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
-// deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-bare-node-builtins --unstable-byonm --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m
+// deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m
 
 /**
  * 这是程序的启动入口。
@@ -47,7 +47,7 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
-  // import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
+  import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
   // 同时提供“https:”和“wss:”协议的服务，端口都是9000，基于HTTP/1.1。
   // import( 'servers/HTTPSAndWebSocketSByServerForPort9000.mts' ),
 
@@ -65,7 +65,7 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2（使用HTTP/2要必需使用HTTPS，这是强制的），Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
-  import( 'servers/HTTPV2AndWebSocketSServerForPort9200.mts' ),
+  // import( 'servers/HTTPV2AndWebSocketSServerForPort9200.mts' ),
 
   // 这两类服务不可同时启用，启用其中之一即可。End
 

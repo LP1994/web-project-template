@@ -24,7 +24,7 @@ import {
 
 import {
   makeExecutableSchema,
-} from 'DenoX/graphql_tools/mod.ts';
+} from 'esmSH/@graphql-tools/schema';
 
 import {
   type TypeResponse001,
@@ -45,8 +45,8 @@ const resolvers = {
 };
 
 const schema = makeExecutableSchema( {
-  resolvers,
   typeDefs,
+  resolvers,
 } );
 
 /**
