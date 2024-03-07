@@ -12,6 +12,10 @@ https://docs.deno.com/runtime/manual/tools/unstable_flags
 
 --unstable-byonm
 不建议启用。
+启用--unstable-bare-node-builtins、--unstable-byonm会出现这类错误提示！
+Could not find a matching package for 'npm:graphql-http@1.22.0' in 'G:\WebStormWS\web-project-template\simulation_servers\deno\package.json'.
+You must specify this as a package.json dependency when the node_modules folder is not managed by Deno.
+    at https://deno.land/x/gql@2.0.1/deps.ts:14:8
 
 --unstable-sloppy-imports
 该标记启用了从不具扩展名的导入中推断文件扩展名的行为。
