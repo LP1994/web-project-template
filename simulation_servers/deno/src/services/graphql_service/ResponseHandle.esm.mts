@@ -40,10 +40,59 @@
 'use strict';
 
 import {
+  type DocumentNode,
+
+  buildSchema,
+  print,
+} from 'esmSH/graphql';
+
+import {
+  type HandlerOptions,
+} from 'esmSH/graphql-http/lib/use/fetch';
+
+import {
+  mergeTypeDefs,
+  mergeResolvers,
+} from 'esmSH/@graphql-tools/merge';
+
+import {
+  type IResolvers,
+} from 'esmSH/@graphql-tools/utils';
+
+import {
   type TypeResponse001,
 } from 'configures/GlobalParameters.esm.mts';
 
-import GraphQLServer from 'graphql/GraphQLServer.esm.mts';
+import {
+  GraphQLServer,
+} from 'graphql/GraphQLServer.esm.mts';
+
+import * as Query from './Query.esm.mts';
+
+type TypeTypeDefsAndResolvers = {
+  typeDefs: DocumentNode;
+  resolvers: any;
+};
+
+const typeDefsArray: Array<DocumentNode> = [],
+  resolversArray: Array<any> = [];
+
+Object.values( Query as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
+  {
+    typeDefs,
+    resolvers,
+  }: TypeTypeDefsAndResolvers,
+  // @ts-expect-error
+  index: number,
+  // @ts-expect-error
+  array: Array<TypeTypeDefsAndResolvers>,
+): void => {
+  typeDefsArray.push( typeDefs );
+  resolversArray.push( resolvers );
+} );
+
+const schema: DocumentNode = mergeTypeDefs( typeDefsArray ),
+  rootValue: IResolvers = mergeResolvers( resolversArray );
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
@@ -53,8 +102,15 @@ import GraphQLServer from 'graphql/GraphQLServer.esm.mts';
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
 function ResponseHandle( request: Request ): TypeResponse001{
+  const options: HandlerOptions = {
+    schema: buildSchema( print( schema ) ),
+    rootValue: rootValue,
+  };
 
-  return GraphQLServer( request );
+  return GraphQLServer( {
+    request,
+    options,
+  } );
 }
 
 // 必须部署这个默认的导出值。
