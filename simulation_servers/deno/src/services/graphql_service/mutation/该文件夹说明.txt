@@ -1,0 +1,5 @@
+mutation的typeDefs、resolvers，见：
+https://graphql.org/graphql-js/type/#graphqlschema
+
+GraphQL官方教程：
+https://graphql.org/graphql-js/
