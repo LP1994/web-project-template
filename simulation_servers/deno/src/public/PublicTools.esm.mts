@@ -14,6 +14,12 @@
 'use strict';
 
 import {
+  type DocumentNode,
+
+  parse,
+} from 'esmSH/graphql';
+
+import {
   // Deno自己有一个名为media_types的API功能跟它一样。
   mimetypes,
 } from './ThirdPartyModules.esm.mts';
@@ -150,6 +156,28 @@ async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
   return result;
 }
 
+/**
+ * 根据一个内容是“GraphQL类型定义（即：GraphQL source）”的文件的路径，将其中的“GraphQL类型定义（即：GraphQL source）”解析为“DocumentNode”。
+ * PS：
+ * 1、如果解析过程遇到语法错误，则抛出GraphQLError。
+ * 2、在读取文件内容时，以UTF-8解码字符串的形式同步读取并返回文件的全部内容。读取目录时会出错。
+ * 例如：
+ * // Hello.type.graphql
+ * type Query {
+ *   hello: String,
+ * }
+ * // Hello.query.esm.mts
+ * GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
+ *
+ * @param {string | URL} path 文件路径，无默认值，必须。
+ * 该值形如：new URL( import.meta.resolve( `./Hello.type.graphql` ) )。
+ *
+ * @returns {DocumentNode} 返回一个DocumentNode。
+ */
+function GraphqlParseByFilePath( path: string | URL ): DocumentNode{
+  return parse( Deno.readTextFileSync( path ) );
+}
+
 export {
   type TypeMyCusDenoFsFile,
 
@@ -163,6 +191,7 @@ export {
   mimelite,
 
   IterateToNestForPromise,
+  GraphqlParseByFilePath,
 };
 
 export default {
@@ -176,4 +205,5 @@ export default {
   mimelite,
 
   IterateToNestForPromise,
+  GraphqlParseByFilePath,
 };
