@@ -20,10 +20,8 @@ import {
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
 
 const resolvers: any = {
-  Query: {
-    hello: (): string => {
-      return `Hello World! This is the GraphQL Server.`;
-    },
+  hello: (): string => {
+    return `Hello World! This is the GraphQL Server.`;
   },
 };
 

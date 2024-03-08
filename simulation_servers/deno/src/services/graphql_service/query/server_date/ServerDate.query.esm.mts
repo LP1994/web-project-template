@@ -24,10 +24,8 @@ import {
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./ServerDate.type.graphql` ) ) );
 
 const resolvers: any = {
-  Query: {
-    serverDate: (): string => {
-      return JSON.stringify( DateFormatForObject() );
-    },
+  serverDate: (): string => {
+    return JSON.stringify( DateFormatForObject() );
   },
 };
 
