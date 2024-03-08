@@ -23,12 +23,9 @@
 'use strict';
 
 import {
-  GraphQLObjectType,
-  GraphQLSchema,
-  GraphQLString,
-} from 'npm:graphql';
+  type FetchAPI,
+  type HandlerOptions,
 
-import {
   createHandler,
 } from 'npm:graphql-http/lib/use/fetch';
 
@@ -48,7 +45,7 @@ class MyGraphQLServerResponse
 
   public constructor( body?: BodyInit | null | undefined, init?: ResponseInit | undefined ){
     super( body, {
-      ...init,
+      ...( init ?? {} ),
       headers: {
         ...( init?.headers ?? {} ),
         ...httpHeaders,
@@ -57,20 +54,6 @@ class MyGraphQLServerResponse
   }
 
 }
-
-const schema: GraphQLSchema = new GraphQLSchema( {
-  query: new GraphQLObjectType( {
-    name: 'Query',
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve: (): string => {
-          return `Hello World! This is the GraphQL Server.`;
-        },
-      },
-    },
-  } ),
-} );
 
 /**
  * GraphQL Server。
@@ -86,32 +69,40 @@ const schema: GraphQLSchema = new GraphQLSchema( {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
+ * @param {HandlerOptions} options 无默认值，必须，这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
+ * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
+ * 然后搜索“interface HandlerOptions”即可看到具体的说明。
+ * 一般来说，里面总是会有选项schema。
+ *
+ * @param {Partial<FetchAPI>} reqCtx 可选的，默认值：{ Response: MyGraphQLServerResponse, }。
+ * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
+ * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
+ * 然后搜索“interface FetchAPI”即可看到具体的说明：
+ * interface FetchAPI {
+ *   Response: typeof Response;
+ *   ReadableStream: typeof ReadableStream;
+ *   TextEncoder: typeof TextEncoder;
+ * }
+ * PS：
+ * 如果需要在“npm:graphql-http/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
+ * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
+ *
  * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
  */
-function GraphQLServer( request: Request ): TypeResponse001{
+function GraphQLServer( {
+  request,
+  options,
+  reqCtx = {
+    Response: MyGraphQLServerResponse,
+  },
+}: {
+  request: Request;
+  options: HandlerOptions;
+  reqCtx?: Partial<FetchAPI>;
+} ): TypeResponse001{
   return createHandler(
-    /**
-     * 这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
-     * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
-     * 然后搜索“interface HandlerOptions”即可看到具体的说明。
-     */
-    {
-      schema,
-    },
-
-    /**
-     * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
-     * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
-     * 然后搜索“interface FetchAPI”即可看到具体的说明：
-     * interface FetchAPI {
-     *   Response: typeof Response;
-     *   ReadableStream: typeof ReadableStream;
-     *   TextEncoder: typeof TextEncoder;
-     * }
-     */
-    {
-      Response: MyGraphQLServerResponse,
-    },
+    options,
+    reqCtx,
   )( request );
 }
 
@@ -119,4 +110,6 @@ export {
   GraphQLServer,
 };
 
-export default GraphQLServer;
+export default {
+  GraphQLServer,
+};
