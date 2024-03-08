@@ -851,7 +851,7 @@
     "papaparse": "^5.4.1",
     "pathe": "^1.1.2",
     "pem": "^1.14.8",
-    "pixi.js": "^8.0.0",
+    "pixi.js": "^8.0.1",
     "postcss": "^8.4.35",
     "postcss-apply": "^0.12.0",
     "postcss-attribute-case-insensitive": "^6.0.3",

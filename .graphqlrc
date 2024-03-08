@@ -5,16 +5,16 @@
       "schema": "./src/graphQL/GraphQL.Schema.json",
       "documents": "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
       "include": [
-        "./src/graphQL/api/**/*.{graphql,graphqls,gql}",
-        "./src/graphQL/test/**/*.{graphql,graphqls,gql}"
+        "./src/**/*.{graphql,graphqls,gql}",
+        "./webpack_location/**/*.{graphql,graphqls,gql}"
       ],
       "exclude": [
         "./src/graphQL/doc/**/*.{graphql,graphqls,gql}"
       ],
       "extensions": {
         "endpoints": {
-          "例子001": {
-            "url": "http://127.0.0.1:9200/graphql",
+          "deno:http://127.0.0.1:9000": {
+            "url": "http://127.0.0.1:9000/graphql",
             "introspect": false,
             "headers": {
               "Accept": "*/*",
@@ -23,7 +23,37 @@
               "Connection": "keep-alive",
               "Content-Type": "application/json",
               "Pragma": "no-cache",
-              "user-agent": "web-project-template JS GraphQL for 例子001",
+              "user-agent": "GraphQL plugin from WebStorm.",
+              "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
+              "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH"
+            }
+          }
+        }
+      }
+    },
+    "simulation_servers_deno": {
+      "name": "simulation_servers_deno",
+      "schema": "./src/graphQL/GraphQL.Schema.json",
+      "documents": "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
+      "include": [
+        "./simulation_servers/deno/src/**/*.{graphql,graphqls,gql}"
+      ],
+      "exclude": [
+        "./simulation_servers/deno/src/**/*.type.{graphql,graphqls,gql}"
+      ],
+      "extensions": {
+        "endpoints": {
+          "deno:http://127.0.0.1:9000": {
+            "url": "http://127.0.0.1:9000/graphql",
+            "introspect": false,
+            "headers": {
+              "Accept": "*/*",
+              "Accept-Encoding": "gzip",
+              "Cache-Control": "no-cache",
+              "Connection": "keep-alive",
+              "Content-Type": "application/json",
+              "Pragma": "no-cache",
+              "user-agent": "GraphQL plugin from WebStorm.",
               "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
               "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH"
             }
