@@ -118,3 +118,27 @@ export {
 };
 
 export default GraphQLServer;
+
+
+
+// 客户端请求发送给的数据的结构如下：
+{
+
+// GraphQL查询参数
+query: `
+query Test001{
+    hello1: hello,
+}
+
+query Test002{
+    serverDate1: serverDate,
+}
+`,
+
+// 当上面的选项query的值中含有多个query、mutation时，必须明确指定要执行哪个，如：明确表示要执行的是“Test002”。
+operationName: 'Test002',
+
+// 如果有参数就在variables里写入一个个key-value。
+variables: {},
+
+}

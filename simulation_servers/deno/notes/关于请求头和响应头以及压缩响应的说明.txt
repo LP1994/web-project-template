@@ -1,0 +1,419 @@
+客户端的请求头中的各个属性的说明：
+"Accept": "*/*"
+Accept，告诉服务器，客户端所能接受的由服务器响应返回的数据的数据格式是哪个。
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept
+“Accept”HTTP请求标头指出了客户端能够理解的内容类型（以 MIME 类型表示）。
+服务器通过内容协商选择其中一种提议，并通过Content-Type响应头将选择结果通知客户端。
+浏览器根据请求的上下文为该标头设置所需的值。
+例如，在获取CSS样式表、图像、视频或脚本时，浏览器会在请求中使用不同的值。
+
+值：
+"*/*"：表示服务器可以返回任何数据格式的数据，客户端也能接收任何数据格式的数据。一般默认值。
+
+"application/json"：表示服务器可以返回的数据的数据格式只能是"application/json"，客户端也只接收数据格式是"application/json"的数据。
+注意：当值为"application/json;charset=utf-8"时会报错！！！
+解释：
+当HTTP请求头的Accept字段设置为application/json;charset=utf-8时，如果服务器返回的内容类型不匹配或者字符编码不正确，可能会导致错误。
+Accept字段用于告知服务器客户端期望接收的数据类型。
+如果服务器无法提供指定的MIME类型或字符集，就可能返回错误。
+此外，charset=utf-8通常用于Content-Type字段来指定内容的编码方式，而不是Accept字段。
+因此，将charset=utf-8包含在Accept字段中可能会导致服务器解析错误。
+如果你在设置Accept字段时遇到问题，建议检查服务器是否能够响应application/json格式的数据，并确保客户端和服务器之间的字符编码设置一致。
+如果问题仍然存在，可以查看服务器的错误日志，以获取更详细的错误信息。
+同时，确保Accept字段的值符合标准格式，例如Accept: application/json，并且服务器配置正确地处理这些请求。
+如果需要进一步的帮助，可以提供具体的错误代码或消息，以便进行更准确的诊断。
+有哪些“MIME type”呢，见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+
+"text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8"：多种类型，用质量值语法加权。导航请求的默认值
+
+"image/*"："image/*"对应"image/png"、"image/svg"、"image/gif"和其他图像类型。
+这是一种属于“<MIME_type>/*”格式的值，表示一种“MIME type”，但没有子类型。
+
+"text/html"：单一的、精确的“MIME type”。
+这是一种属于“<MIME_type>/<MIME_subtype>”格式的值。
+
+"application/xml;q=0.9"：其中“;q=0.9”表示所使用的值按优先顺序排列，使用称为权重的相对质量值来表示。
+“某某某;q=某某值”，这种格式表示所使用的值按优先顺序排列，使用称为权重的相对质量值来表示。
+
+
+
+"Accept-Encoding": "gzip, deflate, br"
+Accept-Encoding，告诉服务器，客户端可以理解的内容编码（通常是压缩算法）是哪些。
+服务器通过内容协商选择其中一个方案，并通过Content-Encoding响应头通知客户端该选择。
+例如，客户端的请求头包含："Accept-Encoding": "gzip, deflate, br"，那么后端返回响应时，必须在响应头包含“content-encoding”这个属性，其值也必须只能是gzip、deflate、br这三个中的某一个。
+只有如此，客户端才能正常并成功的使用、读取、理解返回的数据，否则会出现数据乱码之类的问题。
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding
+
+即使客户端和服务器都支持相同的压缩算法，如果“identity”值也可以接受，服务器也可能选择不压缩响应的正文。有两种常见情况会导致这种情况：
+1、要发送的数据已经压缩过，因此再次压缩不会减少传输数据的大小。对于预压缩的图像格式（例如 JPEG）来说就是如此。
+2、服务器负荷过重，无法分配计算资源来执行压缩。例如，微软建议，如果服务器使用的计算能力超过 80%，就不要进行压缩。
+
+只要“identity;q=0”、“*;q=0”指令没有明确禁止表示不编码的identity值，服务器就绝对不会返回 406 Not Acceptable 错误。
+
+IANA注册机构维护一份完整的官方“内容编码”列表：
+https://www.iana.org/assignments/http-parameters/http-parameters.xml#http-parameters-1
+请注意，由于专利许可问题，bzip 已停止使用。
+
+值（详细见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding#directives）：
+"deflate, gzip;q=1.0, *;q=0.5"：多种算法，以质量值句法加权。
+
+"*"：匹配标头中未列出的任何内容编码。如果标头不存在，这是默认值。该指令并不表示支持任何算法，而是表示没有偏好。
+
+
+
+"Content-Type": "application/json; charset=utf-8"，这是一个可以用于请求和响应中的标头！不是独属于请求或响应的。
+Content-Type，告诉服务器，客户端发送的数据的数据格式是“application/json; charset=utf-8”。它同样也存在服务器响应的请求头中。
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type
+Content-Type表示“标头”用于指示资源的原始媒体类型（在发送时应用任何内容编码之前）。
+在响应中，Content-Type标头向客户端提供返回内容的实际内容类型。该标头的值可能会被忽略，例如当浏览器执行 MIME 探查时；将 X-Content-Type-Options 标头值设为 nosniff 可防止这种行为。
+在请求（如 POST 或 PUT）中，客户端会告诉服务器实际发送的数据类型。
+
+值：
+"text/html; charset=utf-8"：其中“text/html”表示资源或数据的MIME类型。“charset=utf-8”表示字符编码标准。不区分大小写，首选小写。
+
+"multipart/form-data; boundary=something"：其中“boundary=something”表示对于多部分实体，需要使用“boundary”指令。
+该指令由 1 至 70 个字符组成，这些字符（不以空格结尾）在电子邮件网关中非常稳定。
+它用于封装邮件多个部分的边界。
+通常，标题边界前会加上两个破折号，而最后的边界则在末尾加上两个破折号。
+
+例如：
+在提交 HTML 表单后的 POST 请求中，请求的 Content-Type 由 <form> 元素上的 enctype 属性指定。
+<form action="/foo" method="post" enctype="multipart/form-data">
+  <input type="text" name="description" value="some text" />
+  <input type="file" name="myFile" />
+  <button type="submit">Submit</button>
+</form>
+// 请求内容如下（此处省略了不太感兴趣的标头）：
+POST /foo HTTP/1.1
+Content-Length: 68137
+Content-Type: multipart/form-data; boundary=---------------------------974767299852498929531610575
+
+-----------------------------974767299852498929531610575
+Content-Disposition: form-data; name="description"
+
+some text
+-----------------------------974767299852498929531610575
+Content-Disposition: form-data; name="myFile"; filename="foo.txt"
+Content-Type: text/plain
+
+(content of the uploaded file foo.txt)
+-----------------------------974767299852498929531610575--
+
+
+
+"Cache-Control": "no-cache"，这是一个可以用于请求和响应中的标头！不是独属于请求或响应的。
+Cache-Control HTTP 标头字段在请求和响应中都包含指令（指示），用于控制浏览器和共享缓存（如代理、CDN）中的缓存。
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+缓存指令遵循这些规则：
+缓存指令不区分大小写。但建议使用小写，因为有些实现无法识别大写指令。
+允许使用多个指令，但必须以逗号分隔（例如，Cache-control: max-age=180, public）。
+某些指令有一个可选参数。提供参数时，参数与指令名称之间用等号 (=) 分隔。通常情况下，指令的参数是整数，因此不会用引号括起来（例如，Cache-control: max-age=12）。
+
+在请求中，该请求头有如下值，注意，它在响应头中有不同的值：
+max-age、max-stale、min-fresh、no-cache、no-store、no-transform、only-if-cached、stale-if-error。
+
+在响应中，该请求头有如下值，注意，它在请求头中有不同的值：
+max-age、s-maxage、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、must-understand、private、public、immutable、stale-while-revalidate、stale-if-error。
+
+关于缓存的几个术语解释：
+(HTTP) cache：
+用于保存请求和响应，以便在后续请求中重复使用。它可以是共享缓存，也可以是专用缓存。
+Shared cache：
+存在于原始服务器和客户端（如代理、CDN）之间的缓存。它存储单个响应并供多个用户重复使用，因此开发人员应避免在共享缓存中缓存个性化内容。
+Private cache：
+存在于客户端的缓存。它也称为本地缓存或浏览器缓存。它可以为单个用户存储和重复使用个性化内容。
+Store response：
+当响应可缓存时，将其存储在缓存中。但是，缓存的响应并不总是原样重用。(通常，"cache "指的是存储响应）。
+Reuse response：
+在后续请求中重复使用缓存的响应。
+Revalidate response：
+询问源服务器所存储的响应是否仍然新鲜。通常，重新验证是通过条件请求完成的。
+Fresh response：
+表示响应是新鲜的。这通常意味着，根据请求指令的不同，该响应可在后续请求中重复使用。
+Stale response：
+表示该响应为过时响应。这通常意味着该响应不能按原样重复使用。缓存存储不需要立即删除过时的响应，因为重新验证可能会使响应从过时变为新鲜。
+Age：
+响应生成后的时间。这是判断响应是新鲜还是陈旧的标准。
+
+影响缓存的指令，包括“响应指令”和“请求指令”。
+响应指令（详细见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#response_directives）：
+max-age：
+max-age=N 响应指令表示响应在生成后 N 秒内保持新鲜。
+例如：
+Cache-Control: max-age=604800
+表示缓存可以存储此响应，并在其新鲜时重复用于后续请求。
+请注意，max-age 并不是收到响应后的经过时间，而是源服务器上生成响应后的经过时间。因此，如果响应所经过的网络路由上的其他缓存将响应存储 100 秒（使用Age响应头字段表示），浏览器缓存将从其保鲜期中扣除 100 秒。
+例如：
+Cache-Control: max-age=604800
+Age: 100
+
+s-maxage：
+s-maxage 响应指令表示响应在共享缓存中保持新鲜的时间。私有缓存会忽略 s-maxage 指令，但如果共享缓存中存在 max-age 指令或 Expires 标头，s-maxage 指令会覆盖它们指定的值。
+Cache-Control: s-maxage=604800
+
+no-cache：
+no-cache响应指令表示响应可以存储在缓存中，但每次重用前都必须与源服务器验证响应，即使缓存与源服务器断开连接也是如此。
+例如：
+Cache-Control: no-cache
+如果希望缓存在重复使用已存储内容的同时始终检查内容更新，则应使用 no-cache 指令。为此，它要求缓存向源服务器重新验证每个请求。
+请注意，no-cache 并不意味着 "不缓存"。no-cache 允许缓存存储响应，但要求缓存在重用前重新验证响应。如果您想要的 "不缓存 "实际上是 "不存储"，那么应使用 no-store 指令。
+
+must-revalidate：
+must-revalidate响应指令表示响应可以存储在缓存中，并可以在新鲜状态下重复使用。如果响应过时，则必须在重复使用前与源服务器进行验证。
+通常，must-revalidate 与 max-age 配合使用。
+例如：
+Cache-Control: max-age=604800, must-revalidate
+HTTP 允许缓存在与源服务器断开连接时重复使用过时的响应。必须重新验证是防止这种情况发生的一种方法--要么向源服务器重新验证存储的响应，要么生成 504（网关超时）响应。
+
+proxy-revalidate：
+proxy-revalidate 响应指令等同于 must-revalidate，但仅适用于共享缓存。
+
+no-store：
+no-store响应指令表示任何类型的缓存（专用或共享）都不应存储此响应。
+例如：
+Cache-Control: no-store
+
+private：
+private响应指令表示响应只能存储在私有缓存（如浏览器的本地缓存）中。
+例如：
+Cache-Control: private
+对于用户个性化内容，尤其是登录后收到的回复和通过 cookie 管理的会话，应添加专用指令。
+如果忘记为包含个性化内容的响应添加 private，那么该响应就会存储在共享缓存中，最终被多个用户重复使用，从而导致个人信息泄露。
+
+public：
+public响应指令表示响应可以存储在共享缓存中。带有Authorization头字段的请求的响应不得存储在共享缓存中；但是，公共响应指令将导致此类响应存储在共享缓存中。
+例如：
+Cache-Control: public
+一般来说，当网页使用基本认证或摘要认证时，浏览器会使用Authorization标头发送请求。这意味着，对于受限用户（拥有账户）来说，响应是受访问控制的，而且从根本上说，即使有 max-age 也不可共享缓存。
+您可以使用 public 指令来解除这种限制。
+例如：
+Cache-Control: public, max-age=604800
+请注意，s-maxage 或 must-revalidate 也会解除这一限制。
+如果请求没有Authorization标头，或已在响应中使用了 s-maxage 或 must-revalidate，则无需使用 public。
+
+must-understand：
+must-understand响应指令表明，缓存只有在理解基于状态代码的缓存要求时才应存储响应。
+must-understand 应与 no-store（不存储）结合使用，以实现回退行为。
+例如：
+Cache-Control: must-understand, no-store
+如果缓存不支持 "must-understand"，则会被忽略。如果同时存在 no-store，则不会存储响应。
+如果缓存支持 "must-understand"，则会根据状态代码理解缓存要求后存储响应。
+
+no-transform：
+一些中间商出于各种原因对内容进行转换。例如，有些中间商会转换图像以减小传输大小。在某些情况下，这对内容提供者来说是不可取的。
+no-transform 表示任何中间机构（无论是否实现了缓存）都不应转换响应内容。
+
+immutable：
+immutable响应指令表示响应在新鲜状态下不会更新。
+例如：
+Cache-Control: public, max-age=604800, immutable
+对于静态资源来说，现代的最佳做法是在 URL 中包含版本号/hashes，但决不修改资源，而是在必要时用具有新版本号/hashes 的新版本更新资源，这样它们的 URL 就不同了。这就是所谓的缓存破坏模式。
+例如：
+<script src=https://example.com/react.0.0.0.js></script>
+当用户重新加载浏览器时，浏览器会向原服务器发送验证条件请求。但是，即使用户重新加载浏览器，也没有必要重新验证这类静态资源，因为它们从未被修改过。
+immutable 会告诉缓存，响应在新鲜时是不可变的，从而避免了向服务器发送这类不必要的条件请求。
+当你对资源使用缓存破坏模式，并将其应用于较长的 max-age 时，你也可以添加 immutable 来避免重新验证。
+
+stale-while-revalidate：
+stale-while-revalidate响应指令表示，缓存在向缓存重新验证过期响应时，可以重复使用该响应。
+例如：
+Cache-Control: max-age=604800, stale-while-revalidate=86400
+在上面的示例中，响应在 7 天（604800s）内是新鲜的。7 天后，响应变为过期，但允许缓存在第二天（86400 秒）对任何请求进行重用，前提是缓存在后台重新验证响应。
+重新验证将使缓存再次保持新鲜，因此在客户端看来，缓存在这段时间内始终是新鲜的，从而有效地避免了重新验证带来的延迟损失。
+如果在此期间没有任何请求发生，缓存就会变得陈旧，下一个请求将正常重新验证。
+
+stale-if-error：
+stale-if-error 响应指令表示，当上游服务器出错或本地出错时，缓存可以重用过期响应。在这里，错误是指状态代码为 500、502、503 或 504 的任何响应。
+例如：
+Cache-Control: max-age=604800, stale-if-error=86400
+在上面的示例中，响应在 7 天（604800s）内是新鲜的。之后，它将变为过期，但在遇到错误时，还可再使用 1 天（86400 秒）。
+过了 "如果出错则变质 "期后，客户端将收到任何生成的错误信息。
+
+请求指令（详细见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#request_directives）：
+no-cache：
+no-cache请求指令要求缓存在重用前与源服务器一起验证响应。
+例如：
+Cache-Control: no-cache
+no-cache 允许客户请求最新的响应，即使缓存中有新的响应。
+当用户强制重新加载页面时，浏览器通常会在请求中添加 no-cache。
+
+no-store：
+no-store请求指令允许客户端请求缓存不存储请求和相应的响应--即使可以存储源服务器的响应。
+例如：
+Cache-Control: no-store
+
+max-age：
+max-age=N请求指令表示客户端允许在 N 秒内生成源服务器上的存储响应，其中 N 可以是任何非负整数（包括 0）。
+例如：
+Cache-Control: max-age=10800
+在上述案例中，如果使用 Cache-Control: max-age=10800 的响应是在 3 小时前生成的（根据 max-age 和 Age 标头计算），则缓存无法重复使用该响应。
+如下所述，许多浏览器都使用该指令进行重新加载。
+例如：
+Cache-Control: max-age=0
+max-age=0 是 no-cache 的一种变通方法，因为许多旧的（HTTP/1.0）缓存实现不支持 no-cache。最近，浏览器仍在 "重新加载 "时使用 max-age=0（为了向后兼容），或者使用 no-cache 来进行 "强制重新加载"。
+如果 max-age 值不是非负数（例如-1）或不是整数（例如 3599.99），那么缓存行为就是未定义的。不过，HTTP 规范中的 "计算保鲜期 "部分规定
+鼓励缓存将新鲜度信息无效的响应视为过时响应。
+换句话说，对于任何不是整数或非负数的最大年龄值，鼓励的缓存行为是将该值视为 0。
+
+max-stale：
+max-stale=N 请求指令表示客户端允许存储的响应在 N 秒内失效。
+例如：
+Cache-Control: max-stale=3600
+在上述案例中，如果使用 Cache-Control: max-age=604800 的响应是在 3 小时前生成的（根据 max-age 和 Age 标头计算），则缓存无法重复使用该响应。
+当原始服务器宕机或速度太慢时，客户端可以使用此header，即使缓存中的响应有点旧，客户端也可以接受缓存中的响应。
+请注意，主要浏览器不支持使用 max-stale 的请求。
+
+min-fresh：
+min-fresh=N 请求指令表示客户端允许存储的响应至少在 N 秒内是新鲜的。
+例如：
+Cache-Control: min-fresh=600
+在上述案例中，如果 51 分钟前缓存中存储了 Cache-Control: max-age=3600 的响应，那么缓存就无法重复使用该响应。
+当用户不仅要求响应是新鲜的，还要求在一段时间内不更新时，客户端就可以使用这个标头。
+请注意，主要浏览器不支持使用 min-fresh 的请求。
+
+no-transform：
+与 no-transform 对响应的意义相同，但对请求的意义不同。
+
+only-if-cached：
+客户端表示应返回已缓存的响应。如果缓存中有已存储的响应，即使是过时的响应，也会返回。如果没有缓存响应，则会返回 504 网关超时响应。
+
+几个场景例子：
+防止存储，如果不想在缓存中存储响应，请使用无存储指令。
+Cache-Control: no-store
+
+请注意，no-cache 的意思是 "可以存储，但在验证之前不要重复使用"，所以它不是用来阻止存储响应的。
+Cache-Control: no-cache
+
+理论上，如果指令发生冲突，应遵守限制性最强的指令。因此，下面的例子基本上毫无意义，因为 private、no-cache、max-age=0 和 must-revalidate 与 no-store 相冲突。
+# 矛盾
+Cache-Control: private, no-cache, no-store, max-age=0, must-revalidate
+# 相当于
+Cache-Control: no-store
+
+使用 "缓存破坏 "缓存静态资产
+使用版本/散列机制构建静态资产时，在文件名或查询字符串中添加版本/散列是管理缓存的好方法。
+例如：
+<!-- index.html -->
+<script src="/assets/react.min.js"></script>
+<img src="/assets/hero.png" width="900" height="400" />
+React 库的版本会在更新库时发生变化，而 hero.png 也会在编辑图片时发生变化。因此，这些内容很难存储在具有 max-age 的缓存中。
+在这种情况下，您可以通过使用特定的、有编号的库版本，并在 URL 中包含图片的哈希值来满足缓存需求。
+例如：
+<!-- index.html -->
+<script src="/assets/react.0.0.0min.js"></script>
+<img src="/assets/hero.png?hash=deadbeef" width="900" height="400" />
+
+您可以添加一个较长的 max-age 值和不可变值，因为内容永远不会改变。
+例如：
+# /assets/*
+Cache-Control: max-age=31536000, immutable
+
+当您更新库或编辑图片时，新内容应该有一个新的 URL，缓存不会被重复使用。这就是所谓的 "清除缓存 "模式。
+
+使用 no-cache 可以导致重新验证，客户端将正确接收新版本的 HTML 响应和静态资产。
+例如：
+# /index.html
+Cache-Control: no-cache
+
+注意：如果 index.html 在 "基本身份验证 "或 "摘要身份验证 "下受控，则 /assets 下的文件不会存储在共享缓存中。如果 /assets/ 文件适合存储在共享缓存中，则还需要使用 public、s-maxage 或 must-revalidate。
+
+始终提供最新内容
+对于动态生成的内容或静态但经常更新的内容，您希望用户始终收到最新版本的内容。
+如果因为不打算缓存响应而不添加 Cache-Control 标头，可能会导致意想不到的结果。缓存存储允许启发式缓存，因此如果您对缓存有任何要求，应始终在 Cache-Control 标头中明确指出。
+在响应中添加 no-cache 会导致服务器重新验证，因此您可以每次都提供一个新的响应，或者如果客户端已经有了一个新的响应，只需响应 304 Not Modified 即可。
+例如：
+Cache-Control: no-cache
+
+大多数 HTTP/1.0 缓存不支持 no-cache 指令，因此历史上使用 max-age=0 作为变通办法。但只有 max-age=0 才会在缓存与源服务器断开时导致过期响应被重复使用。这就是为什么下面的示例等同于 no-cache。
+例如：
+Cache-Control: max-age=0, must-revalidate
+但现在，您只需使用 no-cache 即可。
+
+清除已存储的缓存
+遗憾的是，没有缓存指令可用于清除缓存中已存储的响应。
+试想一下，客户机/缓存为某个路径存储了一个新的响应，但没有向服务器发出请求。服务器对该路径无能为力。
+另外，Clear-Site-Data 可以清除网站的浏览器缓存。但要注意：这会清除网站的所有已存储响应，而且只能在浏览器中清除，不能在共享缓存中清除。
+
+
+
+"Connection": "keep-alive"，这是一个可以用于请求和响应中的标头！不是独属于请求或响应的。
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Connection
+Connection常规标头控制当前事务结束后网络连接是否保持打开。如果发送的值是 keep-alive，则连接是持久的，不会关闭，允许向同一服务器发出后续请求。请求头和响应头都有这个。
+警告：在 HTTP/2 和 HTTP/3 中，特定于连接的头域（如 Connection 和 Keep-Alive）是被禁止的。
+Chrome 浏览器和 Firefox 浏览器会忽略 HTTP/2 响应中的这些字段，但 Safari 浏览器符合 HTTP/2 规范要求，不会加载任何包含这些字段的响应。
+报文使用的所有逐跳报文头（包括标准逐跳报文头（Keep-Alive、Transfer-Encoding、TE、Connection、Trailer、Upgrade、Proxy-Authorization 和 Proxy-Authenticate））都必须在 Connection 报文头中列出，以便第一个代理知道它必须使用这些报文头，而不能继续转发。
+例如：
+Connection: close
+表示客户端或服务器希望关闭连接。这是 HTTP/1.0 请求的默认设置。
+任何以逗号分隔的 HTTP 头信息列表[通常仅保持连接］
+表示客户端希望保持连接打开。保持连接打开是 HTTP/1.1 请求的默认设置。标头列表是中间第一个非透明代理或缓存要删除的标头名称：这些标头定义了发出者和第一个实体之间的连接，而不是目标节点。
+
+
+
+"Pragma": "no-cache"，这是一个可以用于请求和响应中的标头！不是独属于请求或响应的。
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Pragma
+该标头存在于请求标头、响应标头（未指定响应行为，因此需视具体实施情况而定）。
+已废弃：不再推荐使用此功能。尽管某些浏览器可能仍支持该功能，但它可能已从相关网络标准中删除，可能正在被删除，也可能仅出于兼容性目的而保留。请避免使用该功能，并尽可能更新现有代码；请参阅本页底部的兼容性表以指导您做出决定。请注意，该功能可能随时停止工作。
+Pragma HTTP/1.0 一般标头是一个特定于实现的标头，可能会对请求-响应链产生各种影响。该标头用于向后兼容没有 Cache-Control HTTP/1.1 标头的 HTTP/1.0 缓存。
+注意：Pragma 并不指定用于 HTTP 响应，因此不能可靠地替代一般的 HTTP/1.1 Cache-Control 头信息，尽管如果请求中省略了 Cache-Control 头信息字段，其行为与 Cache-Control: no-cache 相同。使用 Pragma 仅是为了向后兼容 HTTP/1.0 客户端。
+例如：
+Pragma: no-cache
+与 Cache-Control: no-cache 相同。在释放缓存副本之前，强制缓存将请求提交给源服务器进行验证。
+
+
+
+'Access-Control-Request-Headers': 'Authorization, Accept, Content-Type, Content-Language, Accept-Language'
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
+浏览器在发出预检请求时，会使用 Access-Control-Request-Headers 请求标头，让服务器知道客户端在实际发出请求时（如使用 fetch() 或 XMLHttpRequest.setRequestHeader()）可能会发送哪些 HTTP 标头。
+服务器端的 Access-Control-Allow-Headers 补充头信息将回答浏览器端头信息。
+
+
+
+'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH'
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
+浏览器在发出预检请求时会使用 Access-Control-Request-Method 请求标头，让服务器知道在发出实际请求时将使用哪种 HTTP 方法。由于预检请求始终是一个 OPTIONS，不会使用与实际请求相同的方法，因此该请求头是必要的。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
