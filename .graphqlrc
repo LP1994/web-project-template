@@ -9,7 +9,8 @@
         "./webpack_location/**/*.{graphql,graphqls,gql}"
       ],
       "exclude": [
-        "./src/graphQL/doc/**/*.{graphql,graphqls,gql}"
+        "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
+        "./src/**/GraphQL.Schema.json.graphql"
       ],
       "extensions": {
         "endpoints": {

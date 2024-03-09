@@ -58,8 +58,8 @@ const __dirname = Get__dirname( import.meta.url ),
 if( false ){
   // 一般形如：http://192.168.1.3:8087/graphql/schema.json
   const devURL001 = {
-    host: '192.168.1.3',
-    port: '8087',
+    host: '127.0.0.1',
+    port: '9000',
     path: '/graphql/schema.json',
     method: 'GET',
     headers: {
@@ -135,8 +135,8 @@ if( false ){
 if( false ){
   // 一般形如：http://192.168.1.3:8087/graphql/
   const devURL001 = {
-    host: '192.168.1.3',
-    port: '8087',
+    host: '127.0.0.1',
+    port: '9000',
     path: '/graphql/',
     method: 'POST',
     headers: {
