@@ -83,13 +83,17 @@ const webDir: string = import.meta.resolve( '../../web' );
  *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
  *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
  */
-const httpHeaders: HeadersInit = {
+const httpResponseHeaders: HeadersInit = {
   // 'Content-Security-Policy': 'require-sri-for script style',
   /**
    * Clear-Site-Data：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
    * 1、该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
    */
   // 'Clear-Site-Data': '"cache", "cookies", "storage"',
+  /**
+   * 这是用于客户端发起“Service Worker”脚本文件请求后，服务端响应时，设置在响应头中的。
+   * 详细见：https://w3c.github.io/ServiceWorker/#service-worker-allowed
+   */
   'Service-Worker-Allowed': '/',
   /**
    * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
@@ -555,7 +559,7 @@ export {
   webDir,
   // 自定义的路径别名aliasConfig End
 
-  httpHeaders,
+  httpResponseHeaders,
   resMessageStatus,
   HTTPStatus,
 };
@@ -604,7 +608,7 @@ export default {
   webDir,
   // 自定义的路径别名aliasConfig End
 
-  httpHeaders,
+  httpResponseHeaders,
   resMessageStatus,
   HTTPStatus,
 };

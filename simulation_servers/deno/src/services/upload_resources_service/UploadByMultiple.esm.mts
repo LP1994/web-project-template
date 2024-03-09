@@ -76,7 +76,7 @@ import {
 } from 'deno_streams/writable_stream_from_writer.ts';
 
 import {
-  httpHeaders,
+  httpResponseHeaders,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -364,7 +364,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpHeaders,
+      ...httpResponseHeaders,
       'content-type': 'application/json; charset=utf-8',
     },
   } );

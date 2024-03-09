@@ -44,7 +44,7 @@ import {
 
   webDir,
 
-  httpHeaders,
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -85,7 +85,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpHeaders,
+          ...httpResponseHeaders,
           'Content-Type': `${ mime.getType( filePath.href ) }`,
           'Content-Length': `${ Number( fileState.size ) }`,
           // 该属性用于下载。

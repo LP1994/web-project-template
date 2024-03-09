@@ -32,7 +32,7 @@ import {
 import {
   type TypeResponse001,
 
-  httpHeaders,
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 /**
@@ -48,7 +48,7 @@ class MyGraphQLServerResponse
       ...( init ?? {} ),
       headers: {
         ...( init?.headers ?? {} ),
-        ...httpHeaders,
+        ...httpResponseHeaders,
       },
     } );
   }

@@ -57,7 +57,7 @@ import {
 import {
   uploadDir,
 
-  httpHeaders,
+  httpResponseHeaders,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -249,7 +249,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpHeaders,
+      ...httpResponseHeaders,
       'content-type': 'application/json; charset=utf-8',
     },
   } );

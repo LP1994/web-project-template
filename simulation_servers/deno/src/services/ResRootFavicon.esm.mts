@@ -34,7 +34,7 @@ import {
 
   staticDir,
 
-  httpHeaders,
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -89,7 +89,7 @@ function Handle( request: Request ): TypeResponse001{
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpHeaders,
+      ...httpResponseHeaders,
       'content-type': mime.getType( filePath.href ),
     },
   } );

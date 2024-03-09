@@ -16,7 +16,7 @@
 import {
   ejsDir,
 
-  httpHeaders,
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -106,7 +106,7 @@ class ResponseError {
       status: 404,
       statusText: 'Not Found',
       headers: {
-        ...httpHeaders,
+        ...httpResponseHeaders,
         'content-type': mime.getType( filePath.href ),
       },
     } );
@@ -144,7 +144,7 @@ class ResponseError {
       status: 500,
       statusText: 'Internal Server Error',
       headers: {
-        ...httpHeaders,
+        ...httpResponseHeaders,
         'content-type': mime.getType( filePath.href ),
       },
     } );

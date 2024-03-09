@@ -35,7 +35,7 @@
 'use strict';
 
 import {
-  httpHeaders,
+  httpResponseHeaders,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -67,7 +67,7 @@ function UploadByBigFileForPart(
     status: 500,
     statusText: 'Internal Server Error',
     headers: {
-      ...httpHeaders,
+      ...httpResponseHeaders,
       'content-type': 'application/json; charset=utf-8',
     },
   } );

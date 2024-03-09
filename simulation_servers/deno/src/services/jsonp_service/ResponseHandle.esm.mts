@@ -33,7 +33,7 @@
 import {
   type TypeResponse001,
 
-  httpHeaders,
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 // @ts-expect-error
@@ -81,7 +81,7 @@ function ResponseHandle( request: Request ): TypeResponse001{
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpHeaders,
+      ...httpResponseHeaders,
       'Content-Type': `application/javascript; charset=utf-8`,
     },
   } );

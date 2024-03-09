@@ -47,7 +47,7 @@
 import {
   type TypeResponse001,
 
-  httpHeaders,
+  httpResponseHeaders,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -239,7 +239,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpHeaders,
+          ...httpResponseHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -259,7 +259,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpHeaders,
+          ...httpResponseHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -310,7 +310,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpHeaders,
+          ...httpResponseHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -330,7 +330,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpHeaders,
+          ...httpResponseHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -423,7 +423,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpHeaders,
+          ...httpResponseHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -462,7 +462,7 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
       status: 200,
       statusText: 'OK',
       headers: {
-        ...httpHeaders,
+        ...httpResponseHeaders,
         'content-type': 'application/json; charset=utf-8',
       },
     } );

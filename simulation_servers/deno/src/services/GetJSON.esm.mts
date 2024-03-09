@@ -30,7 +30,7 @@
 'use strict';
 
 import {
-  httpHeaders,
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -106,7 +106,7 @@ async function Handle(
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpHeaders,
+      ...httpResponseHeaders,
       'content-type': `application/json; charset=utf-8`,
     },
   } );
