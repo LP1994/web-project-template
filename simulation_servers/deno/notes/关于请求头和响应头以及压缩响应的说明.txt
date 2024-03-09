@@ -1,4 +1,4 @@
-客户端的请求头中的各个属性的说明：
+客户端的请求头中的各个属性的说明，有些标头也是用于响应的，就不单独在归纳响应的标头了：
 "Accept": "*/*"
 Accept，告诉服务器，客户端所能接受的由服务器响应返回的数据的数据格式是哪个。
 详细见：
@@ -381,39 +381,3 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request
 详细见：
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
 浏览器在发出预检请求时会使用 Access-Control-Request-Method 请求标头，让服务器知道在发出实际请求时将使用哪种 HTTP 方法。由于预检请求始终是一个 OPTIONS，不会使用与实际请求相同的方法，因此该请求头是必要的。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
