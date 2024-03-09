@@ -84,6 +84,30 @@ const devServerGlobalParameters = {
     },
   },
   /**
+   * 这个是给请求头用的，不是给响应头用的。<br />
+   */
+  httpRequestHeaders = {
+    /**
+     * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+     */
+    'Cache-Control': 'no-store',
+    /**
+     * Access-Control-Request-Headers：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
+     * 1、浏览器在发出预检请求时使用Access-Control-Request-Headers请求标头，让服务器知道在发出实际请求时客户端可能发送哪些HTTP标头（例如使用setRequestHeader()）。
+     * 2、Access-Control-Allow-Headers的补充服务器端标头将回答此浏览器端标头。
+     * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
+     */
+    'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+    /**
+     * Access-Control-Request-Method：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
+     * 1、浏览器在发出预检请求时使用Access-Control-Request-Method请求标头，让服务器知道在发出实际请求时将使用哪种HTTP方法。
+     * 2、这个标头是必需的，因为预检请求始终是一个选项，并且不使用与实际请求相同的方法。
+     * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
+     */
+    'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+  },
+  /**
+   * 这个是给响应头用的，不是给请求头用的。<br />
    * 1、关于跨域请求头。<br />
    *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即withCredentials:true）。<br />
    *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
@@ -91,13 +115,17 @@ const devServerGlobalParameters = {
    *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
    *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
    */
-  httpHeaders = {
+  httpResponseHeaders = {
     // 'Content-Security-Policy': 'require-sri-for script style',
     /**
      * Clear-Site-Data：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
      * 1、该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
      */
     // 'Clear-Site-Data': '"cache", "cookies", "storage"',
+    /**
+     * 这是用于客户端发起“Service Worker”脚本文件请求后，服务端响应时，设置在响应头中的。
+     * 详细见：https://w3c.github.io/ServiceWorker/#service-worker-allowed
+     */
     'Service-Worker-Allowed': '/',
     /**
      * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
@@ -213,7 +241,8 @@ const devServerGlobalParameters = {
 
 export {
   devServerGlobalParameters,
-  httpHeaders,
+  httpRequestHeaders,
+  httpResponseHeaders,
   postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
   postcssViewportHeightCorrectionJS,
   weinreLocalPort,
@@ -223,7 +252,8 @@ export {
 
 export default {
   devServerGlobalParameters,
-  httpHeaders,
+  httpRequestHeaders,
+  httpResponseHeaders,
   postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
   postcssViewportHeightCorrectionJS,
   weinreLocalPort,

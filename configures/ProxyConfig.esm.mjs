@@ -70,7 +70,7 @@ import {
 } from 'node:url';
 
 import {
-  httpHeaders,
+  httpRequestHeaders,
 } from './GlobalParameters.esm.mjs';
 
 import {
@@ -617,10 +617,10 @@ const proxyConfig = [
     // cookiePathRewrite,
 
     /**
-     * 带有要添加到目标请求的额外标头的对象。<br />
+     * 带有要添加到目标请求的额外标头的对象，也就是该选项用来设置请求头的。<br />
      * 1、有效值类型：object（{ [ header: string ]: string }）、undefined。<br />
      */
-    headers: httpHeaders,
+    headers: httpRequestHeaders,
 
     /**
      * 传出代理请求的超时（以毫秒为单位），默认值为120000（等同2分钟）。<br />
@@ -795,7 +795,11 @@ HTTP代理--->${ req.originalUrl }<---End
 
     changeOrigin,
 
-    headers: httpHeaders,
+    /**
+     * 带有要添加到目标请求的额外标头的对象，也就是该选项用来设置请求头的。<br />
+     * 1、有效值类型：object（{ [ header: string ]: string }）、undefined。<br />
+     */
+    headers: httpRequestHeaders,
 
     proxyTimeout: 120000,
 
@@ -1089,10 +1093,10 @@ HTTP代理--->${ req.originalUrl }<---End
     // cookiePathRewrite,
 
     /**
-     * 带有要添加到目标请求的额外标头的对象。<br />
+     * 带有要添加到目标请求的额外标头的对象，也就是该选项用来设置请求头的。<br />
      * 1、有效值类型：object（{ [ header: string ]: string }）、undefined。<br />
      */
-    headers: httpHeaders,
+    headers: httpRequestHeaders,
 
     /**
      * 传出代理请求的超时（以毫秒为单位），默认值为120000（等同2分钟）。<br />

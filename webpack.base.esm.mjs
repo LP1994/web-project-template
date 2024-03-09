@@ -124,7 +124,8 @@ import entryConfig from './configures/EntryConfig.esm.mjs';
 
 import {
   devServerGlobalParameters,
-  httpHeaders,
+  httpRequestHeaders,
+  httpResponseHeaders,
 } from './configures/GlobalParameters.esm.mjs';
 
 import HTMLWebpackPluginConfig from './configures/HTMLWebpackPluginConfig.esm.mjs';
@@ -1924,9 +1925,10 @@ const aliasConfig = {
     },
     compress: true,
     devMiddleware: {
-      headers: httpHeaders,
+      // 这个选项是给请求设置请求头的。
+      headers: httpRequestHeaders,
       index: 'index.html',
-      methods: ( methods => methods.split( ',' ).map( item => item.trim() ) )( httpHeaders[ 'Access-Control-Allow-Methods' ] ),
+      methods: ( methods => methods.split( ',' ).map( item => item.trim() ) )( httpRequestHeaders[ 'Access-Control-Request-Method' ] ),
       publicPath: `/${ env_platform }`,
       writeToDisk: false,
       /**
@@ -1977,7 +1979,8 @@ const aliasConfig = {
        },
        */
     },
-    headers: httpHeaders,
+    // 为响应添加响应头。
+    headers: httpResponseHeaders,
     historyApiFallback: {
       index: '/index.html',
     },
@@ -2206,7 +2209,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
           res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+          Object.entries( httpResponseHeaders ).forEach( ( [ keyName, keyValue ], ) => {
             res.setHeader( keyName, keyValue );
           } );
 
@@ -2228,7 +2231,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
           response.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+          Object.entries( httpResponseHeaders ).forEach( ( [ keyName, keyValue ], ) => {
             response.setHeader( keyName, keyValue );
           } );
 
@@ -2307,7 +2310,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
           res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+          Object.entries( httpResponseHeaders ).forEach( ( [ keyName, keyValue ], ) => {
             res.setHeader( keyName, keyValue );
           } );
 
@@ -2351,7 +2354,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
           res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+          Object.entries( httpResponseHeaders ).forEach( ( [ keyName, keyValue ], ) => {
             res.setHeader( keyName, keyValue );
           } );
 
@@ -2394,7 +2397,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             res.set( 'x-env-platform', `${ env_platform }` );
             res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
 
-            Object.entries( httpHeaders ).forEach( ( [ keyName, keyValue ], ) => {
+            Object.entries( httpResponseHeaders ).forEach( ( [ keyName, keyValue ], ) => {
               res.set( keyName, keyValue );
             } );
           },

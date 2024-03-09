@@ -63,9 +63,14 @@ if( false ){
     path: '/graphql/schema.json',
     method: 'GET',
     headers: {
+      // 对于那些后端服务器不对返回的数据做压缩处理的，还是不要带上这个请求头了，否则会导致返回给客户端的数据出现乱码。
+      // 'Accept-Encoding': 'gzip, deflate, br',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Access-Control-Request-Headers': 'Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+      'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
       'User-Agent': 'My NodeJS for UpdateGraphQLSchemaJSON',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'Content-Type': 'application/json',
     },
   };
 
@@ -140,9 +145,14 @@ if( false ){
     path: '/graphql/',
     method: 'POST',
     headers: {
+      // 对于那些后端服务器不对返回的数据做压缩处理的，还是不要带上这个请求头了，否则会导致返回给客户端的数据出现乱码。
+      // 'Accept-Encoding': 'gzip, deflate, br',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Access-Control-Request-Headers': 'Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+      'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
       'User-Agent': 'My NodeJS for UpdateGraphQLSchemaJSON',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'Content-Type': 'application/json',
     },
   };
 
