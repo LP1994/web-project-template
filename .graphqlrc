@@ -14,8 +14,8 @@
       ],
       "extensions": {
         "endpoints": {
-          "deno:http://127.0.0.1:9000": {
-            "url": "http://127.0.0.1:9000/graphql",
+          "deno:https://127.0.0.1:9200": {
+            "url": "https://127.0.0.1:9200/graphql",
             "introspect": false,
             "headers": {
               "Accept": "application/json",
@@ -41,8 +41,8 @@
       ],
       "extensions": {
         "endpoints": {
-          "deno:http://127.0.0.1:9000": {
-            "url": "http://127.0.0.1:9000/graphql",
+          "deno:https://127.0.0.1:9200": {
+            "url": "https://127.0.0.1:9200/graphql",
             "introspect": false,
             "headers": {
               "Accept": "application/json",
