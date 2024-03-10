@@ -25,9 +25,9 @@ import {
 } from './webpack.base.esm.mjs';
 
 export default {
-  syntax: 'sugarss',
-  parser: 'sugarss',
-  stringifier: 'sugarss',
+  // syntax: 'sugarss',
+  // parser: 'sugarss',
+  // stringifier: 'sugarss',
   // 配置插件的时候注意顺序哦！不同插件之间有先后处理的规则！postcss的插件有200多之数（有些还废弃、迁移包名之类的），还会随着积累越来越多的，挑着对项目有用的插件配置，不要过度求全，不然指不定会出现不如所愿的情况出现。
   plugins: [
     // 生成后备的兼容语法 Start
@@ -142,12 +142,11 @@ export default {
     'postcss-mq-optimize',
 
     /**
-     * postcss-merge-queries，将相同的CSS媒体查询规则合并为一个。该插件不再支持"postcss v8.4.35"、“postcss-loader v8.1.1”的生态！使用后会报错！估计是核心“postcss”的API更新后，这个插件没继续跟进，也就不再兼容最新的postcss生态了。<br />
+     * postcss-merge-queries，将相同的CSS媒体查询规则合并为一个。<br />
      * 1、由于此插件将所有媒体查询移动到文件末尾，因此如果您的CSS结构不合理，它可能会引入错误，导致结果不如所愿。所以记住这一点！<br />
      * 2、因此，建议在开发中也使用此插件以更快地检测到此类副作用。<br />
-     * 3、这个插件过时，且不兼容最新的postcss生态！而且这个插件其实可以被“cssnano”的“mergeRules”选项所取代了！<br />
      */
-    // 'postcss-merge-queries',
+    'postcss-merge-queries',
 
     /**
      * postcss-combine-duplicated-selectors，自动检测和组合重复的css选择器，这样你就不必手动处理了。<br />
