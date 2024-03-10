@@ -2,20 +2,23 @@
   "projects": {
     "web-project-template": {
       "name": "web-project-template",
-      "schema": "./src/graphQL/GraphQL.Schema.json",
-      "documents": "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
+      "schema": [
+        "./src/graphQL/GraphQL.Schema.json"
+      ],
       "include": [
         "./src/**/*.{graphql,graphqls,gql}",
         "./webpack_location/**/*.{graphql,graphqls,gql}"
       ],
       "exclude": [
         "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
-        "./src/**/GraphQL.Schema.json.graphql"
+        "./src/graphQL/GraphQL.Schema.json.graphql",
+        "./src/**/*.type.{graphql,graphqls,gql}"
       ],
       "extensions": {
         "endpoints": {
-          "deno:https://127.0.0.1:9200": {
+          "deno001:https://127.0.0.1:9200": {
             "url": "https://127.0.0.1:9200/graphql",
+            "introspect": true,
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json; charset=utf-8",
@@ -30,18 +33,20 @@
     },
     "simulation_servers_deno": {
       "name": "simulation_servers_deno",
-      "schema": "./src/graphQL/GraphQL.Schema.json",
-      "documents": "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
+      "schema": [
+        "./src/graphQL/GraphQL.Schema.json"
+      ],
       "include": [
-        "./simulation_servers/deno/src/**/*.{graphql,graphqls,gql}"
+        "./simulation_servers/deno/src/**/*.test.{graphql,graphqls,gql}"
       ],
       "exclude": [
         "./simulation_servers/deno/src/**/*.type.{graphql,graphqls,gql}"
       ],
       "extensions": {
         "endpoints": {
-          "deno:https://127.0.0.1:9200": {
+          "deno002:https://127.0.0.1:9200": {
             "url": "https://127.0.0.1:9200/graphql",
+            "introspect": true,
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json; charset=utf-8",
