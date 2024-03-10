@@ -180,6 +180,10 @@ const methodByGetForRouteHandle: TypeRouteHandle = GeneratorRouteHandle( [
     `${ servicesDir }/jsonp_service/Condition.esm.mts`,
     `${ servicesDir }/jsonp_service/ResponseHandle.esm.mts`,
   ],
+  [
+    `${ servicesDir }/graphql_service/Condition.esm.mts`,
+    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
 ] );
 
 /**

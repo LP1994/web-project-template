@@ -8,8 +8,9 @@
  */
 
 /**
- * 该文件夹是用于响应“GraphQL请求”（POST请求），如：
- * https://127.0.0.1:9200/graphql
+ * 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求），如：
+ * POST：https://127.0.0.1:9200/graphql
+ * GET：https://127.0.0.1:9200/graphql?query={hello1:hello,serverDate1:serverDate,}&variables={}
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
  *
