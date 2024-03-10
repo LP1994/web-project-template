@@ -151,7 +151,8 @@
     "simulation_servers_deno": "cd ./simulation_servers/deno&Start.bat",
     "update_graphQL_schema_json": "node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation ./configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs",
     "update_tsconfig_lib": "node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs",
-    "weinre": "weinre --boundHost -all- --httpPort 8300 --verbose false --debug false"
+    "weinre": "weinre --boundHost -all- --httpPort 8300 --verbose false --debug false",
+    "graphql_codegen": "graphql-codegen-esm --watch --config GraphqlCodegenConfig.esm.mts"
   },
   "devDependencies": {
     "@appium/typedoc-plugin-appium": "^0.6.6",
@@ -367,10 +368,11 @@
     "@ckeditor/ckeditor5-build-classic": "^41.2.0",
     "@csstools/postcss-nested-calc": "^3.0.2",
     "@eddeee888/gcg-typescript-resolver-files": "^0.7.2",
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.2.4",
+    "@graphql-codegen/cli": "5.0.2",
+    "@graphql-codegen/client-preset": "4.2.4",
     "@graphql-codegen/flutter-freezed": "^4.0.0",
     "@graphql-codegen/graphql-modules-preset": "^4.0.6",
+    "@graphql-codegen/introspection": "^4.0.3",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-apollo-angular": "^4.0.0",
