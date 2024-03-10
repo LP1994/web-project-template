@@ -5,8 +5,11 @@
 #IDE: WebStorm
 #CreateDate: 2022-11-02 17:38:57 星期三
 
+"消息内容。"
 input MessageInput {
+  "作者。"
   author: String,
+  "内容。"
   content: String,
 }
 

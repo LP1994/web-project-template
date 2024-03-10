@@ -6,5 +6,6 @@
 #CreateDate: 2022-11-02 17:38:57 星期三
 
 type Query {
+  "服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。"
   serverDate: String,
 }
