@@ -16,7 +16,6 @@
         "endpoints": {
           "deno:https://127.0.0.1:9200": {
             "url": "https://127.0.0.1:9200/graphql",
-            "introspect": false,
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json; charset=utf-8",
@@ -43,7 +42,6 @@
         "endpoints": {
           "deno:https://127.0.0.1:9200": {
             "url": "https://127.0.0.1:9200/graphql",
-            "introspect": false,
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json; charset=utf-8",
