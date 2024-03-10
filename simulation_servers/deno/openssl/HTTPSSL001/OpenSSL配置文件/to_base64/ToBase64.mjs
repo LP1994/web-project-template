@@ -1,5 +1,3 @@
-#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation
-
 /**
  * Project: web-project-template
  * FileDirPath: to_base64/ToBase64.mjs
@@ -57,7 +55,9 @@ function Get__filename( import_meta_url = import.meta.url ){
 }
 
 /**
- * @type {string} 表示项目文件夹根目录，不是磁盘根目录。<br />
+ * 表示项目文件夹根目录，不是磁盘根目录。<br />
+ *
+ * @type {string}
  */
 const __dirname = Get__dirname( import.meta.url );
 
