@@ -26,6 +26,10 @@
               "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
               "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
               "user-agent": "GraphQL plugin from WebStorm."
+            },
+            "subscription": {
+              "url": "wss://127.0.0.1:9200/graphql/subscriptions",
+              "connectionParams": {}
             }
           }
         }
@@ -54,6 +58,10 @@
               "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
               "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
               "user-agent": "GraphQL plugin from WebStorm."
+            },
+            "subscription": {
+              "url": "wss://127.0.0.1:9200/graphql/subscriptions",
+              "connectionParams": {}
             }
           }
         }
