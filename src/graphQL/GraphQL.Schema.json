@@ -16,7 +16,7 @@
           "fields": [
             {
               "name": "hello",
-              "description": null,
+              "description": "表示一个值，值类型是String。",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -28,7 +28,7 @@
             },
             {
               "name": "serverDate",
-              "description": null,
+              "description": "服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -94,12 +94,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "MessageInput",
-          "description": null,
+          "description": "消息内容。",
           "fields": null,
           "inputFields": [
             {
               "name": "author",
-              "description": null,
+              "description": "作者。",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -109,7 +109,7 @@
             },
             {
               "name": "content",
-              "description": null,
+              "description": "内容。",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",

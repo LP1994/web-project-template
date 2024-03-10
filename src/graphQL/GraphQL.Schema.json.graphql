@@ -18,11 +18,16 @@ type Mutation {
 
 type Query {
   getMessage(id: ID!): Message
+  "表示一个值，值类型是String。"
   hello: String
+  "服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。"
   serverDate: String
 }
 
+"消息内容。"
 input MessageInput {
+  "作者。"
   author: String
+  "内容。"
   content: String
 }
