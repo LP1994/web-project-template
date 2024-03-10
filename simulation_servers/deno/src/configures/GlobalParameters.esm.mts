@@ -26,6 +26,10 @@ export type TypeFilePath001 = string | URL;
 
 export type TypeResult001 = boolean | TypeFun001;
 
+export type TypeResolver001 = {
+  [ key: string ]: ( ...args: any[] ) => ( unknown | Promise<unknown> );
+};
+
 // 自定义的type（命名以“Type”开头，如：type TypeMyString = string;）、interface End
 
 // 自定义的路径别名aliasConfig Start

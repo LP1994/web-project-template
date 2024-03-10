@@ -18,6 +18,10 @@ import {
 } from 'esmSH/graphql';
 
 import {
+  type TypeResolver001,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
@@ -72,12 +76,12 @@ class Message {
 
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
 
-const resolvers: any = {
+const resolvers: TypeResolver001 = {
   getMessage: async ( {
     id,
   }: {
     id: string | number;
-    [ key: string | number ]: any;
+    [ key: string | number ]: unknown;
   } ): Promise<TypeMessage> => {
     const entry = await kv.get( [
       id,
@@ -94,7 +98,7 @@ const resolvers: any = {
     input,
   }: {
     input: TypeMessageInput;
-    [ key: string | number ]: any;
+    [ key: string | number ]: unknown;
   } ): Promise<TypeMessage> => {
     const id: string = randomBytes( 10 ).toString( 'hex' );
 

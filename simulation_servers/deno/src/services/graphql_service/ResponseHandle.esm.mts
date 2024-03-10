@@ -61,6 +61,7 @@ import {
 
 import {
   type TypeResponse001,
+  type TypeResolver001,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -73,11 +74,11 @@ import * as Mutation from './Mutation.esm.mts';
 
 type TypeTypeDefsAndResolvers = {
   typeDefs: DocumentNode;
-  resolvers: any;
+  resolvers: TypeResolver001;
 };
 
 const typeDefsArray: Array<DocumentNode> = [],
-  resolversArray: Array<any> = [];
+  resolversArray: Array<TypeResolver001> = [];
 
 Object.values( Query as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
   {

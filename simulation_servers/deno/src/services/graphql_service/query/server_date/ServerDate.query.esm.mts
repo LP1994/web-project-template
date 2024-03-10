@@ -14,6 +14,10 @@ import {
 } from 'esmSH/graphql';
 
 import {
+  type TypeResolver001,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
@@ -23,7 +27,7 @@ import {
 
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./ServerDate.type.graphql` ) ) );
 
-const resolvers: any = {
+const resolvers: TypeResolver001 = {
   serverDate: (): string => {
     return JSON.stringify( DateFormatForObject() );
   },
