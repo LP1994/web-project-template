@@ -142,11 +142,12 @@ export default {
     'postcss-mq-optimize',
 
     /**
-     * postcss-merge-queries，将相同的CSS媒体查询规则合并为一个。<br />
+     * postcss-merge-queries，将相同的CSS媒体查询规则合并为一个。该插件不再支持"postcss v8.4.35"、“postcss-loader v8.1.1”的生态！使用后会报错！估计是核心“postcss”的API更新后，这个插件没继续跟进，也就不再兼容最新的postcss生态了。<br />
      * 1、由于此插件将所有媒体查询移动到文件末尾，因此如果您的CSS结构不合理，它可能会引入错误，导致结果不如所愿。所以记住这一点！<br />
      * 2、因此，建议在开发中也使用此插件以更快地检测到此类副作用。<br />
+     * 3、这个插件过时，且不兼容最新的postcss生态！而且这个插件其实可以被“cssnano”的“mergeRules”选项所取代了！<br />
      */
-    'postcss-merge-queries',
+    // 'postcss-merge-queries',
 
     /**
      * postcss-combine-duplicated-selectors，自动检测和组合重复的css选择器，这样你就不必手动处理了。<br />
