@@ -32,6 +32,27 @@ type TypeMessage = {
   content: string;
 };
 
+const kv = await Deno.openKv();
+
+await kv.set( [
+  '2024001',
+], {
+  author: 'LMF',
+  content: 'This is a test LMF.',
+} );
+await kv.set( [
+  '2024002',
+], {
+  author: 'LYF',
+  content: 'This is a test LYF.',
+} );
+await kv.set( [
+  '2024003',
+], {
+  author: 'LZK',
+  content: 'This is a test LZK.',
+} );
+
 class Message {
 
   public id: number | string;
@@ -49,64 +70,59 @@ class Message {
 
 }
 
-const fakeDatabase: {
-  [ id: string | number ]: TypeMessageInput;
-} = {
-  '2024001': {
-    author: 'LMF',
-    content: 'This is a test LMF.',
-  },
-  '2024002': {
-    author: 'LYF',
-    content: 'This is a test LYF.',
-  },
-  '2024003': {
-    author: 'LZK',
-    content: 'This is a test LZK.',
-  },
-};
-
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
 
 const resolvers: any = {
-  getMessage: ( {
+  getMessage: async ( {
     id,
   }: {
     id: string | number;
     [ key: string | number ]: any;
-  } ): TypeMessage => {
-    if( !fakeDatabase[ id ] ){
+  } ): Promise<TypeMessage> => {
+    const entry = await kv.get( [
+      id,
+    ] );
+
+    if( !entry.value ){
       throw new Error( `no message exists with id: ${ id }.` );
     }
 
-    return new Message( id, fakeDatabase[ id ] as TypeMessageInput );
+    return new Message( id, entry.value as TypeMessageInput );
   },
 
-  createMessage: ( {
+  createMessage: async ( {
     input,
   }: {
     input: TypeMessageInput;
     [ key: string | number ]: any;
-  } ): TypeMessage => {
+  } ): Promise<TypeMessage> => {
     const id: string = randomBytes( 10 ).toString( 'hex' );
 
-    fakeDatabase[ id ] = input;
+    await kv.set( [
+      id,
+    ], input );
 
     return new Message( id, input );
   },
 
-  updateMessage: ( {
+  updateMessage: async ( {
     id,
     input,
   }: {
     id: string | number;
     input: TypeMessageInput;
-  } ): TypeMessage => {
-    if( !fakeDatabase[ id ] ){
+  } ): Promise<TypeMessage> => {
+    const entry = await kv.get( [
+      id,
+    ] );
+
+    if( !entry.value ){
       throw new Error( `no message exists with id: ${ id }.` );
     }
 
-    fakeDatabase[ id ] = input;
+    await kv.set( [
+      id,
+    ], input );
 
     return new Message( id, input );
   },
