@@ -2,9 +2,27 @@
 
 schema {
   query: Query
+  mutation: Mutation
+}
+
+type Message {
+  author: String
+  content: String
+  id: ID!
+}
+
+type Mutation {
+  createMessage(input: MessageInput): Message
+  updateMessage(id: ID!, input: MessageInput): Message
 }
 
 type Query {
+  getMessage(id: ID!): Message
   hello: String
   serverDate: String
+}
+
+input MessageInput {
+  author: String
+  content: String
 }
