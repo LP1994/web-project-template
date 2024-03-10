@@ -10,7 +10,41 @@
 /**
  * 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求），如：
  * POST：https://127.0.0.1:9200/graphql
- * GET：https://127.0.0.1:9200/graphql?query={hello1:hello,serverDate1:serverDate,}&variables={}
+ *
+ * GET：https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ * 例子：
+ * 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：
+ * encodeURI(`query Test001{
+ *     hello1: hello,
+ * }
+ *
+ * query Test002{
+ *     serverDate1: serverDate,
+ * }`);
+ * 处理完就成了这样：
+ * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D
+ *
+ * var myHeaders = new Headers();
+ * myHeaders.append("Accept", "application/json");
+ * myHeaders.append("Cache-Control", "no-store");
+ * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+ * myHeaders.append("Host", "127.0.0.1:9200");
+ * myHeaders.append("Connection", "keep-alive");
+ *
+ * var requestOptions = {
+ *    method: 'GET',
+ *    headers: myHeaders,
+ *    redirect: 'follow'
+ * };
+ *
+ * fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001", requestOptions)
+ *    .then(response => response.text())
+ *    .then(result => console.log(result))
+ *    .catch(error => console.log('error', error));
+ *
+ * 成功！完美！
+ *
+ *
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
  *
