@@ -9,3 +9,4 @@
 
 'use strict';
 
+export * as Message from './mutation/message/Message.mutation.esm.mts';

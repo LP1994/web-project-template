@@ -1,0 +1,26 @@
+#Project: web-project-template
+#FileDirPath: simulation_servers/deno/src/services/graphql_service/mutation/message/Message.type.graphql
+#Author: 12278
+#Email: 1227839175@qq.com
+#IDE: WebStorm
+#CreateDate: 2022-11-02 17:38:57 星期三
+
+input MessageInput {
+  author: String,
+  content: String,
+}
+
+type Message {
+  id: ID!,
+  author: String,
+  content: String,
+}
+
+type Query {
+  getMessage(id: ID!): Message,
+}
+
+type Mutation {
+  createMessage(input: MessageInput): Message,
+  updateMessage(id: ID!, input: MessageInput): Message,
+}

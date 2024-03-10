@@ -69,6 +69,8 @@ import {
 
 import * as Query from './Query.esm.mts';
 
+import * as Mutation from './Mutation.esm.mts';
+
 type TypeTypeDefsAndResolvers = {
   typeDefs: DocumentNode;
   resolvers: any;
@@ -78,6 +80,20 @@ const typeDefsArray: Array<DocumentNode> = [],
   resolversArray: Array<any> = [];
 
 Object.values( Query as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
+  {
+    typeDefs,
+    resolvers,
+  }: TypeTypeDefsAndResolvers,
+  // @ts-expect-error
+  index: number,
+  // @ts-expect-error
+  array: Array<TypeTypeDefsAndResolvers>,
+): void => {
+  typeDefsArray.push( typeDefs );
+  resolversArray.push( resolvers );
+} );
+
+Object.values( Mutation as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
   {
     typeDefs,
     resolvers,
