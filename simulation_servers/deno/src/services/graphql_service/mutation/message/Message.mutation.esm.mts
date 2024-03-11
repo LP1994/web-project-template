@@ -10,10 +10,6 @@
 'use strict';
 
 import {
-  getRandomValues,
-} from 'Crypto';
-
-import {
   type DocumentNode,
 } from 'esmSH/graphql';
 
@@ -94,7 +90,7 @@ const resolvers: QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<n
     input,
   }: MutationCreateMessageArgs ): Promise<TypeMessage> => {
     const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
-    getRandomValues( uint32Array001 );
+    crypto.getRandomValues( uint32Array001 );
 
     const id: string = uint32Array001.toString().replaceAll( ',', '-' );
 
