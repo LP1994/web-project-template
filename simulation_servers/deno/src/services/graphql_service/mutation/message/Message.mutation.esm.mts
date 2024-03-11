@@ -18,10 +18,6 @@ import {
 } from 'esmSH/graphql';
 
 import {
-  type TypeResolver001,
-} from 'configures/GlobalParameters.esm.mts';
-
-import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
@@ -29,6 +25,12 @@ import {
   type Scalars,
   type MessageInput,
   type Message as TypeMessage,
+
+  type QueryResolvers,
+  type MutationResolvers,
+  type QueryGetMessageArgs,
+  type MutationCreateMessageArgs,
+  type MutationUpdateMessageArgs,
 } from 'GSD2TSTD';
 
 const kv: Deno.Kv = await Deno.openKv();
@@ -72,13 +74,10 @@ class Message
 
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
 
-const resolvers: TypeResolver001 = {
+const resolvers: QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<null, MutationCreateMessageArgs & MutationUpdateMessageArgs> = {
   getMessage: async ( {
     id,
-  }: {
-    id: Scalars['ID']['input'];
-    [ key: string ]: unknown;
-  } ): Promise<TypeMessage> => {
+  }: QueryGetMessageArgs ): Promise<TypeMessage> => {
 
     const entry: Deno.KvEntryMaybe<MessageInput> = await kv.get( [
       id,
@@ -93,10 +92,7 @@ const resolvers: TypeResolver001 = {
 
   createMessage: async ( {
     input,
-  }: {
-    input: MessageInput;
-    [ key: string ]: unknown;
-  } ): Promise<TypeMessage> => {
+  }: MutationCreateMessageArgs ): Promise<TypeMessage> => {
     const id: string = randomBytes( 10 ).toString( 'hex' );
 
     await kv.set( [
@@ -109,10 +105,7 @@ const resolvers: TypeResolver001 = {
   updateMessage: async ( {
     id,
     input,
-  }: {
-    id: Scalars['ID']['input'];
-    input: MessageInput;
-  } ): Promise<TypeMessage> => {
+  }: MutationUpdateMessageArgs ): Promise<TypeMessage> => {
     const entry: Deno.KvEntryMaybe<MessageInput> = await kv.get( [
       id,
     ] );

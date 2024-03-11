@@ -105,6 +105,7 @@ const GraphqlCodegenConfig: CodegenConfig = {
       ],
       plugins: [
         'typescript',
+        'typescript-resolvers',
       ],
       hooks: {
         beforeOneFileWrite: (
@@ -141,6 +142,7 @@ ${ fileContent }`;
         ],
       },
     },
+
     './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts': {
       overwrite: true,
       schema: [
@@ -148,6 +150,7 @@ ${ fileContent }`;
       ],
       plugins: [
         'typescript',
+        'typescript-resolvers',
       ],
       hooks: {
         beforeOneFileWrite: (

@@ -96,7 +96,6 @@ import {
 
 import {
   type TypeResponse001,
-  type TypeResolver001,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -107,13 +106,23 @@ import * as Query from './Query.esm.mts';
 
 import * as Mutation from './Mutation.esm.mts';
 
+import {
+  type QueryResolvers,
+  type MutationResolvers,
+  type QueryGetMessageArgs,
+  type MutationCreateMessageArgs,
+  type MutationUpdateMessageArgs,
+} from 'GSD2TSTD';
+
+type TypeResolvers = QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<null, MutationCreateMessageArgs & MutationUpdateMessageArgs>;
+
 type TypeTypeDefsAndResolvers = {
   typeDefs: DocumentNode;
-  resolvers: TypeResolver001;
+  resolvers: TypeResolvers;
 };
 
 const typeDefsArray: Array<DocumentNode> = [],
-  resolversArray: Array<TypeResolver001> = [];
+  resolversArray: Array<TypeResolvers> = [];
 
 Object.values( Query as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
   {

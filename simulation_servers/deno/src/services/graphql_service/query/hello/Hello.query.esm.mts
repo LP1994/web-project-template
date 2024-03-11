@@ -14,16 +14,16 @@ import {
 } from 'esmSH/graphql';
 
 import {
-  type TypeResolver001,
-} from 'configures/GlobalParameters.esm.mts';
-
-import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
+import {
+  type QueryResolvers,
+} from 'GSD2TSTD';
+
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
 
-const resolvers: TypeResolver001 = {
+const resolvers: QueryResolvers = {
   hello: (): string => {
     return `Hello World! This is the GraphQL Server.`;
   },
