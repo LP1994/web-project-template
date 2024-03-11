@@ -5,12 +5,12 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-11 20:18:54 星期一
+ * CreateDate: 2024-03-12 00:08:45 星期二
  */
 
 'use strict';
 
-import { GraphQLResolveInfo } from 'esmSH/graphql';
+import type { GraphQLResolveInfo  } from 'esmSH/graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };

@@ -10,8 +10,8 @@
 'use strict';
 
 import {
-  randomBytes,
-} from 'node:crypto';
+  getRandomValues,
+} from 'Crypto';
 
 import {
   type DocumentNode,
@@ -93,7 +93,10 @@ const resolvers: QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<n
   createMessage: async ( {
     input,
   }: MutationCreateMessageArgs ): Promise<TypeMessage> => {
-    const id: string = randomBytes( 10 ).toString( 'hex' );
+    const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
+    getRandomValues( uint32Array001 );
+
+    const id: string = uint32Array001.toString().replaceAll( ',', '-' );
 
     await kv.set( [
       id,

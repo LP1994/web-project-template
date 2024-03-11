@@ -91,12 +91,26 @@ const obj001: Record<string, string> = {
 const GraphqlCodegenConfig: CodegenConfig = {
   overwrite: true,
   watch: true,
-  emitLegacyCommonJSImports: false,
   silent: false,
   verbose: true,
   debug: false,
   errorsOnly: false,
   noSilentErrors: true,
+
+  addUnderscoreToArgsType: false,
+  useTypeImports: true,
+  emitLegacyCommonJSImports: false,
+  printFieldsOnNewLines: true,
+  /*
+   avoidOptionals: {
+   field: true,
+   object: true,
+   inputValue: true,
+   defaultValue: true,
+   resolvers: true,
+   },
+   */
+
   generates: {
     './simulation_servers/deno/src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts': {
       overwrite: true,
@@ -105,7 +119,24 @@ const GraphqlCodegenConfig: CodegenConfig = {
       ],
       plugins: [
         'typescript',
-        'typescript-resolvers',
+        {
+          'typescript-resolvers': {
+            customResolveInfo: 'esmSH/graphql#GraphQLResolveInfo',
+            addUnderscoreToArgsType: false,
+            useTypeImports: true,
+            emitLegacyCommonJSImports: false,
+            printFieldsOnNewLines: true,
+            /*
+             avoidOptionals: {
+             field: true,
+             object: true,
+             inputValue: true,
+             defaultValue: true,
+             resolvers: true,
+             },
+             */
+          },
+        },
       ],
       hooks: {
         beforeOneFileWrite: (
@@ -150,7 +181,24 @@ ${ fileContent }`;
       ],
       plugins: [
         'typescript',
-        'typescript-resolvers',
+        {
+          'typescript-resolvers': {
+            customResolveInfo: 'esmSH/graphql#GraphQLResolveInfo',
+            addUnderscoreToArgsType: false,
+            useTypeImports: true,
+            emitLegacyCommonJSImports: false,
+            printFieldsOnNewLines: true,
+            /*
+             avoidOptionals: {
+             field: true,
+             object: true,
+             inputValue: true,
+             defaultValue: true,
+             resolvers: true,
+             },
+             */
+          },
+        },
       ],
       hooks: {
         beforeOneFileWrite: (
