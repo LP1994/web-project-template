@@ -25,18 +25,13 @@ import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
-type TypeMessageInput = {
-  author: string;
-  content: string;
-};
+import {
+  type Scalars,
+  type MessageInput,
+  type Message as TypeMessage,
+} from 'GSD2TSTD';
 
-type TypeMessage = {
-  id: number | string;
-  author: string,
-  content: string;
-};
-
-const kv = await Deno.openKv();
+const kv: Deno.Kv = await Deno.openKv();
 
 await kv.set( [
   '2024001',
@@ -57,16 +52,17 @@ await kv.set( [
   content: 'This is a test LZK.',
 } );
 
-class Message {
+class Message
+  implements TypeMessage {
 
-  public id: number | string;
-  public author: string;
-  public content: string;
+  public id: Scalars['ID']['output'];
+  public author: Scalars['String']['output'];
+  public content: Scalars['String']['output'];
 
-  public constructor( id: number | string, {
+  public constructor( id: Scalars['ID']['input'], {
     content,
     author,
-  }: TypeMessageInput ){
+  }: MessageInput ){
     this.id = id;
     this.author = author;
     this.content = content;
@@ -80,10 +76,11 @@ const resolvers: TypeResolver001 = {
   getMessage: async ( {
     id,
   }: {
-    id: string | number;
-    [ key: string | number ]: unknown;
+    id: Scalars['ID']['input'];
+    [ key: string ]: unknown;
   } ): Promise<TypeMessage> => {
-    const entry = await kv.get( [
+
+    const entry: Deno.KvEntryMaybe<MessageInput> = await kv.get( [
       id,
     ] );
 
@@ -91,14 +88,14 @@ const resolvers: TypeResolver001 = {
       throw new Error( `no message exists with id: ${ id }.` );
     }
 
-    return new Message( id, entry.value as TypeMessageInput );
+    return new Message( id, entry.value as MessageInput );
   },
 
   createMessage: async ( {
     input,
   }: {
-    input: TypeMessageInput;
-    [ key: string | number ]: unknown;
+    input: MessageInput;
+    [ key: string ]: unknown;
   } ): Promise<TypeMessage> => {
     const id: string = randomBytes( 10 ).toString( 'hex' );
 
@@ -113,10 +110,10 @@ const resolvers: TypeResolver001 = {
     id,
     input,
   }: {
-    id: string | number;
-    input: TypeMessageInput;
+    id: Scalars['ID']['input'];
+    input: MessageInput;
   } ): Promise<TypeMessage> => {
-    const entry = await kv.get( [
+    const entry: Deno.KvEntryMaybe<MessageInput> = await kv.get( [
       id,
     ] );
 

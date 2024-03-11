@@ -5,7 +5,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-11 18:06:25 星期一
+ * CreateDate: 2024-03-11 19:24:01 星期一
  */
 
 'use strict';
@@ -28,43 +28,43 @@ export type Scalars = {
 
 export type Message = {
   __typename?: 'Message';
-  author?: Maybe<Scalars['String']['output']>;
-  content?: Maybe<Scalars['String']['output']>;
+  author: Scalars['String']['output'];
+  content: Scalars['String']['output'];
   id: Scalars['ID']['output'];
 };
 
 /** 消息内容。 */
 export type MessageInput = {
   /** 作者。 */
-  author?: InputMaybe<Scalars['String']['input']>;
+  author: Scalars['String']['input'];
   /** 内容。 */
-  content?: InputMaybe<Scalars['String']['input']>;
+  content: Scalars['String']['input'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createMessage?: Maybe<Message>;
-  updateMessage?: Maybe<Message>;
+  createMessage: Message;
+  updateMessage: Message;
 };
 
 
 export type MutationCreateMessageArgs = {
-  input?: InputMaybe<MessageInput>;
+  input: MessageInput;
 };
 
 
 export type MutationUpdateMessageArgs = {
   id: Scalars['ID']['input'];
-  input?: InputMaybe<MessageInput>;
+  input: MessageInput;
 };
 
 export type Query = {
   __typename?: 'Query';
-  getMessage?: Maybe<Message>;
+  getMessage: Message;
   /** 表示一个值，值类型是String。 */
-  hello?: Maybe<Scalars['String']['output']>;
+  hello: Scalars['String']['output'];
   /** 服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。 */
-  serverDate?: Maybe<Scalars['String']['output']>;
+  serverDate: Scalars['String']['output'];
 };
 
 

@@ -7,5 +7,5 @@
 
 type Query {
   "表示一个值，值类型是String。"
-  hello: String,
+  hello: String!,
 }
