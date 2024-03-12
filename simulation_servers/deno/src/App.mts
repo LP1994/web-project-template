@@ -47,7 +47,7 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
-  // import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
+  import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
   // 同时提供“https:”和“wss:”协议的服务，端口都是9000，基于HTTP/1.1。
   // import( 'servers/HTTPSAndWebSocketSByServerForPort9000.mts' ),
 
