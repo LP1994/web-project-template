@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-14 05:12:26 星期四
+ * CreateDate: 2024-03-14 05:44:26 星期四
  */
 
 "use strict";
@@ -217,9 +217,9 @@ export type MessageResolvers<
   ParentType extends
     ResolversParentTypes["Message"] = ResolversParentTypes["Message"],
 > = {
-  author: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  content: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  id: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  author?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -228,13 +228,13 @@ export type MutationResolvers<
   ParentType extends
     ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
 > = {
-  createMessage: Resolver<
+  createMessage?: Resolver<
     ResolversTypes["Message"],
     ParentType,
     ContextType,
     RequireFields<MutationCreateMessageArgs, "input">
   >;
-  updateMessage: Resolver<
+  updateMessage?: Resolver<
     ResolversTypes["Message"],
     ParentType,
     ContextType,
@@ -247,18 +247,18 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
 > = {
-  getMessage: Resolver<
+  getMessage?: Resolver<
     ResolversTypes["Message"],
     ParentType,
     ContextType,
     RequireFields<QueryGetMessageArgs, "id">
   >;
-  hello: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  serverDate: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  hello?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  serverDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Message: MessageResolvers<ContextType>;
-  Mutation: MutationResolvers<ContextType>;
-  Query: QueryResolvers<ContextType>;
+  Message?: MessageResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
 };

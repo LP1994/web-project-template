@@ -34,8 +34,6 @@
 /*
  import {
  parse,
-
- // @ts-ignore
  } from 'DenoStd/path/mod.ts';
  */
 

@@ -62,8 +62,6 @@ await client.connect(
 例子002：
 import {
   MongoClient,
-
-  // @ts-ignore
 } from 'DenoX/mongo@v0.29.3/mod.ts';
 
   const client = new MongoClient();

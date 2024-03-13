@@ -37,21 +37,15 @@
 
 import {
   extensionsByType,
-
-  // @ts-ignore
 } from 'media_types';
 
 import {
   writableStreamFromWriter,
-
-  // @ts-ignore
 } from 'deno_streams/writable_stream_from_writer.ts';
 
 import {
   crypto,
   toHashString,
-
-  // @ts-ignore
 } from 'deno_crypto';
 
 import {

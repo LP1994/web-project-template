@@ -71,8 +71,6 @@
 
 import {
   writableStreamFromWriter,
-
-  // @ts-ignore
 } from 'deno_streams/writable_stream_from_writer.ts';
 
 import {
@@ -146,7 +144,6 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
         create: true,
       } )
     ),
-    // @ts-ignore
     arr001: Array<Deno.FsFile> = await Array.fromAsync( fileOpen );
 
   arr001.map(

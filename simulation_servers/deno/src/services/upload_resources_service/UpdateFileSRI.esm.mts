@@ -15,15 +15,11 @@
 
 import {
   extension,
-
-  // @ts-ignore
 } from 'media_types';
 
 import {
   crypto,
   toHashString,
-
-  // @ts-ignore
 } from 'deno_crypto';
 
 import {

@@ -38,8 +38,6 @@
 
 import {
   writableStreamFromWriter,
-
-  // @ts-ignore
 } from 'deno_streams/writable_stream_from_writer.ts';
 
 import {

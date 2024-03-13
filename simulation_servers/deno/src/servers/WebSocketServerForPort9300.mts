@@ -17,8 +17,6 @@ import {
   type ConnInfo,
 
   serve,
-
-  // @ts-ignore
 } from 'http_server';
 
 import {

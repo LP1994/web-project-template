@@ -77,8 +77,6 @@
  */
 import {
   default as chalk,
-
-  // @ts-ignore
 } from 'https://deno.land/x/chalk_deno/source/index.js';
 
 // 自定义的类型别名。Start

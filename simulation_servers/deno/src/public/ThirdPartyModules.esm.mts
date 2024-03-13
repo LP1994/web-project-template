@@ -13,7 +13,6 @@
 
 'use strict';
 
-// @ts-ignore
 import * as dejs from 'deno_ejs';
 
 // Deno自己有一个名为media_types的API功能跟它一样。

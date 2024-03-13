@@ -27,8 +27,6 @@ import {
   type ConnInfo,
 
   serveTls,
-
-  // @ts-ignore
 } from 'http_server';
 
 import {
