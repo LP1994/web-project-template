@@ -1,0 +1,10 @@
+// Natapp_Nginx_DenoServer_Start.bat
+@echo off
+start cmd /k "cd /d G:\WebStormWS\web-project-template\simulation_servers\deno&Start.bat"
+timeout /t 3 /nobreak
+start cmd /k "cd /d D:\Nginx&NginxReStart.bat"
+
+说明：
+“start cmd /k”：表示开启一个新的命令行窗口并在执行完命令后保持窗口。
+“timeout /t 3 /nobreak”，表示延迟3秒.
+“start cmd /c”：表示开启一个新的命令行窗口并在执行完命令后自动关闭窗口。
