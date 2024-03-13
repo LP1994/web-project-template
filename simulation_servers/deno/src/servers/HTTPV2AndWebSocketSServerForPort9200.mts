@@ -25,6 +25,8 @@
 'use strict';
 
 import {
+  type TypeResponse001,
+
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -39,6 +41,8 @@ import {
   GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
+import ResponseError from 'public/ResponseError.esm.mts';
+
 import {
   Routers,
 } from 'routers/Routers.esm.mts';
@@ -46,86 +50,8 @@ import {
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-async function HandleConn( conn: Deno.TlsConn ): Promise<void>{
-  logWriteStream.write( `
-来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，connInfo--->Start
-
-${ JSON.stringify( {
-    localAddr: conn.localAddr,
-    remoteAddr: conn.remoteAddr,
-  }, null, ' ' ) }
-
-HTTP/2 服务，connInfo--->End
-` );
-
-  const httpConn: Deno.HttpConn = Deno.serveHttp( conn );
-
-  try{
-    for await ( const requestEvent of
-      httpConn ){
-      if( requestEvent ){
-        const request: Request = requestEvent.request;
-
-        logWriteStream.write( `
-来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，request--->Start
-
-${ JSON.stringify( {
-          method: request.method,
-          url: request.url,
-          redirect: request.redirect,
-          bodyUsed: request.bodyUsed,
-          headers: ( () => {
-            const result: { [ keyName: string ]: string; } = {};
-
-            request.headers.forEach( (
-              value: string,
-              key: string,
-              // @ts-expect-error
-              parent: Headers
-            ): void => {
-              result[ key ] = value;
-            } );
-
-            return result;
-          } )(),
-        }, null, ' ' ) }
-
-HTTP/2 服务，request--->End
-` );
-
-        // 不要await，会导致阻塞。
-        requestEvent.respondWith( Routers( request ) );
-      }
-    }
-  }
-  catch( error: unknown ){
-    // 不要因为客户端的某一个连接出错而关闭本连接，因为这样会直接中断了其他所有连接。
-    // httpConn.close();
-
-    MyConsole.Red( `
-来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，报错--->Start
-
-${ ( error as Error ).message }
-
-HTTP/2 服务，报错--->End
-` );
-
-    errorWriteStream.write( `
-来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，报错--->Start
-
-${ ( error as Error ).message }
-
-HTTP/2 服务，报错--->End
-` );
-  }
-}
-
-try{
-  const server: Deno.TlsListener = Deno.listenTls( {
+Deno.serve(
+  {
     port: 9200,
     /**
      * 用postman测试时：<br />
@@ -139,9 +65,9 @@ try{
      * 3、当设置为'0.0.0.0'时，用如“https://localhost:9200”、“https://127.0.0.1:9200”、“https://192.168.2.7:9200”能连接上（https、wss皆是如此）。<br />
      *
      * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：<br />
-     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
-     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。<br />
-     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。<br />
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9200”）不一样时，因为端口不一致，所以也算不同的服务地址。<br />
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9200”。<br />
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9200”）。<br />
      * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。<br />
      *
      * 当设置为'0.0.0.0'时的注意事项：<br />
@@ -153,73 +79,97 @@ try{
     hostname: '0.0.0.0',
     key: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key` ) ),
     cert: Deno.readTextFileSync( new URL( `${ opensslDir }/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_2_7_CA.crt` ) ),
-    transport: 'tcp',
-    alpnProtocols: [
-      'h2',
-      'http/1.1',
-    ],
-  } );
-
-  const addr: Deno.NetAddr = server.addr as Deno.NetAddr;
-
-  MyConsole.Cyan( `
+    onListen: (
+      {
+        hostname,
+        port,
+      }: {
+        hostname: string;
+        port: number;
+      }
+    ): void => {
+      MyConsole.Cyan( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
+HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
 
-  logWriteStream.write( `
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ addr.hostname }:${ addr.port }/、wss://${ addr.hostname }:${ addr.port }/。
+HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
-
-  try{
-    for await ( const conn of
-      server ){
-      // 不要await，会导致阻塞。
-      HandleConn( conn );
-    }
-  }
-  catch( error: unknown ){
-    // 不要因为一个监听器报错，而关闭所有的监听器。
-    // server.close();
-
-    MyConsole.Red( `
+    },
+    onError: ( error: unknown ): TypeResponse001 => {
+      MyConsole.Red( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，监听器报错--->Start
+HTTP/2 服务 onError--->Start
 
 ${ ( error as Error ).message }
 
-HTTP/2 服务，监听器报错--->End
+HTTP/2 服务 onError--->End
 ` );
 
-    errorWriteStream.write( `
+      errorWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，监听器报错--->Start
+HTTP/2 服务 onError--->Start
 
 ${ ( error as Error ).message }
 
-HTTP/2 服务，监听器报错--->End
+HTTP/2 服务 onError--->End
 ` );
-  }
-}
-catch( error: unknown ){
-  MyConsole.Red( `
+
+      return ResponseError.ResPageError( {
+        title: `HTTP/2 服务器内部出现错误`,
+        message: `当路由处理程序抛出错误时会调用该错误处理程序。
+错误信息：
+${ ( error as Error ).message }`,
+      } );
+    },
+  },
+  (
+    request: Request,
+    info: Deno.ServeHandlerInfo,
+  ): TypeResponse001 => {
+    logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，打开网络端口时出现问题--->Start
+HTTP/2 服务 request--->Start
 
-${ ( error as Error ).message }
+${ JSON.stringify( {
+      method: request.method,
+      url: request.url,
+      redirect: request.redirect,
+      bodyUsed: request.bodyUsed,
+      headers: ( () => {
+        const result: {
+          [ keyName: string ]: string;
+        } = {};
 
-HTTP/2 服务，打开网络端口时出现问题--->End
+        request.headers.forEach( (
+          value: string,
+          key: string,
+          // @ts-expect-error
+          parent: Headers
+        ): void => {
+          result[ key ] = value;
+        } );
+
+        return result;
+      } )(),
+    }, null, ' ' ) }
+
+HTTP/2 服务 request--->End
 ` );
 
-  errorWriteStream.write( `
+    logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务，打开网络端口时出现问题--->Start
+HTTP/2 服务 info--->Start
 
-${ ( error as Error ).message }
+${ JSON.stringify( info, null, ' ' ) }
 
-HTTP/2 服务，打开网络端口时出现问题--->End
+HTTP/2 服务 info--->End
 ` );
-}
+
+    return Routers( request );
+  },
+);

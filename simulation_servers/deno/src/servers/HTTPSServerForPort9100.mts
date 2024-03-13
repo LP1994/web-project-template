@@ -24,12 +24,6 @@
 'use strict';
 
 import {
-  type ConnInfo,
-
-  serveTls,
-} from 'http_server';
-
-import {
   type TypeResponse001,
 
   opensslDir,
@@ -55,50 +49,7 @@ import {
 const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-serveTls(
-  (
-    request: Request,
-    connInfo: ConnInfo,
-  ): TypeResponse001 => {
-    logWriteStream.write( `
-来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
-HTTPS Server request--->Start
-
-${ JSON.stringify( {
-      method: request.method,
-      url: request.url,
-      redirect: request.redirect,
-      bodyUsed: request.bodyUsed,
-      headers: ( () => {
-        const result: { [ keyName: string ]: string; } = {};
-
-        request.headers.forEach( (
-          value: string,
-          key: string,
-          // @ts-expect-error
-          parent: Headers
-        ): void => {
-          result[ key ] = value;
-        } );
-
-        return result;
-      } )(),
-    }, null, ' ' ) }
-
-HTTPS Server request--->End
-` );
-
-    logWriteStream.write( `
-来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
-HTTPS Server connInfo--->Start
-
-${ JSON.stringify( connInfo, null, ' ' ) }
-
-HTTPS Server connInfo--->End
-` );
-
-    return Routers( request );
-  },
+Deno.serve(
   {
     port: 9100,
     /**
@@ -172,5 +123,50 @@ HTTPS Server onError--->End
 ${ ( error as Error ).message }`,
       } );
     },
-  }
+  },
+  (
+    request: Request,
+    info: Deno.ServeHandlerInfo,
+  ): TypeResponse001 => {
+    logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
+HTTPS Server request--->Start
+
+${ JSON.stringify( {
+      method: request.method,
+      url: request.url,
+      redirect: request.redirect,
+      bodyUsed: request.bodyUsed,
+      headers: ( () => {
+        const result: {
+          [ keyName: string ]: string;
+        } = {};
+
+        request.headers.forEach( (
+          value: string,
+          key: string,
+          // @ts-expect-error
+          parent: Headers
+        ): void => {
+          result[ key ] = value;
+        } );
+
+        return result;
+      } )(),
+    }, null, ' ' ) }
+
+HTTPS Server request--->End
+` );
+
+    logWriteStream.write( `
+来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
+HTTPS Server info--->Start
+
+${ JSON.stringify( info, null, ' ' ) }
+
+HTTPS Server info--->End
+` );
+
+    return Routers( request );
+  },
 );
