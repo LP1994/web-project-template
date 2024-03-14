@@ -18,9 +18,8 @@ import {
 } from 'media_types';
 
 import {
-  crypto,
-  toHashString,
-} from 'deno_crypto';
+  encodeHex,
+} from 'encoding/hex.ts';
 
 import {
   uploadDir,
@@ -89,10 +88,10 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   let fileName001: string = fileName;
 
   const isForcedWrite: string = ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim()
-  .toLowerCase();
+    .toLowerCase();
 
-  const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', file.stream() ),
-    sri: string = toHashString( hash, 'hex' );
+  const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', await ( file as Blob ).arrayBuffer() ),
+    sri: string = encodeHex( hash );
 
   let isWriteFile: boolean = true;
 

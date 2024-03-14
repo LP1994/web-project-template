@@ -44,9 +44,8 @@ import {
 } from 'deno_streams/writable_stream_from_writer.ts';
 
 import {
-  crypto,
-  toHashString,
-} from 'deno_crypto';
+  encodeHex,
+} from 'encoding/hex.ts';
 
 import {
   uploadDir,
@@ -110,8 +109,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         fileName001 = `Big_File`;
       }
 
-      const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', ( request.clone().body as ReadableStream ) ),
-        sri: string = toHashString( hash, 'hex' );
+      const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', await request.clone().arrayBuffer() ),
+        sri: string = encodeHex( hash );
 
       let fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`;
 
