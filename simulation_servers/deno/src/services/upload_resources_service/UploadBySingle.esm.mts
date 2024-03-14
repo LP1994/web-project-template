@@ -43,7 +43,7 @@
 
 import {
   writableStreamFromWriter,
-} from 'deno_streams/writable_stream_from_writer.ts';
+} from 'deno_std_streams/writable_stream_from_writer.ts';
 
 import {
   httpResponseHeaders,

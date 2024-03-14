@@ -27,7 +27,7 @@
 
 'use strict';
 
-import 'DenoX/corejs/index.js';
+import 'deno_x_corejs';
 
 import {
   MyConsole,

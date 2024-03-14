@@ -1,4 +1,82 @@
 {
+  "tasks": {
+    "start": "deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m"
+  },
+  "nodeModulesDir": false,
+  "importMap": "./import_map.json",
+  "lock": "./deno.lock",
+  "unstable": [
+    "webgpu",
+    "broadcast-channel",
+    "worker-options",
+    "cron",
+    "kv",
+    "ffi",
+    "fs",
+    "net",
+    "http",
+    "temporal"
+  ],
+  "exclude": [
+    "ts_declare_lib",
+    "src/custom_declare_types"
+  ],
+  "imports": {
+    "/": "./",
+    "./": "./",
+
+    "deno_std/": "https://deno.land/std/",
+    "deno_std_encoding/": "https://deno.land/std/encoding/",
+    "deno_std_media_types": "https://deno.land/std/media_types/mod.ts",
+    "deno_std_path": "https://deno.land/std/path/mod.ts",
+    "deno_std_streams/": "https://deno.land/std/streams/",
+
+    "deno_x/": "https://deno.land/x/",
+    "deno_x_corejs": "https://deno.land/x/corejs/index.js",
+    "deno_x_ejs": "https://deno.land/x/dejs/mod.ts",
+    "deno_x_mongo": "https://deno.land/x/mongo/mod.ts",
+
+    "esm_sh/": "https://esm.sh/",
+    "esm_sh_graphql": "https://esm.sh/graphql",
+
+    "preact/": "https://cdn.skypack.dev/preact/",
+    "preact_jsx-runtime": "https://cdn.skypack.dev/preact/jsx-runtime?dts",
+    "preact_jsx-dev-runtime": "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts",
+
+    "deno_src/": "./src/",
+    "configures/": "./src/configures/",
+    "route_map_config/": "./src/configures/route_map_config/",
+    "database/": "./src/database/",
+    "deno_db/": "./src/database/deno_db/",
+    "firebase/": "./src/database/firebase/",
+    "graphql/": "./src/database/graphql/",
+    "mongo/": "./src/database/mongo/",
+    "mysql/": "./src/database/mysql/",
+    "postgres/": "./src/database/postgres/",
+    "sqlite/": "./src/database/sqlite/",
+    "supabase/": "./src/database/supabase/",
+    "public/": "./src/public/",
+    "routers/": "./src/routers/",
+    "servers/": "./src/servers/",
+    "services/": "./src/services/",
+    "ssr/": "./src/ssr/",
+    "template/": "./src/template/",
+    "ejs/": "./src/template/ejs/",
+    "handlebars/": "./src/template/handlebars/",
+    "html/": "./src/template/html/",
+    "markdown/": "./src/template/markdown/",
+    "mustache/": "./src/template/mustache/",
+    "pug_jade/": "./src/template/pug_jade/",
+    "tools/": "./src/tools/",
+    "third_party_modules/": "./src/tools/third_party_modules/",
+    "universal_tool_for_deno/": "./src/tools/universal_tool_for_deno/",
+    "static/": "./static/",
+    "test/": "./test/",
+    "upload/": "./upload/",
+    "web/": "./web/",
+
+    "GSD2TSTD": "./src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
+  },
   "compilerOptions": {
     "allowJs": true,
     "checkJs": false,
@@ -115,24 +193,5 @@
       "esnext.object",
       "esnext.promise"
     ]
-  },
-  "tasks": {
-    "start": "deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m"
-  },
-  "exclude": [],
-  "nodeModulesDir": false,
-  "unstable": [
-    "webgpu",
-    "broadcast-channel",
-    "worker-options",
-    "cron",
-    "kv",
-    "ffi",
-    "fs",
-    "net",
-    "http",
-    "temporal"
-  ],
-  "importMap": "./import_map.json",
-  "lock": "./deno.lock"
+  }
 }

@@ -15,11 +15,11 @@
 
 import {
   extension,
-} from 'media_types';
+} from 'deno_std_media_types';
 
 import {
   encodeHex,
-} from 'encoding/hex.ts';
+} from 'deno_std_encoding/hex.ts';
 
 import {
   uploadDir,

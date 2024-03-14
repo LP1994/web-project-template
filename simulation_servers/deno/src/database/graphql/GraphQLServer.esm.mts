@@ -27,7 +27,7 @@ import {
   type HandlerOptions,
 
   createHandler,
-} from 'esmSH/graphql-http/lib/use/fetch';
+} from 'esm_sh/graphql-http/lib/use/fetch';
 
 import {
   type TypeResponse001,

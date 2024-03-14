@@ -34,7 +34,7 @@
 /*
  import {
  parse,
- } from 'DenoStd/path/mod.ts';
+ } from 'deno_std_path';
  */
 
 import {

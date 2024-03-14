@@ -17,7 +17,7 @@ import {
   type DocumentNode,
 
   parse,
-} from 'esmSH/graphql';
+} from 'esm_sh_graphql';
 
 import {
   // Deno自己有一个名为media_types的API功能跟它一样。

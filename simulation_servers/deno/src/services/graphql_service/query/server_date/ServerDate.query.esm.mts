@@ -11,7 +11,7 @@
 
 import {
   type DocumentNode,
-} from 'esmSH/graphql';
+} from 'esm_sh_graphql';
 
 import {
   GraphqlParseByFilePath,

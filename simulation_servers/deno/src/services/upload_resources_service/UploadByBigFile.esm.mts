@@ -37,15 +37,15 @@
 
 import {
   extensionsByType,
-} from 'media_types';
+} from 'deno_std_media_types';
 
 import {
   writableStreamFromWriter,
-} from 'deno_streams/writable_stream_from_writer.ts';
+} from 'deno_std_streams/writable_stream_from_writer.ts';
 
 import {
   encodeHex,
-} from 'encoding/hex.ts';
+} from 'deno_std_encoding/hex.ts';
 
 import {
   uploadDir,

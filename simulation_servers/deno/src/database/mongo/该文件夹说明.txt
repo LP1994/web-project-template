@@ -62,7 +62,7 @@ await client.connect(
 例子002：
 import {
   MongoClient,
-} from 'DenoX/mongo@v0.29.3/mod.ts';
+} from 'deno_x/mongo@v0.29.3/mod.ts';
 
   const client = new MongoClient();
 

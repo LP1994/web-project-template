@@ -79,20 +79,20 @@ import {
 
   buildSchema,
   print,
-} from 'esmSH/graphql';
+} from 'esm_sh_graphql';
 
 import {
   type HandlerOptions,
-} from 'esmSH/graphql-http/lib/use/fetch';
+} from 'esm_sh/graphql-http/lib/use/fetch';
 
 import {
   mergeTypeDefs,
   mergeResolvers,
-} from 'esmSH/@graphql-tools/merge';
+} from 'esm_sh/@graphql-tools/merge';
 
 import {
   type IResolvers,
-} from 'esmSH/@graphql-tools/utils';
+} from 'esm_sh/@graphql-tools/utils';
 
 import {
   type TypeResponse001,

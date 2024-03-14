@@ -13,7 +13,7 @@
 
 'use strict';
 
-import * as dejs from 'deno_ejs';
+import * as dejs from 'deno_x_ejs';
 
 // Deno自己有一个名为media_types的API功能跟它一样。
 import * as mimetypes from 'tools/third_party_modules/mimetypes@1.0.0.ts'
