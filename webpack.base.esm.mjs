@@ -3422,10 +3422,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
                  * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本。<br />
                  * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/tc39/proposal-decorators。<br />
-                 * 7、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
-                 * 8、Babel 8仅支持'2023-05'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-05'。<br />
+                 * 7、'2023-11'：是在2023年11月TC30会议上达成共识的更新后的提案版本，其中纳入了这一变更，见：https://github.com/pzuraq/ecma262/pull/12。<br />
+                 * 8、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
+                 * 9、Babel 8仅支持'2023-05'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-05'。<br />
                  */
-                version: '2023-05',
+                version: '2023-11',
                 /**
                  * 添加此选项是为了帮助tc39通过允许对两种可能的语法进行试验来收集来自社区的反馈。<br />
                  * 1、当上面的version选项值为"legacy"时，该选项被禁用，也就是说该选项不能设置。<br />
