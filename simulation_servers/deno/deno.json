@@ -17,10 +17,7 @@
     "http",
     "temporal"
   ],
-  "exclude": [
-    "ts_declare_lib",
-    "src/custom_declare_types"
-  ],
+  "exclude": [],
   "imports": {
     "/": "./",
     "./": "./",
@@ -75,7 +72,7 @@
     "upload/": "./upload/",
     "web/": "./web/",
 
-    "GSD2TSTD": "./src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
+    "GSD2TSTD/": "./src/graphql_schema_definition_to_ts_type_definition/"
   },
   "compilerOptions": {
     "allowJs": true,
