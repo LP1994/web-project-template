@@ -19,7 +19,7 @@
  */
 
 // CSS modules
-type CSSModuleClasses = {
+type T_CSSModuleClasses = {
   readonly [ key: string ]: string;
 };
 
@@ -32,7 +32,7 @@ interface Object001 {
 }
 
 declare module '*.module.postcss' {
-  const classes: CSSModuleClasses;
+  const classes: T_CSSModuleClasses;
 
   export default classes;
 }
@@ -49,15 +49,11 @@ declare module '*.postcss' {
 declare module '*.cson' {
   const module: Object001;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.csv' {
   const module: Object001;
-
-  export = module;
 
   export default module;
 }
@@ -65,19 +61,15 @@ declare module '*.csv' {
 declare module '*.tsv' {
   const module: Object001;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.ejs' {
   import {
-    type TemplateFunction,
+    type TemplateFunction as T_TemplateFunction,
   } from '@types/ejs';
 
-  const module: TemplateFunction;
-
-  export = module;
+  const module: T_TemplateFunction;
 
   export default module;
 }
@@ -132,36 +124,30 @@ declare module '*.woff2' {
 
 declare module '*.graphql' {
   import {
-    type DocumentNode,
+    type DocumentNode as T_DocumentNode,
   } from 'graphql';
 
-  const module: DocumentNode;
-
-  export = module;
+  const module: T_DocumentNode;
 
   export default module;
 }
 
 declare module '*.graphqls' {
   import {
-    type DocumentNode,
+    type DocumentNode as T_DocumentNode,
   } from 'graphql';
 
-  const module: DocumentNode;
-
-  export = module;
+  const module: T_DocumentNode;
 
   export default module;
 }
 
 declare module '*.gql' {
   import {
-    type DocumentNode,
+    type DocumentNode as T_DocumentNode,
   } from 'graphql';
 
-  const module: DocumentNode;
-
-  export = module;
+  const module: T_DocumentNode;
 
   export default module;
 }
@@ -169,15 +155,11 @@ declare module '*.gql' {
 declare module '*.handlebars' {
   const module: ( data: Object001 ) => string;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.hbs' {
   const module: ( data: Object001 ) => string;
-
-  export = module;
 
   export default module;
 }
@@ -203,15 +185,11 @@ declare module '*.xhtml' {
 declare module '*.json5' {
   const module: Object001;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.toml' {
   const module: Object001;
-
-  export = module;
 
   export default module;
 }
@@ -249,15 +227,11 @@ declare module '*.md' {
 declare module '*.mustache' {
   const module: ( data: Object001 ) => string;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.pug' {
   const module: ( data: Object001 ) => string;
-
-  export = module;
 
   export default module;
 }
@@ -265,15 +239,11 @@ declare module '*.pug' {
 declare module '*.jade' {
   const module: ( data: Object001 ) => string;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.wasm' {
   const module: WASMObject;
-
-  export = module;
 
   export default module;
 }
@@ -281,23 +251,17 @@ declare module '*.wasm' {
 declare module '*.xml' {
   const module: Object001;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.yaml' {
   const module: Object001;
 
-  export = module;
-
   export default module;
 }
 
 declare module '*.yml' {
   const module: Object001;
-
-  export = module;
 
   export default module;
 }

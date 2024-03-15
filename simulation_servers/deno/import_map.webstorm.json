@@ -1,7 +1,5 @@
 {
   "imports": {
-    "/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\",
-
     "deno_std/": "https://deno.land/std/",
     "deno_std_encoding/": "https://deno.land/std/encoding/",
     "deno_std_media_types": "https://deno.land/std/media_types/mod.ts",
