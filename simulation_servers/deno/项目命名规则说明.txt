@@ -30,4 +30,5 @@ Index
 7、HTML标签上的自定义属性(HTML对大小写是不敏感的！)
 以“data-”开始，后面的字母全小写，每个字母之间用短横线分割( data-red-box )；
 
-8、TypeScript中自定义的类型别名的命名，以“Type”开头，如：type T_MyString = string;
+8、TypeScript中自定义的类型别名的命名，以“T_”开头，如：type T_MyString = string;
+接口“interface”类型的，以“I_”开头，如：interface I_MyObj = {};
