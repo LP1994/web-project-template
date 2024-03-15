@@ -68,12 +68,12 @@ enum LogLevel {
 
 /**
  * 等同于：
- * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ * type T_LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
  */
-type LogLevelStrings = keyof typeof LogLevel;
+type T_LogLevelStrings = keyof typeof LogLevel;
 注意这时“keyof typeof LogLevel”中的“keyof typeof”是一个整体。
 
-function printImportant(key: LogLevelStrings, message: string) {
+function printImportant(key: T_LogLevelStrings, message: string) {
     const num = LogLevel[key];
     if (num <= LogLevel.WARN) {
        console.log('Log level key is: ', key);
@@ -149,7 +149,7 @@ interface Point {
   readonly y: number;
 }
 如同：
-type Point = {
+type T_Point = {
   readonly x: number;
   readonly y: number;
 };
@@ -382,9 +382,9 @@ console.log( Fun001( 111 ) );
 二十一、字面量类型
 目前 TypeScript 中有3种可用的字面量类型集合，分别是：字符串、数字和布尔值。通过使用字面量类型，你可以规定一个字符串、数字或布尔值必须含有确定的值。
 用明确的字面量值作为类型，可以明确限定变量的值只能满足提供的字面量类型才能通过。
-type Easing = "ease-in" | "ease-out" | "ease-in-out";
+type T_Easing = "ease-in" | "ease-out" | "ease-in-out";
 
-function Fun001( easing: Easing ){}
+function Fun001( easing: T_Easing ){}
 
 
 
@@ -752,31 +752,31 @@ console.log( Fun001( undefined ) );
 起别名不会新建一个类型 - 它创建了一个新_名字_来引用那个类型。 给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。
 
 同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：
-type Container<T> = { value: T };
+type T_Container<T> = { value: T };
 
 我们也可以使用类型别名来在属性里引用自己：
-type Tree<T> = {
+type T_Tree<T> = {
     value: T;
-    left: Tree<T>;
-    right: Tree<T>;
+    left: T_Tree<T>;
+    right: T_Tree<T>;
 }
 // 这个例子只是用来说明“类型别名的泛型定义”可以自己使用自己，但是显然上面的类型在具体使用中会出现死循环。
 
 与交叉类型一起使用，我们可以创建出一些十分稀奇古怪的类型：
-type LinkedList<T> = T & { next: LinkedList<T> };
+type T_LinkedList<T> = T & { next: T_LinkedList<T> };
 
 interface Person {
     name: string;
 }
 
-var people: LinkedList<Person>;
+var people: T_LinkedList<Person>;
 var s = people.name;
 var s = people.next.name;
 var s = people.next.next.name;
 var s = people.next.next.next.name;
 
 然而，类型别名不能出现在声明右侧的任何地方，“类型别名的泛型”除外，就如上面的例子：
-type Yikes = Array<Yikes>; // error
+type T_Yikes = Array<T_Yikes>; // error
 实际写了也运行了一下，没报错。
 
 
@@ -784,7 +784,7 @@ type Yikes = Array<Yikes>; // error
 四十四、接口 vs. 类型别名
 其一，接口创建了一个新的名字，可以在其它任何地方使用。 类型别名并不创建新名字—比如，错误信息就不会使用别名。
 在旧版本的TypeScript里，“类型别名”不能被继承和实现（它们也不能继承和实现其它类型）。
-从TypeScript 2.7开始，“类型别名”可以被继承并生成新的交叉类型。例如：type Cat = Animal & { purrs: true }。
+从TypeScript 2.7开始，“类型别名”可以被继承并生成新的交叉类型。例如：type T_Cat = Animal & { purrs: true }。
 另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。
 因为软件中的对象应该对于扩展是开放的，但是对于修改是封闭的，你应该尽量去使用接口代替类型别名。
 个人见解：当用“函数式编程范式”配合TypeScript编写时，“类型别名”的使用应优先于“接口”，毕竟，“接口”在“范式”上更符合“面向对象编程范式”，
@@ -860,9 +860,9 @@ enum LogLevel {
 }
 /**
  * 等同于：
- * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ * type T_LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
  */
-type LogLevelStrings = keyof typeof LogLevel;
+type T_LogLevelStrings = keyof typeof LogLevel;
 
 例子002：
 enum Sex {
@@ -913,15 +913,15 @@ interface Person {
     name: string;
     age: number;
 }
-type ReadonlyPerson = Readonly<Person>;
-type PartialPerson = Partial<Person>;
-新建的类型别名“ReadonlyPerson”的类型就是接口“Person”的属性只读版本，等同于：
-type ReadonlyPerson = {
+type T_ReadonlyPerson = Readonly<Person>;
+type T_PartialPerson = Partial<Person>;
+新建的类型别名“T_ReadonlyPerson”的类型就是接口“Person”的属性只读版本，等同于：
+type T_ReadonlyPerson = {
     readonly name: string;
     readonly age: number;
 }
-新建的类型别名“PartialPerson”的类型就是接口“Person”的属性可选版本，等同于：
-type PartialPerson = {
+新建的类型别名“T_PartialPerson”的类型就是接口“Person”的属性可选版本，等同于：
+type T_PartialPerson = {
     name?: string;
     age?: number;
 }
@@ -929,20 +929,20 @@ type PartialPerson = {
 需要注意的是“映射类型”这个语法描述的是类型而非成员。
 若想添加成员，则可以使用交叉类型：
 // 这样使用
-type PartialWithNewMember<T> = {
+type T_PartialWithNewMember<T> = {
   [P in keyof T]?: T[P];
 } & { newMember: boolean }
 // 不要这样使用。这会报错！
-type PartialWithNewMember<T> = {
+type T_PartialWithNewMember<T> = {
   [P in keyof T]?: T[P];
   newMember: boolean;
 }
 
 例子002：
-type Keys = 'option1' | 'option2';
-type Flags = { [K in Keys]: boolean };
+type T_Keys = 'option1' | 'option2';
+type T_Flags = { [K in Keys]: boolean };
 等同
-type Flags = {
+type T_Flags = {
     option1: boolean;
     option2: boolean;
 }
@@ -969,7 +969,7 @@ type Record<K extends keyof any, T> = {
 }
 Readonly，Partial和Pick是同态的。
 但Record不是，因为Record并不需要输入类型来拷贝属性，所以它不属于同态：
-type ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
+type T_ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
 “非同态类型”本质上会创建新的属性，因此它们不会从他处拷贝属性修饰符，比如：“readonly”只读修饰符等等。
 “同态类型”会从他处拷贝属性修饰符，比如：“readonly”只读修饰符等等。
 
