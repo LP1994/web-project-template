@@ -53,9 +53,9 @@ const schema = new Schema({
   avatar: String
 });
 
-type User = InferSchemaType<typeof schema>;
+type T_User = InferSchemaType<typeof schema>;
 // InferSchemaType will determine the type as follows:
-// type User = {
+// type T_User = {
 //   name: string;
 //   email: string;
 //   avatar?: string;
@@ -232,7 +232,7 @@ Model<IKitty, IKittyQueryHelpers, IKittyMethods> & IKittyModel;
 
 
 9、QueryWithHelpers泛型参数说明
-type QueryWithHelpers<
+type T_QueryWithHelpers<
 // 通常是指通过“Model对象.find()”返回的结果类型，通常是数组类型，其成员类型通常也是指“Model对象”new出来的“实例对象”的类型
 ResultType,
 
