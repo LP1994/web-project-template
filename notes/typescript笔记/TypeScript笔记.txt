@@ -144,7 +144,7 @@ for...of也不能给迭代变量设置类型！
 
 
 五、用type来声明一个自定义类型时，也可以像interface那样在声明体内使用readonly来描述一个属性是只读的，也就是在初始化赋值后，不能再修改了。
-interface Point {
+interface I_Point {
   readonly x: number;
   readonly y: number;
 }
@@ -161,11 +161,11 @@ type T_Point = {
 
 
 七、可索引的类型
-interface StringArray {
+interface I_StringArray {
   [index: number]: string;
 }
 
-let myArray: StringArray;
+let myArray: I_StringArray;
 myArray = ["Bob", "Fred"];
 
 let myStr: string = myArray[0];
@@ -181,7 +181,7 @@ class Dog extends Animal {
 }
 
 // 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
-interface NotOkay {
+interface I_NotOkay {
   [x: number]: Animal;
   [x: string]: Dog;
 }
@@ -189,24 +189,24 @@ interface NotOkay {
 字符串索引签名能够很好的描述“字典”模式，并且它们也会确保所有属性与其返回值类型相匹配。
 因为字符串索引声明了obj.property和obj["property"]两种形式都可以。
 下面的例子里，name的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
-interface NumberDictionary {
+interface I_NumberDictionary {
   [index: string]: number;
   length: number; // 可以，length是number类型
   name: string; // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
 
 但如果索引签名是包含属性类型的联合类型，那么使用不同类型的属性就是允许的。
-interface NumberOrStringDictionary {
+interface I_NumberOrStringDictionary {
    [index: string]: number | string;
    length: number;    // ok, length is a number
    name: string;      // ok, name is a string
 }
 
 最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：
-interface ReadonlyStringArray {
+interface I_ReadonlyStringArray {
   readonly [index: number]: string;
 }
-let myArray: ReadonlyStringArray = ["Alice", "Bob"];
+let myArray: I_ReadonlyStringArray = ["Alice", "Bob"];
 myArray[2] = "Mallory"; // error!
 你不能设置myArray[2]，因为索引签名是只读的。
 
@@ -216,12 +216,12 @@ myArray[2] = "Mallory"; // error!
 与 C# 或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的“强制”一个类去符合某种契约。
 也就是说当一个“类”实现（implements）了“某个接口”时，该类必须部署实现的接口里所有的成员。
 接口的声明中不能使用“访问修饰符”、“static”关键字、“abstract”关键字、“override”关键字，但是“readonly”关键字可以用于修饰接口里的各个成员。
-interface ClockInterface {
+interface I_ClockInterface {
   currentTime: Date;
   setTime(d: Date): void;
 }
 
-class Clock implements ClockInterface {
+class Clock implements I_ClockInterface {
   currentTime: Date = new Date();
   setTime(d: Date) {
     this.currentTime = d;
@@ -238,11 +238,11 @@ PS：
 
 九、类静态部分与实例部分的区别
 当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
-interface ClockConstructor {
+interface I_ClockConstructor {
   new( hour: number, minute: number ): any;
 }
 class Clock
-  implements ClockConstructor {
+  implements I_ClockConstructor {
   constructor( public h: number, public m: number ){
     this.h = h;
     this.m = m;
@@ -258,14 +258,14 @@ class Clock
 
 十、使用interface检查“类的构造函数”定义是否满足interface定义的类型
 推荐使用“类表达式”来声明类：
-interface ClockConstructor {
+interface I_ClockConstructor {
   new( hour: number, minute: number ): void;
 }
-interface ClockInterface {
+interface I_ClockInterface {
   tick(): void;
 }
-const Clock: ClockConstructor = class Clock
-  implements ClockInterface {
+const Clock: I_ClockConstructor = class Clock
+  implements I_ClockInterface {
   constructor( public h: number, public m: number ){
     this.h = h;
     this.m = m;
@@ -279,11 +279,11 @@ console.dir( new Clock( 1, 2 ) );
 
 
 十一、和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
-interface Shape {
+interface I_Shape {
   color: string;
 }
 
-interface Square extends Shape {
+interface I_Square extends I_Shape {
   sideLength: number;
 }
 
@@ -294,15 +294,15 @@ square.sideLength = 10;
 
 
 十二、一个接口可以继承多个接口，创建出多个接口的合成接口。
-interface Shape {
+interface I_Shape {
   color: string;
 }
 
-interface PenStroke {
+interface I_PenStroke {
   penWidth: number;
 }
 
-interface Square extends Shape, PenStroke {
+interface I_Square extends I_Shape, I_PenStroke {
   sideLength: number;
 }
 
@@ -315,11 +315,11 @@ square.penWidth = 5.0;
 
 十三、用interface定义一个类的构造函数的描述、用interface定义一个函数的描述
 类的构造函数的描述：
-interface ClockConstructor {
+interface I_ClockConstructor {
   new (hour: number, minute: number);
 }
 函数的描述：
-interface Counter {
+interface I_Counter {
   (start: number): string;
 }
 
@@ -517,23 +517,23 @@ function identity<T>(arg: T): T {
 }
 let myIdentity: {<T>(arg: T): T} = identity;
 这引导我们去写第一个泛型接口了。 我们把上面例子里的对象字面量拿出来做为一个接口：
-interface GenericIdentityFn {
+interface I_GenericIdentityFn {
     <T>(arg: T): T;
 }
 function identity<T>(arg: T): T {
     return arg;
 }
-let myIdentity: GenericIdentityFn = identity;
+let myIdentity: I_GenericIdentityFn = identity;
 一个相似的例子，我们可能想把泛型参数当作整个接口的一个参数。
 这样我们就能清楚的知道使用的具体是哪个泛型类型（比如：Dictionary<string>而不只是Dictionary）。
 这样接口里的其它成员也能知道这个参数的类型了。
-interface GenericIdentityFn<T> {
+interface I_GenericIdentityFn<T> {
     (arg: T): T;
 }
 function identity<T>(arg: T): T {
     return arg;
 }
-let myIdentity: GenericIdentityFn<number> = identity;
+let myIdentity: I_GenericIdentityFn<number> = identity;
 当我们使用GenericIdentityFn的时候，还得传入一个类型参数来指定泛型类型（这里是：number），锁定了之后代码里使用的类型。
 也就是说以后使用“myIdentity”时，只能使用“number”类型了。
 
@@ -543,11 +543,11 @@ let myIdentity: GenericIdentityFn<number> = identity;
 
 三十七、泛型接口的定义
 推荐使用这种方式来创建泛型接口：
-interface GenericIdentityFn<T> {
+interface I_GenericIdentityFn<T> {
     (arg: T): T;
 }
 这样在使用这个泛型接口时，就必须指定明确的泛型参数，这里就是指“number”了：
-let myIdentity: GenericIdentityFn<number> = identity;
+let myIdentity: I_GenericIdentityFn<number> = identity;
 
 
 
@@ -568,11 +568,11 @@ myGenericNumber.add = function(x, y) { return x + y; };
 
 三十九、泛型约束
 定义一个接口来描述约束条件。 创建一个包含.length属性的接口，使用这个接口和extends关键字来实现约束：
-interface Lengthwise {
+interface I_Lengthwise {
     length: number;
 }
 
-function loggingIdentity<T extends Lengthwise>(arg: T): T {
+function loggingIdentity<T extends I_Lengthwise>(arg: T): T {
     console.log(arg.length);  // 现在我们知道它有一个.length属性，所以不再有错误
     return arg;
 }
@@ -664,18 +664,18 @@ instanceof类型守卫：
 instanceof的右侧要求是一个构造函数，TypeScript将细化为：
 1、此构造函数的prototype属性的类型，如果它的类型不为any的话
 2、构造签名所返回的类型的联合
-interface Padder {
+interface I_Padder {
     getPaddingString(): string
 }
 
-class SpaceRepeatingPadder implements Padder {
+class SpaceRepeatingPadder implements I_Padder {
     constructor(private numSpaces: number) { }
     getPaddingString() {
         return Array(this.numSpaces + 1).join(" ");
     }
 }
 
-class StringPadder implements Padder {
+class StringPadder implements I_Padder {
     constructor(private value: string) { }
     getPaddingString() {
         return this.value;
@@ -689,7 +689,7 @@ function getRandomPadder() {
 }
 
 // 类型为SpaceRepeatingPadder | StringPadder
-let padder: Padder = getRandomPadder();
+let padder: I_Padder = getRandomPadder();
 
 if (padder instanceof SpaceRepeatingPadder) {
     padder; // 类型细化为'SpaceRepeatingPadder'
@@ -765,11 +765,11 @@ type T_Tree<T> = {
 与交叉类型一起使用，我们可以创建出一些十分稀奇古怪的类型：
 type T_LinkedList<T> = T & { next: T_LinkedList<T> };
 
-interface Person {
+interface I_Person {
     name: string;
 }
 
-var people: T_LinkedList<Person>;
+var people: T_LinkedList<I_Person>;
 var s = people.name;
 var s = people.next.name;
 var s = people.next.next.name;
@@ -799,12 +799,12 @@ function pluck<T, K extends keyof T>(o: T, propertyNames: K[]): T[K][] {
   return propertyNames.map(n => o[n]);
 }
 
-interface Car {
+interface I_Car {
     manufacturer: string;
     model: string;
     year: number;
 }
-let taxi: Car = {
+let taxi: I_Car = {
     manufacturer: 'Toyota',
     model: 'Camry',
     year: 2014
@@ -835,19 +835,19 @@ function getProperty<T, K extends keyof T>(o: T, propertyName: K): T[K] {
 如果你有一个带有字符串索引签名的类型，那么keyof T会是string | number。
 并非只有string，因为在JavaScript里，你可以使用字符串object['42'或 数字object[42]索引来访问对象属性。
 并且T[string]为索引签名的类型：
-interface Dictionary<T> {
+interface I_Dictionary<T> {
     [key: string]: T;
 }
-let keys: keyof Dictionary<number>; // string | number
-let value: Dictionary<number>['foo']; // number
+let keys: keyof I_Dictionary<number>; // string | number
+let value: I_Dictionary<number>['foo']; // number
 
 如果一个类型带有数字索引签名，那么keyof T为number。
-interface Dictionary<T> {
+interface I_Dictionary<T> {
     [key: number]: T;
 }
-let keys: keyof Dictionary<number>; // number
-let value: Dictionary<number>['foo']; // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
-let value: Dictionary<number>[42]; // number
+let keys: keyof I_Dictionary<number>; // number
+let value: I_Dictionary<number>['foo']; // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
+let value: I_Dictionary<number>[42]; // number
 
 
 
@@ -875,26 +875,26 @@ let sex: keyof typeof Sex = '男';
 “keyof T”：
 任何类型T，keyof T的结果为T上已知的公共属性名的联合。
 例子001：
-interface Car {
+interface I_Car {
     manufacturer: string;
     model: string;
     year: number;
 }
 
-let carProps: keyof Car; // 等同于 let carProps: 'manufacturer' | 'model' | 'year';
+let carProps: keyof I_Car; // 等同于 let carProps: 'manufacturer' | 'model' | 'year';
 keyof Car是完全可以与'manufacturer' | 'model' | 'year'互相替换的。
 
 例子002：
-interface QQQ {
+interface I_QQQ {
   name: string;
 
   age: number;
 
   sex: Sex;
 }
-let sex: keyof QQQ = 'name';
-// let sex: keyof QQQ = 'age';
-// let sex: keyof QQQ = 'sex';
+let sex: keyof I_QQQ = 'name';
+// let sex: keyof I_QQQ = 'age';
+// let sex: keyof I_QQQ = 'sex';
 
 
 
@@ -909,18 +909,18 @@ type Partial<T> = {
 }
 
 例子001：
-interface Person {
+interface I_Person {
     name: string;
     age: number;
 }
-type T_ReadonlyPerson = Readonly<Person>;
-type T_PartialPerson = Partial<Person>;
-新建的类型别名“T_ReadonlyPerson”的类型就是接口“Person”的属性只读版本，等同于：
+type T_ReadonlyPerson = Readonly<I_Person>;
+type T_PartialPerson = Partial<I_Person>;
+新建的类型别名“T_ReadonlyPerson”的类型就是接口“I_Person”的属性只读版本，等同于：
 type T_ReadonlyPerson = {
     readonly name: string;
     readonly age: number;
 }
-新建的类型别名“T_PartialPerson”的类型就是接口“Person”的属性可选版本，等同于：
+新建的类型别名“T_PartialPerson”的类型就是接口“I_Person”的属性可选版本，等同于：
 type T_PartialPerson = {
     name?: string;
     age?: number;
@@ -980,14 +980,14 @@ extends在这里表示“extends”关键字的左边是否是右边的子集、
 type Pick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
-interface Pick001 {
+interface I_Pick001 {
   name: string;
 
   age: number;
 
   sex: string;
 }
-let pickDemo001: Pick<Pick001, 'name' | 'age' | 'sex'> = {
+let pickDemo001: Pick<I_Pick001, 'name' | 'age' | 'sex'> = {
   name: `LP`,
   age: 11,
   sex: '男',
@@ -1016,12 +1016,12 @@ T extends U ? X : Y
 上面的类型意思是，若T能够赋值给U，那么类型是X，否则为Y。
 
 下面是一个有条件类型被推迟解析的例子:
-interface Foo {
+interface I_Foo {
     propA: boolean;
     propB: boolean;
 }
 
-declare function f<T>(x: T): T extends Foo ? string : number;
+declare function f<T>(x: T): T extends I_Foo ? string : number;
 
 function foo<U>(x: U) {
     // Has type 'U extends Foo ? string : number'

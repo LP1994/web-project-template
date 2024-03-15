@@ -23,11 +23,11 @@ type T_CSSModuleClasses = {
   readonly [ key: string ]: string;
 };
 
-interface WASMObject {
+interface I_WASMObject {
   readonly [ key: string ]: any;
 }
 
-interface Object001 {
+interface I_Object001 {
   readonly [ key: string ]: any;
 }
 
@@ -47,19 +47,19 @@ declare module '*.postcss' {
 }
 
 declare module '*.cson' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
 
 declare module '*.csv' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
 
 declare module '*.tsv' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
@@ -153,13 +153,13 @@ declare module '*.gql' {
 }
 
 declare module '*.handlebars' {
-  const module: ( data: Object001 ) => string;
+  const module: ( data: I_Object001 ) => string;
 
   export default module;
 }
 
 declare module '*.hbs' {
-  const module: ( data: Object001 ) => string;
+  const module: ( data: I_Object001 ) => string;
 
   export default module;
 }
@@ -183,13 +183,13 @@ declare module '*.xhtml' {
 }
 
 declare module '*.json5' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
 
 declare module '*.toml' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
@@ -225,49 +225,49 @@ declare module '*.md' {
 }
 
 declare module '*.mustache' {
-  const module: ( data: Object001 ) => string;
+  const module: ( data: I_Object001 ) => string;
 
   export default module;
 }
 
 declare module '*.pug' {
-  const module: ( data: Object001 ) => string;
+  const module: ( data: I_Object001 ) => string;
 
   export default module;
 }
 
 declare module '*.jade' {
-  const module: ( data: Object001 ) => string;
+  const module: ( data: I_Object001 ) => string;
 
   export default module;
 }
 
 declare module '*.wasm' {
-  const module: WASMObject;
+  const module: I_WASMObject;
 
   export default module;
 }
 
 declare module '*.xml' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
 
 declare module '*.yaml' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
 
 declare module '*.yml' {
-  const module: Object001;
+  const module: I_Object001;
 
   export default module;
 }
 
 declare module '*?worker' {
-  interface IOptions {
+  interface I_Options {
     type?: 'classic' | 'module';
 
     credentials?: 'omit' | 'same-origin' | 'include';
@@ -276,14 +276,14 @@ declare module '*?worker' {
   }
 
   const workerConstructor: {
-    new( options?: IOptions ): Worker
+    new( options?: I_Options ): Worker
   };
 
   export default workerConstructor;
 }
 
 declare module '*?worker&inline' {
-  interface IOptions {
+  interface I_Options {
     type?: 'classic' | 'module';
 
     credentials?: 'omit' | 'same-origin' | 'include';
@@ -292,14 +292,14 @@ declare module '*?worker&inline' {
   }
 
   const workerConstructor: {
-    new( options?: IOptions ): Worker
+    new( options?: I_Options ): Worker
   };
 
   export default workerConstructor;
 }
 
 declare module '*?sharedworker' {
-  interface IOptions {
+  interface I_Options {
     type?: 'classic' | 'module';
 
     credentials?: 'omit' | 'same-origin' | 'include';
@@ -308,14 +308,14 @@ declare module '*?sharedworker' {
   }
 
   const sharedWorkerConstructor: {
-    new( options?: IOptions | string ): SharedWorker
+    new( options?: I_Options | string ): SharedWorker
   };
 
   export default sharedWorkerConstructor;
 }
 
 declare module '*?sharedworker&inline' {
-  interface IOptions {
+  interface I_Options {
     type?: 'classic' | 'module';
 
     credentials?: 'omit' | 'same-origin' | 'include';
@@ -324,7 +324,7 @@ declare module '*?sharedworker&inline' {
   }
 
   const sharedWorkerConstructor: {
-    new( options?: IOptions | string ): SharedWorker
+    new( options?: I_Options | string ): SharedWorker
   };
 
   export default sharedWorkerConstructor;
