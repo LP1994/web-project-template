@@ -791,7 +791,7 @@
     "assets-webpack-plugin": "^7.1.1",
     "atob": "^2.1.2",
     "autoprefixer": "^10.4.18",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "babel-check-duplicated-nodes": "^1.0.0",
     "babel-code-frame": "^6.26.0",
     "babel-core": "^7.0.0-bridge.0",
