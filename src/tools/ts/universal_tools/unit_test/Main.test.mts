@@ -21,7 +21,7 @@ import {
 
 import {
   // 支持泛型参数的单例工厂。Start
-  type TypeSingleton,
+  type T_Singleton,
 
   SingletonFactory,
   // 支持泛型参数的单例工厂。End
@@ -88,13 +88,13 @@ if( true ){
     // @ts-expect-error
     myClassA002: MyClassA = new MyClassA();
 
-  const fun001: () => TypeSingleton<MyClassA> = SingletonFactory<MyClassA>( (): MyClassA => myClassA001 );
+  const fun001: () => T_Singleton<MyClassA> = SingletonFactory<MyClassA>( (): MyClassA => myClassA001 );
 
   const {
     singleton,
     // @ts-expect-error
     clear,
-  }: TypeSingleton<MyClassA> = fun001();
+  }: T_Singleton<MyClassA> = fun001();
 
   Test001( 'SingletonFactory', (): void => {
     Equal001( singleton ).toBe( myClassA001 );

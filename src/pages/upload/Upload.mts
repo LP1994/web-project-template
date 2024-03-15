@@ -10,8 +10,8 @@
 'use strict';
 
 import {
-  type ComponentPublicInstance,
-  type App,
+  type ComponentPublicInstance as T_ComponentPublicInstance,
+  type App as T_App,
 
   createApp,
 } from 'vue';
@@ -19,11 +19,11 @@ import {
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
 /**
- * @type {App<Element>} 创建了一个Vue 3的应用实例。
+ * @type {T_App<Element>} 创建了一个Vue 3的应用实例。
  */
-const UploadAPP: App<Element> = createApp( UploadComponentForVue3 );
+const UploadAPP: T_App<Element> = createApp( UploadComponentForVue3 );
 
-UploadAPP.config.errorHandler = ( error: unknown, instance: ComponentPublicInstance | null, info: string ): void => {
+UploadAPP.config.errorHandler = ( error: unknown, instance: T_ComponentPublicInstance | null, info: string ): void => {
   console.log( `\n\n\n` );
   console.error( `error:` );
   console.error( error );
@@ -37,9 +37,9 @@ UploadAPP.config.errorHandler = ( error: unknown, instance: ComponentPublicInsta
 };
 
 /**
- * @type {ComponentPublicInstance} 一个Vue 3的根组件实例。
+ * @type {T_ComponentPublicInstance} 一个Vue 3的根组件实例。
  */
-const RootComponent: ComponentPublicInstance = UploadAPP.mount( '#UploadAPP' );
+const RootComponent: T_ComponentPublicInstance = UploadAPP.mount( '#UploadAPP' );
 
 console.log( `\n\n\n一个Vue 3的根组件实例：` );
 console.dir( RootComponent );

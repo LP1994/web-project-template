@@ -25,7 +25,7 @@
  *
  * 6、编程范式使用“函数式编程”，结合“TypeScript”编写，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
  *
- * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type TypeMyString001 = string。
+ * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type T_MyString001 = string。
  */
 
 /**
@@ -71,11 +71,11 @@
 
 import chalk from 'chalk';
 
-export type TypeMyExpect001 = any;
+export type T_MyExpect001 = any;
 
-export type TypeError001 = {
+export type T_Error001 = {
   // 预期值。
-  expect: TypeMyExpect001;
+  expect: T_MyExpect001;
   // 一个用于描述错误信息的字符串。
   message: string;
   // 实际值。
@@ -89,18 +89,18 @@ export type TypeError001 = {
  *
  * @param {any} result 被测试对象的实际返回值，必需。
  *
- * @returns {{toBe: (expect: (TypeMyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
+ * @returns {{toBe: (expect: (T_MyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */
 export function Equal001( result: any ): {
-  toBe: ( expect: TypeMyExpect001 ) => void;
+  toBe: ( expect: T_MyExpect001 ) => void;
 }{
   return {
     /**
      * toBe函数，它接收一个预期值expect，用于跟实际值对比。
      *
-     * @param {TypeMyExpect001} expect 预期值，必需。
+     * @param {T_MyExpect001} expect 预期值，必需。
      */
-    toBe( expect: TypeMyExpect001 ): void{
+    toBe( expect: T_MyExpect001 ): void{
       if( result !== expect ){
         throw new MyError001( {
           message: '实际值和预期值不全等（使用“!==”比较）！',
@@ -121,9 +121,9 @@ export class MyError001
   extends Error {
 
   /**
-   * @type {TypeMyExpect001} 预期值。
+   * @type {T_MyExpect001} 预期值。
    */
-  public expect: TypeMyExpect001;
+  public expect: T_MyExpect001;
 
   /**
    * @type {any} 实际值。
@@ -135,7 +135,7 @@ export class MyError001
    *
    * @param {object} config 构造函数的初始参数，是一个对象。
    *
-   * @param {TypeMyExpect001} config.expect 预期值，必需。
+   * @param {T_MyExpect001} config.expect 预期值，必需。
    *
    * @param {string} config.message 一个用于描述错误信息的字符串，必需。
    *
@@ -145,7 +145,7 @@ export class MyError001
     expect,
     message,
     result,
-  }: TypeError001 ){
+  }: T_Error001 ){
     super();
 
     this.expect = expect;
@@ -173,7 +173,7 @@ export function Test001( desc: string, fn: () => void ): void{
       expect,
       message,
       result,
-    } = ( error as TypeError001 );
+    } = ( error as T_Error001 );
 
     console.error( chalk.red( `
 ${ desc }，${ message }
