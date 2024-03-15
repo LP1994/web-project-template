@@ -91,17 +91,17 @@ function GraphQLServer( request: Request ): T_Response001{
     /**
      * 这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
      * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
-     * 然后搜索“interface HandlerOptions”即可看到具体的说明。
+     * 然后搜索“interface I_HandlerOptions”即可看到具体的说明。
      */
     {
       schema,
     },
 
     /**
-     * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
+     * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<I_FetchAPI>），它有哪些属性呢？详细见：
      * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
-     * 然后搜索“interface FetchAPI”即可看到具体的说明：
-     * interface FetchAPI {
+     * 然后搜索“interface I_FetchAPI”即可看到具体的说明：
+     * interface I_FetchAPI {
      *   Response: typeof Response;
      *   ReadableStream: typeof ReadableStream;
      *   TextEncoder: typeof TextEncoder;

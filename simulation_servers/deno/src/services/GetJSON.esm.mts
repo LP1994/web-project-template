@@ -44,7 +44,7 @@ import {
   MongoDBConnectForSingleton,
 } from 'mongo/MongoDBConnect.esm.mts';
 
-interface StartupLogCollectionSchema {
+interface I_StartupLogCollectionSchema {
   _id: string;
 
   hostname: string;
@@ -78,9 +78,9 @@ async function Handle(
 
   const mongoDB: T_Database = mongoDBClient.database( 'local' );
 
-  const startupLogCollection: T_Collection<StartupLogCollectionSchema> = mongoDB.collection<StartupLogCollectionSchema>( 'startup_log' );
+  const startupLogCollection: T_Collection<I_StartupLogCollectionSchema> = mongoDB.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
-  const logs: Array<StartupLogCollectionSchema> = await startupLogCollection.find( {
+  const logs: Array<I_StartupLogCollectionSchema> = await startupLogCollection.find( {
     hostname: 'LPQAQ',
   }, {
     projection: {

@@ -676,20 +676,20 @@ async function run(): Promise<void>{
   try{
     client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'test' );
 
-    type T_KittenInstance = T_HydratedDocument<IKitty, IKittyMethods & IKittyVirtuals, IKittyQueryHelpers>;
-    type T_MyQueryWithHelpers = T_QueryWithHelpers<Array<T_KittenInstance>, T_KittenInstance, IKittyQueryHelpers>;
-    type T_KittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, T_KittenInstance> & IKittyModel;
+    type T_KittenInstance = T_HydratedDocument<I_Kitty, I_KittyMethods & I_KittyVirtuals, I_KittyQueryHelpers>;
+    type T_MyQueryWithHelpers = T_QueryWithHelpers<Array<T_KittenInstance>, T_KittenInstance, I_KittyQueryHelpers>;
+    type T_KittenModel = Model<I_Kitty, I_KittyQueryHelpers, I_KittyMethods, I_KittyVirtuals, T_KittenInstance> & I_KittyModel;
 
     // Subdocument definition.
-    interface IInfo {
+    interface I_Info {
       text: string;
     }
 
-    interface IInfoMethods {
+    interface I_InfoMethods {
       getText(): string;
     }
 
-    interface IKitty {
+    interface I_Kitty {
       name: string;
 
       color: string;
@@ -702,17 +702,17 @@ async function run(): Promise<void>{
 
       foot: string;
 
-      info: Types.Subdocument<Types.ObjectId> & IInfo & T_HydratedDocument<IInfo, IInfoMethods>;
+      info: Types.Subdocument<Types.ObjectId> & I_Info & T_HydratedDocument<I_Info, I_InfoMethods>;
     }
 
-    interface IKittyVirtuals {
+    interface I_KittyVirtuals {
       fullName: string;
 
       toFullString: string;
     }
 
-    interface IKittyModel
-      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, T_KittenInstance> {
+    interface I_KittyModel
+      extends Model<I_Kitty, I_KittyQueryHelpers, I_KittyMethods, I_KittyVirtuals, T_KittenInstance> {
       GetTime( kitten: T_KittenInstance ): number;
 
       GetEye( kitten: T_KittenInstance ): string;
@@ -720,7 +720,7 @@ async function run(): Promise<void>{
       GetFoot( kitten: T_KittenInstance ): string;
     }
 
-    interface IKittyMethods {
+    interface I_KittyMethods {
       speak(): void;
 
       getColor(): string;
@@ -730,7 +730,7 @@ async function run(): Promise<void>{
       getInfo(): string;
     }
 
-    interface IKittyQueryHelpers {
+    interface I_KittyQueryHelpers {
       FindByName( name: string ): T_MyQueryWithHelpers;
 
       FindBySex( sex: string ): T_MyQueryWithHelpers;
@@ -738,15 +738,15 @@ async function run(): Promise<void>{
 
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
     const KittySchema: Schema<
-      IKitty,
-      IKittyModel,
-      IKittyMethods,
-      IKittyQueryHelpers
+      I_Kitty,
+      I_KittyModel,
+      I_KittyMethods,
+      I_KittyQueryHelpers
     > = new Schema<
-      IKitty,
-      IKittyModel,
-      IKittyMethods,
-      IKittyQueryHelpers
+      I_Kitty,
+      I_KittyModel,
+      I_KittyMethods,
+      I_KittyQueryHelpers
     >(
       /**
        * 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
@@ -795,9 +795,9 @@ async function run(): Promise<void>{
           minLength: 1,
         },
         info: new Schema<
-          IInfo,
-          Model<IInfo, {}, IInfoMethods>,
-          IInfoMethods
+          I_Info,
+          Model<I_Info, {}, I_InfoMethods>,
+          I_InfoMethods
         >(
           {
             text: {
@@ -810,7 +810,7 @@ async function run(): Promise<void>{
           },
           {
             methods: {
-              getText( this: T_HydratedDocument<IInfo, IInfoMethods> ): string{
+              getText( this: T_HydratedDocument<I_Info, I_InfoMethods> ): string{
                 return `{ _id: ${ this._id }, text: ${ this.text } }`;
               },
             },
@@ -1244,9 +1244,9 @@ async function run(): Promise<void>{
 
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”，也就是一个Collection（相当于一张表）。
     const Kitten: T_KittenModel = client.model<
-      IKitty,
-      IKittyModel,
-      IKittyQueryHelpers
+      I_Kitty,
+      I_KittyModel,
+      I_KittyQueryHelpers
     >(
       /**
        * 第1个参数是你的model的collection的单数名称。Mongoose会自动寻找你的model名称的复数，小写版本。

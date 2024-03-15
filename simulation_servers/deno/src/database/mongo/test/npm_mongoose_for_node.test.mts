@@ -24,7 +24,7 @@ import {
   Mongoose,
 } from 'mongoose';
 
-interface StartupLogCollectionSchema {
+interface I_StartupLogCollectionSchema {
   _id: string;
 
   hostname: string;
@@ -667,9 +667,9 @@ async function run(): Promise<void>{
   try{
     client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
 
-    const startup_log_collection: T_Collection<StartupLogCollectionSchema> = client.collection<StartupLogCollectionSchema>( 'startup_log' );
+    const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = client.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
-    const startup_log: Array<StartupLogCollectionSchema> = await ( await startup_log_collection.find<StartupLogCollectionSchema>( {
+    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
       hostname: 'LPQAQ',
     } ) ).toArray();
 

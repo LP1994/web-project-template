@@ -42,7 +42,7 @@ import {
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
 
-interface StartupLogCollectionSchema {
+interface I_StartupLogCollectionSchema {
   _id: string;
 
   hostname: string;
@@ -659,8 +659,8 @@ const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoC
 async function run(): Promise<void>{
   try{
     const database: T_Db = client.db( 'local' ),
-      startup_log_collection: T_Collection<StartupLogCollectionSchema> = database.collection<StartupLogCollectionSchema>( 'startup_log' ),
-      startup_log: Array<StartupLogCollectionSchema> = await startup_log_collection.find<StartupLogCollectionSchema>( {
+      startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = database.collection<I_StartupLogCollectionSchema>( 'startup_log' ),
+      startup_log: Array<I_StartupLogCollectionSchema> = await startup_log_collection.find<I_StartupLogCollectionSchema>( {
         hostname: 'LPQAQ',
       } ).toArray();
 
