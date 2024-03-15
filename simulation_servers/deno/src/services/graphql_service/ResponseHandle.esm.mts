@@ -112,7 +112,7 @@ import {
   type QueryGetMessageArgs,
   type MutationCreateMessageArgs,
   type MutationUpdateMessageArgs,
-} from 'GSD2TSTD/GSD2TSTD.esm.mts';
+} from 'GSD2TSTD';
 
 type TypeResolvers = QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<null, MutationCreateMessageArgs & MutationUpdateMessageArgs>;
 

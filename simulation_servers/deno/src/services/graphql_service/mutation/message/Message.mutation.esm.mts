@@ -27,7 +27,7 @@ import {
   type QueryGetMessageArgs,
   type MutationCreateMessageArgs,
   type MutationUpdateMessageArgs,
-} from 'GSD2TSTD/GSD2TSTD.esm.mts';
+} from 'GSD2TSTD';
 
 const kv: Deno.Kv = await Deno.openKv();
 

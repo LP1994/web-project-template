@@ -72,7 +72,7 @@
     "upload/": "./upload/",
     "web/": "./web/",
 
-    "GSD2TSTD/": "./src/graphql_schema_definition_to_ts_type_definition/"
+    "GSD2TSTD": "./src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
   },
   "compilerOptions": {
     "allowJs": true,

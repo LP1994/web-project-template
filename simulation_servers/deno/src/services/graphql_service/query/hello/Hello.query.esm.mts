@@ -19,7 +19,7 @@ import {
 
 import {
   type QueryResolvers,
-} from 'GSD2TSTD/GSD2TSTD.esm.mts';
+} from 'GSD2TSTD';
 
 const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
 

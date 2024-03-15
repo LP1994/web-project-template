@@ -52,6 +52,6 @@
     "upload/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\upload\\",
     "web/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\web\\",
 
-    "GSD2TSTD/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\graphql_schema_definition_to_ts_type_definition\\"
+    "GSD2TSTD": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\graphql_schema_definition_to_ts_type_definition\\GSD2TSTD.esm.mts"
   }
 }
