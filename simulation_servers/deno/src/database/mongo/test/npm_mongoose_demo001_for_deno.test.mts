@@ -31,11 +31,11 @@
 'use strict';
 
 import {
-  type Connection,
-  type ConnectOptions,
-  type HydratedDocument,
-  type QueryWithHelpers,
-  type VirtualType,
+  type Connection as T_Connection,
+  type ConnectOptions as T_ConnectOptions,
+  type HydratedDocument as T_HydratedDocument,
+  type QueryWithHelpers as T_QueryWithHelpers,
+  type VirtualType as T_VirtualType,
 
   Model,
   Mongoose,
@@ -48,12 +48,12 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 /**
- * @type {ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongooseClientConfig: ConnectOptions = {
+const mongooseClientConfig: T_ConnectOptions = {
   // 以下选项是mongoose自己的选项。Start
 
   /**
@@ -666,19 +666,19 @@ const mongooseClientConfig: ConnectOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as ConnectOptions;
+} as T_ConnectOptions;
 
 const mongoose: Mongoose = new Mongoose();
 
-let client: Connection;
+let client: T_Connection;
 
 async function run(): Promise<void>{
   try{
     client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'test' );
 
-    type TKittenInstance = HydratedDocument<IKitty, IKittyMethods & IKittyVirtuals, IKittyQueryHelpers>;
-    type TQueryWithHelpers = QueryWithHelpers<Array<TKittenInstance>, TKittenInstance, IKittyQueryHelpers>;
-    type TKittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, TKittenInstance> & IKittyModel;
+    type T_KittenInstance = T_HydratedDocument<IKitty, IKittyMethods & IKittyVirtuals, IKittyQueryHelpers>;
+    type T_MyQueryWithHelpers = T_QueryWithHelpers<Array<T_KittenInstance>, T_KittenInstance, IKittyQueryHelpers>;
+    type T_KittenModel = Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, T_KittenInstance> & IKittyModel;
 
     // Subdocument definition.
     interface IInfo {
@@ -702,7 +702,7 @@ async function run(): Promise<void>{
 
       foot: string;
 
-      info: Types.Subdocument<Types.ObjectId> & IInfo & HydratedDocument<IInfo, IInfoMethods>;
+      info: Types.Subdocument<Types.ObjectId> & IInfo & T_HydratedDocument<IInfo, IInfoMethods>;
     }
 
     interface IKittyVirtuals {
@@ -712,12 +712,12 @@ async function run(): Promise<void>{
     }
 
     interface IKittyModel
-      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, TKittenInstance> {
-      GetTime( kitten: TKittenInstance ): number;
+      extends Model<IKitty, IKittyQueryHelpers, IKittyMethods, IKittyVirtuals, T_KittenInstance> {
+      GetTime( kitten: T_KittenInstance ): number;
 
-      GetEye( kitten: TKittenInstance ): string;
+      GetEye( kitten: T_KittenInstance ): string;
 
-      GetFoot( kitten: TKittenInstance ): string;
+      GetFoot( kitten: T_KittenInstance ): string;
     }
 
     interface IKittyMethods {
@@ -731,9 +731,9 @@ async function run(): Promise<void>{
     }
 
     interface IKittyQueryHelpers {
-      FindByName( name: string ): TQueryWithHelpers;
+      FindByName( name: string ): T_MyQueryWithHelpers;
 
-      FindBySex( sex: string ): TQueryWithHelpers;
+      FindBySex( sex: string ): T_MyQueryWithHelpers;
     }
 
     // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
@@ -810,7 +810,7 @@ async function run(): Promise<void>{
           },
           {
             methods: {
-              getText( this: HydratedDocument<IInfo, IInfoMethods> ): string{
+              getText( this: T_HydratedDocument<IInfo, IInfoMethods> ): string{
                 return `{ _id: ${ this._id }, text: ${ this.text } }`;
               },
             },
@@ -1032,24 +1032,24 @@ async function run(): Promise<void>{
 
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
         methods: {
-          speak( this: TKittenInstance ): void{
+          speak( this: T_KittenInstance ): void{
             const greeting: string = this.name
                                      ? `Meow name is ${ this.name }.`
                                      : 'I don\'t have a name.';
 
             console.log( `\n${ greeting }\n` );
           },
-          getColor( this: TKittenInstance ): string{
+          getColor( this: T_KittenInstance ): string{
             console.log( `\nMy color is ${ this.color }.\n` );
 
             return this.color;
           },
-          getSex( this: TKittenInstance ): string{
+          getSex( this: T_KittenInstance ): string{
             console.log( `\nMy sex is ${ this.sex }.\n` );
 
             return this.sex;
           },
-          getInfo( this: TKittenInstance ): string{
+          getInfo( this: T_KittenInstance ): string{
             console.log( `\nMy info is ${ this.info.getText() }.\n` );
             // 返回此子文档的顶级文档：this.info.ownerDocument()。
             // console.log( `this.info.ownerDocument(): ${ this.info.ownerDocument() }.\n` );
@@ -1063,17 +1063,17 @@ async function run(): Promise<void>{
         },
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
         statics: {
-          GetTime( kitten: TKittenInstance ): number{
+          GetTime( kitten: T_KittenInstance ): number{
             console.log( `\nMy time is ${ kitten.time }.\n` );
 
             return kitten.time;
           },
-          GetEye( kitten: TKittenInstance ): string{
+          GetEye( kitten: T_KittenInstance ): string{
             console.log( `\nMy eye is ${ kitten.eye }.\n` );
 
             return kitten.eye;
           },
-          GetFoot( kitten: TKittenInstance ): string{
+          GetFoot( kitten: T_KittenInstance ): string{
             console.log( `\nMy foot is ${ kitten.foot }.\n` );
 
             return kitten.foot;
@@ -1082,17 +1082,17 @@ async function run(): Promise<void>{
         // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
         query: {
           FindByName(
-            this: TQueryWithHelpers,
+            this: T_MyQueryWithHelpers,
             name: string
-          ): TQueryWithHelpers{
+          ): T_MyQueryWithHelpers{
             return this.find( {
               name,
             } );
           },
           FindBySex(
-            this: TQueryWithHelpers,
+            this: T_MyQueryWithHelpers,
             sex: string
-          ): TQueryWithHelpers{
+          ): T_MyQueryWithHelpers{
             return this.find( {
               sex,
             } );
@@ -1102,7 +1102,7 @@ async function run(): Promise<void>{
         virtuals: {
           fullName: {
             get(
-              this: TKittenInstance,
+              this: T_KittenInstance,
               /**
                * 前一个getter所返回的值。如果只有一个getter，值将是未定义的。
                */
@@ -1112,17 +1112,17 @@ async function run(): Promise<void>{
                * 你调用.get()的虚拟对象。
                */
               // @ts-expect-error
-              virtual: VirtualType<TKittenInstance>,
+              virtual: T_VirtualType<T_KittenInstance>,
               /**
                * 此虚拟所附的文件。相当于this。
                */
               // @ts-expect-error
-              doc: TKittenInstance
+              doc: T_KittenInstance
             ): string{
               return `${ this.color }的${ this.name }`;
             },
             set(
-              this: TKittenInstance,
+              this: T_KittenInstance,
               /**
                * 被设置的值。
                */
@@ -1131,12 +1131,12 @@ async function run(): Promise<void>{
                * 你正在调用.set()的虚拟对象。
                */
               // @ts-expect-error
-              virtual: VirtualType<TKittenInstance>,
+              virtual: T_VirtualType<T_KittenInstance>,
               /**
                * 此虚拟所附的文件。相当于this。
                */
               // @ts-expect-error
-              doc: TKittenInstance
+              doc: T_KittenInstance
             ): void{
               [
                 this.color,
@@ -1150,7 +1150,7 @@ async function run(): Promise<void>{
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     /*
-     KittySchema.methods.speak = function ( this: TKittenInstance ): void{
+     KittySchema.methods.speak = function ( this: T_KittenInstance ): void{
      const greeting: string = this.name
      ? `Meow name is ${ this.name }.`
      : 'I don\'t have a name.';
@@ -1160,7 +1160,7 @@ async function run(): Promise<void>{
      */
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
     /*
-     KittySchema.statics.GetEye = function ( kitten: TKittenInstance ): string{
+     KittySchema.statics.GetEye = function ( kitten: T_KittenInstance ): string{
      console.log( `\nMy eye is ${ kitten.eye }.\n` );
 
      return kitten.eye;
@@ -1169,8 +1169,8 @@ async function run(): Promise<void>{
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
     /*
      KittySchema.query.FindByName = function (
-     this: TQueryWithHelpers,
-     name: string ): TQueryWithHelpers{
+     this: T_MyQueryWithHelpers,
+     name: string ): T_MyQueryWithHelpers{
      return this.find( {
      name,
      } );
@@ -1179,7 +1179,7 @@ async function run(): Promise<void>{
 
     KittySchema.virtual( 'toFullString' ).get(
       function (
-        this: TKittenInstance,
+        this: T_KittenInstance,
         /**
          * 前一个getter所返回的值。如果只有一个getter，值将是未定义的。
          */
@@ -1189,19 +1189,19 @@ async function run(): Promise<void>{
          * 你调用.get()的虚拟对象。
          */
         // @ts-expect-error
-        virtual: VirtualType<TKittenInstance>,
+        virtual: T_VirtualType<T_KittenInstance>,
         /**
          * 此虚拟所附的文件。相当于this。
          */
         // @ts-expect-error
-        doc: TKittenInstance
+        doc: T_KittenInstance
       ): string{
         return this.info.getText();
       }
     )
     .set(
       function (
-        this: TKittenInstance,
+        this: T_KittenInstance,
         /**
          * 被设置的值。
          */
@@ -1210,12 +1210,12 @@ async function run(): Promise<void>{
          * 你正在调用.set()的虚拟对象。
          */
         // @ts-expect-error
-        virtual: VirtualType<TKittenInstance>,
+        virtual: T_VirtualType<T_KittenInstance>,
         /**
          * 此虚拟所附的文件。相当于this。
          */
         // @ts-expect-error
-        doc: TKittenInstance
+        doc: T_KittenInstance
       ): void{
         console.error( `toFullString不接受设置值：${ value }。` );
       }
@@ -1224,7 +1224,7 @@ async function run(): Promise<void>{
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     /*
      KittySchema.method( {
-     getSex( this: TKittenInstance ): string{
+     getSex( this: T_KittenInstance ): string{
      console.log( `\nMy sex is ${ this.sex }.\n` );
 
      return this.sex;
@@ -1234,7 +1234,7 @@ async function run(): Promise<void>{
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
     /*
      KittySchema.static( {
-     GetFoot( kitten: TKittenInstance ): string{
+     GetFoot( kitten: T_KittenInstance ): string{
      console.log( `\nMy foot is ${ kitten.foot }.\n` );
 
      return kitten.foot;
@@ -1243,7 +1243,7 @@ async function run(): Promise<void>{
      */
 
     // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”，也就是一个Collection（相当于一张表）。
-    const Kitten: TKittenModel = client.model<
+    const Kitten: T_KittenModel = client.model<
       IKitty,
       IKittyModel,
       IKittyQueryHelpers
@@ -1263,14 +1263,14 @@ async function run(): Promise<void>{
     let kittenQuantity: number = ( await Kitten.find() ).length;
 
     // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象，也就是一个Document（相当于一条记录）。
-    const kitten001: TKittenInstance = new Kitten( {
+    const kitten001: T_KittenInstance = new Kitten( {
       name: `喵喵${ ++kittenQuantity }号`,
       sex: '翠花',
       info: {
         text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
       },
     }, true );
-    const kitten002: TKittenInstance = new Kitten( {
+    const kitten002: T_KittenInstance = new Kitten( {
       name: `喵喵${ ++kittenQuantity }号`,
       info: {
         text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
@@ -1282,8 +1282,8 @@ async function run(): Promise<void>{
     await kitten002.save();
 
     // 查找。
-    const kittens: Array<TKittenInstance> = await Kitten.find().FindBySex( '翠花' );
-    kittens.forEach( ( kitten: TKittenInstance, ): void => {
+    const kittens: Array<T_KittenInstance> = await Kitten.find().FindBySex( '翠花' );
+    kittens.forEach( ( kitten: T_KittenInstance, ): void => {
       kitten.speak();
       kitten.getColor();
       kitten.getSex();

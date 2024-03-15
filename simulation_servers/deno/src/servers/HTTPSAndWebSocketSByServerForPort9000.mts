@@ -25,7 +25,7 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
@@ -35,7 +35,7 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
-  type TypeMyCusDenoFsFile,
+  type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
@@ -47,8 +47,8 @@ import {
   Routers,
 } from 'routers/Routers.esm.mts';
 
-const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
-const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 Deno.serve(
   {
@@ -98,7 +98,7 @@ HTTPS and WebSocket Server已启动（Windows系统上无法直接访问“0.0.0
 HTTPS and WebSocket Server已启动（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。
 ` );
     },
-    onError: ( error: unknown ): TypeResponse001 => {
+    onError: ( error: unknown ): T_Response001 => {
       MyConsole.Red( `
 来自：simulation_servers/deno/src/servers/HTTPSAndWebSocketSByServerForPort9000.mts
 HTTPS and WebSocket Server onError--->Start
@@ -128,7 +128,7 @@ ${ ( error as Error ).message }`,
   (
     request: Request,
     info: Deno.ServeHandlerInfo,
-  ): TypeResponse001 => {
+  ): T_Response001 => {
     logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPSAndWebSocketSByServerForPort9000.mts
 HTTPS and WebSocket Server request--->Start

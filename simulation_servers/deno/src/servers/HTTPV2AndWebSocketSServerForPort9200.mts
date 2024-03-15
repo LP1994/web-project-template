@@ -25,7 +25,7 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   opensslDir,
 } from 'configures/GlobalParameters.esm.mts';
@@ -35,7 +35,7 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
-  type TypeMyCusDenoFsFile,
+  type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
@@ -47,8 +47,8 @@ import {
   Routers,
 } from 'routers/Routers.esm.mts';
 
-const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
-const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 Deno.serve(
   {
@@ -100,7 +100,7 @@ HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请�
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
     },
-    onError: ( error: unknown ): TypeResponse001 => {
+    onError: ( error: unknown ): T_Response001 => {
       MyConsole.Red( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 onError--->Start
@@ -130,7 +130,7 @@ ${ ( error as Error ).message }`,
   (
     request: Request,
     info: Deno.ServeHandlerInfo,
-  ): TypeResponse001 => {
+  ): T_Response001 => {
     logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 request--->Start

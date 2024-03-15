@@ -45,14 +45,14 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   httpResponseHeaders,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type FileSRICollectionSchema,
+  type T_FileSRICollectionSchema,
 
   QueryOne,
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
@@ -172,14 +172,14 @@ const maxFileSize: number = 1 * 1024 * 1024 * 1024;
  * PS：<br />
  * 1、取自定义的请求头标识“X-Custom-Header-File-SRI”的值会被转成全部小写的字符串。<br />
  * 2、如果没取到自定义的请求头标识“X-Custom-Header-File-SRI”的值，也就是请求头中不带该自定义的请求头标识“X-Custom-Header-File-SRI”，会直接使用空字符串代替。<br />
- * 3、最后该函数的返回值要么是一个undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息，要么是一个为自定义类型FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息。<br />
+ * 3、最后该函数的返回值要么是一个undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息，要么是一个为自定义类型T_FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息。<br />
  * 4、该自定义的请求头标识“X-Custom-Header-File-SRI”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<FileSRICollectionSchema | undefined>} 返回值类型为undefined（undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息）、自定义类型FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息）。
+ * @returns {Promise<T_FileSRICollectionSchema | undefined>} 返回值类型为undefined（undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息）、自定义类型T_FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息）。
  */
-async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollectionSchema | undefined>{
+async function ValidateReqHeadSRI( request: Request ): Promise<T_FileSRICollectionSchema | undefined>{
   const x_file_sri: string = ( request.headers.get( 'X-Custom-Header-File-SRI' ) ?? '' ).trim().toLowerCase();
 
   if( x_file_sri.length === 0 ){
@@ -195,13 +195,13 @@ async function ValidateReqHeadSRI( request: Request ): Promise<FileSRICollection
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<TypeResponse001>} 返回值类型为Promise<TypeResponse001>。
+ * @returns {Promise<T_Response001>} 返回值类型为Promise<T_Response001>。
  */
-async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
+async function ResponseHandle( request: Request ): Promise<T_Response001>{
   const url: URL = new URL( request.url ),
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
 
-  let result: TypeResponse001;
+  let result: T_Response001;
 
   /**
    * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
@@ -216,14 +216,14 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
    */
   if( uploadType === 'binary' ){
-    let result001: FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
+    let result001: T_FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
       contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     /**
      * 如果已经存在跟上传的文件一样的SRI值，那么就直接响应给客户端该文件的信息。
      */
     if( result001 ){
-      result001 = result001 as FileSRICollectionSchema;
+      result001 = result001 as T_FileSRICollectionSchema;
 
       result = new Response( JSON.stringify( {
         data: {
@@ -287,14 +287,14 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
    *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
    */
   else if( uploadType === 'single' ){
-    let result001: FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
+    let result001: T_FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
       contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     /**
      * 如果已经存在跟上传的文件一样的SRI值，那么就直接响应给客户端该文件的信息。
      */
     if( result001 ){
-      result001 = result001 as FileSRICollectionSchema;
+      result001 = result001 as T_FileSRICollectionSchema;
 
       result = new Response( JSON.stringify( {
         data: {
@@ -400,14 +400,14 @@ async function ResponseHandle( request: Request ): Promise<TypeResponse001>{
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
    */
   else if( uploadType === 'bigFile' ){
-    let result001: FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
+    let result001: T_FileSRICollectionSchema | undefined = await ValidateReqHeadSRI( request ),
       type001: string = ( url.searchParams.get( 'type' ) ?? '' ).trim();
 
     /**
      * 如果已经存在跟上传的文件一样的SRI值，那么就直接响应给客户端该文件的信息。
      */
     if( result001 ){
-      result001 = result001 as FileSRICollectionSchema;
+      result001 = result001 as T_FileSRICollectionSchema;
 
       result = new Response( JSON.stringify( {
         data: {

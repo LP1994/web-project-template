@@ -24,8 +24,8 @@
 'use strict';
 
 import {
-  type TypeFun001,
-  type TypeFun002,
+  type T_Fun001,
+  type T_Fun002,
 
   ejsDir,
 
@@ -54,10 +54,10 @@ import Options from './Options.esm.mts';
 
 import WebSocket from './WebSocket.esm.mts';
 
-type TypeFun003 = TypeFun001 | TypeFun002;
+type T_Fun003 = T_Fun001 | T_Fun002;
 
 const requestMethods: {
-  [ key: string ]: TypeFun003;
+  [ key: string ]: T_Fun003;
 } = {
   put: Put,
   delete: Delete,
@@ -96,7 +96,7 @@ async function Routers( request: Request ): Promise<Response>{
     result = ( await IterateToNestForPromise( WebSocket( request ) ) ) as Response;
   }
   else if( method in requestMethods ){
-    result = ( await IterateToNestForPromise( ( requestMethods[ method ] as TypeFun003 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( requestMethods[ method ] as T_Fun003 )( request ) ) ) as Response;
   }
   else{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),

@@ -31,9 +31,9 @@
 'use strict';
 
 import {
-  type ConnectOptions,
-  type Connection,
-  type Collection,
+  type ConnectOptions as T_ConnectOptions,
+  type Connection as T_Connection,
+  type Collection as T_Collection,
 
   Mongoose,
 } from 'npm:mongoose';
@@ -59,12 +59,12 @@ interface StartupLogCollectionSchema {
 }
 
 /**
- * @type {ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongooseClientConfig: ConnectOptions = {
+const mongooseClientConfig: T_ConnectOptions = {
   // 以下选项是mongoose自己的选项。Start
 
   /**
@@ -677,17 +677,17 @@ const mongooseClientConfig: ConnectOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as ConnectOptions;
+} as T_ConnectOptions;
 
 const mongoose: Mongoose = new Mongoose();
 
-let client: Connection;
+let client: T_Connection;
 
 async function run(): Promise<void>{
   try{
     client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
 
-    const startup_log_collection: Collection<StartupLogCollectionSchema> = client.collection<StartupLogCollectionSchema>( 'startup_log' );
+    const startup_log_collection: T_Collection<StartupLogCollectionSchema> = client.collection<StartupLogCollectionSchema>( 'startup_log' );
 
     const startup_log: Array<StartupLogCollectionSchema> = await ( await startup_log_collection.find<StartupLogCollectionSchema>( {
       hostname: 'LPQAQ',

@@ -14,19 +14,19 @@
 
 'use strict';
 
-// 自定义的type（命名以“Type”开头，如：type TypeMyString = string;）、interface Start
+// 自定义的type（命名以“Type”开头，如：type T_MyString = string;）、interface Start
 
-export type TypeResponse001 = Response | Promise<Response>;
+export type T_Response001 = Response | Promise<Response>;
 
-export type TypeFun001 = ( request: Request ) => TypeResponse001;
+export type T_Fun001 = ( request: Request ) => T_Response001;
 
-export type TypeFun002 = ( request: Request ) => Promise<TypeResponse001>;
+export type T_Fun002 = ( request: Request ) => Promise<T_Response001>;
 
-export type TypeFilePath001 = string | URL;
+export type T_FilePath001 = string | URL;
 
-export type TypeResult001 = boolean | TypeFun001;
+export type T_Result001 = boolean | T_Fun001;
 
-// 自定义的type（命名以“Type”开头，如：type TypeMyString = string;）、interface End
+// 自定义的type（命名以“Type”开头，如：type T_MyString = string;）、interface End
 
 // 自定义的路径别名aliasConfig Start
 

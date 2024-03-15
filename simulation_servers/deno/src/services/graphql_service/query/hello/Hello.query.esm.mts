@@ -10,7 +10,7 @@
 'use strict';
 
 import {
-  type DocumentNode,
+  type DocumentNode as T_DocumentNode,
 } from 'esm_sh_graphql';
 
 import {
@@ -18,12 +18,12 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
-  type QueryResolvers,
+  type QueryResolvers as T_QueryResolvers,
 } from 'GSD2TSTD';
 
-const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
+const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
 
-const resolvers: QueryResolvers = {
+const resolvers: T_QueryResolvers = {
   hello: (): string => {
     return `Hello World! This is the GraphQL Server.`;
   },

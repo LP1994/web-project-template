@@ -38,7 +38,7 @@
  */
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   staticDir,
 
@@ -60,14 +60,14 @@ import {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): TypeResponse001{
+function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
     filePath: URL = new URL( `${ staticDir }/${ pathName.slice( myURLPathName.length ) }` );
 
-  let result: TypeResponse001;
+  let result: T_Response001;
 
   let fileState: Deno.FileInfo;
 

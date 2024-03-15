@@ -10,7 +10,7 @@
 'use strict';
 
 import {
-  type DocumentNode,
+  type DocumentNode as T_DocumentNode,
 } from 'esm_sh_graphql';
 
 import {
@@ -18,15 +18,15 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
-  type Scalars,
-  type MessageInput,
-  type Message as TypeMessage,
+  type Scalars as T_Scalars,
+  type MessageInput as T_MessageInput,
+  type Message as T_Message,
 
-  type QueryResolvers,
-  type MutationResolvers,
-  type QueryGetMessageArgs,
-  type MutationCreateMessageArgs,
-  type MutationUpdateMessageArgs,
+  type QueryResolvers as T_QueryResolvers,
+  type MutationResolvers as T_MutationResolvers,
+  type QueryGetMessageArgs as T_QueryGetMessageArgs,
+  type MutationCreateMessageArgs as T_MutationCreateMessageArgs,
+  type MutationUpdateMessageArgs as T_MutationUpdateMessageArgs,
 } from 'GSD2TSTD';
 
 const kv: Deno.Kv = await Deno.openKv();
@@ -51,16 +51,16 @@ await kv.set( [
 } );
 
 class Message
-  implements TypeMessage {
+  implements T_Message {
 
-  public id: Scalars['ID']['output'];
-  public author: Scalars['String']['output'];
-  public content: Scalars['String']['output'];
+  public id: T_Scalars['ID']['output'];
+  public author: T_Scalars['String']['output'];
+  public content: T_Scalars['String']['output'];
 
-  public constructor( id: Scalars['ID']['input'], {
+  public constructor( id: T_Scalars['ID']['input'], {
     content,
     author,
-  }: MessageInput ){
+  }: T_MessageInput ){
     this.id = id;
     this.author = author;
     this.content = content;
@@ -68,14 +68,14 @@ class Message
 
 }
 
-const typeDefs: DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
+const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
 
-const resolvers: QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<null, MutationCreateMessageArgs & MutationUpdateMessageArgs> = {
+const resolvers: T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs> = {
   getMessage: async ( {
     id,
-  }: QueryGetMessageArgs ): Promise<TypeMessage> => {
+  }: T_QueryGetMessageArgs ): Promise<T_Message> => {
 
-    const entry: Deno.KvEntryMaybe<MessageInput> = await kv.get( [
+    const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
       id,
     ] );
 
@@ -83,12 +83,12 @@ const resolvers: QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<n
       throw new Error( `no message exists with id: ${ id }.` );
     }
 
-    return new Message( id, entry.value as MessageInput );
+    return new Message( id, entry.value as T_MessageInput );
   },
 
   createMessage: async ( {
     input,
-  }: MutationCreateMessageArgs ): Promise<TypeMessage> => {
+  }: T_MutationCreateMessageArgs ): Promise<T_Message> => {
     const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
     crypto.getRandomValues( uint32Array001 );
 
@@ -104,8 +104,8 @@ const resolvers: QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<n
   updateMessage: async ( {
     id,
     input,
-  }: MutationUpdateMessageArgs ): Promise<TypeMessage> => {
-    const entry: Deno.KvEntryMaybe<MessageInput> = await kv.get( [
+  }: T_MutationUpdateMessageArgs ): Promise<T_Message> => {
+    const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
       id,
     ] );
 

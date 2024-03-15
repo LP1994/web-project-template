@@ -17,9 +17,9 @@
 'use strict';
 
 import {
-  type MongoClientOptions,
-  type Db,
-  type Collection,
+  type MongoClientOptions as T_MongoClientOptions,
+  type Db as T_Db,
+  type Collection as T_Collection,
 
   MongoClient,
 } from 'mongodb';
@@ -41,11 +41,11 @@ interface StartupLogCollectionSchema {
 }
 
 /**
- * @type {MongoClientOptions} node版本的mongodb驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * @type {T_MongoClientOptions} node版本的mongodb驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongoClientConfig: MongoClientOptions = {
+const mongoClientConfig: T_MongoClientOptions = {
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**
@@ -632,14 +632,14 @@ const mongoClientConfig: MongoClientOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as MongoClientOptions;
+} as T_MongoClientOptions;
 
 const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoClientConfig );
 
 async function run(): Promise<void>{
   try{
-    const database: Db = client.db( 'local' ),
-      startup_log_collection: Collection<StartupLogCollectionSchema> = database.collection<StartupLogCollectionSchema>( 'startup_log' ),
+    const database: T_Db = client.db( 'local' ),
+      startup_log_collection: T_Collection<StartupLogCollectionSchema> = database.collection<StartupLogCollectionSchema>( 'startup_log' ),
       startup_log: Array<StartupLogCollectionSchema> = await ( startup_log_collection.find<StartupLogCollectionSchema>( { hostname: 'LPQAQ', } ) ).toArray();
 
     console.dir( startup_log );

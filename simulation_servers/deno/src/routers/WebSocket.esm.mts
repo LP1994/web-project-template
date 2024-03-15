@@ -14,14 +14,14 @@
 'use strict';
 
 import {
-  type TypeFun001,
-  type TypeResult001,
+  type T_Fun001,
+  type T_Result001,
 
   httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type TypeMyCusDenoFsFile,
+  type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
   IterateToNestForPromise,
@@ -32,7 +32,7 @@ import {
   websocketForRouteHandle,
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
-const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
  * 处理WebSocket请求。
@@ -56,13 +56,13 @@ async function WebSocket( request: Request ): Promise<Response>{
 请求头中的connection值为：${ connection }。
 ` );
 
-  let routeHandle: TypeResult001;
+  let routeHandle: T_Result001;
 
   if( pathName in websocketForRouteMapConfig ){
-    result = ( await IterateToNestForPromise( ( websocketForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( websocketForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
   else if( routeHandle = await websocketForRouteHandle( request ) ){
-    result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{
     result = new Response( null, {

@@ -31,7 +31,7 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
@@ -44,9 +44,9 @@ import ResponseError from 'public/ResponseError.esm.mts';
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): TypeResponse001{
+function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     callBack: string = String( url.searchParams.get( 'callBack' ) );
 

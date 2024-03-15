@@ -34,7 +34,7 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   // uploadDir,
 
@@ -46,29 +46,29 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
-  type TypeMyCusDenoFsFile,
+  type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
-const logWriteStream: TypeMyCusDenoFsFile = await GetLogWriteStreamForSingleton();
-const errorWriteStream: TypeMyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): TypeResponse001{
+function ResponseHandle( request: Request ): T_Response001{
   let response: Response,
     wsForServer: WebSocket,
     url: URL,
     pathName: string;
 
-  let result: TypeResponse001;
+  let result: T_Response001;
 
   try{
     (

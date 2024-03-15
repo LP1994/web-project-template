@@ -50,8 +50,8 @@ import {
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 import {
-  type TypeObj001,
-  type FileSRICollectionSchema,
+  type T_Obj001,
+  type T_FileSRICollectionSchema,
 
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
@@ -97,7 +97,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
       const {
         isWriteFile,
         fileInfo,
-      }: TypeObj001 = await UpdateFileSRI( _request, {
+      }: T_Obj001 = await UpdateFileSRI( _request, {
         [ Symbol.toStringTag ]: 'Blob',
         stream: (): ReadableStream => request.clone().body as ReadableStream,
         lastModified: String( Date.now() ),
@@ -112,7 +112,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
         fileType,
         sri,
         fileName: fileName001,
-      }: FileSRICollectionSchema = fileInfo;
+      }: T_FileSRICollectionSchema = fileInfo;
 
       if( !isWriteFile ){
         result001 = JSON.stringify( {

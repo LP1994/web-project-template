@@ -10,43 +10,43 @@
 'use strict';
 
 import {
-  type TypeFun001,
-  type TypeFilePath001,
-  type TypeResult001,
+  type T_Fun001,
+  type T_FilePath001,
+  type T_Result001,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
   IterateToNestForPromise,
 } from 'public/PublicTools.esm.mts';
 
-type TypeRouteMapConfig = {
-  [ key: string ]: TypeFilePath001;
+type T_RouteMapConfig = {
+  [ key: string ]: T_FilePath001;
 };
 
-type TypeRouteHandleConfig = Array<[ string | URL, string | URL ]>;
+type T_RouteHandleConfig = Array<[ string | URL, string | URL ]>;
 
-type TypeFun002 = ( request: Request ) => boolean | Promise<boolean>;
+type T_Fun002 = ( request: Request ) => boolean | Promise<boolean>;
 
-type TypeMap001 = Map<TypeFun002, TypeFun001>;
+type T_Map001 = Map<T_Fun002, T_Fun001>;
 
-type TypeRouteMapHandle = {
-  [ key: string ]: TypeFun001;
+type T_RouteMapHandle = {
+  [ key: string ]: T_Fun001;
 };
 
-type TypeRouteHandle = ( request: Request ) => Promise<TypeResult001>;
+type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 
-type TypeObj001 = {
+type T_Obj001 = {
   [ key: string ]: string;
 };
 
 /**
  * 根据传入的“文件地址”值返回其对应的文件地址的字符串形式的值，给import()使用的。
  *
- * @param {TypeFilePath001} filePath 文件地址，必需。
+ * @param {T_FilePath001} filePath 文件地址，必需。
  *
  * @returns {string} 文件地址的字符串形式的值，给import()使用的。
  */
-function Handle001( filePath: TypeFilePath001 ): string{
+function Handle001( filePath: T_FilePath001 ): string{
   if( Object.prototype.toString.call( filePath ) === '[object URL]' ){
     if( ( filePath as URL ).protocol === 'file:' ){
       return ( filePath as URL ).href;
@@ -63,15 +63,15 @@ function Handle001( filePath: TypeFilePath001 ): string{
 /**
  * “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  *
- * @param {TypeRouteMapConfig} routeMapConfig “一对一”的路由映射配置，必需。
+ * @param {T_RouteMapConfig} routeMapConfig “一对一”的路由映射配置，必需。
  *
- * @returns {Promise<TypeRouteMapHandle>} “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
+ * @returns {Promise<T_RouteMapHandle>} “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  */
-async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<TypeRouteMapHandle>{
-  const obj001: TypeObj001 = Object.fromEntries(
+async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_RouteMapHandle>{
+  const obj001: T_Obj001 = Object.fromEntries(
     Object.entries( routeMapConfig ).map(
       (
-        [ key, value ]: [ string, TypeFilePath001 ],
+        [ key, value ]: [ string, T_FilePath001 ],
       ): [ string, string ] => {
         if( Object.prototype.toString.call( value ) === '[object URL]' ){
           if( ( value as URL ).protocol === 'file:' ){
@@ -94,17 +94,17 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
     )
   );
 
-  const arr001: Array<Promise<[ string, TypeFun001 ]>> = Object.entries( obj001 ).map(
+  const arr001: Array<Promise<[ string, T_Fun001 ]>> = Object.entries( obj001 ).map(
       async (
         [ key, value ]: [ string, string ],
-      ): Promise<[ string, TypeFun001, ]> => {
+      ): Promise<[ string, T_Fun001, ]> => {
         return [
           key,
           ( await import( value ) ).default
         ];
       }
     ),
-    arr002: Array<[ string, TypeFun001 ]> = await Array.fromAsync( arr001 );
+    arr002: Array<[ string, T_Fun001 ]> = await Array.fromAsync( arr001 );
 
   return Object.fromEntries( arr002 );
 }
@@ -112,29 +112,29 @@ async function GeneratorRouteMap( routeMapConfig: TypeRouteMapConfig ): Promise<
 /**
  * 有“条件”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  *
- * @param {TypeRouteHandleConfig} routeHandleConfig 有“条件”的路由映射配置，必需。
+ * @param {T_RouteHandleConfig} routeHandleConfig 有“条件”的路由映射配置，必需。
  *
- * @returns {TypeRouteHandle} 有“条件”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
+ * @returns {T_RouteHandle} 有“条件”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  */
-function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeRouteHandle{
-  return async ( request: Request ): Promise<TypeResult001> => {
-    let myRouteHandleConfig: TypeRouteHandleConfig | TypeMap001 = routeHandleConfig;
+function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_RouteHandle{
+  return async ( request: Request ): Promise<T_Result001> => {
+    let myRouteHandleConfig: T_RouteHandleConfig | T_Map001 = routeHandleConfig;
 
-    const arr001: Array<Promise<[ TypeFun002, TypeFun001 ]>> = myRouteHandleConfig.map(
+    const arr001: Array<Promise<[ T_Fun002, T_Fun001 ]>> = myRouteHandleConfig.map(
         async (
           [ key, name ]: [ string | URL, string | URL ],
-        ): Promise<[ TypeFun002, TypeFun001 ]> => {
+        ): Promise<[ T_Fun002, T_Fun001 ]> => {
           return [
             ( await import( Handle001( key ) ) ).default,
             ( await import( Handle001( name ) ) ).default
           ];
         }
       ),
-      arr002: Array<[ TypeFun002, TypeFun001 ]> = await Array.fromAsync( arr001 );
+      arr002: Array<[ T_Fun002, T_Fun001 ]> = await Array.fromAsync( arr001 );
 
     myRouteHandleConfig = new Map( arr002 );
 
-    let fun001: TypeFun002 | null = null;
+    let fun001: T_Fun002 | null = null;
 
     for( let item002 of
       myRouteHandleConfig.keys() ){
@@ -149,7 +149,7 @@ function GeneratorRouteHandle( routeHandleConfig: TypeRouteHandleConfig ): TypeR
     }
 
     if( fun001 ){
-      return ( myRouteHandleConfig.get( fun001 as TypeFun002 ) ) as TypeFun001;
+      return ( myRouteHandleConfig.get( fun001 as T_Fun002 ) ) as T_Fun001;
     }
     else{
       return false;

@@ -30,7 +30,7 @@
 'use strict';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   staticDir,
 
@@ -46,9 +46,9 @@ import {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function Handle( request: Request ): TypeResponse001{
+function Handle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 

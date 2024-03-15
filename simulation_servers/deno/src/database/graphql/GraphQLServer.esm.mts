@@ -23,14 +23,14 @@
 'use strict';
 
 import {
-  type FetchAPI,
-  type HandlerOptions,
+  type FetchAPI as T_FetchAPI,
+  type HandlerOptions as T_HandlerOptions,
 
   createHandler,
 } from 'esm_sh/graphql-http/lib/use/fetch';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 
   httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
@@ -69,7 +69,7 @@ class MyGraphQLServerResponse
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @param {HandlerOptions} options 无默认值，必须，这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
+ * @param {T_HandlerOptions} options 无默认值，必须，这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
  * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
  * 然后搜索“interface HandlerOptions”即可看到具体的说明。
  * 一般来说，里面总是会有选项schema。
@@ -87,7 +87,7 @@ class MyGraphQLServerResponse
  * 如果需要在“npm:graphql-http/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
  * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function GraphQLServer( {
   request,
@@ -97,9 +97,9 @@ function GraphQLServer( {
   },
 }: {
   request: Request;
-  options: HandlerOptions;
-  reqCtx?: Partial<FetchAPI>;
-} ): TypeResponse001{
+  options: T_HandlerOptions;
+  reqCtx?: Partial<T_FetchAPI>;
+} ): T_Response001{
   return createHandler(
     options,
     reqCtx,

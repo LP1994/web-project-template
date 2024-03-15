@@ -14,8 +14,8 @@
 'use strict';
 
 import {
-  type TypeFun001,
-  type TypeResult001,
+  type T_Fun001,
+  type T_Result001,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -41,15 +41,15 @@ async function Post( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  let routeHandle: TypeResult001;
+  let routeHandle: T_Result001;
 
   let result: Response;
 
   if( pathName in methodByPostForRouteMapConfig ){
-    result = ( await IterateToNestForPromise( ( methodByPostForRouteMapConfig[ pathName ] as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( methodByPostForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
   else if( routeHandle = await methodByPostForRouteHandle( request ) ){
-    result = ( await IterateToNestForPromise( ( routeHandle as TypeFun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{
     result = await new ResponseError( request ).resPage404();

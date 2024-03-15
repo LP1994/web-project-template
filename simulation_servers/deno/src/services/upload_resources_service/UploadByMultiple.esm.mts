@@ -79,16 +79,16 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type TypeObj001,
+  type T_Obj001,
 
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
 
-type TypeResultObj001 = {
+type T_ResultObj001 = {
   // 没有写入的文件信息，因为它们已经存在了，只是更新了这些文件的信息。
-  noWriteFile: Array<TypeObj001>;
+  noWriteFile: Array<T_Obj001>;
   // 成功写入的文件信息。
-  writeFile: Array<TypeObj001>;
+  writeFile: Array<T_Obj001>;
 };
 
 /**
@@ -98,11 +98,11 @@ type TypeResultObj001 = {
  *
  * @param {Array<File | Blob>} files 一个数组，里面的每一个成员都是一个文件对象，数据类型可以是File、Blob，无默认值，必须。
  *
- * @returns {Promise<Array<TypeObj001>>} 返回值类型为Promise<Array<TypeObj001>>。
+ * @returns {Promise<Array<T_Obj001>>} 返回值类型为Promise<Array<T_Obj001>>。
  */
-async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<TypeObj001>>{
+async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<T_Obj001>>{
   // @ts-expect-error
-  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<TypeObj001> => UpdateFileSRI( request, file, file._name ) ) );
+  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<T_Obj001> => UpdateFileSRI( request, file, file._name ) ) );
 }
 
 /**
@@ -112,23 +112,23 @@ async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blo
  *
  * @param {Array<File | Blob>} files 一个数组，里面的每一个成员都是一个文件对象，数据类型可以是File、Blob，无默认值，必须。
  *
- * @returns {Promise<TypeResultObj001>} 返回值类型为Promise<TypeResultObj001>。
+ * @returns {Promise<T_ResultObj001>} 返回值类型为Promise<T_ResultObj001>。
  */
-async function WriteFileHandle( request: Request, files: Array<File | Blob> ): Promise<TypeResultObj001>{
-  const updateFileSRI: Array<TypeObj001> = await GetUpdateFileSRIHandle( request, files );
+async function WriteFileHandle( request: Request, files: Array<File | Blob> ): Promise<T_ResultObj001>{
+  const updateFileSRI: Array<T_Obj001> = await GetUpdateFileSRIHandle( request, files );
 
-  const noWriteFile: Array<TypeObj001> = updateFileSRI.filter(
+  const noWriteFile: Array<T_Obj001> = updateFileSRI.filter(
       (
         {
           isWriteFile,
-        }: TypeObj001,
+        }: T_Obj001,
       ): boolean => !isWriteFile
     ),
-    writeFile: Array<TypeObj001> = updateFileSRI.filter(
+    writeFile: Array<T_Obj001> = updateFileSRI.filter(
       (
         {
           isWriteFile,
-        }: TypeObj001,
+        }: T_Obj001,
       ): boolean => isWriteFile
     );
 
@@ -138,7 +138,7 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
           fileInfo: {
             savePath,
           },
-        }: TypeObj001,
+        }: T_Obj001,
       ): Promise<Deno.FsFile> => Deno.open( new URL( savePath ), {
         write: true,
         create: true,
@@ -150,7 +150,7 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
       (
         item: Deno.FsFile,
         index: number,
-      ): Promise<void> => ( ( writeFile[ index ] as TypeObj001 ).file as File ).stream().pipeTo( writableStreamFromWriter( item ) )
+      ): Promise<void> => ( ( writeFile[ index ] as T_Obj001 ).file as File ).stream().pipeTo( writableStreamFromWriter( item ) )
     );
 
   return {
@@ -281,7 +281,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
       const {
         noWriteFile,
         writeFile,
-      }: TypeResultObj001 = await WriteFileHandle( _request, files );
+      }: T_ResultObj001 = await WriteFileHandle( _request, files );
 
       const noWriteFileInfo: Array<{ message: string; filePath: string; }> = [],
         writeFileInfo: Array<{ message: string; filePath: string; }> = [];
@@ -294,7 +294,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
               fileType,
               fileName,
             },
-          }: TypeObj001,
+          }: T_Obj001,
         ): void => {
           noWriteFileInfo.push( {
             // 描述性说明。
@@ -313,7 +313,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
               fileType,
               fileName,
             },
-          }: TypeObj001,
+          }: T_Obj001,
         ): void => {
           writeFileInfo.push( {
             // 描述性说明。

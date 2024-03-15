@@ -26,7 +26,7 @@
  *
  * 6、编程范式使用“函数式编程”，结合“TypeScript”编写，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
  *
- * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type TypeMyString001 = string。
+ * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type T_MyString001 = string。
  */
 
 /**
@@ -82,10 +82,10 @@ import {
 // 自定义的类型别名。Start
 
 /**
- * 自定义的类型别名TypeDateFormatForObject，表示一个对象：
+ * 自定义的类型别名T_DateFormatForObject，表示一个对象：
  * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
  */
-export type TypeDateFormatForObject = {
+export type T_DateFormatForObject = {
   /**
    * 表示年。
    */
@@ -120,7 +120,7 @@ export type TypeDateFormatForObject = {
  * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。
  * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
  */
-export type TypeSingleton<T> = {
+export type T_Singleton<T> = {
   /**
    * 已生成的期望的单例对象。
    */
@@ -169,20 +169,20 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
  *
  * @param {() => T} func 包装函数，当它被执行时，会返回期望中的单例对象，必需。
  *
- * @returns {() => TypeSingleton<T>} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“TypeSingleton<T>”），用于清除并置空已经生成的期望的单例对象。
+ * @returns {() => T_Singleton<T>} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
  */
-export function SingletonFactory<T>( func: () => T ): () => TypeSingleton<T>{
+export function SingletonFactory<T>( func: () => T ): () => T_Singleton<T>{
   let singleton: T | null = null;
 
   /**
    * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“TypeSingleton<T>”），用于清除并置空已经生成的期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
    *
-   * @returns {() => TypeSingleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“TypeSingleton<T>”），用于清除并置空已经生成的期望的单例对象。
+   * @returns {() => T_Singleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
    */
-  return (): TypeSingleton<T> => {
+  return (): T_Singleton<T> => {
     if( singleton === null ){
       singleton = func() as T;
     }
@@ -247,9 +247,9 @@ export function Uint8ArrayToString( data: Uint8Array ): string{
  *
  * @param {Date} dateInstance 一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />
  *
- * @returns {TypeDateFormatForObject} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ * @returns {T_DateFormatForObject} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
  */
-export function DateFormatForObject( dateInstance: Date = new Date( Date.now() ) ): TypeDateFormatForObject{
+export function DateFormatForObject( dateInstance: Date = new Date( Date.now() ) ): T_DateFormatForObject{
   const year: string = String( dateInstance.getFullYear() ),
     month: string = String( dateInstance.getMonth() + 1 ).padStart( 2, '0' ),
     date: string = String( dateInstance.getDate() ).padStart( 2, '0' ),

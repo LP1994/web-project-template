@@ -75,14 +75,14 @@
 'use strict';
 
 import {
-  type DocumentNode,
+  type DocumentNode as T_DocumentNode,
 
   buildSchema,
   print,
 } from 'esm_sh_graphql';
 
 import {
-  type HandlerOptions,
+  type HandlerOptions as T_HandlerOptions,
 } from 'esm_sh/graphql-http/lib/use/fetch';
 
 import {
@@ -91,11 +91,11 @@ import {
 } from 'esm_sh/@graphql-tools/merge';
 
 import {
-  type IResolvers,
+  type IResolvers as T_IResolvers,
 } from 'esm_sh/@graphql-tools/utils';
 
 import {
-  type TypeResponse001,
+  type T_Response001,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -107,63 +107,63 @@ import * as Query from './Query.esm.mts';
 import * as Mutation from './Mutation.esm.mts';
 
 import {
-  type QueryResolvers,
-  type MutationResolvers,
-  type QueryGetMessageArgs,
-  type MutationCreateMessageArgs,
-  type MutationUpdateMessageArgs,
+  type QueryResolvers as T_QueryResolvers,
+  type MutationResolvers as T_MutationResolvers,
+  type QueryGetMessageArgs as T_QueryGetMessageArgs,
+  type MutationCreateMessageArgs as T_MutationCreateMessageArgs,
+  type MutationUpdateMessageArgs as T_MutationUpdateMessageArgs,
 } from 'GSD2TSTD';
 
-type TypeResolvers = QueryResolvers<null, QueryGetMessageArgs> & MutationResolvers<null, MutationCreateMessageArgs & MutationUpdateMessageArgs>;
+type T_Resolvers = T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs>;
 
-type TypeTypeDefsAndResolvers = {
-  typeDefs: DocumentNode;
-  resolvers: TypeResolvers;
+type T_DefsAndResolvers = {
+  typeDefs: T_DocumentNode;
+  resolvers: T_Resolvers;
 };
 
-const typeDefsArray: Array<DocumentNode> = [],
-  resolversArray: Array<TypeResolvers> = [];
+const typeDefsArray: Array<T_DocumentNode> = [],
+  resolversArray: Array<T_Resolvers> = [];
 
-Object.values( Query as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
+Object.values( Query as Record<string, T_DefsAndResolvers> ).forEach( (
   {
     typeDefs,
     resolvers,
-  }: TypeTypeDefsAndResolvers,
+  }: T_DefsAndResolvers,
   // @ts-expect-error
   index: number,
   // @ts-expect-error
-  array: Array<TypeTypeDefsAndResolvers>,
+  array: Array<T_DefsAndResolvers>,
 ): void => {
   typeDefsArray.push( typeDefs );
   resolversArray.push( resolvers );
 } );
 
-Object.values( Mutation as Record<string, TypeTypeDefsAndResolvers> ).forEach( (
+Object.values( Mutation as Record<string, T_DefsAndResolvers> ).forEach( (
   {
     typeDefs,
     resolvers,
-  }: TypeTypeDefsAndResolvers,
+  }: T_DefsAndResolvers,
   // @ts-expect-error
   index: number,
   // @ts-expect-error
-  array: Array<TypeTypeDefsAndResolvers>,
+  array: Array<T_DefsAndResolvers>,
 ): void => {
   typeDefsArray.push( typeDefs );
   resolversArray.push( resolvers );
 } );
 
-const schema: DocumentNode = mergeTypeDefs( typeDefsArray ),
-  rootValue: IResolvers = mergeResolvers( resolversArray );
+const schema: T_DocumentNode = mergeTypeDefs( typeDefsArray ),
+  rootValue: T_IResolvers = mergeResolvers( resolversArray );
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {TypeResponse001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): TypeResponse001{
-  const options: HandlerOptions = {
+function ResponseHandle( request: Request ): T_Response001{
+  const options: T_HandlerOptions = {
     schema: buildSchema( print( schema ) ),
     rootValue: rootValue,
   };

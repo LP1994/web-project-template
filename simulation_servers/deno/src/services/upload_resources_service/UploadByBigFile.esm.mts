@@ -55,7 +55,7 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type FileSRICollectionSchema,
+  type T_FileSRICollectionSchema,
 
   UpdateOne,
   QueryOne,
@@ -125,7 +125,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         recursive: true,
       } );
 
-      let fileSRIInfo: FileSRICollectionSchema | undefined = ( await QueryOne( sri ) );
+      let fileSRIInfo: T_FileSRICollectionSchema | undefined = ( await QueryOne( sri ) );
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
         const file001: Deno.FsFile = await Deno.open( savePath, {
@@ -135,7 +135,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
 
-        Object.assign( fileSRIInfo as FileSRICollectionSchema, {
+        Object.assign( fileSRIInfo as T_FileSRICollectionSchema, {
           shaType: 'SHA3-512',
           sri,
           requestURL: decodeURI( _request.url ),
@@ -190,7 +190,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         }
       }
       else{
-        fileSRIInfo = {} as FileSRICollectionSchema;
+        fileSRIInfo = {} as T_FileSRICollectionSchema;
 
         await handleFun001();
 
@@ -207,7 +207,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         } );
       }
 
-      await UpdateOne( fileSRIInfo as FileSRICollectionSchema );
+      await UpdateOne( fileSRIInfo as T_FileSRICollectionSchema );
     }
     catch( error: unknown ){
       result = JSON.stringify( {

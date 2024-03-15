@@ -30,24 +30,24 @@ import {
 } from './Condition.esm.mts';
 
 import {
-  type FileSRICollectionSchema,
+  type T_FileSRICollectionSchema,
 
   InsertOne,
   UpdateOne,
   QueryOne,
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
-export type TypeObj001 = {
+export type T_Obj001 = {
   // true表示开始写入文件，反之，不用写入文件。
   isWriteFile: boolean;
   // 存放文件信息的对象。
-  fileInfo: FileSRICollectionSchema;
+  fileInfo: T_FileSRICollectionSchema;
   // 表示文件本体对象。
-  file: File | Blob | TypeCustomBlob;
+  file: File | Blob | T_CustomBlob;
 };
 
 // 自定义一个类型为“Blob”的自定义类型，使用时，必须存在其全部的属性。
-type TypeCustomBlob = {
+type T_CustomBlob = {
   // 可以是："Blob"、"File"。
   [ Symbol.toStringTag ]: string;
   stream: () => ReadableStream;
@@ -66,13 +66,13 @@ type TypeCustomBlob = {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @param {File | Blob | TypeCustomBlob} file 表示文件的文件对象，其值类型可以是File、Blob、自定义类型TypeCustomBlob（必须存在其全部的属性），无默认值，必须。
+ * @param {File | Blob | T_CustomBlob} file 表示文件的文件对象，其值类型可以是File、Blob、自定义类型T_CustomBlob（必须存在其全部的属性），无默认值，必须。
  *
  * @param {string} fileName 文件名，如：001.png，带不带扩展名都行，最好带，默认值为空字符串，可选。
  *
- * @returns {Promise<TypeObj001>} 返回一个自定义类型TypeObj001的对象。
+ * @returns {Promise<T_Obj001>} 返回一个自定义类型T_Obj001的对象。
  */
-async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBlob, fileName: string = '' ): Promise<TypeObj001>{
+async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob, fileName: string = '' ): Promise<T_Obj001>{
   /*
    File：
    name--->2.avif
@@ -132,7 +132,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
     } );
   }
 
-  let fileSRI: FileSRICollectionSchema | undefined = await QueryOne( sri );
+  let fileSRI: T_FileSRICollectionSchema | undefined = await QueryOne( sri );
 
   if( fileSRI !== undefined ){
     isWriteFile = false;
@@ -193,8 +193,8 @@ async function UpdateFileSRI( request: Request, file: File | Blob | TypeCustomBl
   };
 }
 
-export type{
-  FileSRICollectionSchema,
+export {
+  type T_FileSRICollectionSchema,
 } from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
 
 export {
