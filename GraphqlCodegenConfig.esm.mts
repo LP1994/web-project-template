@@ -110,7 +110,14 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
   // pluckConfig:{},
 
   // 通用的插件配置选项，会给所有的插件使用。
-  // config: {},
+  config: {
+    // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   Start
+    typesPrefix: 'T_',
+    useTypeImports: true,
+    emitLegacyCommonJSImports: false,
+    printFieldsOnNewLines: true,
+    // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   End
+  },
 
   generates: {
     /**
@@ -122,14 +129,7 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
         './simulation_servers/deno/src/**/*.type.{graphql,graphqls,gql}',
       ],
       // 通用的插件配置选项，会给所有的插件使用。
-      config: {
-        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   Start
-        typesPrefix: 'T_',
-        useTypeImports: true,
-        emitLegacyCommonJSImports: false,
-        printFieldsOnNewLines: true,
-        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   End
-      },
+      // config: {},
       plugins: [
         /**
          * typescript配置项详细见：
@@ -277,14 +277,7 @@ ${ fileContent }`;
         '!./src/graphQL/api/GetSchemaJSON.graphql',
       ],
       // 通用的插件配置选项，会给所有的插件使用。
-      config: {
-        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   Start
-        typesPrefix: 'T_',
-        useTypeImports: true,
-        emitLegacyCommonJSImports: false,
-        printFieldsOnNewLines: true,
-        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   End
-      },
+      // config: {},
       plugins: [
         /**
          * typescript配置项详细见：
