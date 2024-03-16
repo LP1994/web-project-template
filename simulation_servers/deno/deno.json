@@ -3,7 +3,6 @@
     "start": "deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m"
   },
   "nodeModulesDir": false,
-  "importMap": "./import_map.json",
   "lock": "./deno.lock",
   "unstable": [
     "webgpu",

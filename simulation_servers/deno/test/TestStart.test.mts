@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A --config=../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr
+#!/usr/bin/env -S deno run -A --config=../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr
 
 /**
  * Project: web-project-template

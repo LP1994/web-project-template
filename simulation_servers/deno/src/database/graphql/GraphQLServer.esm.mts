@@ -26,10 +26,8 @@ import {
   makeHandler,
 
   // GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
-  // GRAPHQL_TRANSPORT_WS_PROTOCOL,
-  // DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
-  // DEPRECATED_GRAPHQL_WS_PROTOCOL,
-} from 'npm:graphql-ws/lib/use/deno';
+  GRAPHQL_TRANSPORT_WS_PROTOCOL,
+} from 'esm_sh/graphql-ws/lib/use/deno';
 
 import {
   type FetchAPI as T_FetchAPI,
@@ -130,7 +128,7 @@ function GraphQLServer( {
        * "Sec-WebSocket-Protocol": `graphql-transport-ws`。<br />
        * 4、GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws。<br />
        */
-      protocol: 'graphql-transport-ws',
+      protocol: GRAPHQL_TRANSPORT_WS_PROTOCOL,
       /**
        * @type {number} 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
        * 2、默认值为120秒。设置为0以禁用超时。<br />
