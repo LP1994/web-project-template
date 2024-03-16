@@ -205,6 +205,10 @@ const websocketForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
     `${ servicesDir }/websocket_upload/Condition.esm.mts`,
     `${ servicesDir }/websocket_upload/ResponseHandle.esm.mts`,
   ],
+  [
+    `${ servicesDir }/graphql_service/Condition.esm.mts`,
+    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
 ] );
 
 // RouteHandle End

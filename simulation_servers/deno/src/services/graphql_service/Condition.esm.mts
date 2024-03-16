@@ -8,7 +8,7 @@
  */
 
 /**
- * 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求），如：
+ * 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求、Websocket请求），如：
  * POST：https://127.0.0.1:9200/graphql
  *
  * GET：https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
@@ -43,6 +43,14 @@
  *    .catch(error => console.log('error', error));
  *
  * 成功！完美！
+ *
+ * Websocket：
+ * wss://127.0.0.1:9200/graphql
+ * wss://127.0.0.1:4000/graphql/
+ * wss://127.0.0.1:9200/subscriptions
+ * wss://127.0.0.1:9200/subscriptions/
+ * wss://127.0.0.1:9200/graphql/subscriptions
+ * wss://127.0.0.1:9200/graphql/subscriptions/
  *
  *
  *
@@ -88,9 +96,24 @@ export const myURLPathName: string = `/graphql`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname );
+    pathName: string = decodeURI( url.pathname ),
+    upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
+    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
 
-  if( request.method.toLowerCase() === 'get' ){
+  if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) && [
+    myURLPathName,
+    `${ myURLPathName }/`,
+
+    `${ myURLPathName }/subscriptions`,
+    `${ myURLPathName }/subscriptions/`,
+
+    `/subscriptions`,
+    `/subscriptions/`,
+  ].includes( pathName ) ){
+    return true;
+  }
+  else if( request.method.toLowerCase() === 'get' ){
     // 形如：?query={hello1:hello,serverDate1:serverDate,}&variables={}
     const search: string = url.search,
       searchParams: URLSearchParams = url.searchParams;

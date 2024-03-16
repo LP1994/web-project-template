@@ -106,6 +106,8 @@ import * as Query from './Query.esm.mts';
 
 import * as Mutation from './Mutation.esm.mts';
 
+import * as Subscription from './Subscription.esm.mts';
+
 import {
   type T_QueryResolvers,
   type T_MutationResolvers,
@@ -139,6 +141,20 @@ Object.values( Query as Record<string, T_DefsAndResolvers> ).forEach( (
 } );
 
 Object.values( Mutation as Record<string, T_DefsAndResolvers> ).forEach( (
+  {
+    typeDefs,
+    resolvers,
+  }: T_DefsAndResolvers,
+  // @ts-expect-error
+  index: number,
+  // @ts-expect-error
+  array: Array<T_DefsAndResolvers>,
+): void => {
+  typeDefsArray.push( typeDefs );
+  resolversArray.push( resolvers );
+} );
+
+Object.values( Subscription as Record<string, T_DefsAndResolvers> ).forEach( (
   {
     typeDefs,
     resolvers,

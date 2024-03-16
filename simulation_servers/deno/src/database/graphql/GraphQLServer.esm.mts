@@ -23,6 +23,15 @@
 'use strict';
 
 import {
+  makeHandler,
+
+  // GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
+  // GRAPHQL_TRANSPORT_WS_PROTOCOL,
+  // DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
+  // DEPRECATED_GRAPHQL_WS_PROTOCOL,
+} from 'npm:graphql-ws/lib/use/deno';
+
+import {
   type FetchAPI as T_FetchAPI,
   type HandlerOptions as T_HandlerOptions,
 
@@ -100,10 +109,47 @@ function GraphQLServer( {
   options: T_HandlerOptions;
   reqCtx?: Partial<T_FetchAPI>;
 } ): T_Response001{
-  return createHandler(
-    options,
-    reqCtx,
-  )( request );
+  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
+    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
+
+  if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
+    const {
+      socket,
+      response,
+    }: Deno.WebSocketUpgrade = Deno.upgradeWebSocket( request, {
+      /**
+       * @type {string} 1、将客户端Web套接字上的“protocol”属性设置为此处提供的值，该值应该是请求Web套接字时在协议参数中指定的字符串之一。<br />
+       * 2、这旨在让客户端和服务器指定用于相互通信的子协议。<br />
+       * 3、在客户端使用时，需要注意，客户端发出的请求会在请求头增加一个键值对：<br />
+       * "Sec-WebSocket-Protocol": `graphql-transport-ws`。<br />
+       * 如果客户端发出的请求的请求头没有该键值对，客户端就会连接不上。<br />
+       * 例如，在浏览器端的JS代码：<br />
+       * new WebSocket( 'wss://127.0.0.1:9200/', `graphql-transport-ws` );<br />
+       * 发出的请求的请求头就会自动加一个键值对：<br />
+       * "Sec-WebSocket-Protocol": `graphql-transport-ws`。<br />
+       * 4、GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws。<br />
+       */
+      protocol: 'graphql-transport-ws',
+      /**
+       * @type {number} 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
+       * 2、默认值为120秒。设置为0以禁用超时。<br />
+       */
+      idleTimeout: 0,
+    } );
+
+    makeHandler(
+      options,
+    )( socket );
+
+    return response;
+  }
+  else{
+    return createHandler(
+      options,
+      reqCtx,
+    )( request );
+  }
 }
 
 export {

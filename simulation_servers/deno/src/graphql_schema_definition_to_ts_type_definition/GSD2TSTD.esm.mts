@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-16 11:04:15 星期六
+ * CreateDate: 2024-03-16 13:06:15 星期六
  */
 
 "use strict";
@@ -88,6 +88,11 @@ export type T_Query = {
 
 export type T_QueryGetMessageArgs = {
   id: Scalars["ID"]["input"];
+};
+
+export type T_Subscription = {
+  __typename?: "Subscription";
+  greetings: FieldWrapper<Scalars["String"]["output"]>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -204,6 +209,7 @@ export type T_ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
+  Subscription: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -215,6 +221,7 @@ export type T_ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars["String"]["output"];
+  Subscription: {};
 };
 
 export type T_MessageResolvers<
@@ -262,8 +269,22 @@ export type T_QueryResolvers<
   serverDate?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
 };
 
+export type T_SubscriptionResolvers<
+  ContextType = any,
+  ParentType extends
+    T_ResolversParentTypes["Subscription"] = T_ResolversParentTypes["Subscription"],
+> = {
+  greetings?: SubscriptionResolver<
+    T_ResolversTypes["String"],
+    "greetings",
+    ParentType,
+    ContextType
+  >;
+};
+
 export type T_Resolvers<ContextType = any> = {
   Message?: T_MessageResolvers<ContextType>;
   Mutation?: T_MutationResolvers<ContextType>;
   Query?: T_QueryResolvers<ContextType>;
+  Subscription?: T_SubscriptionResolvers<ContextType>;
 };
