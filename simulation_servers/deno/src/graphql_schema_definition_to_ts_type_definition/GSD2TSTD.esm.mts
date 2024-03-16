@@ -4,14 +4,18 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-15 08:29:42 星期五
+ * CreateDate: 2024-03-16 10:21:44 星期六
  */
 
 "use strict";
 
 import type { GraphQLResolveInfo } from "esm_sh_graphql";
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | null | undefined | Promise<T | null | undefined>;
+export type InputMaybe<T> =
+  | T
+  | null
+  | undefined
+  | Promise<T | null | undefined>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -30,6 +34,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
+export type FieldWrapper<T> = T | Promise<T>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
@@ -42,46 +47,46 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
-export type Message = {
+export type T_Message = {
   __typename?: "Message";
-  author: Scalars["String"]["output"];
-  content: Scalars["String"]["output"];
-  id: Scalars["ID"]["output"];
+  author: FieldWrapper<Scalars["String"]["output"]>;
+  content: FieldWrapper<Scalars["String"]["output"]>;
+  id: FieldWrapper<Scalars["ID"]["output"]>;
 };
 
 /** 消息内容。 */
-export type MessageInput = {
+export type T_MessageInput = {
   /** 作者。 */
   author: Scalars["String"]["input"];
   /** 内容。 */
   content: Scalars["String"]["input"];
 };
 
-export type Mutation = {
+export type T_Mutation = {
   __typename?: "Mutation";
-  createMessage: Message;
-  updateMessage: Message;
+  createMessage: FieldWrapper<T_Message>;
+  updateMessage: FieldWrapper<T_Message>;
 };
 
-export type MutationCreateMessageArgs = {
-  input: MessageInput;
+export type T_MutationCreateMessageArgs = {
+  input: T_MessageInput;
 };
 
-export type MutationUpdateMessageArgs = {
+export type T_MutationUpdateMessageArgs = {
   id: Scalars["ID"]["input"];
-  input: MessageInput;
+  input: T_MessageInput;
 };
 
-export type Query = {
+export type T_Query = {
   __typename?: "Query";
-  getMessage: Message;
+  getMessage: FieldWrapper<T_Message>;
   /** 表示一个值，值类型是String。 */
-  hello: Scalars["String"]["output"];
+  hello: FieldWrapper<Scalars["String"]["output"]>;
   /** 服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。 */
-  serverDate: Scalars["String"]["output"];
+  serverDate: FieldWrapper<Scalars["String"]["output"]>;
 };
 
-export type QueryGetMessageArgs = {
+export type T_QueryGetMessageArgs = {
   id: Scalars["ID"]["input"];
 };
 
@@ -163,7 +168,7 @@ export type SubscriptionResolver<
     ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
-export type T_ResolveFn<TTypes, TParent = {}, TContext = {}> = (
+export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
   info: GraphQLResolveInfo,
@@ -191,74 +196,74 @@ export type DirectiveResolverFn<
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
+export type T_ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
   ID: ResolverTypeWrapper<Scalars["ID"]["output"]>;
-  Message: ResolverTypeWrapper<Message>;
-  MessageInput: MessageInput;
+  Message: ResolverTypeWrapper<T_Message>;
+  MessageInput: T_MessageInput;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
+export type T_ResolversParentTypes = {
   Boolean: Scalars["Boolean"]["output"];
   ID: Scalars["ID"]["output"];
-  Message: Message;
-  MessageInput: MessageInput;
+  Message: T_Message;
+  MessageInput: T_MessageInput;
   Mutation: {};
   Query: {};
   String: Scalars["String"]["output"];
 };
 
-export type MessageResolvers<
+export type T_MessageResolvers<
   ContextType = any,
   ParentType extends
-    ResolversParentTypes["Message"] = ResolversParentTypes["Message"],
+    T_ResolversParentTypes["Message"] = T_ResolversParentTypes["Message"],
 > = {
-  author?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  author?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  content?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<T_ResolversTypes["ID"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<
+export type T_MutationResolvers<
   ContextType = any,
   ParentType extends
-    ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
+    T_ResolversParentTypes["Mutation"] = T_ResolversParentTypes["Mutation"],
 > = {
   createMessage?: Resolver<
-    ResolversTypes["Message"],
+    T_ResolversTypes["Message"],
     ParentType,
     ContextType,
-    RequireFields<MutationCreateMessageArgs, "input">
+    RequireFields<T_MutationCreateMessageArgs, "input">
   >;
   updateMessage?: Resolver<
-    ResolversTypes["Message"],
+    T_ResolversTypes["Message"],
     ParentType,
     ContextType,
-    RequireFields<MutationUpdateMessageArgs, "id" | "input">
+    RequireFields<T_MutationUpdateMessageArgs, "id" | "input">
   >;
 };
 
-export type QueryResolvers<
+export type T_QueryResolvers<
   ContextType = any,
   ParentType extends
-    ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
+    T_ResolversParentTypes["Query"] = T_ResolversParentTypes["Query"],
 > = {
   getMessage?: Resolver<
-    ResolversTypes["Message"],
+    T_ResolversTypes["Message"],
     ParentType,
     ContextType,
-    RequireFields<QueryGetMessageArgs, "id">
+    RequireFields<T_QueryGetMessageArgs, "id">
   >;
-  hello?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  serverDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  hello?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  serverDate?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
-  Message?: MessageResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
+export type T_Resolvers<ContextType = any> = {
+  Message?: T_MessageResolvers<ContextType>;
+  Mutation?: T_MutationResolvers<ContextType>;
+  Query?: T_QueryResolvers<ContextType>;
 };

@@ -4,13 +4,17 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-15 08:29:42 星期五
+ * CreateDate: 2024-03-16 10:21:44 星期六
  */
 
 "use strict";
 
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | null | undefined | Promise<T | null | undefined>;
+export type InputMaybe<T> =
+  | T
+  | null
+  | undefined
+  | Promise<T | null | undefined>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -29,6 +33,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
+export type FieldWrapper<T> = T | Promise<T>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -38,55 +43,55 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
-export type Message = {
+export type T_Message = {
   __typename?: "Message";
-  author: Scalars["String"]["output"];
-  content: Scalars["String"]["output"];
-  id: Scalars["ID"]["output"];
+  author: FieldWrapper<Scalars["String"]["output"]>;
+  content: FieldWrapper<Scalars["String"]["output"]>;
+  id: FieldWrapper<Scalars["ID"]["output"]>;
 };
 
 /** 消息内容。 */
-export type MessageInput = {
+export type T_MessageInput = {
   /** 作者。 */
   author: Scalars["String"]["input"];
   /** 内容。 */
   content: Scalars["String"]["input"];
 };
 
-export type Mutation = {
+export type T_Mutation = {
   __typename?: "Mutation";
-  createMessage: Message;
-  updateMessage: Message;
+  createMessage: FieldWrapper<T_Message>;
+  updateMessage: FieldWrapper<T_Message>;
 };
 
-export type MutationCreateMessageArgs = {
-  input: MessageInput;
+export type T_MutationCreateMessageArgs = {
+  input: T_MessageInput;
 };
 
-export type MutationUpdateMessageArgs = {
+export type T_MutationUpdateMessageArgs = {
   id: Scalars["ID"]["input"];
-  input: MessageInput;
+  input: T_MessageInput;
 };
 
-export type Query = {
+export type T_Query = {
   __typename?: "Query";
-  getMessage: Message;
+  getMessage: FieldWrapper<T_Message>;
   /** 表示一个值，值类型是String。 */
-  hello: Scalars["String"]["output"];
+  hello: FieldWrapper<Scalars["String"]["output"]>;
   /** 服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。 */
-  serverDate: Scalars["String"]["output"];
+  serverDate: FieldWrapper<Scalars["String"]["output"]>;
 };
 
-export type QueryGetMessageArgs = {
+export type T_QueryGetMessageArgs = {
   id: Scalars["ID"]["input"];
 };
 
-export type Test001MutationVariables = Exact<{
+export type T_Test001MutationVariables = Exact<{
   id: Scalars["ID"]["input"];
-  input: MessageInput;
+  input: T_MessageInput;
 }>;
 
-export type Test001Mutation = {
+export type T_Test001Mutation = {
   __typename?: "Mutation";
   updateMessage: {
     __typename?: "Message";

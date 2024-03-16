@@ -10,14 +10,14 @@
 'use strict';
 
 import {
-  type CodegenConfig,
+  type CodegenConfig as T_CodegenConfig,
 } from '@graphql-codegen/cli';
 
 /**
- * 自定义的类型别名TypeDateFormatForObject，表示一个对象：
+ * 自定义的类型别名T_DateFormatForObject，表示一个对象：
  * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
  */
-type TypeDateFormatForObject = {
+type T_DateFormatForObject = {
   /**
    * 表示年。
    */
@@ -53,9 +53,9 @@ type TypeDateFormatForObject = {
  *
  * @param {Date} dateInstance 一个“Date实例对象”，默认值（当前时间）：new Date( Date.now() )，可选。<br />
  *
- * @returns {TypeDateFormatForObject} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ * @returns {T_DateFormatForObject} year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
  */
-function DateFormatForObject( dateInstance: Date = new Date( Date.now() ) ): TypeDateFormatForObject{
+function DateFormatForObject( dateInstance: Date = new Date( Date.now() ) ): T_DateFormatForObject{
   const year: string = String( dateInstance.getFullYear() ),
     month: string = String( dateInstance.getMonth() + 1 ).padStart( 2, '0' ),
     date: string = String( dateInstance.getDate() ).padStart( 2, '0' ),
@@ -88,53 +88,144 @@ const obj001: Record<string, string> = {
   '日': '日',
 };
 
-const GraphqlCodegenConfig: CodegenConfig = {
+/**
+ * Codegen配置。
+ *
+ * @type {T_CodegenConfig} 详细配置见：node_modules/@graphql-codegen/plugin-helpers/typings/types.d.ts:339
+ */
+const GraphqlCodegenConfig: T_CodegenConfig = {
   overwrite: true,
   watch: true,
+  // 当没有文件要生成时，用于抑制非零退出代码的标志。
+  ignoreNoDocuments: true,
+  emitLegacyCommonJSImports: false,
   silent: false,
   verbose: true,
   debug: false,
   errorsOnly: false,
   noSilentErrors: true,
-
-  addUnderscoreToArgsType: false,
-  useTypeImports: true,
-  emitLegacyCommonJSImports: false,
-  printFieldsOnNewLines: true,
-  /*
-   avoidOptionals: {
-   field: true,
-   object: true,
-   inputValue: true,
-   defaultValue: true,
-   resolvers: true,
-   },
+  /**
+   * 允许您覆盖 @graphql-tools/graphql-tag-pluck 的配置，该工具可从代码文件中提取 GraphQL 操作。
    */
+  // pluckConfig:{},
+
+  // 通用的插件配置选项，会给所有的插件使用。
+  // config: {},
 
   generates: {
+    /**
+     * 详细配置见：node_modules/@graphql-codegen/plugin-helpers/typings/types.d.ts:217
+     */
     './simulation_servers/deno/src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts': {
       overwrite: true,
       schema: [
-        './simulation_servers/deno/src/**/*.type.graphql',
+        './simulation_servers/deno/src/**/*.type.{graphql,graphqls,gql}',
       ],
+      // 通用的插件配置选项，会给所有的插件使用。
+      config: {
+        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   Start
+        typesPrefix: 'T_',
+        useTypeImports: true,
+        emitLegacyCommonJSImports: false,
+        printFieldsOnNewLines: true,
+        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   End
+      },
       plugins: [
-        'typescript',
+        /**
+         * typescript配置项详细见：
+         * node_modules/@graphql-codegen/typescript/typings/config.d.ts:7
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28
+         */
+        {
+          'typescript': {
+            // node_modules/@graphql-codegen/typescript/typings/config.d.ts:7   Start
+
+            avoidOptionals: false,
+            maybeValue: 'T | null | undefined | Promise< T | null | undefined >',
+            inputMaybeValue: 'T | null | undefined | Promise< T | null | undefined >',
+
+            // node_modules/@graphql-codegen/typescript/typings/config.d.ts:7   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   Start
+
+            declarationKind: {
+              input: 'type',
+              type: 'type',
+              interface: 'interface',
+              arguments: 'type',
+            },
+            wrapFieldDefinitions: true,
+            fieldWrapperValue: 'T | Promise<T>',
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   End
+          },
+        },
+
+        /**
+         * typescript-resolvers配置项详细见：
+         * node_modules/@graphql-codegen/typescript-resolvers/typings/config.d.ts:9
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-resolvers-visitor.d.ts:34
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28
+         */
         {
           'typescript-resolvers': {
-            customResolveInfo: 'esmSH/graphql#GraphQLResolveInfo',
-            addUnderscoreToArgsType: false,
-            useTypeImports: true,
-            emitLegacyCommonJSImports: false,
-            printFieldsOnNewLines: true,
-            /*
-             avoidOptionals: {
-             field: true,
-             object: true,
-             inputValue: true,
-             defaultValue: true,
-             resolvers: true,
-             },
-             */
+            // node_modules/@graphql-codegen/typescript-resolvers/typings/config.d.ts:9   Start
+
+            customResolveInfo: 'esm_sh_graphql#GraphQLResolveInfo',
+
+            // node_modules/@graphql-codegen/typescript-resolvers/typings/config.d.ts:9   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-resolvers-visitor.d.ts:34   Start
+
+            // 为导入的名称添加后缀，以防止名称冲突。
+            mapperTypeSuffix: '_Model',
+            // 这将导致生成器避免使用可选项 (`?`)，因此必须执行所有字段解析器，以避免编译错误。
+            avoidOptionals: false,
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-resolvers-visitor.d.ts:34   End
+          },
+        },
+
+        /**
+         * typescript-operations配置项详细见：
+         * node_modules/@graphql-codegen/typescript-operations/typings/config.d.ts:8
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-documents-visitor.d.ts:22
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28
+         */
+        {
+          'typescript-operations': {
+            // node_modules/@graphql-codegen/typescript-operations/typings/config.d.ts:8   Start
+
+            arrayInputCoercion: false,
+            avoidOptionals: true,
+            maybeValue: 'T | null | undefined | Promise< T | null | undefined >',
+
+            // node_modules/@graphql-codegen/typescript-operations/typings/config.d.ts:8   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-documents-visitor.d.ts:22   Start
+
+            // 如果设置为 "true"，它将导出创建的子类型，以便更容易访问在片段传播下声明的字段。
+            exportFragmentSpreadSubTypes: true,
+            // 如果设置为 "true"，将启用对片段变量解析的支持。
+            experimentalFragmentVariables: true,
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-documents-visitor.d.ts:22   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   Start
+
+            declarationKind: {
+              input: 'type',
+              type: 'type',
+              interface: 'interface',
+              arguments: 'type',
+            },
+            wrapFieldDefinitions: true,
+            fieldWrapperValue: 'T | Promise<T>',
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   End
+
           },
         },
       ],
@@ -152,7 +243,7 @@ const GraphqlCodegenConfig: CodegenConfig = {
             minutes,
             seconds,
             day,
-          }: TypeDateFormatForObject = DateFormatForObject();
+          }: T_DateFormatForObject = DateFormatForObject();
 
           return `
 /**
@@ -168,35 +259,103 @@ const GraphqlCodegenConfig: CodegenConfig = {
 
 ${ fileContent }`;
         },
-        afterAllFileWrite: [
-          'prettier --write',
-        ],
       },
     },
 
+    /**
+     * 详细配置见：node_modules/@graphql-codegen/plugin-helpers/typings/types.d.ts:217
+     */
     './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts': {
       overwrite: true,
       schema: [
         './src/graphQL/GraphQL.Schema.json',
       ],
+      documents: [
+        './src/**/*.{graphql,graphqls,gql}',
+        '!./src/graphQL/doc/*.{graphql,graphqls,gql}',
+        '!./src/graphQL/GraphQL.Schema.json.graphql',
+        '!./src/graphQL/api/GetSchemaJSON.graphql',
+      ],
+      // 通用的插件配置选项，会给所有的插件使用。
+      config: {
+        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   Start
+        typesPrefix: 'T_',
+        useTypeImports: true,
+        emitLegacyCommonJSImports: false,
+        printFieldsOnNewLines: true,
+        // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28   End
+      },
       plugins: [
-        'typescript',
+        /**
+         * typescript配置项详细见：
+         * node_modules/@graphql-codegen/typescript/typings/config.d.ts:7
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28
+         */
         {
-          'typescript-resolvers': {
-            customResolveInfo: 'esmSH/graphql#GraphQLResolveInfo',
-            addUnderscoreToArgsType: false,
-            useTypeImports: true,
-            emitLegacyCommonJSImports: false,
-            printFieldsOnNewLines: true,
-            /*
-             avoidOptionals: {
-             field: true,
-             object: true,
-             inputValue: true,
-             defaultValue: true,
-             resolvers: true,
-             },
-             */
+          'typescript': {
+            // node_modules/@graphql-codegen/typescript/typings/config.d.ts:7   Start
+
+            avoidOptionals: false,
+            maybeValue: 'T | null | undefined | Promise< T | null | undefined >',
+            inputMaybeValue: 'T | null | undefined | Promise< T | null | undefined >',
+
+            // node_modules/@graphql-codegen/typescript/typings/config.d.ts:7   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   Start
+
+            declarationKind: {
+              input: 'type',
+              type: 'type',
+              interface: 'interface',
+              arguments: 'type',
+            },
+            wrapFieldDefinitions: true,
+            fieldWrapperValue: 'T | Promise<T>',
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   End
+          },
+        },
+
+        /**
+         * typescript-operations配置项详细见：
+         * node_modules/@graphql-codegen/typescript-operations/typings/config.d.ts:8
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-documents-visitor.d.ts:22
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21
+         * node_modules/@graphql-codegen/visitor-plugin-common/typings/base-visitor.d.ts:28
+         */
+        {
+          'typescript-operations': {
+            // node_modules/@graphql-codegen/typescript-operations/typings/config.d.ts:8   Start
+
+            arrayInputCoercion: false,
+            avoidOptionals: true,
+            maybeValue: 'T | null | undefined | Promise< T | null | undefined >',
+
+            // node_modules/@graphql-codegen/typescript-operations/typings/config.d.ts:8   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-documents-visitor.d.ts:22   Start
+
+            // 如果设置为 "true"，它将导出创建的子类型，以便更容易访问在片段传播下声明的字段。
+            exportFragmentSpreadSubTypes: true,
+            // 如果设置为 "true"，将启用对片段变量解析的支持。
+            experimentalFragmentVariables: true,
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-documents-visitor.d.ts:22   End
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   Start
+
+            declarationKind: {
+              input: 'type',
+              type: 'type',
+              interface: 'interface',
+              arguments: 'type',
+            },
+            wrapFieldDefinitions: true,
+            fieldWrapperValue: 'T | Promise<T>',
+
+            // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-types-visitor.d.ts:21   End
+
           },
         },
       ],
@@ -214,7 +373,7 @@ ${ fileContent }`;
             minutes,
             seconds,
             day,
-          }: TypeDateFormatForObject = DateFormatForObject();
+          }: T_DateFormatForObject = DateFormatForObject();
 
           return `
 /**
@@ -230,11 +389,14 @@ ${ fileContent }`;
 
 ${ fileContent }`;
         },
-        afterAllFileWrite: [
-          'prettier --write',
-        ],
       },
     },
+  },
+
+  hooks: {
+    afterAllFileWrite: [
+      'prettier --write',
+    ],
   },
 };
 
