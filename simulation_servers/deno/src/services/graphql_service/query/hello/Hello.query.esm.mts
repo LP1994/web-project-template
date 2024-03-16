@@ -18,7 +18,7 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
-  type QueryResolvers as T_QueryResolvers,
+  type T_QueryResolvers,
 } from 'GSD2TSTD';
 
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );

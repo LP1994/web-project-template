@@ -19,14 +19,14 @@ import {
 
 import {
   type Scalars as T_Scalars,
-  type MessageInput as T_MessageInput,
-  type Message as T_Message,
+  type T_MessageInput,
+  type T_Message,
 
-  type QueryResolvers as T_QueryResolvers,
-  type MutationResolvers as T_MutationResolvers,
-  type QueryGetMessageArgs as T_QueryGetMessageArgs,
-  type MutationCreateMessageArgs as T_MutationCreateMessageArgs,
-  type MutationUpdateMessageArgs as T_MutationUpdateMessageArgs,
+  type T_QueryResolvers,
+  type T_MutationResolvers,
+  type T_QueryGetMessageArgs,
+  type T_MutationCreateMessageArgs,
+  type T_MutationUpdateMessageArgs,
 } from 'GSD2TSTD';
 
 const kv: Deno.Kv = await Deno.openKv();

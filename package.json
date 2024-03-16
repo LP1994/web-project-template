@@ -154,7 +154,7 @@
     "update_graphQL_schema_json": "node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation ./configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs",
     "update_tsconfig_lib": "node --experimental-import-meta-resolve --experimental-network-imports --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs",
     "weinre": "weinre --boundHost -all- --httpPort 8300 --verbose false --debug false",
-    "graphql_codegen": "graphql-codegen-esm --watch --config GraphqlCodegenConfig.esm.mts"
+    "graphql_codegen": "graphql-codegen-esm --config ./GraphqlCodegenConfig.esm.mts"
   },
   "devDependencies": {
     "@angular/core": "^17.3.0",
