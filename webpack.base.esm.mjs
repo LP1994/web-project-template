@@ -68,7 +68,7 @@ import {
   cpus,
 } from 'node:os';
 
-import {
+import path, {
   dirname,
   join,
   resolve,
@@ -1263,6 +1263,8 @@ const aliasConfig = {
     'element-ui-css$': 'element-ui/lib/theme-chalk/index.css',
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
+
+    'GSD2TSTD': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
 
     // assets文件夹 Start
     assetsDir: resolve( __dirname, './src/assets/' ),
