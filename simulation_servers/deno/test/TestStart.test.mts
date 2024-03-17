@@ -18,8 +18,8 @@
 console.log( `\n\n\n` );
 
 /*
- if( false ){
- import('./xxx.mts').catch( ( error: unknown ): void => {
+ if( true ){
+ import('./graphql-ws-demo001/server.ts').catch( ( error: unknown ): void => {
  console.error( error );
  } ).finally( (): void => {
  console.log( `\n\n\n` );

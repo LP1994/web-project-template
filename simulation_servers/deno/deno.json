@@ -4,6 +4,7 @@
   },
   "nodeModulesDir": false,
   "lock": "./deno.lock",
+  "exclude": [],
   "unstable": [
     "webgpu",
     "broadcast-channel",
@@ -16,7 +17,6 @@
     "http",
     "temporal"
   ],
-  "exclude": [],
   "imports": {
     "deno_std/": "https://deno.land/std/",
     "deno_std_encoding/": "https://deno.land/std/encoding/",
