@@ -111,6 +111,7 @@ import * as Subscription from './Subscription.esm.mts';
 import {
   type T_QueryResolvers,
   type T_MutationResolvers,
+  type T_SubscriptionResolvers,
   type T_QueryGetMessageArgs,
   type T_MutationCreateMessageArgs,
   type T_MutationUpdateMessageArgs,
@@ -124,7 +125,10 @@ type T_DefsAndResolvers = {
 };
 
 const typeDefsArray: Array<T_DocumentNode> = [],
-  resolversArray: Array<T_Resolvers> = [];
+  resolversArray: Array<T_Resolvers> = [],
+  resolversQueryArray: Array<T_Resolvers> = [],
+  resolversMutationArray: Array<T_Resolvers> = [],
+  resolversSubscriptionArray: Array<T_Resolvers> = [];
 
 Object.values( Query as Record<string, T_DefsAndResolvers> ).forEach( (
   {
@@ -138,6 +142,7 @@ Object.values( Query as Record<string, T_DefsAndResolvers> ).forEach( (
 ): void => {
   typeDefsArray.push( typeDefs );
   resolversArray.push( resolvers );
+  resolversQueryArray.push( resolvers );
 } );
 
 Object.values( Mutation as Record<string, T_DefsAndResolvers> ).forEach( (
@@ -152,6 +157,7 @@ Object.values( Mutation as Record<string, T_DefsAndResolvers> ).forEach( (
 ): void => {
   typeDefsArray.push( typeDefs );
   resolversArray.push( resolvers );
+  resolversMutationArray.push( resolvers );
 } );
 
 Object.values( Subscription as Record<string, T_DefsAndResolvers> ).forEach( (
@@ -166,10 +172,20 @@ Object.values( Subscription as Record<string, T_DefsAndResolvers> ).forEach( (
 ): void => {
   typeDefsArray.push( typeDefs );
   resolversArray.push( resolvers );
+  resolversSubscriptionArray.push( resolvers );
 } );
 
 const schema: T_DocumentNode = mergeTypeDefs( typeDefsArray ),
-  rootValue: T_IResolvers = mergeResolvers( resolversArray );
+  rootValue: T_IResolvers = mergeResolvers( resolversArray ),
+  rootQueryValue: T_IResolvers = mergeResolvers( resolversQueryArray ),
+  rootMutationValue: T_IResolvers = mergeResolvers( resolversMutationArray ),
+  rootSubscriptionValue: T_IResolvers = mergeResolvers( resolversSubscriptionArray );
+
+const subscriptionRoots: Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers> = {
+  query: rootQueryValue,
+  mutation: rootMutationValue,
+  subscription: rootSubscriptionValue,
+};
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
@@ -181,12 +197,13 @@ const schema: T_DocumentNode = mergeTypeDefs( typeDefsArray ),
 function ResponseHandle( request: Request ): T_Response001{
   const options: T_HandlerOptions = {
     schema: buildSchema( print( schema ) ),
-    rootValue: rootValue,
+    rootValue,
   };
 
   return GraphQLServer( {
     request,
     options,
+    subscriptionRoots,
   } );
 }
 

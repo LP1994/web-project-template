@@ -42,6 +42,12 @@ import {
   httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  type T_QueryResolvers,
+  type T_MutationResolvers,
+  type T_SubscriptionResolvers,
+} from 'GSD2TSTD';
+
 /**
  * 自定义了一个继承于Response的类。
  * 用于在“npm:graphql-http/lib/use/fetch”处理后，我们可以继续操作，以便根据具体的业务返回给客户端一个想要的Response。
@@ -102,10 +108,12 @@ function GraphQLServer( {
   reqCtx = {
     Response: MyGraphQLServerResponse,
   },
+  subscriptionRoots,
 }: {
   request: Request;
   options: T_HandlerOptions;
   reqCtx?: Partial<T_FetchAPI>;
+  subscriptionRoots?: Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers>;
 } ): T_Response001{
   const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
     // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
@@ -137,7 +145,10 @@ function GraphQLServer( {
     } );
 
     makeHandler(
-      options,
+      {
+        ...options,
+        roots: subscriptionRoots,
+      },
     )( socket );
 
     return response;

@@ -1,0 +1,31 @@
+当使用qraphql-ws时，几个使用注意事项：
+
+1、客户端发起与服务器的连接完成后，在超时之前，客户端得发送一次“初始化”请求到服务端：
+{
+    "type": "connection_init"
+}
+
+
+
+2、客户端发送正式的订阅请求，注意，“type”属性的值是“subscribe”：
+{
+    "type": "subscribe",
+    "id": "XXXXXXXXXXX",
+    "payload":{
+        "query": "subscription { greetings }"
+    }
+}
+
+
+
+3、“qraphql-ws”有如下几个“type”属性：
+'connection_init', // Client -> Server
+'subscribe', // Client -> Server
+
+'connection_ack', // Server -> Client
+'next', // Server -> Client
+'error', // Server -> Client
+
+'ping', // bidirectional双向
+'pong', /// bidirectional双向
+'complete', // bidirectional双向
