@@ -10,7 +10,7 @@
 'use strict';
 
 import {
-  type GraphQLSchema as T_GraphQLSchema,
+  type DocumentNode as T_DocumentNode,
 } from 'esm_sh_graphql';
 
 import {
@@ -21,7 +21,7 @@ import {
   type T_SubscriptionResolvers,
 } from 'GSD2TSTD';
 
-const typeDefs: T_GraphQLSchema = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Greetings.type.graphql` ) ) );
+const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Greetings.type.graphql` ) ) );
 
 const resolvers: T_SubscriptionResolvers = {
   greetings: async function* (): AsyncGenerator<{
