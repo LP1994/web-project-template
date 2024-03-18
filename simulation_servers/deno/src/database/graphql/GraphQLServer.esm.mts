@@ -23,11 +23,17 @@
 'use strict';
 
 import {
-  makeHandler,
+  type Server as T_Server,
 
-  // GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
+  makeServer,
+
+  // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
   GRAPHQL_TRANSPORT_WS_PROTOCOL,
-} from 'esm_sh/graphql-ws/lib/use/deno';
+  //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
+  DEPRECATED_GRAPHQL_WS_PROTOCOL,
+
+  CloseCode,
+} from 'esm_sh/graphql-ws/lib';
 
 import {
   type FetchAPI as T_FetchAPI,
@@ -146,12 +152,63 @@ function GraphQLServer( {
       idleTimeout: 0,
     } );
 
-    makeHandler(
-      {
-        ...options,
-        roots: subscriptionRoots,
-      },
-    )( socket );
+    {
+      const server: T_Server = makeServer(
+        {
+          ...options,
+          roots: subscriptionRoots,
+        },
+      );
+
+      socket.onerror = ( error: Event | ErrorEvent ): void => {
+        console.error( 'Internal error emitted on the WebSocket socket. Please check your implementation.', error );
+
+        socket.close( CloseCode.InternalServerError, 'Internal server error' );
+      };
+
+      let closed: ( code: number, reason: string ) => Promise<void> | void = (
+        code: number,
+        reason: string,
+      ): Promise<void> | void => {
+        console.log( `\n\n\nclose code: ${ code }, reason: ${ reason }.\n\n\n` );
+      };
+
+      socket.onopen = (
+        // @ts-expect-error
+        ev: Event
+      ): void => {
+        closed = server.opened(
+          {
+            protocol: GRAPHQL_TRANSPORT_WS_PROTOCOL,
+            send: ( data: string | ArrayBufferLike | Blob | ArrayBufferView ): void => socket.send( data ),
+            close: ( code: number, reason: string ): void => socket.close( code, reason ),
+            onMessage: ( cb: ( data: unknown ) => Promise<any> ): void => {
+              socket.onmessage = async ( event: MessageEvent ): Promise<void> => {
+                try{
+                  await cb( String( event.data ) );
+                }
+                catch( err: unknown ){
+                  console.error( 'Internal error occurred during message handling. Please check your implementation.', err );
+
+                  socket.close( CloseCode.InternalServerError, 'Internal server error' );
+                }
+              };
+            },
+          },
+          {
+            socket,
+          },
+        );
+      };
+
+      socket.onclose = ( event: CloseEvent ): void => {
+        if( event.code === CloseCode.SubprotocolNotAcceptable && socket.protocol === DEPRECATED_GRAPHQL_WS_PROTOCOL ){
+          console.error( `Client provided the unsupported and deprecated subprotocol "${ DEPRECATED_GRAPHQL_WS_PROTOCOL }" used by subscriptions-transport-ws. Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#switching-from-subscriptions-transport-ws.` );
+        }
+
+        closed( event.code, event.reason );
+      };
+    }
 
     return response;
   }
