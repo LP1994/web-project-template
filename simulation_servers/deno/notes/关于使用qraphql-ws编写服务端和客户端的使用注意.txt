@@ -10,7 +10,7 @@
 2、客户端发送正式的订阅请求，注意，“type”属性的值是“subscribe”：
 {
     "type": "subscribe",
-    "id": "XXXXXXXXXXX",
+    "id": "ea04a057-9463-4244-ab3f-a382546e5699",
     "payload":{
         "query": "subscription { greetings }"
     }
