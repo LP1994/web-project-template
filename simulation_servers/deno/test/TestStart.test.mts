@@ -19,7 +19,7 @@ console.log( `\n\n\n` );
 
 /*
  if( true ){
- import('./graphql-ws-demo001/server.ts').catch( ( error: unknown ): void => {
+ import('./graphql001/Graphql001.test.ts').catch( ( error: unknown ): void => {
  console.error( error );
  } ).finally( (): void => {
  console.log( `\n\n\n` );

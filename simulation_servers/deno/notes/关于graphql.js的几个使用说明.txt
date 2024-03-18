@@ -1,0 +1,37 @@
+Parser（解析器）
+
+function parse(
+  source: string | Source,
+  options?: ParseOptions | undefined,
+): DocumentNode;
+根据 GraphQL 语法分析 GraphQL 源代码
+将 GraphQL 源解析为文档。
+如果遇到语法错误，则抛出 GraphQLError。
+
+
+
+Printer（打印）
+
+function print(ast: ASTNode): string;
+以标准格式打印 AST。
+使用一套合理的格式化规则将 AST 转换为字符串。
+
+
+
+function buildSchema(
+  source: string | Source,
+  options?: BuildSchemaOptions & ParseOptions,
+): GraphQLSchema;
+使用 GraphQL 模式语言创建 GraphQLSchema 对象。模式将使用默认解析器。有关 GraphQL 模式语言的更多详情，请参阅模式语言文档或模式语言小抄。
+根据 GraphQL 模式语言构建模式对象。
+
+function printSchema(schema: GraphQLSchema): string;
+以模式语言格式打印所提供的模式。
+以标准格式打印模式。
+
+function buildASTSchema(
+  documentAST: DocumentNode,
+  options?: BuildSchemaOptions,
+): GraphQLSchema;
+它以 graphql/language/schema 中 parseSchemaIntoAST 生成的模式文档为基础，构建一个 GraphQLSchema 实例，该实例可用于所有 GraphQL.js 工具，但不能用于执行查询，因为内省并不代表 "解析器"、"解析 "或 "序列化 "函数或任何其他服务器内部机制。
+根据解析的 AST 模式构建模式。
