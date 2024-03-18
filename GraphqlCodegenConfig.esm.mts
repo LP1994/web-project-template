@@ -172,7 +172,7 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
           'typescript-resolvers': {
             // node_modules/@graphql-codegen/typescript-resolvers/typings/config.d.ts:9   Start
 
-            customResolveInfo: 'esm_sh_graphql#GraphQLResolveInfo',
+            customResolveInfo: 'https://esm.sh/graphql#GraphQLResolveInfo',
 
             // node_modules/@graphql-codegen/typescript-resolvers/typings/config.d.ts:9   End
 
