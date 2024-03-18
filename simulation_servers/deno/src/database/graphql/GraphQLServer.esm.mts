@@ -100,6 +100,8 @@ class MyGraphQLServerResponse
  * 如果需要在“npm:graphql-http/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
  * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
  *
+ * @param {Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers>} subscriptionRoots 给WebSocket使用的解析，无默认值，可选。
+ *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function GraphQLServer( {

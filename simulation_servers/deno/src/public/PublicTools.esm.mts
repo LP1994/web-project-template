@@ -14,9 +14,9 @@
 'use strict';
 
 import {
-  type DocumentNode as T_DocumentNode,
+  type GraphQLSchema as T_GraphQLSchema,
 
-  parse,
+  buildSchema,
 } from 'esm_sh_graphql';
 
 import {
@@ -157,7 +157,7 @@ async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
 }
 
 /**
- * 根据一个内容是“GraphQL类型定义（即：GraphQL source）”的文件的路径，将其中的“GraphQL类型定义（即：GraphQL source）”解析为“DocumentNode”。
+ * 根据一个内容是“GraphQL类型定义（即：GraphQL source）”的文件的路径，将其中的“GraphQL类型定义（即：GraphQL source）”解析为“GraphQLSchema”。
  * PS：
  * 1、如果解析过程遇到语法错误，则抛出GraphQLError。
  * 2、在读取文件内容时，以UTF-8解码字符串的形式同步读取并返回文件的全部内容。读取目录时会出错。
@@ -172,10 +172,10 @@ async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
  * @param {string | URL} path 文件路径，无默认值，必须。
  * 该值形如：new URL( import.meta.resolve( `./Hello.type.graphql` ) )。
  *
- * @returns {T_DocumentNode} 返回一个DocumentNode。
+ * @returns {T_GraphQLSchema} 返回一个GraphQLSchema。
  */
-function GraphqlParseByFilePath( path: string | URL ): T_DocumentNode{
-  return parse( Deno.readTextFileSync( path ) );
+function GraphqlParseByFilePath( path: string | URL ): T_GraphQLSchema{
+  return buildSchema( Deno.readTextFileSync( path ) );
 }
 
 export {

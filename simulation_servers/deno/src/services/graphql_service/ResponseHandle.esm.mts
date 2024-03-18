@@ -75,10 +75,7 @@
 'use strict';
 
 import {
-  type DocumentNode as T_DocumentNode,
-
-  buildSchema,
-  print,
+  type GraphQLSchema as T_GraphQLSchema,
 } from 'esm_sh_graphql';
 
 import {
@@ -117,14 +114,14 @@ import {
   type T_MutationUpdateMessageArgs,
 } from 'GSD2TSTD';
 
-type T_Resolvers = T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs>;
+type T_Resolvers = T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs> & T_SubscriptionResolvers;
 
 type T_DefsAndResolvers = {
-  typeDefs: T_DocumentNode;
+  typeDefs: T_GraphQLSchema;
   resolvers: T_Resolvers;
 };
 
-const typeDefsArray: Array<T_DocumentNode> = [],
+const typeDefsArray: Array<T_GraphQLSchema> = [],
   resolversArray: Array<T_Resolvers> = [],
   resolversQueryArray: Array<T_Resolvers> = [],
   resolversMutationArray: Array<T_Resolvers> = [],
@@ -175,7 +172,7 @@ Object.values( Subscription as Record<string, T_DefsAndResolvers> ).forEach( (
   resolversSubscriptionArray.push( resolvers );
 } );
 
-const schema: T_DocumentNode = mergeTypeDefs( typeDefsArray ),
+const schema: T_GraphQLSchema = mergeTypeDefs( typeDefsArray ),
   rootValue: T_IResolvers = mergeResolvers( resolversArray ),
   rootQueryValue: T_IResolvers = mergeResolvers( resolversQueryArray ),
   rootMutationValue: T_IResolvers = mergeResolvers( resolversMutationArray ),
@@ -196,7 +193,7 @@ const subscriptionRoots: Record<'query' | 'mutation' | 'subscription', T_QueryRe
  */
 function ResponseHandle( request: Request ): T_Response001{
   const options: T_HandlerOptions = {
-    schema: buildSchema( print( schema ) ),
+    schema,
     rootValue,
   };
 

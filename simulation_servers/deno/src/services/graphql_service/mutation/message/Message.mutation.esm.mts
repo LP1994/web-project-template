@@ -10,7 +10,7 @@
 'use strict';
 
 import {
-  type DocumentNode as T_DocumentNode,
+  type GraphQLSchema as T_GraphQLSchema,
 } from 'esm_sh_graphql';
 
 import {
@@ -68,7 +68,7 @@ class Message
 
 }
 
-const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
+const typeDefs: T_GraphQLSchema = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
 
 const resolvers: T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs> = {
   getMessage: async ( {
