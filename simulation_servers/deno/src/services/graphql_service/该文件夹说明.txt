@@ -34,6 +34,17 @@ fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hel
 
 成功！完美！
 
+Websocket：
+wss://127.0.0.1:9200/graphql
+wss://127.0.0.1:4000/graphql/
+wss://127.0.0.1:9200/subscriptions
+wss://127.0.0.1:9200/subscriptions/
+wss://127.0.0.1:9200/graphql/subscriptions
+wss://127.0.0.1:9200/graphql/subscriptions/
+
+SSE：
+https://127.0.0.1:9200/graphql/stream
+
 
 
 如：

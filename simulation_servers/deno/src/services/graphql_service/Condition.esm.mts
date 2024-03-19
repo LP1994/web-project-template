@@ -52,6 +52,9 @@
  * wss://127.0.0.1:9200/graphql/subscriptions
  * wss://127.0.0.1:9200/graphql/subscriptions/
  *
+ * SSE：
+ * https://127.0.0.1:9200/graphql/stream
+ *
  *
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
@@ -119,6 +122,9 @@ function Condition( request: Request ): boolean{
       searchParams: URLSearchParams = url.searchParams;
 
     if( ( pathName === myURLPathName || pathName === String( myURLPathName + '/' ) ) && search.trim().startsWith( '?' ) && searchParams.has( 'query' ) ){
+      return true;
+    }
+    else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
       return true;
     }
     else{
