@@ -43,6 +43,10 @@ import {
 } from 'esm_sh/graphql-http/lib/use/fetch';
 
 import {
+  createHandler as createHandlerBySSE,
+} from 'esm_sh/graphql-sse/lib/use/fetch';
+
+import {
   type T_Response001,
 
   httpResponseHeaders,
@@ -123,7 +127,9 @@ function GraphQLServer( {
   reqCtx?: Partial<T_FetchAPI>;
   subscriptionRoots?: Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers>;
 } ): T_Response001{
-  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
+  const url: URL = new URL( request.url ),
+    pathName: string = decodeURI( url.pathname ),
+    upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
     // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
     connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
 
@@ -211,6 +217,12 @@ function GraphQLServer( {
     }
 
     return response;
+  }
+  else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+    return createHandlerBySSE(
+      options,
+      reqCtx,
+    )( request );
   }
   else{
     return createHandler(
