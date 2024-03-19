@@ -18,14 +18,21 @@
  *
  * graphql-http中关于在deno里使用GraphQL的案例：
  * https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
+ *
+ * graphql-ws中关于在deno里使用GraphQL的案例：
+ * https://the-guild.dev/graphql/ws/get-started#with-deno
+ *
+ * graphql-sse中关于在deno里使用GraphQL的案例：
+ * https://the-guild.dev/graphql/sse/get-started#with-deno
  */
 
 'use strict';
 
 import {
   type Server as T_Server,
+  type ServerOptions as T_ServerOptions,
 
-  makeServer,
+  makeServer as makeServerByWS,
 
   // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
   GRAPHQL_TRANSPORT_WS_PROTOCOL,
@@ -39,10 +46,13 @@ import {
   type FetchAPI as T_FetchAPI,
   type HandlerOptions as T_HandlerOptions,
 
-  createHandler,
+  createHandler as createHandlerByHTTP,
 } from 'esm_sh/graphql-http/lib/use/fetch';
 
 import {
+  type HandlerOptions as T_HandlerOptionsBySSE,
+  type RequestContext as T_RequestContextBySSE,
+
   createHandler as createHandlerBySSE,
 } from 'esm_sh/graphql-sse/lib/use/fetch';
 
@@ -51,12 +61,6 @@ import {
 
   httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
-
-import {
-  type T_QueryResolvers,
-  type T_MutationResolvers,
-  type T_SubscriptionResolvers,
-} from 'GSD2TSTD';
 
 /**
  * 自定义了一个继承于Response的类。
@@ -90,18 +94,21 @@ class MyGraphQLServerResponse
  * graphql-http中关于在deno里使用GraphQL的案例：
  * https://github.com/graphql/graphql-http?tab=readme-ov-file#with-deno
  *
+ * graphql-ws中关于在deno里使用GraphQL的案例：
+ * https://the-guild.dev/graphql/ws/get-started#with-deno
+ *
+ * graphql-sse中关于在deno里使用GraphQL的案例：
+ * https://the-guild.dev/graphql/sse/get-started#with-deno
+ *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @param {T_HandlerOptions} options 无默认值，必须，这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：
- * https://github.com/graphql/graphql-http/blob/main/src/handler.ts#L308
- * 然后搜索“interface I_HandlerOptions”即可看到具体的说明。
- * 一般来说，里面总是会有选项schema。
- *
- * @param {Partial<I_FetchAPI>} reqCtx 可选的，默认值：{ Response: MyGraphQLServerResponse, }。
- * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<I_FetchAPI>），它有哪些属性呢？详细见：
+ * @param {[ T_HandlerOptions, Partial<T_FetchAPI>, ]} graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。
+ * 1、一般来说，第一个参数里面总是会有选项schema。
+ * 2、第二个参数，值类型是Partial<I_FetchAPI>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
+ * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
  * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
- * 然后搜索“interface I_FetchAPI”即可看到具体的说明：
- * interface I_FetchAPI {
+ * 然后搜索“interface FetchAPI”即可看到具体的说明：
+ * interface FetchAPI {
  *   Response: typeof Response;
  *   ReadableStream: typeof ReadableStream;
  *   TextEncoder: typeof TextEncoder;
@@ -109,23 +116,43 @@ class MyGraphQLServerResponse
  * PS：
  * 如果需要在“npm:graphql-http/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
  * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
+ * 3、详细参数见：
+ * node_modules/graphql-http/lib/use/fetch.d.ts:96
  *
- * @param {Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers>} subscriptionRoots 给WebSocket使用的解析，无默认值，可选。
+ * @param {T_ServerOptions} graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
+ * 1、一般来说，里面总是会有选项schema。
+ * 2、详细参数见：
+ * node_modules/graphql-ws/lib/server.d.ts:402
+ *
+ * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>, ]} graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。
+ * 1、一般来说，第一个参数里面总是会有选项schema。
+ * 2、第二个参数，值类型是Partial<T_RequestContextBySSE>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
+ * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<RequestContext>），它有哪些属性呢？详细见：
+ * https://github.com/enisdenjo/graphql-sse/blob/master/src/use/fetch.ts#L10
+ * 然后搜索“interface RequestContext”即可看到具体的说明：
+ * interface RequestContext {
+ *   Response: typeof Response;
+ *   ReadableStream: typeof ReadableStream;
+ *   TextEncoder: typeof TextEncoder;
+ * }
+ * PS：
+ * 如果需要在“npm:graphql-sse/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
+ * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
+ * 3、详细参数见：
+ * node_modules/graphql-sse/lib/use/fetch.d.ts:45
  *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function GraphQLServer( {
   request,
-  options,
-  reqCtx = {
-    Response: MyGraphQLServerResponse,
-  },
-  subscriptionRoots,
+  graphqlHTTPOptions,
+  graphqlWSOptions,
+  graphqlSSEOptions,
 }: {
   request: Request;
-  options: T_HandlerOptions;
-  reqCtx?: Partial<T_FetchAPI>;
-  subscriptionRoots?: Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers>;
+  graphqlHTTPOptions: [ T_HandlerOptions, Partial<T_FetchAPI>, ];
+  graphqlWSOptions: T_ServerOptions;
+  graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>, ];
 } ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
@@ -159,12 +186,7 @@ function GraphQLServer( {
     } );
 
     {
-      const server: T_Server = makeServer(
-        {
-          ...options,
-          roots: subscriptionRoots,
-        },
-      );
+      const server: T_Server = makeServerByWS( graphqlWSOptions );
 
       socket.onerror = ( error: Event | ErrorEvent ): void => {
         console.error( 'Internal error emitted on the WebSocket socket. Please check your implementation.', error );
@@ -219,13 +241,27 @@ function GraphQLServer( {
     return response;
   }
   else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+    const [
+      options,
+      reqCtx = {
+        Response: MyGraphQLServerResponse,
+      },
+    ]: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>, ] = graphqlSSEOptions;
+
     return createHandlerBySSE(
       options,
       reqCtx,
     )( request );
   }
   else{
-    return createHandler(
+    const [
+      options,
+      reqCtx = {
+        Response: MyGraphQLServerResponse,
+      },
+    ]: [ T_HandlerOptions, Partial<T_FetchAPI>, ] = graphqlHTTPOptions;
+
+    return createHandlerByHTTP(
       options,
       reqCtx,
     )( request );
