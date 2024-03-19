@@ -22,14 +22,16 @@ import {
 } from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
-  type T_QueryResolvers,
+  type T_Resolvers,
 } from 'GSD2TSTD';
 
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./ServerDate.type.graphql` ) ) );
 
-const resolvers: T_QueryResolvers = {
-  serverDate: (): string => {
-    return JSON.stringify( DateFormatForObject() );
+const resolvers: T_Resolvers = {
+  Query: {
+    serverDate: (): string => {
+      return JSON.stringify( DateFormatForObject() );
+    },
   },
 };
 

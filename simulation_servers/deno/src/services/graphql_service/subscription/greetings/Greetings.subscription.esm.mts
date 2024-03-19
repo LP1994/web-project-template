@@ -24,9 +24,7 @@ import {
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Greetings.type.graphql` ) ) );
 
 const resolvers: T_SubscriptionResolvers = {
-  greetings: async function* (): AsyncGenerator<{
-    greetings: string;
-  }, void, unknown>{
+  greetings: async function* (): AsyncGenerator<string, void, unknown>{
     for( const hi of
       [
         'Hi',
@@ -35,9 +33,7 @@ const resolvers: T_SubscriptionResolvers = {
         'Ciao',
         'Zdravo',
       ] ){
-      yield {
-        greetings: hi,
-      };
+      yield hi;
     }
   },
 };

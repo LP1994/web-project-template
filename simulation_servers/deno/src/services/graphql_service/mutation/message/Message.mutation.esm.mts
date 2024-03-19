@@ -22,8 +22,7 @@ import {
   type T_MessageInput,
   type T_Message,
 
-  type T_QueryResolvers,
-  type T_MutationResolvers,
+  type T_Resolvers,
   type T_QueryGetMessageArgs,
   type T_MutationCreateMessageArgs,
   type T_MutationUpdateMessageArgs,
@@ -70,54 +69,58 @@ class Message
 
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Message.type.graphql` ) ) );
 
-const resolvers: T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs> = {
-  getMessage: async ( {
-    id,
-  }: T_QueryGetMessageArgs ): Promise<T_Message> => {
-
-    const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
+const resolvers: T_Resolvers = {
+  Query: {
+    getMessage: async ( {
       id,
-    ] );
+    }: T_QueryGetMessageArgs ): Promise<T_Message> => {
 
-    if( !entry.value ){
-      throw new Error( `no message exists with id: ${ id }.` );
-    }
+      const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
+        id,
+      ] );
 
-    return new Message( id, entry.value as T_MessageInput );
+      if( !entry.value ){
+        throw new Error( `no message exists with id: ${ id }.` );
+      }
+
+      return new Message( id, entry.value as T_MessageInput );
+    },
   },
 
-  createMessage: async ( {
-    input,
-  }: T_MutationCreateMessageArgs ): Promise<T_Message> => {
-    const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
-    crypto.getRandomValues( uint32Array001 );
+  Mutation: {
+    createMessage: async ( {
+      input,
+    }: T_MutationCreateMessageArgs ): Promise<T_Message> => {
+      const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
+      crypto.getRandomValues( uint32Array001 );
 
-    const id: string = uint32Array001.toString().replaceAll( ',', '-' );
+      const id: string = uint32Array001.toString().replaceAll( ',', '-' );
 
-    await kv.set( [
+      await kv.set( [
+        id,
+      ], input );
+
+      return new Message( id, input );
+    },
+
+    updateMessage: async ( {
       id,
-    ], input );
+      input,
+    }: T_MutationUpdateMessageArgs ): Promise<T_Message> => {
+      const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
+        id,
+      ] );
 
-    return new Message( id, input );
-  },
+      if( !entry.value ){
+        throw new Error( `no message exists with id: ${ id }.` );
+      }
 
-  updateMessage: async ( {
-    id,
-    input,
-  }: T_MutationUpdateMessageArgs ): Promise<T_Message> => {
-    const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
-      id,
-    ] );
+      await kv.set( [
+        id,
+      ], input );
 
-    if( !entry.value ){
-      throw new Error( `no message exists with id: ${ id }.` );
-    }
-
-    await kv.set( [
-      id,
-    ], input );
-
-    return new Message( id, input );
+      return new Message( id, input );
+    },
   },
 };
 
