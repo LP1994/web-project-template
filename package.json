@@ -108,12 +108,12 @@
     "npm": ">=10.5.0"
   },
   "browserslist": [
-    "Chrome >= 122",
-    "Android >= 122",
-    "ChromeAndroid >= 122",
+    "Chrome >= 123",
+    "Android >= 123",
+    "ChromeAndroid >= 123",
     "Edge >= 122",
-    "Firefox >= 123",
-    "FirefoxAndroid >= 123",
+    "Firefox >= 124",
+    "FirefoxAndroid >= 124",
     "Safari >= 17",
     "iOS >= 17",
     "Opera >= 108"
