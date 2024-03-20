@@ -10718,9 +10718,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        */
       arrowFunction: true,
       /**
+       * The environment supports async function and await ('async function () { await ... }').<br />
+       */
+      asyncFunction: false,
+      /**
        * The environment supports BigInt as literal (123n).<br />
        */
-      bigIntLiteral: true,
+      bigIntLiteral: false,
       /**
        * The environment supports const and let for variable declarations.<br />
        */
@@ -10734,9 +10738,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
        */
       dynamicImport: true,
       /**
+       * The environment supports an async import() is available when creating a worker.<br />
+       */
+      dynamicImportInWorker: true,
+      /**
        * The environment supports 'for of' iteration ('for (const x of array) { ... }').<br />
        */
       forOf: true,
+      /**
+       * The environment supports 'globalThis'.<br />
+       */
+      globalThis: false,
       /**
        * The environment supports ECMAScript Module syntax to import ECMAScript modules (import ... from '...').<br />
        */
@@ -10744,7 +10756,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       /**
        * The environment supports optional chaining ('obj?.a' or 'obj?.()').<br />
        */
-      optionalChaining: true,
+      optionalChaining: false,
       /**
        * The environment supports template literals.<br />
        */
