@@ -132,12 +132,35 @@ function Condition( request: Request ): boolean{
     }
   }
   else if( request.method.toLowerCase() === 'post' ){
-    return pathName === myURLPathName || pathName === String( myURLPathName + '/' );
+    if( pathName === myURLPathName || pathName === String( myURLPathName + '/' ) ){
+      return true;
+    }
+    else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  else if( request.method.toLowerCase() === 'put' ){
+    if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  else if( request.method.toLowerCase() === 'delete' ){
+    if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
   else{
     return false;
   }
-
 }
 
 // 必须部署这个默认的导出值。

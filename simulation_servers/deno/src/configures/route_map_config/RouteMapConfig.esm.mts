@@ -128,6 +128,11 @@ const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
    ],
    */
+
+  [
+    `${ servicesDir }/graphql_service/Condition.esm.mts`,
+    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
 ] );
 
 /**
@@ -136,7 +141,12 @@ const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
  * 2、当“条件函数”返回true时，就会执行数组的第2个成员（值是一个表示处理的文件路径，值类型可以是string、URL），它是一个“处理函数”，会返回Response，它被执行时会传入一个Request参数给它。<br />
  * 数组的第1个、第2个成员都是要有一个默认导出，且默认导出的就是上面提到的“条件函数”、“处理函数”。<br />
  */
-const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [] );
+const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
+  [
+    `${ servicesDir }/graphql_service/Condition.esm.mts`,
+    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
+] );
 
 /**
  * @type {T_RouteHandle} 配置“POST”请求的有“条件”的路由映射处理。<br />
@@ -145,16 +155,17 @@ const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [] );
  * 数组的第1个、第2个成员都是要有一个默认导出，且默认导出的就是上面提到的“条件函数”、“处理函数”。<br />
  */
 const methodByPostForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/graphql_service/Condition.esm.mts`,
-    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
   /*
    [
    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
    ],
    */
+
+  [
+    `${ servicesDir }/graphql_service/Condition.esm.mts`,
+    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
 ] );
 
 /**

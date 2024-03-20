@@ -92,13 +92,15 @@ import {
 } from 'esm_sh_graphql';
 
 import {
-  type HandlerOptions as T_HandlerOptions,
-} from 'esm_sh/graphql-http/lib/use/fetch';
-
-import {
   mergeTypeDefs,
   mergeResolvers,
 } from 'esm_sh/@graphql-tools/merge';
+
+/*
+ import {
+ mergeSchemas,
+ } from 'esm_sh/@graphql-tools/schema';
+ */
 
 import {
   type IResolvers as T_IResolvers,
@@ -119,23 +121,17 @@ import * as Mutation from './Mutation.esm.mts';
 import * as Subscription from './Subscription.esm.mts';
 
 import {
-  type T_QueryResolvers,
-  type T_MutationResolvers,
-  type T_SubscriptionResolvers,
-  type T_QueryGetMessageArgs,
-  type T_MutationCreateMessageArgs,
-  type T_MutationUpdateMessageArgs,
+  type T_Resolvers,
 } from 'GSD2TSTD';
-
-type T_Resolvers = T_QueryResolvers<null, T_QueryGetMessageArgs> & T_MutationResolvers<null, T_MutationCreateMessageArgs & T_MutationUpdateMessageArgs> & T_SubscriptionResolvers;
 
 type T_DefsAndResolvers = {
   typeDefs: T_DocumentNode;
   resolvers: T_Resolvers;
 };
 
-const typeDefsArray: Array<T_DocumentNode> = [],
-  resolversArray: Array<T_Resolvers> = [],
+const typeDefsQueryArray: Array<T_DocumentNode> = [],
+  typeDefsMutationArray: Array<T_DocumentNode> = [],
+  typeDefsSubscriptionArray: Array<T_DocumentNode> = [],
   resolversQueryArray: Array<T_Resolvers> = [],
   resolversMutationArray: Array<T_Resolvers> = [],
   resolversSubscriptionArray: Array<T_Resolvers> = [];
@@ -150,8 +146,7 @@ Object.values( Query as Record<string, T_DefsAndResolvers> ).forEach( (
   // @ts-expect-error
   array: Array<T_DefsAndResolvers>,
 ): void => {
-  typeDefsArray.push( typeDefs );
-  resolversArray.push( resolvers );
+  typeDefsQueryArray.push( typeDefs );
   resolversQueryArray.push( resolvers );
 } );
 
@@ -165,8 +160,7 @@ Object.values( Mutation as Record<string, T_DefsAndResolvers> ).forEach( (
   // @ts-expect-error
   array: Array<T_DefsAndResolvers>,
 ): void => {
-  typeDefsArray.push( typeDefs );
-  resolversArray.push( resolvers );
+  typeDefsMutationArray.push( typeDefs );
   resolversMutationArray.push( resolvers );
 } );
 
@@ -180,22 +174,15 @@ Object.values( Subscription as Record<string, T_DefsAndResolvers> ).forEach( (
   // @ts-expect-error
   array: Array<T_DefsAndResolvers>,
 ): void => {
-  typeDefsArray.push( typeDefs );
-  resolversArray.push( resolvers );
+  typeDefsSubscriptionArray.push( typeDefs );
   resolversSubscriptionArray.push( resolvers );
 } );
 
-const schema: T_DocumentNode = mergeTypeDefs( typeDefsArray ),
-  rootValue: T_IResolvers = mergeResolvers( resolversArray ),
-  rootQueryValue: T_IResolvers = mergeResolvers( resolversQueryArray ),
-  rootMutationValue: T_IResolvers = mergeResolvers( resolversMutationArray ),
-  rootSubscriptionValue: T_IResolvers = mergeResolvers( resolversSubscriptionArray );
-
-const subscriptionRoots: Record<'query' | 'mutation' | 'subscription', T_QueryResolvers | T_MutationResolvers | T_SubscriptionResolvers> = {
-  query: rootQueryValue,
-  mutation: rootMutationValue,
-  subscription: rootSubscriptionValue,
-};
+const allResolvers: T_IResolvers = mergeResolvers( [
+  ...resolversQueryArray,
+  ...resolversMutationArray,
+  ...resolversSubscriptionArray,
+] );
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
@@ -205,15 +192,51 @@ const subscriptionRoots: Record<'query' | 'mutation' | 'subscription', T_QueryRe
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function ResponseHandle( request: Request ): T_Response001{
-  const options: T_HandlerOptions = {
-    schema: buildASTSchema( schema ),
-    rootValue,
-  };
-
   return GraphQLServer( {
     request,
-    options,
-    subscriptionRoots,
+    graphqlHTTPOptions: [
+      {
+        schema: buildASTSchema( mergeTypeDefs( [
+          ...typeDefsQueryArray,
+          ...typeDefsMutationArray,
+        ] ) ),
+        rootValue: {
+          ...allResolvers.Query,
+          ...allResolvers.Mutation,
+        },
+      },
+    ],
+    graphqlWSOptions: {
+      schema: buildASTSchema( mergeTypeDefs( [
+        ...typeDefsQueryArray,
+        ...typeDefsMutationArray,
+        ...typeDefsSubscriptionArray,
+      ] ) ),
+      roots: {
+        query: allResolvers.Query,
+        mutation: allResolvers.Mutation,
+        subscription: allResolvers.Subscription,
+      },
+    },
+    graphqlSSEOptions: [
+      {
+        schema: buildASTSchema( mergeTypeDefs( [
+          ...typeDefsQueryArray,
+          ...typeDefsMutationArray,
+          ...typeDefsSubscriptionArray,
+        ] ) ),
+        roots: {
+          query: allResolvers.Query,
+          mutation: allResolvers.Mutation,
+          subscription: allResolvers.Subscription,
+        },
+        rootValue: {
+          ...allResolvers.Query,
+          ...allResolvers.Mutation,
+          ...allResolvers.Subscription,
+        },
+      },
+    ],
   } );
 }
 

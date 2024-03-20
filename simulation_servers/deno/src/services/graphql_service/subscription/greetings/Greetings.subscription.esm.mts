@@ -18,23 +18,29 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
-  type T_SubscriptionResolvers,
+  type T_Resolvers,
 } from 'GSD2TSTD';
 
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Greetings.type.graphql` ) ) );
 
-const resolvers: T_SubscriptionResolvers = {
-  greetings: async function* (): AsyncGenerator<string, void, unknown>{
-    for( const hi of
-      [
-        'Hi',
-        'Bonjour',
-        'Hola',
-        'Ciao',
-        'Zdravo',
-      ] ){
-      yield hi;
-    }
+const resolvers: T_Resolvers = {
+  Subscription: {
+    greetings: async function* (): AsyncGenerator<{
+      greetings: string;
+    }, void, unknown>{
+      for( const hi of
+        [
+          'Hi',
+          'Bonjour',
+          'Hola',
+          'Ciao',
+          'Zdravo',
+        ] ){
+        yield {
+          greetings: hi,
+        };
+      }
+    },
   },
 };
 
