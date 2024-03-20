@@ -88,6 +88,8 @@
 import {
   type DocumentNode as T_DocumentNode,
 
+  print,
+  buildSchema,
   buildASTSchema,
 } from 'esm_sh_graphql';
 
@@ -96,11 +98,9 @@ import {
   mergeResolvers,
 } from 'esm_sh/@graphql-tools/merge';
 
-/*
- import {
- mergeSchemas,
- } from 'esm_sh/@graphql-tools/schema';
- */
+import {
+  mergeSchemas,
+} from 'esm_sh/@graphql-tools/schema';
 
 import {
   type IResolvers as T_IResolvers,
@@ -122,6 +122,8 @@ import * as Subscription from './Subscription.esm.mts';
 
 import {
   type T_Resolvers,
+  type SubscriptionResolver as T_SubscriptionResolver,
+  type SubscriptionSubscribeFn as T_SubscriptionSubscribeFn,
 } from 'GSD2TSTD';
 
 type T_DefsAndResolvers = {
@@ -215,26 +217,44 @@ function ResponseHandle( request: Request ): T_Response001{
       roots: {
         query: allResolvers.Query,
         mutation: allResolvers.Mutation,
-        subscription: allResolvers.Subscription,
+        subscription: ( (): {
+          [ arg: string ]: T_SubscriptionSubscribeFn;
+        } => {
+          const result: {
+            [ arg: string ]: T_SubscriptionSubscribeFn;
+          } = {};
+
+          Object.entries( allResolvers.Subscription ).forEach( (
+            [
+              keyName,
+              {
+                subscribe,
+                // @ts-expect-error
+                resolve,
+              },
+            ]: [ string, T_SubscriptionResolver ],
+            // @ts-expect-error
+            index: number,
+            // @ts-expect-error
+            array: Array<[ string, T_SubscriptionResolver ]>,
+          ): void => {
+            result[ keyName ] = subscribe;
+          } );
+
+          return result;
+        } )(),
       },
     },
     graphqlSSEOptions: [
       {
-        schema: buildASTSchema( mergeTypeDefs( [
-          ...typeDefsQueryArray,
-          ...typeDefsMutationArray,
-          ...typeDefsSubscriptionArray,
-        ] ) ),
-        roots: {
-          query: allResolvers.Query,
-          mutation: allResolvers.Mutation,
-          subscription: allResolvers.Subscription,
-        },
-        rootValue: {
-          ...allResolvers.Query,
-          ...allResolvers.Mutation,
-          ...allResolvers.Subscription,
-        },
+        schema: mergeSchemas( {
+          typeDefs: buildSchema( print( mergeTypeDefs( [
+            ...typeDefsQueryArray,
+            ...typeDefsMutationArray,
+            ...typeDefsSubscriptionArray,
+          ] ) ) ),
+          resolvers: allResolvers,
+        } ),
       },
     ],
   } );

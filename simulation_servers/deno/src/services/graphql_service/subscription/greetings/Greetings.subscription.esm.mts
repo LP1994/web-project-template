@@ -25,21 +25,26 @@ const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.re
 
 const resolvers: T_Resolvers = {
   Subscription: {
-    greetings: async function* (): AsyncGenerator<{
-      greetings: string;
-    }, void, unknown>{
-      for( const hi of
-        [
-          'Hi',
-          'Bonjour',
-          'Hola',
-          'Ciao',
-          'Zdravo',
-        ] ){
-        yield {
-          greetings: hi,
-        };
-      }
+    greetings: {
+      subscribe: async function* (): AsyncGenerator<{
+        greetings: string;
+      }, void, unknown>{
+        for( const hi of
+          [
+            'Hi',
+            'Bonjour',
+            'Hola',
+            'Ciao',
+            'Zdravo',
+          ] ){
+          yield {
+            greetings: hi,
+          };
+        }
+      },
+      resolve: ( payloadData: {
+        greetings: string;
+      } ): string => `--->${ payloadData.greetings }<---`,
     },
   },
 };

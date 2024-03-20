@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-20 23:38:03 星期三
+ * CreateDate: 2024-03-21 06:55:25 星期四
  */
 
 "use strict";
@@ -92,7 +92,7 @@ export type T_QueryGetMessageArgs = {
 
 export type T_Subscription = {
   __typename?: "Subscription";
-  greetings: FieldWrapper<Scalars["String"]["output"]>;
+  greetings?: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -275,7 +275,7 @@ export type T_SubscriptionResolvers<
     T_ResolversParentTypes["Subscription"] = T_ResolversParentTypes["Subscription"],
 > = {
   greetings?: SubscriptionResolver<
-    T_ResolversTypes["String"],
+    Maybe<T_ResolversTypes["String"]>,
     "greetings",
     ParentType,
     ContextType

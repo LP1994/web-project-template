@@ -1149,7 +1149,7 @@
     "postcss-html": "^1.6.0",
     "postcss-image-set-function": "^6.0.3",
     "postcss-image-set-polyfill": "^1.0.0",
-    "postcss-import": "^16.0.1",
+    "postcss-import": "^16.1.0",
     "postcss-initial": "^4.0.1",
     "postcss-js": "^4.0.1",
     "postcss-jsx": "^0.36.4",
