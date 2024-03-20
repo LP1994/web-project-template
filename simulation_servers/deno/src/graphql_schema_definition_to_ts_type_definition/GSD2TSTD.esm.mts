@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-21 06:55:25 星期四
+ * CreateDate: 2024-03-21 07:37:42 星期四
  */
 
 "use strict";
@@ -51,7 +51,7 @@ export type T_Message = {
   __typename?: "Message";
   author: FieldWrapper<Scalars["String"]["output"]>;
   content: FieldWrapper<Scalars["String"]["output"]>;
-  id: FieldWrapper<Scalars["ID"]["output"]>;
+  id: FieldWrapper<Scalars["String"]["output"]>;
 };
 
 /** 消息内容。 */
@@ -73,7 +73,7 @@ export type T_MutationCreateMessageArgs = {
 };
 
 export type T_MutationUpdateMessageArgs = {
-  id: Scalars["ID"]["input"];
+  id: Scalars["String"]["input"];
   input: T_MessageInput;
 };
 
@@ -87,7 +87,7 @@ export type T_Query = {
 };
 
 export type T_QueryGetMessageArgs = {
-  id: Scalars["ID"]["input"];
+  id: Scalars["String"]["input"];
 };
 
 export type T_Subscription = {
@@ -203,7 +203,6 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type T_ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
-  ID: ResolverTypeWrapper<Scalars["ID"]["output"]>;
   Message: ResolverTypeWrapper<T_Message>;
   MessageInput: T_MessageInput;
   Mutation: ResolverTypeWrapper<{}>;
@@ -215,7 +214,6 @@ export type T_ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type T_ResolversParentTypes = {
   Boolean: Scalars["Boolean"]["output"];
-  ID: Scalars["ID"]["output"];
   Message: T_Message;
   MessageInput: T_MessageInput;
   Mutation: {};
@@ -231,7 +229,7 @@ export type T_MessageResolvers<
 > = {
   author?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
   content?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<T_ResolversTypes["ID"], ParentType, ContextType>;
+  id?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

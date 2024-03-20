@@ -52,11 +52,11 @@ await kv.set( [
 class Message
   implements T_Message {
 
-  public id: T_Scalars['ID']['output'];
+  public id: T_Scalars['String']['output'];
   public author: T_Scalars['String']['output'];
   public content: T_Scalars['String']['output'];
 
-  public constructor( id: T_Scalars['ID']['input'], {
+  public constructor( id: T_Scalars['String']['input'], {
     content,
     author,
   }: T_MessageInput ){

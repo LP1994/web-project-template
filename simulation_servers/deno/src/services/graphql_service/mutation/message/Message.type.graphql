@@ -14,16 +14,16 @@ input MessageInput {
 }
 
 type Message {
-  id: ID!,
+  id: String!,
   author: String!,
   content: String!,
 }
 
 type Query {
-  getMessage(id: ID!): Message!,
+  getMessage(id: String!): Message!,
 }
 
 type Mutation {
   createMessage(input: MessageInput!): Message!,
-  updateMessage(id: ID!, input: MessageInput!): Message!,
+  updateMessage(id: String!, input: MessageInput!): Message!,
 }
