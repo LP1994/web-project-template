@@ -21,9 +21,8 @@ import {
   type Scalars as T_Scalars,
   type T_MessageInput,
   type T_Message,
-
-  type T_Resolvers,
   type T_QueryGetMessageArgs,
+  type T_Resolvers,
   type T_MutationCreateMessageArgs,
   type T_MutationUpdateMessageArgs,
 } from 'GSD2TSTD';
@@ -71,55 +70,84 @@ const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.re
 
 const resolvers: T_Resolvers = {
   Query: {
-    getMessage: async ( {
-      id,
-    }: T_QueryGetMessageArgs ): Promise<T_Message> => {
+    getMessage: {
+      resolve: async (
+        // @ts-expect-error
+        parent,
+        {
+          id,
+        }: T_QueryGetMessageArgs,
+        // @ts-expect-error
+        context,
+        // @ts-expect-error
+        info,
+      ): Promise<T_Message> => {
+        const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
+          id,
+        ] );
 
-      const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
-        id,
-      ] );
+        if( !entry.value ){
+          throw new Error( `no message exists with id: ${ id }.` );
+        }
 
-      if( !entry.value ){
-        throw new Error( `no message exists with id: ${ id }.` );
-      }
-
-      return new Message( id, entry.value as T_MessageInput );
+        return new Message( id, entry.value as T_MessageInput );
+      },
     },
   },
 
   Mutation: {
-    createMessage: async ( {
-      input,
-    }: T_MutationCreateMessageArgs ): Promise<T_Message> => {
-      const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
-      crypto.getRandomValues( uint32Array001 );
+    createMessage: {
+      resolve: async (
+        // @ts-expect-error
+        parent,
+        {
+          input,
+        }: T_MutationCreateMessageArgs,
+        // @ts-expect-error
+        context,
+        // @ts-expect-error
+        info,
+      ): Promise<T_Message> => {
+        const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
+        crypto.getRandomValues( uint32Array001 );
 
-      const id: string = uint32Array001.toString().replaceAll( ',', '-' );
+        const id: string = uint32Array001.toString().replaceAll( ',', '-' );
 
-      await kv.set( [
-        id,
-      ], input );
+        await kv.set( [
+          id,
+        ], input );
 
-      return new Message( id, input );
+        return new Message( id, input );
+      },
     },
 
-    updateMessage: async ( {
-      id,
-      input,
-    }: T_MutationUpdateMessageArgs ): Promise<T_Message> => {
-      const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
-        id,
-      ] );
+    updateMessage: {
+      resolve: async (
+        // @ts-expect-error
+        parent,
+        {
+          id,
+          input,
+        }: T_MutationUpdateMessageArgs,
+        // @ts-expect-error
+        context,
+        // @ts-expect-error
+        info,
+      ): Promise<T_Message> => {
+        const entry: Deno.KvEntryMaybe<T_MessageInput> = await kv.get( [
+          id,
+        ] );
 
-      if( !entry.value ){
-        throw new Error( `no message exists with id: ${ id }.` );
-      }
+        if( !entry.value ){
+          throw new Error( `no message exists with id: ${ id }.` );
+        }
 
-      await kv.set( [
-        id,
-      ], input );
+        await kv.set( [
+          id,
+        ], input );
 
-      return new Message( id, input );
+        return new Message( id, input );
+      },
     },
   },
 };
