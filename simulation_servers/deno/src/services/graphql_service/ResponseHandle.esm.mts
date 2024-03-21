@@ -88,8 +88,6 @@
 import {
   type DocumentNode as T_DocumentNode,
 
-  print,
-  buildSchema,
   buildASTSchema,
 } from 'esm_sh_graphql';
 
@@ -248,11 +246,11 @@ function ResponseHandle( request: Request ): T_Response001{
     graphqlSSEOptions: [
       {
         schema: mergeSchemas( {
-          typeDefs: buildSchema( print( mergeTypeDefs( [
+          typeDefs: mergeTypeDefs( [
             ...typeDefsQueryArray,
             ...typeDefsMutationArray,
             ...typeDefsSubscriptionArray,
-          ] ) ) ),
+          ] ),
           resolvers: allResolvers,
         } ),
       },
