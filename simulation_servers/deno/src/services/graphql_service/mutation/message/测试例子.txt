@@ -1,4 +1,4 @@
-query Test001( $id: ID! ){
+query Test001( $id: String! ){
     hello1: hello,
     serverDate1: serverDate,
 
@@ -32,7 +32,7 @@ mutation Test001($input: MessageInput!){
 
 
 
-mutation Test001($id: ID!, $input: MessageInput!){
+mutation Test001($id: String!, $input: MessageInput!){
   updateMessage(id: $id, input: $input) {
     id,
     author,

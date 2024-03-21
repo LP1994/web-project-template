@@ -29,8 +29,10 @@ const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.re
 
 const resolvers: T_Resolvers = {
   Query: {
-    serverDate: (): string => {
-      return JSON.stringify( DateFormatForObject() );
+    serverDate: {
+      resolve: (): string => {
+        return JSON.stringify( DateFormatForObject() );
+      },
     },
   },
 };

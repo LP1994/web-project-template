@@ -25,8 +25,10 @@ const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.re
 
 const resolvers: T_Resolvers = {
   Query: {
-    hello: (): string => {
-      return `Hello World! This is the GraphQL Server.`;
+    hello: {
+      resolve: (): string => {
+        return `Hello World! This is the GraphQL Server.`;
+      },
     },
   },
 };
