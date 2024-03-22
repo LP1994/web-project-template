@@ -6,6 +6,6 @@
 #CreateDate: 2022-11-02 17:38:57 星期三
 
 type Query {
-  "表示一个值，值类型是String。"
+  "表示一个值类型是String的值。"
   hello: String!,
 }

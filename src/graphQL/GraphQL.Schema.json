@@ -18,7 +18,7 @@
           "fields": [
             {
               "name": "greetings",
-              "description": null,
+              "description": "返回5种颜色。",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -51,7 +51,7 @@
           "fields": [
             {
               "name": "hello",
-              "description": "表示一个值，值类型是String。",
+              "description": "表示一个值类型是String的值。",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -67,7 +67,7 @@
             },
             {
               "name": "getMessage",
-              "description": null,
+              "description": "根据消息ID返回对应的“消息”主体。",
               "args": [
                 {
                   "name": "id",
@@ -121,7 +121,7 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "MessageInput",
-          "description": "消息内容。",
+          "description": "表示“消息内容”的输入参数类型。",
           "fields": null,
           "inputFields": [
             {
@@ -160,11 +160,11 @@
         {
           "kind": "OBJECT",
           "name": "Message",
-          "description": null,
+          "description": "返回的“消息”主体。",
           "fields": [
             {
               "name": "id",
-              "description": null,
+              "description": "消息ID。",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -180,7 +180,7 @@
             },
             {
               "name": "author",
-              "description": null,
+              "description": "作者。",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -196,7 +196,7 @@
             },
             {
               "name": "content",
-              "description": null,
+              "description": "内容。",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -223,7 +223,7 @@
           "fields": [
             {
               "name": "createMessage",
-              "description": null,
+              "description": "新建一个“消息”。",
               "args": [
                 {
                   "name": "input",
@@ -254,7 +254,7 @@
             },
             {
               "name": "updateMessage",
-              "description": null,
+              "description": "根据消息ID更新对应的“消息”内容。",
               "args": [
                 {
                   "name": "id",

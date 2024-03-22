@@ -5,7 +5,7 @@
 #IDE: WebStorm
 #CreateDate: 2022-11-02 17:38:57 星期三
 
-"消息内容。"
+"表示“消息内容”的输入参数类型。"
 input MessageInput {
   "作者。"
   author: String!,
@@ -13,17 +13,24 @@ input MessageInput {
   content: String!,
 }
 
+"返回的“消息”主体。"
 type Message {
+  "消息ID。"
   id: String!,
+  "作者。"
   author: String!,
+  "内容。"
   content: String!,
 }
 
 type Query {
+  "根据消息ID返回对应的“消息”主体。"
   getMessage(id: String!): Message!,
 }
 
 type Mutation {
+  "新建一个“消息”。"
   createMessage(input: MessageInput!): Message!,
+  "根据消息ID更新对应的“消息”内容。"
   updateMessage(id: String!, input: MessageInput!): Message!,
 }

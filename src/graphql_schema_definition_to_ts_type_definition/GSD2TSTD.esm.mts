@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-22 03:58:55 星期五
+ * CreateDate: 2024-03-22 09:36:45 星期五
  */
 
 "use strict";
@@ -47,7 +47,7 @@ export type T_Message = {
   __typename?: "Message";
   author: FieldWrapper<Scalars["String"]["output"]>;
   content: FieldWrapper<Scalars["String"]["output"]>;
-  id: FieldWrapper<Scalars["ID"]["output"]>;
+  id: FieldWrapper<Scalars["String"]["output"]>;
 };
 
 /** 消息内容。 */
@@ -69,7 +69,7 @@ export type T_MutationCreateMessageArgs = {
 };
 
 export type T_MutationUpdateMessageArgs = {
-  id: Scalars["ID"]["input"];
+  id: Scalars["String"]["input"];
   input: T_MessageInput;
 };
 
@@ -83,15 +83,50 @@ export type T_Query = {
 };
 
 export type T_QueryGetMessageArgs = {
-  id: Scalars["ID"]["input"];
+  id: Scalars["String"]["input"];
 };
 
-export type T_Test001MutationVariables = Exact<{
-  id: Scalars["ID"]["input"];
+export type T_Subscription = {
+  __typename?: "Subscription";
+  greetings?: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
+};
+
+export type T_Test001QueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type T_Test001Query = {
+  __typename?: "Query";
+  hello111: string;
+  serverDate111: string;
+  getMessage: {
+    __typename?: "Message";
+    id: string;
+    author: string;
+    content: string;
+  };
+};
+
+export type T_Test002MutationVariables = Exact<{
   input: T_MessageInput;
 }>;
 
-export type T_Test001Mutation = {
+export type T_Test002Mutation = {
+  __typename?: "Mutation";
+  createMessage: {
+    __typename?: "Message";
+    id: string;
+    author: string;
+    content: string;
+  };
+};
+
+export type T_Test003MutationVariables = Exact<{
+  id: Scalars["String"]["input"];
+  input: T_MessageInput;
+}>;
+
+export type T_Test003Mutation = {
   __typename?: "Mutation";
   updateMessage: {
     __typename?: "Message";
