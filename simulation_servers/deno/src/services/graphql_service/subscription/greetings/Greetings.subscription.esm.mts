@@ -44,9 +44,6 @@ const resolvers: T_Resolvers = {
       },
       /**
        * 当执行完上面定义的subscribe函数后，会得到即将返回给客户端的数据，在将数据发送给客户端前，还可以再使用这个resolve函数来处理一下即将返回给客户端的数据。
-       * PS：
-       * 1、该resolve选项，一般不用设置的，反倒是上面定义的subscribe函数却是必要的！尤其是在配合“graphql-ws”使用时，就算设置了该选项也是不会生效的！
-       * 2、但是在配合“graphql-sse”使用时，设置了该选项是会生效的！
        *
        * @param {{greetings: string}} payloadData 该值就是上面定义的subscribe函数后，得到的即将返回给客户端的数据。该值的数据类型就是上面定义的subscribe函数的返回值类型AsyncGenerator的三个类型参数中的第一个类型参数。
        *
