@@ -9,9 +9,9 @@
 
 /**
  * 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求、Websocket请求），如：
- * POST（服务端使用graphql-http实现）：https://127.0.0.1:9200/graphql
+ * POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql
  *
- * GET（服务端使用graphql-http实现）：https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ * GET（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
  * 例子：
  * 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：
  * encodeURI(`query Test001{
@@ -44,15 +44,13 @@
  *
  * 成功！完美！
  *
- * Websocket（服务端使用graphql-ws实现）：
+ * Websocket（服务端使用graphql-ws实现，graphql-ws有对应的客户端实现）：
  * wss://127.0.0.1:9200/graphql
  * wss://127.0.0.1:4000/graphql/
- * wss://127.0.0.1:9200/subscriptions
- * wss://127.0.0.1:9200/subscriptions/
  * wss://127.0.0.1:9200/graphql/subscriptions
  * wss://127.0.0.1:9200/graphql/subscriptions/
  *
- * SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求）：
+ * SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求，graphql-sse有对应的客户端实现）：
  * https://127.0.0.1:9200/graphql/stream
  *
  *
@@ -110,9 +108,6 @@ function Condition( request: Request ): boolean{
 
     `${ myURLPathName }/subscriptions`,
     `${ myURLPathName }/subscriptions/`,
-
-    `/subscriptions`,
-    `/subscriptions/`,
   ].includes( pathName ) ){
     return true;
   }
