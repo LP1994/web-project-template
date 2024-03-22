@@ -2,7 +2,7 @@
 
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/test/npm_mongoose_for_node.test.mts
+ * FileDirPath: simulation_servers/deno/src/database/mongo/test/npm_mongoose_for_node.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -10,7 +10,7 @@
  */
 
 /**
- * 2023年05月12日，基于：npm包mongoose@7.1.1（该版本的mongoose也是基于npm包mongodb@5.5.0）、MongoDB社区版@6.0.5、npm@9.6.6、node@20.1.0，带客户端证书的与数据库进行的TLS连接测试成功！
+ * 2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、npm@10.5.0、node@21.7.1，带客户端证书的与数据库进行的TLS连接测试成功！
  * 注意该文件不是deno版！
  */
 
@@ -152,7 +152,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   authSource: '$external',
   /**
-   * @type {string | ("none" | "snappy" | "zlib" | "zstd")[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
+   * @type {string | ('none' | 'snappy' | 'zlib' | 'zstd')[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
    * 一个数组或以逗号分隔的压缩器字符串，用于在该客户端和mongod/mongos实例之间的通信中启用网络压缩。
    */
@@ -445,8 +445,8 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver',
-    platform: 'node@20.3.0 X64',
-    version: 'mongoose@7.3.0',
+    platform: 'node@21.7.1 X64',
+    version: 'mongoose@8.2.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -591,7 +591,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   // serializeFunctions: false,
   /**
-   * @type {string|{deprecationErrors?: boolean; strict?: boolean; version: "1"}} 服务器API版本。
+   * @type {string|{deprecationErrors?: boolean; strict?: boolean; version: '1'}} 服务器API版本。
    */
   // serverApi: '1',
   /**

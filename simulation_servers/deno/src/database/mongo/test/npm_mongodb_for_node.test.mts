@@ -2,7 +2,7 @@
 
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/test/npm_mongodb_for_node.test.mts
+ * FileDirPath: simulation_servers/deno/src/database/mongo/test/npm_mongodb_for_node.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -10,7 +10,7 @@
  */
 
 /**
- * 2023年05月12日，基于：npm包mongodb@5.5.0、MongoDB社区版@6.0.5、npm@9.6.6、node@20.1.0，带客户端证书的与数据库进行的TLS连接测试成功！
+ * 2024年03月23日，基于：npm包mongodb@6.5.0、MongoDB社区版@7.0.7、npm@10.5.0、node@21.7.1，带客户端证书的与数据库进行的TLS连接测试成功！
  * 注意该文件不是deno版！
  */
 
@@ -420,8 +420,8 @@ const mongoClientConfig: T_MongoClientOptions = {
    */
   driverInfo: {
     name: 'npm_mongodb_driver',
-    platform: 'node@20.3.0 X64',
-    version: 'mongodb@5.6.0',
+    platform: 'node@21.7.1 X64',
+    version: 'mongodb@6.5.0',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />

@@ -16,10 +16,3 @@
  * 自定义的TS类型描述。
  */
 
-declare module 'npm:mongodb' {
-  export * from 'mongodb';
-}
-
-declare module 'npm:mongoose' {
-  export * from 'mongoose';
-}

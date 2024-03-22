@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/test/npm_mongoose_demo001_for_deno.test.mts
+ * FileDirPath: simulation_servers/deno/src/database/mongo/test/npm_mongoose_demo001_for_deno.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -8,8 +8,8 @@
  */
 
 /**
- * 1、直到2023年05月12日，基于：npm包mongoose@7.1.1（该版本的mongoose也是基于npm包mongodb@5.5.0）、MongoDB社区版@6.0.5、deno@1.33.2，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongoose@7.1.1（该版本的mongoose也是基于npm包mongodb@5.5.0）、MongoDB社区版@6.0.5在node中是可以的。
+ * 1、直到2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7在node中是可以的。
  *
  * 2、报错信息：
  * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
@@ -454,8 +454,8 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver',
-    platform: 'node@20.3.0 X64',
-    version: 'mongoose@7.3.0',
+    platform: 'node@21.7.1 X64',
+    version: 'mongoose@8.2.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
