@@ -27,17 +27,6 @@
               "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
               "user-agent": "GraphQL plugin from WebStorm."
             }
-          },
-          "deno001:wss://127.0.0.1:9200": {
-            "url": "wss://127.0.0.1:9200/graphql",
-            "introspect": true,
-            "headers": {
-              "Sec-WebSocket-Protocol": "graphql-transport-ws",
-              "Cache-Control": "no-store",
-              "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
-              "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
-              "user-agent": "GraphQL plugin from WebStorm."
-            }
           }
         }
       }
@@ -61,17 +50,6 @@
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json; charset=utf-8",
-              "Cache-Control": "no-store",
-              "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
-              "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
-              "user-agent": "GraphQL plugin from WebStorm."
-            }
-          },
-          "deno002:wss://127.0.0.1:9200": {
-            "url": "wss://127.0.0.1:9200/graphql",
-            "introspect": true,
-            "headers": {
-              "Sec-WebSocket-Protocol": "graphql-transport-ws",
               "Cache-Control": "no-store",
               "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language",
               "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",

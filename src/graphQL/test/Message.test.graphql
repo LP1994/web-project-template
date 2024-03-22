@@ -54,9 +54,3 @@ mutation Test003( $id: String!, $input: MessageInput! ){
 #"content": "Theis is a 2024003XXXX."
 #}
 #}
-
-
-
-subscription Test004{
-  MyData111: greetings,
-}
