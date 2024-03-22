@@ -1,0 +1,46 @@
+#Project: web-project-template
+#FileDirPath: simulation_servers/deno/src/services/graphql_service/message/Message.test.graphql
+#Author: 12278
+#Email: 1227839175@qq.com
+#IDE: WebStorm
+#CreateDate: 2022-11-02 17:38:57 星期三
+
+query MessageTest001( $id: String! ){
+  getMessage111: getMessage( id: $id ){
+    id,
+    author,
+    content,
+  },
+}
+#{
+#"id": "2024001"
+#}
+
+mutation MessageTest002( $input: MessageInput! ){
+  createMessage111: createMessage( input: $input ){
+    id,
+    author,
+    content,
+  },
+}
+#{
+#"input":{
+#"author": "andy",
+#"content": "hope is a good thing"
+#}
+#}
+
+mutation MessageTest003( $id: String!, $input: MessageInput! ){
+  updateMessage111: updateMessage( id: $id, input: $input ){
+    id,
+    author,
+    content,
+  },
+}
+#{
+#"id": "2024003",
+#"input":{
+#"author": "XXX",
+#"content": "Theis is a 2024003XXXX."
+#}
+#}
