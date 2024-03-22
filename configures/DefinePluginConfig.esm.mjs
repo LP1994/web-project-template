@@ -57,26 +57,26 @@ function DefinePluginConfig( {
     __VUE_PROD_DEVTOOLS__: false,
 
     /**
-     * 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.1.3:9000/graphql
+     * 代理http、https请求的写法例子，假定目标请求地址为：https://127.0.0.1:9200/graphql
      * 注意：
      * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
      * 使用例子：
-     * axios.get( '${ devURLDemo001 }/graphql' )
+     * axios.get( '${ https4deno }/graphql' )
      */
-    devURL001: isProduction
+    https4deno: isProduction
                ? '""'
-               : '"/devURL001"',
+               : '"/https4deno"',
 
     /**
-     * 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.1.3:9000/subscriptions
+     * 代理websocket请求的写法例子，假定目标请求地址为：wss://127.0.0.1:9200/graphql
      * 注意：
      * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。
      * 使用例子：
-     * new WebSocket( '${ ws4DevURLDemo001 }/subscriptions' )
+     * new WebSocket( '${ wss4deno }/graphql' )
      */
-    ws4DevURL001: isProduction
+    wss4deno: isProduction
                   ? `${ wsHost001 }""`
-                  : `${ wsHost001 }"/ws4DevURL001"`,
+                  : `${ wsHost001 }"/wss4deno"`,
   };
 }
 

@@ -33,19 +33,19 @@ declare const __VUE_OPTIONS_API__: boolean;
 declare const __VUE_PROD_DEVTOOLS__: boolean;
 
 /**
- * @type {string} 代理http、https请求的写法例子，假定目标请求地址为：http://192.168.1.3:9000/graphql<br />
+ * @type {string} 代理http、https请求的写法例子，假定目标请求地址为：https://127.0.0.1:9200/graphql<br />
  * 注意：<br />
  * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。<br />
  * 使用例子：<br />
- * axios.get( '${ devURLDemo001 }/graphql' )
+ * axios.get( '${ https4deno }/graphql' )
  */
-declare const devURL001: string;
+declare const https4deno: string;
 
 /**
- * @type {string} 代理websocket请求的写法例子，假定目标请求地址为：ws://192.168.1.3:9000/subscriptions<br />
+ * @type {string} 代理websocket请求的写法例子，假定目标请求地址为：wss://127.0.0.1:9200/graphql<br />
  * 注意：<br />
  * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。<br />
  * 使用例子：<br />
- * new WebSocket( '${ ws4DevURLDemo001 }/subscriptions' )
+ * new WebSocket( '${ wss4deno }/graphql' )
  */
-declare const ws4DevURL001: string;
+declare const wss4deno: string;
