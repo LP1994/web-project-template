@@ -102,11 +102,7 @@ import {
   GraphQLServer,
 } from 'graphql/GraphQLServer.esm.mts';
 
-import * as Query from './Query.esm.mts';
-
-import * as Mutation from './Mutation.esm.mts';
-
-import * as Subscription from './Subscription.esm.mts';
+import * as AllGraphQL from './AllGraphQL.esm.mts';
 
 import {
   type T_Resolvers,
@@ -120,11 +116,7 @@ type T_DefsAndResolvers = {
 const typeDefsArray: Array<T_DocumentNode> = [],
   resolversArray: Array<T_Resolvers> = [];
 
-Object.values( ( {
-  ...Query,
-  ...Mutation,
-  ...Subscription,
-} ) as Record<string, T_DefsAndResolvers> ).forEach( (
+Object.values( AllGraphQL as Record<string, T_DefsAndResolvers> ).forEach( (
   {
     typeDefs,
     resolvers,

@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/services/graphql_service/query/server_date/ServerDate.query.esm.mts
+ * FileDirPath: simulation_servers/deno/src/services/graphql_service/hello/Hello.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -18,20 +18,16 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
-  DateFormatForObject,
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
   type T_Resolvers,
 } from 'GSD2TSTD';
 
-const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./ServerDate.type.graphql` ) ) );
+const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
 
 const resolvers: T_Resolvers = {
   Query: {
-    serverDate: {
+    hello: {
       resolve: (): string => {
-        return JSON.stringify( DateFormatForObject() );
+        return `Hello World! This is the GraphQL Server.`;
       },
     },
   },
