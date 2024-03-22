@@ -3,6 +3,7 @@
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 
 type Message {
@@ -22,6 +23,10 @@ type Query {
   hello: String!
   "服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。"
   serverDate: String!
+}
+
+type Subscription {
+  greetings: String
 }
 
 "消息内容。"
