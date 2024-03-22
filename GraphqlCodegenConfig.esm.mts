@@ -141,7 +141,7 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
           'typescript': {
             // node_modules/@graphql-codegen/typescript/typings/config.d.ts:7   Start
 
-            avoidOptionals: false,
+            avoidOptionals: true,
             maybeValue: 'T | null | undefined | Promise< T | null | undefined >',
             inputMaybeValue: 'T | null | undefined | Promise< T | null | undefined >',
 
@@ -181,7 +181,7 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
             // 为导入的名称添加后缀，以防止名称冲突。
             mapperTypeSuffix: '_Model',
             // 这将导致生成器避免使用可选项 (`?`)，因此必须执行所有字段解析器，以避免编译错误。
-            avoidOptionals: false,
+            avoidOptionals: true,
 
             // node_modules/@graphql-codegen/visitor-plugin-common/typings/base-resolvers-visitor.d.ts:34   End
           },
@@ -304,7 +304,7 @@ ${ fileContent }`;
           'typescript': {
             // node_modules/@graphql-codegen/typescript/typings/config.d.ts:7   Start
 
-            avoidOptionals: false,
+            avoidOptionals: true,
             maybeValue: 'T | null | undefined | Promise< T | null | undefined >',
             inputMaybeValue: 'T | null | undefined | Promise< T | null | undefined >',
 

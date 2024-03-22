@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-22 09:36:45 星期五
+ * CreateDate: 2024-03-23 04:27:40 星期六
  */
 
 "use strict";
@@ -100,7 +100,7 @@ export type T_QueryGetMessageArgs = {
 export type T_Subscription = {
   __typename?: "Subscription";
   /** 返回5种颜色。 */
-  greetings?: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
+  greetings: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -235,9 +235,9 @@ export type T_MessageResolvers<
   ParentType extends
     T_ResolversParentTypes["Message"] = T_ResolversParentTypes["Message"],
 > = {
-  author?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
-  content?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  author: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  content: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  id: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -246,13 +246,13 @@ export type T_MutationResolvers<
   ParentType extends
     T_ResolversParentTypes["Mutation"] = T_ResolversParentTypes["Mutation"],
 > = {
-  createMessage?: Resolver<
+  createMessage: Resolver<
     T_ResolversTypes["Message"],
     ParentType,
     ContextType,
     RequireFields<T_MutationCreateMessageArgs, "input">
   >;
-  updateMessage?: Resolver<
+  updateMessage: Resolver<
     T_ResolversTypes["Message"],
     ParentType,
     ContextType,
@@ -265,14 +265,14 @@ export type T_QueryResolvers<
   ParentType extends
     T_ResolversParentTypes["Query"] = T_ResolversParentTypes["Query"],
 > = {
-  getMessage?: Resolver<
+  getMessage: Resolver<
     T_ResolversTypes["Message"],
     ParentType,
     ContextType,
     RequireFields<T_QueryGetMessageArgs, "id">
   >;
-  hello?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
-  serverDate?: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  hello: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+  serverDate: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
 };
 
 export type T_SubscriptionResolvers<
@@ -280,7 +280,7 @@ export type T_SubscriptionResolvers<
   ParentType extends
     T_ResolversParentTypes["Subscription"] = T_ResolversParentTypes["Subscription"],
 > = {
-  greetings?: SubscriptionResolver<
+  greetings: SubscriptionResolver<
     Maybe<T_ResolversTypes["String"]>,
     "greetings",
     ParentType,
@@ -289,8 +289,8 @@ export type T_SubscriptionResolvers<
 };
 
 export type T_Resolvers<ContextType = any> = {
-  Message?: T_MessageResolvers<ContextType>;
-  Mutation?: T_MutationResolvers<ContextType>;
-  Query?: T_QueryResolvers<ContextType>;
-  Subscription?: T_SubscriptionResolvers<ContextType>;
+  Message: T_MessageResolvers<ContextType>;
+  Mutation: T_MutationResolvers<ContextType>;
+  Query: T_QueryResolvers<ContextType>;
+  Subscription: T_SubscriptionResolvers<ContextType>;
 };

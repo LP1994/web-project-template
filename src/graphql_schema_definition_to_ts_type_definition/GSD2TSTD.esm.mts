@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2024-03-22 09:36:45 星期五
+ * CreateDate: 2024-03-23 04:27:40 星期六
  */
 
 "use strict";
@@ -43,14 +43,18 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+/** 返回的“消息”主体。 */
 export type T_Message = {
   __typename?: "Message";
+  /** 作者。 */
   author: FieldWrapper<Scalars["String"]["output"]>;
+  /** 内容。 */
   content: FieldWrapper<Scalars["String"]["output"]>;
+  /** 消息ID。 */
   id: FieldWrapper<Scalars["String"]["output"]>;
 };
 
-/** 消息内容。 */
+/** 表示“消息内容”的输入参数类型。 */
 export type T_MessageInput = {
   /** 作者。 */
   author: Scalars["String"]["input"];
@@ -60,7 +64,9 @@ export type T_MessageInput = {
 
 export type T_Mutation = {
   __typename?: "Mutation";
+  /** 新建一个“消息”。 */
   createMessage: FieldWrapper<T_Message>;
+  /** 根据消息ID更新对应的“消息”内容。 */
   updateMessage: FieldWrapper<T_Message>;
 };
 
@@ -75,8 +81,9 @@ export type T_MutationUpdateMessageArgs = {
 
 export type T_Query = {
   __typename?: "Query";
+  /** 根据消息ID返回对应的“消息”主体。 */
   getMessage: FieldWrapper<T_Message>;
-  /** 表示一个值，值类型是String。 */
+  /** 表示一个值类型是String的值。 */
   hello: FieldWrapper<Scalars["String"]["output"]>;
   /** 服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。 */
   serverDate: FieldWrapper<Scalars["String"]["output"]>;
@@ -88,50 +95,6 @@ export type T_QueryGetMessageArgs = {
 
 export type T_Subscription = {
   __typename?: "Subscription";
-  greetings?: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
-};
-
-export type T_Test001QueryVariables = Exact<{
-  id: Scalars["String"]["input"];
-}>;
-
-export type T_Test001Query = {
-  __typename?: "Query";
-  hello111: string;
-  serverDate111: string;
-  getMessage: {
-    __typename?: "Message";
-    id: string;
-    author: string;
-    content: string;
-  };
-};
-
-export type T_Test002MutationVariables = Exact<{
-  input: T_MessageInput;
-}>;
-
-export type T_Test002Mutation = {
-  __typename?: "Mutation";
-  createMessage: {
-    __typename?: "Message";
-    id: string;
-    author: string;
-    content: string;
-  };
-};
-
-export type T_Test003MutationVariables = Exact<{
-  id: Scalars["String"]["input"];
-  input: T_MessageInput;
-}>;
-
-export type T_Test003Mutation = {
-  __typename?: "Mutation";
-  updateMessage: {
-    __typename?: "Message";
-    id: string;
-    author: string;
-    content: string;
-  };
+  /** 返回5种颜色。 */
+  greetings: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
 };
