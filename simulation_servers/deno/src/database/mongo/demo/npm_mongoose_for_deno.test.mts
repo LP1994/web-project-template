@@ -64,7 +64,7 @@ interface I_StartupLogCollectionSchema {
  * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
- * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
+ * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html
  */
 const mongooseClientConfig: T_ConnectOptions = {
   // 以下选项是mongoose自己的选项。Start
@@ -246,13 +246,13 @@ const mongooseClientConfig: T_ConnectOptions = {
   /**
    * @type {'local' | 'majority' | 'linearizable' | 'available' | 'snapshot'} 隔离的程度，指定客户端的默认读取问题。有关更多信息，请参阅阅读关注。
    * 详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/modules.html#ReadConcernLevel
+   * https://mongodb.github.io/node-mongodb-native/6.5/modules.html#ReadConcernLevel
    */
   // readConcernLevel: '',
   /**
    * @type {'primary' | 'primaryPreferred' | 'secondary' | 'secondaryPreferred' | 'nearest'} 指定此连接的阅读偏好，指定客户端的默认读取首选项（不包括标记）。有关更多信息，请参阅阅读偏好。
    * 详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/classes/ReadPreference.html
+   * https://mongodb.github.io/node-mongodb-native/6.5/classes/ReadPreference.html
    */
   // readPreference: 'primary',
   /**
@@ -377,7 +377,7 @@ const mongooseClientConfig: T_ConnectOptions = {
 
   // 以上选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   End
 
-  // 以下选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   Start
+  // 以下选项见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html   Start
 
   /**
    * @type {string[] | Uint8Array | Uint8Array[]} 一个字符串数组或一个命名可能的ALPN协议的Buffer。(协议应按其优先级排序)。<br />
@@ -403,7 +403,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   /**
    * @type {AutoEncryptionOptions} 可选择启用使用中的自动加密功能。<br />
-   * 类型AutoEncryptionOptions实际为（详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html）：<br />
+   * 类型AutoEncryptionOptions实际为（详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html）：<br />
    * {
    *   // 允许用户绕过自动加密，保持隐性解密。
    *   bypassAutoEncryption?: boolean
@@ -411,21 +411,21 @@ const mongooseClientConfig: T_ConnectOptions = {
    *   bypassQueryAnalysis?: boolean
    *   // 实验性选项，公共技术预览：为文件中的加密字段提供一个模式。
    *   encryptedFieldsMap?: Document，也就是：[key: string]: any
-   *   // 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#extraOptions
+   *   // 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#extraOptions
    *   extraOptions?: { cryptSharedLibPath?: string; cryptSharedLibRequired?: boolean; mongocryptdBypassSpawn?: boolean; mongocryptdSpawnArgs?: string[]; mongocryptdSpawnPath?: string; mongocryptdURI?: string }
    *   // 一个用于从钥匙库中获取钥匙的MongoClient。
    *   keyVaultClient?: MongoClient
    *   // 在钥匙库中存储钥匙的命名空间。
    *   keyVaultNamespace?: string
-   *   // 特定KMS供应商在密钥生成、加密和解密期间使用的配置选项。详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#kmsProviders
+   *   // 特定KMS供应商在密钥生成、加密和解密期间使用的配置选项。详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#kmsProviders
    *   kmsProviders?: { aws?: Record<string, never> | { accessKeyId: string; secretAccessKey: string; sessionToken?: string }; azure?: { clientId: string; clientSecret: string; identityPlatformEndpoint?: string; tenantId: string } | { accessToken: string }; gcp?: Record<string, never> | { email: string; endpoint?: string; privateKey: string | Buffer } | { accessToken: string }; kmip?: { endpoint?: string }; local?: { key: string | Buffer } }
-   *   // 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#options
+   *   // 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#options
    *   options?: { logger?: any }
-   *   // 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/ProxyOptions.html
+   *   // 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/ProxyOptions.html
    *   proxyOptions?: { proxyHost?: string; proxyPassword?: string; proxyPort?: number; proxyUsername?: string }
-   *   // 命名空间与本地JSON模式的映射，用于加密，详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#schemaMap
+   *   // 命名空间与本地JSON模式的映射，用于加密，详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#schemaMap
    *   schemaMap?: Document，也就是：[key: string]: any
-   *   // 连接到KMS提供商的TLS选项，详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#tlsOptions
+   *   // 连接到KMS提供商的TLS选项，详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#tlsOptions
    *   tlsOptions?: { aws?: AutoEncryptionTlsOptions; azure?: AutoEncryptionTlsOptions; gcp?: AutoEncryptionTlsOptions; kmip?: AutoEncryptionTlsOptions; local?: AutoEncryptionTlsOptions }
    * }
    * 自动加密是一个“企业专用”的功能，只适用于对集合的操作。<br />
@@ -461,7 +461,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   // checkKeys: true,
   /**
-   * @type {(hostname: string, cert: PeerCertificate) => Error | undefined，该函数返回值类型为Error或undefined} 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html#checkServerIdentity
+   * @type {(hostname: string, cert: PeerCertificate) => Error | undefined，该函数返回值类型为Error或undefined} 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html#checkServerIdentity
    */
   // checkServerIdentity: null,
   /**
@@ -591,13 +591,13 @@ const mongooseClientConfig: T_ConnectOptions = {
    * 启用原始选项将返回一个使用 allocUnsafe API 分配的 Node.js Buffer。<br />
    * 关于 "不安全 "在这里指的是什么，请参见Node.js文档的这一节，了解更多细节。<br />
    * 如果你需要维护你自己的可编辑的克隆字节，以延长进程的寿命，建议你分配自己的缓冲区并克隆内容。<br />
-   * 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html#raw
+   * 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html#raw
    */
   // raw: false,
   /**
    * @type {ReadConcernLike} 为集合指定一个读取关注（仅支持MongoDB 3.2或更高版本）。
    * 关于类型ReadConcernLike，详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/modules.html#ReadConcernLike
+   * https://mongodb.github.io/node-mongodb-native/6.5/modules.html#ReadConcernLike
    * https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/read_concern.ts#L16
    */
   // readConcern: null,
@@ -676,8 +676,8 @@ const mongooseClientConfig: T_ConnectOptions = {
   /**
    * @type {WriteConcern | WriteConcernSettings} 一个MongoDB WriteConcern，它描述了从MongoDB请求写操作的确认水平。
    * 详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/classes/WriteConcern.html
-   * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/WriteConcernSettings.html
+   * https://mongodb.github.io/node-mongodb-native/6.5/classes/WriteConcern.html
+   * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/WriteConcernSettings.html
    * https://docs.mongodb.com/manual/reference/write-concern/
    */
   // writeConcern: null,
@@ -686,7 +686,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   // wtimeoutMS: 0,
 
-  // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
+  // 以上选项见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
 } as T_ConnectOptions;
