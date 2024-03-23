@@ -1,6 +1,8 @@
+#!/usr/bin/env -S tsx --no-cache
+
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/database/mongo/test/npm_mongodb_for_deno.test.mts
+ * FileDirPath: simulation_servers/deno/src/database/mongo/demo/npm_mongoose_for_node.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -8,41 +10,19 @@
  */
 
 /**
- * 1、直到2024年03月23日，基于：npm包mongodb@6.5.0、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongodb@6.5.0、MongoDB社区版@7.0.7在node中是可以的。
- *
- * 2、报错信息：
- * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
- * Sending fatal alert BadCertificate
- * error: Uncaught Error: read UNKNOWN
- *     at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *     at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *     at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *     at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
- *
- * 当连接地址为：localhost，也就是域名时，会报如下错误：
- * error: Uncaught Error: read ECONNRESET
- *    at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *    at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *    at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *    at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
+ * 2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、npm@10.5.0、node@21.7.1，带客户端证书的与数据库进行的TLS连接测试成功！
+ * 注意该文件不是deno版！
  */
 
 'use strict';
 
 import {
-  type MongoClientOptions as T_MongoClientOptions,
-  type Db as T_Db,
+  type ConnectOptions as T_ConnectOptions,
+  type Connection as T_Connection,
   type Collection as T_Collection,
 
-  MongoClient,
-} from 'npm:mongodb';
-
-/*
- import {
- opensslDir,
- } from 'configures/GlobalParameters.esm.mts';
- */
+  Mongoose,
+} from 'mongoose';
 
 interface I_StartupLogCollectionSchema {
   _id: string;
@@ -61,18 +41,43 @@ interface I_StartupLogCollectionSchema {
 }
 
 /**
- * @type {T_MongoClientOptions} node版本的mongodb驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongoClientConfig: T_MongoClientOptions = {
+const mongooseClientConfig: T_ConnectOptions = {
+  // 以下选项是mongoose自己的选项。Start
+
+  /**
+   * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
+   * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
+   * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
+   * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
+   * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
+   */
+  autoIndex: false,
+  /**
+   * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
+   * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
+   * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
+   */
+  autoCreate: true,
+  /**
+   * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
+   * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
+   */
+  bufferCommands: true,
+
+  // 以上选项是mongoose自己的选项。End
+
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**
    * @type {string} 指定驱动程序在客户端元数据中作为连接握手的一部分传递给服务器的应用程序名称。服务器在建立连接时将应用名称打印到MongoDB日志中。它也会被记录在慢速查询日志和配置文件集合中。<br />
    * 创建该MongoClient实例的应用程序的名称。MongoDB 3.4和更新版本会在建立每个连接时在服务器日志中打印这个值。它也会被记录在慢速查询日志和配置文件集合中。
    */
-  appName: 'npm_mongodb_driver_for_deno',
+  appName: 'npm_mongoose_driver_for_node',
   /**
    * @type {string} 指定与服务器连接时要使用的认证机制方法。如果你没有指定一个值，驱动程序会使用默认的机制，根据服务器的版本，SCRAM-SHA-1或SCRAM-SHA-256。参见认证机制以了解可用的认证机制。<br />
    * 详细见：<br />
@@ -127,7 +132,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
-  // authMechanism: 'MONGODB-X509',
+  authMechanism: 'MONGODB-X509',
   /**
    * @type {AuthMechanismProperties} 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -145,7 +150,7 @@ const mongoClientConfig: T_MongoClientOptions = {
   /**
    * @type {string} 指定与用户凭证相关的数据库名称。指定连接应针对的数据库进行验证。
    */
-  // authSource: '$external',
+  authSource: '$external',
   /**
    * @type {string | ('none' | 'snappy' | 'zlib' | 'zstd')[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -282,7 +287,7 @@ const mongoClientConfig: T_MongoClientOptions = {
   /**
    * @type {boolean} 指定连接到服务器是否需要TLS。使用“mongodb+srv”的srvServiceName，或指定其他以tls为前缀的选项，将默认tls为true。
    */
-  tls: false,
+  tls: true,
   /**
    * @type {boolean} 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
@@ -439,9 +444,9 @@ const mongoClientConfig: T_MongoClientOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongodb_driver',
+    name: 'npm_mongoose_driver',
     platform: 'node@21.7.1 X64',
-    version: 'mongodb@6.5.0',
+    version: 'mongoose@8.2.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -652,17 +657,21 @@ const mongoClientConfig: T_MongoClientOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as T_MongoClientOptions;
+} as T_ConnectOptions;
 
-const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoClientConfig );
+const mongoose: Mongoose = new Mongoose();
+
+let client: T_Connection;
 
 async function run(): Promise<void>{
   try{
-    const database: T_Db = client.db( 'local' ),
-      startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = database.collection<I_StartupLogCollectionSchema>( 'startup_log' ),
-      startup_log: Array<I_StartupLogCollectionSchema> = await startup_log_collection.find<I_StartupLogCollectionSchema>( {
-        hostname: 'LPQAQ',
-      } ).toArray();
+    client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'local' );
+
+    const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = client.collection<I_StartupLogCollectionSchema>( 'startup_log' );
+
+    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
+      hostname: 'LPQAQ',
+    } ) ).toArray();
 
     console.dir( startup_log );
   }

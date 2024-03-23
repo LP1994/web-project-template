@@ -1,8 +1,6 @@
-#!/usr/bin/env -S tsx --no-cache
-
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/database/mongo/test/npm_mongodb_for_node.test.mts
+ * FileDirPath: simulation_servers/deno/src/database/mongo/demo/npm_mongoose_demo001_for_deno.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -10,49 +8,85 @@
  */
 
 /**
- * 2024年03月23日，基于：npm包mongodb@6.5.0、MongoDB社区版@7.0.7、npm@10.5.0、node@21.7.1，带客户端证书的与数据库进行的TLS连接测试成功！
- * 注意该文件不是deno版！
+ * 1、直到2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7在node中是可以的。
+ *
+ * 2、报错信息：
+ * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
+ * Sending fatal alert BadCertificate
+ * error: Uncaught Error: read UNKNOWN
+ *     at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
+ *     at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
+ *     at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
+ *     at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
+ *
+ * 当连接地址为：localhost，也就是域名时，会报如下错误：
+ * error: Uncaught Error: read ECONNRESET
+ *    at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
+ *    at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
+ *    at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
+ *    at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
  */
 
 'use strict';
 
 import {
-  type MongoClientOptions as T_MongoClientOptions,
-  type Db as T_Db,
-  type Collection as T_Collection,
+  type Connection as T_Connection,
+  type ConnectOptions as T_ConnectOptions,
+  type HydratedDocument as T_HydratedDocument,
+  type QueryWithHelpers as T_QueryWithHelpers,
+  type VirtualType as T_VirtualType,
 
-  MongoClient,
-} from 'mongodb';
+  Model,
+  Mongoose,
+  Schema,
+  Types,
+} from 'npm:mongoose';
 
-interface I_StartupLogCollectionSchema {
-  _id: string;
-
-  hostname: string;
-
-  startTime: Date;
-
-  startTimeLocal: string;
-
-  pid: number;
-
-  cmdLine: object;
-
-  buildinfo: object;
-}
+/*
+ import {
+ opensslDir,
+ } from 'configures/GlobalParameters.esm.mts';
+ */
 
 /**
- * @type {T_MongoClientOptions} node版本的mongodb驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
+ * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
  * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html
  */
-const mongoClientConfig: T_MongoClientOptions = {
+const mongooseClientConfig: T_ConnectOptions = {
+  // 以下选项是mongoose自己的选项。Start
+
+  /**
+   * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
+   * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
+   * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
+   * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
+   * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
+   */
+  autoIndex: false,
+  /**
+   * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
+   * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
+   * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
+   */
+  autoCreate: true,
+  /**
+   * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
+   * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
+   */
+  bufferCommands: true,
+
+  // 以上选项是mongoose自己的选项。End
+
   // 以下选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   Start
 
   /**
    * @type {string} 指定驱动程序在客户端元数据中作为连接握手的一部分传递给服务器的应用程序名称。服务器在建立连接时将应用名称打印到MongoDB日志中。它也会被记录在慢速查询日志和配置文件集合中。<br />
    * 创建该MongoClient实例的应用程序的名称。MongoDB 3.4和更新版本会在建立每个连接时在服务器日志中打印这个值。它也会被记录在慢速查询日志和配置文件集合中。
    */
-  appName: 'npm_mongodb_driver_for_node',
+  appName: 'npm_mongoose_driver_for_deno',
   /**
    * @type {string} 指定与服务器连接时要使用的认证机制方法。如果你没有指定一个值，驱动程序会使用默认的机制，根据服务器的版本，SCRAM-SHA-1或SCRAM-SHA-256。参见认证机制以了解可用的认证机制。<br />
    * 详细见：<br />
@@ -107,7 +141,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
-  authMechanism: 'MONGODB-X509',
+  // authMechanism: 'MONGODB-X509',
   /**
    * @type {AuthMechanismProperties} 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -125,7 +159,7 @@ const mongoClientConfig: T_MongoClientOptions = {
   /**
    * @type {string} 指定与用户凭证相关的数据库名称。指定连接应针对的数据库进行验证。
    */
-  authSource: '$external',
+  // authSource: '$external',
   /**
    * @type {string | ('none' | 'snappy' | 'zlib' | 'zstd')[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -262,7 +296,7 @@ const mongoClientConfig: T_MongoClientOptions = {
   /**
    * @type {boolean} 指定连接到服务器是否需要TLS。使用“mongodb+srv”的srvServiceName，或指定其他以tls为前缀的选项，将默认tls为true。
    */
-  tls: true,
+  tls: false,
   /**
    * @type {boolean} 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
@@ -419,9 +453,9 @@ const mongoClientConfig: T_MongoClientOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongodb_driver',
+    name: 'npm_mongoose_driver',
     platform: 'node@21.7.1 X64',
-    version: 'mongodb@6.5.0',
+    version: 'mongoose@8.2.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -632,17 +666,642 @@ const mongoClientConfig: T_MongoClientOptions = {
   // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as T_MongoClientOptions;
+} as T_ConnectOptions;
 
-const client: MongoClient = new MongoClient( 'mongodb://127.0.0.1:27777', mongoClientConfig );
+const mongoose: Mongoose = new Mongoose();
+
+let client: T_Connection;
 
 async function run(): Promise<void>{
   try{
-    const database: T_Db = client.db( 'local' ),
-      startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = database.collection<I_StartupLogCollectionSchema>( 'startup_log' ),
-      startup_log: Array<I_StartupLogCollectionSchema> = await ( startup_log_collection.find<I_StartupLogCollectionSchema>( { hostname: 'LPQAQ', } ) ).toArray();
+    client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseClientConfig ).useDb( 'test' );
 
-    console.dir( startup_log );
+    type T_KittenInstance = T_HydratedDocument<I_Kitty, I_KittyMethods & I_KittyVirtuals, I_KittyQueryHelpers>;
+    type T_MyQueryWithHelpers = T_QueryWithHelpers<Array<T_KittenInstance>, T_KittenInstance, I_KittyQueryHelpers>;
+    type T_KittenModel = Model<I_Kitty, I_KittyQueryHelpers, I_KittyMethods, I_KittyVirtuals, T_KittenInstance> & I_KittyModel;
+
+    // Subdocument definition.
+    interface I_Info {
+      text: string;
+    }
+
+    interface I_InfoMethods {
+      getText(): string;
+    }
+
+    interface I_Kitty {
+      name: string;
+
+      color: string;
+
+      sex: string;
+
+      time: number;
+
+      eye: string;
+
+      foot: string;
+
+      info: Types.Subdocument<Types.ObjectId> & I_Info & T_HydratedDocument<I_Info, I_InfoMethods>;
+    }
+
+    interface I_KittyVirtuals {
+      fullName: string;
+
+      toFullString: string;
+    }
+
+    interface I_KittyModel
+      extends Model<I_Kitty, I_KittyQueryHelpers, I_KittyMethods, I_KittyVirtuals, T_KittenInstance> {
+      GetTime( kitten: T_KittenInstance ): number;
+
+      GetEye( kitten: T_KittenInstance ): string;
+
+      GetFoot( kitten: T_KittenInstance ): string;
+    }
+
+    interface I_KittyMethods {
+      speak(): void;
+
+      getColor(): string;
+
+      getSex(): string;
+
+      getInfo(): string;
+    }
+
+    interface I_KittyQueryHelpers {
+      FindByName( name: string ): T_MyQueryWithHelpers;
+
+      FindBySex( sex: string ): T_MyQueryWithHelpers;
+    }
+
+    // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
+    const KittySchema: Schema<
+      I_Kitty,
+      I_KittyModel,
+      I_KittyMethods,
+      I_KittyQueryHelpers
+    > = new Schema<
+      I_Kitty,
+      I_KittyModel,
+      I_KittyMethods,
+      I_KittyQueryHelpers
+    >(
+      /**
+       * 为这个“Schema”（相当于面向对象编程中的“接口”）添加“属性”。
+       * SchemaType Options：
+       * https://mongoosejs.com/docs/schematypes.html#schematype-options
+       */
+      {
+        // name: String,
+        // Equivalent
+        // name: 'String',
+        // Equivalent
+        name: {
+          type: String,
+          default: '喵喵',
+          required: true,
+          trim: true,
+          minLength: 1,
+        },
+        color: {
+          type: String,
+          default: '灰蓝',
+          trim: true,
+          minLength: 1,
+        },
+        sex: {
+          type: String,
+          default: '铁蛋',
+          trim: true,
+          minLength: 2,
+          maxLength: 2,
+        },
+        time: {
+          type: Number,
+          default: Date.now(),
+        },
+        eye: {
+          type: String,
+          default: '蓝眼睛',
+          trim: true,
+          minLength: 1,
+        },
+        foot: {
+          type: String,
+          default: '白手套',
+          trim: true,
+          minLength: 1,
+        },
+        info: new Schema<
+          I_Info,
+          Model<I_Info, {}, I_InfoMethods>,
+          I_InfoMethods
+        >(
+          {
+            text: {
+              type: String,
+              default: '关于这只喵喵的一些信息。',
+              required: true,
+              trim: true,
+              minLength: 1,
+            },
+          },
+          {
+            methods: {
+              getText( this: T_HydratedDocument<I_Info, I_InfoMethods> ): string{
+                return `{ _id: ${ this._id }, text: ${ this.text } }`;
+              },
+            },
+          }
+        ),
+      },
+      // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“方法”，如：“实例方法”、“静态方法”、“查询帮助方法”。
+      {
+        /**
+         * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
+         * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
+         * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
+         * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
+         * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
+         */
+        autoIndex: false,
+        /**
+         * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
+         * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
+         * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
+         */
+        autoCreate: true,
+        /**
+         * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
+         * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
+         */
+        bufferCommands: true,
+        /**
+         * @type {number} 如果bufferCommands是打开的，这个选项设置Mongoose缓冲在抛出错误之前的最大等待时间，单位是毫秒。<br />
+         * 如果不指定，Mongoose将使用10000（10秒）。<br />
+         */
+        // bufferTimeoutMS: 10000,
+        /**
+         * @type {object|number} Mongoose支持MongoDB的封顶集合。<br />
+         * 要指定底层的MongoDB集合是有上限的，将capped选项设置为集合的最大尺寸，单位为字节。<br />
+         * 如果你想传递额外的选项，比如最大，也可以将封顶选项设置为一个对象。在这种情况下，你必须明确地传递大小选项，这是必须的。<br />
+         */
+        /*
+         capped: {
+         size: 1024,
+         max: 1000,
+         autoIndexId: true,
+         },
+         */
+        /**
+         * @type {string} Mongoose默认通过将模型名称传递给utils.toCollectionName方法来产生一个集合名称。<br />
+         * 这个方法将名字复数化。<br />
+         * 如果你需要为你的集合使用不同的名字，请设置这个选项。<br />
+         * PS：<br />
+         * 但是，该选项设置的值会被下面client.model()的第3个参数覆盖！！！<br />
+         */
+        collection: 'kittens',
+        /**
+         * @type {string} 当你定义一个判别器时，Mongoose会在你的模式中添加一个路径，用来存储一个文档是哪个判别器的实例。<br />
+         * 默认情况下，Mongoose添加了一个__t路径，但是你可以设置discriminatorKey来覆盖这个默认值。<br />
+         */
+        // discriminatorKey: 'type',
+        /**
+         * @type {boolean} Mongoose默认为你的每个模式分配了一个id虚拟获取器。<br />
+         * 该获取器返回文档的_id字段，并将其转换为一个字符串，或者在ObjectIds的情况下，返回其hexString。<br />
+         * 如果你不希望在你的模式中添加一个id获取器，你可以在构建模式时通过这个选项来禁用它。<br />
+         */
+        // id: true,
+        /**
+         * @type {boolean} 如果你没有在模式构造函数中传递一个字段，Mongoose会默认为你的每个模式分配一个_id字段。<br />
+         * 分配的类型是一个ObjectId，以便与MongoDB的默认行为相吻合。<br />
+         * 如果你根本不希望在你的模式中添加_id，你可以使用这个选项禁用它。<br />
+         * PS：<br />
+         * 你只能在subdocuments上使用这个选项。Mongoose不能在不知道其ID的情况下保存一个文档，所以如果你试图保存一个没有_ID的文档，你会得到一个错误。<br />
+         */
+        // _id: true,
+        /**
+         * @type {boolean} Mongoose默认会通过删除空对象来“最小化”模式。<br />
+         * 这个行为可以通过设置最小化选项为false来重写。然后，它将存储空对象。<br />
+         * 要检查一个对象是否为空，你可以使用$isEmpty()帮助器：<br />
+         * const sam = new Character({ name: 'Sam', inventory: {} });
+         * sam.$isEmpty('inventory'); // true
+         *
+         * sam.inventory.barrowBlade = 1;
+         * sam.$isEmpty('inventory'); // false
+         */
+        minimize: false,
+        /**
+         * @type {string} https://mongoosejs.com/docs/guide.html#read
+         */
+        // read: '',
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#writeConcern
+         */
+        /*
+         writeConcern: {
+         w: 'majority',
+         j: true,
+         wtimeout: 1000,
+         },
+         */
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#shardKey
+         */
+        /*
+         shardKey: {
+         tag: 1,
+         name: 1,
+         },
+         */
+        /**
+         * @type {boolean|string} 严格选项（默认启用）确保传递给我们的模型构造函数的值不会被保存到数据库中，这些值在我们的模式中没有指定。<br />
+         * 例子001：<br />
+         * const thingSchema = new Schema({ ... })
+         * const Thing = mongoose.model('Thing', thingSchema);
+         * const thing = new Thing({ iAmNotInTheSchema: true });
+         * thing.save(); // iAmNotInTheSchema没有被保存到数据库中。
+         *
+         * // set to false..
+         * const thingSchema = new Schema({ ... }, { strict: false });
+         * const thing = new Thing({ iAmNotInTheSchema: true });
+         * thing.save(); // iAmNotInTheSchema现在被保存到数据库中了！！！
+         *
+         * 这也会影响到使用doc.set()来设置一个属性值。<br />
+         * 例子001：<br />
+         * const thingSchema = new Schema({ ... });
+         * const Thing = mongoose.model('Thing', thingSchema);
+         * const thing = new Thing;
+         * thing.set('iAmNotInTheSchema', true);
+         * thing.save(); // iAmNotInTheSchema没有被保存到数据库中。
+         *
+         * 这个值可以通过传递第2个布尔参数在模型实例层面上被重写：<br />
+         * const Thing = mongoose.model('Thing');
+         * const thing = new Thing(doc, true);  // enables strict mode
+         * const thing = new Thing(doc, false); // disables strict mode
+         *
+         * strict选项也可以设置为“throw”，这将导致产生错误而不是丢弃坏数据。<br />
+         *
+         * 注意：在实例上设置的任何键/值，如果在你的模式中不存在，则总是被忽略，不管模式选项如何：<br />
+         * const thingSchema = new Schema({ ... });
+         * const Thing = mongoose.model('Thing', thingSchema);
+         * const thing = new Thing;
+         * thing.iAmNotInTheSchema = true;
+         * thing.save(); // iAmNotInTheSchema从未被保存到数据库中。
+         */
+        strict: 'throw',
+        /**
+         * @type {boolean} Mongoose支持一个单独的strictQuery选项来避免查询过滤器的严格模式。<br />
+         * 这是因为空的查询过滤器会导致Mongoose返回模型中的所有文档，这可能导致问题。<br />
+         * 详细见：<br />
+         * https://mongoosejs.com/docs/guide.html#strictQuery
+         */
+        strictQuery: true,
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#toJSON
+         * 更多选项见：<br />
+         * https://mongoosejs.com/docs/api/document.html#Document.prototype.toJSON()
+         */
+        // toJSON: { getters: true, virtuals: true, },
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#toObject
+         * 更多选项见：<br />
+         * https://mongoosejs.com/docs/api/document.html#Document.prototype.toObject()
+         */
+        // toObject: { getters: true, virtuals: true, },
+        /**
+         * @type {string} https://mongoosejs.com/docs/guide.html#typeKey
+         */
+        // typeKey: 'type',
+        /**
+         * @type {boolean} 默认情况下，documents在被保存到数据库之前会被自动验证。<br />
+         * 这是为了防止保存一个无效的documents。<br />
+         * 如果你想手动处理验证，并且能够保存没有通过验证的对象，你可以把validateBeforeSave设置为false。<br />
+         */
+        validateBeforeSave: true,
+        /**
+         * @type {string} https://mongoosejs.com/docs/guide.html#versionKey
+         */
+        // versionKey: '__v',
+        /**
+         * @type {boolean} https://mongoosejs.com/docs/guide.html#optimisticConcurrency
+         */
+        optimisticConcurrency: true,
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#collation
+         */
+        /*
+         collation: {
+         locale: 'en_US',
+         // 表示忽略大小写。
+         strength: 1,
+         },
+         */
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#timeseries
+         */
+        /*
+         timeseries: {
+         timeField: 'timestamp',
+         metaField: 'metadata',
+         granularity: 'hours',
+         },
+         */
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#skipVersioning
+         */
+        // skipVersioning: {},
+        /**
+         * @type {object} https://mongoosejs.com/docs/guide.html#timestamps
+         */
+        // timestamps: {},
+        /**
+         * @type {array} https://mongoosejs.com/docs/guide.html#pluginTags
+         */
+        // pluginTags: [],
+        /**
+         * @type {boolean} https://mongoosejs.com/docs/guide.html#selectPopulatedPaths
+         */
+        // selectPopulatedPaths: true,
+        /**
+         * @type {boolean} https://mongoosejs.com/docs/guide.html#storeSubdocValidationError
+         */
+        storeSubdocValidationError: true,
+
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
+        methods: {
+          speak( this: T_KittenInstance ): void{
+            const greeting: string = this.name
+                                     ? `Meow name is ${ this.name }.`
+                                     : 'I don\'t have a name.';
+
+            console.log( `\n${ greeting }\n` );
+          },
+          getColor( this: T_KittenInstance ): string{
+            console.log( `\nMy color is ${ this.color }.\n` );
+
+            return this.color;
+          },
+          getSex( this: T_KittenInstance ): string{
+            console.log( `\nMy sex is ${ this.sex }.\n` );
+
+            return this.sex;
+          },
+          getInfo( this: T_KittenInstance ): string{
+            console.log( `\nMy info is ${ this.info.getText() }.\n` );
+            // 返回此子文档的顶级文档：this.info.ownerDocument()。
+            // console.log( `this.info.ownerDocument(): ${ this.info.ownerDocument() }.\n` );
+            // 返回此子文档父文档：this.info.parent()。
+            // console.log( `this.info.parent(): ${ this.info.parent() }.\n` );
+            // 返回此子文档父文档：this.info.$parent()。
+            // console.log( `this.info.$parent(): ${ this.info.$parent() }.\n` );
+
+            return this.info.getText();
+          },
+        },
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
+        statics: {
+          GetTime( kitten: T_KittenInstance ): number{
+            console.log( `\nMy time is ${ kitten.time }.\n` );
+
+            return kitten.time;
+          },
+          GetEye( kitten: T_KittenInstance ): string{
+            console.log( `\nMy eye is ${ kitten.eye }.\n` );
+
+            return kitten.eye;
+          },
+          GetFoot( kitten: T_KittenInstance ): string{
+            console.log( `\nMy foot is ${ kitten.foot }.\n` );
+
+            return kitten.foot;
+          },
+        },
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
+        query: {
+          FindByName(
+            this: T_MyQueryWithHelpers,
+            name: string
+          ): T_MyQueryWithHelpers{
+            return this.find( {
+              name,
+            } );
+          },
+          FindBySex(
+            this: T_MyQueryWithHelpers,
+            sex: string
+          ): T_MyQueryWithHelpers{
+            return this.find( {
+              sex,
+            } );
+          },
+        },
+        // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“虚方法”，类似于vue中的“computed（计算属性），也类似ES6语法中class类里的getter、setter”。
+        virtuals: {
+          fullName: {
+            get(
+              this: T_KittenInstance,
+              /**
+               * 前一个getter所返回的值。如果只有一个getter，值将是未定义的。
+               */
+              // @ts-expect-error
+              value: string | undefined,
+              /**
+               * 你调用.get()的虚拟对象。
+               */
+              // @ts-expect-error
+              virtual: T_VirtualType<T_KittenInstance>,
+              /**
+               * 此虚拟所附的文件。相当于this。
+               */
+              // @ts-expect-error
+              doc: T_KittenInstance
+            ): string{
+              return `${ this.color }的${ this.name }`;
+            },
+            set(
+              this: T_KittenInstance,
+              /**
+               * 被设置的值。
+               */
+              value: string,
+              /**
+               * 你正在调用.set()的虚拟对象。
+               */
+              // @ts-expect-error
+              virtual: T_VirtualType<T_KittenInstance>,
+              /**
+               * 此虚拟所附的文件。相当于this。
+               */
+              // @ts-expect-error
+              doc: T_KittenInstance
+            ): void{
+              [
+                this.color,
+                this.name,
+              ] = value.split( ' ' ) as [ string, string ];
+            },
+          },
+        },
+      },
+    );
+
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
+    /*
+     KittySchema.methods.speak = function ( this: T_KittenInstance ): void{
+     const greeting: string = this.name
+     ? `Meow name is ${ this.name }.`
+     : 'I don\'t have a name.';
+
+     console.log( `\n${ greeting }\n` );
+     };
+     */
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
+    /*
+     KittySchema.statics.GetEye = function ( kitten: T_KittenInstance ): string{
+     console.log( `\nMy eye is ${ kitten.eye }.\n` );
+
+     return kitten.eye;
+     };
+     */
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“查询帮助方法”，也是一种“静态方法”。
+    /*
+     KittySchema.query.FindByName = function (
+     this: T_MyQueryWithHelpers,
+     name: string ): T_MyQueryWithHelpers{
+     return this.find( {
+     name,
+     } );
+     };
+     */
+
+    KittySchema.virtual( 'toFullString' ).get(
+      function (
+        this: T_KittenInstance,
+        /**
+         * 前一个getter所返回的值。如果只有一个getter，值将是未定义的。
+         */
+        // @ts-expect-error
+        value: string | undefined,
+        /**
+         * 你调用.get()的虚拟对象。
+         */
+        // @ts-expect-error
+        virtual: T_VirtualType<T_KittenInstance>,
+        /**
+         * 此虚拟所附的文件。相当于this。
+         */
+        // @ts-expect-error
+        doc: T_KittenInstance
+      ): string{
+        return this.info.getText();
+      }
+    )
+      .set(
+        function (
+          this: T_KittenInstance,
+          /**
+           * 被设置的值。
+           */
+          value: string,
+          /**
+           * 你正在调用.set()的虚拟对象。
+           */
+          // @ts-expect-error
+          virtual: T_VirtualType<T_KittenInstance>,
+          /**
+           * 此虚拟所附的文件。相当于this。
+           */
+          // @ts-expect-error
+          doc: T_KittenInstance
+        ): void{
+          console.error( `toFullString不接受设置值：${ value }。` );
+        }
+      );
+
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
+    /*
+     KittySchema.method( {
+     getSex( this: T_KittenInstance ): string{
+     console.log( `\nMy sex is ${ this.sex }.\n` );
+
+     return this.sex;
+     },
+     } );
+     */
+    // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“静态方法”。
+    /*
+     KittySchema.static( {
+     GetFoot( kitten: T_KittenInstance ): string{
+     console.log( `\nMy foot is ${ kitten.foot }.\n` );
+
+     return kitten.foot;
+     },
+     } );
+     */
+
+    // 根据上面创建的“Schema”（相当于面向对象编程中的“接口”），生成一个对应的“Model”，其相当于面向对象编程中的“类”，并且这个类是实现了上面创建的“接口”，也就是一个Collection（相当于一张表）。
+    const Kitten: T_KittenModel = client.model<
+      I_Kitty,
+      I_KittyModel,
+      I_KittyQueryHelpers
+    >(
+      /**
+       * 第1个参数是你的model的collection的单数名称。Mongoose会自动寻找你的model名称的复数，小写版本。
+       * 因此，“model（模型）”Kitten是为数据库中的kittens集合准备的。
+       */
+      'Kitten',
+      // schema
+      KittySchema,
+      // 这个参数表示要在数据库里表示的“集合名”，不存在就会创建这个集合。
+      'kittens'
+    );
+
+    // 查找。
+    let kittenQuantity: number = ( await Kitten.find() ).length;
+
+    // 根据上面生成的“Model”（相当于面向对象编程中的“类”），实例化一个个实体对象，也就是一个Document（相当于一条记录）。
+    const kitten001: T_KittenInstance = new Kitten( {
+      name: `喵喵${ ++kittenQuantity }号`,
+      sex: '翠花',
+      info: {
+        text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
+      },
+    }, true );
+    const kitten002: T_KittenInstance = new Kitten( {
+      name: `喵喵${ ++kittenQuantity }号`,
+      info: {
+        text: `关于这只喵喵${ kittenQuantity }号的一些信息。`,
+      },
+    }, true );
+
+    // 保存到数据库中。
+    await kitten001.save();
+    await kitten002.save();
+
+    // 查找。
+    const kittens: Array<T_KittenInstance> = await Kitten.find().FindBySex( '翠花' );
+    kittens.forEach( ( kitten: T_KittenInstance, ): void => {
+      kitten.speak();
+      kitten.getColor();
+      kitten.getSex();
+      kitten.getInfo();
+
+      console.log( `kitten.fullName: ${ kitten.fullName }` );
+      kitten.fullName = `五彩斑斓 喵喵X号`;
+      console.log( `kitten.fullName: ${ kitten.fullName }` );
+      console.log( `kitten.color: ${ kitten.color }` );
+      console.log( `kitten.name: ${ kitten.name }` );
+
+      console.log( `kitten.toFullString: ${ kitten.toFullString }` );
+      kitten.toFullString = `XXXXXXXXXXXXX`;
+
+      Kitten.GetTime( kitten );
+      Kitten.GetEye( kitten );
+      Kitten.GetFoot( kitten );
+    } );
   }
   catch( e: unknown ){
     console.error( e );
