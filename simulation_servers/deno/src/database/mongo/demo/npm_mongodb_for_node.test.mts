@@ -103,9 +103,10 @@ const mongoClientConfig: T_MongoClientOptions = {
    * run().catch(console.dir);
    *
    * MongoDB企业版中仅支持的认证机制有（详细见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/authentication/enterprise-mechanisms/）：<br />
-   * GSSAPI（使用时，直接将'GSSAPI'设置给authMechanism参数）、PLAIN（使用时，直接将'PLAIN'设置给authMechanism参数）。
+   * GSSAPI（使用时，直接将'GSSAPI'设置给authMechanism参数）、
+   * PLAIN（使用时，直接将'PLAIN'设置给authMechanism参数）。
    *
-   * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
+   * MONGODB-OIDC：一个内部值（实验性），貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
   authMechanism: 'MONGODB-X509',
   /**
@@ -227,6 +228,13 @@ const mongoClientConfig: T_MongoClientOptions = {
    */
   retryWrites: true,
   /**
+   * @type {'auto' | 'stream' | 'poll'} 默认值“auto”，指定驱动程序监控使用的监控模式。
+   * 当该选项设置为'auto'时，监控模式由驱动程序的运行环境决定：
+   * 1、在功能即服务（FaaS）环境中，驱动程序使用'poll'模式。
+   * 2、而在其他环境中则使用'stream'模式。
+   */
+  serverMonitoringMode: 'auto',
+  /**
    * @type {number} 指定在引发错误之前阻止服务器选择的超时时间（以毫秒为单位，非负整数）。
    */
   // serverSelectionTimeoutMS: 30000,
@@ -292,6 +300,10 @@ const mongoClientConfig: T_MongoClientOptions = {
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
   tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
+  /**
+   * @type {string} 指定包含客户端撤销列表的本地 CRL.pem 文件的位置。
+   */
+  // tlsCRLFile: '',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
