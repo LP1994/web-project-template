@@ -286,10 +286,11 @@ ${ fileContent }`;
          */
       ],
       documents: [
-        './src/**/*.{graphql,graphqls,gql}',
         '!./src/graphQL/doc/*.{graphql,graphqls,gql}',
+        '!./src/graphQL/test/*.{graphql,graphqls,gql}',
         '!./src/graphQL/GraphQL.Schema.json.graphql',
         '!./src/graphQL/api/GetSchemaJSON.graphql',
+        './src/**/*.{graphql,graphqls,gql}',
       ],
       // 通用的插件配置选项，会给所有的插件使用。
       // config: {},
