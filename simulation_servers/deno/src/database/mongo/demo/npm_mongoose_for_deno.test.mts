@@ -148,11 +148,12 @@ const mongooseClientConfig: T_ConnectOptions = {
    * run().catch(console.dir);
    *
    * MongoDB企业版中仅支持的认证机制有（详细见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/authentication/enterprise-mechanisms/）：<br />
-   * GSSAPI（使用时，直接将'GSSAPI'设置给authMechanism参数）、PLAIN（使用时，直接将'PLAIN'设置给authMechanism参数）。
+   * GSSAPI（使用时，直接将'GSSAPI'设置给authMechanism参数）、
+   * PLAIN（使用时，直接将'PLAIN'设置给authMechanism参数）。
    *
-   * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
+   * MONGODB-OIDC：一个内部值（实验性），貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
-  // authMechanism: 'MONGODB-X509',
+  authMechanism: 'MONGODB-X509',
   /**
    * @type {AuthMechanismProperties} 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -170,7 +171,7 @@ const mongooseClientConfig: T_ConnectOptions = {
   /**
    * @type {string} 指定与用户凭证相关的数据库名称。指定连接应针对的数据库进行验证。
    */
-  // authSource: '$external',
+  authSource: '$external',
   /**
    * @type {string | ('none' | 'snappy' | 'zlib' | 'zstd')[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -272,6 +273,13 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   retryWrites: true,
   /**
+   * @type {'auto' | 'stream' | 'poll'} 默认值“auto”，指定驱动程序监控使用的监控模式。
+   * 当该选项设置为'auto'时，监控模式由驱动程序的运行环境决定：
+   * 1、在功能即服务（FaaS）环境中，驱动程序使用'poll'模式。
+   * 2、而在其他环境中则使用'stream'模式。
+   */
+  serverMonitoringMode: 'auto',
+  /**
    * @type {number} 指定在引发错误之前阻止服务器选择的超时时间（以毫秒为单位，非负整数）。
    */
   // serverSelectionTimeoutMS: 30000,
@@ -307,7 +315,7 @@ const mongooseClientConfig: T_ConnectOptions = {
   /**
    * @type {boolean} 指定连接到服务器是否需要TLS。使用“mongodb+srv”的srvServiceName，或指定其他以tls为前缀的选项，将默认tls为true。
    */
-  tls: false,
+  tls: true,
   /**
    * @type {boolean} 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
@@ -337,6 +345,10 @@ const mongooseClientConfig: T_ConnectOptions = {
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
   tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
+  /**
+   * @type {string} 指定包含客户端撤销列表的本地 CRL.pem 文件的位置。
+   */
+  // tlsCRLFile: '',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
