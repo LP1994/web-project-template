@@ -43,9 +43,11 @@ import {
   Types,
 } from 'npm:mongoose';
 
-import {
-  opensslDir,
-} from 'configures/GlobalParameters.esm.mts';
+/*
+ import {
+ opensslDir,
+ } from 'configures/GlobalParameters.esm.mts';
+ */
 
 /**
  * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
@@ -159,7 +161,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   // authSource: '$external',
   /**
-   * @type {string | ("none" | "snappy" | "zlib" | "zstd")[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
+   * @type {string | ('none' | 'snappy' | 'zlib' | 'zstd')[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
    * 一个数组或以逗号分隔的压缩器字符串，用于在该客户端和mongod/mongos实例之间的通信中启用网络压缩。
    */
@@ -315,8 +317,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
    * 作为连接字符串时，tlsCAFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCAFile: decodeURI( decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` )
-  .slice( 8 ) ) ),
+  tlsCAFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
   /**
    * @type {string} 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
    * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
@@ -324,8 +325,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateKeyFile: decodeURI( decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` )
-  .slice( 8 ) ) ),
+  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
@@ -600,7 +600,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   // serializeFunctions: false,
   /**
-   * @type {string|{deprecationErrors?: boolean; strict?: boolean; version: "1"}} 服务器API版本。
+   * @type {string|{deprecationErrors?: boolean; strict?: boolean; version: '1'}} 服务器API版本。
    */
   // serverApi: '1',
   /**
@@ -1199,27 +1199,27 @@ async function run(): Promise<void>{
         return this.info.getText();
       }
     )
-    .set(
-      function (
-        this: T_KittenInstance,
-        /**
-         * 被设置的值。
-         */
-        value: string,
-        /**
-         * 你正在调用.set()的虚拟对象。
-         */
-        // @ts-expect-error
-        virtual: T_VirtualType<T_KittenInstance>,
-        /**
-         * 此虚拟所附的文件。相当于this。
-         */
-        // @ts-expect-error
-        doc: T_KittenInstance
-      ): void{
-        console.error( `toFullString不接受设置值：${ value }。` );
-      }
-    );
+      .set(
+        function (
+          this: T_KittenInstance,
+          /**
+           * 被设置的值。
+           */
+          value: string,
+          /**
+           * 你正在调用.set()的虚拟对象。
+           */
+          // @ts-expect-error
+          virtual: T_VirtualType<T_KittenInstance>,
+          /**
+           * 此虚拟所附的文件。相当于this。
+           */
+          // @ts-expect-error
+          doc: T_KittenInstance
+        ): void{
+          console.error( `toFullString不接受设置值：${ value }。` );
+        }
+      );
 
     // 为这个“Schema”（相当于面向对象编程中的“接口”）添加“实例方法”。
     /*
