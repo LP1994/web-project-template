@@ -30,19 +30,19 @@
 'use strict';
 
 import {
+  type Connection as T_Connection,
+  type Collection as T_Collection,
+
+  Mongoose,
+} from 'npm:mongoose';
+
+import {
   httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type Collection as T_Collection,
-  type Database as T_Database,
-} from 'mongo/deno_mongo.esm.mts';
-
-import {
-  type T_MongoDBConnect,
-
-  MongoDBConnectForSingleton,
-} from 'mongo/MongoDBConnect.esm.mts';
+  mongooseConfig,
+} from 'mongo/MongooseConfig.esm.mts';
 
 interface I_StartupLogCollectionSchema {
   _id: string;
@@ -53,11 +53,11 @@ interface I_StartupLogCollectionSchema {
 
   startTimeLocal: string;
 
-  cmdLine: object;
-
   pid: number;
 
-  // buildinfo: object;
+  cmdLine: object;
+
+  buildinfo: object;
 }
 
 /**
@@ -71,45 +71,47 @@ async function Handle(
   // @ts-expect-error
   request: Request
 ): Promise<Response>{
-  const {
-    mongoDBClient,
-    // mongoDB,
-  }: T_MongoDBConnect = await MongoDBConnectForSingleton();
+  const mongoose: Mongoose = new Mongoose();
 
-  const mongoDB: T_Database = mongoDBClient.database( 'local' );
+  let client: T_Connection;
 
-  const startupLogCollection: T_Collection<I_StartupLogCollectionSchema> = mongoDB.collection<I_StartupLogCollectionSchema>( 'startup_log' );
+  try{
+    client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseConfig ).useDb( 'local' );
 
-  const logs: Array<I_StartupLogCollectionSchema> = await startupLogCollection.find( {
-    hostname: 'LPQAQ',
-  }, {
-    projection: {
-      // 这种属于文档的内置属性是可以设置成0、1的，0表示结果中不要包含该内置属性，1表示结果中一定要包含该内置属性。
-      _id: 0,
-      hostname: 1,
-      startTime: 1,
-      startTimeLocal: 1,
-      cmdLine: 1,
-      pid: 1,
-      // 这种不属于文档的内置属性是不可以设置成0的，否则会报错。
-      // buildinfo: 1,
-    },
-  } ).toArray();
+    const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = client.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
-  mongoDBClient.close();
+    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
+      hostname: 'LPQAQ',
+    } ) ).toArray();
 
-  return new Response( JSON.stringify( {
-    db: 'local',
-    collection: 'startup_log',
-    documents: logs,
-  } ), {
-    status: 200,
-    statusText: 'OK',
-    headers: {
-      ...httpResponseHeaders,
-      'content-type': `application/json; charset=utf-8`,
-    },
-  } );
+    return new Response( JSON.stringify( {
+      db: 'local',
+      collection: 'startup_log',
+      documents: startup_log,
+    } ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        ...httpResponseHeaders,
+        'content-type': `application/json; charset=utf-8`,
+      },
+    } );
+  }
+  catch( e: unknown ){
+    return new Response( JSON.stringify( {
+      error: ( e as Error ).message,
+    } ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        ...httpResponseHeaders,
+        'content-type': `application/json; charset=utf-8`,
+      },
+    } );
+  }
+  finally{
+    await client.close( true );
+  }
 }
 
 // 必须部署这个默认的导出值。

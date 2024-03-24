@@ -83,8 +83,8 @@ const methodByGetForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( 
   '/apple-touch-icon-120x120.png': `${ servicesDir }/ResRootFavicon.esm.mts`,
   '/apple-touch-icon-120x120-precomposed.png': `${ servicesDir }/ResRootFavicon.esm.mts`,
 
-  // '/simulation_servers_deno/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
-  // '/simulation_servers_deno/GetJSON/': `${ servicesDir }/GetJSON.esm.mts`,
+  '/simulation_servers_deno/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
+  '/simulation_servers_deno/GetJSON/': `${ servicesDir }/GetJSON.esm.mts`,
 } );
 
 /**
