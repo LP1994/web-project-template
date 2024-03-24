@@ -476,8 +476,8 @@ const mongooseClientConfig: T_ConnectOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongoose_driver',
-    platform: 'node@21.7.1 X64',
+    name: 'npm_mongoose_driver_for_deno',
+    platform: 'node@1.41.3',
     version: 'mongoose@8.2.3',
   },
   /**

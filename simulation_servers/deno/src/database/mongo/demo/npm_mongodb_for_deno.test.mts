@@ -451,8 +451,8 @@ const mongoClientConfig: T_MongoClientOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongodb_driver',
-    platform: 'node@21.7.1 X64',
+    name: 'npm_mongodb_driver_for_deno',
+    platform: 'deno@1.41.3',
     version: 'mongodb@6.5.0',
   },
   /**
