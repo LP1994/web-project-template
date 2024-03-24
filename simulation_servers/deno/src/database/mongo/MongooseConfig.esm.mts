@@ -8,46 +8,23 @@
  */
 
 /**
- * 配置使用“mongoose”连接“MongoDB”数据库时，需要的连接参数。
- * 注意：
- * 1、直到2023年05月12日，基于：npm包mongoose@7.1.1（该版本的mongoose也是基于npm包mongodb@5.5.0）、MongoDB社区版@6.0.5、deno@1.33.2，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongoose@7.1.1（该版本的mongoose也是基于npm包mongodb@5.5.0）、MongoDB社区版@6.0.5在node中是可以的。
- *
- * 2、报错信息：
- * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
- * Sending fatal alert BadCertificate
- * error: Uncaught Error: read UNKNOWN
- *     at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *     at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *     at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *     at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
- *
- * 当连接地址为：localhost，也就是域名时，会报如下错误：
- * error: Uncaught Error: read ECONNRESET
- *    at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *    at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *    at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *    at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
+ * 1、直到2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7在node中是可以的。
  */
 
 'use strict';
 
 import {
-  type ConnectOptions,
-  type SchemaOptions,
+  type ConnectOptions as T_ConnectOptions,
 } from 'npm:mongoose';
 
-import {
-  opensslDir,
-} from 'configures/GlobalParameters.esm.mts';
-
 /**
- * @type {ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：<br />
+ * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://mongoosejs.com/docs/connections.html
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
- * https://mongodb.github.io/node-mongodb-native/5.6/interfaces/MongoClientOptions.html
+ * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html
  */
-const config: ConnectOptions = {
+const mongooseConfig: T_ConnectOptions = {
   // 以下选项是mongoose自己的选项。Start
 
   /**
@@ -129,9 +106,10 @@ const config: ConnectOptions = {
    * run().catch(console.dir);
    *
    * MongoDB企业版中仅支持的认证机制有（详细见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/authentication/enterprise-mechanisms/）：<br />
-   * GSSAPI（使用时，直接将'GSSAPI'设置给authMechanism参数）、PLAIN（使用时，直接将'PLAIN'设置给authMechanism参数）。
+   * GSSAPI（使用时，直接将'GSSAPI'设置给authMechanism参数）、
+   * PLAIN（使用时，直接将'PLAIN'设置给authMechanism参数）。
    *
-   * MONGODB_OIDC：一个内部值，貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
+   * MONGODB-OIDC：一个内部值（实验性），貌似不是给外界使用的，该值在使用文档中没见到说明，但是在源码中可见到：https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/cmap/auth/providers.ts#L12
    */
   // authMechanism: 'MONGODB-X509',
   /**
@@ -153,7 +131,7 @@ const config: ConnectOptions = {
    */
   // authSource: '$external',
   /**
-   * @type {string | ("none" | "snappy" | "zlib" | "zstd")[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
+   * @type {string | ('none' | 'snappy' | 'zlib' | 'zstd')[]} 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
    * 一个数组或以逗号分隔的压缩器字符串，用于在该客户端和mongod/mongos实例之间的通信中启用网络压缩。
    */
@@ -226,13 +204,13 @@ const config: ConnectOptions = {
   /**
    * @type {'local' | 'majority' | 'linearizable' | 'available' | 'snapshot'} 隔离的程度，指定客户端的默认读取问题。有关更多信息，请参阅阅读关注。
    * 详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/modules.html#ReadConcernLevel
+   * https://mongodb.github.io/node-mongodb-native/6.5/modules.html#ReadConcernLevel
    */
   // readConcernLevel: '',
   /**
    * @type {'primary' | 'primaryPreferred' | 'secondary' | 'secondaryPreferred' | 'nearest'} 指定此连接的阅读偏好，指定客户端的默认读取首选项（不包括标记）。有关更多信息，请参阅阅读偏好。
    * 详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/classes/ReadPreference.html
+   * https://mongodb.github.io/node-mongodb-native/6.5/classes/ReadPreference.html
    */
   // readPreference: 'primary',
   /**
@@ -252,6 +230,13 @@ const config: ConnectOptions = {
    * @type {boolean} 启用可重试的写入。
    */
   retryWrites: true,
+  /**
+   * @type {'auto' | 'stream' | 'poll'} 默认值“auto”，指定驱动程序监控使用的监控模式。
+   * 当该选项设置为'auto'时，监控模式由驱动程序的运行环境决定：
+   * 1、在功能即服务（FaaS）环境中，驱动程序使用'poll'模式。
+   * 2、而在其他环境中则使用'stream'模式。
+   */
+  serverMonitoringMode: 'auto',
   /**
    * @type {number} 指定在引发错误之前阻止服务器选择的超时时间（以毫秒为单位，非负整数）。
    */
@@ -309,8 +294,7 @@ const config: ConnectOptions = {
    * 但是作为连接字符串时，tlsCAFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem' )。<br />
    * 作为连接字符串时，tlsCAFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCAFile: decodeURI( decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` )
-  .slice( 8 ) ) ),
+  tlsCAFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\001根CA证书\\MongoDBSSL001_Root_CA.pem',
   /**
    * @type {string} 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
    * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
@@ -318,8 +302,11 @@ const config: ConnectOptions = {
    * 但是作为连接字符串时，tlsCertificateKeyFile选项的值需要设置成：encodeURIComponent( 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem' )。<br />
    * 作为连接字符串时，tlsCertificateKeyFile选项的值总是需要被encodeURIComponent()调用后返回的。
    */
-  tlsCertificateKeyFile: decodeURI( decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_192_168_2_7_CA.pem` )
-  .slice( 8 ) ) ),
+  tlsCertificateKeyFile: 'G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\openssl\\MongoDBSSL001\\004客户端CA证书\\MongoDBSSL001_Clients_192_168_2_7_CA.pem',
+  /**
+   * @type {string} 指定包含客户端撤销列表的本地 CRL.pem 文件的位置。
+   */
+  // tlsCRLFile: '',
   /**
    * @type {string} 指定用于解密TLS连接所使用的客户端私钥的密码。
    */
@@ -348,7 +335,7 @@ const config: ConnectOptions = {
 
   // 以上选项见：https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options   End
 
-  // 以下选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   Start
+  // 以下选项见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html   Start
 
   /**
    * @type {string[] | Uint8Array | Uint8Array[]} 一个字符串数组或一个命名可能的ALPN协议的Buffer。(协议应按其优先级排序)。<br />
@@ -374,7 +361,7 @@ const config: ConnectOptions = {
    */
   /**
    * @type {AutoEncryptionOptions} 可选择启用使用中的自动加密功能。<br />
-   * 类型AutoEncryptionOptions实际为（详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html）：<br />
+   * 类型AutoEncryptionOptions实际为（详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html）：<br />
    * {
    *   // 允许用户绕过自动加密，保持隐性解密。
    *   bypassAutoEncryption?: boolean
@@ -382,21 +369,21 @@ const config: ConnectOptions = {
    *   bypassQueryAnalysis?: boolean
    *   // 实验性选项，公共技术预览：为文件中的加密字段提供一个模式。
    *   encryptedFieldsMap?: Document，也就是：[key: string]: any
-   *   // 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#extraOptions
+   *   // 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#extraOptions
    *   extraOptions?: { cryptSharedLibPath?: string; cryptSharedLibRequired?: boolean; mongocryptdBypassSpawn?: boolean; mongocryptdSpawnArgs?: string[]; mongocryptdSpawnPath?: string; mongocryptdURI?: string }
    *   // 一个用于从钥匙库中获取钥匙的MongoClient。
    *   keyVaultClient?: MongoClient
    *   // 在钥匙库中存储钥匙的命名空间。
    *   keyVaultNamespace?: string
-   *   // 特定KMS供应商在密钥生成、加密和解密期间使用的配置选项。详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#kmsProviders
+   *   // 特定KMS供应商在密钥生成、加密和解密期间使用的配置选项。详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#kmsProviders
    *   kmsProviders?: { aws?: Record<string, never> | { accessKeyId: string; secretAccessKey: string; sessionToken?: string }; azure?: { clientId: string; clientSecret: string; identityPlatformEndpoint?: string; tenantId: string } | { accessToken: string }; gcp?: Record<string, never> | { email: string; endpoint?: string; privateKey: string | Buffer } | { accessToken: string }; kmip?: { endpoint?: string }; local?: { key: string | Buffer } }
-   *   // 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#options
+   *   // 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#options
    *   options?: { logger?: any }
-   *   // 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/ProxyOptions.html
+   *   // 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/ProxyOptions.html
    *   proxyOptions?: { proxyHost?: string; proxyPassword?: string; proxyPort?: number; proxyUsername?: string }
-   *   // 命名空间与本地JSON模式的映射，用于加密，详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#schemaMap
+   *   // 命名空间与本地JSON模式的映射，用于加密，详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#schemaMap
    *   schemaMap?: Document，也就是：[key: string]: any
-   *   // 连接到KMS提供商的TLS选项，详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/AutoEncryptionOptions.html#tlsOptions
+   *   // 连接到KMS提供商的TLS选项，详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/AutoEncryptionOptions.html#tlsOptions
    *   tlsOptions?: { aws?: AutoEncryptionTlsOptions; azure?: AutoEncryptionTlsOptions; gcp?: AutoEncryptionTlsOptions; kmip?: AutoEncryptionTlsOptions; local?: AutoEncryptionTlsOptions }
    * }
    * 自动加密是一个“企业专用”的功能，只适用于对集合的操作。<br />
@@ -432,7 +419,7 @@ const config: ConnectOptions = {
    */
   // checkKeys: true,
   /**
-   * @type {(hostname: string, cert: PeerCertificate) => Error | undefined，该函数返回值类型为Error或undefined} 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html#checkServerIdentity
+   * @type {(hostname: string, cert: PeerCertificate) => Error | undefined，该函数返回值类型为Error或undefined} 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html#checkServerIdentity
    */
   // checkServerIdentity: null,
   /**
@@ -447,9 +434,9 @@ const config: ConnectOptions = {
    * @type {DriverInfo} 允许包装驱动修改由驱动生成的客户端元数据，以包括关于包装驱动的信息。
    */
   driverInfo: {
-    name: 'npm_mongoose_driver',
-    platform: 'node@20.3.0 X64',
-    version: 'mongoose@7.3.0',
+    name: 'npm_mongoose_driver_for_deno',
+    platform: 'node@1.41.3',
+    version: 'mongoose@8.2.3',
   },
   /**
    * @type {string} 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
@@ -562,13 +549,13 @@ const config: ConnectOptions = {
    * 启用原始选项将返回一个使用 allocUnsafe API 分配的 Node.js Buffer。<br />
    * 关于 "不安全 "在这里指的是什么，请参见Node.js文档的这一节，了解更多细节。<br />
    * 如果你需要维护你自己的可编辑的克隆字节，以延长进程的寿命，建议你分配自己的缓冲区并克隆内容。<br />
-   * 详细见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html#raw
+   * 详细见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html#raw
    */
   // raw: false,
   /**
    * @type {ReadConcernLike} 为集合指定一个读取关注（仅支持MongoDB 3.2或更高版本）。
    * 关于类型ReadConcernLike，详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/modules.html#ReadConcernLike
+   * https://mongodb.github.io/node-mongodb-native/6.5/modules.html#ReadConcernLike
    * https://github.com/mongodb/node-mongodb-native/blob/v5.1.0/src/read_concern.ts#L16
    */
   // readConcern: null,
@@ -594,7 +581,7 @@ const config: ConnectOptions = {
    */
   // serializeFunctions: false,
   /**
-   * @type {string|{deprecationErrors?: boolean; strict?: boolean; version: "1"}} 服务器API版本。
+   * @type {string|{deprecationErrors?: boolean; strict?: boolean; version: '1'}} 服务器API版本。
    */
   // serverApi: '1',
   /**
@@ -647,8 +634,8 @@ const config: ConnectOptions = {
   /**
    * @type {WriteConcern | WriteConcernSettings} 一个MongoDB WriteConcern，它描述了从MongoDB请求写操作的确认水平。
    * 详细见：
-   * https://mongodb.github.io/node-mongodb-native/5.1/classes/WriteConcern.html
-   * https://mongodb.github.io/node-mongodb-native/5.1/interfaces/WriteConcernSettings.html
+   * https://mongodb.github.io/node-mongodb-native/6.5/classes/WriteConcern.html
+   * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/WriteConcernSettings.html
    * https://docs.mongodb.com/manual/reference/write-concern/
    */
   // writeConcern: null,
@@ -657,239 +644,15 @@ const config: ConnectOptions = {
    */
   // wtimeoutMS: 0,
 
-  // 以上选项见：https://mongodb.github.io/node-mongodb-native/5.1/interfaces/MongoClientOptions.html   End
+  // 以上选项见：https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html   End
 
   // 之所以还要强制使用“as”，是因为如果不这样，会报类型错误！真奇葩！
-} as ConnectOptions;
-
-/**
- * 会返回一个对象，当new一个Schema时，它是传给Schema构造函数第2个参数的部分选项。<br />
- *
- * @param {string} collection Mongoose默认通过将模型名称传递给utils.toCollectionName方法来产生一个集合名称，并将名字复数化。<br />
- * 1、如果你需要为你的集合使用不同的名字，请设置这个选项。<br />
- * 2、但是，该选项设置的值会被Connection.prototype.model()的第3个参数覆盖。<br />
- *
- * @returns {SchemaOptions<T>} 会返回一个对象，当new一个Schema时，它是传给Schema构造函数第2个参数的部分选项。<br />
- */
-function GetSchemaOptions<T>( collection: string ): SchemaOptions<T>{
-  return {
-    /**
-     * @type {boolean} 设置为 false 可禁用与此连接关联的所有模型的自动索引创建。<br />
-     * 当你的应用程序启动时，Mongoose会自动为你模式中的每个定义的索引调用createIndex。<br />
-     * Mongoose会依次为每个索引调用createIndex，并在所有createIndex调用成功或出现错误时，在模型上发出一个 "index "事件。<br />
-     * 虽然在开发中很好，但建议在生产中禁用这种行为，因为索引创建会对性能造成很大影响。<br />
-     * 通过将你的模式的autoIndex选项设置为false来禁用该行为，或者通过将autoIndex选项设置为false来在全局连接上禁用。<br />
-     */
-    autoIndex: false,
-    /**
-     * @type {boolean} 设置为true可使Mongoose在此连接上创建的每个模型上自动调用'createCollection()'。<br />
-     * 你可以通过使用mongoose.set('autoCreate', false)将autoCreate设置为false来停用这一行为。<br />
-     * 像autoIndex一样，autoCreate对开发和测试环境很有帮助，但你可能想在生产中禁用它以避免不必要的数据库调用。<br />
-     */
-    autoCreate: true,
-    /**
-     * @type {boolean} 默认情况下，当连接中断时，mongoose会缓冲命令，直到驱动程序设法重新连接。要禁用缓冲，请将bufferCommands设置为false。<br />
-     * Schema的bufferCommands选项覆盖了全局的bufferCommands选项。<br />
-     */
-    bufferCommands: true,
-    /**
-     * @type {number} 如果bufferCommands是打开的，这个选项设置Mongoose缓冲在抛出错误之前的最大等待时间，单位是毫秒。<br />
-     * 如果不指定，Mongoose将使用10000（10秒）。<br />
-     */
-    // bufferTimeoutMS: 10000,
-    /**
-     * @type {object|number} Mongoose支持MongoDB的封顶集合。<br />
-     * 要指定底层的MongoDB集合是有上限的，将capped选项设置为集合的最大尺寸，单位为字节。<br />
-     * 如果你想传递额外的选项，比如最大，也可以将封顶选项设置为一个对象。在这种情况下，你必须明确地传递大小选项，这是必须的。<br />
-     */
-    /*
-     capped: {
-     size: 1024,
-     max: 1000,
-     autoIndexId: true,
-     },
-     */
-    /**
-     * @type {string} Mongoose默认通过将模型名称传递给utils.toCollectionName方法来产生一个集合名称，并将名字复数化。<br />
-     * 1、如果你需要为你的集合使用不同的名字，请设置这个选项。<br />
-     * 2、但是，该选项设置的值会被Connection.prototype.model()的第3个参数覆盖。<br />
-     */
-    collection,
-    /**
-     * @type {string} 当你定义一个判别器时，Mongoose会在你的模式中添加一个路径，用来存储一个文档是哪个判别器的实例。<br />
-     * 默认情况下，Mongoose添加了一个__t路径，但是你可以设置discriminatorKey来覆盖这个默认值。<br />
-     */
-    // discriminatorKey: 'type',
-    /**
-     * @type {boolean} Mongoose默认为你的每个模式分配了一个id虚拟获取器。<br />
-     * 该获取器返回文档的_id字段，并将其转换为一个字符串，或者在ObjectIds的情况下，返回其hexString。<br />
-     * 如果你不希望在你的模式中添加一个id获取器，你可以在构建模式时通过这个选项来禁用它。<br />
-     */
-    // id: true,
-    /**
-     * @type {boolean} 如果你没有在模式构造函数中传递一个字段，Mongoose会默认为你的每个模式分配一个_id字段。<br />
-     * 分配的类型是一个ObjectId，以便与MongoDB的默认行为相吻合。<br />
-     * 如果你根本不希望在你的模式中添加_id，你可以使用这个选项禁用它。<br />
-     * PS：<br />
-     * 你只能在subdocuments上使用这个选项。Mongoose不能在不知道其ID的情况下保存一个文档，所以如果你试图保存一个没有_ID的文档，你会得到一个错误。<br />
-     */
-    // _id: true,
-    /**
-     * @type {boolean} Mongoose默认会通过删除空对象来“最小化”模式。<br />
-     * 这个行为可以通过设置最小化选项为false来重写。然后，它将存储空对象。<br />
-     * 要检查一个对象是否为空，你可以使用$isEmpty()帮助器：<br />
-     * const sam = new Character({ name: 'Sam', inventory: {} });
-     * sam.$isEmpty('inventory'); // true
-     *
-     * sam.inventory.barrowBlade = 1;
-     * sam.$isEmpty('inventory'); // false
-     */
-    minimize: false,
-    /**
-     * @type {string} https://mongoosejs.com/docs/guide.html#read
-     */
-    // read: '',
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#writeConcern
-     */
-    /*
-     writeConcern: {
-     w: 'majority',
-     j: true,
-     wtimeout: 1000,
-     },
-     */
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#shardKey
-     */
-    /*
-     shardKey: {
-     tag: 1,
-     name: 1,
-     },
-     */
-    /**
-     * @type {boolean|string} 严格选项（默认启用）确保传递给我们的模型构造函数的值不会被保存到数据库中，这些值在我们的模式中没有指定。<br />
-     * 例子001：<br />
-     * const thingSchema = new Schema({ ... })
-     * const Thing = mongoose.model('Thing', thingSchema);
-     * const thing = new Thing({ iAmNotInTheSchema: true });
-     * thing.save(); // iAmNotInTheSchema没有被保存到数据库中。
-     *
-     * // set to false..
-     * const thingSchema = new Schema({ ... }, { strict: false });
-     * const thing = new Thing({ iAmNotInTheSchema: true });
-     * thing.save(); // iAmNotInTheSchema现在被保存到数据库中了！！！
-     *
-     * 这也会影响到使用doc.set()来设置一个属性值。<br />
-     * 例子001：<br />
-     * const thingSchema = new Schema({ ... });
-     * const Thing = mongoose.model('Thing', thingSchema);
-     * const thing = new Thing;
-     * thing.set('iAmNotInTheSchema', true);
-     * thing.save(); // iAmNotInTheSchema没有被保存到数据库中。
-     *
-     * 这个值可以通过传递第2个布尔参数在模型实例层面上被重写：<br />
-     * const Thing = mongoose.model('Thing');
-     * const thing = new Thing(doc, true);  // enables strict mode
-     * const thing = new Thing(doc, false); // disables strict mode
-     *
-     * strict选项也可以设置为“throw”，这将导致产生错误而不是丢弃坏数据。<br />
-     *
-     * 注意：在实例上设置的任何键/值，如果在你的模式中不存在，则总是被忽略，不管模式选项如何：<br />
-     * const thingSchema = new Schema({ ... });
-     * const Thing = mongoose.model('Thing', thingSchema);
-     * const thing = new Thing;
-     * thing.iAmNotInTheSchema = true;
-     * thing.save(); // iAmNotInTheSchema从未被保存到数据库中。
-     */
-    strict: 'throw',
-    /**
-     * @type {boolean} Mongoose支持一个单独的strictQuery选项来避免查询过滤器的严格模式。<br />
-     * 这是因为空的查询过滤器会导致Mongoose返回模型中的所有文档，这可能导致问题。<br />
-     * 详细见：<br />
-     * https://mongoosejs.com/docs/guide.html#strictQuery
-     */
-    strictQuery: true,
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#toJSON
-     * 更多选项见：<br />
-     * https://mongoosejs.com/docs/api/document.html#Document.prototype.toJSON()
-     */
-    // toJSON: { getters: true, virtuals: true, },
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#toObject
-     * 更多选项见：<br />
-     * https://mongoosejs.com/docs/api/document.html#Document.prototype.toObject()
-     */
-    // toObject: { getters: true, virtuals: true, },
-    /**
-     * @type {string} https://mongoosejs.com/docs/guide.html#typeKey
-     */
-    // typeKey: 'type',
-    /**
-     * @type {boolean} 默认情况下，documents在被保存到数据库之前会被自动验证。<br />
-     * 这是为了防止保存一个无效的documents。<br />
-     * 如果你想手动处理验证，并且能够保存没有通过验证的对象，你可以把validateBeforeSave设置为false。<br />
-     */
-    validateBeforeSave: true,
-    /**
-     * @type {string} https://mongoosejs.com/docs/guide.html#versionKey
-     */
-    // versionKey: '__v',
-    /**
-     * @type {boolean} https://mongoosejs.com/docs/guide.html#optimisticConcurrency
-     */
-    optimisticConcurrency: true,
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#collation
-     */
-    /*
-     collation: {
-     locale: 'en_US',
-     // 表示忽略大小写。
-     strength: 1,
-     },
-     */
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#timeseries
-     */
-    /*
-     timeseries: {
-     timeField: 'timestamp',
-     metaField: 'metadata',
-     granularity: 'hours',
-     },
-     */
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#skipVersioning
-     */
-    // skipVersioning: {},
-    /**
-     * @type {object} https://mongoosejs.com/docs/guide.html#timestamps
-     */
-    // timestamps: {},
-    /**
-     * @type {array} https://mongoosejs.com/docs/guide.html#pluginTags
-     */
-    // pluginTags: [],
-    /**
-     * @type {boolean} https://mongoosejs.com/docs/guide.html#selectPopulatedPaths
-     */
-    // selectPopulatedPaths: true,
-    /**
-     * @type {boolean} https://mongoosejs.com/docs/guide.html#storeSubdocValidationError
-     */
-    storeSubdocValidationError: true,
-  };
-}
+} as T_ConnectOptions;
 
 export {
-  config,
-  GetSchemaOptions,
+  mongooseConfig,
 };
 
 export default {
-  config,
-  GetSchemaOptions,
+  mongooseConfig,
 };

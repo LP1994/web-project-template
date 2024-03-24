@@ -10,22 +10,6 @@
 /**
  * 1、直到2024年03月23日，基于：npm包mongodb@6.5.0、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
  * 但是同样的npm包mongodb@6.5.0、MongoDB社区版@7.0.7在node中是可以的。
- *
- * 2、报错信息：
- * 当连接地址为：127.0.0.1、192.168.2.7，也就是为IP地址时，会报如下错误：
- * Sending fatal alert BadCertificate
- * error: Uncaught Error: read UNKNOWN
- *     at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *     at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *     at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *     at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
- *
- * 当连接地址为：localhost，也就是域名时，会报如下错误：
- * error: Uncaught Error: read ECONNRESET
- *    at __node_internal_captureLargerStackTrace (ext:deno_node/internal/errors.ts:89:11)
- *    at __node_internal_errnoException (ext:deno_node/internal/errors.ts:137:12)
- *    at TCP.onStreamRead [as onread] (ext:deno_node/internal/stream_base_commons.ts:205:24)
- *    at TCP.#read (ext:deno_node/internal_binding/stream_wrap.ts:223:18)
  */
 
 'use strict';
