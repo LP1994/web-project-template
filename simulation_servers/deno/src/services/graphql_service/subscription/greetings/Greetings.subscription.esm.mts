@@ -26,7 +26,16 @@ const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.re
 const resolvers: T_Resolvers = {
   Subscription: {
     greetings: {
-      subscribe: async function* (): AsyncGenerator<{
+      subscribe: async function* (
+        // @ts-expect-error
+        parent,
+        // @ts-expect-error
+        args,
+        // @ts-expect-error
+        context,
+        // @ts-expect-error
+        info,
+      ): AsyncGenerator<{
         greetings: string;
       }, void, unknown>{
         for( const hi of
@@ -45,13 +54,29 @@ const resolvers: T_Resolvers = {
       /**
        * 当执行完上面定义的subscribe函数后，会得到即将返回给客户端的数据，在将数据发送给客户端前，还可以再使用这个resolve函数来处理一下即将返回给客户端的数据。
        *
-       * @param {{greetings: string}} payloadData 该值就是上面定义的subscribe函数后，得到的即将返回给客户端的数据。该值的数据类型就是上面定义的subscribe函数的返回值类型AsyncGenerator的三个类型参数中的第一个类型参数。
+       * @param {{greetings: string}} parent 该值就是上面定义的subscribe函数后，得到的即将返回给客户端的数据。该值的数据类型就是上面定义的subscribe函数的返回值类型AsyncGenerator的三个类型参数中的第一个类型参数。
+       *
+       * @param {any} args，没参数时，一般会返回一个空对象“{}”。
+       *
+       * @param {any} context，没参数时，一般会返回一个“undefined”。
+       *
+       * @param {any} info。
        *
        * @returns {string} 返回值类型就是GraphQL定义文件“Greetings.type.graphql”中，定义的订阅操作“greetings”的返回值类型。
        */
-      resolve: ( payloadData: {
-        greetings: string;
-      } ): string => payloadData.greetings,
+      resolve: (
+        parent: {
+          greetings: string;
+        },
+        // @ts-expect-error
+        args: any,
+        // @ts-expect-error
+        context: any,
+        // @ts-expect-error
+        info: any,
+      ): string => {
+        return parent.greetings;
+      },
     },
   },
 };
