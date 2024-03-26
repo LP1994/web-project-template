@@ -528,7 +528,7 @@
     "@graphql-mesh/transform-extend": "^0.97.5",
     "@graphql-mesh/transform-federation": "^0.97.5",
     "@graphql-mesh/transform-filter-schema": "^0.97.5",
-    "@graphql-mesh/transform-hive": "^0.97.7",
+    "@graphql-mesh/transform-hive": "^0.97.8",
     "@graphql-mesh/transform-hoist-field": "^0.97.5",
     "@graphql-mesh/transform-naming-convention": "^0.97.5",
     "@graphql-mesh/transform-prefix": "^0.97.5",
