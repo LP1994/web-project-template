@@ -42,7 +42,7 @@ import {
 
 import {
   mongooseConfig,
-} from 'mongo/MongooseConfig.esm.mts';
+} from 'mongo/tools/MongooseConfig.esm.mts';
 
 interface I_StartupLogCollectionSchema {
   _id: string;
