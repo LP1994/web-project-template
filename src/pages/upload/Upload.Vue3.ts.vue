@@ -211,9 +211,9 @@ async function UploadForBinary( event: Event ): Promise<void>{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        'X-Custom-Header-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
+        'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+        'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
       method: 'POST',
       mode: 'cors',
@@ -253,9 +253,9 @@ async function UploadForSingle( event: Event ): Promise<void>{
       cache: 'no-store',
       credentials: 'omit',
       headers: {
-        'X-Custom-Header-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
+        'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+        'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
       method: 'POST',
       mode: 'cors',
@@ -296,7 +296,7 @@ function UploadForMultiple( event: Event ): void{
       credentials: 'omit',
       headers: {
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'X-Custom-Header-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+        'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
       },
       method: 'POST',
       mode: 'cors',

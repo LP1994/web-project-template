@@ -64,7 +64,7 @@ import {
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
@@ -78,7 +78,7 @@ import UploadByBinary from './UploadByBinary.esm.mts';
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body必须是用FormData包装。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
@@ -140,7 +140,7 @@ import UploadByMultiple from './UploadByMultiple.esm.mts';
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。
  *
- * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
@@ -168,19 +168,19 @@ import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
 const maxFileSize: number = 1 * 1024 * 1024 * 1024;
 
 /**
- * 校验请求头中是否携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值。<br />
+ * 校验请求头中是否携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值。<br />
  * PS：<br />
- * 1、取自定义的请求头标识“X-Custom-Header-File-SRI”的值会被转成全部小写的字符串。<br />
- * 2、如果没取到自定义的请求头标识“X-Custom-Header-File-SRI”的值，也就是请求头中不带该自定义的请求头标识“X-Custom-Header-File-SRI”，会直接使用空字符串代替。<br />
- * 3、最后该函数的返回值要么是一个undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息，要么是一个为自定义类型T_FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息。<br />
- * 4、该自定义的请求头标识“X-Custom-Header-File-SRI”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
+ * 1、取自定义的请求头标识“Deno-Custom-File-SRI”的值会被转成全部小写的字符串。<br />
+ * 2、如果没取到自定义的请求头标识“Deno-Custom-File-SRI”的值，也就是请求头中不带该自定义的请求头标识“Deno-Custom-File-SRI”，会直接使用空字符串代替。<br />
+ * 3、最后该函数的返回值要么是一个undefined表示没有找到对应SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）的文件信息，要么是一个为自定义类型T_FileSRICollectionSchema的对象，表示找到了跟SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）一样的文件信息。<br />
+ * 4、该自定义的请求头标识“Deno-Custom-File-SRI”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<T_FileSRICollectionSchema | undefined>} 返回值类型为undefined（undefined表示没有找到对应SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）的文件信息）、自定义类型T_FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“X-Custom-Header-File-SRI”的值）一样的文件信息）。
+ * @returns {Promise<T_FileSRICollectionSchema | undefined>} 返回值类型为undefined（undefined表示没有找到对应SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）的文件信息）、自定义类型T_FileSRICollectionSchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）一样的文件信息）。
  */
 async function ValidateReqHeadSRI( request: Request ): Promise<T_FileSRICollectionSchema | undefined>{
-  const x_file_sri: string = ( request.headers.get( 'X-Custom-Header-File-SRI' ) ?? '' ).trim().toLowerCase();
+  const x_file_sri: string = ( request.headers.get( 'Deno-Custom-File-SRI' ) ?? '' ).trim().toLowerCase();
 
   if( x_file_sri.length === 0 ){
     return undefined;
@@ -210,7 +210,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
    *
-   * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+   * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
@@ -276,7 +276,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
    *
-   * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+   * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 1、客户端上传的body必须是用FormData包装。
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
@@ -391,7 +391,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
   /**
    * 单个大文件上传（支持POST请求、PUT请求）。
    *
-   * 允许在请求头中携带自定义的请求头标识“X-Custom-Header-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+   * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
    * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
