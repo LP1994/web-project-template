@@ -16,3 +16,8 @@
  * 自定义的TS类型描述。
  */
 
+declare module 'GSD2TSTD' {
+  import * as GSD2TSTD from '../graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts';
+
+  export default GSD2TSTD;
+}

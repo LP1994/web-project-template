@@ -296,22 +296,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240323。Start
+    // PC端各主流浏览器的最新版本，至20240328。Start
     'Chrome >= 123',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 123',
     'Firefox >= 124',
     'Safari >= 17',
-    'Opera >= 108',
-    // PC端各主流浏览器的最新版本，至20240323。End
+    'Opera >= 109',
+    // PC端各主流浏览器的最新版本，至20240328。End
 
-    // 移动端各主流浏览器的最新版本，至20240323。Start
+    // 移动端各主流浏览器的最新版本，至20240328。Start
     'ChromeAndroid >= 123',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 123',
     'FirefoxAndroid >= 124',
     'iOS >= 17',
-    // 移动端各主流浏览器的最新版本，至20240323。End
+    // 移动端各主流浏览器的最新版本，至20240328。End
   ],
   /**
    * @type {string[]} 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -340,17 +340,17 @@ const browserslist = [
 
     'es2023',
 
-    // PC端各主流浏览器的最新版本，至20240323。Start
+    // PC端各主流浏览器的最新版本，至20240328。Start
     'chrome123',
     'edge123',
     'firefox124',
     'safari17',
-    'opera108',
-    // PC端各主流浏览器的最新版本，至20240323。End
+    'opera109',
+    // PC端各主流浏览器的最新版本，至20240328。End
 
-    // 移动端各主流浏览器的最新版本，至20240323。Start
+    // 移动端各主流浏览器的最新版本，至20240328。Start
     'ios17',
-    // 移动端各主流浏览器的最新版本，至20240323。End
+    // 移动端各主流浏览器的最新版本，至20240328。End
   ],
   /**
    * @type {object} 目标浏览器版本。<br />
@@ -382,19 +382,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240323。Start
+    // PC端各主流浏览器的最新版本，至20240328。Start
     chrome: 123,
     edge: 123,
     firefox: 124,
     safari: 17,
-    opera: 108,
-    // PC端各主流浏览器的最新版本，至20240323。End
+    opera: 109,
+    // PC端各主流浏览器的最新版本，至20240328。End
 
-    // 移动端各主流浏览器的最新版本，至20240323。Start
+    // 移动端各主流浏览器的最新版本，至20240328。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 123,
     ios: 17,
-    // 移动端各主流浏览器的最新版本，至20240323。End
+    // 移动端各主流浏览器的最新版本，至20240328。End
   },
   /**
    * @type {object} 编译目标配置。
@@ -1264,7 +1264,7 @@ const aliasConfig = {
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
 
-    'GSD2TSTD': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
+    GSD2TSTD: path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
 
     // assets文件夹 Start
     assetsDir: resolve( __dirname, './src/assets/' ),

@@ -329,3 +329,9 @@ declare module '*?sharedworker&inline' {
 
   export default sharedWorkerConstructor;
 }
+
+declare module 'GSD2TSTD' {
+  import * as GSD2TSTD from '../graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts';
+
+  export default GSD2TSTD;
+}
