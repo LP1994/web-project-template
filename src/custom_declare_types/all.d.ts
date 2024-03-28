@@ -1,4 +1,4 @@
-/// <reference types="vite/client" />
+/// <reference types="./vite/client.d.ts" />
 /// <reference types="./define.d.ts" />
 /// <reference types="./vue.d.ts" />
 /// <reference types="./img.d.ts" />
