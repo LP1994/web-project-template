@@ -108,10 +108,7 @@ const resolvers: T_Resolvers = {
         // @ts-expect-error
         info,
       ): Promise<T_Message> => {
-        const uint32Array001: Uint32Array = new Uint32Array( new ArrayBuffer( 12 ) );
-        crypto.getRandomValues( uint32Array001 );
-
-        const id: string = uint32Array001.toString().replaceAll( ',', '-' );
+        const id: string = crypto.randomUUID();
 
         await kv.set( [
           id,
