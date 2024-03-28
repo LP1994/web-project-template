@@ -1258,7 +1258,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "requirejs": "^2.3.6",
-    "rollup": "^4.13.1",
+    "rollup": "^4.13.2",
     "rollup-plugin-cson": "^1.0.2",
     "rollup-plugin-handlebars": "^1.0.0",
     "rollup-plugin-html": "^0.2.1",
