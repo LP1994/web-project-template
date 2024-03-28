@@ -2141,7 +2141,7 @@ declare namespace Deno {
    *   "hello.txt",
    *   { read: true, write: true, truncate: true, create: true },
    * );
-   * Deno.writeSync(file.rid, new TextEncoder().encode("Hello world"));
+   * file.writeSync(new TextEncoder().encode("Hello world"));
    *
    * // advance cursor 6 bytes
    * const cursorPosition = Deno.seekSync(file.rid, 6, Deno.SeekMode.Start);
@@ -2159,7 +2159,7 @@ declare namespace Deno {
    *   "hello.txt",
    *   { read: true, write: true, truncate: true, create: true },
    * );
-   * Deno.writeSync(file.rid, new TextEncoder().encode("Hello world"));
+   * file.writeSync(new TextEncoder().encode("Hello world"));
    *
    * // Seek 6 bytes from the start of the file
    * console.log(Deno.seekSync(file.rid, 6, Deno.SeekMode.Start)); // "6"
@@ -2209,7 +2209,7 @@ declare namespace Deno {
    *   "my_file.txt",
    *   { read: true, write: true, create: true },
    * );
-   * Deno.writeSync(file.rid, new TextEncoder().encode("Hello World"));
+   * file.writeSync(new TextEncoder().encode("Hello World"));
    * file.truncateSync(1);
    * Deno.fsyncSync(file.rid);
    * console.log(Deno.readTextFileSync("my_file.txt")); // H
@@ -2244,7 +2244,7 @@ declare namespace Deno {
    *   "my_file.txt",
    *   { read: true, write: true, create: true },
    * );
-   * Deno.writeSync(file.rid, new TextEncoder().encode("Hello World"));
+   * file.writeSync(new TextEncoder().encode("Hello World"));
    * Deno.fdatasyncSync(file.rid);
    * console.log(Deno.readTextFileSync("my_file.txt")); // Hello World
    * ```
@@ -5471,7 +5471,7 @@ declare namespace Deno {
    *  "my_file.txt",
    *  { read: true, write: true, create: true }
    * );
-   * Deno.writeSync(file.rid, new TextEncoder().encode("Hello World"));
+   * file.writeSync(new TextEncoder().encode("Hello World"));
    * Deno.ftruncateSync(file.rid, 7);
    * Deno.seekSync(file.rid, 0, Deno.SeekMode.Start);
    * const data = new Uint8Array(32);
@@ -8100,10 +8100,10 @@ declare var MessagePort: {
  *
  * @category DOM APIs
  */
-declare function structuredClone(
-  value: any,
+declare function structuredClone<T = any>(
+  value: T,
   options?: StructuredSerializeOptions,
-): any;
+): T;
 
 /**
  * An API for compressing a stream of data.
@@ -12208,7 +12208,8 @@ declare function confirm(message?: string): boolean;
  * If the default value is given and the user inputs the empty string, then it returns the given
  * default value.
  *
- * If the default value is not given and the user inputs the empty string, it returns null.
+ * If the default value is not given and the user inputs the empty string, it returns the empty
+ * string.
  *
  * If the stdin is not interactive, it returns null.
  *
@@ -12899,15 +12900,15 @@ declare namespace Deno {
    *
    * @category FFI
    */
-  export class UnsafeFnPointer<Fn extends ForeignFunction> {
+  export class UnsafeFnPointer<const Fn extends ForeignFunction> {
     /** The pointer to the function. */
     pointer: PointerObject<Fn>;
     /** The definition of the function. */
     definition: Fn;
 
-    constructor(pointer: PointerObject<Fn>, definition: Const<Fn>);
+    constructor(pointer: PointerObject<NoInfer<Fn>>, definition: Fn);
     /** @deprecated Properly type {@linkcode pointer} using {@linkcode NativeTypedFunction} or {@linkcode UnsafeCallbackDefinition} types. */
-    constructor(pointer: PointerObject, definition: Const<Fn>);
+    constructor(pointer: PointerObject, definition: Fn);
 
     /** Call the foreign function. */
     call: FromForeignFunction<Fn>;
@@ -12966,10 +12967,11 @@ declare namespace Deno {
    * @category FFI
    */
   export class UnsafeCallback<
-    Definition extends UnsafeCallbackDefinition = UnsafeCallbackDefinition,
+    const Definition extends UnsafeCallbackDefinition =
+      UnsafeCallbackDefinition,
   > {
     constructor(
-      definition: Const<Definition>,
+      definition: Definition,
       callback: UnsafeCallbackFunction<
         Definition["parameters"],
         Definition["result"]
@@ -12996,7 +12998,7 @@ declare namespace Deno {
     static threadSafe<
       Definition extends UnsafeCallbackDefinition = UnsafeCallbackDefinition,
     >(
-      definition: Const<Definition>,
+      definition: Definition,
       callback: UnsafeCallbackFunction<
         Definition["parameters"],
         Definition["result"]
@@ -13061,20 +13063,6 @@ declare namespace Deno {
     close(): void;
   }
 
-  /**
-   *  This magic code used to implement better type hints for {@linkcode Deno.dlopen}
-   *
-   *  @category FFI
-   */
-  type Cast<A, B> = A extends B ? A : B;
-  /** @category FFI */
-  type Const<T> = Cast<
-    T,
-    | (T extends string | number | bigint | boolean ? T : never)
-    | { [K in keyof T]: Const<T[K]> }
-    | []
-  >;
-
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    * Opens an external dynamic library and registers symbols, making foreign
@@ -13121,9 +13109,9 @@ declare namespace Deno {
    * @tags allow-ffi
    * @category FFI
    */
-  export function dlopen<S extends ForeignLibraryInterface>(
+  export function dlopen<const S extends ForeignLibraryInterface>(
     filename: string | URL,
-    symbols: Const<S>,
+    symbols: S,
   ): DynamicLibrary<S>;
 
   /** **UNSTABLE**: New API, yet to be vetted.
