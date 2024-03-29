@@ -39,7 +39,7 @@ module.exports = {
       'element-plus-css$': 'element-plus/dist/index.css',
       'swiper-css$': 'swiper/swiper-bundle.min.css',
 
-      'GSD2TSTD': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
+      'GSD2TSTD$': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
 
       // assets文件夹 Start
       'assetsDir': path.resolve( __dirname, './src/assets/' ),
