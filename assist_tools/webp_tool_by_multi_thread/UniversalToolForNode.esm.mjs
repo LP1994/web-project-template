@@ -146,8 +146,8 @@ export function SingletonFactory( func = () => {
    * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
    * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
    *
-   * @returns {() => TypeSingleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+   * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。
    */
   return () => {
     if( singleton === null ){
@@ -169,6 +169,53 @@ export function SingletonFactory( func = () => {
       clear( cb = () => {
       } ){
         singleton = null;
+
+        if( cb && typeof cb === 'function' ){
+          return cb();
+        }
+      },
+    };
+  };
+}
+
+let singletonByGlobal = null;
+
+/**
+ * 支持泛型参数的“全局模式”的单例工厂。
+ *
+ * @param {() => any} func 包装函数，当它被执行时，会返回期望中的“全局模式”的单例对象，必需。
+ *
+ * @returns {() => { singletonByGlobal: 其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的“全局模式”的单例对象 }} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+ */
+export function SingletonFactoryByGlobal( func ){
+  /**
+   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   *
+   * @returns {() => { singletonByGlobal: 其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的“全局模式”的单例对象 }} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   */
+  return () => {
+    if( singletonByGlobal === null ){
+      singletonByGlobal = func();
+    }
+
+    return {
+      /**
+       * 已生成的期望的“全局模式”的单例对象。
+       */
+      singletonByGlobal,
+      /**
+       * 用于清除并置空已经生成的期望的“全局模式”的单例对象，支持清除后的回调函数操作。
+       *
+       * @param {() => any} cb 完成清除并置空已经生成的期望的“全局模式”的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+       *
+       * @returns {any|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+       */
+      clear( cb = () => {
+      } ){
+        singletonByGlobal = null;
 
         if( cb && typeof cb === 'function' ){
           return cb();
@@ -1776,6 +1823,7 @@ export default {
 
   // 支持泛型参数的单例工厂。Start
   SingletonFactory,
+  SingletonFactoryByGlobal,
   // 支持泛型参数的单例工厂。End
 
   // 类型转换。Start
