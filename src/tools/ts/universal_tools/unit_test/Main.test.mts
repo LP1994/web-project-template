@@ -22,8 +22,10 @@ import {
 import {
   // 支持泛型参数的单例工厂。Start
   type T_Singleton,
+  type T_SingletonByGlobal,
 
   SingletonFactory,
+  SingletonFactoryByGlobal,
   // 支持泛型参数的单例工厂。End
 
   // 类型转换。Start
@@ -57,47 +59,98 @@ console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输
 
 // SingletonFactory
 if( true ){
-  class MyClassA {
+  const obj001: {
+    a: number;
+  } = {
+    a: 0,
+  };
 
-    public name: string = 'LP';
-
-    #age: number = 11;
-
-    public constructor(){
-    }
-
-    public getName(): string{
-      return this.name;
-    }
-
-    public getAge(): number{
-      return this.#age;
-    }
-
-    public toString(): string{
-      return '[object MyClassA]';
-    }
-
-    public static toString(): string{
-      return '[object MyClassA]';
-    }
-
-  }
-
-  const myClassA001: MyClassA = new MyClassA(),
-    // @ts-expect-error
-    myClassA002: MyClassA = new MyClassA();
-
-  const fun001: () => T_Singleton<MyClassA> = SingletonFactory<MyClassA>( (): MyClassA => myClassA001 );
+  const fun001: () => T_Singleton<{
+    a: number;
+  }> = SingletonFactory<{
+    a: number;
+  }>( (): {
+    a: number;
+  } => obj001 );
 
   const {
-    singleton,
+    singleton: singleton001,
     // @ts-expect-error
-    clear,
-  }: T_Singleton<MyClassA> = fun001();
+    clear: clear001,
+  }: T_Singleton<{
+    a: number;
+  }> = fun001();
+
+  ++singleton001.a;
+
+  const {
+    singleton: singleton002,
+    // @ts-expect-error
+    clear: clear002,
+  }: T_Singleton<{
+    a: number;
+  }> = fun001();
+
+  ++singleton002.a;
+  ++singleton002.a;
+  ++singleton002.a;
 
   Test001( 'SingletonFactory', (): void => {
-    Equal001( singleton ).toBe( myClassA001 );
+    Equal001( singleton002.a ).toBe( singleton001.a );
+  } );
+}
+// SingletonFactoryByGlobal
+if( true ){
+  const obj001: {
+    a: number;
+  } = {
+    a: 0,
+  };
+
+  const fun001: () => T_SingletonByGlobal<{
+    a: number;
+  }> = SingletonFactoryByGlobal<{
+    a: number;
+  }>( (): {
+    a: number;
+  } => obj001 );
+
+  const {
+    singletonByGlobal: singletonByGlobal001,
+    // @ts-expect-error
+    clear: clear001,
+  }: T_SingletonByGlobal<{
+    a: number;
+  }> = fun001();
+  ++singletonByGlobal001.a;
+
+  const {
+    SingletonFactoryByGlobal: SingletonFactoryByGlobal002,
+  }: {
+    [ key: string ]: any;
+  } = await import( '../UniversalTools.esm.mts' );
+
+  const fun002: () => T_SingletonByGlobal<{
+    a: number;
+  }> = SingletonFactoryByGlobal002<{
+    a: number;
+  }>( (): {
+    a: number;
+  } => obj001 );
+
+  const {
+    singletonByGlobal: singletonByGlobal002,
+    // @ts-expect-error
+    clear: clear002,
+  }: T_SingletonByGlobal<{
+    a: number;
+  }> = fun002();
+  ++singletonByGlobal002.a;
+  ++singletonByGlobal002.a;
+  ++singletonByGlobal002.a;
+
+  Test001( 'SingletonFactoryByGlobal', (): void => {
+    Equal001( singletonByGlobal001.a ).toBe( singletonByGlobal002.a );
   } );
 }
 
