@@ -29,6 +29,7 @@ import {
 
   // 支持泛型参数的单例工厂。Start
   SingletonFactory,
+  SingletonFactoryByGlobal,
   // 支持泛型参数的单例工厂。End
 
   // 类型转换。Start
@@ -62,45 +63,66 @@ console.log( chalk.green( `\n符合期望值的不会输出任何信息，只输
 
 // SingletonFactory
 if( true ){
-  class MyClassA {
+  const obj001 = {
+    a: 0,
+  };
 
-    name = 'LP';
-
-    #age = 11;
-
-    constructor(){
-    }
-
-    getName(){
-      return this.name;
-    }
-
-    getAge(){
-      return this.#age;
-    }
-
-    toString(){
-      return '[object MyClassA]';
-    }
-
-    static toString(){
-      return '[object MyClassA]';
-    }
-
-  }
-
-  const myClassA001 = new MyClassA(),
-    myClassA002 = new MyClassA();
-
-  const fun001 = SingletonFactory( () => myClassA001 );
+  const fun001 = SingletonFactory( () => obj001 );
 
   const {
-    singleton,
-    clear,
+    singleton: singleton001,
+    // @ts-expect-error
+    clear: clear001,
   } = fun001();
 
+  ++singleton001.a;
+
+  const {
+    singleton: singleton002,
+    // @ts-expect-error
+    clear: clear002,
+  } = fun001();
+
+  ++singleton002.a;
+  ++singleton002.a;
+  ++singleton002.a;
+
   Test001( 'SingletonFactory', () => {
-    Equal001( singleton ).toBe( myClassA001 );
+    Equal001( singleton002.a ).toBe( singleton001.a );
+  } );
+}
+// SingletonFactoryByGlobal
+if( true ){
+  const obj001 = {
+    a: 0,
+  };
+
+  const fun001 = SingletonFactoryByGlobal( () => obj001 );
+
+  const {
+    singletonByGlobal: singletonByGlobal001,
+    // @ts-expect-error
+    clear: clear001,
+  } = fun001();
+  ++singletonByGlobal001.a;
+
+  const {
+    SingletonFactoryByGlobal: SingletonFactoryByGlobal002,
+  } = await import( '../UniversalToolForNode.esm.mjs' );
+
+  const fun002 = SingletonFactoryByGlobal002( () => obj001 );
+
+  const {
+    singletonByGlobal: singletonByGlobal002,
+    // @ts-expect-error
+    clear: clear002,
+  } = fun002();
+  ++singletonByGlobal002.a;
+  ++singletonByGlobal002.a;
+  ++singletonByGlobal002.a;
+
+  Test001( 'SingletonFactoryByGlobal', () => {
+    Equal001( singletonByGlobal001.a ).toBe( singletonByGlobal002.a );
   } );
 }
 
