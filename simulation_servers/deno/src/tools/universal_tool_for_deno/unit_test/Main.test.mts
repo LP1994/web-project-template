@@ -130,13 +130,11 @@ if( true ){
     SingletonFactoryByGlobal: SingletonFactoryByGlobal002,
   }: {
     [ key: string ]: any;
-  } = await import( '../UniversalTools.esm.mts' );
+  } = await import( '../UniversalToolForDeno.esm.mts' );
 
   const fun002: () => T_SingletonByGlobal<{
     a: number;
-  }> = SingletonFactoryByGlobal002<{
-    a: number;
-  }>( (): {
+  }> = SingletonFactoryByGlobal002( (): {
     a: number;
   } => obj001 );
 
