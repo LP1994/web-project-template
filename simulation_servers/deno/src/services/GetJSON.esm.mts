@@ -34,7 +34,7 @@ import {
   type Collection as T_Collection,
 
   Mongoose,
-} from 'npm:mongoose';
+} from 'esm_sh/mongoose';
 
 import {
   httpResponseHeaders,

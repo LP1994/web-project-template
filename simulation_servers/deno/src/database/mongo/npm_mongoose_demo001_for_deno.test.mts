@@ -25,7 +25,7 @@ import {
   Mongoose,
   Schema,
   Types,
-} from 'npm:mongoose';
+} from 'esm_sh/mongoose';
 
 import {
   opensslDir,

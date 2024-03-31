@@ -28,7 +28,7 @@ import {
   type Connection as T_Connection,
 
   Mongoose,
-} from 'npm:mongoose';
+} from 'esm_sh/mongoose';
 
 import {
   config,
