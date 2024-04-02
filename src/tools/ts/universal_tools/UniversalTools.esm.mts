@@ -525,6 +525,162 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
 
 // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
+// 请求并发控制器 Start
+
+export type T_ArrayPromiseAny = Array<Promise<any>>;
+
+export type T_CurrentlyExecutingByGlobal = Record<string, T_ArrayPromiseAny>;
+
+export type T_RequestItem = [ string, () => Promise<any> ];
+
+export type T_ArrayRequestItem = Array<T_RequestItem>;
+
+export type T_RequestConcurrentControllerByGlobal = {
+  requestConcurrentQuantityByGlobal: number;
+  requestConcurrentToolByGlobal: ( requestArray: T_ArrayRequestItem ) => Promise<any>;
+};
+
+/**
+ * 谷歌、火狐浏览器对同源下的请求并发数量的限制都是6个。<br />
+ * PS：<br />
+ * 1、至于其他浏览器在数量上可能不为6个，可自行查找。<br />
+ * 2、跨域时，“OPTIONS请求”也是占用浏览器的并发数的！<br />
+ * 在浏览器中，当出现“跨域请求”时，会先出现“OPTIONS请求”进行“预检”，那么哪些请求会触发“预检”呢？<br />
+ * 出现“非简单请求”时，就会触发“预检”操作！<br /><br />
+ *
+ * 同时满足以下所有条件，就属于“简单请求”：<br />
+ * 1)请求方法是以下3种方法之一：<br />
+ * HEAD、GET、POST<br />
+ * 2)只有以下请求header字段允许被修改或被设置，否则必然触发预检：<br />
+ * Accept、Accept-Language、Content-language、DPR、Downlink、Save-Data、Viewport-Width、Width、Last-Event-ID、<br />
+ * Content-Type：只限于3个值application/x-www-form-urlencoded、multipart/form-data、text/plain。<br />
+ * 3)XMLHttpRequestUpload在请求中使用的任何对象上都没有注册事件侦听器，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。<br />
+ * PS：<br />
+ * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br />
+ * 4)ReadableStream请求中未使用任何对象，应该是指 Fetch API 中的 Request 中的 Body，尚未验证。<br /><br />
+ *
+ * 满足以下任意1个条件，就属于“非简单请求”：<br />
+ * 1)PUT、PATCH等请求方法必然会触发预检。<br />
+ * 2)请求头中Content-Type的值不是这3个值：application/x-www-form-urlencoded、multipart/form-data、text/plain。<br />
+ * 也就是说，如果请求的Content-Type被设置为如：application/json;charset=utf-8 时也必然会触发预检。<br />
+ * 3)添加任何额外的自定义的请求header都会触发预检。<br />
+ * 4)XMLHttpRequestUpload在请求中使用的任何对象上有注册事件侦听器，也会触发预检，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。<br />
+ * PS：<br />
+ * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br />
+ *
+ * @type {number} 默认值为6。
+ */
+let requestConcurrentQuantityByGlobal: number = 6;
+
+const currentlyExecutingByGlobal: T_CurrentlyExecutingByGlobal = {};
+
+/**
+ * 当前域：https://localhost:9200/，以下例子处理后对应的最终origin为：
+ * '/graphql' ---> https://localhost:9200
+ * 'graphql' ---> https://localhost:9200
+ * './graphql' ---> https://localhost:9200
+ * '../graphql' ---> https://localhost:9200
+ * '' ---> https://localhost:9200
+ * '/' ---> https://localhost:9200
+ * './' ---> https://localhost:9200
+ * '.' ---> https://localhost:9200
+ * '//127.0.0.1:9000/graphql' ---> https://127.0.0.1:9000
+ * 'https://www.baidu.com/graphql' ---> https://www.baidu.com
+ * 'https://www.baidu.com:9200/graphql' ---> https://www.baidu.com:9200
+ */
+function HandleByOrigin001( origin: string ): string{
+  return new URL( origin, location.origin ).origin;
+}
+
+export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?: number | undefined ): T_RequestConcurrentControllerByGlobal{
+  if( IsNumber( requestConcurrentQuantity ) && ( requestConcurrentQuantity as number ) >= 1 ){
+    // 当没有正在进行的请求时才能设置并发数，否则依旧是设置前的值，是多少就是多少。
+    !( Object.values( currentlyExecutingByGlobal as T_CurrentlyExecutingByGlobal ).some( (
+      item: T_ArrayPromiseAny,
+      // @ts-expect-error
+      index: number,
+      // @ts-expect-error
+      array: Array<T_ArrayPromiseAny>,
+    ): boolean => item.length > 0 ) ) && ( requestConcurrentQuantityByGlobal = Number.parseInt( String( requestConcurrentQuantity as number ) ) );
+  }
+
+  return {
+    // 通过该属性，随时都可以知道当前设置的并发数是多少。
+    requestConcurrentQuantityByGlobal,
+    requestConcurrentToolByGlobal: (
+      requestArray: T_ArrayRequestItem
+    ): Promise<any> => {
+      // 初始化currentlyExecutingByGlobal变量。
+      if( requestArray.length > 0 ){
+        let handleOrigin: string = '';
+
+        requestArray.forEach( (
+          [
+            origin,
+            // @ts-expect-error
+            requestFn
+          ]: T_RequestItem,
+          // @ts-expect-error
+          index: number,
+          // @ts-expect-error
+          array: T_ArrayRequestItem,
+        ): void => {
+          handleOrigin = HandleByOrigin001( origin );
+
+          !( handleOrigin in currentlyExecutingByGlobal ) && ( currentlyExecutingByGlobal[ handleOrigin ] = [] );
+        } );
+      }
+
+      let index: number = 0;
+
+      const requestResult: T_ArrayPromiseAny = [],
+        taskQueue = (): Promise<any> => {
+          if( index === requestArray.length ){
+            return Promise.resolve();
+          }
+
+          const [ origin, requestFn ]: T_RequestItem = requestArray[ index ] as T_RequestItem;
+
+          const promiseHandle001: Promise<any> = Promise.resolve().then( (): Promise<any> => requestFn() );
+
+          requestResult[ index ] = promiseHandle001;
+
+          ++index;
+
+          const handleOrigin: string = HandleByOrigin001( origin ),
+            executingPromise: Promise<any> = promiseHandle001.then(
+              (): void => {
+                ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).splice( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).indexOf( executingPromise ), 1 );
+              },
+              (): void => {
+                ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).splice( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).indexOf( executingPromise ), 1 );
+              }
+            );
+
+          ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).push( executingPromise );
+
+          let resolvePromise: Promise<any> = Promise.resolve();
+
+          if( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).length >= requestConcurrentQuantityByGlobal ){
+            resolvePromise = Promise.race( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ) );
+          }
+
+          return resolvePromise.then(
+            (): Promise<any> => taskQueue(),
+            (): Promise<any> => taskQueue()
+          );
+        };
+
+      return taskQueue().then(
+        (): Promise<any> => Promise.allSettled( requestResult ),
+        (): Promise<any> => Promise.allSettled( requestResult )
+      );
+    },
+  };
+}
+
+// 请求并发控制器 End
+
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
@@ -559,4 +715,8 @@ export default {
   SymmetricDifference,
   Union,
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
+
+  // 请求并发控制器 Start
+  RequestConcurrentControllerByGlobal,
+  // 请求并发控制器 End
 };

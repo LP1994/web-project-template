@@ -1,0 +1,28 @@
+在浏览器中，当出现“跨域请求”时，会先出现“OPTIONS请求”进行“预检”，那么哪些请求会触发“预检”呢？
+出现“非简单请求”时，就会触发“预检”操作！
+PS：
+1、跨域时，“OPTIONS请求”也是占用浏览器的并发数的！
+
+
+
+同时满足以下所有条件，就属于“简单请求”：
+1)请求方法是以下3种方法之一：
+HEAD、GET、POST
+2)只有以下请求header字段允许被修改或被设置，否则必然触发预检：
+Accept、Accept-Language、Content-language、DPR、Downlink、Save-Data、Viewport-Width、Width、Last-Event-ID、
+Content-Type：只限于3个值application/x-www-form-urlencoded、multipart/form-data、text/plain。
+3)XMLHttpRequestUpload在请求中使用的任何对象上都没有注册事件侦听器，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。
+PS：
+将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。
+4)ReadableStream请求中未使用任何对象，应该是指 Fetch API 中的 Request 中的 Body，尚未验证。
+
+
+
+满足以下任意1个条件，就属于“非简单请求”：
+1)PUT、PATCH等请求方法必然会触发预检。
+2)请求头中Content-Type的值不是这3个值：application/x-www-form-urlencoded、multipart/form-data、text/plain。
+也就是说，如果请求的Content-Type被设置为如：application/json;charset=utf-8 时也必然会触发预检。
+3)添加任何额外的自定义的请求header都会触发预检。
+4)XMLHttpRequestUpload在请求中使用的任何对象上有注册事件侦听器，也会触发预检，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。
+PS：
+将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。
