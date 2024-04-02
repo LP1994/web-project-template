@@ -574,6 +574,8 @@ let requestConcurrentQuantityByGlobal: number = 6;
 
 const currentlyExecutingByGlobal: T_CurrentlyExecutingByGlobal = {};
 
+let currentlyResolvePromiseByGlobal: Record<string, Promise<any>> = {};
+
 /**
  * 当前域：https://localhost:9200/，以下例子处理后对应的最终origin为：
  * '/graphql' ---> https://localhost:9200
@@ -610,7 +612,7 @@ export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?:
     requestConcurrentToolByGlobal: (
       requestArray: T_ArrayRequestItem
     ): Promise<any> => {
-      // 初始化currentlyExecutingByGlobal变量。
+      // 初始化currentlyExecutingByGlobal变量、currentlyResolvePromiseByGlobal变量。
       if( requestArray.length > 0 ){
         let handleOrigin: string = '';
 
@@ -627,7 +629,11 @@ export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?:
         ): void => {
           handleOrigin = HandleByOrigin001( origin );
 
-          !( handleOrigin in currentlyExecutingByGlobal ) && ( currentlyExecutingByGlobal[ handleOrigin ] = [] );
+          if( !( handleOrigin in currentlyExecutingByGlobal ) ){
+            currentlyExecutingByGlobal[ handleOrigin ] = [];
+
+            currentlyResolvePromiseByGlobal[ handleOrigin ] = Promise.resolve();
+          }
         } );
       }
 
@@ -659,13 +665,13 @@ export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?:
 
           ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).push( executingPromise );
 
-          let resolvePromise: Promise<any> = Promise.resolve();
+          currentlyResolvePromiseByGlobal[ handleOrigin ] = Promise.resolve();
 
           if( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ).length >= requestConcurrentQuantityByGlobal ){
-            resolvePromise = Promise.race( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ) );
+            currentlyResolvePromiseByGlobal[ handleOrigin ] = Promise.race( ( currentlyExecutingByGlobal[ handleOrigin ] as T_ArrayPromiseAny ) );
           }
 
-          return resolvePromise.then(
+          return Promise.race( Object.values( currentlyResolvePromiseByGlobal ) ).then(
             (): Promise<any> => taskQueue(),
             (): Promise<any> => taskQueue()
           );
