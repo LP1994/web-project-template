@@ -97,7 +97,7 @@ const devServerGlobalParameters = {
      * 2、Access-Control-Allow-Headers的补充服务器端标头将回答此浏览器端标头。
      * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
      */
-    'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+    'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
     /**
      * Access-Control-Request-Method：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
      * 1、浏览器在发出预检请求时使用Access-Control-Request-Method请求标头，让服务器知道在发出实际请求时将使用哪种HTTP方法。
@@ -172,7 +172,7 @@ const devServerGlobalParameters = {
      *   3）对于Content-Type：需要其解析值（忽略参数）的MIME类型为：application/x-www-form-urlencoded、multipart/form-data或text/plain。
      *   4）对于任何标头：值的长度不能大于128个字符。
      */
-    'Access-Control-Allow-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+    'Access-Control-Allow-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
     /**
      * Access-Control-Allow-Methods：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
      * 1、Access-Control-Allow-Methods响应标头指定访问资源以响应预检请求时允许的一种或多种方法。
@@ -211,7 +211,7 @@ const devServerGlobalParameters = {
      * 2、Access-Control-Allow-Headers的补充服务器端标头将回答此浏览器端标头。
      * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
      */
-    // 'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+    // 'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
     /**
      * Access-Control-Request-Method：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
      * 1、浏览器在发出预检请求时使用Access-Control-Request-Method请求标头，让服务器知道在发出实际请求时将使用哪种HTTP方法。

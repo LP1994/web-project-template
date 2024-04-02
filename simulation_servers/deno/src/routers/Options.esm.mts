@@ -16,6 +16,8 @@
 import {
   type T_Fun001,
   type T_Result001,
+
+  httpResponseHeaders,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -56,6 +58,7 @@ async function Options( request: Request ): Promise<Response>{
     result = new Response( null, {
       status: 200,
       statusText: 'OK',
+      headers: httpResponseHeaders,
     } );
   }
 
