@@ -10,7 +10,7 @@
 /**
  * devServer启动时的“代理”配置。
  * 1、这些文件都有引入这个代理配置文件：webpack.base.esm.mjs。
- * 2、注意，当前文件编写的配置是遵循“http-proxy-middleware v2.0.6”的，因为“webpack 5”也是引用“http-proxy-middleware”的，而“http-proxy-middleware”有一个3.X的版本正在预备中，其配置写法有很大的变化。
+ * 2、注意，当前文件编写的配置是遵循“http-proxy-middleware v3”的，因为“webpack 5”也是引用“http-proxy-middleware”的。
  *
  * 当设置为'0.0.0.0'时的注意事项：<br />
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -339,7 +339,7 @@ if( !isProduction ){
  * },
  * ]<br />
  * 4、上面的context选项的有效值类型：string、[ string ]、( pathname: string, req: Request ) => boolean。<br />
- * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v2.0.6”的，因为“webpack 5”也是引用“http-proxy-middleware”的，而“http-proxy-middleware”有一个3.X的版本正在预备中，其配置写法有很大的变化。<br />
+ * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v3”的，因为“webpack 5”也是引用“http-proxy-middleware”的。<br />
  *
  * 当设置为'0.0.0.0'时的注意事项：<br />
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -383,6 +383,16 @@ const proxyConfig = [
      */
 
     // http-proxy-middleware options Start
+
+    /**
+     * 缩小需要代理的请求范围。用于过滤的路径是 request.url 路径名。在 Express 中，这是相对于代理挂载点的路径。
+     * 该选项的值类型是：string, []string, glob, []glob, function。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     */
+    pathFilter: [
+      '/https4deno/',
+    ],
 
     /**
      * 重写目标的url路径。对象键将用作正则表达式来匹配路径。<br />
@@ -429,6 +439,8 @@ const proxyConfig = [
      * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
      */
     router: {
+      '/https4deno': 'https://0.0.0.0:9200',
+
       'localhost:8100': 'https://0.0.0.0:9200',
       '127.0.0.1:8100': 'https://0.0.0.0:9200',
       '192.168.1.3:8100': 'https://0.0.0.0:9200',
@@ -442,17 +454,28 @@ const proxyConfig = [
 
     /**
      * 日志版本：'debug'、'info'、'warn'、'error'、'silent'，默认值为'info'。<br />
+     * PS：<br />
+     * 1、在“http-proxy-middleware V3.0”中，该选项被删除了，使用新的选项“logger”来代替。<br />
      */
-    logLevel: 'info',
+    // logLevel: 'info',
 
     /**
      * 修改或替换日志提供程序，该选项默认值为console。<br />
+     * PS：<br />
+     * 1、在“http-proxy-middleware V3.0”中，该选项被删除了，使用新的选项“logger”来代替。<br />
      *
      * @param {LogProvider} provider
      *
      * @returns {myCustomProvider} 修改或替换日志提供程序。
      */
     // logProvider: provider => myCustomProvider,
+
+    /**
+     * 来自 http-proxy-middleware 的日志信息。内部只是'info'、'warn'、'error'级别的日志输出。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     */
+    logger: console,
 
     // http-proxy-middleware options End
 
@@ -668,19 +691,38 @@ const proxyConfig = [
     // http-proxy events Start
 
     /**
-     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
-     *
-     * @param {http.ClientRequest} proxyReq
-     * @param {Request} req
-     * @param {Response} res
-     * @param {httpProxy.ServerOptions} options
-     *
-     * @returns {void} 无返回值。
+     * http-proxy各个事件监听配置。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
      */
-    onProxyReq: ( proxyReq, req, res, options ) => {
-      const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
+    on: {
+      /**
+       * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
+       *
+       * @param {Error} err
+       * @param {Request} req
+       * @param {Response} res
+       * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
+       *
+       * @returns {void} 无返回值。
+       */
+      error: ( err, req, res, target ) => {
+      },
 
-      logWriteStream.write( `HTTP代理--->${ req.originalUrl }<---Start
+      /**
+       * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
+       *
+       * @param {http.ClientRequest} proxyReq
+       * @param {Request} req
+       * @param {Response} res
+       * @param {httpProxy.ServerOptions} options
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyReq: ( proxyReq, req, res, options ) => {
+        const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
+
+        logWriteStream.write( `HTTP代理--->${ req.originalUrl }<---Start
 原请求方法：${ req.method }
 原请求头：
 ${ JSON.stringify( req.headers, null, ' ' ) }
@@ -693,69 +735,57 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
 HTTP代理--->${ req.originalUrl }<---End
 \n\n` );
-    },
+      },
 
-    /**
-     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
-     *
-     * @param {http.ClientRequest} proxyReq
-     * @param {Request} req
-     * @param {net.Socket} socket
-     * @param {httpProxy.ServerOptions} options
-     * @param {any} head
-     *
-     * @returns {void} 无返回值。
-     */
-    onProxyReqWs: ( proxyReq, req, socket, options, head ) => {
-    },
+      /**
+       * 如果对目标的请求得到响应，则会发出此事件。<br />
+       *
+       * @param {http.IncomingMessage} proxyRes
+       * @param {Request} req
+       * @param {Response} res
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyRes: ( proxyRes, req, res ) => {
+      },
 
-    /**
-     * 如果对目标的请求得到响应，则会发出此事件。<br />
-     *
-     * @param {http.IncomingMessage} proxyRes
-     * @param {Request} req
-     * @param {Response} res
-     *
-     * @returns {void} 无返回值。
-     */
-    onProxyRes: ( proxyRes, req, res ) => {
-    },
+      /**
+       * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
+       *
+       * @param {http.ClientRequest} proxyReq
+       * @param {Request} req
+       * @param {net.Socket} socket
+       * @param {httpProxy.ServerOptions} options
+       * @param {any} head
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyReqWs: ( proxyReq, req, socket, options, head ) => {
+      },
 
-    /**
-     * 一旦创建代理websocket并将其通过管道传输到目标websocket，就会发出此事件。<br />
-     * PS：<br />
-     * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
-     *
-     * @param {net.Socket} proxySocket
-     *
-     * @returns {void} 无返回值。
-     */
-    onOpen: proxySocket => {
-    },
+      /**
+       * 一旦创建代理websocket并将其通过管道传输到目标websocket，就会发出此事件。<br />
+       * PS：<br />
+       * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
+       *
+       * @param {net.Socket} proxySocket
+       *
+       * @returns {void} 无返回值。
+       */
+      open: proxySocket => {
+      },
 
-    /**
-     * 一旦代理websocket关闭，就会发出此事件。<br />
-     *
-     * @param {Response} proxyRes
-     * @param {net.Socket} proxySocket
-     * @param {any} proxyHead
-     *
-     * @returns {void} 无返回值。
-     */
-    onClose: ( proxyRes, proxySocket, proxyHead ) => {
-    },
-
-    /**
-     * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
-     *
-     * @param {Error} err
-     * @param {Request} req
-     * @param {Response} res
-     * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
-     *
-     * @returns {void} 无返回值。
-     */
-    onError: ( err, req, res, target ) => {
+      /**
+       * 一旦代理websocket关闭，就会发出此事件。<br />
+       *
+       * @param {Response} proxyRes
+       * @param {net.Socket} proxySocket
+       * @param {any} proxyHead
+       *
+       * @returns {void} 无返回值。
+       */
+      close: ( proxyRes, proxySocket, proxyHead ) => {
+      },
     },
 
     // http-proxy events End
@@ -790,6 +820,16 @@ HTTP代理--->${ req.originalUrl }<---End
      */
 
     // http-proxy-middleware options Start
+
+    /**
+     * 缩小需要代理的请求范围。用于过滤的路径是 request.url 路径名。在 Express 中，这是相对于代理挂载点的路径。
+     * 该选项的值类型是：string, []string, glob, []glob, function。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     */
+    pathFilter: [
+      '/wss4deno/',
+    ],
 
     /**
      * 重写目标的url路径。对象键将用作正则表达式来匹配路径。<br />
@@ -836,6 +876,8 @@ HTTP代理--->${ req.originalUrl }<---End
      * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
      */
     router: {
+      '/wss4deno': 'wss://0.0.0.0:9200',
+
       'localhost:8100': 'wss://0.0.0.0:9200',
       '127.0.0.1:8100': 'wss://0.0.0.0:9200',
       '192.168.1.3:8100': 'wss://0.0.0.0:9200',
@@ -849,17 +891,28 @@ HTTP代理--->${ req.originalUrl }<---End
 
     /**
      * 日志版本：'debug'、'info'、'warn'、'error'、'silent'，默认值为'info'。<br />
+     * PS：<br />
+     * 1、在“http-proxy-middleware V3.0”中，该选项被删除了，使用新的选项“logger”来代替。<br />
      */
-    logLevel: 'info',
+    // logLevel: 'info',
 
     /**
      * 修改或替换日志提供程序，该选项默认值为console。<br />
+     * PS：<br />
+     * 1、在“http-proxy-middleware V3.0”中，该选项被删除了，使用新的选项“logger”来代替。<br />
      *
      * @param {LogProvider} provider
      *
      * @returns {myCustomProvider} 修改或替换日志提供程序。
      */
     // logProvider: provider => myCustomProvider,
+
+    /**
+     * 来自 http-proxy-middleware 的日志信息。内部只是'info'、'warn'、'error'级别的日志输出。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     */
+    logger: console,
 
     // http-proxy-middleware options End
 
@@ -1075,33 +1128,64 @@ HTTP代理--->${ req.originalUrl }<---End
     // http-proxy events Start
 
     /**
-     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
-     *
-     * @param {http.ClientRequest} proxyReq
-     * @param {Request} req
-     * @param {Response} res
-     * @param {httpProxy.ServerOptions} options
-     *
-     * @returns {void} 无返回值。
+     * http-proxy各个事件监听配置。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
      */
-    onProxyReq: ( proxyReq, req, res, options ) => {
-    },
+    on: {
+      /**
+       * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
+       *
+       * @param {Error} err
+       * @param {Request} req
+       * @param {Response} res
+       * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
+       *
+       * @returns {void} 无返回值。
+       */
+      error: ( err, req, res, target ) => {
+      },
 
-    /**
-     * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
-     *
-     * @param {http.ClientRequest} proxyReq
-     * @param {Request} req
-     * @param {net.Socket} socket
-     * @param {httpProxy.ServerOptions} options
-     * @param {any} head
-     *
-     * @returns {void} 无返回值。
-     */
-    onProxyReqWs: ( proxyReq, req, socket, options, head ) => {
-      const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
+      /**
+       * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
+       *
+       * @param {http.ClientRequest} proxyReq
+       * @param {Request} req
+       * @param {Response} res
+       * @param {httpProxy.ServerOptions} options
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyReq: ( proxyReq, req, res, options ) => {
+      },
 
-      logWriteStream.write( `WebSocket代理--->${ options.context }<---Start
+      /**
+       * 如果对目标的请求得到响应，则会发出此事件。<br />
+       *
+       * @param {http.IncomingMessage} proxyRes
+       * @param {Request} req
+       * @param {Response} res
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyRes: ( proxyRes, req, res ) => {
+      },
+
+      /**
+       * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
+       *
+       * @param {http.ClientRequest} proxyReq
+       * @param {Request} req
+       * @param {net.Socket} socket
+       * @param {httpProxy.ServerOptions} options
+       * @param {any} head
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyReqWs: ( proxyReq, req, socket, options, head ) => {
+        const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
+
+        logWriteStream.write( `WebSocket代理--->${ options.context }<---Start
 原请求方法：${ req.method }
 原请求头：
 ${ JSON.stringify( req.headers, null, ' ' ) }
@@ -1114,55 +1198,31 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 ${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, ' ' ) }
 WebSocket代理--->${ options.context }<---End
 \n\n` );
-    },
+      },
 
-    /**
-     * 如果对目标的请求得到响应，则会发出此事件。<br />
-     *
-     * @param {http.IncomingMessage} proxyRes
-     * @param {Request} req
-     * @param {Response} res
-     *
-     * @returns {void} 无返回值。
-     */
-    onProxyRes: ( proxyRes, req, res ) => {
-    },
+      /**
+       * 一旦创建代理websocket并将其通过管道传输到目标websocket，就会发出此事件。<br />
+       * PS：<br />
+       * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
+       *
+       * @param {net.Socket} proxySocket
+       *
+       * @returns {void} 无返回值。
+       */
+      open: proxySocket => {
+      },
 
-    /**
-     * 一旦创建代理websocket并将其通过管道传输到目标websocket，就会发出此事件。<br />
-     * PS：<br />
-     * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
-     *
-     * @param {net.Socket} proxySocket
-     *
-     * @returns {void} 无返回值。
-     */
-    onOpen: proxySocket => {
-    },
-
-    /**
-     * 一旦代理websocket关闭，就会发出此事件。<br />
-     *
-     * @param {Response} proxyRes
-     * @param {net.Socket} proxySocket
-     * @param {any} proxyHead
-     *
-     * @returns {void} 无返回值。
-     */
-    onClose: ( proxyRes, proxySocket, proxyHead ) => {
-    },
-
-    /**
-     * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
-     *
-     * @param {Error} err
-     * @param {Request} req
-     * @param {Response} res
-     * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
-     *
-     * @returns {void} 无返回值。
-     */
-    onError: ( err, req, res, target ) => {
+      /**
+       * 一旦代理websocket关闭，就会发出此事件。<br />
+       *
+       * @param {Response} proxyRes
+       * @param {net.Socket} proxySocket
+       * @param {any} proxyHead
+       *
+       * @returns {void} 无返回值。
+       */
+      close: ( proxyRes, proxySocket, proxyHead ) => {
+      },
     },
 
     // http-proxy events End
