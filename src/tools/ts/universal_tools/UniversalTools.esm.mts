@@ -70,85 +70,6 @@
 
 'use strict';
 
-// 自定义的类型别名。Start
-
-/**
- * 自定义的类型别名T_DateFormatForObject，表示一个对象：
- * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
- */
-export type T_DateFormatForObject = {
-  /**
-   * 表示年。
-   */
-  year: string;
-  /**
-   * 表示月。
-   */
-  month: string;
-  /**
-   * 表示日。
-   */
-  date: string;
-  /**
-   * 表示时。
-   */
-  hours: string;
-  /**
-   * 表示分。
-   */
-  minutes: string;
-  /**
-   * 表示秒。
-   */
-  seconds: string;
-  /**
-   * 表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。
-   */
-  day: string;
-};
-
-/**
- * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
- */
-export type T_Singleton<T> = {
-  /**
-   * 已生成的期望的单例对象。
-   */
-  singleton: T;
-
-  /**
-   * 用于清除并置空已经生成的期望的单例对象，支持清除后的回调函数操作。
-   *
-   * @param {() => unknown} cb 完成清除并置空已经生成的期望的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
-   *
-   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
-   */
-  clear: ( cb?: () => unknown ) => unknown | void;
-};
-
-/**
- * 表示一个对象类型，这个对象中有个“singletonByGlobal”属性，其值是“包装函数”中所返回的期望的“全局模式”的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
- */
-export type T_SingletonByGlobal<T> = {
-  /**
-   * 已生成的期望的“全局模式”的单例对象。
-   */
-  singletonByGlobal: T;
-
-  /**
-   * 用于清除并置空已经生成的期望的“全局模式”的单例对象，支持清除后的回调函数操作。
-   *
-   * @param {() => unknown} cb 完成清除并置空已经生成的期望的“全局模式”的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
-   *
-   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
-   */
-  clear: ( cb?: () => unknown ) => unknown | void;
-};
-
-// 自定义的类型别名。End
-
 // 内部使用的7788的处理函数。Start
 
 /**
@@ -174,6 +95,26 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
 // 内部使用的7788的处理函数。End
 
 // 支持泛型参数的单例工厂。Start
+
+/**
+ * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+ */
+export type T_Singleton<T> = {
+  /**
+   * 已生成的期望的单例对象。
+   */
+  singleton: T;
+
+  /**
+   * 用于清除并置空已经生成的期望的单例对象，支持清除后的回调函数操作。
+   *
+   * @param {() => unknown} cb 完成清除并置空已经生成的期望的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+   *
+   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+   */
+  clear: ( cb?: () => unknown ) => unknown | void;
+};
 
 /**
  * 支持泛型参数的单例工厂。
@@ -222,6 +163,26 @@ export function SingletonFactory<T>( func: () => T ): () => T_Singleton<T>{
     };
   };
 }
+
+/**
+ * 表示一个对象类型，这个对象中有个“singletonByGlobal”属性，其值是“包装函数”中所返回的期望的“全局模式”的单例对象。
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+ */
+export type T_SingletonByGlobal<T> = {
+  /**
+   * 已生成的期望的“全局模式”的单例对象。
+   */
+  singletonByGlobal: T;
+
+  /**
+   * 用于清除并置空已经生成的期望的“全局模式”的单例对象，支持清除后的回调函数操作。
+   *
+   * @param {() => unknown} cb 完成清除并置空已经生成的期望的“全局模式”的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+   *
+   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+   */
+  clear: ( cb?: () => unknown ) => unknown | void;
+};
 
 let singletonByGlobal: unknown = null;
 
@@ -300,6 +261,41 @@ export function Uint8ArrayToString( data: Uint8Array ): string{
 // 类型转换。End
 
 // Date格式处理。Start
+
+/**
+ * 自定义的类型别名T_DateFormatForObject，表示一个对象：
+ * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ */
+export type T_DateFormatForObject = {
+  /**
+   * 表示年。
+   */
+  year: string;
+  /**
+   * 表示月。
+   */
+  month: string;
+  /**
+   * 表示日。
+   */
+  date: string;
+  /**
+   * 表示时。
+   */
+  hours: string;
+  /**
+   * 表示分。
+   */
+  minutes: string;
+  /**
+   * 表示秒。
+   */
+  seconds: string;
+  /**
+   * 表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。
+   */
+  day: string;
+};
 
 /**
  * 返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
