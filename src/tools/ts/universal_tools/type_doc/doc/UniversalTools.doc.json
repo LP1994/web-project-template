@@ -22,9 +22,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 103,
+					"line": 107,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L103"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L107"
 				}
 			],
 			"typeParameters": [
@@ -62,9 +62,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 107,
+									"line": 111,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L107"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L111"
 								}
 							],
 							"type": {
@@ -103,9 +103,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 116,
+									"line": 120,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L116"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L120"
 								}
 							],
 							"type": {
@@ -119,9 +119,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 116,
+											"line": 120,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L116"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L120"
 										}
 									],
 									"signatures": [
@@ -159,9 +159,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalTools.esm.mts",
-																	"line": 116,
+																	"line": 120,
 																	"character": 16,
-																	"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L116"
+																	"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L120"
 																}
 															],
 															"signatures": [
@@ -212,9 +212,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 103,
+							"line": 107,
 							"character": 29,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L103"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L107"
 						}
 					]
 				}
@@ -229,9 +229,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 127,
+					"line": 131,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 				}
 			],
 			"signatures": [
@@ -263,9 +263,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 127,
+							"line": 131,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 						}
 					],
 					"typeParameter": [
@@ -303,9 +303,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 127,
+											"line": 131,
 											"character": 43,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 										}
 									],
 									"signatures": [
@@ -318,9 +318,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 127,
+													"line": 131,
 													"character": 43,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 												}
 											],
 											"type": {
@@ -347,9 +347,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 127,
+									"line": 131,
 									"character": 54,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 								}
 							],
 							"signatures": [
@@ -398,9 +398,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 171,
+					"line": 175,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L171"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L175"
 				}
 			],
 			"typeParameters": [
@@ -438,9 +438,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 175,
+									"line": 179,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L175"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L179"
 								}
 							],
 							"type": {
@@ -479,9 +479,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 184,
+									"line": 188,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L184"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L188"
 								}
 							],
 							"type": {
@@ -495,9 +495,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 184,
+											"line": 188,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L184"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L188"
 										}
 									],
 									"signatures": [
@@ -535,9 +535,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalTools.esm.mts",
-																	"line": 184,
+																	"line": 188,
 																	"character": 16,
-																	"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L184"
+																	"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L188"
 																}
 															],
 															"signatures": [
@@ -588,9 +588,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 171,
+							"line": 175,
 							"character": 37,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L171"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L175"
 						}
 					]
 				}
@@ -605,9 +605,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 202,
+					"line": 206,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 				}
 			],
 			"signatures": [
@@ -639,9 +639,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 202,
+							"line": 206,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 						}
 					],
 					"typeParameter": [
@@ -679,9 +679,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 202,
+											"line": 206,
 											"character": 51,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 										}
 									],
 									"signatures": [
@@ -694,9 +694,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 202,
+													"line": 206,
 													"character": 51,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 												}
 											],
 											"type": {
@@ -723,9 +723,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 202,
+									"line": 206,
 									"character": 62,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 								}
 							],
 							"signatures": [
@@ -766,9 +766,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 251,
+					"line": 255,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L251"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L255"
 				}
 			],
 			"signatures": [
@@ -800,9 +800,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 251,
+							"line": 255,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L251"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L255"
 						}
 					],
 					"parameters": [
@@ -847,9 +847,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 262,
+					"line": 266,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L262"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L266"
 				}
 			],
 			"signatures": [
@@ -881,9 +881,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 262,
+							"line": 266,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L262"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L266"
 						}
 					],
 					"parameters": [
@@ -936,9 +936,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 274,
+					"line": 278,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L274"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L278"
 				}
 			],
 			"type": {
@@ -967,9 +967,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 278,
+									"line": 282,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L278"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L282"
 								}
 							],
 							"type": {
@@ -994,9 +994,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 282,
+									"line": 286,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L282"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L286"
 								}
 							],
 							"type": {
@@ -1021,9 +1021,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 286,
+									"line": 290,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L286"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L290"
 								}
 							],
 							"type": {
@@ -1048,9 +1048,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 290,
+									"line": 294,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L290"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L294"
 								}
 							],
 							"type": {
@@ -1075,9 +1075,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 294,
+									"line": 298,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L294"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L298"
 								}
 							],
 							"type": {
@@ -1102,9 +1102,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 298,
+									"line": 302,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L298"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L302"
 								}
 							],
 							"type": {
@@ -1129,9 +1129,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 302,
+									"line": 306,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L302"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L306"
 								}
 							],
 							"type": {
@@ -1157,9 +1157,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 274,
+							"line": 278,
 							"character": 36,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L274"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L278"
 						}
 					]
 				}
@@ -1174,9 +1174,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 312,
+					"line": 316,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L312"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L316"
 				}
 			],
 			"signatures": [
@@ -1208,9 +1208,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 312,
+							"line": 316,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L312"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L316"
 						}
 					],
 					"parameters": [
@@ -1258,9 +1258,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 348,
+					"line": 352,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L348"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L352"
 				}
 			],
 			"signatures": [
@@ -1292,9 +1292,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 348,
+							"line": 352,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L348"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L352"
 						}
 					],
 					"parameters": [
@@ -1334,9 +1334,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 361,
+					"line": 365,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L361"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L365"
 				}
 			],
 			"signatures": [
@@ -1368,9 +1368,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 361,
+							"line": 365,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L361"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L365"
 						}
 					],
 					"parameters": [
@@ -1410,9 +1410,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 374,
+					"line": 378,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L374"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L378"
 				}
 			],
 			"signatures": [
@@ -1444,9 +1444,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 374,
+							"line": 378,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L374"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L378"
 						}
 					],
 					"parameters": [
@@ -1486,9 +1486,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 385,
+					"line": 389,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L385"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L389"
 				}
 			],
 			"signatures": [
@@ -1520,9 +1520,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 385,
+							"line": 389,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L385"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L389"
 						}
 					],
 					"parameters": [
@@ -1562,9 +1562,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 402,
+					"line": 406,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L402"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L406"
 				}
 			],
 			"signatures": [
@@ -1596,9 +1596,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 402,
+							"line": 406,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L402"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L406"
 						}
 					],
 					"parameters": [
@@ -1665,9 +1665,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 419,
+					"line": 423,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L419"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L423"
 				}
 			],
 			"signatures": [
@@ -1699,9 +1699,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 419,
+							"line": 423,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L419"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L423"
 						}
 					],
 					"parameters": [
@@ -1768,9 +1768,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 436,
+					"line": 440,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L436"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L440"
 				}
 			],
 			"signatures": [
@@ -1802,9 +1802,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 436,
+							"line": 440,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L436"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L440"
 						}
 					],
 					"parameters": [
@@ -1871,9 +1871,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 453,
+					"line": 457,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L453"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L457"
 				}
 			],
 			"signatures": [
@@ -1905,9 +1905,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 453,
+							"line": 457,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L453"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L457"
 						}
 					],
 					"parameters": [
@@ -1977,9 +1977,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 477,
+					"line": 481,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L477"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L481"
 				}
 			],
 			"signatures": [
@@ -2011,9 +2011,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 477,
+							"line": 481,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L477"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L481"
 						}
 					],
 					"parameters": [
@@ -2083,9 +2083,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 504,
+					"line": 508,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L504"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L508"
 				}
 			],
 			"signatures": [
@@ -2117,9 +2117,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 504,
+							"line": 508,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L504"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L508"
 						}
 					],
 					"parameters": [
@@ -2189,9 +2189,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 523,
+					"line": 527,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L523"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L527"
 				}
 			],
 			"signatures": [
@@ -2223,9 +2223,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 523,
+							"line": 527,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L523"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L527"
 						}
 					],
 					"parameters": [
@@ -2295,9 +2295,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 534,
+					"line": 538,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L534"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L538"
 				}
 			],
 			"type": {
@@ -2328,9 +2328,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 536,
+					"line": 540,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L536"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L540"
 				}
 			],
 			"type": {
@@ -2364,9 +2364,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 538,
+					"line": 542,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L538"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L542"
 				}
 			],
 			"type": {
@@ -2387,9 +2387,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 538,
+									"line": 542,
 									"character": 38,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L538"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L542"
 								}
 							],
 							"signatures": [
@@ -2438,9 +2438,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 553,
+					"line": 557,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L553"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L557"
 				}
 			],
 			"type": {
@@ -2470,9 +2470,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 588,
+					"line": 592,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L588"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L592"
 				}
 			],
 			"type": {
@@ -2493,9 +2493,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 589,
+									"line": 593,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L589"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L593"
 								}
 							],
 							"type": {
@@ -2512,9 +2512,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 590,
+									"line": 594,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L590"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L594"
 								}
 							],
 							"type": {
@@ -2528,9 +2528,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 590,
+											"line": 594,
 											"character": 33,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L590"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L594"
 										}
 									],
 									"signatures": [
@@ -2588,9 +2588,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 588,
+							"line": 592,
 							"character": 52,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L588"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L592"
 						}
 					]
 				}
@@ -2605,9 +2605,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 839,
+					"line": 843,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L839"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L843"
 				}
 			],
 			"signatures": [
@@ -2643,9 +2643,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 839,
+							"line": 843,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L839"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L843"
 						}
 					],
 					"parameters": [
@@ -2697,9 +2697,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalTools.esm.mts",
-					"line": 932,
+					"line": 936,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L932"
+					"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L936"
 				}
 			],
 			"type": {
@@ -2720,9 +2720,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 934,
+									"line": 938,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L934"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L938"
 								}
 							],
 							"type": {
@@ -2736,9 +2736,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 127,
+											"line": 131,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 										}
 									],
 									"signatures": [
@@ -2770,9 +2770,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 127,
+													"line": 131,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 												}
 											],
 											"typeParameter": [
@@ -2810,9 +2810,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalTools.esm.mts",
-																	"line": 127,
+																	"line": 131,
 																	"character": 43,
-																	"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+																	"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 																}
 															],
 															"signatures": [
@@ -2825,9 +2825,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalTools.esm.mts",
-																			"line": 127,
+																			"line": 131,
 																			"character": 43,
-																			"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+																			"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 																		}
 																	],
 																	"type": {
@@ -2854,9 +2854,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalTools.esm.mts",
-															"line": 127,
+															"line": 131,
 															"character": 54,
-															"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L127"
+															"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L131"
 														}
 													],
 													"signatures": [
@@ -2899,9 +2899,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 935,
+									"line": 939,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L935"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L939"
 								}
 							],
 							"type": {
@@ -2915,9 +2915,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 202,
+											"line": 206,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 										}
 									],
 									"signatures": [
@@ -2949,9 +2949,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 202,
+													"line": 206,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 												}
 											],
 											"typeParameter": [
@@ -2989,9 +2989,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalTools.esm.mts",
-																	"line": 202,
+																	"line": 206,
 																	"character": 51,
-																	"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+																	"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 																}
 															],
 															"signatures": [
@@ -3004,9 +3004,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalTools.esm.mts",
-																			"line": 202,
+																			"line": 206,
 																			"character": 51,
-																			"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+																			"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 																		}
 																	],
 																	"type": {
@@ -3033,9 +3033,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalTools.esm.mts",
-															"line": 202,
+															"line": 206,
 															"character": 62,
-															"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L202"
+															"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L206"
 														}
 													],
 													"signatures": [
@@ -3078,9 +3078,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 939,
+									"line": 943,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L939"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L943"
 								}
 							],
 							"type": {
@@ -3094,9 +3094,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 251,
+											"line": 255,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L251"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L255"
 										}
 									],
 									"signatures": [
@@ -3128,9 +3128,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 251,
+													"line": 255,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L251"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L255"
 												}
 											],
 											"parameters": [
@@ -3177,9 +3177,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 940,
+									"line": 944,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L940"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L944"
 								}
 							],
 							"type": {
@@ -3193,9 +3193,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 262,
+											"line": 266,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L262"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L266"
 										}
 									],
 									"signatures": [
@@ -3227,9 +3227,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 262,
+													"line": 266,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L262"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L266"
 												}
 											],
 											"parameters": [
@@ -3276,9 +3276,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 944,
+									"line": 948,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L944"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L948"
 								}
 							],
 							"type": {
@@ -3292,9 +3292,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 312,
+											"line": 316,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L312"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L316"
 										}
 									],
 									"signatures": [
@@ -3326,9 +3326,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 312,
+													"line": 316,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L312"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L316"
 												}
 											],
 											"parameters": [
@@ -3378,9 +3378,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 948,
+									"line": 952,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L948"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L952"
 								}
 							],
 							"type": {
@@ -3394,9 +3394,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 348,
+											"line": 352,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L348"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L352"
 										}
 									],
 									"signatures": [
@@ -3428,9 +3428,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 348,
+													"line": 352,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L348"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L352"
 												}
 											],
 											"parameters": [
@@ -3472,9 +3472,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 949,
+									"line": 953,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L949"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L953"
 								}
 							],
 							"type": {
@@ -3488,9 +3488,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 361,
+											"line": 365,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L361"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L365"
 										}
 									],
 									"signatures": [
@@ -3522,9 +3522,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 361,
+													"line": 365,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L361"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L365"
 												}
 											],
 											"parameters": [
@@ -3566,9 +3566,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 950,
+									"line": 954,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L950"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L954"
 								}
 							],
 							"type": {
@@ -3582,9 +3582,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 374,
+											"line": 378,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L374"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L378"
 										}
 									],
 									"signatures": [
@@ -3616,9 +3616,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 374,
+													"line": 378,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L374"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L378"
 												}
 											],
 											"parameters": [
@@ -3660,9 +3660,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 951,
+									"line": 955,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L951"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L955"
 								}
 							],
 							"type": {
@@ -3676,9 +3676,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 385,
+											"line": 389,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L385"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L389"
 										}
 									],
 									"signatures": [
@@ -3710,9 +3710,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 385,
+													"line": 389,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L385"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L389"
 												}
 											],
 											"parameters": [
@@ -3754,9 +3754,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 955,
+									"line": 959,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L955"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L959"
 								}
 							],
 							"type": {
@@ -3770,9 +3770,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 402,
+											"line": 406,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L402"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L406"
 										}
 									],
 									"signatures": [
@@ -3804,9 +3804,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 402,
+													"line": 406,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L402"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L406"
 												}
 											],
 											"parameters": [
@@ -3875,9 +3875,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 956,
+									"line": 960,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L956"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L960"
 								}
 							],
 							"type": {
@@ -3891,9 +3891,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 419,
+											"line": 423,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L419"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L423"
 										}
 									],
 									"signatures": [
@@ -3925,9 +3925,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 419,
+													"line": 423,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L419"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L423"
 												}
 											],
 											"parameters": [
@@ -3996,9 +3996,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 957,
+									"line": 961,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L957"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L961"
 								}
 							],
 							"type": {
@@ -4012,9 +4012,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 436,
+											"line": 440,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L436"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L440"
 										}
 									],
 									"signatures": [
@@ -4046,9 +4046,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 436,
+													"line": 440,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L436"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L440"
 												}
 											],
 											"parameters": [
@@ -4117,9 +4117,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 958,
+									"line": 962,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L958"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L962"
 								}
 							],
 							"type": {
@@ -4133,9 +4133,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 453,
+											"line": 457,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L453"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L457"
 										}
 									],
 									"signatures": [
@@ -4167,9 +4167,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 453,
+													"line": 457,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L453"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L457"
 												}
 											],
 											"parameters": [
@@ -4241,9 +4241,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 959,
+									"line": 963,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L959"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L963"
 								}
 							],
 							"type": {
@@ -4257,9 +4257,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 477,
+											"line": 481,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L477"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L481"
 										}
 									],
 									"signatures": [
@@ -4291,9 +4291,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 477,
+													"line": 481,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L477"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L481"
 												}
 											],
 											"parameters": [
@@ -4365,9 +4365,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 960,
+									"line": 964,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L960"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L964"
 								}
 							],
 							"type": {
@@ -4381,9 +4381,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 504,
+											"line": 508,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L504"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L508"
 										}
 									],
 									"signatures": [
@@ -4415,9 +4415,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 504,
+													"line": 508,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L504"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L508"
 												}
 											],
 											"parameters": [
@@ -4489,9 +4489,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 961,
+									"line": 965,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L961"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L965"
 								}
 							],
 							"type": {
@@ -4505,9 +4505,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 523,
+											"line": 527,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L523"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L527"
 										}
 									],
 									"signatures": [
@@ -4539,9 +4539,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 523,
+													"line": 527,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L523"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L527"
 												}
 											],
 											"parameters": [
@@ -4613,9 +4613,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalTools.esm.mts",
-									"line": 965,
+									"line": 969,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L965"
+									"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L969"
 								}
 							],
 							"type": {
@@ -4629,9 +4629,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalTools.esm.mts",
-											"line": 839,
+											"line": 843,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L839"
+											"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L843"
 										}
 									],
 									"signatures": [
@@ -4667,9 +4667,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalTools.esm.mts",
-													"line": 839,
+													"line": 843,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L839"
+													"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L843"
 												}
 											],
 											"parameters": [
@@ -4734,9 +4734,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalTools.esm.mts",
-							"line": 932,
+							"line": 936,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/6555383/src/tools/ts/universal_tools/UniversalTools.esm.mts#L932"
+							"url": "https://github.com/LP1994/web-project-template/blob/ba85d89/src/tools/ts/universal_tools/UniversalTools.esm.mts#L936"
 						}
 					]
 				}
