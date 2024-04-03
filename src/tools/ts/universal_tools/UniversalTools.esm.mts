@@ -97,8 +97,8 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
 // 支持泛型参数的单例工厂。Start
 
 /**
- * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+ * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。<br />
  */
 export type T_Singleton<T> = {
   /**
@@ -121,17 +121,17 @@ export type T_Singleton<T> = {
  *
  * @param {() => T} func 包装函数，当它被执行时，会返回期望中的单例对象，必需。
  *
- * @returns {() => T_Singleton<T>} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+ * @returns {() => T_Singleton<T>} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
  * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
  */
 export function SingletonFactory<T>( func: () => T ): () => T_Singleton<T>{
   let singleton: T | null = null;
 
   /**
-   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
+   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。<br />
    *
-   * @returns {() => T_Singleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+   * @returns {() => T_Singleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
    * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
    */
   return (): T_Singleton<T> => {
@@ -165,8 +165,8 @@ export function SingletonFactory<T>( func: () => T ): () => T_Singleton<T>{
 }
 
 /**
- * 表示一个对象类型，这个对象中有个“singletonByGlobal”属性，其值是“包装函数”中所返回的期望的“全局模式”的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+ * 表示一个对象类型，这个对象中有个“singletonByGlobal”属性，其值是“包装函数”中所返回的期望的“全局模式”的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
  */
 export type T_SingletonByGlobal<T> = {
   /**
@@ -184,6 +184,11 @@ export type T_SingletonByGlobal<T> = {
   clear: ( cb?: () => unknown ) => unknown | void;
 };
 
+/**
+ * @internal
+ *
+ * @type {unknown}
+ */
 let singletonByGlobal: unknown = null;
 
 /**
@@ -191,15 +196,15 @@ let singletonByGlobal: unknown = null;
  *
  * @param {() => T} func 包装函数，当它被执行时，会返回期望中的“全局模式”的单例对象，必需。
  *
- * @returns {() => T_SingletonByGlobal<T>} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
+ * @returns {() => T_SingletonByGlobal<T>} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
  * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
  */
 export function SingletonFactoryByGlobal<T>( func: () => T ): () => T_SingletonByGlobal<T>{
   /**
-   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
    *
-   * @returns {() => T_SingletonByGlobal<T>} 返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
+   * @returns {() => T_SingletonByGlobal<T>} 返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
    * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
    */
   return (): T_SingletonByGlobal<T> => {
@@ -263,7 +268,7 @@ export function Uint8ArrayToString( data: Uint8Array ): string{
 // Date格式处理。Start
 
 /**
- * 自定义的类型别名T_DateFormatForObject，表示一个对象：
+ * 自定义的类型别名T_DateFormatForObject，表示一个对象：<br />
  * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
  */
 export type T_DateFormatForObject = {
@@ -389,6 +394,7 @@ export function IsString( arg: any ): boolean{
  * 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
@@ -405,6 +411,7 @@ export function IsDisjointFrom( arrA: Array<any> = [], arrB: Array<any> = [] ): 
  * 数组B是否是数组A的子集，true表示是，反之表示不是。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组B是否是数组A的子集，true表示是，反之表示不是。
@@ -421,6 +428,7 @@ export function IsSubsetOf( arrA: Array<any> = [], arrB: Array<any> = [] ): bool
  * 数组B是否是数组A的超集，true表示是，反之表示不是。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组B是否是数组A的超集，true表示是，反之表示不是。
@@ -529,14 +537,61 @@ export type T_CurrentlyExecutingByGlobal = Record<string, T_ArrayPromiseAny>;
 
 export type T_RequestItem = [ string, () => Promise<any> ];
 
+/**
+ * 数组，其成员都是一个2元的元组。<br />
+ * 1、第1个元的值类型是一个字符串，表示请求的URL的origin这一部分，必须。<br />
+ * PS：<br />
+ * 1)如果是同源的请求，传个空字符串即可，内部会自动提取origin。<br />
+ * 2)非同源的请求，传其url的origin这一部分即可。<br /><br />
+ *
+ * 2、第2个元的值类型是一个函数，必须，返回值类型必须是：Promise<服务器返回的数据体>。<br />
+ * 如：
+ * () => fetch( 'https://127.0.0.1:9200/graphql' ) <br />
+ * () => fetch( 'https://127.0.0.1:9200/graphql' ).then( result => result.json() ) <br />
+ * () => { 也可以是用Promise包装起来的其他请求逻辑，只要最后返回的值类型是"Promise<服务器返回的数据体>"这样的即可。 }
+ */
 export type T_ArrayRequestItem = Array<T_RequestItem>;
 
+/**
+ * requestConcurrentQuantityByGlobal：当前的请求并发数。<br />
+ * 注意：谷歌、火狐浏览器对同源下的请求并发数量的限制都是6个。<br />
+ * PS：<br />
+ * 1、至于其他浏览器在数量上可能不为6个，可自行查找。<br />
+ * 2、跨域时，“OPTIONS请求”也是占用浏览器的并发数的！<br />
+ * 在浏览器中，当出现“跨域请求”时，会先出现“OPTIONS请求”进行“预检”，那么哪些请求会触发“预检”呢？<br />
+ * 出现“非简单请求”时，就会触发“预检”操作！<br /><br />
+ *
+ * 同时满足以下所有条件，就属于“简单请求”：<br />
+ * 1)请求方法是以下3种方法之一：<br />
+ * HEAD、GET、POST<br />
+ * 2)只有以下请求header字段允许被修改或被设置，否则必然触发预检：<br />
+ * Accept、Accept-Language、Content-language、DPR、Downlink、Save-Data、Viewport-Width、Width、Last-Event-ID、<br />
+ * Content-Type：只限于3个值application/x-www-form-urlencoded、multipart/form-data、text/plain。<br />
+ * 3)XMLHttpRequestUpload在请求中使用的任何对象上都没有注册事件侦听器，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。<br />
+ * PS：<br />
+ * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br />
+ * 4)ReadableStream请求中未使用任何对象，应该是指 Fetch API 中的 Request 中的 Body，尚未验证。<br /><br />
+ *
+ * 满足以下任意1个条件，就属于“非简单请求”：<br />
+ * 1)PUT、PATCH等请求方法必然会触发预检。<br />
+ * 2)请求头中Content-Type的值不是这3个值：application/x-www-form-urlencoded、multipart/form-data、text/plain。<br />
+ * 也就是说，如果请求的Content-Type被设置为如：application/json;charset=utf-8 时也必然会触发预检。<br />
+ * 3)添加任何额外的自定义的请求header都会触发预检。<br />
+ * 4)XMLHttpRequestUpload在请求中使用的任何对象上有注册事件侦听器，也会触发预检，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。<br />
+ * PS：<br />
+ * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br /><br />
+ *
+ * requestConcurrentToolByGlobal：实际用于全局的请求并发控制器函数工具。<br />
+ * 1、该函数有1个函数参数，其值类型见：T_ArrayRequestItem。<br />
+ * 2、返回值是被Promise包裹起来的，也就是Promise.allSettled()的返回值，返回值结构详细见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled#return_value。
+ */
 export type T_RequestConcurrentControllerByGlobal = {
   requestConcurrentQuantityByGlobal: number;
   requestConcurrentToolByGlobal: ( requestArray: T_ArrayRequestItem ) => Promise<any>;
 };
 
 /**
+ * 当前的请求并发数，默认值为6。<br />
  * 谷歌、火狐浏览器对同源下的请求并发数量的限制都是6个。<br />
  * PS：<br />
  * 1、至于其他浏览器在数量上可能不为6个，可自行查找。<br />
@@ -564,42 +619,100 @@ export type T_RequestConcurrentControllerByGlobal = {
  * PS：<br />
  * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br />
  *
- * @type {number} 默认值为6。
+ * @internal
+ *
+ * @type {number}
  */
 let requestConcurrentQuantityByGlobal: number = 6;
 
+/**
+ * @internal
+ *
+ * @type {T_CurrentlyExecutingByGlobal}
+ */
 const currentlyExecutingByGlobal: T_CurrentlyExecutingByGlobal = {};
 
+/**
+ * @internal
+ *
+ * @type {Record<string, Promise<any>>}
+ */
 let currentlyResolvePromiseByGlobal: Record<string, Promise<any>> = {};
 
 /**
- * 当前域：https://localhost:9200/，以下例子处理后对应的最终origin为：
- * '/graphql' ---> https://localhost:9200
- * 'graphql' ---> https://localhost:9200
- * './graphql' ---> https://localhost:9200
- * '../graphql' ---> https://localhost:9200
- * '' ---> https://localhost:9200
- * '/' ---> https://localhost:9200
- * './' ---> https://localhost:9200
- * '.' ---> https://localhost:9200
- * '//127.0.0.1:9000/graphql' ---> https://127.0.0.1:9000
- * 'https://www.baidu.com/graphql' ---> https://www.baidu.com
- * 'https://www.baidu.com:9200/graphql' ---> https://www.baidu.com:9200
+ * 从请求的URL提取其最终指向的origin。<br />
+ * 例如：<br />
+ * 当前域：https://localhost:9200/，以下例子处理后对应的最终origin为：<br />
+ * '/graphql' ---> https://localhost:9200 <br />
+ * 'graphql' ---> https://localhost:9200 <br />
+ * './graphql' ---> https://localhost:9200 <br />
+ * '../graphql' ---> https://localhost:9200 <br />
+ * '' ---> https://localhost:9200 <br />
+ * '/' ---> https://localhost:9200 <br />
+ * './' ---> https://localhost:9200 <br />
+ * '.' ---> https://localhost:9200 <br />
+ * '//127.0.0.1:9000/graphql' ---> https://127.0.0.1:9000 <br />
+ * 'https://www.baidu.com/graphql' ---> https://www.baidu.com <br />
+ * 'https://www.baidu.com:9200/graphql' ---> https://www.baidu.com:9200 <br />
+ *
+ * @internal
+ *
+ * @param {string} origin 请求的URL的origin这一部分，必须。<br />
+ * PS：<br />
+ * 1、如果是同源的请求，传个空字符串即可，内部会自动提取origin。<br />
+ * 2、非同源的请求，传其url的origin这一部分即可。<br />
+ *
+ * @returns {string} 最终请求的URL的origin。
  */
 function HandleByOrigin001( origin: string ): string{
   return new URL( origin, location.origin ).origin;
 }
 
 /**
- * 全局的请求并发控制器。
+ * 全局的请求并发控制器。<br />
+ * 使用例子：<br />
+ * ```ts
+ * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';
+ * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';
+ * ```
  *
- * @param {number | undefined} requestConcurrentQuantity
+ * @param {number | undefined} requestConcurrentQuantity 要设置的请求并发数，可选，默认值是6。<br />
+ * PS：<br />
+ * 1、当没有正在进行的请求时才能设置并发数，否则依旧是设置前的值，是多少就是多少。<br />
  *
- * @returns {T_RequestConcurrentControllerByGlobal}
+ * 注意：谷歌、火狐浏览器对同源下的请求并发数量的限制都是6个。<br />
+ * PS：<br />
+ * 1、至于其他浏览器在数量上可能不为6个，可自行查找。<br />
+ * 2、跨域时，“OPTIONS请求”也是占用浏览器的并发数的！<br />
+ * 在浏览器中，当出现“跨域请求”时，会先出现“OPTIONS请求”进行“预检”，那么哪些请求会触发“预检”呢？<br />
+ * 出现“非简单请求”时，就会触发“预检”操作！<br /><br />
+ *
+ * 同时满足以下所有条件，就属于“简单请求”：<br />
+ * 1)请求方法是以下3种方法之一：<br />
+ * HEAD、GET、POST<br />
+ * 2)只有以下请求header字段允许被修改或被设置，否则必然触发预检：<br />
+ * Accept、Accept-Language、Content-language、DPR、Downlink、Save-Data、Viewport-Width、Width、Last-Event-ID、<br />
+ * Content-Type：只限于3个值application/x-www-form-urlencoded、multipart/form-data、text/plain。<br />
+ * 3)XMLHttpRequestUpload在请求中使用的任何对象上都没有注册事件侦听器，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。<br />
+ * PS：<br />
+ * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br />
+ * 4)ReadableStream请求中未使用任何对象，应该是指 Fetch API 中的 Request 中的 Body，尚未验证。<br /><br />
+ *
+ * 满足以下任意1个条件，就属于“非简单请求”：<br />
+ * 1)PUT、PATCH等请求方法必然会触发预检。<br />
+ * 2)请求头中Content-Type的值不是这3个值：application/x-www-form-urlencoded、multipart/form-data、text/plain。<br />
+ * 也就是说，如果请求的Content-Type被设置为如：application/json;charset=utf-8 时也必然会触发预检。<br />
+ * 3)添加任何额外的自定义的请求header都会触发预检。<br />
+ * 4)XMLHttpRequestUpload在请求中使用的任何对象上有注册事件侦听器，也会触发预检，详细见：https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload。<br />
+ * PS：<br />
+ * 将事件监听器附加到此对象会使请求无法成为 "简单请求"，如果是跨源请求，则会导致发出预检请求；请参阅 CORS。因此，需要在调用 send() 之前注册事件监听器，否则上传事件不会被分派。<br />
+ *
+ * @returns {T_RequestConcurrentControllerByGlobal} 返回一个对象，里面有2个属性：<br />
+ * requestConcurrentQuantityByGlobal：当前的请求并发数，通过该属性可以随时知道当前的请求并发数，详细见：T_RequestConcurrentControllerByGlobal。<br />
+ * requestConcurrentToolByGlobal：实际用于全局的请求并发控制器函数工具，详细见：T_RequestConcurrentControllerByGlobal。<br />
  */
 export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?: number | undefined ): T_RequestConcurrentControllerByGlobal{
   if( IsNumber( requestConcurrentQuantity ) && ( requestConcurrentQuantity as number ) >= 1 ){
-    // 当没有正在进行的请求时才能设置并发数，否则依旧是设置前的值，是多少就是多少。
     !( Object.values( currentlyExecutingByGlobal as T_CurrentlyExecutingByGlobal ).some( (
       item: T_ArrayPromiseAny,
       // @ts-expect-error
@@ -610,12 +723,10 @@ export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?:
   }
 
   return {
-    // 通过该属性，随时都可以知道当前设置的并发数是多少。
     requestConcurrentQuantityByGlobal,
     requestConcurrentToolByGlobal: (
       requestArray: T_ArrayRequestItem
     ): Promise<any> => {
-      // 初始化currentlyExecutingByGlobal变量、currentlyResolvePromiseByGlobal变量。
       if( requestArray.length > 0 ){
         let handleOrigin: string = '';
 
