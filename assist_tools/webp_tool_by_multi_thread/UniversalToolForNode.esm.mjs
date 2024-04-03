@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2023-11-27 19:58:50 星期日
+ * CreateDate: 2022-11-27 19:58:50 星期日
  */
 
 /**
@@ -31,6 +31,7 @@
  * 关于“严格模式”的注意事项：
  * 1、'use strict'严格模式会在函数内部自动深度的传递严格模式的效果。
  * 如：
+ * ```ts
  * function Fun1( x ){
  * 'use strict';
  *
@@ -42,6 +43,7 @@
  *
  * Fun2();
  * }
+ * ```
  * 说明：
  * Fun1里的'use strict'严格模式的效果会传递到Fun2内部！
  * 但是，Fun1里的'use strict'严格模式却不会作用于Fun2的默认函数参数，但是Fun2里的this还是会为undefined！
@@ -55,6 +57,7 @@
  *
  * 5、严格模式下的this还是可以通过apply、bind、call来设置的，否则还是undefined。
  * 如：
+ * ```ts
  * 'use strict';
  *
  * function Fun1(){
@@ -64,6 +67,7 @@
  * }
  *
  * Fun1.call( { a: 1, } ); // 输出：{ a: 1, }，而不是undefined。
+ * ```
  */
 
 'use strict';
@@ -135,19 +139,19 @@ export function Get__filename( import_meta_url = import.meta.url ){
  *
  * @param {() => any} func 包装函数，当它被执行时，会返回期望中的单例对象，必需。
  *
- * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。
+ * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。<br />
  */
 export function SingletonFactory( func = () => {
 } ){
   let singleton = null;
 
   /**
-   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
+   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。<br />
    *
-   * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。
+   * @returns {() => { singleton: 其值就是上面的“包装函数”中所返回的那个期望的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的单例对象 }} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的单例对象。<br />
    */
   return () => {
     if( singleton === null ){
@@ -178,6 +182,11 @@ export function SingletonFactory( func = () => {
   };
 }
 
+/**
+ * @internal
+ *
+ * @type {any}
+ */
 let singletonByGlobal = null;
 
 /**
@@ -185,16 +194,16 @@ let singletonByGlobal = null;
  *
  * @param {() => any} func 包装函数，当它被执行时，会返回期望中的“全局模式”的单例对象，必需。
  *
- * @returns {() => { singletonByGlobal: 其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的“全局模式”的单例对象 }} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+ * @returns {() => { singletonByGlobal: 其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的“全局模式”的单例对象 }} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
  */
 export function SingletonFactoryByGlobal( func ){
   /**
-   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
    *
-   * @returns {() => { singletonByGlobal: 其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的“全局模式”的单例对象 }} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   * @returns {() => { singletonByGlobal: 其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象, clear: “clear”函数（支持清除后的回调函数操作），用于清除并置空已经生成的期望的“全局模式”的单例对象 }} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
    */
   return () => {
     if( singletonByGlobal === null ){
@@ -237,6 +246,8 @@ export function SingletonFactoryByGlobal( func ){
  * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
  */
 export function StringToUint8Array( data ){
+  'use strict';
+
   return new TextEncoder().encode( data );
 }
 
@@ -248,6 +259,8 @@ export function StringToUint8Array( data ){
  * @returns {string} 转换成“String”类型的数据。
  */
 export function Uint8ArrayToString( data ){
+  'use strict';
+
   return new TextDecoder().decode( data );
 }
 
@@ -347,6 +360,7 @@ export function IsString( arg ){
  * 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
@@ -363,6 +377,7 @@ export function IsDisjointFrom( arrA = [], arrB = [] ){
  * 数组B是否是数组A的子集，true表示是，反之表示不是。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组B是否是数组A的子集，true表示是，反之表示不是。
@@ -379,6 +394,7 @@ export function IsSubsetOf( arrA = [], arrB = [] ){
  * 数组B是否是数组A的超集，true表示是，反之表示不是。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组B是否是数组A的超集，true表示是，反之表示不是。
