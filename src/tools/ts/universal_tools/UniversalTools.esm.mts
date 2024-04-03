@@ -672,8 +672,133 @@ function HandleByOrigin001( origin: string ): string{
  * 全局的请求并发控制器。<br />
  * 使用例子：<br />
  * ```ts
- * '[object Arguments]'.slice( 8, -1 ) === 'Arguments';
- * '[object HTMLDocument XXX]'.slice( 8, -1 ) === 'HTMLDocument XXX';
+ * // 假设这个例子是在“https://127.0.0.1:8100”页面下进行的。
+ *
+ * import {
+ *   RequestConcurrentControllerByGlobal,
+ * } from 'toolsDir/ts/universal_tools/UniversalTools.esm.mts';
+ *
+ * const {
+ *   requestConcurrentQuantityByGlobal,
+ *   requestConcurrentToolByGlobal
+ * } = RequestConcurrentControllerByGlobal( 3 );
+ *
+ * console.log( `当前的请求并发数：${ requestConcurrentQuantityByGlobal }。` );
+ *
+ * const result = await requestConcurrentToolByGlobal( [
+ *   [
+ *     // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
+ *     '',
+ *     () => fetch( 'https://127.0.0.1:8100/https4deno/graphql', {
+ *       body: JSON.stringify( {
+ *         query: `
+ * mutation MessageTest002( $input: MessageInput! ){
+ *   createMessage111: createMessage( input: $input ){
+ *     id,
+ *     author,
+ *     content,
+ *   },
+ * }
+ * `,
+ *         operationName: 'MessageTest002',
+ *         variables: {
+ *           input: {
+ *             author: 'LZK',
+ *             content: 'hope is a good thing',
+ *           },
+ *         },
+ *       } ),
+ *       cache: 'no-store',
+ *       headers: {
+ *         'Content-Type': 'application/json; charset=utf-8',
+ *         'Accept': 'application/json',
+ *         'Cache-Control': 'no-store',
+ *         'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+ *         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+ *       },
+ *       method: 'POST',
+ *       mode: 'cors',
+ *       credentials: 'omit',
+ *     } ).then( response => response.json() )
+ *   ],
+ *   [
+ *     // 非同源的请求，传其url的origin这一部分即可。
+ *     'https://127.0.0.1:9200',
+ *     () => fetch( 'https://127.0.0.1:9200/graphql', {
+ *       body: JSON.stringify( {
+ *         query: `
+ * mutation MessageTest002( $input: MessageInput! ){
+ *   createMessage111: createMessage( input: $input ){
+ *     id,
+ *     author,
+ *     content,
+ *   },
+ * }
+ * `,
+ *         operationName: 'MessageTest002',
+ *         variables: {
+ *           input: {
+ *             author: 'LMF',
+ *             content: 'hope is a good thing',
+ *           },
+ *         },
+ *       } ),
+ *       cache: 'no-store',
+ *       headers: {
+ *         'Content-Type': 'application/json; charset=utf-8',
+ *         'Accept': 'application/json',
+ *         'Cache-Control': 'no-store',
+ *         'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+ *         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+ *       },
+ *       method: 'POST',
+ *       mode: 'cors',
+ *       credentials: 'omit',
+ *     } ).then( response => response.json() )
+ *   ],
+ *   [
+ *       // 非同源的请求，传其url的origin这一部分即可。
+ *       'https://127.0.0.1:9000',
+ *       () => fetch( 'https://127.0.0.1:9000/graphql', {
+ *         body: JSON.stringify( {
+ *           query: `
+ * mutation MessageTest002( $input: MessageInput! ){
+ *   createMessage111: createMessage( input: $input ){
+ *     id,
+ *     author,
+ *     content,
+ *   },
+ * }
+ * `,
+ *           operationName: 'MessageTest002',
+ *           variables: {
+ *             input: {
+ *               author: 'LYF',
+ *               content: 'hope is a good thing',
+ *             },
+ *           },
+ *         } ),
+ *         cache: 'no-store',
+ *         headers: {
+ *           'Content-Type': 'application/json; charset=utf-8',
+ *           'Accept': 'application/json',
+ *           'Cache-Control': 'no-store',
+ *           'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+ *           'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+ *         },
+ *         method: 'POST',
+ *         mode: 'cors',
+ *         credentials: 'omit',
+ *       } ).then( response => response.json() )
+ *     ],
+ * ] );
+ *
+ * // [
+ * //   { status: "fulfilled", value: {"data":{"createMessage111":{"id":"f00fa7f2-67ca-4157-81f8-b1ae89dbe80f","author":"LMF","content":"hope is a good thing"}}} },
+ * //   { status: "fulfilled", value: {"data":{"createMessage111":{"id":"f00fa7f2-67ca-4157-81f8-b1ae89dbe80f","author":"LZK","content":"hope is a good thing"}}} },
+ * //   { status: "rejected", reason: '仅在status为"rejected"时出现。表示Promise被拒绝的原因。' },
+ * // ]
+ * console.dir( result );
  * ```
  *
  * @param {number | undefined} requestConcurrentQuantity 要设置的请求并发数，可选，默认值是6。<br />
