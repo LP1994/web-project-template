@@ -33,6 +33,7 @@
  * 关于“严格模式”的注意事项：
  * 1、'use strict'严格模式会在函数内部自动深度的传递严格模式的效果。
  * 如：
+ * ```ts
  * function Fun1( x ){
  * 'use strict';
  *
@@ -44,6 +45,7 @@
  *
  * Fun2();
  * }
+ * ```
  * 说明：
  * Fun1里的'use strict'严格模式的效果会传递到Fun2内部！
  * 但是，Fun1里的'use strict'严格模式却不会作用于Fun2的默认函数参数，但是Fun2里的this还是会为undefined！
@@ -57,6 +59,7 @@
  *
  * 5、严格模式下的this还是可以通过apply、bind、call来设置的，否则还是undefined。
  * 如：
+ * ```ts
  * 'use strict';
  *
  * function Fun1(){
@@ -66,97 +69,19 @@
  * }
  *
  * Fun1.call( { a: 1, } ); // 输出：{ a: 1, }，而不是undefined。
+ * ```
  */
 
 'use strict';
 
 /**
  * 在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：
- * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m
+ * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m
  * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。
  */
 import {
   default as chalk,
 } from 'https://deno.land/x/chalk_deno/source/index.js';
-
-// 自定义的类型别名。Start
-
-/**
- * 自定义的类型别名T_DateFormatForObject，表示一个对象：
- * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
- */
-export type T_DateFormatForObject = {
-  /**
-   * 表示年。
-   */
-  year: string;
-  /**
-   * 表示月。
-   */
-  month: string;
-  /**
-   * 表示日。
-   */
-  date: string;
-  /**
-   * 表示时。
-   */
-  hours: string;
-  /**
-   * 表示分。
-   */
-  minutes: string;
-  /**
-   * 表示秒。
-   */
-  seconds: string;
-  /**
-   * 表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。
-   */
-  day: string;
-};
-
-/**
- * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。
- */
-export type T_Singleton<T> = {
-  /**
-   * 已生成的期望的单例对象。
-   */
-  singleton: T;
-
-  /**
-   * 用于清除并置空已经生成的期望的单例对象，支持清除后的回调函数操作。
-   *
-   * @param {() => unknown} cb 完成清除并置空已经生成的期望的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
-   *
-   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
-   */
-  clear: ( cb?: () => unknown ) => unknown | void;
-};
-
-/**
- * 表示一个对象类型，这个对象中有个“singletonByGlobal”属性，其值是“包装函数”中所返回的期望的“全局模式”的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。
- */
-export type T_SingletonByGlobal<T> = {
-  /**
-   * 已生成的期望的“全局模式”的单例对象。
-   */
-  singletonByGlobal: T;
-
-  /**
-   * 用于清除并置空已经生成的期望的“全局模式”的单例对象，支持清除后的回调函数操作。
-   *
-   * @param {() => unknown} cb 完成清除并置空已经生成的期望的“全局模式”的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
-   *
-   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
-   */
-  clear: ( cb?: () => unknown ) => unknown | void;
-};
-
-// 自定义的类型别名。End
 
 // 内部使用的7788的处理函数。Start
 
@@ -185,22 +110,42 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
 // 支持泛型参数的单例工厂。Start
 
 /**
+ * 表示一个对象类型，这个对象中有个“singleton”属性，其值是“包装函数”中所返回的期望的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的单例对象。<br />
+ */
+export type T_Singleton<T> = {
+  /**
+   * 已生成的期望的单例对象。
+   */
+  singleton: T;
+
+  /**
+   * 用于清除并置空已经生成的期望的单例对象，支持清除后的回调函数操作。
+   *
+   * @param {() => unknown} cb 完成清除并置空已经生成的期望的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+   *
+   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+   */
+  clear: ( cb?: () => unknown ) => unknown | void;
+};
+
+/**
  * 支持泛型参数的单例工厂。
  *
  * @param {() => T} func 包装函数，当它被执行时，会返回期望中的单例对象，必需。
  *
- * @returns {() => T_Singleton<T>} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
+ * @returns {() => T_Singleton<T>} 返回一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
  * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
  */
 export function SingletonFactory<T>( func: () => T ): () => T_Singleton<T>{
   let singleton: T | null = null;
 
   /**
-   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
+   * 一个生成单例的函数，执行它就会返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。<br />
    *
-   * @returns {() => T_Singleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。
+   * @returns {() => T_Singleton<T>} 返回一个对象，这个对象中有个“singleton”属性，其值就是上面的“包装函数”中所返回的那个期望的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_Singleton<T>”），用于清除并置空已经生成的期望的单例对象。<br />
    */
   return (): T_Singleton<T> => {
     if( singleton === null ){
@@ -232,6 +177,31 @@ export function SingletonFactory<T>( func: () => T ): () => T_Singleton<T>{
   };
 }
 
+/**
+ * 表示一个对象类型，这个对象中有个“singletonByGlobal”属性，其值是“包装函数”中所返回的期望的“全局模式”的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见下面的“clear”函数的描述），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
+ */
+export type T_SingletonByGlobal<T> = {
+  /**
+   * 已生成的期望的“全局模式”的单例对象。
+   */
+  singletonByGlobal: T;
+
+  /**
+   * 用于清除并置空已经生成的期望的“全局模式”的单例对象，支持清除后的回调函数操作。
+   *
+   * @param {() => unknown} cb 完成清除并置空已经生成的期望的“全局模式”的单例对象后，所要执行的回调函数，用于做一些在清除后的操作，可选。
+   *
+   * @returns {unknown|void} 如果传入了上面的“cb”参数，那么“cb”参数在执行后返回的值就是“clear”函数的返回值，如果没传入上面的“cb”参数，那就返回void。
+   */
+  clear: ( cb?: () => unknown ) => unknown | void;
+};
+
+/**
+ * @internal
+ *
+ * @type {unknown}
+ */
 let singletonByGlobal: unknown = null;
 
 /**
@@ -239,16 +209,16 @@ let singletonByGlobal: unknown = null;
  *
  * @param {() => T} func 包装函数，当它被执行时，会返回期望中的“全局模式”的单例对象，必需。
  *
- * @returns {() => T_SingletonByGlobal<T>} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
- * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+ * @returns {() => T_SingletonByGlobal<T>} 返回一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+ * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
  */
 export function SingletonFactoryByGlobal<T>( func: () => T ): () => T_SingletonByGlobal<T>{
   /**
-   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   * 一个生成“全局模式”的单例的函数，执行它就会返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
    *
-   * @returns {() => T_SingletonByGlobal<T>} 返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。
-   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。
+   * @returns {() => T_SingletonByGlobal<T>} 返回一个对象，这个对象中有个“singletonByGlobal”属性，其值就是上面的“包装函数”中所返回的那个期望的“全局模式”的单例对象。<br />
+   * 返回的对象里还有一个“clear”函数（支持清除后的回调函数操作，详细见上面的泛型别名“T_SingletonByGlobal<T>”），用于清除并置空已经生成的期望的“全局模式”的单例对象。<br />
    */
   return (): T_SingletonByGlobal<T> => {
     if( singletonByGlobal === null ){
@@ -292,6 +262,8 @@ export function SingletonFactoryByGlobal<T>( func: () => T ): () => T_SingletonB
  * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
  */
 export function StringToUint8Array( data: string ): Uint8Array{
+  'use strict';
+
   return new TextEncoder().encode( data );
 }
 
@@ -303,12 +275,49 @@ export function StringToUint8Array( data: string ): Uint8Array{
  * @returns {string} 转换成“String”类型的数据。
  */
 export function Uint8ArrayToString( data: Uint8Array ): string{
+  'use strict';
+
   return new TextDecoder().decode( data );
 }
 
 // 类型转换。End
 
 // Date格式处理。Start
+
+/**
+ * 自定义的类型别名T_DateFormatForObject，表示一个对象：<br />
+ * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
+ */
+export type T_DateFormatForObject = {
+  /**
+   * 表示年。
+   */
+  year: string;
+  /**
+   * 表示月。
+   */
+  month: string;
+  /**
+   * 表示日。
+   */
+  date: string;
+  /**
+   * 表示时。
+   */
+  hours: string;
+  /**
+   * 表示分。
+   */
+  minutes: string;
+  /**
+   * 表示秒。
+   */
+  seconds: string;
+  /**
+   * 表示周，当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化。
+   */
+  day: string;
+};
 
 /**
  * 返回传入的“Date实例对象”的年、月、日、时、分、秒、周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
@@ -402,6 +411,7 @@ export function IsString( arg: any ): boolean{
  * 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组A、数组B两者之间是否没有交集，true表示没有交集，反之表示有交集。
@@ -418,6 +428,7 @@ export function IsDisjointFrom( arrA: Array<any> = [], arrB: Array<any> = [] ): 
  * 数组B是否是数组A的子集，true表示是，反之表示不是。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组B是否是数组A的子集，true表示是，反之表示不是。
@@ -434,6 +445,7 @@ export function IsSubsetOf( arrA: Array<any> = [], arrB: Array<any> = [] ): bool
  * 数组B是否是数组A的超集，true表示是，反之表示不是。
  *
  * @param {Array<any>} arrA 数组A，默认值为空数组，可选。
+ *
  * @param {Array<any>} arrB 数组B，默认值为空数组，可选。
  *
  * @returns {boolean} 数组B是否是数组A的超集，true表示是，反之表示不是。
@@ -538,12 +550,12 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
  * 自定义的Console类，用于在控制台输出带颜色、样式的文字，还集成了“chalk”模块（一个可以输出带颜色等样式的文本）的部分函数，这些都被作为静态方法挂载在这个自定义的Console类。<br />
  * PS：<br />
  * 1、“chalk”模块文档：<br />
- * https://deno.land/x/chalk_deno<br />
+ * https://deno.land/x/chalk_deno<br /><br />
  *
- * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
+ * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br /><br />
  *
  * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
- * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m <br />
+ * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m <br />
  * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
  */
 export class MyConsole {
@@ -575,7 +587,7 @@ export class MyConsole {
    * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
    *
    * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
-   * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m <br />
+   * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m <br />
    * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
    *
    * @param {object} config 初始化字体颜色（color）、背景色（bgColor），可选。<br />
@@ -1926,7 +1938,7 @@ export default {
    * 2、如果使用的是Windows 10 2004(build 19041)或更高版本的Windows OS，请使用系统自带的Windows终端（Windows Terminal）而不是cmd.exe，不然有些效果出不来。<br />
    *
    * 3、在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
-   * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-webgpu --unstable-broadcast-channel --unstable-worker-options --unstable-cron --unstable-kv --unstable-ffi --unstable-fs --unstable-net --unstable-http --unstable-temporal --unstable-hmr ./src/App.mts --color=16m <br />
+   * deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m <br />
    * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
    */
   MyConsole,
