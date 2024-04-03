@@ -246,6 +246,8 @@ export function SingletonFactoryByGlobal( func ){
  * @returns {Uint8Array} 转换成“Uint8Array”类型的数据。
  */
 export function StringToUint8Array( data ){
+  'use strict';
+
   return new TextEncoder().encode( data );
 }
 
@@ -257,6 +259,8 @@ export function StringToUint8Array( data ){
  * @returns {string} 转换成“String”类型的数据。
  */
 export function Uint8ArrayToString( data ){
+  'use strict';
+
   return new TextDecoder().decode( data );
 }
 
