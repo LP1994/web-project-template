@@ -587,7 +587,9 @@ export type T_ArrayRequestItem = Array<T_RequestItem>;
  *
  * requestConcurrentToolByGlobal：实际用于全局的请求并发控制器函数工具。<br />
  * 1、该函数有1个函数参数，其值类型见：T_ArrayRequestItem。<br />
- * 2、返回值是被Promise包裹起来的，也就是Promise.allSettled()的返回值，返回值结构详细见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled#return_value。
+ * 2、返回值是被Promise包裹起来的，也就是Promise.allSettled()的返回值，返回值结构详细见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled#return_value。<br />
+ * 注意，返回值里的数据体顺序跟请求数组里的请求顺序是一样的，一一对应的，即，requestArray里的第1个对应着返回值里的第1个数据体，以此类推。<br />
+ * 无论，请求是否成功、失败、网络中断等等，都会在返回值里体现。
  */
 export type T_RequestConcurrentControllerByGlobal = {
   requestConcurrentQuantityByGlobal: number;
