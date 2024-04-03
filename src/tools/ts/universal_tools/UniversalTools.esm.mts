@@ -529,7 +529,7 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
 
 // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
-// 请求并发控制器 Start
+// 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！） Start
 
 export type T_ArrayPromiseAny = Array<Promise<any>>;
 
@@ -669,7 +669,7 @@ function HandleByOrigin001( origin: string ): string{
 }
 
 /**
- * 全局的请求并发控制器。<br />
+ * 全局的请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！）。<br />
  * 使用例子：<br />
  * ```ts
  * // 假设这个例子是在“https://127.0.0.1:8100”页面下进行的。
@@ -924,7 +924,7 @@ export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?:
   };
 }
 
-// 请求并发控制器 End
+// 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！） End
 
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
@@ -961,7 +961,7 @@ export default {
   Union,
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
-  // 请求并发控制器 Start
+  // 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！） Start
   RequestConcurrentControllerByGlobal,
-  // 请求并发控制器 End
+  // 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！） End
 };
