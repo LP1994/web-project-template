@@ -594,6 +594,13 @@ function HandleByOrigin001( origin: string ): string{
   return new URL( origin, location.origin ).origin;
 }
 
+/**
+ * 全局的请求并发控制器。
+ *
+ * @param {number | undefined} requestConcurrentQuantity
+ *
+ * @returns {T_RequestConcurrentControllerByGlobal}
+ */
 export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?: number | undefined ): T_RequestConcurrentControllerByGlobal{
   if( IsNumber( requestConcurrentQuantity ) && ( requestConcurrentQuantity as number ) >= 1 ){
     // 当没有正在进行的请求时才能设置并发数，否则依旧是设置前的值，是多少就是多少。
