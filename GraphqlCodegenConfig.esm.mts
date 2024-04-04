@@ -277,7 +277,7 @@ ${ fileContent }`;
          'Accept': 'application/json',
          'Content-Type': 'application/json; charset=utf-8',
          'Cache-Control': 'no-store',
-         'Access-Control-Request-Headers': 'Authorization, Accept, Content-Type, Content-Language, Accept-Language',
+         'Access-Control-Request-Headers': 'Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
          'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
          'user-agent': 'From Graphql Codegen',
          },
