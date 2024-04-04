@@ -10171,7 +10171,7 @@ class CT
   ss;
 
   /**
-   * 本类的版本号，如：2020.01.01.1
+   * 本类的版本号，如：2024.01.01.1
    */
   version = '';
 
@@ -10294,7 +10294,7 @@ class CT
 
     this.name = 'CT';
 
-    this.version = '2020.01.01.1';
+    this.version = '2024.01.01.1';
 
     Init( this, isSupportBrowser );
   }
