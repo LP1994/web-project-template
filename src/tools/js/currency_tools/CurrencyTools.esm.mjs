@@ -2092,7 +2092,11 @@ class FunHandle {
     if( typeof globalThis.queueMicrotask !== 'function' ){
       Promise.resolve()
         .then( callback )
-        .catch( e => void ( setTimeout( () => void ( throw new Error( e ) ) ) ) );
+        .catch( e => {
+          setTimeout( () => {
+            throw new Error( e );
+          } );
+        } );
     }
     else{
       queueMicrotask( callback );
@@ -8838,11 +8842,21 @@ class Upload4GraphQL {
 
   #handleA( {
     operationName = null,
-    query = throw new Error( 'query参数必须！' ),
-    variables = throw new Error( 'variables参数必须！' ),
-    file4KeyName = throw new Error( 'file4KeyName参数必须！' ),
+    query = null,
+    variables = null,
+    file4KeyName = null,
     isSingleFile = true,
-  } = throw new Error( '参数必须！' ) ){
+  } = {} ){
+    if( query === null ){
+      throw new Error( 'query参数必须！' );
+    }
+    if( variables === null ){
+      throw new Error( 'variables参数必须！' );
+    }
+    if( file4KeyName === null ){
+      throw new Error( 'file4KeyName参数必须！' );
+    }
+
     let formData = new FormData(),
       operations_obj = {},
       map_obj = {},
@@ -8853,11 +8867,15 @@ class Upload4GraphQL {
 
     operations_obj[ 'query' ] = query;
 
-    !( file4KeyName in variables ) && ( throw new Error( '“file4KeyName”参数的值不在“variables”参数的各个属性名之中！' ) );
+    if( !( file4KeyName in variables ) ){
+      throw new Error( '“file4KeyName”参数的值不在“variables”参数的各个属性名之中！' );
+    }
 
     file4KeyName2Value = variables[ file4KeyName ];
 
-    !this.#ctIns.isFormData( file4KeyName2Value ) && ( throw new Error( `variables中的“${ file4KeyName }”的属性值的数据类型必须是“FormData”类型！` ) );
+    if( !this.#ctIns.isFormData( file4KeyName2Value ) ){
+      throw new Error( `variables中的“${ file4KeyName }”的属性值的数据类型必须是“FormData”类型！` );
+    }
 
     if( isSingleFile ){
       variables[ file4KeyName ] = null;
@@ -8868,7 +8886,9 @@ class Upload4GraphQL {
 
     arr1 = Array.from( file4KeyName2Value.keys() );
 
-    ( arr1.length === 0 ) && ( throw new Error( `variables中的“${ file4KeyName }”的属性值中至少要有一个文件，也就是说FormData中至少有一个文件！` ) );
+    if( arr1.length === 0 ){
+      throw new Error( `variables中的“${ file4KeyName }”的属性值中至少要有一个文件，也就是说FormData中至少有一个文件！` );
+    }
 
     let source = null;
 
@@ -8936,10 +8956,20 @@ class Upload4GraphQL {
    */
   singleFile( {
     operationName = null,
-    query = throw new Error( 'query参数必须！' ),
-    variables = throw new Error( 'variables参数必须！' ),
-    file4KeyName = throw new Error( 'file4KeyName参数必须！' ),
-  } = throw new Error( '参数必须！' ) ){
+    query = null,
+    variables = null,
+    file4KeyName = null,
+  } = {} ){
+    if( query === null ){
+      throw new Error( 'query参数必须！' );
+    }
+    if( variables === null ){
+      throw new Error( 'variables参数必须！' );
+    }
+    if( file4KeyName === null ){
+      throw new Error( 'file4KeyName参数必须！' );
+    }
+
     return this.#handleA( {
       operationName,
       query,
@@ -8976,10 +9006,20 @@ class Upload4GraphQL {
    */
   multipleFiles( {
     operationName = null,
-    query = throw new Error( 'query参数必须！' ),
-    variables = throw new Error( 'variables参数必须！' ),
-    file4KeyName = throw new Error( 'file4KeyName参数必须！' ),
-  } = throw new Error( '参数必须！' ) ){
+    query = null,
+    variables = null,
+    file4KeyName = null,
+  } = {} ){
+    if( query === null ){
+      throw new Error( 'query参数必须！' );
+    }
+    if( variables === null ){
+      throw new Error( 'variables参数必须！' );
+    }
+    if( file4KeyName === null ){
+      throw new Error( 'file4KeyName参数必须！' );
+    }
+
     return this.#handleA( {
       operationName,
       query,
@@ -9011,7 +9051,11 @@ class Upload4GraphQL {
    * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
    * 主要有两个规范必须要传的字段：operations、map，以及要上传的各个文件。
    */
-  batching( opeArr = throw new Error( '参数必须！' ) ){
+  batching( opeArr = null ){
+    if( opeArr === null ){
+      throw new Error( '参数必须！' );
+    }
+
     let operationsAll_arr = [],
       mapAll_arr = [],
       formDataAll = new FormData(),
@@ -9020,11 +9064,21 @@ class Upload4GraphQL {
 
     opeArr.forEach( ( {
       operationName = null,
-      query = throw new Error( 'query参数必须！' ),
-      variables = throw new Error( 'variables参数必须！' ),
-      file4KeyName = throw new Error( 'file4KeyName参数必须！' ),
+      query = null,
+      variables = null,
+      file4KeyName = null,
       isSingleFile = true,
     }, i, a ) => {
+      if( query === null ){
+        throw new Error( 'query参数必须！' );
+      }
+      if( variables === null ){
+        throw new Error( 'variables参数必须！' );
+      }
+      if( file4KeyName === null ){
+        throw new Error( 'file4KeyName参数必须！' );
+      }
+
       let {
         formData,
         operations,
@@ -9433,13 +9487,13 @@ class WASMTool {
           },
         }, importObject ) )
                              : undefined )
-      .then( ( {
-        module,
-        instance,
-      } = throw new Error( '这是一个无效的“wasm”模块！' ) ) => ( {
-        module,
-        instance,
-      } ) );
+      .then( ( arg = null ) => {
+        if( arg === null ){
+          throw new Error( '这是一个无效的“wasm”模块！' );
+        }
+
+        return arg;
+      } );
   }
 
 }
@@ -9943,7 +9997,11 @@ class WebSocket4Client {
    * 4、ArrayBufferView<br />
    * 可以将任何JavaScript类型的数组对象作为二进制帧发送；它的二进制数据内容在缓冲区中排队，从而将“bufferedAmount”的值增加所需的字节数。
    */
-  send( data = throw new Error( '必须传一个参数给send方法！' ) ){
+  send( data = null ){
+    if( data === null ){
+      throw new Error( '必须传一个参数给send方法！' );
+    }
+
     this.ws4Client.send( data );
   }
 
