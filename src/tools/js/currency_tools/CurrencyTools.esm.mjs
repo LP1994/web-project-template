@@ -8201,7 +8201,9 @@ class SSE4Client {
   sse4Client;
 
   #onError;
+
   #onMessage;
+
   #onOpen;
 
   /**
@@ -9092,11 +9094,11 @@ class UrlHandle {
    * 根据输入的“url字符串片段”获得当前拼接后的“绝对URL”<br />
    *
    * 例子：<br />
-   * 当前的URL：http://localhost:8082/sn-data-center-platform-micro-front-web/dist/devServer/pages/SN.html<br /><br />
+   * 当前的URL：http://localhost:8082/sn-micro-front-web-project-template/dist/devServer/pages/SN.html<br /><br />
    *
-   * 'something1?pageNumber=1': http://localhost:8082/sn-data-center-platform-micro-front-web/dist/devServer/pages/something1?pageNumber=1<br />
+   * 'something1?pageNumber=1': http://localhost:8082/sn-micro-front-web-project-template/dist/devServer/pages/something1?pageNumber=1<br />
    * '/something2?pageNumber=2': http://localhost:8082/something2?pageNumber=2<br />
-   * '../something3?pageNumber=3': http://localhost:8082/sn-data-center-platform-micro-front-web/dist/devServer/something3?pageNumber=3
+   * '../something3?pageNumber=3': http://localhost:8082/sn-micro-front-web-project-template/dist/devServer/something3?pageNumber=3
    *
    * @param url String，url字符串片段，可选
    *
@@ -9189,7 +9191,7 @@ class UrlHandle {
    * @param arg_obj JSON对象，配置对象，必须<br />
    * {<br />
    * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
-   * 格式是：http://localhost:8082/sn-data-center-platform-micro-front-web/app/devServer/pages/webProTpl.html<br /><br />
+   * 格式是：http://localhost:8082/sn-micro-front-web-project-template/app/devServer/pages/webProTpl.html<br /><br />
    *
    * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
    * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
@@ -9221,7 +9223,7 @@ class UrlHandle {
    * @param arg_obj JSON对象，配置对象，必须<br />
    * {<br />
    * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
-   * 格式是：http://localhost:8082/sn-data-center-platform-micro-front-web/app/devServer/pages/webProTpl.html<br /><br />
+   * 格式是：http://localhost:8082/sn-micro-front-web-project-template/app/devServer/pages/webProTpl.html<br /><br />
    *
    * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
    * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
@@ -9419,10 +9421,12 @@ class WebService4Proxy {
    * 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，必须
    */
   baseUrl;
+
   /**
    * 一个CT类的实例(new CT())，必须的
    */
   ctIns;
+
   /**
    * 处理数据的类型
    */
@@ -9800,8 +9804,11 @@ class WebSocket4Client {
   ws4Client;
 
   #onClose;
+
   #onError;
+
   #onMessage;
+
   #onOpen;
 
   /**
@@ -10077,6 +10084,7 @@ class CT
    * @returns {Array} 数组[*]
    */
   allElemHan;
+
   /**
    * 停止所有类型的传播(捕获和冒泡)，禁止默认事件
    *
@@ -10085,6 +10093,7 @@ class CT
    * @returns {Element} Element节点
    */
   allEStop;
+
   /**
    * 查找节点，但只处理第一个节点，有返回值(任何类型数据)
    *
@@ -10096,12 +10105,14 @@ class CT
    * @returns {*} 任何类型数据
    */
   firstElemHan;
+
   /**
    * 自定义抛出错误、异常信息
    *
    * @param info_str 字符串，错误、异常信息，默认值'默认错误信息！'，必须！
    */
   gError;
+
   /**
    * 操作localStorage的工具<br />
    * 使用方法：<br />
@@ -10109,13 +10120,16 @@ class CT
    * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
    */
   ls;
+
   name = '';
+
   /**
    * ready加强版
    *
    * @returns {Function} 函数，有一个f参数(所要执行的函数)，必需
    */
   readyS;
+
   /**
    * 操作sessionStorage的工具<br />
    * 使用方法：<br />
@@ -10123,6 +10137,7 @@ class CT
    * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
    */
   ss;
+
   /**
    * 本类的版本号，如：2020.01.01.1
    */
