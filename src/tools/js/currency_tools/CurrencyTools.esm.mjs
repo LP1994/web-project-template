@@ -9145,11 +9145,11 @@ class UrlHandle {
   /*
    IE9(window.location)
    hash       ""
-   host       "localhost:8082"
+   host       "localhost:8090"
    hostname       "localhost"
-   href       "http://localhost:8082/guizhou-enterprise-manage-vue/apps/localServer/pages/index.html"
-   pathname       "/guizhou-enterprise-manage-vue/apps/localServer/pages/index.html"
-   port       "8082"
+   href       "http://localhost:8090/web-project-template/apps/localServer/pages/index.html"
+   pathname       "/web-project-template/apps/localServer/pages/index.html"
+   port       "8090"
    protocol       "http:"
    search       ""
 
@@ -9180,11 +9180,11 @@ class UrlHandle {
    * 根据输入的“url字符串片段”获得当前拼接后的“绝对URL”<br />
    *
    * 例子：<br />
-   * 当前的URL：http://localhost:8082/sn-micro-front-web-project-template/dist/devServer/pages/SN.html<br /><br />
+   * 当前的URL：http://localhost:8090/web-project-template/dist/dev_server/pages/Index.html<br /><br />
    *
-   * 'something1?pageNumber=1': http://localhost:8082/sn-micro-front-web-project-template/dist/devServer/pages/something1?pageNumber=1<br />
-   * '/something2?pageNumber=2': http://localhost:8082/something2?pageNumber=2<br />
-   * '../something3?pageNumber=3': http://localhost:8082/sn-micro-front-web-project-template/dist/devServer/something3?pageNumber=3
+   * 'something1?pageNumber=1': http://localhost:8090/web-project-template/dist/dev_server/pages/something1?pageNumber=1<br />
+   * '/something2?pageNumber=2': http://localhost:8090/something2?pageNumber=2<br />
+   * '../something3?pageNumber=3': http://localhost:8090/web-project-template/dist/dev_server/something3?pageNumber=3
    *
    * @param url String，url字符串片段，可选
    *
@@ -9277,7 +9277,7 @@ class UrlHandle {
    * @param arg_obj JSON对象，配置对象，必须<br />
    * {<br />
    * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
-   * 格式是：http://localhost:8082/sn-micro-front-web-project-template/app/devServer/pages/webProTpl.html<br /><br />
+   * 格式是：http://localhost:8090/web-project-template/app/devServer/pages/webProTpl.html<br /><br />
    *
    * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
    * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
@@ -9309,7 +9309,7 @@ class UrlHandle {
    * @param arg_obj JSON对象，配置对象，必须<br />
    * {<br />
    * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
-   * 格式是：http://localhost:8082/sn-micro-front-web-project-template/app/devServer/pages/webProTpl.html<br /><br />
+   * 格式是：http://localhost:8090/web-project-template/app/devServer/pages/webProTpl.html<br /><br />
    *
    * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
    * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
