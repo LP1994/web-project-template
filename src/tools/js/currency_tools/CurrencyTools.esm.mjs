@@ -1,18 +1,78 @@
 /**
- * Project: sn-data-center-platform-micro-front-web
- * Author：12278
- * Email：1227839175@qq.com
- * CreateDate：2020-06-01 00:00:00
+ * Project: web-project-template
+ * FileDirPath: src/tools/js/currency_tools/CurrencyTools.esm.mjs
+ * Author: 12278
+ * Email: 1227839175@qq.com
  * IDE: WebStorm
- */
-
-// 注意检查一下Object.assign的隐式影响！！！
-
-/**
- * 该工具支持在浏览器、Node、Deno等多种支持JS的宿主环境中使用！！！
+ * CreateDate: 2022-11-27 19:58:50 星期日
  */
 
 /**
+ * 该工具库是使用“JavaScript”编写的公共的、通用的、不特定于某个项目使用的脚本工具库。
+ * 其支持在浏览器（需要转码成JavaScript）、Node、Deno等多种支持JavaScript的宿主环境中使用，并且不是特定于某个项目才能使用的，使用“ECMAScript modules(ECMAScript模块)”写法。
+ *
+ *
+ *
+ * 编写原则：
+ * 1、能用模块化的API尽量用模块化的，少用或者不用全局的，目的是为了让“编码风格”尽量符合“模块化”的理念。
+ *
+ * 2、只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。
+ *
+ * 3、注意函数尾调用、算法时间复杂度、算法空间复杂度等优化。
+ *
+ * 4、那些不被导出供外部调用使用的、属于内部7788的处理函数、类等等，要以“HandleBy”打头命名。
+ *
+ * 5、那些需要被导出供外部调用使用的函数、类等等，一定要记得也要同时部署在“默认导出”中。
+ *
+ * 6、编程范式使用“函数式编程”，结合“JavaScript”编写，这样更好得便于被Webpack等工具进行“Tree-shaking”，只打包那些被使用的。
+ *
+ * 7、那些用于限定、描述数据类型的类型声明也要记得导出，以便供外部使用，如：export type T_MyString001 = string。
+ *
+ *
+ *
+ * 关于“严格模式”的注意事项：
+ * 1、'use strict'严格模式会在函数内部自动深度的传递严格模式的效果。
+ * 如：
+ * ```ts
+ * function Fun1( x ){
+ * 'use strict';
+ *
+ * function Fun2( y = 1 ){
+ * console.log( y );
+ *
+ * console.log( this );
+ * }
+ *
+ * Fun2();
+ * }
+ * ```
+ * 说明：
+ * Fun1里的'use strict'严格模式的效果会传递到Fun2内部！
+ * 但是，Fun1里的'use strict'严格模式却不会作用于Fun2的默认函数参数，但是Fun2里的this还是会为undefined！
+ * 所以，Fun1不可以设置默认函数参数，但是Fun2可以设置默认函数参数！
+ *
+ * 2、只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。
+ *
+ * 3、webpack编译后的JS代码会去掉多余的'use strict'，只保留编译前每个文件的顶级'use strict'。
+ *
+ * 4、class内部的方法中存在的'use strict'，在webpack编译后会被删除。
+ *
+ * 5、严格模式下的this还是可以通过apply、bind、call来设置的，否则还是undefined。
+ * 如：
+ * ```ts
+ * 'use strict';
+ *
+ * function Fun1(){
+ * 'use strict';
+ *
+ * console.dir( this );
+ * }
+ *
+ * Fun1.call( { a: 1, } ); // 输出：{ a: 1, }，而不是undefined。
+ * ```
+ *
+ *
+ *
  * 该工具经过了如下优化(以后的代码添加、修改都应该尽量遵循如下的优化标准)：
  * PS：
  * 只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。
@@ -20,34 +80,6 @@
  * 1、函数尾调用优化；
  * 2、算法时间复杂度优化；
  * 3、算法空间复杂度优化；
- */
-
-/*
- // 严格模式注意事项
- 1、
- 'use strict'严格模式会在函数内部自动深度的传递严格模式的效果。
- PS：
- function Fun1( x ){
- 'use strict';
- function Fun2( y = 1 ){
- console.log( y );
- }
- Fun2();
- }
- 说明：
- Fun1里的'use strict'严格模式的效果会传递到Fun2内部！！！
- 但是，Fun1里的'use strict'严格模式却不会作用于Fun2的默认函数参数！！！
- 所以，Fun1不可以设置默认函数参数，Fun2可以设置默认函数参数！！！
- 但是，严格模式下的this还是可以通过call、bind等等来设置的！！！
-
- 2、
- 只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。
-
- 3、
- webpack编译后的JS代码会去掉多余的'use strict'，只保留编译前每个文件的顶级'use strict'。
-
- 4、
- class内部的方法中存在的'use strict'，在webpack编译后会被删除。
  */
 
 'use strict';

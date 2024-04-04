@@ -22,9 +22,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 118,
+					"line": 128,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L118"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L128"
 				}
 			],
 			"typeParameters": [
@@ -62,9 +62,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 122,
+									"line": 132,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L122"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L132"
 								}
 							],
 							"type": {
@@ -103,9 +103,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 131,
+									"line": 141,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L131"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L141"
 								}
 							],
 							"type": {
@@ -119,9 +119,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 131,
+											"line": 141,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L131"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L141"
 										}
 									],
 									"signatures": [
@@ -159,9 +159,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForDeno.esm.mts",
-																	"line": 131,
+																	"line": 141,
 																	"character": 16,
-																	"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L131"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L141"
 																}
 															],
 															"signatures": [
@@ -212,9 +212,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 118,
+							"line": 128,
 							"character": 29,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L118"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L128"
 						}
 					]
 				}
@@ -229,9 +229,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 142,
+					"line": 152,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 				}
 			],
 			"signatures": [
@@ -263,9 +263,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 142,
+							"line": 152,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 						}
 					],
 					"typeParameter": [
@@ -303,9 +303,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 142,
+											"line": 152,
 											"character": 43,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 										}
 									],
 									"signatures": [
@@ -318,9 +318,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 142,
+													"line": 152,
 													"character": 43,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 												}
 											],
 											"type": {
@@ -347,9 +347,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 142,
+									"line": 152,
 									"character": 54,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 								}
 							],
 							"signatures": [
@@ -398,9 +398,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 186,
+					"line": 196,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L186"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L196"
 				}
 			],
 			"typeParameters": [
@@ -438,9 +438,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 190,
+									"line": 200,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L190"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L200"
 								}
 							],
 							"type": {
@@ -479,9 +479,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 199,
+									"line": 209,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L199"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L209"
 								}
 							],
 							"type": {
@@ -495,9 +495,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 199,
+											"line": 209,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L199"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L209"
 										}
 									],
 									"signatures": [
@@ -535,9 +535,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForDeno.esm.mts",
-																	"line": 199,
+																	"line": 209,
 																	"character": 16,
-																	"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L199"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L209"
 																}
 															],
 															"signatures": [
@@ -588,9 +588,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 186,
+							"line": 196,
 							"character": 37,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L186"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L196"
 						}
 					]
 				}
@@ -605,9 +605,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 217,
+					"line": 227,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 				}
 			],
 			"signatures": [
@@ -639,9 +639,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 217,
+							"line": 227,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 						}
 					],
 					"typeParameter": [
@@ -679,9 +679,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 217,
+											"line": 227,
 											"character": 51,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 										}
 									],
 									"signatures": [
@@ -694,9 +694,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 217,
+													"line": 227,
 													"character": 51,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 												}
 											],
 											"type": {
@@ -723,9 +723,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 217,
+									"line": 227,
 									"character": 62,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 								}
 							],
 							"signatures": [
@@ -766,9 +766,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 266,
+					"line": 276,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L266"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L276"
 				}
 			],
 			"signatures": [
@@ -800,9 +800,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 266,
+							"line": 276,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L266"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L276"
 						}
 					],
 					"parameters": [
@@ -847,9 +847,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 279,
+					"line": 289,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L279"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L289"
 				}
 			],
 			"signatures": [
@@ -881,9 +881,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 279,
+							"line": 289,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L279"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L289"
 						}
 					],
 					"parameters": [
@@ -936,9 +936,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 293,
+					"line": 303,
 					"character": 12,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L293"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L303"
 				}
 			],
 			"type": {
@@ -967,9 +967,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 297,
+									"line": 307,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L297"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L307"
 								}
 							],
 							"type": {
@@ -994,9 +994,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 301,
+									"line": 311,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L301"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L311"
 								}
 							],
 							"type": {
@@ -1021,9 +1021,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 305,
+									"line": 315,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L305"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L315"
 								}
 							],
 							"type": {
@@ -1048,9 +1048,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 309,
+									"line": 319,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L309"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L319"
 								}
 							],
 							"type": {
@@ -1075,9 +1075,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 313,
+									"line": 323,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L313"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L323"
 								}
 							],
 							"type": {
@@ -1102,9 +1102,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 317,
+									"line": 327,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L317"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L327"
 								}
 							],
 							"type": {
@@ -1129,9 +1129,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 321,
+									"line": 331,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L321"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L331"
 								}
 							],
 							"type": {
@@ -1157,9 +1157,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 293,
+							"line": 303,
 							"character": 36,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L293"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L303"
 						}
 					]
 				}
@@ -1174,9 +1174,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 331,
+					"line": 341,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L331"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L341"
 				}
 			],
 			"signatures": [
@@ -1208,9 +1208,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 331,
+							"line": 341,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L331"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L341"
 						}
 					],
 					"parameters": [
@@ -1258,9 +1258,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 367,
+					"line": 377,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L367"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L377"
 				}
 			],
 			"signatures": [
@@ -1292,9 +1292,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 367,
+							"line": 377,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L367"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L377"
 						}
 					],
 					"parameters": [
@@ -1334,9 +1334,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 380,
+					"line": 390,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L380"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L390"
 				}
 			],
 			"signatures": [
@@ -1368,9 +1368,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 380,
+							"line": 390,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L380"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L390"
 						}
 					],
 					"parameters": [
@@ -1410,9 +1410,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 393,
+					"line": 403,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L393"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L403"
 				}
 			],
 			"signatures": [
@@ -1444,9 +1444,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 393,
+							"line": 403,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L393"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L403"
 						}
 					],
 					"parameters": [
@@ -1486,9 +1486,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 404,
+					"line": 414,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L404"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L414"
 				}
 			],
 			"signatures": [
@@ -1520,9 +1520,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 404,
+							"line": 414,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L404"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L414"
 						}
 					],
 					"parameters": [
@@ -1562,9 +1562,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 421,
+					"line": 431,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L421"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L431"
 				}
 			],
 			"signatures": [
@@ -1596,9 +1596,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 421,
+							"line": 431,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L421"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L431"
 						}
 					],
 					"parameters": [
@@ -1665,9 +1665,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 438,
+					"line": 448,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L438"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L448"
 				}
 			],
 			"signatures": [
@@ -1699,9 +1699,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 438,
+							"line": 448,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L438"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L448"
 						}
 					],
 					"parameters": [
@@ -1768,9 +1768,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 455,
+					"line": 465,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L455"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L465"
 				}
 			],
 			"signatures": [
@@ -1802,9 +1802,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 455,
+							"line": 465,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L455"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L465"
 						}
 					],
 					"parameters": [
@@ -1871,9 +1871,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 472,
+					"line": 482,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L472"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L482"
 				}
 			],
 			"signatures": [
@@ -1905,9 +1905,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 472,
+							"line": 482,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L472"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L482"
 						}
 					],
 					"parameters": [
@@ -1977,9 +1977,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 496,
+					"line": 506,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L496"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L506"
 				}
 			],
 			"signatures": [
@@ -2011,9 +2011,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 496,
+							"line": 506,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L496"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L506"
 						}
 					],
 					"parameters": [
@@ -2083,9 +2083,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 523,
+					"line": 533,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L523"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L533"
 				}
 			],
 			"signatures": [
@@ -2117,9 +2117,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 523,
+							"line": 533,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L523"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L533"
 						}
 					],
 					"parameters": [
@@ -2189,9 +2189,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 542,
+					"line": 552,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L542"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L552"
 				}
 			],
 			"signatures": [
@@ -2223,9 +2223,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 542,
+							"line": 552,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L542"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L552"
 						}
 					],
 					"parameters": [
@@ -2312,9 +2312,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 570,
+							"line": 580,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L570"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L580"
 						}
 					],
 					"type": {
@@ -2328,9 +2328,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 570,
+									"line": 580,
 									"character": 12,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L570"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L580"
 								}
 							],
 							"indexSignature": {
@@ -2342,9 +2342,9 @@
 								"sources": [
 									{
 										"fileName": "UniversalToolForDeno.esm.mts",
-										"line": 571,
+										"line": 581,
 										"character": 4,
-										"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L571"
+										"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L581"
 									}
 								],
 								"parameters": [
@@ -2381,9 +2381,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 579,
+							"line": 589,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L579"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L589"
 						}
 					],
 					"type": {
@@ -2397,9 +2397,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 579,
+									"line": 589,
 									"character": 19,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L579"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L589"
 								}
 							],
 							"indexSignature": {
@@ -2411,9 +2411,9 @@
 								"sources": [
 									{
 										"fileName": "UniversalToolForDeno.esm.mts",
-										"line": 580,
+										"line": 590,
 										"character": 4,
-										"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L580"
+										"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L590"
 									}
 								],
 								"parameters": [
@@ -2449,9 +2449,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 601,
+							"line": 611,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L601"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L611"
 						}
 					],
 					"signatures": [
@@ -2472,9 +2472,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 601,
+									"line": 611,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L601"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L611"
 								}
 							],
 							"parameters": [
@@ -2518,9 +2518,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForDeno.esm.mts",
-															"line": 605,
+															"line": 615,
 															"character": 4,
-															"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L605"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L615"
 														}
 													],
 													"type": {
@@ -2566,9 +2566,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForDeno.esm.mts",
-															"line": 606,
+															"line": 616,
 															"character": 4,
-															"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L606"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L616"
 														}
 													],
 													"type": {
@@ -2610,9 +2610,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 604,
+													"line": 614,
 													"character": 5,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L604"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L614"
 												}
 											]
 										}
@@ -2640,9 +2640,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 635,
+							"line": 645,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L635"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L645"
 						}
 					],
 					"signatures": [
@@ -2663,9 +2663,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 635,
+									"line": 645,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L635"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L645"
 								}
 							],
 							"type": {
@@ -2686,9 +2686,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 648,
+							"line": 658,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L648"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L658"
 						}
 					],
 					"signatures": [
@@ -2709,9 +2709,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 648,
+									"line": 658,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L648"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L658"
 								}
 							],
 							"parameters": [
@@ -2756,9 +2756,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 659,
+							"line": 669,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L659"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L669"
 						}
 					],
 					"signatures": [
@@ -2779,9 +2779,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 659,
+									"line": 669,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L659"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L669"
 								}
 							],
 							"parameters": [
@@ -2823,9 +2823,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 670,
+							"line": 680,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L670"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L680"
 						}
 					],
 					"signatures": [
@@ -2846,9 +2846,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 670,
+									"line": 680,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L670"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L680"
 								}
 							],
 							"parameters": [
@@ -2890,9 +2890,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 685,
+							"line": 695,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L685"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L695"
 						}
 					],
 					"signatures": [
@@ -2913,9 +2913,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 685,
+									"line": 695,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L685"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L695"
 								}
 							],
 							"parameters": [
@@ -2960,9 +2960,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 696,
+							"line": 706,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L696"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L706"
 						}
 					],
 					"signatures": [
@@ -2983,9 +2983,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 696,
+									"line": 706,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L696"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L706"
 								}
 							],
 							"parameters": [
@@ -3027,9 +3027,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 707,
+							"line": 717,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L707"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L717"
 						}
 					],
 					"signatures": [
@@ -3050,9 +3050,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 707,
+									"line": 717,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L707"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L717"
 								}
 							],
 							"parameters": [
@@ -3094,9 +3094,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 726,
+							"line": 736,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L726"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L736"
 						}
 					],
 					"signatures": [
@@ -3121,9 +3121,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 726,
+									"line": 736,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L726"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L736"
 								}
 							],
 							"parameters": [
@@ -3165,9 +3165,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 739,
+							"line": 749,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L739"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L749"
 						}
 					],
 					"signatures": [
@@ -3192,9 +3192,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 739,
+									"line": 749,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L739"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L749"
 								}
 							],
 							"parameters": [
@@ -3236,9 +3236,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 752,
+							"line": 762,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L752"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L762"
 						}
 					],
 					"signatures": [
@@ -3263,9 +3263,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 752,
+									"line": 762,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L752"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L762"
 								}
 							],
 							"parameters": [
@@ -3307,9 +3307,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 765,
+							"line": 775,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L765"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L775"
 						}
 					],
 					"signatures": [
@@ -3334,9 +3334,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 765,
+									"line": 775,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L765"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L775"
 								}
 							],
 							"parameters": [
@@ -3378,9 +3378,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 778,
+							"line": 788,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L778"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L788"
 						}
 					],
 					"signatures": [
@@ -3405,9 +3405,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 778,
+									"line": 788,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L778"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L788"
 								}
 							],
 							"parameters": [
@@ -3449,9 +3449,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 791,
+							"line": 801,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L791"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L801"
 						}
 					],
 					"signatures": [
@@ -3476,9 +3476,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 791,
+									"line": 801,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L791"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L801"
 								}
 							],
 							"parameters": [
@@ -3520,9 +3520,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 804,
+							"line": 814,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L804"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L814"
 						}
 					],
 					"signatures": [
@@ -3547,9 +3547,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 804,
+									"line": 814,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L804"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L814"
 								}
 							],
 							"parameters": [
@@ -3591,9 +3591,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 817,
+							"line": 827,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L817"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L827"
 						}
 					],
 					"signatures": [
@@ -3618,9 +3618,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 817,
+									"line": 827,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L817"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L827"
 								}
 							],
 							"parameters": [
@@ -3662,9 +3662,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 830,
+							"line": 840,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L830"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L840"
 						}
 					],
 					"signatures": [
@@ -3689,9 +3689,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 830,
+									"line": 840,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L830"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L840"
 								}
 							],
 							"parameters": [
@@ -3734,9 +3734,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 843,
+							"line": 853,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L843"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L853"
 						}
 					],
 					"signatures": [
@@ -3761,9 +3761,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 843,
+									"line": 853,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L843"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L853"
 								}
 							],
 							"parameters": [
@@ -3806,9 +3806,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 856,
+							"line": 866,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L856"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L866"
 						}
 					],
 					"signatures": [
@@ -3833,9 +3833,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 856,
+									"line": 866,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L856"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L866"
 								}
 							],
 							"parameters": [
@@ -3878,9 +3878,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 869,
+							"line": 879,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L869"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L879"
 						}
 					],
 					"signatures": [
@@ -3905,9 +3905,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 869,
+									"line": 879,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L869"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L879"
 								}
 							],
 							"parameters": [
@@ -3950,9 +3950,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 882,
+							"line": 892,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L882"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L892"
 						}
 					],
 					"signatures": [
@@ -3977,9 +3977,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 882,
+									"line": 892,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L882"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L892"
 								}
 							],
 							"parameters": [
@@ -4022,9 +4022,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 895,
+							"line": 905,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L895"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L905"
 						}
 					],
 					"signatures": [
@@ -4049,9 +4049,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 895,
+									"line": 905,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L895"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L905"
 								}
 							],
 							"parameters": [
@@ -4094,9 +4094,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 908,
+							"line": 918,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L908"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L918"
 						}
 					],
 					"signatures": [
@@ -4121,9 +4121,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 908,
+									"line": 918,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L908"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L918"
 								}
 							],
 							"parameters": [
@@ -4166,9 +4166,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 921,
+							"line": 931,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L921"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L931"
 						}
 					],
 					"signatures": [
@@ -4193,9 +4193,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 921,
+									"line": 931,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L921"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L931"
 								}
 							],
 							"parameters": [
@@ -4238,9 +4238,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 934,
+							"line": 944,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L934"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L944"
 						}
 					],
 					"signatures": [
@@ -4265,9 +4265,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 934,
+									"line": 944,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L934"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L944"
 								}
 							],
 							"parameters": [
@@ -4310,9 +4310,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 947,
+							"line": 957,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L947"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L957"
 						}
 					],
 					"signatures": [
@@ -4337,9 +4337,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 947,
+									"line": 957,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L947"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L957"
 								}
 							],
 							"parameters": [
@@ -4381,9 +4381,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 964,
+							"line": 974,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L964"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L974"
 						}
 					],
 					"signatures": [
@@ -4408,9 +4408,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 964,
+									"line": 974,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L964"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L974"
 								}
 							],
 							"parameters": [
@@ -4452,9 +4452,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 977,
+							"line": 987,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L977"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L987"
 						}
 					],
 					"signatures": [
@@ -4479,9 +4479,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 977,
+									"line": 987,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L977"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L987"
 								}
 							],
 							"parameters": [
@@ -4523,9 +4523,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 990,
+							"line": 1000,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L990"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1000"
 						}
 					],
 					"signatures": [
@@ -4550,9 +4550,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 990,
+									"line": 1000,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L990"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1000"
 								}
 							],
 							"parameters": [
@@ -4594,9 +4594,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1003,
+							"line": 1013,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1003"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1013"
 						}
 					],
 					"signatures": [
@@ -4621,9 +4621,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1003,
+									"line": 1013,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1003"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1013"
 								}
 							],
 							"parameters": [
@@ -4665,9 +4665,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1016,
+							"line": 1026,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1016"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1026"
 						}
 					],
 					"signatures": [
@@ -4692,9 +4692,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1016,
+									"line": 1026,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1016"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1026"
 								}
 							],
 							"parameters": [
@@ -4736,9 +4736,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1029,
+							"line": 1039,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1029"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1039"
 						}
 					],
 					"signatures": [
@@ -4763,9 +4763,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1029,
+									"line": 1039,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1029"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1039"
 								}
 							],
 							"parameters": [
@@ -4807,9 +4807,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1042,
+							"line": 1052,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1042"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1052"
 						}
 					],
 					"signatures": [
@@ -4834,9 +4834,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1042,
+									"line": 1052,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1042"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1052"
 								}
 							],
 							"parameters": [
@@ -4878,9 +4878,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1055,
+							"line": 1065,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1055"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1065"
 						}
 					],
 					"signatures": [
@@ -4905,9 +4905,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1055,
+									"line": 1065,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1055"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1065"
 								}
 							],
 							"parameters": [
@@ -4949,9 +4949,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1068,
+							"line": 1078,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1068"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1078"
 						}
 					],
 					"signatures": [
@@ -4976,9 +4976,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1068,
+									"line": 1078,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1068"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1078"
 								}
 							],
 							"parameters": [
@@ -5020,9 +5020,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1081,
+							"line": 1091,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1081"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1091"
 						}
 					],
 					"signatures": [
@@ -5047,9 +5047,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1081,
+									"line": 1091,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1081"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1091"
 								}
 							],
 							"parameters": [
@@ -5091,9 +5091,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1094,
+							"line": 1104,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1094"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1104"
 						}
 					],
 					"signatures": [
@@ -5118,9 +5118,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1094,
+									"line": 1104,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1094"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1104"
 								}
 							],
 							"parameters": [
@@ -5162,9 +5162,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1107,
+							"line": 1117,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1107"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1117"
 						}
 					],
 					"signatures": [
@@ -5189,9 +5189,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1107,
+									"line": 1117,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1107"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1117"
 								}
 							],
 							"parameters": [
@@ -5233,9 +5233,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1120,
+							"line": 1130,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1120"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1130"
 						}
 					],
 					"signatures": [
@@ -5260,9 +5260,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1120,
+									"line": 1130,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1120"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1130"
 								}
 							],
 							"parameters": [
@@ -5304,9 +5304,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1133,
+							"line": 1143,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1133"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1143"
 						}
 					],
 					"signatures": [
@@ -5331,9 +5331,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1133,
+									"line": 1143,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1133"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1143"
 								}
 							],
 							"parameters": [
@@ -5375,9 +5375,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1146,
+							"line": 1156,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1146"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1156"
 						}
 					],
 					"signatures": [
@@ -5402,9 +5402,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1146,
+									"line": 1156,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1146"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1156"
 								}
 							],
 							"parameters": [
@@ -5446,9 +5446,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1159,
+							"line": 1169,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1159"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1169"
 						}
 					],
 					"signatures": [
@@ -5473,9 +5473,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1159,
+									"line": 1169,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1159"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1169"
 								}
 							],
 							"parameters": [
@@ -5517,9 +5517,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1172,
+							"line": 1182,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1172"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1182"
 						}
 					],
 					"signatures": [
@@ -5544,9 +5544,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1172,
+									"line": 1182,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1172"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1182"
 								}
 							],
 							"parameters": [
@@ -5588,9 +5588,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1185,
+							"line": 1195,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1185"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1195"
 						}
 					],
 					"signatures": [
@@ -5615,9 +5615,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1185,
+									"line": 1195,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1185"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1195"
 								}
 							],
 							"parameters": [
@@ -5660,9 +5660,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1198,
+							"line": 1208,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1198"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1208"
 						}
 					],
 					"signatures": [
@@ -5687,9 +5687,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1198,
+									"line": 1208,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1198"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1208"
 								}
 							],
 							"parameters": [
@@ -5732,9 +5732,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1211,
+							"line": 1221,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1211"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1221"
 						}
 					],
 					"signatures": [
@@ -5759,9 +5759,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1211,
+									"line": 1221,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1211"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1221"
 								}
 							],
 							"parameters": [
@@ -5804,9 +5804,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1224,
+							"line": 1234,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1224"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1234"
 						}
 					],
 					"signatures": [
@@ -5831,9 +5831,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1224,
+									"line": 1234,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1224"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1234"
 								}
 							],
 							"parameters": [
@@ -5876,9 +5876,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1237,
+							"line": 1247,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1237"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1247"
 						}
 					],
 					"signatures": [
@@ -5903,9 +5903,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1237,
+									"line": 1247,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1237"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1247"
 								}
 							],
 							"parameters": [
@@ -5948,9 +5948,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1250,
+							"line": 1260,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1250"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1260"
 						}
 					],
 					"signatures": [
@@ -5975,9 +5975,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1250,
+									"line": 1260,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1250"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1260"
 								}
 							],
 							"parameters": [
@@ -6020,9 +6020,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1263,
+							"line": 1273,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1263"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1273"
 						}
 					],
 					"signatures": [
@@ -6047,9 +6047,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1263,
+									"line": 1273,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1263"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1273"
 								}
 							],
 							"parameters": [
@@ -6092,9 +6092,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1276,
+							"line": 1286,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1276"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1286"
 						}
 					],
 					"signatures": [
@@ -6119,9 +6119,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1276,
+									"line": 1286,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1276"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1286"
 								}
 							],
 							"parameters": [
@@ -6164,9 +6164,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1289,
+							"line": 1299,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1289"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1299"
 						}
 					],
 					"signatures": [
@@ -6191,9 +6191,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1289,
+									"line": 1299,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1289"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1299"
 								}
 							],
 							"parameters": [
@@ -6236,9 +6236,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1302,
+							"line": 1312,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1302"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1312"
 						}
 					],
 					"signatures": [
@@ -6263,9 +6263,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1302,
+									"line": 1312,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1302"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1312"
 								}
 							],
 							"parameters": [
@@ -6308,9 +6308,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1315,
+							"line": 1325,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1315"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1325"
 						}
 					],
 					"signatures": [
@@ -6335,9 +6335,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1315,
+									"line": 1325,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1315"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1325"
 								}
 							],
 							"parameters": [
@@ -6380,9 +6380,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1328,
+							"line": 1338,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1328"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1338"
 						}
 					],
 					"signatures": [
@@ -6407,9 +6407,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1328,
+									"line": 1338,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1328"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1338"
 								}
 							],
 							"parameters": [
@@ -6452,9 +6452,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1341,
+							"line": 1351,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1341"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1351"
 						}
 					],
 					"signatures": [
@@ -6479,9 +6479,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1341,
+									"line": 1351,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1341"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1351"
 								}
 							],
 							"parameters": [
@@ -6524,9 +6524,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1354,
+							"line": 1364,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1354"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1364"
 						}
 					],
 					"signatures": [
@@ -6551,9 +6551,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1354,
+									"line": 1364,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1354"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1364"
 								}
 							],
 							"parameters": [
@@ -6596,9 +6596,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1367,
+							"line": 1377,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1367"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1377"
 						}
 					],
 					"signatures": [
@@ -6623,9 +6623,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1367,
+									"line": 1377,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1367"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1377"
 								}
 							],
 							"parameters": [
@@ -6668,9 +6668,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1380,
+							"line": 1390,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1380"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1390"
 						}
 					],
 					"signatures": [
@@ -6695,9 +6695,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1380,
+									"line": 1390,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1380"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1390"
 								}
 							],
 							"parameters": [
@@ -6740,9 +6740,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1393,
+							"line": 1403,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1393"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1403"
 						}
 					],
 					"signatures": [
@@ -6767,9 +6767,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1393,
+									"line": 1403,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1393"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1403"
 								}
 							],
 							"parameters": [
@@ -6812,9 +6812,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1406,
+							"line": 1416,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1406"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1416"
 						}
 					],
 					"signatures": [
@@ -6839,9 +6839,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1406,
+									"line": 1416,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1406"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1416"
 								}
 							],
 							"parameters": [
@@ -6884,9 +6884,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1419,
+							"line": 1429,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1419"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1429"
 						}
 					],
 					"signatures": [
@@ -6911,9 +6911,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1419,
+									"line": 1429,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1419"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1429"
 								}
 							],
 							"parameters": [
@@ -6955,9 +6955,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1436,
+							"line": 1446,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1436"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1446"
 						}
 					],
 					"signatures": [
@@ -6982,9 +6982,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1436,
+									"line": 1446,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1436"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1446"
 								}
 							],
 							"parameters": [
@@ -7026,9 +7026,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1449,
+							"line": 1459,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1449"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1459"
 						}
 					],
 					"signatures": [
@@ -7053,9 +7053,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1449,
+									"line": 1459,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1449"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1459"
 								}
 							],
 							"parameters": [
@@ -7097,9 +7097,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1462,
+							"line": 1472,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1462"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1472"
 						}
 					],
 					"signatures": [
@@ -7124,9 +7124,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1462,
+									"line": 1472,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1462"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1472"
 								}
 							],
 							"parameters": [
@@ -7168,9 +7168,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1475,
+							"line": 1485,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1475"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1485"
 						}
 					],
 					"signatures": [
@@ -7195,9 +7195,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1475,
+									"line": 1485,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1475"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1485"
 								}
 							],
 							"parameters": [
@@ -7239,9 +7239,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1488,
+							"line": 1498,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1488"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1498"
 						}
 					],
 					"signatures": [
@@ -7266,9 +7266,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1488,
+									"line": 1498,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1488"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1498"
 								}
 							],
 							"parameters": [
@@ -7310,9 +7310,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1501,
+							"line": 1511,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1501"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1511"
 						}
 					],
 					"signatures": [
@@ -7337,9 +7337,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1501,
+									"line": 1511,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1501"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1511"
 								}
 							],
 							"parameters": [
@@ -7381,9 +7381,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1514,
+							"line": 1524,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1514"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1524"
 						}
 					],
 					"signatures": [
@@ -7408,9 +7408,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1514,
+									"line": 1524,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1514"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1524"
 								}
 							],
 							"parameters": [
@@ -7452,9 +7452,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1527,
+							"line": 1537,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1527"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1537"
 						}
 					],
 					"signatures": [
@@ -7479,9 +7479,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1527,
+									"line": 1537,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1527"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1537"
 								}
 							],
 							"parameters": [
@@ -7523,9 +7523,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1540,
+							"line": 1550,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1540"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1550"
 						}
 					],
 					"signatures": [
@@ -7550,9 +7550,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1540,
+									"line": 1550,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1540"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1550"
 								}
 							],
 							"parameters": [
@@ -7594,9 +7594,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1553,
+							"line": 1563,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1553"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1563"
 						}
 					],
 					"signatures": [
@@ -7621,9 +7621,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1553,
+									"line": 1563,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1553"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1563"
 								}
 							],
 							"parameters": [
@@ -7665,9 +7665,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1566,
+							"line": 1576,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1566"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1576"
 						}
 					],
 					"signatures": [
@@ -7692,9 +7692,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1566,
+									"line": 1576,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1566"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1576"
 								}
 							],
 							"parameters": [
@@ -7736,9 +7736,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1579,
+							"line": 1589,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1579"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1589"
 						}
 					],
 					"signatures": [
@@ -7763,9 +7763,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1579,
+									"line": 1589,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1579"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1589"
 								}
 							],
 							"parameters": [
@@ -7807,9 +7807,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1592,
+							"line": 1602,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1592"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1602"
 						}
 					],
 					"signatures": [
@@ -7834,9 +7834,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1592,
+									"line": 1602,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1592"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1602"
 								}
 							],
 							"parameters": [
@@ -7878,9 +7878,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1605,
+							"line": 1615,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1605"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1615"
 						}
 					],
 					"signatures": [
@@ -7905,9 +7905,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1605,
+									"line": 1615,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1605"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1615"
 								}
 							],
 							"parameters": [
@@ -7949,9 +7949,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1618,
+							"line": 1628,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1618"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1628"
 						}
 					],
 					"signatures": [
@@ -7976,9 +7976,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1618,
+									"line": 1628,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1618"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1628"
 								}
 							],
 							"parameters": [
@@ -8020,9 +8020,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1631,
+							"line": 1641,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1631"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1641"
 						}
 					],
 					"signatures": [
@@ -8047,9 +8047,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1631,
+									"line": 1641,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1631"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1641"
 								}
 							],
 							"parameters": [
@@ -8091,9 +8091,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1644,
+							"line": 1654,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1644"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1654"
 						}
 					],
 					"signatures": [
@@ -8118,9 +8118,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1644,
+									"line": 1654,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1644"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1654"
 								}
 							],
 							"parameters": [
@@ -8162,9 +8162,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1657,
+							"line": 1667,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1657"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1667"
 						}
 					],
 					"signatures": [
@@ -8189,9 +8189,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1657,
+									"line": 1667,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1657"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1667"
 								}
 							],
 							"parameters": [
@@ -8234,9 +8234,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1670,
+							"line": 1680,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1670"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1680"
 						}
 					],
 					"signatures": [
@@ -8261,9 +8261,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1670,
+									"line": 1680,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1670"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1680"
 								}
 							],
 							"parameters": [
@@ -8306,9 +8306,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1683,
+							"line": 1693,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1683"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1693"
 						}
 					],
 					"signatures": [
@@ -8333,9 +8333,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1683,
+									"line": 1693,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1683"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1693"
 								}
 							],
 							"parameters": [
@@ -8378,9 +8378,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1696,
+							"line": 1706,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1696"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1706"
 						}
 					],
 					"signatures": [
@@ -8405,9 +8405,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1696,
+									"line": 1706,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1696"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1706"
 								}
 							],
 							"parameters": [
@@ -8450,9 +8450,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1709,
+							"line": 1719,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1709"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1719"
 						}
 					],
 					"signatures": [
@@ -8477,9 +8477,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1709,
+									"line": 1719,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1709"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1719"
 								}
 							],
 							"parameters": [
@@ -8522,9 +8522,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1722,
+							"line": 1732,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1722"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1732"
 						}
 					],
 					"signatures": [
@@ -8549,9 +8549,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1722,
+									"line": 1732,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1722"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1732"
 								}
 							],
 							"parameters": [
@@ -8594,9 +8594,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1735,
+							"line": 1745,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1735"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1745"
 						}
 					],
 					"signatures": [
@@ -8621,9 +8621,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1735,
+									"line": 1745,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1735"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1745"
 								}
 							],
 							"parameters": [
@@ -8666,9 +8666,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1748,
+							"line": 1758,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1748"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1758"
 						}
 					],
 					"signatures": [
@@ -8693,9 +8693,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1748,
+									"line": 1758,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1748"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1758"
 								}
 							],
 							"parameters": [
@@ -8738,9 +8738,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1761,
+							"line": 1771,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1761"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1771"
 						}
 					],
 					"signatures": [
@@ -8765,9 +8765,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1761,
+									"line": 1771,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1761"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1771"
 								}
 							],
 							"parameters": [
@@ -8810,9 +8810,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1774,
+							"line": 1784,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1774"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1784"
 						}
 					],
 					"signatures": [
@@ -8837,9 +8837,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1774,
+									"line": 1784,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1774"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1784"
 								}
 							],
 							"parameters": [
@@ -8882,9 +8882,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1787,
+							"line": 1797,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1787"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1797"
 						}
 					],
 					"signatures": [
@@ -8909,9 +8909,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1787,
+									"line": 1797,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1787"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1797"
 								}
 							],
 							"parameters": [
@@ -8954,9 +8954,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1800,
+							"line": 1810,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1800"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1810"
 						}
 					],
 					"signatures": [
@@ -8981,9 +8981,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1800,
+									"line": 1810,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1800"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1810"
 								}
 							],
 							"parameters": [
@@ -9026,9 +9026,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1813,
+							"line": 1823,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1813"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1823"
 						}
 					],
 					"signatures": [
@@ -9053,9 +9053,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1813,
+									"line": 1823,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1813"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1823"
 								}
 							],
 							"parameters": [
@@ -9098,9 +9098,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1826,
+							"line": 1836,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1826"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1836"
 						}
 					],
 					"signatures": [
@@ -9125,9 +9125,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1826,
+									"line": 1836,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1826"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1836"
 								}
 							],
 							"parameters": [
@@ -9170,9 +9170,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1839,
+							"line": 1849,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1839"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1849"
 						}
 					],
 					"signatures": [
@@ -9197,9 +9197,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1839,
+									"line": 1849,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1839"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1849"
 								}
 							],
 							"parameters": [
@@ -9242,9 +9242,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1852,
+							"line": 1862,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1852"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1862"
 						}
 					],
 					"signatures": [
@@ -9269,9 +9269,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1852,
+									"line": 1862,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1852"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1862"
 								}
 							],
 							"parameters": [
@@ -9314,9 +9314,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1865,
+							"line": 1875,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1865"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1875"
 						}
 					],
 					"signatures": [
@@ -9341,9 +9341,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1865,
+									"line": 1875,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1865"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1875"
 								}
 							],
 							"parameters": [
@@ -9386,9 +9386,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1878,
+							"line": 1888,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1878"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1888"
 						}
 					],
 					"signatures": [
@@ -9413,9 +9413,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1878,
+									"line": 1888,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1878"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1888"
 								}
 							],
 							"parameters": [
@@ -9458,9 +9458,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1891,
+							"line": 1901,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1891"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1901"
 						}
 					],
 					"signatures": [
@@ -9485,9 +9485,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1891,
+									"line": 1901,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1891"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1901"
 								}
 							],
 							"parameters": [
@@ -9639,9 +9639,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 563,
+					"line": 573,
 					"character": 13,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L563"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L573"
 				}
 			]
 		},
@@ -9662,9 +9662,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForDeno.esm.mts",
-					"line": 1902,
+					"line": 1912,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1902"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1912"
 				}
 			],
 			"type": {
@@ -9685,9 +9685,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1904,
+									"line": 1914,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1904"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1914"
 								}
 							],
 							"type": {
@@ -9701,9 +9701,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 142,
+											"line": 152,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 										}
 									],
 									"signatures": [
@@ -9735,9 +9735,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 142,
+													"line": 152,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 												}
 											],
 											"typeParameter": [
@@ -9775,9 +9775,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForDeno.esm.mts",
-																	"line": 142,
+																	"line": 152,
 																	"character": 43,
-																	"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 																}
 															],
 															"signatures": [
@@ -9790,9 +9790,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalToolForDeno.esm.mts",
-																			"line": 142,
+																			"line": 152,
 																			"character": 43,
-																			"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+																			"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 																		}
 																	],
 																	"type": {
@@ -9819,9 +9819,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForDeno.esm.mts",
-															"line": 142,
+															"line": 152,
 															"character": 54,
-															"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L142"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L152"
 														}
 													],
 													"signatures": [
@@ -9864,9 +9864,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1905,
+									"line": 1915,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1905"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1915"
 								}
 							],
 							"type": {
@@ -9880,9 +9880,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 217,
+											"line": 227,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 										}
 									],
 									"signatures": [
@@ -9914,9 +9914,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 217,
+													"line": 227,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 												}
 											],
 											"typeParameter": [
@@ -9954,9 +9954,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForDeno.esm.mts",
-																	"line": 217,
+																	"line": 227,
 																	"character": 51,
-																	"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 																}
 															],
 															"signatures": [
@@ -9969,9 +9969,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalToolForDeno.esm.mts",
-																			"line": 217,
+																			"line": 227,
 																			"character": 51,
-																			"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+																			"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 																		}
 																	],
 																	"type": {
@@ -9998,9 +9998,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForDeno.esm.mts",
-															"line": 217,
+															"line": 227,
 															"character": 62,
-															"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L217"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L227"
 														}
 													],
 													"signatures": [
@@ -10043,9 +10043,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1909,
+									"line": 1919,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1909"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1919"
 								}
 							],
 							"type": {
@@ -10059,9 +10059,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 266,
+											"line": 276,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L266"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L276"
 										}
 									],
 									"signatures": [
@@ -10093,9 +10093,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 266,
+													"line": 276,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L266"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L276"
 												}
 											],
 											"parameters": [
@@ -10142,9 +10142,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1910,
+									"line": 1920,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1910"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1920"
 								}
 							],
 							"type": {
@@ -10158,9 +10158,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 279,
+											"line": 289,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L279"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L289"
 										}
 									],
 									"signatures": [
@@ -10192,9 +10192,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 279,
+													"line": 289,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L279"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L289"
 												}
 											],
 											"parameters": [
@@ -10241,9 +10241,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1914,
+									"line": 1924,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1914"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1924"
 								}
 							],
 							"type": {
@@ -10257,9 +10257,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 331,
+											"line": 341,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L331"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L341"
 										}
 									],
 									"signatures": [
@@ -10291,9 +10291,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 331,
+													"line": 341,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L331"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L341"
 												}
 											],
 											"parameters": [
@@ -10343,9 +10343,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1918,
+									"line": 1928,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1918"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1928"
 								}
 							],
 							"type": {
@@ -10359,9 +10359,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 367,
+											"line": 377,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L367"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L377"
 										}
 									],
 									"signatures": [
@@ -10393,9 +10393,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 367,
+													"line": 377,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L367"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L377"
 												}
 											],
 											"parameters": [
@@ -10437,9 +10437,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1919,
+									"line": 1929,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1919"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1929"
 								}
 							],
 							"type": {
@@ -10453,9 +10453,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 380,
+											"line": 390,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L380"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L390"
 										}
 									],
 									"signatures": [
@@ -10487,9 +10487,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 380,
+													"line": 390,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L380"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L390"
 												}
 											],
 											"parameters": [
@@ -10531,9 +10531,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1920,
+									"line": 1930,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1920"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1930"
 								}
 							],
 							"type": {
@@ -10547,9 +10547,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 393,
+											"line": 403,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L393"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L403"
 										}
 									],
 									"signatures": [
@@ -10581,9 +10581,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 393,
+													"line": 403,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L393"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L403"
 												}
 											],
 											"parameters": [
@@ -10625,9 +10625,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1921,
+									"line": 1931,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1921"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1931"
 								}
 							],
 							"type": {
@@ -10641,9 +10641,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 404,
+											"line": 414,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L404"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L414"
 										}
 									],
 									"signatures": [
@@ -10675,9 +10675,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 404,
+													"line": 414,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L404"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L414"
 												}
 											],
 											"parameters": [
@@ -10719,9 +10719,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1925,
+									"line": 1935,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1925"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1935"
 								}
 							],
 							"type": {
@@ -10735,9 +10735,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 421,
+											"line": 431,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L421"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L431"
 										}
 									],
 									"signatures": [
@@ -10769,9 +10769,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 421,
+													"line": 431,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L421"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L431"
 												}
 											],
 											"parameters": [
@@ -10840,9 +10840,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1926,
+									"line": 1936,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1926"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1936"
 								}
 							],
 							"type": {
@@ -10856,9 +10856,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 438,
+											"line": 448,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L438"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L448"
 										}
 									],
 									"signatures": [
@@ -10890,9 +10890,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 438,
+													"line": 448,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L438"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L448"
 												}
 											],
 											"parameters": [
@@ -10961,9 +10961,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1927,
+									"line": 1937,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1927"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1937"
 								}
 							],
 							"type": {
@@ -10977,9 +10977,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 455,
+											"line": 465,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L455"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L465"
 										}
 									],
 									"signatures": [
@@ -11011,9 +11011,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 455,
+													"line": 465,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L455"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L465"
 												}
 											],
 											"parameters": [
@@ -11082,9 +11082,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1928,
+									"line": 1938,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1928"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1938"
 								}
 							],
 							"type": {
@@ -11098,9 +11098,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 472,
+											"line": 482,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L472"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L482"
 										}
 									],
 									"signatures": [
@@ -11132,9 +11132,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 472,
+													"line": 482,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L472"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L482"
 												}
 											],
 											"parameters": [
@@ -11206,9 +11206,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1929,
+									"line": 1939,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1929"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1939"
 								}
 							],
 							"type": {
@@ -11222,9 +11222,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 496,
+											"line": 506,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L496"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L506"
 										}
 									],
 									"signatures": [
@@ -11256,9 +11256,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 496,
+													"line": 506,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L496"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L506"
 												}
 											],
 											"parameters": [
@@ -11330,9 +11330,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1930,
+									"line": 1940,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1930"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1940"
 								}
 							],
 							"type": {
@@ -11346,9 +11346,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 523,
+											"line": 533,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L523"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L533"
 										}
 									],
 									"signatures": [
@@ -11380,9 +11380,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 523,
+													"line": 533,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L523"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L533"
 												}
 											],
 											"parameters": [
@@ -11454,9 +11454,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1931,
+									"line": 1941,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1931"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1941"
 								}
 							],
 							"type": {
@@ -11470,9 +11470,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForDeno.esm.mts",
-											"line": 542,
+											"line": 552,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L542"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L552"
 										}
 									],
 									"signatures": [
@@ -11504,9 +11504,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForDeno.esm.mts",
-													"line": 542,
+													"line": 552,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L542"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L552"
 												}
 											],
 											"parameters": [
@@ -11578,9 +11578,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForDeno.esm.mts",
-									"line": 1946,
+									"line": 1956,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1946"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1956"
 								}
 							],
 							"type": {
@@ -11621,9 +11621,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForDeno.esm.mts",
-							"line": 1902,
+							"line": 1912,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/19f2586/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1902"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/deno/src/tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts#L1912"
 						}
 					]
 				}

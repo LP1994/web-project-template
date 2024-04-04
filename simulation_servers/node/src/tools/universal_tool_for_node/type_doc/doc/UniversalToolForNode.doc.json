@@ -14,9 +14,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 118,
+					"line": 130,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L118"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L130"
 				}
 			],
 			"signatures": [
@@ -48,9 +48,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 118,
+							"line": 130,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L118"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L130"
 						}
 					],
 					"parameters": [
@@ -91,9 +91,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 129,
+					"line": 141,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L129"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L141"
 				}
 			],
 			"signatures": [
@@ -125,9 +125,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 129,
+							"line": 141,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L129"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L141"
 						}
 					],
 					"parameters": [
@@ -168,9 +168,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 145,
+					"line": 157,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L145"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L157"
 				}
 			],
 			"signatures": [
@@ -202,9 +202,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 145,
+							"line": 157,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L145"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L157"
 						}
 					],
 					"parameters": [
@@ -233,9 +233,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 140,
+											"line": 152,
 											"character": 11,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L140"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L152"
 										}
 									],
 									"signatures": [
@@ -248,9 +248,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 140,
+													"line": 152,
 													"character": 11,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L140"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L152"
 												}
 											],
 											"type": {
@@ -275,9 +275,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 142,
+									"line": 154,
 									"character": 13,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 								}
 							],
 							"signatures": [
@@ -290,9 +290,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 142,
+											"line": 154,
 											"character": 13,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 										}
 									],
 									"type": {
@@ -313,9 +313,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 142,
+															"line": 154,
 															"character": 21,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 														}
 													],
 													"type": {
@@ -339,9 +339,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 142,
+													"line": 154,
 													"character": 19,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 												}
 											]
 										}
@@ -362,9 +362,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 200,
+					"line": 212,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L200"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L212"
 				}
 			],
 			"signatures": [
@@ -396,9 +396,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 200,
+							"line": 212,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L200"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L212"
 						}
 					],
 					"parameters": [
@@ -427,9 +427,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 195,
+											"line": 207,
 											"character": 11,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L195"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L207"
 										}
 									],
 									"signatures": [
@@ -442,9 +442,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 195,
+													"line": 207,
 													"character": 11,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L195"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L207"
 												}
 											],
 											"type": {
@@ -468,9 +468,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 197,
+									"line": 209,
 									"character": 13,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 								}
 							],
 							"signatures": [
@@ -483,9 +483,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 197,
+											"line": 209,
 											"character": 13,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 										}
 									],
 									"type": {
@@ -506,9 +506,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 197,
+															"line": 209,
 															"character": 21,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 														}
 													],
 													"type": {
@@ -532,9 +532,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 197,
+													"line": 209,
 													"character": 19,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 												}
 											]
 										}
@@ -555,9 +555,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 248,
+					"line": 260,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L248"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L260"
 				}
 			],
 			"signatures": [
@@ -589,9 +589,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 248,
+							"line": 260,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L248"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L260"
 						}
 					],
 					"parameters": [
@@ -636,9 +636,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 261,
+					"line": 273,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L261"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L273"
 				}
 			],
 			"signatures": [
@@ -670,9 +670,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 261,
+							"line": 273,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L261"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L273"
 						}
 					],
 					"parameters": [
@@ -717,9 +717,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 278,
+					"line": 290,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L278"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L290"
 				}
 			],
 			"signatures": [
@@ -751,9 +751,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 278,
+							"line": 290,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L278"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L290"
 						}
 					],
 					"parameters": [
@@ -801,9 +801,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 14,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -820,9 +820,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 28,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -839,9 +839,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 43,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -858,9 +858,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 57,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -877,9 +877,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 72,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -896,9 +896,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 89,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -915,9 +915,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 276,
+											"line": 288,
 											"character": 106,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 										}
 									],
 									"type": {
@@ -943,9 +943,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 276,
+									"line": 288,
 									"character": 13,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 								}
 							]
 						}
@@ -962,9 +962,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 314,
+					"line": 326,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L314"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L326"
 				}
 			],
 			"signatures": [
@@ -996,9 +996,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 314,
+							"line": 326,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L314"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L326"
 						}
 					],
 					"parameters": [
@@ -1038,9 +1038,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 327,
+					"line": 339,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L327"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L339"
 				}
 			],
 			"signatures": [
@@ -1072,9 +1072,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 327,
+							"line": 339,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L327"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L339"
 						}
 					],
 					"parameters": [
@@ -1114,9 +1114,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 340,
+					"line": 352,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L340"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L352"
 				}
 			],
 			"signatures": [
@@ -1148,9 +1148,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 340,
+							"line": 352,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L340"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L352"
 						}
 					],
 					"parameters": [
@@ -1190,9 +1190,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 351,
+					"line": 363,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L351"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L363"
 				}
 			],
 			"signatures": [
@@ -1224,9 +1224,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 351,
+							"line": 363,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L351"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L363"
 						}
 					],
 					"parameters": [
@@ -1266,9 +1266,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 368,
+					"line": 380,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L368"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L380"
 				}
 			],
 			"signatures": [
@@ -1300,9 +1300,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 368,
+							"line": 380,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L368"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L380"
 						}
 					],
 					"parameters": [
@@ -1369,9 +1369,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 385,
+					"line": 397,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L385"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L397"
 				}
 			],
 			"signatures": [
@@ -1403,9 +1403,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 385,
+							"line": 397,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L385"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L397"
 						}
 					],
 					"parameters": [
@@ -1472,9 +1472,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 402,
+					"line": 414,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L402"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L414"
 				}
 			],
 			"signatures": [
@@ -1506,9 +1506,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 402,
+							"line": 414,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L402"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L414"
 						}
 					],
 					"parameters": [
@@ -1575,9 +1575,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 419,
+					"line": 431,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L419"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L431"
 				}
 			],
 			"signatures": [
@@ -1609,9 +1609,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 419,
+							"line": 431,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L419"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L431"
 						}
 					],
 					"parameters": [
@@ -1681,9 +1681,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 443,
+					"line": 455,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L443"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L455"
 				}
 			],
 			"signatures": [
@@ -1715,9 +1715,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 443,
+							"line": 455,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L443"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L455"
 						}
 					],
 					"parameters": [
@@ -1787,9 +1787,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 470,
+					"line": 482,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L470"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L482"
 				}
 			],
 			"signatures": [
@@ -1821,9 +1821,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 470,
+							"line": 482,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L470"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L482"
 						}
 					],
 					"parameters": [
@@ -1893,9 +1893,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 489,
+					"line": 501,
 					"character": 16,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L489"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L501"
 				}
 			],
 			"signatures": [
@@ -1927,9 +1927,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 489,
+							"line": 501,
 							"character": 16,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L489"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L501"
 						}
 					],
 					"parameters": [
@@ -2016,9 +2016,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 513,
+							"line": 525,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L513"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L525"
 						}
 					],
 					"type": {
@@ -2043,9 +2043,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 520,
+							"line": 532,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L520"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L532"
 						}
 					],
 					"type": {
@@ -2067,9 +2067,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 536,
+							"line": 548,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L536"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L548"
 						}
 					],
 					"signatures": [
@@ -2090,9 +2090,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 536,
+									"line": 548,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L536"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L548"
 								}
 							],
 							"parameters": [
@@ -2136,9 +2136,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 532,
+															"line": 544,
 															"character": 5,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L532"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L544"
 														}
 													],
 													"type": {
@@ -2184,9 +2184,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 534,
+															"line": 546,
 															"character": 5,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L534"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L546"
 														}
 													],
 													"type": {
@@ -2228,9 +2228,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 532,
+													"line": 544,
 													"character": 5,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L532"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L544"
 												}
 											]
 										}
@@ -2256,9 +2256,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 567,
+							"line": 579,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L567"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L579"
 						}
 					],
 					"signatures": [
@@ -2279,9 +2279,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 567,
+									"line": 579,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L567"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L579"
 								}
 							],
 							"type": {
@@ -2300,9 +2300,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 580,
+							"line": 592,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L580"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L592"
 						}
 					],
 					"signatures": [
@@ -2323,9 +2323,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 580,
+									"line": 592,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L580"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L592"
 								}
 							],
 							"parameters": [
@@ -2368,9 +2368,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 591,
+							"line": 603,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L591"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L603"
 						}
 					],
 					"signatures": [
@@ -2391,9 +2391,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 591,
+									"line": 603,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L591"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L603"
 								}
 							],
 							"parameters": [
@@ -2433,9 +2433,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 602,
+							"line": 614,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L602"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L614"
 						}
 					],
 					"signatures": [
@@ -2456,9 +2456,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 602,
+									"line": 614,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L602"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L614"
 								}
 							],
 							"parameters": [
@@ -2498,9 +2498,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 617,
+							"line": 629,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L617"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L629"
 						}
 					],
 					"signatures": [
@@ -2521,9 +2521,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 617,
+									"line": 629,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L617"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L629"
 								}
 							],
 							"parameters": [
@@ -2566,9 +2566,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 628,
+							"line": 640,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L628"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L640"
 						}
 					],
 					"signatures": [
@@ -2589,9 +2589,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 628,
+									"line": 640,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L628"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L640"
 								}
 							],
 							"parameters": [
@@ -2631,9 +2631,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 639,
+							"line": 651,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L639"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L651"
 						}
 					],
 					"signatures": [
@@ -2654,9 +2654,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 639,
+									"line": 651,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L639"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L651"
 								}
 							],
 							"parameters": [
@@ -2696,9 +2696,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 658,
+							"line": 670,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L658"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L670"
 						}
 					],
 					"signatures": [
@@ -2723,9 +2723,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 658,
+									"line": 670,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L658"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L670"
 								}
 							],
 							"parameters": [
@@ -2765,9 +2765,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 671,
+							"line": 683,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L671"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L683"
 						}
 					],
 					"signatures": [
@@ -2792,9 +2792,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 671,
+									"line": 683,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L671"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L683"
 								}
 							],
 							"parameters": [
@@ -2834,9 +2834,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 684,
+							"line": 696,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L684"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L696"
 						}
 					],
 					"signatures": [
@@ -2861,9 +2861,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 684,
+									"line": 696,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L684"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L696"
 								}
 							],
 							"parameters": [
@@ -2903,9 +2903,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 697,
+							"line": 709,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L697"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L709"
 						}
 					],
 					"signatures": [
@@ -2930,9 +2930,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 697,
+									"line": 709,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L697"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L709"
 								}
 							],
 							"parameters": [
@@ -2972,9 +2972,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 710,
+							"line": 722,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L710"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L722"
 						}
 					],
 					"signatures": [
@@ -2999,9 +2999,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 710,
+									"line": 722,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L710"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L722"
 								}
 							],
 							"parameters": [
@@ -3041,9 +3041,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 723,
+							"line": 735,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L723"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L735"
 						}
 					],
 					"signatures": [
@@ -3068,9 +3068,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 723,
+									"line": 735,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L723"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L735"
 								}
 							],
 							"parameters": [
@@ -3110,9 +3110,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 736,
+							"line": 748,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L736"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L748"
 						}
 					],
 					"signatures": [
@@ -3137,9 +3137,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 736,
+									"line": 748,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L736"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L748"
 								}
 							],
 							"parameters": [
@@ -3179,9 +3179,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 749,
+							"line": 761,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L749"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L761"
 						}
 					],
 					"signatures": [
@@ -3206,9 +3206,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 749,
+									"line": 761,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L749"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L761"
 								}
 							],
 							"parameters": [
@@ -3248,9 +3248,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 762,
+							"line": 774,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L762"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L774"
 						}
 					],
 					"signatures": [
@@ -3275,9 +3275,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 762,
+									"line": 774,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L762"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L774"
 								}
 							],
 							"parameters": [
@@ -3319,9 +3319,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 775,
+							"line": 787,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L775"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L787"
 						}
 					],
 					"signatures": [
@@ -3346,9 +3346,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 775,
+									"line": 787,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L775"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L787"
 								}
 							],
 							"parameters": [
@@ -3390,9 +3390,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 788,
+							"line": 800,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L788"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L800"
 						}
 					],
 					"signatures": [
@@ -3417,9 +3417,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 788,
+									"line": 800,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L788"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L800"
 								}
 							],
 							"parameters": [
@@ -3461,9 +3461,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 801,
+							"line": 813,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L801"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L813"
 						}
 					],
 					"signatures": [
@@ -3488,9 +3488,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 801,
+									"line": 813,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L801"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L813"
 								}
 							],
 							"parameters": [
@@ -3532,9 +3532,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 814,
+							"line": 826,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L814"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L826"
 						}
 					],
 					"signatures": [
@@ -3559,9 +3559,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 814,
+									"line": 826,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L814"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L826"
 								}
 							],
 							"parameters": [
@@ -3603,9 +3603,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 827,
+							"line": 839,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L827"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L839"
 						}
 					],
 					"signatures": [
@@ -3630,9 +3630,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 827,
+									"line": 839,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L827"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L839"
 								}
 							],
 							"parameters": [
@@ -3674,9 +3674,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 840,
+							"line": 852,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L840"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L852"
 						}
 					],
 					"signatures": [
@@ -3701,9 +3701,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 840,
+									"line": 852,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L840"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L852"
 								}
 							],
 							"parameters": [
@@ -3745,9 +3745,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 853,
+							"line": 865,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L853"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L865"
 						}
 					],
 					"signatures": [
@@ -3772,9 +3772,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 853,
+									"line": 865,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L853"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L865"
 								}
 							],
 							"parameters": [
@@ -3816,9 +3816,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 866,
+							"line": 878,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L866"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L878"
 						}
 					],
 					"signatures": [
@@ -3843,9 +3843,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 866,
+									"line": 878,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L866"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L878"
 								}
 							],
 							"parameters": [
@@ -3887,9 +3887,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 879,
+							"line": 891,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L879"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L891"
 						}
 					],
 					"signatures": [
@@ -3914,9 +3914,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 879,
+									"line": 891,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L879"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L891"
 								}
 							],
 							"parameters": [
@@ -3956,9 +3956,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 896,
+							"line": 908,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L896"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L908"
 						}
 					],
 					"signatures": [
@@ -3983,9 +3983,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 896,
+									"line": 908,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L896"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L908"
 								}
 							],
 							"parameters": [
@@ -4025,9 +4025,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 909,
+							"line": 921,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L909"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L921"
 						}
 					],
 					"signatures": [
@@ -4052,9 +4052,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 909,
+									"line": 921,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L909"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L921"
 								}
 							],
 							"parameters": [
@@ -4094,9 +4094,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 922,
+							"line": 934,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L922"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L934"
 						}
 					],
 					"signatures": [
@@ -4121,9 +4121,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 922,
+									"line": 934,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L922"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L934"
 								}
 							],
 							"parameters": [
@@ -4163,9 +4163,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 935,
+							"line": 947,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L935"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L947"
 						}
 					],
 					"signatures": [
@@ -4190,9 +4190,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 935,
+									"line": 947,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L935"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L947"
 								}
 							],
 							"parameters": [
@@ -4232,9 +4232,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 948,
+							"line": 960,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L948"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L960"
 						}
 					],
 					"signatures": [
@@ -4259,9 +4259,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 948,
+									"line": 960,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L948"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L960"
 								}
 							],
 							"parameters": [
@@ -4301,9 +4301,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 961,
+							"line": 973,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L961"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L973"
 						}
 					],
 					"signatures": [
@@ -4328,9 +4328,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 961,
+									"line": 973,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L961"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L973"
 								}
 							],
 							"parameters": [
@@ -4370,9 +4370,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 974,
+							"line": 986,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L974"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L986"
 						}
 					],
 					"signatures": [
@@ -4397,9 +4397,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 974,
+									"line": 986,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L974"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L986"
 								}
 							],
 							"parameters": [
@@ -4439,9 +4439,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 987,
+							"line": 999,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L987"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L999"
 						}
 					],
 					"signatures": [
@@ -4466,9 +4466,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 987,
+									"line": 999,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L987"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L999"
 								}
 							],
 							"parameters": [
@@ -4508,9 +4508,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1000,
+							"line": 1012,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1000"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1012"
 						}
 					],
 					"signatures": [
@@ -4535,9 +4535,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1000,
+									"line": 1012,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1000"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1012"
 								}
 							],
 							"parameters": [
@@ -4577,9 +4577,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1013,
+							"line": 1025,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1013"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1025"
 						}
 					],
 					"signatures": [
@@ -4604,9 +4604,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1013,
+									"line": 1025,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1013"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1025"
 								}
 							],
 							"parameters": [
@@ -4646,9 +4646,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1026,
+							"line": 1038,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1026"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1038"
 						}
 					],
 					"signatures": [
@@ -4673,9 +4673,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1026,
+									"line": 1038,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1026"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1038"
 								}
 							],
 							"parameters": [
@@ -4715,9 +4715,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1039,
+							"line": 1051,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1039"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1051"
 						}
 					],
 					"signatures": [
@@ -4742,9 +4742,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1039,
+									"line": 1051,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1039"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1051"
 								}
 							],
 							"parameters": [
@@ -4784,9 +4784,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1052,
+							"line": 1064,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1052"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1064"
 						}
 					],
 					"signatures": [
@@ -4811,9 +4811,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1052,
+									"line": 1064,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1052"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1064"
 								}
 							],
 							"parameters": [
@@ -4853,9 +4853,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1065,
+							"line": 1077,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1065"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1077"
 						}
 					],
 					"signatures": [
@@ -4880,9 +4880,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1065,
+									"line": 1077,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1065"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1077"
 								}
 							],
 							"parameters": [
@@ -4922,9 +4922,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1078,
+							"line": 1090,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1078"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1090"
 						}
 					],
 					"signatures": [
@@ -4949,9 +4949,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1078,
+									"line": 1090,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1078"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1090"
 								}
 							],
 							"parameters": [
@@ -4991,9 +4991,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1091,
+							"line": 1103,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1091"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1103"
 						}
 					],
 					"signatures": [
@@ -5018,9 +5018,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1091,
+									"line": 1103,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1091"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1103"
 								}
 							],
 							"parameters": [
@@ -5060,9 +5060,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1104,
+							"line": 1116,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1104"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1116"
 						}
 					],
 					"signatures": [
@@ -5087,9 +5087,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1104,
+									"line": 1116,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1104"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1116"
 								}
 							],
 							"parameters": [
@@ -5129,9 +5129,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1117,
+							"line": 1129,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1117"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1129"
 						}
 					],
 					"signatures": [
@@ -5156,9 +5156,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1117,
+									"line": 1129,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1117"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1129"
 								}
 							],
 							"parameters": [
@@ -5200,9 +5200,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1130,
+							"line": 1142,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1130"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1142"
 						}
 					],
 					"signatures": [
@@ -5227,9 +5227,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1130,
+									"line": 1142,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1130"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1142"
 								}
 							],
 							"parameters": [
@@ -5271,9 +5271,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1143,
+							"line": 1155,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1143"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1155"
 						}
 					],
 					"signatures": [
@@ -5298,9 +5298,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1143,
+									"line": 1155,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1143"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1155"
 								}
 							],
 							"parameters": [
@@ -5342,9 +5342,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1156,
+							"line": 1168,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1156"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1168"
 						}
 					],
 					"signatures": [
@@ -5369,9 +5369,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1156,
+									"line": 1168,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1156"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1168"
 								}
 							],
 							"parameters": [
@@ -5413,9 +5413,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1169,
+							"line": 1181,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1169"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1181"
 						}
 					],
 					"signatures": [
@@ -5440,9 +5440,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1169,
+									"line": 1181,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1169"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1181"
 								}
 							],
 							"parameters": [
@@ -5484,9 +5484,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1182,
+							"line": 1194,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1182"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1194"
 						}
 					],
 					"signatures": [
@@ -5511,9 +5511,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1182,
+									"line": 1194,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1182"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1194"
 								}
 							],
 							"parameters": [
@@ -5555,9 +5555,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1195,
+							"line": 1207,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1195"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1207"
 						}
 					],
 					"signatures": [
@@ -5582,9 +5582,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1195,
+									"line": 1207,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1195"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1207"
 								}
 							],
 							"parameters": [
@@ -5626,9 +5626,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1208,
+							"line": 1220,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1208"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1220"
 						}
 					],
 					"signatures": [
@@ -5653,9 +5653,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1208,
+									"line": 1220,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1208"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1220"
 								}
 							],
 							"parameters": [
@@ -5697,9 +5697,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1221,
+							"line": 1233,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1221"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1233"
 						}
 					],
 					"signatures": [
@@ -5724,9 +5724,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1221,
+									"line": 1233,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1221"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1233"
 								}
 							],
 							"parameters": [
@@ -5768,9 +5768,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1234,
+							"line": 1246,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1234"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1246"
 						}
 					],
 					"signatures": [
@@ -5795,9 +5795,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1234,
+									"line": 1246,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1234"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1246"
 								}
 							],
 							"parameters": [
@@ -5839,9 +5839,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1247,
+							"line": 1259,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1247"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1259"
 						}
 					],
 					"signatures": [
@@ -5866,9 +5866,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1247,
+									"line": 1259,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1247"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1259"
 								}
 							],
 							"parameters": [
@@ -5910,9 +5910,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1260,
+							"line": 1272,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1260"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1272"
 						}
 					],
 					"signatures": [
@@ -5937,9 +5937,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1260,
+									"line": 1272,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1260"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1272"
 								}
 							],
 							"parameters": [
@@ -5981,9 +5981,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1273,
+							"line": 1285,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1273"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1285"
 						}
 					],
 					"signatures": [
@@ -6008,9 +6008,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1273,
+									"line": 1285,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1273"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1285"
 								}
 							],
 							"parameters": [
@@ -6052,9 +6052,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1286,
+							"line": 1298,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1286"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1298"
 						}
 					],
 					"signatures": [
@@ -6079,9 +6079,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1286,
+									"line": 1298,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1286"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1298"
 								}
 							],
 							"parameters": [
@@ -6123,9 +6123,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1299,
+							"line": 1311,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1299"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1311"
 						}
 					],
 					"signatures": [
@@ -6150,9 +6150,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1299,
+									"line": 1311,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1299"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1311"
 								}
 							],
 							"parameters": [
@@ -6194,9 +6194,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1312,
+							"line": 1324,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1312"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1324"
 						}
 					],
 					"signatures": [
@@ -6221,9 +6221,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1312,
+									"line": 1324,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1312"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1324"
 								}
 							],
 							"parameters": [
@@ -6265,9 +6265,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1325,
+							"line": 1337,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1325"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1337"
 						}
 					],
 					"signatures": [
@@ -6292,9 +6292,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1325,
+									"line": 1337,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1325"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1337"
 								}
 							],
 							"parameters": [
@@ -6336,9 +6336,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1338,
+							"line": 1350,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1338"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1350"
 						}
 					],
 					"signatures": [
@@ -6363,9 +6363,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1338,
+									"line": 1350,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1338"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1350"
 								}
 							],
 							"parameters": [
@@ -6407,9 +6407,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1351,
+							"line": 1363,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1351"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1363"
 						}
 					],
 					"signatures": [
@@ -6434,9 +6434,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1351,
+									"line": 1363,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1351"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1363"
 								}
 							],
 							"parameters": [
@@ -6476,9 +6476,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1368,
+							"line": 1380,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1368"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1380"
 						}
 					],
 					"signatures": [
@@ -6503,9 +6503,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1368,
+									"line": 1380,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1368"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1380"
 								}
 							],
 							"parameters": [
@@ -6545,9 +6545,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1381,
+							"line": 1393,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1381"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1393"
 						}
 					],
 					"signatures": [
@@ -6572,9 +6572,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1381,
+									"line": 1393,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1381"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1393"
 								}
 							],
 							"parameters": [
@@ -6614,9 +6614,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1394,
+							"line": 1406,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1394"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1406"
 						}
 					],
 					"signatures": [
@@ -6641,9 +6641,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1394,
+									"line": 1406,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1394"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1406"
 								}
 							],
 							"parameters": [
@@ -6683,9 +6683,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1407,
+							"line": 1419,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1407"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1419"
 						}
 					],
 					"signatures": [
@@ -6710,9 +6710,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1407,
+									"line": 1419,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1407"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1419"
 								}
 							],
 							"parameters": [
@@ -6752,9 +6752,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1420,
+							"line": 1432,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1420"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1432"
 						}
 					],
 					"signatures": [
@@ -6779,9 +6779,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1420,
+									"line": 1432,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1420"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1432"
 								}
 							],
 							"parameters": [
@@ -6821,9 +6821,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1433,
+							"line": 1445,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1433"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1445"
 						}
 					],
 					"signatures": [
@@ -6848,9 +6848,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1433,
+									"line": 1445,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1433"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1445"
 								}
 							],
 							"parameters": [
@@ -6890,9 +6890,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1446,
+							"line": 1458,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1446"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1458"
 						}
 					],
 					"signatures": [
@@ -6917,9 +6917,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1446,
+									"line": 1458,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1446"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1458"
 								}
 							],
 							"parameters": [
@@ -6959,9 +6959,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1459,
+							"line": 1471,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1459"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1471"
 						}
 					],
 					"signatures": [
@@ -6986,9 +6986,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1459,
+									"line": 1471,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1459"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1471"
 								}
 							],
 							"parameters": [
@@ -7028,9 +7028,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1472,
+							"line": 1484,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1472"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1484"
 						}
 					],
 					"signatures": [
@@ -7055,9 +7055,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1472,
+									"line": 1484,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1472"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1484"
 								}
 							],
 							"parameters": [
@@ -7097,9 +7097,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1485,
+							"line": 1497,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1485"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1497"
 						}
 					],
 					"signatures": [
@@ -7124,9 +7124,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1485,
+									"line": 1497,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1485"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1497"
 								}
 							],
 							"parameters": [
@@ -7166,9 +7166,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1498,
+							"line": 1510,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1498"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1510"
 						}
 					],
 					"signatures": [
@@ -7193,9 +7193,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1498,
+									"line": 1510,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1498"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1510"
 								}
 							],
 							"parameters": [
@@ -7235,9 +7235,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1511,
+							"line": 1523,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1511"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1523"
 						}
 					],
 					"signatures": [
@@ -7262,9 +7262,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1511,
+									"line": 1523,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1511"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1523"
 								}
 							],
 							"parameters": [
@@ -7304,9 +7304,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1524,
+							"line": 1536,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1524"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1536"
 						}
 					],
 					"signatures": [
@@ -7331,9 +7331,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1524,
+									"line": 1536,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1524"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1536"
 								}
 							],
 							"parameters": [
@@ -7373,9 +7373,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1537,
+							"line": 1549,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1537"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1549"
 						}
 					],
 					"signatures": [
@@ -7400,9 +7400,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1537,
+									"line": 1549,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1537"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1549"
 								}
 							],
 							"parameters": [
@@ -7442,9 +7442,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1550,
+							"line": 1562,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1550"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1562"
 						}
 					],
 					"signatures": [
@@ -7469,9 +7469,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1550,
+									"line": 1562,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1550"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1562"
 								}
 							],
 							"parameters": [
@@ -7511,9 +7511,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1563,
+							"line": 1575,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1563"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1575"
 						}
 					],
 					"signatures": [
@@ -7538,9 +7538,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1563,
+									"line": 1575,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1563"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1575"
 								}
 							],
 							"parameters": [
@@ -7580,9 +7580,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1576,
+							"line": 1588,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1576"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1588"
 						}
 					],
 					"signatures": [
@@ -7607,9 +7607,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1576,
+									"line": 1588,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1576"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1588"
 								}
 							],
 							"parameters": [
@@ -7649,9 +7649,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1589,
+							"line": 1601,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1589"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1601"
 						}
 					],
 					"signatures": [
@@ -7676,9 +7676,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1589,
+									"line": 1601,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1589"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1601"
 								}
 							],
 							"parameters": [
@@ -7720,9 +7720,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1602,
+							"line": 1614,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1602"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1614"
 						}
 					],
 					"signatures": [
@@ -7747,9 +7747,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1602,
+									"line": 1614,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1602"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1614"
 								}
 							],
 							"parameters": [
@@ -7791,9 +7791,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1615,
+							"line": 1627,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1615"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1627"
 						}
 					],
 					"signatures": [
@@ -7818,9 +7818,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1615,
+									"line": 1627,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1615"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1627"
 								}
 							],
 							"parameters": [
@@ -7862,9 +7862,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1628,
+							"line": 1640,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1628"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1640"
 						}
 					],
 					"signatures": [
@@ -7889,9 +7889,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1628,
+									"line": 1640,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1628"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1640"
 								}
 							],
 							"parameters": [
@@ -7933,9 +7933,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1641,
+							"line": 1653,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1641"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1653"
 						}
 					],
 					"signatures": [
@@ -7960,9 +7960,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1641,
+									"line": 1653,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1641"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1653"
 								}
 							],
 							"parameters": [
@@ -8004,9 +8004,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1654,
+							"line": 1666,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1654"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1666"
 						}
 					],
 					"signatures": [
@@ -8031,9 +8031,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1654,
+									"line": 1666,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1654"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1666"
 								}
 							],
 							"parameters": [
@@ -8075,9 +8075,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1667,
+							"line": 1679,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1667"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1679"
 						}
 					],
 					"signatures": [
@@ -8102,9 +8102,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1667,
+									"line": 1679,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1667"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1679"
 								}
 							],
 							"parameters": [
@@ -8146,9 +8146,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1680,
+							"line": 1692,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1680"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1692"
 						}
 					],
 					"signatures": [
@@ -8173,9 +8173,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1680,
+									"line": 1692,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1680"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1692"
 								}
 							],
 							"parameters": [
@@ -8217,9 +8217,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1693,
+							"line": 1705,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1693"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1705"
 						}
 					],
 					"signatures": [
@@ -8244,9 +8244,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1693,
+									"line": 1705,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1693"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1705"
 								}
 							],
 							"parameters": [
@@ -8288,9 +8288,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1706,
+							"line": 1718,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1706"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1718"
 						}
 					],
 					"signatures": [
@@ -8315,9 +8315,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1706,
+									"line": 1718,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1706"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1718"
 								}
 							],
 							"parameters": [
@@ -8359,9 +8359,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1719,
+							"line": 1731,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1719"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1731"
 						}
 					],
 					"signatures": [
@@ -8386,9 +8386,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1719,
+									"line": 1731,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1719"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1731"
 								}
 							],
 							"parameters": [
@@ -8430,9 +8430,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1732,
+							"line": 1744,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1732"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1744"
 						}
 					],
 					"signatures": [
@@ -8457,9 +8457,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1732,
+									"line": 1744,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1732"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1744"
 								}
 							],
 							"parameters": [
@@ -8501,9 +8501,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1745,
+							"line": 1757,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1745"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1757"
 						}
 					],
 					"signatures": [
@@ -8528,9 +8528,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1745,
+									"line": 1757,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1745"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1757"
 								}
 							],
 							"parameters": [
@@ -8572,9 +8572,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1758,
+							"line": 1770,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1758"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1770"
 						}
 					],
 					"signatures": [
@@ -8599,9 +8599,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1758,
+									"line": 1770,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1758"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1770"
 								}
 							],
 							"parameters": [
@@ -8643,9 +8643,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1771,
+							"line": 1783,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1771"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1783"
 						}
 					],
 					"signatures": [
@@ -8670,9 +8670,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1771,
+									"line": 1783,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1771"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1783"
 								}
 							],
 							"parameters": [
@@ -8714,9 +8714,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1784,
+							"line": 1796,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1784"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1796"
 						}
 					],
 					"signatures": [
@@ -8741,9 +8741,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1784,
+									"line": 1796,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1784"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1796"
 								}
 							],
 							"parameters": [
@@ -8785,9 +8785,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1797,
+							"line": 1809,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1797"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1809"
 						}
 					],
 					"signatures": [
@@ -8812,9 +8812,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1797,
+									"line": 1809,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1797"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1809"
 								}
 							],
 							"parameters": [
@@ -8856,9 +8856,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1810,
+							"line": 1822,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1810"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1822"
 						}
 					],
 					"signatures": [
@@ -8883,9 +8883,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1810,
+									"line": 1822,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1810"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1822"
 								}
 							],
 							"parameters": [
@@ -8927,9 +8927,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1823,
+							"line": 1835,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1823"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1835"
 						}
 					],
 					"signatures": [
@@ -8954,9 +8954,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1823,
+									"line": 1835,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1823"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1835"
 								}
 							],
 							"parameters": [
@@ -9108,9 +9108,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 506,
+					"line": 518,
 					"character": 13,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L506"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L518"
 				}
 			]
 		},
@@ -9131,9 +9131,9 @@
 			"sources": [
 				{
 					"fileName": "UniversalToolForNode.esm.mjs",
-					"line": 1834,
+					"line": 1846,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1834"
+					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1846"
 				}
 			],
 			"type": {
@@ -9154,9 +9154,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1836,
+									"line": 1848,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1836"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1848"
 								}
 							],
 							"type": {
@@ -9170,9 +9170,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 118,
+											"line": 130,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L118"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L130"
 										}
 									],
 									"signatures": [
@@ -9204,9 +9204,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 118,
+													"line": 130,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L118"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L130"
 												}
 											],
 											"parameters": [
@@ -9249,9 +9249,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1837,
+									"line": 1849,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1837"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1849"
 								}
 							],
 							"type": {
@@ -9265,9 +9265,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 129,
+											"line": 141,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L129"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L141"
 										}
 									],
 									"signatures": [
@@ -9299,9 +9299,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 129,
+													"line": 141,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L129"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L141"
 												}
 											],
 											"parameters": [
@@ -9344,9 +9344,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1841,
+									"line": 1853,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1841"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1853"
 								}
 							],
 							"type": {
@@ -9360,9 +9360,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 145,
+											"line": 157,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L145"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L157"
 										}
 									],
 									"signatures": [
@@ -9394,9 +9394,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 145,
+													"line": 157,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L145"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L157"
 												}
 											],
 											"parameters": [
@@ -9425,9 +9425,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 140,
+																	"line": 152,
 																	"character": 11,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L140"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L152"
 																}
 															],
 															"signatures": [
@@ -9440,9 +9440,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalToolForNode.esm.mjs",
-																			"line": 140,
+																			"line": 152,
 																			"character": 11,
-																			"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L140"
+																			"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L152"
 																		}
 																	],
 																	"type": {
@@ -9467,9 +9467,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 142,
+															"line": 154,
 															"character": 13,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 														}
 													],
 													"signatures": [
@@ -9482,9 +9482,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 142,
+																	"line": 154,
 																	"character": 13,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 																}
 															],
 															"type": {
@@ -9505,9 +9505,9 @@
 																			"sources": [
 																				{
 																					"fileName": "UniversalToolForNode.esm.mjs",
-																					"line": 142,
+																					"line": 154,
 																					"character": 21,
-																					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+																					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 																				}
 																			],
 																			"type": {
@@ -9531,9 +9531,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalToolForNode.esm.mjs",
-																			"line": 142,
+																			"line": 154,
 																			"character": 19,
-																			"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L142"
+																			"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L154"
 																		}
 																	]
 																}
@@ -9556,9 +9556,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1842,
+									"line": 1854,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1842"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1854"
 								}
 							],
 							"type": {
@@ -9572,9 +9572,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 200,
+											"line": 212,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L200"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L212"
 										}
 									],
 									"signatures": [
@@ -9606,9 +9606,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 200,
+													"line": 212,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L200"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L212"
 												}
 											],
 											"parameters": [
@@ -9637,9 +9637,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 195,
+																	"line": 207,
 																	"character": 11,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L195"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L207"
 																}
 															],
 															"signatures": [
@@ -9652,9 +9652,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalToolForNode.esm.mjs",
-																			"line": 195,
+																			"line": 207,
 																			"character": 11,
-																			"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L195"
+																			"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L207"
 																		}
 																	],
 																	"type": {
@@ -9678,9 +9678,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 197,
+															"line": 209,
 															"character": 13,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 														}
 													],
 													"signatures": [
@@ -9693,9 +9693,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 197,
+																	"line": 209,
 																	"character": 13,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 																}
 															],
 															"type": {
@@ -9716,9 +9716,9 @@
 																			"sources": [
 																				{
 																					"fileName": "UniversalToolForNode.esm.mjs",
-																					"line": 197,
+																					"line": 209,
 																					"character": 21,
-																					"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+																					"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 																				}
 																			],
 																			"type": {
@@ -9742,9 +9742,9 @@
 																	"sources": [
 																		{
 																			"fileName": "UniversalToolForNode.esm.mjs",
-																			"line": 197,
+																			"line": 209,
 																			"character": 19,
-																			"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L197"
+																			"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L209"
 																		}
 																	]
 																}
@@ -9767,9 +9767,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1846,
+									"line": 1858,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1846"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1858"
 								}
 							],
 							"type": {
@@ -9783,9 +9783,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 248,
+											"line": 260,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L248"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L260"
 										}
 									],
 									"signatures": [
@@ -9817,9 +9817,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 248,
+													"line": 260,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L248"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L260"
 												}
 											],
 											"parameters": [
@@ -9866,9 +9866,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1847,
+									"line": 1859,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1847"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1859"
 								}
 							],
 							"type": {
@@ -9882,9 +9882,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 261,
+											"line": 273,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L261"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L273"
 										}
 									],
 									"signatures": [
@@ -9916,9 +9916,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 261,
+													"line": 273,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L261"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L273"
 												}
 											],
 											"parameters": [
@@ -9965,9 +9965,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1851,
+									"line": 1863,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1851"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1863"
 								}
 							],
 							"type": {
@@ -9981,9 +9981,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 278,
+											"line": 290,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L278"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L290"
 										}
 									],
 									"signatures": [
@@ -10015,9 +10015,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 278,
+													"line": 290,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L278"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L290"
 												}
 											],
 											"parameters": [
@@ -10065,9 +10065,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 14,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10084,9 +10084,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 28,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10103,9 +10103,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 43,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10122,9 +10122,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 57,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10141,9 +10141,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 72,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10160,9 +10160,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 89,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10179,9 +10179,9 @@
 															"sources": [
 																{
 																	"fileName": "UniversalToolForNode.esm.mjs",
-																	"line": 276,
+																	"line": 288,
 																	"character": 106,
-																	"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+																	"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 																}
 															],
 															"type": {
@@ -10207,9 +10207,9 @@
 													"sources": [
 														{
 															"fileName": "UniversalToolForNode.esm.mjs",
-															"line": 276,
+															"line": 288,
 															"character": 13,
-															"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L276"
+															"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L288"
 														}
 													]
 												}
@@ -10228,9 +10228,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1855,
+									"line": 1867,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1855"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1867"
 								}
 							],
 							"type": {
@@ -10244,9 +10244,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 314,
+											"line": 326,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L314"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L326"
 										}
 									],
 									"signatures": [
@@ -10278,9 +10278,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 314,
+													"line": 326,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L314"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L326"
 												}
 											],
 											"parameters": [
@@ -10322,9 +10322,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1856,
+									"line": 1868,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1856"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1868"
 								}
 							],
 							"type": {
@@ -10338,9 +10338,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 327,
+											"line": 339,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L327"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L339"
 										}
 									],
 									"signatures": [
@@ -10372,9 +10372,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 327,
+													"line": 339,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L327"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L339"
 												}
 											],
 											"parameters": [
@@ -10416,9 +10416,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1857,
+									"line": 1869,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1857"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1869"
 								}
 							],
 							"type": {
@@ -10432,9 +10432,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 340,
+											"line": 352,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L340"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L352"
 										}
 									],
 									"signatures": [
@@ -10466,9 +10466,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 340,
+													"line": 352,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L340"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L352"
 												}
 											],
 											"parameters": [
@@ -10510,9 +10510,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1858,
+									"line": 1870,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1858"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1870"
 								}
 							],
 							"type": {
@@ -10526,9 +10526,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 351,
+											"line": 363,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L351"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L363"
 										}
 									],
 									"signatures": [
@@ -10560,9 +10560,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 351,
+													"line": 363,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L351"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L363"
 												}
 											],
 											"parameters": [
@@ -10604,9 +10604,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1862,
+									"line": 1874,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1862"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1874"
 								}
 							],
 							"type": {
@@ -10620,9 +10620,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 368,
+											"line": 380,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L368"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L380"
 										}
 									],
 									"signatures": [
@@ -10654,9 +10654,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 368,
+													"line": 380,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L368"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L380"
 												}
 											],
 											"parameters": [
@@ -10725,9 +10725,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1863,
+									"line": 1875,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1863"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1875"
 								}
 							],
 							"type": {
@@ -10741,9 +10741,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 385,
+											"line": 397,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L385"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L397"
 										}
 									],
 									"signatures": [
@@ -10775,9 +10775,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 385,
+													"line": 397,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L385"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L397"
 												}
 											],
 											"parameters": [
@@ -10846,9 +10846,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1864,
+									"line": 1876,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1864"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1876"
 								}
 							],
 							"type": {
@@ -10862,9 +10862,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 402,
+											"line": 414,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L402"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L414"
 										}
 									],
 									"signatures": [
@@ -10896,9 +10896,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 402,
+													"line": 414,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L402"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L414"
 												}
 											],
 											"parameters": [
@@ -10967,9 +10967,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1865,
+									"line": 1877,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1865"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1877"
 								}
 							],
 							"type": {
@@ -10983,9 +10983,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 419,
+											"line": 431,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L419"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L431"
 										}
 									],
 									"signatures": [
@@ -11017,9 +11017,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 419,
+													"line": 431,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L419"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L431"
 												}
 											],
 											"parameters": [
@@ -11091,9 +11091,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1866,
+									"line": 1878,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1866"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1878"
 								}
 							],
 							"type": {
@@ -11107,9 +11107,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 443,
+											"line": 455,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L443"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L455"
 										}
 									],
 									"signatures": [
@@ -11141,9 +11141,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 443,
+													"line": 455,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L443"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L455"
 												}
 											],
 											"parameters": [
@@ -11215,9 +11215,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1867,
+									"line": 1879,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1867"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1879"
 								}
 							],
 							"type": {
@@ -11231,9 +11231,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 470,
+											"line": 482,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L470"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L482"
 										}
 									],
 									"signatures": [
@@ -11265,9 +11265,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 470,
+													"line": 482,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L470"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L482"
 												}
 											],
 											"parameters": [
@@ -11339,9 +11339,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1868,
+									"line": 1880,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1868"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1880"
 								}
 							],
 							"type": {
@@ -11355,9 +11355,9 @@
 									"sources": [
 										{
 											"fileName": "UniversalToolForNode.esm.mjs",
-											"line": 489,
+											"line": 501,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L489"
+											"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L501"
 										}
 									],
 									"signatures": [
@@ -11389,9 +11389,9 @@
 											"sources": [
 												{
 													"fileName": "UniversalToolForNode.esm.mjs",
-													"line": 489,
+													"line": 501,
 													"character": 16,
-													"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L489"
+													"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L501"
 												}
 											],
 											"parameters": [
@@ -11463,9 +11463,9 @@
 							"sources": [
 								{
 									"fileName": "UniversalToolForNode.esm.mjs",
-									"line": 1871,
+									"line": 1883,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1871"
+									"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1883"
 								}
 							],
 							"type": {
@@ -11508,9 +11508,9 @@
 					"sources": [
 						{
 							"fileName": "UniversalToolForNode.esm.mjs",
-							"line": 1834,
+							"line": 1846,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/93a9892/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1834"
+							"url": "https://github.com/LP1994/web-project-template/blob/2bb034f/simulation_servers/node/src/tools/universal_tool_for_node/UniversalToolForNode.esm.mjs#L1846"
 						}
 					]
 				}
