@@ -1,0 +1,43 @@
+该文件夹中是使用“typedoc”（其支持对“.mts”、“.ts”、“.cts”、“.mjs”、“.js”、“.cjs”等等后缀名生成文档）为“CurrencyTools.esm.mjs”生成用于描述其API文档说明。
+
+1、确保“type_doc”文件夹下有一个“typedoc.json” 、“tsconfig.typedoc.json”、“README.md”配置文件，然后在该文件下执行生成文档的命令：typedoc --options typedoc.json。
+2、也可以直接双击执行“GenerateDocument.bat”。
+3、生成的文档都在“doc”文件夹下。
+4、配置文件中如果涉及路径，那么在参照使用时要注意修改这些路径，毕竟它们都是相对路径。
+5、“typedoc”的官方文档见：
+https://typedoc.org/schema.json
+https://typedoc.org/guides/options/
+https://typedoc.org/guides/overview/
+
+关键配置文件说明：
+1、“tsconfig.typedoc.json”（其中的参数同tsconfig.json的参数）：
+{
+  "extends": "../../../../../../tsconfig.typedoc.json",
+  "files": [
+    "../CurrencyTools.esm.mjs"
+  ]
+}
+参数“extends”的值是一个字符串路径，使用相对路径，指向项目根目录下的“tsconfig.typedoc.json”。
+参数“files”的值是一个字符串路径，使用相对路径，指向需要生成文档的目标文件，值格式是相对于文件夹“simulation_servers/node/src/tools/universal_tool_for_node/type_doc”下的“tsconfig.typedoc.json”文件所在的目录的相对路径。
+
+2、“typedoc.json”：
+{
+  "name": "CurrencyTools.esm.mjs的API文档",
+  "entryPoints": [
+    "../CurrencyTools.esm.mjs"
+  ],
+  "extends": [
+    "../../../../../../typedoc.json"
+  ],
+  "json": "./doc/CurrencyTools.esm.mjs",
+  "readme": "./README.md",
+  "tsconfig": "./tsconfig.typedoc.json",
+  "out": "./doc"
+}
+参数“name”是用于设置生成文档后，HTML文件中显示的文档标题。
+参数“entryPoints”用于设置需要生成文档的目标文件的路径，值是一个字符串数组（成员表示“路径”），使用相对路径，成员值格式是相对于文件夹“simulation_servers/node/src/tools/universal_tool_for_node/type_doc”下的“typedoc.json”文件所在的目录的相对路径。
+参数“extends”的值是一个字符串数组（成员表示“路径”），使用相对路径，成员指向项目根目录下的“typedoc.json”，成员值格式是相对于文件夹“simulation_servers/node/src/tools/universal_tool_for_node/type_doc”下的“typedoc.json”文件所在的目录的相对路径。
+参数“json”的值是一个字符串路径，使用相对路径，表示生成的“文档JSON文件”的保存路径。
+参数“readme”的值是一个字符串路径，使用相对路径，表示“README.md”文件的路径，用于在生成的文档中展示首页描述信息，一般跟“typedoc.json”文件同级。
+参数“tsconfig”的值是一个字符串路径，使用相对路径，表示要使用的关于“tsconfig.json”的路径，一般跟“typedoc.json”文件同级。
+参数“out”的值是一个字符串路径，使用相对路径，表示文档的输出保存路径，一般是跟“typedoc.json”文件同级的文件夹下的“doc”文件夹。

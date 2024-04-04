@@ -1,0 +1,6 @@
+{
+  "extends": "../../../../../tsconfig.typedoc.json",
+  "files": [
+    "../CurrencyTools.esm.mjs"
+  ]
+}
