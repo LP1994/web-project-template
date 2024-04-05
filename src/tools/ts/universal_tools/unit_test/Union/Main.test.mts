@@ -1,3 +1,5 @@
+#!/usr/bin/env -S tsx --no-cache
+
 /**
  * Project: web-project-template
  * FileDirPath: src/tools/ts/universal_tools/unit_test/Union/Main.test.mts
