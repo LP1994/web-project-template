@@ -80,6 +80,8 @@ export type T_Error001 = {
   message: string;
   // 实际值。
   result: any;
+  // 是否成功。
+  isSuccess: boolean;
 };
 
 /**
@@ -106,6 +108,15 @@ export function Equal001( result: any ): {
           message: '实际值和预期值不全等（使用“!==”比较）！',
           result,
           expect,
+          isSuccess: false,
+        } );
+      }
+      else{
+        throw new MyError001( {
+          message: '实际值和预期值全等（使用“===”比较）！',
+          result,
+          expect,
+          isSuccess: true,
         } );
       }
     },
@@ -115,7 +126,7 @@ export function Equal001( result: any ): {
 /**
  * 继承Error类的自定义异常类MyError001。<br />
  * PS：<br />
- * 1、new这个类时，必传一个对象作为初始化数据，其结构为{ message:一个用于描述错误信息的字符串，必需, result:实际值，必需, expect:预期值，必需 }，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。<br />
+ * 1、new这个类时，必传一个对象作为初始化数据，其结构为{ message:一个用于描述错误信息的字符串，必需, result:实际值，必需, expect:预期值，必需, isSuccess:是否成功，必需 }，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。<br />
  */
 export class MyError001
   extends Error {
@@ -131,6 +142,11 @@ export class MyError001
   public result: any;
 
   /**
+   * @type {boolean} 是否成功。
+   */
+  public isSuccess: boolean;
+
+  /**
    * 构造函数，必传一个对象作为初始化数据，这样捕获该异常时，就会收到这个对象（既try...catch( error )中的error）。
    *
    * @param {object} config 构造函数的初始参数，是一个对象。
@@ -140,17 +156,21 @@ export class MyError001
    * @param {string} config.message 一个用于描述错误信息的字符串，必需。
    *
    * @param {any} config.result 实际值，必需。
+   *
+   * @param {boolean} config.isSuccess 是否成功，必需。
    */
   public constructor( {
     expect,
     message,
     result,
+    isSuccess,
   }: T_Error001 ){
     super();
 
     this.expect = expect;
     this.message = message;
     this.result = result;
+    this.isSuccess = isSuccess;
   }
 
 }
@@ -173,15 +193,27 @@ export function Test001( desc: string, fn: () => void ): void{
       expect,
       message,
       result,
+      isSuccess,
     } = ( error as T_Error001 );
 
-    console.error( chalk.red( `
+    if( isSuccess ){
+      console.log( chalk.green( `
 ${ desc }，${ message }
 实际值：
 ${ String( result ) }
 预期值：
 ${ String( expect ) }
 ` ) );
+    }
+    else{
+      console.error( chalk.red( `
+${ desc }，${ message }
+实际值：
+${ String( result ) }
+预期值：
+${ String( expect ) }
+` ) );
+    }
   }
 }
 
