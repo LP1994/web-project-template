@@ -154,6 +154,16 @@ const devServerGlobalParameters = {
      * 7、对于带有证书的CORS请求，浏览器要将响应暴露给前端JavaScript代码，服务器（使用Access-Control-Allow-Credentials标头）和客户端（通过为XHR、Fetch或Ajax请求设置证书模式）都必须表明他们选择包括证书。
      * 8、此标头的唯一有效值为true（区分大小写）。如果您不需要凭据，请完全省略此标头（而不是将其值设置为 false）。
      * 9、当此标头设置为true时，客户端发起的请求，相应的也要设置：如果请求使用XMLHttpRequest发出，请确保withCredentials为true、如果使用Fetch API，请确保Request.credentials是"include"。
+     * 10、Access-Control-Allow-Credentials 响应头告诉浏览器，服务器是否允许跨源 HTTP 请求包含凭证。
+     * 凭证是 cookie、TLS 客户端证书或包含用户名和密码的验证头。默认情况下，这些凭证不会在跨源请求中发送，这样做会使网站容易受到 CSRF 攻击。
+     *
+     * 客户端可以通过以下两种方式之一，要求在跨站请求中包含凭证：
+     * 使用 fetch()，将 Request() 构造函数中的凭证选项设置为 "include"。
+     * 使用 XMLHttpRequest，将 XMLHttpRequest.withCredentials 属性设置为 true。
+     *
+     * 如果客户要求包含凭据：
+     * 如果请求已预检，则预检请求不包含凭据。如果服务器对预检请求的响应将 Access-Control-Allow-Credentials 标头设为 true，则真实请求将包含凭证：否则，浏览器将报告网络错误。
+     * 如果未对请求进行预检，则请求将包含凭证，如果服务器的响应未将 Access-Control-Allow-Credentials 标头设为 true，浏览器将报告网络错误。
      */
     'Access-Control-Allow-Credentials': true,
     /**
