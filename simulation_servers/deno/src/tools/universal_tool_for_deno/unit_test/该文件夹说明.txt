@@ -1,6 +1,6 @@
-该文件夹下是UniversalToolForDeno.esm.mts的单元测试文件。
+该文件夹下是UniversalToolForDeno.esm.mts的各个单元测试文件。
 
 说明：
-1、双击“Start.bat”即可开始单元测试。
-2、可以在“Main.test.mts”中选择性的开启单元测试，没通过期望测试的话，大多会在控制台输出报错信息。
+1、双击“StartAll.bat”即可开始全部的单元测试。
+2、也可以进到某个具体的子文件夹（如：Difference文件夹）里执行“Start.bat”开始对应的单元测试。
 3、注意，测试用的代码文件要以“XXX.test.mts”、“XXX.test.cts”、“XXX.test.ts”、“XXX.test.mjs”、“XXX.test.cjs”、“XXX.test.js”、“XXX.test.esm.mts”、“XXX.test.commonjs.cts”、“XXX.test.esm.ts”、“XXX.test.esm.mjs”、“XXX.test.commonjs.cjs”、“XXX.test.esm.js”这种带“.test”后缀的命名。
