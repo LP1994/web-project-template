@@ -98,7 +98,7 @@ const httpResponseHeaders: HeadersInit = {
   /**
    * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
    */
-  'Cache-Control': 'no-store',
+  'Cache-Control': 'no-cache',
   /**
    * Expires：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
    */

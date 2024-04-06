@@ -208,7 +208,7 @@ async function UploadForBinary( event: Event ): Promise<void>{
 
     fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
       body: file,
-      cache: 'no-store',
+      cache: 'no-cache',
       credentials: 'omit',
       headers: {
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
@@ -250,7 +250,7 @@ async function UploadForSingle( event: Event ): Promise<void>{
 
     fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
       body: formData,
-      cache: 'no-store',
+      cache: 'no-cache',
       credentials: 'omit',
       headers: {
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
@@ -292,7 +292,7 @@ function UploadForMultiple( event: Event ): void{
 
     fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
       body: formData,
-      cache: 'no-store',
+      cache: 'no-cache',
       credentials: 'omit',
       headers: {
         'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',

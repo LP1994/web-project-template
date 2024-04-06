@@ -90,7 +90,7 @@ const devServerGlobalParameters = {
     /**
      * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
      */
-    'Cache-Control': 'no-store',
+    'Cache-Control': 'no-cache',
     /**
      * Access-Control-Request-Headers：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
      * 1、浏览器在发出预检请求时使用Access-Control-Request-Headers请求标头，让服务器知道在发出实际请求时客户端可能发送哪些HTTP标头（例如使用setRequestHeader()）。
@@ -130,7 +130,7 @@ const devServerGlobalParameters = {
     /**
      * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
      */
-    'Cache-Control': 'no-store',
+    'Cache-Control': 'no-cache',
     /**
      * Expires：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
      */

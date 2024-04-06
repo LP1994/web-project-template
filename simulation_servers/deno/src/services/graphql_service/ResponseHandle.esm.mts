@@ -26,7 +26,7 @@
  *
  * var myHeaders = new Headers();
  * myHeaders.append("Accept", "application/json");
- * myHeaders.append("Cache-Control", "no-store");
+ * myHeaders.append("Cache-Control", "no-cache");
  * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
  * myHeaders.append("Host", "127.0.0.1:9200");
  * myHeaders.append("Connection", "keep-alive");
