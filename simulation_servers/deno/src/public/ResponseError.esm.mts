@@ -16,7 +16,7 @@
 import {
   ejsDir,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -31,6 +31,13 @@ import {
  * 通用的用于返回给客户端，表示服务端返回的是一个表示错误的响应。
  */
 class ResponseError {
+
+  /**
+   * @type {Request} 请求对象。
+   *
+   * @private
+   */
+  static #Request: Request;
 
   /**
    * @type {Request} 请求对象。
@@ -84,6 +91,7 @@ class ResponseError {
    */
   public constructor( request: Request ){
     this.#request = request;
+    ResponseError.#Request = request;
     this.#method = this.#request.method.toLowerCase();
     this.#myURL = new URL( this.#request.url );
     this.#pathName = decodeURI( this.#myURL.pathname );
@@ -106,7 +114,7 @@ class ResponseError {
       status: 404,
       statusText: 'Not Found',
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( this.#request ),
         'content-type': mime.getType( filePath.href ),
       },
     } );
@@ -144,7 +152,7 @@ class ResponseError {
       status: 500,
       statusText: 'Internal Server Error',
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( this.#Request ),
         'content-type': mime.getType( filePath.href ),
       },
     } );

@@ -47,7 +47,7 @@
 import {
   type T_Response001,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -199,7 +199,8 @@ async function ValidateReqHeadSRI( request: Request ): Promise<T_FileSRICollecti
  */
 async function ResponseHandle( request: Request ): Promise<T_Response001>{
   const url: URL = new URL( request.url ),
-    uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
+    uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim(),
+    httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request );
 
   let result: T_Response001;
 
@@ -239,7 +240,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpResponseHeaders,
+          ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -252,14 +253,14 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
           success: false,
           // 描述性说明。
           message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 )
-          .toFixed( 2 ) }）。`,
+            .toFixed( 2 ) }）。`,
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpResponseHeaders,
+          ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -310,7 +311,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpResponseHeaders,
+          ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -323,14 +324,14 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
           success: false,
           // 描述性说明。
           message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 )
-          .toFixed( 2 ) }）。`,
+            .toFixed( 2 ) }）。`,
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpResponseHeaders,
+          ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -423,7 +424,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpResponseHeaders,
+          ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
         },
       } );
@@ -462,7 +463,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
       status: 200,
       statusText: 'OK',
       headers: {
-        ...httpResponseHeaders,
+        ...httpResHeaders,
         'content-type': 'application/json; charset=utf-8',
       },
     } );

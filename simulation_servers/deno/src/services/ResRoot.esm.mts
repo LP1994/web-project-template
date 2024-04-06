@@ -34,7 +34,7 @@ import {
 
   staticDir,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -49,7 +49,6 @@ import {
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function Handle(
-  // @ts-expect-error
   request: Request
 ): T_Response001{
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
@@ -58,7 +57,7 @@ function Handle(
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpResponseHeaders,
+      ...HttpResponseHeadersFun( request ),
       'content-type': `${ mime.getType( filePath.href ) }; charset=utf-8`,
     },
   } );

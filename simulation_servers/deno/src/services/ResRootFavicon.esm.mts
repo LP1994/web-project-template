@@ -34,7 +34,7 @@ import {
 
   staticDir,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -55,41 +55,41 @@ function Handle( request: Request ): T_Response001{
   let filePath: URL;
 
   switch( pathName ){
-  case '/favicon.ico':
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
+    case '/favicon.ico':
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
 
-    break;
-  case '/favicon.png':
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      break;
+    case '/favicon.png':
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
-    break;
-  case '/apple-touch-icon.png':
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      break;
+    case '/apple-touch-icon.png':
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
-    break;
-  case '/apple-touch-icon-precomposed.png':
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      break;
+    case '/apple-touch-icon-precomposed.png':
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
-    break;
-  case '/apple-touch-icon-120x120.png':
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      break;
+    case '/apple-touch-icon-120x120.png':
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
-    break;
-  case '/apple-touch-icon-120x120-precomposed.png':
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      break;
+    case '/apple-touch-icon-120x120-precomposed.png':
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
-    break;
-  default:
-    filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      break;
+    default:
+      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
-    break;
+      break;
   }
 
   return new Response( Deno.readFileSync( filePath ), {
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpResponseHeaders,
+      ...HttpResponseHeadersFun( request ),
       'content-type': mime.getType( filePath.href ),
     },
   } );

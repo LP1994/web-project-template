@@ -33,7 +33,7 @@
 import {
   type T_Response001,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 // @ts-expect-error
@@ -53,35 +53,35 @@ function ResponseHandle( request: Request ): T_Response001{
   let result: string = '';
 
   switch( callBack ){
-  case 'JSONPCallBack':
-    const name: string = url.searchParams.get( 'name' ) as string,
-      age: string = url.searchParams.get( 'age' ) as string;
+    case 'JSONPCallBack':
+      const name: string = url.searchParams.get( 'name' ) as string,
+        age: string = url.searchParams.get( 'age' ) as string;
 
-    result = `${ callBack }(
+      result = `${ callBack }(
   '${ name }',
   ${ age },
   true,
   ${ JSON.stringify( {
-      name: String( name ),
-      age: Number( age ),
-      timer: Number( Date.now() ),
-    } ) },
+        name: String( name ),
+        age: Number( age ),
+        timer: Number( Date.now() ),
+      } ) },
   '姓名：${ name }，年龄：${ age }，座右铭：路漫漫其修远兮，吾将上下而求索。',
 );`;
 
-    break;
+      break;
 
-  default:
-    result = `console.error( '还未对“${ callBack }”这个函数做处理。' );`;
+    default:
+      result = `console.error( '还未对“${ callBack }”这个函数做处理。' );`;
 
-    break;
+      break;
   }
 
   return new Response( result, {
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpResponseHeaders,
+      ...HttpResponseHeadersFun( request ),
       'Content-Type': `application/javascript; charset=utf-8`,
     },
   } );

@@ -74,7 +74,7 @@ import {
 } from 'deno_std_streams/writable_stream_from_writer.ts';
 
 import {
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -147,11 +147,11 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
     arr001: Array<Deno.FsFile> = await Array.fromAsync( fileOpen );
 
   arr001.map(
-      (
-        item: Deno.FsFile,
-        index: number,
-      ): Promise<void> => ( ( writeFile[ index ] as T_Obj001 ).file as File ).stream().pipeTo( writableStreamFromWriter( item ) )
-    );
+    (
+      item: Deno.FsFile,
+      index: number,
+    ): Promise<void> => ( ( writeFile[ index ] as T_Obj001 ).file as File ).stream().pipeTo( writableStreamFromWriter( item ) )
+  );
 
   return {
     noWriteFile,
@@ -262,18 +262,18 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
       const files: Array<File | Blob> = ( [
         ...( (): Array<File | Blob | string | null> => {
           return formData.getAll( 'files' )
-          .map( ( item: File | Blob | string | null, ): File | Blob | string | null => {
-            if( Object.prototype.toString.call( item ) === '[object File]' ){
-              // @ts-expect-error
-              item._name = ( item as File ).name;
-            }
-            else if( Object.prototype.toString.call( item ) === '[object Blob]' ){
-              // @ts-expect-error
-              item._name = `Blob_File`;
-            }
+            .map( ( item: File | Blob | string | null, ): File | Blob | string | null => {
+              if( Object.prototype.toString.call( item ) === '[object File]' ){
+                // @ts-expect-error
+                item._name = ( item as File ).name;
+              }
+              else if( Object.prototype.toString.call( item ) === '[object Blob]' ){
+                // @ts-expect-error
+                item._name = `Blob_File`;
+              }
 
-            return item;
-          } );
+              return item;
+            } );
         } )(),
         ...files001,
       ].filter( ( item: File | Blob | string | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
@@ -283,8 +283,14 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
         writeFile,
       }: T_ResultObj001 = await WriteFileHandle( _request, files );
 
-      const noWriteFileInfo: Array<{ message: string; filePath: string; }> = [],
-        writeFileInfo: Array<{ message: string; filePath: string; }> = [];
+      const noWriteFileInfo: Array<{
+          message: string;
+          filePath: string;
+        }> = [],
+        writeFileInfo: Array<{
+          message: string;
+          filePath: string;
+        }> = [];
 
       noWriteFile.forEach(
         (
@@ -361,7 +367,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpResponseHeaders,
+      ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',
     },
   } );

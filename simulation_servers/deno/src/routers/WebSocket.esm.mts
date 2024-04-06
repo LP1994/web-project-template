@@ -17,7 +17,7 @@ import {
   type T_Fun001,
   type T_Result001,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -69,7 +69,7 @@ async function WebSocket( request: Request ): Promise<Response>{
       status: 404,
       statusText: 'Not Found',
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( request ),
       },
     } );
   }

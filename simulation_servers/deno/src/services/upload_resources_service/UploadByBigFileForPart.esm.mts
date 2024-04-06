@@ -35,7 +35,7 @@
 'use strict';
 
 import {
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -54,7 +54,6 @@ import {
  * @returns {Response} 返回值类型为Response。
  */
 function UploadByBigFileForPart(
-  // @ts-expect-error
   request: Request
 ): Response{
   return new Response( JSON.stringify( {
@@ -67,7 +66,7 @@ function UploadByBigFileForPart(
     status: 500,
     statusText: 'Internal Server Error',
     headers: {
-      ...httpResponseHeaders,
+      ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',
     },
   } );

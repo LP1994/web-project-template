@@ -37,7 +37,7 @@ import {
 } from 'esm_sh/mongoose';
 
 import {
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -68,7 +68,6 @@ interface I_StartupLogCollectionSchema {
  * @returns {Promise<Response>} 返回值类型为Promise<Response>。
  */
 async function Handle(
-  // @ts-expect-error
   request: Request
 ): Promise<Response>{
   const mongoose: Mongoose = new Mongoose();
@@ -92,7 +91,7 @@ async function Handle(
       status: 200,
       statusText: 'OK',
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( request ),
         'content-type': `application/json; charset=utf-8`,
       },
     } );
@@ -104,7 +103,7 @@ async function Handle(
       status: 200,
       statusText: 'OK',
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( request ),
         'content-type': `application/json; charset=utf-8`,
       },
     } );

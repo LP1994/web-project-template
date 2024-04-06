@@ -42,7 +42,7 @@ import {
 
   uploadDir,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -83,7 +83,7 @@ function ResponseHandle( request: Request ): T_Response001{
         status: 200,
         statusText: 'OK',
         headers: {
-          ...httpResponseHeaders,
+          ...HttpResponseHeadersFun( request ),
           'Content-Type': `${ mime.getType( filePath.href ) }`,
           'Content-Length': `${ Number( fileState.size ) }`,
           // 该属性用于下载。

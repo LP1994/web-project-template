@@ -41,7 +41,7 @@ import {
 } from 'deno_std_streams/writable_stream_from_writer.ts';
 
 import {
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -185,7 +185,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     status: 200,
     statusText: 'OK',
     headers: {
-      ...httpResponseHeaders,
+      ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',
     },
   } );

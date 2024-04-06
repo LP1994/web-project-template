@@ -29,7 +29,7 @@ import {
 
   ejsDir,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -102,14 +102,14 @@ async function Routers( request: Request ): Promise<Response>{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
       html: string = await dejs.renderToString( Deno.readTextFileSync( filePath ), {
         message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
-        .join( '、' ) }。`,
+          .join( '、' ) }。`,
       } );
 
     result = new Response( html, {
       status: 405,
       statusText: 'Method Not Allowed',
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( request ),
         'content-type': mime.getType( filePath.href ),
       },
     } );

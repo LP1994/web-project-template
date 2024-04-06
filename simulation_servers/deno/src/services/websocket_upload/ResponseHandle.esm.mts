@@ -38,7 +38,7 @@ import {
 
   // uploadDir,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -155,7 +155,7 @@ WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
       status: 500,
       statusText: `${ ( error as Error ).message }`,
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( request ),
       },
     } );
   }

@@ -32,7 +32,7 @@
 import {
   type T_Response001,
 
-  httpResponseHeaders,
+  HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -149,7 +149,7 @@ WebSocket收到了来自客户端（${ pathName }）的消息。End
       status: 500,
       statusText: `${ ( error as Error ).message }`,
       headers: {
-        ...httpResponseHeaders,
+        ...HttpResponseHeadersFun( request ),
       },
     } );
   }
