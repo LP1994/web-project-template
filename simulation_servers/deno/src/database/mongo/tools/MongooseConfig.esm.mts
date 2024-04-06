@@ -18,7 +18,7 @@ import {
   type ConnectOptions as T_ConnectOptions,
   type HydratedDocument as T_HydratedDocument,
   type SchemaOptions as T_SchemaOptions,
-} from 'esm_sh/mongoose';
+} from 'npm:mongoose';
 
 import {
   opensslDir,
