@@ -1,0 +1,4 @@
+该文件夹是用于测试关于“cookie”的前后端请求交互。
+
+如：
+https://127.0.0.1:9200/simulation_servers_deno/cookie

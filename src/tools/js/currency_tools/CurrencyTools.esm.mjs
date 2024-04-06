@@ -3309,14 +3309,22 @@ class JS2Ajax {
    *  为false时，只要服务器的响应头设置为{'Access-Control-Allow-Origin': '*'}，就能跨域访问了<br />
    *  所以，默认为true，也就是不允许跨域<br /><br />
    *
-   *  当 Access-Control-Allow-Origin:* 时<br />
-   *  不允许使用凭证(即 withCredentials:true)<br /><br />
-   *
-   *  当 Access-Control-Allow-Origin:* 时，<br />
-   *  只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   *  1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *  2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *  3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   *  关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *  // 在加载资源的进度开始时会触发该事件<br />
    *  loadStart: ( event, xhr, response, status ) => {},<br /><br />
@@ -3594,6 +3602,22 @@ class JS2Ajax {
    *   credentials: 'same-origin', // 字符串，请求的credentials(证书、凭据)，如'omit'(不需要凭据)、'same-origin'或者'include'(跨域源)。默认'same-origin'。<br />
    *   // 为了在当前域名内自动发送cookie，必须提供这个选项，从Chrome50开始，这个属性也可以接受FederatedCredential实例或是一个PasswordCredential实例。<br />
    *   // 当 Access-Control-Allow-Origin:* 时，credentials是"omit"才行，不然还是没法跨域。<br /><br />
+   *   关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *   cache: 'default', // 字符串，请求的cache模式：'default'、'no-store'、'reload'、'no-cache'、'force-cache'或者'only-if-cached'。默认值'default'。<br /><br />
    *
@@ -3793,14 +3817,22 @@ class JS2Ajax {
    *  为false时，只要服务器的响应头设置为{'Access-Control-Allow-Origin': '*'}，就能跨域访问了<br />
    *  所以，默认为true，也就是不允许跨域<br /><br />
    *
-   *  当 Access-Control-Allow-Origin:* 时<br />
-   *  不允许使用凭证(即 withCredentials:true)<br /><br />
-   *
-   *  当 Access-Control-Allow-Origin:* 时，<br />
-   *  只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   *  1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *  2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *  3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   *  关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *  // 在加载资源的进度开始时会触发该事件<br />
    *  loadStart: ( event, xhr, response, status ) => {},<br /><br />
@@ -3931,14 +3963,22 @@ class JS2Ajax {
    *  为false时，只要服务器的响应头设置为{'Access-Control-Allow-Origin': '*'}，就能跨域访问了<br />
    *  所以，默认为true，也就是不允许跨域<br /><br />
    *
-   *  当 Access-Control-Allow-Origin:* 时<br />
-   *  不允许使用凭证(即 withCredentials:true)<br /><br />
-   *
-   *  当 Access-Control-Allow-Origin:* 时，<br />
-   *  只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   *  1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *  2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *  3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   *  关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *  // 在加载资源的进度开始时会触发该事件<br />
    *  loadStart: ( event, xhr, response, status ) => {},<br /><br />
@@ -4054,14 +4094,22 @@ class JS2Ajax {
    *  为false时，只要服务器的响应头设置为{'Access-Control-Allow-Origin': '*'}，就能跨域访问了<br />
    *  所以，默认为true，也就是不允许跨域<br /><br />
    *
-   *  当 Access-Control-Allow-Origin:* 时<br />
-   *  不允许使用凭证(即 withCredentials:true)<br /><br />
-   *
-   *  当 Access-Control-Allow-Origin:* 时，<br />
-   *  只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   *  1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *  2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *  3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   *  关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *  // 在加载资源的进度开始时会触发该事件<br />
    *  loadStart: ( event, xhr, response, status ) => {},<br /><br />
@@ -4177,14 +4225,22 @@ class JS2Ajax {
    *  为false时，只要服务器的响应头设置为{'Access-Control-Allow-Origin': '*'}，就能跨域访问了<br />
    *  所以，默认为true，也就是不允许跨域<br /><br />
    *
-   *  当 Access-Control-Allow-Origin:* 时<br />
-   *  不允许使用凭证(即 withCredentials:true)<br /><br />
-   *
-   *  当 Access-Control-Allow-Origin:* 时，<br />
-   *  只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   *  1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *  2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *  3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   *  关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *  // 在加载资源的进度开始时会触发该事件<br />
    *  loadStart: ( event, xhr, response, status ) => {},<br /><br />
@@ -4300,14 +4356,22 @@ class JS2Ajax {
    *  为false时，只要服务器的响应头设置为{'Access-Control-Allow-Origin': '*'}，就能跨域访问了<br />
    *  所以，默认为true，也就是不允许跨域<br /><br />
    *
-   *  当 Access-Control-Allow-Origin:* 时<br />
-   *  不允许使用凭证(即 withCredentials:true)<br /><br />
-   *
-   *  当 Access-Control-Allow-Origin:* 时，<br />
-   *  只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   *  1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *  2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *  3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   *  关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *  // 在加载资源的进度开始时会触发该事件<br />
    *  loadStart: ( event, xhr, response, status ) => {},<br /><br />
@@ -8260,14 +8324,22 @@ class SSE4Client {
    * {<br />
    * withCredentials: true，布尔值，默认值是true，指示是否应将CORS设置为包括凭据，可选<br />
    * PS:<br />
-   * 一、<br />
-   * 当 Access-Control-Allow-Origin:* 时<br />
-   * 不允许使用凭证(即不允许设置withCredentials为true)<br />
-   * 二、<br />
-   * 当 Access-Control-Allow-Origin:* 时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />
-   * 1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   * 2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   * 3、如果使用Fetch API，请确保Request.credentials是"omit"。<br /><br />
+   * 关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    * onError: ( sse4Client, event ) => {}，是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler，可选。<br /><br />
    *
@@ -9415,6 +9487,22 @@ class WASMTool {
    *   credentials: 'same-origin', // 字符串，请求的credentials(证书、凭据)，如'omit'(不需要凭据)、'same-origin'或者'include'(跨域源)。默认'same-origin'。<br />
    *   // 为了在当前域名内自动发送cookie，必须提供这个选项，从Chrome50开始，这个属性也可以接受FederatedCredential实例或是一个PasswordCredential实例。<br />
    *   // 当 Access-Control-Allow-Origin:* 时，credentials是"omit"才行，不然还是没法跨域。<br /><br />
+   *   关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    *
    *   cache: 'default', // 字符串，请求的cache模式：'default'、'no-store'、'reload'、'no-cache'、'force-cache'或者'only-if-cached'。默认值'default'。<br /><br />
    *

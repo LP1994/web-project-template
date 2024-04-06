@@ -1,2 +1,205 @@
+关于跨域请求头。<br />
+  1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+  2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+    如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+    如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+    如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+  3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+    那么服务端的响应头得如下设置：<br />
+    'Access-Control-Allow-Credentials': true、<br />
+    'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+    'Vary': 'Origin' <br />
+    客户端也得如下设置：<br />
+    确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+    如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+    如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+    如果使用Fetch API，请确保Request.credentials是"include"。<br />
+
+
+
 Set-Cookie：属于响应头，详见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+1、Set-Cookie HTTP 响应头用于将 cookie 从服务器发送给用户代理，以便用户代理稍后将其发回服务器。要发送多个 cookie，应在同一响应中发送多个 Set-Cookie 标头。
+2、警告：浏览器会阻止前端 JavaScript 代码访问 Set-Cookie 标头，这是 Fetch 规范所要求的，该规范将 Set-Cookie 定义为禁止的响应标头名称，必须从暴露给前端代码的任何响应中过滤掉。
+
+例子;
+import {
+  httpResponseHeaders,
+} from 'configures/GlobalParameters.esm.mts';
+
+let headers: Headers = new Headers( httpResponseHeaders );
+
+headers.append( 'Content-Type', `application/json; charset=utf-8` );
+headers.append( 'Set-Cookie', `serverCookie001=deno_server001; Path=/; Expires=${ httpResponseHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
+headers.append( 'Set-Cookie', `serverCookie002=deno_server002; Path=/; Expires=${ httpResponseHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
+headers.append( 'Set-Cookie', `serverCookie003=deno_server003; Path=/; Expires=${ httpResponseHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
+
+
+
 Cookie：属于请求头，详见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie
+1、当在浏览器下通过“document.cookie”获取Cookie时，只能获取到Cookie中Path的值是跟浏览器当前页面路径相匹配的Cookie。
+如：
+1)Cookie：
+serverCookie001=deno_server001; Path=/en-US/docs/Web/HTTP/Cookies; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure
+serverCookie002=deno_server002; Path=/dev_server/pages; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure
+2)当前页面：https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
+那么通过“document.cookie”只能获取到：
+serverCookie001=deno_server001; Path=/en-US/docs/Web/HTTP/Cookies; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure
+
+2、当发起请求时，请求头中的“Cookie”标头，也只会自动带上跟请求路径匹配的Cookie。
+如：
+1)Cookie：
+serverCookie001=deno_server001; Path=/en-US/docs/Web/HTTP/Cookies; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure
+serverCookie002=deno_server002; Path=/https4deno/simulation_servers_deno/cookie; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure
+2)当前页面：https://localhost:8100/dev_server/pages/Index.html
+发起一个请求：https://localhost:8100/https4deno/simulation_servers_deno/cookie，那么该请求只会携带上：
+serverCookie002=deno_server002; Path=/https4deno/simulation_servers_deno/cookie; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure
+
+3、如果将Cookie中Path的值设置成“/”，那就直接匹配全部的Cookie了，也就没以上的特殊情况了。
+
+4、客户端例子，同源的（页面：https://localhost:8100/dev_server/pages/Index.html?isClientCookie）：
+import {
+  RequestConcurrentControllerByGlobal,
+} from 'toolsDir/ts/universal_tools/UniversalTools.esm.mts';
+
+document.querySelector( 'main' ).addEventListener( 'click', async event => {
+  const url = new URL( location.href ),
+    isClientCookie = url.searchParams.has( 'isClientCookie' ),
+    time = new Date( Date.now() + ( 2 * 60 * 60 * 1000 ) ).toUTCString();
+
+  if( isClientCookie ){
+    globalThis.document.cookie = `clientCookie001=client_data001; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+    globalThis.document.cookie = `clientCookie002=client_data002; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+    globalThis.document.cookie = `clientCookie003=client_data003; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+
+    const {
+      requestConcurrentToolByGlobal
+    } = RequestConcurrentControllerByGlobal( 3 );
+
+    const result = await requestConcurrentToolByGlobal( [
+      [
+        // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
+        '',
+        () => fetch( '/https4deno/simulation_servers_deno/cookie?isClientCookie', {
+          cache: 'no-cache',
+          headers: {
+            // 'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+            'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+          },
+          method: 'GET',
+          mode: 'same-origin',
+          credentials: 'same-origin',
+        } ).then( response => response.json() )
+      ],
+    ] );
+
+    console.dir( result );
+
+    console.log( `globalThis.document.cookie--->${ globalThis.document.cookie }` );
+  }
+  else{
+    const {
+      requestConcurrentToolByGlobal
+    } = RequestConcurrentControllerByGlobal( 3 );
+
+    const result = await requestConcurrentToolByGlobal( [
+      [
+        // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
+        '',
+        () => fetch( '/https4deno/simulation_servers_deno/cookie', {
+          cache: 'no-cache',
+          headers: {
+            // 'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+            'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+          },
+          method: 'GET',
+          mode: 'same-origin',
+          credentials: 'same-origin',
+        } ).then( response => response.json() )
+      ],
+    ] );
+
+    console.dir( result );
+
+    console.log( `globalThis.document.cookie--->${ globalThis.document.cookie }` );
+  }
+}, false );
+
+5、客户端例子，跨域的（页面：https://localhost:8100/dev_server/pages/Index.html?isClientCookie）：
+import {
+  RequestConcurrentControllerByGlobal,
+} from 'toolsDir/ts/universal_tools/UniversalTools.esm.mts';
+
+document.querySelector( 'main' ).addEventListener( 'click', async event => {
+  const url = new URL( location.href ),
+    isClientCookie = url.searchParams.has( 'isClientCookie' ),
+    time = new Date( Date.now() + ( 2 * 60 * 60 * 1000 ) ).toUTCString();
+
+  if( isClientCookie ){
+    globalThis.document.cookie = `clientCookie001=client_data001; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+    globalThis.document.cookie = `clientCookie002=client_data002; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+    globalThis.document.cookie = `clientCookie003=client_data003; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+
+    const {
+      requestConcurrentToolByGlobal
+    } = RequestConcurrentControllerByGlobal( 3 );
+
+    const result = await requestConcurrentToolByGlobal( [
+      [
+        // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
+        'https://127.0.0.1:9200',
+        () => fetch( 'https://127.0.0.1:9200/simulation_servers_deno/cookie?isClientCookie', {
+          cache: 'no-cache',
+          headers: {
+            // 'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+            'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+          },
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+        } ).then( response => response.json() )
+      ],
+    ] );
+
+    console.dir( result );
+
+    console.log( `globalThis.document.cookie--->${ globalThis.document.cookie }` );
+  }
+  else{
+    const {
+      requestConcurrentToolByGlobal
+    } = RequestConcurrentControllerByGlobal( 3 );
+
+    const result = await requestConcurrentToolByGlobal( [
+      [
+        // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
+        'https://127.0.0.1:9200',
+        () => fetch( 'https://127.0.0.1:9200/simulation_servers_deno/cookie', {
+          cache: 'no-cache',
+          headers: {
+            // 'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+            'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
+          },
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+        } ).then( response => response.json() )
+      ],
+    ] );
+
+    console.dir( result );
+
+    console.log( `globalThis.document.cookie--->${ globalThis.document.cookie }` );
+  }
+}, false );

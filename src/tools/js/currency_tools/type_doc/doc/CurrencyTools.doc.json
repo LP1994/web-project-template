@@ -33,7 +33,7 @@
 							"fileName": "CurrencyTools.esm.mjs",
 							"line": 1195,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1195"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1195"
 						}
 					],
 					"signatures": [
@@ -67,7 +67,7 @@
 									"fileName": "CurrencyTools.esm.mjs",
 									"line": 1195,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1195"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1195"
 								}
 							],
 							"type": {
@@ -90,7 +90,7 @@
 							"fileName": "CurrencyTools.esm.mjs",
 							"line": 1204,
 							"character": 9,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1204"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1204"
 						}
 					],
 					"signatures": [
@@ -124,7 +124,7 @@
 									"fileName": "CurrencyTools.esm.mjs",
 									"line": 1204,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1204"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1204"
 								}
 							],
 							"type": {
@@ -182,7 +182,7 @@
 					"fileName": "CurrencyTools.esm.mjs",
 					"line": 1188,
 					"character": 6,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1188"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L1188"
 				}
 			]
 		},
@@ -218,9 +218,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8237,
+							"line": 8301,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8237"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8301"
 						}
 					],
 					"type": {
@@ -244,9 +244,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8239,
+							"line": 8303,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8239"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8303"
 						}
 					],
 					"type": {
@@ -260,9 +260,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8280,
+									"line": 8352,
 									"character": 14,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8280"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8352"
 								}
 							],
 							"signatures": [
@@ -275,9 +275,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 8280,
+											"line": 8352,
 											"character": 14,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8280"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8352"
 										}
 									],
 									"parameters": [
@@ -324,9 +324,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8241,
+							"line": 8305,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8241"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8305"
 						}
 					],
 					"type": {
@@ -340,9 +340,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8282,
+									"line": 8354,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8282"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8354"
 								}
 							],
 							"signatures": [
@@ -355,9 +355,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 8282,
+											"line": 8354,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8282"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8354"
 										}
 									],
 									"parameters": [
@@ -415,9 +415,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8243,
+							"line": 8307,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8243"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8307"
 						}
 					],
 					"type": {
@@ -431,9 +431,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8284,
+									"line": 8356,
 									"character": 13,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8284"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8356"
 								}
 							],
 							"signatures": [
@@ -446,9 +446,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 8284,
+											"line": 8356,
 											"character": 13,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8284"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8356"
 										}
 									],
 									"parameters": [
@@ -493,9 +493,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8278,
+							"line": 8350,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8278"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8350"
 						}
 					],
 					"signatures": [
@@ -516,9 +516,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8278,
+									"line": 8350,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8278"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8350"
 								}
 							],
 							"parameters": [
@@ -551,7 +551,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "JSON配置对象<br />\r\n{<br />\r\nwithCredentials: true，布尔值，默认值是true，指示是否应将CORS设置为包括凭据，可选<br />\r\nPS:<br />\r\n一、<br />\r\n当 Access-Control-Allow-Origin:* 时<br />\r\n不允许使用凭证(即不允许设置withCredentials为true)<br />\r\n二、<br />\r\n当 Access-Control-Allow-Origin:* 时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了。<br />\r\n1、如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />\r\n2、如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />\r\n3、如果使用Fetch API，请确保Request.credentials是\"omit\"。<br /><br />\r\n\r\nonError: ( sse4Client, event ) => {}，是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler，可选。<br /><br />\r\n\r\nonMessage: ( sse4Client, event, data ) => {}，是在收到消息事件（即消息来自源）时调用的EventHandler，可选。<br /><br />\r\n\r\nonOpen: ( sse4Client, event ) => {}，是在接收到打开事件（即刚打开连接时）时调用的EventHandler，可选。"
+												"text": "JSON配置对象<br />\r\n{<br />\r\nwithCredentials: true，布尔值，默认值是true，指示是否应将CORS设置为包括凭据，可选<br />\r\nPS:<br />\r\n关于跨域请求头。<br />\r\n  1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:\"include\"之类），即不能携带上诸如Cookie之类的凭证。<br />\r\n  2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />\r\n    如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />\r\n    如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />\r\n    如果使用Fetch API，请确保Request.credentials是\"omit\"，\"omit\"表示忽略诸如Cookie之类的凭证。<br />\r\n  3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />\r\n    那么服务端的响应头得如下设置：<br />\r\n    'Access-Control-Allow-Credentials': true、<br />\r\n    'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />\r\n    'Vary': 'Origin' <br />\r\n    客户端也得如下设置：<br />\r\n    确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />\r\n    如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />\r\n    如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />\r\n    如果使用Fetch API，请确保Request.credentials是\"include\"。<br />\r\n\r\nonError: ( sse4Client, event ) => {}，是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler，可选。<br /><br />\r\n\r\nonMessage: ( sse4Client, event, data ) => {}，是在收到消息事件（即消息来自源）时调用的EventHandler，可选。<br /><br />\r\n\r\nonOpen: ( sse4Client, event ) => {}，是在接收到打开事件（即刚打开连接时）时调用的EventHandler，可选。"
 											}
 										]
 									},
@@ -609,9 +609,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 8280,
+																			"line": 8352,
 																			"character": 14,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8280"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8352"
 																		}
 																	],
 																	"signatures": [
@@ -624,9 +624,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 8280,
+																					"line": 8352,
 																					"character": 14,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8280"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8352"
 																				}
 																			],
 																			"parameters": [
@@ -689,9 +689,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 8282,
+																			"line": 8354,
 																			"character": 16,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8282"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8354"
 																		}
 																	],
 																	"signatures": [
@@ -704,9 +704,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 8282,
+																					"line": 8354,
 																					"character": 16,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8282"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8354"
 																				}
 																			],
 																			"parameters": [
@@ -780,9 +780,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 8284,
+																			"line": 8356,
 																			"character": 13,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8284"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8356"
 																		}
 																	],
 																	"signatures": [
@@ -795,9 +795,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 8284,
+																					"line": 8356,
 																					"character": 13,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8284"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8356"
 																				}
 																			],
 																			"parameters": [
@@ -851,9 +851,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8286,
+													"line": 8358,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8286"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8358"
 												}
 											]
 										}
@@ -879,9 +879,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8307,
+							"line": 8379,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8307"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8379"
 						}
 					],
 					"signatures": [
@@ -902,9 +902,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8307,
+									"line": 8379,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8307"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8379"
 								}
 							],
 							"type": {
@@ -923,9 +923,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8316,
+							"line": 8388,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8316"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8388"
 						}
 					],
 					"signatures": [
@@ -946,9 +946,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8316,
+									"line": 8388,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8316"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8388"
 								}
 							],
 							"parameters": [
@@ -977,9 +977,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8316,
+													"line": 8388,
 													"character": 25,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8316"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8388"
 												}
 											],
 											"signatures": [
@@ -992,9 +992,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 8316,
+															"line": 8388,
 															"character": 25,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8316"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8388"
 														}
 													],
 													"parameters": [
@@ -1048,9 +1048,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8326,
+							"line": 8398,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8326"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8398"
 						}
 					],
 					"signatures": [
@@ -1071,9 +1071,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8326,
+									"line": 8398,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8326"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8398"
 								}
 							],
 							"parameters": [
@@ -1102,9 +1102,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8326,
+													"line": 8398,
 													"character": 27,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8326"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8398"
 												}
 											],
 											"signatures": [
@@ -1117,9 +1117,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 8326,
+															"line": 8398,
 															"character": 27,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8326"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8398"
 														}
 													],
 													"parameters": [
@@ -1184,9 +1184,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8336,
+							"line": 8408,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8336"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8408"
 						}
 					],
 					"signatures": [
@@ -1207,9 +1207,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8336,
+									"line": 8408,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8336"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8408"
 								}
 							],
 							"parameters": [
@@ -1238,9 +1238,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8336,
+													"line": 8408,
 													"character": 24,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8336"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8408"
 												}
 											],
 											"signatures": [
@@ -1253,9 +1253,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 8336,
+															"line": 8408,
 															"character": 24,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8336"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8408"
 														}
 													],
 													"parameters": [
@@ -1309,9 +1309,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8357,
+							"line": 8429,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8357"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8429"
 						}
 					],
 					"signatures": [
@@ -1332,9 +1332,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8357,
+									"line": 8429,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8357"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8429"
 								}
 							],
 							"parameters": [
@@ -1382,9 +1382,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8357,
+													"line": 8429,
 													"character": 29,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8357"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8429"
 												}
 											],
 											"signatures": [
@@ -1397,9 +1397,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 8357,
+															"line": 8429,
 															"character": 29,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8357"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8429"
 														}
 													],
 													"parameters": [
@@ -1462,9 +1462,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8383,
+							"line": 8455,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8383"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8455"
 						}
 					],
 					"signatures": [
@@ -1485,9 +1485,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8383,
+									"line": 8455,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8383"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8455"
 								}
 							],
 							"parameters": [
@@ -1531,9 +1531,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8402,
+							"line": 8474,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8402"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8474"
 						}
 					],
 					"signatures": [
@@ -1565,9 +1565,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8402,
+									"line": 8474,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8402"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8474"
 								}
 							],
 							"type": {
@@ -1586,9 +1586,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8411,
+							"line": 8483,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8411"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8483"
 						}
 					],
 					"signatures": [
@@ -1620,9 +1620,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8411,
+									"line": 8483,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8411"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8483"
 								}
 							],
 							"type": {
@@ -1641,9 +1641,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8422,
+							"line": 8494,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8422"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8494"
 						}
 					],
 					"signatures": [
@@ -1675,9 +1675,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8422,
+									"line": 8494,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8422"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8494"
 								}
 							],
 							"type": {
@@ -1722,9 +1722,9 @@
 			"sources": [
 				{
 					"fileName": "CurrencyTools.esm.mjs",
-					"line": 8232,
+					"line": 8296,
 					"character": 6,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8232"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8296"
 				}
 			]
 		},
@@ -1754,9 +1754,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8828,
+							"line": 8900,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8828"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8900"
 						}
 					],
 					"type": {
@@ -1776,9 +1776,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8830,
+							"line": 8902,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8830"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8902"
 						}
 					],
 					"signatures": [
@@ -1791,9 +1791,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8830,
+									"line": 8902,
 									"character": 18,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8830"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8902"
 								}
 							],
 							"parameters": [
@@ -1836,9 +1836,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8839,
+							"line": 8911,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8839"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8911"
 						}
 					],
 					"signatures": [
@@ -1859,9 +1859,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8839,
+									"line": 8911,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8839"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8911"
 								}
 							],
 							"parameters": [
@@ -1905,9 +1905,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8843,
+							"line": 8915,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8843"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8915"
 						}
 					],
 					"signatures": [
@@ -1920,9 +1920,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8843,
+									"line": 8915,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8843"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8915"
 								}
 							],
 							"parameters": [
@@ -2062,9 +2062,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8849,
+													"line": 8921,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8849"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8921"
 												}
 											]
 										}
@@ -2090,9 +2090,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8925,
+													"line": 8997,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8925"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8997"
 												}
 											],
 											"type": {
@@ -2114,9 +2114,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8926,
+													"line": 8998,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8926"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8998"
 												}
 											],
 											"type": {
@@ -2137,9 +2137,9 @@
 															"sources": [
 																{
 																	"fileName": "CurrencyTools.esm.mjs",
-																	"line": 8866,
+																	"line": 8938,
 																	"character": 92,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8866"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8938"
 																}
 															],
 															"type": {
@@ -2156,9 +2156,9 @@
 															"sources": [
 																{
 																	"fileName": "CurrencyTools.esm.mjs",
-																	"line": 8868,
+																	"line": 8940,
 																	"character": 4,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8868"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8940"
 																}
 															],
 															"type": {
@@ -2175,9 +2175,9 @@
 															"sources": [
 																{
 																	"fileName": "CurrencyTools.esm.mjs",
-																	"line": 8919,
+																	"line": 8991,
 																	"character": 4,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8919"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8991"
 																}
 															],
 															"type": {
@@ -2199,9 +2199,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 8861,
+															"line": 8933,
 															"character": 6,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8861"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8933"
 														}
 													]
 												}
@@ -2217,9 +2217,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8927,
+													"line": 8999,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8927"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8999"
 												}
 											],
 											"type": {
@@ -2233,9 +2233,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 8862,
+															"line": 8934,
 															"character": 6,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8862"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8934"
 														}
 													]
 												}
@@ -2256,9 +2256,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 8924,
+											"line": 8996,
 											"character": 11,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8924"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8996"
 										}
 									]
 								}
@@ -2275,9 +2275,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 8957,
+							"line": 9029,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8957"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9029"
 						}
 					],
 					"signatures": [
@@ -2309,9 +2309,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 8957,
+									"line": 9029,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8957"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9029"
 								}
 							],
 							"parameters": [
@@ -2429,9 +2429,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 8962,
+													"line": 9034,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8962"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9034"
 												}
 											]
 										}
@@ -2460,9 +2460,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9007,
+							"line": 9079,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9007"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9079"
 						}
 					],
 					"signatures": [
@@ -2494,9 +2494,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9007,
+									"line": 9079,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9007"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9079"
 								}
 							],
 							"parameters": [
@@ -2614,9 +2614,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9012,
+													"line": 9084,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9012"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9084"
 												}
 											]
 										}
@@ -2645,9 +2645,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9054,
+							"line": 9126,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9054"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9126"
 						}
 					],
 					"signatures": [
@@ -2679,9 +2679,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9054,
+									"line": 9126,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9054"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9126"
 								}
 							],
 							"parameters": [
@@ -2746,9 +2746,9 @@
 			"sources": [
 				{
 					"fileName": "CurrencyTools.esm.mjs",
-					"line": 8826,
+					"line": 8898,
 					"character": 6,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8826"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L8898"
 				}
 			]
 		},
@@ -2784,9 +2784,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9509,
+							"line": 9597,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9509"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9597"
 						}
 					],
 					"type": {
@@ -2811,9 +2811,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9514,
+							"line": 9602,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9514"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9602"
 						}
 					],
 					"type": {
@@ -2838,9 +2838,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9519,
+							"line": 9607,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9519"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9607"
 						}
 					],
 					"type": {
@@ -2861,9 +2861,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9534,
+							"line": 9622,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9534"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9622"
 						}
 					],
 					"signatures": [
@@ -2884,9 +2884,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9534,
+									"line": 9622,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9534"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9622"
 								}
 							],
 							"parameters": [
@@ -2947,9 +2947,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9556,
+							"line": 9644,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9556"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9644"
 						}
 					],
 					"signatures": [
@@ -2981,9 +2981,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9556,
+									"line": 9644,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9556"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9644"
 								}
 							],
 							"parameters": [
@@ -3038,9 +3038,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9559,
+													"line": 9647,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9559"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9647"
 												}
 											]
 										}
@@ -3069,9 +3069,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9597,
+							"line": 9685,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9597"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9685"
 						}
 					],
 					"signatures": [
@@ -3103,9 +3103,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9597,
+									"line": 9685,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9597"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9685"
 								}
 							],
 							"parameters": [
@@ -3150,9 +3150,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9616,
+							"line": 9704,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9616"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9704"
 						}
 					],
 					"signatures": [
@@ -3184,9 +3184,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9616,
+									"line": 9704,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9616"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9704"
 								}
 							],
 							"parameters": [
@@ -3231,9 +3231,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9635,
+							"line": 9723,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9635"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9723"
 						}
 					],
 					"signatures": [
@@ -3265,9 +3265,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9635,
+									"line": 9723,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9635"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9723"
 								}
 							],
 							"parameters": [
@@ -3312,9 +3312,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9654,
+							"line": 9742,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9654"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9742"
 						}
 					],
 					"signatures": [
@@ -3346,9 +3346,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9654,
+									"line": 9742,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9654"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9742"
 								}
 							],
 							"parameters": [
@@ -3393,9 +3393,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9673,
+							"line": 9761,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9673"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9761"
 						}
 					],
 					"signatures": [
@@ -3427,9 +3427,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9673,
+									"line": 9761,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9673"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9761"
 								}
 							],
 							"parameters": [
@@ -3474,9 +3474,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9699,
+							"line": 9787,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9699"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9787"
 						}
 					],
 					"signatures": [
@@ -3508,9 +3508,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9699,
+									"line": 9787,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9699"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9787"
 								}
 							],
 							"parameters": [
@@ -3565,9 +3565,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9702,
+													"line": 9790,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9702"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9790"
 												}
 											]
 										}
@@ -3596,9 +3596,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9749,
+							"line": 9837,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9749"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9837"
 						}
 					],
 					"signatures": [
@@ -3630,9 +3630,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9749,
+									"line": 9837,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9749"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9837"
 								}
 							],
 							"parameters": [
@@ -3687,9 +3687,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9752,
+													"line": 9840,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9752"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9840"
 												}
 											]
 										}
@@ -3718,9 +3718,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9799,
+							"line": 9887,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9799"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9887"
 						}
 					],
 					"signatures": [
@@ -3752,9 +3752,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9799,
+									"line": 9887,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9799"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9887"
 								}
 							],
 							"parameters": [
@@ -3809,9 +3809,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9802,
+													"line": 9890,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9802"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9890"
 												}
 											]
 										}
@@ -3840,9 +3840,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9847,
+							"line": 9935,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9847"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9935"
 						}
 					],
 					"signatures": [
@@ -3874,9 +3874,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9847,
+									"line": 9935,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9847"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9935"
 								}
 							],
 							"parameters": [
@@ -3931,9 +3931,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9850,
+													"line": 9938,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9850"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9938"
 												}
 											]
 										}
@@ -3988,9 +3988,9 @@
 			"sources": [
 				{
 					"fileName": "CurrencyTools.esm.mjs",
-					"line": 9504,
+					"line": 9592,
 					"character": 6,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9504"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9592"
 				}
 			]
 		},
@@ -4026,9 +4026,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9890,
+							"line": 9978,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9890"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9978"
 						}
 					],
 					"type": {
@@ -4052,9 +4052,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9892,
+							"line": 9980,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9892"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9980"
 						}
 					],
 					"type": {
@@ -4068,9 +4068,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9924,
+									"line": 10012,
 									"character": 14,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9924"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10012"
 								}
 							],
 							"signatures": [
@@ -4083,9 +4083,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 9924,
+											"line": 10012,
 											"character": 14,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9924"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10012"
 										}
 									],
 									"parameters": [
@@ -4132,9 +4132,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9894,
+							"line": 9982,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9894"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9982"
 						}
 					],
 					"type": {
@@ -4148,9 +4148,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9926,
+									"line": 10014,
 									"character": 14,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9926"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10014"
 								}
 							],
 							"signatures": [
@@ -4163,9 +4163,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 9926,
+											"line": 10014,
 											"character": 14,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9926"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10014"
 										}
 									],
 									"parameters": [
@@ -4212,9 +4212,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9896,
+							"line": 9984,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9896"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9984"
 						}
 					],
 					"type": {
@@ -4228,9 +4228,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9928,
+									"line": 10016,
 									"character": 16,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9928"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10016"
 								}
 							],
 							"signatures": [
@@ -4243,9 +4243,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 9928,
+											"line": 10016,
 											"character": 16,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9928"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10016"
 										}
 									],
 									"parameters": [
@@ -4303,9 +4303,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9898,
+							"line": 9986,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9898"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9986"
 						}
 					],
 					"type": {
@@ -4319,9 +4319,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9930,
+									"line": 10018,
 									"character": 13,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9930"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10018"
 								}
 							],
 							"signatures": [
@@ -4334,9 +4334,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 9930,
+											"line": 10018,
 											"character": 13,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9930"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10018"
 										}
 									],
 									"parameters": [
@@ -4381,9 +4381,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9922,
+							"line": 10010,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9922"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10010"
 						}
 					],
 					"signatures": [
@@ -4404,9 +4404,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9922,
+									"line": 10010,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9922"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10010"
 								}
 							],
 							"parameters": [
@@ -4497,9 +4497,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 9924,
+																			"line": 10012,
 																			"character": 14,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9924"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10012"
 																		}
 																	],
 																	"signatures": [
@@ -4512,9 +4512,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 9924,
+																					"line": 10012,
 																					"character": 14,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9924"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10012"
 																				}
 																			],
 																			"parameters": [
@@ -4577,9 +4577,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 9926,
+																			"line": 10014,
 																			"character": 14,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9926"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10014"
 																		}
 																	],
 																	"signatures": [
@@ -4592,9 +4592,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 9926,
+																					"line": 10014,
 																					"character": 14,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9926"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10014"
 																				}
 																			],
 																			"parameters": [
@@ -4657,9 +4657,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 9928,
+																			"line": 10016,
 																			"character": 16,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9928"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10016"
 																		}
 																	],
 																	"signatures": [
@@ -4672,9 +4672,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 9928,
+																					"line": 10016,
 																					"character": 16,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9928"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10016"
 																				}
 																			],
 																			"parameters": [
@@ -4748,9 +4748,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 9930,
+																			"line": 10018,
 																			"character": 13,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9930"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10018"
 																		}
 																	],
 																	"signatures": [
@@ -4763,9 +4763,9 @@
 																			"sources": [
 																				{
 																					"fileName": "CurrencyTools.esm.mjs",
-																					"line": 9930,
+																					"line": 10018,
 																					"character": 13,
-																					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9930"
+																					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10018"
 																				}
 																			],
 																			"parameters": [
@@ -4820,9 +4820,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 9932,
+													"line": 10020,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9932"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10020"
 												}
 											]
 										}
@@ -4848,9 +4848,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 9974,
+							"line": 10062,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9974"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10062"
 						}
 					],
 					"signatures": [
@@ -4871,9 +4871,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 9974,
+									"line": 10062,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9974"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10062"
 								}
 							],
 							"parameters": [
@@ -4934,9 +4934,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10000,
+							"line": 10088,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10000"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10088"
 						}
 					],
 					"signatures": [
@@ -4957,9 +4957,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10000,
+									"line": 10088,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10000"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10088"
 								}
 							],
 							"parameters": [
@@ -5000,9 +5000,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10013,
+							"line": 10101,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10013"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10101"
 						}
 					],
 					"signatures": [
@@ -5023,9 +5023,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10013,
+									"line": 10101,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10013"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10101"
 								}
 							],
 							"parameters": [
@@ -5054,9 +5054,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 10013,
+													"line": 10101,
 													"character": 25,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10013"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10101"
 												}
 											],
 											"signatures": [
@@ -5069,9 +5069,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 10013,
+															"line": 10101,
 															"character": 25,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10013"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10101"
 														}
 													],
 													"parameters": [
@@ -5125,9 +5125,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10023,
+							"line": 10111,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10023"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10111"
 						}
 					],
 					"signatures": [
@@ -5148,9 +5148,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10023,
+									"line": 10111,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10023"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10111"
 								}
 							],
 							"parameters": [
@@ -5179,9 +5179,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 10023,
+													"line": 10111,
 													"character": 25,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10023"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10111"
 												}
 											],
 											"signatures": [
@@ -5194,9 +5194,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 10023,
+															"line": 10111,
 															"character": 25,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10023"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10111"
 														}
 													],
 													"parameters": [
@@ -5250,9 +5250,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10033,
+							"line": 10121,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10033"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10121"
 						}
 					],
 					"signatures": [
@@ -5273,9 +5273,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10033,
+									"line": 10121,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10033"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10121"
 								}
 							],
 							"parameters": [
@@ -5304,9 +5304,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 10033,
+													"line": 10121,
 													"character": 27,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10033"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10121"
 												}
 											],
 											"signatures": [
@@ -5319,9 +5319,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 10033,
+															"line": 10121,
 															"character": 27,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10033"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10121"
 														}
 													],
 													"parameters": [
@@ -5386,9 +5386,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10043,
+							"line": 10131,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10043"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10131"
 						}
 					],
 					"signatures": [
@@ -5409,9 +5409,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10043,
+									"line": 10131,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10043"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10131"
 								}
 							],
 							"parameters": [
@@ -5440,9 +5440,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 10043,
+													"line": 10131,
 													"character": 24,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10043"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10131"
 												}
 											],
 											"signatures": [
@@ -5455,9 +5455,9 @@
 													"sources": [
 														{
 															"fileName": "CurrencyTools.esm.mjs",
-															"line": 10043,
+															"line": 10131,
 															"character": 24,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10043"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10131"
 														}
 													],
 													"parameters": [
@@ -5511,9 +5511,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10056,
+							"line": 10144,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10056"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10144"
 						}
 					],
 					"signatures": [
@@ -5545,9 +5545,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10056,
+									"line": 10144,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10056"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10144"
 								}
 							],
 							"type": {
@@ -5566,9 +5566,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10067,
+							"line": 10155,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10067"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10155"
 						}
 					],
 					"signatures": [
@@ -5600,9 +5600,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10067,
+									"line": 10155,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10067"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10155"
 								}
 							],
 							"type": {
@@ -5621,9 +5621,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10076,
+							"line": 10164,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10076"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10164"
 						}
 					],
 					"signatures": [
@@ -5655,9 +5655,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10076,
+									"line": 10164,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10076"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10164"
 								}
 							],
 							"type": {
@@ -5676,9 +5676,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10085,
+							"line": 10173,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10085"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10173"
 						}
 					],
 					"signatures": [
@@ -5710,9 +5710,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10085,
+									"line": 10173,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10085"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10173"
 								}
 							],
 							"type": {
@@ -5731,9 +5731,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10099,
+							"line": 10187,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10099"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10187"
 						}
 					],
 					"signatures": [
@@ -5765,9 +5765,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10099,
+									"line": 10187,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10099"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10187"
 								}
 							],
 							"type": {
@@ -5786,9 +5786,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10108,
+							"line": 10196,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10108"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10196"
 						}
 					],
 					"signatures": [
@@ -5820,9 +5820,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10108,
+									"line": 10196,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10108"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10196"
 								}
 							],
 							"type": {
@@ -5871,9 +5871,9 @@
 			"sources": [
 				{
 					"fileName": "CurrencyTools.esm.mjs",
-					"line": 9885,
+					"line": 9973,
 					"character": 6,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9885"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L9973"
 				}
 			]
 		},
@@ -5940,9 +5940,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10176,
+							"line": 10264,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10176"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10264"
 						}
 					],
 					"type": {
@@ -5965,7 +5965,7 @@
 											"fileName": "CurrencyTools.esm.mjs",
 											"line": 523,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L523"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L523"
 										}
 									],
 									"signatures": [
@@ -5980,7 +5980,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 523,
 													"character": 9,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L523"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L523"
 												}
 											],
 											"parameters": [
@@ -6059,9 +6059,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10185,
+							"line": 10273,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10185"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10273"
 						}
 					],
 					"type": {
@@ -6084,7 +6084,7 @@
 											"fileName": "CurrencyTools.esm.mjs",
 											"line": 87,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L87"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L87"
 										}
 									],
 									"signatures": [
@@ -6099,7 +6099,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 87,
 													"character": 9,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L87"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L87"
 												}
 											],
 											"parameters": [
@@ -6174,9 +6174,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10197,
+							"line": 10285,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10197"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10285"
 						}
 					],
 					"type": {
@@ -6199,7 +6199,7 @@
 											"fileName": "CurrencyTools.esm.mjs",
 											"line": 586,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L586"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L586"
 										}
 									],
 									"signatures": [
@@ -6214,7 +6214,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 586,
 													"character": 9,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L586"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L586"
 												}
 											],
 											"parameters": [
@@ -6269,9 +6269,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10204,
+							"line": 10292,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10204"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10292"
 						}
 					],
 					"type": {
@@ -6287,7 +6287,7 @@
 									"fileName": "CurrencyTools.esm.mjs",
 									"line": 122,
 									"character": 9,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L122"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L122"
 								}
 							],
 							"signatures": [
@@ -6302,7 +6302,7 @@
 											"fileName": "CurrencyTools.esm.mjs",
 											"line": 122,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L122"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L122"
 										}
 									],
 									"parameters": [
@@ -6352,9 +6352,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10212,
+							"line": 10300,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10212"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10300"
 						}
 					],
 					"type": {
@@ -6392,7 +6392,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 685,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
 												}
 											],
 											"type": {
@@ -6408,7 +6408,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 685,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
 														}
 													],
 													"signatures": [
@@ -6423,7 +6423,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 685,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
 																}
 															],
 															"parameters": [
@@ -6496,7 +6496,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 714,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
 												}
 											],
 											"type": {
@@ -6512,7 +6512,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 714,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
 														}
 													],
 													"signatures": [
@@ -6527,7 +6527,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 714,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
 																}
 															],
 															"parameters": [
@@ -6580,7 +6580,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 725,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
 												}
 											],
 											"type": {
@@ -6596,7 +6596,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 725,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
 														}
 													],
 													"signatures": [
@@ -6611,7 +6611,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 725,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
 																}
 															],
 															"parameters": [
@@ -6695,7 +6695,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 756,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
 												}
 											],
 											"type": {
@@ -6711,7 +6711,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 756,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
 														}
 													],
 													"signatures": [
@@ -6726,7 +6726,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 756,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
 																}
 															],
 															"parameters": [
@@ -6771,7 +6771,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 770,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L770"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L770"
 												}
 											],
 											"type": {
@@ -6787,7 +6787,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 654,
 															"character": 13,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
 														}
 													],
 													"signatures": [
@@ -6810,7 +6810,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 654,
 																	"character": 13,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
 																}
 															],
 															"type": {
@@ -6833,7 +6833,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 778,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L778"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L778"
 												}
 											],
 											"type": {
@@ -6849,7 +6849,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 662,
 															"character": 15,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
 														}
 													],
 													"signatures": [
@@ -6883,7 +6883,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 662,
 																	"character": 15,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
 																}
 															],
 															"parameters": [
@@ -6946,7 +6946,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 797,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
 												}
 											],
 											"type": {
@@ -6962,7 +6962,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 797,
 															"character": 15,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
 														}
 													],
 													"signatures": [
@@ -6977,7 +6977,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 797,
 																	"character": 15,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
 																}
 															],
 															"parameters": [
@@ -7036,7 +7036,7 @@
 											"fileName": "CurrencyTools.esm.mjs",
 											"line": 677,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L677"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L677"
 										}
 									]
 								}
@@ -7053,9 +7053,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10214,
+							"line": 10302,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10214"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10302"
 						}
 					],
 					"type": {
@@ -7092,9 +7092,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10221,
+							"line": 10309,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10221"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10309"
 						}
 					],
 					"type": {
@@ -7115,9 +7115,9 @@
 									"sources": [
 										{
 											"fileName": "CurrencyTools.esm.mjs",
-											"line": 10331,
+											"line": 10419,
 											"character": 15,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10331"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10419"
 										}
 									],
 									"signatures": [
@@ -7130,9 +7130,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 10331,
+													"line": 10419,
 													"character": 15,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10331"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10419"
 												}
 											],
 											"parameters": [
@@ -7153,9 +7153,9 @@
 															"sources": [
 																{
 																	"fileName": "CurrencyTools.esm.mjs",
-																	"line": 10331,
+																	"line": 10419,
 																	"character": 23,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10331"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10419"
 																}
 															],
 															"signatures": [
@@ -7168,9 +7168,9 @@
 																	"sources": [
 																		{
 																			"fileName": "CurrencyTools.esm.mjs",
-																			"line": 10331,
+																			"line": 10419,
 																			"character": 23,
-																			"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10331"
+																			"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10419"
 																		}
 																	],
 																	"type": {
@@ -7212,9 +7212,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10229,
+							"line": 10317,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10229"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10317"
 						}
 					],
 					"type": {
@@ -7252,7 +7252,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 685,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
 												}
 											],
 											"type": {
@@ -7268,7 +7268,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 685,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
 														}
 													],
 													"signatures": [
@@ -7283,7 +7283,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 685,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L685"
 																}
 															],
 															"parameters": [
@@ -7356,7 +7356,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 714,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
 												}
 											],
 											"type": {
@@ -7372,7 +7372,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 714,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
 														}
 													],
 													"signatures": [
@@ -7387,7 +7387,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 714,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L714"
 																}
 															],
 															"parameters": [
@@ -7440,7 +7440,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 725,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
 												}
 											],
 											"type": {
@@ -7456,7 +7456,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 725,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
 														}
 													],
 													"signatures": [
@@ -7471,7 +7471,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 725,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L725"
 																}
 															],
 															"parameters": [
@@ -7555,7 +7555,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 756,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
 												}
 											],
 											"type": {
@@ -7571,7 +7571,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 756,
 															"character": 8,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
 														}
 													],
 													"signatures": [
@@ -7586,7 +7586,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 756,
 																	"character": 8,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L756"
 																}
 															],
 															"parameters": [
@@ -7631,7 +7631,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 770,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L770"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L770"
 												}
 											],
 											"type": {
@@ -7647,7 +7647,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 654,
 															"character": 13,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
 														}
 													],
 													"signatures": [
@@ -7670,7 +7670,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 654,
 																	"character": 13,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L654"
 																}
 															],
 															"type": {
@@ -7693,7 +7693,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 778,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L778"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L778"
 												}
 											],
 											"type": {
@@ -7709,7 +7709,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 662,
 															"character": 15,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
 														}
 													],
 													"signatures": [
@@ -7743,7 +7743,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 662,
 																	"character": 15,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L662"
 																}
 															],
 															"parameters": [
@@ -7806,7 +7806,7 @@
 													"fileName": "CurrencyTools.esm.mjs",
 													"line": 797,
 													"character": 4,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
 												}
 											],
 											"type": {
@@ -7822,7 +7822,7 @@
 															"fileName": "CurrencyTools.esm.mjs",
 															"line": 797,
 															"character": 15,
-															"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
+															"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
 														}
 													],
 													"signatures": [
@@ -7837,7 +7837,7 @@
 																	"fileName": "CurrencyTools.esm.mjs",
 																	"line": 797,
 																	"character": 15,
-																	"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
+																	"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L797"
 																}
 															],
 															"parameters": [
@@ -7896,7 +7896,7 @@
 											"fileName": "CurrencyTools.esm.mjs",
 											"line": 677,
 											"character": 9,
-											"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L677"
+											"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L677"
 										}
 									]
 								}
@@ -7921,9 +7921,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10234,
+							"line": 10322,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10234"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10322"
 						}
 					],
 					"type": {
@@ -7941,9 +7941,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10247,
+							"line": 10335,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10247"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10335"
 						}
 					],
 					"signatures": [
@@ -7964,9 +7964,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10247,
+									"line": 10335,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10247"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10335"
 								}
 							],
 							"parameters": [
@@ -8026,9 +8026,9 @@
 											"sources": [
 												{
 													"fileName": "CurrencyTools.esm.mjs",
-													"line": 10249,
+													"line": 10337,
 													"character": 6,
-													"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10249"
+													"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10337"
 												}
 											]
 										}
@@ -8064,9 +8064,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10365,
+							"line": 10453,
 							"character": 2,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10365"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10453"
 						}
 					],
 					"signatures": [
@@ -8098,9 +8098,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10365,
+									"line": 10453,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10365"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10453"
 								}
 							],
 							"type": {
@@ -8147,9 +8147,9 @@
 			"sources": [
 				{
 					"fileName": "CurrencyTools.esm.mjs",
-					"line": 10161,
+					"line": 10249,
 					"character": 6,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10161"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10249"
 				}
 			],
 			"extendedTypes": [
@@ -8179,9 +8179,9 @@
 			"sources": [
 				{
 					"fileName": "CurrencyTools.esm.mjs",
-					"line": 10380,
+					"line": 10468,
 					"character": 0,
-					"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10380"
+					"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10468"
 				}
 			],
 			"type": {
@@ -8202,9 +8202,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10381,
+									"line": 10469,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10381"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10469"
 								}
 							],
 							"type": {
@@ -8226,9 +8226,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10382,
+									"line": 10470,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10382"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10470"
 								}
 							],
 							"type": {
@@ -8250,9 +8250,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10383,
+									"line": 10471,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10383"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10471"
 								}
 							],
 							"type": {
@@ -8274,9 +8274,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10384,
+									"line": 10472,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10384"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10472"
 								}
 							],
 							"type": {
@@ -8298,9 +8298,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10385,
+									"line": 10473,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10385"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10473"
 								}
 							],
 							"type": {
@@ -8322,9 +8322,9 @@
 							"sources": [
 								{
 									"fileName": "CurrencyTools.esm.mjs",
-									"line": 10386,
+									"line": 10474,
 									"character": 2,
-									"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10386"
+									"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10474"
 								}
 							],
 							"type": {
@@ -8354,9 +8354,9 @@
 					"sources": [
 						{
 							"fileName": "CurrencyTools.esm.mjs",
-							"line": 10380,
+							"line": 10468,
 							"character": 15,
-							"url": "https://github.com/LP1994/web-project-template/blob/00aebe1/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10380"
+							"url": "https://github.com/LP1994/web-project-template/blob/33c2e82/src/tools/js/currency_tools/CurrencyTools.esm.mjs#L10468"
 						}
 					]
 				}

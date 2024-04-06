@@ -660,7 +660,7 @@
     "@tsconfig/node18": "^18.2.4",
     "@tsconfig/nuxt": "^2.0.3",
     "@tsconfig/react-native": "^3.0.5",
-    "@tsconfig/recommended": "^1.0.5",
+    "@tsconfig/recommended": "^1.0.6",
     "@tsconfig/remix": "^2.0.5",
     "@tsconfig/strictest": "^2.0.5",
     "@tsconfig/svelte": "^5.0.4",

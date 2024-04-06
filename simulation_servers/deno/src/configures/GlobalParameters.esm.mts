@@ -77,11 +77,21 @@ const webDir: string = import.meta.resolve( '../../web' );
 /**
  * @type {{ [ key: string ]: string | number | boolean; }} 自定义的响应头。
  * 1、关于跨域请求头。<br />
- *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即withCredentials:true）。<br />
+ *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
  *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
  *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
  *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
- *     如果使用Fetch API，请确保Request.credentials是"omit"。<br />
+ *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+ *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+ *     那么服务端的响应头得如下设置：<br />
+ *     'Access-Control-Allow-Credentials': true、<br />
+ *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+ *     'Vary': 'Origin' <br />
+ *     客户端也得如下设置：<br />
+ *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+ *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+ *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+ *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
  */
 const httpResponseHeaders: HeadersInit = {
   // 'Content-Security-Policy': 'require-sri-for script style',
@@ -132,6 +142,16 @@ const httpResponseHeaders: HeadersInit = {
    * 如果客户要求包含凭据：
    * 如果请求已预检，则预检请求不包含凭据。如果服务器对预检请求的响应将 Access-Control-Allow-Credentials 标头设为 true，则真实请求将包含凭证：否则，浏览器将报告网络错误。
    * 如果未对请求进行预检，则请求将包含凭证，如果服务器的响应未将 Access-Control-Allow-Credentials 标头设为 true，浏览器将报告网络错误。
+   * 11、要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   * 那么服务端的响应头得如下设置：<br />
+   * 'Access-Control-Allow-Credentials': true、<br />
+   * 'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   * 'Vary': 'Origin' <br />
+   * 客户端也得如下设置：<br />
+   * 确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   * 如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   * 如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   * 如果使用Fetch API，请确保Request.credentials是"include"。<br />
    */
   'Access-Control-Allow-Credentials': 'true',
   /**
@@ -163,6 +183,22 @@ const httpResponseHeaders: HeadersInit = {
    * 1、Access-Control-Allow-Origin响应标头指示是否可以与来自给定来源的请求代码共享响应。
    * 2、对于没有凭据的请求，可以指定字面值“*”作为通配符；该值告诉浏览器允许来自任何来源的请求代码访问资源。但是尝试将通配符与凭据一起使用会导致错误。
    * 3、Access-Control-Allow-Origin: <origin>：只能指定一个来源。如果服务器支持来自多个来源的客户端，它必须返回发出请求的特定客户端的来源。
+   * 4、关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
    */
   'Access-Control-Allow-Origin': '*',
   /**
