@@ -102,7 +102,7 @@ const httpResponseHeaders: HeadersInit = {
   /**
    * Expires：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
    */
-  'Expires': '0',
+  'Expires': `${ new Date( Date.now() + ( 2 * 60 * 60 * 1000 ) ).toUTCString() }`,
   /**
    * Allow：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow
    */

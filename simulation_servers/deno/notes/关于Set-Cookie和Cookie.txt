@@ -1,0 +1,2 @@
+Set-Cookie：属于响应头，详见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+Cookie：属于请求头，详见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie

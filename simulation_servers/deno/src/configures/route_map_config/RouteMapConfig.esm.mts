@@ -133,6 +133,10 @@ const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
   ],
+  [
+    `${ servicesDir }/cookie/Condition.esm.mts`,
+    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
+  ],
 ] );
 
 /**
@@ -145,6 +149,10 @@ const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
+  [
+    `${ servicesDir }/cookie/Condition.esm.mts`,
+    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
   ],
 ] );
 
@@ -165,6 +173,10 @@ const methodByPostForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
+  [
+    `${ servicesDir }/cookie/Condition.esm.mts`,
+    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
   ],
 ] );
 
@@ -194,6 +206,10 @@ const methodByGetForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
+  ],
+  [
+    `${ servicesDir }/cookie/Condition.esm.mts`,
+    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
   ],
 ] );
 

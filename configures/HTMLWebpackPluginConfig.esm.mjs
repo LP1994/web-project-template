@@ -61,7 +61,7 @@ const URLHead = '..';
  */
 const defaultData = {
   contentSecurityPolicy: null,
-  expires: 0,
+  expires: `${ new Date( Date.now() + ( 2 * 60 * 60 * 1000 ) ).toUTCString() }`,
   setCookieExpires: null,
   pageEnter: 'revealTrans(duration=5,transtion=8)',
   pageExit: 'revealTrans(duration=5,transtion=9)',
