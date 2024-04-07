@@ -35,6 +35,15 @@ headers.append( 'Set-Cookie', `serverCookie003=deno_server003; Path=/; Expires=$
 
 
 
+注意！如果想要在跨域的时候，也能正常传输Cookie，那么必须加上“; SameSite=None; Secure; Partitioned”，且Domain选项的值要确保客户端、服务器的“域名”、“IP”这一部分要一样，不然客户端不会接收到来自跨域设置的Cookie。
+例子：
+客户端页面：https://localhost:8100/dev_server/pages/Index.html?isClientCookie
+发起一个跨域请求：https://localhost:9200/simulation_servers_deno/cookie?isClientCookie
+那么这两个URL的Domain都是localhost！也就是一致，那么就能正常设置、接收Cookie了。
+如果一个是localhost，一个是127.0.0.1，那是不行的！会导致无法正常设置、接收Cookie了。
+
+
+
 Cookie：属于请求头，详见：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie
 1、当在浏览器下通过“document.cookie”获取Cookie时，只能获取到Cookie中Path的值是跟浏览器当前页面路径相匹配的Cookie。
 如：
