@@ -141,9 +141,9 @@ document.querySelector( 'main' ).addEventListener( 'click', async event => {
     time = new Date( Date.now() + ( 2 * 60 * 60 * 1000 ) ).toUTCString();
 
   if( isClientCookie ){
-    globalThis.document.cookie = `clientCookie001=client_data001; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
-    globalThis.document.cookie = `clientCookie002=client_data002; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
-    globalThis.document.cookie = `clientCookie003=client_data003; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure`;
+    globalThis.document.cookie = `clientCookie001=client_data001; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned`;
+    globalThis.document.cookie = `clientCookie002=client_data002; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned`;
+    globalThis.document.cookie = `clientCookie003=client_data003; Path=/; Expires=${ time }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned`;
 
     const {
       requestConcurrentToolByGlobal
@@ -152,11 +152,10 @@ document.querySelector( 'main' ).addEventListener( 'click', async event => {
     const result = await requestConcurrentToolByGlobal( [
       [
         // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
-        'https://127.0.0.1:9200',
-        () => fetch( 'https://127.0.0.1:9200/simulation_servers_deno/cookie?isClientCookie', {
+        'https://localhost:9200',
+        () => fetch( 'https://localhost:9200/simulation_servers_deno/cookie?isClientCookie', {
           cache: 'no-cache',
           headers: {
-            // 'Content-Type': 'application/json; charset=utf-8',
             'Accept': 'application/json',
             'Cache-Control': 'no-cache',
             'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
@@ -181,11 +180,10 @@ document.querySelector( 'main' ).addEventListener( 'click', async event => {
     const result = await requestConcurrentToolByGlobal( [
       [
         // 如果是同源的请求，传个空字符串即可，内部会自动提取origin。
-        'https://127.0.0.1:9200',
-        () => fetch( 'https://127.0.0.1:9200/simulation_servers_deno/cookie', {
+        'https://localhost:9200',
+        () => fetch( 'https://localhost:9200/simulation_servers_deno/cookie', {
           cache: 'no-cache',
           headers: {
-            // 'Content-Type': 'application/json; charset=utf-8',
             'Accept': 'application/json',
             'Cache-Control': 'no-cache',
             'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',

@@ -52,15 +52,13 @@ function ResponseHandle( request: Request ): T_Response001{
     httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request ),
     headers: Headers = new Headers( httpResHeaders );
 
-  headers.append( 'Content-Type', `application/json; charset=utf-8` );
-
   let result: string = '';
 
   if( isClientCookie ){
     if( request.headers.has( 'Cookie' ) ){
       ( request.headers.get( 'Cookie' ) as string ).split( '; ' ).map( (
         item: string,
-      ): string => `${ item }; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` ).forEach( (
+      ): string => `${ item }; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` ).forEach( (
         item: string,
       ): void => {
         headers.append( 'Set-Cookie', item );
@@ -73,9 +71,9 @@ function ResponseHandle( request: Request ): T_Response001{
       !( request.headers.get( 'Cookie' ) as string ).includes( `serverCookie005` ) &&
       !( request.headers.get( 'Cookie' ) as string ).includes( `serverCookie006` )
     ){
-      headers.append( 'Set-Cookie', `serverCookie004=deno_server004; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
-      headers.append( 'Set-Cookie', `serverCookie005=deno_server005; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
-      headers.append( 'Set-Cookie', `serverCookie006=deno_server006; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
+      headers.append( 'Set-Cookie', `serverCookie004=deno_server004; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` );
+      headers.append( 'Set-Cookie', `serverCookie005=deno_server005; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` );
+      headers.append( 'Set-Cookie', `serverCookie006=deno_server006; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` );
     }
 
     result = JSON.stringify( {
@@ -83,14 +81,16 @@ function ResponseHandle( request: Request ): T_Response001{
     } );
   }
   else{
-    headers.append( 'Set-Cookie', `serverCookie001=deno_server001; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
-    headers.append( 'Set-Cookie', `serverCookie002=deno_server002; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
-    headers.append( 'Set-Cookie', `serverCookie003=deno_server003; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure` );
+    headers.append( 'Set-Cookie', `serverCookie001=deno_server001; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` );
+    headers.append( 'Set-Cookie', `serverCookie002=deno_server002; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` );
+    headers.append( 'Set-Cookie', `serverCookie003=deno_server003; Path=/; Expires=${ httpResHeaders.Expires }; Max-Age=${ 2 * 60 * 60 }; SameSite=None; Secure; Partitioned` );
 
     result = JSON.stringify( {
       data: `测试客户端接收来自服务端的Cookie，然后再发起请求（请求携带Cookie的）到服务端。`,
     } );
   }
+
+  headers.append( 'Content-Type', `application/json; charset=utf-8` );
 
   return new Response( result, {
     status: 200,
