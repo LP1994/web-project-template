@@ -183,6 +183,7 @@
       "tslib": [
         "./node_modules/tslib/"
       ],
+
       "assetsDir/*": [
         "./src/assets/*"
       ],
@@ -312,22 +313,54 @@
       "webWorkersDir/*": [
         "./src/workers/web_workers/*"
       ],
-      "DenoStd/*": [
+
+      "deno_std/*": [
         "https://deno.land/std/*"
       ],
-      "DenoX/*": [
+      "deno_std_encoding/*": [
+        "https://deno.land/std/encoding/*"
+      ],
+      "deno_std_media_types": [
+        "https://deno.land/std/media_types/mod.ts"
+      ],
+      "deno_std_path": [
+        "https://deno.land/std/path/mod.ts"
+      ],
+      "deno_std_streams/*": [
+        "https://deno.land/std/streams/*"
+      ],
+
+      "deno_x/*": [
         "https://deno.land/x/*"
       ],
-      "esmSH/*": [
+      "deno_x_corejs": [
+        "https://deno.land/x/corejs/index.js"
+      ],
+      "deno_x_ejs": [
+        "https://deno.land/x/dejs/mod.ts"
+      ],
+      "deno_x_mongo": [
+        "https://deno.land/x/mongo/mod.ts"
+      ],
+
+      "esm_sh/*": [
         "https://esm.sh/*"
       ],
-      "preact/jsx-runtime/*": [
-        "https://cdn.skypack.dev/preact/jsx-runtime?dts/*"
+      "esm_sh_graphql": [
+        "https://esm.sh/graphql"
       ],
-      "preact/jsx-dev-runtime/*": [
-        "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts/*"
+
+      "preact/*": [
+        "https://cdn.skypack.dev/preact/*"
       ],
-      "DenoSrc/*": [
+      "preact_jsx-runtime": [
+        "https://cdn.skypack.dev/preact/jsx-runtime?dts"
+      ],
+      "preact_jsx-dev-runtime": [
+        "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts"
+      ],
+
+      "deno_src/*": [
         "./simulation_servers/deno/src/*"
       ],
       "configures/*": [
@@ -419,6 +452,10 @@
       ],
       "web/*": [
         "./simulation_servers/deno/web/*"
+      ],
+
+      "GSD2TSTD": [
+        "./src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
       ]
     }
   }

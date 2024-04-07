@@ -39,8 +39,6 @@ module.exports = {
       'element-plus-css$': 'element-plus/dist/index.css',
       'swiper-css$': 'swiper/swiper-bundle.min.css',
 
-      'GSD2TSTD$': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
-
       // assets文件夹 Start
       'assetsDir': path.resolve( __dirname, './src/assets/' ),
 
@@ -111,6 +109,8 @@ module.exports = {
       'workersToolsDir': path.resolve( __dirname, './src/workers/tools/' ),
       'webWorkersDir': path.resolve( __dirname, './src/workers/web_workers/' ),
       // workers文件夹 End
+
+      'GSD2TSTD$': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
     },
     /**
      * 如果为true，则将不允许无扩展名的文件。设置成false就行。<br />
