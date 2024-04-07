@@ -993,9 +993,1406 @@ function RAnimationFFun( callback_fun ){
 }
 
 /**
- * Blob、dataURL、Canvas、Image的相互转换
+ * 操作Cookie的工具类
  */
-class Canvas2Others {
+export class CookieTool {
+
+  /**
+   * 获取字符串形式的浏览器cookie
+   *
+   * @returns {String} 返回字符串形式的浏览器cookie
+   */
+  static GetCookie2String(){
+    return globalThis.document.cookie;
+  }
+
+  /**
+   * 获取一个对象，里头都是键值对形式的浏览器cookie
+   *
+   * @returns {Object} 返回一个对象，里头都是键值对形式的浏览器cookie
+   */
+  static GetCookie2Object(){
+    const result = {};
+
+    let arr1 = [];
+
+    globalThis.document.cookie.split( '; ' )
+      .forEach( ( c, i, a ) => {
+        arr1 = c.split( '=' );
+
+        result[ arr1[ 0 ] ] = arr1[ 1 ];
+      } );
+
+    return result;
+  }
+
+}
+
+/**
+ * 服务器发送事件(Server-Sent Event)客户端类
+ */
+export class SSE4Client {
+
+  /**
+   * SSE客户端实例
+   */
+  sse4Client;
+
+  #onError;
+
+  #onMessage;
+
+  #onOpen;
+
+  /**
+   * 构造函数<br />
+   * PS:<br />
+   * 1、EventSource实例打开到HTTP服务器的持久连接，该服务器以“text/event-stream”格式发送事件。<br />
+   * 2、连接打开后，来自服务器的传入消息将以事件的形式传递到代码中。如果传入消息中有事件字段，则触发的事件与事件字段值相同。如果不存在事件字段，则会触发一般消息事件。<br />
+   * 3、例如，EventSource是一种有用的方法，用于处理社交媒体状态更新、新闻源或将数据传递到客户端存储机制（如IndexedDB或web存储）中。<br />
+   * 4、当不在HTTP/2上使用时，SSE会受到最大打开连接数的限制，这在打开各种选项卡时会特别痛苦，因为每个浏览器的限制是非常低的（6）。<br />
+   * 这个问题在Chrome和Firefox中被标记为“无法修复”。这个限制是针对每个浏览器+域的，<br />
+   * 这意味着您可以在所有选项卡上打开6个SSE连接www.example1.com网站还有6个SSE连接到www.example2.com。（从Stackoverflow）。<br />
+   * 使用HTTP/2时，服务器和客户端之间协商的同时HTTP流的最大数量（默认为100）。<br />
+   * 5、不是所有主流浏览器均支持Server-Sent Event，如Edge(旧版的，基于KHTML的那个Edge)、Internet Explorer不支持的。
+   *
+   * @param url 字符串，它表示服务事件/消息的远程资源的位置，必须
+   *
+   * @param opt JSON配置对象<br />
+   * {<br />
+   * withCredentials: true，布尔值，默认值是true，指示是否应将CORS设置为包括凭据，可选<br />
+   * PS:<br />
+   * 关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
+   *
+   * onError: ( sse4Client, event ) => {}，是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler，可选。<br /><br />
+   *
+   * onMessage: ( sse4Client, event, data ) => {}，是在收到消息事件（即消息来自源）时调用的EventHandler，可选。<br /><br />
+   *
+   * onOpen: ( sse4Client, event ) => {}，是在接收到打开事件（即刚打开连接时）时调用的EventHandler，可选。
+   */
+  constructor( url, {
+    withCredentials = true,
+    onError = ( sse4Client, event ) => {
+    },
+    onMessage = ( sse4Client, event, data ) => {
+    },
+    onOpen = ( sse4Client, event ) => {
+    },
+  } = {} ){
+    this.sse4Client = new EventSource( url, { withCredentials } );
+
+    this.#onError = onError;
+    this.#onMessage = onMessage;
+    this.#onOpen = onOpen;
+
+    this.sse4Client.onerror = ( ...rest ) => {
+      this.#onError( this.sse4Client, ...rest );
+    };
+    this.sse4Client.onmessage = event => {
+      this.#onMessage( this.sse4Client, event, event.data );
+    };
+    this.sse4Client.onopen = ( ...rest ) => {
+      this.#onOpen( this.sse4Client, ...rest );
+    };
+  }
+
+  /**
+   * 关闭连接（如果建立了连接），并设置EventSource.readyState属性为2（closed）。如果连接已经关闭，则该方法不执行任何操作。
+   */
+  close(){
+    this.sse4Client.close();
+  }
+
+  /**
+   * 是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler。
+   *
+   * @param eventFun 函数，该事件函数有两个参数(sse4Client, event)，可选
+   */
+  setOnError( eventFun = ( sse4Client, event ) => {
+  } ){
+    this.#onError = eventFun;
+  }
+
+  /**
+   * 是在收到消息事件（即消息来自源）时调用的EventHandler。
+   *
+   * @param eventFun 函数，该事件函数有三个参数(sse4Client, event, data)，可选
+   */
+  setOnMessage( eventFun = ( sse4Client, event, data ) => {
+  } ){
+    this.#onMessage = eventFun;
+  }
+
+  /**
+   * 是在接收到打开事件（即刚打开连接时）时调用的EventHandler。
+   *
+   * @param eventFun 函数，该事件函数有两个参数(sse4Client, event)，可选
+   */
+  setOnOpen( eventFun = ( sse4Client, event ) => {
+  } ){
+    this.#onOpen = eventFun;
+  }
+
+  /**
+   * 一次性只设置一个自定义监听的事件<br />
+   * PS:<br />
+   * 1、如：这将只监听与以下类似的事件(this.sse4Client.addEventListener( 'notice', e => {}, false ))<br />
+   * event: notice<br />
+   * data: useful data<br />
+   * id: someid<br />
+   * 2、<br />
+   * 事件“message”是一种特殊情况，因为它将捕获“没有事件字段”的事件以及具有特定类型“event:message”的事件，它不会在“任何其他事件类型”上触发。
+   *
+   * @param eventName 字符串，自定义的事件名，必须
+   *
+   * @param fun 函数，处理事件的函数，有一个参数event，可选
+   *
+   * @param opt 布尔值，事件的配置参数，默认值是false，可选
+   */
+  setEvent( eventName, fun = event => {
+  }, opt = false ){
+    this.sse4Client.addEventListener( eventName, fun, opt );
+  }
+
+  /**
+   * 一次性设置多个自定义监听的事件<br />
+   * PS:<br />
+   * 1、如：这将只监听与以下类似的事件(this.sse4Client.addEventListener( 'notice', e => {}, false ))<br />
+   * event: notice<br />
+   * data: useful data<br />
+   * id: someid<br />
+   * 2、<br />
+   * 事件“message”是一种特殊情况，因为它将捕获“没有事件字段”的事件以及具有特定类型“event:message”的事件，它不会在“任何其他事件类型”上触发。
+   *
+   * @param eventArr 数组，自定义的事件数组(成员都是一个个对象)，可选<br />
+   * PS:该数组的格式如下<br />
+   * [<br />
+   * {<br />
+   * eventName: 字符串，自定义的事件名，必须<br /><br />
+   *
+   * eventFun: 函数，处理事件的函数，有一个参数event，可选<br /><br />
+   *
+   * eventOpt: 布尔值，事件的配置参数，默认值是false，可选
+   * ]
+   */
+  setEvents( eventArr = [] ){
+    eventArr.forEach( ( {
+      eventName,
+      eventFun = event => {
+      },
+      eventOpt = false,
+    }, i, a ) => void ( this.setEvent( eventName, eventFun, eventOpt ) ) );
+  }
+
+  /**
+   * 只读属性返回一个表示连接状态的数字。<br />
+   * PS:<br />
+   * 1、代表连接状态的数字。可能的值为：<br />
+   * 0 — connecting<br />
+   * 1 — open<br />
+   * 2 — closed<br />
+   *
+   * @returns {Number} Number
+   */
+  getReadyState(){
+    return this.sse4Client.readyState;
+  }
+
+  /**
+   * 只读属性返回表示源URL
+   *
+   * @returns {String} String
+   */
+  getURL(){
+    return this.sse4Client.url;
+  }
+
+  /**
+   * 只读属性返回一个布尔值，该布尔值指示是否使用CORS凭据集实例化了EventSource对象。<br />
+   * PS:<br />
+   * 1、一个布尔值，指示是否使用CORS凭据集实例化了EventSource对象（为true）（默认为false）。
+   *
+   * @returns {Boolean} 一个布尔值，指示是否使用CORS凭据集实例化了EventSource对象（为true）（默认为false）。
+   */
+  getWithCredentials(){
+    return this.sse4Client.withCredentials;
+  }
+
+}
+
+/**
+ * 用于GraphQL的各种资源上传请求的工具类
+ */
+export class Upload4GraphQL {
+
+  #ctIns = null;
+
+  #getErrorStrA = ( arg1, arg2 ) => {
+    return `FormData中的第${ arg1 }个的数据类型(${ arg2 })不在这三者之中：File、Blob、ArrayBuffer！请自行转换为这三者之一的数据类型！`;
+  };
+
+  /**
+   * 本类的构造函数
+   *
+   * @param ctIns 一个CT类的实例(new CT())，必须的
+   */
+  constructor( ctIns ){
+    this.#ctIns = ctIns;
+  }
+
+  #handleA( {
+    operationName = null,
+    query = null,
+    variables = null,
+    file4KeyName = null,
+    isSingleFile = true,
+  } = {} ){
+    if( query === null ){
+      throw new Error( 'query参数必须！' );
+    }
+    if( variables === null ){
+      throw new Error( 'variables参数必须！' );
+    }
+    if( file4KeyName === null ){
+      throw new Error( 'file4KeyName参数必须！' );
+    }
+
+    let formData = new FormData(),
+      operations_obj = {},
+      map_obj = {},
+      file4KeyName2Value = null,
+      arr1 = null;
+
+    ( this.#ctIns.isString( operationName ) && !this.#ctIns.isEmpty( operationName ) ) && ( operations_obj[ 'operationName' ] = operationName );
+
+    operations_obj[ 'query' ] = query;
+
+    if( !( file4KeyName in variables ) ){
+      throw new Error( '“file4KeyName”参数的值不在“variables”参数的各个属性名之中！' );
+    }
+
+    file4KeyName2Value = variables[ file4KeyName ];
+
+    if( !this.#ctIns.isFormData( file4KeyName2Value ) ){
+      throw new Error( `variables中的“${ file4KeyName }”的属性值的数据类型必须是“FormData”类型！` );
+    }
+
+    if( isSingleFile ){
+      variables[ file4KeyName ] = null;
+    }
+    else{
+      variables[ file4KeyName ] = [];
+    }
+
+    arr1 = Array.from( file4KeyName2Value.keys() );
+
+    if( arr1.length === 0 ){
+      throw new Error( `variables中的“${ file4KeyName }”的属性值中至少要有一个文件，也就是说FormData中至少有一个文件！` );
+    }
+
+    let source = null;
+
+    if( isSingleFile ){
+      source = file4KeyName2Value.get( arr1[ 0 ] );
+
+      if( !( this.#ctIns.isFile( source ) || this.#ctIns.isBlob( source ) || this.#ctIns.isArrayBuffer( source ) ) ){
+        throw new Error( this.#getErrorStrA( 1, this.#ctIns.dataT( source ) ) );
+      }
+
+      formData.append( arr1[ 0 ], source );
+      map_obj[ arr1[ 0 ] ] = [ `variables.${ file4KeyName }`, ];
+    }
+    else{
+      arr1.forEach( ( c, i, a ) => {
+        source = file4KeyName2Value.get( c );
+
+        if( !( this.#ctIns.isFile( source ) || this.#ctIns.isBlob( source ) || this.#ctIns.isArrayBuffer( source ) ) ){
+          throw new Error( this.#getErrorStrA( i + 1, this.#ctIns.dataT( source ) ) );
+        }
+
+        variables[ file4KeyName ].push( null );
+        formData.append( c, source );
+        map_obj[ c ] = [ `variables.${ file4KeyName }.${ i }`, ];
+      } );
+    }
+
+    operations_obj[ 'variables' ] = variables;
+
+    formData.append( 'operations', JSON.stringify( operations_obj ) );
+    formData.append( 'map', JSON.stringify( map_obj ) );
+
+    return {
+      formData,
+      operations: operations_obj,
+      map: map_obj,
+    };
+  }
+
+  /**
+   * 单文件上传<br />
+   * PS:<br />
+   * 1、GraphQL上传请求(单文件)的规范<br />
+   * https://github.com/jaydenseric/graphql-multipart-request-spec#single-file
+   *
+   * @param operationName 字符串，默认值null(表示不传)，可选，这个字段的使用遵循GraphQL中的“operationName”的使用方法
+   *
+   * @param query 字符串，字符串形式的GraphQL语句，必传
+   *
+   * @param variables 对象，里头的数据格式是key-value形式的，其中涉及用于存放文件的那个key所对应的值必须是FormData的数据类型，<br />
+   * 该FormData里头只允许接受三种数据类型的值：File、Blob、ArrayBuffer，必传。<br />
+   * 如：<br />
+   * variables: {<br />
+   * filesA: formData,<br />
+   * <br />
+   * PS：该工具在处理“formData”过程中的规范说明！请使用者注意看说明再使用！<br />
+   * 1、在“单文件上传”的操作中，只取“formData”中第一个文件，其他都不取。<br />
+   * 2、在“formData”中的各个“key”都必须是唯一的！<br />
+   * 3、在“formData”中，如果同一个“key”存放了多个文件，那也只取其第一个文件。<br />
+   *
+   * @param file4KeyName 字符串，用于说明在上面“variables”字段中用于存放文件的那个key的名字，必传
+   *
+   * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
+   * 主要有两个规范必须要传的字段：operations、map，以及要上传的文件。
+   */
+  singleFile( {
+    operationName = null,
+    query = null,
+    variables = null,
+    file4KeyName = null,
+  } = {} ){
+    if( query === null ){
+      throw new Error( 'query参数必须！' );
+    }
+    if( variables === null ){
+      throw new Error( 'variables参数必须！' );
+    }
+    if( file4KeyName === null ){
+      throw new Error( 'file4KeyName参数必须！' );
+    }
+
+    return this.#handleA( {
+      operationName,
+      query,
+      variables,
+      file4KeyName,
+      isSingleFile: true,
+    } ).formData;
+  }
+
+  /**
+   * 多文件上传<br />
+   * PS:<br />
+   * 1、GraphQL上传请求(多文件)的规范<br />
+   * https://github.com/jaydenseric/graphql-multipart-request-spec#file-list
+   *
+   * @param operationName 字符串，默认值null(表示不传)，可选，这个字段的使用遵循GraphQL中的“operationName”的使用方法
+   *
+   * @param query 字符串，字符串形式的GraphQL语句，必传
+   *
+   * @param variables 对象，里头的数据格式是key-value形式的，其中涉及用于存放文件的那个key所对应的值必须是FormData的数据类型，<br />
+   * 该FormData里头只允许接受三种数据类型的值：File、Blob、ArrayBuffer，必传。<br />
+   * 如：<br />
+   * variables: {<br />
+   * filesA: formData,<br />
+   * <br />
+   * PS：该工具在处理“formData”过程中的规范说明！请使用者注意看说明再使用！<br />
+   * 1、在“formData”中的各个“key”都必须是唯一的！<br />
+   * 3、在“formData”中，如果同一个“key”存放了多个文件，那也只取其第一个文件。<br />
+   *
+   * @param file4KeyName 字符串，用于说明在上面“variables”字段中用于存放文件的那个key的名字，必传
+   *
+   * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
+   * 主要有两个规范必须要传的字段：operations、map，以及要上传的各个文件。
+   */
+  multipleFiles( {
+    operationName = null,
+    query = null,
+    variables = null,
+    file4KeyName = null,
+  } = {} ){
+    if( query === null ){
+      throw new Error( 'query参数必须！' );
+    }
+    if( variables === null ){
+      throw new Error( 'variables参数必须！' );
+    }
+    if( file4KeyName === null ){
+      throw new Error( 'file4KeyName参数必须！' );
+    }
+
+    return this.#handleA( {
+      operationName,
+      query,
+      variables,
+      file4KeyName,
+      isSingleFile: false,
+    } ).formData;
+  }
+
+  /**
+   * 文件上传的“批操作”，不同于“多文件上传”，具体请看下面的规范说明地址<br />
+   * PS:<br />
+   * 1、GraphQL上传请求(批操作)的规范<br />
+   * https://github.com/jaydenseric/graphql-multipart-request-spec#batching
+   *
+   * @param opeArr 数组，必须，里头的成员都是一个个对象，对象里头的具体字段如下：<br />
+   * {<br />
+   * operationName,<br />
+   * query,<br />
+   * variables,<br />
+   * file4KeyName,<br />
+   * // 默认值是true，必须，布尔值，用于说明该操作是单文件操作还是多文件操作，默认是单文件操作。<br />
+   * isSingleFile,<br />
+   * <br />
+   * PS：<br />
+   * 1、“isSingleFile”为true时，表示该操作是单文件操作，那么其他字段的说明请查阅“singleFile”函数的说明。<br />
+   * 2、“isSingleFile”为false时，表示该操作是多文件操作，那么其他字段的说明请查阅“multipleFiles”函数的说明。<br />
+   *
+   * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
+   * 主要有两个规范必须要传的字段：operations、map，以及要上传的各个文件。
+   */
+  batching( opeArr = null ){
+    if( opeArr === null ){
+      throw new Error( '参数必须！' );
+    }
+
+    let operationsAll_arr = [],
+      mapAll_arr = [],
+      formDataAll = new FormData(),
+      arr1 = [],
+      index_num = 0;
+
+    opeArr.forEach( ( {
+      operationName = null,
+      query = null,
+      variables = null,
+      file4KeyName = null,
+      isSingleFile = true,
+    }, i, a ) => {
+      if( query === null ){
+        throw new Error( 'query参数必须！' );
+      }
+      if( variables === null ){
+        throw new Error( 'variables参数必须！' );
+      }
+      if( file4KeyName === null ){
+        throw new Error( 'file4KeyName参数必须！' );
+      }
+
+      let {
+        formData,
+        operations,
+        map,
+      } = this.#handleA( {
+        operationName,
+        query,
+        variables,
+        file4KeyName,
+        isSingleFile,
+      } );
+
+      operationsAll_arr.push( operations );
+
+      if( isSingleFile ){
+        mapAll_arr.push( [
+          index_num,
+          [
+            `${ i }.${ Array.from( Object.values( map ) )
+              .flat( Infinity )[ 0 ] }`,
+          ],
+        ] );
+
+        ++index_num;
+      }
+      else{
+        Array.from( Object.values( map ) )
+          .flat( Infinity )
+          .forEach( ( c1, i1, a1 ) => {
+            mapAll_arr.push( [
+              index_num,
+              [
+                `${ i }.${ c1 }`,
+              ],
+            ] );
+
+            ++index_num;
+          } );
+      }
+
+      let formData4KeyNames = Array.from( formData.keys() );
+
+      formData4KeyNames.splice( formData4KeyNames.indexOf( 'operations' ), 1, );
+      formData4KeyNames.splice( formData4KeyNames.indexOf( 'map' ), 1, );
+
+      formData4KeyNames.forEach( ( c, i, a ) => void ( arr1.push( formData.get( c ) ) ) );
+    } );
+
+    formDataAll.append( 'operations', JSON.stringify( operationsAll_arr ) );
+    formDataAll.append( 'map', JSON.stringify( Object.fromEntries( mapAll_arr ) ) );
+
+    arr1.forEach( ( c, i, a ) => void ( formDataAll.append( i, c ) ) );
+
+    return formDataAll;
+  }
+
+}
+
+/**
+ * 基于“Proxy”编写的“Web服务器客户端”
+ */
+export class WebService4Proxy {
+
+  /**
+   * 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，必须
+   */
+  baseUrl;
+
+  /**
+   * 一个CT类的实例(new CT())，必须的
+   */
+  ctIns;
+
+  /**
+   * 处理数据的类型
+   */
+  type4ResponseData = [
+    'arrayBuffer',
+    'blob',
+    'formData',
+    'json',
+    'text',
+  ];
+
+  /**
+   * 本类的构造函数
+   *
+   * @param ctIns 一个CT类的实例(new CT())，必须的
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，必须
+   */
+  constructor( ctIns, baseUrl ){
+    this.baseUrl = baseUrl;
+    this.ctIns = ctIns;
+  }
+
+  /**
+   * 创建具体请求并使用具体请求<br />
+   * PS:<br />
+   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的post、delete、put请求。
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
+   * PS：<br />
+   * 1、不传的话，响应回来的数据将是原样的！<br />
+   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  create( {
+    baseUrl = this.baseUrl,
+    type,
+  } = {} ){
+    let _this = this;
+
+    return new Proxy( {}, {
+      get( target, propKey, receiver ){
+        return ( {
+          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
+          url = '',
+          // 该参数的具体信息看CT的fetch()的第二个参数描述
+          events = {},
+          // 该参数的具体信息看CT的fetch()的第三个参数描述
+          options = {},
+        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, options )
+          .then( response => {
+            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
+              return response.clone()[ type ]();
+            }
+            else{
+              return response;
+            }
+          } );
+      },
+      set( target, propKey, value, receiver ){
+        return Reflect.set( target, propKey, value, receiver );
+      },
+    } );
+  }
+
+  /**
+   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“arrayBuffer”类型的数据)
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  arrayBuffer( baseUrl ){
+    'use strict';
+
+    return this.create( {
+      baseUrl,
+      type: 'arrayBuffer',
+    } );
+  }
+
+  /**
+   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“blob”类型的数据)
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  blob( baseUrl ){
+    'use strict';
+
+    return this.create( {
+      baseUrl,
+      type: 'blob',
+    } );
+  }
+
+  /**
+   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“formData”类型的数据)
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  formData( baseUrl ){
+    'use strict';
+
+    return this.create( {
+      baseUrl,
+      type: 'formData',
+    } );
+  }
+
+  /**
+   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“json”类型的数据)
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  json( baseUrl ){
+    'use strict';
+
+    return this.create( {
+      baseUrl,
+      type: 'json',
+    } );
+  }
+
+  /**
+   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“text”类型的数据)
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  text( baseUrl ){
+    'use strict';
+
+    return this.create( {
+      baseUrl,
+      type: 'text',
+    } );
+  }
+
+  /**
+   * 创建"post"类型的具体请求并使用具体请求<br />
+   * PS:<br />
+   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的post请求。
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
+   * PS：<br />
+   * 1、不传的话，响应回来的数据将是原样的！<br />
+   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  post( {
+    baseUrl = this.baseUrl,
+    type,
+  } = {} ){
+    let _this = this;
+
+    return new Proxy( {}, {
+      get( target, propKey, receiver ){
+        return ( {
+          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
+          url = '',
+          // 该参数的具体信息看CT的fetch()的第二个参数描述
+          events = {},
+          // 该参数的具体信息看CT的fetch()的第三个参数描述
+          options = {},
+        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
+          method: 'POST',
+        } ) )
+          .then( response => {
+            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
+              return response.clone()[ type ]();
+            }
+            else{
+              return response;
+            }
+          } );
+      },
+      set( target, propKey, value, receiver ){
+        return Reflect.set( target, propKey, value, receiver );
+      },
+    } );
+  }
+
+  /**
+   * 创建"delete"类型的具体请求并使用具体请求<br />
+   * PS:<br />
+   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的delete请求。
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
+   * PS：<br />
+   * 1、不传的话，响应回来的数据将是原样的！<br />
+   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  delete( {
+    baseUrl = this.baseUrl,
+    type,
+  } = {} ){
+    let _this = this;
+
+    return new Proxy( {}, {
+      get( target, propKey, receiver ){
+        return ( {
+          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
+          url = '',
+          // 该参数的具体信息看CT的fetch()的第二个参数描述
+          events = {},
+          // 该参数的具体信息看CT的fetch()的第三个参数描述
+          options = {},
+        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
+          method: 'DELETE',
+        } ) )
+          .then( response => {
+            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
+              return response.clone()[ type ]();
+            }
+            else{
+              return response;
+            }
+          } );
+      },
+      set( target, propKey, value, receiver ){
+        return Reflect.set( target, propKey, value, receiver );
+      },
+    } );
+  }
+
+  /**
+   * 创建"put"类型的具体请求并使用具体请求<br />
+   * PS:<br />
+   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的put请求。
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
+   * PS：<br />
+   * 1、不传的话，响应回来的数据将是原样的！<br />
+   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  put( {
+    baseUrl = this.baseUrl,
+    type,
+  } = {} ){
+    let _this = this;
+
+    return new Proxy( {}, {
+      get( target, propKey, receiver ){
+        return ( {
+          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
+          url = '',
+          // 该参数的具体信息看CT的fetch()的第二个参数描述
+          events = {},
+          // 该参数的具体信息看CT的fetch()的第三个参数描述
+          options = {},
+        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
+          method: 'PUT',
+        } ) )
+          .then( response => {
+            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
+              return response.clone()[ type ]();
+            }
+            else{
+              return response;
+            }
+          } );
+      },
+      set( target, propKey, value, receiver ){
+        return Reflect.set( target, propKey, value, receiver );
+      },
+    } );
+  }
+
+  /**
+   * 创建"get"类型的具体请求并使用具体请求
+   *
+   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
+   * PS：<br />
+   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
+   * 2、传的话会取代上面调用类的构造参数。<br />
+   *
+   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
+   * PS：<br />
+   * 1、不传的话，响应回来的数据将是原样的！<br />
+   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
+   *
+   * @returns {Proxy} Proxy实例
+   */
+  get( {
+    baseUrl = this.baseUrl,
+    type,
+  } = {} ){
+    let _this = this;
+
+    return new Proxy( {}, {
+      get( target, propKey, receiver ){
+        return ( {
+          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
+          url = '',
+          // 该参数的具体信息看CT的fetch()的第二个参数描述
+          events = {},
+          // 该参数的具体信息看CT的fetch()的第三个参数描述
+          options = {},
+        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
+          method: 'GET',
+        } ) )
+          .then( response => {
+            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
+              return response.clone()[ type ]();
+            }
+            else{
+              return response;
+            }
+          } );
+      },
+      set( target, propKey, value, receiver ){
+        return Reflect.set( target, propKey, value, receiver );
+      },
+    } );
+  }
+
+}
+
+/**
+ * WebSocket客户端类
+ */
+export class WebSocket4Client {
+
+  /**
+   * WebSocket客户端实例
+   */
+  ws4Client;
+
+  #onClose;
+
+  #onError;
+
+  #onMessage;
+
+  #onOpen;
+
+  /**
+   * WebSocket客户端类的构造函数<br />
+   * PS:<br />
+   * 1、异常说明：<br />
+   * SECURITY_ERR：尝试连接的端口被阻止。<br />
+   *
+   * @param url 字符串，要连接的URL；这应该是WebSocket服务器将响应的URL。必须
+   *
+   * @param opt JSON配置对象，可选<br />
+   * {<br />
+   * protocols: String|[ String ] 单个协议字符串或协议字符串数组。这些字符串用于指示子协议，以便单个服务器可以实现多个WebSocket子协议<br />
+   * （例如，您可能希望一个服务器能够根据指定的协议处理不同类型的交互）。如果不指定协议字符串，则假定为空字符串。<br />
+   * 默认值是null，undefined、null、''都表示不传这个参数，所以，不传就别设置任何参数了。<br /><br />
+   *
+   * onClose: ( ws, event ) => {}，当与WebSocket的连接关闭时触发，该事件有两个参数(ws, event)，可选。<br /><br />
+   *
+   * onError: ( ws, event ) => {}，当由于错误而关闭与WebSocket的连接时触发，例如无法发送某些数据时触发，该事件有两个参数(ws, event)，可选。<br /><br />
+   *
+   * onMessage: ( ws, event, data ) => {}，通过WebSocket接收数据时激发，该事件有三个参数(ws, event, data)，可选。<br /><br />
+   *
+   * onOpen: ( ws, event ) => {}，打开与WebSocket的连接时激发，该事件有两个参数(ws, event)，可选。<br /><br />
+   */
+  constructor( url, {
+    protocols = null,
+    onClose = ( ws, event ) => {
+    },
+    onError = ( ws, event ) => {
+    },
+    onMessage = ( ws, event, data ) => {
+    },
+    onOpen = ( ws, event ) => {
+    },
+  } = {} ){
+    !protocols
+    ? ( this.ws4Client = new WebSocket( url ) )
+    : ( this.ws4Client = new WebSocket( url, protocols ) );
+
+    this.#onClose = onClose;
+    this.#onError = onError;
+    this.#onMessage = onMessage;
+    this.#onOpen = onOpen;
+
+    this.ws4Client.onclose = ( ...rest ) => {
+      this.#onClose( this.ws4Client, ...rest );
+    };
+
+    this.ws4Client.onerror = ( ...rest ) => {
+      this.#onError( this.ws4Client, ...rest );
+    };
+
+    this.ws4Client.onmessage = event => {
+      this.#onMessage( this.ws4Client, event, event.data );
+    };
+
+    this.ws4Client.onopen = ( ...rest ) => {
+      this.#onOpen( this.ws4Client, ...rest );
+    };
+  }
+
+  /**
+   * 关闭WebSocket连接<br />
+   * PS:<br />
+   * 1、异常说明：<br />
+   * INVALID_ACCESS_ERR：指定了无效的code。<br />
+   * SYNTAX_ERR：“reason”字符串太长或包含未配对的代理项。<br />
+   *
+   * @param code 数字，默认值为1000(正常关闭；连接成功完成了创建目的。)，可选，指示状态代码的数字值，用于解释为什么关闭连接。如果未指定此参数，则默认值为1005。<br />
+   * 有关允许的值，请参见CloseEvent的状态代码列表。<br />
+   * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes<br />
+   * PS:<br />
+   * 代码必须是1000或介于3000和4999之间。
+   *
+   * @param reason 字符串，默认值为字符串: '手动关闭！'，可选，易于理解的字符串，说明连接为何关闭。该字符串不得超过123个字节的UTF-8文本（非字符）。
+   */
+  close( code = 1000, reason = '手动关闭！' ){
+    this.ws4Client.close( code, reason );
+  }
+
+  /**
+   * 往服务器发送数据<br />
+   * PS:<br />
+   * 1、这个WebSocket.send()方法将要通过WebSocket连接传输到服务器的指定数据排队，将“bufferedAmount”的值增加包含数据所需的字节数。<br />
+   * 如果数据无法发送（例如，因为它需要缓冲，但缓冲区已满），套接字将自动关闭。<br />
+   * 2、异常说明:<br />
+   * INVALID_STATE_ERR：该连接当前未打开。<br />
+   * SYNTAX_ERR：数据是具有未配对替代的字符串。<br />
+   *
+   * @param data 数据发送到服务器。必须，它可能是下列类型之一：<br />
+   * 1、String<br />
+   * 文本字符串。字符串以UTF-8格式添加到缓冲区中，“bufferedAmount”的值将增加表示UTF-8字符串所需的字节数。<br /><br />
+   *
+   * 2、ArrayBuffer<br />
+   * 您可以发送类型化数组对象使用的基础二进制数据。它的二进制数据内容在缓冲区中排队，从而将bufferedAmount的值增加了必需的字节数。<br /><br />
+   *
+   * 3、Blob<br />
+   * 指定“Blob”会将Blob的原始数据排队，以便在二进制帧中传输。“bufferedAmount”的值随原始数据的字节大小而增加。<br /><br />
+   *
+   * 4、ArrayBufferView<br />
+   * 可以将任何JavaScript类型的数组对象作为二进制帧发送；它的二进制数据内容在缓冲区中排队，从而将“bufferedAmount”的值增加所需的字节数。
+   */
+  send( data = null ){
+    if( data === null ){
+      throw new Error( '必须传一个参数给send方法！' );
+    }
+
+    this.ws4Client.send( data );
+  }
+
+  /**
+   * 当与WebSocket的连接关闭时触发。
+   *
+   * @param eventFun 函数，该事件有两个参数(ws, event)，必须
+   */
+  setOnClose( eventFun = ( ws, event ) => {
+  } ){
+    this.#onClose = eventFun;
+  }
+
+  /**
+   * 当由于错误而关闭与WebSocket的连接时触发，例如无法发送某些数据时触发。
+   *
+   * @param eventFun 函数，该事件有两个参数(ws, event)，必须
+   */
+  setOnError( eventFun = ( ws, event ) => {
+  } ){
+    this.#onError = eventFun;
+  }
+
+  /**
+   * 通过WebSocket接收数据时激发。
+   *
+   * @param eventFun 函数，该事件有三个参数(ws, event, data)，必须
+   */
+  setOnMessage( eventFun = ( ws, event, data ) => {
+  } ){
+    this.#onMessage = eventFun;
+  }
+
+  /**
+   * 打开与WebSocket的连接时激发。
+   *
+   * @param eventFun 函数，该事件有两个参数(ws, event)，必须
+   */
+  setOnOpen( eventFun = ( ws, event ) => {
+  } ){
+    this.#onOpen = eventFun;
+  }
+
+  /**
+   * 只读属性返回连接正在传输的二进制数据的类型。<br />
+   * PS:返回如下几个字符串<br />
+   * 1、blob：如果使用Blob对象。<br />
+   * 2、arraybuffer：如果使用ArrayBuffer对象。<br />
+   *
+   * @returns {String} String
+   */
+  getBType(){
+    return this.ws4Client.binaryType;
+  }
+
+  /**
+   * 只读属性返回已使用send()调用排队但尚未传输到网络的数据字节数。一旦发送完所有排队数据，此值将重置为零。<br />
+   * 当连接关闭时，此值不会重置为零；<br />
+   * 如果继续调用send()，则此值将继续攀升。
+   *
+   * @returns {Number} Number
+   */
+  getBufAmount(){
+    return this.ws4Client.bufferedAmount;
+  }
+
+  /**
+   * 只读属性返回服务器选择的扩展。当前这只是空字符串或由连接协商的扩展名列表。
+   *
+   * @returns {String} String
+   */
+  getExtensions(){
+    return this.ws4Client.extensions;
+  }
+
+  /**
+   * 只读属性返回服务器选择的子协议的名称；这将是创建WebSocket对象时在protocols参数中指定的字符串之一，如果未建立连接，则为空字符串。
+   *
+   * @returns {String} String
+   */
+  getProtocol(){
+    return this.ws4Client.protocol;
+  }
+
+  /**
+   * 只读属性返回WebSocket连接的当前状态。<br />
+   * 返回以下无符号整数值之一：<br />
+   * 0    CONNECTING    套接字已创建。连接尚未打开。Socket has been created. The connection is not yet open.<br />
+   * 1    OPEN        连接已打开，可以进行通讯了。The connection is open and ready to communicate.<br />
+   * 2    CLOSING        连接正在关闭中。The connection is in the process of closing.<br />
+   * 3    CLOSED        连接已关闭或无法打开。The connection is closed or couldn't be opened.<br />
+   *
+   * @returns {Number} Number
+   */
+  getReadyState(){
+    return this.ws4Client.readyState;
+  }
+
+  /**
+   * 只读属性返回由构造函数解析的WebSocket的绝对URL。
+   *
+   * @returns {String} String
+   */
+  getURL(){
+    return this.ws4Client.url;
+  }
+
+}
+
+// 为了方便管理，以后只要是给CT类增加的工具类，只要把这个类添加到toolsClass_objC中就行！
+// 这个对象的每一个键名是具体的工具类名，键值是具体的工具类！
+// new CT().getClass()返回的就是toolsClass_objC！
+const toolsClass_objC = {
+  CookieTool,
+  // 服务器发送事件(Server-Sent Event)客户端类
+  SSE4Client,
+  // 用于GraphQL的各种资源上传请求的工具类
+  Upload4GraphQL,
+  // WebService4Proxy类
+  WebService4Proxy,
+  // WebSocket客户端类
+  WebSocket4Client,
+};
+
+/**
+ * JS工具，其中的代码都是无关任何项目的代码(ES6，ESM模块写法)。<br />
+ * 注：<br />
+ * 1、都是在当时最新的谷歌浏览器PC版上测试。<br />
+ * 2、注意默认的初始化操作带来的影响<br />
+ * 3、该工具支持在浏览器、Node、Deno等多种支持JS的宿主环境中使用！<br />
+ */
+export class CT {
+
+  // 类实例属性 Start
+
+  /**
+   * 查找所有节点，处理所有节点，有返回值(存放在数组里)
+   *
+   * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
+   * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需
+   *
+   * @param fun 需要执行的函数，会传入一个Element参数，必需
+   *
+   * @returns {Array} 数组[*]
+   */
+  allElemHan;
+
+  /**
+   * 停止所有类型的传播(捕获和冒泡)，禁止默认事件
+   *
+   * @param event 事件对象，必需
+   *
+   * @returns {Element} Element节点
+   */
+  allEStop;
+
+  /**
+   * 查找节点，但只处理第一个节点，有返回值(任何类型数据)
+   *
+   * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
+   * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需，但只处理第一个节点
+   *
+   * @param fun 需要执行的函数，会传入一个Element参数，必需
+   *
+   * @returns {*} 任何类型数据
+   */
+  firstElemHan;
+
+  /**
+   * 自定义抛出错误、异常信息
+   *
+   * @param info_str 字符串，错误、异常信息，默认值'默认错误信息！'，必须！
+   */
+  gError;
+
+  /**
+   * 操作localStorage的工具<br />
+   * 使用方法：<br />
+   * new CT().ls.aD()<br />
+   * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
+   */
+  ls;
+
+  name = '';
+
+  /**
+   * ready加强版
+   *
+   * @returns {Function} 函数，有一个f参数(所要执行的函数)，必需
+   */
+  readyS;
+
+  /**
+   * 操作sessionStorage的工具<br />
+   * 使用方法：<br />
+   * new CT().ss.aD()<br />
+   * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
+   */
+  ss;
+
+  /**
+   * 本类的版本号，如：2024.01.01.1
+   */
+  version = '';
+
+  // 类实例属性 End
+
+  /**
+   * 构造函数，用于初始化工作
+   *
+   * @param opt JSON配置对象，可选<br />
+   * {<br />
+   * isSupportBrowser: 布尔值，如果要将CT工具用于浏览器环境，那么传true可以自动初始化浏览器环境的各种功能；<br />
+   * 如果不是用于浏览器环境(如：用于NodeJS)，那么传false就不会初始化跟浏览器相关的操作功能。<br />
+   * 可选，默认值true。<br /><br />
+   */
+  constructor( {
+    isSupportBrowser = true,
+  } = {} ){
+    if( isSupportBrowser ){
+      /**
+       * 查找所有节点，处理所有节点，有返回值(存放在数组里)
+       *
+       * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
+       * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需
+       *
+       * @param fun 需要执行的函数，会传入一个Element参数，必需
+       *
+       * @returns {Array} 数组[*]
+       */
+      this.allElemHan = IsHandle10.bind( this );
+
+      /**
+       * 停止所有类型的传播(捕获和冒泡)，禁止默认事件
+       *
+       * @param event 事件对象，必需
+       *
+       * @returns {Element} Element节点
+       */
+      this.allEStop = AllEStop.bind( this );
+
+      /**
+       * 查找节点，但只处理第一个节点，有返回值(任何类型数据)
+       *
+       * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
+       * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需，但只处理第一个节点
+       *
+       * @param fun 需要执行的函数，会传入一个Element参数，必需
+       *
+       * @returns {*} 任何类型数据
+       */
+      this.firstElemHan = IsHandle13.bind( this );
+
+      /**
+       * 操作localStorage的工具<br />
+       * 使用方法：<br />
+       * new CT().ls.aD()<br />
+       * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
+       */
+      this.ls = IsHandle14.call( this, localStorage );
+
+      /**
+       * ready加强版
+       *
+       * @returns {Function} 函数，有一个f参数(所要执行的函数)，必需
+       */
+      this.readyS = ( () => {
+        let funcs = [],
+          ready = false,
+          handler = e => {
+            if( ready ){
+              return;
+            }
+            if( e.type === 'onreadystatechange' && document.readyState !== 'complete' ){
+              return;
+            }
+            for(
+              let i = 0;
+              i < funcs.length;
+              i++
+            ){
+              funcs[ i ].call( document );
+            }
+            ready = true;
+            funcs = null;
+          };
+        if( globalThis[ 'isOpenReadyS' ] !== true ){
+          if( document.addEventListener ){
+            document.addEventListener( 'DOMContentLoaded', handler, false );
+            document.addEventListener( 'readystatechange', handler, false );
+            globalThis.addEventListener( 'load', handler, false );
+          }
+          else if( document.attachEvent ){
+            document.attachEvent( 'onreadystatechange', handler );
+            globalThis.attachEvent( 'onload', handler );
+          }
+          globalThis[ 'isOpenReadyS' ] = true;
+        }
+        return ( f = ( () => {
+        } ) ) => void ( ready
+                        ? ( f.call( document ) )
+                        : ( funcs.push( f ) ) );
+      } )();
+
+      /**
+       * 操作sessionStorage的工具<br />
+       * 使用方法：<br />
+       * new CT().ss.aD()<br />
+       * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
+       */
+      this.ss = IsHandle14.call( this, sessionStorage );
+    }
+
+    /**
+     * 自定义抛出错误、异常信息
+     *
+     * @param info_str 字符串，错误、异常信息，默认值'默认错误信息！'，必须！
+     */
+    this.gError = GetError;
+
+    this.name = 'CT';
+
+    this.version = '2024.01.01.1';
+
+    Init( this, isSupportBrowser );
+  }
+
+  /**
+   * 获取各个工具类
+   *
+   * @returns {Object} 对象(里头是各个工具类)，这个对象的每一个键名是具体的工具类名，键值是具体的工具类。
+   */
+  getClass(){
+    return toolsClass_objC;
+  }
+
+  // Blob、dataURL、Canvas、Image的相互转换 Start
 
   /**
    * Blob对象转canvas对象，canvas对象会在回调函数的第一个参数里
@@ -1180,48 +2577,9 @@ class Canvas2Others {
     this.dataURLOrImgSrcToCanvas( imgSrc, ( canvas, image, context ) => void ( callback( this.canvasToDataURL( canvas, format, quality ), canvas, image ) ) );
   }
 
-}
+  // Blob、dataURL、Canvas、Image的相互转换 End
 
-/**
- * 操作Cookie的工具类
- */
-class CookieTool {
-
-  /**
-   * 获取字符串形式的浏览器cookie
-   *
-   * @returns {String} 返回字符串形式的浏览器cookie
-   */
-  static GetCookie2String(){
-    return globalThis.document.cookie;
-  }
-
-  /**
-   * 获取一个对象，里头都是键值对形式的浏览器cookie
-   *
-   * @returns {Object} 返回一个对象，里头都是键值对形式的浏览器cookie
-   */
-  static GetCookie2Object(){
-    const result = {};
-
-    let arr1 = [];
-
-    globalThis.document.cookie.split( '; ' )
-      .forEach( ( c, i, a ) => {
-        arr1 = c.split( '=' );
-
-        result[ arr1[ 0 ] ] = arr1[ 1 ];
-      } );
-
-    return result;
-  }
-
-}
-
-/**
- * 复制、剪切等操作的API方法，加入了“Clipboard API”
- */
-class CopyAPI {
+  // 复制、剪切等操作的API方法，加入了“Clipboard API” Start
 
   /**
    * 复制文本的方法，默认不传值的话是复制当前的URL。<br />
@@ -1496,12 +2854,9 @@ class CopyAPI {
     }
   }
 
-}
+  // 复制、剪切等操作的API方法，加入了“Clipboard API” End
 
-/**
- * 加密算法Crypto API
- */
-class CryptoAPI {
+  // 加密算法Crypto API Start
 
   /**
    * 使用指定的哈希算法计算Blob类型数据的Hex(base16)编码的哈希值
@@ -1633,12 +2988,9 @@ class CryptoAPI {
     return hashHex;
   }
 
-}
+  // 加密算法Crypto API End
 
-/**
- * 判断常用信息的格式
- */
-class DataFormat {
+  // 判断常用信息的格式 Start
 
   /**
    * 验证邮箱格式
@@ -1744,12 +3096,9 @@ class DataFormat {
     return IsHandle3.call( this, WXNum, /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/ );
   }
 
-}
+  // 判断常用信息的格式 End
 
-/**
- * 操作内置元素的对应class、自定义元素的对应class
- */
-class ElemClass {
+  // 操作内置元素的对应class、自定义元素的对应class Start
 
   /**
    * 根据内置元素名、自定义元素名(有效的自定义元素名的格式必须是：小写字母开头，并且一定得有连字符，然后可以由小写字母、数字、下划线、连字符组成)获取内置元素的对应class、自定义元素的对应class。<br />
@@ -1789,12 +3138,9 @@ class ElemClass {
     return elemObj.constructor;
   }
 
-}
+  // 操作内置元素的对应class、自定义元素的对应class End
 
-/**
- * 查找节点
- */
-class ElemQuery {
+  // 查找节点 Start
 
   /**
    * 根据class(类名字符串)查找节点，返回实时集合(HTMLCollection)。如果找不到匹配项，则返回undefined。<br />
@@ -1963,20 +3309,20 @@ class ElemQuery {
     }, tagN, rootE || document );
   }
 
-}
+  // 查找节点 End
 
-/**
- * 关于ES6的操作<br /><br />
- *
- * 类的实例.constructor === 类.prototype.constructor === 类<br />
- * 类的实例.__proto__ === 类.prototype<br /><br />
- *
- * 子类.__proto__ === 父类 === 父类.prototype.constructor(super作为对象时，在静态方法中，指向父类)<br />
- * 子类.prototype.__proto__ === 父类.prototype(super作为对象时，在普通方法中，指向父类的原型对象，也就是"父类.prototype")<br /><br />
- *
- * 子类实例.__proto__.__proto__ === 子类.prototype.__proto__ === 父类实例.__proto__ === 父类.prototype
- */
-class ES6Handle {
+  // 关于ES6的操作 Start
+  /**
+   * 关于ES6的操作<br /><br />
+   *
+   * 类的实例.constructor === 类.prototype.constructor === 类<br />
+   * 类的实例.__proto__ === 类.prototype<br /><br />
+   *
+   * 子类.__proto__ === 父类 === 父类.prototype.constructor(super作为对象时，在静态方法中，指向父类)<br />
+   * 子类.prototype.__proto__ === 父类.prototype(super作为对象时，在普通方法中，指向父类的原型对象，也就是"父类.prototype")<br /><br />
+   *
+   * 子类实例.__proto__.__proto__ === 子类.prototype.__proto__ === 父类实例.__proto__ === 父类.prototype
+   */
 
   /**
    * 将对象的属性名和属性值转换为[ { key, value, index } ]
@@ -2035,12 +3381,9 @@ class ES6Handle {
     return target => void ( Object.assign( target, ...arg_objArr ) );
   }
 
-}
+  // 关于ES6的操作 End
 
-/**
- * 函数处理
- */
-class FunHandle {
+  // 函数处理 Start
 
   /**
    * 防抖函数(每次触发的时间间隔都小于规定时间，那么相应的方法不会执行，否则，执行触发的是最后一次的状态)<br />
@@ -2276,12 +3619,9 @@ class FunHandle {
     };
   }
 
-}
+  // 函数处理 End
 
-/**
- * 输入事件的监听
- */
-class InputHandle {
+  // 输入事件的监听 Start
 
   /**
    * 监听'Enter键'
@@ -2469,12 +3809,9 @@ class InputHandle {
     return IsHandle12.call( this, elem, f, 'removeEventListener', 'input' );
   }
 
-}
+  // 输入事件的监听 End
 
-/**
- * 判断数据类型
- */
-class IsDataType {
+  // 判断数据类型 Start
 
   /**
    * 获取数据类型<br />
@@ -3231,24 +4568,24 @@ class IsDataType {
     return IsHandle1.call( this, arg, 'Worker' );
   }
 
-}
+  // 判断数据类型 End
 
-/**
- * 原生JS代替jQuery的Ajax操作，还支持fetch方法
- *
- * post请求content-type,即数据请求的格式主要设置方式：
- * 1、application/x-www-form-urlencoded（大多数请求可用：eg：'name=Denzel&age=18'）
- * 2、multipart/form-data
- * 3、application/json（json格式对象，eg：{'name':'Denzel','age':'18'}）
- * 4、text/xml(现在用的很少了，发送xml格式文件或流,webservice请求用的较多)
- *
- * 当用“POST”请求将“FormData”类型的数据传给服务器时，千万别设置请求头"Content-type": "multipart/form-data"，不然会报错！
- *
- * 而且使用jQuery中的Ajax时，还需要：
- * contentType: false,
- * processData: false,
- */
-class JS2Ajax {
+  // 原生JS代替jQuery的Ajax操作，还支持fetch方法 Start
+  /**
+   * 原生JS代替jQuery的Ajax操作，还支持fetch方法
+   *
+   * post请求content-type,即数据请求的格式主要设置方式：
+   * 1、application/x-www-form-urlencoded（大多数请求可用：eg：'name=Denzel&age=18'）
+   * 2、multipart/form-data
+   * 3、application/json（json格式对象，eg：{'name':'Denzel','age':'18'}）
+   * 4、text/xml(现在用的很少了，发送xml格式文件或流,webservice请求用的较多)
+   *
+   * 当用“POST”请求将“FormData”类型的数据传给服务器时，千万别设置请求头"Content-type": "multipart/form-data"，不然会报错！
+   *
+   * 而且使用jQuery中的Ajax时，还需要：
+   * contentType: false,
+   * processData: false,
+   */
 
   /**
    * Ajax请求<br /><br />
@@ -4431,12 +5768,9 @@ class JS2Ajax {
     this.ajax( url, paraObj );
   }
 
-}
+  // 原生JS代替jQuery的Ajax操作，还支持fetch方法 End
 
-/**
- * 原生JS代替jQuery的部分节点操作
- */
-class JS2jQuery {
+  // 原生JS代替jQuery的部分节点操作 Start
 
   /**
    * 绑定click点击事件，当支持触屏事件时，会自动切换到tap事件，否则继续是click事件
@@ -7121,12 +8455,9 @@ class JS2jQuery {
     } );
   }
 
-}
+  // 原生JS代替jQuery的部分节点操作 End
 
-/**
- * 对象、数组处理
- */
-class ObjHandle {
+  // 对象、数组处理 Start
 
   /**
    * 完整复制对象所有自身属性(非继承属性)的描述对象，然后合并到目标对象<br />
@@ -7484,12 +8815,1027 @@ class ObjHandle {
     return arr;
   }
 
-}
+  // 对象、数组处理 End
 
-/**
- * 7788
- */
-class OthersHandle {
+  // Permissions API Start
+
+  /**
+   * Permissions接口的Permissions.query()方法返回全局范围内用户权限的状态。
+   *
+   * @param options JSON对象，必须，用于设置查询操作的选项：<br />
+   * {<br />
+   * name: 字符串，要查询其权限的API的名称，必须。<br />
+   * 例如，<br />
+   * Firefox目前支持“geolocation地理定位”、“notifications通知”、“push推送”和“persistent-storage持久存储”<br />
+   * 在规范中的“PermissionName enum”下可以找到最新的权限名称列表，但请记住，浏览器支持的实际权限目前远小于此值。<br />
+   * PermissionName权限名称列表(并非所有的API权限状态都可以使用Permissions API查询，随着时间的推移，更多的API将获得Permissions API支持。)：<br />
+   * geolocation、notifications、push、midi、camera、microphone、speaker、device-info、background-fetch、background-sync、<br />
+   * bluetooth、persistent-storage、ambient-light-sensor、accelerometer、gyroscope、magnetometer、clipboard、<br />
+   * display-capture、nfc。<br />
+   * 最新谷歌浏览器(80.0.3987.149)测试的各个权限名称的情况(不同于上头提到的"PermissionName权限名称列表“)：<br />
+   * accelerometer、accessibility events permisson(报错，识别不到)、<br />
+   * ambient-light-sensor(GenericSensorExtraClasses的标识要打开，否则会报错，识别不到)、<br />
+   * camera、clipboard-read、clipboard-write、geolocation、<br />
+   * background-sync(如果用户主动设置了浏览器禁止后台同步，那么授权状态就是拒绝的)、magnetometer、microphone、midi、notifications、<br />
+   * payment-handler、persistent-storage、push(必须userVisibleOnly: true，否则会报错，识别不到)<br /><br />
+   *
+   * userVisibleOnly: boolean，仅限push推送，指示您是要为每条消息显示通知还是能够发送静默推送通知。默认值为false。<br />
+   * PS：<br />
+   * 最新谷歌浏览器测试中发现，其值必须为true，否则会报错，且“push”权限会识别不到。<br /><br />
+   *
+   * sysex: boolean，（“仅限Midi”）指示您是否需要或接收系统独占消息。默认值为false。<br /><br />
+   *
+   * @param events JSON对象，里头都是各个事件，可选<br />
+   * {<br />
+   * prompt: 函数，当权限状态为“提示授权”时执行，可选<br /><br />
+   *
+   * granted: 函数，当权限状态为“已经授予”时执行，可选<br /><br />
+   *
+   * denied: 函数，当权限状态为“拒绝授权”时执行，可选<br /><br />
+   *
+   * stateChange: 函数，当权限状态改变时执行，会有一个参数(permissionStatus对象)，可选<br /><br />
+   *
+   * error: 函数，报错时执行的函数，会有一个参数(error)，可选<br />
+   *
+   * @returns {Promise<permissionStatus>} Promise<permissionStatus>
+   */
+  permissionsQuery( options = {}, events = {} ){
+    const permissions_objC = navigator.permissions;
+
+    if( this.isUndefined( permissions_objC ) ){
+      GetError( '不支持“navigator.permissions”！' );
+    }
+    else if( this.isUndefined( permissions_objC.query ) ){
+      GetError( '不支持“navigator.permissions.query”！' );
+    }
+    else{
+      const events_objC = Object.assign( {
+        prompt(){
+        },
+        granted(){
+        },
+        denied(){
+          GetError( '拒绝授权' );
+        },
+        stateChange( _this ){
+        },
+        error( e ){
+          GetError( e.message );
+        },
+      }, events );
+
+      try{
+        return permissions_objC.query( options )
+          .then( permissionStatus => {
+            const state_strC = permissionStatus.state;
+
+            // 提示授权
+            if( state_strC === 'prompt' ){
+              events_objC.prompt();
+            }
+            // 已经授予
+            else if( state_strC === 'granted' ){
+              events_objC.granted();
+            }
+            // 拒绝授权
+            else if( state_strC === 'denied' ){
+              events_objC.denied();
+            }
+
+            permissionStatus.onchange = function (){
+              events_objC.stateChange( this );
+            };
+
+            return permissionStatus;
+          } )
+          .catch( events_objC.error );
+      }
+      catch( e ){
+        events_objC.error( e );
+      }
+    }
+  }
+
+  // Permissions API End
+
+  // 正则表达式处理 Start
+
+  /**
+   * 移除A到Z以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyCL( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^A-Z]' );
+  }
+
+  /**
+   * 移除a到z以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyLL( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^a-z]' );
+  }
+
+  /**
+   * 移除A到Z和a到z以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyLLCL( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^a-zA-Z]' );
+  }
+
+  /**
+   * 移除0到9以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyN( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^0-9]' );
+  }
+
+  /**
+   * 移除0-9和A到Z以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyNCL( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^A-Z0-9]' );
+  }
+
+  /**
+   * 移除0-9和a到z以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyNLL( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^a-z0-9]' );
+  }
+
+  /**
+   * 移除A到Z、0-9和a到z以外的
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  onlyNLLCL( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[^a-zA-Z0-9]' );
+  }
+
+  /**
+   * 根据匹配模式移除字符串，如：移除ab、或移除ab以外的
+   *
+   * @param arg 单个数据，会被转换成字符串，注意：允许为数组，以便批量处理，不能为空数组，必需
+   *
+   * @param patS 匹配规则(字符串形式的)，如：[^0-9]，0到9以外的全部去掉，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  remOfPat( arg, patS ){
+    'use strict';
+
+    return IsHandle7.call( this, arg, a => this.strRep( a, patS, '' ), this.strRep( arg, patS, '' ) );
+  }
+
+  /**
+   * 移除所有的空格
+   *
+   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  remSpace( arg ){
+    'use strict';
+
+    return IsHandle2.call( this, arg, '[ ]' );
+  }
+
+  /**
+   * 字符串全局替换，传入的数据会被转换成字符串
+   *
+   * @param data 单个原始数据，也可以是一个数组，以便批量处理，不能为空数组，必需
+   *
+   * @param reg 正则表达式的匹配模式(字符串形式的)，如：[^0-9]，0到9以外的，B就是符合这个规则的字符串，必需
+   *
+   * @param repStr 所要替换成的字符串，用A替换B，repStr指的就是A，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  strRep( data, reg, repStr ){
+    'use strict';
+
+    return IsHandle7.call( this, data, a => String( a )
+      .replace( new RegExp( reg, 'g' ), repStr ), String( data )
+      .replace( new RegExp( reg, 'g' ), repStr ) );
+  }
+
+  /**
+   * 从一个字符串的两端删除空白字符，传入的任何数据都会被转为字符串
+   *
+   * @param arg 单个任何数据，也可以是一个数组，用于批量处理，参数个数有且只有1个，不能为空数组，必需
+   *
+   * @returns {String|Array} string或[string]
+   */
+  trim( arg ){
+    'use strict';
+
+    return IsHandle7.call( this, arg, a => ( String( a )
+      .trim() ), String( arg )
+      .trim() );
+  }
+
+  // 正则表达式处理 End
+
+  // 字符串处理 Start
+
+  /**
+   * Base64编码转字符串（解码）<br />
+   * 注：<br />
+   * 配合着“strToBase64”方法（编码）使用
+   *
+   * @param str_base64 Base64编码转字符串，必须。
+   *
+   * @returns {string} 字符串
+   */
+  base64ToStr( str_base64 ){
+    'use strict';
+
+    return decodeURIComponent( atob( str_base64 ) );
+  }
+
+  /**
+   * 将一个字符串类型的数值转换为number类型的Float数值
+   *
+   * @param str string，一个字符串类型的数值，必须
+   *
+   * @returns {number} number，Float数值(十进制)
+   */
+  pFloat( str ){
+    'use strict';
+
+    return Number.parseFloat( str );
+  }
+
+  /**
+   * 将一个字符串类型的数值转换为number类型的整数数值(十进制)
+   *
+   * @param str string，一个字符串类型的数值(2进制到36进制)，必须
+   *
+   * @param radix number，说明第一个参数str的进制类型，默认是十进制10，可选
+   *
+   * @returns {number} number，整数数值(十进制)
+   */
+  pInt( str, radix ){
+    'use strict';
+
+    return Number.parseInt( str, radix || 10 );
+  }
+
+  /**
+   * 将字符串的首字母(第一个字母)小写
+   *
+   * @param str 字符串，必须
+   *
+   * @returns {string} 字符串，返回全新的一个字符串，不是原来的！
+   */
+  strFL( str ){
+    return str.slice( 0, 1 )
+      .toLocaleLowerCase() + str.slice( 1 );
+  }
+
+  /**
+   * 将字符串的首字母(第一个字母)大写
+   *
+   * @param str 字符串，必须
+   *
+   * @returns {string} 字符串，返回全新的一个字符串，不是原来的！
+   */
+  strFU( str ){
+    return str.slice( 0, 1 )
+      .toLocaleUpperCase() + str.slice( 1 );
+  }
+
+  /**
+   * 正确返回字符串长度
+   *
+   * @param str 一个字面量的字符串或一个字符串实例，必须
+   *
+   * @returns {null|number} null|number，正确返回字符串长度。
+   */
+  strLength( str ){
+    if( IsHandle1.call( this, str, 'String' ) ){
+      // 如果未找到匹配项，则为null。
+      const result = str.match( /[\s\S]/gu );
+
+      return !this.isNull( result )
+             ? result.length
+             : str.length;
+    }
+    else{
+      return null;
+    }
+  }
+
+  /**
+   * 字符串转Base64编码（编码）<br />
+   * 注：<br />
+   * 配合着“base64ToStr”方法（解码）使用
+   *
+   * @param str 字符串，必须。
+   *
+   * @returns {string} Base64编码的字符串
+   */
+  strToBase64( str ){
+    'use strict';
+
+    return btoa( encodeURIComponent( str ) );
+  }
+
+  /**
+   * 字符串转Unicode表示(编码)，原始数据会被转换成字符串再被处理<br />
+   * 注1：以Unicode表示的数据(字符串形式)，数据被编码过，需要解码(uCodeToStr)才能还原。
+   *
+   * @param arg 字符串(单个)，支持一个数组(不能传[''])，用于批量处理，有且只有一个参数，必需
+   *
+   * @returns {String|Array} string|[string]
+   */
+  strToUCode( ...arg ){
+    let handle = str => {
+        let [ result, index1, index2 ] = [
+          '',
+          0,
+          0
+        ];
+        for( let c of
+          str ){
+          ++index1;
+        }
+        for( let ch of
+          str ){
+          ++index2;
+          result += ( ch.codePointAt( 0 ) + 520 ).toString( 8 );
+          index2 !== index1 && ( result += '8' );
+        }
+        return result;
+      },
+      s = String( arg[ 0 ] ),
+      isA = this.isArray( arg[ 0 ] );
+    if( isA && arg[ 0 ].length !== 0 ){
+      let result = [];
+      arg[ 0 ].forEach( currentValue => {
+        if( this.isString( currentValue ) && currentValue.length !== 0 ){
+          result.push( handle( currentValue ) );
+        }
+        else if( this.isArray( currentValue ) || this.isObject( currentValue ) ){
+          result.push( handle( JSON.stringify( currentValue ) ) );
+        }
+        else if( this.isNumber( currentValue ) || this.isBoolean( currentValue ) || this.isNull( currentValue ) || this.isUndefined( currentValue ) ){
+          result.push( handle( String( currentValue ) ) );
+        }
+      } );
+      if( result.length !== 0 ){
+        return result;
+      }
+    }
+    else if( s.length !== 0 ){
+      return handle( s );
+    }
+  }
+
+  /**
+   * Unicode表示转字符串(解码)，strToUCode参数必须是调用strToUCode()之后的返回值，因为格式是固定的
+   *
+   * @param arg 已被编码的字符串(单个，不能是空字符串)，支持一个数组(不能传空数组，子元素不能是空字符串)，用于批量处理，有且只有一个参数，必需
+   *
+   * @returns {String|Array} string|[string]
+   */
+  uCodeToStr( ...arg ){
+    let handle = str => {
+      const isS = this.isString( str );
+      if( isS && this.trim( str ).length !== 0 ){
+        let [ arr, arr1 ] = [
+          this.trim( str )
+            .split( '8' ),
+          []
+        ];
+        arr.forEach( currentValue => void ( arr1.push( parseInt( '0' + currentValue, 8 ) - 520 ) ) );
+        return String.fromCodePoint( ...arr1 );
+      }
+    };
+    if( this.isArray( arg[ 0 ] ) && arg[ 0 ].length !== 0 ){
+      let result = [];
+      arg[ 0 ].forEach( currentValue => void ( result.push( handle( currentValue ) ) ) );
+      return result;
+    }
+    else if( this.isString( arg[ 0 ] ) ){
+      return handle( arg[ 0 ] );
+    }
+  }
+
+  // 字符串处理 End
+
+  // 自定义的各种Touch事件 Start
+
+  /**
+   * 判断是否是触摸屏<br />
+   * 注：Edge可以通过设置，默认打开触屏事件！受用户的浏览器设置控制！
+   *
+   * @returns {Boolean} boolean
+   */
+  isTouch(){
+    let deviceInfo = this.deviceInfo();
+    // Edge可以通过设置，默认打开触屏事件！受用户的浏览器控制
+    if( deviceInfo.is_PC && deviceInfo.is_PCWin && deviceInfo.is_Edge ){
+      return false;
+    }
+    return 'ontouchend' in document;
+  }
+
+  /**
+   * 自定义模拟触摸屏的tap事件，效果没touch的好、全！<br />
+   * 但是一个简版的tap事件，可以满足日常使用<br />
+   * 因为内部做了判断，所以，不管调用tapSim()多少次，都只会执行一次触摸事件初始化！避免了重复注册触摸事件！
+   */
+  tapSim(){
+    if( globalThis[ 'isOpenTouch4CT' ] !== true ){
+      document.addEventListener( 'touchstart', event => {
+        !this.hasData( event.target, 'disable' )[ 0 ] && this.data( event.target, {
+          isMoved: 0
+        } );
+      }, { passive: false } );
+      document.addEventListener( 'touchmove', event => {
+        !this.hasData( event.target, 'disable' )[ 0 ] && this.data( event.target, {
+          isMoved: 1
+        } );
+      }, { passive: false } );
+      document.addEventListener( 'touchend', event => {
+        if( !this.hasData( event.target, 'disable' )[ 0 ] && this.data( event.target, 'isMoved' )[ 0 ] === 0 ){
+          this.triggerE( event.target, 'tap' );
+        }
+      }, { passive: false } );
+      globalThis[ 'isOpenTouch4CT' ] = true;
+    }
+  }
+
+  /**
+   * swipe、swipeLeft、swipeRight、swipeUp、swipeDown、doubleTap、tap、singleTap、longTap等九个触摸事件<br />
+   * 注：<br />
+   * 一、建议Android中longTap事件加一个200ms的振动效果，iOS不支持振动API<br />
+   * 二、iOS兼容的很好，大部分浏览器都能用，极少浏览器中的doubleTap事件无法触发，其他事件也有出现不合适的触发，但主流浏览器和自带的浏览器完美支持全部事件<br />
+   * 三、Android的swipe(其中的向上滑、向下滑)、swipeUp、swipeDown不是所有情况都能触发！其他事件也因浏览器而异出现不是很合适的触发，<br />
+   * 但主流浏览器和自带的浏览器完美支持全部事件，如果页面不需要滚动，那么设置样式 body,main{touch-action: none;}<br />
+   * 可以完美触发swipe(其中的向上滑、向下滑)、swipeUp、swipeDown等事件<br />
+   * 四、从chrome56开始，在window、document、body上注册的touchstart和touchmove事件处理函数，会默认为是“passive:true”。<br />
+   * 浏览器忽略preventDefault()就可以第一时间滚动了。如果在以上这3个元素的touchstart和touchmove事件处理函数中调用e.preventDefault()，<br />
+   * 会被浏览器忽略掉，并不会阻止默认行为。所以要设置{ passive: false }<br />
+   * CT会自动初始化touch<br />
+   * 因为内部做了判断，所以，不管调用touch()多少次，都只会执行一次触摸事件初始化！避免了重复注册触摸事件！
+   */
+  touch(){
+    if( globalThis[ 'isOpenTouch4CT' ] !== true ){
+      let touch = {},
+        touchTimeout,
+        tapTimeout,
+        swipeTimeout,
+        longTapTimeout,
+        // 750
+        longTapDelay = 500,
+        gesture,
+        swipeDirection = ( x1, x2, y1, y2 ) => ( Math.abs( x1 - x2 ) >= Math.abs( y1 - y2 ) )
+                                               ? ( x1 - x2 > 0
+                                                   ? 'Left'
+                                                   : 'Right' )
+                                               : ( y1 - y2 > 0
+                                                   ? 'Up'
+                                                   : 'Down' ),
+        longTap = () => void ( longTapTimeout = null, touch.last && ( touch.el && this.triggerE( touch.el, 'longTap' ), touch = {} ) ),
+        cancelLongTap = () => void ( longTapTimeout && clearTimeout( longTapTimeout ), longTapTimeout = null ),
+        cancelAll = () => {
+          touchTimeout && clearTimeout( touchTimeout );
+          tapTimeout && clearTimeout( tapTimeout );
+          swipeTimeout && clearTimeout( swipeTimeout );
+          longTapTimeout && clearTimeout( longTapTimeout );
+          touchTimeout = tapTimeout = swipeTimeout = longTapTimeout = null;
+          touch = {};
+        },
+        isPrimaryTouch = event => ( ( event.pointerType === 'touch' || event.pointerType === event.MSPOINTER_TYPE_TOUCH ) && event.isPrimary ),
+        isPointerEventType = ( e, type ) => ( e.type === 'pointer' + type || e.type.toLocaleLowerCase() === 'mspointer' + type );
+      this.ready( () => {
+        let now,
+          delta,
+          deltaX = 0,
+          deltaY = 0,
+          firstTouch,
+          _isPointerType;
+        'MSGesture' in globalThis && ( gesture = new MSGesture(), gesture.target = document.body );
+        let doc = this.on( document, 'MSGestureEnd', e => {
+            let swipeDirectionFromVelocity = e.velocityX > 1
+                                             ? 'Right'
+                                             : e.velocityX < -1
+                                               ? 'Left'
+                                               : e.velocityY > 1
+                                                 ? 'Down'
+                                                 : e.velocityY < -1
+                                                   ? 'Up'
+                                                   : null;
+            if( swipeDirectionFromVelocity ){
+              touch.el && this.triggerE( touch.el, 'swipe' );
+              touch.el && this.triggerE( touch.el, 'swipe' + swipeDirectionFromVelocity );
+            }
+          } )[ 0 ],
+          onEle1 = this.on( doc, 'touchstart MSPointerDown pointerdown', e => {
+            if( ( _isPointerType = isPointerEventType( e, 'down' ) ) && !isPrimaryTouch( e ) ){
+              return;
+            }
+            firstTouch = _isPointerType
+                         ? e
+                         : e.touches[ 0 ];
+            ( e.touches && e.touches.length === 1 && touch.x2 ) && ( touch.x2 = undefined, touch.y2 = undefined );
+            now = Date.now();
+            delta = now - ( touch.last || now );
+            touch.el = 'tagName' in firstTouch.target
+                       ? firstTouch.target
+                       : firstTouch.target.parentNode;
+            touchTimeout && clearTimeout( touchTimeout );
+            touch.x1 = firstTouch.pageX;
+            touch.y1 = firstTouch.pageY;
+            ( delta > 0 && delta <= 250 ) && ( touch.isDoubleTap = true );
+            touch.last = now;
+            longTapTimeout = setTimeout( longTap, longTapDelay );
+            ( gesture && _isPointerType ) && gesture.addPointer( e.pointerId );
+          }, { passive: false } )[ 0 ],
+          onEle2 = this.on( onEle1, 'touchmove MSPointerMove pointermove', e => {
+            if( ( _isPointerType = isPointerEventType( e, 'move' ) ) && !isPrimaryTouch( e ) ){
+              return;
+            }
+            firstTouch = _isPointerType
+                         ? e
+                         : e.touches[ 0 ];
+            cancelLongTap();
+            touch.x2 = firstTouch.pageX;
+            touch.y2 = firstTouch.pageY;
+            deltaX += Math.abs( touch.x1 - touch.x2 );
+            deltaY += Math.abs( touch.y1 - touch.y2 );
+            // 修复Android上swipe事件(向上滑、向下滑、向左滑、向右滑)无效的情况，还要添加{ passive: false }
+            ( navigator.userAgent.includes( 'Android' ) && touch.x2 && Math.abs( touch.x1 - touch.x2 ) > 10 ) && e.preventDefault();
+          }, { passive: false } )[ 0 ],
+          onEle3 = this.on( onEle2, 'touchend MSPointerUp', e => {
+            if( ( _isPointerType = isPointerEventType( e, 'up' ) ) && !isPrimaryTouch( e ) ){
+              return;
+            }
+            cancelLongTap();
+            if( ( touch.x2 && Math.abs( touch.x1 - touch.x2 ) > 30 ) || ( touch.y2 && Math.abs( touch.y1 - touch.y2 ) > 30 ) ){
+              swipeTimeout = setTimeout( () => {
+                touch.el && this.triggerE( touch.el, 'swipe' );
+                touch.el && this.triggerE( touch.el, 'swipe' + ( swipeDirection( touch.x1, touch.x2, touch.y1, touch.y2 ) ) );
+                touch = {};
+              }, 0 );
+            }
+            else if( 'last' in touch && ( deltaX < 30 && deltaY < 30 ) ){
+              tapTimeout = setTimeout( () => {
+                let event = document.createEvent( 'HTMLEvents' );
+                event.initEvent( 'tap', true, false );
+                event.cancelTouch = cancelAll;
+                touch.el && touch.el.dispatchEvent( event );
+                if( touch.isDoubleTap ){
+                  touch.el && this.triggerE( touch.el, 'doubleTap' );
+                  touch = {};
+                }
+                else{
+                  touchTimeout = setTimeout( () => {
+                    touchTimeout = null;
+                    touch.el && this.triggerE( touch.el, 'singleTap' );
+                    touch = {};
+                  }, 250 );
+                }
+              }, 0 );
+            }
+            else if( 'last' in touch && !( deltaX < 30 && deltaY < 30 ) ){
+              touch = {};
+            }
+            deltaX = deltaY = 0;
+          }, { passive: false } )[ 0 ],
+          onEle4 = this.on( onEle3, 'touchcancel MSPointerCancel pointercancel', cancelAll, { passive: false } )[ 0 ];
+        this.scrollE( globalThis, cancelAll );
+      } );
+      globalThis[ 'isOpenTouch4CT' ] = true;
+    }
+    [
+      'swipe',
+      'swipeUp',
+      'swipeDown',
+      'swipeLeft',
+      'swipeRight',
+      'longTap',
+      'doubleTap',
+      'singleTap',
+      'tap'
+    ].forEach( eventName => void ( this[ eventName ] = ( elem, f, options = false ) => void ( this.on( elem, eventName, f, options ) ) ) );
+  }
+
+  // 自定义的各种Touch事件 End
+
+  // url、history的操作 Start
+
+  /*
+   IE9(window.location)
+   hash       ""
+   host       "localhost:8090"
+   hostname       "localhost"
+   href       "http://localhost:8090/web-project-template/apps/localServer/pages/index.html"
+   pathname       "/web-project-template/apps/localServer/pages/index.html"
+   port       "8090"
+   protocol       "http:"
+   search       ""
+
+   PS：
+   IE9没有“window.location.origin”！！！所以只能通过字符串拼接：`${ window.location.protocol }//${ window.location.host }`
+   */
+
+  /**
+   * 禁止返回键<br />
+   * 注：<br />
+   * 这个方法跟popStateChange方法都是注册了同一个事件，都执行的时候会冲突到！
+   *
+   * @param toDo_fun 当按返回键后，执行的函数，会传入一个event，可选
+   */
+  cReturn( toDo_fun = ( event => {
+  } ) ){
+    let pushHistory = () => void ( globalThis.history.pushState( {
+        title: 'title',
+        url: '#'
+      }, 'title', '#' ) ),
+      bool = false;
+    pushHistory();
+    setTimeout( () => void ( bool = true ), 1 );
+    this.on( globalThis, 'popstate', event => void ( bool && toDo_fun( event ), pushHistory() ) );
+  }
+
+  /**
+   * 根据输入的“url字符串片段”获得当前拼接后的“绝对URL”<br />
+   *
+   * 例子：<br />
+   * 当前的URL：http://localhost:8090/web-project-template/dist/dev_server/pages/Index.html<br /><br />
+   *
+   * 'something1?pageNumber=1': http://localhost:8090/web-project-template/dist/dev_server/pages/something1?pageNumber=1<br />
+   * '/something2?pageNumber=2': http://localhost:8090/something2?pageNumber=2<br />
+   * '../something3?pageNumber=3': http://localhost:8090/web-project-template/dist/dev_server/something3?pageNumber=3
+   *
+   * @param url String，url字符串片段，可选
+   *
+   * @returns {string} URL字符串
+   */
+  getAbs4URL( url = '' ){
+    let result = null,
+      a4Elem = document.createElement( 'a' );
+
+    a4Elem.href = url;
+
+    result = a4Elem.href;
+
+    // a4Elem.remove();
+
+    return result;
+  };
+
+  /**
+   * 锚点发生改变时，会触发的事件<br />
+   * 该事件仅由执行浏览器操作！<br />
+   * 如单击后退按钮(history.back()、history.go(-1))、前进按钮(history.forward()、history.go(1))，触发
+   *
+   * @param fun 函数，有两个参数onhashchange事件的event和history.state的值(没有值的话会是null)，可选
+   */
+  hashChange( fun = ( ( event, historyState, newURL, oldURL ) => {
+  } ) ){
+    globalThis.onhashchange = event => void ( fun( event, globalThis.history.state, event.newURL, event.oldURL ) );
+  }
+
+  /**
+   * 反序列化URL查询参数，将JSON对象转换成字符串形式的URL查询参数<br />
+   * 键值会被strToUCode()方法处理，这样才不会导致中文乱码！<br />
+   * 读取键值时要用uCodeToStr()方法解码！
+   *
+   * @param searchObj 对象 将JSON对象转换成字符串形式的URL查询参数
+   *
+   * @returns {string} 将JSON对象转换成字符串形式的URL查询参数
+   */
+  obj2URLSea( searchObj = {} ){
+    let searchStr = '';
+
+    Object.entries( searchObj )
+      .forEach( ( [ keyName, keyValue ] ) => void ( searchStr += `${ keyName }=${ this.strToUCode( keyValue ) }&` ) );
+
+    return searchStr.slice( 0, -1 );
+  }
+
+  /**
+   * url改变时触发，包括锚点改变时也会触发，查询字符串改变时也会触发<br />
+   * 该事件仅由执行浏览器操作！<br />
+   * 如单击后退按钮(history.back()、history.go(-1))、前进按钮(history.forward()、history.go(1))，触发<br />
+   * 注：<br />
+   * 这个方法跟cReturn方法都是注册了同一个事件，都执行的时候会冲突到！
+   *
+   * @param fun 函数，有两个参数onhashchange事件的event和history.state的值(没有值的话会是null)，可选
+   */
+  popStateChange( fun = ( ( event, historyState ) => {
+  } ) ){
+    globalThis.onpopstate = event => void ( fun( event, event.state ) );
+  }
+
+  /**
+   * 跟浏览器的后退按钮一样的功能，向左的箭头按钮<br />
+   * 注：<br />
+   * 0，表示刷新页面<br />
+   * 数值不在history的条数之内时，不执行
+   *
+   * @param delta number，默认值是-1，可选
+   */
+  urlBack( delta = -1 ){
+    globalThis.history.go( delta );
+  }
+
+  /**
+   * 跟浏览器的前进按钮一样的功能，向右的箭头按钮<br />
+   * 注：<br />
+   * 0，表示刷新页面<br />
+   * 数值不在history的条数之内时，不执行
+   *
+   * @param delta number，默认值是1，可选
+   */
+  urlForward( delta = 1 ){
+    globalThis.history.go( delta );
+  }
+
+  /**
+   * 不刷新页面更改URL(会产生url历史记录，会有前进后退)
+   *
+   * @param arg_obj JSON对象，配置对象，必须<br />
+   * {<br />
+   * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
+   * 格式是：http://localhost:8090/web-project-template/app/devServer/pages/webProTpl.html<br /><br />
+   *
+   * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
+   * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
+   * 就是问号后面的参数：?q=1&a=2，如果键值是没有的那就传空字符串<br />
+   * 注：锚点放在最后！<br />
+   * {<br />
+   *   a: 1,<br />
+   *   b: 'qwe',<br />
+   *   #: 'asd'<br /><br />
+   *
+   * stateData 数据类型可以是任何类型，但建议是JSON对象，用于存储数据(640KB字符的大小限制)，默认值是null；可选！<br /><br />
+   *
+   * history.state将获取到设置的stateData数据！
+   *
+   * @returns {String} string 新的URL
+   */
+  urlPush( arg_obj = {} ){
+    let pra_obj = Object.assign( {
+      newURLStr: globalThis.location.origin + globalThis.location.pathname,
+      searchObj: {},
+      stateData: null
+    }, arg_obj );
+    return IsHandle18( pra_obj.newURLStr, pra_obj.searchObj, pra_obj.stateData, 'pushState' );
+  }
+
+  /**
+   * 不刷新页面更改URL(不会产生url历史记录，不会有前进后退)
+   *
+   * @param arg_obj JSON对象，配置对象，必须<br />
+   * {<br />
+   * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
+   * 格式是：http://localhost:8090/web-project-template/app/devServer/pages/webProTpl.html<br /><br />
+   *
+   * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
+   * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
+   * 就是问号后面的参数：?q=1&a=2，如果键值是没有的那就传空字符串<br />
+   * 注：锚点放在最后！<br />
+   * {<br />
+   *   a: 1,<br />
+   *   b: 'qwe',<br />
+   *   #: 'asd'<br /><br />
+   *
+   * stateData 数据类型可以是任何类型，但建议是JSON对象，用于存储数据(640KB字符的大小限制)，默认值是null；可选！<br /><br />
+   *
+   * history.state将获取到设置的stateData数据！
+   *
+   * @returns {String} string 新的URL
+   */
+  urlReplace( arg_obj = {} ){
+    let pra_obj = Object.assign( {
+      newURLStr: globalThis.location.origin + globalThis.location.pathname,
+      searchObj: {},
+      stateData: null
+    }, arg_obj );
+    return IsHandle18( pra_obj.newURLStr, pra_obj.searchObj, pra_obj.stateData, 'replaceState' );
+  }
+
+  /**
+   * 序列化URL的查询参数，将字符串形式的URL查询参数转换成JSON对象
+   *
+   * @param searchStr 字符串 网址的查询参数，默认值是当前网址的查询参数
+   *
+   * @returns {{}} JSON对象形式的URL查询参数
+   */
+  urlSea2Obj( searchStr = globalThis.location.search ){
+    let searchObj = {},
+      arr1;
+    ( searchStr.length !== 0 && searchStr[ 0 ] === '?' ) && ( searchStr = searchStr.slice( 1, searchStr.length ) );
+    searchStr.split( '#' )[ 0 ].split( '&' )
+      .filter( item => item.length !== 0 )
+      .filter( item => {
+        arr1 = item.split( '=' )
+          .filter( item => item.length !== 0 );
+        if( arr1.length === 1 ){
+          searchObj[ arr1[ 0 ] ] = '';
+        }
+        else if( arr1.length === 2 ){
+          searchObj[ arr1[ 0 ] ] = arr1[ 1 ];
+        }
+      } );
+    return searchObj;
+  }
+
+  // url、history的操作 End
+
+  // WASM工具 Start
+
+  /**
+   * 加载.wasm的函数方法(用“fetch”加载的)<br />
+   * PS:<br />
+   * 一般使用，传“url”、“importObject”这两个参数就行。<br />
+   *
+   * @param url 字符串，“.wasm”的网络URL地址，必须
+   *
+   * @param options JSON配置对象，可选，不传的属性就不要写到这个配置对象里头！<br />
+   * {<br />
+   *   method: 'GET', // 字符串，请求使用的方法，如'GET'、'POST'。默认值'GET'。<br /><br />
+   *
+   *   headers: null, // JSON对象|ByteString，请求的头信息，形式为Headers的对象或包含ByteString值的对象字面量。<br />
+   *   // post方法传数据给后台，则需要给请求头加："Content-type": "application/x-www-form-urlencoded;charset=UTF-8"等等这样一类的请求头<br />
+   *   // 当用“POST”请求将“FormData”类型的数据传给服务器时，千万别设置请求头"Content-type": "multipart/form-data"，不然会报错！<br />
+   *   // 例如：<br />
+   *   // 第一种：<br />
+   *   // let myHeaders = new Headers();<br />
+   *   // myHeaders.append('Content-Type', 'image/jpeg');<br />
+   *   // headers: myHeaders<br />
+   *   // 第二种：<br />
+   *   // headers: new Headers( { 'Content-Type': 'application/json' } )<br />
+   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
+   *
+   *   body: null, // 后面描述的数据类型，比如用于POST请求，存放传给服务器的数据，请求的body信息：可能是一个Blob、BufferSource、FormData、URLSearchParams或者USVString对象。<br />
+   *   // 注意GET或HEAD方法的请求不能包含body信息。<br />
+   *   // post方法传数据给后台，则需要给请求头加："Content-type": "application/x-www-form-urlencoded;charset=UTF-8"等等这样一类的请求头<br />
+   *   // 当用“POST”请求将“FormData”类型的数据传给服务器时，千万别设置请求头"Content-type": "multipart/form-data"，不然会报错！<br />
+   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
+   *
+   *   mode: 'same-origin', // 字符串，请求的模式，如'cors'、'no-cors'或者'same-origin'。默认值'same-origin'。<br />
+   *   注：<br />
+   *   fetch的mode配置项有3个值，如下：<br />
+   *   same-origin：该模式是不允许跨域的，它需要遵守同源策略，否则浏览器会返回一个error告知不能跨域；其对应的response type为basic。<br />
+   *   cors: 该模式支持跨域请求，顾名思义它是以CORS的形式跨域；当然该模式也可以同域请求不需要后端额外的CORS支持；其对应的response<br />
+   *   type为cors。当 Access-Control-Allow-Origin:* 时，mode是"cors"才行，不然还是没法跨域。<br />
+   *   no-cors: 该模式用于跨域请求但是服务器不带CORS响应头，也就是服务端不支持CORS；这也是fetch的特殊跨域请求方式；其对应的response<br />
+   *   type为opaque。而且浏览器不回去请求这个跨域的资源，也不会报错！<br />
+   *   针对跨域请求，cors模式是常见跨域请求实现，但是fetch自带的no-cors跨域请求模式则较为陌生，该模式有一个比较明显的特点：<br />
+   *   该模式允许浏览器发送本次跨域请求，但是不能访问响应返回的内容，这也是其response type为opaque透明的原因。<br />
+   *   注意： cors 支持 三种content-type 不支持 application/json<br />
+   *   application/x-www-form-urlencoded<br />
+   *   multipart/form-data<br />
+   *   text/plain<br /><br />
+   *
+   *   credentials: 'same-origin', // 字符串，请求的credentials(证书、凭据)，如'omit'(不需要凭据)、'same-origin'或者'include'(跨域源)。默认'same-origin'。<br />
+   *   // 为了在当前域名内自动发送cookie，必须提供这个选项，从Chrome50开始，这个属性也可以接受FederatedCredential实例或是一个PasswordCredential实例。<br />
+   *   // 当 Access-Control-Allow-Origin:* 时，credentials是"omit"才行，不然还是没法跨域。<br /><br />
+   *   关于跨域请求头。<br />
+   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
+   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
+   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
+   *     那么服务端的响应头得如下设置：<br />
+   *     'Access-Control-Allow-Credentials': true、<br />
+   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
+   *     'Vary': 'Origin' <br />
+   *     客户端也得如下设置：<br />
+   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
+   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
+   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
+   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
+   *
+   *   cache: 'default', // 字符串，请求的cache模式：'default'、'no-store'、'reload'、'no-cache'、'force-cache'或者'only-if-cached'。默认值'default'。<br /><br />
+   *
+   *   redirect: 'follow', // 字符串，可用的redirect(重定向)模式：'follow'(自动重定向)、'error'(如果产生重定向将自动终止并且抛出一个错误)或者'manual'(手动处理重定向)。<br />
+   *   // 在Chrome中，Chrome47之前的默认值是'manual'，从Chrome47开始默认值是'follow'。默认是'follow'。<br /><br />
+   *
+   *   referrer: 'client', // 字符串，请求引用，一个USVString可以是'no-referrer'、'client'或一个URL。默认是'client'。<br /><br />
+   *
+   *   referrerPolicy: 'no-referrer', // 字符串，请求引用策略，指定引用HTTP头的值。可能是'no-referrer'、'no-referrer-when-downgrade'、'origin'、'origin-when-cross-origin'、'unsafe-url'。<br />
+   *   // 默认值'no-referrer'。<br /><br />
+   *
+   *   integrity: null, // 字符串，包括请求的subresource integrity值(例如：sha256-BpfBw7ivV8q2jLiT13fxDYAe2tJllusRSZ273h2nFSE=)。<br />
+   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
+   *
+   *   keepalive: null, // keepalive选项可用于允许请求比页面寿命长。带keepalive标志的fetch替代了Navigator.sendBeacon()API。<br />
+   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
+   *
+   *   signal: null, // 请求信号，一个AbortSignal对象实例，允许您与fetch request通信，并在需要时通过AbortController中止该请求。<br />
+   *   // 不传该属性就不要写到这个配置对象里头！<br />
+   *
+   * @param callBack JSON配置对象(里头都是事件)，可选。<br />
+   * {<br />
+   *   resolved: ( response, status_num ) => {}, // 请求响应时触发(无论请求的响应码是哪种)，第一个参数是response(Response对象)，第二个参数是数值类型的响应状态码。<br /><br />
+   *
+   *   rejected: error => {}, // 仅当网络故障时或请求被阻止时，才会触发rejected函数，有一个error函数参数。<br /><br />
+   *
+   *   success: ( data4ResponseType, response ) => {} // 请求真正成功时触发的，第一个参数是data4ResponseType参数，第二个参数是response参数。<br />
+   *   注：<br />
+   *   data4ResponseType是根据opt_obj的responseType属性的属性值来提前处理的响应数据，responseType属性值只能是规定的5中，<br />
+   *   当没传responseType或其值是undefined时，data4ResponseType跟第二个参数response参数一样，由开发者自己处理响应数据。<br /><br />
+   *
+   *   error: ( status_num, response ) => {} // 当响应状态码不是200时，触发的函数，第一个参数是响应状态码，第二个参数是response参数。
+   *
+   * @param importObject JSON配置对象，是用在“WebAssembly.instantiate( bufferSource, importObject )”里的第二个参数，可选
+   *
+   * @returns {Promise<{instance: *, module: *}>} Promise<{instance: *, module: *}>
+   */
+  getWASM( {
+    url,
+    options = {},
+    callBack = {},
+    importObject = {},
+  } = {} ){
+    return this.fetch( url, callBack, Object.assign( options, { responseType: 'arrayBuffer', } ) )
+      .then( response => response.clone()
+        .arrayBuffer() )
+      .then( bufferSource => WebAssembly.validate( bufferSource )
+                             ? WebAssembly.instantiate( bufferSource, Object.assign( {
+          global: {},
+          env: {
+            // 初始大小为100页（64 * 100 = 6400‬KiB、6.25MiB），最大大小为1024页（64 * 1024 = 65536‬‬‬KiB、64MiB）。
+            memory: new WebAssembly.Memory( {
+              // WebAssembly Memory的初始大小，以WebAssembly pages为单位。
+              initial: 100,
+              // WebAssembly Memory的最大尺寸允许以WebAssembly pages为单位生长。
+              // 当存在时，最大参数充当引擎预留存储器的提示。
+              // 但是，引擎可能会忽略或限制此预订请求。
+              // 一般来说，大多数WebAssembly modules不需要设置最大值。
+              // 一个WebAssembly page的大小恒定为65536字节，即64KiB。
+              maximum: 1024,
+            } ),
+            table: new WebAssembly.Table( {
+              // WebAssembly表的初始元素数。
+              initial: 0,
+              // 表示要存储在表中的值类型的字符串。目前，它只能有一个值“anyfunc”（函数）。
+              element: 'anyfunc',
+              // 允许WebAssembly Table增长的元素的最大数目。
+              // maximum: 102400,
+            } ),
+          },
+        }, importObject ) )
+                             : undefined )
+      .then( ( arg = null ) => {
+        if( arg === null ){
+          throw new Error( '这是一个无效的“wasm”模块！' );
+        }
+
+        return arg;
+      } );
+  }
+
+  // WASM工具 End
+
+  // 7788的工具函数 Start
 
   /**
    * 获取设备信息以及浏览器信息<br />
@@ -8024,2446 +10370,9 @@ class OthersHandle {
     }
   }
 
-}
-
-/**
- * Permissions API
- */
-class PermissionsAPI {
-
-  /**
-   * Permissions接口的Permissions.query()方法返回全局范围内用户权限的状态。
-   *
-   * @param options JSON对象，必须，用于设置查询操作的选项：<br />
-   * {<br />
-   * name: 字符串，要查询其权限的API的名称，必须。<br />
-   * 例如，<br />
-   * Firefox目前支持“geolocation地理定位”、“notifications通知”、“push推送”和“persistent-storage持久存储”<br />
-   * 在规范中的“PermissionName enum”下可以找到最新的权限名称列表，但请记住，浏览器支持的实际权限目前远小于此值。<br />
-   * PermissionName权限名称列表(并非所有的API权限状态都可以使用Permissions API查询，随着时间的推移，更多的API将获得Permissions API支持。)：<br />
-   * geolocation、notifications、push、midi、camera、microphone、speaker、device-info、background-fetch、background-sync、<br />
-   * bluetooth、persistent-storage、ambient-light-sensor、accelerometer、gyroscope、magnetometer、clipboard、<br />
-   * display-capture、nfc。<br />
-   * 最新谷歌浏览器(80.0.3987.149)测试的各个权限名称的情况(不同于上头提到的"PermissionName权限名称列表“)：<br />
-   * accelerometer、accessibility events permisson(报错，识别不到)、<br />
-   * ambient-light-sensor(GenericSensorExtraClasses的标识要打开，否则会报错，识别不到)、<br />
-   * camera、clipboard-read、clipboard-write、geolocation、<br />
-   * background-sync(如果用户主动设置了浏览器禁止后台同步，那么授权状态就是拒绝的)、magnetometer、microphone、midi、notifications、<br />
-   * payment-handler、persistent-storage、push(必须userVisibleOnly: true，否则会报错，识别不到)<br /><br />
-   *
-   * userVisibleOnly: boolean，仅限push推送，指示您是要为每条消息显示通知还是能够发送静默推送通知。默认值为false。<br />
-   * PS：<br />
-   * 最新谷歌浏览器测试中发现，其值必须为true，否则会报错，且“push”权限会识别不到。<br /><br />
-   *
-   * sysex: boolean，（“仅限Midi”）指示您是否需要或接收系统独占消息。默认值为false。<br /><br />
-   *
-   * @param events JSON对象，里头都是各个事件，可选<br />
-   * {<br />
-   * prompt: 函数，当权限状态为“提示授权”时执行，可选<br /><br />
-   *
-   * granted: 函数，当权限状态为“已经授予”时执行，可选<br /><br />
-   *
-   * denied: 函数，当权限状态为“拒绝授权”时执行，可选<br /><br />
-   *
-   * stateChange: 函数，当权限状态改变时执行，会有一个参数(permissionStatus对象)，可选<br /><br />
-   *
-   * error: 函数，报错时执行的函数，会有一个参数(error)，可选<br />
-   *
-   * @returns {Promise<permissionStatus>} Promise<permissionStatus>
-   */
-  permissionsQuery( options = {}, events = {} ){
-    const permissions_objC = navigator.permissions;
-
-    if( this.isUndefined( permissions_objC ) ){
-      GetError( '不支持“navigator.permissions”！' );
-    }
-    else if( this.isUndefined( permissions_objC.query ) ){
-      GetError( '不支持“navigator.permissions.query”！' );
-    }
-    else{
-      const events_objC = Object.assign( {
-        prompt(){
-        },
-        granted(){
-        },
-        denied(){
-          GetError( '拒绝授权' );
-        },
-        stateChange( _this ){
-        },
-        error( e ){
-          GetError( e.message );
-        },
-      }, events );
-
-      try{
-        return permissions_objC.query( options )
-          .then( permissionStatus => {
-            const state_strC = permissionStatus.state;
-
-            // 提示授权
-            if( state_strC === 'prompt' ){
-              events_objC.prompt();
-            }
-            // 已经授予
-            else if( state_strC === 'granted' ){
-              events_objC.granted();
-            }
-            // 拒绝授权
-            else if( state_strC === 'denied' ){
-              events_objC.denied();
-            }
-
-            permissionStatus.onchange = function (){
-              events_objC.stateChange( this );
-            };
-
-            return permissionStatus;
-          } )
-          .catch( events_objC.error );
-      }
-      catch( e ){
-        events_objC.error( e );
-      }
-    }
-  }
+  // 7788的工具函数 End
 
 }
-
-/**
- * 正则表达式处理
- */
-class RegExpHandle {
-
-  /**
-   * 移除A到Z以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyCL( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^A-Z]' );
-  }
-
-  /**
-   * 移除a到z以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyLL( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^a-z]' );
-  }
-
-  /**
-   * 移除A到Z和a到z以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyLLCL( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^a-zA-Z]' );
-  }
-
-  /**
-   * 移除0到9以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyN( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^0-9]' );
-  }
-
-  /**
-   * 移除0-9和A到Z以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyNCL( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^A-Z0-9]' );
-  }
-
-  /**
-   * 移除0-9和a到z以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyNLL( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^a-z0-9]' );
-  }
-
-  /**
-   * 移除A到Z、0-9和a到z以外的
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  onlyNLLCL( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[^a-zA-Z0-9]' );
-  }
-
-  /**
-   * 根据匹配模式移除字符串，如：移除ab、或移除ab以外的
-   *
-   * @param arg 单个数据，会被转换成字符串，注意：允许为数组，以便批量处理，不能为空数组，必需
-   *
-   * @param patS 匹配规则(字符串形式的)，如：[^0-9]，0到9以外的全部去掉，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  remOfPat( arg, patS ){
-    'use strict';
-
-    return IsHandle7.call( this, arg, a => this.strRep( a, patS, '' ), this.strRep( arg, patS, '' ) );
-  }
-
-  /**
-   * 移除所有的空格
-   *
-   * @param arg 单个数据，支持传入一个数组，以便批量处理，有且只有一个参数，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  remSpace( arg ){
-    'use strict';
-
-    return IsHandle2.call( this, arg, '[ ]' );
-  }
-
-  /**
-   * 字符串全局替换，传入的数据会被转换成字符串
-   *
-   * @param data 单个原始数据，也可以是一个数组，以便批量处理，不能为空数组，必需
-   *
-   * @param reg 正则表达式的匹配模式(字符串形式的)，如：[^0-9]，0到9以外的，B就是符合这个规则的字符串，必需
-   *
-   * @param repStr 所要替换成的字符串，用A替换B，repStr指的就是A，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  strRep( data, reg, repStr ){
-    'use strict';
-
-    return IsHandle7.call( this, data, a => String( a )
-      .replace( new RegExp( reg, 'g' ), repStr ), String( data )
-      .replace( new RegExp( reg, 'g' ), repStr ) );
-  }
-
-  /**
-   * 从一个字符串的两端删除空白字符，传入的任何数据都会被转为字符串
-   *
-   * @param arg 单个任何数据，也可以是一个数组，用于批量处理，参数个数有且只有1个，不能为空数组，必需
-   *
-   * @returns {String|Array} string或[string]
-   */
-  trim( arg ){
-    'use strict';
-
-    return IsHandle7.call( this, arg, a => ( String( a )
-      .trim() ), String( arg )
-      .trim() );
-  }
-
-}
-
-/**
- * 服务器发送事件(Server-Sent Event)客户端类
- */
-class SSE4Client {
-
-  /**
-   * SSE客户端实例
-   */
-  sse4Client;
-
-  #onError;
-
-  #onMessage;
-
-  #onOpen;
-
-  /**
-   * 构造函数<br />
-   * PS:<br />
-   * 1、EventSource实例打开到HTTP服务器的持久连接，该服务器以“text/event-stream”格式发送事件。<br />
-   * 2、连接打开后，来自服务器的传入消息将以事件的形式传递到代码中。如果传入消息中有事件字段，则触发的事件与事件字段值相同。如果不存在事件字段，则会触发一般消息事件。<br />
-   * 3、例如，EventSource是一种有用的方法，用于处理社交媒体状态更新、新闻源或将数据传递到客户端存储机制（如IndexedDB或web存储）中。<br />
-   * 4、当不在HTTP/2上使用时，SSE会受到最大打开连接数的限制，这在打开各种选项卡时会特别痛苦，因为每个浏览器的限制是非常低的（6）。<br />
-   * 这个问题在Chrome和Firefox中被标记为“无法修复”。这个限制是针对每个浏览器+域的，<br />
-   * 这意味着您可以在所有选项卡上打开6个SSE连接www.example1.com网站还有6个SSE连接到www.example2.com。（从Stackoverflow）。<br />
-   * 使用HTTP/2时，服务器和客户端之间协商的同时HTTP流的最大数量（默认为100）。<br />
-   * 5、不是所有主流浏览器均支持Server-Sent Event，如Edge(旧版的，基于KHTML的那个Edge)、Internet Explorer不支持的。
-   *
-   * @param url 字符串，它表示服务事件/消息的远程资源的位置，必须
-   *
-   * @param opt JSON配置对象<br />
-   * {<br />
-   * withCredentials: true，布尔值，默认值是true，指示是否应将CORS设置为包括凭据，可选<br />
-   * PS:<br />
-   * 关于跨域请求头。<br />
-   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
-   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
-   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
-   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
-   *     那么服务端的响应头得如下设置：<br />
-   *     'Access-Control-Allow-Credentials': true、<br />
-   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
-   *     'Vary': 'Origin' <br />
-   *     客户端也得如下设置：<br />
-   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
-   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
-   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
-   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
-   *
-   * onError: ( sse4Client, event ) => {}，是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler，可选。<br /><br />
-   *
-   * onMessage: ( sse4Client, event, data ) => {}，是在收到消息事件（即消息来自源）时调用的EventHandler，可选。<br /><br />
-   *
-   * onOpen: ( sse4Client, event ) => {}，是在接收到打开事件（即刚打开连接时）时调用的EventHandler，可选。
-   */
-  constructor( url, {
-    withCredentials = true,
-    onError = ( sse4Client, event ) => {
-    },
-    onMessage = ( sse4Client, event, data ) => {
-    },
-    onOpen = ( sse4Client, event ) => {
-    },
-  } = {} ){
-    this.sse4Client = new EventSource( url, { withCredentials } );
-
-    this.#onError = onError;
-    this.#onMessage = onMessage;
-    this.#onOpen = onOpen;
-
-    this.sse4Client.onerror = ( ...rest ) => {
-      this.#onError( this.sse4Client, ...rest );
-    };
-    this.sse4Client.onmessage = event => {
-      this.#onMessage( this.sse4Client, event, event.data );
-    };
-    this.sse4Client.onopen = ( ...rest ) => {
-      this.#onOpen( this.sse4Client, ...rest );
-    };
-  }
-
-  /**
-   * 关闭连接（如果建立了连接），并设置EventSource.readyState属性为2（closed）。如果连接已经关闭，则该方法不执行任何操作。
-   */
-  close(){
-    this.sse4Client.close();
-  }
-
-  /**
-   * 是在发生错误并且在EventSource对象上分派error事件时调用的EventHandler。
-   *
-   * @param eventFun 函数，该事件函数有两个参数(sse4Client, event)，可选
-   */
-  setOnError( eventFun = ( sse4Client, event ) => {
-  } ){
-    this.#onError = eventFun;
-  }
-
-  /**
-   * 是在收到消息事件（即消息来自源）时调用的EventHandler。
-   *
-   * @param eventFun 函数，该事件函数有三个参数(sse4Client, event, data)，可选
-   */
-  setOnMessage( eventFun = ( sse4Client, event, data ) => {
-  } ){
-    this.#onMessage = eventFun;
-  }
-
-  /**
-   * 是在接收到打开事件（即刚打开连接时）时调用的EventHandler。
-   *
-   * @param eventFun 函数，该事件函数有两个参数(sse4Client, event)，可选
-   */
-  setOnOpen( eventFun = ( sse4Client, event ) => {
-  } ){
-    this.#onOpen = eventFun;
-  }
-
-  /**
-   * 一次性只设置一个自定义监听的事件<br />
-   * PS:<br />
-   * 1、如：这将只监听与以下类似的事件(this.sse4Client.addEventListener( 'notice', e => {}, false ))<br />
-   * event: notice<br />
-   * data: useful data<br />
-   * id: someid<br />
-   * 2、<br />
-   * 事件“message”是一种特殊情况，因为它将捕获“没有事件字段”的事件以及具有特定类型“event:message”的事件，它不会在“任何其他事件类型”上触发。
-   *
-   * @param eventName 字符串，自定义的事件名，必须
-   *
-   * @param fun 函数，处理事件的函数，有一个参数event，可选
-   *
-   * @param opt 布尔值，事件的配置参数，默认值是false，可选
-   */
-  setEvent( eventName, fun = event => {
-  }, opt = false ){
-    this.sse4Client.addEventListener( eventName, fun, opt );
-  }
-
-  /**
-   * 一次性设置多个自定义监听的事件<br />
-   * PS:<br />
-   * 1、如：这将只监听与以下类似的事件(this.sse4Client.addEventListener( 'notice', e => {}, false ))<br />
-   * event: notice<br />
-   * data: useful data<br />
-   * id: someid<br />
-   * 2、<br />
-   * 事件“message”是一种特殊情况，因为它将捕获“没有事件字段”的事件以及具有特定类型“event:message”的事件，它不会在“任何其他事件类型”上触发。
-   *
-   * @param eventArr 数组，自定义的事件数组(成员都是一个个对象)，可选<br />
-   * PS:该数组的格式如下<br />
-   * [<br />
-   * {<br />
-   * eventName: 字符串，自定义的事件名，必须<br /><br />
-   *
-   * eventFun: 函数，处理事件的函数，有一个参数event，可选<br /><br />
-   *
-   * eventOpt: 布尔值，事件的配置参数，默认值是false，可选
-   * ]
-   */
-  setEvents( eventArr = [] ){
-    eventArr.forEach( ( {
-      eventName,
-      eventFun = event => {
-      },
-      eventOpt = false,
-    }, i, a ) => void ( this.setEvent( eventName, eventFun, eventOpt ) ) );
-  }
-
-  /**
-   * 只读属性返回一个表示连接状态的数字。<br />
-   * PS:<br />
-   * 1、代表连接状态的数字。可能的值为：<br />
-   * 0 — connecting<br />
-   * 1 — open<br />
-   * 2 — closed<br />
-   *
-   * @returns {Number} Number
-   */
-  getReadyState(){
-    return this.sse4Client.readyState;
-  }
-
-  /**
-   * 只读属性返回表示源URL
-   *
-   * @returns {String} String
-   */
-  getURL(){
-    return this.sse4Client.url;
-  }
-
-  /**
-   * 只读属性返回一个布尔值，该布尔值指示是否使用CORS凭据集实例化了EventSource对象。<br />
-   * PS:<br />
-   * 1、一个布尔值，指示是否使用CORS凭据集实例化了EventSource对象（为true）（默认为false）。
-   *
-   * @returns {Boolean} 一个布尔值，指示是否使用CORS凭据集实例化了EventSource对象（为true）（默认为false）。
-   */
-  getWithCredentials(){
-    return this.sse4Client.withCredentials;
-  }
-
-}
-
-/**
- * 字符串处理
- */
-class StringHandle {
-
-  /**
-   * Base64编码转字符串（解码）<br />
-   * 注：<br />
-   * 配合着“strToBase64”方法（编码）使用
-   *
-   * @param str_base64 Base64编码转字符串，必须。
-   *
-   * @returns {string} 字符串
-   */
-  base64ToStr( str_base64 ){
-    'use strict';
-
-    return decodeURIComponent( atob( str_base64 ) );
-  }
-
-  /**
-   * 将一个字符串类型的数值转换为number类型的Float数值
-   *
-   * @param str string，一个字符串类型的数值，必须
-   *
-   * @returns {number} number，Float数值(十进制)
-   */
-  pFloat( str ){
-    'use strict';
-
-    return Number.parseFloat( str );
-  }
-
-  /**
-   * 将一个字符串类型的数值转换为number类型的整数数值(十进制)
-   *
-   * @param str string，一个字符串类型的数值(2进制到36进制)，必须
-   *
-   * @param radix number，说明第一个参数str的进制类型，默认是十进制10，可选
-   *
-   * @returns {number} number，整数数值(十进制)
-   */
-  pInt( str, radix ){
-    'use strict';
-
-    return Number.parseInt( str, radix || 10 );
-  }
-
-  /**
-   * 将字符串的首字母(第一个字母)小写
-   *
-   * @param str 字符串，必须
-   *
-   * @returns {string} 字符串，返回全新的一个字符串，不是原来的！
-   */
-  strFL( str ){
-    return str.slice( 0, 1 )
-      .toLocaleLowerCase() + str.slice( 1 );
-  }
-
-  /**
-   * 将字符串的首字母(第一个字母)大写
-   *
-   * @param str 字符串，必须
-   *
-   * @returns {string} 字符串，返回全新的一个字符串，不是原来的！
-   */
-  strFU( str ){
-    return str.slice( 0, 1 )
-      .toLocaleUpperCase() + str.slice( 1 );
-  }
-
-  /**
-   * 正确返回字符串长度
-   *
-   * @param str 一个字面量的字符串或一个字符串实例，必须
-   *
-   * @returns {null|number} null|number，正确返回字符串长度。
-   */
-  strLength( str ){
-    if( IsHandle1.call( this, str, 'String' ) ){
-      // 如果未找到匹配项，则为null。
-      const result = str.match( /[\s\S]/gu );
-
-      return !this.isNull( result )
-             ? result.length
-             : str.length;
-    }
-    else{
-      return null;
-    }
-  }
-
-  /**
-   * 字符串转Base64编码（编码）<br />
-   * 注：<br />
-   * 配合着“base64ToStr”方法（解码）使用
-   *
-   * @param str 字符串，必须。
-   *
-   * @returns {string} Base64编码的字符串
-   */
-  strToBase64( str ){
-    'use strict';
-
-    return btoa( encodeURIComponent( str ) );
-  }
-
-  /**
-   * 字符串转Unicode表示(编码)，原始数据会被转换成字符串再被处理<br />
-   * 注1：以Unicode表示的数据(字符串形式)，数据被编码过，需要解码(uCodeToStr)才能还原。
-   *
-   * @param arg 字符串(单个)，支持一个数组(不能传[''])，用于批量处理，有且只有一个参数，必需
-   *
-   * @returns {String|Array} string|[string]
-   */
-  strToUCode( ...arg ){
-    let handle = str => {
-        let [ result, index1, index2 ] = [
-          '',
-          0,
-          0
-        ];
-        for( let c of
-          str ){
-          ++index1;
-        }
-        for( let ch of
-          str ){
-          ++index2;
-          result += ( ch.codePointAt( 0 ) + 520 ).toString( 8 );
-          index2 !== index1 && ( result += '8' );
-        }
-        return result;
-      },
-      s = String( arg[ 0 ] ),
-      isA = this.isArray( arg[ 0 ] );
-    if( isA && arg[ 0 ].length !== 0 ){
-      let result = [];
-      arg[ 0 ].forEach( currentValue => {
-        if( this.isString( currentValue ) && currentValue.length !== 0 ){
-          result.push( handle( currentValue ) );
-        }
-        else if( this.isArray( currentValue ) || this.isObject( currentValue ) ){
-          result.push( handle( JSON.stringify( currentValue ) ) );
-        }
-        else if( this.isNumber( currentValue ) || this.isBoolean( currentValue ) || this.isNull( currentValue ) || this.isUndefined( currentValue ) ){
-          result.push( handle( String( currentValue ) ) );
-        }
-      } );
-      if( result.length !== 0 ){
-        return result;
-      }
-    }
-    else if( s.length !== 0 ){
-      return handle( s );
-    }
-  }
-
-  /**
-   * Unicode表示转字符串(解码)，strToUCode参数必须是调用strToUCode()之后的返回值，因为格式是固定的
-   *
-   * @param arg 已被编码的字符串(单个，不能是空字符串)，支持一个数组(不能传空数组，子元素不能是空字符串)，用于批量处理，有且只有一个参数，必需
-   *
-   * @returns {String|Array} string|[string]
-   */
-  uCodeToStr( ...arg ){
-    let handle = str => {
-      const isS = this.isString( str );
-      if( isS && this.trim( str ).length !== 0 ){
-        let [ arr, arr1 ] = [
-          this.trim( str )
-            .split( '8' ),
-          []
-        ];
-        arr.forEach( currentValue => void ( arr1.push( parseInt( '0' + currentValue, 8 ) - 520 ) ) );
-        return String.fromCodePoint( ...arr1 );
-      }
-    };
-    if( this.isArray( arg[ 0 ] ) && arg[ 0 ].length !== 0 ){
-      let result = [];
-      arg[ 0 ].forEach( currentValue => void ( result.push( handle( currentValue ) ) ) );
-      return result;
-    }
-    else if( this.isString( arg[ 0 ] ) ){
-      return handle( arg[ 0 ] );
-    }
-  }
-
-}
-
-/**
- * 自定义的各种Touch事件
- */
-class TouchEvent {
-
-  /**
-   * 判断是否是触摸屏<br />
-   * 注：Edge可以通过设置，默认打开触屏事件！受用户的浏览器设置控制！
-   *
-   * @returns {Boolean} boolean
-   */
-  isTouch(){
-    let deviceInfo = this.deviceInfo();
-    // Edge可以通过设置，默认打开触屏事件！受用户的浏览器控制
-    if( deviceInfo.is_PC && deviceInfo.is_PCWin && deviceInfo.is_Edge ){
-      return false;
-    }
-    return 'ontouchend' in document;
-  }
-
-  /**
-   * 自定义模拟触摸屏的tap事件，效果没touch的好、全！<br />
-   * 但是一个简版的tap事件，可以满足日常使用<br />
-   * 因为内部做了判断，所以，不管调用tapSim()多少次，都只会执行一次触摸事件初始化！避免了重复注册触摸事件！
-   */
-  tapSim(){
-    if( globalThis[ 'isOpenTouch4CT' ] !== true ){
-      document.addEventListener( 'touchstart', event => {
-        !this.hasData( event.target, 'disable' )[ 0 ] && this.data( event.target, {
-          isMoved: 0
-        } );
-      }, { passive: false } );
-      document.addEventListener( 'touchmove', event => {
-        !this.hasData( event.target, 'disable' )[ 0 ] && this.data( event.target, {
-          isMoved: 1
-        } );
-      }, { passive: false } );
-      document.addEventListener( 'touchend', event => {
-        if( !this.hasData( event.target, 'disable' )[ 0 ] && this.data( event.target, 'isMoved' )[ 0 ] === 0 ){
-          this.triggerE( event.target, 'tap' );
-        }
-      }, { passive: false } );
-      globalThis[ 'isOpenTouch4CT' ] = true;
-    }
-  }
-
-  /**
-   * swipe、swipeLeft、swipeRight、swipeUp、swipeDown、doubleTap、tap、singleTap、longTap等九个触摸事件<br />
-   * 注：<br />
-   * 一、建议Android中longTap事件加一个200ms的振动效果，iOS不支持振动API<br />
-   * 二、iOS兼容的很好，大部分浏览器都能用，极少浏览器中的doubleTap事件无法触发，其他事件也有出现不合适的触发，但主流浏览器和自带的浏览器完美支持全部事件<br />
-   * 三、Android的swipe(其中的向上滑、向下滑)、swipeUp、swipeDown不是所有情况都能触发！其他事件也因浏览器而异出现不是很合适的触发，<br />
-   * 但主流浏览器和自带的浏览器完美支持全部事件，如果页面不需要滚动，那么设置样式 body,main{touch-action: none;}<br />
-   * 可以完美触发swipe(其中的向上滑、向下滑)、swipeUp、swipeDown等事件<br />
-   * 四、从chrome56开始，在window、document、body上注册的touchstart和touchmove事件处理函数，会默认为是“passive:true”。<br />
-   * 浏览器忽略preventDefault()就可以第一时间滚动了。如果在以上这3个元素的touchstart和touchmove事件处理函数中调用e.preventDefault()，<br />
-   * 会被浏览器忽略掉，并不会阻止默认行为。所以要设置{ passive: false }<br />
-   * CT会自动初始化touch<br />
-   * 因为内部做了判断，所以，不管调用touch()多少次，都只会执行一次触摸事件初始化！避免了重复注册触摸事件！
-   */
-  touch(){
-    if( globalThis[ 'isOpenTouch4CT' ] !== true ){
-      let touch = {},
-        touchTimeout,
-        tapTimeout,
-        swipeTimeout,
-        longTapTimeout,
-        // 750
-        longTapDelay = 500,
-        gesture,
-        swipeDirection = ( x1, x2, y1, y2 ) => ( Math.abs( x1 - x2 ) >= Math.abs( y1 - y2 ) )
-                                               ? ( x1 - x2 > 0
-                                                   ? 'Left'
-                                                   : 'Right' )
-                                               : ( y1 - y2 > 0
-                                                   ? 'Up'
-                                                   : 'Down' ),
-        longTap = () => void ( longTapTimeout = null, touch.last && ( touch.el && this.triggerE( touch.el, 'longTap' ), touch = {} ) ),
-        cancelLongTap = () => void ( longTapTimeout && clearTimeout( longTapTimeout ), longTapTimeout = null ),
-        cancelAll = () => {
-          touchTimeout && clearTimeout( touchTimeout );
-          tapTimeout && clearTimeout( tapTimeout );
-          swipeTimeout && clearTimeout( swipeTimeout );
-          longTapTimeout && clearTimeout( longTapTimeout );
-          touchTimeout = tapTimeout = swipeTimeout = longTapTimeout = null;
-          touch = {};
-        },
-        isPrimaryTouch = event => ( ( event.pointerType === 'touch' || event.pointerType === event.MSPOINTER_TYPE_TOUCH ) && event.isPrimary ),
-        isPointerEventType = ( e, type ) => ( e.type === 'pointer' + type || e.type.toLocaleLowerCase() === 'mspointer' + type );
-      this.ready( () => {
-        let now,
-          delta,
-          deltaX = 0,
-          deltaY = 0,
-          firstTouch,
-          _isPointerType;
-        'MSGesture' in globalThis && ( gesture = new MSGesture(), gesture.target = document.body );
-        let doc = this.on( document, 'MSGestureEnd', e => {
-            let swipeDirectionFromVelocity = e.velocityX > 1
-                                             ? 'Right'
-                                             : e.velocityX < -1
-                                               ? 'Left'
-                                               : e.velocityY > 1
-                                                 ? 'Down'
-                                                 : e.velocityY < -1
-                                                   ? 'Up'
-                                                   : null;
-            if( swipeDirectionFromVelocity ){
-              touch.el && this.triggerE( touch.el, 'swipe' );
-              touch.el && this.triggerE( touch.el, 'swipe' + swipeDirectionFromVelocity );
-            }
-          } )[ 0 ],
-          onEle1 = this.on( doc, 'touchstart MSPointerDown pointerdown', e => {
-            if( ( _isPointerType = isPointerEventType( e, 'down' ) ) && !isPrimaryTouch( e ) ){
-              return;
-            }
-            firstTouch = _isPointerType
-                         ? e
-                         : e.touches[ 0 ];
-            ( e.touches && e.touches.length === 1 && touch.x2 ) && ( touch.x2 = undefined, touch.y2 = undefined );
-            now = Date.now();
-            delta = now - ( touch.last || now );
-            touch.el = 'tagName' in firstTouch.target
-                       ? firstTouch.target
-                       : firstTouch.target.parentNode;
-            touchTimeout && clearTimeout( touchTimeout );
-            touch.x1 = firstTouch.pageX;
-            touch.y1 = firstTouch.pageY;
-            ( delta > 0 && delta <= 250 ) && ( touch.isDoubleTap = true );
-            touch.last = now;
-            longTapTimeout = setTimeout( longTap, longTapDelay );
-            ( gesture && _isPointerType ) && gesture.addPointer( e.pointerId );
-          }, { passive: false } )[ 0 ],
-          onEle2 = this.on( onEle1, 'touchmove MSPointerMove pointermove', e => {
-            if( ( _isPointerType = isPointerEventType( e, 'move' ) ) && !isPrimaryTouch( e ) ){
-              return;
-            }
-            firstTouch = _isPointerType
-                         ? e
-                         : e.touches[ 0 ];
-            cancelLongTap();
-            touch.x2 = firstTouch.pageX;
-            touch.y2 = firstTouch.pageY;
-            deltaX += Math.abs( touch.x1 - touch.x2 );
-            deltaY += Math.abs( touch.y1 - touch.y2 );
-            // 修复Android上swipe事件(向上滑、向下滑、向左滑、向右滑)无效的情况，还要添加{ passive: false }
-            ( navigator.userAgent.includes( 'Android' ) && touch.x2 && Math.abs( touch.x1 - touch.x2 ) > 10 ) && e.preventDefault();
-          }, { passive: false } )[ 0 ],
-          onEle3 = this.on( onEle2, 'touchend MSPointerUp', e => {
-            if( ( _isPointerType = isPointerEventType( e, 'up' ) ) && !isPrimaryTouch( e ) ){
-              return;
-            }
-            cancelLongTap();
-            if( ( touch.x2 && Math.abs( touch.x1 - touch.x2 ) > 30 ) || ( touch.y2 && Math.abs( touch.y1 - touch.y2 ) > 30 ) ){
-              swipeTimeout = setTimeout( () => {
-                touch.el && this.triggerE( touch.el, 'swipe' );
-                touch.el && this.triggerE( touch.el, 'swipe' + ( swipeDirection( touch.x1, touch.x2, touch.y1, touch.y2 ) ) );
-                touch = {};
-              }, 0 );
-            }
-            else if( 'last' in touch && ( deltaX < 30 && deltaY < 30 ) ){
-              tapTimeout = setTimeout( () => {
-                let event = document.createEvent( 'HTMLEvents' );
-                event.initEvent( 'tap', true, false );
-                event.cancelTouch = cancelAll;
-                touch.el && touch.el.dispatchEvent( event );
-                if( touch.isDoubleTap ){
-                  touch.el && this.triggerE( touch.el, 'doubleTap' );
-                  touch = {};
-                }
-                else{
-                  touchTimeout = setTimeout( () => {
-                    touchTimeout = null;
-                    touch.el && this.triggerE( touch.el, 'singleTap' );
-                    touch = {};
-                  }, 250 );
-                }
-              }, 0 );
-            }
-            else if( 'last' in touch && !( deltaX < 30 && deltaY < 30 ) ){
-              touch = {};
-            }
-            deltaX = deltaY = 0;
-          }, { passive: false } )[ 0 ],
-          onEle4 = this.on( onEle3, 'touchcancel MSPointerCancel pointercancel', cancelAll, { passive: false } )[ 0 ];
-        this.scrollE( globalThis, cancelAll );
-      } );
-      globalThis[ 'isOpenTouch4CT' ] = true;
-    }
-    [
-      'swipe',
-      'swipeUp',
-      'swipeDown',
-      'swipeLeft',
-      'swipeRight',
-      'longTap',
-      'doubleTap',
-      'singleTap',
-      'tap'
-    ].forEach( eventName => void ( this[ eventName ] = ( elem, f, options = false ) => void ( this.on( elem, eventName, f, options ) ) ) );
-  }
-
-}
-
-/**
- * 用于GraphQL的各种资源上传请求的工具类
- */
-class Upload4GraphQL {
-
-  #ctIns = null;
-
-  #getErrorStrA = ( arg1, arg2 ) => {
-    return `FormData中的第${ arg1 }个的数据类型(${ arg2 })不在这三者之中：File、Blob、ArrayBuffer！请自行转换为这三者之一的数据类型！`;
-  };
-
-  /**
-   * 本类的构造函数
-   *
-   * @param ctIns 一个CT类的实例(new CT())，必须的
-   */
-  constructor( ctIns ){
-    this.#ctIns = ctIns;
-  }
-
-  #handleA( {
-    operationName = null,
-    query = null,
-    variables = null,
-    file4KeyName = null,
-    isSingleFile = true,
-  } = {} ){
-    if( query === null ){
-      throw new Error( 'query参数必须！' );
-    }
-    if( variables === null ){
-      throw new Error( 'variables参数必须！' );
-    }
-    if( file4KeyName === null ){
-      throw new Error( 'file4KeyName参数必须！' );
-    }
-
-    let formData = new FormData(),
-      operations_obj = {},
-      map_obj = {},
-      file4KeyName2Value = null,
-      arr1 = null;
-
-    ( this.#ctIns.isString( operationName ) && !this.#ctIns.isEmpty( operationName ) ) && ( operations_obj[ 'operationName' ] = operationName );
-
-    operations_obj[ 'query' ] = query;
-
-    if( !( file4KeyName in variables ) ){
-      throw new Error( '“file4KeyName”参数的值不在“variables”参数的各个属性名之中！' );
-    }
-
-    file4KeyName2Value = variables[ file4KeyName ];
-
-    if( !this.#ctIns.isFormData( file4KeyName2Value ) ){
-      throw new Error( `variables中的“${ file4KeyName }”的属性值的数据类型必须是“FormData”类型！` );
-    }
-
-    if( isSingleFile ){
-      variables[ file4KeyName ] = null;
-    }
-    else{
-      variables[ file4KeyName ] = [];
-    }
-
-    arr1 = Array.from( file4KeyName2Value.keys() );
-
-    if( arr1.length === 0 ){
-      throw new Error( `variables中的“${ file4KeyName }”的属性值中至少要有一个文件，也就是说FormData中至少有一个文件！` );
-    }
-
-    let source = null;
-
-    if( isSingleFile ){
-      source = file4KeyName2Value.get( arr1[ 0 ] );
-
-      if( !( this.#ctIns.isFile( source ) || this.#ctIns.isBlob( source ) || this.#ctIns.isArrayBuffer( source ) ) ){
-        throw new Error( this.#getErrorStrA( 1, this.#ctIns.dataT( source ) ) );
-      }
-
-      formData.append( arr1[ 0 ], source );
-      map_obj[ arr1[ 0 ] ] = [ `variables.${ file4KeyName }`, ];
-    }
-    else{
-      arr1.forEach( ( c, i, a ) => {
-        source = file4KeyName2Value.get( c );
-
-        if( !( this.#ctIns.isFile( source ) || this.#ctIns.isBlob( source ) || this.#ctIns.isArrayBuffer( source ) ) ){
-          throw new Error( this.#getErrorStrA( i + 1, this.#ctIns.dataT( source ) ) );
-        }
-
-        variables[ file4KeyName ].push( null );
-        formData.append( c, source );
-        map_obj[ c ] = [ `variables.${ file4KeyName }.${ i }`, ];
-      } );
-    }
-
-    operations_obj[ 'variables' ] = variables;
-
-    formData.append( 'operations', JSON.stringify( operations_obj ) );
-    formData.append( 'map', JSON.stringify( map_obj ) );
-
-    return {
-      formData,
-      operations: operations_obj,
-      map: map_obj,
-    };
-  }
-
-  /**
-   * 单文件上传<br />
-   * PS:<br />
-   * 1、GraphQL上传请求(单文件)的规范<br />
-   * https://github.com/jaydenseric/graphql-multipart-request-spec#single-file
-   *
-   * @param operationName 字符串，默认值null(表示不传)，可选，这个字段的使用遵循GraphQL中的“operationName”的使用方法
-   *
-   * @param query 字符串，字符串形式的GraphQL语句，必传
-   *
-   * @param variables 对象，里头的数据格式是key-value形式的，其中涉及用于存放文件的那个key所对应的值必须是FormData的数据类型，<br />
-   * 该FormData里头只允许接受三种数据类型的值：File、Blob、ArrayBuffer，必传。<br />
-   * 如：<br />
-   * variables: {<br />
-   * filesA: formData,<br />
-   * <br />
-   * PS：该工具在处理“formData”过程中的规范说明！请使用者注意看说明再使用！<br />
-   * 1、在“单文件上传”的操作中，只取“formData”中第一个文件，其他都不取。<br />
-   * 2、在“formData”中的各个“key”都必须是唯一的！<br />
-   * 3、在“formData”中，如果同一个“key”存放了多个文件，那也只取其第一个文件。<br />
-   *
-   * @param file4KeyName 字符串，用于说明在上面“variables”字段中用于存放文件的那个key的名字，必传
-   *
-   * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
-   * 主要有两个规范必须要传的字段：operations、map，以及要上传的文件。
-   */
-  singleFile( {
-    operationName = null,
-    query = null,
-    variables = null,
-    file4KeyName = null,
-  } = {} ){
-    if( query === null ){
-      throw new Error( 'query参数必须！' );
-    }
-    if( variables === null ){
-      throw new Error( 'variables参数必须！' );
-    }
-    if( file4KeyName === null ){
-      throw new Error( 'file4KeyName参数必须！' );
-    }
-
-    return this.#handleA( {
-      operationName,
-      query,
-      variables,
-      file4KeyName,
-      isSingleFile: true,
-    } ).formData;
-  }
-
-  /**
-   * 多文件上传<br />
-   * PS:<br />
-   * 1、GraphQL上传请求(多文件)的规范<br />
-   * https://github.com/jaydenseric/graphql-multipart-request-spec#file-list
-   *
-   * @param operationName 字符串，默认值null(表示不传)，可选，这个字段的使用遵循GraphQL中的“operationName”的使用方法
-   *
-   * @param query 字符串，字符串形式的GraphQL语句，必传
-   *
-   * @param variables 对象，里头的数据格式是key-value形式的，其中涉及用于存放文件的那个key所对应的值必须是FormData的数据类型，<br />
-   * 该FormData里头只允许接受三种数据类型的值：File、Blob、ArrayBuffer，必传。<br />
-   * 如：<br />
-   * variables: {<br />
-   * filesA: formData,<br />
-   * <br />
-   * PS：该工具在处理“formData”过程中的规范说明！请使用者注意看说明再使用！<br />
-   * 1、在“formData”中的各个“key”都必须是唯一的！<br />
-   * 3、在“formData”中，如果同一个“key”存放了多个文件，那也只取其第一个文件。<br />
-   *
-   * @param file4KeyName 字符串，用于说明在上面“variables”字段中用于存放文件的那个key的名字，必传
-   *
-   * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
-   * 主要有两个规范必须要传的字段：operations、map，以及要上传的各个文件。
-   */
-  multipleFiles( {
-    operationName = null,
-    query = null,
-    variables = null,
-    file4KeyName = null,
-  } = {} ){
-    if( query === null ){
-      throw new Error( 'query参数必须！' );
-    }
-    if( variables === null ){
-      throw new Error( 'variables参数必须！' );
-    }
-    if( file4KeyName === null ){
-      throw new Error( 'file4KeyName参数必须！' );
-    }
-
-    return this.#handleA( {
-      operationName,
-      query,
-      variables,
-      file4KeyName,
-      isSingleFile: false,
-    } ).formData;
-  }
-
-  /**
-   * 文件上传的“批操作”，不同于“多文件上传”，具体请看下面的规范说明地址<br />
-   * PS:<br />
-   * 1、GraphQL上传请求(批操作)的规范<br />
-   * https://github.com/jaydenseric/graphql-multipart-request-spec#batching
-   *
-   * @param opeArr 数组，必须，里头的成员都是一个个对象，对象里头的具体字段如下：<br />
-   * {<br />
-   * operationName,<br />
-   * query,<br />
-   * variables,<br />
-   * file4KeyName,<br />
-   * // 默认值是true，必须，布尔值，用于说明该操作是单文件操作还是多文件操作，默认是单文件操作。<br />
-   * isSingleFile,<br />
-   * <br />
-   * PS：<br />
-   * 1、“isSingleFile”为true时，表示该操作是单文件操作，那么其他字段的说明请查阅“singleFile”函数的说明。<br />
-   * 2、“isSingleFile”为false时，表示该操作是多文件操作，那么其他字段的说明请查阅“multipleFiles”函数的说明。<br />
-   *
-   * @returns {FormData} FormData，该FormData已经封装好了请求所需要的所有数据，可以直接使用在具体请求中了。<br />
-   * 主要有两个规范必须要传的字段：operations、map，以及要上传的各个文件。
-   */
-  batching( opeArr = null ){
-    if( opeArr === null ){
-      throw new Error( '参数必须！' );
-    }
-
-    let operationsAll_arr = [],
-      mapAll_arr = [],
-      formDataAll = new FormData(),
-      arr1 = [],
-      index_num = 0;
-
-    opeArr.forEach( ( {
-      operationName = null,
-      query = null,
-      variables = null,
-      file4KeyName = null,
-      isSingleFile = true,
-    }, i, a ) => {
-      if( query === null ){
-        throw new Error( 'query参数必须！' );
-      }
-      if( variables === null ){
-        throw new Error( 'variables参数必须！' );
-      }
-      if( file4KeyName === null ){
-        throw new Error( 'file4KeyName参数必须！' );
-      }
-
-      let {
-        formData,
-        operations,
-        map,
-      } = this.#handleA( {
-        operationName,
-        query,
-        variables,
-        file4KeyName,
-        isSingleFile,
-      } );
-
-      operationsAll_arr.push( operations );
-
-      if( isSingleFile ){
-        mapAll_arr.push( [
-          index_num,
-          [
-            `${ i }.${ Array.from( Object.values( map ) )
-              .flat( Infinity )[ 0 ] }`,
-          ],
-        ] );
-
-        ++index_num;
-      }
-      else{
-        Array.from( Object.values( map ) )
-          .flat( Infinity )
-          .forEach( ( c1, i1, a1 ) => {
-            mapAll_arr.push( [
-              index_num,
-              [
-                `${ i }.${ c1 }`,
-              ],
-            ] );
-
-            ++index_num;
-          } );
-      }
-
-      let formData4KeyNames = Array.from( formData.keys() );
-
-      formData4KeyNames.splice( formData4KeyNames.indexOf( 'operations' ), 1, );
-      formData4KeyNames.splice( formData4KeyNames.indexOf( 'map' ), 1, );
-
-      formData4KeyNames.forEach( ( c, i, a ) => void ( arr1.push( formData.get( c ) ) ) );
-    } );
-
-    formDataAll.append( 'operations', JSON.stringify( operationsAll_arr ) );
-    formDataAll.append( 'map', JSON.stringify( Object.fromEntries( mapAll_arr ) ) );
-
-    arr1.forEach( ( c, i, a ) => void ( formDataAll.append( i, c ) ) );
-
-    return formDataAll;
-  }
-
-}
-
-/**
- * url、history的操作
- */
-class UrlHandle {
-
-  /*
-   IE9(window.location)
-   hash       ""
-   host       "localhost:8090"
-   hostname       "localhost"
-   href       "http://localhost:8090/web-project-template/apps/localServer/pages/index.html"
-   pathname       "/web-project-template/apps/localServer/pages/index.html"
-   port       "8090"
-   protocol       "http:"
-   search       ""
-
-   PS：
-   IE9没有“window.location.origin”！！！所以只能通过字符串拼接：`${ window.location.protocol }//${ window.location.host }`
-   */
-
-  /**
-   * 禁止返回键<br />
-   * 注：<br />
-   * 这个方法跟popStateChange方法都是注册了同一个事件，都执行的时候会冲突到！
-   *
-   * @param toDo_fun 当按返回键后，执行的函数，会传入一个event，可选
-   */
-  cReturn( toDo_fun = ( event => {
-  } ) ){
-    let pushHistory = () => void ( globalThis.history.pushState( {
-        title: 'title',
-        url: '#'
-      }, 'title', '#' ) ),
-      bool = false;
-    pushHistory();
-    setTimeout( () => void ( bool = true ), 1 );
-    this.on( globalThis, 'popstate', event => void ( bool && toDo_fun( event ), pushHistory() ) );
-  }
-
-  /**
-   * 根据输入的“url字符串片段”获得当前拼接后的“绝对URL”<br />
-   *
-   * 例子：<br />
-   * 当前的URL：http://localhost:8090/web-project-template/dist/dev_server/pages/Index.html<br /><br />
-   *
-   * 'something1?pageNumber=1': http://localhost:8090/web-project-template/dist/dev_server/pages/something1?pageNumber=1<br />
-   * '/something2?pageNumber=2': http://localhost:8090/something2?pageNumber=2<br />
-   * '../something3?pageNumber=3': http://localhost:8090/web-project-template/dist/dev_server/something3?pageNumber=3
-   *
-   * @param url String，url字符串片段，可选
-   *
-   * @returns {string} URL字符串
-   */
-  getAbs4URL( url = '' ){
-    let result = null,
-      a4Elem = document.createElement( 'a' );
-
-    a4Elem.href = url;
-
-    result = a4Elem.href;
-
-    // a4Elem.remove();
-
-    return result;
-  };
-
-  /**
-   * 锚点发生改变时，会触发的事件<br />
-   * 该事件仅由执行浏览器操作！<br />
-   * 如单击后退按钮(history.back()、history.go(-1))、前进按钮(history.forward()、history.go(1))，触发
-   *
-   * @param fun 函数，有两个参数onhashchange事件的event和history.state的值(没有值的话会是null)，可选
-   */
-  hashChange( fun = ( ( event, historyState, newURL, oldURL ) => {
-  } ) ){
-    globalThis.onhashchange = event => void ( fun( event, globalThis.history.state, event.newURL, event.oldURL ) );
-  }
-
-  /**
-   * 反序列化URL查询参数，将JSON对象转换成字符串形式的URL查询参数<br />
-   * 键值会被strToUCode()方法处理，这样才不会导致中文乱码！<br />
-   * 读取键值时要用uCodeToStr()方法解码！
-   *
-   * @param searchObj 对象 将JSON对象转换成字符串形式的URL查询参数
-   *
-   * @returns {string} 将JSON对象转换成字符串形式的URL查询参数
-   */
-  obj2URLSea( searchObj = {} ){
-    let searchStr = '';
-
-    Object.entries( searchObj )
-      .forEach( ( [ keyName, keyValue ] ) => void ( searchStr += `${ keyName }=${ this.strToUCode( keyValue ) }&` ) );
-
-    return searchStr.slice( 0, -1 );
-  }
-
-  /**
-   * url改变时触发，包括锚点改变时也会触发，查询字符串改变时也会触发<br />
-   * 该事件仅由执行浏览器操作！<br />
-   * 如单击后退按钮(history.back()、history.go(-1))、前进按钮(history.forward()、history.go(1))，触发<br />
-   * 注：<br />
-   * 这个方法跟cReturn方法都是注册了同一个事件，都执行的时候会冲突到！
-   *
-   * @param fun 函数，有两个参数onhashchange事件的event和history.state的值(没有值的话会是null)，可选
-   */
-  popStateChange( fun = ( ( event, historyState ) => {
-  } ) ){
-    globalThis.onpopstate = event => void ( fun( event, event.state ) );
-  }
-
-  /**
-   * 跟浏览器的后退按钮一样的功能，向左的箭头按钮<br />
-   * 注：<br />
-   * 0，表示刷新页面<br />
-   * 数值不在history的条数之内时，不执行
-   *
-   * @param delta number，默认值是-1，可选
-   */
-  urlBack( delta = -1 ){
-    globalThis.history.go( delta );
-  }
-
-  /**
-   * 跟浏览器的前进按钮一样的功能，向右的箭头按钮<br />
-   * 注：<br />
-   * 0，表示刷新页面<br />
-   * 数值不在history的条数之内时，不执行
-   *
-   * @param delta number，默认值是1，可选
-   */
-  urlForward( delta = 1 ){
-    globalThis.history.go( delta );
-  }
-
-  /**
-   * 不刷新页面更改URL(会产生url历史记录，会有前进后退)
-   *
-   * @param arg_obj JSON对象，配置对象，必须<br />
-   * {<br />
-   * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
-   * 格式是：http://localhost:8090/web-project-template/app/devServer/pages/webProTpl.html<br /><br />
-   *
-   * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
-   * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
-   * 就是问号后面的参数：?q=1&a=2，如果键值是没有的那就传空字符串<br />
-   * 注：锚点放在最后！<br />
-   * {<br />
-   *   a: 1,<br />
-   *   b: 'qwe',<br />
-   *   #: 'asd'<br /><br />
-   *
-   * stateData 数据类型可以是任何类型，但建议是JSON对象，用于存储数据(640KB字符的大小限制)，默认值是null；可选！<br /><br />
-   *
-   * history.state将获取到设置的stateData数据！
-   *
-   * @returns {String} string 新的URL
-   */
-  urlPush( arg_obj = {} ){
-    let pra_obj = Object.assign( {
-      newURLStr: globalThis.location.origin + globalThis.location.pathname,
-      searchObj: {},
-      stateData: null
-    }, arg_obj );
-    return IsHandle18( pra_obj.newURLStr, pra_obj.searchObj, pra_obj.stateData, 'pushState' );
-  }
-
-  /**
-   * 不刷新页面更改URL(不会产生url历史记录，不会有前进后退)
-   *
-   * @param arg_obj JSON对象，配置对象，必须<br />
-   * {<br />
-   * newURLStr 字符串(新的同源的URL，完整的URL)，默认值是如下格式的当前URL，必须！<br />
-   * 格式是：http://localhost:8090/web-project-template/app/devServer/pages/webProTpl.html<br /><br />
-   *
-   * searchObj JSON对象(键名是url中的参数名，键值是参数对应的值，值是字符串；可选！<br />
-   * 存在的键名便会更新其值，不存在的键名会添加到url中；也可以是有且仅有一个是键名为“#”，键值是锚点值，字符串的)，默认值是空JSON对象<br />
-   * 就是问号后面的参数：?q=1&a=2，如果键值是没有的那就传空字符串<br />
-   * 注：锚点放在最后！<br />
-   * {<br />
-   *   a: 1,<br />
-   *   b: 'qwe',<br />
-   *   #: 'asd'<br /><br />
-   *
-   * stateData 数据类型可以是任何类型，但建议是JSON对象，用于存储数据(640KB字符的大小限制)，默认值是null；可选！<br /><br />
-   *
-   * history.state将获取到设置的stateData数据！
-   *
-   * @returns {String} string 新的URL
-   */
-  urlReplace( arg_obj = {} ){
-    let pra_obj = Object.assign( {
-      newURLStr: globalThis.location.origin + globalThis.location.pathname,
-      searchObj: {},
-      stateData: null
-    }, arg_obj );
-    return IsHandle18( pra_obj.newURLStr, pra_obj.searchObj, pra_obj.stateData, 'replaceState' );
-  }
-
-  /**
-   * 序列化URL的查询参数，将字符串形式的URL查询参数转换成JSON对象
-   *
-   * @param searchStr 字符串 网址的查询参数，默认值是当前网址的查询参数
-   *
-   * @returns {{}} JSON对象形式的URL查询参数
-   */
-  urlSea2Obj( searchStr = globalThis.location.search ){
-    let searchObj = {},
-      arr1;
-    ( searchStr.length !== 0 && searchStr[ 0 ] === '?' ) && ( searchStr = searchStr.slice( 1, searchStr.length ) );
-    searchStr.split( '#' )[ 0 ].split( '&' )
-      .filter( item => item.length !== 0 )
-      .filter( item => {
-        arr1 = item.split( '=' )
-          .filter( item => item.length !== 0 );
-        if( arr1.length === 1 ){
-          searchObj[ arr1[ 0 ] ] = '';
-        }
-        else if( arr1.length === 2 ){
-          searchObj[ arr1[ 0 ] ] = arr1[ 1 ];
-        }
-      } );
-    return searchObj;
-  }
-
-}
-
-/**
- * WASM工具
- */
-class WASMTool {
-
-  /**
-   * 加载.wasm的函数方法(用“fetch”加载的)<br />
-   * PS:<br />
-   * 一般使用，传“url”、“importObject”这两个参数就行。<br />
-   *
-   * @param url 字符串，“.wasm”的网络URL地址，必须
-   *
-   * @param options JSON配置对象，可选，不传的属性就不要写到这个配置对象里头！<br />
-   * {<br />
-   *   method: 'GET', // 字符串，请求使用的方法，如'GET'、'POST'。默认值'GET'。<br /><br />
-   *
-   *   headers: null, // JSON对象|ByteString，请求的头信息，形式为Headers的对象或包含ByteString值的对象字面量。<br />
-   *   // post方法传数据给后台，则需要给请求头加："Content-type": "application/x-www-form-urlencoded;charset=UTF-8"等等这样一类的请求头<br />
-   *   // 当用“POST”请求将“FormData”类型的数据传给服务器时，千万别设置请求头"Content-type": "multipart/form-data"，不然会报错！<br />
-   *   // 例如：<br />
-   *   // 第一种：<br />
-   *   // let myHeaders = new Headers();<br />
-   *   // myHeaders.append('Content-Type', 'image/jpeg');<br />
-   *   // headers: myHeaders<br />
-   *   // 第二种：<br />
-   *   // headers: new Headers( { 'Content-Type': 'application/json' } )<br />
-   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
-   *
-   *   body: null, // 后面描述的数据类型，比如用于POST请求，存放传给服务器的数据，请求的body信息：可能是一个Blob、BufferSource、FormData、URLSearchParams或者USVString对象。<br />
-   *   // 注意GET或HEAD方法的请求不能包含body信息。<br />
-   *   // post方法传数据给后台，则需要给请求头加："Content-type": "application/x-www-form-urlencoded;charset=UTF-8"等等这样一类的请求头<br />
-   *   // 当用“POST”请求将“FormData”类型的数据传给服务器时，千万别设置请求头"Content-type": "multipart/form-data"，不然会报错！<br />
-   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
-   *
-   *   mode: 'same-origin', // 字符串，请求的模式，如'cors'、'no-cors'或者'same-origin'。默认值'same-origin'。<br />
-   *   注：<br />
-   *   fetch的mode配置项有3个值，如下：<br />
-   *   same-origin：该模式是不允许跨域的，它需要遵守同源策略，否则浏览器会返回一个error告知不能跨域；其对应的response type为basic。<br />
-   *   cors: 该模式支持跨域请求，顾名思义它是以CORS的形式跨域；当然该模式也可以同域请求不需要后端额外的CORS支持；其对应的response<br />
-   *   type为cors。当 Access-Control-Allow-Origin:* 时，mode是"cors"才行，不然还是没法跨域。<br />
-   *   no-cors: 该模式用于跨域请求但是服务器不带CORS响应头，也就是服务端不支持CORS；这也是fetch的特殊跨域请求方式；其对应的response<br />
-   *   type为opaque。而且浏览器不回去请求这个跨域的资源，也不会报错！<br />
-   *   针对跨域请求，cors模式是常见跨域请求实现，但是fetch自带的no-cors跨域请求模式则较为陌生，该模式有一个比较明显的特点：<br />
-   *   该模式允许浏览器发送本次跨域请求，但是不能访问响应返回的内容，这也是其response type为opaque透明的原因。<br />
-   *   注意： cors 支持 三种content-type 不支持 application/json<br />
-   *   application/x-www-form-urlencoded<br />
-   *   multipart/form-data<br />
-   *   text/plain<br /><br />
-   *
-   *   credentials: 'same-origin', // 字符串，请求的credentials(证书、凭据)，如'omit'(不需要凭据)、'same-origin'或者'include'(跨域源)。默认'same-origin'。<br />
-   *   // 为了在当前域名内自动发送cookie，必须提供这个选项，从Chrome50开始，这个属性也可以接受FederatedCredential实例或是一个PasswordCredential实例。<br />
-   *   // 当 Access-Control-Allow-Origin:* 时，credentials是"omit"才行，不然还是没法跨域。<br /><br />
-   *   关于跨域请求头。<br />
-   *   1)当Access-Control-Allow-Origin:*时，不允许使用凭证（即不能设置诸如withCredentials:true、credentials:"include"之类），即不能携带上诸如Cookie之类的凭证。<br />
-   *   2)当Access-Control-Allow-Origin:*时，只需确保客户端在发出CORS请求时凭据标志的值为false就可以了：<br />
-   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为false。<br />
-   *     如果使用服务器发送事件，确保EventSource.withCredentials是false（这是默认值）。<br />
-   *     如果使用Fetch API，请确保Request.credentials是"omit"，"omit"表示忽略诸如Cookie之类的凭证。<br />
-   *   3)要想客户端既能发起跨域请求，又想将客户端携带的凭证（诸如Cookie之类的凭证）附加到跨域请求上传给服务端，<br />
-   *     那么服务端的响应头得如下设置：<br />
-   *     'Access-Control-Allow-Credentials': true、<br />
-   *     'Access-Control-Allow-Origin': '允许发起跨域请求的客户端的Origin（如：https://localhost:8100），就是不可以是通配符“*”'、<br />
-   *     'Vary': 'Origin' <br />
-   *     客户端也得如下设置：<br />
-   *     确保客户端在发出CORS请求时凭据标志的值为true就可以了：<br />
-   *     如果请求使用XMLHttpRequest发出，请确保withCredentials为true。<br />
-   *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
-   *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
-   *
-   *   cache: 'default', // 字符串，请求的cache模式：'default'、'no-store'、'reload'、'no-cache'、'force-cache'或者'only-if-cached'。默认值'default'。<br /><br />
-   *
-   *   redirect: 'follow', // 字符串，可用的redirect(重定向)模式：'follow'(自动重定向)、'error'(如果产生重定向将自动终止并且抛出一个错误)或者'manual'(手动处理重定向)。<br />
-   *   // 在Chrome中，Chrome47之前的默认值是'manual'，从Chrome47开始默认值是'follow'。默认是'follow'。<br /><br />
-   *
-   *   referrer: 'client', // 字符串，请求引用，一个USVString可以是'no-referrer'、'client'或一个URL。默认是'client'。<br /><br />
-   *
-   *   referrerPolicy: 'no-referrer', // 字符串，请求引用策略，指定引用HTTP头的值。可能是'no-referrer'、'no-referrer-when-downgrade'、'origin'、'origin-when-cross-origin'、'unsafe-url'。<br />
-   *   // 默认值'no-referrer'。<br /><br />
-   *
-   *   integrity: null, // 字符串，包括请求的subresource integrity值(例如：sha256-BpfBw7ivV8q2jLiT13fxDYAe2tJllusRSZ273h2nFSE=)。<br />
-   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
-   *
-   *   keepalive: null, // keepalive选项可用于允许请求比页面寿命长。带keepalive标志的fetch替代了Navigator.sendBeacon()API。<br />
-   *   // 不传该属性就不要写到这个配置对象里头！<br /><br />
-   *
-   *   signal: null, // 请求信号，一个AbortSignal对象实例，允许您与fetch request通信，并在需要时通过AbortController中止该请求。<br />
-   *   // 不传该属性就不要写到这个配置对象里头！<br />
-   *
-   * @param callBack JSON配置对象(里头都是事件)，可选。<br />
-   * {<br />
-   *   resolved: ( response, status_num ) => {}, // 请求响应时触发(无论请求的响应码是哪种)，第一个参数是response(Response对象)，第二个参数是数值类型的响应状态码。<br /><br />
-   *
-   *   rejected: error => {}, // 仅当网络故障时或请求被阻止时，才会触发rejected函数，有一个error函数参数。<br /><br />
-   *
-   *   success: ( data4ResponseType, response ) => {} // 请求真正成功时触发的，第一个参数是data4ResponseType参数，第二个参数是response参数。<br />
-   *   注：<br />
-   *   data4ResponseType是根据opt_obj的responseType属性的属性值来提前处理的响应数据，responseType属性值只能是规定的5中，<br />
-   *   当没传responseType或其值是undefined时，data4ResponseType跟第二个参数response参数一样，由开发者自己处理响应数据。<br /><br />
-   *
-   *   error: ( status_num, response ) => {} // 当响应状态码不是200时，触发的函数，第一个参数是响应状态码，第二个参数是response参数。
-   *
-   * @param importObject JSON配置对象，是用在“WebAssembly.instantiate( bufferSource, importObject )”里的第二个参数，可选
-   *
-   * @returns {Promise<{instance: *, module: *}>} Promise<{instance: *, module: *}>
-   */
-  getWASM( {
-    url,
-    options = {},
-    callBack = {},
-    importObject = {},
-  } = {} ){
-    return this.fetch( url, callBack, Object.assign( options, { responseType: 'arrayBuffer', } ) )
-      .then( response => response.clone()
-        .arrayBuffer() )
-      .then( bufferSource => WebAssembly.validate( bufferSource )
-                             ? WebAssembly.instantiate( bufferSource, Object.assign( {
-          global: {},
-          env: {
-            // 初始大小为100页（64 * 100 = 6400‬KiB、6.25MiB），最大大小为1024页（64 * 1024 = 65536‬‬‬KiB、64MiB）。
-            memory: new WebAssembly.Memory( {
-              // WebAssembly Memory的初始大小，以WebAssembly pages为单位。
-              initial: 100,
-              // WebAssembly Memory的最大尺寸允许以WebAssembly pages为单位生长。
-              // 当存在时，最大参数充当引擎预留存储器的提示。
-              // 但是，引擎可能会忽略或限制此预订请求。
-              // 一般来说，大多数WebAssembly modules不需要设置最大值。
-              // 一个WebAssembly page的大小恒定为65536字节，即64KiB。
-              maximum: 1024,
-            } ),
-            table: new WebAssembly.Table( {
-              // WebAssembly表的初始元素数。
-              initial: 0,
-              // 表示要存储在表中的值类型的字符串。目前，它只能有一个值“anyfunc”（函数）。
-              element: 'anyfunc',
-              // 允许WebAssembly Table增长的元素的最大数目。
-              // maximum: 102400,
-            } ),
-          },
-        }, importObject ) )
-                             : undefined )
-      .then( ( arg = null ) => {
-        if( arg === null ){
-          throw new Error( '这是一个无效的“wasm”模块！' );
-        }
-
-        return arg;
-      } );
-  }
-
-}
-
-/**
- * 基于“Proxy”编写的“Web服务器客户端”
- */
-class WebService4Proxy {
-
-  /**
-   * 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，必须
-   */
-  baseUrl;
-
-  /**
-   * 一个CT类的实例(new CT())，必须的
-   */
-  ctIns;
-
-  /**
-   * 处理数据的类型
-   */
-  type4ResponseData = [
-    'arrayBuffer',
-    'blob',
-    'formData',
-    'json',
-    'text',
-  ];
-
-  /**
-   * 本类的构造函数
-   *
-   * @param ctIns 一个CT类的实例(new CT())，必须的
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，必须
-   */
-  constructor( ctIns, baseUrl ){
-    this.baseUrl = baseUrl;
-    this.ctIns = ctIns;
-  }
-
-  /**
-   * 创建具体请求并使用具体请求<br />
-   * PS:<br />
-   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的post、delete、put请求。
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
-   * PS：<br />
-   * 1、不传的话，响应回来的数据将是原样的！<br />
-   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  create( {
-    baseUrl = this.baseUrl,
-    type,
-  } = {} ){
-    let _this = this;
-
-    return new Proxy( {}, {
-      get( target, propKey, receiver ){
-        return ( {
-          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
-          url = '',
-          // 该参数的具体信息看CT的fetch()的第二个参数描述
-          events = {},
-          // 该参数的具体信息看CT的fetch()的第三个参数描述
-          options = {},
-        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, options )
-          .then( response => {
-            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
-              return response.clone()[ type ]();
-            }
-            else{
-              return response;
-            }
-          } );
-      },
-      set( target, propKey, value, receiver ){
-        return Reflect.set( target, propKey, value, receiver );
-      },
-    } );
-  }
-
-  /**
-   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“arrayBuffer”类型的数据)
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  arrayBuffer( baseUrl ){
-    'use strict';
-
-    return this.create( {
-      baseUrl,
-      type: 'arrayBuffer',
-    } );
-  }
-
-  /**
-   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“blob”类型的数据)
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  blob( baseUrl ){
-    'use strict';
-
-    return this.create( {
-      baseUrl,
-      type: 'blob',
-    } );
-  }
-
-  /**
-   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“formData”类型的数据)
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  formData( baseUrl ){
-    'use strict';
-
-    return this.create( {
-      baseUrl,
-      type: 'formData',
-    } );
-  }
-
-  /**
-   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“json”类型的数据)
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  json( baseUrl ){
-    'use strict';
-
-    return this.create( {
-      baseUrl,
-      type: 'json',
-    } );
-  }
-
-  /**
-   * 创建具体请求并使用具体请求(响应到客户端的数据会被预先处理成“text”类型的数据)
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  text( baseUrl ){
-    'use strict';
-
-    return this.create( {
-      baseUrl,
-      type: 'text',
-    } );
-  }
-
-  /**
-   * 创建"post"类型的具体请求并使用具体请求<br />
-   * PS:<br />
-   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的post请求。
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
-   * PS：<br />
-   * 1、不传的话，响应回来的数据将是原样的！<br />
-   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  post( {
-    baseUrl = this.baseUrl,
-    type,
-  } = {} ){
-    let _this = this;
-
-    return new Proxy( {}, {
-      get( target, propKey, receiver ){
-        return ( {
-          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
-          url = '',
-          // 该参数的具体信息看CT的fetch()的第二个参数描述
-          events = {},
-          // 该参数的具体信息看CT的fetch()的第三个参数描述
-          options = {},
-        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
-          method: 'POST',
-        } ) )
-          .then( response => {
-            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
-              return response.clone()[ type ]();
-            }
-            else{
-              return response;
-            }
-          } );
-      },
-      set( target, propKey, value, receiver ){
-        return Reflect.set( target, propKey, value, receiver );
-      },
-    } );
-  }
-
-  /**
-   * 创建"delete"类型的具体请求并使用具体请求<br />
-   * PS:<br />
-   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的delete请求。
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
-   * PS：<br />
-   * 1、不传的话，响应回来的数据将是原样的！<br />
-   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  delete( {
-    baseUrl = this.baseUrl,
-    type,
-  } = {} ){
-    let _this = this;
-
-    return new Proxy( {}, {
-      get( target, propKey, receiver ){
-        return ( {
-          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
-          url = '',
-          // 该参数的具体信息看CT的fetch()的第二个参数描述
-          events = {},
-          // 该参数的具体信息看CT的fetch()的第三个参数描述
-          options = {},
-        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
-          method: 'DELETE',
-        } ) )
-          .then( response => {
-            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
-              return response.clone()[ type ]();
-            }
-            else{
-              return response;
-            }
-          } );
-      },
-      set( target, propKey, value, receiver ){
-        return Reflect.set( target, propKey, value, receiver );
-      },
-    } );
-  }
-
-  /**
-   * 创建"put"类型的具体请求并使用具体请求<br />
-   * PS:<br />
-   * 1、跨域情况下，会先发出OPTIONS请求，其响应成功后才会去请求真正的put请求。
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
-   * PS：<br />
-   * 1、不传的话，响应回来的数据将是原样的！<br />
-   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  put( {
-    baseUrl = this.baseUrl,
-    type,
-  } = {} ){
-    let _this = this;
-
-    return new Proxy( {}, {
-      get( target, propKey, receiver ){
-        return ( {
-          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
-          url = '',
-          // 该参数的具体信息看CT的fetch()的第二个参数描述
-          events = {},
-          // 该参数的具体信息看CT的fetch()的第三个参数描述
-          options = {},
-        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
-          method: 'PUT',
-        } ) )
-          .then( response => {
-            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
-              return response.clone()[ type ]();
-            }
-            else{
-              return response;
-            }
-          } );
-      },
-      set( target, propKey, value, receiver ){
-        return Reflect.set( target, propKey, value, receiver );
-      },
-    } );
-  }
-
-  /**
-   * 创建"get"类型的具体请求并使用具体请求
-   *
-   * @param baseUrl 字符串，具体请求URL的公共头部分，如：http://192.168.1.2:9999/SimServer/，默认就行，可选<br />
-   * PS：<br />
-   * 1、默认就行(默认值取得是类的构造函数的第一个参数值)。<br />
-   * 2、传的话会取代上面调用类的构造参数。<br />
-   *
-   * @param type 字符串，响应回来的数据的预处理类型('arrayBuffer'、'blob'、'formData'、'json'、'text')，可选<br />
-   * PS：<br />
-   * 1、不传的话，响应回来的数据将是原样的！<br />
-   * 2、如果传的话，也只能传上面提到的5种！否则，响应回来的数据将是原样的！<br />
-   *
-   * @returns {Proxy} Proxy实例
-   */
-  get( {
-    baseUrl = this.baseUrl,
-    type,
-  } = {} ){
-    let _this = this;
-
-    return new Proxy( {}, {
-      get( target, propKey, receiver ){
-        return ( {
-          // 这里的url参数可传可不传！！！传的话最终完整的请求URL会被拼接成：最终的baseUrl的值 + 具体方法名(也就是指propKey的值) + url
-          url = '',
-          // 该参数的具体信息看CT的fetch()的第二个参数描述
-          events = {},
-          // 该参数的具体信息看CT的fetch()的第三个参数描述
-          options = {},
-        } = {} ) => _this.ctIns.fetch( `${ baseUrl }${ propKey }${ url }`, events, Object.assign( options, {
-          method: 'GET',
-        } ) )
-          .then( response => {
-            if( _this.type4ResponseData.includes( type ) && response && response.ok && response.status === 200 ){
-              return response.clone()[ type ]();
-            }
-            else{
-              return response;
-            }
-          } );
-      },
-      set( target, propKey, value, receiver ){
-        return Reflect.set( target, propKey, value, receiver );
-      },
-    } );
-  }
-
-}
-
-/**
- * WebSocket客户端类
- */
-class WebSocket4Client {
-
-  /**
-   * WebSocket客户端实例
-   */
-  ws4Client;
-
-  #onClose;
-
-  #onError;
-
-  #onMessage;
-
-  #onOpen;
-
-  /**
-   * WebSocket客户端类的构造函数<br />
-   * PS:<br />
-   * 1、异常说明：<br />
-   * SECURITY_ERR：尝试连接的端口被阻止。<br />
-   *
-   * @param url 字符串，要连接的URL；这应该是WebSocket服务器将响应的URL。必须
-   *
-   * @param opt JSON配置对象，可选<br />
-   * {<br />
-   * protocols: String|[ String ] 单个协议字符串或协议字符串数组。这些字符串用于指示子协议，以便单个服务器可以实现多个WebSocket子协议<br />
-   * （例如，您可能希望一个服务器能够根据指定的协议处理不同类型的交互）。如果不指定协议字符串，则假定为空字符串。<br />
-   * 默认值是null，undefined、null、''都表示不传这个参数，所以，不传就别设置任何参数了。<br /><br />
-   *
-   * onClose: ( ws, event ) => {}，当与WebSocket的连接关闭时触发，该事件有两个参数(ws, event)，可选。<br /><br />
-   *
-   * onError: ( ws, event ) => {}，当由于错误而关闭与WebSocket的连接时触发，例如无法发送某些数据时触发，该事件有两个参数(ws, event)，可选。<br /><br />
-   *
-   * onMessage: ( ws, event, data ) => {}，通过WebSocket接收数据时激发，该事件有三个参数(ws, event, data)，可选。<br /><br />
-   *
-   * onOpen: ( ws, event ) => {}，打开与WebSocket的连接时激发，该事件有两个参数(ws, event)，可选。<br /><br />
-   */
-  constructor( url, {
-    protocols = null,
-    onClose = ( ws, event ) => {
-    },
-    onError = ( ws, event ) => {
-    },
-    onMessage = ( ws, event, data ) => {
-    },
-    onOpen = ( ws, event ) => {
-    },
-  } = {} ){
-    !protocols
-    ? ( this.ws4Client = new WebSocket( url ) )
-    : ( this.ws4Client = new WebSocket( url, protocols ) );
-
-    this.#onClose = onClose;
-    this.#onError = onError;
-    this.#onMessage = onMessage;
-    this.#onOpen = onOpen;
-
-    this.ws4Client.onclose = ( ...rest ) => {
-      this.#onClose( this.ws4Client, ...rest );
-    };
-
-    this.ws4Client.onerror = ( ...rest ) => {
-      this.#onError( this.ws4Client, ...rest );
-    };
-
-    this.ws4Client.onmessage = event => {
-      this.#onMessage( this.ws4Client, event, event.data );
-    };
-
-    this.ws4Client.onopen = ( ...rest ) => {
-      this.#onOpen( this.ws4Client, ...rest );
-    };
-  }
-
-  /**
-   * 关闭WebSocket连接<br />
-   * PS:<br />
-   * 1、异常说明：<br />
-   * INVALID_ACCESS_ERR：指定了无效的code。<br />
-   * SYNTAX_ERR：“reason”字符串太长或包含未配对的代理项。<br />
-   *
-   * @param code 数字，默认值为1000(正常关闭；连接成功完成了创建目的。)，可选，指示状态代码的数字值，用于解释为什么关闭连接。如果未指定此参数，则默认值为1005。<br />
-   * 有关允许的值，请参见CloseEvent的状态代码列表。<br />
-   * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes<br />
-   * PS:<br />
-   * 代码必须是1000或介于3000和4999之间。
-   *
-   * @param reason 字符串，默认值为字符串: '手动关闭！'，可选，易于理解的字符串，说明连接为何关闭。该字符串不得超过123个字节的UTF-8文本（非字符）。
-   */
-  close( code = 1000, reason = '手动关闭！' ){
-    this.ws4Client.close( code, reason );
-  }
-
-  /**
-   * 往服务器发送数据<br />
-   * PS:<br />
-   * 1、这个WebSocket.send()方法将要通过WebSocket连接传输到服务器的指定数据排队，将“bufferedAmount”的值增加包含数据所需的字节数。<br />
-   * 如果数据无法发送（例如，因为它需要缓冲，但缓冲区已满），套接字将自动关闭。<br />
-   * 2、异常说明:<br />
-   * INVALID_STATE_ERR：该连接当前未打开。<br />
-   * SYNTAX_ERR：数据是具有未配对替代的字符串。<br />
-   *
-   * @param data 数据发送到服务器。必须，它可能是下列类型之一：<br />
-   * 1、String<br />
-   * 文本字符串。字符串以UTF-8格式添加到缓冲区中，“bufferedAmount”的值将增加表示UTF-8字符串所需的字节数。<br /><br />
-   *
-   * 2、ArrayBuffer<br />
-   * 您可以发送类型化数组对象使用的基础二进制数据。它的二进制数据内容在缓冲区中排队，从而将bufferedAmount的值增加了必需的字节数。<br /><br />
-   *
-   * 3、Blob<br />
-   * 指定“Blob”会将Blob的原始数据排队，以便在二进制帧中传输。“bufferedAmount”的值随原始数据的字节大小而增加。<br /><br />
-   *
-   * 4、ArrayBufferView<br />
-   * 可以将任何JavaScript类型的数组对象作为二进制帧发送；它的二进制数据内容在缓冲区中排队，从而将“bufferedAmount”的值增加所需的字节数。
-   */
-  send( data = null ){
-    if( data === null ){
-      throw new Error( '必须传一个参数给send方法！' );
-    }
-
-    this.ws4Client.send( data );
-  }
-
-  /**
-   * 当与WebSocket的连接关闭时触发。
-   *
-   * @param eventFun 函数，该事件有两个参数(ws, event)，必须
-   */
-  setOnClose( eventFun = ( ws, event ) => {
-  } ){
-    this.#onClose = eventFun;
-  }
-
-  /**
-   * 当由于错误而关闭与WebSocket的连接时触发，例如无法发送某些数据时触发。
-   *
-   * @param eventFun 函数，该事件有两个参数(ws, event)，必须
-   */
-  setOnError( eventFun = ( ws, event ) => {
-  } ){
-    this.#onError = eventFun;
-  }
-
-  /**
-   * 通过WebSocket接收数据时激发。
-   *
-   * @param eventFun 函数，该事件有三个参数(ws, event, data)，必须
-   */
-  setOnMessage( eventFun = ( ws, event, data ) => {
-  } ){
-    this.#onMessage = eventFun;
-  }
-
-  /**
-   * 打开与WebSocket的连接时激发。
-   *
-   * @param eventFun 函数，该事件有两个参数(ws, event)，必须
-   */
-  setOnOpen( eventFun = ( ws, event ) => {
-  } ){
-    this.#onOpen = eventFun;
-  }
-
-  /**
-   * 只读属性返回连接正在传输的二进制数据的类型。<br />
-   * PS:返回如下几个字符串<br />
-   * 1、blob：如果使用Blob对象。<br />
-   * 2、arraybuffer：如果使用ArrayBuffer对象。<br />
-   *
-   * @returns {String} String
-   */
-  getBType(){
-    return this.ws4Client.binaryType;
-  }
-
-  /**
-   * 只读属性返回已使用send()调用排队但尚未传输到网络的数据字节数。一旦发送完所有排队数据，此值将重置为零。<br />
-   * 当连接关闭时，此值不会重置为零；<br />
-   * 如果继续调用send()，则此值将继续攀升。
-   *
-   * @returns {Number} Number
-   */
-  getBufAmount(){
-    return this.ws4Client.bufferedAmount;
-  }
-
-  /**
-   * 只读属性返回服务器选择的扩展。当前这只是空字符串或由连接协商的扩展名列表。
-   *
-   * @returns {String} String
-   */
-  getExtensions(){
-    return this.ws4Client.extensions;
-  }
-
-  /**
-   * 只读属性返回服务器选择的子协议的名称；这将是创建WebSocket对象时在protocols参数中指定的字符串之一，如果未建立连接，则为空字符串。
-   *
-   * @returns {String} String
-   */
-  getProtocol(){
-    return this.ws4Client.protocol;
-  }
-
-  /**
-   * 只读属性返回WebSocket连接的当前状态。<br />
-   * 返回以下无符号整数值之一：<br />
-   * 0    CONNECTING    套接字已创建。连接尚未打开。Socket has been created. The connection is not yet open.<br />
-   * 1    OPEN        连接已打开，可以进行通讯了。The connection is open and ready to communicate.<br />
-   * 2    CLOSING        连接正在关闭中。The connection is in the process of closing.<br />
-   * 3    CLOSED        连接已关闭或无法打开。The connection is closed or couldn't be opened.<br />
-   *
-   * @returns {Number} Number
-   */
-  getReadyState(){
-    return this.ws4Client.readyState;
-  }
-
-  /**
-   * 只读属性返回由构造函数解析的WebSocket的绝对URL。
-   *
-   * @returns {String} String
-   */
-  getURL(){
-    return this.ws4Client.url;
-  }
-
-}
-
-// mixin_classArrC数组是一个将多个类的接口“混入”（mix in）CT类的数组(成员是class)
-// 为了方便管理，以后只要是给CT类增加功能的，只要把功能写成一个类，然后把这个类添加到mixin_classArrC数组中就行！
-const mixin_classArrC = [
-  Canvas2Others,
-  CopyAPI,
-  CryptoAPI,
-  DataFormat,
-  ElemClass,
-  ElemQuery,
-  ES6Handle,
-  FunHandle,
-  InputHandle,
-  IsDataType,
-  JS2Ajax,
-  JS2jQuery,
-  ObjHandle,
-  OthersHandle,
-  PermissionsAPI,
-  RegExpHandle,
-  StringHandle,
-  TouchEvent,
-  UrlHandle,
-  WASMTool,
-];
-
-// 为了方便管理，以后只要是给CT类增加的工具类，只要把这个类添加到toolsClass_objC中就行！
-// 这个对象的每一个键名是具体的工具类名，键值是具体的工具类！
-// new CT().getClass()返回的就是toolsClass_objC！
-const toolsClass_objC = {
-  CookieTool,
-  // 服务器发送事件(Server-Sent Event)客户端类
-  SSE4Client,
-  // 用于GraphQL的各种资源上传请求的工具类
-  Upload4GraphQL,
-  // WebService4Proxy类
-  WebService4Proxy,
-  // WebSocket客户端类
-  WebSocket4Client,
-};
-
-/**
- * JS工具，其中的代码都是无关任何项目的代码(ES6，ESM模块写法)。<br />
- * 注：<br />
- * 1、都是在当时最新的谷歌浏览器PC版上测试。<br />
- * 2、注意默认的初始化操作带来的影响<br />
- * 3、该工具支持在浏览器、Node、Deno等多种支持JS的宿主环境中使用！<br />
- */
-class CT
-  extends MixinHandle( ...mixin_classArrC ) {
-
-  // 类实例属性 Start
-
-  /**
-   * 查找所有节点，处理所有节点，有返回值(存放在数组里)
-   *
-   * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
-   * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需
-   *
-   * @param fun 需要执行的函数，会传入一个Element参数，必需
-   *
-   * @returns {Array} 数组[*]
-   */
-  allElemHan;
-
-  /**
-   * 停止所有类型的传播(捕获和冒泡)，禁止默认事件
-   *
-   * @param event 事件对象，必需
-   *
-   * @returns {Element} Element节点
-   */
-  allEStop;
-
-  /**
-   * 查找节点，但只处理第一个节点，有返回值(任何类型数据)
-   *
-   * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
-   * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需，但只处理第一个节点
-   *
-   * @param fun 需要执行的函数，会传入一个Element参数，必需
-   *
-   * @returns {*} 任何类型数据
-   */
-  firstElemHan;
-
-  /**
-   * 自定义抛出错误、异常信息
-   *
-   * @param info_str 字符串，错误、异常信息，默认值'默认错误信息！'，必须！
-   */
-  gError;
-
-  /**
-   * 操作localStorage的工具<br />
-   * 使用方法：<br />
-   * new CT().ls.aD()<br />
-   * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
-   */
-  ls;
-
-  name = '';
-
-  /**
-   * ready加强版
-   *
-   * @returns {Function} 函数，有一个f参数(所要执行的函数)，必需
-   */
-  readyS;
-
-  /**
-   * 操作sessionStorage的工具<br />
-   * 使用方法：<br />
-   * new CT().ss.aD()<br />
-   * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
-   */
-  ss;
-
-  /**
-   * 本类的版本号，如：2024.01.01.1
-   */
-  version = '';
-
-  // 类实例属性 End
-
-  /**
-   * 构造函数，用于初始化工作
-   *
-   * @param opt JSON配置对象，可选<br />
-   * {<br />
-   * isSupportBrowser: 布尔值，如果要将CT工具用于浏览器环境，那么传true可以自动初始化浏览器环境的各种功能；<br />
-   * 如果不是用于浏览器环境(如：用于NodeJS)，那么传false就不会初始化跟浏览器相关的操作功能。<br />
-   * 可选，默认值true。<br /><br />
-   */
-  constructor( {
-    isSupportBrowser = true,
-  } = {} ){
-    super();
-
-    if( isSupportBrowser ){
-      /**
-       * 查找所有节点，处理所有节点，有返回值(存放在数组里)
-       *
-       * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
-       * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需
-       *
-       * @param fun 需要执行的函数，会传入一个Element参数，必需
-       *
-       * @returns {Array} 数组[*]
-       */
-      this.allElemHan = IsHandle10.bind( this );
-
-      /**
-       * 停止所有类型的传播(捕获和冒泡)，禁止默认事件
-       *
-       * @param event 事件对象，必需
-       *
-       * @returns {Element} Element节点
-       */
-      this.allEStop = AllEStop.bind( this );
-
-      /**
-       * 查找节点，但只处理第一个节点，有返回值(任何类型数据)
-       *
-       * @param elem 单个节点选择器(字符串)、单个节点选择器组(字符串)、单个节点对象、单个节点List、单个jQuery节点对象，<br />
-       * 支持一个数组(以上提到的任何数据类型)，以便批量处理，必需，但只处理第一个节点
-       *
-       * @param fun 需要执行的函数，会传入一个Element参数，必需
-       *
-       * @returns {*} 任何类型数据
-       */
-      this.firstElemHan = IsHandle13.bind( this );
-
-      /**
-       * 操作localStorage的工具<br />
-       * 使用方法：<br />
-       * new CT().ls.aD()<br />
-       * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
-       */
-      this.ls = IsHandle14.call( this, localStorage );
-
-      /**
-       * ready加强版
-       *
-       * @returns {Function} 函数，有一个f参数(所要执行的函数)，必需
-       */
-      this.readyS = ( () => {
-        let funcs = [],
-          ready = false,
-          handler = e => {
-            if( ready ){
-              return;
-            }
-            if( e.type === 'onreadystatechange' && document.readyState !== 'complete' ){
-              return;
-            }
-            for(
-              let i = 0;
-              i < funcs.length;
-              i++
-            ){
-              funcs[ i ].call( document );
-            }
-            ready = true;
-            funcs = null;
-          };
-        if( globalThis[ 'isOpenReadyS' ] !== true ){
-          if( document.addEventListener ){
-            document.addEventListener( 'DOMContentLoaded', handler, false );
-            document.addEventListener( 'readystatechange', handler, false );
-            globalThis.addEventListener( 'load', handler, false );
-          }
-          else if( document.attachEvent ){
-            document.attachEvent( 'onreadystatechange', handler );
-            globalThis.attachEvent( 'onload', handler );
-          }
-          globalThis[ 'isOpenReadyS' ] = true;
-        }
-        return ( f = ( () => {
-        } ) ) => void ( ready
-                        ? ( f.call( document ) )
-                        : ( funcs.push( f ) ) );
-      } )();
-
-      /**
-       * 操作sessionStorage的工具<br />
-       * 使用方法：<br />
-       * new CT().ss.aD()<br />
-       * {aD, dD, uD, qD, cD, isKN, storageCE等7个方法}
-       */
-      this.ss = IsHandle14.call( this, sessionStorage );
-    }
-
-    /**
-     * 自定义抛出错误、异常信息
-     *
-     * @param info_str 字符串，错误、异常信息，默认值'默认错误信息！'，必须！
-     */
-    this.gError = GetError;
-
-    this.name = 'CT';
-
-    this.version = '2024.01.01.1';
-
-    Init( this, isSupportBrowser );
-  }
-
-  /**
-   * 获取各个工具类
-   *
-   * @returns {Object} 对象(里头是各个工具类)，这个对象的每一个键名是具体的工具类名，键值是具体的工具类。
-   */
-  getClass(){
-    return toolsClass_objC;
-  }
-
-}
-
-export {
-  CT,
-  CookieTool,
-  SSE4Client,
-  Upload4GraphQL,
-  WebService4Proxy,
-  WebSocket4Client,
-};
 
 export default {
   CT,
