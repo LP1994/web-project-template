@@ -93,13 +93,20 @@
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
 
-    "noImplicitUseStrict": false,
-
     "useUnknownInCatchVariables": true,
 
     "alwaysStrict": true,
     "exactOptionalPropertyTypes": true,
     "noPropertyAccessFromIndexSignature": false,
+
+    "allowArbitraryExtensions": true,
+    "verbatimModuleSyntax": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleSuffixes": [
+      ""
+    ],
 
     "lib": [
       "deno.broadcast_channel",
