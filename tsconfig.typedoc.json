@@ -267,6 +267,12 @@
       "tsDir/*": [
         "./src/tools/ts/*"
       ],
+      "currency_toolsDir/*": [
+        "./src/tools/js/currency_tools/*"
+      ],
+      "universal_toolsDir/*": [
+        "./src/tools/ts/universal_tools/*"
+      ],
       "wasmDir/*": [
         "./src/wasm/build/*"
       ],

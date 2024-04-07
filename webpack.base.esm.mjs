@@ -1320,6 +1320,9 @@ const aliasConfig = {
 
     jsDir: resolve( __dirname, './src/tools/js/' ),
     tsDir: resolve( __dirname, './src/tools/ts/' ),
+
+    currency_toolsDir: resolve( __dirname, './src/tools/js/currency_tools/' ),
+    universal_toolsDir: resolve( __dirname, './src/tools/ts/universal_tools/' ),
     // tools文件夹 End
 
     wasmDir: resolve( __dirname, './src/wasm/build/' ),

@@ -95,6 +95,9 @@ module.exports = {
 
       'jsDir': path.resolve( __dirname, './src/tools/js/' ),
       'tsDir': path.resolve( __dirname, './src/tools/ts/' ),
+
+      'currency_toolsDir': path.resolve( __dirname, './src/tools/js/currency_tools/' ),
+      'universal_toolsDir': path.resolve( __dirname, './src/tools/ts/universal_tools/' ),
       // tools文件夹 End
 
       'wasmDir': path.resolve( __dirname, './src/wasm/build/' ),
