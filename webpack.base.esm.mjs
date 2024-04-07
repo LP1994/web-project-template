@@ -1264,8 +1264,6 @@ const aliasConfig = {
     'element-plus-css$': 'element-plus/dist/index.css',
     'swiper-css$': 'swiper/swiper-bundle.min.css',
 
-    'GSD2TSTD$': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
-
     // assets文件夹 Start
     assetsDir: resolve( __dirname, './src/assets/' ),
 
@@ -1336,6 +1334,8 @@ const aliasConfig = {
     workersToolsDir: resolve( __dirname, './src/workers/tools/' ),
     webWorkersDir: resolve( __dirname, './src/workers/web_workers/' ),
     // workers文件夹 End
+
+    'GSD2TSTD$': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
   },
   /**
    * @type {object}
