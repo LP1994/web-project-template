@@ -19,7 +19,7 @@ import {
 
 import {
   DateFormatForObject,
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
   type T_Resolvers,

@@ -31,7 +31,7 @@ import 'deno_x_corejs';
 
 import {
   MyConsole,
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
   type T_MyCusDenoFsFile,

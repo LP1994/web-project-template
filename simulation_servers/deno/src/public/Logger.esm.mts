@@ -17,7 +17,7 @@ import {
   type T_DateFormatForObject,
 
   DateFormatForObject,
-} from 'tools/universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 /**
  * 该类型别名同“Deno.OpenOptions”，详细见：https://deno.land/api?s=Deno.OpenOptions

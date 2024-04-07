@@ -30,6 +30,8 @@ export type T_Result001 = boolean | T_Fun001;
 
 // 自定义的路径别名aliasConfig Start
 
+const cacheDir: string = import.meta.resolve( '../../cache' );
+
 const logDir: string = import.meta.resolve( '../../log' );
 
 const opensslDir: string = import.meta.resolve( '../../openssl' );
@@ -573,6 +575,7 @@ const HTTPStatus: {
 
 export {
   // 自定义的路径别名aliasConfig Start
+  cacheDir,
   logDir,
   opensslDir,
 
@@ -622,6 +625,7 @@ export {
 
 export default {
   // 自定义的路径别名aliasConfig Start
+  cacheDir,
   logDir,
   opensslDir,
 
