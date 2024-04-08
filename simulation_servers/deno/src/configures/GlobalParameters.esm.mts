@@ -237,7 +237,7 @@ const HttpResponseHeadersFun: ( request: Request ) => HeadersInit = ( request: R
        */
       // 'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
     },
-    origin: string = String( request.headers.get( 'origin' ) ).trim();
+    origin: string = String( request?.headers?.get?.( 'origin' ) ?? '' ).trim();
 
   if( request && request.headers.has( 'origin' ) && origin !== 'null' && origin.length !== 0 ){
     result[ 'Access-Control-Allow-Origin' ] = origin;
