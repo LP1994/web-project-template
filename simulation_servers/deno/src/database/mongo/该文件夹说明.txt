@@ -1,6 +1,6 @@
 该文件夹下都是MongoDB数据库相关的。
 
-当前使用node版的mongoose来连接MongoDB数据库和各个操作！不在使用“deno_mongo”！
+当前使用node版的mongoose来连接MongoDB数据库和各个操作！不再使用“deno_mongo”！
 
 
 

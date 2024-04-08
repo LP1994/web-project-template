@@ -1,8 +1,8 @@
-#!/usr/bin/env -S deno run -A --config=../../../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr
+#!/usr/bin/env -S deno run -A --config=../../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr
 
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/database/mongo/npm_mongoose_demo001_for_deno.test.mts
+ * FileDirPath: simulation_servers/deno/test/mongodb_demo/npm_mongoose_demo001_for_deno.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -31,7 +31,7 @@ import {
 
 import {
   opensslDir,
-} from 'configures/GlobalParameters.esm.mts';
+} from '../../src/configures/GlobalParameters.esm.mts';
 
 /**
  * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
