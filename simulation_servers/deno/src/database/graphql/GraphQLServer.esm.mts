@@ -102,9 +102,11 @@ function GenerateForMyGraphQLServerResponse( request: Request ){
  * graphql-sse中关于在deno里使用GraphQL的案例：
  * https://the-guild.dev/graphql/sse/get-started#with-deno
  *
- * @param {Request} request 请求对象，无默认值，必须。
+ * @param {object} config 配置对象。
  *
- * @param {[ T_HandlerOptions, Partial<T_FetchAPI>, ]} graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。
+ * @param {Request} config.request 请求对象，无默认值，必须。
+ *
+ * @param {[ T_HandlerOptions, Partial<T_FetchAPI>, ]} config.graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。
  * 1、一般来说，第一个参数里面总是会有选项schema。
  * 2、第二个参数，值类型是Partial<I_FetchAPI>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
  * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
@@ -121,12 +123,12 @@ function GenerateForMyGraphQLServerResponse( request: Request ){
  * 3、详细参数见：
  * node_modules/graphql-http/lib/use/fetch.d.ts:96
  *
- * @param {T_ServerOptions} graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
+ * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
  * 1、一般来说，里面总是会有选项schema。
  * 2、详细参数见：
  * node_modules/graphql-ws/lib/server.d.ts:402
  *
- * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>, ]} graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。
+ * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>, ]} config.graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。
  * 1、一般来说，第一个参数里面总是会有选项schema。
  * 2、第二个参数，值类型是Partial<T_RequestContextBySSE>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
  * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<RequestContext>），它有哪些属性呢？详细见：
