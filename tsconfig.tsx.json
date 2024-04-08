@@ -17,6 +17,7 @@
     "./.git",
     "./.idea",
     "./node_modules",
+    "./simulation_servers",
     "./simulation_servers/deno/node_modules"
   ],
   "compileOnSave": true,
