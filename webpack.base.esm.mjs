@@ -874,8 +874,7 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -897,8 +896,7 @@ const autoprefixerConfig = {
 
         Vendors001JS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'Vendors001JS',
           };
         } )( [
@@ -909,8 +907,7 @@ const autoprefixerConfig = {
 
         VueFamilyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
@@ -921,8 +918,7 @@ const autoprefixerConfig = {
 
         ElementUIJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'ElementUIJS',
           };
         } )( [
@@ -945,8 +941,7 @@ const autoprefixerConfig = {
              * module.type：1个描述模块类型的字符串，如：'javascript/auto'。<br />
              * 3、请注意使用`[\\/]`作为跨平台兼容性的路径分隔符。<br />
              */
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.css$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.css$`, 'i' ),
             // 值类型：function、RegExp、string，允许按模块类型将模块分配给缓存组。
             ...( () => {
               return isProduction
@@ -999,8 +994,7 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
@@ -1035,8 +1029,7 @@ const autoprefixerConfig = {
 
         VueFamilyJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' )
-            .join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VueFamilyJS',
           };
         } )( [
