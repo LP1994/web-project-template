@@ -7,3 +7,5 @@ node_modules/@vue/compiler-sfc/dist/compiler-sfc.d.ts:236
 2、基于webpack配置的对.vue中的<style module>处理
 目前死活无法正确处理类似<style module lang = 'scss'> ... </style>的内联语法。
 只能处理类似<style module src = './xxx.module.scss'>这样的外联语法。
+
+3、关于<template lang="pug">中的lang属性的值有：pug、jade
