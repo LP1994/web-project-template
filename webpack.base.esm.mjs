@@ -69,6 +69,7 @@ import {
 } from 'node:os';
 
 import path, {
+  basename,
   dirname,
   join,
   resolve,
@@ -5455,15 +5456,36 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       },
       cssLoaderModules = {
         auto: true,
-        // mode: 'local',
+        mode: (
+          // G:\WebStormWS\web-project-template\src\pages\index\css_modules\example.module.css
+          resourcePath,
+          resourceQuery,
+          resourceFragment
+        ) => {
+          const fileName = basename( resourcePath );
+
+          if( fileName.includes( '.global.' ) ){
+            return 'global';
+          }
+
+          if( fileName.includes( '.pure.' ) ){
+            return 'pure';
+          }
+
+          if( fileName.includes( '.icss.' ) ){
+            return 'icss';
+          }
+
+          return 'local';
+        },
         localIdentName: isProduction
-          // example-module_Black_e2a1315f
-                        ? '[name]_[local]_[sha512:contenthash:hex:8]'
-          // src-pages-index-css_modules-example-module-css__Black
-                        : '[file]__[local]',
+          // example-module-css_Black_e2a1315f
+                        ? '[name][ext]_[local]_[sha512:contenthash:hex:8]'
+          // src-pages-index-css_modules-example-module-css_Black
+                        : '[file]_[local]',
         localIdentHashFunction: 'sha512',
         localIdentHashDigest: 'hex',
-        localIdentHashDigestLength: 16,
+        localIdentHashDigestLength: 20,
         hashStrategy: 'resource-path-and-local-name',
         /**
          * 注意：<br />
@@ -5515,8 +5537,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。因为内部模块部署了默认导出（也就是部署了default属性），Vue的SFC就是使用了这个默认导出。<br />
          */
         namedExport: true,
+        // 允许css-loader从全局的类或id导出名称，这样就可以将其用作本地名称。
         exportGlobals: true,
-        // 当namedExport选项为true时，该选项的值只能为：camelCaseOnly。
+        /**
+         * 1、如果"namedExport"为"false"，即"exportLocalsConvention"选项的默认值为"camel-case-only"，则本地程序的名称会转换为驼峰小写。
+         * 2、你可以将其设置为任何其他有效选项，但如果选择器不是有效的 JavaScript 标识符，可能会遇到无法执行整个模块规范的问题。
+         * 3、'as-is'：类名将按原样导出。
+         * 4、'camel-case'：类名将被骆驼化，原类名不会从本地语言中删除。
+         * 5、'camel-case-only'：类名将被骆驼化，原始类名将从本地语言中删除。
+         * 6、'dashes'：只有类名中的破折号会被驼峰化。
+         * 7、'dashes-only'：类名中的破折号将被驼峰化，原始类名将从本地语言中删除。
+         */
         exportLocalsConvention: 'dashes',
         exportOnlyLocals: false,
       },
@@ -6151,10 +6182,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  {
-                    loader: 'thread-loader',
-                    options: cssWorkerPoolConfig,
-                  },
+                  /*{
+                   loader: 'thread-loader',
+                   options: cssWorkerPoolConfig,
+                   },*/
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -6216,10 +6247,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: cssWorkerPoolConfig,
-                      },
+                      /*
+                       {
+                       loader: 'thread-loader',
+                       options: cssWorkerPoolConfig,
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -6282,10 +6315,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: cssWorkerPoolConfig,
-                      },
+                      /*
+                       {
+                       loader: 'thread-loader',
+                       options: cssWorkerPoolConfig,
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7055,10 +7090,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  {
-                    loader: 'thread-loader',
-                    options: lessWorkerPoolConfig,
-                  },
+                  /*{
+                   loader: 'thread-loader',
+                   options: lessWorkerPoolConfig,
+                   },*/
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7129,10 +7164,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: lessWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: lessWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7204,10 +7239,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: lessWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: lessWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7741,10 +7776,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  {
-                    loader: 'thread-loader',
-                    options: cssWorkerPoolConfig,
-                  },
+                  /*{
+                   loader: 'thread-loader',
+                   options: cssWorkerPoolConfig,
+                   },*/
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7806,10 +7841,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: cssWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: cssWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7872,10 +7907,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: cssWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: cssWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7972,10 +8007,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  {
-                    loader: 'thread-loader',
-                    options: sassWorkerPoolConfig,
-                  },
+                  /*{
+                   loader: 'thread-loader',
+                   options: sassWorkerPoolConfig,
+                   },*/
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8056,10 +8091,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: sassWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: sassWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8141,10 +8176,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: sassWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: sassWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8228,10 +8263,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  {
-                    loader: 'thread-loader',
-                    options: sassWorkerPoolConfig,
-                  },
+                  /*{
+                   loader: 'thread-loader',
+                   options: sassWorkerPoolConfig,
+                   },*/
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8312,10 +8347,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: sassWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: sassWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8397,10 +8432,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: sassWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: sassWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8484,10 +8519,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  {
-                    loader: 'thread-loader',
-                    options: stylusWorkerPoolConfig,
-                  },
+                  /*{
+                   loader: 'thread-loader',
+                   options: stylusWorkerPoolConfig,
+                   },*/
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8553,10 +8588,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: stylusWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: stylusWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8623,10 +8658,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      {
-                        loader: 'thread-loader',
-                        options: stylusWorkerPoolConfig,
-                      },
+                      /*{
+                       loader: 'thread-loader',
+                       options: stylusWorkerPoolConfig,
+                       },*/
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
