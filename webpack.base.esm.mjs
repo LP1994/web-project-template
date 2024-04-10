@@ -5454,9 +5454,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
       },
       cssLoaderModules = {
-        // mode: 'local',
         auto: true,
-        localIdentName: '[name]_[local]_[sha512:contenthash:hex:8]',
+        // mode: 'local',
+        localIdentName: isProduction
+          // example-module_Black_e2a1315f
+                        ? '[name]_[local]_[sha512:contenthash:hex:8]'
+          // src-pages-index-css_modules-example-module-css__Black
+                        : '[file]__[local]',
         localIdentHashFunction: 'sha512',
         localIdentHashDigest: 'hex',
         localIdentHashDigestLength: 16,
@@ -5510,7 +5514,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          *
          * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。因为内部模块部署了默认导出（也就是部署了default属性），Vue的SFC就是使用了这个默认导出。<br />
          */
-        namedExport: false,
+        namedExport: true,
         exportGlobals: true,
         // 当namedExport选项为true时，该选项的值只能为：camelCaseOnly。
         exportLocalsConvention: 'dashes',
