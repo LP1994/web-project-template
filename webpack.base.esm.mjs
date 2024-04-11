@@ -68,7 +68,7 @@ import {
   cpus,
 } from 'node:os';
 
-import path, {
+import {
   basename,
   dirname,
   join,
@@ -1332,7 +1332,7 @@ const aliasConfig = {
     webWorkersDir: resolve( __dirname, './src/workers/web_workers/' ),
     // workers文件夹 End
 
-    'GSD2TSTD$': path.resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
+    'GSD2TSTD$': resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
   },
   /**
    * @type {object}
