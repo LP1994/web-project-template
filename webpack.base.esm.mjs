@@ -6228,10 +6228,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
         // 处理.css文件。
         {
+          test: /\.css$/i,
           oneOf: [
             {
-              test: /\.css$/i,
-              resourceQuery: /module/,
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 /**
@@ -6279,6 +6283,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
+                /\.module\.css$/i,
+
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
                 join( __dirname, './src/graphQL/' ),
@@ -6294,7 +6300,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               sideEffects: true,
             },
             {
-              test: /\.css$/i,
               resourceQuery: {
                 not: [
                   /module/,
