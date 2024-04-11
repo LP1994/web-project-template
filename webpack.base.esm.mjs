@@ -5467,16 +5467,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           if( fileName.includes( '.global.' ) ){
             return 'global';
           }
-
-          if( fileName.includes( '.pure.' ) ){
+          else if( fileName.includes( '.pure.' ) ){
             return 'pure';
           }
-
-          if( fileName.includes( '.icss.' ) ){
+          else if( fileName.includes( '.icss.' ) ){
             return 'icss';
           }
-
-          return 'local';
+          else{
+            return 'local';
+          }
         },
         localIdentName: isProduction
           // example-module-css_Black_e2a1315f
