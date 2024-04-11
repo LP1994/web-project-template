@@ -5455,10 +5455,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
       },
       cssLoaderModules = {
-        auto: true,
+        auto: (
+          // G:\WebStormWS\web-project-template\src\pages\index\css_modules\example.module.css
+          resourcePath,
+          // ?vue&type=style&index=1&module=exampleMCSS&lang=css&external
+          resourceQuery,
+          resourceFragment
+        ) => basename( resourcePath ).includes( '.module.' ) || /module/.test( resourceQuery ),
         mode: (
           // G:\WebStormWS\web-project-template\src\pages\index\css_modules\example.module.css
           resourcePath,
+          // ?vue&type=style&index=1&module=exampleMCSS&lang=css&external
           resourceQuery,
           resourceFragment
         ) => {
