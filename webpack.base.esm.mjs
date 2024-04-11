@@ -5535,7 +5535,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          *
          * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。因为内部模块部署了默认导出（也就是部署了default属性），Vue的SFC就是使用了这个默认导出。<br />
          */
-        namedExport: true,
+        namedExport: false,
         // 允许css-loader从全局的类或id导出名称，这样就可以将其用作本地名称。
         exportGlobals: true,
         /**
@@ -8936,10 +8936,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           test: /\.vue$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
-            {
-              loader: 'thread-loader',
-              options: vueWorkerPoolConfig,
-            },
+            /*{
+             loader: 'thread-loader',
+             options: vueWorkerPoolConfig,
+             },*/
             {
               loader: 'vue-loader',
               options: {
