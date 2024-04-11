@@ -7150,10 +7150,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
         // 处理.less文件。
         {
+          test: /\.less$/i,
           oneOf: [
             {
-              test: /\.less$/i,
-              resourceQuery: /module/,
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 /**
@@ -7208,6 +7212,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
+                /\.module\.less$/i,
+
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
                 join( __dirname, './src/graphQL/' ),
@@ -7223,7 +7229,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               sideEffects: true,
             },
             {
-              test: /\.less$/i,
               resourceQuery: {
                 not: [
                   /module/,
@@ -7827,10 +7832,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
         // 处理.postcss文件、.pcss文件。
         {
+          test: /\.(pcss|postcss)$/i,
           oneOf: [
             {
-              test: /\.(pcss|postcss)$/i,
-              resourceQuery: /module/,
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 /**
@@ -7876,6 +7885,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
+                /\.module\.(pcss|postcss)$/i,
+
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
                 join( __dirname, './src/graphQL/' ),
@@ -7891,7 +7902,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               sideEffects: true,
             },
             {
-              test: /\.(pcss|postcss)$/i,
               resourceQuery: {
                 not: [
                   /module/,
@@ -8077,10 +8087,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
         // 处理.sass文件。
         {
+          test: /\.sass$/i,
           oneOf: [
             {
-              test: /\.sass$/i,
-              resourceQuery: /module/,
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 /**
@@ -8145,6 +8159,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
+                /\.module\.sass$/i,
+
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
                 join( __dirname, './src/graphQL/' ),
@@ -8160,7 +8176,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               sideEffects: true,
             },
             {
-              test: /\.sass$/i,
               resourceQuery: {
                 not: [
                   /module/,
@@ -8333,10 +8348,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
         // 处理.scss文件。
         {
+          test: /\.scss$/i,
           oneOf: [
             {
-              test: /\.scss$/i,
-              resourceQuery: /module/,
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 /**
@@ -8401,6 +8420,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
+                /\.module\.scss$/i,
+
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
                 join( __dirname, './src/graphQL/' ),
@@ -8416,7 +8437,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               sideEffects: true,
             },
             {
-              test: /\.scss$/i,
               resourceQuery: {
                 not: [
                   /module/,
@@ -8574,10 +8594,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         },
         // 处理.styl文件、.stylus文件。
         {
+          test: /\.(styl|stylus)$/i,
           oneOf: [
             {
-              test: /\.(styl|stylus)$/i,
-              resourceQuery: /module/,
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 /**
@@ -8627,6 +8651,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
+                /\.module\.(styl|stylus)$/i,
+
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
                 join( __dirname, './src/graphQL/' ),
@@ -8642,7 +8668,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               sideEffects: true,
             },
             {
-              test: /\.(styl|stylus)$/i,
               resourceQuery: {
                 not: [
                   /module/,
