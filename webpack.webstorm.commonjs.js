@@ -15,7 +15,8 @@
 
 'use strict';
 
-const path = require( 'node:path' );
+const path = require( 'node:path' ),
+  webpack = require( 'webpack' );
 
 module.exports = {
   resolve: {
@@ -192,6 +193,114 @@ module.exports = {
     ],
     modules: [
       'node_modules',
+    ],
+    plugins: [
+      /**
+       * @type {object} 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
+       * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
+       * 2、要导入ES2015模块的“默认导出”，必须指定模块的“默认属性”，也就是说模块必须指定“默认属性”。<br />
+       * 3、每当在模块中遇到标识符作为自由变量时，模块会自动加载，并且标识符会填充加载模块的导出（或“属性”以支持“命名导出”）。<br />
+       * 如：_map: ['lodash', 'map']、Vue: ['vue/dist/vue.esm.js', 'default']。<br />
+       * 4、也可以指定完整路径：identifier: path.resolve(path.join(__dirname, 'src/module1'))。<br />
+       * 5、为第三方包配置时，只要用包名作为value值即可，因为webpack会自动从“node_modules”中查找，并加载相应的模块文件。<br />
+       * 6、为第三方包配置时，不要设置以“./”、“./node_modules/”、“node_modules/”等等开头的value值，当然如果是指向自己的模块文件，那还是要指定完整路径。<br />
+       * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
+       * 8、注意，不同的包，因为其package.json中"exports"字段值的不同，如下设置也会不同的，最好每次都要在代码中测试是否如期望一样达到目的效果。<br />
+       * 9、鉴于某些低版本浏览器不支持ES6+的语法，而如下设置又直接使用了第三方包的ESM版本，那么最终的打包代码中会直接使用其ESM版本的代码，从而导致不支持某些低版本浏览器。<br />
+       */
+      new webpack.ProvidePlugin( {
+        axios: [
+          path.resolve( path.join( __dirname, './node_modules/axios/dist/esm/axios.js' ) ),
+          'default',
+        ],
+
+        Ckeditor5ClassicEditor: path.resolve( path.join( __dirname, './node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js' ) ),
+
+        d3: 'd3',
+
+        echarts: path.resolve( path.join( __dirname, './node_modules/echarts/dist/echarts.js' ) ),
+
+        /**
+         * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
+         * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
+         */
+        ELEMENT: path.resolve( path.join( __dirname, './node_modules/element-ui/lib/element-ui.common.js' ) ),
+        ElementPlus: 'element-plus',
+
+        $: path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+        jQuery: path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+        'window.$': path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+        'window.jQuery': path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
+
+        /*
+         官方文档：https://github.com/emn178/js-sha3
+
+         导出的JSSHA3是一个对象，JSSHA3上部署有如下函数：
+         cshake128、cshake256、cshake_128、cshake_256、
+         keccak224、keccak256、keccak384、keccak512、keccak_224、keccak_256、keccak_384、keccak_512、
+         kmac128、kmac256、kmac_128、kmac_256、
+         sha3_224、sha3_256、sha3_384、sha3_512、
+         shake128、shake256、shake_128、shake_256
+         */
+        JSSHA3: path.resolve( path.join( __dirname, './node_modules/js-sha3/build/sha3.min.js' ) ),
+        /*
+         https://github.com/emn178/js-sha512
+
+         导出的JSSHA512是一个函数。
+         */
+        JSSHA512: path.resolve( path.join( __dirname, './node_modules/js-sha512/build/sha512.min.js' ) ),
+        /*
+         https://github.com/emn178/js-sha256
+
+         导出的JSSHA256是一个函数。
+         */
+        JSSHA256: path.resolve( path.join( __dirname, './node_modules/js-sha256/build/sha256.min.js' ) ),
+        /*
+         https://github.com/emn178/js-sha1
+
+         导出的JSSHA1是一个函数。
+         */
+        JSSHA1: path.resolve( path.join( __dirname, './node_modules/js-sha1/build/sha1.min.js' ) ),
+        /*
+         https://github.com/emn178/js-md5
+
+         导出的JSMD5是一个函数。
+         */
+        JSMD5: path.resolve( path.join( __dirname, './node_modules/js-md5/build/md5.min.js' ) ),
+        /*
+         https://github.com/dankogai/js-base64
+
+         导出的JSBase64是一个对象。
+         */
+        JSBase64: path.resolve( path.join( __dirname, './node_modules/js-base64/base64.js' ) ),
+
+        localforage: path.resolve( path.join( __dirname, './node_modules/localforage/dist/localforage.js' ) ),
+
+        lodash: path.resolve( path.join( __dirname, './node_modules/lodash/lodash.js' ) ),
+
+        PIXI: 'pixi.js',
+
+        Swiper: [
+          'swiper/swiper.esm.js',
+          'default',
+        ],
+
+        THREE: 'three',
+
+        underscore: 'underscore',
+
+        /**
+         * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
+         * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
+         */
+        Vue: 'vue',
+        VueRouter: 'vue-router',
+        Vuex: [
+          'vuex',
+          'default',
+        ],
+        Pinia: 'pinia',
+      } ),
     ],
     symlinks: false,
   },
