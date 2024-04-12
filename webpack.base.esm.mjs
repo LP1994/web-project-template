@@ -3136,6 +3136,24 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       } )(),
     ];
 
+    const exclude001 = [
+      join( __dirname, './.git/' ),
+      join( __dirname, './.idea/' ),
+      join( __dirname, './assist_tools/' ),
+      join( __dirname, './backups/' ),
+      join( __dirname, './bats/' ),
+      join( __dirname, './configures/' ),
+      join( __dirname, './dist/' ),
+      join( __dirname, './log/' ),
+      join( __dirname, './notes/' ),
+      join( __dirname, './read_me/' ),
+      join( __dirname, './simulation_servers/' ),
+      join( __dirname, './subsystems/' ),
+      join( __dirname, './test/' ),
+      join( __dirname, './ts_compiled/' ),
+      join( __dirname, './webpack_records/' ),
+    ];
+
     // 注意插件之间的顺序！插件的执行是从上往下。
     const babelPlugins = [
         /**
@@ -5345,24 +5363,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         jsxFragment: 'React.Fragment',
       } );
 
-    const exclude001 = [
-      join( __dirname, './.git/' ),
-      join( __dirname, './.idea/' ),
-      join( __dirname, './assist_tools/' ),
-      join( __dirname, './backups/' ),
-      join( __dirname, './bats/' ),
-      join( __dirname, './configures/' ),
-      join( __dirname, './dist/' ),
-      join( __dirname, './log/' ),
-      join( __dirname, './notes/' ),
-      join( __dirname, './read_me/' ),
-      join( __dirname, './simulation_servers/' ),
-      join( __dirname, './subsystems/' ),
-      join( __dirname, './test/' ),
-      join( __dirname, './ts_compiled/' ),
-      join( __dirname, './webpack_records/' ),
-    ];
-
     const MiniCssExtractPluginLoader = isProduction
                                        ? {
           loader: MiniCssExtractPlugin.loader,
@@ -6435,10 +6435,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理字体文件。
         {
+          test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
           oneOf: [
             {
-              test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
-              resourceQuery: /url/,
+              resourceQuery: {
+                and: [
+                  /url/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6479,8 +6483,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
-              resourceQuery: /raw/,
+              resourceQuery: {
+                and: [
+                  /raw/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6515,7 +6522,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(eot|otf|fon|font|ttf|ttc|woff|woff2)$/i,
               resourceQuery: {
                 not: [
                   /url/,
@@ -6572,13 +6578,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理.graphql文件、.graphqls文件、.gql文件，区分结尾带“?raw”和不带“?raw”的2种处理，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
+          test: /\.(graphql|graphqls|gql)$/i,
           oneOf: [
             /**
              * 处理以.graphql、.graphqls、.gql结尾的带“?raw”的文件导入，会返回字符串。
              */
             {
-              test: /\.(graphql|graphqls|gql)$/i,
-              resourceQuery: /raw/,
+              resourceQuery: {
+                and: [
+                  /raw/,
+                ],
+              },
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: [
                 {
@@ -6634,7 +6644,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * print( AlertQuery );
              */
             {
-              test: /\.(graphql|graphqls|gql)$/i,
               resourceQuery: {
                 not: [
                   /raw/,
@@ -6759,10 +6768,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * 1、当启用实验性选项experiments.buildHttp时，远程图片资源竟然不由该loader处理，而是被上面配置的module.generator.'asset/resource'处理了。<br />
          */
         {
+          test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
           oneOf: [
             {
-              test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
-              resourceQuery: /url/,
+              resourceQuery: {
+                and: [
+                  /url/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6803,8 +6816,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
-              resourceQuery: /raw/,
+              resourceQuery: {
+                and: [
+                  /raw/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -6839,7 +6855,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(apng|arw|avif|bmp|bpg|cr2|cur|dcx|dng|flif|gif|heic|heif|icns|ico|j2c|j2k|jbig2|jng|jp2|jpe|jfif|pjpeg|pjp|jpeg|jpg|jpm|jpx|jxl|jxr|ktx|mj2|nef|orf|pam|pbm|pcx|pgm|png|pnm|ppm|psd|raf|raw|rgbe|rw2|svg|svgz|tga|tif|tiff|wbmp|webp|wp2|xbm|xpm)$/i,
               resourceQuery: {
                 not: [
                   /url/,
@@ -7588,10 +7603,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理音频。
         {
+          test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
           oneOf: [
             {
-              test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
-              resourceQuery: /url/,
+              resourceQuery: {
+                and: [
+                  /url/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -7632,8 +7651,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
-              resourceQuery: /raw/,
+              resourceQuery: {
+                and: [
+                  /raw/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -7668,7 +7690,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(m4a|kar|ape|wav|wave|flac|wma|cda|aiff|au|mpeg|mpeg-1|mpeg-2|mpeg-layer3|mpeg-4|opus|mp3|mp2|mp1|mid|midi|ra|rm|rmx|vqf|amr|aac|vorbis)$/i,
               resourceQuery: {
                 not: [
                   /url/,
@@ -8846,10 +8867,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理视频。
         {
+          test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
           oneOf: [
             {
-              test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
-              resourceQuery: /url/,
+              resourceQuery: {
+                and: [
+                  /url/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -8890,8 +8915,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
-              resourceQuery: /raw/,
+              resourceQuery: {
+                and: [
+                  /raw/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -8926,7 +8954,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               ].concat( exclude001 ),
             },
             {
-              test: /\.(wmv|asf|asx|rmvb|mp4|3gp|mov|m4v|avi|dat|mkv|flv|vob|mod|mng|mpg|3gpp|ogg|webm)$/i,
               resourceQuery: {
                 not: [
                   /url/,
@@ -9351,13 +9378,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
         // 处理.wasm文件，区分结尾带“?url”和不带“?url”的2种处理。
         {
+          test: /\.wasm$/i,
           oneOf: [
             /**
              * 处理以“.wasm?url”结尾的文件导入。会返回一个URL连接。
              */
             {
-              test: /\.wasm$/i,
-              resourceQuery: /url/,
+              resourceQuery: {
+                and: [
+                  /url/,
+                ],
+              },
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
@@ -9410,7 +9441,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * MathTool的值形如：{ Add, Div, Fib, Mod, Mul, Sub, __wasm_apply_data_relocs, __wasm_call_ctors }。<br />
              */
             {
-              test: /\.wasm$/i,
               resourceQuery: {
                 not: [
                   /url/,
