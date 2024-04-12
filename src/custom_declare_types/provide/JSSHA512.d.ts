@@ -1,3 +1,12 @@
+/**
+ * Project: web-project-template
+ * FileDirPath: src/custom_declare_types/provide/JSSHA512.d.ts
+ * Author: 12278
+ * Email: 1227839175@qq.com
+ * IDE: WebStorm
+ * CreateDate: 2022-01-01 00:00:00 星期六
+ */
+
 type Message = string | number[] | ArrayBuffer | Uint8Array;
 
 interface Hasher {

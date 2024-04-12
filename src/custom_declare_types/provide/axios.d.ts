@@ -1,3 +1,12 @@
+/**
+ * Project: web-project-template
+ * FileDirPath: src/custom_declare_types/provide/axios.d.ts
+ * Author: 12278
+ * Email: 1227839175@qq.com
+ * IDE: WebStorm
+ * CreateDate: 2022-01-01 00:00:00 星期六
+ */
+
 // TypeScript Version: 4.7
 type AxiosHeaderValue = AxiosHeaders | string | string[] | number | boolean | null;
 
