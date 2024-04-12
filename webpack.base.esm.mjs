@@ -109,7 +109,7 @@ import Stylus from 'stylus';
 
 import TerserPlugin from 'terser-webpack-plugin';
 
-import ThreadLoader from 'thread-loader';
+// import ThreadLoader from 'thread-loader';
 
 import Toml from 'toml';
 
@@ -1082,57 +1082,59 @@ const autoprefixerConfig = {
  * 3、每个工作人员都是一个单独的node.js进程，其开销约为600毫秒。还有进程间通信的开销。<br />
  * 4、仅将此装载机用于昂贵的操作！<br />
  */
-const jsWorkerPoolConfig = {
-    // 生成的工作人员的数量。
-    workers: 4,
-    // 工作人员并行处理的作业数。
-    workerParallelJobs: 20,
-    // 其他的node.js参数
-    /*
-     workerNodeArgs: [
-     // 单位为MB，本来想通过代码来动态的根据本机空闲内存来设置，但是不知为何会报错，只能写死设置。
-     `--max-old-space-size=${ 1 * 1024 }`,
-     ],
-     */
-    // 允许重新启动一个已死亡的工作线程池。重新启动会减慢整个编译过程，在开发时应设置为false。
-    poolRespawn: isProduction,
-    // 空闲默认值为500（ms）时终止工作进程的超时，可以设置为Infinity无穷大，以便监视生成以保持工作进程的活动性。Infinity：可用于开发模式，600000ms也就是10分钟。
-    poolTimeout: isProduction
-                 ? 1000
-                 : Infinity,
-    // 调查分配给工人的工作数量默认为200个，减少了效率较低但更公平的分配。
-    poolParallelJobs: 200,
-    // 池的名称可用于创建具有其他相同选项的不同池。
-    name: 'jsWorkerPoolConfig',
-  },
-  jsxWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 6,
-    name: 'jsxWorkerPoolConfig',
-  } ),
-  tsWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 6,
-    name: 'tsWorkerPoolConfig',
-  } ),
-  cssWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 3,
-    name: 'cssWorkerPoolConfig',
-  } ),
-  lessWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 4,
-    name: 'lessWorkerPoolConfig',
-  } ),
-  sassWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 4,
-    name: 'sassWorkerPoolConfig',
-  } ),
-  stylusWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 4,
-    name: 'stylusWorkerPoolConfig',
-  } ),
-  vueWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
-    workers: 3,
-    name: 'vueWorkerPoolConfig',
-  } );
+/*
+ const jsWorkerPoolConfig = {
+ // 生成的工作人员的数量。
+ workers: 4,
+ // 工作人员并行处理的作业数。
+ workerParallelJobs: 20,
+ // 其他的node.js参数
+ /!*
+ workerNodeArgs: [
+ // 单位为MB，本来想通过代码来动态的根据本机空闲内存来设置，但是不知为何会报错，只能写死设置。
+ `--max-old-space-size=${ 1 * 1024 }`,
+ ],
+ *!/
+ // 允许重新启动一个已死亡的工作线程池。重新启动会减慢整个编译过程，在开发时应设置为false。
+ poolRespawn: isProduction,
+ // 空闲默认值为500（ms）时终止工作进程的超时，可以设置为Infinity无穷大，以便监视生成以保持工作进程的活动性。Infinity：可用于开发模式，600000ms也就是10分钟。
+ poolTimeout: isProduction
+ ? 1000
+ : Infinity,
+ // 调查分配给工人的工作数量默认为200个，减少了效率较低但更公平的分配。
+ poolParallelJobs: 200,
+ // 池的名称可用于创建具有其他相同选项的不同池。
+ name: 'jsWorkerPoolConfig',
+ },
+ jsxWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 6,
+ name: 'jsxWorkerPoolConfig',
+ } ),
+ tsWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 6,
+ name: 'tsWorkerPoolConfig',
+ } ),
+ cssWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 3,
+ name: 'cssWorkerPoolConfig',
+ } ),
+ lessWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 4,
+ name: 'lessWorkerPoolConfig',
+ } ),
+ sassWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 4,
+ name: 'sassWorkerPoolConfig',
+ } ),
+ stylusWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 4,
+ name: 'stylusWorkerPoolConfig',
+ } ),
+ vueWorkerPoolConfig = Object.assign( {}, jsWorkerPoolConfig, {
+ workers: 3,
+ name: 'vueWorkerPoolConfig',
+ } );
+ */
 
 /**
  * 预热：<br />
@@ -1141,22 +1143,24 @@ const jsWorkerPoolConfig = {
  * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
  * 4、当使用esbuild-loader来处理脚本文件时，就不要预热这3个配置。<br />
  */
-if( !isUseESBuildLoader ){
-  ThreadLoader.warmup( jsWorkerPoolConfig, [
-    'babel-loader',
-    '@babel/preset-env',
-  ] );
-  ThreadLoader.warmup( jsxWorkerPoolConfig, [
-    'babel-loader',
-    '@babel/preset-env',
-    '@babel/preset-react',
-  ] );
-  ThreadLoader.warmup( tsWorkerPoolConfig, [
-    'ts-loader',
-    'babel-loader',
-    '@babel/preset-env',
-  ] );
-}
+/*
+ if( !isUseESBuildLoader ){
+ ThreadLoader.warmup( jsWorkerPoolConfig, [
+ 'babel-loader',
+ '@babel/preset-env',
+ ] );
+ ThreadLoader.warmup( jsxWorkerPoolConfig, [
+ 'babel-loader',
+ '@babel/preset-env',
+ '@babel/preset-react',
+ ] );
+ ThreadLoader.warmup( tsWorkerPoolConfig, [
+ 'ts-loader',
+ 'babel-loader',
+ '@babel/preset-env',
+ ] );
+ }
+ */
 
 /**
  * 预热：<br />
@@ -1164,32 +1168,35 @@ if( !isUseESBuildLoader ){
  * 2、这会启动池中最大数量的工作人员并将指定的模块加载到node.js模块缓存中。<br />
  * 3、池选项（如传递给加载程序选项）必须与加载程序选项匹配才能引导正确的池。<br />
  */
-ThreadLoader.warmup( cssWorkerPoolConfig, [
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( lessWorkerPoolConfig, [
-  'less-loader',
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( sassWorkerPoolConfig, [
-  'sass-loader',
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( stylusWorkerPoolConfig, [
-  'stylus-loader',
-  'postcss-loader',
-  'css-loader',
-  'style-loader',
-] );
-ThreadLoader.warmup( vueWorkerPoolConfig, [
-  'vue-loader',
-] );
+
+/*
+ ThreadLoader.warmup( cssWorkerPoolConfig, [
+ 'postcss-loader',
+ 'css-loader',
+ 'style-loader',
+ ] );
+ ThreadLoader.warmup( lessWorkerPoolConfig, [
+ 'less-loader',
+ 'postcss-loader',
+ 'css-loader',
+ 'style-loader',
+ ] );
+ ThreadLoader.warmup( sassWorkerPoolConfig, [
+ 'sass-loader',
+ 'postcss-loader',
+ 'css-loader',
+ 'style-loader',
+ ] );
+ ThreadLoader.warmup( stylusWorkerPoolConfig, [
+ 'stylus-loader',
+ 'postcss-loader',
+ 'css-loader',
+ 'style-loader',
+ ] );
+ ThreadLoader.warmup( vueWorkerPoolConfig, [
+ 'vue-loader',
+ ] );
+ */
 
 /**
  * 返回传入时间对象的年、月、日、时、分、秒、周几（当为周日的时候返回的是字符串“日”，其他星期则是数字）。<br />
@@ -6174,10 +6181,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  /*{
+                  /*
+                   {
                    loader: 'thread-loader',
                    options: cssWorkerPoolConfig,
-                   },*/
+                   },
+                   */
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -6919,10 +6928,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ]
                : [
-              {
-                loader: 'thread-loader',
-                options: jsWorkerPoolConfig,
-              },
+              /*
+               {
+               loader: 'thread-loader',
+               options: jsWorkerPoolConfig,
+               },
+               */
               {
                 loader: 'babel-loader',
                 options: babelLoaderConfig,
@@ -6962,10 +6973,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ]
                : [
-              {
-                loader: 'thread-loader',
-                options: jsWorkerPoolConfig,
-              },
+              /*
+               {
+               loader: 'thread-loader',
+               options: jsWorkerPoolConfig,
+               },
+               */
               {
                 loader: 'babel-loader',
                 options: babelLoaderConfig,
@@ -7003,10 +7016,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ]
                : [
-              {
-                loader: 'thread-loader',
-                options: jsxWorkerPoolConfig,
-              },
+              /*
+               {
+               loader: 'thread-loader',
+               options: jsxWorkerPoolConfig,
+               },
+               */
               {
                 loader: 'babel-loader',
                 options: babelLoaderJSXConfig,
@@ -7087,10 +7102,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  /*{
+                  /*
+                   {
                    loader: 'thread-loader',
                    options: lessWorkerPoolConfig,
-                   },*/
+                   },
+                   */
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7165,10 +7182,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: lessWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7241,10 +7260,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: lessWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7778,10 +7799,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  /*{
+                  /*
+                   {
                    loader: 'thread-loader',
                    options: cssWorkerPoolConfig,
-                   },*/
+                   },
+                   */
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7847,10 +7870,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: cssWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -7914,10 +7939,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: cssWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8014,10 +8041,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  /*{
+                  /*
+                   {
                    loader: 'thread-loader',
                    options: sassWorkerPoolConfig,
-                   },*/
+                   },
+                   */
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8102,10 +8131,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: sassWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8188,10 +8219,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: sassWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8275,10 +8308,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  /*{
+                  /*
+                   {
                    loader: 'thread-loader',
                    options: sassWorkerPoolConfig,
-                   },*/
+                   },
+                   */
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8363,10 +8398,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: sassWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8449,10 +8486,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: sassWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8536,10 +8575,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   MiniCssExtractPluginLoader,
                 ]
                      : [
-                  /*{
+                  /*
+                   {
                    loader: 'thread-loader',
                    options: stylusWorkerPoolConfig,
-                   },*/
+                   },
+                   */
                   ( styleLoader => {
                     const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8609,10 +8650,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: stylusWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8680,10 +8723,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                       MiniCssExtractPluginLoader,
                     ]
                          : [
-                      /*{
+                      /*
+                       {
                        loader: 'thread-loader',
                        options: stylusWorkerPoolConfig,
-                       },*/
+                       },
+                       */
                       ( styleLoader => {
                         const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
@@ -8744,10 +8789,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ]
                : [
-              {
-                loader: 'thread-loader',
-                options: tsWorkerPoolConfig,
-              },
+              /*
+               {
+               loader: 'thread-loader',
+               options: tsWorkerPoolConfig,
+               },
+               */
               {
                 loader: 'babel-loader',
                 options: babelLoaderConfig,
@@ -8784,10 +8831,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               },
             ]
                : [
-              {
-                loader: 'thread-loader',
-                options: tsWorkerPoolConfig,
-              },
+              /*
+               {
+               loader: 'thread-loader',
+               options: tsWorkerPoolConfig,
+               },
+               */
               {
                 loader: 'babel-loader',
                 options: babelLoaderConfig,
@@ -8954,10 +9003,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           test: /\.vue$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
-            /*{
+            /*
+             {
              loader: 'thread-loader',
              options: vueWorkerPoolConfig,
-             },*/
+             },
+             */
             {
               loader: 'vue-loader',
               options: {
