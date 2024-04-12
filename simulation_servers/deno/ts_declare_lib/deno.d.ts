@@ -574,7 +574,7 @@ declare namespace Deno {
      * Examples:
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test({
      *   name: "inherit",
@@ -589,7 +589,7 @@ declare namespace Deno {
      * ```
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test({
      *   name: "true",
@@ -604,7 +604,7 @@ declare namespace Deno {
      * ```
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test({
      *   name: "false",
@@ -619,7 +619,7 @@ declare namespace Deno {
      * ```
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test({
      *   name: "localhost:8080",
@@ -848,7 +848,7 @@ declare namespace Deno {
    * `fn` can be async if required.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.test({
    *   name: "example test",
@@ -889,7 +889,7 @@ declare namespace Deno {
      * `fn` can be async if required.
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test({
      *   name: "example test",
@@ -926,7 +926,7 @@ declare namespace Deno {
      * `fn` can be async if required.
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test("My test description", () => {
      *   assertEquals("hello", "hello");
@@ -952,7 +952,7 @@ declare namespace Deno {
      * `fn` can be async if required. Declared function must have a name.
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test(function myTestName() {
      *   assertEquals("hello", "hello");
@@ -975,7 +975,7 @@ declare namespace Deno {
      * `fn` can be async if required.
      *
      * ```ts
-     * import {assert, fail, assertEquals} from "https://deno.land/std/assert/mod.ts";
+     * import { assert, fail, assertEquals } from "jsr:@std/assert";
      *
      * Deno.test("My test description", { permissions: { read: true } }, (): void => {
      *   assertEquals("hello", "hello");
@@ -1002,7 +1002,7 @@ declare namespace Deno {
      * `fn` can be async if required.
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test(
      *   {
@@ -1040,7 +1040,7 @@ declare namespace Deno {
      * `fn` can be async if required. Declared function must have a name.
      *
      * ```ts
-     * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+     * import { assertEquals } from "jsr:@std/assert";
      *
      * Deno.test(
      *   { permissions: { read: true } },
@@ -1263,7 +1263,7 @@ declare namespace Deno {
    * will await resolution to consider the test complete.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.bench({
    *   name: "example test",
@@ -1302,7 +1302,7 @@ declare namespace Deno {
    * will await resolution to consider the test complete.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.bench("My test description", () => {
    *   assertEquals("hello", "hello");
@@ -1330,7 +1330,7 @@ declare namespace Deno {
    * will await resolution to consider the test complete.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.bench(function myTestName() {
    *   assertEquals("hello", "hello");
@@ -1355,7 +1355,7 @@ declare namespace Deno {
    * will await resolution to consider the test complete.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.bench(
    *   "My test description",
@@ -1392,7 +1392,7 @@ declare namespace Deno {
    * will await resolution to consider the test complete.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.bench(
    *   { name: "My test description", permissions: { read: true } },
@@ -1426,7 +1426,7 @@ declare namespace Deno {
    * will await resolution to consider the test complete.
    *
    * ```ts
-   * import { assertEquals } from "https://deno.land/std/assert/mod.ts";
+   * import { assertEquals } from "jsr:@std/assert";
    *
    * Deno.bench(
    *   { permissions: { read: true } },
@@ -1679,10 +1679,8 @@ declare namespace Deno {
      * Implementations should not retain a reference to `p`.
      *
      * Use
-     * [`itereateReader`](https://deno.land/std/streams/iterate_reader.ts?s=iterateReader)
-     * from
-     * [`std/streams/iterate_reader.ts`](https://deno.land/std/streams/iterate_reader.ts)
-     * to turn a `Reader` into an {@linkcode AsyncIterator}.
+     * {@linkcode https://jsr.io/@std/io/doc/iterate-reader/~/iterateReader | iterateReader}
+     * to turn {@linkcode Reader} into an {@linkcode AsyncIterator}.
      */
     read(p: Uint8Array): Promise<number | null>;
   }
@@ -1717,10 +1715,8 @@ declare namespace Deno {
      * Implementations should not retain a reference to `p`.
      *
      * Use
-     * [`itereateReaderSync`](https://deno.land/std/streams/iterate_reader.ts?s=iterateReaderSync)
-     * from from
-     * [`std/streams/iterate_reader.ts`](https://deno.land/std/streams/iterate_reader.ts)
-     * to turn a `ReaderSync` into an {@linkcode Iterator}.
+     * {@linkcode https://jsr.io/@std/io/doc/iterate-reader/~/iterateReaderSync | iterateReaderSync}
+     * to turn {@linkcode ReaderSync} into an {@linkcode Iterator}.
      */
     readSync(p: Uint8Array): number | null;
   }
@@ -1743,9 +1739,8 @@ declare namespace Deno {
      * slice data, even temporarily.
      *
      * This function is one of the lowest
-     * level APIs and most users should not work with this directly, but rather use
-     * [`writeAll()`](https://deno.land/std/streams/write_all.ts?s=writeAll) from
-     * [`std/streams/write_all.ts`](https://deno.land/std/streams/write_all.ts)
+     * level APIs and most users should not work with this directly, but rather
+     * use {@linkcode https://jsr.io/@std/io/doc/write-all/~/writeAll | writeAll}
      * instead.
      *
      * Implementations should not retain a reference to `p`.
@@ -1978,7 +1973,7 @@ declare namespace Deno {
    *
    * This function is one of the lowest level APIs and most users should not
    * work with this directly, but rather use {@linkcode ReadableStream} and
-   * {@linkcode https://deno.land/std/streams/mod.ts?s=toArrayBuffer|toArrayBuffer}
+   * {@linkcode https://jsr.io/@std/streams/doc/to-array-buffer/~/toArrayBuffer | toArrayBuffer}
    * instead.
    *
    * **It is not guaranteed that the full buffer will be read in a single call.**
@@ -2010,7 +2005,7 @@ declare namespace Deno {
    *
    * This function is one of the lowest level APIs and most users should not
    * work with this directly, but rather use {@linkcode ReadableStream} and
-   * {@linkcode https://deno.land/std/streams/mod.ts?s=toArrayBuffer|toArrayBuffer}
+   * {@linkcode https://jsr.io/@std/streams/doc/to-array-buffer/~/toArrayBuffer | toArrayBuffer}
    * instead.
    *
    * **It is not guaranteed that the full buffer will be read in a single
@@ -2283,7 +2278,7 @@ declare namespace Deno {
   /** The Deno abstraction for reading and writing files.
    *
    * This is the most straight forward way of handling files within Deno and is
-   * recommended over using the discreet functions within the `Deno` namespace.
+   * recommended over using the discrete functions within the `Deno` namespace.
    *
    * ```ts
    * using file = await Deno.open("/foo/bar.txt", { read: true });
@@ -2549,7 +2544,7 @@ declare namespace Deno {
     /** Resolves to a {@linkcode Deno.FileInfo} for the file.
      *
      * ```ts
-     * import { assert } from "https://deno.land/std/assert/mod.ts";
+     * import { assert } from "jsr:@std/assert";
      *
      * using file = await Deno.open("hello.txt");
      * const fileInfo = await file.stat();
@@ -2560,7 +2555,7 @@ declare namespace Deno {
     /** Synchronously returns a {@linkcode Deno.FileInfo} for the file.
      *
      * ```ts
-     * import { assert } from "https://deno.land/std/assert/mod.ts";
+     * import { assert } from "jsr:@std/assert";
      *
      * using file = Deno.openSync("hello.txt")
      * const fileInfo = file.statSync();
@@ -2786,10 +2781,10 @@ declare namespace Deno {
    */
   export const stdin: Reader & ReaderSync & Closer & {
     /**
-     * The resource ID assigned to `stdin`. This can be used with the discreet
+     * The resource ID assigned to `stdin`. This can be used with the discrete
      * I/O functions in the `Deno` namespace.
      *
-     * @deprecated This will be removed in Deno 2.0. See the
+     * @deprecated This will be soft-removed in Deno 2.0. See the
      * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
      * for migration instructions.
      */
@@ -2834,10 +2829,10 @@ declare namespace Deno {
    */
   export const stdout: Writer & WriterSync & Closer & {
     /**
-     * The resource ID assigned to `stdout`. This can be used with the discreet
+     * The resource ID assigned to `stdout`. This can be used with the discrete
      * I/O functions in the `Deno` namespace.
      *
-     * @deprecated This will be removed in Deno 2.0. See the
+     * @deprecated This will be soft-removed in Deno 2.0. See the
      * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
      * for migration instructions.
      */
@@ -2868,10 +2863,10 @@ declare namespace Deno {
    */
   export const stderr: Writer & WriterSync & Closer & {
     /**
-     * The resource ID assigned to `stderr`. This can be used with the discreet
+     * The resource ID assigned to `stderr`. This can be used with the discrete
      * I/O functions in the `Deno` namespace.
      *
-     * @deprecated This will be removed in Deno 2.0. See the
+     * @deprecated This will be soft-removed in Deno 2.0. See the
      * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
      * for migration instructions.
      */
@@ -2969,7 +2964,7 @@ declare namespace Deno {
    * console.log(Deno.isatty(ttyRid)); // true
    * ```
    *
-   * @deprecated This will be removed in Deno 2.0. See the
+   * @deprecated This will be soft-removed in Deno 2.0. See the
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    *
@@ -3809,7 +3804,7 @@ declare namespace Deno {
    * of what it points to.
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    * const fileInfo = await Deno.lstat("hello.txt");
    * assert(fileInfo.isFile);
    * ```
@@ -3826,7 +3821,7 @@ declare namespace Deno {
    * returned instead of what it points to.
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    * const fileInfo = Deno.lstatSync("hello.txt");
    * assert(fileInfo.isFile);
    * ```
@@ -3842,7 +3837,7 @@ declare namespace Deno {
    * always follow symlinks.
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    * const fileInfo = await Deno.stat("hello.txt");
    * assert(fileInfo.isFile);
    * ```
@@ -3858,7 +3853,7 @@ declare namespace Deno {
    * `path`. Will always follow symlinks.
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    * const fileInfo = Deno.statSync("hello.txt");
    * assert(fileInfo.isFile);
    * ```
@@ -4519,7 +4514,7 @@ declare namespace Deno {
    *
    * Requires `allow-run` permission.
    *
-   * @deprecated This will be removed in Deno 2.0. See the
+   * @deprecated This will be soft-removed in Deno 2.0. See the
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    *
@@ -5111,7 +5106,7 @@ declare namespace Deno {
     /** Revokes a permission, and resolves to the state of the permission.
      *
      * ```ts
-     * import { assert } from "https://deno.land/std/assert/mod.ts";
+     * import { assert } from "jsr:@std/assert";
      *
      * const status = await Deno.permissions.revoke({ name: "run" });
      * assert(status.state !== "granted")
@@ -5122,7 +5117,7 @@ declare namespace Deno {
     /** Revokes a permission, and returns the state of the permission.
      *
      * ```ts
-     * import { assert } from "https://deno.land/std/assert/mod.ts";
+     * import { assert } from "jsr:@std/assert";
      *
      * const status = Deno.permissions.revokeSync({ name: "run" });
      * assert(status.state !== "granted")
@@ -5200,14 +5195,14 @@ declare namespace Deno {
    * ### Revoking
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    *
    * const status = await Deno.permissions.revoke({ name: "run" });
    * assert(status.state !== "granted")
    * ```
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    *
    * const status = Deno.permissions.revokeSync({ name: "run" });
    * assert(status.state !== "granted")
@@ -5313,9 +5308,9 @@ declare namespace Deno {
    * [ "Sushi" ]
    * ```
    *
-   * If you are looking for a structured way to parse arguments, there is the
-   * [`std/flags`](https://deno.land/std/flags) module as part of the Deno
-   * standard library.
+   * If you are looking for a structured way to parse arguments, there is
+   * [`parseArgs()`](https://jsr.io/@std/cli/doc/parse-args/~/parseArgs) from
+   * the Deno Standard Library.
    *
    * @category Runtime Environment
    */
@@ -5535,7 +5530,7 @@ declare namespace Deno {
    * Returns a `Deno.FileInfo` for the given file stream.
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    *
    * const file = await Deno.open("file.txt", { read: true });
    * const fileInfo = await Deno.fstat(file.rid);
@@ -5555,7 +5550,7 @@ declare namespace Deno {
    * stream.
    *
    * ```ts
-   * import { assert } from "https://deno.land/std/assert/mod.ts";
+   * import { assert } from "jsr:@std/assert";
    *
    * const file = Deno.openSync("file.txt", { read: true });
    * const fileInfo = Deno.fstatSync(file.rid);
@@ -5633,7 +5628,8 @@ declare namespace Deno {
     respondWith(r: Response | PromiseLike<Response>): Promise<void>;
   }
 
-  /** The async iterable that is returned from {@linkcode Deno.serveHttp} which
+  /**
+   * The async iterable that is returned from {@linkcode serveHttp} which
    * yields up {@linkcode RequestEvent} events, representing individual
    * requests on the HTTP server connection.
    *
@@ -5707,7 +5703,7 @@ declare namespace Deno {
    * used elsewhere. In such a case, this function will fail.
    *
    * @category HTTP Server
-   * @deprecated This will be removed in Deno 2.0. See the
+   * @deprecated This will be soft-removed in Deno 2.0. See the
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    */
@@ -6280,13 +6276,7 @@ declare namespace Deno {
    *
    * @category HTTP Server
    */
-  export interface ServeTlsOptions extends ServeOptions {
-    /** Server private key in PEM format */
-    cert: string;
-
-    /** Cert chain in PEM format */
-    key: string;
-  }
+  export type ServeTlsOptions = ServeOptions & TlsCertifiedKeyOptions;
 
   /**
    * @category HTTP Server
@@ -10802,7 +10792,7 @@ declare namespace Deno {
    *
    * @category Network
    */
-  export interface Listener<T extends Conn = Conn>
+  export interface Listener<T extends Conn = Conn, A extends Addr = Addr>
     extends AsyncIterable<T>, Disposable {
     /** Waits for and resolves to the next connection to the `Listener`. */
     accept(): Promise<T>;
@@ -10810,7 +10800,7 @@ declare namespace Deno {
      * with errors. */
     close(): void;
     /** Return the address of the `Listener`. */
-    readonly addr: Addr;
+    readonly addr: A;
 
     /**
      * Return the rid of the `Listener`.
@@ -10839,14 +10829,27 @@ declare namespace Deno {
    *
    * @category Network
    */
-  export type TlsListener = Listener<TlsConn>;
+  export type TlsListener = Listener<TlsConn, NetAddr>;
+
+  /** Specialized listener that accepts TCP connections.
+   *
+   * @category Network
+   */
+  export type TcpListener = Listener<TcpConn, NetAddr>;
+
+  /** Specialized listener that accepts Unix connections.
+   *
+   * @category Network
+   */
+  export type UnixListener = Listener<UnixConn, UnixAddr>;
 
   /** @category Network */
-  export interface Conn extends Reader, Writer, Closer, Disposable {
+  export interface Conn<A extends Addr = Addr>
+    extends Reader, Writer, Closer, Disposable {
     /** The local address of the connection. */
-    readonly localAddr: Addr;
+    readonly localAddr: A;
     /** The remote address of the connection. */
-    readonly remoteAddr: Addr;
+    readonly remoteAddr: A;
     /**
      * The resource ID of the connection.
      *
@@ -10882,7 +10885,7 @@ declare namespace Deno {
   }
 
   /** @category Network */
-  export interface TlsConn extends Conn {
+  export interface TlsConn extends Conn<NetAddr> {
     /** Runs the client or server handshake protocol to completion if that has
      * not happened yet. Calling this method is optional; the TLS handshake
      * will be completed automatically as soon as data is sent or received. */
@@ -10933,7 +10936,7 @@ declare namespace Deno {
    */
   export function listen(
     options: TcpListenOptions & { transport?: "tcp" },
-  ): Listener;
+  ): TcpListener;
 
   /** Options which can be set when opening a Unix listener via
    * {@linkcode Deno.listen} or {@linkcode Deno.listenDatagram}.
@@ -10959,14 +10962,52 @@ declare namespace Deno {
   // deno-lint-ignore adjacent-overload-signatures
   export function listen(
     options: UnixListenOptions & { transport: "unix" },
-  ): Listener;
+  ): UnixListener;
 
-  /** @category Network */
-  export interface ListenTlsOptions extends TcpListenOptions {
-    /** Server private key in PEM format */
-    key?: string;
-    /** Cert chain in PEM format */
-    cert?: string;
+  /** Provides TLS certified keys, ie: a key that has been certified by a trusted certificate authority.
+   * A certified key generally consists of a private key and certificate part.
+   *
+   * @category Network
+   */
+  export type TlsCertifiedKeyOptions =
+    | TlsCertifiedKeyPem
+    | TlsCertifiedKeyFromFile
+    | TlsCertifiedKeyConnectTls;
+
+  /**
+   * Provides certified key material from strings. The key material is provided in
+   * `PEM`-format (Privacy Enhanced Mail, https://www.rfc-editor.org/rfc/rfc1422) which can be identified by having
+   * `-----BEGIN-----` and `-----END-----` markers at the beginning and end of the strings. This type of key is not compatible
+   * with `DER`-format keys which are binary.
+   *
+   * Deno supports RSA, EC, and PKCS8-format keys.
+   *
+   * ```ts
+   * const key = {
+   *  key: "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
+   *  cert: "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n" }
+   * };
+   * ```
+   *
+   * @category Network
+   */
+  export interface TlsCertifiedKeyPem {
+    /** The format of this key material, which must be PEM. */
+    keyFormat?: "pem";
+    /** Private key in `PEM` format. RSA, EC, and PKCS8-format keys are supported. */
+    key: string;
+    /** Certificate chain in `PEM` format. */
+    cert: string;
+  }
+
+  /**
+   * @deprecated This will be removed in Deno 2.0. See the
+   * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
+   * for migration instructions.
+   *
+   * @category Network
+   */
+  export interface TlsCertifiedKeyFromFile {
     /** Path to a file containing a PEM formatted CA certificate. Requires
      * `--allow-read`.
      *
@@ -10975,16 +11016,45 @@ declare namespace Deno {
      * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
      * for migration instructions.
      */
-    certFile?: string;
-    /** Server private key file. Requires `--allow-read`.
+    certFile: string;
+    /** Path to a file containing a private key file. Requires `--allow-read`.
      *
      * @tags allow-read
      * @deprecated This will be removed in Deno 2.0. See the
      * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
      * for migration instructions.
      */
-    keyFile?: string;
+    keyFile: string;
+  }
 
+  /**
+   * @deprecated This will be removed in Deno 2.0. See the
+   * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
+   * for migration instructions.
+   *
+   * @category Network
+   */
+  export interface TlsCertifiedKeyConnectTls {
+    /**
+     * Certificate chain in `PEM` format.
+     *
+     * @deprecated This will be removed in Deno 2.0. See the
+     * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
+     * for migration instructions.
+     */
+    certChain: string;
+    /**
+     * Private key in `PEM` format. RSA, EC, and PKCS8-format keys are supported.
+     *
+     * @deprecated This will be removed in Deno 2.0. See the
+     * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
+     * for migration instructions.
+     */
+    privateKey: string;
+  }
+
+  /** @category Network */
+  export interface ListenTlsOptions extends TcpListenOptions {
     transport?: "tcp";
 
     /** Application-Layer Protocol Negotiation (ALPN) protocols to announce to
@@ -11010,7 +11080,9 @@ declare namespace Deno {
    * @tags allow-net
    * @category Network
    */
-  export function listenTls(options: ListenTlsOptions): TlsListener;
+  export function listenTls(
+    options: ListenTlsOptions & TlsCertifiedKeyOptions,
+  ): TlsListener;
 
   /** @category Network */
   export interface ConnectOptions {
@@ -11043,7 +11115,7 @@ declare namespace Deno {
   export function connect(options: ConnectOptions): Promise<TcpConn>;
 
   /** @category Network */
-  export interface TcpConn extends Conn {
+  export interface TcpConn extends Conn<NetAddr> {
     /**
      * Enable/disable the use of Nagle's algorithm.
      *
@@ -11069,7 +11141,7 @@ declare namespace Deno {
   }
 
   /** @category Network */
-  export interface UnixConn extends Conn {
+  export interface UnixConn extends Conn<UnixAddr> {
     /**
      * The resource ID of the connection.
      *
@@ -11107,9 +11179,11 @@ declare namespace Deno {
      *
      * @default {"127.0.0.1"} */
     hostname?: string;
-    /**
-     * Server certificate file.
+    /** Path to a file containing a PEM formatted list of root certificates that will
+     * be used in addition to the default root certificates to verify the peer's certificate. Requires
+     * `--allow-read`.
      *
+     * @tags allow-read
      * @deprecated This will be removed in Deno 2.0. See the
      * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
      * for migration instructions.
@@ -11125,26 +11199,6 @@ declare namespace Deno {
      * TLS handshake.
      */
     alpnProtocols?: string[];
-    /**
-     * PEM formatted client certificate chain.
-     *
-     * @deprecated This will be removed in Deno 2.0. See the
-     * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
-     * for migration instructions.
-     */
-    certChain?: string;
-    /**
-     * PEM formatted (RSA or PKCS8) private key of client certificate.
-     *
-     * @deprecated This will be removed in Deno 2.0. See the
-     * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
-     * for migration instructions.
-     */
-    privateKey?: string;
-    /** Server private key in PEM format. */
-    key?: string;
-    /** Cert chain in PEM format. */
-    cert?: string;
   }
 
   /** Establishes a secure connection over TLS (transport layer security) using
@@ -11166,6 +11220,30 @@ declare namespace Deno {
    * @category Network
    */
   export function connectTls(options: ConnectTlsOptions): Promise<TlsConn>;
+
+  /** Establishes a secure connection over TLS (transport layer security) using
+   * an optional cert file, client certificate, hostname (default is "127.0.0.1") and
+   * port.  The cert file is optional and if not included Mozilla's root certificates will
+   * be used (see also https://github.com/ctz/webpki-roots for specifics)
+   *
+   * ```ts
+   * const caCert = await Deno.readTextFile("./certs/my_custom_root_CA.pem");
+   * const key = "----BEGIN PRIVATE KEY----...";
+   * const cert = "----BEGIN CERTIFICATE----...";
+   * const conn1 = await Deno.connectTls({ port: 80, key, cert });
+   * const conn2 = await Deno.connectTls({ caCerts: [caCert], hostname: "192.0.2.1", port: 80, key, cert });
+   * const conn3 = await Deno.connectTls({ hostname: "[2001:db8::1]", port: 80, key, cert });
+   * const conn4 = await Deno.connectTls({ caCerts: [caCert], hostname: "golang.org", port: 80, key, cert });
+   * ```
+   *
+   * Requires `allow-net` permission.
+   *
+   * @tags allow-net
+   * @category Network
+   */
+  export function connectTls(
+    options: ConnectTlsOptions & TlsCertifiedKeyOptions,
+  ): Promise<TlsConn>;
 
   /** @category Network */
   export interface StartTlsOptions {
@@ -11212,7 +11290,7 @@ declare namespace Deno {
    * @category Network
    */
   export function startTls(
-    conn: Conn,
+    conn: TcpConn,
     options?: StartTlsOptions,
   ): Promise<TlsConn>;
 
@@ -13243,10 +13321,6 @@ declare namespace Deno {
     caCerts?: string[];
     /** A HTTP proxy to use for new connections. */
     proxy?: Proxy;
-    /** Cert chain in PEM format. */
-    cert?: string;
-    /** Server private key in PEM format. */
-    key?: string;
     /** Sets the maximum numer of idle connections per host allowed in the pool. */
     poolMaxIdlePerHost?: number;
     /** Set an optional timeout for idle sockets being kept-alive.
@@ -13321,6 +13395,27 @@ declare namespace Deno {
    */
   export function createHttpClient(
     options: CreateHttpClientOptions,
+  ): HttpClient;
+
+  /** **UNSTABLE**: New API, yet to be vetted.
+   *
+   * Create a custom HttpClient to use with {@linkcode fetch}. This is an
+   * extension of the web platform Fetch API which allows Deno to use custom
+   * TLS certificates and connect via a proxy while using `fetch()`.
+   *
+   * @example ```ts
+   * const caCert = await Deno.readTextFile("./ca.pem");
+   * // Load a client key and certificate that we'll use to connect
+   * const key = await Deno.readTextFile("./key.key");
+   * const cert = await Deno.readTextFile("./cert.crt");
+   * const client = Deno.createHttpClient({ caCerts: [ caCert ], key, cert });
+   * const response = await fetch("https://myserver.com", { client });
+   * ```
+   *
+   * @category Fetch API
+   */
+  export function createHttpClient(
+    options: CreateHttpClientOptions & TlsCertifiedKeyOptions,
   ): HttpClient;
 
   /** **UNSTABLE**: New API, yet to be vetted.
@@ -14586,6 +14681,26 @@ declare interface WebSocketStream {
 declare var WebSocketStream: {
   readonly prototype: WebSocketStream;
   new (url: string, options?: WebSocketStreamOptions): WebSocketStream;
+};
+
+/** **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @tags allow-net
+ * @category Web Sockets
+ */
+declare interface WebSocketError extends DOMException {
+  readonly closeCode: number;
+  readonly reason: string;
+}
+
+/** **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @tags allow-net
+ * @category Web Sockets
+ */
+declare var WebSocketError: {
+  readonly prototype: WebSocketError;
+  new (message?: string, init?: WebSocketCloseInfo): WebSocketError;
 };
 
 // Adapted from `tc39/proposal-temporal`: https://github.com/tc39/proposal-temporal/blob/main/polyfill/index.d.ts
