@@ -25,9 +25,6 @@ import {
 } from './webpack.base.esm.mjs';
 
 export default {
-  // syntax: 'sugarss',
-  // parser: 'sugarss',
-  // stringifier: 'sugarss',
   // 配置插件的时候注意顺序哦！不同插件之间有先后处理的规则！postcss的插件有200多之数（有些还废弃、迁移包名之类的），还会随着积累越来越多的，挑着对项目有用的插件配置，不要过度求全，不然指不定会出现不如所愿的情况出现。
   plugins: [
     // 生成后备的兼容语法 Start

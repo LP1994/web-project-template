@@ -3123,2015 +3123,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
   moduleConfig = ( {
     MiniCssExtractPlugin = null,
   } = {} ) => {
-    // 注意插件之间的顺序！插件的执行是从上往下。
-    const babelPlugins = [
-      /**
-       * 关于插件的注意事项：<br />
-       * 1、@babel/plugin-transform-runtime已经包含了@babel/plugin-external-helpers的功能了，用@babel/plugin-transform-runtime就好，不需要再手动明确使用@babel/plugin-external-helpers。<br />
-       * 2、注意：@babel/preset-env不会包含任何低于第3阶段的JavaScript语法提案，因为在TC39流程的那个阶段，无论如何它都不会被任何浏览器实现。如果需要它，需要手动包含在内。<br />
-       */
-
-      /**
-       * @babel/plugin-transform-runtime：https://babeljs.io/docs/en/babel-plugin-transform-runtime
-       * 1、一个插件，可以重用Babel的注入帮助代码以节省代码大小。<br />
-       * 2、转换插件通常仅在开发中使用，但运行时本身将取决于您部署的代码。<br />
-       * 3、Babel使用非常小的助手来处理常见的功能，例如_extend。默认情况下，这将添加到需要它的每个文件中。这种重复有时是不必要的，尤其是当您的应用程序分布在多个文件中时。<br />
-       * 4、这就是@babel/plugin-transform-runtime插件的用武之地：所有的助手都将引用模块@babel/runtime以避免编译输出的重复。运行时将编译到您的构建中。<br />
-       * 5、这个转换器的另一个目的是为您的代码创建一个沙盒环境。如果直接导入core-js或@babel/polyfill以及它提供的Promise、Set和Map等内置函数，会污染全局作用域。<br />
-       */
-      [
-        '@babel/plugin-transform-runtime',
-        {
-          // 这个选项在v7中被删除，只是将其设为默认值。
-          // polyfill: null,其实我也不知道它的值类型。
-          // 这个选项在v7中被删除，只是将其设为默认值。
-          // useBuiltIns: null,其实我也不知道它的值类型。
-          // 值类型：boolean，默认值：false，从v 7.13.0版本开始此选项已被弃用。
-          // useESModules: false,
-
-          corejs: {
-            version: 3,
-            proposals: true,
-          },
-          version: ( () => {
-            const runtimeCoreJS3VersionStr = package_json.devDependencies[ '@babel/runtime-corejs3' ];
-
-            if( runtimeCoreJS3VersionStr ){
-              const str1 = String( runtimeCoreJS3VersionStr ).trim();
-
-              if( /^[0-9]/i.test( str1 ) ){
-                return str1;
-              }
-              else{
-                return str1.slice( 1 );
-              }
-            }
-            else{
-              throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
-            }
-          } )() || '7.24.4',
-          helpers: true,
-          // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
-          regenerator: true,
-          absoluteRuntime: false,
-        },
-      ],
-
-      /**
-       * babel-plugin-transform-jsbi-to-bigint：https://github.com/GoogleChromeLabs/babel-plugin-transform-jsbi-to-bigint
-       * 1、将在当今环境中工作的JSBI代码编译为本机BigInt代码。<br />
-       * 2、除非明确目标浏览器支持bigint语法，否则不要使用该插件。<br />
-       * 3、如果未来babel支持对bigint进行语法转译，则可以启用该插件，当前babel只支持bigint语法上的识别，不进行bigint转译。<br />
-       * 4、该插件要在@babel/plugin-syntax-bigint之前，如果未来babel出了bigint语法转译插件，也要保证该插件在其之前。<br />
-       */
-      ...( isEnable => {
-        return isEnable
-               ? [
-            [
-              'babel-plugin-transform-jsbi-to-bigint',
-            ],
-          ]
-               : [];
-      } )( false ),
-
-      /**
-       * @babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression：https://babeljs.io/docs/babel-plugin-bugfix-safari-id-destructuring-collision-in-function-expression
-       * 1、这个错误修复插件重新命名了结构化参数，以解决影响10至16.2版本的Safari浏览器的一个错误。该插件所要解决的BUG描述见：https://bugs.webkit.org/show_bug.cgi?id=220517。<br />
-       * 2、主要描述：<br />
-       * 可以正常工作的写法：
-       * function a({ test: a }) { console.log(a); }
-       * let b = a;
-       *
-       * 不可以正常工作，且会报语法错误的写法：Duplicate parameter <name> not allowed in function with destructuring parameters.
-       * let b = function a({ test: a }) { console.log(a); };
-       * 3、这个插件包含在@babel/preset-env中。将bugfixes选项设置为true，这样当你的目标受到浏览器bug影响时，Babel会自动为你启用这个插件。
-       */
-      ...( isEnable => {
-        return isEnable
-               ? [
-            [
-              '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression',
-            ],
-          ]
-               : [];
-      } )( false ),
-
-      /**
-       * @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining：https://babeljs.io/docs/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining
-       * 1、这个bugfix插件转换了可选的链式运算符, 以解决一个影响8.0至9.0版本的V8 bug。该插件所要解决的BUG描述见：https://bugs.chromium.org/p/v8/issues/detail?id=11558。<br />
-       * 2、主要描述：TypeError: Function.prototype.apply was called on undefined, which is a undefined and not a function.<br />
-       * Input: undefined?.(...[], 1)
-       * Output（报错）:
-       * undefined?.(...[], 1)
-       * 3、这个插件包含在@babel/preset-env中。将bugfixes选项设置为true，这样当你的目标受到浏览器bug影响时，Babel会自动为你启用这个插件。
-       */
-      ...( isEnable => {
-        return isEnable
-               ? [
-            [
-              '@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining',
-            ],
-          ]
-               : [];
-      } )( false ),
-
-      // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-syntax-import-reflection：https://babeljs.io/docs/babel-plugin-syntax-import-reflection
-             * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
-             * 2、此插件使Babel能够解析导入反射：
-             * import module foo from "./foo.wasm";
-             */
-            [
-              '@babel/plugin-syntax-import-reflection',
-            ],
-
-            // 处于提案第1阶段！
-            /**
-             * @babel/plugin-syntax-decimal：https://github.com/tc39/proposal-decimal
-             * 1、目前该提案处于第1阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
-             */
-            [
-              '@babel/plugin-syntax-decimal',
-            ],
-            /**
-             * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-do-expressions、https://github.com/tc39/proposal-do-expressions
-             * 1、它可以看作是三元运算符的复杂版本。<br />
-             * 2、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-do-expressions',
-            ],
-            /**
-             * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-async-do-expressions、https://github.com/tc39/proposal-async-do-expressions
-             * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             * 2、该插件需要在@babel/plugin-transform-async-to-generator之前。<br />
-             */
-            [
-              '@babel/plugin-proposal-async-do-expressions',
-            ],
-            /**
-             * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from、https://github.com/tc39/proposal-export-default-from
-             * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-export-default-from',
-            ],
-            /**
-             * @babel/plugin-proposal-partial-application：https://babeljs.io/docs/en/babel-plugin-proposal-partial-application、https://github.com/tc39/proposal-partial-application
-             * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-partial-application',
-            ],
-
-            // 处于提案第2阶段！
-            /**
-             * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-js-module-blocks、https://github.com/tc39/proposal-module-expressions
-             * 1、目前该提案处于第2阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
-             */
-            [
-              '@babel/plugin-syntax-module-blocks',
-            ],
-            /**
-             * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent、https://github.com/tc39/proposal-function.sent
-             * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-function-sent',
-            ],
-            /**
-             * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator、https://github.com/tc39/proposal-pipeline-operator
-             * 1、“pipeline operator”有几个相互竞争的提议。使用所需的“proposal”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
-             * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"、"topicToken": "%"、"topicToken": "@@"。<br />
-             * 3、"proposal": "minimal"、"fsharp"、"smart"这3个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
-             * 4、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-pipeline-operator',
-              {
-                proposal: 'hack',
-                topicToken: '^^',
-              },
-            ],
-            /**
-             * @babel/plugin-proposal-record-and-tuple：https://babeljs.io/docs/en/babel-plugin-proposal-record-and-tuple、https://github.com/tc39/proposal-record-tuple
-             * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-record-and-tuple',
-              {
-                /**
-                 * 默认情况下，此插件仅使用Record和Tuple全局变量转换提案语法。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、您需要加载一个polyfill，或者您可以传递"importPolyfill": true选项以将导入注入到由提案作者维护的@bloomberg/record-tuple-polyfill。<br />
-                 */
-                importPolyfill: true,
-                /**
-                 * 如果您希望将导入注入到不同于@bloomberg/record-tuple-polyfill的polyfill，您可以使用此选项指定其名称。<br />
-                 * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
-                 */
-                polyfillModuleName: '@bloomberg/record-tuple-polyfill',
-                syntaxType: 'hash',
-              },
-            ],
-            /**
-             * @babel/plugin-proposal-throw-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-throw-expressions、https://github.com/tc39/proposal-throw-expressions
-             * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             */
-            [
-              '@babel/plugin-proposal-throw-expressions',
-            ],
-            /**
-             * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/en/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
-             * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-             * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
-             */
-            [
-              '@babel/plugin-proposal-destructuring-private',
-            ],
-            /**
-             * @babel/plugin-syntax-import-attributes：https://babeljs.io/docs/babel-plugin-syntax-import-attributes
-             * 1、目前该提案处于第2阶段，且此插件仅使Babel能够解析这种语法，Babel不支持转换这种语法。<br />
-             * import pkg from "./package.json" with { type: "json" }，很强大的提案，可以前往提案的文档详细了解！<br />
-             * 2、详细提案见：<br />
-             * https://github.com/tc39/proposal-import-attributes（https://github.com/tc39/proposal-import-assertions也会指向https://github.com/tc39/proposal-import-attributes这个网址）。<br />
-             * https://github.com/tc39/proposal-json-modules（第3阶段），该提案是从https://github.com/tc39/proposal-import-attributes提案单独分出来的。<br />
-             * 3、关于废弃旧的“assert”提案详细见：<br />
-             * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
-             */
-            [
-              '@babel/plugin-syntax-import-attributes',
-              {
-                /**
-                 * 1、默认值为：false。<br />
-                 * 2、如果启用，支持使用废弃的assert关键字解析导入属性：<br />
-                 * import foo from "./foo.json" assert { type: "json" };
-                 * “assert”这种语法只在基于V8的引擎中支持，目前正在调查将其从WEB中移除，使用更为规范的“with”提案，其很强大的提案，可以前往“with”提案（https://github.com/tc39/proposal-import-attributes）的文档详细了解！<br />
-                 */
-                deprecatedAssertSyntax: true,
-              },
-            ],
-            /**
-             * @babel/plugin-proposal-import-attributes-to-assertions：https://babeljs.io/docs/babel-plugin-proposal-import-attributes-to-assertions
-             * 1、这是一个WEB兼容的插件，其提案是：https://github.com/tc39/proposal-import-attributes（目前该提案处于第2阶段）、https://github.com/tc39/proposal-json-modules（目前该提案处于第3阶段）。<br />
-             * 2、这个插件将生成与当前ECMAScript规范或任何当前提议的补充规范不兼容的代码。<br />
-             * 3、只有当你正在运送本地ES模块，并且需要专门与<br />
-             * 不支持导入属性语法（import pkg from "./package.json" with { type: "json" }）
-             * 但<br />
-             * 支持旧的导入断言语法（import pkg from "./package.json" assert { type: "json" }）
-             * 的工具兼容时，才使用它，例如Chrome 91+和Node.js 17.2+。<br />
-             * 4、该插件会将最新的规范<br />
-             * import pkg from "./package.json" with { type: "json" }
-             * 转为旧的规范<br />
-             * import pkg from "./package.json" assert { type: "json" }
-             * 5、目前，个人建议不启用该插件。<br />
-             * 6、关于废弃旧的“assert”提案详细见：<br />
-             * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
-             */
-            /*
-             [
-             '@babel/plugin-proposal-import-attributes-to-assertions',
-             ],
-             */
-
-            // 处于提案第3阶段！
-            /**
-             * @babel/plugin-syntax-import-assertions：https://github.com/tc39/proposal-import-assertions
-             * 1、目前该提案处于第3阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
-             * 2、该提案目前被指向新的提案：https://babeljs.io/docs/babel-plugin-syntax-import-attributes、https://github.com/tc39/proposal-import-attributes。<br />
-             * 3、关于废弃旧的“assert”提案详细见：<br />
-             * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
-             * 4、@babel/plugin-syntax-import-attributes跟@babel/plugin-syntax-import-assertions不能同时使用，故优先使用@babel/plugin-syntax-import-attributes。<br />
-             */
-            /*
-             [
-             '@babel/plugin-syntax-import-assertions',
-             ],
-             */
-            /**
-             * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
-             * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
-             * 2、目前该提案处于第3阶段。<br />
-             */
-            [
-              '@babel/plugin-proposal-decorators',
-              {
-                /**
-                 * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-05'、'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
-                 * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
-                 * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
-                 * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
-                 * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
-                 * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本。<br />
-                 * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/tc39/proposal-decorators。<br />
-                 * 7、'2023-11'：是在2023年11月TC30会议上达成共识的更新后的提案版本，其中纳入了这一变更，见：https://github.com/pzuraq/ecma262/pull/12。<br />
-                 * 8、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
-                 * 9、Babel 8仅支持'2023-05'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-05'。<br />
-                 */
-                version: '2023-11',
-                /**
-                 * 添加此选项是为了帮助tc39通过允许对两种可能的语法进行试验来收集来自社区的反馈。<br />
-                 * 1、当上面的version选项值为"legacy"时，该选项被禁用，也就是说该选项不能设置。<br />
-                 * 2、当上面的version选项值为"2018-09"时，该选项被启用，设置成true或false都行。<br />
-                 * 3、当上面的version选项值为"2021-12"时，该选项是可选的，设置成true或false都行，且默认值为false。<br />
-                 * 4、当上面的version选项值为"2022-03"、"2023-01"、'2023-05'时，该选项被禁用，也就是说该选项不能设置。<br />
-                 * 5、从最新的源码中可知当该选项值为undefined时，上面的version选项值为"2021-12"和"2022-03"时，会被设置为false。<br />
-                 * 6、从最新的源码中可知当该选项值为undefined时，上面的version为"2018-09"或未指定时，会通过抛出异常错误来提示该选项值类型必须为布尔类型，也就是设置为true或false。<br />
-                 * 7、从最新的源码中可知当该选项值不为undefined时，上面的version选项值为"legacy"和"2022-03"、"2023-01"时，会抛出异常错误。<br />
-                 */
-                // decoratorsBeforeExport: true,
-
-                // 已弃用：改用version: "legacy"。此选项是旧别名。
-                // legacy: false,
-              },
-            ],
-            /**
-             * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-proposal-duplicate-named-capturing-groups-regex、https://github.com/tc39/proposal-duplicate-named-capturing-groups
-             * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
-             * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
-             * 3、目前该提案处于第3阶段。<br />
-             */
-            [
-              '@babel/plugin-proposal-duplicate-named-capturing-groups-regex',
-              {
-                /**
-                 * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
-                 * 1、值类型：boolean，默认值：true。<br />
-                 */
-                runtime: true,
-              },
-            ],
-            /**
-             * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers、https://github.com/tc39/proposal-regexp-modifiers
-             * 1、目前该提案处于第3阶段。<br />
-             */
-            [
-              '@babel/plugin-proposal-regexp-modifiers',
-            ],
-            /**
-             * @babel/plugin-proposal-explicit-resource-management：https://babeljs.io/docs/babel-plugin-proposal-explicit-resource-management
-             * 1、目前该提案处于第3阶段。<br />
-             * 2、详细提案见：<br />
-             * https://github.com/tc39/proposal-explicit-resource-management
-             * 异步的提案：https://github.com/tc39/proposal-async-explicit-resource-management
-             */
-            [
-              '@babel/plugin-proposal-explicit-resource-management',
-            ],
-            /**
-             * @babel/plugin-proposal-import-wasm-source：https://babeljs.io/docs/babel-plugin-proposal-import-wasm-source
-             * 1、目前该提案处于第3阶段。<br />
-             * 2、详细提案见：<br />
-             * https://github.com/tc39/proposal-source-phase-imports/
-             * 3、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
-             * 4、使用例子：<br />
-             * import source libMod from "./lib.wasm";
-             * 注意，前面的新的关键字“source”，“import source”才是完整的导入语法。<br />
-             */
-            [
-              '@babel/plugin-proposal-import-wasm-source',
-            ],
-            /**
-             * @babel/plugin-proposal-json-modules：https://babeljs.io/docs/babel-plugin-proposal-json-modules
-             * 1、目前该提案处于第3阶段。<br />
-             * 2、详细提案见：<br />
-             * https://github.com/tc39/proposal-json-modules/
-             * 3、将“import ... with { type: "json" }”声明转换为特定平台的API，以读取并“JSON.parse”导入的文件。<br />
-             * 4、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
-             * 5、该插件只转换“import”标记，不转换动态“import()”调用。<br />
-             * 6、使用例子：<br />
-             * import data from "./data.json" with { type: "json" };
-             */
-            [
-              '@babel/plugin-proposal-json-modules',
-            ],
-
-            // 处于无效提案，但是有新的替代提案处于讨论中！
-            /**
-             * @babel/plugin-proposal-function-bind：https://babeljs.io/docs/en/babel-plugin-proposal-function-bind、https://github.com/tc39/proposal-bind-operator
-             * 1、该提案目前已无效，但是有3个包含该提案的新提案。<br />
-             * 2、详细见：<br />
-             * https://babeljs.io/blog/2015/05/14/function-bind
-             */
-            [
-              '@babel/plugin-proposal-function-bind',
-            ],
-          ]
-               : [];
-      } )( true ),
-      // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） End
-
-      // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-unicode-sets-regex：https://babeljs.io/docs/babel-plugin-transform-unicode-sets-regex
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2024中。<br />
-             * 2、这个插件将使用v标志的正则表达式（由RegExp set notation + properties of strings提案引入）转换为使用u标志的正则表达式。<br />
-             */
-            [
-              '@babel/plugin-transform-unicode-sets-regex',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? []
-               : [];
-      } )( false ),
-      // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-class-static-block：https://babeljs.io/docs/babel-plugin-transform-class-static-block
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
-             * 2、具有静态块的类将被转换为静态私有属性，其初始化程序是包装在IIAFE（立即调用箭头函数表达式）中的静态块。<br />
-             * 3、因为输出代码包含私有类属性，如果你已经在使用其他类特性插件（例如`@babel/plugin-proposal-class-properties），一定要把它放在其他的前面。<br />
-             */
-            [
-              '@babel/plugin-transform-class-static-block',
-            ],
-            /**
-             * @babel/plugin-transform-private-methods：https://babeljs.io/docs/babel-plugin-transform-private-methods
-             */
-            [
-              '@babel/plugin-transform-private-methods',
-              {
-                /**
-                 * 1、注意：松散模式的配置设置必须与@babel/plugin-transform-class-properties相同。
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-class-properties：https://babeljs.io/docs/babel-plugin-transform-class-properties
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
-             * 2、该插件已经包含了语法：<br />
-             * https://github.com/tc39/proposal-private-methods<br />
-             * https://github.com/tc39/proposal-class-fields<br />
-             * https://github.com/tc39/proposal-static-class-features<br />
-             * 3、插件@babel/plugin-proposal-private-methods（https://babeljs.io/docs/en/babel-plugin-proposal-private-methods）也合并到该插件中。<br />
-             */
-            [
-              '@babel/plugin-transform-class-properties',
-              {
-                /**
-                 * 如果为true，则编译类属性以使用赋值表达式而不是Object.defineProperty。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的setPublicClassFields选项。<br />
-                 * 3、loose: true等同于"setPublicClassFields": true。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-private-property-in-object：https://babeljs.io/docs/babel-plugin-transform-private-property-in-object
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
-             */
-            [
-              '@babel/plugin-transform-private-property-in-object',
-              {
-                /**
-                 * 当为true时，表达式中的私有属性将检查对象上自己的属性（而不是继承的属性），而不是检查WeakSet中是否存在。这会提高性能和调试（普通属性访问与.get()），但代价是可能通过Object.getOwnPropertyNames等方式泄漏“私有”。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的privateFieldsAsProperties选项。<br />
-                 * 3、loose: true等同于"privateFieldsAsProperties": true且"setPublicClassFields": true。<br />
-                 * 4、注意：松散模式配置设置必须与@babel/proposal-class-properties相同。
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-syntax-top-level-await：https://babeljs.io/docs/babel-plugin-syntax-top-level-await
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
-             * 2、此插件仅启用对此功能的语法解析。Babel目前还不支持转换顶层await，但是你可以使用Rollup的experimentalTopLevelAwait或webpack@5的experiments.topLevelAwait选项。<br />
-             */
-            [
-              '@babel/plugin-syntax-top-level-await',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2021（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-logical-assignment-operators：https://babeljs.io/docs/babel-plugin-transform-logical-assignment-operators
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2021。<br />
-             */
-            [
-              '@babel/plugin-transform-logical-assignment-operators',
-            ],
-            /**
-             * @babel/plugin-transform-numeric-separator：https://babeljs.io/docs/babel-plugin-transform-numeric-separator
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2021。<br />
-             * 2、八进制非常适合权限，但以0o0000形式表示时也更好看。这里的分隔符没有真正的好处。<br />
-             * 3、如果您需要进一步将ES2015十进制、二进制、十六进制和八进制数字表示编译为ES2015之前的数字文字形式，请添加“@babel/plugin-transform-literals”插件。<br />
-             * 4、@babel/plugin-transform-literals已经包含在@babel/preset-env和@babel/preset-es2015中。<br />
-             * 5、@babel/plugin-transform-literals得在@babel/plugin-proposal-numeric-separator之后。<br />
-             */
-            [
-              '@babel/plugin-transform-numeric-separator',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2021（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2020（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-export-namespace-from：https://babeljs.io/docs/babel-plugin-transform-export-namespace-from
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
-             */
-            [
-              '@babel/plugin-transform-export-namespace-from',
-            ],
-            /**
-             * @babel/plugin-transform-nullish-coalescing-operator：https://babeljs.io/docs/babel-plugin-transform-nullish-coalescing-operator
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
-             * 2、注意：我们不能在这里使用!=null因为document.all==null并且document.all被认为不是“nullish（无效的）”。<br />
-             */
-            [
-              '@babel/plugin-transform-nullish-coalescing-operator',
-              {
-                /**
-                 * 如果为true，此转换将假装document.all不存在，并使用null执行松散的相等检查，而不是针对null和undefined的严格相等检查。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的noDocumentAll选项。<br />
-                 * 3、loose: true等同于"noDocumentAll": true。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-optional-chaining：https://babeljs.io/docs/babel-plugin-transform-optional-chaining
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
-             * 2、访问深度嵌套的属性、调用深度嵌套的函数、构建深度嵌套的类、删除深度嵌套的属性（在v 7.8.0添加的）。<br />
-             */
-            [
-              '@babel/plugin-transform-optional-chaining',
-              {
-                /**
-                 * 如果为true，此转换将假装document.all不存在，并使用null执行松散的相等检查，而不是针对null和undefined的严格相等检查。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的noDocumentAll选项。<br />
-                 * 3、loose: true等同于"noDocumentAll": true。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-syntax-bigint：https://babeljs.io/docs/babel-plugin-syntax-bigint
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
-             * 2、此插件仅启用对此功能的语法解析。Babel不支持转换bigint。一个建议是使用JSBI库并最终运行babel-plugin-transform-jsbi-to-bigint以在将来将其代码修改为BigInt。<br />
-             */
-            [
-              '@babel/plugin-syntax-bigint',
-            ],
-            /**
-             * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/babel-plugin-syntax-dynamic-import
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
-             * 2、如果使用@babel/core 7.8.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
-             */
-            [
-              '@babel/plugin-syntax-dynamic-import',
-            ],
-            /**
-             * @babel/plugin-proposal-dynamic-import：https://babeljs.io/docs/babel-plugin-proposal-dynamic-import
-             * 启用该插件时会报如下错误：
-             * “@babel/plugin-proposal-dynamic-import”依赖以下“模块转换插件”中的任何一个：
-             * @babel/plugin-transform-modules-commonjs ^7.4.0
-             * @babel/plugin-transform-modules-amd ^7.4.0
-             * @babel/plugin-transform-modules-systemjs ^7.4.0
-             *
-             * 1、如果您正在使用Webpack或Rollup，因此不想babel来转译你的输入、输出，你可以用“@babel/plugin-syntax-dynamic-import”插件，让你的绑定器（Webpack或Rollup）处理动态导入（import()）。
-             * 2、不使用此插件，如果你正在使用一个捆绑器，如Webpack、Rollup或Parcel，你不应该使用这个插件，让你的捆绑器处理import()表达式。
-             * 3、你应该使用这个插件，如果：
-             * 你正在ESM中编写一个Node.js库，但想在CommonJS(CJS)中发布它：安装这个插件和 @babel/plugin-transform-modules-commonjs
-             * 你使用RequireJS在浏览器中加载模块：安装这个插件和 @babel/plugin-transform-modules-amd
-             * 你使用SystemJS在浏览器中加载模块：安装此插件和 @babel/plugin-transform-modules-systemjs
-             */
-            /*
-             [
-             // '@babel/plugin-proposal-dynamic-import',
-             '@babel/plugin-transform-dynamic-import',
-             ],
-             */
-            /**
-             * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/babel-plugin-syntax-import-meta
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
-             * 2、如果使用@babel/core 7.10.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
-             */
-            [
-              '@babel/plugin-syntax-import-meta',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2020（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2019（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-json-strings：https://babeljs.io/docs/babel-plugin-transform-json-strings
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
-             */
-            [
-              '@babel/plugin-transform-json-strings',
-            ],
-            /**
-             * @babel/plugin-transform-optional-catch-binding：https://babeljs.io/docs/babel-plugin-transform-optional-catch-binding
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
-             */
-            [
-              '@babel/plugin-transform-optional-catch-binding',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2019（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2018（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-async-generator-functions：https://babeljs.io/docs/babel-plugin-transform-async-generator-functions
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
-             */
-            [
-              '@babel/plugin-transform-async-generator-functions',
-            ],
-            /**
-             * @babel/plugin-transform-dotall-regex：https://babeljs.io/docs/babel-plugin-transform-dotall-regex
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
-             */
-            [
-              '@babel/plugin-transform-dotall-regex',
-            ],
-            /**
-             * @babel/plugin-transform-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-transform-named-capturing-groups-regex
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
-             * 2、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
-             * 3、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
-             */
-            [
-              '@babel/plugin-transform-named-capturing-groups-regex',
-              {
-                /**
-                 * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
-                 * 1、值类型：boolean，默认值：true。<br />
-                 */
-                runtime: true,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-object-rest-spread：https://babeljs.io/docs/babel-plugin-transform-object-rest-spread
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
-             * 2、默认情况下，此插件将使用Babel的objectSpread帮助器生成符合规范的代码。<br />
-             */
-            [
-              '@babel/plugin-transform-object-rest-spread',
-              {
-                /**
-                 * 启用此选项将使用Babel的extends帮助器，它与Object.assign基本相同（请参阅下面的useBuiltIns直接使用它）。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的setSpreadProperties选项。<br />
-                 * 3、loose: true等同于"setSpreadProperties": true且下面的useBuiltIns选项也要设置成true。<br />
-                 * 4、请记住，即使它们几乎等价，spread和Object.assign之间也有一个重要区别：spread定义新属性，而Object.assign()设置它们。因此在某些情况下使用此模式可能会产生意想不到的结果。<br />
-                 */
-                loose: false,
-                /**
-                 * 启用此选项将直接使用Object.assign而不是Babel的扩展助手。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 */
-                useBuiltIns: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-unicode-property-regex：https://babeljs.io/docs/babel-plugin-transform-unicode-property-regex
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
-             */
-            [
-              '@babel/plugin-transform-unicode-property-regex',
-              {
-                /**
-                 * 当使用false禁用时，转换会将Unicode正则表达式转换为非Unicode正则表达式以获得更广泛的支持，并删除u标志。<br />
-                 * 1、值类型：boolean，默认值：true。<br />
-                 * 2、转译为ES6（ES2015）代码时，需要将useUnicodeFlag设置成false。<br />
-                 */
-                useUnicodeFlag: true,
-              },
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2018（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2017（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-async-to-generator：https://babeljs.io/docs/babel-plugin-transform-async-to-generator
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2017 Babel 7中，transform-async-to-module-method被合并到这个插件中。<br />
-             * 2、当使用带有非承诺值的等待时，Bluebird将抛出“Error: A value was yielded that could not be treated as a promise（错误：产生的值不能被视为承诺）”。由于Babel无法自动处理此运行时错误，因此您应该手动将其转换为Promise：<br />
-             * 如：<br />
-             * async function foo() {
-             * 删掉，因为会报错：await 42;
-             * 添加：await Promise.resolve(42);
-             * }
-             */
-            [
-              '@babel/plugin-transform-async-to-generator',
-              {
-                module: 'bluebird',
-                method: 'coroutine',
-              },
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2017（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2016（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-exponentiation-operator：https://babeljs.io/docs/babel-plugin-transform-exponentiation-operator
-             * 1、注意：这个插件包含在@babel/preset-env中，在ES2016。<br />
-             */
-            [
-              '@babel/plugin-transform-exponentiation-operator',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2016（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES2015（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-block-scoped-functions：https://babeljs.io/docs/en/babel-plugin-transform-block-scoped-functions
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-block-scoped-functions',
-            ],
-            /**
-             * @babel/plugin-transform-arrow-functions：https://babeljs.io/docs/en/babel-plugin-transform-arrow-functions
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-arrow-functions',
-              {
-                /**
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、此选项启用以下功能：<br />
-                 * 将生成的函数包装在.bind(this)中，并按原样在函数内部使用this，而不是使用重命名的this。<br />
-                 * 添加运行时检查以确保函数未实例化。<br />
-                 * 为箭头函数添加名称。<br />
-                 */
-                spec: true,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-block-scoping：https://babeljs.io/docs/en/babel-plugin-transform-block-scoping
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、此插件还验证所有const变量。常量的重新分配是一个运行时错误，它会插入必要的错误代码。<br />
-             */
-            [
-              '@babel/plugin-transform-block-scoping',
-              {
-                /**
-                 * 在以下情况下，如果在转换时不添加额外的函数和闭包，就不可能重写let/const：<br />
-                 * for (let i = 0; i < 5; i++) {
-                 *   setTimeout(() => console.log(i), 1);
-                 * }
-                 * 1、在对性能极为敏感的代码中，这可能是不可取的。如果设置了"throwIfClosureRequired":true，Babel在转换这些模式时会抛出异常，而不是自动添加额外的函数。<br />
-                 * 2、值类型：boolean，默认值：false。<br />
-                 */
-                throwIfClosureRequired: false,
-                /**
-                 * 默认情况下，此插件将忽略块范围变量的时间死区(TDZ)。以下代码在使用不符合规范的Babel转译时不会抛出错误：<br />
-                 * i;
-                 * let i;
-                 * 1、如果你需要这些错误，你可以告诉Babel通过设置"tdz": true这个插件来尝试找到它们。但是，当前的实现可能无法正确处理所有边缘情况，最好一开始就避免使用这样的代码。<br />
-                 * 2、值类型：boolean，默认值：false。<br />
-                 * 3、在以前版本的使用中出现，tdz: true会报错TypeError: this.addHelper is not a function。<br />
-                 */
-                tdz: true,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-classes：https://babeljs.io/docs/en/babel-plugin-transform-classes
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、注意事项：<br />
-             * 当扩展原生类（例如，class extends Array {}）时，需要包装超类。这是解决两个问题所必须的：<br />
-             * Babel使用SuperClass.apply(...)转译类，但本机类不可调用，因此在这种情况下抛出。<br />
-             * 一些内置函数（如：Array）总是返回一个新对象。Babel应该将其视为新的this，而不是返回它。<br />
-             * 3、包装器适用于IE 11和所有其他使用Object.setPrototypeOf或__proto__作为后备的浏览器。没有IE <= 10支持。如果您需要IE <= 10，建议您不要扩展本机。<br />
-             * 4、Babel需要静态知道您是否正在扩展内置类。因此，“mixin 模式”不起作用：<br />
-             * class Foo extends mixin(Array) {}
-             * function mixin(Super) {
-             *   return class extends Super {
-             *     mix() {}
-             *   };
-             * }
-             * 5、要解决此限制，您可以在继承链中添加另一个类，以便Babel可以包装本机类：<br />
-             * const ExtensibleArray = class extends Array {};
-             * class Foo extends mixin(ExtensibleArray) {}
-             */
-            [
-              '@babel/plugin-transform-classes',
-              {
-                /**
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项，该假设提供对Babel应用的各种松散模式推导的精细控制，loose: true等同于：<br />
-                 * "constantSuper": true,
-                 * "noClassCalls": true,
-                 * "setClassMethods": true,
-                 * "superIsCallableConstructor": true
-                 * 3、请注意，在松散模式下，类方法是可枚举的。这不符合规范，您可能会遇到问题。<br />
-                 * 4、在松散模式下，方法是通过简单的赋值在类原型上定义的，而不是被定义的。这可能导致以下内容不起作用：<br />
-                 * class Foo {
-                 *   set bar() {
-                 *     throw new Error('foo!');
-                 *   }
-                 * }
-                 *
-                 * class Bar extends Foo {
-                 *   bar() {
-                 *     // will throw an error when this method is defined
-                 *   }
-                 * }
-                 * 5、当Bar.prototype.foo被定义时，它会触发Foo的setter。这种情况不太可能出现在生产代码中，但需要牢记。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-computed-properties：https://babeljs.io/docs/en/babel-plugin-transform-computed-properties
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-computed-properties',
-              {
-                /**
-                 * 就像类中的方法分配一样，在松散模式下，计算属性名称使用简单的分配而不是被定义。这不太可能成为生产代码中的问题。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的setComputedProperties选项。<br />
-                 * 3、loose: true等同于"setComputedProperties": true。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-destructuring：https://babeljs.io/docs/en/babel-plugin-transform-destructuring
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-destructuring',
-              {
-                /**
-                 * 启用此选项将假定您要解构的是一个数组，并且不会在其他可迭代对象上使用Array.from。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的iterableIsArray选项。<br />
-                 * 3、loose: true等同于"iterableIsArray": true。<br />
-                 */
-                loose: false,
-                /**
-                 * 启用此选项将直接使用Object.assign而不是Babel的扩展助手。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 */
-                useBuiltIns: false,
-                /**
-                 * 此选项允许使用数组解构语法来解构类似数组的对象。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、v7.10.0开始添加了该选项。<br />
-                 * 3、考虑迁移到顶层assumptions选项里的arrayLikeIsIterable选项。<br />
-                 * 4、allowArrayLike: true等同于"arrayLikeIsIterable": true。<br />
-                 * 5、请注意，即使禁用此选项，Babel也允许在旧引擎中解构参数，因为它在ECMAScript规范中被定义为可迭代的。<br />
-                 */
-                allowArrayLike: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-duplicate-keys：https://babeljs.io/docs/en/babel-plugin-transform-duplicate-keys
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、这个插件实际上将对象中的重复键转换为计算属性，然后必须由@babel/plugin-transform-computed-properties插件处理。最终结果将不包含任何具有重复键的对象文字。<br />
-             */
-            [
-              '@babel/plugin-transform-duplicate-keys',
-            ],
-            /**
-             * @babel/plugin-transform-for-of：https://babeljs.io/docs/en/babel-plugin-transform-for-of
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-for-of',
-              {
-                /**
-                 * 在松散模式下，阵列被置于快速路径中，从而大大提高了性能。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的skipForOfIteratorClosing选项。<br />
-                 * 3、loose: true等同于"skipForOfIteratorClosing": true。<br />
-                 */
-                loose: false,
-                /**
-                 * 此选项允许将for-of与类似数组的对象一起使用。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、v7.10.0开始添加了该选项。<br />
-                 * 3、考虑迁移到顶层assumptions选项里的arrayLikeIsIterable选项。<br />
-                 * 4、allowArrayLike: true等同于"arrayLikeIsIterable": true。<br />
-                 * 5、请注意，即使禁用此选项，Babel也允许在旧引擎中解构参数，因为它在ECMAScript规范中被定义为可迭代的。<br />
-                 */
-                allowArrayLike: false,
-                /**
-                 * 通过假设所有循环都是数组，这将把下面显示的优化应用于所有for-of循环。当您只想要一个for-of循环来表示一个数组上的基本for循环时，它会很有用。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、如果使用基本数组，Babel会将for-of循环编译为常规的for循环。<br />
-                 */
-                assumeArray: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-function-name：https://babeljs.io/docs/en/babel-plugin-transform-function-name
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-function-name',
-            ],
-            /**
-             * @babel/plugin-transform-instanceof：https://babeljs.io/docs/en/babel-plugin-transform-instanceof
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-instanceof',
-            ],
-            /**
-             * @babel/plugin-transform-literals：https://babeljs.io/docs/en/babel-plugin-transform-literals
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、@babel/plugin-transform-literals得在@babel/plugin-proposal-numeric-separator之后。<br />
-             */
-            [
-              '@babel/plugin-transform-literals',
-            ],
-            /**
-             * @babel/plugin-transform-new-target：https://babeljs.io/docs/en/babel-plugin-transform-new-target
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、注意事项：这个插件依赖于this.constructor，这意味着在使用未转换的类时必须已经调用了super：<br />
-             * class Foo {}
-             * class Bar extends Foo {
-             *   constructor() {
-             *     // 如果类不转换为ES5，这将是一个问题。
-             *     new.target;
-             *     super();
-             *   }
-             * }
-             * 3、此外，当将newTarget与ES5函数类（转换的ES6类）一起使用时，此插件无法转换所有Reflect.construct案例。<br />
-             * 4、。<br />
-             */
-            [
-              '@babel/plugin-transform-new-target',
-            ],
-            /**
-             * @babel/plugin-transform-object-super：https://babeljs.io/docs/en/babel-plugin-transform-object-super
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-object-super',
-            ],
-            /**
-             * @babel/plugin-transform-parameters：https://babeljs.io/docs/en/babel-plugin-transform-parameters
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、该插件将ES2015参数转换为ES5，包括：解构参数、默认参数、rest参数。<br />
-             * 3、注意事项：默认参数“脱糖”到let声明中以保留正确的语义。如果您的环境不支持此功能，那么您将需要@babel/plugin-transform-block-scoping插件。<br />
-             */
-            [
-              '@babel/plugin-transform-parameters',
-              {
-                /**
-                 * 在松散模式下，具有默认值的参数将计入函数的arity（稀有度）。这不是这些参数不添加到函数的规范行为。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的ignoreFunctionLength选项。<br />
-                 * 3、loose: true等同于"ignoreFunctionLength": true。<br />
-                 * 4、在ignoreFunctionLength假设下，Babel将生成一个性能更高的解决方案，因为JavaScript引擎将完全优化不引用参数的函数。请进行您自己的基准测试并确定此选项是否适合您的应用程序。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-shorthand-properties：https://babeljs.io/docs/en/babel-plugin-transform-shorthand-properties
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-shorthand-properties',
-            ],
-            /**
-             * @babel/plugin-transform-spread：https://babeljs.io/docs/en/babel-plugin-transform-spread
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-spread',
-              {
-                /**
-                 * 在松散模式下，所有可迭代对象都被假定为数组。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的iterableIsArray选项。<br />
-                 * 3、loose: true等同于"iterableIsArray": true。<br />
-                 * 4、。<br />
-                 */
-                loose: false,
-                /**
-                 * 此选项允许像数组一样传播类似数组的对象。<br />
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、v7.10.0开始添加了该选项。<br />
-                 * 3、考虑迁移到顶层assumptions选项里的arrayLikeIsIterable选项。<br />
-                 * 4、allowArrayLike: true等同于"arrayLikeIsIterable": true。<br />
-                 * 5、请注意，即使禁用此选项，Babel也允许在旧引擎中传播参数，因为它在ECMAScript规范中被定义为可迭代的。<br />
-                 */
-                allowArrayLike: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-sticky-regex：https://babeljs.io/docs/en/babel-plugin-transform-sticky-regex
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-sticky-regex',
-            ],
-            /**
-             * @babel/plugin-transform-template-literals：https://babeljs.io/docs/en/babel-plugin-transform-template-literals
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-template-literals',
-              {
-                /**
-                 * 1、值类型：boolean，默认值：false。<br />
-                 * 2、考虑迁移到顶层assumptions选项里的mutableTemplateObject选项。<br />
-                 * 3、loose: true等同于"mutableTemplateObject": true。<br />
-                 * 4、当mutableTemplateObject为true时，标记的模板文字对象不会被冻结。所有模板字面量表达式和准词都与+运算符组合，而不是与String.prototype.concat组合。<br />
-                 * 5、当false或未设置时，所有模板字面量表达式和quasis都与String.prototype.concat组合。如果模板文字表达式是Symbol()，它将正确处理Symbol.toPrimitive的情况并正确抛出。<br />
-                 */
-                loose: false,
-              },
-            ],
-            /**
-             * @babel/plugin-transform-typeof-symbol：https://babeljs.io/docs/en/babel-plugin-transform-typeof-symbol
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-typeof-symbol',
-            ],
-            /**
-             * @babel/plugin-transform-unicode-escapes：https://babeljs.io/docs/en/babel-plugin-transform-unicode-escapes
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、编译ES2015 Unicode转义到ES5。<br />
-             */
-            [
-              '@babel/plugin-transform-unicode-escapes',
-            ],
-            /**
-             * @babel/plugin-transform-unicode-regex：https://babeljs.io/docs/en/babel-plugin-transform-unicode-regex
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-unicode-regex',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES2015（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES5（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-property-mutators：https://babeljs.io/docs/babel-plugin-transform-property-mutators
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-property-mutators',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES5（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // ES3（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/babel-plugin-transform-member-expression-literals
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-member-expression-literals',
-            ],
-            /**
-             * @babel/plugin-transform-property-literals：https://babeljs.io/docs/babel-plugin-transform-property-literals
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             */
-            [
-              '@babel/plugin-transform-property-literals',
-            ],
-            /**
-             * @babel/plugin-transform-reserved-words：https://babeljs.io/docs/babel-plugin-transform-reserved-words
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、有些词在ES3中保留为潜在的未来关键字，但在ES5及更高版本中没有保留。此插件在针对ES3环境时使用，可重命名该组单词中的变量。<br />
-             */
-            [
-              '@babel/plugin-transform-reserved-words',
-            ],
-          ]
-               : [];
-      } )( false ),
-      // ES3（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-      // 其他插件（除非是需要兼容到低端平台，否则不要启用这些） Start
-      ...( isEnable => {
-        return isEnable
-               ? [
-            /**
-             * @babel/plugin-transform-object-assign：https://babeljs.io/docs/en/babel-plugin-transform-object-assign
-             * 1、用于转译Object.assign。<br />
-             * 2、注意事项，仅适用于Object.assign或Object['assign']形式的代码。不支持以下模式：<br />
-             * var { assign } = Object;
-             * var assign = Object.assign;
-             */
-            [
-              '@babel/plugin-transform-object-assign',
-            ],
-            /**
-             * @babel/plugin-transform-object-set-prototype-of-to-assign：https://babeljs.io/docs/en/babel-plugin-transform-object-set-prototype-of-to-assign
-             * 1、用于转译Object.setPrototypeOf。<br />
-             * 2、注意：使用此插件时有一些注意事项，请参阅@babel/plugin-transform-proto-to-assign文档了解更多信息：https://babeljs.io/docs/en/babel-plugin-transform-proto-to-assign。<br />
-             * 3、要注意这个插件的使用需要上头那个插件的配合使用！没用这2个插件，就无法转译Object.setPrototypeOf，也就无法兼容IE 9。<br />
-             */
-            [
-              '@babel/plugin-transform-object-set-prototype-of-to-assign',
-            ],
-            /**
-             * @babel/plugin-transform-proto-to-assign：https://babeljs.io/docs/en/babel-plugin-transform-proto-to-assign
-             * 1、这意味着以下将起作用：<br />
-             * var foo = { a: 1 };
-             * var bar = { b: 2 };
-             * bar.__proto__ = foo;
-             * bar.a; // 1
-             * bar.b; // 2
-             * 2、但是以下内容不会，如果您打算使用此插件，则必须注意这种情况：<br />
-             * var foo = { a: 1 };
-             * var bar = { b: 2 };
-             * bar.__proto__ = foo;
-             * bar.a; // 1
-             * foo.a = 2;
-             * bar.a; // 1 - 应该是2但请记住，没有任何东西是绑定的，它是一个直接的副本。没用这个2个插件，会输出2（本来也应该输出2的），用了会输出1。
-             */
-            [
-              '@babel/plugin-transform-proto-to-assign',
-            ],
-            /**
-             * @babel/plugin-transform-regenerator：https://babeljs.io/docs/en/babel-plugin-transform-regenerator
-             * 1、注意：这个插件包含在@babel/preset-env。<br />
-             * 2、用于转译generators语法。<br />
-             */
-            [
-              '@babel/plugin-transform-regenerator',
-              {
-                asyncGenerators: true,
-                generators: true,
-                async: true,
-              },
-            ],
-          ]
-               : [];
-      } )( false ),
-      // 其他插件（除非是需要兼容到低端平台，否则不要启用这些） End
-    ];
-
-    // 预设的执行是从下往上。
-    const babelPresets = [
-      /**
-       * 用于压缩JS的预设。开发阶段不启用，生产启用。建议只做压缩，不做语法转译，转译应该交给@babel/preset-env和其他语法转译插件。<br />
-       * 1、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
-       * 2、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-       *
-       * 注意：<br />
-       * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因为删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
-       * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
-       * 例如：<br />
-       * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
-       *
-       * for( const item of arr001 ){
-       *   str001 + = item;
-       *
-       *   console.log( `index--->${ ++index }` );
-       * }
-       * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
-       */
-      ...( isProduction => {
-        return isProduction
-               ? [
-            [
-              'minify',
-              {
-                /**
-                 * babel-plugin-transform-minify-booleans：https://babeljs.io/docs/en/babel-plugin-transform-minify-booleans
-                 * 1、默认值：true。<br />
-                 */
-                booleans: true,
-                /**
-                 * babel-plugin-minify-builtins：https://babeljs.io/docs/en/babel-plugin-minify-builtins
-                 * 1、默认值：true。<br />
-                 * 2、有参数：<br />
-                 * tdz：值类型：boolean，TDZ。<br />
-                 */
-                builtIns: false,
-                /**
-                 * babel-plugin-transform-inline-consecutive-adds：https://babeljs.io/docs/en/babel-plugin-transform-inline-consecutive-adds
-                 * 1、默认值：true。<br />
-                 */
-                consecutiveAdds: true,
-                /**
-                 * babel-plugin-minify-dead-code-elimination：https://babeljs.io/docs/en/babel-plugin-minify-dead-code-elimination
-                 * 1、默认值：true。<br />
-                 * 2、有参数：<br />
-                 * optimizeRawSize：值类型：boolean。<br />
-                 * keepFnName：值类型：boolean，防止插件删除函数名。对取决于fn.name的代码很有用。<br />
-                 * keepFnArgs：值类型：boolean，防止插件删除函数参数。对取决于fn.length的代码很有用。<br />
-                 * keepClassName：值类型：boolean，防止插件删除类名。对取决于cls.name的代码很有用。<br />
-                 * tdz：值类型：boolean，TDZ。<br />
-                 */
-                deadcode: {
-                  optimizeRawSize: true,
-                  keepFnName: true,
-                  keepFnArgs: true,
-                  keepClassName: true,
-                  tdz: true,
-                },
-                /**
-                 * babel-plugin-minify-constant-folding：https://babeljs.io/docs/en/babel-plugin-minify-constant-folding
-                 * 1、默认值：true。<br />
-                 * 2、有参数：<br />
-                 * tdz：值类型：boolean，TDZ。<br />
-                 */
-                evaluate: {
-                  tdz: true,
-                },
-                /**
-                 * babel-plugin-minify-flip-comparisons：https://babeljs.io/docs/en/babel-plugin-minify-flip-comparisons
-                 * 1、默认值：true。<br />
-                 */
-                flipComparisons: false,
-                /**
-                 * babel-plugin-minify-guarded-expressions：https://babeljs.io/docs/en/babel-plugin-minify-guarded-expressions
-                 * 1、默认值：true。<br />
-                 */
-                guards: false,
-                /**
-                 * babel-plugin-minify-infinity：https://babeljs.io/docs/en/babel-plugin-minify-infinity
-                 * 1、默认值：true。<br />
-                 */
-                infinity: false,
-                /**
-                 * babel-plugin-minify-mangle-names：https://babeljs.io/docs/en/babel-plugin-minify-mangle-names
-                 * 1、默认值：true。<br />
-                 * 2、有参数：<br />
-                 * exclude：值类型：object，一个普通的JS对象，其键作为标识符名称和值指示是否排除（默认值：{}）。<br />
-                 * eval：值类型：boolean，在eval可访问的范围内修改标识符（默认值：false）。<br />
-                 * keepFnName：值类型：boolean，防止破坏更改函数名称。对取决于fn.name的代码很有用（默认值：false）。<br />
-                 * topLevel：值类型：boolean，破坏顶级标识符（默认值：false）。<br />
-                 * keepClassName：值类型：boolean，防止破坏更改类名（默认值：false）。<br />
-                 * 3、以前的版本中，当函数、类的方法的默认参数设置为常量或私有变量时，该插件会报错：Cannot read property 'add' of undefined，解决方案是直接禁用该选项：mangle: false。<br />
-                 */
-                mangle: {
-                  exclude: {},
-                  eval: false,
-                  keepFnName: true,
-                  topLevel: false,
-                  keepClassName: true,
-                },
-                /**
-                 * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/en/babel-plugin-transform-member-expression-literals
-                 * 1、默认值：true。<br />
-                 * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-member-expression-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-member-expression-literals来设置。<br />
-                 */
-                memberExpressions: false,
-                /**
-                 * babel-plugin-transform-merge-sibling-variables：https://babeljs.io/docs/en/babel-plugin-transform-merge-sibling-variables
-                 * 1、默认值：true。<br />
-                 */
-                mergeVars: true,
-                /**
-                 * babel-plugin-minify-numeric-literals：https://babeljs.io/docs/en/babel-plugin-minify-numeric-literals
-                 * 1、默认值：true。<br />
-                 */
-                numericLiterals: true,
-                /**
-                 * @babel/plugin-transform-property-literals：https://babeljs.io/docs/en/babel-plugin-transform-property-literals
-                 * 1、默认值：true。<br />
-                 * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-property-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-property-literals来设置。<br />
-                 */
-                propertyLiterals: false,
-                /**
-                 * babel-plugin-transform-regexp-constructors：https://babeljs.io/docs/en/babel-plugin-transform-regexp-constructors
-                 * 1、默认值：true。<br />
-                 */
-                regexpConstructors: true,
-                /**
-                 * babel-plugin-transform-remove-console：https://babeljs.io/docs/en/babel-plugin-transform-remove-console
-                 * 1、默认值：false。<br />
-                 * 2、有参数：<br />
-                 * exclude：值类型：array，要从删除中排除的一组控制台方法。<br />
-                 * 3、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
-                 * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-                 *
-                 * 这里有个注意事项！！！<br />
-                 * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
-                 * 说明：<br />
-                 * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
-                 * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
-                 * 例如：<br />
-                 * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
-                 *
-                 * for( const item of arr001 ){
-                 *   str001 + = item;
-                 *
-                 *   console.log( `index--->${ ++index }` );
-                 * }
-                 * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
-                 *
-                 * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
-                 */
-                removeConsole: ( () => {
-                  if( env_platform === 'dev_server' ){
-                    return false;
-                  }
-                  else if( env_platform === 'local_server' ){
-                    return false;
-
-                  }
-                  else if( env_platform === 'test' ){
-                    return false;
-
-                  }
-                  else if( env_platform === 'production' ){
-                    return true;
-
-                  }
-                  else{
-                    return false;
-                  }
-                } )(),
-                /**
-                 * babel-plugin-transform-remove-debugger：https://babeljs.io/docs/en/babel-plugin-transform-remove-debugger
-                 * 1、默认值：false。<br />
-                 * 2、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
-                 * 3、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-                 * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-                 *
-                 * 这里有个注意事项！！！<br />
-                 * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
-                 * 说明：<br />
-                 * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
-                 * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
-                 * 例如：<br />
-                 * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
-                 *
-                 * for( const item of arr001 ){
-                 *   str001 + = item;
-                 *
-                 *   console.log( `index--->${ ++index }` );
-                 * }
-                 * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
-                 *
-                 * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
-                 */
-                removeDebugger: ( () => {
-                  if( env_platform === 'dev_server' ){
-                    return false;
-                  }
-                  else if( env_platform === 'local_server' ){
-                    return false;
-
-                  }
-                  else if( env_platform === 'test' ){
-                    return false;
-
-                  }
-                  else if( env_platform === 'production' ){
-                    return true;
-
-                  }
-                  else{
-                    return false;
-                  }
-                } )(),
-                /**
-                 * babel-plugin-transform-remove-undefined：https://babeljs.io/docs/en/babel-plugin-transform-remove-undefined
-                 * 1、默认值：true。<br />
-                 * 2、对于函数，这将删除评估为未定义的返回参数。<br />
-                 */
-                removeUndefined: {
-                  tdz: true,
-                },
-                /**
-                 * babel-plugin-minify-replace：https://babeljs.io/docs/en/babel-plugin-minify-replace
-                 * 1、默认值：true。<br />
-                 * 2、有参数：<br />
-                 * replacements：值类型：array[ { identifierName: string, replacement: { type: string, value: boolean }, } ]。<br />
-                 */
-                replace: false,
-                /**
-                 * babel-plugin-minify-simplify：https://babeljs.io/docs/en/babel-plugin-minify-simplify
-                 * 1、默认值：true。<br />
-                 * 2、将语句简化为表达式，使表达尽可能统一以获得更好的可压缩性。<br />
-                 */
-                simplify: false,
-                /**
-                 * babel-plugin-transform-simplify-comparison-operators：https://babeljs.io/docs/en/babel-plugin-transform-simplify-comparison-operators
-                 * 1、默认值：true。<br />
-                 */
-                simplifyComparisons: false,
-                /**
-                 * babel-plugin-minify-type-constructors：https://babeljs.io/docs/en/babel-plugin-minify-type-constructors
-                 * 1、默认值：true。<br />
-                 * 2、有参数：<br />
-                 * array：值类型：boolean，防止插件缩小数组。<br />
-                 * boolean：值类型：boolean，防止插件缩小布尔值。<br />
-                 * number：值类型：boolean，防止插件缩小数字。<br />
-                 * object：值类型：boolean，防止插件缩小对象。<br />
-                 * string：值类型：boolean，防止插件缩小字符串。<br />
-                 */
-                typeConstructors: false,
-                /**
-                 * babel-plugin-transform-undefined-to-void：https://babeljs.io/docs/en/babel-plugin-transform-undefined-to-void
-                 * 1、默认值：true。<br />
-                 * 2、这个插件将undefined转换为void 0，无论它是否被重新分配，它都会返回undefined。<br />
-                 */
-                undefinedToVoid: true,
-              },
-            ],
-          ]
-               : [];
-      } )( isProduction ),
-      /**
-       * @babel/preset-env。<br />
-       * 1、注意：@babel/preset-env不会包含任何低于第3阶段的JavaScript语法提案，因为在TC39流程的那个阶段，无论如何它都不会被任何浏览器实现。如果需要它，需要手动包含在内。<br />
-       * 2、shippingProposals选项将包括一些浏览器已经实现的第3阶段提案。<br />
-       * 3、@babel/preset-env获取您指定的任何目标环境，并根据其映射检查它们以编译插件列表并将其传递给Babel。<br />
-       * 4、默认情况下，@babel/preset-env将使用browserslist配置源，除非设置了targets或ignoreBrowserslistConfig选项。<br />
-       */
-      [
-        '@babel/preset-env',
-        {
-          /**
-           * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
-           * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
-           * 说明：表示当编译目标为chrome < 94, firefox < 93, opera < 80, safari这些时，会启用“proposal-class-static-block”。<br />
-           */
-          debug: isBabelDebug,
-          targets: babel_targets,
-          /**
-           * 注意：这些优化将在Babel 8中默认启用。<br />
-           * 1、值类型：boolean，默认值：false。<br />
-           * 2、v7.9.0开始添加的。<br />
-           */
-          bugfixes: true,
-          /**
-           * 为此预设中支持它们的任何插件启用更符合规范但可能更慢的转换。<br />
-           * 1、值类型：boolean，默认值：false。<br />
-           */
-          spec: true,
-          /**
-           * 为此预设中允许它们的任何插件启用“松散”转换。<br />
-           * 1、值类型：boolean，默认值：false。<br />
-           * 2、考虑迁移到自Babel 7.13以来可用的顶层assumptions选项（在babel-loader的options选项下的assumptions选项），见：https://babeljs.io/docs/en/assumptions。
-           */
-          loose: false,
-          /**
-           * 启用将ES模块语法转换为另一种模块类型。<br />
-           * 1、有效值："amd"、"umd"、"systemjs"、"commonjs"、"cjs"、"auto"、false，请注意，'cjs'只是'commonjs'的别名，默认值为：'auto'。<br />
-           * 2、将此设置为false将保留ES模块。仅当您打算将本机ES模块发送到浏览器时才使用此选项。<br />
-           * 3、如果你使用Babel打包器，默认的modules: "auto"总是首选。<br />
-           * 4、默认情况下，@babel/preset-env使用调用者数据来确定是否应该转换ES模块和模块特性，例如：import()。<br />
-           * 5、关于modules设置为false时的重点：<br />
-           * 所有可需要tree-shaking的代码必须以ES模块方式编译。<br />
-           * 因此，如果你有要导入的库，则必须将这些库编译为ES模块以便进行tree-shaking。<br />
-           * 如果它们被编译为commonjs，那么它们就不能做tree-shaking，并且将会被打包进你的应用程序中。<br />
-           * 许多库支持部分导入，lodash就是一个很好的例子，它本身是commonjs模块，但是它有一个lodash-es版本，用的是ES模块。<br />
-           * 此外，如果你在应用程序中使用内部库，也必须使用ES模块编译。为了减少应用程序包的大小，必须将所有这些内部库修改为以这种方式编译。<br />
-           */
-          modules: 'auto',
-          /**
-           * 此选项配置@babel/preset-env如何处理polyfill。<br />
-           * 1、有效值："usage"、"entry"、false，默认值为false。<br />
-           * 2、当使用'usage'或'entry'时，@babel/preset-env将添加对core-js模块的直接引用作为裸imports或requires。这意味着core-js将相对于文件本身进行解析，并且需要可访问。<br />
-           * 3、由于@babel/polyfill在7.4.0中已弃用，我们建议直接添加core-js并通过corejs选项设置版本。<br />
-           * 4、'entry'表示在入口处显示的导入core-js，如：import "core-js";，这样的代码在项目中只能存在1次，如果出现第2次会报错，个人不建议用这个值，'usage'这个值最好了。<br />
-           * 5、'usage'在每个文件中使用polyfill时为它们添加特定的import。我们利用了捆绑器只会加载相同的polyfill一次这一事实。这个值最好了。<br />
-           * 6、关于3个值的说明：<br />
-           * false：无视target.browsers将所有Polyfill加载进来。<br />
-           * entry：根据target.browsers将部分Polyfill加载进来(仅引入有浏览器不支持的Polyfill，需在入口文件import 'core-js/stable')。<br />
-           * usage：根据target.browsers和检测代码里ES6的使用情况将部分Polyfill加载进来(无需在入口文件import 'core-js/stable')。<br />
-           */
-          useBuiltIns: 'usage',
-          /**
-           * 7.4版本的插件写法发生巨变！该选项在v 7.4.0开始添加的。<br />
-           * 1、值类型：string、object（{ version: string, proposals: boolean }），默认值："2.0"。<br />
-           * 2、version选项的值是一个字符串，其可以是任何受支持的core-js版本号。例如，“3.8”或“2.0”。<br />
-           * 3、此选项仅在与useBuiltIns的值为'usage'、'entry'一起使用时有效。<br />
-           * 4、建议指定次要版本，否则“3”将被解释为“3.0”，其中可能不包括最新功能的polyfill。<br />
-           * 5、默认情况下，只注入稳定的ECMAScript特性的polyfill：如果你想polyfill提案，你有三个不同的选项：<br />
-           * 使用useBuiltIns: "entry"时，可以直接导入一个提案polyfill：import "core-js/proposals/string-replace-all"。<br />
-           * 使用useBuiltIns: "usage"时，您有2种不同的选择：<br />
-           * 将shippingProposals选项设置为true。这将为已经在浏览器中提供一段时间的提案启用polyfill和转换。<br />
-           * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
-           */
-          corejs: {
-            version: ( () => {
-              const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
-
-              if( coreJSVersionStr ){
-                const str1 = String( coreJSVersionStr ).trim();
-
-                if( /^[0-9]/i.test( str1 ) ){
-                  return str1;
-                }
-                else{
-                  return str1.slice( 1 );
-                }
-              }
-              else{
-                throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
-              }
-            } )() || '3.36.1',
-            proposals: true,
-          },
-          /**
-           * 1、值类型：boolean，默认值：false。<br />
-           * 2、借助Babel 7的JavaScript配置文件支持，如果env设置为production，您可以强制运行所有转换。<br />
-           * 3、注意：targets.uglify选项已被弃用，并将在下一个主要版本中删除。<br />
-           * 4、默认情况下，此预设将运行目标环境所需的所有转换。<br />
-           * 5、如果您想强制运行所有转换，请启用此选项，如果输出将通过UglifyJS或仅支持ES5的环境运行这很有用。<br />
-           */
-          forceAllTransforms: false,
-          shippedProposals: true,
-        },
-      ],
-    ];
-
-    const babelPresetsJSX = [
-      ...babelPresets,
-      /**
-       * 1、此预设始终包含以下插件：<br />
-       * @babel/plugin-syntax-jsx <br />
-       * @babel/plugin-transform-react-jsx <br />
-       * @babel/plugin-transform-react-display-name <br />
-       * 2、当启用development选项时，并且设定runtime选项值为：classic，还支持下述2个插件：<br />
-       * @babel/plugin-transform-react-jsx-self <br />
-       * @babel/plugin-transform-react-jsx-source <br />
-       * 3、启用development选项时，并且设定runtime选项值为：automatic，自v7.9.0起，会自动添加上面2个插件。但是，如果你设定runtime选项值为：automatic，又手动添加上述2个插件就会出报错。<br />
-       */
-      [
-        '@babel/preset-react',
-        {
-          /**
-           * 自v 7.9.0开始添加该选项，决定使用哪个运行时。<br />
-           * 1、值类型：string（只有2个有效值：'automatic'、'classic'），默认值：'classic'。<br />
-           * 2、值'automatic'会自动导入JSX转译成的函数，值'classic'不会自动导入任何东西。<br />
-           */
-          runtime: 'automatic',
-          /**
-           * 这会切换特定于开发的行为，例如添加__source和__self。<br />
-           * 1、值类型：boolean，默认值：false。<br />
-           */
-          development: !isProduction,
-          /**
-           * 如果使用XML命名空间标记名称，则切换是否引发错误。<br />
-           * 1、值类型：boolean，默认值：true。<br />
-           * 2、尽管JSX规范允许这样做，但默认情况下它是禁用的，因为React的JSX目前不支持它：<br />
-           * <f: image />
-           */
-          throwIfNamespace: true,
-          /**
-           * 启用@babel/plugin-transform-react-pure-annotations，它将顶级React方法调用标记为tree shaking。<br />
-           * 1、值类型：boolean，默认值：true。<br />
-           */
-          pure: true,
-        },
-      ],
-    ];
-
-    const babelLoaderConfig = {
-      /**
-       * 如果选项中的值设置为true，加载器将使用node_modules/.cache/babel-loader中的默认缓存目录，或者如果在任何根目录中都找不到node_modules文件夹，则回退到默认的操作系统临时文件目录。<br />
-       * 1、值类型：boolean，默认值：false。<br />
-       */
-      cacheDirectory: !isProduction,
-      /**
-       * 设置后，每个Babel转换输出都将使用Gzip进行压缩。如果您想退出缓存压缩，请将其设置为false，如果您的项目转译了数千个文件，您的项目可能会从中受益。<br />
-       * 1、值类型：boolean，默认值：true。<br />
-       */
-      cacheCompression: isProduction,
-      plugins: babelPlugins,
-      presets: babelPresets,
-      targets: babel_targets,
-      /**
-       * 1、值类型：string，默认值：'module'，有效值有：'script'、'module'、'unambiguous'。<br />
-       * 2、script：使用ECMAScript脚本语法解析文件。不允许导入/导出语句，并且文件不是严格模式。<br />
-       * 3、module：使用ECMAScript模块语法解析文件。文件是自动严格的，并且允许import、export语句。<br />
-       * 4、unambiguous：如果存在import、export语句，则将文件视为'module'，否则将其视为'script'。<br />
-       * 5、unambiguous在类型未知的上下文中非常有用，但它可能导致错误匹配，因为拥有不使用import、export语句的模块文件是完全有效的。<br />
-       * 6、此选项很重要，因为当前文件的类型会影响输入文件的解析，以及可能希望将import、require用法添加到当前文件的某些转换。<br />
-       * 7、例如，@babel/plugin-transform-runtime依赖于当前文档的类型来决定是插入一个import声明，还是一个require()调用。<br />
-       * 8、@babel/preset-env也对自己的“useBuiltIns”选项做同样的事情。<br />
-       * 9、由于Babel默认将文件处理为ES模块，因此这些plugins、presets通常会插入import语句。<br />
-       * 10、设置正确的sourceType可能很重要，因为错误的类型会导致Babel将import语句插入到本来应该是CommonJS文件的文件中。<br />
-       * 11、这在正在执行node_modules依赖项编译的项目中尤其重要，因为插入import语句可能会导致Webpack和其他工具将文件视为ES模块。破坏原本可以正常工作的CommonJS文件。<br />
-       * 12、注意：此选项不会影响.mjs文件的解析，因为它们目前被硬编码为始终解析为'module'文件。<br />
-       */
-      sourceType: 'unambiguous',
-      // 在Babel的错误消息中突出显示代码片段中的标记，使其更易于阅读。
-      highlightCode: true,
-      // 一个不透明的对象，包含传递给正在使用的解析器的选项。
-      parserOpts: {
-        // 默认情况下，解析器在表达式节点上设置extra.parenthesized。当此选项设置为true时，将创建ParenthesizedExpression AST节点。
-        // createParenthesizedExpressions: true,
-        /**
-         * 默认情况下，Babel在发现一些无效代码时总是会抛出错误。当此选项设置为true时，它将存储解析错误并尝试继续解析无效的输入文件。<br />
-         * 1、生成的AST将有一个errors属性，表示所有解析错误的数组。请注意，即使启用此选项，@babel/parser也可能抛出不可恢复的错误。<br />
-         */
-        // errorRecovery: true,
-        // 将输出AST节点与其源文件名相关联。从多个输入文件的AST生成代码和源映射时很有用。
-        // sourceFilename: true,
-        // 默认情况下，解析的代码被视为从第1行第0列开始。您可以提供一个列号以替代开始。对于与其他源工具的集成很有用。
-        // startColumn: 0,
-        // 默认情况下，解析的代码被视为从第1行第0列开始。您可以提供一个行号以替代开始。对于与其他源工具的集成很有用。
-        // startLine: 1,
-        // 默认情况下，导入和导出声明只能出现在程序的顶层。将此选项设置为true允许它们在任何允许声明的地方出现。
-        allowImportExportEverywhere: false,
-        // 默认情况下，await只允许在异步函数内部使用，或者在启用topLevelAwait插件时，在模块的顶级范围内使用。将此设置为true以在脚本的顶级范围内也接受它。不鼓励使用此选项以支持topLevelAwait插件。
-        allowAwaitOutsideFunction: true,
-        // 默认情况下，new.target的使用在函数或类之外是不允许的。将此设置为 "true "以接受此类代码。
-        allowNewTargetOutsideFunction: false,
-        // 默认情况下，顶层的return语句会引发错误。将此设置为true以接受此类代码。
-        allowReturnOutsideFunction: true,
-        // 默认情况下，不允许在类和对象方法之外使用super。将此设置为true以接受此类代码。
-        allowSuperOutsideMethod: true,
-        /**
-         * 默认情况下，导出未在当前模块范围内声明的标识符将引发错误。<br />
-         * 1、虽然这种行为是ECMAScript模块规范所要求的，但Babel的解析器无法预测插件管道中稍后可能插入适当声明的转换。<br />
-         * 2、所以有时将此选项设置为true以防止解析器过早地抱怨稍后将添加的未声明的导出很重要。<br />
-         */
-        allowUndeclaredExports: true,
-        /**
-         * 默认情况下，Babel将注释附加到相邻的AST节点。当此选项设置为false时，不会附加注释。当输入代码有很多注释时，它可以提供高达30%的性能提升。<br />
-         */
-        // 1、@babel/eslint-parser会为你设置。不建议将attachComment: false与Babel转换一起使用，因为这样做会删除输出代码中的所有注释，并呈现/* istanbul ignore next */等注释。
-        attachComment: true,
-        // 默认情况下，Babel根据ECMAScript的附件B "网络浏览器的附加ECMAScript功能 "语法来解析JavaScript。当这个选项设置为false时，Babel将解析没有附件B特定扩展的语法。
-        // annexb: true,
-        // 同上面的sourceType选项。
-        sourceType: 'unambiguous',
-        // 默认情况下，仅当存在'use strict'指令或解析的文件是ECMAScript模块时，ECMAScript代码才会解析为严格。将此选项设置为true以始终以严格模式解析文件。
-        strictMode: true,
-        ...( isEnable => {
-          return isEnable
-                 ? {
-              plugins: [
-                // Language extensions Start
-
-                /**
-                 * 1、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
-                 * 2、placeholders跟v8intrinsic不能同时使用。
-                 */
-                // 'placeholders',
-                /**
-                 * 1、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
-                 * 2、placeholders跟v8intrinsic不能同时使用。
-                 */
-                // 'v8intrinsic',
-                // flow跟typescript不能同时使用。
-                /*
-                 [
-                 'flow',
-                 {
-                 // 默认值为：false。
-                 all: false,
-                 enums: true,
-                 },
-                 ],
-                 */
-                // flow跟typescript不能同时使用。
-                [
-                  'typescript',
-                  {
-                    // 默认值为：false。
-                    dts: false,
-                    // 默认值为：false。
-                    disallowAmbiguousJSXLike: false,
-                  },
-                ],
-                'flowComments',
-                'jsx',
-
-                // Language extensions End
-
-                // ECMAScript proposals Start
-
-                'doExpressions',
-                'explicitResourceManagement',
-                // asyncDoExpressions依赖上面的doExpressions。
-                'asyncDoExpressions',
-                'decimal',
-                // decorators和decorators-legacy不能同时使用，建议使用decorators。
-                // 'decorators-legacy',
-                // decorators和decorators-legacy不能同时使用，建议使用decorators。
-                [
-                  'decorators',
-                  {
-                    // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-                    decoratorsBeforeExport: false,
-                    // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-                    allowCallParenthesized: false,
-                  },
-                ],
-                'decoratorAutoAccessors',
-                'destructuringPrivate',
-                'exportDefaultFrom',
-                'functionBind',
-                // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                // 'importAssertions',
-                // importAttributes已经取代了importAssertions。
-                [
-                  'importAttributes',
-                  {
-                    deprecatedAssertSyntax: true,
-                  },
-                ],
-                'importReflection',
-                // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                /*
-                 [
-                 'moduleAttributes',
-                 {
-                 version: 'may-2020',
-                 },
-                 ],
-                 */
-                'moduleBlocks',
-                'partialApplication',
-                [
-                  'pipelineOperator',
-                  {
-                    /**
-                     * 1、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                     * 2、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
-                     * 3、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
-                     * 4、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                     */
-                    proposal: 'hack',
-                    /**
-                     * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                     */
-                    topicToken: '^^',
-                  },
-                ],
-                [
-                  'recordAndTuple',
-                  {
-                    /**
-                     * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                     * 2、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                     */
-                    syntaxType: 'hash',
-                  },
-                ],
-                'regexpUnicodeSets',
-                'throwExpressions',
-                'importMeta',
-                [
-                  'estree',
-                  {
-                    classFeatures: true,
-                  },
-                ],
-
-                // ECMAScript proposals End
-
-                // Latest ECMAScript features Start
-
-                'asyncGenerators',
-                'bigInt',
-                'classPrivateMethods',
-                'classPrivateProperties',
-                'classProperties',
-                // Enabled by default
-                'classStaticBlock',
-                'dynamicImport',
-                // deprecated
-                'exportNamespaceFrom',
-                'functionSent',
-                'logicalAssignment',
-                'moduleStringNames',
-                'nullishCoalescingOperator',
-                'numericSeparator',
-                'objectRestSpread',
-                'optionalCatchBinding',
-                'optionalChaining',
-                // Enabled by default
-                'privateIn',
-                'topLevelAwait',
-
-                // Latest ECMAScript features End
-              ],
-            }
-                 : {};
-        } )( false ),
-      },
-      /**
-       * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。<br />
-       * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
-       * minified: true,
-       * comments: true,
-       * shouldPrintComment: () => true,
-       */
-      generatorOpts: {
-        /**
-         * Babel将努力生成代码，以便将项目打印在与原始文件中相同的行上。<br />
-         * 1、值类型：boolean，默认值：false。<br />
-         * 2、存在此选项是为了让无法使用源映射的用户可以获得模糊有用的错误行号，但这只是尽力而为，并不保证在所有情况下都适用于所有插件。<br />
-         */
-        retainLines: !isProduction,
-        /**
-         * 在紧凑模式下生成代码时，将省略所有可选的换行符和空格。<br />
-         * 1、值类型：boolean、string（只有一个有效值：'auto'），默认值：'auto'。<br />
-         * 2、“auto”将通过评估来设置值：code.length > 500_000。<br />
-         */
-        compact: isProduction,
-        // 设置为true以减少空格，但不如上面的compact选项减少的那么多。
-        concise: isProduction,
-        // 保留函数表达式周围的括号，可用于更改引擎解析行为。
-        retainFunctionParens: true,
-        /**
-         * 当compact: true时，省略块尾分号，在可能的情况下从new Foo()中省略 ()，并且可能输出较短版本的文字。<br />
-         * 1、值类型：boolean，默认值：false。<br />
-         */
-        minified: isProduction,
-        /**
-         * 如果没有给出函数，则为下面shouldPrintComment选项提供默认的评论状态。有关详细信息，请参阅下面的shouldPrintComment该选项的默认值。<br />
-         * 1、值类型：boolean，默认值：true。<br />
-         */
-        comments: true,
-        /**
-         * 一个函数，可以决定给定的注释是否应该包含在Babel的输出代码中。<br />
-         * 1、值类型：function（ ( value: string ) => boolean ），默认值：<br />
-         * 没有上面的minified选项（如果有但是值为false）时，默认值为：( val ) => opts.comments || /@license|@preserve/.test( val ) 。<br />
-         * 有上面的minified选项（且值为true）时，默认值为：() => opts.comments 。<br />
-         */
-        shouldPrintComment: () => true,
-        // 设置为true以在输出中“export”之前打印装饰符。在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-        decoratorsBeforeExport: false,
-        recordAndTupleSyntaxType: 'hash',
-        topicToken: '^^',
-      },
-      /**
-       * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
-       * 1、详细文档见：https://babeljs.io/docs/en/assumptions。<br />
-       * 2、从Babel 7.13.0开始，您可以在配置中指定一个假设选项来告诉Babel它可以对您的代码做出哪些假设，从而更好地优化编译结果。注意：这取代了插件中的各种松散选项，取而代之的是可以应用于多个插件的顶级选项（RFC链接）。<br />
-       * 3、这是高级功能。启用假设时请小心，因为它们不符合规范，并且可能会以意想不到的方式破坏您的代码。<br />
-       * 4、当前下面的配置全被我设置成false，以使用非宽松的规范语法去转译它们。<br />
-       */
-      ...( isEnable => {
-        return isEnable
-               ? {
-            assumptions: {
-              /**
-               * 当传播或迭代类似数组的对象时，假设它实现了一个与原生Array.prototype[Symbol.iterator]具有相同行为的[Symbol.iterator]方法，因此直接按索引对其元素进行迭代。<br />
-               * 1、这可能很有用，例如，在旧浏览器中迭代DOM集合。<br />
-               */
-              arrayLikeIsIterable: false,
-              /**
-               * 从模块重新导出绑定时，假设它没有更改，因此直接导出它是安全的。<br />
-               * 1、注意：这也会影响transform-modules-umd和transform-modules-amd插件。<br />
-               */
-              constantReexports: false,
-              /**
-               * 使用Object.setPrototypeOf可以随时更改类的超类，使Babel无法静态知道它。启用此选项后，Babel假定它从未更改过，因此它始终是放置在类声明中的extends子句中的值。<br />
-               */
-              constantSuper: false,
-              /**
-               * 在将ESM编译为CJS时，Babel在module.exports对象上定义了一个__esModule属性。假设您从未使用for..in或Object.keys遍历module.exports或require("your-module")的键，因此将__esModule定义为可枚举是安全的。<br />
-               */
-              enumerableModuleMeta: false,
-              /**
-               * 函数有一个.length属性，它反映了参数的数量，直到最后一个非默认参数。启用此选项后，假定编译后的代码不依赖此.length属性。
-               */
-              ignoreFunctionLength: false,
-              /**
-               * 当使用可能调用对象的[Symbol.toPrimitive]方法的语言功能时，假设它们不会根据提示参数改变其行为。
-               */
-              ignoreToPrimitiveHint: false,
-              /**
-               * 使用可迭代对象时（在数组解构、for-of 或...扩展中），假设它是一个数组。
-               */
-              iterableIsArray: false,
-              /**
-               * 不要将Object.freeze用于为标记模板文字创建的模板对象。这实际上意味着使用taggedTemplateLiteralLoose助手而不是taggedTemplateLiteral。
-               */
-              mutableTemplateObject: false,
-              /**
-               * 转换类时，假设它们总是用new实例化并且它们从不被称为函数。
-               */
-              noClassCalls: false,
-              /**
-               * 使用检查null或undefined的运算符时，假定它们从未与特殊值document.all一起使用。
-               */
-              noDocumentAll: false,
-              /**
-               * 假设在初始化之前没有观察到模块导出对象的自身属性。例如，当尝试访问ns.foo时，无论打开还是关闭此假设，它都会返回undefined。<br />
-               * 1、不同之处在于Object.prototype.hasOwnProperty.call(ns, "foo")在noIncompleteNsImportDetection: true时会返回false。<br />
-               */
-              noIncompleteNsImportDetection: false,
-              /**
-               * 假设代码从不尝试使用new实例化箭头函数，根据规范这是不允许的。<br />
-               * 1、注意：此默认为true。从Babel 8开始，它将默认为false。<br />
-               */
-              noNewArrows: false,
-              /**
-               * 在对象解构中使用休息模式时，假设解构对象没有符号键，或者如果不复制它们就没有问题。
-               */
-              objectRestNoSymbols: false,
-              /**
-               * 假设“软隐私”对于私有字段就足够了，因此它们可以存储为具有唯一名称的公共不可枚举属性（而不是使用外部WeakMap）。这使得调试编译的私有字段更容易。
-               */
-              privateFieldsAsProperties: false,
-              /**
-               * 假设getter（如果存在）没有副作用并且可以多次访问。
-               */
-              pureGetters: false,
-              /**
-               * 声明类时，假设方法不会影响超类上的getter，并且程序不依赖于不可枚举的方法。因此，分配方法而不是使用Object.defineProperty是安全的。
-               */
-              setClassMethods: false,
-              /**
-               * 使用计算对象属性时，假设对象不包含覆盖同一对象中定义的setter 的属性，因此分配它们而不是使用Object.defineProperty定义它们是安全的。
-               */
-              setComputedProperties: false,
-              /**
-               * 使用公共类字段时，假设它们不会影响当前类、其子类或超类中的任何getter。因此，分配它们而不是使用Object.defineProperty是安全的。
-               */
-              setPublicClassFields: false,
-              /**
-               * 使用对象扩展时，假设扩展的属性不会触发目标对象上的getter，因此分配它们而不是使用Object.defineProperty定义它们是安全的。
-               */
-              setSpreadProperties: false,
-              /**
-               * 将for-of与迭代器一起使用时，应始终使用.return()和.throw()将其关闭以防出错。当调用此选项时，Babel假定这些方法未定义或为空，并避免调用它们。
-               */
-              skipForOfIteratorClosing: false,
-              /**
-               * 扩展类时，假设超类是可调用的。这意味着无法扩展原生类或内置函数，只能扩展已编译的类或ES5函数构造函数。
-               */
-              superIsCallableConstructor: false,
-            },
-          }
-               : {};
-      } )( false ),
-    };
-
-    const babelLoaderJSXConfig = Object.assign( {}, babelLoaderConfig, {
-      presets: babelPresetsJSX,
-    } );
-
     // 不通过webpack处理css中以如下设置的值开头的url。
     const cssLoader_url_import_IgnoreArr1 = [
       '../static/',
@@ -5145,29 +3136,2010 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       } )(),
     ];
 
-    const postCSSLoader = {
-        loader: 'postcss-loader',
-        options: {
-          implementation: postcss,
-          // 在CSS-in-JS中启用PostCSS Parser支持。如果您使用JS样式的postcss-js解析器，请添加执行选项为true。
-          execute: false,
-          sourceMap: false,
-          postcssOptions: {
-            config: resolve( __dirname, './postcss.config.mjs' ),
+    // 注意插件之间的顺序！插件的执行是从上往下。
+    const babelPlugins = [
+        /**
+         * 关于插件的注意事项：<br />
+         * 1、@babel/plugin-transform-runtime已经包含了@babel/plugin-external-helpers的功能了，用@babel/plugin-transform-runtime就好，不需要再手动明确使用@babel/plugin-external-helpers。<br />
+         * 2、注意：@babel/preset-env不会包含任何低于第3阶段的JavaScript语法提案，因为在TC39流程的那个阶段，无论如何它都不会被任何浏览器实现。如果需要它，需要手动包含在内。<br />
+         */
+
+        /**
+         * @babel/plugin-transform-runtime：https://babeljs.io/docs/en/babel-plugin-transform-runtime
+         * 1、一个插件，可以重用Babel的注入帮助代码以节省代码大小。<br />
+         * 2、转换插件通常仅在开发中使用，但运行时本身将取决于您部署的代码。<br />
+         * 3、Babel使用非常小的助手来处理常见的功能，例如_extend。默认情况下，这将添加到需要它的每个文件中。这种重复有时是不必要的，尤其是当您的应用程序分布在多个文件中时。<br />
+         * 4、这就是@babel/plugin-transform-runtime插件的用武之地：所有的助手都将引用模块@babel/runtime以避免编译输出的重复。运行时将编译到您的构建中。<br />
+         * 5、这个转换器的另一个目的是为您的代码创建一个沙盒环境。如果直接导入core-js或@babel/polyfill以及它提供的Promise、Set和Map等内置函数，会污染全局作用域。<br />
+         */
+        [
+          '@babel/plugin-transform-runtime',
+          {
+            // 这个选项在v7中被删除，只是将其设为默认值。
+            // polyfill: null,其实我也不知道它的值类型。
+            // 这个选项在v7中被删除，只是将其设为默认值。
+            // useBuiltIns: null,其实我也不知道它的值类型。
+            // 值类型：boolean，默认值：false，从v 7.13.0版本开始此选项已被弃用。
+            // useESModules: false,
+
+            corejs: {
+              version: 3,
+              proposals: true,
+            },
+            version: ( () => {
+              const runtimeCoreJS3VersionStr = package_json.devDependencies[ '@babel/runtime-corejs3' ];
+
+              if( runtimeCoreJS3VersionStr ){
+                const str1 = String( runtimeCoreJS3VersionStr ).trim();
+
+                if( /^[0-9]/i.test( str1 ) ){
+                  return str1;
+                }
+                else{
+                  return str1.slice( 1 );
+                }
+              }
+              else{
+                throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
+              }
+            } )() || '7.24.4',
+            helpers: true,
+            // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
+            regenerator: true,
+            absoluteRuntime: false,
           },
+        ],
+
+        /**
+         * babel-plugin-transform-jsbi-to-bigint：https://github.com/GoogleChromeLabs/babel-plugin-transform-jsbi-to-bigint
+         * 1、将在当今环境中工作的JSBI代码编译为本机BigInt代码。<br />
+         * 2、除非明确目标浏览器支持bigint语法，否则不要使用该插件。<br />
+         * 3、如果未来babel支持对bigint进行语法转译，则可以启用该插件，当前babel只支持bigint语法上的识别，不进行bigint转译。<br />
+         * 4、该插件要在@babel/plugin-syntax-bigint之前，如果未来babel出了bigint语法转译插件，也要保证该插件在其之前。<br />
+         */
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              [
+                'babel-plugin-transform-jsbi-to-bigint',
+              ],
+            ]
+                 : [];
+        } )( false ),
+
+        /**
+         * @babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression：https://babeljs.io/docs/babel-plugin-bugfix-safari-id-destructuring-collision-in-function-expression
+         * 1、这个错误修复插件重新命名了结构化参数，以解决影响10至16.2版本的Safari浏览器的一个错误。该插件所要解决的BUG描述见：https://bugs.webkit.org/show_bug.cgi?id=220517。<br />
+         * 2、主要描述：<br />
+         * 可以正常工作的写法：
+         * function a({ test: a }) { console.log(a); }
+         * let b = a;
+         *
+         * 不可以正常工作，且会报语法错误的写法：Duplicate parameter <name> not allowed in function with destructuring parameters.
+         * let b = function a({ test: a }) { console.log(a); };
+         * 3、这个插件包含在@babel/preset-env中。将bugfixes选项设置为true，这样当你的目标受到浏览器bug影响时，Babel会自动为你启用这个插件。
+         */
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              [
+                '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression',
+              ],
+            ]
+                 : [];
+        } )( false ),
+
+        /**
+         * @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining：https://babeljs.io/docs/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining
+         * 1、这个bugfix插件转换了可选的链式运算符, 以解决一个影响8.0至9.0版本的V8 bug。该插件所要解决的BUG描述见：https://bugs.chromium.org/p/v8/issues/detail?id=11558。<br />
+         * 2、主要描述：TypeError: Function.prototype.apply was called on undefined, which is a undefined and not a function.<br />
+         * Input: undefined?.(...[], 1)
+         * Output（报错）:
+         * undefined?.(...[], 1)
+         * 3、这个插件包含在@babel/preset-env中。将bugfixes选项设置为true，这样当你的目标受到浏览器bug影响时，Babel会自动为你启用这个插件。
+         */
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              [
+                '@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining',
+              ],
+            ]
+                 : [];
+        } )( false ),
+
+        // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-syntax-import-reflection：https://babeljs.io/docs/babel-plugin-syntax-import-reflection
+               * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
+               * 2、此插件使Babel能够解析导入反射：
+               * import module foo from "./foo.wasm";
+               */
+              [
+                '@babel/plugin-syntax-import-reflection',
+              ],
+
+              // 处于提案第1阶段！
+              /**
+               * @babel/plugin-syntax-decimal：https://github.com/tc39/proposal-decimal
+               * 1、目前该提案处于第1阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+               */
+              [
+                '@babel/plugin-syntax-decimal',
+              ],
+              /**
+               * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-do-expressions、https://github.com/tc39/proposal-do-expressions
+               * 1、它可以看作是三元运算符的复杂版本。<br />
+               * 2、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-do-expressions',
+              ],
+              /**
+               * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-async-do-expressions、https://github.com/tc39/proposal-async-do-expressions
+               * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 2、该插件需要在@babel/plugin-transform-async-to-generator之前。<br />
+               */
+              [
+                '@babel/plugin-proposal-async-do-expressions',
+              ],
+              /**
+               * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from、https://github.com/tc39/proposal-export-default-from
+               * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-export-default-from',
+              ],
+              /**
+               * @babel/plugin-proposal-partial-application：https://babeljs.io/docs/en/babel-plugin-proposal-partial-application、https://github.com/tc39/proposal-partial-application
+               * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-partial-application',
+              ],
+
+              // 处于提案第2阶段！
+              /**
+               * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-js-module-blocks、https://github.com/tc39/proposal-module-expressions
+               * 1、目前该提案处于第2阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+               */
+              [
+                '@babel/plugin-syntax-module-blocks',
+              ],
+              /**
+               * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent、https://github.com/tc39/proposal-function.sent
+               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-function-sent',
+              ],
+              /**
+               * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator、https://github.com/tc39/proposal-pipeline-operator
+               * 1、“pipeline operator”有几个相互竞争的提议。使用所需的“proposal”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
+               * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"、"topicToken": "%"、"topicToken": "@@"。<br />
+               * 3、"proposal": "minimal"、"fsharp"、"smart"这3个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
+               * 4、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-pipeline-operator',
+                {
+                  proposal: 'hack',
+                  topicToken: '^^',
+                },
+              ],
+              /**
+               * @babel/plugin-proposal-record-and-tuple：https://babeljs.io/docs/en/babel-plugin-proposal-record-and-tuple、https://github.com/tc39/proposal-record-tuple
+               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-record-and-tuple',
+                {
+                  /**
+                   * 默认情况下，此插件仅使用Record和Tuple全局变量转换提案语法。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、您需要加载一个polyfill，或者您可以传递"importPolyfill": true选项以将导入注入到由提案作者维护的@bloomberg/record-tuple-polyfill。<br />
+                   */
+                  importPolyfill: true,
+                  /**
+                   * 如果您希望将导入注入到不同于@bloomberg/record-tuple-polyfill的polyfill，您可以使用此选项指定其名称。<br />
+                   * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
+                   */
+                  polyfillModuleName: '@bloomberg/record-tuple-polyfill',
+                  syntaxType: 'hash',
+                },
+              ],
+              /**
+               * @babel/plugin-proposal-throw-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-throw-expressions、https://github.com/tc39/proposal-throw-expressions
+               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-throw-expressions',
+              ],
+              /**
+               * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/en/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
+               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
+               */
+              [
+                '@babel/plugin-proposal-destructuring-private',
+              ],
+              /**
+               * @babel/plugin-syntax-import-attributes：https://babeljs.io/docs/babel-plugin-syntax-import-attributes
+               * 1、目前该提案处于第2阶段，且此插件仅使Babel能够解析这种语法，Babel不支持转换这种语法。<br />
+               * import pkg from "./package.json" with { type: "json" }，很强大的提案，可以前往提案的文档详细了解！<br />
+               * 2、详细提案见：<br />
+               * https://github.com/tc39/proposal-import-attributes（https://github.com/tc39/proposal-import-assertions也会指向https://github.com/tc39/proposal-import-attributes这个网址）。<br />
+               * https://github.com/tc39/proposal-json-modules（第3阶段），该提案是从https://github.com/tc39/proposal-import-attributes提案单独分出来的。<br />
+               * 3、关于废弃旧的“assert”提案详细见：<br />
+               * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+               */
+              [
+                '@babel/plugin-syntax-import-attributes',
+                {
+                  /**
+                   * 1、默认值为：false。<br />
+                   * 2、如果启用，支持使用废弃的assert关键字解析导入属性：<br />
+                   * import foo from "./foo.json" assert { type: "json" };
+                   * “assert”这种语法只在基于V8的引擎中支持，目前正在调查将其从WEB中移除，使用更为规范的“with”提案，其很强大的提案，可以前往“with”提案（https://github.com/tc39/proposal-import-attributes）的文档详细了解！<br />
+                   */
+                  deprecatedAssertSyntax: true,
+                },
+              ],
+              /**
+               * @babel/plugin-proposal-import-attributes-to-assertions：https://babeljs.io/docs/babel-plugin-proposal-import-attributes-to-assertions
+               * 1、这是一个WEB兼容的插件，其提案是：https://github.com/tc39/proposal-import-attributes（目前该提案处于第2阶段）、https://github.com/tc39/proposal-json-modules（目前该提案处于第3阶段）。<br />
+               * 2、这个插件将生成与当前ECMAScript规范或任何当前提议的补充规范不兼容的代码。<br />
+               * 3、只有当你正在运送本地ES模块，并且需要专门与<br />
+               * 不支持导入属性语法（import pkg from "./package.json" with { type: "json" }）
+               * 但<br />
+               * 支持旧的导入断言语法（import pkg from "./package.json" assert { type: "json" }）
+               * 的工具兼容时，才使用它，例如Chrome 91+和Node.js 17.2+。<br />
+               * 4、该插件会将最新的规范<br />
+               * import pkg from "./package.json" with { type: "json" }
+               * 转为旧的规范<br />
+               * import pkg from "./package.json" assert { type: "json" }
+               * 5、目前，个人建议不启用该插件。<br />
+               * 6、关于废弃旧的“assert”提案详细见：<br />
+               * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+               */
+              /*
+               [
+               '@babel/plugin-proposal-import-attributes-to-assertions',
+               ],
+               */
+
+              // 处于提案第3阶段！
+              /**
+               * @babel/plugin-syntax-import-assertions：https://github.com/tc39/proposal-import-assertions
+               * 1、目前该提案处于第3阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+               * 2、该提案目前被指向新的提案：https://babeljs.io/docs/babel-plugin-syntax-import-attributes、https://github.com/tc39/proposal-import-attributes。<br />
+               * 3、关于废弃旧的“assert”提案详细见：<br />
+               * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+               * 4、@babel/plugin-syntax-import-attributes跟@babel/plugin-syntax-import-assertions不能同时使用，故优先使用@babel/plugin-syntax-import-attributes。<br />
+               */
+              /*
+               [
+               '@babel/plugin-syntax-import-assertions',
+               ],
+               */
+              /**
+               * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
+               * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
+               * 2、目前该提案处于第3阶段。<br />
+               */
+              [
+                '@babel/plugin-proposal-decorators',
+                {
+                  /**
+                   * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-05'、'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
+                   * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
+                   * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
+                   * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
+                   * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
+                   * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本。<br />
+                   * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/tc39/proposal-decorators。<br />
+                   * 7、'2023-11'：是在2023年11月TC30会议上达成共识的更新后的提案版本，其中纳入了这一变更，见：https://github.com/pzuraq/ecma262/pull/12。<br />
+                   * 8、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
+                   * 9、Babel 8仅支持'2023-05'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-05'。<br />
+                   */
+                  version: '2023-11',
+                  /**
+                   * 添加此选项是为了帮助tc39通过允许对两种可能的语法进行试验来收集来自社区的反馈。<br />
+                   * 1、当上面的version选项值为"legacy"时，该选项被禁用，也就是说该选项不能设置。<br />
+                   * 2、当上面的version选项值为"2018-09"时，该选项被启用，设置成true或false都行。<br />
+                   * 3、当上面的version选项值为"2021-12"时，该选项是可选的，设置成true或false都行，且默认值为false。<br />
+                   * 4、当上面的version选项值为"2022-03"、"2023-01"、'2023-05'时，该选项被禁用，也就是说该选项不能设置。<br />
+                   * 5、从最新的源码中可知当该选项值为undefined时，上面的version选项值为"2021-12"和"2022-03"时，会被设置为false。<br />
+                   * 6、从最新的源码中可知当该选项值为undefined时，上面的version为"2018-09"或未指定时，会通过抛出异常错误来提示该选项值类型必须为布尔类型，也就是设置为true或false。<br />
+                   * 7、从最新的源码中可知当该选项值不为undefined时，上面的version选项值为"legacy"和"2022-03"、"2023-01"时，会抛出异常错误。<br />
+                   */
+                  // decoratorsBeforeExport: true,
+
+                  // 已弃用：改用version: "legacy"。此选项是旧别名。
+                  // legacy: false,
+                },
+              ],
+              /**
+               * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-proposal-duplicate-named-capturing-groups-regex、https://github.com/tc39/proposal-duplicate-named-capturing-groups
+               * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
+               * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
+               * 3、目前该提案处于第3阶段。<br />
+               */
+              [
+                '@babel/plugin-proposal-duplicate-named-capturing-groups-regex',
+                {
+                  /**
+                   * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
+                   * 1、值类型：boolean，默认值：true。<br />
+                   */
+                  runtime: true,
+                },
+              ],
+              /**
+               * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers、https://github.com/tc39/proposal-regexp-modifiers
+               * 1、目前该提案处于第3阶段。<br />
+               */
+              [
+                '@babel/plugin-proposal-regexp-modifiers',
+              ],
+              /**
+               * @babel/plugin-proposal-explicit-resource-management：https://babeljs.io/docs/babel-plugin-proposal-explicit-resource-management
+               * 1、目前该提案处于第3阶段。<br />
+               * 2、详细提案见：<br />
+               * https://github.com/tc39/proposal-explicit-resource-management
+               * 异步的提案：https://github.com/tc39/proposal-async-explicit-resource-management
+               */
+              [
+                '@babel/plugin-proposal-explicit-resource-management',
+              ],
+              /**
+               * @babel/plugin-proposal-import-wasm-source：https://babeljs.io/docs/babel-plugin-proposal-import-wasm-source
+               * 1、目前该提案处于第3阶段。<br />
+               * 2、详细提案见：<br />
+               * https://github.com/tc39/proposal-source-phase-imports/
+               * 3、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
+               * 4、使用例子：<br />
+               * import source libMod from "./lib.wasm";
+               * 注意，前面的新的关键字“source”，“import source”才是完整的导入语法。<br />
+               */
+              [
+                '@babel/plugin-proposal-import-wasm-source',
+              ],
+              /**
+               * @babel/plugin-proposal-json-modules：https://babeljs.io/docs/babel-plugin-proposal-json-modules
+               * 1、目前该提案处于第3阶段。<br />
+               * 2、详细提案见：<br />
+               * https://github.com/tc39/proposal-json-modules/
+               * 3、将“import ... with { type: "json" }”声明转换为特定平台的API，以读取并“JSON.parse”导入的文件。<br />
+               * 4、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
+               * 5、该插件只转换“import”标记，不转换动态“import()”调用。<br />
+               * 6、使用例子：<br />
+               * import data from "./data.json" with { type: "json" };
+               */
+              [
+                '@babel/plugin-proposal-json-modules',
+              ],
+
+              // 处于无效提案，但是有新的替代提案处于讨论中！
+              /**
+               * @babel/plugin-proposal-function-bind：https://babeljs.io/docs/en/babel-plugin-proposal-function-bind、https://github.com/tc39/proposal-bind-operator
+               * 1、该提案目前已无效，但是有3个包含该提案的新提案。<br />
+               * 2、详细见：<br />
+               * https://babeljs.io/blog/2015/05/14/function-bind
+               */
+              [
+                '@babel/plugin-proposal-function-bind',
+              ],
+            ]
+                 : [];
+        } )( true ),
+        // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） End
+
+        // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-unicode-sets-regex：https://babeljs.io/docs/babel-plugin-transform-unicode-sets-regex
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2024中。<br />
+               * 2、这个插件将使用v标志的正则表达式（由RegExp set notation + properties of strings提案引入）转换为使用u标志的正则表达式。<br />
+               */
+              [
+                '@babel/plugin-transform-unicode-sets-regex',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? []
+                 : [];
+        } )( false ),
+        // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-class-static-block：https://babeljs.io/docs/babel-plugin-transform-class-static-block
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
+               * 2、具有静态块的类将被转换为静态私有属性，其初始化程序是包装在IIAFE（立即调用箭头函数表达式）中的静态块。<br />
+               * 3、因为输出代码包含私有类属性，如果你已经在使用其他类特性插件（例如`@babel/plugin-proposal-class-properties），一定要把它放在其他的前面。<br />
+               */
+              [
+                '@babel/plugin-transform-class-static-block',
+              ],
+              /**
+               * @babel/plugin-transform-private-methods：https://babeljs.io/docs/babel-plugin-transform-private-methods
+               */
+              [
+                '@babel/plugin-transform-private-methods',
+                {
+                  /**
+                   * 1、注意：松散模式的配置设置必须与@babel/plugin-transform-class-properties相同。
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-class-properties：https://babeljs.io/docs/babel-plugin-transform-class-properties
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
+               * 2、该插件已经包含了语法：<br />
+               * https://github.com/tc39/proposal-private-methods<br />
+               * https://github.com/tc39/proposal-class-fields<br />
+               * https://github.com/tc39/proposal-static-class-features<br />
+               * 3、插件@babel/plugin-proposal-private-methods（https://babeljs.io/docs/en/babel-plugin-proposal-private-methods）也合并到该插件中。<br />
+               */
+              [
+                '@babel/plugin-transform-class-properties',
+                {
+                  /**
+                   * 如果为true，则编译类属性以使用赋值表达式而不是Object.defineProperty。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的setPublicClassFields选项。<br />
+                   * 3、loose: true等同于"setPublicClassFields": true。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-private-property-in-object：https://babeljs.io/docs/babel-plugin-transform-private-property-in-object
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
+               */
+              [
+                '@babel/plugin-transform-private-property-in-object',
+                {
+                  /**
+                   * 当为true时，表达式中的私有属性将检查对象上自己的属性（而不是继承的属性），而不是检查WeakSet中是否存在。这会提高性能和调试（普通属性访问与.get()），但代价是可能通过Object.getOwnPropertyNames等方式泄漏“私有”。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的privateFieldsAsProperties选项。<br />
+                   * 3、loose: true等同于"privateFieldsAsProperties": true且"setPublicClassFields": true。<br />
+                   * 4、注意：松散模式配置设置必须与@babel/proposal-class-properties相同。
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-syntax-top-level-await：https://babeljs.io/docs/babel-plugin-syntax-top-level-await
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
+               * 2、此插件仅启用对此功能的语法解析。Babel目前还不支持转换顶层await，但是你可以使用Rollup的experimentalTopLevelAwait或webpack@5的experiments.topLevelAwait选项。<br />
+               */
+              [
+                '@babel/plugin-syntax-top-level-await',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2021（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-logical-assignment-operators：https://babeljs.io/docs/babel-plugin-transform-logical-assignment-operators
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2021。<br />
+               */
+              [
+                '@babel/plugin-transform-logical-assignment-operators',
+              ],
+              /**
+               * @babel/plugin-transform-numeric-separator：https://babeljs.io/docs/babel-plugin-transform-numeric-separator
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2021。<br />
+               * 2、八进制非常适合权限，但以0o0000形式表示时也更好看。这里的分隔符没有真正的好处。<br />
+               * 3、如果您需要进一步将ES2015十进制、二进制、十六进制和八进制数字表示编译为ES2015之前的数字文字形式，请添加“@babel/plugin-transform-literals”插件。<br />
+               * 4、@babel/plugin-transform-literals已经包含在@babel/preset-env和@babel/preset-es2015中。<br />
+               * 5、@babel/plugin-transform-literals得在@babel/plugin-proposal-numeric-separator之后。<br />
+               */
+              [
+                '@babel/plugin-transform-numeric-separator',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2021（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2020（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-export-namespace-from：https://babeljs.io/docs/babel-plugin-transform-export-namespace-from
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+               */
+              [
+                '@babel/plugin-transform-export-namespace-from',
+              ],
+              /**
+               * @babel/plugin-transform-nullish-coalescing-operator：https://babeljs.io/docs/babel-plugin-transform-nullish-coalescing-operator
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+               * 2、注意：我们不能在这里使用!=null因为document.all==null并且document.all被认为不是“nullish（无效的）”。<br />
+               */
+              [
+                '@babel/plugin-transform-nullish-coalescing-operator',
+                {
+                  /**
+                   * 如果为true，此转换将假装document.all不存在，并使用null执行松散的相等检查，而不是针对null和undefined的严格相等检查。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的noDocumentAll选项。<br />
+                   * 3、loose: true等同于"noDocumentAll": true。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-optional-chaining：https://babeljs.io/docs/babel-plugin-transform-optional-chaining
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+               * 2、访问深度嵌套的属性、调用深度嵌套的函数、构建深度嵌套的类、删除深度嵌套的属性（在v 7.8.0添加的）。<br />
+               */
+              [
+                '@babel/plugin-transform-optional-chaining',
+                {
+                  /**
+                   * 如果为true，此转换将假装document.all不存在，并使用null执行松散的相等检查，而不是针对null和undefined的严格相等检查。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的noDocumentAll选项。<br />
+                   * 3、loose: true等同于"noDocumentAll": true。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-syntax-bigint：https://babeljs.io/docs/babel-plugin-syntax-bigint
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+               * 2、此插件仅启用对此功能的语法解析。Babel不支持转换bigint。一个建议是使用JSBI库并最终运行babel-plugin-transform-jsbi-to-bigint以在将来将其代码修改为BigInt。<br />
+               */
+              [
+                '@babel/plugin-syntax-bigint',
+              ],
+              /**
+               * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/babel-plugin-syntax-dynamic-import
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+               * 2、如果使用@babel/core 7.8.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
+               */
+              [
+                '@babel/plugin-syntax-dynamic-import',
+              ],
+              /**
+               * @babel/plugin-proposal-dynamic-import：https://babeljs.io/docs/babel-plugin-proposal-dynamic-import
+               * 启用该插件时会报如下错误：
+               * “@babel/plugin-proposal-dynamic-import”依赖以下“模块转换插件”中的任何一个：
+               * @babel/plugin-transform-modules-commonjs ^7.4.0
+               * @babel/plugin-transform-modules-amd ^7.4.0
+               * @babel/plugin-transform-modules-systemjs ^7.4.0
+               *
+               * 1、如果您正在使用Webpack或Rollup，因此不想babel来转译你的输入、输出，你可以用“@babel/plugin-syntax-dynamic-import”插件，让你的绑定器（Webpack或Rollup）处理动态导入（import()）。
+               * 2、不使用此插件，如果你正在使用一个捆绑器，如Webpack、Rollup或Parcel，你不应该使用这个插件，让你的捆绑器处理import()表达式。
+               * 3、你应该使用这个插件，如果：
+               * 你正在ESM中编写一个Node.js库，但想在CommonJS(CJS)中发布它：安装这个插件和 @babel/plugin-transform-modules-commonjs
+               * 你使用RequireJS在浏览器中加载模块：安装这个插件和 @babel/plugin-transform-modules-amd
+               * 你使用SystemJS在浏览器中加载模块：安装此插件和 @babel/plugin-transform-modules-systemjs
+               */
+              /*
+               [
+               // '@babel/plugin-proposal-dynamic-import',
+               '@babel/plugin-transform-dynamic-import',
+               ],
+               */
+              /**
+               * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/babel-plugin-syntax-import-meta
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
+               * 2、如果使用@babel/core 7.10.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
+               */
+              [
+                '@babel/plugin-syntax-import-meta',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2020（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2019（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-json-strings：https://babeljs.io/docs/babel-plugin-transform-json-strings
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
+               */
+              [
+                '@babel/plugin-transform-json-strings',
+              ],
+              /**
+               * @babel/plugin-transform-optional-catch-binding：https://babeljs.io/docs/babel-plugin-transform-optional-catch-binding
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
+               */
+              [
+                '@babel/plugin-transform-optional-catch-binding',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2019（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2018（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-async-generator-functions：https://babeljs.io/docs/babel-plugin-transform-async-generator-functions
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
+               */
+              [
+                '@babel/plugin-transform-async-generator-functions',
+              ],
+              /**
+               * @babel/plugin-transform-dotall-regex：https://babeljs.io/docs/babel-plugin-transform-dotall-regex
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
+               */
+              [
+                '@babel/plugin-transform-dotall-regex',
+              ],
+              /**
+               * @babel/plugin-transform-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-transform-named-capturing-groups-regex
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
+               * 2、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
+               * 3、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
+               */
+              [
+                '@babel/plugin-transform-named-capturing-groups-regex',
+                {
+                  /**
+                   * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
+                   * 1、值类型：boolean，默认值：true。<br />
+                   */
+                  runtime: true,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-object-rest-spread：https://babeljs.io/docs/babel-plugin-transform-object-rest-spread
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
+               * 2、默认情况下，此插件将使用Babel的objectSpread帮助器生成符合规范的代码。<br />
+               */
+              [
+                '@babel/plugin-transform-object-rest-spread',
+                {
+                  /**
+                   * 启用此选项将使用Babel的extends帮助器，它与Object.assign基本相同（请参阅下面的useBuiltIns直接使用它）。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的setSpreadProperties选项。<br />
+                   * 3、loose: true等同于"setSpreadProperties": true且下面的useBuiltIns选项也要设置成true。<br />
+                   * 4、请记住，即使它们几乎等价，spread和Object.assign之间也有一个重要区别：spread定义新属性，而Object.assign()设置它们。因此在某些情况下使用此模式可能会产生意想不到的结果。<br />
+                   */
+                  loose: false,
+                  /**
+                   * 启用此选项将直接使用Object.assign而不是Babel的扩展助手。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   */
+                  useBuiltIns: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-unicode-property-regex：https://babeljs.io/docs/babel-plugin-transform-unicode-property-regex
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
+               */
+              [
+                '@babel/plugin-transform-unicode-property-regex',
+                {
+                  /**
+                   * 当使用false禁用时，转换会将Unicode正则表达式转换为非Unicode正则表达式以获得更广泛的支持，并删除u标志。<br />
+                   * 1、值类型：boolean，默认值：true。<br />
+                   * 2、转译为ES6（ES2015）代码时，需要将useUnicodeFlag设置成false。<br />
+                   */
+                  useUnicodeFlag: true,
+                },
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2018（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2017（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-async-to-generator：https://babeljs.io/docs/babel-plugin-transform-async-to-generator
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2017 Babel 7中，transform-async-to-module-method被合并到这个插件中。<br />
+               * 2、当使用带有非承诺值的等待时，Bluebird将抛出“Error: A value was yielded that could not be treated as a promise（错误：产生的值不能被视为承诺）”。由于Babel无法自动处理此运行时错误，因此您应该手动将其转换为Promise：<br />
+               * 如：<br />
+               * async function foo() {
+               * 删掉，因为会报错：await 42;
+               * 添加：await Promise.resolve(42);
+               * }
+               */
+              [
+                '@babel/plugin-transform-async-to-generator',
+                {
+                  module: 'bluebird',
+                  method: 'coroutine',
+                },
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2017（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2016（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-exponentiation-operator：https://babeljs.io/docs/babel-plugin-transform-exponentiation-operator
+               * 1、注意：这个插件包含在@babel/preset-env中，在ES2016。<br />
+               */
+              [
+                '@babel/plugin-transform-exponentiation-operator',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2016（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES2015（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-block-scoped-functions：https://babeljs.io/docs/en/babel-plugin-transform-block-scoped-functions
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-block-scoped-functions',
+              ],
+              /**
+               * @babel/plugin-transform-arrow-functions：https://babeljs.io/docs/en/babel-plugin-transform-arrow-functions
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-arrow-functions',
+                {
+                  /**
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、此选项启用以下功能：<br />
+                   * 将生成的函数包装在.bind(this)中，并按原样在函数内部使用this，而不是使用重命名的this。<br />
+                   * 添加运行时检查以确保函数未实例化。<br />
+                   * 为箭头函数添加名称。<br />
+                   */
+                  spec: true,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-block-scoping：https://babeljs.io/docs/en/babel-plugin-transform-block-scoping
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、此插件还验证所有const变量。常量的重新分配是一个运行时错误，它会插入必要的错误代码。<br />
+               */
+              [
+                '@babel/plugin-transform-block-scoping',
+                {
+                  /**
+                   * 在以下情况下，如果在转换时不添加额外的函数和闭包，就不可能重写let/const：<br />
+                   * for (let i = 0; i < 5; i++) {
+                   *   setTimeout(() => console.log(i), 1);
+                   * }
+                   * 1、在对性能极为敏感的代码中，这可能是不可取的。如果设置了"throwIfClosureRequired":true，Babel在转换这些模式时会抛出异常，而不是自动添加额外的函数。<br />
+                   * 2、值类型：boolean，默认值：false。<br />
+                   */
+                  throwIfClosureRequired: false,
+                  /**
+                   * 默认情况下，此插件将忽略块范围变量的时间死区(TDZ)。以下代码在使用不符合规范的Babel转译时不会抛出错误：<br />
+                   * i;
+                   * let i;
+                   * 1、如果你需要这些错误，你可以告诉Babel通过设置"tdz": true这个插件来尝试找到它们。但是，当前的实现可能无法正确处理所有边缘情况，最好一开始就避免使用这样的代码。<br />
+                   * 2、值类型：boolean，默认值：false。<br />
+                   * 3、在以前版本的使用中出现，tdz: true会报错TypeError: this.addHelper is not a function。<br />
+                   */
+                  tdz: true,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-classes：https://babeljs.io/docs/en/babel-plugin-transform-classes
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、注意事项：<br />
+               * 当扩展原生类（例如，class extends Array {}）时，需要包装超类。这是解决两个问题所必须的：<br />
+               * Babel使用SuperClass.apply(...)转译类，但本机类不可调用，因此在这种情况下抛出。<br />
+               * 一些内置函数（如：Array）总是返回一个新对象。Babel应该将其视为新的this，而不是返回它。<br />
+               * 3、包装器适用于IE 11和所有其他使用Object.setPrototypeOf或__proto__作为后备的浏览器。没有IE <= 10支持。如果您需要IE <= 10，建议您不要扩展本机。<br />
+               * 4、Babel需要静态知道您是否正在扩展内置类。因此，“mixin 模式”不起作用：<br />
+               * class Foo extends mixin(Array) {}
+               * function mixin(Super) {
+               *   return class extends Super {
+               *     mix() {}
+               *   };
+               * }
+               * 5、要解决此限制，您可以在继承链中添加另一个类，以便Babel可以包装本机类：<br />
+               * const ExtensibleArray = class extends Array {};
+               * class Foo extends mixin(ExtensibleArray) {}
+               */
+              [
+                '@babel/plugin-transform-classes',
+                {
+                  /**
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项，该假设提供对Babel应用的各种松散模式推导的精细控制，loose: true等同于：<br />
+                   * "constantSuper": true,
+                   * "noClassCalls": true,
+                   * "setClassMethods": true,
+                   * "superIsCallableConstructor": true
+                   * 3、请注意，在松散模式下，类方法是可枚举的。这不符合规范，您可能会遇到问题。<br />
+                   * 4、在松散模式下，方法是通过简单的赋值在类原型上定义的，而不是被定义的。这可能导致以下内容不起作用：<br />
+                   * class Foo {
+                   *   set bar() {
+                   *     throw new Error('foo!');
+                   *   }
+                   * }
+                   *
+                   * class Bar extends Foo {
+                   *   bar() {
+                   *     // will throw an error when this method is defined
+                   *   }
+                   * }
+                   * 5、当Bar.prototype.foo被定义时，它会触发Foo的setter。这种情况不太可能出现在生产代码中，但需要牢记。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-computed-properties：https://babeljs.io/docs/en/babel-plugin-transform-computed-properties
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-computed-properties',
+                {
+                  /**
+                   * 就像类中的方法分配一样，在松散模式下，计算属性名称使用简单的分配而不是被定义。这不太可能成为生产代码中的问题。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的setComputedProperties选项。<br />
+                   * 3、loose: true等同于"setComputedProperties": true。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-destructuring：https://babeljs.io/docs/en/babel-plugin-transform-destructuring
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-destructuring',
+                {
+                  /**
+                   * 启用此选项将假定您要解构的是一个数组，并且不会在其他可迭代对象上使用Array.from。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的iterableIsArray选项。<br />
+                   * 3、loose: true等同于"iterableIsArray": true。<br />
+                   */
+                  loose: false,
+                  /**
+                   * 启用此选项将直接使用Object.assign而不是Babel的扩展助手。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   */
+                  useBuiltIns: false,
+                  /**
+                   * 此选项允许使用数组解构语法来解构类似数组的对象。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、v7.10.0开始添加了该选项。<br />
+                   * 3、考虑迁移到顶层assumptions选项里的arrayLikeIsIterable选项。<br />
+                   * 4、allowArrayLike: true等同于"arrayLikeIsIterable": true。<br />
+                   * 5、请注意，即使禁用此选项，Babel也允许在旧引擎中解构参数，因为它在ECMAScript规范中被定义为可迭代的。<br />
+                   */
+                  allowArrayLike: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-duplicate-keys：https://babeljs.io/docs/en/babel-plugin-transform-duplicate-keys
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、这个插件实际上将对象中的重复键转换为计算属性，然后必须由@babel/plugin-transform-computed-properties插件处理。最终结果将不包含任何具有重复键的对象文字。<br />
+               */
+              [
+                '@babel/plugin-transform-duplicate-keys',
+              ],
+              /**
+               * @babel/plugin-transform-for-of：https://babeljs.io/docs/en/babel-plugin-transform-for-of
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-for-of',
+                {
+                  /**
+                   * 在松散模式下，阵列被置于快速路径中，从而大大提高了性能。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的skipForOfIteratorClosing选项。<br />
+                   * 3、loose: true等同于"skipForOfIteratorClosing": true。<br />
+                   */
+                  loose: false,
+                  /**
+                   * 此选项允许将for-of与类似数组的对象一起使用。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、v7.10.0开始添加了该选项。<br />
+                   * 3、考虑迁移到顶层assumptions选项里的arrayLikeIsIterable选项。<br />
+                   * 4、allowArrayLike: true等同于"arrayLikeIsIterable": true。<br />
+                   * 5、请注意，即使禁用此选项，Babel也允许在旧引擎中解构参数，因为它在ECMAScript规范中被定义为可迭代的。<br />
+                   */
+                  allowArrayLike: false,
+                  /**
+                   * 通过假设所有循环都是数组，这将把下面显示的优化应用于所有for-of循环。当您只想要一个for-of循环来表示一个数组上的基本for循环时，它会很有用。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、如果使用基本数组，Babel会将for-of循环编译为常规的for循环。<br />
+                   */
+                  assumeArray: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-function-name：https://babeljs.io/docs/en/babel-plugin-transform-function-name
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-function-name',
+              ],
+              /**
+               * @babel/plugin-transform-instanceof：https://babeljs.io/docs/en/babel-plugin-transform-instanceof
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-instanceof',
+              ],
+              /**
+               * @babel/plugin-transform-literals：https://babeljs.io/docs/en/babel-plugin-transform-literals
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、@babel/plugin-transform-literals得在@babel/plugin-proposal-numeric-separator之后。<br />
+               */
+              [
+                '@babel/plugin-transform-literals',
+              ],
+              /**
+               * @babel/plugin-transform-new-target：https://babeljs.io/docs/en/babel-plugin-transform-new-target
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、注意事项：这个插件依赖于this.constructor，这意味着在使用未转换的类时必须已经调用了super：<br />
+               * class Foo {}
+               * class Bar extends Foo {
+               *   constructor() {
+               *     // 如果类不转换为ES5，这将是一个问题。
+               *     new.target;
+               *     super();
+               *   }
+               * }
+               * 3、此外，当将newTarget与ES5函数类（转换的ES6类）一起使用时，此插件无法转换所有Reflect.construct案例。<br />
+               * 4、。<br />
+               */
+              [
+                '@babel/plugin-transform-new-target',
+              ],
+              /**
+               * @babel/plugin-transform-object-super：https://babeljs.io/docs/en/babel-plugin-transform-object-super
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-object-super',
+              ],
+              /**
+               * @babel/plugin-transform-parameters：https://babeljs.io/docs/en/babel-plugin-transform-parameters
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、该插件将ES2015参数转换为ES5，包括：解构参数、默认参数、rest参数。<br />
+               * 3、注意事项：默认参数“脱糖”到let声明中以保留正确的语义。如果您的环境不支持此功能，那么您将需要@babel/plugin-transform-block-scoping插件。<br />
+               */
+              [
+                '@babel/plugin-transform-parameters',
+                {
+                  /**
+                   * 在松散模式下，具有默认值的参数将计入函数的arity（稀有度）。这不是这些参数不添加到函数的规范行为。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的ignoreFunctionLength选项。<br />
+                   * 3、loose: true等同于"ignoreFunctionLength": true。<br />
+                   * 4、在ignoreFunctionLength假设下，Babel将生成一个性能更高的解决方案，因为JavaScript引擎将完全优化不引用参数的函数。请进行您自己的基准测试并确定此选项是否适合您的应用程序。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-shorthand-properties：https://babeljs.io/docs/en/babel-plugin-transform-shorthand-properties
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-shorthand-properties',
+              ],
+              /**
+               * @babel/plugin-transform-spread：https://babeljs.io/docs/en/babel-plugin-transform-spread
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-spread',
+                {
+                  /**
+                   * 在松散模式下，所有可迭代对象都被假定为数组。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的iterableIsArray选项。<br />
+                   * 3、loose: true等同于"iterableIsArray": true。<br />
+                   * 4、。<br />
+                   */
+                  loose: false,
+                  /**
+                   * 此选项允许像数组一样传播类似数组的对象。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、v7.10.0开始添加了该选项。<br />
+                   * 3、考虑迁移到顶层assumptions选项里的arrayLikeIsIterable选项。<br />
+                   * 4、allowArrayLike: true等同于"arrayLikeIsIterable": true。<br />
+                   * 5、请注意，即使禁用此选项，Babel也允许在旧引擎中传播参数，因为它在ECMAScript规范中被定义为可迭代的。<br />
+                   */
+                  allowArrayLike: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-sticky-regex：https://babeljs.io/docs/en/babel-plugin-transform-sticky-regex
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-sticky-regex',
+              ],
+              /**
+               * @babel/plugin-transform-template-literals：https://babeljs.io/docs/en/babel-plugin-transform-template-literals
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-template-literals',
+                {
+                  /**
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、考虑迁移到顶层assumptions选项里的mutableTemplateObject选项。<br />
+                   * 3、loose: true等同于"mutableTemplateObject": true。<br />
+                   * 4、当mutableTemplateObject为true时，标记的模板文字对象不会被冻结。所有模板字面量表达式和准词都与+运算符组合，而不是与String.prototype.concat组合。<br />
+                   * 5、当false或未设置时，所有模板字面量表达式和quasis都与String.prototype.concat组合。如果模板文字表达式是Symbol()，它将正确处理Symbol.toPrimitive的情况并正确抛出。<br />
+                   */
+                  loose: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-typeof-symbol：https://babeljs.io/docs/en/babel-plugin-transform-typeof-symbol
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-typeof-symbol',
+              ],
+              /**
+               * @babel/plugin-transform-unicode-escapes：https://babeljs.io/docs/en/babel-plugin-transform-unicode-escapes
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、编译ES2015 Unicode转义到ES5。<br />
+               */
+              [
+                '@babel/plugin-transform-unicode-escapes',
+              ],
+              /**
+               * @babel/plugin-transform-unicode-regex：https://babeljs.io/docs/en/babel-plugin-transform-unicode-regex
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-unicode-regex',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2015（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES5（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-property-mutators：https://babeljs.io/docs/babel-plugin-transform-property-mutators
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-property-mutators',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES5（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // ES3（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/babel-plugin-transform-member-expression-literals
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-member-expression-literals',
+              ],
+              /**
+               * @babel/plugin-transform-property-literals：https://babeljs.io/docs/babel-plugin-transform-property-literals
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               */
+              [
+                '@babel/plugin-transform-property-literals',
+              ],
+              /**
+               * @babel/plugin-transform-reserved-words：https://babeljs.io/docs/babel-plugin-transform-reserved-words
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、有些词在ES3中保留为潜在的未来关键字，但在ES5及更高版本中没有保留。此插件在针对ES3环境时使用，可重命名该组单词中的变量。<br />
+               */
+              [
+                '@babel/plugin-transform-reserved-words',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES3（除非是需要兼容到低端平台，否则不要启用这些，@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+
+        // 其他插件（除非是需要兼容到低端平台，否则不要启用这些） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-object-assign：https://babeljs.io/docs/en/babel-plugin-transform-object-assign
+               * 1、用于转译Object.assign。<br />
+               * 2、注意事项，仅适用于Object.assign或Object['assign']形式的代码。不支持以下模式：<br />
+               * var { assign } = Object;
+               * var assign = Object.assign;
+               */
+              [
+                '@babel/plugin-transform-object-assign',
+              ],
+              /**
+               * @babel/plugin-transform-object-set-prototype-of-to-assign：https://babeljs.io/docs/en/babel-plugin-transform-object-set-prototype-of-to-assign
+               * 1、用于转译Object.setPrototypeOf。<br />
+               * 2、注意：使用此插件时有一些注意事项，请参阅@babel/plugin-transform-proto-to-assign文档了解更多信息：https://babeljs.io/docs/en/babel-plugin-transform-proto-to-assign。<br />
+               * 3、要注意这个插件的使用需要上头那个插件的配合使用！没用这2个插件，就无法转译Object.setPrototypeOf，也就无法兼容IE 9。<br />
+               */
+              [
+                '@babel/plugin-transform-object-set-prototype-of-to-assign',
+              ],
+              /**
+               * @babel/plugin-transform-proto-to-assign：https://babeljs.io/docs/en/babel-plugin-transform-proto-to-assign
+               * 1、这意味着以下将起作用：<br />
+               * var foo = { a: 1 };
+               * var bar = { b: 2 };
+               * bar.__proto__ = foo;
+               * bar.a; // 1
+               * bar.b; // 2
+               * 2、但是以下内容不会，如果您打算使用此插件，则必须注意这种情况：<br />
+               * var foo = { a: 1 };
+               * var bar = { b: 2 };
+               * bar.__proto__ = foo;
+               * bar.a; // 1
+               * foo.a = 2;
+               * bar.a; // 1 - 应该是2但请记住，没有任何东西是绑定的，它是一个直接的副本。没用这个2个插件，会输出2（本来也应该输出2的），用了会输出1。
+               */
+              [
+                '@babel/plugin-transform-proto-to-assign',
+              ],
+              /**
+               * @babel/plugin-transform-regenerator：https://babeljs.io/docs/en/babel-plugin-transform-regenerator
+               * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、用于转译generators语法。<br />
+               */
+              [
+                '@babel/plugin-transform-regenerator',
+                {
+                  asyncGenerators: true,
+                  generators: true,
+                  async: true,
+                },
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // 其他插件（除非是需要兼容到低端平台，否则不要启用这些） End
+      ],
+      // 预设的执行是从下往上。
+      babelPresets = [
+        /**
+         * 用于压缩JS的预设。开发阶段不启用，生产启用。建议只做压缩，不做语法转译，转译应该交给@babel/preset-env和其他语法转译插件。<br />
+         * 1、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+         * 2、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+         *
+         * 注意：<br />
+         * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因为删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+         * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+         * 例如：<br />
+         * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+         *
+         * for( const item of arr001 ){
+         *   str001 + = item;
+         *
+         *   console.log( `index--->${ ++index }` );
+         * }
+         * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+         */
+        ...( isProduction => {
+          return isProduction
+                 ? [
+              [
+                'minify',
+                {
+                  /**
+                   * babel-plugin-transform-minify-booleans：https://babeljs.io/docs/en/babel-plugin-transform-minify-booleans
+                   * 1、默认值：true。<br />
+                   */
+                  booleans: true,
+                  /**
+                   * babel-plugin-minify-builtins：https://babeljs.io/docs/en/babel-plugin-minify-builtins
+                   * 1、默认值：true。<br />
+                   * 2、有参数：<br />
+                   * tdz：值类型：boolean，TDZ。<br />
+                   */
+                  builtIns: false,
+                  /**
+                   * babel-plugin-transform-inline-consecutive-adds：https://babeljs.io/docs/en/babel-plugin-transform-inline-consecutive-adds
+                   * 1、默认值：true。<br />
+                   */
+                  consecutiveAdds: true,
+                  /**
+                   * babel-plugin-minify-dead-code-elimination：https://babeljs.io/docs/en/babel-plugin-minify-dead-code-elimination
+                   * 1、默认值：true。<br />
+                   * 2、有参数：<br />
+                   * optimizeRawSize：值类型：boolean。<br />
+                   * keepFnName：值类型：boolean，防止插件删除函数名。对取决于fn.name的代码很有用。<br />
+                   * keepFnArgs：值类型：boolean，防止插件删除函数参数。对取决于fn.length的代码很有用。<br />
+                   * keepClassName：值类型：boolean，防止插件删除类名。对取决于cls.name的代码很有用。<br />
+                   * tdz：值类型：boolean，TDZ。<br />
+                   */
+                  deadcode: {
+                    optimizeRawSize: true,
+                    keepFnName: true,
+                    keepFnArgs: true,
+                    keepClassName: true,
+                    tdz: true,
+                  },
+                  /**
+                   * babel-plugin-minify-constant-folding：https://babeljs.io/docs/en/babel-plugin-minify-constant-folding
+                   * 1、默认值：true。<br />
+                   * 2、有参数：<br />
+                   * tdz：值类型：boolean，TDZ。<br />
+                   */
+                  evaluate: {
+                    tdz: true,
+                  },
+                  /**
+                   * babel-plugin-minify-flip-comparisons：https://babeljs.io/docs/en/babel-plugin-minify-flip-comparisons
+                   * 1、默认值：true。<br />
+                   */
+                  flipComparisons: false,
+                  /**
+                   * babel-plugin-minify-guarded-expressions：https://babeljs.io/docs/en/babel-plugin-minify-guarded-expressions
+                   * 1、默认值：true。<br />
+                   */
+                  guards: false,
+                  /**
+                   * babel-plugin-minify-infinity：https://babeljs.io/docs/en/babel-plugin-minify-infinity
+                   * 1、默认值：true。<br />
+                   */
+                  infinity: false,
+                  /**
+                   * babel-plugin-minify-mangle-names：https://babeljs.io/docs/en/babel-plugin-minify-mangle-names
+                   * 1、默认值：true。<br />
+                   * 2、有参数：<br />
+                   * exclude：值类型：object，一个普通的JS对象，其键作为标识符名称和值指示是否排除（默认值：{}）。<br />
+                   * eval：值类型：boolean，在eval可访问的范围内修改标识符（默认值：false）。<br />
+                   * keepFnName：值类型：boolean，防止破坏更改函数名称。对取决于fn.name的代码很有用（默认值：false）。<br />
+                   * topLevel：值类型：boolean，破坏顶级标识符（默认值：false）。<br />
+                   * keepClassName：值类型：boolean，防止破坏更改类名（默认值：false）。<br />
+                   * 3、以前的版本中，当函数、类的方法的默认参数设置为常量或私有变量时，该插件会报错：Cannot read property 'add' of undefined，解决方案是直接禁用该选项：mangle: false。<br />
+                   */
+                  mangle: {
+                    exclude: {},
+                    eval: false,
+                    keepFnName: true,
+                    topLevel: false,
+                    keepClassName: true,
+                  },
+                  /**
+                   * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/en/babel-plugin-transform-member-expression-literals
+                   * 1、默认值：true。<br />
+                   * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-member-expression-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-member-expression-literals来设置。<br />
+                   */
+                  memberExpressions: false,
+                  /**
+                   * babel-plugin-transform-merge-sibling-variables：https://babeljs.io/docs/en/babel-plugin-transform-merge-sibling-variables
+                   * 1、默认值：true。<br />
+                   */
+                  mergeVars: true,
+                  /**
+                   * babel-plugin-minify-numeric-literals：https://babeljs.io/docs/en/babel-plugin-minify-numeric-literals
+                   * 1、默认值：true。<br />
+                   */
+                  numericLiterals: true,
+                  /**
+                   * @babel/plugin-transform-property-literals：https://babeljs.io/docs/en/babel-plugin-transform-property-literals
+                   * 1、默认值：true。<br />
+                   * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-property-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-property-literals来设置。<br />
+                   */
+                  propertyLiterals: false,
+                  /**
+                   * babel-plugin-transform-regexp-constructors：https://babeljs.io/docs/en/babel-plugin-transform-regexp-constructors
+                   * 1、默认值：true。<br />
+                   */
+                  regexpConstructors: true,
+                  /**
+                   * babel-plugin-transform-remove-console：https://babeljs.io/docs/en/babel-plugin-transform-remove-console
+                   * 1、默认值：false。<br />
+                   * 2、有参数：<br />
+                   * exclude：值类型：array，要从删除中排除的一组控制台方法。<br />
+                   * 3、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+                   * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+                   *
+                   * 这里有个注意事项！！！<br />
+                   * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
+                   * 说明：<br />
+                   * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+                   * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+                   * 例如：<br />
+                   * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+                   *
+                   * for( const item of arr001 ){
+                   *   str001 + = item;
+                   *
+                   *   console.log( `index--->${ ++index }` );
+                   * }
+                   * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+                   *
+                   * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
+                   */
+                  removeConsole: ( () => {
+                    if( env_platform === 'dev_server' ){
+                      return false;
+                    }
+                    else if( env_platform === 'local_server' ){
+                      return false;
+
+                    }
+                    else if( env_platform === 'test' ){
+                      return false;
+
+                    }
+                    else if( env_platform === 'production' ){
+                      return true;
+
+                    }
+                    else{
+                      return false;
+                    }
+                  } )(),
+                  /**
+                   * babel-plugin-transform-remove-debugger：https://babeljs.io/docs/en/babel-plugin-transform-remove-debugger
+                   * 1、默认值：false。<br />
+                   * 2、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+                   * 3、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+                   * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+                   *
+                   * 这里有个注意事项！！！<br />
+                   * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
+                   * 说明：<br />
+                   * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+                   * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+                   * 例如：<br />
+                   * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+                   *
+                   * for( const item of arr001 ){
+                   *   str001 + = item;
+                   *
+                   *   console.log( `index--->${ ++index }` );
+                   * }
+                   * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+                   *
+                   * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
+                   */
+                  removeDebugger: ( () => {
+                    if( env_platform === 'dev_server' ){
+                      return false;
+                    }
+                    else if( env_platform === 'local_server' ){
+                      return false;
+
+                    }
+                    else if( env_platform === 'test' ){
+                      return false;
+
+                    }
+                    else if( env_platform === 'production' ){
+                      return true;
+
+                    }
+                    else{
+                      return false;
+                    }
+                  } )(),
+                  /**
+                   * babel-plugin-transform-remove-undefined：https://babeljs.io/docs/en/babel-plugin-transform-remove-undefined
+                   * 1、默认值：true。<br />
+                   * 2、对于函数，这将删除评估为未定义的返回参数。<br />
+                   */
+                  removeUndefined: {
+                    tdz: true,
+                  },
+                  /**
+                   * babel-plugin-minify-replace：https://babeljs.io/docs/en/babel-plugin-minify-replace
+                   * 1、默认值：true。<br />
+                   * 2、有参数：<br />
+                   * replacements：值类型：array[ { identifierName: string, replacement: { type: string, value: boolean }, } ]。<br />
+                   */
+                  replace: false,
+                  /**
+                   * babel-plugin-minify-simplify：https://babeljs.io/docs/en/babel-plugin-minify-simplify
+                   * 1、默认值：true。<br />
+                   * 2、将语句简化为表达式，使表达尽可能统一以获得更好的可压缩性。<br />
+                   */
+                  simplify: false,
+                  /**
+                   * babel-plugin-transform-simplify-comparison-operators：https://babeljs.io/docs/en/babel-plugin-transform-simplify-comparison-operators
+                   * 1、默认值：true。<br />
+                   */
+                  simplifyComparisons: false,
+                  /**
+                   * babel-plugin-minify-type-constructors：https://babeljs.io/docs/en/babel-plugin-minify-type-constructors
+                   * 1、默认值：true。<br />
+                   * 2、有参数：<br />
+                   * array：值类型：boolean，防止插件缩小数组。<br />
+                   * boolean：值类型：boolean，防止插件缩小布尔值。<br />
+                   * number：值类型：boolean，防止插件缩小数字。<br />
+                   * object：值类型：boolean，防止插件缩小对象。<br />
+                   * string：值类型：boolean，防止插件缩小字符串。<br />
+                   */
+                  typeConstructors: false,
+                  /**
+                   * babel-plugin-transform-undefined-to-void：https://babeljs.io/docs/en/babel-plugin-transform-undefined-to-void
+                   * 1、默认值：true。<br />
+                   * 2、这个插件将undefined转换为void 0，无论它是否被重新分配，它都会返回undefined。<br />
+                   */
+                  undefinedToVoid: true,
+                },
+              ],
+            ]
+                 : [];
+        } )( isProduction ),
+        /**
+         * @babel/preset-env。<br />
+         * 1、注意：@babel/preset-env不会包含任何低于第3阶段的JavaScript语法提案，因为在TC39流程的那个阶段，无论如何它都不会被任何浏览器实现。如果需要它，需要手动包含在内。<br />
+         * 2、shippingProposals选项将包括一些浏览器已经实现的第3阶段提案。<br />
+         * 3、@babel/preset-env获取您指定的任何目标环境，并根据其映射检查它们以编译插件列表并将其传递给Babel。<br />
+         * 4、默认情况下，@babel/preset-env将使用browserslist配置源，除非设置了targets或ignoreBrowserslistConfig选项。<br />
+         */
+        [
+          '@babel/preset-env',
+          {
+            /**
+             * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
+             * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
+             * 说明：表示当编译目标为chrome < 94, firefox < 93, opera < 80, safari这些时，会启用“proposal-class-static-block”。<br />
+             */
+            debug: isBabelDebug,
+            targets: babel_targets,
+            /**
+             * 注意：这些优化将在Babel 8中默认启用。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             * 2、v7.9.0开始添加的。<br />
+             */
+            bugfixes: true,
+            /**
+             * 为此预设中支持它们的任何插件启用更符合规范但可能更慢的转换。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             */
+            spec: true,
+            /**
+             * 为此预设中允许它们的任何插件启用“松散”转换。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             * 2、考虑迁移到自Babel 7.13以来可用的顶层assumptions选项（在babel-loader的options选项下的assumptions选项），见：https://babeljs.io/docs/en/assumptions。
+             */
+            loose: false,
+            /**
+             * 启用将ES模块语法转换为另一种模块类型。<br />
+             * 1、有效值："amd"、"umd"、"systemjs"、"commonjs"、"cjs"、"auto"、false，请注意，'cjs'只是'commonjs'的别名，默认值为：'auto'。<br />
+             * 2、将此设置为false将保留ES模块。仅当您打算将本机ES模块发送到浏览器时才使用此选项。<br />
+             * 3、如果你使用Babel打包器，默认的modules: "auto"总是首选。<br />
+             * 4、默认情况下，@babel/preset-env使用调用者数据来确定是否应该转换ES模块和模块特性，例如：import()。<br />
+             * 5、关于modules设置为false时的重点：<br />
+             * 所有可需要tree-shaking的代码必须以ES模块方式编译。<br />
+             * 因此，如果你有要导入的库，则必须将这些库编译为ES模块以便进行tree-shaking。<br />
+             * 如果它们被编译为commonjs，那么它们就不能做tree-shaking，并且将会被打包进你的应用程序中。<br />
+             * 许多库支持部分导入，lodash就是一个很好的例子，它本身是commonjs模块，但是它有一个lodash-es版本，用的是ES模块。<br />
+             * 此外，如果你在应用程序中使用内部库，也必须使用ES模块编译。为了减少应用程序包的大小，必须将所有这些内部库修改为以这种方式编译。<br />
+             */
+            modules: 'auto',
+            /**
+             * 此选项配置@babel/preset-env如何处理polyfill。<br />
+             * 1、有效值："usage"、"entry"、false，默认值为false。<br />
+             * 2、当使用'usage'或'entry'时，@babel/preset-env将添加对core-js模块的直接引用作为裸imports或requires。这意味着core-js将相对于文件本身进行解析，并且需要可访问。<br />
+             * 3、由于@babel/polyfill在7.4.0中已弃用，我们建议直接添加core-js并通过corejs选项设置版本。<br />
+             * 4、'entry'表示在入口处显示的导入core-js，如：import "core-js";，这样的代码在项目中只能存在1次，如果出现第2次会报错，个人不建议用这个值，'usage'这个值最好了。<br />
+             * 5、'usage'在每个文件中使用polyfill时为它们添加特定的import。我们利用了捆绑器只会加载相同的polyfill一次这一事实。这个值最好了。<br />
+             * 6、关于3个值的说明：<br />
+             * false：无视target.browsers将所有Polyfill加载进来。<br />
+             * entry：根据target.browsers将部分Polyfill加载进来(仅引入有浏览器不支持的Polyfill，需在入口文件import 'core-js/stable')。<br />
+             * usage：根据target.browsers和检测代码里ES6的使用情况将部分Polyfill加载进来(无需在入口文件import 'core-js/stable')。<br />
+             */
+            useBuiltIns: 'usage',
+            /**
+             * 7.4版本的插件写法发生巨变！该选项在v 7.4.0开始添加的。<br />
+             * 1、值类型：string、object（{ version: string, proposals: boolean }），默认值："2.0"。<br />
+             * 2、version选项的值是一个字符串，其可以是任何受支持的core-js版本号。例如，“3.8”或“2.0”。<br />
+             * 3、此选项仅在与useBuiltIns的值为'usage'、'entry'一起使用时有效。<br />
+             * 4、建议指定次要版本，否则“3”将被解释为“3.0”，其中可能不包括最新功能的polyfill。<br />
+             * 5、默认情况下，只注入稳定的ECMAScript特性的polyfill：如果你想polyfill提案，你有三个不同的选项：<br />
+             * 使用useBuiltIns: "entry"时，可以直接导入一个提案polyfill：import "core-js/proposals/string-replace-all"。<br />
+             * 使用useBuiltIns: "usage"时，您有2种不同的选择：<br />
+             * 将shippingProposals选项设置为true。这将为已经在浏览器中提供一段时间的提案启用polyfill和转换。<br />
+             * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
+             */
+            corejs: {
+              version: ( () => {
+                const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
+
+                if( coreJSVersionStr ){
+                  const str1 = String( coreJSVersionStr ).trim();
+
+                  if( /^[0-9]/i.test( str1 ) ){
+                    return str1;
+                  }
+                  else{
+                    return str1.slice( 1 );
+                  }
+                }
+                else{
+                  throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
+                }
+              } )() || '3.36.1',
+              proposals: true,
+            },
+            /**
+             * 1、值类型：boolean，默认值：false。<br />
+             * 2、借助Babel 7的JavaScript配置文件支持，如果env设置为production，您可以强制运行所有转换。<br />
+             * 3、注意：targets.uglify选项已被弃用，并将在下一个主要版本中删除。<br />
+             * 4、默认情况下，此预设将运行目标环境所需的所有转换。<br />
+             * 5、如果您想强制运行所有转换，请启用此选项，如果输出将通过UglifyJS或仅支持ES5的环境运行这很有用。<br />
+             */
+            forceAllTransforms: false,
+            shippedProposals: true,
+          },
+        ],
+      ],
+      babelPresetsJSX = [
+        ...babelPresets,
+        /**
+         * 1、此预设始终包含以下插件：<br />
+         * @babel/plugin-syntax-jsx <br />
+         * @babel/plugin-transform-react-jsx <br />
+         * @babel/plugin-transform-react-display-name <br />
+         * 2、当启用development选项时，并且设定runtime选项值为：classic，还支持下述2个插件：<br />
+         * @babel/plugin-transform-react-jsx-self <br />
+         * @babel/plugin-transform-react-jsx-source <br />
+         * 3、启用development选项时，并且设定runtime选项值为：automatic，自v7.9.0起，会自动添加上面2个插件。但是，如果你设定runtime选项值为：automatic，又手动添加上述2个插件就会出报错。<br />
+         */
+        [
+          '@babel/preset-react',
+          {
+            /**
+             * 自v 7.9.0开始添加该选项，决定使用哪个运行时。<br />
+             * 1、值类型：string（只有2个有效值：'automatic'、'classic'），默认值：'classic'。<br />
+             * 2、值'automatic'会自动导入JSX转译成的函数，值'classic'不会自动导入任何东西。<br />
+             */
+            runtime: 'automatic',
+            /**
+             * 这会切换特定于开发的行为，例如添加__source和__self。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             */
+            development: !isProduction,
+            /**
+             * 如果使用XML命名空间标记名称，则切换是否引发错误。<br />
+             * 1、值类型：boolean，默认值：true。<br />
+             * 2、尽管JSX规范允许这样做，但默认情况下它是禁用的，因为React的JSX目前不支持它：<br />
+             * <f: image />
+             */
+            throwIfNamespace: true,
+            /**
+             * 启用@babel/plugin-transform-react-pure-annotations，它将顶级React方法调用标记为tree shaking。<br />
+             * 1、值类型：boolean，默认值：true。<br />
+             */
+            pure: true,
+          },
+        ],
+      ],
+      babelLoaderConfig = {
+        /**
+         * 如果选项中的值设置为true，加载器将使用node_modules/.cache/babel-loader中的默认缓存目录，或者如果在任何根目录中都找不到node_modules文件夹，则回退到默认的操作系统临时文件目录。<br />
+         * 1、值类型：boolean，默认值：false。<br />
+         */
+        cacheDirectory: !isProduction,
+        /**
+         * 设置后，每个Babel转换输出都将使用Gzip进行压缩。如果您想退出缓存压缩，请将其设置为false，如果您的项目转译了数千个文件，您的项目可能会从中受益。<br />
+         * 1、值类型：boolean，默认值：true。<br />
+         */
+        cacheCompression: isProduction,
+        plugins: babelPlugins,
+        presets: babelPresets,
+        targets: babel_targets,
+        /**
+         * 1、值类型：string，默认值：'module'，有效值有：'script'、'module'、'unambiguous'。<br />
+         * 2、script：使用ECMAScript脚本语法解析文件。不允许导入/导出语句，并且文件不是严格模式。<br />
+         * 3、module：使用ECMAScript模块语法解析文件。文件是自动严格的，并且允许import、export语句。<br />
+         * 4、unambiguous：如果存在import、export语句，则将文件视为'module'，否则将其视为'script'。<br />
+         * 5、unambiguous在类型未知的上下文中非常有用，但它可能导致错误匹配，因为拥有不使用import、export语句的模块文件是完全有效的。<br />
+         * 6、此选项很重要，因为当前文件的类型会影响输入文件的解析，以及可能希望将import、require用法添加到当前文件的某些转换。<br />
+         * 7、例如，@babel/plugin-transform-runtime依赖于当前文档的类型来决定是插入一个import声明，还是一个require()调用。<br />
+         * 8、@babel/preset-env也对自己的“useBuiltIns”选项做同样的事情。<br />
+         * 9、由于Babel默认将文件处理为ES模块，因此这些plugins、presets通常会插入import语句。<br />
+         * 10、设置正确的sourceType可能很重要，因为错误的类型会导致Babel将import语句插入到本来应该是CommonJS文件的文件中。<br />
+         * 11、这在正在执行node_modules依赖项编译的项目中尤其重要，因为插入import语句可能会导致Webpack和其他工具将文件视为ES模块。破坏原本可以正常工作的CommonJS文件。<br />
+         * 12、注意：此选项不会影响.mjs文件的解析，因为它们目前被硬编码为始终解析为'module'文件。<br />
+         */
+        sourceType: 'unambiguous',
+        // 在Babel的错误消息中突出显示代码片段中的标记，使其更易于阅读。
+        highlightCode: true,
+        // 一个不透明的对象，包含传递给正在使用的解析器的选项。
+        parserOpts: {
+          // 默认情况下，解析器在表达式节点上设置extra.parenthesized。当此选项设置为true时，将创建ParenthesizedExpression AST节点。
+          // createParenthesizedExpressions: true,
+          /**
+           * 默认情况下，Babel在发现一些无效代码时总是会抛出错误。当此选项设置为true时，它将存储解析错误并尝试继续解析无效的输入文件。<br />
+           * 1、生成的AST将有一个errors属性，表示所有解析错误的数组。请注意，即使启用此选项，@babel/parser也可能抛出不可恢复的错误。<br />
+           */
+          // errorRecovery: true,
+          // 将输出AST节点与其源文件名相关联。从多个输入文件的AST生成代码和源映射时很有用。
+          // sourceFilename: true,
+          // 默认情况下，解析的代码被视为从第1行第0列开始。您可以提供一个列号以替代开始。对于与其他源工具的集成很有用。
+          // startColumn: 0,
+          // 默认情况下，解析的代码被视为从第1行第0列开始。您可以提供一个行号以替代开始。对于与其他源工具的集成很有用。
+          // startLine: 1,
+          // 默认情况下，导入和导出声明只能出现在程序的顶层。将此选项设置为true允许它们在任何允许声明的地方出现。
+          allowImportExportEverywhere: false,
+          // 默认情况下，await只允许在异步函数内部使用，或者在启用topLevelAwait插件时，在模块的顶级范围内使用。将此设置为true以在脚本的顶级范围内也接受它。不鼓励使用此选项以支持topLevelAwait插件。
+          allowAwaitOutsideFunction: true,
+          // 默认情况下，new.target的使用在函数或类之外是不允许的。将此设置为 "true "以接受此类代码。
+          allowNewTargetOutsideFunction: false,
+          // 默认情况下，顶层的return语句会引发错误。将此设置为true以接受此类代码。
+          allowReturnOutsideFunction: true,
+          // 默认情况下，不允许在类和对象方法之外使用super。将此设置为true以接受此类代码。
+          allowSuperOutsideMethod: true,
+          /**
+           * 默认情况下，导出未在当前模块范围内声明的标识符将引发错误。<br />
+           * 1、虽然这种行为是ECMAScript模块规范所要求的，但Babel的解析器无法预测插件管道中稍后可能插入适当声明的转换。<br />
+           * 2、所以有时将此选项设置为true以防止解析器过早地抱怨稍后将添加的未声明的导出很重要。<br />
+           */
+          allowUndeclaredExports: true,
+          /**
+           * 默认情况下，Babel将注释附加到相邻的AST节点。当此选项设置为false时，不会附加注释。当输入代码有很多注释时，它可以提供高达30%的性能提升。<br />
+           */
+          // 1、@babel/eslint-parser会为你设置。不建议将attachComment: false与Babel转换一起使用，因为这样做会删除输出代码中的所有注释，并呈现/* istanbul ignore next */等注释。
+          attachComment: true,
+          // 默认情况下，Babel根据ECMAScript的附件B "网络浏览器的附加ECMAScript功能 "语法来解析JavaScript。当这个选项设置为false时，Babel将解析没有附件B特定扩展的语法。
+          // annexb: true,
+          // 同上面的sourceType选项。
+          sourceType: 'unambiguous',
+          // 默认情况下，仅当存在'use strict'指令或解析的文件是ECMAScript模块时，ECMAScript代码才会解析为严格。将此选项设置为true以始终以严格模式解析文件。
+          strictMode: true,
+          ...( isEnable => {
+            return isEnable
+                   ? {
+                plugins: [
+                  // Language extensions Start
+
+                  /**
+                   * 1、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
+                   * 2、placeholders跟v8intrinsic不能同时使用。
+                   */
+                  // 'placeholders',
+                  /**
+                   * 1、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
+                   * 2、placeholders跟v8intrinsic不能同时使用。
+                   */
+                  // 'v8intrinsic',
+                  // flow跟typescript不能同时使用。
+                  /*
+                   [
+                   'flow',
+                   {
+                   // 默认值为：false。
+                   all: false,
+                   enums: true,
+                   },
+                   ],
+                   */
+                  // flow跟typescript不能同时使用。
+                  [
+                    'typescript',
+                    {
+                      // 默认值为：false。
+                      dts: false,
+                      // 默认值为：false。
+                      disallowAmbiguousJSXLike: false,
+                    },
+                  ],
+                  'flowComments',
+                  'jsx',
+
+                  // Language extensions End
+
+                  // ECMAScript proposals Start
+
+                  'doExpressions',
+                  'explicitResourceManagement',
+                  // asyncDoExpressions依赖上面的doExpressions。
+                  'asyncDoExpressions',
+                  'decimal',
+                  // decorators和decorators-legacy不能同时使用，建议使用decorators。
+                  // 'decorators-legacy',
+                  // decorators和decorators-legacy不能同时使用，建议使用decorators。
+                  [
+                    'decorators',
+                    {
+                      // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+                      decoratorsBeforeExport: false,
+                      // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+                      allowCallParenthesized: false,
+                    },
+                  ],
+                  'decoratorAutoAccessors',
+                  'destructuringPrivate',
+                  'exportDefaultFrom',
+                  'functionBind',
+                  // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+                  // 'importAssertions',
+                  // importAttributes已经取代了importAssertions。
+                  [
+                    'importAttributes',
+                    {
+                      deprecatedAssertSyntax: true,
+                    },
+                  ],
+                  'importReflection',
+                  // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+                  /*
+                   [
+                   'moduleAttributes',
+                   {
+                   version: 'may-2020',
+                   },
+                   ],
+                   */
+                  'moduleBlocks',
+                  'partialApplication',
+                  [
+                    'pipelineOperator',
+                    {
+                      /**
+                       * 1、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                       * 2、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
+                       * 3、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
+                       * 4、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                       */
+                      proposal: 'hack',
+                      /**
+                       * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                       */
+                      topicToken: '^^',
+                    },
+                  ],
+                  [
+                    'recordAndTuple',
+                    {
+                      /**
+                       * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                       * 2、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+                       */
+                      syntaxType: 'hash',
+                    },
+                  ],
+                  'regexpUnicodeSets',
+                  'throwExpressions',
+                  'importMeta',
+                  [
+                    'estree',
+                    {
+                      classFeatures: true,
+                    },
+                  ],
+
+                  // ECMAScript proposals End
+
+                  // Latest ECMAScript features Start
+
+                  'asyncGenerators',
+                  'bigInt',
+                  'classPrivateMethods',
+                  'classPrivateProperties',
+                  'classProperties',
+                  // Enabled by default
+                  'classStaticBlock',
+                  'dynamicImport',
+                  // deprecated
+                  'exportNamespaceFrom',
+                  'functionSent',
+                  'logicalAssignment',
+                  'moduleStringNames',
+                  'nullishCoalescingOperator',
+                  'numericSeparator',
+                  'objectRestSpread',
+                  'optionalCatchBinding',
+                  'optionalChaining',
+                  // Enabled by default
+                  'privateIn',
+                  'topLevelAwait',
+
+                  // Latest ECMAScript features End
+                ],
+              }
+                   : {};
+          } )( false ),
         },
+        /**
+         * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。<br />
+         * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
+         * minified: true,
+         * comments: true,
+         * shouldPrintComment: () => true,
+         */
+        generatorOpts: {
+          /**
+           * Babel将努力生成代码，以便将项目打印在与原始文件中相同的行上。<br />
+           * 1、值类型：boolean，默认值：false。<br />
+           * 2、存在此选项是为了让无法使用源映射的用户可以获得模糊有用的错误行号，但这只是尽力而为，并不保证在所有情况下都适用于所有插件。<br />
+           */
+          retainLines: !isProduction,
+          /**
+           * 在紧凑模式下生成代码时，将省略所有可选的换行符和空格。<br />
+           * 1、值类型：boolean、string（只有一个有效值：'auto'），默认值：'auto'。<br />
+           * 2、“auto”将通过评估来设置值：code.length > 500_000。<br />
+           */
+          compact: isProduction,
+          // 设置为true以减少空格，但不如上面的compact选项减少的那么多。
+          concise: isProduction,
+          // 保留函数表达式周围的括号，可用于更改引擎解析行为。
+          retainFunctionParens: true,
+          /**
+           * 当compact: true时，省略块尾分号，在可能的情况下从new Foo()中省略 ()，并且可能输出较短版本的文字。<br />
+           * 1、值类型：boolean，默认值：false。<br />
+           */
+          minified: isProduction,
+          /**
+           * 如果没有给出函数，则为下面shouldPrintComment选项提供默认的评论状态。有关详细信息，请参阅下面的shouldPrintComment该选项的默认值。<br />
+           * 1、值类型：boolean，默认值：true。<br />
+           */
+          comments: true,
+          /**
+           * 一个函数，可以决定给定的注释是否应该包含在Babel的输出代码中。<br />
+           * 1、值类型：function（ ( value: string ) => boolean ），默认值：<br />
+           * 没有上面的minified选项（如果有但是值为false）时，默认值为：( val ) => opts.comments || /@license|@preserve/.test( val ) 。<br />
+           * 有上面的minified选项（且值为true）时，默认值为：() => opts.comments 。<br />
+           */
+          shouldPrintComment: () => true,
+          // 设置为true以在输出中“export”之前打印装饰符。在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+          decoratorsBeforeExport: false,
+          recordAndTupleSyntaxType: 'hash',
+          topicToken: '^^',
+        },
+        /**
+         * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
+         * 1、详细文档见：https://babeljs.io/docs/en/assumptions。<br />
+         * 2、从Babel 7.13.0开始，您可以在配置中指定一个假设选项来告诉Babel它可以对您的代码做出哪些假设，从而更好地优化编译结果。注意：这取代了插件中的各种松散选项，取而代之的是可以应用于多个插件的顶级选项（RFC链接）。<br />
+         * 3、这是高级功能。启用假设时请小心，因为它们不符合规范，并且可能会以意想不到的方式破坏您的代码。<br />
+         * 4、当前下面的配置全被我设置成false，以使用非宽松的规范语法去转译它们。<br />
+         */
+        ...( isEnable => {
+          return isEnable
+                 ? {
+              assumptions: {
+                /**
+                 * 当传播或迭代类似数组的对象时，假设它实现了一个与原生Array.prototype[Symbol.iterator]具有相同行为的[Symbol.iterator]方法，因此直接按索引对其元素进行迭代。<br />
+                 * 1、这可能很有用，例如，在旧浏览器中迭代DOM集合。<br />
+                 */
+                arrayLikeIsIterable: false,
+                /**
+                 * 从模块重新导出绑定时，假设它没有更改，因此直接导出它是安全的。<br />
+                 * 1、注意：这也会影响transform-modules-umd和transform-modules-amd插件。<br />
+                 */
+                constantReexports: false,
+                /**
+                 * 使用Object.setPrototypeOf可以随时更改类的超类，使Babel无法静态知道它。启用此选项后，Babel假定它从未更改过，因此它始终是放置在类声明中的extends子句中的值。<br />
+                 */
+                constantSuper: false,
+                /**
+                 * 在将ESM编译为CJS时，Babel在module.exports对象上定义了一个__esModule属性。假设您从未使用for..in或Object.keys遍历module.exports或require("your-module")的键，因此将__esModule定义为可枚举是安全的。<br />
+                 */
+                enumerableModuleMeta: false,
+                /**
+                 * 函数有一个.length属性，它反映了参数的数量，直到最后一个非默认参数。启用此选项后，假定编译后的代码不依赖此.length属性。
+                 */
+                ignoreFunctionLength: false,
+                /**
+                 * 当使用可能调用对象的[Symbol.toPrimitive]方法的语言功能时，假设它们不会根据提示参数改变其行为。
+                 */
+                ignoreToPrimitiveHint: false,
+                /**
+                 * 使用可迭代对象时（在数组解构、for-of 或...扩展中），假设它是一个数组。
+                 */
+                iterableIsArray: false,
+                /**
+                 * 不要将Object.freeze用于为标记模板文字创建的模板对象。这实际上意味着使用taggedTemplateLiteralLoose助手而不是taggedTemplateLiteral。
+                 */
+                mutableTemplateObject: false,
+                /**
+                 * 转换类时，假设它们总是用new实例化并且它们从不被称为函数。
+                 */
+                noClassCalls: false,
+                /**
+                 * 使用检查null或undefined的运算符时，假定它们从未与特殊值document.all一起使用。
+                 */
+                noDocumentAll: false,
+                /**
+                 * 假设在初始化之前没有观察到模块导出对象的自身属性。例如，当尝试访问ns.foo时，无论打开还是关闭此假设，它都会返回undefined。<br />
+                 * 1、不同之处在于Object.prototype.hasOwnProperty.call(ns, "foo")在noIncompleteNsImportDetection: true时会返回false。<br />
+                 */
+                noIncompleteNsImportDetection: false,
+                /**
+                 * 假设代码从不尝试使用new实例化箭头函数，根据规范这是不允许的。<br />
+                 * 1、注意：此默认为true。从Babel 8开始，它将默认为false。<br />
+                 */
+                noNewArrows: false,
+                /**
+                 * 在对象解构中使用休息模式时，假设解构对象没有符号键，或者如果不复制它们就没有问题。
+                 */
+                objectRestNoSymbols: false,
+                /**
+                 * 假设“软隐私”对于私有字段就足够了，因此它们可以存储为具有唯一名称的公共不可枚举属性（而不是使用外部WeakMap）。这使得调试编译的私有字段更容易。
+                 */
+                privateFieldsAsProperties: false,
+                /**
+                 * 假设getter（如果存在）没有副作用并且可以多次访问。
+                 */
+                pureGetters: false,
+                /**
+                 * 声明类时，假设方法不会影响超类上的getter，并且程序不依赖于不可枚举的方法。因此，分配方法而不是使用Object.defineProperty是安全的。
+                 */
+                setClassMethods: false,
+                /**
+                 * 使用计算对象属性时，假设对象不包含覆盖同一对象中定义的setter 的属性，因此分配它们而不是使用Object.defineProperty定义它们是安全的。
+                 */
+                setComputedProperties: false,
+                /**
+                 * 使用公共类字段时，假设它们不会影响当前类、其子类或超类中的任何getter。因此，分配它们而不是使用Object.defineProperty是安全的。
+                 */
+                setPublicClassFields: false,
+                /**
+                 * 使用对象扩展时，假设扩展的属性不会触发目标对象上的getter，因此分配它们而不是使用Object.defineProperty定义它们是安全的。
+                 */
+                setSpreadProperties: false,
+                /**
+                 * 将for-of与迭代器一起使用时，应始终使用.return()和.throw()将其关闭以防出错。当调用此选项时，Babel假定这些方法未定义或为空，并避免调用它们。
+                 */
+                skipForOfIteratorClosing: false,
+                /**
+                 * 扩展类时，假设超类是可调用的。这意味着无法扩展原生类或内置函数，只能扩展已编译的类或ES5函数构造函数。
+                 */
+                superIsCallableConstructor: false,
+              },
+            }
+                 : {};
+        } )( false ),
       },
-      postCSSLoaderModules = ( postCSSLoader => {
-        const options = Object.assign( {}, postCSSLoader.options ),
-          postcssOptions = Object.assign( {}, options.postcssOptions );
-
-        postcssOptions.config = resolve( __dirname, './postcss.postcss-modules.config.mjs' );
-        options.postcssOptions = postcssOptions;
-
-        return Object.assign( {}, postCSSLoader, {
-          options,
-        } );
-      } )( postCSSLoader );
+      babelLoaderJSXConfig = Object.assign( {}, babelLoaderConfig, {
+        presets: babelPresetsJSX,
+      } );
 
     /**
      * 1、请注意，虽然支持包含顶级等待的转换代码，但仅当format选项设置为esm时，才支持包含顶级等待的捆绑代码。<br />
@@ -5549,6 +5521,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          */
         exportLocalsConvention: 'dashes',
         exportOnlyLocals: false,
+      },
+      postCSSLoader = {
+        loader: 'postcss-loader',
+        options: {
+          implementation: postcss,
+          // 在CSS-in-JS中启用PostCSS Parser支持。如果您使用JS样式的postcss-js解析器，请添加执行选项为true。
+          execute: false,
+          sourceMap: false,
+          postcssOptions: {
+            config: resolve( __dirname, './postcss.config.mjs' ),
+          },
+        },
       },
       /**
        * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
@@ -5982,50 +5966,49 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
      * @type {{maxSize: number}} 将资产内联为DataUrl的条件，其属性同module.generator.asset.dataUrl，单位字节。<br />
      */
     const dataUrlCondition = {
-      // 单位字节，设置为10KB。
-      maxSize: 10 * 1024,
-    };
-
-    const parserJavascriptConfig = {
-      amd: false,
-      requireJs: true,
-      system: true,
-      commonjs: true,
-      browserify: true,
-      commonjsMagicComments: true,
-      dynamicImportFetchPriority: 'auto',
-      dynamicImportMode: 'lazy',
-      dynamicImportPrefetch: true,
-      dynamicImportPreload: true,
-      exportsPresence: 'error',
-      exprContextCritical: true,
-      exprContextRecursive: true,
-      harmony: true,
-      import: true,
-      importExportsPresence: 'error',
-      importMeta: true,
-      importMetaContext: true,
-      node: nodeConfig,
-      reexportExportsPresence: 'error',
-      requireContext: true,
-      requireEnsure: true,
-      requireInclude: true,
-      strictThisContextOnImports: true,
-      url: 'relative',
-      unknownContextCritical: true,
-      unknownContextRecursive: true,
-      wrappedContextCritical: true,
-      wrappedContextRecursive: true,
-      /**
-       * 自定义WebWorker对javascript文件的处理，'...'是指默认值。
-       * 值类型有：string[]、布尔值（true，表示使用默认值，也就是[ '...' ]，false表示禁用该选项）。
-       */
-      /*
-       worker: [
-       '...',
-       ],
-       */
-    };
+        // 单位字节，设置为10KB。
+        maxSize: 10 * 1024,
+      },
+      parserJavascriptConfig = {
+        amd: false,
+        requireJs: true,
+        system: true,
+        commonjs: true,
+        browserify: true,
+        commonjsMagicComments: true,
+        dynamicImportFetchPriority: 'auto',
+        dynamicImportMode: 'lazy',
+        dynamicImportPrefetch: true,
+        dynamicImportPreload: true,
+        exportsPresence: 'error',
+        exprContextCritical: true,
+        exprContextRecursive: true,
+        harmony: true,
+        import: true,
+        importExportsPresence: 'error',
+        importMeta: true,
+        importMetaContext: true,
+        node: nodeConfig,
+        reexportExportsPresence: 'error',
+        requireContext: true,
+        requireEnsure: true,
+        requireInclude: true,
+        strictThisContextOnImports: true,
+        url: 'relative',
+        unknownContextCritical: true,
+        unknownContextRecursive: true,
+        wrappedContextCritical: true,
+        wrappedContextRecursive: true,
+        /**
+         * 自定义WebWorker对javascript文件的处理，'...'是指默认值。
+         * 值类型有：string[]、布尔值（true，表示使用默认值，也就是[ '...' ]，false表示禁用该选项）。
+         */
+        /*
+         worker: [
+         '...',
+         ],
+         */
+      };
 
     return {
       generator: {
@@ -6204,7 +6187,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
               return Object.assign( {}, cssLoader, { options, } );
             } )( cssLoader ),
-            postCSSLoaderModules,
+            postCSSLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -6275,7 +6258,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
                   return Object.assign( {}, cssLoader, { options, } );
                 } )( cssLoader ),
-                postCSSLoaderModules,
+                postCSSLoader,
               ],
               include: [
                 join( __dirname, './node_modules/' ),
@@ -7128,7 +7111,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoaderModules,
+            postCSSLoader,
             /**
              * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
              * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
@@ -7208,7 +7191,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     options,
                   } );
                 } )( cssLoader ),
-                postCSSLoaderModules,
+                postCSSLoader,
                 /**
                  * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
                  * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
@@ -7822,7 +7805,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
               return Object.assign( {}, cssLoader, { options, } );
             } )( cssLoader ),
-            postCSSLoaderModules,
+            postCSSLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -7893,7 +7876,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
                   return Object.assign( {}, cssLoader, { options, } );
                 } )( cssLoader ),
-                postCSSLoaderModules,
+                postCSSLoader,
               ],
               include: [
                 join( __dirname, './node_modules/' ),
@@ -8067,7 +8050,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoaderModules,
+            postCSSLoader,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
              * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
@@ -8157,7 +8140,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     options,
                   } );
                 } )( cssLoader ),
-                postCSSLoaderModules,
+                postCSSLoader,
                 /**
                  * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
                  * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
@@ -8334,7 +8317,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoaderModules,
+            postCSSLoader,
             /**
              * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
              * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
@@ -8424,7 +8407,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     options,
                   } );
                 } )( cssLoader ),
-                postCSSLoaderModules,
+                postCSSLoader,
                 /**
                  * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
                  * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
@@ -8601,7 +8584,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 options,
               } );
             } )( cssLoader ),
-            postCSSLoaderModules,
+            postCSSLoader,
             stylusLoader,
           ],
           include: [
@@ -8676,7 +8659,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     options,
                   } );
                 } )( cssLoader ),
-                postCSSLoaderModules,
+                postCSSLoader,
                 stylusLoader,
               ],
               include: [
