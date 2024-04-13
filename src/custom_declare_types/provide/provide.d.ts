@@ -8,6 +8,7 @@
 /// <reference types="./localforage.d.ts" />
 /// <reference types="./underscore.d.ts" />
 /// <reference types="./UniversalTools.d.ts" />
+/// <reference types="./Ckeditor5ClassicEditor.d.ts" />
 
 /**
  * Project: web-project-template
@@ -38,12 +39,6 @@ declare global {
   }
 
 }
-
-/**
- * 强大的所见即所得框架可提供完全自定义的编辑体验。<br />
- * 详细见：https://ckeditor.com/docs/ckeditor5/latest/installation/index.html
- */
-declare const Ckeditor5ClassicEditor: any;
 
 /**
  * D3（或D3.js）是一个免费的开源 JavaScript 库，用于可视化数据。其基于 Web 标准构建的低级方法为创作动态、数据驱动的图形提供了无与伦比的灵活性。十多年来，D3 推动了突破性且屡获殊荣的可视化，成为高级图表库的基础构建块，并在世界各地培育了一个充满活力的数据从业者社区。<br />

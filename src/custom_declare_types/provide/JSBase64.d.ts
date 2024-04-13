@@ -7,18 +7,6 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
-/**
- *  base64.ts
- *
- *  Licensed under the BSD 3-Clause License.
- *    http://opensource.org/licenses/BSD-3-Clause
- *
- *  References:
- *    http://en.wikipedia.org/wiki/Base64
- *
- * @author Dan Kogai (https://github.com/dankogai)
- */
-
 const version = '3.7.7';
 /**
  * @deprecated use lowercase `version`.
