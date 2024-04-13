@@ -224,7 +224,7 @@ declare const Pinia: typeof import('pinia');
  * 2、算法时间复杂度优化；
  * 3、算法空间复杂度优化；
  */
-declare const CurrencyTools: typeof import('../../tools/js/currency_tools/CurrencyTools.esm.mjs');
+declare const CurrencyTools: typeof import('../tools/js/currency_tools/CurrencyTools.esm.mjs');
 
 /**
  * 该工具库是使用“TypeScript”编写的公共的、通用的、不特定于某个项目使用的脚本工具库。
@@ -300,4 +300,4 @@ declare const CurrencyTools: typeof import('../../tools/js/currency_tools/Curren
  * 2、算法时间复杂度优化；
  * 3、算法空间复杂度优化；
  */
-declare const UniversalTools: typeof import('../../tools/ts/universal_tools/UniversalTools.esm.mts');
+declare const UniversalTools: typeof import('../tools/ts/universal_tools/UniversalTools.esm.mts');
