@@ -24,9 +24,8 @@ CreateDate: 2022-09-11 12:04:03 星期日
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires
 -->
 <% if(expires !== null && expires !== undefined){ %>
-    <meta
-            http-equiv = 'Expires'
-            content = '<%= expires %>' />
+    <meta http-equiv = 'Expires'
+          content = '<%= expires %>' />
 <% } %>
 <!--
 该meta项用途：
@@ -41,9 +40,8 @@ cookie过期设定，如果网页过期，存盘的cookie将被删除。需要�
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 -->
 <% if(setCookieExpires !== null && setCookieExpires !== undefined){ %>
-    <meta
-            http-equiv = 'Set-Cookie'
-            content = '<%= setCookieExpires %>' />
+    <meta http-equiv = 'Set-Cookie'
+          content = '<%= setCookieExpires %>' />
 <% } %>
 <!--
 该meta项用途：
@@ -53,9 +51,8 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 true：代表显示。
 false：代表不显示。
 -->
-<meta
-        http-equiv = 'ImageToolBar'
-        content = 'true' />
+<meta http-equiv = 'ImageToolBar'
+      content = 'true' />
 <!--
 该meta项用途：
 显示窗口的设定。
@@ -66,9 +63,8 @@ _self：它使得目标文档载入并显示在相同的框架或者窗口中作
 _blank：浏览器总在一个新打开、未命名的窗口中载入目标文档。
 _parent：这个目标使得文档载入父窗口或者包含来超链接引用的框架的框架集，如果这个引用是在窗口或者在顶级框架中，那么它与“_self”等效。
 -->
-<meta
-        http-equiv = 'Window-Target'
-        content = '_top' />
+<meta http-equiv = 'Window-Target'
+      content = '_top' />
 <!--
 该meta项用途：
 告诉浏览器页面的语言方式。
@@ -76,9 +72,8 @@ _parent：这个目标使得文档载入父窗口或者包含来超链接引用�
 值说明：
 zh-CN：简体中文。
 -->
-<meta
-        http-equiv = 'Content-Language'
-        content = 'zh-CN' />
+<meta http-equiv = 'Content-Language'
+      content = 'zh-CN' />
 <!--
 该meta项用途：
 是否启用DNS预解析。
@@ -90,9 +85,8 @@ off：不启用。
 注意：
 虽然使用DNS Prefetch能够加快页面的解析速度，但是也不能滥用，因为有开发者指出禁用“DNS预读取”能节省每月100亿的DNS查询。
 -->
-<meta
-        http-equiv = 'X-DNS-Prefetch-Control'
-        content = 'on' />
+<meta http-equiv = 'X-DNS-Prefetch-Control'
+      content = 'on' />
 <!--
 该meta项用途：
 表示允许跨域访问。
@@ -100,30 +94,26 @@ off：不启用。
 详细见：
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
 -->
-<meta
-        http-equiv = 'Access-Control-Allow-Origin'
-        content = '*' />
+<meta http-equiv = 'Access-Control-Allow-Origin'
+      content = '*' />
 <!--
 详细见：
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
 -->
-<meta
-        http-equiv = 'Access-Control-Request-Headers'
-        content = 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control' />
+<meta http-equiv = 'Access-Control-Request-Headers'
+      content = 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control' />
 <!--
 详细见：
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
 -->
-<meta
-        http-equiv = 'Access-Control-Request-Method'
-        content = 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH' />
+<meta http-equiv = 'Access-Control-Request-Method'
+      content = 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH' />
 <!--
 该meta项用途：
 W3C网页规范，指明页面中脚本的类型。
 -->
-<meta
-        http-equiv = 'Content-Script-Type'
-        content = 'text/javascript' />
+<meta http-equiv = 'Content-Script-Type'
+      content = 'text/javascript' />
 <!--
 该meta项用途：
 声明文档的MIME类型和字符编码，如果指定，内容属性必须具有值“text/html;charset=utf-8”，这等效于指定了charset属性的meta元素，并且对文档中的位置具有相同的限制。
@@ -131,9 +121,8 @@ W3C网页规范，指明页面中脚本的类型。
 注意：
 只能在以“text/html”提供的文档中使用，不能在以“XML”MIME类型提供的文档中使用。
 -->
-<meta
-        http-equiv = 'Content-Type'
-        content = 'text/html;charset=utf-8' />
+<meta http-equiv = 'Content-Type'
+      content = 'text/html;charset=utf-8' />
 <!--
 该meta项用途：
 Cache-Control指定请求和响应遵循的缓存机制，在请求消息或响应消息中设置Cache-Control并不会修改另一个消息处理过程中的缓存处理过程。
@@ -160,9 +149,8 @@ no-siteapp：禁止百度转码。
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#attributes
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
 -->
-<meta
-        http-equiv = 'Cache-Control'
-        content = 'no-cache' />
+<meta http-equiv = 'Cache-Control'
+      content = 'no-cache' />
 <!--
 该标头的值的格式比较特别，必需是用“双引号”括起来，这时就会出现字符串嵌套字符串的情况。
 
@@ -176,9 +164,8 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
 该meta项用途：
 是否开启cleartype显示效果，微软的一种让字体清晰的能力。
 -->
-<meta
-        http-equiv = 'cleartype'
-        content = 'on' />
+<meta http-equiv = 'cleartype'
+      content = 'on' />
 <!--
 设定进入页面时的特殊效果，这个功能即FrontPage中的“格式/网页过渡”。
 
@@ -215,9 +202,8 @@ transtion：过渡方式，它的值为0到23，分别对应24种过渡方式。
 所在页面不能够是一个frame、iframe页面。
 -->
 <% if(pageEnter !== null && pageEnter !== undefined){ %>
-    <meta
-            http-equiv = 'Page-Enter'
-            content = '<%= pageEnter %>' />
+    <meta http-equiv = 'Page-Enter'
+          content = '<%= pageEnter %>' />
 <% } %>
 <!--
 设定离开页面时的特殊效果，这个功能即FrontPage中的“格式/网页过渡”。
@@ -255,9 +241,8 @@ transtion：过渡方式，它的值为0到23，分别对应24种过渡方式。
 所在页面不能够是一个frame、iframe页面。
 -->
 <% if(pageExit !== null && pageExit !== undefined){ %>
-    <meta
-            http-equiv = 'Page-Exit'
-            content = '<%= pageExit %>' />
+    <meta http-equiv = 'Page-Exit'
+          content = '<%= pageExit %>' />
 <% } %>
 <!--
 设定页面重定向、刷新之类的操作。
@@ -266,8 +251,7 @@ transtion：过渡方式，它的值为0到23，分别对应24种过渡方式。
 也可以设置成自我刷新当前页面。
 -->
 <% if(refresh !== null && refresh !== undefined){ %>
-    <meta
-            http-equiv = 'refresh'
-            content = '<%= refresh %>' />
+    <meta http-equiv = 'refresh'
+          content = '<%= refresh %>' />
 <% } %>
 <!--以上是http-equiv End-->

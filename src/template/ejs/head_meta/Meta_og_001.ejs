@@ -35,41 +35,36 @@ CreateDate: 2022-09-11 12:44:42 星期日
     https://developers.facebook.com/apps/redirect/open-graph/action-types
     -->
     <% if(og.type !== null && og.type !== undefined){ %>
-        <meta
-                property = 'og:type'
-                content = '<%= og.type %>' />
+        <meta property = 'og:type'
+              content = '<%= og.type %>' />
     <% } %>
     <!--
     og:title中content的值为分享显示的标题。同<title></title>标签内的值。
     -->
     <% if(og.title !== null && og.title !== undefined){ %>
-        <meta
-                property = 'og:title'
-                content = '<%= og.title %>' />
+        <meta property = 'og:title'
+              content = '<%= og.title %>' />
     <% } %>
     <!--
     og:url中content的值为分享的链接地址（当前页面的地址），也可以不是当前页面的链接地址（其他页面）。
     链接最好是https://的。-->
     <% if(og.url !== null && og.url !== undefined){ %>
-        <meta
-                property = 'og:url'
-                content = '<%= og.url %>' />
+        <meta property = 'og:url'
+              content = '<%= og.url %>' />
     <% } %>
     <!--
     og:site_name中content的值为网站显示的名称，如：YouTube Music。
     -->
     <% if(og.siteName !== null && og.siteName !== undefined){ %>
-        <meta
-                property = 'og:site_name'
-                content = '<%= og.siteName %>' />
+        <meta property = 'og:site_name'
+              content = '<%= og.siteName %>' />
     <% } %>
     <!--
     og:description中content的值为分享显示的描述。同<meta name = 'description' />的值。
     -->
     <% if(og.description !== null && og.description !== undefined){ %>
-        <meta
-                property = 'og:description'
-                content = '<%= og.description %>' />
+        <meta property = 'og:description'
+              content = '<%= og.description %>' />
     <% } %>
 
     <!--
@@ -96,9 +91,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
     zh_CN（中文，中国大陆，简体）、zh_HK（中文，香港，繁体）、zh_MY（中文，马来西亚）、zh_TW（中文，台湾，繁体）等等。
     -->
     <% if(og.locale !== null && og.locale !== undefined){ %>
-        <meta
-                property = 'og:locale'
-                content = '<%= og.locale %>' />
+        <meta property = 'og:locale'
+              content = '<%= og.locale %>' />
     <% } %>
     <!--
     此页面可用的一系列其他语言环境，值同上面的og:locale对应的值。
@@ -106,9 +100,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
     <% if(Array.isArray( og.localeAlternate )){ %>
         <% for( const alternate of
                 og.localeAlternate ){ %>
-            <meta
-                    property = 'og:locale:alternate'
-                    content = '<%= alternate %>' />
+            <meta property = 'og:locale:alternate'
+                  content = '<%= alternate %>' />
         <% } %>
     <% } %>
 
@@ -116,9 +109,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
     句子中出现在此对象标题之前的单词，值有：'a'、'an'、'the'、''、'auto'，如果选择'auto'，则数据的使用者应在'a'、'an'之间进行选择，默认为''（空白）。
     -->
     <% if(og.determiner !== null && og.determiner !== undefined){ %>
-        <meta
-                property = 'og:determiner'
-                content = '<%= og.determiner %>' />
+        <meta property = 'og:determiner'
+              content = '<%= og.determiner %>' />
     <% } %>
 
     <!--og:image：<html prefix = 'og: https://ogp.me/ns#' >，Start-->
@@ -128,58 +120,51 @@ CreateDate: 2022-09-11 12:44:42 星期日
         一些社交网络可能会对图像有特殊要求，例如，Twitter要求比例为2:1，最小尺寸为300x157，最大尺寸为4096x4096，小于5MB，JPG、PNG、WEBP、GIF等等格式。
         -->
         <% if(og.image.url !== null && og.image.url !== undefined){ %>
-            <meta
-                    property = 'og:image'
-                    content = '<%= og.image.url %>' />
+            <meta property = 'og:image'
+                  content = '<%= og.image.url %>' />
         <% } %>
         <!--
         分享显示的图片地址，链接最好是https://的。
         -->
         <% if(og.image.url !== null && og.image.url !== undefined){ %>
-            <meta
-                    property = 'og:image:url'
-                    content = '<%= og.image.url %>' />
+            <meta property = 'og:image:url'
+                  content = '<%= og.image.url %>' />
         <% } %>
         <!--
         og:image:secure_url中content的值是https站点必需的图片url，必须是https://协议的。
         https站点上面用的分享显示的备用图片。
         -->
         <% if(og.image.secureURL !== null && og.image.secureURL !== undefined){ %>
-            <meta
-                    property = 'og:image:secure_url'
-                    content = '<%= og.image.secureURL %>' />
+            <meta property = 'og:image:secure_url'
+                  content = '<%= og.image.secureURL %>' />
         <% } %>
         <!--
         图像类型，如：image/jpeg。
         -->
         <% if(og.image.type !== null && og.image.type !== undefined){ %>
-            <meta
-                    property = 'og:image:type'
-                    content = '<%= og.image.type %>' />
+            <meta property = 'og:image:type'
+                  content = '<%= og.image.type %>' />
         <% } %>
         <!--
         图像的像素宽度。
         -->
         <% if(og.image.width !== null && og.image.width !== undefined){ %>
-            <meta
-                    property = 'og:image:width'
-                    content = '<%= og.image.width %>' />
+            <meta property = 'og:image:width'
+                  content = '<%= og.image.width %>' />
         <% } %>
         <!--
         图像的像素高度。
         -->
         <% if(og.image.height !== null && og.image.height !== undefined){ %>
-            <meta
-                    property = 'og:image:height'
-                    content = '<%= og.image.height %>' />
+            <meta property = 'og:image:height'
+                  content = '<%= og.image.height %>' />
         <% } %>
         <!--
         对图像中内容的描述（不是标题），如果页面指定og:image，它应该也指定og:image:alt。
         -->
         <% if(og.image.alt !== null && og.image.alt !== undefined){ %>
-            <meta
-                    property = 'og:image:alt'
-                    content = '<%= og.image.alt %>' />
+            <meta property = 'og:image:alt'
+                  content = '<%= og.image.alt %>' />
         <% } %>
     <% } %>
     <!--og:image：<html prefix = 'og: https://ogp.me/ns#' >，End-->
@@ -198,41 +183,36 @@ CreateDate: 2022-09-11 12:44:42 星期日
         https://developers.facebook.com/docs/sharing/webmasters#media
         -->
         <% if(og.video.url !== null && og.video.url !== undefined){ %>
-            <meta
-                    property = 'og:video'
-                    content = '<%= og.video.url %>' />
+            <meta property = 'og:video'
+                  content = '<%= og.video.url %>' />
         <% } %>
         <!--
         og:video:secure_url中content的值为视频的url，是备用的安全协议https://的链接。
         -->
         <% if(og.video.secureURL !== null && og.video.secureURL !== undefined){ %>
-            <meta
-                    property = 'og:video:secure_url'
-                    content = '<%= og.video.secureURL %>' />
+            <meta property = 'og:video:secure_url'
+                  content = '<%= og.video.secureURL %>' />
         <% } %>
         <!--
         og:video:type中content的值为视频的类型，如：application/x-shockwave-flash。
         -->
         <% if(og.video.type !== null && og.video.type !== undefined){ %>
-            <meta
-                    property = 'og:video:type'
-                    content = '<%= og.video.type %>' />
+            <meta property = 'og:video:type'
+                  content = '<%= og.video.type %>' />
         <% } %>
         <!--
         og:video:width中content的值为限定视频或Flash的宽，值如：500（单位为：px）。
         -->
         <% if(og.video.width !== null && og.video.width !== undefined){ %>
-            <meta
-                    property = 'og:video:width'
-                    content = '<%= og.video.width %>' />
+            <meta property = 'og:video:width'
+                  content = '<%= og.video.width %>' />
         <% } %>
         <!--
         og:video:height中content的值为限定视频或Flash的高，值如：500（单位为：px）。
         -->
         <% if(og.video.height !== null && og.video.height !== undefined){ %>
-            <meta
-                    property = 'og:video:height'
-                    content = '<%= og.video.height %>' />
+            <meta property = 'og:video:height'
+                  content = '<%= og.video.height %>' />
         <% } %>
     <% } %>
     <!--
@@ -251,15 +231,13 @@ CreateDate: 2022-09-11 12:44:42 星期日
                     <!--
                     video:actor：电影中的演员。
                     -->
-                    <meta
-                            property = 'og:video:actor'
-                            content = '<%= actor %>' />
+                    <meta property = 'og:video:actor'
+                          content = '<%= actor %>' />
                     <!--
                     video:actor:role：他们扮演的角色。
                     -->
-                    <meta
-                            property = 'og:video:actor:role'
-                            content = '<%= role %>' />
+                    <meta property = 'og:video:actor:role'
+                          content = '<%= role %>' />
                 <% } ) %>
             <% } %>
             <!--
@@ -268,9 +246,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.movie.directors )){ %>
                 <% for( const director of
                         og.videoType.movie.directors ){ %>
-                    <meta
-                            property = 'og:video:director'
-                            content = '<%= director %>' />
+                    <meta property = 'og:video:director'
+                          content = '<%= director %>' />
                 <% } %>
             <% } %>
             <!--
@@ -279,26 +256,23 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.movie.writers )){ %>
                 <% for( const writer of
                         og.videoType.movie.writers ){ %>
-                    <meta
-                            property = 'og:video:writer'
-                            content = '<%= writer %>' />
+                    <meta property = 'og:video:writer'
+                          content = '<%= writer %>' />
                 <% } %>
             <% } %>
             <!--
             video:duration：值范围大于等于1，电影的长度（以秒为单位）。
             -->
             <% if(og.videoType.movie.duration !== null && og.videoType.movie.duration !== undefined){ %>
-                <meta
-                        property = 'og:video:duration'
-                        content = '<%= og.videoType.movie.duration %>' />
+                <meta property = 'og:video:duration'
+                      content = '<%= og.videoType.movie.duration %>' />
             <% } %>
             <!--
             video:release_date：电影上映日期，使用GMT（ISO 8601）的时间格式。
             -->
             <% if(og.videoType.movie.releaseDate !== null && og.videoType.movie.releaseDate !== undefined){ %>
-                <meta
-                        property = 'og:video:release_date'
-                        content = '<%= og.videoType.movie.releaseDate %>' />
+                <meta property = 'og:video:release_date'
+                      content = '<%= og.videoType.movie.releaseDate %>' />
             <% } %>
             <!--
             video:tag：与这部电影相关的标签词。
@@ -306,9 +280,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.movie.tags )){ %>
                 <% for( const tag of
                         og.videoType.movie.tags ){ %>
-                    <meta
-                            property = 'og:video:tag'
-                            content = '<%= tag %>' />
+                    <meta property = 'og:video:tag'
+                          content = '<%= tag %>' />
                 <% } %>
             <% } %>
         <% } %>
@@ -324,15 +297,13 @@ CreateDate: 2022-09-11 12:44:42 星期日
                     <!--
                     video:actor：电影中的演员。
                     -->
-                    <meta
-                            property = 'og:video:actor'
-                            content = '<%= actor %>' />
+                    <meta property = 'og:video:actor'
+                          content = '<%= actor %>' />
                     <!--
                     video:actor:role：他们扮演的角色。
                     -->
-                    <meta
-                            property = 'og:video:actor:role'
-                            content = '<%= role %>' />
+                    <meta property = 'og:video:actor:role'
+                          content = '<%= role %>' />
                 <% } ) %>
             <% } %>
             <!--
@@ -341,9 +312,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.episode.directors )){ %>
                 <% for( const director of
                         og.videoType.episode.directors ){ %>
-                    <meta
-                            property = 'og:video:director'
-                            content = '<%= director %>' />
+                    <meta property = 'og:video:director'
+                          content = '<%= director %>' />
                 <% } %>
             <% } %>
             <!--
@@ -352,26 +322,23 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.episode.writers )){ %>
                 <% for( const writer of
                         og.videoType.episode.writers ){ %>
-                    <meta
-                            property = 'og:video:writer'
-                            content = '<%= writer %>' />
+                    <meta property = 'og:video:writer'
+                          content = '<%= writer %>' />
                 <% } %>
             <% } %>
             <!--
             video:duration：值范围大于等于1，电影的长度（以秒为单位）。
             -->
             <% if(og.videoType.episode.duration !== null && og.videoType.episode.duration !== undefined){ %>
-                <meta
-                        property = 'og:video:duration'
-                        content = '<%= og.videoType.episode.duration %>' />
+                <meta property = 'og:video:duration'
+                      content = '<%= og.videoType.episode.duration %>' />
             <% } %>
             <!--
             video:release_date：电影上映日期，使用GMT（ISO 8601）的时间格式。
             -->
             <% if(og.videoType.episode.releaseDate !== null && og.videoType.episode.releaseDate !== undefined){ %>
-                <meta
-                        property = 'og:video:release_date'
-                        content = '<%= og.videoType.episode.releaseDate %>' />
+                <meta property = 'og:video:release_date'
+                      content = '<%= og.videoType.episode.releaseDate %>' />
             <% } %>
             <!--
             video:tag：与这部电影相关的标签词。
@@ -379,18 +346,16 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.episode.tags )){ %>
                 <% for( const tag of
                         og.videoType.episode.tags ){ %>
-                    <meta
-                            property = 'og:video:tag'
-                            content = '<%= tag %>' />
+                    <meta property = 'og:video:tag'
+                          content = '<%= tag %>' />
                 <% } %>
             <% } %>
             <!--
             video:series：这一集属于哪个系列。
             -->
             <% if(og.videoType.episode.series !== null && og.videoType.episode.series !== undefined){ %>
-                <meta
-                        property = 'og:video:series'
-                        content = '<%= og.videoType.episode.series %>' />
+                <meta property = 'og:video:series'
+                      content = '<%= og.videoType.episode.series %>' />
             <% } %>
         <% } %>
 
@@ -405,15 +370,13 @@ CreateDate: 2022-09-11 12:44:42 星期日
                     <!--
                     video:actor：电影中的演员。
                     -->
-                    <meta
-                            property = 'og:video:actor'
-                            content = '<%= actor %>' />
+                    <meta property = 'og:video:actor'
+                          content = '<%= actor %>' />
                     <!--
                     video:actor:role：他们扮演的角色。
                     -->
-                    <meta
-                            property = 'og:video:actor:role'
-                            content = '<%= role %>' />
+                    <meta property = 'og:video:actor:role'
+                          content = '<%= role %>' />
                 <% } ) %>
             <% } %>
             <!--
@@ -422,9 +385,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.tvShow.directors )){ %>
                 <% for( const director of
                         og.videoType.tvShow.directors ){ %>
-                    <meta
-                            property = 'og:video:director'
-                            content = '<%= director %>' />
+                    <meta property = 'og:video:director'
+                          content = '<%= director %>' />
                 <% } %>
             <% } %>
             <!--
@@ -433,26 +395,23 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.tvShow.writers )){ %>
                 <% for( const writer of
                         og.videoType.tvShow.writers ){ %>
-                    <meta
-                            property = 'og:video:writer'
-                            content = '<%= writer %>' />
+                    <meta property = 'og:video:writer'
+                          content = '<%= writer %>' />
                 <% } %>
             <% } %>
             <!--
             video:duration：值范围大于等于1，电影的长度（以秒为单位）。
             -->
             <% if(og.videoType.tvShow.duration !== null && og.videoType.tvShow.duration !== undefined){ %>
-                <meta
-                        property = 'og:video:duration'
-                        content = '<%= og.videoType.tvShow.duration %>' />
+                <meta property = 'og:video:duration'
+                      content = '<%= og.videoType.tvShow.duration %>' />
             <% } %>
             <!--
             video:release_date：电影上映日期，使用GMT（ISO 8601）的时间格式。
             -->
             <% if(og.videoType.tvShow.releaseDate !== null && og.videoType.tvShow.releaseDate !== undefined){ %>
-                <meta
-                        property = 'og:video:release_date'
-                        content = '<%= og.videoType.tvShow.releaseDate %>' />
+                <meta property = 'og:video:release_date'
+                      content = '<%= og.videoType.tvShow.releaseDate %>' />
             <% } %>
             <!--
             video:tag：与这部电影相关的标签词。
@@ -460,9 +419,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.tvShow.tags )){ %>
                 <% for( const tag of
                         og.videoType.tvShow.tags ){ %>
-                    <meta
-                            property = 'og:video:tag'
-                            content = '<%= tag %>' />
+                    <meta property = 'og:video:tag'
+                          content = '<%= tag %>' />
                 <% } %>
             <% } %>
         <% } %>
@@ -478,15 +436,13 @@ CreateDate: 2022-09-11 12:44:42 星期日
                     <!--
                     video:actor：电影中的演员。
                     -->
-                    <meta
-                            property = 'og:video:actor'
-                            content = '<%= actor %>' />
+                    <meta property = 'og:video:actor'
+                          content = '<%= actor %>' />
                     <!--
                     video:actor:role：他们扮演的角色。
                     -->
-                    <meta
-                            property = 'og:video:actor:role'
-                            content = '<%= role %>' />
+                    <meta property = 'og:video:actor:role'
+                          content = '<%= role %>' />
                 <% } ) %>
             <% } %>
             <!--
@@ -495,9 +451,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.other.directors )){ %>
                 <% for( const director of
                         og.videoType.other.directors ){ %>
-                    <meta
-                            property = 'og:video:director'
-                            content = '<%= director %>' />
+                    <meta property = 'og:video:director'
+                          content = '<%= director %>' />
                 <% } %>
             <% } %>
             <!--
@@ -506,26 +461,23 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.other.writers )){ %>
                 <% for( const writer of
                         og.videoType.other.writers ){ %>
-                    <meta
-                            property = 'og:video:writer'
-                            content = '<%= writer %>' />
+                    <meta property = 'og:video:writer'
+                          content = '<%= writer %>' />
                 <% } %>
             <% } %>
             <!--
             video:duration：值范围大于等于1，电影的长度（以秒为单位）。
             -->
             <% if(og.videoType.other.duration !== null && og.videoType.other.duration !== undefined){ %>
-                <meta
-                        property = 'og:video:duration'
-                        content = '<%= og.videoType.other.duration %>' />
+                <meta property = 'og:video:duration'
+                      content = '<%= og.videoType.other.duration %>' />
             <% } %>
             <!--
             video:release_date：电影上映日期，使用GMT（ISO 8601）的时间格式。
             -->
             <% if(og.videoType.other.releaseDate !== null && og.videoType.other.releaseDate !== undefined){ %>
-                <meta
-                        property = 'og:video:release_date'
-                        content = '<%= og.videoType.other.releaseDate %>' />
+                <meta property = 'og:video:release_date'
+                      content = '<%= og.videoType.other.releaseDate %>' />
             <% } %>
             <!--
             video:tag：与这部电影相关的标签词。
@@ -533,9 +485,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.videoType.other.tags )){ %>
                 <% for( const tag of
                         og.videoType.other.tags ){ %>
-                    <meta
-                            property = 'og:video:tag'
-                            content = '<%= tag %>' />
+                    <meta property = 'og:video:tag'
+                          content = '<%= tag %>' />
                 <% } %>
             <% } %>
         <% } %>
@@ -553,25 +504,22 @@ CreateDate: 2022-09-11 12:44:42 星期日
         og:audio中content的值为音频的url，链接最好是https://的。
         -->
         <% if(og.audio.url !== null && og.audio.url !== undefined){ %>
-            <meta
-                    property = 'og:audio'
-                    content = '<%= og.audio.url %>' />
+            <meta property = 'og:audio'
+                  content = '<%= og.audio.url %>' />
         <% } %>
         <!--
         og:audio:secure_url中content的值为音频的url，是备用的安全协议https://的链接。
         -->
         <% if(og.audio.secureURL !== null && og.audio.secureURL !== undefined){ %>
-            <meta
-                    property = 'og:audio:secure_url'
-                    content = '<%= og.audio.secureURL %>' />
+            <meta property = 'og:audio:secure_url'
+                  content = '<%= og.audio.secureURL %>' />
         <% } %>
         <!--
         og:audio:type中content的值为音频的MIME，如：audio/mpeg。
         -->
         <% if(og.audio.type !== null && og.audio.type !== undefined){ %>
-            <meta
-                    property = 'og:audio:type'
-                    content = '<%= og.audio.type %>' />
+            <meta property = 'og:audio:type'
+                  content = '<%= og.audio.type %>' />
         <% } %>
     <% } %>
     <!--
@@ -585,9 +533,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             music:duration：值范围为大于等于1，歌曲的长度（以秒为单位）。
             -->
             <% if(og.musicType.song.duration !== null && og.musicType.song.duration !== undefined){ %>
-                <meta
-                        property = 'og:music:duration'
-                        content = '<%= og.musicType.song.duration %>' />
+                <meta property = 'og:music:duration'
+                      content = '<%= og.musicType.song.duration %>' />
             <% } %>
             <!--
             music:album：这首歌出自的专辑。
@@ -595,26 +542,23 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.musicType.song.albums )){ %>
                 <% for( const album of
                         og.musicType.song.albums ){ %>
-                    <meta
-                            property = 'og:music:album'
-                            content = '<%= album %>' />
+                    <meta property = 'og:music:album'
+                          content = '<%= album %>' />
                 <% } %>
             <% } %>
             <!--
             music:album:disc：值范围为大于等于1，这首歌在专辑的哪张碟上。
             -->
             <% if(og.musicType.song.albumDisc !== null && og.musicType.song.albumDisc !== undefined){ %>
-                <meta
-                        property = 'og:music:album:disc'
-                        content = '<%= og.musicType.song.albumDisc %>' />
+                <meta property = 'og:music:album:disc'
+                      content = '<%= og.musicType.song.albumDisc %>' />
             <% } %>
             <!--
             music:album:track：值范围为大于等于1，这首歌是哪一首歌。
             -->
             <% if(og.musicType.song.albumTrack !== null && og.musicType.song.albumTrack !== undefined){ %>
-                <meta
-                        property = 'og:music:album:track'
-                        content = '<%= og.musicType.song.albumTrack %>' />
+                <meta property = 'og:music:album:track'
+                      content = '<%= og.musicType.song.albumTrack %>' />
             <% } %>
             <!--
             music:musician：创作这首歌的音乐家。
@@ -622,9 +566,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             <% if(Array.isArray( og.musicType.song.musicians )){ %>
                 <% for( const musician of
                         og.musicType.song.musicians ){ %>
-                    <meta
-                            property = 'og:music:musician'
-                            content = '<%= musician %>' />
+                    <meta property = 'og:music:musician'
+                          content = '<%= musician %>' />
                 <% } %>
             <% } %>
         <% } %>
@@ -635,41 +578,36 @@ CreateDate: 2022-09-11 12:44:42 星期日
             music:song：这张专辑里的歌。
             -->
             <% if(og.musicType.album.song !== null && og.musicType.album.song !== undefined){ %>
-                <meta
-                        property = 'og:music:song'
-                        content = '<%= og.musicType.album.song %>' />
+                <meta property = 'og:music:song'
+                      content = '<%= og.musicType.album.song %>' />
             <% } %>
             <!--
             music:song:disc：值范围为大于等于1，这首歌在专辑的哪张光盘上。
             -->
             <% if(og.musicType.album.songDisc !== null && og.musicType.album.songDisc !== undefined){ %>
-                <meta
-                        property = 'og:music:song:disc'
-                        content = '<%= og.musicType.album.songDisc %>' />
+                <meta property = 'og:music:song:disc'
+                      content = '<%= og.musicType.album.songDisc %>' />
             <% } %>
             <!--
             music:song:track：值范围为大于等于1，这首歌是哪一首歌。
             -->
             <% if(og.musicType.album.songTrack !== null && og.musicType.album.songTrack !== undefined){ %>
-                <meta
-                        property = 'og:music:song:track'
-                        content = '<%= og.musicType.album.songTrack %>' />
+                <meta property = 'og:music:song:track'
+                      content = '<%= og.musicType.album.songTrack %>' />
             <% } %>
             <!--
             music:musician：创作这首歌的音乐家。
             -->
             <% if(og.musicType.album.musician !== null && og.musicType.album.musician !== undefined){ %>
-                <meta
-                        property = 'og:music:musician'
-                        content = '<%= og.musicType.album.musician %>' />
+                <meta property = 'og:music:musician'
+                      content = '<%= og.musicType.album.musician %>' />
             <% } %>
             <!--
             music:release_date：专辑发行日期，使用GMT（ISO 8601）的时间格式。
             -->
             <% if(og.musicType.album.releaseDate !== null && og.musicType.album.releaseDate !== undefined){ %>
-                <meta
-                        property = 'og:music:release_date'
-                        content = '<%= og.musicType.album.releaseDate %>' />
+                <meta property = 'og:music:release_date'
+                      content = '<%= og.musicType.album.releaseDate %>' />
             <% } %>
         <% } %>
 
@@ -679,33 +617,29 @@ CreateDate: 2022-09-11 12:44:42 星期日
             music:song：这张专辑里的歌。
             -->
             <% if(og.musicType.playlist.song !== null && og.musicType.playlist.song !== undefined){ %>
-                <meta
-                        property = 'og:music:song'
-                        content = '<%= og.musicType.playlist.song %>' />
+                <meta property = 'og:music:song'
+                      content = '<%= og.musicType.playlist.song %>' />
             <% } %>
             <!--
             music:song:disc：值范围为大于等于1，这首歌在专辑的哪张光盘上。
             -->
             <% if(og.musicType.playlist.songDisc !== null && og.musicType.playlist.songDisc !== undefined){ %>
-                <meta
-                        property = 'og:music:song:disc'
-                        content = '<%= og.musicType.playlist.songDisc %>' />
+                <meta property = 'og:music:song:disc'
+                      content = '<%= og.musicType.playlist.songDisc %>' />
             <% } %>
             <!--
             music:song:track：值范围为大于等于1，这首歌是哪一首歌。
             -->
             <% if(og.musicType.playlist.songTrack !== null && og.musicType.playlist.songTrack !== undefined){ %>
-                <meta
-                        property = 'og:music:song:track'
-                        content = '<%= og.musicType.playlist.songTrack %>' />
+                <meta property = 'og:music:song:track'
+                      content = '<%= og.musicType.playlist.songTrack %>' />
             <% } %>
             <!--
             music:creator：此播放列表的创建者。
             -->
             <% if(og.musicType.playlist.creator !== null && og.musicType.playlist.creator !== undefined){ %>
-                <meta
-                        property = 'og:music:creator'
-                        content = '<%= og.musicType.playlist.creator %>' />
+                <meta property = 'og:music:creator'
+                      content = '<%= og.musicType.playlist.creator %>' />
             <% } %>
         <% } %>
 
@@ -715,9 +649,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
             music:creator：该广播电台的创建者。
             -->
             <% if(og.musicType.radioStation.creator !== null && og.musicType.radioStation.creator !== undefined){ %>
-                <meta
-                        property = 'og:music:creator'
-                        content = '<%= og.musicType.radioStation.creator %>' />
+                <meta property = 'og:music:creator'
+                      content = '<%= og.musicType.radioStation.creator %>' />
             <% } %>
         <% } %>
     <% } %>
@@ -730,33 +663,29 @@ CreateDate: 2022-09-11 12:44:42 星期日
         文章出版商。
         -->
         <% if(og.article.publisher !== null && og.article.publisher !== undefined){ %>
-            <meta
-                    property = 'og:article:publisher'
-                    content = '<%= og.article.publisher %>' />
+            <meta property = 'og:article:publisher'
+                  content = '<%= og.article.publisher %>' />
         <% } %>
         <!--
         文章首次发表时间，值类型：datetime（ISO 8601），表示由日期（年、月、日）和可选时间组件（小时、分钟）组成的时间值。
         -->
         <% if(og.article.publishedTime !== null && og.article.publishedTime !== undefined){ %>
-            <meta
-                    property = 'og:article:published_time'
-                    content = '<%= og.article.publishedTime %>' />
+            <meta property = 'og:article:published_time'
+                  content = '<%= og.article.publishedTime %>' />
         <% } %>
         <!--
         文章更改时间，值类型：datetime（ISO 8601），表示由日期（年、月、日）和可选时间组件（小时、分钟）组成的时间值。
         -->
         <% if(og.article.modifiedTime !== null && og.article.modifiedTime !== undefined){ %>
-            <meta
-                    property = 'og:article:modified_time'
-                    content = '<%= og.article.modifiedTime %>' />
+            <meta property = 'og:article:modified_time'
+                  content = '<%= og.article.modifiedTime %>' />
         <% } %>
         <!--
         文章过期时间，值类型：datetime（ISO 8601），表示由日期（年、月、日）和可选时间组件（小时、分钟）组成的时间值。
         -->
         <% if(og.article.expirationTime !== null && og.article.expirationTime !== undefined){ %>
-            <meta
-                    property = 'og:article:expiration_time'
-                    content = '<%= og.article.expirationTime %>' />
+            <meta property = 'og:article:expiration_time'
+                  content = '<%= og.article.expirationTime %>' />
         <% } %>
         <!--
         文章的作者，值类型为：数组。
@@ -764,18 +693,16 @@ CreateDate: 2022-09-11 12:44:42 星期日
         <% if(Array.isArray( og.article.authors )){ %>
             <% for( const author of
                     og.article.authors ){ %>
-                <meta
-                        property = 'og:article:author'
-                        content = '<%= author %>' />
+                <meta property = 'og:article:author'
+                      content = '<%= author %>' />
             <% } %>
         <% } %>
         <!--
         文章的段落名称，值类型为：字符串。
         -->
         <% if(og.article.section !== null && og.article.section !== undefined){ %>
-            <meta
-                    property = 'og:article:section'
-                    content = '<%= og.article.section %>' />
+            <meta property = 'og:article:section'
+                  content = '<%= og.article.section %>' />
         <% } %>
         <!--
         与本文相关的标签词，值类型为：字符串数组。
@@ -783,9 +710,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
         <% if(Array.isArray( og.article.tags )){ %>
             <% for( const tag of
                     og.article.tags ){ %>
-                <meta
-                        property = 'og:article:tag'
-                        content = '<%= tag %>' />
+                <meta property = 'og:article:tag'
+                      content = '<%= tag %>' />
             <% } %>
         <% } %>
     <% } %>
@@ -799,26 +725,23 @@ CreateDate: 2022-09-11 12:44:42 星期日
         <% if(Array.isArray( og.book.authors )){ %>
             <% for( const author of
                     og.book.authors ){ %>
-                <meta
-                        property = 'og:book:author'
-                        content = '<%= author %>' />
+                <meta property = 'og:book:author'
+                      content = '<%= author %>' />
             <% } %>
         <% } %>
         <!--
         国际标准书号（ISBN），值类型为：字符串。
         -->
         <% if(og.book.isbn !== null && og.book.isbn !== undefined){ %>
-            <meta
-                    property = 'og:book:isbn'
-                    content = '<%= og.book.isbn %>' />
+            <meta property = 'og:book:isbn'
+                  content = '<%= og.book.isbn %>' />
         <% } %>
         <!--
         书本发行日期，值类型为：datetime（ISO 8601），表示由日期（年、月、日）和可选时间组件（小时、分钟）组成的时间值。
         -->
         <% if(og.book.releaseDate !== null && og.book.releaseDate !== undefined){ %>
-            <meta
-                    property = 'og:book:release_date'
-                    content = '<%= og.book.releaseDate %>' />
+            <meta property = 'og:book:release_date'
+                  content = '<%= og.book.releaseDate %>' />
         <% } %>
         <!--
         本书相关的标签词，值类型为：字符串数组。
@@ -826,9 +749,8 @@ CreateDate: 2022-09-11 12:44:42 星期日
         <% if(Array.isArray( og.book.tags )){ %>
             <% for( const tag of
                     og.book.tags ){ %>
-                <meta
-                        property = 'og:book:tag'
-                        content = '<%= tag %>' />
+                <meta property = 'og:book:tag'
+                      content = '<%= tag %>' />
             <% } %>
         <% } %>
     <% } %>
@@ -840,33 +762,29 @@ CreateDate: 2022-09-11 12:44:42 星期日
         通常由父母或自己选择给个人的名字，值类型为：字符串。
         -->
         <% if(og.profile.firstName !== null && og.profile.firstName !== undefined){ %>
-            <meta
-                    property = 'og:profile:first_name'
-                    content = '<%= og.profile.firstName %>' />
+            <meta property = 'og:profile:first_name'
+                  content = '<%= og.profile.firstName %>' />
         <% } %>
         <!--
         从家庭或婚姻继承而来的名字，个人众所周知的名字，值类型为：字符串。
         -->
         <% if(og.profile.lastName !== null && og.profile.lastName !== undefined){ %>
-            <meta
-                    property = 'og:profile:last_name'
-                    content = '<%= og.profile.lastName %>' />
+            <meta property = 'og:profile:last_name'
+                  content = '<%= og.profile.lastName %>' />
         <% } %>
         <!--
         个简短的唯一字符串来识别它们，值类型为：字符串。
         -->
         <% if(og.profile.userName !== null && og.profile.userName !== undefined){ %>
-            <meta
-                    property = 'og:profile:username'
-                    content = '<%= og.profile.userName %>' />
+            <meta property = 'og:profile:username'
+                  content = '<%= og.profile.userName %>' />
         <% } %>
         <!--
         性别，值类型为：枚举，有效枚举值有：'male'（男）、'female'（女）。
         -->
         <% if(og.profile.gender !== null && og.profile.gender !== undefined){ %>
-            <meta
-                    property = 'og:profile:gender'
-                    content = '<%= og.profile.gender %>' />
+            <meta property = 'og:profile:gender'
+                  content = '<%= og.profile.gender %>' />
         <% } %>
     <% } %>
     <!--profile，对应og:type为profile，需要设置：<html prefix = 'og: https://ogp.me/ns/profile#' >，End-->
@@ -875,33 +793,29 @@ CreateDate: 2022-09-11 12:44:42 星期日
     <!--
     值为“true”时，发布的动态会呈现丰富的元数据，例如标题、说明、作者、网站名称和预览图片。
     -->
-    <meta
-            property = 'og:rich_attachment'
-            content = 'true' />
+    <meta property = 'og:rich_attachment'
+          content = 'true' />
     <!--
     再次抓取此页面之前经过的秒数，此属性可用于限制Facebook内容爬虫的抓取频率。
     允许的最小值为345600秒（4天），如果设置更低的值，会使用最小值345600。
     如果不包括此标签，会根据网页服务器返回的“Expires”标头计算ttl，否则默认为7天。
     -->
     <% if(og.ttl !== null && og.ttl !== undefined){ %>
-        <meta
-                property = 'og:ttl'
-                content = '<%= og.ttl %>' />
+        <meta property = 'og:ttl'
+              content = '<%= og.ttl %>' />
     <% } %>
     <!--
     用于提供额外的链接（类似og:url），显示与对象相关的内容，链接最好是https://的。
     -->
     <% if(og.seeAlso !== null && og.seeAlso !== undefined){ %>
-        <meta
-                property = 'og:see_also'
-                content = '<%= og.seeAlso %>' />
+        <meta property = 'og:see_also'
+              content = '<%= og.seeAlso %>' />
     <% } %>
     <!--
     上次更新的时间，使用GMT（ISO 8601）的时间格式，表示由日期（年、月、日）和可选时间组件（小时、分钟）组成的时间值。
     -->
     <% if(og.updatedTime !== null && og.updatedTime !== undefined){ %>
-        <meta
-                property = 'og:updated_time'
-                content = '<%= og.updatedTime %>' />
+        <meta property = 'og:updated_time'
+              content = '<%= og.updatedTime %>' />
     <% } %>
 <% } %>

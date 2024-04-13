@@ -13,9 +13,8 @@ CreateDate: 2022-09-11 12:46:45 星期日
     -->
     <% if(appLinks.web !== null && appLinks.web !== undefined){ %>
         <% if(appLinks.web.url !== null && appLinks.web.url !== undefined){ %>
-            <meta
-                    property = 'al:web:url'
-                    content = '<%= appLinks.web.url %>' />
+            <meta property = 'al:web:url'
+                  content = '<%= appLinks.web.url %>' />
         <% } %>
     <% } %>
 
@@ -24,25 +23,22 @@ CreateDate: 2022-09-11 12:46:45 星期日
         al:ios:app_store_id中content的值，如：1017492454，iOS应用在苹果应用商店（App Store）中的应用唯一ID。
         -->
         <% if(appLinks.ios.appStoreId !== null && appLinks.ios.appStoreId !== undefined){ %>
-            <meta
-                    property = 'al:ios:app_store_id'
-                    content = '<%= appLinks.ios.appStoreId %>' />
+            <meta property = 'al:ios:app_store_id'
+                  content = '<%= appLinks.ios.appStoreId %>' />
         <% } %>
         <!--
         al:ios:app_name中content的值，如：YouTube Music，应用名。
         -->
         <% if(appLinks.ios.appName !== null && appLinks.ios.appName !== undefined){ %>
-            <meta
-                    property = 'al:ios:app_name'
-                    content = '<%= appLinks.ios.appName %>' />
+            <meta property = 'al:ios:app_name'
+                  content = '<%= appLinks.ios.appName %>' />
         <% } %>
         <!--
         al:ios:url中content的值，如：vnd.youtube.music://music.youtube.com/?feature=applinks，一般是原生应用提供的自定义协议，用于web跳到原生应用。
         -->
         <% if(appLinks.ios.url !== null && appLinks.ios.url !== undefined){ %>
-            <meta
-                    property = 'al:ios:url'
-                    content = '<%= appLinks.ios.url %>' />
+            <meta property = 'al:ios:url'
+                  content = '<%= appLinks.ios.url %>' />
         <% } %>
     <% } %>
 
@@ -51,25 +47,22 @@ CreateDate: 2022-09-11 12:46:45 星期日
         al:android:package中content的值，如：com.google.android.apps.youtube.music，安卓应用包名，一般具有唯一性。
         -->
         <% if(appLinks.android.packageName !== null && appLinks.android.packageName !== undefined){ %>
-            <meta
-                    property = 'al:android:package'
-                    content = '<%= appLinks.android.packageName %>' />
+            <meta property = 'al:android:package'
+                  content = '<%= appLinks.android.packageName %>' />
         <% } %>
         <!--
         al:android:app_name中content的值，如：YouTube Music，应用名。
         -->
         <% if(appLinks.android.appName !== null && appLinks.android.appName !== undefined){ %>
-            <meta
-                    property = 'al:android:app_name'
-                    content = '<%= appLinks.android.appName %>' />
+            <meta property = 'al:android:app_name'
+                  content = '<%= appLinks.android.appName %>' />
         <% } %>
         <!--
         al:android:url中content的值，如：vnd.youtube.music://music.youtube.com/?feature=applinks，一般是原生应用提供的自定义协议，用于web跳到原生应用。
         -->
         <% if(appLinks.android.url !== null && appLinks.android.url !== undefined){ %>
-            <meta
-                    property = 'al:android:url'
-                    content = '<%= appLinks.android.url %>' />
+            <meta property = 'al:android:url'
+                  content = '<%= appLinks.android.url %>' />
         <% } %>
     <% } %>
 
@@ -93,41 +86,36 @@ CreateDate: 2022-09-11 12:46:45 星期日
         video.other：其他类别的视频。
         -->
         <% if(appLinks.share.type !== null && appLinks.share.type !== undefined){ %>
-            <meta
-                    property = 'al:type'
-                    content = '<%= appLinks.share.type %>' />
+            <meta property = 'al:type'
+                  content = '<%= appLinks.share.type %>' />
         <% } %>
         <!--
         al:url中content的值，如：'https://www.xxx.com/'，所要分享页面的地址，可以不是当前页面的地址，如其他页面的地址，最好提供https://的地址。
         -->
         <% if(appLinks.share.url !== null && appLinks.share.url !== undefined){ %>
-            <meta
-                    property = 'al:url'
-                    content = '<%= appLinks.share.url %>' />
+            <meta property = 'al:url'
+                  content = '<%= appLinks.share.url %>' />
         <% } %>
         <!--
         al:title中content的值为分享显示的标题，同<title></title>标签内的值。
         -->
         <% if(appLinks.share.title !== null && appLinks.share.title !== undefined){ %>
-            <meta
-                    property = 'al:title'
-                    content = '<%= appLinks.share.title %>' />
+            <meta property = 'al:title'
+                  content = '<%= appLinks.share.title %>' />
         <% } %>
         <!--
         al:description中content的值为分享显示的描述，同<meta name = 'description' />的值。
         -->
         <% if(appLinks.share.description !== null && appLinks.share.description !== undefined){ %>
-            <meta
-                    property = 'al:description'
-                    content = '<%= appLinks.share.description %>' />
+            <meta property = 'al:description'
+                  content = '<%= appLinks.share.description %>' />
         <% } %>
         <!--
         al:image中content的值为图片地址，最好提供https://的图片地址。
         -->
         <% if(appLinks.share.image !== null && appLinks.share.image !== undefined){ %>
-            <meta
-                    property = 'al:image'
-                    content = '<%= appLinks.share.image %>' />
+            <meta property = 'al:image'
+                  content = '<%= appLinks.share.image %>' />
         <% } %>
     <% } %>
 <% } %>

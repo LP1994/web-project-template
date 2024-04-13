@@ -12,21 +12,18 @@ CreateDate: 2022-10-03 16:39:14 星期一
     值如：87741124305。
     -->
     <% if(facebook.appID !== null && facebook.appID !== undefined){ %>
-        <meta
-                property = 'fb:app_id'
-                content = '<%= facebook.appID %>' />
+        <meta property = 'fb:app_id'
+              content = '<%= facebook.appID %>' />
     <% } %>
 
     <!--值如：100001422224225-->
     <% if(facebook.admins !== null && facebook.admins !== undefined){ %>
-        <meta
-                property = 'fb:admins'
-                content = '<%= facebook.admins %>' />
+        <meta property = 'fb:admins'
+              content = '<%= facebook.admins %>' />
     <% } %>
     <!--值如：241333394220-->
     <% if(facebook.pageID !== null && facebook.pageID !== undefined){ %>
-        <meta
-                property = 'fb:page_id'
-                content = '<%= facebook.pageID %>' />
+        <meta property = 'fb:page_id'
+              content = '<%= facebook.pageID %>' />
     <% } %>
 <% } %>

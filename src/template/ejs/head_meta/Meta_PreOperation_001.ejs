@@ -34,10 +34,9 @@ https://developer.mozilla.org/en-US/docs/Web/Performance/dns-prefetch
 <% if(Array.isArray( dnsPrefetch )){ %>
     <% for( const url of
             dnsPrefetch ){ %>
-        <link
-                rel = 'dns-prefetch'
-                href = '<%= url %>'
-                crossorigin = 'anonymous' />
+        <link rel = 'dns-prefetch'
+              href = '<%= url %>'
+              crossorigin = 'anonymous' />
     <% } %>
 <% } %>
 <!--
@@ -57,10 +56,9 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preconnect
 <% if(Array.isArray( preconnect )){ %>
     <% for( const url of
             preconnect ){ %>
-        <link
-                rel = 'preconnect'
-                href = '<%= url %>'
-                crossorigin = 'anonymous' />
+        <link rel = 'preconnect'
+              href = '<%= url %>'
+              crossorigin = 'anonymous' />
     <% } %>
 <% } %>
 <!--
@@ -126,10 +124,9 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/prefetch
 <% if(Array.isArray( prefetch )){ %>
     <% for( const url of
             prefetch ){ %>
-        <link
-                rel = 'prefetch'
-                href = '<%= url %>'
-                crossorigin = 'anonymous' />
+        <link rel = 'prefetch'
+              href = '<%= url %>'
+              crossorigin = 'anonymous' />
     <% } %>
 <% } %>
 <!--
@@ -141,10 +138,9 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/prerender
 <% if(Array.isArray( prerender )){ %>
     <% for( const url of
             prerender ){ %>
-        <link
-                rel = 'prerender'
-                href = '<%= url %>'
-                crossorigin = 'anonymous' />
+        <link rel = 'prerender'
+              href = '<%= url %>'
+              crossorigin = 'anonymous' />
     <% } %>
 <% } %>
 <!--
@@ -156,9 +152,8 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/modulepreload
 <% if(Array.isArray( modulepreload )){ %>
     <% for( const url of
             modulepreload ){ %>
-        <link
-                rel = 'modulepreload'
-                href = '<%= url %>'
-                crossorigin = 'anonymous' />
+        <link rel = 'modulepreload'
+              href = '<%= url %>'
+              crossorigin = 'anonymous' />
     <% } %>
 <% } %>

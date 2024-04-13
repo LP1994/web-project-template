@@ -29,9 +29,8 @@ IE=7,IE=9,IE=10：多个模式的指定，我们可以用逗号分割多个版�
 详见：
 https://blog.csdn.net/ccfxue/article/details/70739646
 -->
-<meta
-        http-equiv = 'X-UA-Compatible'
-        content = 'IE=edge,chrome=1' />
+<meta http-equiv = 'X-UA-Compatible'
+      content = 'IE=edge,chrome=1' />
 <!--
 该meta项用途：
 此属性声明文档的字符编码，如果该属性存在，其值必须是字符串“UTF-8”的不区分大小写的ASCII匹配，因为UTF-8是HTML5文档的唯一有效编码。
@@ -50,16 +49,14 @@ ie-comp：IE兼容模式。
 ie-stand：IE标准模式。
 always：csdn这么写的。
 -->
-<meta
-        name = 'renderer'
-        content = 'webkit' />
+<meta name = 'renderer'
+      content = 'webkit' />
 <!--
 该meta项用途：
 指定360浏览器用webkit内核渲染网页。
 -->
-<meta
-        name = 'force-rendering'
-        content = 'webkit' />
+<meta name = 'force-rendering'
+      content = 'webkit' />
 <!--
 该meta项用途：
 提供有关视口初始大小大小的提示。
@@ -67,9 +64,8 @@ always：csdn这么写的。
 详见：
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name
 -->
-<meta
-        name = 'viewport'
-        content = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,minimal-ui,maximum-scale=1.0,user-scalable=no,shrink-to-fit=no,uc-fitscreen=no,viewport-fit=cover' />
+<meta name = 'viewport'
+      content = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,minimal-ui,maximum-scale=1.0,user-scalable=no,shrink-to-fit=no,uc-fitscreen=no,viewport-fit=cover' />
 <!--
 该meta项用途：
 允许页面作者为当前页面定义内容策略，内容策略主要指定允许的服务器来源和脚本端点，这有助于防止“跨站点脚本攻击（XSS）”。
@@ -103,8 +99,7 @@ https://infosec.mozilla.org/guidelines/web_security#content-security-policy
     <!--
     <meta http-equiv = 'Content-Security-Policy' content = "default-src 'self';object-src 'none'" />
     -->
-    <meta
-            http-equiv = 'Content-Security-Policy'
-            content = '<%= contentSecurityPolicy %>' />
+    <meta http-equiv = 'Content-Security-Policy'
+          content = '<%= contentSecurityPolicy %>' />
 <% } %>
 <!--以上6个meta项有着严格的先后顺序，一般不要变动！-->

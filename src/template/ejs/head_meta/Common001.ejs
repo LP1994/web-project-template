@@ -11,10 +11,9 @@ CreateDate: 2022-09-10 15:46:18 星期六
 值如：https://plus.google.com/115229808208707341778
 -->
 <% if(publisherByGooglePlus !== null && publisherByGooglePlus !== undefined){ %>
-    <link
-            rel = 'publisher'
-            href = '<%= publisherByGooglePlus %>'
-            crossorigin = 'anonymous' />
+    <link rel = 'publisher'
+          href = '<%= publisherByGooglePlus %>'
+          crossorigin = 'anonymous' />
 <% } %>
 <!--
 给PWA用的manifest文件地址。
@@ -23,11 +22,10 @@ CreateDate: 2022-09-10 15:46:18 星期六
 href：链接文件的后缀名可以是.webmanifest、.json。
 -->
 <% if(manifestByPWA !== null && manifestByPWA !== undefined){ %>
-    <link
-            rel = 'manifest'
-            type = 'application/manifest+json'
-            href = '<%= manifestByPWA %>'
-            crossorigin = 'anonymous' />
+    <link rel = 'manifest'
+          type = 'application/manifest+json'
+          href = '<%= manifestByPWA %>'
+          crossorigin = 'anonymous' />
 <% } %>
 <!--
 这个标签是告诉iPhone、iPad的Safari浏览器，这个网站对应的原生app是什么，然后在页面上面显示一个下载banner。
@@ -37,9 +35,8 @@ app-id=544007664, app-argument=https://m.youtube.com/?referring_app=com.apple.mo
 其中app-id的值一般指该应用在苹果应用商城上的唯一应用ID。
 -->
 <% if(apple_itunes_app !== null && apple_itunes_app !== undefined){ %>
-    <meta
-            name = 'apple-itunes-app'
-            content = '<%= apple_itunes_app %>' />
+    <meta name = 'apple-itunes-app'
+          content = '<%= apple_itunes_app %>' />
 <% } %>
 <!--
 生效情况：
@@ -51,10 +48,9 @@ format有3个可用值：html5、xhtml、wml。
 url的值为网站地址。
 -->
 <% if(mobileAgent !== null && mobileAgent !== undefined){ %>
-    <meta
-            name = 'mobile-agent'
-            http-equiv = 'mobile-agent'
-            content = '<%= mobileAgent %>' />
+    <meta name = 'mobile-agent'
+          http-equiv = 'mobile-agent'
+          content = '<%= mobileAgent %>' />
 <% } %>
 <!--
 HTML Imports，Web Components开发重要组成部分之一。
@@ -85,10 +81,9 @@ https://code.google.com/archive/p/shortlink/wikis/Specification.wiki
 https://en.wikipedia.org/wiki/URL_shortening
 -->
 <% if(shortlink !== null && shortlink !== undefined){ %>
-    <link
-            rel = 'shortlink'
-            href = '<%= shortlink %>'
-            crossorigin = 'anonymous' />
+    <link rel = 'shortlink'
+          href = '<%= shortlink %>'
+          crossorigin = 'anonymous' />
 <% } %>
 <!--
 表示链接地址是当前网站或资源对于的搜索文档接口页面。
@@ -115,10 +110,9 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
 https://developer.mozilla.org/en-US/docs/Web/OpenSearch
 -->
 <% if(search !== null && search !== undefined){ %>
-    <link
-            rel = 'search'
-            type = 'application/opensearchdescription+xml'
-            href = '<%= search.href %>'
-            title = '<%= search.title ?? '' %>'
-            crossorigin = 'anonymous' />
+    <link rel = 'search'
+          type = 'application/opensearchdescription+xml'
+          href = '<%= search.href %>'
+          title = '<%= search.title ?? '' %>'
+          crossorigin = 'anonymous' />
 <% } %>
