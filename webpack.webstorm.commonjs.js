@@ -300,6 +300,9 @@ module.exports = {
           'default',
         ],
         Pinia: 'pinia',
+
+        CurrencyTools: path.resolve( path.join( __dirname, './src/tools/js/currency_tools/CurrencyTools.esm.mjs' ) ),
+        UniversalTools: path.resolve( path.join( __dirname, './src/tools/ts/universal_tools/UniversalTools.esm.mts' ) ),
       } ),
     ],
     symlinks: false,

@@ -11177,6 +11177,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       'default',
     ],
     Pinia: 'pinia',
+
+    CurrencyTools: resolve( join( __dirname, './src/tools/js/currency_tools/CurrencyTools.esm.mjs' ) ),
+    UniversalTools: resolve( join( __dirname, './src/tools/ts/universal_tools/UniversalTools.esm.mts' ) ),
   },
   /**
    * 使用此选项生成一个JSON文件，其中包含webpack“记录”——用于跨多个构建存储模块标识符的数据片段。您可以使用此文件来跟踪模块在构建之间的变化。<br />
