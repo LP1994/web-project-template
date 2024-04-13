@@ -1,10 +1,10 @@
 /// <reference types="./vite/client.d.ts" />
 /// <reference types="./define.d.ts" />
-/// <reference types="./provide/provide.d.ts" />
-/// <reference types="./vue.d.ts" />
 /// <reference types="./img.d.ts" />
 /// <reference types="./music.d.ts" />
+/// <reference types="./provide.d.ts" />
 /// <reference types="./videos.d.ts" />
+/// <reference types="./vue.d.ts" />
 
 /**
  * Project: web-project-template
