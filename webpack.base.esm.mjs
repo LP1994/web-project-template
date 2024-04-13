@@ -2642,11 +2642,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     topLevelAwait: true,
   },
   /**
-   * @type {array}
+   * @type {array} 注意，在解析匹配扩展时，是从数组的开头开始匹配的！
+   * 1、'...'表示默认扩展。
    */
   extensionsConfig = [
-    '...',
-
     '.js',
     '.cjs',
     '.mjs',
@@ -2663,22 +2662,26 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     '.wasm',
 
     '.vue',
+
+    '...',
   ],
   /**
    * @type {object} 之所以设置该选项，系为了配合ts-loader的使用。
+   * PS：
+   * 1、注意，在解析匹配时，是从数组的末尾开始匹配的！
    */
   extensionAliasConfig = {
     '.js': [
-      '.js',
       '.ts',
+      '.js',
     ],
     '.cjs': [
-      '.cjs',
       '.cts',
+      '.cjs',
     ],
     '.mjs': [
-      '.mjs',
       '.mts',
+      '.mjs',
     ],
   },
   /**
@@ -11158,7 +11161,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     PIXI: 'pixi.js',
 
     Swiper: [
-      'swiper/swiper.esm.js',
+      resolve( join( __dirname, './node_modules/swiper/swiper.mjs' ) ),
       'default',
     ],
 

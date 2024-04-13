@@ -172,8 +172,6 @@ module.exports = {
      */
     enforceExtension: false,
     extensions: [
-      '...',
-
       '.js',
       '.cjs',
       '.mjs',
@@ -190,6 +188,8 @@ module.exports = {
       '.wasm',
 
       '.vue',
+
+      '...',
     ],
     modules: [
       'node_modules',
@@ -281,7 +281,7 @@ module.exports = {
         PIXI: 'pixi.js',
 
         Swiper: [
-          'swiper/swiper.esm.js',
+          path.resolve( path.join( __dirname, './node_modules/swiper/swiper.mjs' ) ),
           'default',
         ],
 
