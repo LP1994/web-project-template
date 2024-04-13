@@ -71,7 +71,7 @@ function Handle( request: Request ): T_Response001{
         socket: wsForServer,
       } = Deno.upgradeWebSocket( request, {
         /**
-         * @type {string} 1、将客户端Web套接字上的“protocol”属性设置为此处提供的值，该值应该是请求Web套接字时在协议参数中指定的字符串之一。<br />
+         * 1、将客户端Web套接字上的“protocol”属性设置为此处提供的值，该值应该是请求Web套接字时在协议参数中指定的字符串之一。<br />
          * 2、这旨在让客户端和服务器指定用于相互通信的子协议。<br />
          * 3、在客户端使用时，需要注意，客户端发出的请求会在请求头增加一个键值对：<br />
          * "Sec-WebSocket-Protocol": "simulation_servers_deno_WebSocket"。<br />
@@ -80,11 +80,15 @@ function Handle( request: Request ): T_Response001{
          * new WebSocket( 'wss://127.0.0.1:9200/', 'simulation_servers_deno_WebSocket' );<br />
          * 发出的请求的请求头就会自动加一个键值对：<br />
          * "Sec-WebSocket-Protocol": "simulation_servers_deno_WebSocket"。<br />
+         *
+         * @type {string}
          */
         protocol: `simulation_servers_deno_WebSocket`,
         /**
-         * @type {number} 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
+         * 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
          * 2、默认值为120秒。设置为0以禁用超时。<br />
+         *
+         * @type {number}
          */
         idleTimeout: 0,
       } )

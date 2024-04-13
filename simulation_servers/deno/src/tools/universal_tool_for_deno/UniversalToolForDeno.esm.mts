@@ -573,7 +573,9 @@ export function Union( arrA: Array<any> = [], arrB: Array<any> = [] ): Array<any
 export class MyConsole {
 
   /**
-   * @type {{[p: string]: any}} 私有实例属性。<br />
+   * 私有实例属性。<br />
+   *
+   * @type {{[p: string]: any}}
    *
    * @private
    */
@@ -582,7 +584,9 @@ export class MyConsole {
   } = chalk;
 
   /**
-   * @type {{[p: string]: any}} 私有静态属性。<br />
+   * 私有静态属性。<br />
+   *
+   * @type {{[p: string]: any}}
    *
    * @private
    */

@@ -33,21 +33,25 @@ import {
 class ResponseError {
 
   /**
-   * @type {Request} 请求对象。
+   * 请求对象。
+   *
+   * @type {Request}
    *
    * @private
    */
   static #Request: Request;
 
   /**
-   * @type {Request} 请求对象。
+   * 请求对象。
+   *
+   * @type {Request}
    *
    * @private
    */
   readonly #request: Request;
 
   /**
-   * @type {string} 客户端的请求方式，值如：“get”、“post”等等。
+   * 客户端的请求方式，值如：“get”、“post”等等。
    * 目前有9种请求方式：
    * GET
    * HEAD
@@ -59,26 +63,34 @@ class ResponseError {
    * TRACE
    * PATCH
    *
+   * @type {string}
+   *
    * @private
    */
   readonly #method: string;
 
   /**
-   * @type {URL} URL对象实例，表示客户端发起的URL。
+   * URL对象实例，表示客户端发起的URL。
+   *
+   * @type {URL}
    *
    * @private
    */
   readonly #myURL: URL;
 
   /**
-   * @type {string} 客户端发起的URL中的路径，路径中不包括查询参数和锚点。
+   * 客户端发起的URL中的路径，路径中不包括查询参数和锚点。
+   *
+   * @type {string}
    *
    * @private
    */
   readonly #pathName: string;
 
   /**
-   * @type {string} 客户端发起的URL中的查询参数，值形如：“?name=lmf1&age=11”。
+   * 客户端发起的URL中的查询参数，值形如：“?name=lmf1&age=11”。
+   *
+   * @type {string}
    *
    * @private
    */

@@ -87,17 +87,23 @@ export class MyError001
   extends Error {
 
   /**
-   * @type {T_MyExpect001} 预期值。
+   * 预期值。
+   *
+   * @type {T_MyExpect001}
    */
   public expect: T_MyExpect001;
 
   /**
-   * @type {any} 实际值。
+   * 实际值。
+   *
+   * @type {any}
    */
   public result: any;
 
   /**
-   * @type {boolean} 是否成功。
+   * 是否成功。
+   *
+   * @type {boolean}
    */
   public isSuccess: boolean;
 

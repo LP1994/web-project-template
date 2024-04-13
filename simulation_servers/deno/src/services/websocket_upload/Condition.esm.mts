@@ -34,11 +34,13 @@
 'use strict';
 
 /**
- * @type {string} 符合处理条件的请求URL核心标头，如：<br />
+ * 符合处理条件的请求URL核心标头，如：<br />
  * wss://localhost:9200/upload、wss://localhost:9200/upload/、
  * wss://localhost:9200/subscriptions/upload、wss://localhost:9200/subscriptions/upload/、
  * wss://localhost:9200/simulation_servers_deno/upload、wss://localhost:9200/simulation_servers_deno/upload/、
  * wss://localhost:9200/simulation_servers_deno/subscriptions/upload、wss://localhost:9200/simulation_servers_deno/subscriptions/upload/
+ *
+ * @type {string}
  */
 export const myURLPathName: string = `/upload`;
 
