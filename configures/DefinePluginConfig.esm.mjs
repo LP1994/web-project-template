@@ -47,12 +47,16 @@ function DefinePluginConfig( {
     env_platform: JSON.stringify( env_platform ),
     isProduction: JSON.stringify( isProduction ),
     /**
-     * @type {boolean} 在Vue 3中启用/禁用Vue 2的Options API支持，默认值true，表示在Vue 3中启用对Vue 2的Options API支持。<br />
+     * 在Vue 3中启用/禁用Vue 2的Options API支持，默认值true，表示在Vue 3中启用对Vue 2的Options API支持。<br />
      * 1、当使用Vue 3时（建议使用“组合API”的写法，如果想使用“选项API”写法，还不如切换到Vue 2，毕竟“组合API”的写法更配Vue 3），建议将其设置为false，这样可以让Vue 3正确的使用“tree-shaking”，以使打包后的代码最小化。<br />
+     *
+     * @type {boolean}
      */
     __VUE_OPTIONS_API__: false,
     /**
-     * @type {boolean} 在生产中启用/禁用devtools支持，默认值false。
+     * 在生产中启用/禁用devtools支持，默认值false。
+     *
+     * @type {boolean}
      */
     __VUE_PROD_DEVTOOLS__: false,
 

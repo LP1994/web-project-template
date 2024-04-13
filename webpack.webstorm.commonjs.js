@@ -196,7 +196,7 @@ module.exports = {
     ],
     plugins: [
       /**
-       * @type {object} 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
+       * 自动加载模块，而不必在任何地方“import”或“require”它们。<br />
        * 1、默认情况下，模块解析路径是从“当前文件夹”和“node_modules”中开始查找。<br />
        * 2、要导入ES2015模块的“默认导出”，必须指定模块的“默认属性”，也就是说模块必须指定“默认属性”。<br />
        * 3、每当在模块中遇到标识符作为自由变量时，模块会自动加载，并且标识符会填充加载模块的导出（或“属性”以支持“命名导出”）。<br />
@@ -207,6 +207,8 @@ module.exports = {
        * 7、element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
        * 8、注意，不同的包，因为其package.json中"exports"字段值的不同，如下设置也会不同的，最好每次都要在代码中测试是否如期望一样达到目的效果。<br />
        * 9、鉴于某些低版本浏览器不支持ES6+的语法，而如下设置又直接使用了第三方包的ESM版本，那么最终的打包代码中会直接使用其ESM版本的代码，从而导致不支持某些低版本浏览器。<br />
+       *
+       * @type {object}
        */
       new webpack.ProvidePlugin( {
         axios: [

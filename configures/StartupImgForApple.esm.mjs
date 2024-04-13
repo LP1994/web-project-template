@@ -26,7 +26,7 @@
  */
 
 /**
- * @type {[{href: string, type: string, crossorigin: string, sizes: string, media: string}]} 苹果启动图片（一般是用于iPhone、iPad）的资源数组，成员是一个对象，必须。<br />
+ * 苹果启动图片（一般是用于iPhone、iPad）的资源数组，成员是一个对象，必须。<br />
  * 成员格式：<br />
  * {<br />
  * href：字符串，图片链接地址，可以是编译完后输出到输出目录中的图片路径，一般是相对于“pages”文件夹的相对路径，也可以是第三方图片链接地址，必须。<br />
@@ -35,6 +35,8 @@
  * sizes：字符串，图片大小，值如：'640x1136'，必须。<br />
  * media：字符串，媒体查询，用于让设备只加载符合自己屏幕尺寸的图片，一般包括竖屏、横屏两张图片，必须。<br />
  * }<br />
+ *
+ * @type {[{href: string, type: string, crossorigin: string, sizes: string, media: string}]}
  */
 const StartupImgForApple = [
   // iPhone Start

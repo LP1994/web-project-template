@@ -55,9 +55,11 @@ import StartupImgForApple from './StartupImgForApple.esm.mjs';
 const URLHead = '..';
 
 /**
- * @type {object} 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误。
+ * 为HtmlWebpackPlugin的data选项中的顶级变量、公共变量设置默认值，尤其是顶级变量，如果顶级变量未定义会报出编译错误。
  * 顶级变量就算不需要也要保证它们被设置为null。
  * 各个属性具体表示什么，值是什么，可参见“src/template/ejs/head_meta”、“src/template/ejs/tool”中的描述。
+ *
+ * @type {object}
  */
 const defaultData = {
   contentSecurityPolicy: null,
@@ -315,94 +317,130 @@ function HTMLWebpackPluginConfig( {
      */
     return new HtmlWebpackPlugin( {
       /**
-       * @type {boolean} 只有在文件被改变的情况下才发出。默认值：true。
+       * 只有在文件被改变的情况下才发出。默认值：true。
+       *
+       * @type {boolean}
        */
       cache: !isProduction,
       /**
-       * @type {'all' | string[]} 列出应注入的所有块，只负责确保哪些块会被注入到模板中，不负责这些块的先后顺序。<br />
+       * 列出应注入的所有块，只负责确保哪些块会被注入到模板中，不负责这些块的先后顺序。<br />
        * 1、该选项默认值也是'all'，也就是说就算不设置该选项，该插件的内部也会将其设置为'all'，'all'表示将所有“块”都注入到该模板中。<br />
        * 2、如果某个块既在选项“excludeChunks”中又在选项“chunks”中，那么这个块最后也还是会被排除掉。<br />
+       *
+       * @type {'all' | string[]}
        */
       chunks: 'all',
       /**
-       * @type {'auto'|'manual'|((entryNameA: string, entryNameB: string) => number)} 允许控制在html中包含块之前应该如何排序的问题。默认值：'auto'。
+       * 允许控制在html中包含块之前应该如何排序的问题。默认值：'auto'。
+       *
+       * @type {'auto'|'manual'|((entryNameA: string, entryNameB: string) => number)}
        */
       chunksSortMode: 'auto',
       /**
-       * @type {string[]} 列出所有不应注入的块。<br />
+       * 列出所有不应注入的块。<br />
        * 1、默认值为空数组，空数组表示什么块都不排除。<br />
        * 2、如果某个块既在选项“excludeChunks”中又在选项“chunks”中，那么这个块最后也还是会被排除掉。<br />
+       *
+       * @type {string[]}
        */
       // excludeChunks: [],
       /**
-       * @type {false | string} favicon图标的路径。默认值为false。
+       * favicon图标的路径。默认值为false。
+       *
+       * @type {false | string}
        */
       // favicon: false,
       /**
-       * @type {string | ((entryName: string) => string)} 要写入HTML的文件。支持子目录，例如：`assets/admin.html`。[name]将被条目名称所取代，支持一个函数来生成名称。默认值为：'index.html'。<br />
+       * 要写入HTML的文件。支持子目录，例如：`assets/admin.html`。[name]将被条目名称所取代，支持一个函数来生成名称。默认值为：'index.html'。<br />
        * 1、例如设置为：filename: 'pages/Index.html'，最后会在文件夹“pages”下生成一个“Index.html”文件，文件夹“pages”则是在输出文件夹下。<br />
+       *
+       * @type {string | ((entryName: string) => string)}
        */
       // filename: '',
       /**
-       * @type {string | 'auto'} 默认值为'auto'。默认情况下，publicPath被设置为 "auto"--这样一来，html-webpack-plugin会尝试根据当前文件名和webpack的公共路径设置来设置公共路径。
+       * 默认值为'auto'。默认情况下，publicPath被设置为 "auto"--这样一来，html-webpack-plugin会尝试根据当前文件名和webpack的公共路径设置来设置公共路径。
+       *
+       * @type {string | 'auto'}
        */
       publicPath: 'auto',
       /**
-       * @type {boolean} 如果为true，则将唯一的webpack编译哈希附加到所有包含的脚本和CSS文件。这对于缓存破坏很有用。默认值为false。
+       * 如果为true，则将唯一的webpack编译哈希附加到所有包含的脚本和CSS文件。这对于缓存破坏很有用。默认值为false。
+       *
+       * @type {boolean}
        */
       hash: true,
       /**
-       * @type {false|true|'body'|'head'} 要将生成的“scripts”标签注入到哪个HTML节点内。默认值为：head。
+       * 要将生成的“scripts”标签注入到哪个HTML节点内。默认值为：head。
        * 1、false表示不要将生成的“scripts”标签注入到任何HTML节点内。
        * 2、true表示要将生成的“scripts”标签注入到body节点内。
        * 3、'body'表示要将生成的“scripts”标签注入到body节点内。
        * 4、'head'表示要将生成的“scripts”标签注入到head节点内。
+       *
+       * @type {false|true|'body'|'head'}
        */
       inject: 'body',
       /**
-       * @type {'blocking' | 'defer' | 'module'} 默认值为'defer'。设置脚本加载的形式。
+       * 默认值为'defer'。设置脚本加载的形式。
        * 1、blocking表示生成这样的：<script src="..."></script>
        * 2、defer表示生成这样的：<script defer src="..."></script>
        * 3、module表示生成这样的：<script type="module" src="..."></script>
+       *
+       * @type {'blocking' | 'defer' | 'module'}
        */
       scriptLoading: 'defer',
       /**
-       * @type {false|{ [name: string]: | string | false | { [attributeName: string]: string | boolean }; }} 注入meta标签，默认值：{}。
+       * 注入meta标签，默认值：{}。
+       *
+       * @type {false|{ [name: string]: | string | false | { [attributeName: string]: string | boolean }; }}
        */
       meta: {},
       /**
-       * @type {'auto' | boolean | MinifyOptions} HTML最小化选项。默认值'auto'。
+       * HTML最小化选项。默认值'auto'。
        * 1、Set to `false` to disable minifcation
        * 2、Set to `'auto'` to enable minifcation only for production mode
        * 3、Set to custom minification according to：node_modules/@types/html-minifier-terser/index.d.ts:15
+       *
+       * @type {'auto' | boolean | MinifyOptions}
        */
       minify: isProduction
               ? HTMLMinifyConfig
               : false,
       /**
-       * @type {boolean} 将错误渲染到HTML页面中。默认值true。
+       * 将错误渲染到HTML页面中。默认值true。
+       *
+       * @type {boolean}
        */
       showErrors: !isProduction,
       /**
-       * @type {string} 'webpack'需要的模板路径。默认值是一个字符串：'auto'。<br />
+       * 'webpack'需要的模板路径。默认值是一个字符串：'auto'。<br />
        * 1、例如：设置成：'./src/template/ejs/Index.ejs'，就表示说模板的位置是在这里。<br />
        * 2、注意，由于“configures/HTMLWebpackPluginConfig.esm.mjs”最后是被“webpack.base.esm.mjs”文件引入使用，所以，当设置为相对路径时，也应该是以“webpack.base.esm.mjs”文件所在的文件夹路径开始。<br />
+       *
+       * @type {string}
        */
       // template: '',
       /**
-       * @type {false|string|((templateParameters: { [option: string]: any; }) => string | Promise<string>)|Promise<string>} 允许使用一个html字符串，而不是从文件中读取。默认值是false。
+       * 允许使用一个html字符串，而不是从文件中读取。默认值是false。
+       *
+       * @type {false|string|((templateParameters: { [option: string]: any; }) => string | Promise<string>)|Promise<string>}
        */
       // templateContent: false,
       /**
-       * @type {false|(( compilation: any, assets: { publicPath: string; js: Array<string>; css: Array<string>; manifest?: string; favicon?: string; }, assetTags: { headTags: HtmlTagObject[]; bodyTags: HtmlTagObject[]; }, options: ProcessedOptions ) => { [option: string]: any } | Promise<{ [option: string]: any }>)|{ [option: string]: any }} 允许覆盖模板中使用的参数。默认值为：templateParametersGenerator。
+       * 允许覆盖模板中使用的参数。默认值为：templateParametersGenerator。
+       *
+       * @type {false|(( compilation: any, assets: { publicPath: string; js: Array<string>; css: Array<string>; manifest?: string; favicon?: string; }, assetTags: { headTags: HtmlTagObject[]; bodyTags: HtmlTagObject[]; }, options: ProcessedOptions ) => { [option: string]: any } | Promise<{ [option: string]: any }>)|{ [option: string]: any }}
        */
       // templateParameters: templateParametersGenerator,
       /**
-       * @type {string} 生成的HTML文档要使用的标题。默认值为：'Webpack App'。
+       * 生成的HTML文档要使用的标题。默认值为：'Webpack App'。
+       *
+       * @type {string}
        */
       // title: '',
       /**
-       * @type {boolean} 强制执行自我关闭标签，如<link />。默认值为：false。
+       * 强制执行自我关闭标签，如<link />。默认值为：false。
+       *
+       * @type {boolean}
        */
       xhtml: true,
       /**

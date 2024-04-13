@@ -90,8 +90,9 @@ const obj001: Record<string, string> = {
 
 /**
  * Codegen配置。
+ * 详细配置见：node_modules/@graphql-codegen/plugin-helpers/typings/types.d.ts:339
  *
- * @type {T_CodegenConfig} 详细配置见：node_modules/@graphql-codegen/plugin-helpers/typings/types.d.ts:339
+ * @type {T_CodegenConfig}
  */
 const GraphqlCodegenConfig: T_CodegenConfig = {
   overwrite: true,

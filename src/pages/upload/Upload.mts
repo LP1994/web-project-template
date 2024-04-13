@@ -19,7 +19,9 @@ import {
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
 /**
- * @type {T_App<Element>} 创建了一个Vue 3的应用实例。
+ * 创建了一个Vue 3的应用实例。
+ *
+ * @type {T_App<Element>}
  */
 const UploadAPP: T_App<Element> = createApp( UploadComponentForVue3 );
 
@@ -37,7 +39,9 @@ UploadAPP.config.errorHandler = ( error: unknown, instance: T_ComponentPublicIns
 };
 
 /**
- * @type {T_ComponentPublicInstance} 一个Vue 3的根组件实例。
+ * 一个Vue 3的根组件实例。
+ *
+ * @type {T_ComponentPublicInstance}
  */
 const RootComponent: T_ComponentPublicInstance = UploadAPP.mount( '#UploadAPP' );
 
