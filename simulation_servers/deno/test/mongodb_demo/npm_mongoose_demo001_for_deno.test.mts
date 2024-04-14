@@ -31,7 +31,7 @@ import {
 
 import {
   opensslDir,
-} from '../../src/configures/GlobalParameters.esm.mts';
+} from 'configures/GlobalParameters.esm.mts';
 
 /**
  * @type {T_ConnectOptions} node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
