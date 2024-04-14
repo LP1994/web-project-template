@@ -26,7 +26,7 @@ import {
 
 import {
   opensslDir,
-} from 'configures/GlobalParameters.esm.mts';
+} from '../../src/configures/GlobalParameters.esm.mts';
 
 interface I_StartupLogCollectionSchema {
   _id: string;
