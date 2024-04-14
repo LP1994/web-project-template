@@ -885,9 +885,13 @@ const mongooseConfig: T_ConnectOptions = {
  */
 function GetSchemaOptions<
   DocType = unknown,
+  // deno-lint-ignore ban-types
   TInstanceMethods = {},
+  // deno-lint-ignore ban-types
   QueryHelpers = {},
+  // deno-lint-ignore ban-types
   TStaticMethods = {},
+  // deno-lint-ignore ban-types
   TVirtuals = {},
   THydratedDocumentType = T_HydratedDocument<DocType, TInstanceMethods, QueryHelpers>
 >( collection: string ): T_SchemaOptions<

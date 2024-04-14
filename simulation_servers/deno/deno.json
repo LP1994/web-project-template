@@ -19,13 +19,14 @@
   ],
   "lint": {
     "include": [
-      "src/",
-      "test/"
+      "src/"
     ],
     "exclude": [
       "src/custom_declare_types/",
       "src/**/type_doc/doc/",
-      "src/**/third_party_modules/"
+      "src/**/third_party_modules/",
+      "src/**/graphql_schema_definition_to_ts_type_definition/",
+      "test/"
     ],
     "rules": {
       "tags": [
