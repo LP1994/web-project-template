@@ -47,7 +47,7 @@ async function Delete( request: Request ): Promise<Response>{
   if( pathName in methodByDeleteForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByDeleteForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( routeHandle = await methodByDeleteForRouteHandle( request ) ){
+  else if( ( routeHandle = await methodByDeleteForRouteHandle( request ) ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{

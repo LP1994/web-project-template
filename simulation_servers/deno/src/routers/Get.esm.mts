@@ -47,7 +47,7 @@ async function Get( request: Request ): Promise<Response>{
   if( pathName in methodByGetForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByGetForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( routeHandle = await methodByGetForRouteHandle( request ) ){
+  else if( ( routeHandle = await methodByGetForRouteHandle( request ) ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{

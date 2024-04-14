@@ -47,7 +47,7 @@ async function Put( request: Request ): Promise<Response>{
   if( pathName in methodByPutForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByPutForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( routeHandle = await methodByPutForRouteHandle( request ) ){
+  else if( ( routeHandle = await methodByPutForRouteHandle( request ) ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{

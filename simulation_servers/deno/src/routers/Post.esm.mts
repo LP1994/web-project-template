@@ -48,7 +48,7 @@ async function Post( request: Request ): Promise<Response>{
   if( pathName in methodByPostForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByPostForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( routeHandle = await methodByPostForRouteHandle( request ) ){
+  else if( ( routeHandle = await methodByPostForRouteHandle( request ) ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{

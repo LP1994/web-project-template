@@ -1,0 +1,16 @@
+Deno支持三斜杠引用指令types、path、lib和no-default-lib。
+
+例子：
+有效的：
+JavaScript
+/// <reference types="./mod.d.ts" />
+/// <reference lib="es2017.string" />
+
+// ... the rest of the JavaScript ...
+打字稿
+/// <reference types="./mod.d.ts" />
+/// <reference path="./mod.d.ts" />
+/// <reference lib="es2017.string" />
+/// <reference no-default-lib="true" />
+
+// ... the rest of the TypeScript ...

@@ -17,6 +17,59 @@
     "http",
     "temporal"
   ],
+  "lint": {
+    "include": [
+      "src/",
+      "test/"
+    ],
+    "exclude": [
+      "src/custom_declare_types/",
+      "src/**/type_doc/doc/",
+      "src/**/third_party_modules/"
+    ],
+    "rules": {
+      "tags": [
+        "recommended"
+      ],
+      "include": [
+        "eqeqeq",
+        "explicit-function-return-type",
+        "guard-for-in",
+        "no-const-assign",
+        "no-eval",
+        "no-self-compare",
+        "no-sparse-arrays",
+        "no-throw-literal",
+        "no-undef",
+        "triple-slash-reference"
+      ],
+      "exclude": [
+        "no-explicit-any",
+        "ban-ts-comment",
+        "prefer-const",
+        "no-case-declarations",
+        "ban-untagged-todo",
+        "camelcase",
+        "default-param-last",
+        "explicit-module-boundary-types",
+        "fresh-handler-export",
+        "fresh-server-event-handlers",
+        "no-await-in-loop",
+        "no-console",
+        "no-external-import",
+        "no-implicit-declare-namespace-export",
+        "no-inferrable-types",
+        "no-non-null-asserted-optional-chain",
+        "no-non-null-assertion",
+        "no-top-level-await",
+        "prefer-ascii",
+        "prefer-primordials",
+        "single-var-declarator",
+        "verbatim-module-syntax",
+        "no-sync-fn-in-async-fn"
+      ]
+    }
+  },
   "compilerOptions": {
     "allowJs": true,
     "checkJs": false,

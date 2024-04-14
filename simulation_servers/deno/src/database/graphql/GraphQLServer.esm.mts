@@ -67,7 +67,7 @@ import {
  * 用于在“npm:graphql-http/lib/use/fetch”处理后，我们可以继续操作，以便根据具体的业务返回给客户端一个想要的Response。
  * 其构造函数的参数列表、类型都跟Response的构造函数的参数列表、类型是一致的。
  */
-function GenerateForMyGraphQLServerResponse( request: Request ){
+function GenerateForMyGraphQLServerResponse( request: Request ): any{
   return class MyGraphQLServerResponse
     extends Response {
 

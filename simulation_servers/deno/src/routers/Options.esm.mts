@@ -50,7 +50,7 @@ async function Options( request: Request ): Promise<Response>{
   if( pathName in methodByOptionsForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByOptionsForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( routeHandle = await methodByOptionsForRouteHandle( request ) ){
+  else if( ( routeHandle = await methodByOptionsForRouteHandle( request ) ) ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   // 默认允许所有的options请求通过，因为目前没设置其他处理，后面可以根据需要编写对应响应不成功的逻辑。
