@@ -1,5 +1,3 @@
-/// <reference types="@types/jquery" />
-
 /**
  * Project: web-project-template
  * FileDirPath: src/custom_declare_types/provide.d.ts
@@ -48,6 +46,18 @@ declare const ELEMENT: typeof import('element-ui');
  * 详细见：https://element-plus.org/zh-CN/guide/quickstart.html
  */
 declare const ElementPlus: typeof import('element-plus');
+
+/**
+ * jQuery 是一个快速、小巧、功能丰富的 JavaScript 库。它通过一个易于使用的 API，使 HTML 文档的遍历和操作、事件处理、动画和 Ajax 等变得更加简单，并能在多种浏览器上运行。集多功能性和可扩展性于一身，jQuery 改变了数百万人编写 JavaScript 的方式。<br />
+ * 详细见：https://api.jquery.com/
+ */
+declare const $: typeof import('jquery');
+
+/**
+ * jQuery 是一个快速、小巧、功能丰富的 JavaScript 库。它通过一个易于使用的 API，使 HTML 文档的遍历和操作、事件处理、动画和 Ajax 等变得更加简单，并能在多种浏览器上运行。集多功能性和可扩展性于一身，jQuery 改变了数百万人编写 JavaScript 的方式。<br />
+ * 详细见：https://api.jquery.com/
+ */
+declare const jQuery: typeof import('jquery');
 
 /**
  * 适用于 JavaScript 的简单 SHA-3 / Keccak / Shake 哈希函数支持 UTF-8 编码。<br />
