@@ -29,7 +29,7 @@
  *
  * 变量isUseESBuildLoader、变量isSPA、webpack的配置项：output.chunkLoadingGlobal、变量assetsWebpackPluginConfig中的配置、文件夹configures下的文件GlobalParameters.esm.mjs中的配置、变量cleanWebpackPluginConfig.cleanOnceBeforeBuildPatterns。
  * 变量assetsWebpackPluginConfig.metadata：display、version。
- * 变量moduleConfig里的cssLoader_url_import_IgnoreArr1变量。
+ * 变量moduleConfig里的cssLoader_url_import_IgnoreArr变量。
  * 变量experimentsConfig.buildHttp中的allowedCondition变量。
  *
  * 2、如果本机总物理内存较小，记得改小jsWorkerPoolConfig.workerNodeArgs、forkTsCheckerWebpackPluginConfig.typescript.memoryLimit中设置的值。
@@ -222,13 +222,6 @@ const __dirname = Get__dirname( import.meta.url ),
     }
   } )( argv ),
   /**
-   * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
-   * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
-   *
-   * @type {boolean}
-   */
-  isHandle_experiments_buildHttp_in_CSSLoader = true,
-  /**
    * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
    * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
    *
@@ -282,7 +275,41 @@ const __dirname = Get__dirname( import.meta.url ),
    *
    * @type {boolean}
    */
-  isBabelDebug = false;
+  isBabelDebug = false,
+  /**
+   * 当启用实验性选项experiments.buildHttp时，是否要处理CSS文件中的远程资源URL。true表示处理，false表示不处理，将其原样保留在代码中。<br />
+   * 1、远程资源的加载是需要耗时下载的，所以，webpack的编译时间也受其影响。<br />
+   *
+   * @type {boolean}
+   */
+  isHandle_experiments_buildHttp_in_CSSLoader = true,
+  /**
+   * 不通过webpack处理css中以如下设置的值开头的url。
+   *
+   * @returns {string[]}
+   */
+  cssLoader_url_import_IgnoreHandle = ( experimentsConfig, isHandle_experiments_buildHttp_in_CSSLoader ) => {
+    return [
+      '../static/',
+      '//',
+      ...( () => {
+        return ( ( 'buildHttp' in experimentsConfig ) && isHandle_experiments_buildHttp_in_CSSLoader )
+               ? []
+               : [
+            'http',
+          ];
+      } )(),
+    ];
+  },
+  /**
+   * 允许以哪些开头的远程链接。<br />
+   *
+   * @type {string[]}
+   */
+  allowedCondition = [
+    'http',
+    // 'https://www.xxx.com/',
+  ];
 
 console.log( chalk.cyan( `\n当前使用“${ isUseESBuildLoader
                                         ? 'ESBuild'
@@ -2563,17 +2590,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          * @returns {boolean} true表示会处理该远程链接，反之不处理。
          */
           uri => {
-          /**
-           * 允许以哪些开头的远程链接。<br />允许以哪些开头的远程链接。<br />
-           *
-           * @type {string[]}
-           */
-          const allowedCondition = [
-            'http://',
-            'https://',
-            // 'https://www.xxx.com/',
-          ];
-
           const boo = allowedCondition.some( item => String( uri ).trim().startsWith( item ) );
 
           return allowedCondition.length === 0
@@ -3190,17 +3206,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
     MiniCssExtractPlugin = null,
   } = {} ) => {
     // 不通过webpack处理css中以如下设置的值开头的url。
-    const cssLoader_url_import_IgnoreArr1 = [
-      '../static/',
-      '//',
-      ...( () => {
-        return ( ( 'buildHttp' in experimentsConfig ) && isHandle_experiments_buildHttp_in_CSSLoader )
-               ? []
-               : [
-            'http',
-          ];
-      } )(),
-    ];
+    const cssLoader_url_import_IgnoreArr = cssLoader_url_import_IgnoreHandle( experimentsConfig, isHandle_experiments_buildHttp_in_CSSLoader );
 
     const exclude001 = [
       join( __dirname, './.git/' ),
@@ -5477,7 +5483,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
              */
             filter: ( url, resourcePath ) => {
-              const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+              const boo = cssLoader_url_import_IgnoreArr.some( item => String( url ).trim().startsWith( item ) );
 
               return !boo;
             },
@@ -5487,8 +5493,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
            */
           // 使用，/* webpackIgnore: true */，魔术注释来开启禁用@import解析。
           import: {
-            filter: ( url, media, resourcePath ) => {
-              const boo = cssLoader_url_import_IgnoreArr1.some( item => String( url ).trim().startsWith( item ) );
+            filter: ( url, media, resourcePath, supports, layer ) => {
+              const boo = cssLoader_url_import_IgnoreArr.some( item => String( url ).trim().startsWith( item ) );
 
               return !boo;
             },
