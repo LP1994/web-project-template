@@ -948,67 +948,73 @@ export function RequestConcurrentControllerByGlobal( requestConcurrentQuantity?:
 
 // 事件的发布、订阅的工具类 Start
 
+export type T_PublishFun = ( ...args: any[] ) => void;
+
 /**
- * 事件的发布、订阅的工具类
+ * 事件的发布、订阅的工具类。
  */
 export class Events4PublishSubscribe {
 
   /**
-   * 私有属性，用于存储事件(模拟队列)
+   * 用于存储事件(模拟队列)的对象。
    *
-   * @type {{}} 对象
+   * @type {Record<string, Array<T_PublishFun>>}
+   *
+   * @private
    */
-  #events4Queue = {};
+  #events4Queue: Record<string, Array<T_PublishFun>> = {};
 
   /**
-   * 私有方法，用于事件的初始化
+   * 用于事件发布的初始化。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @private
    */
-  #init( type ){
+  #init( type: string ): void{
     !this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = [] );
   }
 
   /**
-   * 类的构造函数
+   * 事件的发布、订阅的工具类的构造函数。
    */
-  constructor(){
+  public constructor(){
   }
 
   /**
-   * 根据指定的事件名注册指定的事件
+   * 根据指定的事件名发布指定的事件逻辑。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
    *
-   * @param fn 函数(建议用function函数，而不是箭头函数)，可选的
+   * @param {T_PublishFun} fn 函数，要执行的事件逻辑，可选的。
    *
-   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
    */
-  on( type, fn = function (){
-  } ){
+  public on( type: string, fn: T_PublishFun = (): void => {
+  } ): Events4PublishSubscribe{
     this.#init( type );
 
-    this.#events4Queue[ type ].push( fn );
+    ( this.#events4Queue[ type ] as Array<T_PublishFun> ).push( fn );
 
     return this;
   }
 
   /**
-   * 根据指定的事件名注册一个只执行一次的指定事件
+   * 根据指定的事件名发布一个只执行一次的指定的事件逻辑。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
    *
-   * @param fn 函数(建议用function函数，而不是箭头函数)，可选的
+   * @param {T_PublishFun} fn 函数，要执行的事件逻辑，可选的。
    *
-   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
    */
-  once( type, fn = function (){
-  } ){
+  public once( type: string, fn: T_PublishFun = (): void => {
+  } ): Events4PublishSubscribe{
     this.#init( type );
 
     let _this = this;
 
-    this.#events4Queue[ type ].push( function once( ...args ){
+    ( this.#events4Queue[ type ] as Array<T_PublishFun> ).push( function once( ...args: any[] ): void{
       fn( ...args );
 
       _this.off( type, once );
@@ -1018,76 +1024,78 @@ export class Events4PublishSubscribe {
   }
 
   /**
-   * 根据指定的事件名触发其拥有的所有事件
+   * 根据指定的事件名订阅（也就是“执行”）其拥有的所有事件函数。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
    *
-   * @param params rest参数列表，一个个参数都是传给即将被调用的事件函数，可选的
+   * @param params rest参数列表，一个个参数都是传给即将被调用的事件函数，可选的。
    *
-   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
    */
-  emit( type, ...params ){
-    this.#events4Queue[ type ] && ( this.#events4Queue[ type ].forEach( fn => fn( ...params ) ) );
+  public emit( type: string, ...params: any[] ): Events4PublishSubscribe{
+    this.#events4Queue[ type ] && ( ( this.#events4Queue[ type ] as Array<T_PublishFun> ).forEach( ( fn: T_PublishFun ): void => {
+      fn( ...params );
+    } ) );
 
     return this;
   }
 
   /**
-   * 根据指定的事件名注销其所有事件中的一个指定事件函数
+   * 根据指定的事件名注销其拥有的所有事件函数中指定的那个事件函数。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
    *
-   * @param fn 函数(建议用function函数，而不是箭头函数)，就是当初注册事件时用的那个存着注册事件函数的那个变量，必须的
+   * @param {T_PublishFun} fn 函数，就是当初发布事件时用的那个存着发布事件函数的那个函数变量名，必须的。
    *
-   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
    */
-  off( type, fn ){
-    this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = this.#events4Queue[ type ].filter( cb => fn !== cb ) );
+  public off( type: string, fn: T_PublishFun ): Events4PublishSubscribe{
+    this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = ( this.#events4Queue[ type ] as Array<T_PublishFun> ).filter( ( cb: T_PublishFun ): boolean => fn !== cb ) );
 
     return this;
   }
 
   /**
-   * 清除所有的事件队列
+   * 清除所有的事件队列。
    *
-   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
    */
-  clearAllEventsQueue(){
+  public clearAllEventsQueue(): Events4PublishSubscribe{
     this.#events4Queue = {};
 
     return this;
   }
 
   /**
-   * 根据指定的事件名清除其所有的事件，并且也会删除这个事件名
+   * 根据指定的事件名清除其所有的事件函数，并且也会删除这个事件名。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
    *
-   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
    */
-  delEventQueue4Type( type ){
+  public delEventQueue4Type( type: string ): Events4PublishSubscribe{
     this.#events4Queue[ type ] && ( delete this.#events4Queue[ type ] );
 
     return this;
   }
 
   /**
-   * 获取所有的事件队列
+   * 获取所有的事件队列。
    *
-   * @returns {{}} 对象
+   * @returns {Record<string, Array<T_PublishFun>>} 所有的事件队列。
    */
-  getAllEventsQueue(){
+  public getAllEventsQueue(): Record<string, Array<T_PublishFun>>{
     return this.#events4Queue;
   }
 
   /**
-   * 根据指定的事件名获取其所有的事件，不存在指定的事件名，就会返回undefined
+   * 根据指定的事件名获取其所有的事件，不存在指定的事件名，就会返回undefined。
    *
-   * @param type 字符串，事件名，必须的
+   * @param {string} type 字符串，事件名，必须的。
    *
-   * @returns {[]|undefined} 数组|undefined，不存在指定的事件名，就会返回undefined
+   * @returns {Array<T_PublishFun> | undefined} 数组|undefined，不存在指定的事件名，就会返回undefined。
    */
-  getEventQueue4Type( type ){
+  public getEventQueue4Type( type: string ): Array<T_PublishFun> | undefined{
     return this.#events4Queue[ type ];
   }
 

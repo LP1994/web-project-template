@@ -1353,7 +1353,7 @@
     "vue-loader": "^17.4.2",
     "vue-observe-visibility": "^1.0.0",
     "vue-resize": "^1.0.1",
-    "vue-router": "^4.3.0",
+    "vue-router": "^4.3.1",
     "vue-rx": "^6.2.0",
     "vue-server-renderer": "^2.7.16",
     "vue-sfc-descriptor-to-string": "^3.0.1",
