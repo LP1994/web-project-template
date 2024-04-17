@@ -4794,7 +4794,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.36.1',
+              } )() || '3.37.0',
               proposals: true,
             },
             /**
@@ -5439,6 +5439,17 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                                        ? {
           loader: MiniCssExtractPlugin.loader,
           options: {
+            /**
+             * 1、默认值：false。
+             * 2、只有在 css-loader 中将 namedExport 设置为 true 时，该选项才会起作用。
+             * 3、默认情况下，mini-css-extract-plugin 会根据 css-loader 中的 esModule 和 namedExport 选项生成 JS 模块。
+             * 使用 esModule 和 namedExport 选项可以更好地优化代码。
+             * 如果在 css-loader 中设置 esModule: true 和 namedExport: true，mini-css-extract-plugin 将只生成命名导出。
+             * 我们的官方建议是只使用命名导出，以提高未来的兼容性。
+             * 但对于某些应用程序，要快速将代码从默认导出重写为已命名导出并不容易。
+             * 4、如果同时需要默认导出和命名导出，可以启用此选项。
+             */
+            defaultExport: true,
             // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
             emit: true,
             // 该loader的该选项默认值是true。
@@ -5579,7 +5590,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
          *
          * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。因为内部模块部署了默认导出（也就是部署了default属性），Vue的SFC就是使用了这个默认导出。<br />
          */
-        namedExport: false,
+        namedExport: true,
         // 允许css-loader从全局的类或id导出名称，这样就可以将其用作本地名称。
         exportGlobals: true,
         /**
