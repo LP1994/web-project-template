@@ -1067,7 +1067,7 @@ export class Events4PublishSubscribe {
   }
 
   /**
-   * 根据指定的事件名清除其所有的事件函数，并且也会删除这个事件名。
+   * 根据指定的事件名清除其拥有的所有事件函数，并且也会删除这个事件名。
    *
    * @param {string} type 字符串，事件名，必须的。
    *
@@ -1089,14 +1089,25 @@ export class Events4PublishSubscribe {
   }
 
   /**
-   * 根据指定的事件名获取其所有的事件，不存在指定的事件名，就会返回undefined。
+   * 根据指定的事件名获取其拥有的所有事件函数，若不存在指定的事件名，就会返回undefined。
    *
    * @param {string} type 字符串，事件名，必须的。
    *
-   * @returns {Array<T_PublishFun> | undefined} 数组|undefined，不存在指定的事件名，就会返回undefined。
+   * @returns {Array<T_PublishFun> | undefined} 根据指定的事件名获取其拥有的所有事件函数，若不存在指定的事件名，就会返回undefined。
    */
   public getEventQueue4Type( type: string ): Array<T_PublishFun> | undefined{
     return this.#events4Queue[ type ];
+  }
+
+  /**
+   * 根据指定的事件名判断事件队列中是否已经存在了指定的事件名。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {boolean} 若存在则返回true，反之，返回false。
+   */
+  public hasEventQueue4Type( type: string ): boolean{
+    return Boolean( this.#events4Queue[ type ] );
   }
 
 }
