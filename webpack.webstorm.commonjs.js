@@ -229,6 +229,14 @@ module.exports = {
         ELEMENT: path.resolve( path.join( __dirname, './node_modules/element-ui/lib/element-ui.common.js' ) ),
         ElementPlus: 'element-plus',
 
+        /**
+         * JavaScript HTML 渲染器：<br />
+         * 该脚本允许您直接在用户浏览器上截取网页或其部分内容的“屏幕截图”。屏幕截图基于 DOM，因此可能无法 100% 准确地反映真实情况，因为它不会制作实际的屏幕截图，而是根据页面上的可用信息构建屏幕截图。<br />
+         * 详细见：https://github.com/niklasvh/html2canvas <br />
+         * Options选项见：https://html2canvas.hertzen.com/configuration <br />
+         */
+        html2canvas: path.resolve( path.join( __dirname, './node_modules/html2canvas/dist/html2canvas.esm.js' ) ),
+
         $: path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
         jQuery: path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
         'window.$': path.resolve( path.join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),

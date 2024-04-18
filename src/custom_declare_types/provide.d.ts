@@ -48,6 +48,14 @@ declare const ELEMENT: typeof import('element-ui');
 declare const ElementPlus: typeof import('element-plus');
 
 /**
+ * JavaScript HTML 渲染器：<br />
+ * 该脚本允许您直接在用户浏览器上截取网页或其部分内容的“屏幕截图”。屏幕截图基于 DOM，因此可能无法 100% 准确地反映真实情况，因为它不会制作实际的屏幕截图，而是根据页面上的可用信息构建屏幕截图。<br />
+ * 详细见：https://github.com/niklasvh/html2canvas <br />
+ * Options选项见：https://html2canvas.hertzen.com/configuration <br />
+ */
+declare const html2canvas: typeof import('html2canvas');
+
+/**
  * jQuery 是一个快速、小巧、功能丰富的 JavaScript 库。它通过一个易于使用的 API，使 HTML 文档的遍历和操作、事件处理、动画和 Ajax 等变得更加简单，并能在多种浏览器上运行。集多功能性和可扩展性于一身，jQuery 改变了数百万人编写 JavaScript 的方式。<br />
  * 详细见：https://api.jquery.com/
  */
