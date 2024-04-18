@@ -172,7 +172,7 @@
     "graphql_codegen": "graphql-codegen-esm --config ./GraphqlCodegenConfig.esm.mts"
   },
   "devDependencies": {
-    "@angular/core": "^17.3.4",
+    "@angular/core": "^17.3.5",
     "@apollo/client": "^3.9.11",
     "@appium/typedoc-plugin-appium": "^0.6.6",
     "@babel/cli": "^7.24.1",
@@ -1290,7 +1290,7 @@
     "stylus": "^0.63.0",
     "stylus-loader": "^8.1.0",
     "sugarss": "^4.0.1",
-    "svelte": "^4.2.14",
+    "svelte": "^4.2.15",
     "svelte-check": "^3.6.9",
     "svelte-language-server": "^0.16.7",
     "svg-inline-loader": "^0.8.2",
