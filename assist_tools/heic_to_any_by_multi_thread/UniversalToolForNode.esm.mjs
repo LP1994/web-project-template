@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: heic_to_any_by_multi_thread/UniversalToolForNode.esm.mjs
+ * FileDirPath: assist_tools/heic_to_any_by_multi_thread/UniversalToolForNode.esm.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -1844,6 +1844,172 @@ export class MyConsole {
 
 }
 
+// 事件的发布、订阅的工具类 Start
+
+/**
+ * 事件的发布、订阅的工具类。
+ */
+export class Events4PublishSubscribe {
+
+  /**
+   * 用于存储事件(模拟队列)的对象。
+   *
+   * @type {Record<string, Array<T_PublishFun>>}
+   *
+   * @private
+   */
+  #events4Queue = {};
+
+  /**
+   * 用于事件发布的初始化。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @private
+   */
+  #init( type ){
+    !this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = [] );
+  }
+
+  /**
+   * 事件的发布、订阅的工具类的构造函数。
+   */
+  constructor(){
+  }
+
+  /**
+   * 根据指定的事件名发布指定的事件逻辑。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param {T_PublishFun} fn 函数，要执行的事件逻辑，可选的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  on( type, fn = () => {
+  } ){
+    this.#init( type );
+
+    this.#events4Queue[ type ].push( fn );
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名发布一个只执行一次的指定的事件逻辑。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param {T_PublishFun} fn 函数，要执行的事件逻辑，可选的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  once( type, fn = () => {
+  } ){
+    this.#init( type );
+
+    let _this = this;
+
+    this.#events4Queue[ type ].push( function once( ...args ){
+      fn( ...args );
+
+      _this.off( type, once );
+    } );
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名订阅（也就是“执行”）其拥有的所有事件函数。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param params rest参数列表，一个个参数都是传给即将被调用的事件函数，可选的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  emit( type, ...params ){
+    this.#events4Queue[ type ] && ( this.#events4Queue[ type ].forEach( ( fn ) => {
+      fn( ...params );
+    } ) );
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名注销其拥有的所有事件函数中指定的那个事件函数。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param {T_PublishFun} fn 函数，就是当初发布事件时用的那个存着发布事件函数的那个函数变量名，必须的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  off( type, fn ){
+    this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = this.#events4Queue[ type ].filter( ( cb ) => fn !== cb ) );
+
+    return this;
+  }
+
+  /**
+   * 清除所有的事件队列。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  clearAllEventsQueue(){
+    this.#events4Queue = {};
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名清除其拥有的所有事件函数，并且也会删除这个事件名。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  delEventQueue4Type( type ){
+    this.#events4Queue[ type ] && ( delete this.#events4Queue[ type ] );
+
+    return this;
+  }
+
+  /**
+   * 获取所有的事件队列。
+   *
+   * @returns {Record<string, Array<T_PublishFun>>} 所有的事件队列。
+   */
+  getAllEventsQueue(){
+    return this.#events4Queue;
+  }
+
+  /**
+   * 根据指定的事件名获取其拥有的所有事件函数，若不存在指定的事件名，就会返回undefined。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {Array<T_PublishFun> | undefined} 根据指定的事件名获取其拥有的所有事件函数，若不存在指定的事件名，就会返回undefined。
+   */
+  getEventQueue4Type( type ){
+    return this.#events4Queue[ type ];
+  }
+
+  /**
+   * 根据指定的事件名判断事件队列中是否已经存在了指定的事件名。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {boolean} 若存在则返回true，反之，返回false。
+   */
+  hasEventQueue4Type( type ){
+    return Boolean( this.#events4Queue[ type ] );
+  }
+
+}
+
+// 事件的发布、订阅的工具类 End
+
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
@@ -1885,4 +2051,8 @@ export default {
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
   MyConsole,
+
+  // 事件的发布、订阅的工具类 Start
+  Events4PublishSubscribe,
+  // 事件的发布、订阅的工具类 End
 };
