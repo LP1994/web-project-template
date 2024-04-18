@@ -1910,6 +1910,174 @@ export class MyConsole {
 
 }
 
+// 事件的发布、订阅的工具类 Start
+
+export type T_PublishFun = ( ...args: any[] ) => void;
+
+/**
+ * 事件的发布、订阅的工具类。
+ */
+export class Events4PublishSubscribe {
+
+  /**
+   * 用于存储事件(模拟队列)的对象。
+   *
+   * @type {Record<string, Array<T_PublishFun>>}
+   *
+   * @private
+   */
+  #events4Queue: Record<string, Array<T_PublishFun>> = {};
+
+  /**
+   * 用于事件发布的初始化。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @private
+   */
+  #init( type: string ): void{
+    !this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = [] );
+  }
+
+  /**
+   * 事件的发布、订阅的工具类的构造函数。
+   */
+  public constructor(){
+  }
+
+  /**
+   * 根据指定的事件名发布指定的事件逻辑。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param {T_PublishFun} fn 函数，要执行的事件逻辑，可选的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  public on( type: string, fn: T_PublishFun = (): void => {
+  } ): Events4PublishSubscribe{
+    this.#init( type );
+
+    ( this.#events4Queue[ type ] as Array<T_PublishFun> ).push( fn );
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名发布一个只执行一次的指定的事件逻辑。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param {T_PublishFun} fn 函数，要执行的事件逻辑，可选的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  public once( type: string, fn: T_PublishFun = (): void => {
+  } ): Events4PublishSubscribe{
+    this.#init( type );
+
+    let _this = this;
+
+    ( this.#events4Queue[ type ] as Array<T_PublishFun> ).push( function once( ...args: any[] ): void{
+      fn( ...args );
+
+      _this.off( type, once );
+    } );
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名订阅（也就是“执行”）其拥有的所有事件函数。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param params rest参数列表，一个个参数都是传给即将被调用的事件函数，可选的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  public emit( type: string, ...params: any[] ): Events4PublishSubscribe{
+    this.#events4Queue[ type ] && ( ( this.#events4Queue[ type ] as Array<T_PublishFun> ).forEach( ( fn: T_PublishFun ): void => {
+      fn( ...params );
+    } ) );
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名注销其拥有的所有事件函数中指定的那个事件函数。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @param {T_PublishFun} fn 函数，就是当初发布事件时用的那个存着发布事件函数的那个函数变量名，必须的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  public off( type: string, fn: T_PublishFun ): Events4PublishSubscribe{
+    this.#events4Queue[ type ] && ( this.#events4Queue[ type ] = ( this.#events4Queue[ type ] as Array<T_PublishFun> ).filter( ( cb: T_PublishFun ): boolean => fn !== cb ) );
+
+    return this;
+  }
+
+  /**
+   * 清除所有的事件队列。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  public clearAllEventsQueue(): Events4PublishSubscribe{
+    this.#events4Queue = {};
+
+    return this;
+  }
+
+  /**
+   * 根据指定的事件名清除其拥有的所有事件函数，并且也会删除这个事件名。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {Events4PublishSubscribe} Events4PublishSubscribe类的实例，方便链式调用。
+   */
+  public delEventQueue4Type( type: string ): Events4PublishSubscribe{
+    this.#events4Queue[ type ] && ( delete this.#events4Queue[ type ] );
+
+    return this;
+  }
+
+  /**
+   * 获取所有的事件队列。
+   *
+   * @returns {Record<string, Array<T_PublishFun>>} 所有的事件队列。
+   */
+  public getAllEventsQueue(): Record<string, Array<T_PublishFun>>{
+    return this.#events4Queue;
+  }
+
+  /**
+   * 根据指定的事件名获取其拥有的所有事件函数，若不存在指定的事件名，就会返回undefined。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {Array<T_PublishFun> | undefined} 根据指定的事件名获取其拥有的所有事件函数，若不存在指定的事件名，就会返回undefined。
+   */
+  public getEventQueue4Type( type: string ): Array<T_PublishFun> | undefined{
+    return this.#events4Queue[ type ];
+  }
+
+  /**
+   * 根据指定的事件名判断事件队列中是否已经存在了指定的事件名。
+   *
+   * @param {string} type 字符串，事件名，必须的。
+   *
+   * @returns {boolean} 若存在则返回true，反之，返回false。
+   */
+  public hasEventQueue4Type( type: string ): boolean{
+    return Boolean( this.#events4Queue[ type ] );
+  }
+
+}
+
+// 事件的发布、订阅的工具类 End
+
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
@@ -1958,4 +2126,8 @@ export default {
    * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
    */
   MyConsole,
+
+  // 事件的发布、订阅的工具类 Start
+  Events4PublishSubscribe,
+  // 事件的发布、订阅的工具类 End
 };
