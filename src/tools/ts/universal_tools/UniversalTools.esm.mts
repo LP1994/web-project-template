@@ -1114,6 +1114,382 @@ export class Events4PublishSubscribe {
 
 // 事件的发布、订阅的工具类 End
 
+// onappinstalled和onbeforeinstallprompt的事件封装。Start
+
+/**
+ * BeforeInstallPromptEvent 接口的 userChoice 属性表示用户在收到安装应用程序的提示时所作的安装选择。
+ */
+export type T_userChoiceResult = {
+  /**
+   * 表示用户是否选择安装应用程序的字符串。必须是以下值之一：
+   * "accepted"：用户安装了应用程序。
+   * "dismissed"：用户未安装应用程序。
+   */
+  outcome: 'accepted' | 'dismissed',
+  /**
+   * 如果用户选择安装应用程序，这是一个字符串，表示所选平台，即 BeforeInstallPromptEvent.platforms 属性的值之一。
+   * 如果用户选择不安装应用程序，则此字符串为空。
+   */
+  platform: string,
+};
+
+/**
+ * BeforeInstallPromptEvent 是 Window 对象在提示用户将网站 "安装 "到手机主屏幕之前触发的 beforeinstallprompt 事件的接口。
+ * 当浏览器检测到网站可以作为渐进式 Web 应用程序进行安装时，beforeinstallprompt 事件就会触发。
+ * 该事件的触发时间并无保证，但通常会在页面加载时发生。
+ * 该事件的典型用途是当网络应用希望提供自己的应用内用户界面，而不是浏览器提供的通用用户界面，来邀请用户安装应用。这样，应用程序就能提供更多关于应用程序的上下文，向用户解释为什么要安装它。
+ * 在这种情况下，该事件的处理程序将：
+ * 保持对传入的 BeforeInstallPromptEvent 对象的引用
+ * 显示应用内安装界面（默认情况下应隐藏，因为并非所有浏览器都支持安装）。
+ * 当用户使用应用内安装用户界面安装应用时，应用内安装用户界面会调用保留的 BeforeInstallPromptEvent 对象的 prompt() 方法来显示安装提示。
+ */
+export interface I_BeforeInstallPromptEvent
+  extends Event {
+  /**
+   * 返回包含事件发生平台的字符串数组，其中每个字符串用于标识安装的目标平台。该数组适用于希望向用户提供版本选择的用户代理，例如，"web"或 "play"可让用户在 web 版本或 Android 版本之间进行选择。
+   */
+  readonly platforms: string[];
+
+  /**
+   * 返回一个 Promise，该 Promise 将解析为一个对象，描述用户在被提示安装应用程序时的选择。
+   */
+  readonly userChoice: Promise<T_userChoiceResult>;
+
+  /**
+   * 显示提示，询问用户是否要安装应用程序。该方法会返回一个 Promise，解析为一个对象，描述用户在被提示安装应用程序时的选择。
+   * BeforeInstallPromptEvent 接口的 prompt() 方法允许开发人员在自己选择的时间显示安装提示。通常，应用程序自定义安装 UI 的事件处理程序会调用该方法。
+   * 该方法必须在用户操作（如点击按钮）的事件处理程序中调用，并且只能在给定的 BeforeInstallPromptEvent 实例中调用一次。
+   */
+  prompt: () => Promise<T_userChoiceResult>;
+}
+
+/**
+ * AppInstallEvent类的构造函数的配置参数。
+ */
+export type T_AppInstallEventConfig = {
+  /**
+   * 当onappinstalled触发时，所要执行的函数，会有一个event参数(onappinstalled的event参数)。
+   *
+   * @param {Event} event
+   */
+  onAppInstalled: ( event: Event ) => void;
+  /**
+   * 当onbeforeinstallprompt触发时，所要执行的函数，会有一个event参数(onbeforeinstallprompt的event参数)。
+   *
+   * @param {I_BeforeInstallPromptEvent} event
+   */
+  onBeforeInstallPrompt: ( event: I_BeforeInstallPromptEvent ) => void;
+  /**
+   * 布尔值，true禁用默认事件，false反之，默认值true。
+   */
+  isPreventDefault: boolean;
+  /**
+   * 当用户确定添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数。
+   *
+   * @param {T_userChoiceResult} userChoiceResult
+   */
+  accepted: ( userChoiceResult: T_userChoiceResult ) => void;
+  /**
+   * 当用户取消添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数。
+   *
+   * @param {T_userChoiceResult} userChoiceResult
+   */
+  dismissed: ( userChoiceResult: T_userChoiceResult ) => void;
+  /**
+   * onbeforeinstallprompt的event.userChoice的拒绝事件，有一个error参数。
+   *
+   * @param {Error} error
+   */
+  rejected: ( error: Error ) => void;
+};
+
+/**
+ * onappinstalled和onbeforeinstallprompt的事件封装。<br />
+ * 有的浏览器(基于谷歌浏览器内核开发的第3方浏览器)虽然显示支持这2个事件，但不触发！<br />
+ * 详细见：<br />
+ * https://developer.mozilla.org/en-US/docs/Web/API/Window/appinstalled_event <br />
+ * https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeinstallprompt_event <br /><br />
+ *
+ * 注：<br />
+ * 1、onappinstalled：<br />
+ * 当在浏览器上完成添加到主屏幕的时候会触发这个事件！否则不触发该事件！<br />
+ * 有的浏览器在完成添加到主屏幕的时候，会直接退出浏览器，导致没法进行触发后的其他处理！<br />
+ * PC和移动端兼容性都有所不同！用的时候注意些！<br />
+ * iOS上的浏览器目前都不行！但可以使用“window.navigator.standalone”来判断是不是从主屏幕打开的！<br />
+ * Android设备上的谷歌浏览器支持的很好！其他基于谷歌浏览器内核开发的第3方浏览器兼容的不同，有的可以有的不行！Edge浏览器可以！<br />
+ * PC的Windows上，谷歌浏览器和QQ浏览器支持！<br />
+ * 有的浏览器(基于谷歌浏览器内核开发的第3方浏览器)虽然显示支持该事件，但不触发！<br /><br />
+ *
+ * 2、onbeforeinstallprompt：<br />
+ * PC和移动端兼容性都有所不同！用的时候注意些！<br />
+ * 目前只有Windows 、Android上的谷歌浏览器支持！<br />
+ * Windows 、Android上的基于谷歌浏览器内核开发的第3方浏览器支持不一！<br />
+ * Android上的Edge浏览器支持！Android上的Opera浏览器却不支持(虽然显示支持该事件，但不触发)！<br />
+ * PC上的QQ浏览器支持！<br />
+ * 有的浏览器(基于谷歌浏览器内核开发的第3方浏览器)虽然显示支持该事件，但不触发！<br />
+ * 它需要满足以下条件才能触发：<br />
+ * 1）Web App尚未安装到主屏幕(也就是还没进行添加到主屏幕的操作，或者已经安装过了，但又刷新了该页面)。<br />
+ * 2）manifest.json(Web App的配置清单)中的prefer_related_applications属性的属性值不能是true。<br />
+ * 3）添加主屏幕的操作由用户触发，而且用户与当前页面进行了超过30秒的交互(貌似没有也行)。<br />
+ * 4）manifest.json(Web App的配置清单)中必须包括如下属性：<br />
+ *    short_name属性、name属性、start_url属性。<br />
+ *    icons属性，必须包含192x192(px)和512x512(px)大小的图标。<br />
+ *    display属性的属性值必须是其中一个：fullscreen、standalone、minimal-ui。<br />
+ * 5）当前页面是在HTTPS协议下(serviceWorker需要的)。<br />
+ * 6）已向serviceWorker注册了fetch事件。<br />
+ */
+export class AppInstallEvent {
+
+  /**
+   * 当浏览器成功将页面安装为应用程序时，Web Manifest API 的 appinstalled 事件就会被触发。
+   * 该事件不可取消，也不会冒泡。
+   *
+   * @type {(event: Event) => void}
+   *
+   * @private
+   */
+  #onAppInstalled: ( event: Event ) => void;
+
+  /**
+   * 当用户确定添加到主屏幕时，会被执行的函数。
+   *
+   * @type {( userChoiceResult: T_userChoiceResult ) => void}
+   *
+   * @private
+   */
+  #accepted: ( userChoiceResult: T_userChoiceResult ) => void;
+
+  /**
+   * 当用户取消添加到主屏幕时，会被执行的函数。
+   *
+   * @type {( userChoiceResult: T_userChoiceResult ) => void}
+   *
+   * @private
+   */
+  #dismissed: ( userChoiceResult: T_userChoiceResult ) => void;
+
+  /**
+   * BeforeInstallPromptEvent 是 Window 对象在提示用户将网站 "安装 "到手机主屏幕之前触发的 beforeinstallprompt 事件的接口。
+   * 当浏览器检测到网站可以作为渐进式 Web 应用程序进行安装时，beforeinstallprompt 事件就会触发。
+   * 该事件的触发时间并无保证，但通常会在页面加载时发生。
+   * 该事件的典型用途是当网络应用希望提供自己的应用内用户界面，而不是浏览器提供的通用用户界面，来邀请用户安装应用。这样，应用程序就能提供更多关于应用程序的上下文，向用户解释为什么要安装它。
+   * 在这种情况下，该事件的处理程序将：
+   * 保持对传入的 BeforeInstallPromptEvent 对象的引用
+   * 显示应用内安装界面（默认情况下应隐藏，因为并非所有浏览器都支持安装）。
+   * 当用户使用应用内安装用户界面安装应用时，应用内安装用户界面会调用保留的 BeforeInstallPromptEvent 对象的 prompt() 方法来显示安装提示。
+   *
+   * @type {I_BeforeInstallPromptEvent | undefined}
+   */
+  public beforeInstallPromptEvent: I_BeforeInstallPromptEvent | undefined;
+
+  /**
+   * BeforeInstallPromptEvent 接口的 userChoice 属性表示用户在收到安装应用程序的提示时所作的安装选择。
+   *
+   * @type {T_userChoiceResult | undefined}
+   */
+  public userChoiceResult: T_userChoiceResult | undefined;
+
+  /**
+   * 构造函数，初始化事件。
+   *
+   * @param config 配置参数。
+   *
+   * @param {((event: Event) => void)} config.onAppInstalled 当onappinstalled触发时，所要执行的函数，会有一个event参数(onappinstalled的event参数)，可选。
+   *
+   * @param {((event: I_BeforeInstallPromptEvent) => void)} config.onBeforeInstallPrompt 当onbeforeinstallprompt触发时，所要执行的函数，会有一个event参数(onbeforeinstallprompt的event参数)，可选。
+   *
+   * @param {boolean} config.isPreventDefault 布尔值，true禁用默认事件，false反之，默认值true，可选。
+   *
+   * @param {((userChoiceResult: T_userChoiceResult) => void)} config.accepted 当用户确定添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数，可选。
+   *
+   * @param {((userChoiceResult: T_userChoiceResult) => void)} config.dismissed 当用户取消添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数，可选。
+   *
+   * @param {((error: Error) => void)} config.rejected onbeforeinstallprompt的event.userChoice的拒绝事件，有一个error参数，可选。
+   */
+  public constructor( {
+    onAppInstalled = (
+      // @ts-expect-error
+      event: Event
+    ): void => {
+      console.log( 'window.onappinstalled触发了！' );
+    },
+    onBeforeInstallPrompt = (
+      // @ts-expect-error
+      event: I_BeforeInstallPromptEvent
+    ): void => {
+      console.log( 'window.onbeforeinstallprompt触发了！' );
+    },
+    isPreventDefault = true,
+    accepted = (
+      // @ts-expect-error
+      userChoiceResult: T_userChoiceResult
+    ): void => {
+      console.log( 'Web APP已经添加到主屏幕了！' );
+    },
+    dismissed = (
+      // @ts-expect-error
+      userChoiceResult: T_userChoiceResult
+    ): void => {
+      console.log( 'Web APP还没添加到主屏幕！' );
+    },
+    rejected = ( error: Error ): void => {
+      console.error( error.message );
+    },
+  }: Partial<T_AppInstallEventConfig> = {} ){
+    this.#onAppInstalled = onAppInstalled;
+    this.#accepted = accepted;
+    this.#dismissed = dismissed;
+
+    // @ts-expect-error
+    window.onappinstalled = ( event: Event ): void => {
+      this.#onAppInstalled( event );
+    };
+
+    // @ts-expect-error
+    window.onbeforeinstallprompt = ( event: I_BeforeInstallPromptEvent ): void => {
+      isPreventDefault && ( event.preventDefault(), event.stopPropagation(), event.stopImmediatePropagation() );
+
+      this.beforeInstallPromptEvent = event;
+
+      onBeforeInstallPrompt( event );
+
+      event[ 'userChoice' ].then( ( userChoiceResult: T_userChoiceResult ): void => {
+        this.userChoiceResult = userChoiceResult;
+
+        if( userChoiceResult === undefined || userChoiceResult[ 'outcome' ] === 'dismissed' ){
+          this.#dismissed( userChoiceResult );
+          this.beforeInstallPromptEvent = event;
+          this.userChoiceResult = userChoiceResult;
+        }
+        else if( userChoiceResult[ 'outcome' ] === 'accepted' ){
+          this.#accepted( userChoiceResult );
+          this.beforeInstallPromptEvent = undefined;
+          this.userChoiceResult = undefined;
+        }
+      } ).catch( rejected );
+    };
+  }
+
+  /**
+   * 当onappinstalled触发时，所要执行的函数。
+   *
+   * @param {(event: Event) => void} event 函数，该函数会有1个event参数(onappinstalled的event参数)，必须。
+   */
+  public onAppInstalled( event: ( event: Event ) => void ): void{
+    this.#onAppInstalled = event;
+  }
+
+  /**
+   * 当onbeforeinstallprompt第1次被触发后，或outcome === 'dismissed'时，这2种情况下，调用该方法会触发添加到主屏幕的提示。
+   *
+   * @returns {Promise<T_userChoiceResult | void>}
+   */
+  public async prompt(): Promise<T_userChoiceResult | void>{
+    if( ( this.beforeInstallPromptEvent && this.userChoiceResult === undefined ) || ( this.beforeInstallPromptEvent && this.userChoiceResult !== undefined && this.userChoiceResult[ 'outcome' ] === 'dismissed' ) ){
+      return await this.beforeInstallPromptEvent.prompt();
+    }
+  }
+
+  /**
+   * 当用户确定添加到主屏幕时，会被执行的函数。
+   *
+   * @param {(userChoiceResult: T_userChoiceResult) => void} fun 函数，该函数有一个userChoiceResult参数，必须。<br />
+   */
+  public accepted( fun: ( userChoiceResult: T_userChoiceResult ) => void ): void{
+    this.#accepted = fun;
+  }
+
+  /**
+   * 当用户取消添加到主屏幕时，会被执行的函数。
+   *
+   * @param {(userChoiceResult: T_userChoiceResult) => void} fun 函数，该函数有一个userChoiceResult参数，必须。<br />
+   */
+  public dismissed( fun: ( userChoiceResult: T_userChoiceResult ) => void ): void{
+    this.#dismissed = fun;
+  }
+
+}
+
+export type T_IsSupportAppInstallEvent = {
+  onappinstalled: boolean;
+  onbeforeinstallprompt: boolean;
+};
+
+/**
+ * 返回一个对象，有onappinstalled属性和onbeforeinstallprompt属性，都是布尔值。用于判断浏览器是否支持这2个事件！<br />
+ * 有的浏览器(基于谷歌浏览器内核开发的第3方浏览器)虽然显示支持这2个事件，但不触发！<br />
+ * 详细见：<br />
+ * https://developer.mozilla.org/en-US/docs/Web/API/Window/appinstalled_event <br />
+ * https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeinstallprompt_event <br /><br />
+ *
+ * 注：<br />
+ * 1、onappinstalled：<br />
+ * 当在浏览器上完成添加到主屏幕的时候会触发这个事件！否则不触发该事件！<br />
+ * 有的浏览器在完成添加到主屏幕的时候，会直接退出浏览器，导致没法进行触发后的其他处理！<br />
+ * PC和移动端兼容性都有所不同！用的时候注意些！<br />
+ * iOS上的浏览器目前都不行！但可以使用“window.navigator.standalone”来判断是不是从主屏幕打开的！<br />
+ * Android设备上的谷歌浏览器支持的很好！其他基于谷歌浏览器内核开发的第3方浏览器兼容的不同，有的可以有的不行！Edge浏览器可以！<br />
+ * PC的Windows上，谷歌浏览器和QQ浏览器支持！<br />
+ * 有的浏览器(基于谷歌浏览器内核开发的第3方浏览器)虽然显示支持该事件，但不触发！<br /><br />
+ *
+ * 2、onbeforeinstallprompt：<br />
+ * PC和移动端兼容性都有所不同！用的时候注意些！<br />
+ * 目前只有Windows 、Android上的谷歌浏览器支持！<br />
+ * Windows 、Android上的基于谷歌浏览器内核开发的第3方浏览器支持不一！<br />
+ * Android上的Edge浏览器支持！Android上的Opera浏览器却不支持(虽然显示支持该事件，但不触发)！<br />
+ * PC上的QQ浏览器支持！<br />
+ * 有的浏览器(基于谷歌浏览器内核开发的第3方浏览器)虽然显示支持该事件，但不触发！<br />
+ * 它需要满足以下条件才能触发：<br />
+ * 1）Web App尚未安装到主屏幕(也就是还没进行添加到主屏幕的操作，或者已经安装过了，但又刷新了该页面)。<br />
+ * 2）manifest.json(Web App的配置清单)中的prefer_related_applications属性的属性值不能是true。<br />
+ * 3）添加主屏幕的操作由用户触发，而且用户与当前页面进行了超过30秒的交互(貌似没有也行)。<br />
+ * 4）manifest.json(Web App的配置清单)中必须包括如下属性：<br />
+ *    short_name属性、name属性、start_url属性。<br />
+ *    icons属性，必须包含192x192(px)和512x512(px)大小的图标。<br />
+ *    display属性的属性值必须是其中一个：fullscreen、standalone、minimal-ui。<br />
+ * 5）当前页面是在HTTPS协议下(serviceWorker需要的)。<br />
+ * 6）已向serviceWorker注册了fetch事件。<br />
+ *
+ * @returns {T_IsSupportAppInstallEvent}
+ */
+export function IsSupportAppInstallEvent(): T_IsSupportAppInstallEvent{
+  return {
+    onappinstalled: 'onappinstalled' in window,
+    onbeforeinstallprompt: 'onbeforeinstallprompt' in window,
+  };
+}
+
+export type T_WindowDisplayModeConfig = {
+  mode?: string;
+  yes?: () => void;
+  no?: () => void;
+};
+
+/**
+ * 判断当前浏览器的“display-mode”是否跟指定的参数mode的值一样，可以将该函数用于辅助提示用户将Web App添加到主屏幕！
+ *
+ * @param {T_WindowDisplayModeConfig} config
+ *
+ * @param {string} config.mode display-mode的值有：fullscreen、standalone、minimal-ui、browser，默认值是'fullscreen'，可选。
+ *
+ * @param {() => void} config.yes 函数，如果当前浏览器的“display-mode”是指定的参数mode_str的值，就会触发这个函数，可选。
+ *
+ * @param {() => void} config.no 函数，如果当前浏览器的“display-mode”不是指定的参数mode_str的值，就会触发这个函数，可选。
+ */
+export function WindowDisplayMode( {
+  mode = 'fullscreen',
+  yes = (): void => {
+  },
+  no = (): void => {
+  },
+}: T_WindowDisplayModeConfig = {} ): void{
+  window.matchMedia( `(display-mode: ${ mode })` ).matches
+  ? yes()
+  : no();
+}
+
+// onappinstalled和onbeforeinstallprompt的事件封装。End
+
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
@@ -1149,11 +1525,17 @@ export default {
   Union,
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。End
 
-  // 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！） Start
+  // 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！）Start
   RequestConcurrentControllerByGlobal,
-  // 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！） End
+  // 请求并发控制器（对于HTTP/2、HTTP/3而言，限制请求的并发数没什么实际效用了！）End
 
-  // 事件的发布、订阅的工具类 Start
+  // 事件的发布、订阅的工具类。Start
   Events4PublishSubscribe,
-  // 事件的发布、订阅的工具类 End
+  // 事件的发布、订阅的工具类。End
+
+  // onappinstalled和onbeforeinstallprompt的事件封装。Start
+  AppInstallEvent,
+  IsSupportAppInstallEvent,
+  WindowDisplayMode,
+  // onappinstalled和onbeforeinstallprompt的事件封装。End
 };
