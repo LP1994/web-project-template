@@ -104,7 +104,7 @@
     "verbatimModuleSyntax": true,
     "removeComments": false,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "moduleSuffixes": [
       ""
     ],

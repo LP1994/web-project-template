@@ -42,7 +42,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "preserveSymlinks": false,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",
