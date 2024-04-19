@@ -103,7 +103,7 @@
     "allowArbitraryExtensions": true,
     "verbatimModuleSyntax": true,
     "removeComments": false,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": false,
     "experimentalDecorators": false,
     "moduleSuffixes": [
       ""

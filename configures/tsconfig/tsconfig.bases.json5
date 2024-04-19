@@ -660,8 +660,11 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*
     启用对与模块反射元数据一起使用的装饰器发射类型元数据的实验性支持。
     1、为源文件中的修饰声明发出设计类型元数据。
+    2、截至2024年04月19日，Decorators提案已经处于第3阶段（详细见：https://github.com/tc39/proposal-decorators），且不同于早期旧版的Decorators提案！
+    3、鉴于旧版的提案会被废弃不用，而且最新的提案规范会成为正式语法，所以将该选项设置为false，会让TS直接按最新的语法提案进行工作。
+    4、如果想让TS按照旧版的语法提案进行工作，可以将该选项设置为true。
     */
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": false,
     /*
     在TC39标准化流程的第2阶段，为装饰器启用实验支持。
     1、装饰器是一种语言功能，尚未完全批准到JavaScript规范中。这意味着TypeScript中的实现版本可能与TC39决定的JavaScript中的实现版本有所不同。
