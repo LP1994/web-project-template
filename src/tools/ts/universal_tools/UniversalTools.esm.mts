@@ -1529,7 +1529,7 @@ export function Bound4ClassMethodDecorator(
     const methodName: string | symbol = context.name;
 
     if( context.private ){
-      throw new Error( `方法装饰器“Bound4ClassMethodDecorator”不能用于修饰类的私有方法：${ methodName as string }！` );
+      throw new Error( `方法装饰器“Bound4ClassMethodDecorator”不能用于修饰类的私有方法：${ methodName as string }` );
     }
 
     context.addInitializer( function (): void{
