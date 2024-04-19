@@ -1,8 +1,8 @@
-#!/usr/bin/env -S tsx --no-cache
+#!/usr/bin/env -S deno run -A --config=../../../../../deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr
 
 /**
  * Project: web-project-template
- * FileDirPath: src/tools/ts/universal_tools/unit_test/Bound4ClassMethodDecorator/Main.test.mts
+ * FileDirPath: simulation_servers/deno/src/tools/universal_tool_for_deno/unit_test/Bound4ClassMethodDecorator/Main.test.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -22,7 +22,7 @@ import {
 
 import {
   Bound4ClassMethodDecorator,
-} from '../../UniversalTools.esm.mts';
+} from '../../UniversalToolForDeno.esm.mts';
 
 class Person {
 
