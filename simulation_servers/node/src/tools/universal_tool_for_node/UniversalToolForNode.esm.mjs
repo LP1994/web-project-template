@@ -2010,6 +2010,58 @@ export class Events4PublishSubscribe {
 
 // 事件的发布、订阅的工具类 End
 
+// Decorator修饰工具。Start
+
+/**
+ * 方法装饰器，用于确保类的非私有方法在调用时，其内部this指向永远都是类、类实例。<br />
+ * 例子：<br />
+ * ```ts
+ * class Person {
+ *
+ *   public name: string;
+ *
+ *   public constructor( name: string ){
+ *     this.name = name;
+ *   }
+ *
+ *   @Bound4ClassMethodDecorator
+ *   public greet(): void{
+ *     console.log(`Hello, my name is ${this.name}.`);
+ *   }
+ *
+ * }
+ *
+ * const g = new Person( '张三' ).greet;
+ *
+ * g(); // "Hello, my name is 张三."
+ * ```
+ *
+ * @param {Function} value 被修饰的类的非私有方法本身。
+ *
+ * @param {ClassMethodDecoratorContext} context 上下文对象。
+ */
+export function Bound4ClassMethodDecorator(
+  value,
+  context,
+){
+  if( context.kind === 'method' ){
+    const methodName = context.name;
+
+    if( context.private ){
+      throw new Error( `方法装饰器“Bound4ClassMethodDecorator”不能用于修饰类的私有方法：${ methodName }` );
+    }
+
+    context.addInitializer( function (){
+      this[ methodName ] = this[ methodName ].bind( this );
+    } );
+  }
+  else{
+    throw new Error( `方法装饰器“Bound4ClassMethodDecorator”只能用于修饰类的非私有方法！` );
+  }
+}
+
+// Decorator修饰工具。End
+
 /**
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
@@ -2055,4 +2107,8 @@ export default {
   // 事件的发布、订阅的工具类 Start
   Events4PublishSubscribe,
   // 事件的发布、订阅的工具类 End
+
+  // Decorator修饰工具。Start
+  Bound4ClassMethodDecorator,
+  // Decorator修饰工具。End
 };
