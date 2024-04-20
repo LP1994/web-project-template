@@ -1323,7 +1323,7 @@
     "underscore": "^1.13.6",
     "url-loader": "^4.1.1",
     "val-loader": "^6.0.0",
-    "vite": "^5.2.9",
+    "vite": "^5.2.10",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-clean": "^1.0.0",
     "vite-plugin-cp": "^4.0.8",
