@@ -3390,6 +3390,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               [
                 '@babel/plugin-proposal-partial-application',
               ],
+              /**
+               * @babel/plugin-proposal-optional-chaining-assign：https://babeljs.io/docs/babel-plugin-proposal-optional-chaining-assign、https://github.com/tc39/proposal-optional-chaining-assignment
+               * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               */
+              [
+                '@babel/plugin-proposal-optional-chaining-assign',
+                {
+                  'version': '2023-07',
+                },
+              ],
 
               // 处于提案第2阶段！
               /**
