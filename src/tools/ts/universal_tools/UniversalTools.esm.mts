@@ -1535,7 +1535,7 @@ export type T_ClassSetterDecorator = (
 /**
  * accessor装饰器的类型描述。
  */
-export type T_ClassAutoAccessorDecorator = (
+export type T_ClassAccessorDecorator = (
   value: {
     get: () => unknown;
     set: ( value: unknown ) => void;
