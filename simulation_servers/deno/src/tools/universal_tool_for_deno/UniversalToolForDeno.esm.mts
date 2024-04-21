@@ -2081,6 +2081,61 @@ export class Events4PublishSubscribe {
 // Decorator修饰工具。Start
 
 /**
+ * 类装饰器的类型描述。
+ */
+export type T_ClassDecorator = (
+  value: Function,
+  context: ClassDecoratorContext,
+) => Function | void;
+
+/**
+ * 方法装饰器的类型描述。
+ */
+export type T_ClassMethodDecorator = (
+  value: Function,
+  context: ClassMethodDecoratorContext,
+) => Function | void;
+
+/**
+ * 属性装饰器的类型描述。
+ */
+export type T_ClassFieldDecorator = (
+  value: undefined,
+  context: ClassFieldDecoratorContext,
+) => ( initialValue: unknown ) => unknown | void;
+
+/**
+ * getter装饰器的类型描述。
+ */
+export type T_ClassGetterDecorator = (
+  value: Function,
+  context: ClassGetterDecoratorContext,
+) => Function | void;
+
+/**
+ * setter装饰器的类型描述。
+ */
+export type T_ClassSetterDecorator = (
+  value: Function,
+  context: ClassSetterDecoratorContext,
+) => Function | void;
+
+/**
+ * accessor装饰器的类型描述。
+ */
+export type T_ClassAutoAccessorDecorator = (
+  value: {
+    get: () => unknown;
+    set: ( value: unknown ) => void;
+  },
+  context: ClassAccessorDecoratorContext,
+) => {
+  get?: () => unknown;
+  set?: ( value: unknown ) => void;
+  init?: ( initialValue: unknown ) => unknown;
+} | void;
+
+/**
  * 方法装饰器，用于确保类的非私有方法在调用时，其内部this指向永远都是类、类实例。<br />
  * 例子：<br />
  * ```ts
