@@ -2084,6 +2084,9 @@ export class Events4PublishSubscribe {
  * 类装饰器的类型描述。
  */
 export type T_ClassDecorator = (
+  /**
+   * 当前类本身。
+   */
   value: Function,
   context: ClassDecoratorContext,
 ) => Function | void;
@@ -2092,6 +2095,9 @@ export type T_ClassDecorator = (
  * 方法装饰器的类型描述。
  */
 export type T_ClassMethodDecorator = (
+  /**
+   * 方法本身。
+   */
   value: Function,
   context: ClassMethodDecoratorContext,
 ) => Function | void;
