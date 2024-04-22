@@ -2181,14 +2181,165 @@ export function Bound4ClassMethodDecorator(
       throw new Error( `方法装饰器“Bound4ClassMethodDecorator”不能用于修饰类的私有方法：${ methodName as string }` );
     }
 
-    context.addInitializer( function (): void{
-      // @ts-expect-error
+    context.addInitializer( function ( this: any ): void{
       this[ methodName ] = this[ methodName ].bind( this );
     } );
   }
   else{
     throw new Error( `方法装饰器“Bound4ClassMethodDecorator”只能用于修饰类的非私有方法！` );
   }
+}
+
+export type T_Logger4DecoratorConfig = Partial<{
+  level: keyof Console;
+  message: string;
+  async: boolean;
+}>;
+
+/**
+ * 通用的装饰器，日志工具。
+ *
+ * @param {T_Logger4DecoratorConfig} config
+ *
+ * @param {keyof Console} config.level Console的某个方法名，默认值是"log"，可选。<br />
+ * 常用的有：<br />
+ * dir、log、warn、info、error、group、assert...<br />
+ * 更多的见：<br />
+ * https://developer.mozilla.org/docs/Web/API/console
+ *
+ * @param {string} config.message 日志信息，默认值是空字符串，可选。
+ *
+ * @param {boolean} config.async 所修饰的方法是否是异步方法，默认值是false，可选。
+ *
+ * @returns {(value: any, context: DecoratorContext) => any}
+ */
+export function Logger4Decorator( {
+  level = 'log',
+  message = '',
+  async = false,
+}: T_Logger4DecoratorConfig = {} ): ( value: any, context: DecoratorContext, ) => any{
+  return function (
+    value: any,
+    context: DecoratorContext,
+  ): any{
+    if( context.kind === 'method' ){
+      if( async ){
+        return async function ( this: any, ...args: any[] ): Promise<any>{
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: 异步的${ context.private
+                                                                 ? '私有的'
+                                                                 : '' }${ context.static
+                                                                          ? '静态的'
+                                                                          : '' }方法“${ String( context.name ) }”开始执行！` );
+
+          if( args.length !== 0 ){
+            // @ts-expect-error
+            console[ level ]( `\n传入参数有${ args.length }个: ` );
+
+            console.dir( args, {
+              colors: true,
+              depth: null,
+              showHidden: false,
+            } );
+          }
+
+          const result: any = await value.call( this, ...args );
+
+          // @ts-expect-error
+          console[ level ]( `\n返回值: ` );
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          // @ts-expect-error
+          console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                            ? `(${ message })`
+                                            : '' }: 异步的${ context.private
+                                                             ? '私有的'
+                                                             : '' }${ context.static
+                                                                      ? '静态的'
+                                                                      : '' }方法“${ String( context.name ) }”执行结束！\n\n\n` );
+
+          return result;
+        };
+      }
+      else{
+        return function ( this: any, ...args: any[] ): any{
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: 同步的${ context.private
+                                                                 ? '私有的'
+                                                                 : '' }${ context.static
+                                                                          ? '静态的'
+                                                                          : '' }方法“${ String( context.name ) }”开始执行！` );
+
+          if( args.length !== 0 ){
+            // @ts-expect-error
+            console[ level ]( `\n传入参数有${ args.length }个: ` );
+
+            console.dir( args, {
+              colors: true,
+              depth: null,
+              showHidden: false,
+            } );
+          }
+
+          const result: any = value.apply( this, args );
+
+          // @ts-expect-error
+          console[ level ]( `\n返回值: ` );
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          // @ts-expect-error
+          console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                            ? `(${ message })`
+                                            : '' }: 同步的${ context.private
+                                                             ? '私有的'
+                                                             : '' }${ context.static
+                                                                      ? '静态的'
+                                                                      : '' }方法“${ String( context.name ) }”执行结束！\n\n\n` );
+
+          return result;
+        };
+      }
+    }
+    else if( context.kind === 'field' ){
+      // @ts-expect-error
+      console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                        ? `(${ message })`
+                                        : '' }: field` );
+    }
+    else if( context.kind === 'getter' ){
+      // @ts-expect-error
+      console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                        ? `(${ message })`
+                                        : '' }: getter` );
+    }
+    else if( context.kind === 'setter' ){
+      // @ts-expect-error
+      console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                        ? `(${ message })`
+                                        : '' }: setter` );
+    }
+    else if( context.kind === 'accessor' ){
+      // @ts-expect-error
+      console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                        ? `(${ message })`
+                                        : '' }: accessor` );
+    }
+    else{
+      throw new Error( `通用的装饰器“Logger4Decorator”只能用于修饰类的方法、属性、getter、setter、accessor！` );
+    }
+  };
 }
 
 // Decorator修饰工具。End
@@ -2248,5 +2399,6 @@ export default {
 
   // Decorator修饰工具。Start
   Bound4ClassMethodDecorator,
+  Logger4Decorator,
   // Decorator修饰工具。End
 };
