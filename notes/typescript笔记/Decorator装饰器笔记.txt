@@ -51,7 +51,12 @@ context对象的属性，根据所装饰对象的不同而不同，其中只有�
 
 （2）name：字符串或者 Symbol 值，所装饰对象的名字，比如类名、属性名等。
 
-（3）addInitializer()：函数，用来添加类的初始化逻辑。以前，这些逻辑通常放在构造函数里面，对方法进行初始化，现在改成以函数形式传入addInitializer()方法。注意，addInitializer()没有返回值。
+（3）addInitializer()：函数，用来添加类的初始化逻辑。以前，这些逻辑通常放在构造函数里面，对方法进行初始化，现在改成以函数形式传入addInitializer()方法。
+注意，addInitializer()没有返回值。
+它的运行时间如下：
+类装饰器：在类被完全定义之后。
+方法装饰器：在类构造期间运行，在属性初始化之前。
+静态方法装饰器：在类定义期间运行，早于静态属性定义，但晚于类方法的定义。
 
 （4）private：布尔值，表示所装饰的对象是否为类的私有成员。
 
@@ -61,9 +66,71 @@ context对象的属性，根据所装饰对象的不同而不同，其中只有�
 
 
 
+方法装饰器
+type ClassMethodDecorator = (
+  value: Function,
+  context: {
+    kind: 'method';
+    name: string | symbol;
+    static: boolean;
+    private: boolean;
+    access: { get: () => unknown };
+    addInitializer(initializer: () => void): void;
+  }
+) => Function | void;
+参数value是方法本身
+如果方法装饰器返回一个新的函数，就会替代所装饰的原始函数。
 
 
 
+属性装饰器
+type ClassFieldDecorator = (
+  value: undefined,
+  context: {
+    kind: 'field';
+    name: string | symbol;
+    static: boolean;
+    private: boolean;
+    access: { get: () => unknown, set: (value: unknown) => void };
+    addInitializer(initializer: () => void): void;
+  }
+) => (initialValue: unknown) => unknown | void;
+注意，装饰器的第一个参数value的类型是undefined，这意味着这个参数实际上没用的，装饰器不能从value获取所装饰属性的值。
+属性装饰器要么不返回值，要么返回一个函数，该函数会自动执行，用来对所装饰属性进行初始化。该函数的参数是所装饰属性的初始值，该函数的返回值是该属性的最终值。
+
+
+
+getter 装饰器
+type ClassGetterDecorator = (
+  value: Function,
+  context: {
+    kind: 'getter';
+    name: string | symbol;
+    static: boolean;
+    private: boolean;
+    access: { get: () => unknown };
+    addInitializer(initializer: () => void): void;
+  }
+) => Function | void;
+注意，getter 装饰器的上下文对象context的access属性，只包含get()方法。
+这个装饰器要么不返回值，要么返回一个函数，取代原来的取值器或存值器。
+
+
+
+setter 装饰器
+type ClassSetterDecorator = (
+  value: Function,
+  context: {
+    kind: 'setter';
+    name: string | symbol;
+    static: boolean;
+    private: boolean;
+    access: { set: (value: unknown) => void };
+    addInitializer(initializer: () => void): void;
+  }
+) => Function | void;
+注意，setter 装饰器的access属性，只包含set()方法。
+这个装饰器要么不返回值，要么返回一个函数，取代原来的取值器或存值器。
 
 
 

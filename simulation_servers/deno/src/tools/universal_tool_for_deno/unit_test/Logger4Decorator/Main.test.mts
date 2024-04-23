@@ -21,6 +21,11 @@ import {
 
 class Person {
 
+  @Logger4Decorator( {
+    level: 'log',
+    message: '类Person',
+    async: false,
+  } )
   public name: string = 'LMF';
 
   #myName: string = '私有LYF';
@@ -88,9 +93,43 @@ class Person {
     return `Hello, My sex is ${ sex }.`;
   }
 
+  #info: string = '个人信息！';
+
+  @Logger4Decorator( {
+    level: 'log',
+    message: '类Person',
+    async: false,
+  } )
+  get info(): string{
+    return this.#info;
+  }
+
+  @Logger4Decorator( {
+    level: 'log',
+    message: '类Person',
+    async: false,
+  } )
+  set info( info: string ){
+    this.#info = info;
+  }
+
+  getInfo(): string{
+    return this.info;
+  }
+
+  setInfo( info: string ): void{
+    this.info = info;
+  }
+
 }
 
-new Person( '李四' ).getName();
+const person: Person = new Person( '李四' );
+
+person.getName();
+
+person.setInfo( '7788' );
+
+person.getInfo();
 
 // new Person().getAliasName();
 

@@ -2313,28 +2313,129 @@ export function Logger4Decorator( {
       }
     }
     else if( context.kind === 'field' ){
-      // @ts-expect-error
-      console[ level ]( `\n${ level }${ String( message ).length !== 0
-                                        ? `(${ message })`
-                                        : '' }: field` );
+      return function ( initialValue: any ): any{
+        // @ts-expect-error
+        console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                              ? `(${ message })`
+                                              : '' }: ${ context.private
+                                                         ? '私有的'
+                                                         : '' }${ context.static
+                                                                  ? '静态的'
+                                                                  : '' }属性“${ String( context.name ) }”的初始值为：` );
+
+        console.dir( initialValue, {
+          colors: true,
+          depth: null,
+          showHidden: false,
+        } );
+
+        console.log( '\n\n\n' );
+
+        return initialValue;
+      };
     }
     else if( context.kind === 'getter' ){
-      // @ts-expect-error
-      console[ level ]( `\n${ level }${ String( message ).length !== 0
-                                        ? `(${ message })`
-                                        : '' }: getter` );
+      if( async ){
+        return async function ( this: any ): Promise<any>{
+          const result: any = await value.call( this );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }异步的getter取值器“${ String( context.name ) }”本次取值为：` );
+
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
+      else{
+        return function ( this: any ): any{
+          const result: any = value.call( this );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }同步的getter取值器“${ String( context.name ) }”本次取值为：` );
+
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
     }
     else if( context.kind === 'setter' ){
-      // @ts-expect-error
-      console[ level ]( `\n${ level }${ String( message ).length !== 0
-                                        ? `(${ message })`
-                                        : '' }: setter` );
+      if( async ){
+        return async function ( this: any, arg: any ): Promise<any>{
+          const result: any = await value.call( this, arg );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }异步的setter存值器“${ String( context.name ) }”本次要存的值为：` );
+
+          console.dir( arg, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
+      else{
+        return function ( this: any, arg: any ): any{
+          const result: any = value.apply( this, [ arg ] );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }同步的setter存值器“${ String( context.name ) }”本次要存的值为：` );
+
+          console.dir( arg, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
     }
     else if( context.kind === 'accessor' ){
-      // @ts-expect-error
-      console[ level ]( `\n${ level }${ String( message ).length !== 0
-                                        ? `(${ message })`
-                                        : '' }: accessor` );
+
     }
     else{
       throw new Error( `通用的装饰器“Logger4Decorator”只能用于修饰类的方法、属性、getter、setter、accessor！` );

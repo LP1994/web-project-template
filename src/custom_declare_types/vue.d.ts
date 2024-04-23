@@ -9,7 +9,7 @@
 
 declare module '*.vue' {
   import {
-    DefineComponent,
+    type DefineComponent,
   } from 'vue';
 
   const component: DefineComponent<{}, {}, any>;
