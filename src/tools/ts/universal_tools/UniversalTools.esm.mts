@@ -1553,6 +1553,20 @@ export type T_ClassAccessorDecorator = (
   init?: ( initialValue: unknown ) => unknown;
 } | void;
 
+export type T_ClassAccessorDecoratorTarget = {
+  get: () => any;
+
+  set: ( value: any ) => void;
+};
+
+export type T_ClassAccessorDecoratorResult = Partial<{
+  get: () => any;
+
+  set: ( value: any ) => void;
+
+  init: ( value: any ) => any;
+}>;
+
 /**
  * 方法装饰器，用于确保类的非私有方法在调用时，其内部this指向永远都是类、类实例。<br />
  * 例子：<br />
@@ -1593,14 +1607,341 @@ export function Bound4ClassMethodDecorator(
       throw new Error( `方法装饰器“Bound4ClassMethodDecorator”不能用于修饰类的私有方法：${ methodName as string }` );
     }
 
-    context.addInitializer( function (): void{
-      // @ts-expect-error
+    context.addInitializer( function ( this: any ): void{
       this[ methodName ] = this[ methodName ].bind( this );
     } );
   }
   else{
     throw new Error( `方法装饰器“Bound4ClassMethodDecorator”只能用于修饰类的非私有方法！` );
   }
+}
+
+export type T_Logger4DecoratorConfig = Partial<{
+  level: keyof Console;
+  message: string;
+  async: boolean;
+}>;
+
+/**
+ * 通用的装饰器，日志工具。<br />
+ * PS：<br />
+ * 1、该装饰器用于修饰类的方法、属性、getter、setter、accessor，其执行顺序有个注意事项：<br />
+ * 最优先执行：静态的属性（不分私有性，谁先定义谁先执行）<br />
+ * 然后是：实例属性（不分私有性，谁先定义谁先执行）<br />
+ * 最后是：按照实际调用类的各个功能，自行执行该装饰器。<br />
+ *
+ * @param {T_Logger4DecoratorConfig} config
+ *
+ * @param {keyof Console} config.level Console的某个方法名，默认值是"log"，可选。<br />
+ * 常用的有：<br />
+ * dir、log、warn、info、error、group、assert...<br />
+ * 更多的见：<br />
+ * https://developer.mozilla.org/docs/Web/API/console
+ *
+ * @param {string} config.message 日志信息，默认值是空字符串，可选。
+ *
+ * @param {boolean} config.async 所修饰的方法是否是异步方法，默认值是false，可选。
+ *
+ * @returns {(value: any, context: DecoratorContext) => any}
+ */
+export function Logger4Decorator( {
+  level = 'log',
+  message = '',
+  async = false,
+}: T_Logger4DecoratorConfig = {} ): ( value: any, context: DecoratorContext, ) => any{
+  return function (
+    value: any,
+    context: DecoratorContext,
+  ): any{
+    if( context.kind === 'method' ){
+      if( async ){
+        return async function ( this: any, ...args: any[] ): Promise<any>{
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: 异步的${ context.private
+                                                                 ? '私有的'
+                                                                 : '' }${ context.static
+                                                                          ? '静态的'
+                                                                          : '' }方法“${ String( context.name ) }”开始执行！` );
+
+          if( args.length !== 0 ){
+            // @ts-expect-error
+            console[ level ]( `\n传入参数有${ args.length }个: ` );
+
+            console.dir( args, {
+              colors: true,
+              depth: null,
+              showHidden: false,
+            } );
+          }
+
+          const result: any = await value.call( this, ...args );
+
+          // @ts-expect-error
+          console[ level ]( `\n返回值: ` );
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          // @ts-expect-error
+          console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                            ? `(${ message })`
+                                            : '' }: 异步的${ context.private
+                                                             ? '私有的'
+                                                             : '' }${ context.static
+                                                                      ? '静态的'
+                                                                      : '' }方法“${ String( context.name ) }”执行结束！\n\n\n` );
+
+          return result;
+        };
+      }
+      else{
+        return function ( this: any, ...args: any[] ): any{
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: 同步的${ context.private
+                                                                 ? '私有的'
+                                                                 : '' }${ context.static
+                                                                          ? '静态的'
+                                                                          : '' }方法“${ String( context.name ) }”开始执行！` );
+
+          if( args.length !== 0 ){
+            // @ts-expect-error
+            console[ level ]( `\n传入参数有${ args.length }个: ` );
+
+            console.dir( args, {
+              colors: true,
+              depth: null,
+              showHidden: false,
+            } );
+          }
+
+          const result: any = value.apply( this, args );
+
+          // @ts-expect-error
+          console[ level ]( `\n返回值: ` );
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          // @ts-expect-error
+          console[ level ]( `\n${ level }${ String( message ).length !== 0
+                                            ? `(${ message })`
+                                            : '' }: 同步的${ context.private
+                                                             ? '私有的'
+                                                             : '' }${ context.static
+                                                                      ? '静态的'
+                                                                      : '' }方法“${ String( context.name ) }”执行结束！\n\n\n` );
+
+          return result;
+        };
+      }
+    }
+    else if( context.kind === 'field' ){
+      return function ( initialValue: any ): any{
+        // @ts-expect-error
+        console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                              ? `(${ message })`
+                                              : '' }: ${ context.private
+                                                         ? '私有的'
+                                                         : '' }${ context.static
+                                                                  ? '静态的'
+                                                                  : '' }属性“${ String( context.name ) }”的初始值为：` );
+
+        console.dir( initialValue, {
+          colors: true,
+          depth: null,
+          showHidden: false,
+        } );
+
+        console.log( '\n\n\n' );
+
+        return initialValue;
+      };
+    }
+    else if( context.kind === 'getter' ){
+      if( async ){
+        return async function ( this: any ): Promise<any>{
+          const result: any = await value.call( this );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }异步的getter取值器“${ String( context.name ) }”本次要取的值为：` );
+
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
+      else{
+        return function ( this: any ): any{
+          const result: any = value.call( this );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }同步的getter取值器“${ String( context.name ) }”本次要取的值为：` );
+
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
+    }
+    else if( context.kind === 'setter' ){
+      if( async ){
+        return async function ( this: any, arg: any ): Promise<any>{
+          const result: any = await value.call( this, arg );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }异步的setter存值器“${ String( context.name ) }”本次要存的值为：` );
+
+          console.dir( arg, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
+      else{
+        return function ( this: any, arg: any ): any{
+          const result: any = value.apply( this, [ arg ] );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }同步的setter存值器“${ String( context.name ) }”本次要存的值为：` );
+
+          console.dir( arg, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        };
+      }
+    }
+    else if( context.kind === 'accessor' ){
+      let {
+        get,
+        set,
+      }: T_ClassAccessorDecoratorTarget = value;
+
+      return {
+        get(): any{
+          const result: any = get.call( this );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }accessor存取器“${ String( context.name ) }”本次要取的值为：` );
+
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        },
+        set( val: any ): void{
+          const result: void = set.apply( this, [ val ] );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }accessor存取器“${ String( context.name ) }”本次要存的值为：` );
+
+          console.dir( val, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        },
+        init( initialValue: any ): any{
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }accessor存取器“${ String( context.name ) }”的初始值为：` );
+
+          console.dir( initialValue, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return initialValue;
+        },
+      };
+    }
+    else{
+      throw new Error( `通用的装饰器“Logger4Decorator”只能用于修饰类的方法、属性、getter、setter、accessor！` );
+    }
+  };
 }
 
 // Decorator修饰工具。End
@@ -1656,5 +1997,6 @@ export default {
 
   // Decorator修饰工具。Start
   Bound4ClassMethodDecorator,
+  Logger4Decorator,
   // Decorator修饰工具。End
 };

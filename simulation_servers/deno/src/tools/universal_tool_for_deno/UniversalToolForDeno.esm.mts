@@ -2211,7 +2211,12 @@ export type T_Logger4DecoratorConfig = Partial<{
 }>;
 
 /**
- * 通用的装饰器，日志工具。
+ * 通用的装饰器，日志工具。<br />
+ * PS：<br />
+ * 1、该装饰器用于修饰类的方法、属性、getter、setter、accessor，其执行顺序有个注意事项：<br />
+ * 最优先执行：静态的属性（不分私有性，谁先定义谁先执行）<br />
+ * 然后是：实例属性（不分私有性，谁先定义谁先执行）<br />
+ * 最后是：按照实际调用类的各个功能，自行执行该装饰器。<br />
  *
  * @param {T_Logger4DecoratorConfig} config
  *
