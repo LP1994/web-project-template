@@ -134,12 +134,44 @@ type ClassSetterDecorator = (
 
 
 
+accessor 装饰器
+accessor修饰符等同于为属性x自动生成取值器和存值器，它们作用于私有属性x。
+例子：
+class C {
+  accessor x = 1;
+}
+等同于：
+class C {
+  #x = 1;
 
+  get x() {
+    return this.#x;
+  }
 
+  set x(val) {
+    this.#x = val;
+  }
+}
 
-
-
-
-
-
-
+accessor 装饰器的类型如下：
+type ClassAutoAccessorDecorator = (
+  value: {
+    get: () => unknown;
+    set(value: unknown) => void;
+  },
+  context: {
+    kind: "accessor";
+    name: string | symbol;
+    access: { get(): unknown, set(value: unknown): void };
+    static: boolean;
+    private: boolean;
+    addInitializer(initializer: () => void): void;
+  }
+) => {
+  get?: () => unknown;
+  set?: (value: unknown) => void;
+  init?: (initialValue: unknown) => unknown;
+} | void;
+accessor 装饰器的value参数，是一个包含get()方法和set()方法的对象。
+该装饰器可以不返回值，或者返回一个新的对象，用来取代原来的get()方法和set()方法。
+此外，装饰器返回的对象还可以包括一个init()方法，用来改变私有属性的初始值。

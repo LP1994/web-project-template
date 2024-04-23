@@ -2141,6 +2141,20 @@ export type T_ClassAccessorDecorator = (
   init?: ( initialValue: unknown ) => unknown;
 } | void;
 
+export type T_ClassAccessorDecoratorTarget = {
+  get: () => any;
+
+  set: ( value: any ) => void;
+};
+
+export type T_ClassAccessorDecoratorResult = Partial<{
+  get: () => any;
+
+  set: ( value: any ) => void;
+
+  init: ( value: any ) => any;
+}>;
+
 /**
  * 方法装饰器，用于确保类的非私有方法在调用时，其内部this指向永远都是类、类实例。<br />
  * 例子：<br />
@@ -2346,7 +2360,7 @@ export function Logger4Decorator( {
                                                            ? '私有的'
                                                            : '' }${ context.static
                                                                     ? '静态的'
-                                                                    : '' }异步的getter取值器“${ String( context.name ) }”本次取值为：` );
+                                                                    : '' }异步的getter取值器“${ String( context.name ) }”本次要取的值为：` );
 
           console.dir( result, {
             colors: true,
@@ -2370,7 +2384,7 @@ export function Logger4Decorator( {
                                                            ? '私有的'
                                                            : '' }${ context.static
                                                                     ? '静态的'
-                                                                    : '' }同步的getter取值器“${ String( context.name ) }”本次取值为：` );
+                                                                    : '' }同步的getter取值器“${ String( context.name ) }”本次要取的值为：` );
 
           console.dir( result, {
             colors: true,
@@ -2435,7 +2449,77 @@ export function Logger4Decorator( {
       }
     }
     else if( context.kind === 'accessor' ){
+      let {
+        get,
+        set,
+      }: T_ClassAccessorDecoratorTarget = value;
 
+      return {
+        get(): any{
+          const result: any = get.call( this );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }accessor存取器“${ String( context.name ) }”本次要取的值为：` );
+
+          console.dir( result, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        },
+        set( val: any ): void{
+          const result: void = set.apply( this, [ val ] );
+
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }accessor存取器“${ String( context.name ) }”本次要存的值为：` );
+
+          console.dir( val, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return result;
+        },
+        init( initialValue: any ): any{
+          // @ts-expect-error
+          console[ level ]( `\n\n\n${ level }${ String( message ).length !== 0
+                                                ? `(${ message })`
+                                                : '' }: ${ context.private
+                                                           ? '私有的'
+                                                           : '' }${ context.static
+                                                                    ? '静态的'
+                                                                    : '' }accessor存取器“${ String( context.name ) }”的初始值为：` );
+
+          console.dir( initialValue, {
+            colors: true,
+            depth: null,
+            showHidden: false,
+          } );
+
+          console.log( '\n\n\n' );
+
+          return initialValue;
+        },
+      };
     }
     else{
       throw new Error( `通用的装饰器“Logger4Decorator”只能用于修饰类的方法、属性、getter、setter、accessor！` );

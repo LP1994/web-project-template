@@ -49,11 +49,6 @@ class Person {
     return `Hello, My name is ${ this.name }.`;
   }
 
-  @Logger4Decorator( {
-    level: 'log',
-    message: '类Person',
-    async: false,
-  } )
   #getMyName(): string{
     return `Hello, My name is ${ this.#myName }.`;
   }
@@ -62,20 +57,10 @@ class Person {
     return this.#getMyName();
   }
 
-  @Logger4Decorator( {
-    level: 'log',
-    message: '类Person',
-    async: false,
-  } )
   public static GetAge(): string{
     return `Hello, My age is ${ this.Age }.`;
   }
 
-  @Logger4Decorator( {
-    level: 'log',
-    message: '类Person',
-    async: false,
-  } )
   static #GetMyAge(): string{
     return `Hello, My age is ${ this.#MyAge }.`;
   }
@@ -84,11 +69,6 @@ class Person {
     return this.#GetMyAge();
   }
 
-  @Logger4Decorator( {
-    level: 'log',
-    message: '类Person',
-    async: true,
-  } )
   public async setSex( sex: string ): Promise<string>{
     return `Hello, My sex is ${ sex }.`;
   }
@@ -121,6 +101,13 @@ class Person {
     this.info = info;
   }
 
+  @Logger4Decorator( {
+    level: 'log',
+    message: '类Person',
+    async: false,
+  } )
+  accessor id: string = '20240423001';
+
 }
 
 const person: Person = new Person( '李四' );
@@ -130,6 +117,10 @@ person.getName();
 person.setInfo( '7788' );
 
 person.getInfo();
+
+person.id = '20240423001AAA';
+
+console.log( `person.id--->${ person.id }` );
 
 // new Person().getAliasName();
 
