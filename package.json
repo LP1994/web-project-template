@@ -1424,7 +1424,7 @@
     "workbox-webpack-plugin": "^7.1.0",
     "workbox-window": "^7.1.0",
     "worker-loader": "^3.0.8",
-    "ws": "^8.16.0",
+    "ws": "^8.17.0",
     "wslink": "^2.0.2",
     "xml-loader": "^1.2.1",
     "yaml": "^2.4.1",
