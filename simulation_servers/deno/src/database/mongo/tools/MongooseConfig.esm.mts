@@ -8,8 +8,8 @@
  */
 
 /**
- * 1、直到2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7在node中是可以的。
+ * 1、直到2024年04月28日，基于：npm包mongoose@8.3.2（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.9、deno@1.42.4，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@8.3.2（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.9在node中是可以的。
  */
 
 'use strict';
@@ -576,8 +576,8 @@ const mongooseConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver_for_deno',
-    platform: 'deno@1.41.3',
-    version: 'mongoose@8.2.3',
+    platform: 'deno@1.42.4',
+    version: 'mongoose@8.3.2',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />

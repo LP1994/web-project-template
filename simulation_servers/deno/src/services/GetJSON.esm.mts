@@ -42,6 +42,7 @@ import {
 
 import {
   mongooseConfig,
+  uri,
 } from 'mongo/tools/MongooseConfig.esm.mts';
 
 interface I_StartupLogCollectionSchema {
@@ -75,7 +76,7 @@ async function Handle(
   let client: T_Connection;
 
   try{
-    client = mongoose.createConnection( `mongodb://127.0.0.1:27777`, mongooseConfig ).useDb( 'local' );
+    client = mongoose.createConnection( uri, mongooseConfig ).useDb( 'local' );
 
     const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = client.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
