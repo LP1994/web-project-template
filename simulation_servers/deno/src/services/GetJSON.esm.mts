@@ -30,10 +30,7 @@
 'use strict';
 
 import {
-  type Connection as T_Connection,
   type Collection as T_Collection,
-
-  Mongoose,
 } from 'npm:mongoose';
 
 import {
@@ -41,9 +38,10 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  mongooseConfig,
-  uri,
-} from 'mongo/tools/MongooseConfig.esm.mts';
+  type T_MongooseConnectForSingleton,
+
+  MongooseConnectForSingleton,
+} from 'mongo/tools/MongooseConnect.esm.mts';
 
 interface I_StartupLogCollectionSchema {
   _id: string;
@@ -71,14 +69,12 @@ interface I_StartupLogCollectionSchema {
 async function Handle(
   request: Request
 ): Promise<Response>{
-  const mongoose: Mongoose = new Mongoose();
-
-  let client: T_Connection;
+  let mongooseConnectForSingleton: T_MongooseConnectForSingleton;
 
   try{
-    client = mongoose.createConnection( uri, mongooseConfig ).useDb( 'local' );
+    mongooseConnectForSingleton = await MongooseConnectForSingleton( { myDBName: 'local' } );
 
-    const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = client.collection<I_StartupLogCollectionSchema>( 'startup_log' );
+    const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = mongooseConnectForSingleton.MongooseClient.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
     const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
       hostname: 'LPQAQ',
@@ -110,7 +106,7 @@ async function Handle(
     } );
   }
   finally{
-    await client.close( true );
+    await mongooseConnectForSingleton.MyMongooseConnection.close( true );
   }
 }
 

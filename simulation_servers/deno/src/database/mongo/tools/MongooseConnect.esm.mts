@@ -26,14 +26,15 @@
 
 import {
   type Connection as T_Connection,
+  type ConnectOptions as T_ConnectOptions,
 
   Mongoose,
 } from 'npm:mongoose';
 
 import {
-  config,
   dbName,
   uri,
+  mongooseConfig,
 } from './MongooseConfig.esm.mts';
 
 /**
@@ -42,6 +43,23 @@ import {
  * 有一个函数参数：methodName，该参数目前仅有1个字符串类型的值：'close'，表示“mongoose”驱动器的“Connection类”执行了“close()”，无默认值，可选。
  */
 export type T_CBFun001 = ( methodName?: string ) => void;
+
+export type T_MongooseConnectConfig = Partial<{
+  /**
+   * 所要连接的数据库名。
+   */
+  myDBName: string;
+  /**
+   * 所要连接的数据库url。
+   */
+  myURI: string;
+  /**
+   * node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：<br />
+   * https://mongoosejs.com/docs/connections.html <br />
+   * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options <br />
+   */
+  myMongooseConfig: T_ConnectOptions;
+}>;
 
 /**
  * 自定义类型，1个对象，里面有2个属性：<br />
@@ -71,9 +89,13 @@ export type T_MongooseConnectForSingleton = {
 };
 
 /**
- * @type {T_MongooseConnectForSingleton | null} 单例变量。
+ * 单例变量。
+ *
+ * @type {T_MongooseConnectForSingleton | null}
  */
 let mongooseConnectForSingleton: T_MongooseConnectForSingleton | null;
+
+const mongoose: Mongoose = new Mongoose();
 
 /**
  * 该自定义“MyMongooseConnection”类是继承了“Mongoose”驱动器的“Connection类”。<br />
@@ -81,7 +103,7 @@ let mongooseConnectForSingleton: T_MongooseConnectForSingleton | null;
  * 2、这个回调函数（函数类型见T_CBFun001）的初始化是在该自定义“MyMongooseConnection”类在被实例化时，传给构造函数的参数，该参数的数据类型为一个函数（函数类型见T_CBFun001）。<br />
  */
 export class MyMongooseConnection
-  extends ( new Mongoose() ).Connection {
+  extends mongoose.Connection {
 
   /**
    * 该私有属性是一个函数（函数类型见T_CBFun001）。<br />
@@ -102,12 +124,12 @@ export class MyMongooseConnection
    *
    * @param {T_CBFun001 | undefined} cb 该函数（函数类型见T_CBFun001）是在关闭数据库连接时（即“mongoose”驱动器的“Connection类”执行了“close()”时）执行的，用于处理指定的逻辑，默认值：( methodName?: string ): void => {}，可选。
    */
-  constructor( cb: T_CBFun001 | undefined = (
+  public constructor( cb: T_CBFun001 | undefined = (
     // @ts-expect-error
     methodName?: string
   ): void => {
   } ){
-    super();
+    super( mongoose );
 
     this.#cb = cb;
   }
@@ -119,7 +141,7 @@ export class MyMongooseConnection
    *
    * @returns {Promise<void>}
    */
-  override async close( force: boolean = true ): Promise<void>{
+  public async close( force: boolean = true ): Promise<void>{
     await super.close( force );
 
     this.#cb( 'close' );
@@ -130,10 +152,25 @@ export class MyMongooseConnection
 /**
  * 开始使用“mongoose”连接MongoDB数据库，并返回一个数据库连接实例，用于关闭、切换数据库等等操作。<br />
  *
+ * @param {T_MongooseConnectConfig} config
+ *
+ * @param {string} config.myDBName 所要连接的数据库名。
+ *
+ * @param {string} config.myURI 所要连接的数据库url。
+ *
+ * @param {T_ConnectOptions} config.myMongooseConfig node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：<br />
+ * https://mongoosejs.com/docs/connections.html <br />
+ * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options <br />
+ * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html <br />
+ *
  * @returns {T_Connection} 返回一个数据库连接实例，用于关闭、切换数据库等等操作。
  */
-function MongooseConnect(): T_Connection{
-  return new Mongoose().createConnection( uri, config ).useDb( dbName );
+export function MongooseConnect( {
+  myDBName = dbName,
+  myURI = uri,
+  myMongooseConfig = mongooseConfig,
+}: T_MongooseConnectConfig = {} ): T_Connection{
+  return new Mongoose().createConnection( myURI, myMongooseConfig ).useDb( myDBName );
 }
 
 /**
@@ -148,9 +185,24 @@ function MongooseConnect(): T_Connection{
  *   但是要关闭数据库连接，则要通过上面的“MyMongooseConnection”属性执行：MyMongooseConnection.close( true )，详细见上面的描述。<br />
  * }<br />
  *
+ * @param {T_MongooseConnectConfig} config
+ *
+ * @param {string} config.myDBName 所要连接的数据库名。
+ *
+ * @param {string} config.myURI 所要连接的数据库url。
+ *
+ * @param {T_ConnectOptions} config.myMongooseConfig node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：<br />
+ * https://mongoosejs.com/docs/connections.html <br />
+ * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options <br />
+ * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html <br />
+ *
  * @returns {Promise<T_MongooseConnectForSingleton>}
  */
-async function MongooseConnectForSingleton(): Promise<T_MongooseConnectForSingleton>{
+export async function MongooseConnectForSingleton( {
+  myDBName = dbName,
+  myURI = uri,
+  myMongooseConfig = mongooseConfig,
+}: T_MongooseConnectConfig = {} ): Promise<T_MongooseConnectForSingleton>{
   if( !mongooseConnectForSingleton ){
     const myMongooseConnection: MyMongooseConnection = new MyMongooseConnection( ( methodName?: string ): void => {
       if( methodName === 'close' ){
@@ -160,17 +212,12 @@ async function MongooseConnectForSingleton(): Promise<T_MongooseConnectForSingle
 
     mongooseConnectForSingleton = {
       MyMongooseConnection: myMongooseConnection,
-      MongooseClient: ( await myMongooseConnection.openUri( uri, config ) ).useDb( dbName ),
+      MongooseClient: ( await myMongooseConnection.openUri( myURI, myMongooseConfig ) ).useDb( myDBName ),
     };
   }
 
   return mongooseConnectForSingleton as T_MongooseConnectForSingleton;
 }
-
-export {
-  MongooseConnect,
-  MongooseConnectForSingleton,
-};
 
 export default {
   MongooseConnect,
