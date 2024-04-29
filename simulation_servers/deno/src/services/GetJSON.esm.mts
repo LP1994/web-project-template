@@ -106,7 +106,7 @@ async function Handle(
     } );
   }
   finally{
-    await mongooseConnectForSingleton.MyMongooseConnection.close( true );
+    await mongooseConnectForSingleton.MyMongooseConnection.myClose( true );
   }
 }
 

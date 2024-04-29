@@ -141,7 +141,7 @@ export class MyMongooseConnection
    *
    * @returns {Promise<void>}
    */
-  public async close( force: boolean = true ): Promise<void>{
+  public async myClose( force: boolean = true ): Promise<void>{
     await super.close( force );
 
     this.#cb( 'close' );
