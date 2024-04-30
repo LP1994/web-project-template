@@ -1302,6 +1302,7 @@
     "svg-url-loader": "^8.0.0",
     "svgo": "^3.2.0",
     "swiper": "^11.1.1",
+    "tailwindcss": "^3.4.3",
     "template-ejs-loader": "^0.9.4",
     "terser": "^5.31.0",
     "terser-webpack-plugin": "^5.3.10",
