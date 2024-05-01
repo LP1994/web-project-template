@@ -24,7 +24,7 @@
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
@@ -69,7 +69,7 @@ import {
 /**
  * 单个大文件上传（支持POST请求、PUT请求）。<br />
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA3-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false<br />
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。<br />
@@ -110,7 +110,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         fileName001 = `Big_File`;
       }
 
-      const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', await request.clone().arrayBuffer() ),
+      const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA-512', await request.clone().arrayBuffer() ),
         sri: string = encodeHex( hash );
 
       let fileName: string = `${ sri }.${ ( extension as string[] )[ 0 ] as string }`;
@@ -137,7 +137,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
 
         Object.assign( fileSRIInfo as I_UploadFileSRISchema, {
-          shaType: 'SHA3-512',
+          shaType: 'SHA-512',
           sri,
           requestURL: decodeURI( _request.url ),
           savePath: savePath.href,

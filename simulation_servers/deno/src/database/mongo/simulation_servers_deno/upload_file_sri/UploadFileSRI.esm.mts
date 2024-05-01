@@ -38,7 +38,7 @@ export interface I_UploadFileSRISchema {
 
   _id?: Schema.Types.ObjectId;
 
-  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
+  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA-512"。
   shaType: string;
 
   // 文件的SRI值，全是小写字母组成的。
@@ -97,10 +97,10 @@ async function GenerateModel(): Promise<T_GenerateModel>{
      * https://mongoosejs.com/docs/schematypes.html#schematype-options
      */
     {
-      // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
+      // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA-512"。
       shaType: {
         type: String,
-        default: 'SHA3-512',
+        default: 'SHA-512',
         required: true,
         trim: true,
         minLength: 1,

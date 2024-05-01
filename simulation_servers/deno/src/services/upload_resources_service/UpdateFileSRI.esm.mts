@@ -89,7 +89,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
 
   const isForcedWrite: string = ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase();
 
-  const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', await ( file as Blob ).arrayBuffer() ),
+  const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA-512', await ( file as Blob ).arrayBuffer() ),
     sri: string = encodeHex( hash );
 
   let isWriteFile: boolean = true;
@@ -142,7 +142,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
       isWriteFile = true;
 
       Object.assign( fileSRI, {
-        shaType: 'SHA3-512',
+        shaType: 'SHA-512',
         sri,
         requestURL: decodeURI( request.url ),
         savePath: savePath.href,
@@ -170,7 +170,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
   }
   else{
     fileSRI = {
-      shaType: 'SHA3-512',
+      shaType: 'SHA-512',
       sri,
       requestURL: decodeURI( request.url ),
       savePath: savePath.href,
