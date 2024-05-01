@@ -29,6 +29,8 @@ import {
 
 export interface I_UploadFileSRISchema {
 
+  __v?: number;
+
   _id?: Schema.Types.ObjectId;
 
   // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
@@ -214,24 +216,67 @@ export async function InsertOne( fileSRI: I_UploadFileSRISchema ): Promise<strin
   return uploadFileSRI._id.toString();
 }
 
+/**
+ * 根据文件的sri值查找对应的自定义的文件FileSRI对象的文档数据。
+ *
+ * @param {string} sri 文件的sri值，必需。
+ *
+ * @returns {Promise<T_QueryOneResult>} 返回null表示没找到对应的文档数据，反之，会返回一个自定义的文件FileSRI对象的文档数据。
+ */
 export async function QueryOne( sri: string ): Promise<T_QueryOneResult>{
   const {
     MyMongooseConnection,
     UploadFileSRI,
   }: T_GenerateModel = await GenerateModel();
 
-  const uploadFileSRI: T_QueryOneResult = await UploadFileSRI.findOne( {
-    sri,
-  } ).exec();
-
-  console.dir( uploadFileSRI );
+  const uploadFileSRI: T_QueryOneResult = await UploadFileSRI.findOne(
+    {
+      sri,
+    },
+    {
+      // 这种属于文档的内置属性是可以设置成0、1的，0表示结果中不要包含该内置属性，1表示结果中一定要包含该内置属性。
+      _id: 0,
+      __v: 0,
+    },
+  ).exec();
 
   await MyMongooseConnection.myClose( true );
 
   return uploadFileSRI;
 }
 
-await QueryOne( 'qwe123' );
+console.log( await InsertOne( {
+
+  // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA3-512"。
+  shaType: 'SHA3-512',
+
+  // 文件的SRI值，全是小写字母组成的。
+  sri: '20240502001',
+
+  // 上传本文件时，发起的请求URL。
+  requestURL: 'requestURLrequestURLrequestURL',
+
+  // 文件在服务端的存储路径。
+  savePath: 'savePathsavePathsavePath',
+
+  // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
+  filePath: 'filePathfilePathfilePath',
+
+  // 文件的媒体类型，值格式，如：“application/json”之类的。
+  fileType: 'fileTypefileTypefileType',
+
+  // 文件大小，单位为字节。
+  fileSize: 'fileSizefileSizefileSize',
+
+  // 文件的修改时间或服务器开始写入文件的时间。
+  fileLastModified: 'fileLastModifiedfileLastModifiedfileLastModified',
+
+  // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
+  fileName: 'fileNamefileNamefileName',
+
+} ) );
+
+console.dir( await QueryOne( '20240502001' ) );
 
 /*
  export async function DeleteOne(){
