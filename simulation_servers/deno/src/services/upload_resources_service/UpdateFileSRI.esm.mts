@@ -30,18 +30,18 @@ import {
 } from './Condition.esm.mts';
 
 import {
-  type T_FileSRICollectionSchema,
+  type I_UploadFileSRISchema,
 
   InsertOne,
   UpdateOne,
   QueryOne,
-} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
+} from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
 
 export type T_Obj001 = {
   // true表示开始写入文件，反之，不用写入文件。
   isWriteFile: boolean;
   // 存放文件信息的对象。
-  fileInfo: T_FileSRICollectionSchema;
+  fileInfo: I_UploadFileSRISchema;
   // 表示文件本体对象。
   file: File | Blob | T_CustomBlob;
 };
@@ -132,7 +132,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
     } );
   }
 
-  let fileSRI: T_FileSRICollectionSchema | undefined = await QueryOne( sri );
+  let fileSRI: I_UploadFileSRISchema | null = await QueryOne( sri );
 
   if( fileSRI !== undefined ){
     isWriteFile = false;
@@ -194,8 +194,8 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
 }
 
 export {
-  type T_FileSRICollectionSchema,
-} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
+  type I_UploadFileSRISchema,
+} from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
 
 export {
   UpdateFileSRI,

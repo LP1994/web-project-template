@@ -55,11 +55,11 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type T_FileSRICollectionSchema,
+  type I_UploadFileSRISchema,
 
   UpdateOne,
   QueryOne,
-} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
+} from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
 
 import {
   myURLPathName,
@@ -125,7 +125,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         recursive: true,
       } );
 
-      let fileSRIInfo: T_FileSRICollectionSchema | undefined = ( await QueryOne( sri ) );
+      let fileSRIInfo: I_UploadFileSRISchema | null = ( await QueryOne( sri ) );
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
         const file001: Deno.FsFile = await Deno.open( savePath, {
@@ -135,7 +135,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
 
-        Object.assign( fileSRIInfo as T_FileSRICollectionSchema, {
+        Object.assign( fileSRIInfo as I_UploadFileSRISchema, {
           shaType: 'SHA3-512',
           sri,
           requestURL: decodeURI( _request.url ),
@@ -190,7 +190,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         }
       }
       else{
-        fileSRIInfo = {} as T_FileSRICollectionSchema;
+        fileSRIInfo = {} as I_UploadFileSRISchema;
 
         await handleFun001();
 
@@ -207,7 +207,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         } );
       }
 
-      await UpdateOne( fileSRIInfo as T_FileSRICollectionSchema );
+      await UpdateOne( fileSRIInfo as I_UploadFileSRISchema );
     }
     catch( error: unknown ){
       result = JSON.stringify( {

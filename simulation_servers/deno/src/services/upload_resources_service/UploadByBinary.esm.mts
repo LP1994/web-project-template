@@ -47,11 +47,11 @@ import {
 
 import {
   DeleteOne,
-} from 'mongo/db/simulation_servers_deno/collections/upload_file_sri.esm.mts';
+} from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
 
 import {
   type T_Obj001,
-  type T_FileSRICollectionSchema,
+  type I_UploadFileSRISchema,
 
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
@@ -112,7 +112,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
         fileType,
         sri,
         fileName: fileName001,
-      }: T_FileSRICollectionSchema = fileInfo;
+      }: I_UploadFileSRISchema = fileInfo;
 
       if( !isWriteFile ){
         result001 = JSON.stringify( {
