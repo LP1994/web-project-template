@@ -10,6 +10,10 @@
 'use strict';
 
 import {
+  type DeleteResult as T_DeleteResult,
+} from 'npm:mongodb';
+
+import {
   type HydratedDocument as T_HydratedDocument,
 
   Model,
@@ -216,8 +220,33 @@ export async function InsertOne( fileSRI: I_UploadFileSRISchema ): Promise<strin
   return uploadFileSRI._id.toString();
 }
 
-export async function DeleteOne(){
+/**
+ * 根据文件的sri值删除数据库中的一个自定义的文件FileSRI对象的文档数据。
+ *
+ * @param {string} sri 文件的sri值，必需。
+ *
+ * @returns {Promise<boolean>} true表示删除成功，反之失败。
+ */
+export async function DeleteOne( sri: string ): Promise<boolean>{
+  const {
+    MyMongooseConnection,
+    UploadFileSRI,
+  }: T_GenerateModel = await GenerateModel();
 
+  const {
+    // 表示该写入结果是否被确认。如果没有，那么该结果的所有其他成员都将是未定义的。
+    acknowledged,
+    // 被删除的文件数量。
+    deletedCount,
+  }: T_DeleteResult = await UploadFileSRI.deleteOne(
+    {
+      sri,
+    },
+  );
+
+  await MyMongooseConnection.myClose( true );
+
+  return acknowledged && deletedCount === 1;
 }
 
 export async function UpdateOne(){
