@@ -129,6 +129,7 @@ export class MyMongooseConnection
     methodName?: string
   ): void => {
   } ){
+    // @ts-ignore
     super( mongoose );
 
     this.#cb = cb;
