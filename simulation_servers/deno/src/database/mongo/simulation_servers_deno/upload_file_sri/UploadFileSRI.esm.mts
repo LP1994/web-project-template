@@ -60,7 +60,7 @@ export interface I_UploadFileSRISchema {
 
 }
 
-export type T_QueryOne = T_HydratedDocument<I_UploadFileSRISchema> | null;
+export type T_QueryOneResult = T_HydratedDocument<I_UploadFileSRISchema> | null;
 
 type T_GenerateModel = {
   MyMongooseConnection: MyMongooseConnection;
@@ -214,13 +214,13 @@ export async function InsertOne( fileSRI: I_UploadFileSRISchema ): Promise<strin
   return uploadFileSRI._id.toString();
 }
 
-export async function QueryOne( sri: string ): Promise<T_QueryOne>{
+export async function QueryOne( sri: string ): Promise<T_QueryOneResult>{
   const {
     MyMongooseConnection,
     UploadFileSRI,
   }: T_GenerateModel = await GenerateModel();
 
-  const uploadFileSRI: T_QueryOne = await UploadFileSRI.findOne( {
+  const uploadFileSRI: T_QueryOneResult = await UploadFileSRI.findOne( {
     sri,
   } ).exec();
 
