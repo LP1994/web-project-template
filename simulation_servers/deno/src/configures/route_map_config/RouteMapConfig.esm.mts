@@ -136,10 +136,10 @@ const websocketForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
  * @type {T_RouteHandle}
  */
 const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-   [
-   `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
-   `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
-   ],
+  [
+    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
+    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+  ],
 
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
@@ -179,10 +179,10 @@ const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
  * @type {T_RouteHandle}
  */
 const methodByPostForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-   [
-   `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
-   `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
-   ],
+  [
+    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
+    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
+  ],
 
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
