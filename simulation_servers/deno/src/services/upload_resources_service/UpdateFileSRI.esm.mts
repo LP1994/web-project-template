@@ -30,7 +30,7 @@ import {
 } from './Condition.esm.mts';
 
 import {
-  type I_UploadFileSRISchema,
+  type T_QueryOneResult,
 
   InsertOne,
   UpdateOne,
@@ -41,7 +41,7 @@ export type T_Obj001 = {
   // true表示开始写入文件，反之，不用写入文件。
   isWriteFile: boolean;
   // 存放文件信息的对象。
-  fileInfo: I_UploadFileSRISchema;
+  fileInfo: T_QueryOneResult;
   // 表示文件本体对象。
   file: File | Blob | T_CustomBlob;
 };
@@ -87,8 +87,7 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
 
   let fileName001: string = fileName;
 
-  const isForcedWrite: string = ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim()
-    .toLowerCase();
+  const isForcedWrite: string = ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase();
 
   const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA3-512', await ( file as Blob ).arrayBuffer() ),
     sri: string = encodeHex( hash );
@@ -132,9 +131,9 @@ async function UpdateFileSRI( request: Request, file: File | Blob | T_CustomBlob
     } );
   }
 
-  let fileSRI: I_UploadFileSRISchema | null = await QueryOne( sri );
+  let fileSRI: T_QueryOneResult = await QueryOne( sri );
 
-  if( fileSRI !== undefined ){
+  if( fileSRI !== null ){
     isWriteFile = false;
 
     Deno.renameSync( new URL( fileSRI.savePath ), savePath );

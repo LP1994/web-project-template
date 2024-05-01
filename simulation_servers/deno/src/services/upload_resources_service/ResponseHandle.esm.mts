@@ -52,6 +52,7 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  type T_QueryOneResult,
   type I_UploadFileSRISchema,
 
   QueryOne,
@@ -174,18 +175,18 @@ const maxFileSize: number = 1 * 1024 * 1024 * 1024;
  * PS：<br />
  * 1、取自定义的请求头标识“Deno-Custom-File-SRI”的值会被转成全部小写的字符串。<br />
  * 2、如果没取到自定义的请求头标识“Deno-Custom-File-SRI”的值，也就是请求头中不带该自定义的请求头标识“Deno-Custom-File-SRI”，会直接使用空字符串代替。<br />
- * 3、最后该函数的返回值要么是一个undefined表示没有找到对应SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）的文件信息，要么是一个为自定义类型I_UploadFileSRISchema的对象，表示找到了跟SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）一样的文件信息。<br />
+ * 3、最后该函数的返回值要么是一个null表示没有找到对应SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）的文件信息，要么是一个为自定义类型I_UploadFileSRISchema的对象，表示找到了跟SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）一样的文件信息。<br />
  * 4、该自定义的请求头标识“Deno-Custom-File-SRI”的功用是提供一个可以提前校验文件是否已经存在的校验能力，这样就不用走后面的各个逻辑处理，加快了文件上传的响应，毕竟存在了相同的文件，就不用再重复写入，而是直接响应给客户端一个已经存在的此文件的信息。<br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<I_UploadFileSRISchema | undefined>} 返回值类型为undefined（undefined表示没有找到对应SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）的文件信息）、自定义类型I_UploadFileSRISchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）一样的文件信息）。
+ * @returns {Promise<T_QueryOneResult>} 返回值类型为null（null表示没有找到对应SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）的文件信息）、自定义类型I_UploadFileSRISchema（是一个对象，表示找到了跟SRI值（自定义的请求头标识“Deno-Custom-File-SRI”的值）一样的文件信息）。
  */
-async function ValidateReqHeadSRI( request: Request ): Promise<I_UploadFileSRISchema | null | undefined>{
+async function ValidateReqHeadSRI( request: Request ): Promise<T_QueryOneResult>{
   const x_file_sri: string = ( request.headers.get( 'Deno-Custom-File-SRI' ) ?? '' ).trim().toLowerCase();
 
   if( x_file_sri.length === 0 ){
-    return undefined;
+    return null;
   }
   else{
     return await QueryOne( x_file_sri );
@@ -219,7 +220,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
    */
   if( uploadType === 'binary' ){
-    let result001: I_UploadFileSRISchema | undefined = await ValidateReqHeadSRI( request ),
+    let result001: T_QueryOneResult = await ValidateReqHeadSRI( request ),
       contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     /**
@@ -290,7 +291,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
    */
   else if( uploadType === 'single' ){
-    let result001: I_UploadFileSRISchema | undefined = await ValidateReqHeadSRI( request ),
+    let result001: T_QueryOneResult = await ValidateReqHeadSRI( request ),
       contentLength: string = ( request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
     /**
@@ -403,7 +404,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
    */
   else if( uploadType === 'bigFile' ){
-    let result001: I_UploadFileSRISchema | undefined = await ValidateReqHeadSRI( request ),
+    let result001: T_QueryOneResult = await ValidateReqHeadSRI( request ),
       type001: string = ( url.searchParams.get( 'type' ) ?? '' ).trim();
 
     /**

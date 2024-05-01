@@ -55,6 +55,7 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  type T_QueryOneResult,
   type I_UploadFileSRISchema,
 
   UpdateOne,
@@ -125,7 +126,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         recursive: true,
       } );
 
-      let fileSRIInfo: I_UploadFileSRISchema | null = ( await QueryOne( sri ) );
+      let fileSRIInfo: T_QueryOneResult = await QueryOne( sri );
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
         const file001: Deno.FsFile = await Deno.open( savePath, {
