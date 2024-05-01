@@ -11,6 +11,7 @@
 
 import {
   type DeleteResult as T_DeleteResult,
+  type UpdateResult as T_UpdateResult,
 } from 'npm:mongodb';
 
 import {
@@ -249,8 +250,45 @@ export async function DeleteOne( sri: string ): Promise<boolean>{
   return acknowledged && deletedCount === 1;
 }
 
-export async function UpdateOne(){
+/**
+ * 根据文件的sri值更新一个自定义的文件FileSRI对象的文档数据。
+ *
+ * @param {I_UploadFileSRISchema} fileSRI 自定义的文件FileSRI对象，必需。
+ *
+ * @returns {Promise<boolean>} true表示更新成功，反之失败。
+ */
+export async function UpdateOne( fileSRI: I_UploadFileSRISchema ): Promise<boolean>{
+  const {
+    MyMongooseConnection,
+    UploadFileSRI,
+  }: T_GenerateModel = await GenerateModel();
 
+  const {
+    acknowledged,
+    // @ts-expect-error
+    matchedCount,
+    // @ts-expect-error
+    modifiedCount,
+    // @ts-expect-error
+    upsertedCount,
+    // @ts-expect-error
+    upsertedId,
+  }: T_UpdateResult = await UploadFileSRI.updateOne(
+    {
+      sri: fileSRI[ 'sri' ],
+    },
+    {
+      $set: fileSRI,
+    },
+    {
+      multi: false,
+      upsert: true,
+    },
+  );
+
+  await MyMongooseConnection.myClose( true );
+
+  return acknowledged;
 }
 
 /**
