@@ -228,14 +228,14 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
       formData = await _request.formData();
 
       const quantity: number = ( formData.get( 'quantity' ) ?? 0 ) as number,
-        files001: Array<File | Blob | string | null> = [];
+        files001: Array<FormDataEntryValue | Blob | null> = [];
 
-      let file001: File | Blob | string | null,
+      let file001: FormDataEntryValue | Blob | null,
         fileName001: string = '',
         str001: string = '';
 
       for(
-        let i = 0;
+        let i: number = 0;
         i < quantity;
         ++i
       ){
@@ -260,9 +260,9 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
       }
 
       const files: Array<File | Blob> = ( [
-        ...( (): Array<File | Blob | string | null> => {
+        ...( (): Array<FormDataEntryValue | Blob | null> => {
           return formData.getAll( 'files' )
-            .map( ( item: File | Blob | string | null, ): File | Blob | string | null => {
+            .map( ( item: FormDataEntryValue | Blob | null, ): FormDataEntryValue | Blob | null => {
               if( Object.prototype.toString.call( item ) === '[object File]' ){
                 // @ts-expect-error
                 item._name = ( item as File ).name;
@@ -276,7 +276,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
             } );
         } )(),
         ...files001,
-      ].filter( ( item: File | Blob | string | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
+      ].filter( ( item: FormDataEntryValue | Blob | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
 
       const {
         noWriteFile,

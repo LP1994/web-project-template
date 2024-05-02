@@ -1063,7 +1063,7 @@
     "js-sha3": "^0.9.3",
     "js-sha512": "^0.9.0",
     "jsbi": "^4.3.0",
-    "jsdoc": "^4.0.2",
+    "jsdoc": "^4.0.3",
     "json-loader": "^0.5.7",
     "json-machete": "^0.97.2",
     "json-minimizer-webpack-plugin": "^5.0.0",
