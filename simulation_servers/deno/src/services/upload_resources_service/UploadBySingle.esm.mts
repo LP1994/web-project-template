@@ -93,7 +93,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  const contentType = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
+  const contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
 
   if( _request.body && contentType.startsWith( 'multipart/form-data;' ) ){
     let formData: FormData;
@@ -101,7 +101,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
     try{
       formData = await _request.formData();
 
-      let file: File | Blob | string | null = formData.get( 'file' ),
+      let file: FormDataEntryValue | Blob | null = formData.get( 'file' ),
         fileName: string = ( ( formData.get( 'fileName' ) ?? '' ) as string ).trim();
 
       const str001: string = Object.prototype.toString.call( file );

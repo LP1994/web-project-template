@@ -219,7 +219,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  const contentType = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
+  const contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase();
 
   if( _request.body && contentType.startsWith( 'multipart/form-data;' ) ){
     let formData: FormData;
