@@ -21,6 +21,8 @@
  * 用于响应“web”文件夹下的静态文件获取（GET请求），如：
  * 获取“web”文件夹下的“xx_project”文件夹下的“js”文件夹下的“JS001.js”文件。
  * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js
+ * 携带上查询参数“download”表示要下载该资源文件：
+ * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js?download
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
@@ -31,11 +33,9 @@
 
 'use strict';
 
-/*
- import {
- parse,
- } from 'deno_std_path';
- */
+import {
+  parse,
+} from 'deno_std_path';
 
 import {
   type T_Response001,
@@ -65,6 +65,7 @@ import {
 function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
+    isDownload: boolean = url.searchParams.has( 'download' ),
     filePath: URL = new URL( `${ webDir }/${ pathName.slice( myURLPathName.length ) }` );
 
   let result: T_Response001;
@@ -105,7 +106,13 @@ function ResponseHandle( request: Request ): T_Response001{
            * 'Content-Disposition': 'form-data; name=fieldName'、'Content-Disposition': 'form-data; name=fieldName; filename="filename.jpg"'
            * 8、警告。“filename”文件名后面的字符串应该总是放在引号里；但是，由于兼容性的原因，许多浏览器试图解析含有空格的无引号名称。
            */
-          // 'Content-Disposition': `attachment; filename="${ parse( filePath.href ).base }"`,
+          ...(
+            isDownload
+            ? {
+                'Content-Disposition': `attachment; filename="${ parse( filePath.href ).base }"`
+              }
+            : {}
+          ),
         },
       } );
     }
