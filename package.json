@@ -1315,7 +1315,7 @@
     "ts-node": "^10.9.2",
     "ts-transform-graphql-tag": "^0.2.1",
     "tslib": "^2.6.2",
-    "tsx": "^4.8.2",
+    "tsx": "^4.9.0",
     "typedoc": "^0.25.13",
     "typedoc-theme-hierarchy": "^4.1.2",
     "typedoc-webpack-plugin": "^1.1.4",
