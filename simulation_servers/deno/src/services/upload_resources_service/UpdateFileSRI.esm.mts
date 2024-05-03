@@ -51,6 +51,11 @@ type T_CustomBlob = {
   // 可以是："Blob"、"File"。
   [ Symbol.toStringTag ]: string;
   stream: () => ReadableStream;
+  arrayBuffer: () => Promise<ArrayBuffer>;
+  blob: () => Promise<Blob>;
+  formData: () => Promise<FormData>;
+  json: () => Promise<any>;
+  text: () => Promise<string>;
   // 文件的修改时间或服务器开始写入文件的时间。
   lastModified: string;
   // 文件的媒体类型，值格式，如：“application/json”之类的。

@@ -100,6 +100,11 @@ async function UploadByBinary( request: Request ): Promise<Response>{
       }: T_Obj001 = await UpdateFileSRI( _request, {
         [ Symbol.toStringTag ]: 'Blob',
         stream: (): ReadableStream => request.clone().body as ReadableStream,
+        arrayBuffer: (): Promise<ArrayBuffer> => request.clone().arrayBuffer(),
+        blob: (): Promise<Blob> => request.clone().blob(),
+        formData: (): Promise<FormData> => request.clone().formData(),
+        json: (): Promise<any> => request.clone().json(),
+        text: (): Promise<string> => request.clone().text(),
         lastModified: String( Date.now() ),
         type: String( contentType ),
         size: String( contentLength ),
