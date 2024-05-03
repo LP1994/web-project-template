@@ -213,6 +213,7 @@ export async function MongooseConnectForSingleton( {
 
     mongooseConnectForSingleton = {
       MyMongooseConnection: myMongooseConnection,
+      // @ts-ignore
       MongooseClient: ( await myMongooseConnection.openUri( myURI, myMongooseConfig ) ).useDb( myDBName ),
     };
   }
