@@ -173,7 +173,7 @@
   },
   "devDependencies": {
     "@angular/core": "^17.3.7",
-    "@apollo/client": "^3.10.1",
+    "@apollo/client": "^3.10.2",
     "@appium/typedoc-plugin-appium": "^0.6.6",
     "@babel/cli": "^7.24.5",
     "@babel/code-frame": "^7.24.2",
