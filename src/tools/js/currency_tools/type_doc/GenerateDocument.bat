@@ -1,1 +1,1 @@
-typedoc --options typedoc.json&pause
+typedoc --options ./typedoc.json&pause
