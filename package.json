@@ -984,7 +984,7 @@
     "element-ui": "^2.15.14",
     "esbuild": "^0.20.2",
     "esbuild-loader": "^4.1.0",
-    "eslint": "^9.1.1",
+    "eslint": "^9.2.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
