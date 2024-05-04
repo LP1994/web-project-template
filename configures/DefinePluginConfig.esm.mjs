@@ -15,6 +15,10 @@
 
 'use strict';
 
+import {
+  httpRequestHeaders,
+} from './GlobalParameters.esm.mjs';
+
 /**
  * new webpack.DefinePlugin插件的配置。DefinePlugin在编译时用其他值或表达式替换代码中的变量。这对于允许开发构建和生产构建之间的不同行为很有用。<br />
  * 1、传递给DefinePlugin的每个键都是一个标识符或多个用.连接的标识符：'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)。<br />
@@ -46,6 +50,8 @@ function DefinePluginConfig( {
   return {
     env_platform: JSON.stringify( env_platform ),
     isProduction: JSON.stringify( isProduction ),
+    httpRequestHeaders: JSON.stringify( httpRequestHeaders ),
+
     /**
      * 在Vue 3中启用/禁用Vue 2的Options API支持，默认值true，表示在Vue 3中启用对Vue 2的Options API支持。<br />
      * 1、当使用Vue 3时（建议使用“组合API”的写法，如果想使用“选项API”写法，还不如切换到Vue 2，毕竟“组合API”的写法更配Vue 3），建议将其设置为false，这样可以让Vue 3正确的使用“tree-shaking”，以使打包后的代码最小化。<br />
@@ -68,8 +74,8 @@ function DefinePluginConfig( {
      * axios.get( '${ https4deno }/graphql' )
      */
     https4deno: isProduction
-               ? '""'
-               : '"/https4deno"',
+                ? '""'
+                : '"/https4deno"',
 
     /**
      * 代理websocket请求的写法例子，假定目标请求地址为：wss://127.0.0.1:9200/graphql
@@ -79,8 +85,8 @@ function DefinePluginConfig( {
      * new WebSocket( '${ wss4deno }/graphql' )
      */
     wss4deno: isProduction
-                  ? `${ wsHost001 }""`
-                  : `${ wsHost001 }"/wss4deno"`,
+              ? `${ wsHost001 }""`
+              : `${ wsHost001 }"/wss4deno"`,
   };
 }
 

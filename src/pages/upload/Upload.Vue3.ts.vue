@@ -178,13 +178,12 @@ main {
 'use strict';
 
 import {
-  sha3_512,
-} from 'js-sha3';
+  sha512,
+} from 'js-sha512';
 
 import {
   reactive,
   onMounted,
-  // useCssModule,
 } from 'vue';
 
 type T_State = {
@@ -193,7 +192,7 @@ type T_State = {
 };
 
 function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
-  return sha3_512.create().update( data ).hex();
+  return sha512.create().update( data ).hex();
 }
 
 // @ts-expect-error
@@ -206,14 +205,13 @@ async function UploadForBinary( event: Event ): Promise<void>{
 
     console.dir( file );
 
-    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
+    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=true`, {
       body: file,
       cache: 'no-cache',
       credentials: 'omit',
       headers: {
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
-        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+        ...httpRequestHeaders,
       },
       method: 'POST',
       mode: 'cors',
@@ -248,14 +246,13 @@ async function UploadForSingle( event: Event ): Promise<void>{
     formData.append( 'file', file, file.name );
     formData.append( 'fileName', `${ file.name }` );
 
-    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
+    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
       body: formData,
       cache: 'no-cache',
       credentials: 'omit',
       headers: {
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
-        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+        ...httpRequestHeaders,
       },
       method: 'POST',
       mode: 'cors',
@@ -290,14 +287,11 @@ function UploadForMultiple( event: Event ): void{
       formData.append( 'files', file, file.name );
     } );
 
-    fetch( `${ devURL001 }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
+    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
       body: formData,
       cache: 'no-cache',
       credentials: 'omit',
-      headers: {
-        'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
-      },
+      headers: httpRequestHeaders,
       method: 'POST',
       mode: 'cors',
     } ).then(

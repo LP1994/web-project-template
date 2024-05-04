@@ -26,6 +26,13 @@ declare const env_platform: string;
 declare const isProduction: boolean;
 
 /**
+ * 这个是给请求头用的，不是给响应头用的。<br />
+ *
+ * @type {Record<string, string>}
+ */
+declare const httpRequestHeaders: Record<string, string | number>;
+
+/**
  * 在Vue 3中启用/禁用Vue 2的Options API支持，默认值true，表示在Vue 3中启用对Vue 2的Options API支持。<br />
  * 1、当使用Vue 3时（建议使用“组合API”的写法，如果想使用“选项API”写法，还不如切换到Vue 2，毕竟“组合API”的写法更配Vue 3），建议将其设置为false，这样可以让Vue 3正确的使用“tree-shaking”，以使打包后的代码最小化。<br />
  *
