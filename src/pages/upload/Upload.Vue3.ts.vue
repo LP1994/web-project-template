@@ -208,13 +208,14 @@ async function UploadForBinary( event: Event ): Promise<void>{
     fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=true`, {
       body: file,
       cache: 'no-cache',
-      credentials: 'omit',
       headers: {
+        Accept: 'application/json',
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         ...httpRequestHeaders,
       },
       method: 'POST',
-      mode: 'cors',
+      credentials: 'same-origin',
+      mode: 'same-origin',
     } ).then(
       async ( res: Response ): Promise<Response> => {
         console.dir( await res.clone().json() );
@@ -249,13 +250,14 @@ async function UploadForSingle( event: Event ): Promise<void>{
     fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
       body: formData,
       cache: 'no-cache',
-      credentials: 'omit',
       headers: {
+        Accept: 'application/json',
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         ...httpRequestHeaders,
       },
       method: 'POST',
-      mode: 'cors',
+      credentials: 'same-origin',
+      mode: 'same-origin',
     } ).then(
       async ( res: Response ): Promise<Response> => {
         console.dir( await res.clone().json() );
@@ -290,10 +292,13 @@ function UploadForMultiple( event: Event ): void{
     fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
       body: formData,
       cache: 'no-cache',
-      credentials: 'omit',
-      headers: httpRequestHeaders,
+      headers: {
+        Accept: 'application/json',
+        ...httpRequestHeaders,
+      },
       method: 'POST',
-      mode: 'cors',
+      credentials: 'same-origin',
+      mode: 'same-origin',
     } ).then(
       async ( res: Response ): Promise<Response> => {
         console.dir( await res.clone().json() );
