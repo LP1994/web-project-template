@@ -1001,6 +1001,7 @@
     "fast-exif": "^2.0.1",
     "fets": "^0.8.0",
     "file-loader": "^6.2.0",
+    "file-type": "^19.0.0",
     "filemanager-webpack-plugin": "^8.0.0",
     "fork-ts-checker-notifier-webpack-plugin": "^9.0.0",
     "fork-ts-checker-webpack-plugin": "^9.0.2",
