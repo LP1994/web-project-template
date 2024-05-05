@@ -197,7 +197,7 @@ function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
   return sha512.create().update( data ).hex();
 }
 
-async function GetFileMIME( file: File ): string{
+function GetFileMIME( file: File ): string{
   return Mime.getType( file.name ) ?? 'application/octet-stream';
 }
 
