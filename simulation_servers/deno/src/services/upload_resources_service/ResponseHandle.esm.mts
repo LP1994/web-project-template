@@ -255,8 +255,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
           // true表示上传成功，反之，表示失败。
           success: false,
           // 描述性说明。
-          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 )
-            .toFixed( 2 ) }）。`,
+          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 ).toFixed( 2 ) }）。`,
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {

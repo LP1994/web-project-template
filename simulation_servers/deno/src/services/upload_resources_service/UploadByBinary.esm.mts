@@ -32,6 +32,9 @@
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
+ * 3、特别注意！请求头必须包含“content-type”！
+ * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
+ * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
  */
 
 'use strict';
@@ -39,6 +42,10 @@
 import {
   toWritableStream,
 } from 'deno_std_io/to_writable_stream.ts';
+
+import {
+  fileTypeFromBuffer,
+} from 'npm:file-type';
 
 import {
   HttpResponseHeadersFun,
@@ -83,8 +90,10 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  const contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
+  let contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
     contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
+
+  ( _request.body && contentType.length === 0 ) && ( contentType = ( await fileTypeFromBuffer( await request.clone().arrayBuffer() ) )?.mime ?? 'application/octet-stream' );
 
   if( _request.body && contentType.length !== 0 ){
     try{
@@ -99,9 +108,29 @@ async function UploadByBinary( request: Request ): Promise<Response>{
         fileInfo,
       }: T_Obj001 = await UpdateFileSRI( _request, {
         [ Symbol.toStringTag ]: 'Blob',
-        stream: (): ReadableStream => request.clone().body as ReadableStream,
+        stream: (): ReadableStream<Uint8Array> => request.clone().body as ReadableStream<Uint8Array>,
         arrayBuffer: (): Promise<ArrayBuffer> => request.clone().arrayBuffer(),
         blob: (): Promise<Blob> => request.clone().blob(),
+        slice: async ( start?: number, end?: number, contentType?: string ): Promise<Blob> => {
+          const blob: Blob = await request.clone().blob();
+
+          let result: Blob;
+
+          if( start !== null && start !== undefined && end !== null && end !== undefined && contentType !== null && contentType !== undefined ){
+            result = blob.slice( start, end, contentType );
+          }
+          else if( start !== null && start !== undefined && end !== null && end !== undefined ){
+            result = blob.slice( start, end );
+          }
+          else if( start !== null && start !== undefined ){
+            result = blob.slice( start );
+          }
+          else{
+            result = blob.slice();
+          }
+
+          return result;
+        },
         formData: (): Promise<FormData> => request.clone().formData(),
         json: (): Promise<any> => request.clone().json(),
         text: (): Promise<string> => request.clone().text(),

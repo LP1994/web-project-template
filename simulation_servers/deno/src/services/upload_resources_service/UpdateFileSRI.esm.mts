@@ -50,9 +50,10 @@ export type T_Obj001 = {
 type T_CustomBlob = {
   // 可以是："Blob"、"File"。
   [ Symbol.toStringTag ]: string;
-  stream: () => ReadableStream;
+  stream: () => ReadableStream<Uint8Array>;
   arrayBuffer: () => Promise<ArrayBuffer>;
   blob: () => Promise<Blob>;
+  slice: ( start?: number, end?: number, contentType?: string ) => Promise<Blob>;
   formData: () => Promise<FormData>;
   json: () => Promise<any>;
   text: () => Promise<string>;
