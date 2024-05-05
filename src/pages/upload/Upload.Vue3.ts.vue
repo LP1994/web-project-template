@@ -181,7 +181,7 @@ import {
   sha512,
 } from 'js-sha512';
 
-import mime from 'mime';
+import Mime from 'mime';
 
 import {
   reactive,
@@ -195,6 +195,10 @@ type T_State = {
 
 function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
   return sha512.create().update( data ).hex();
+}
+
+async function GetFileMIME( file: File ): string{
+  return Mime.getType( file.name ) ?? 'application/octet-stream';
 }
 
 // @ts-expect-error
@@ -212,7 +216,7 @@ async function UploadForBinary( event: Event ): Promise<void>{
       cache: 'no-cache',
       headers: {
         Accept: 'application/json',
-        'content-type': mime.getType( file.name ) ?? 'application/octet-stream',
+        'content-type': GetFileMIME( file ),
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         ...httpRequestHeaders,
       },
