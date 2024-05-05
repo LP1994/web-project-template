@@ -44,7 +44,7 @@ import {
 } from 'deno_std_io/to_writable_stream.ts';
 
 import {
-  fileTypeFromBuffer,
+  fileTypeFromBlob,
 } from 'npm:file-type';
 
 import {
@@ -93,7 +93,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
   let contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
     contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
 
-  ( _request.body && contentType.length === 0 ) && ( contentType = ( await fileTypeFromBuffer( await request.clone().arrayBuffer() ) )?.mime ?? 'application/octet-stream' );
+  ( _request.body && contentType.length === 0 ) && ( contentType = ( await fileTypeFromBlob( await request.clone().blob() ) )?.mime ?? 'application/octet-stream' );
 
   if( _request.body && contentType.length !== 0 ){
     try{
