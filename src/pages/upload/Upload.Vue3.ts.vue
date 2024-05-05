@@ -207,7 +207,7 @@ async function UploadForBinary( event: Event ): Promise<void>{
 
     console.dir( file );
 
-    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=true`, {
+    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=false`, {
       body: file.slice(),
       cache: 'no-cache',
       headers: {
