@@ -212,7 +212,7 @@ async function UploadForBinary( event: Event ): Promise<void>{
       cache: 'no-cache',
       headers: {
         Accept: 'application/json',
-        'content-type': mime.getType( file.name ),
+        'content-type': mime.getType( file.name ) ?? 'application/octet-stream',
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         ...httpRequestHeaders,
       },
