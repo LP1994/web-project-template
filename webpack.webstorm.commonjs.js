@@ -116,7 +116,7 @@ module.exports = {
 
       'deno_std/': 'https://deno.land/std/',
       'deno_std_encoding/': 'https://deno.land/std/encoding/',
-      'deno_std_streams/': 'https://deno.land/std/streams/',
+      'deno_std_io/': 'https://deno.land/std/io/',
       'deno_std_media_types$': 'https://deno.land/std/media_types/mod.ts',
       'deno_std_path$': 'https://deno.land/std/path/mod.ts',
 

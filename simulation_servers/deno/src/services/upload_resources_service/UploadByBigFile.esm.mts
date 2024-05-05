@@ -40,8 +40,8 @@ import {
 } from 'deno_std_media_types';
 
 import {
-  writableStreamFromWriter,
-} from 'deno_std_streams/writable_stream_from_writer.ts';
+  toWritableStream,
+} from 'deno_std_io/to_writable_stream.ts';
 
 import {
   encodeHex,
@@ -134,7 +134,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
           create: true,
         } );
 
-        await ( _request.body as ReadableStream ).pipeTo( writableStreamFromWriter( file001 ) );
+        await ( _request.body as ReadableStream ).pipeTo( toWritableStream( file001 ) );
 
         Object.assign( fileSRIInfo as I_UploadFileSRISchema, {
           shaType: 'SHA-512',

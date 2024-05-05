@@ -181,6 +181,8 @@ import {
   sha512,
 } from 'js-sha512';
 
+import mime from 'mime';
+
 import {
   reactive,
   onMounted,
@@ -206,10 +208,11 @@ async function UploadForBinary( event: Event ): Promise<void>{
     console.dir( file );
 
     fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=true`, {
-      body: file,
+      body: file.slice(),
       cache: 'no-cache',
       headers: {
         Accept: 'application/json',
+        'content-type': mime.getType( file.name ),
         'Deno-Custom-File-SRI': `${ FileSRI( await file.arrayBuffer() ) }`,
         ...httpRequestHeaders,
       },

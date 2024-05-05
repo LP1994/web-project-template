@@ -42,8 +42,8 @@
 'use strict';
 
 import {
-  writableStreamFromWriter,
-} from 'deno_std_streams/writable_stream_from_writer.ts';
+  toWritableStream,
+} from 'deno_std_io/to_writable_stream.ts';
 
 import {
   HttpResponseHeadersFun,
@@ -147,7 +147,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
               create: true,
             } );
 
-            await ( file as File ).stream().pipeTo( writableStreamFromWriter( file001 ) );
+            await ( file as File ).stream().pipeTo( toWritableStream( file001 ) );
 
             result001 = JSON.stringify( {
               data: {
