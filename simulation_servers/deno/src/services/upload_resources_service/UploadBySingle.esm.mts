@@ -34,7 +34,9 @@
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
  * 3、FormData中必须要有的字段：
  *    uploadType：值为'single'。
- *    file：其值类型可以是File、Blob二者之一。
+ *    file：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *    关于如何创建Blob见：
+ *    https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  * 4、可选字段有：
  *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  */
@@ -58,25 +60,28 @@ import {
   type T_Obj001,
   type I_UploadFileSRISchema,
 
+  GetFileMIME,
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
 
 /**
- * 单文件上传（支持POST请求、PUT请求）。<br />
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false<br />
- * 查询参数“isForcedWrite”是可选的。<br />
- * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。<br />
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true<br />
+ * 单文件上传（支持POST请求、PUT请求）。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * 查询参数“isForcedWrite”是可选的。
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
- * 1、客户端上传的body必须是用FormData包装。<br />
- * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。<br />
- * 3、FormData中必须要有的字段：<br />
- *    uploadType：值为'single'。<br />
- *    file：其值类型可以是File、Blob二者之一。<br />
- * 4、可选字段有：<br />
- *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。<br />
+ * 1、客户端上传的body必须是用FormData包装。
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
+ * 3、FormData中必须要有的字段：
+ *    uploadType：值为'single'。
+ *    file：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *    关于如何创建Blob见：
+ *    https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ * 4、可选字段有：
+ *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
@@ -108,16 +113,48 @@ async function UploadBySingle( request: Request ): Promise<Response>{
 
       if( str001 === '[object File]' || str001 === '[object Blob]' ){
         if( fileName.length === 0 && str001 === '[object File]' ){
-          fileName = ( file as File ).name;
+          fileName = ( file as File ).name.length !== 0
+                     ? ( file as File ).name
+                     : `SingleFile`;
         }
         else if( fileName.length === 0 && str001 === '[object Blob]' ){
-          fileName = `Blob_File`;
+          fileName = `SingleBlob`;
         }
+
+        const fileMIME: string = await GetFileMIME( ( file as File | Blob ).slice(), fileName );
 
         const {
           isWriteFile,
           fileInfo,
-        }: T_Obj001 = await UpdateFileSRI( _request, file as ( File | Blob ), fileName );
+        }: T_Obj001 = await UpdateFileSRI( _request, {
+          [ Symbol.toStringTag ]: 'Blob',
+          stream: (): ReadableStream<Uint8Array> => ( file as File | Blob ).stream(),
+          arrayBuffer: (): Promise<ArrayBuffer> => ( file as File | Blob ).arrayBuffer(),
+          blob: async (): Promise<Blob> => await ( ( file as File | Blob ).slice() ),
+          slice: async ( start?: number, end?: number, contentType?: string ): Promise<Blob> => {
+            let result: Blob;
+
+            if( start !== null && start !== undefined && end !== null && end !== undefined && contentType !== null && contentType !== undefined ){
+              result = ( file as File | Blob ).slice( start, end, contentType );
+            }
+            else if( start !== null && start !== undefined && end !== null && end !== undefined ){
+              result = ( file as File | Blob ).slice( start, end );
+            }
+            else if( start !== null && start !== undefined ){
+              result = ( file as File | Blob ).slice( start );
+            }
+            else{
+              result = ( file as File | Blob ).slice();
+            }
+
+            return result;
+          },
+          text: (): Promise<string> => ( file as File | Blob ).text(),
+          lastModified: String( Date.now() ),
+          name: fileName,
+          size: String( ( file as File | Blob ).size ),
+          type: String( fileMIME ),
+        }, fileName );
 
         const {
           savePath,
@@ -178,7 +215,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
         result001 = JSON.stringify( {
           data: {
             success: false,
-            message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为“${ str001 }”。`,
+            message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为“${ str001 }”，其他数据类型可以先转换成Blob再上传。`,
           },
           messageStatus: resMessageStatus[ 1002 ],
         } );

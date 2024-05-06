@@ -25,31 +25,35 @@
  * 多文件批量上传（支持POST请求、PUT请求）。
  * 第1种多文件的上传方式：
  * 只使用“uploadType”、“files”字段，其中“files”字段对应的值里保存了多个需要上传的文件。
- * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001 )、formData.append( 'files', File_002 )、......。
+ * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001, 'File_001.png' )、formData.append( 'files', File_002, 'File_001.png' )、......。
+ * formData.append()的第3个参数用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
+ * “files”字段对应的值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *   关于如何创建Blob见：
+ *   https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
  * 第2种多文件的上传方式：
  * 只使用“uploadType”、“quantity”、“fileX”、“fileNameX”字段，其中“quantity”字段表示有多少个文件被上传。
  * 然后“fileX”、“fileNameX”字段中的“X”就会用index来代替，index从0开始，总数等于“quantity”字段值。
  * 如：quantity: 5
- * file0：'name_000'
- * fileName0：File_000
- * file1：'name_001'
- * fileName1：File_001
+ * file0：File_000
+ * fileName0：'File_000.png'
+ * file0：File_001
+ * fileName0：'File_001.png'
  * ......
- * file4：'name_004'
- * fileName4：File_004
+ * file0：File_004
+ * fileName0：'File_004.png'
  *
  * 第3种，当然也可以结合上面2种方式：
  * uploadType: 'multiple'
  * files: [ File | Blob, ...... ]
  * quantity: 5
- * file0: 'name_000'
- * fileName0: File_000
- * file1: 'name_001'
- * fileName1: File_001
+ * file0：File_000
+ * fileName0：'File_000.png'
+ * file0：File_001
+ * fileName0：'File_001.png'
  * ......
- * file4: 'name_004'
- * fileName4: File_004
+ * file0：File_004
+ * fileName0：'File_004.png'
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
@@ -60,9 +64,13 @@
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。
  * 3、FormData中必须要有的字段：
  *    uploadType：值为'multiple'。
- *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一。
+ *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *      关于如何创建Blob见：
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *    quantity：其值类型为Number，表示有多少个文件被上传。
- *    fileX：其值类型可以是File、Blob二者之一。
+ *    fileX：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *      关于如何创建Blob见：
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  * 4、可选字段有：
  *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
  */
@@ -81,6 +89,7 @@ import {
 import {
   type T_Obj001,
 
+  GetFileMIME,
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
 
@@ -101,8 +110,42 @@ type T_ResultObj001 = {
  * @returns {Promise<Array<T_Obj001>>} 返回值类型为Promise<Array<T_Obj001>>。
  */
 async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<T_Obj001>>{
-  // @ts-expect-error
-  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<T_Obj001> => UpdateFileSRI( request, file, file._name ) ) );
+  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<T_Obj001> => UpdateFileSRI(
+    request,
+    {
+      [ Symbol.toStringTag ]: 'Blob',
+      stream: (): ReadableStream<Uint8Array> => file.stream(),
+      arrayBuffer: (): Promise<ArrayBuffer> => file.arrayBuffer(),
+      blob: async (): Promise<Blob> => await ( file.slice() ),
+      slice: async ( start?: number, end?: number, contentType?: string ): Promise<Blob> => {
+        let result: Blob;
+
+        if( start !== null && start !== undefined && end !== null && end !== undefined && contentType !== null && contentType !== undefined ){
+          result = file.slice( start, end, contentType );
+        }
+        else if( start !== null && start !== undefined && end !== null && end !== undefined ){
+          result = file.slice( start, end );
+        }
+        else if( start !== null && start !== undefined ){
+          result = file.slice( start );
+        }
+        else{
+          result = file.slice();
+        }
+
+        return result;
+      },
+      text: (): Promise<string> => file.text(),
+      lastModified: String( Date.now() ),
+      // @ts-expect-error
+      name: file._name,
+      size: String( file.size ),
+      // @ts-expect-error
+      type: String( file._type ),
+    },
+    // @ts-expect-error
+    file._name
+  ) ) );
 }
 
 /**
@@ -150,7 +193,7 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
     (
       item: Deno.FsFile,
       index: number,
-    ): Promise<void> => ( ( writeFile[ index ] as T_Obj001 ).file as File ).stream().pipeTo( toWritableStream( item ) )
+    ): Promise<void> => ( writeFile[ index ] as T_Obj001 ).file.stream().pipeTo( toWritableStream( item ) )
   );
 
   return {
@@ -160,49 +203,57 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
 }
 
 /**
- * 多文件批量上传（支持POST请求、PUT请求）。<br />
- * 第1种多文件的上传方式：<br />
- * 只使用“uploadType”、“files”字段，其中“files”字段对应的值里保存了多个需要上传的文件。<br />
- * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001 )、formData.append( 'files', File_002 )、......。<br />
+ * 多文件批量上传（支持POST请求、PUT请求）。
+ * 第1种多文件的上传方式：
+ * 只使用“uploadType”、“files”字段，其中“files”字段对应的值里保存了多个需要上传的文件。
+ * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001, 'File_001.png' )、formData.append( 'files', File_002, 'File_001.png' )、......。
+ * formData.append()的第3个参数用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
+ * “files”字段对应的值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *   关于如何创建Blob见：
+ *   https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
- * 第2种多文件的上传方式：<br />
- * 只使用“uploadType”、“quantity”、“fileX”、“fileNameX”字段，其中“quantity”字段表示有多少个文件被上传。<br />
- * 然后“fileX”、“fileNameX”字段中的“X”就会用index来代替，index从0开始，总数等于“quantity”字段值。<br />
- * 如：quantity: 5<br />
- * file0：'name_000'<br />
- * fileName0：File_000<br />
- * file1：'name_001'<br />
- * fileName1：File_001<br />
- * ......<br />
- * file4：'name_004'<br />
- * fileName4：File_004<br />
+ * 第2种多文件的上传方式：
+ * 只使用“uploadType”、“quantity”、“fileX”、“fileNameX”字段，其中“quantity”字段表示有多少个文件被上传。
+ * 然后“fileX”、“fileNameX”字段中的“X”就会用index来代替，index从0开始，总数等于“quantity”字段值。
+ * 如：quantity: 5
+ * file0：File_000
+ * fileName0：'File_000.png'
+ * file0：File_001
+ * fileName0：'File_001.png'
+ * ......
+ * file0：File_004
+ * fileName0：'File_004.png'
  *
- * 第3种，当然也可以结合上面2种方式：<br />
- * uploadType: 'multiple'<br />
- * files: [ File | Blob, ...... ]<br />
- * quantity: 5<br />
- * file0: 'name_000'<br />
- * fileName0: File_000<br />
- * file1: 'name_001'<br />
- * fileName1: File_001<br />
- * ......<br />
- * file4: 'name_004'<br />
- * fileName4: File_004<br />
+ * 第3种，当然也可以结合上面2种方式：
+ * uploadType: 'multiple'
+ * files: [ File | Blob, ...... ]
+ * quantity: 5
+ * file0：File_000
+ * fileName0：'File_000.png'
+ * file0：File_001
+ * fileName0：'File_001.png'
+ * ......
+ * file0：File_004
+ * fileName0：'File_004.png'
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false<br />
- * 查询参数“isForcedWrite”是可选的。<br />
- * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。<br />
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * 查询参数“isForcedWrite”是可选的。
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
  *
- * 1、客户端上传的body必须是用FormData包装。<br />
- * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。<br />
- * 3、FormData中必须要有的字段：<br />
- *    uploadType：值为'multiple'。<br />
- *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一。<br />
- *    quantity：其值类型为Number，表示有多少个文件被上传。<br />
- *    fileX：其值类型可以是File、Blob二者之一。<br />
- * 4、可选字段有：<br />
- *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。<br />
+ * 1、客户端上传的body必须是用FormData包装。
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。
+ * 3、FormData中必须要有的字段：
+ *    uploadType：值为'multiple'。
+ *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *      关于如何创建Blob见：
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ *    quantity：其值类型为Number，表示有多少个文件被上传。
+ *    fileX：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *      关于如何创建Blob见：
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ * 4、可选字段有：
+ *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
@@ -245,36 +296,53 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
 
         if( ( str001 === '[object File]' || str001 === '[object Blob]' ) && fileName001.length !== 0 ){
           // @ts-expect-error
-          file001._name = fileName001;
+          ( file001 as File | Blob )._name = fileName001;
         }
         else if( str001 === '[object File]' && fileName001.length === 0 ){
           // @ts-expect-error
-          file001._name = file001.name;
+          ( file001 as File )._name = ( file001 as File ).name.length === 0
+                                      ? 'MultipleFile'
+                                      : ( file001 as File ).name;
         }
         else if( str001 === '[object Blob]' && fileName001.length === 0 ){
           // @ts-expect-error
-          file001._name = `Blob_File`;
+          ( file001 as Blob )._name = `MultipleBlob`;
+        }
+
+        if( str001 === '[object File]' || str001 === '[object Blob]' ){
+          // @ts-expect-error
+          ( file001 as File | Blob )._type = await GetFileMIME( ( file001 as File | Blob ).slice(), ( file001 as File | Blob )._name );
         }
 
         files001.push( file001 );
       }
 
       const files: Array<File | Blob> = ( [
-        ...( (): Array<FormDataEntryValue | Blob | null> => {
-          return formData.getAll( 'files' )
-            .map( ( item: FormDataEntryValue | Blob | null, ): FormDataEntryValue | Blob | null => {
-              if( Object.prototype.toString.call( item ) === '[object File]' ){
+        ...(
+          await (
+            async (): Promise<Array<FormDataEntryValue | Blob | null>> => ( await Array.fromAsync( formData.getAll( 'files' ).map( async ( item: FormDataEntryValue | Blob | null, ): Promise<FormDataEntryValue | Blob | null> => {
+              str001 = Object.prototype.toString.call( item );
+
+              if( str001 === '[object File]' ){
                 // @ts-expect-error
-                item._name = ( item as File ).name;
+                ( item as File )._name = ( item as File ).name.length === 0
+                                         ? 'MultipleFile'
+                                         : ( item as File ).name;
               }
-              else if( Object.prototype.toString.call( item ) === '[object Blob]' ){
+              else if( str001 === '[object Blob]' ){
                 // @ts-expect-error
-                item._name = `Blob_File`;
+                ( item as Blob )._name = `MultipleBlob`;
+              }
+
+              if( str001 === '[object File]' || str001 === '[object Blob]' ){
+                // @ts-expect-error
+                ( item as File | Blob )._type = await GetFileMIME( ( item as File | Blob ).slice(), ( item as File | Blob )._name );
               }
 
               return item;
-            } );
-        } )(),
+            } ) ) ) as Array<FormDataEntryValue | Blob | null>
+          )()
+        ),
         ...files001,
       ].filter( ( item: FormDataEntryValue | Blob | null, ): boolean => Object.prototype.toString.call( item ) === '[object File]' || Object.prototype.toString.call( item ) === '[object Blob]' ) ) as Array<File | Blob>;
 

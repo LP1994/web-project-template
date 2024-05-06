@@ -22,15 +22,24 @@
  */
 
 /**
- * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+ * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
- * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
  * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
- * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+ * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
  * 3、特别注意！请求头必须包含“content-type”！
  * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
@@ -42,10 +51,6 @@
 import {
   toWritableStream,
 } from 'deno_std_io/to_writable_stream.ts';
-
-import {
-  fileTypeFromBlob,
-} from 'npm:file-type';
 
 import {
   HttpResponseHeadersFun,
@@ -60,20 +65,33 @@ import {
   type T_Obj001,
   type I_UploadFileSRISchema,
 
+  GetFileMIME,
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
 
 /**
- * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。<br />
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false<br />
- * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。<br />
- * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。<br />
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true<br />
+ * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。<br />
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
+ * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
+ * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
- * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。<br />
- * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。<br />
+ * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ *
+ * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
+ * 3、特别注意！请求头必须包含“content-type”！
+ * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
+ * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
@@ -91,18 +109,17 @@ async function UploadByBinary( request: Request ): Promise<Response>{
   } );
 
   let contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
-    contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase();
+    contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase(),
+    fileName: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() );
 
-  ( _request.body && contentType.length === 0 ) && ( contentType = ( await fileTypeFromBlob( await request.clone().blob() ) )?.mime ?? 'application/octet-stream' );
+  if( fileName.length === 0 ){
+    fileName = `BinaryFile`;
+  }
+
+  ( _request.body && contentType.length === 0 ) && ( contentType = await GetFileMIME( await request.clone().blob(), fileName ) );
 
   if( _request.body && contentType.length !== 0 ){
     try{
-      let fileName: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() );
-
-      if( fileName.length === 0 ){
-        fileName = `Binary_File`;
-      }
-
       const {
         isWriteFile,
         fileInfo,

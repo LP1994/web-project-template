@@ -59,16 +59,28 @@ import {
 } from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
 
 /**
- * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+ * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
- * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
  * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
- * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+ * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
+ * 3、特别注意！请求头必须包含“content-type”！
+ * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
+ * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
  */
 import UploadByBinary from './UploadByBinary.esm.mts';
 
@@ -85,7 +97,9 @@ import UploadByBinary from './UploadByBinary.esm.mts';
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
  * 3、FormData中必须要有的字段：
  *    uploadType：值为'single'。
- *    file：其值类型可以是File、Blob二者之一。
+ *    file：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *    关于如何创建Blob见：
+ *    https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  * 4、可选字段有：
  *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  */
@@ -95,31 +109,35 @@ import UploadBySingle from './UploadBySingle.esm.mts';
  * 多文件批量上传（支持POST请求、PUT请求）。
  * 第1种多文件的上传方式：
  * 只使用“uploadType”、“files”字段，其中“files”字段对应的值里保存了多个需要上传的文件。
- * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001 )、formData.append( 'files', File_002 )、......。
+ * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001, 'File_001.png' )、formData.append( 'files', File_002, 'File_001.png' )、......。
+ * formData.append()的第3个参数用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
+ * “files”字段对应的值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *   关于如何创建Blob见：
+ *   https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
  * 第2种多文件的上传方式：
  * 只使用“uploadType”、“quantity”、“fileX”、“fileNameX”字段，其中“quantity”字段表示有多少个文件被上传。
  * 然后“fileX”、“fileNameX”字段中的“X”就会用index来代替，index从0开始，总数等于“quantity”字段值。
  * 如：quantity: 5
- * file0：'name_000'
- * fileName0：File_000
- * file1：'name_001'
- * fileName1：File_001
+ * file0：File_000
+ * fileName0：'File_000.png'
+ * file0：File_001
+ * fileName0：'File_001.png'
  * ......
- * file4：'name_004'
- * fileName4：File_004
+ * file0：File_004
+ * fileName0：'File_004.png'
  *
  * 第3种，当然也可以结合上面2种方式：
  * uploadType: 'multiple'
  * files: [ File | Blob, ...... ]
  * quantity: 5
- * file0: 'name_000'
- * fileName0: File_000
- * file1: 'name_001'
- * fileName1: File_001
+ * file0：File_000
+ * fileName0：'File_000.png'
+ * file0：File_001
+ * fileName0：'File_001.png'
  * ......
- * file4: 'name_004'
- * fileName4: File_004
+ * file0：File_004
+ * fileName0：'File_004.png'
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
@@ -130,24 +148,42 @@ import UploadBySingle from './UploadBySingle.esm.mts';
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。
  * 3、FormData中必须要有的字段：
  *    uploadType：值为'multiple'。
- *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一。
+ *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *      关于如何创建Blob见：
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *    quantity：其值类型为Number，表示有多少个文件被上传。
- *    fileX：其值类型可以是File、Blob二者之一。
+ *    fileX：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+ *      关于如何创建Blob见：
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  * 4、可选字段有：
  *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
  */
 import UploadByMultiple from './UploadByMultiple.esm.mts';
 
 /**
- * 单个大文件上传（支持POST请求、PUT请求）。
+ * 单个大文件上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
  * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
- * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+ * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
  * 单个大文件上传不需要在URL上包含查询参数“type”，添加了它，就会执行单个大文件的分块上传的逻辑。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+ *
+ * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+ * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+ * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+ * 关于如何创建Blob见：
+ * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+ * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=bigFile”。
+ * 3、特别注意！请求头必须包含“content-type”！
+ * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
+ * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
  */
 import UploadByBigFile from './UploadByBigFile.esm.mts';
 
@@ -208,16 +244,28 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
   let result: T_Response001;
 
   /**
-   * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+   * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+   * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+   * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+   * 关于如何创建Blob见：
+   * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+   *
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
-   * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+   * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
    * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
    *
    * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
-   * 1、客户端上传的body不使用FormData包装，直接就是一个File、Blob、二进制流等类型。
+   * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+   * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+   * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+   * 关于如何创建Blob见：
+   * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=binary”。
+   * 3、特别注意！请求头必须包含“content-type”！
+   * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
+   * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
    */
   if( uploadType === 'binary' ){
     let result001: T_QueryOneResult = await ValidateReqHeadSRI( request ),
@@ -255,7 +303,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
           // true表示上传成功，反之，表示失败。
           success: false,
           // 描述性说明。
-          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 ).toFixed( 2 ) }）。`,
+          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 ).toFixed( 2 ) }GB）。`,
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {
@@ -285,7 +333,9 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=single”。
    * 3、FormData中必须要有的字段：
    *    uploadType：值为'single'。
-   *    file：其值类型可以是File、Blob二者之一。
+   *    file：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+   *    关于如何创建Blob见：
+   *    https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
    * 4、可选字段有：
    *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
    */
@@ -325,8 +375,7 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
           // true表示上传成功，反之，表示失败。
           success: false,
           // 描述性说明。
-          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 )
-            .toFixed( 2 ) }）。`,
+          message: `不支持上传大于1GB的文件（本文件大小为：${ Number( Number( contentLength ) / 1024 / 1024 / 1024 ).toFixed( 2 ) }GB）。`,
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {
@@ -347,31 +396,35 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 多文件批量上传（支持POST请求、PUT请求）。
    * 第1种多文件的上传方式：
    * 只使用“uploadType”、“files”字段，其中“files”字段对应的值里保存了多个需要上传的文件。
-   * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001 )、formData.append( 'files', File_002 )、......。
+   * 客户端可以通过FormData的append方法，多次设置“files”字段，如：formData.append( 'files', File_001, 'File_001.png' )、formData.append( 'files', File_002, 'File_001.png' )、......。
+   * formData.append()的第3个参数用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
+   * “files”字段对应的值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+   *   关于如何创建Blob见：
+   *   https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
    *
    * 第2种多文件的上传方式：
    * 只使用“uploadType”、“quantity”、“fileX”、“fileNameX”字段，其中“quantity”字段表示有多少个文件被上传。
    * 然后“fileX”、“fileNameX”字段中的“X”就会用index来代替，index从0开始，总数等于“quantity”字段值。
    * 如：quantity: 5
-   * file0：'name_000'
-   * fileName0：File_000
-   * file1：'name_001'
-   * fileName1：File_001
+   * file0：File_000
+   * fileName0：'File_000.png'
+   * file0：File_001
+   * fileName0：'File_001.png'
    * ......
-   * file4：'name_004'
-   * fileName4：File_004
+   * file0：File_004
+   * fileName0：'File_004.png'
    *
    * 第3种，当然也可以结合上面2种方式：
    * uploadType: 'multiple'
    * files: [ File | Blob, ...... ]
    * quantity: 5
-   * file0: 'name_000'
-   * fileName0: File_000
-   * file1: 'name_001'
-   * fileName1: File_001
+   * file0：File_000
+   * fileName0：'File_000.png'
+   * file0：File_001
+   * fileName0：'File_001.png'
    * ......
-   * file4: 'name_004'
-   * fileName4: File_004
+   * file0：File_004
+   * fileName0：'File_004.png'
    *
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
    * 查询参数“isForcedWrite”是可选的。
@@ -382,9 +435,13 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
    * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。
    * 3、FormData中必须要有的字段：
    *    uploadType：值为'multiple'。
-   *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一。
+   *    files：其值类型为数组，其中的每一个成员的类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+   *      关于如何创建Blob见：
+   *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
    *    quantity：其值类型为Number，表示有多少个文件被上传。
-   *    fileX：其值类型可以是File、Blob二者之一。
+   *    fileX：其值类型可以是File、Blob二者之一，其他数据类型可以先转换成Blob再上传。
+   *      关于如何创建Blob见：
+   *      https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
    * 4、可选字段有：
    *    fileNameX：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好还是带扩展名）。
    */
@@ -392,15 +449,29 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
     result = UploadByMultiple( request );
   }
   /**
-   * 单个大文件上传（支持POST请求、PUT请求）。
+   * 单个大文件上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+   * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+   * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+   * 关于如何创建Blob见：
+   * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
    *
    * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
    *
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
-   * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
+   * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
    * 单个大文件上传不需要在URL上包含查询参数“type”，添加了它，就会执行单个大文件的分块上传的逻辑。
    * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
    * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+   *
+   * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
+   * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
+   * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
+   * 关于如何创建Blob见：
+   * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
+   * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=bigFile”。
+   * 3、特别注意！请求头必须包含“content-type”！
+   * 有的文件上传，浏览器会自行设置能被识别到的文件的MIME，并自行设置请求头中的“content-type”！
+   * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
    */
   else if( uploadType === 'bigFile' ){
     let result001: T_QueryOneResult = await ValidateReqHeadSRI( request ),
