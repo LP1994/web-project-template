@@ -175,7 +175,7 @@ const HttpResponseHeadersFun: ( request: Request ) => HeadersInit = ( request: R
        *   3）对于Content-Type：需要其解析值（忽略参数）的MIME类型为：application/x-www-form-urlencoded、multipart/form-data或text/plain。
        *   4）对于任何标头：值的长度不能大于128个字符。
        */
-      'Access-Control-Allow-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+      'Access-Control-Allow-Headers': 'deno-custom-file-sri, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
       /**
        * Access-Control-Allow-Methods：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
        * 1、Access-Control-Allow-Methods响应标头指定访问资源以响应预检请求时允许的一种或多种方法。
@@ -216,7 +216,7 @@ const HttpResponseHeadersFun: ( request: Request ) => HeadersInit = ( request: R
        * 6、对于没有凭据的请求（没有 HTTP cookie 或 HTTP 身份验证信息的请求），值“*”仅算作一个特殊的通配符值。
        * 7、在带有凭据的请求中，它被视为没有特殊语义的文字标头名称“*”。
        */
-      'Access-Control-Expose-Headers': 'Deno-Custom-File-SRI, Authorization, Content-Encoding, Cache-Control, Content-Language, Content-Length, Content-Type, Expires, Last-Modified, Pragma',
+      'Access-Control-Expose-Headers': 'deno-custom-file-sri, Authorization, Content-Encoding, Cache-Control, Content-Language, Content-Length, Content-Type, Expires, Last-Modified, Pragma',
       /**
        * Access-Control-Max-Age：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age
        * 1、Access-Control-Max-Age响应标头指示预检请求的结果（即Access-Control-Allow-Methods和Access-Control-Allow-Headers标头中包含的信息）可以缓存多长时间（单位：秒）。默认值为5秒。
@@ -230,7 +230,7 @@ const HttpResponseHeadersFun: ( request: Request ) => HeadersInit = ( request: R
        * 2、Access-Control-Allow-Headers的补充服务器端标头将回答此浏览器端标头。
        * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
        */
-      // 'Access-Control-Request-Headers': 'Deno-Custom-File-SRI, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
+      // 'Access-Control-Request-Headers': 'deno-custom-file-sri, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
       /**
        * Access-Control-Request-Method：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
        * 1、浏览器在发出预检请求时使用Access-Control-Request-Method请求标头，让服务器知道在发出实际请求时将使用哪种HTTP方法。

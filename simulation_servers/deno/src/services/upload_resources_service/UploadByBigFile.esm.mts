@@ -28,7 +28,7 @@
  * 关于如何创建Blob见：
  * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
@@ -92,7 +92,7 @@ import {
  * 关于如何创建Blob见：
  * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。

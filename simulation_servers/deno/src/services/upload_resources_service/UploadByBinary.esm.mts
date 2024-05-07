@@ -33,7 +33,7 @@
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
  * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
@@ -81,7 +81,7 @@ import {
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
  * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
- * 允许在请求头中携带自定义的请求头标识“Deno-Custom-File-SRI”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
+ * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
  * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
@@ -238,6 +238,7 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     headers: {
       ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',
+      // 'deno-custom-file-sri': '96573510e4b6b44ccd00c21d7a7f20e99546cdb866d21a2319ead51f1d3abc07cbe3f1139cd559da3fc263eb1dac6f01b2b72d8fc5293bf03cd44f40ebd60692',
     },
   } );
 }
