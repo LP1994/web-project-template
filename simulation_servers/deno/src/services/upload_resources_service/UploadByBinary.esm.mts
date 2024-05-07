@@ -238,7 +238,6 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     headers: {
       ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',
-      // 'deno-custom-file-sri': '96573510e4b6b44ccd00c21d7a7f20e99546cdb866d21a2319ead51f1d3abc07cbe3f1139cd559da3fc263eb1dac6f01b2b72d8fc5293bf03cd44f40ebd60692',
     },
   } );
 }
