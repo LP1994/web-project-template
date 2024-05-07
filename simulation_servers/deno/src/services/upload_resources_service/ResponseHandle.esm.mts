@@ -244,6 +244,14 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
   let result: T_Response001;
 
   /**
+   * 这步操作很关键！
+   * 因为当服务器验证了请求头里的文件sri值已经存在数据库中，那么会立即返回响应，同时也会关闭对应的连接！
+   * 而此时，客户端发起的请求连接中还有数据正在上传，那么会因为服务端已经结束并关闭了对应的连接！导致正在上传的数据出现无法写入服务器等等的错误报告！
+   * 有个解决方案就是等请求的数据接收完，再返回各个逻辑的响应给客户端。
+   */
+  await request.clone().arrayBuffer();
+
+  /**
    * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
    * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
    * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
