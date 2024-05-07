@@ -15,6 +15,7 @@ import {
 } from 'npm:mongodb';
 
 import {
+  type Connection as T_Connection,
   type HydratedDocument as T_HydratedDocument,
 
   Model,
@@ -26,10 +27,7 @@ import {
 } from 'mongo/tools/MongooseConfig.esm.mts';
 
 import {
-  type T_MongooseConnectForSingleton,
-
-  MyMongooseConnection,
-  MongooseConnectForSingleton,
+  MongooseConnect,
 } from 'mongo/tools/MongooseConnect.esm.mts';
 
 export interface I_UploadFileSRISchema {
@@ -70,7 +68,7 @@ export interface I_UploadFileSRISchema {
 export type T_QueryOneResult = T_HydratedDocument<I_UploadFileSRISchema> | null;
 
 type T_GenerateModel = {
-  MyMongooseConnection: MyMongooseConnection;
+  MyMongooseConnection: T_Connection;
 
   UploadFileSRI: Model<
     I_UploadFileSRISchema
@@ -80,10 +78,7 @@ type T_GenerateModel = {
 const collectionName: string = 'upload_file_sri';
 
 async function GenerateModel(): Promise<T_GenerateModel>{
-  const {
-    MyMongooseConnection,
-    MongooseClient,
-  }: T_MongooseConnectForSingleton = await MongooseConnectForSingleton();
+  const MongooseClient: T_Connection = MongooseConnect();
 
   // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
   const UploadFileSRISchema: Schema<
@@ -194,7 +189,7 @@ async function GenerateModel(): Promise<T_GenerateModel>{
   );
 
   return {
-    MyMongooseConnection,
+    MyMongooseConnection: MongooseClient,
     UploadFileSRI,
   };
 }
@@ -216,7 +211,7 @@ export async function InsertOne( fileSRI: I_UploadFileSRISchema ): Promise<strin
 
   await uploadFileSRI.save();
 
-  await MyMongooseConnection.myClose( true );
+  await MyMongooseConnection.close( true );
 
   return uploadFileSRI._id.toString();
 }
@@ -245,7 +240,7 @@ export async function DeleteOne( sri: string ): Promise<boolean>{
     },
   );
 
-  await MyMongooseConnection.myClose( true );
+  await MyMongooseConnection.close( true );
 
   return acknowledged && deletedCount === 1;
 }
@@ -286,7 +281,7 @@ export async function UpdateOne( fileSRI: I_UploadFileSRISchema ): Promise<boole
     },
   );
 
-  await MyMongooseConnection.myClose( true );
+  await MyMongooseConnection.close( true );
 
   return acknowledged;
 }
@@ -315,7 +310,7 @@ export async function QueryOne( sri: string ): Promise<T_QueryOneResult>{
     },
   ).exec();
 
-  await MyMongooseConnection.myClose( true );
+  await MyMongooseConnection.close( true );
 
   return uploadFileSRI;
 }
