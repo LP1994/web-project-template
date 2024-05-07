@@ -217,7 +217,7 @@ async function UploadForBinary( event: Event ): Promise<void>{
       headers: {
         Accept: 'application/json',
         'content-type': GetFileMIME( file ),
-        // 'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
+        'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
         ...httpRequestHeaders,
       },
       method: 'POST',
@@ -259,7 +259,7 @@ async function UploadForSingle( event: Event ): Promise<void>{
       cache: 'no-cache',
       headers: {
         Accept: 'application/json',
-        // 'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
+        'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
         ...httpRequestHeaders,
       },
       method: 'POST',
