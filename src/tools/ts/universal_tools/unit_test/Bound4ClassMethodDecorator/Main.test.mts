@@ -41,6 +41,6 @@ class Person {
 
 const g = new Person( '张三' ).greet;
 
-Test001( 'IsArray', (): void => {
+Test001( 'Bound4ClassMethodDecorator', (): void => {
   Equal001( g() ).toBe( `Hello, my name is 张三.` );
 } );
