@@ -8,7 +8,7 @@
  * to ensure that these are still available when using the Deno namespace in
  * conjunction with other type libs, like `dom`.
  *
- * @category ES Modules
+ * @category Platform
  */
 declare interface ImportMeta {
   /** A string representation of the fully qualified module URL. When the
@@ -322,7 +322,7 @@ declare namespace Deno {
    * console.log(Deno.pid);
    * ```
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const pid: number;
 
@@ -333,11 +333,11 @@ declare namespace Deno {
    * console.log(Deno.ppid);
    * ```
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const ppid: number;
 
-  /** @category Runtime Environment */
+  /** @category Runtime */
   export interface MemoryUsage {
     /** The number of bytes of the current Deno's process resident set size,
      * which is the amount of memory occupied in main memory (RAM). */
@@ -355,7 +355,7 @@ declare namespace Deno {
    * Returns an object describing the memory usage of the Deno process and the
    * V8 subsystem measured in bytes.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function memoryUsage(): MemoryUsage;
 
@@ -369,7 +369,7 @@ declare namespace Deno {
    * Requires `allow-sys` permission.
    *
    * @tags allow-sys
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function hostname(): string;
 
@@ -389,7 +389,7 @@ declare namespace Deno {
    * On Windows there is no API available to retrieve this information and this method returns `[ 0, 0, 0 ]`.
    *
    * @tags allow-sys
-   * @category Observability
+   * @category Runtime
    */
   export function loadavg(): number[];
 
@@ -443,14 +443,14 @@ declare namespace Deno {
    * Requires `allow-sys` permission.
    *
    * @tags allow-sys
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function systemMemoryInfo(): SystemMemoryInfo;
 
   /**
    * Information returned from a call to {@linkcode Deno.systemMemoryInfo}.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export interface SystemMemoryInfo {
     /** Total installed memory in bytes. */
@@ -481,7 +481,7 @@ declare namespace Deno {
    *
    * See: https://no-color.org/
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const noColor: boolean;
 
@@ -497,7 +497,7 @@ declare namespace Deno {
    * it should depend sys-info, which may not be desirable.
    *
    * @tags allow-sys
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function osRelease(): string;
 
@@ -511,7 +511,7 @@ declare namespace Deno {
    * Requires `allow-sys` permission.
    *
    * @tags allow-sys
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function osUptime(): number;
 
@@ -1462,7 +1462,7 @@ declare namespace Deno {
    * Deno.exit(5);
    * ```
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function exit(code?: number): never;
 
@@ -1470,7 +1470,7 @@ declare namespace Deno {
    * variables.
    *
    * @tags allow-env
-   * @category Runtime Environment
+   * @category Runtime
    */
   export interface Env {
     /** Retrieve the value of an environment variable.
@@ -1549,7 +1549,7 @@ declare namespace Deno {
    * variables.
    *
    * @tags allow-env
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const env: Env;
 
@@ -1563,7 +1563,7 @@ declare namespace Deno {
    * Requires `allow-read` permission.
    *
    * @tags allow-read
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function execPath(): string;
 
@@ -1584,7 +1584,7 @@ declare namespace Deno {
    * Requires `allow-read` permission.
    *
    * @tags allow-read
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function chdir(directory: string | URL): void;
 
@@ -1603,7 +1603,7 @@ declare namespace Deno {
    * Requires `allow-read` permission.
    *
    * @tags allow-read
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function cwd(): string;
 
@@ -4033,7 +4033,7 @@ declare namespace Deno {
    */
   export function truncateSync(name: string, len?: number): void;
 
-  /** @category Observability
+  /** @category Runtime
    *
    * @deprecated This will be removed in Deno 2.0.
    */
@@ -4051,7 +4051,7 @@ declare namespace Deno {
     bytesReceived: number;
   }
 
-  /** @category Observability
+  /** @category Runtime
    *
    * @deprecated This will be removed in Deno 2.0.
    */
@@ -4082,7 +4082,7 @@ declare namespace Deno {
    * └─────────────────────────┴────────┘
    * ```
    *
-   * @category Observability
+   * @category Runtime
    *
    * @deprecated This will be removed in Deno 2.0.
    */
@@ -4094,7 +4094,7 @@ declare namespace Deno {
    *
    * @deprecated This will be removed in Deno 2.0.
    *
-   * @category Observability */
+   * @category Runtime */
   export interface ResourceMap {
     [rid: number]: unknown;
   }
@@ -4114,7 +4114,7 @@ declare namespace Deno {
    *
    * @deprecated This will be removed in Deno 2.0.
    *
-   * @category Observability
+   * @category Runtime
    */
   export function resources(): ResourceMap;
 
@@ -4392,7 +4392,7 @@ declare namespace Deno {
   /** Operating signals which can be listened for or sent to sub-processes. What
    * signals and what their standard behaviors are OS dependent.
    *
-   * @category Runtime Environment */
+   * @category Runtime */
   export type Signal =
     | "SIGABRT"
     | "SIGALRM"
@@ -4443,7 +4443,7 @@ declare namespace Deno {
    * _Note_: On Windows only `"SIGINT"` (CTRL+C) and `"SIGBREAK"` (CTRL+Break)
    * are supported.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function addSignalListener(signal: Signal, handler: () => void): void;
 
@@ -4461,7 +4461,7 @@ declare namespace Deno {
    * _Note_: On Windows only `"SIGINT"` (CTRL+C) and `"SIGBREAK"` (CTRL+Break)
    * are supported.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function removeSignalListener(
     signal: Signal,
@@ -4745,7 +4745,7 @@ declare namespace Deno {
 
   /** Option which can be specified when performing {@linkcode Deno.inspect}.
    *
-   * @category Console and Debugging */
+   * @category I/O */
   export interface InspectOptions {
     /** Stylize output with ANSI colors.
      *
@@ -4831,7 +4831,7 @@ declare namespace Deno {
    * Deno.inspect({a: {b: {c: {d: 'hello'}}}}, {depth: 2}); // { a: { b: [Object] } }
    * ```
    *
-   * @category Console and Debugging
+   * @category I/O
    */
   export function inspect(value: unknown, options?: InspectOptions): string;
 
@@ -5241,7 +5241,7 @@ declare namespace Deno {
    *
    * The intended use for the information is for logging and debugging purposes.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const build: {
     /** The [LLVM](https://llvm.org/) target triple, which is the combination
@@ -5277,7 +5277,7 @@ declare namespace Deno {
    *
    * The intended use for the information is for logging and debugging purposes.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const version: {
     /** Deno CLI's version. For example: `"1.26.0"`. */
@@ -5312,7 +5312,7 @@ declare namespace Deno {
    * [`parseArgs()`](https://jsr.io/@std/cli/doc/parse-args/~/parseArgs) from
    * the Deno Standard Library.
    *
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const args: string[];
 
@@ -5325,7 +5325,7 @@ declare namespace Deno {
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    *
-   * @category Console and Debugging
+   * @category I/O
    */
   export const customInspect: unique symbol;
 
@@ -5335,7 +5335,7 @@ declare namespace Deno {
    * Also see {@linkcode ImportMeta} for other related information.
    *
    * @tags allow-read
-   * @category Runtime Environment
+   * @category Runtime
    */
   export const mainModule: string;
 
@@ -6178,14 +6178,14 @@ declare namespace Deno {
   /**
    * Make the timer of the given `id` block the event loop from finishing.
    *
-   * @category Timers
+   * @category Runtime
    */
   export function refTimer(id: number): void;
 
   /**
    * Make the timer of the given `id` not block the event loop from finishing.
    *
-   * @category Timers
+   * @category Runtime
    */
   export function unrefTimer(id: number): void;
 
@@ -6199,7 +6199,7 @@ declare namespace Deno {
    * Requires `allow-sys` permission.
    *
    * @tags allow-sys
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function uid(): number | null;
 
@@ -6213,7 +6213,7 @@ declare namespace Deno {
    * Requires `allow-sys` permission.
    *
    * @tags allow-sys
-   * @category Runtime Environment
+   * @category Runtime
    */
   export function gid(): number | null;
 
@@ -6678,7 +6678,7 @@ declare namespace Deno {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Console and Debugging */
+/** @category I/O */
 declare interface Console {
   assert(condition?: boolean, ...data: any[]): void;
   clear(): void;
@@ -6717,7 +6717,7 @@ declare interface Console {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Web APIs */
+/** @category URL */
 declare interface URLSearchParams {
   /** Appends a specified key/value pair as a new search parameter.
    *
@@ -6869,7 +6869,7 @@ declare interface URLSearchParams {
   size: number;
 }
 
-/** @category Web APIs */
+/** @category URL */
 declare var URLSearchParams: {
   readonly prototype: URLSearchParams;
   new (
@@ -6880,7 +6880,7 @@ declare var URLSearchParams: {
 /** The URL interface represents an object providing static methods used for
  * creating object URLs.
  *
- * @category Web APIs
+ * @category URL
  */
 declare interface URL {
   hash: string;
@@ -6902,7 +6902,7 @@ declare interface URL {
 /** The URL interface represents an object providing static methods used for
  * creating object URLs.
  *
- * @category Web APIs
+ * @category URL
  */
 declare var URL: {
   readonly prototype: URL;
@@ -6913,7 +6913,7 @@ declare var URL: {
   revokeObjectURL(url: string): void;
 };
 
-/** @category Web APIs */
+/** @category URL */
 declare interface URLPatternInit {
   protocol?: string;
   username?: string;
@@ -6926,10 +6926,10 @@ declare interface URLPatternInit {
   baseURL?: string;
 }
 
-/** @category Web APIs */
+/** @category URL */
 declare type URLPatternInput = string | URLPatternInit;
 
-/** @category Web APIs */
+/** @category URL */
 declare interface URLPatternComponentResult {
   input: string;
   groups: Record<string, string | undefined>;
@@ -6937,7 +6937,7 @@ declare interface URLPatternComponentResult {
 
 /** `URLPatternResult` is the object returned from `URLPattern.exec`.
  *
- * @category Web APIs
+ * @category URL
  */
 declare interface URLPatternResult {
   /** The inputs provided when matching. */
@@ -6989,7 +6989,7 @@ declare interface URLPatternResult {
  * console.log(pattern.test("https://blog.example.com/article/123")); // true
  * ```
  *
- * @category Web APIs
+ * @category URL
  */
 declare interface URLPattern {
   /**
@@ -7085,7 +7085,7 @@ declare interface URLPattern {
  * console.log(pattern.test("https://blog.example.com/article/123")); // true
  * ```
  *
- * @category Web APIs
+ * @category URL
  */
 declare var URLPattern: {
   readonly prototype: URLPattern;
@@ -7099,7 +7099,7 @@ declare var URLPattern: {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface DOMException extends Error {
   readonly name: string;
   readonly message: string;
@@ -7131,7 +7131,7 @@ declare interface DOMException extends Error {
   readonly DATA_CLONE_ERR: 25;
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare var DOMException: {
   readonly prototype: DOMException;
   new (message?: string, name?: string): DOMException;
@@ -7162,7 +7162,7 @@ declare var DOMException: {
   readonly DATA_CLONE_ERR: 25;
 };
 
-/** @category DOM Events */
+/** @category Events */
 declare interface EventInit {
   bubbles?: boolean;
   cancelable?: boolean;
@@ -7171,7 +7171,7 @@ declare interface EventInit {
 
 /** An event which takes place in the DOM.
  *
- * @category DOM Events
+ * @category Events
  */
 declare interface Event {
   /** Returns true or false depending on how event was initialized. True if
@@ -7232,7 +7232,7 @@ declare interface Event {
 
 /** An event which takes place in the DOM.
  *
- * @category DOM Events
+ * @category Events
  */
 declare var Event: {
   readonly prototype: Event;
@@ -7247,7 +7247,7 @@ declare var Event: {
  * EventTarget is a DOM interface implemented by objects that can receive events
  * and may have listeners for them.
  *
- * @category DOM Events
+ * @category Events
  */
 declare interface EventTarget {
   /** Appends an event listener for events whose type attribute value is type.
@@ -7295,41 +7295,41 @@ declare interface EventTarget {
  * EventTarget is a DOM interface implemented by objects that can receive events
  * and may have listeners for them.
  *
- * @category DOM Events
+ * @category Events
  */
 declare var EventTarget: {
   readonly prototype: EventTarget;
   new (): EventTarget;
 };
 
-/** @category DOM Events */
+/** @category Events */
 declare interface EventListener {
   (evt: Event): void | Promise<void>;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare interface EventListenerObject {
   handleEvent(evt: Event): void | Promise<void>;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare type EventListenerOrEventListenerObject =
   | EventListener
   | EventListenerObject;
 
-/** @category DOM Events */
+/** @category Events */
 declare interface AddEventListenerOptions extends EventListenerOptions {
   once?: boolean;
   passive?: boolean;
   signal?: AbortSignal;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare interface EventListenerOptions {
   capture?: boolean;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare interface ProgressEventInit extends EventInit {
   lengthComputable?: boolean;
   loaded?: number;
@@ -7340,7 +7340,7 @@ declare interface ProgressEventInit extends EventInit {
  * (for an XMLHttpRequest, or the loading of the underlying resource of an
  * <img>, <audio>, <video>, <style> or <link>).
  *
- * @category DOM Events
+ * @category Events
  */
 declare interface ProgressEvent<T extends EventTarget = EventTarget>
   extends Event {
@@ -7354,7 +7354,7 @@ declare interface ProgressEvent<T extends EventTarget = EventTarget>
  * (for an XMLHttpRequest, or the loading of the underlying resource of an
  * <img>, <audio>, <video>, <style> or <link>).
  *
- * @category DOM Events
+ * @category Events
  */
 declare var ProgressEvent: {
   readonly prototype: ProgressEvent;
@@ -7367,7 +7367,7 @@ declare var ProgressEvent: {
  * console.log(atob("aGVsbG8gd29ybGQ=")); // outputs 'hello world'
  * ```
  *
- * @category Encoding API
+ * @category Encoding
  */
 declare function atob(s: string): string;
 
@@ -7377,22 +7377,22 @@ declare function atob(s: string): string;
  * console.log(btoa("hello world"));  // outputs "aGVsbG8gd29ybGQ="
  * ```
  *
- * @category Encoding API
+ * @category Encoding
  */
 declare function btoa(s: string): string;
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextDecoderOptions {
   fatal?: boolean;
   ignoreBOM?: boolean;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextDecodeOptions {
   stream?: boolean;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextDecoder {
   /** Returns encoding's name, lowercased. */
   readonly encoding: string;
@@ -7405,19 +7405,19 @@ declare interface TextDecoder {
   decode(input?: BufferSource, options?: TextDecodeOptions): string;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare var TextDecoder: {
   readonly prototype: TextDecoder;
   new (label?: string, options?: TextDecoderOptions): TextDecoder;
 };
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextEncoderEncodeIntoResult {
   read: number;
   written: number;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextEncoder {
   /** Returns "utf-8". */
   readonly encoding: "utf-8";
@@ -7426,13 +7426,13 @@ declare interface TextEncoder {
   encodeInto(input: string, dest: Uint8Array): TextEncoderEncodeIntoResult;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare var TextEncoder: {
   readonly prototype: TextEncoder;
   new (): TextEncoder;
 };
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextDecoderStream {
   /** Returns encoding's name, lowercased. */
   readonly encoding: string;
@@ -7445,13 +7445,13 @@ declare interface TextDecoderStream {
   readonly [Symbol.toStringTag]: string;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare var TextDecoderStream: {
   readonly prototype: TextDecoderStream;
   new (label?: string, options?: TextDecoderOptions): TextDecoderStream;
 };
 
-/** @category Encoding API */
+/** @category Encoding */
 declare interface TextEncoderStream {
   /** Returns "utf-8". */
   readonly encoding: "utf-8";
@@ -7460,7 +7460,7 @@ declare interface TextEncoderStream {
   readonly [Symbol.toStringTag]: string;
 }
 
-/** @category Encoding API */
+/** @category Encoding */
 declare var TextEncoderStream: {
   readonly prototype: TextEncoderStream;
   new (): TextEncoderStream;
@@ -7469,7 +7469,7 @@ declare var TextEncoderStream: {
 /** A controller object that allows you to abort one or more DOM requests as and
  * when desired.
  *
- * @category Web APIs
+ * @category Platform
  */
 declare interface AbortController {
   /** Returns the AbortSignal object associated with this object. */
@@ -7482,14 +7482,14 @@ declare interface AbortController {
 /** A controller object that allows you to abort one or more DOM requests as and
  * when desired.
  *
- * @category Web APIs
+ * @category Platform
  */
 declare var AbortController: {
   readonly prototype: AbortController;
   new (): AbortController;
 };
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface AbortSignalEventMap {
   abort: Event;
 }
@@ -7497,7 +7497,7 @@ declare interface AbortSignalEventMap {
 /** A signal object that allows you to communicate with a DOM request (such as a
  * Fetch) and abort it if required via an AbortController object.
  *
- * @category Web APIs
+ * @category Platform
  */
 declare interface AbortSignal extends EventTarget {
   /** Returns true if this AbortSignal's AbortController has signaled to abort,
@@ -7531,7 +7531,7 @@ declare interface AbortSignal extends EventTarget {
   throwIfAborted(): void;
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare var AbortSignal: {
   readonly prototype: AbortSignal;
   new (): never;
@@ -7540,7 +7540,7 @@ declare var AbortSignal: {
   timeout(milliseconds: number): AbortSignal;
 };
 
-/** @category Web File API */
+/** @category File */
 declare interface FileReaderEventMap {
   "abort": ProgressEvent<FileReader>;
   "error": ProgressEvent<FileReader>;
@@ -7554,7 +7554,7 @@ declare interface FileReaderEventMap {
  * buffers) stored on the user's computer, using File or Blob objects to specify
  * the file or data to read.
  *
- * @category Web File API
+ * @category File
  */
 declare interface FileReader extends EventTarget {
   readonly error: DOMException | null;
@@ -7598,7 +7598,7 @@ declare interface FileReader extends EventTarget {
   ): void;
 }
 
-/** @category Web File API */
+/** @category File */
 declare var FileReader: {
   readonly prototype: FileReader;
   new (): FileReader;
@@ -7607,10 +7607,10 @@ declare var FileReader: {
   readonly LOADING: number;
 };
 
-/** @category Web File API */
+/** @category File */
 declare type BlobPart = BufferSource | Blob | string;
 
-/** @category Web File API */
+/** @category File */
 declare interface BlobPropertyBag {
   type?: string;
   endings?: "transparent" | "native";
@@ -7621,7 +7621,7 @@ declare interface BlobPropertyBag {
  * Blob, inheriting blob functionality and expanding it to support files on the
  * user's system.
  *
- * @category Web File API
+ * @category File
  */
 declare interface Blob {
   readonly size: number;
@@ -7637,14 +7637,14 @@ declare interface Blob {
  * Blob, inheriting blob functionality and expanding it to support files on the
  * user's system.
  *
- * @category Web File API
+ * @category File
  */
 declare var Blob: {
   readonly prototype: Blob;
   new (blobParts?: BlobPart[], options?: BlobPropertyBag): Blob;
 };
 
-/** @category Web File API */
+/** @category File */
 declare interface FilePropertyBag extends BlobPropertyBag {
   lastModified?: number;
 }
@@ -7652,7 +7652,7 @@ declare interface FilePropertyBag extends BlobPropertyBag {
 /** Provides information about files and allows JavaScript in a web page to
  * access their content.
  *
- * @category Web File API
+ * @category File
  */
 declare interface File extends Blob {
   readonly lastModified: number;
@@ -7662,31 +7662,31 @@ declare interface File extends Blob {
 /** Provides information about files and allows JavaScript in a web page to
  * access their content.
  *
- * @category Web File API
+ * @category File
  */
 declare var File: {
   readonly prototype: File;
   new (fileBits: BlobPart[], fileName: string, options?: FilePropertyBag): File;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamDefaultReadDoneResult {
   done: true;
   value?: undefined;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamDefaultReadValueResult<T> {
   done: false;
   value: T;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare type ReadableStreamDefaultReadResult<T> =
   | ReadableStreamDefaultReadValueResult<T>
   | ReadableStreamDefaultReadDoneResult;
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamDefaultReader<R = any> {
   readonly closed: Promise<void>;
   cancel(reason?: any): Promise<void>;
@@ -7694,35 +7694,35 @@ declare interface ReadableStreamDefaultReader<R = any> {
   releaseLock(): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ReadableStreamDefaultReader: {
   readonly prototype: ReadableStreamDefaultReader;
   new <R>(stream: ReadableStream<R>): ReadableStreamDefaultReader<R>;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamBYOBReadDoneResult<V extends ArrayBufferView> {
   done: true;
   value?: V;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamBYOBReadValueResult<V extends ArrayBufferView> {
   done: false;
   value: V;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare type ReadableStreamBYOBReadResult<V extends ArrayBufferView> =
   | ReadableStreamBYOBReadDoneResult<V>
   | ReadableStreamBYOBReadValueResult<V>;
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamBYOBReaderReadOptions {
   min?: number;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamBYOBReader {
   readonly closed: Promise<void>;
   cancel(reason?: any): Promise<void>;
@@ -7733,31 +7733,31 @@ declare interface ReadableStreamBYOBReader {
   releaseLock(): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ReadableStreamBYOBReader: {
   readonly prototype: ReadableStreamBYOBReader;
   new (stream: ReadableStream<Uint8Array>): ReadableStreamBYOBReader;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamBYOBRequest {
   readonly view: ArrayBufferView | null;
   respond(bytesWritten: number): void;
   respondWithNewView(view: ArrayBufferView): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ReadableStreamBYOBRequest: {
   readonly prototype: ReadableStreamBYOBRequest;
   new (): never;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableByteStreamControllerCallback {
   (controller: ReadableByteStreamController): void | PromiseLike<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface UnderlyingByteSource {
   autoAllocateChunkSize?: number;
   cancel?: ReadableStreamErrorCallback;
@@ -7766,7 +7766,7 @@ declare interface UnderlyingByteSource {
   type: "bytes";
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface UnderlyingSink<W = any> {
   abort?: WritableStreamErrorCallback;
   close?: WritableStreamDefaultControllerCloseCallback;
@@ -7775,7 +7775,7 @@ declare interface UnderlyingSink<W = any> {
   write?: WritableStreamDefaultControllerWriteCallback<W>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface UnderlyingSource<R = any> {
   cancel?: ReadableStreamErrorCallback;
   pull?: ReadableStreamDefaultControllerCallback<R>;
@@ -7783,17 +7783,17 @@ declare interface UnderlyingSource<R = any> {
   type?: undefined;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamErrorCallback {
   (reason: any): void | PromiseLike<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamDefaultControllerCallback<R> {
   (controller: ReadableStreamDefaultController<R>): void | PromiseLike<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableStreamDefaultController<R = any> {
   readonly desiredSize: number | null;
   close(): void;
@@ -7801,13 +7801,13 @@ declare interface ReadableStreamDefaultController<R = any> {
   error(error?: any): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ReadableStreamDefaultController: {
   readonly prototype: ReadableStreamDefaultController;
   new (): never;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ReadableByteStreamController {
   readonly byobRequest: ReadableStreamBYOBRequest | null;
   readonly desiredSize: number | null;
@@ -7816,13 +7816,13 @@ declare interface ReadableByteStreamController {
   error(error?: any): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ReadableByteStreamController: {
   readonly prototype: ReadableByteStreamController;
   new (): never;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface PipeOptions {
   preventAbort?: boolean;
   preventCancel?: boolean;
@@ -7830,12 +7830,12 @@ declare interface PipeOptions {
   signal?: AbortSignal;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface QueuingStrategySizeCallback<T = any> {
   (chunk: T): number;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface QueuingStrategy<T = any> {
   highWaterMark?: number;
   size?: QueuingStrategySizeCallback<T>;
@@ -7844,27 +7844,27 @@ declare interface QueuingStrategy<T = any> {
 /** This Streams API interface provides a built-in byte length queuing strategy
  * that can be used when constructing streams.
  *
- * @category Streams API
+ * @category Streams
  */
 declare interface CountQueuingStrategy extends QueuingStrategy {
   highWaterMark: number;
   size(chunk: any): 1;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var CountQueuingStrategy: {
   readonly prototype: CountQueuingStrategy;
   new (options: { highWaterMark: number }): CountQueuingStrategy;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface ByteLengthQueuingStrategy
   extends QueuingStrategy<ArrayBufferView> {
   highWaterMark: number;
   size(chunk: ArrayBufferView): number;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ByteLengthQueuingStrategy: {
   readonly prototype: ByteLengthQueuingStrategy;
   new (options: { highWaterMark: number }): ByteLengthQueuingStrategy;
@@ -7874,7 +7874,7 @@ declare var ByteLengthQueuingStrategy: {
  * Fetch API offers a concrete instance of a ReadableStream through the body
  * property of a Response object.
  *
- * @category Streams API
+ * @category Streams
  */
 declare interface ReadableStream<R = any> {
   readonly locked: boolean;
@@ -7895,7 +7895,7 @@ declare interface ReadableStream<R = any> {
   }): AsyncIterableIterator<R>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var ReadableStream: {
   readonly prototype: ReadableStream;
   new (
@@ -7911,17 +7911,17 @@ declare var ReadableStream: {
   ): ReadableStream<R>;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface WritableStreamDefaultControllerCloseCallback {
   (): void | PromiseLike<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface WritableStreamDefaultControllerStartCallback {
   (controller: WritableStreamDefaultController): void | PromiseLike<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface WritableStreamDefaultControllerWriteCallback<W> {
   (chunk: W, controller: WritableStreamDefaultController):
     | void
@@ -7930,7 +7930,7 @@ declare interface WritableStreamDefaultControllerWriteCallback<W> {
     >;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface WritableStreamErrorCallback {
   (reason: any): void | PromiseLike<void>;
 }
@@ -7939,7 +7939,7 @@ declare interface WritableStreamErrorCallback {
  * streaming data to a destination, known as a sink. This object comes with
  * built-in backpressure and queuing.
  *
- * @category Streams API
+ * @category Streams
  */
 declare interface WritableStream<W = any> {
   readonly locked: boolean;
@@ -7948,7 +7948,7 @@ declare interface WritableStream<W = any> {
   getWriter(): WritableStreamDefaultWriter<W>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var WritableStream: {
   readonly prototype: WritableStream;
   new <W = any>(
@@ -7962,14 +7962,14 @@ declare var WritableStream: {
  * sink is given a corresponding WritableStreamDefaultController instance to
  * manipulate.
  *
- * @category Streams API
+ * @category Streams
  */
 declare interface WritableStreamDefaultController {
   signal: AbortSignal;
   error(error?: any): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var WritableStreamDefaultController: {
   readonly prototype: WritableStreamDefaultController;
   new (): never;
@@ -7980,7 +7980,7 @@ declare var WritableStreamDefaultController: {
  * WritableStream ensuring that no other streams can write to the underlying
  * sink.
  *
- * @category Streams API
+ * @category Streams
  */
 declare interface WritableStreamDefaultWriter<W = any> {
   readonly closed: Promise<void>;
@@ -7992,19 +7992,19 @@ declare interface WritableStreamDefaultWriter<W = any> {
   write(chunk: W): Promise<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var WritableStreamDefaultWriter: {
   readonly prototype: WritableStreamDefaultWriter;
   new <W>(stream: WritableStream<W>): WritableStreamDefaultWriter<W>;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface TransformStream<I = any, O = any> {
   readonly readable: ReadableStream<O>;
   readonly writable: WritableStream<I>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var TransformStream: {
   readonly prototype: TransformStream;
   new <I = any, O = any>(
@@ -8014,7 +8014,7 @@ declare var TransformStream: {
   ): TransformStream<I, O>;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface TransformStreamDefaultController<O = any> {
   readonly desiredSize: number | null;
   enqueue(chunk: O): void;
@@ -8022,13 +8022,13 @@ declare interface TransformStreamDefaultController<O = any> {
   terminate(): void;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare var TransformStreamDefaultController: {
   readonly prototype: TransformStreamDefaultController;
   new (): never;
 };
 
-/** @category Streams API */
+/** @category Streams */
 declare interface Transformer<I = any, O = any> {
   flush?: TransformStreamDefaultControllerCallback<O>;
   readableType?: undefined;
@@ -8038,12 +8038,12 @@ declare interface Transformer<I = any, O = any> {
   writableType?: undefined;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface TransformStreamDefaultControllerCallback<O> {
   (controller: TransformStreamDefaultController<O>): void | PromiseLike<void>;
 }
 
-/** @category Streams API */
+/** @category Streams */
 declare interface TransformStreamDefaultControllerTransformCallback<I, O> {
   (
     chunk: I,
@@ -8051,14 +8051,14 @@ declare interface TransformStreamDefaultControllerTransformCallback<I, O> {
   ): void | PromiseLike<void>;
 }
 
-/** @category DOM APIs */
+/** @category Events */
 declare interface MessageEventInit<T = any> extends EventInit {
   data?: T;
   origin?: string;
   lastEventId?: string;
 }
 
-/** @category DOM APIs */
+/** @category Events */
 declare interface MessageEvent<T = any> extends Event {
   /**
    * Returns the data of the message.
@@ -8079,13 +8079,13 @@ declare interface MessageEvent<T = any> extends Event {
   readonly ports: ReadonlyArray<MessagePort>;
 }
 
-/** @category DOM APIs */
+/** @category Events */
 declare var MessageEvent: {
   readonly prototype: MessageEvent;
   new <T>(type: string, eventInitDict?: MessageEventInit<T>): MessageEvent<T>;
 };
 
-/** @category DOM APIs */
+/** @category Events */
 declare type Transferable = ArrayBuffer | MessagePort;
 
 /**
@@ -8093,11 +8093,11 @@ declare type Transferable = ArrayBuffer | MessagePort;
  * new code.
  *
  * @deprecated use `StructuredSerializeOptions` instead.
- * @category DOM APIs
+ * @category Events
  */
 declare type PostMessageOptions = StructuredSerializeOptions;
 
-/** @category DOM APIs */
+/** @category Platform */
 declare interface StructuredSerializeOptions {
   transfer?: Transferable[];
 }
@@ -8106,7 +8106,7 @@ declare interface StructuredSerializeOptions {
  * create a new message channel and send data through it via its two MessagePort
  * properties.
  *
- * @category DOM APIs
+ * @category Messaging
  */
 declare interface MessageChannel {
   readonly port1: MessagePort;
@@ -8117,14 +8117,14 @@ declare interface MessageChannel {
  * create a new message channel and send data through it via its two MessagePort
  * properties.
  *
- * @category DOM APIs
+ * @category Messaging
  */
 declare var MessageChannel: {
   readonly prototype: MessageChannel;
   new (): MessageChannel;
 };
 
-/** @category DOM APIs */
+/** @category Messaging */
 declare interface MessagePortEventMap {
   "message": MessageEvent;
   "messageerror": MessageEvent;
@@ -8134,7 +8134,7 @@ declare interface MessagePortEventMap {
  * two ports of a MessageChannel, allowing messages to be sent from one port and
  * listening out for them arriving at the other.
  *
- * @category DOM APIs
+ * @category Messaging
  */
 declare interface MessagePort extends EventTarget {
   onmessage: ((this: MessagePort, ev: MessageEvent) => any) | null;
@@ -8184,7 +8184,7 @@ declare interface MessagePort extends EventTarget {
  * two ports of a MessageChannel, allowing messages to be sent from one port and
  * listening out for them arriving at the other.
  *
- * @category DOM APIs
+ * @category Messaging
  */
 declare var MessagePort: {
   readonly prototype: MessagePort;
@@ -8216,7 +8216,7 @@ declare var MessagePort: {
  * console.log(shallowCopy.x, object.x); // 1 1
  * ```
  *
- * @category DOM APIs
+ * @category Platform
  */
 declare function structuredClone<T = any>(
   value: T,
@@ -8233,7 +8233,7 @@ declare function structuredClone<T = any>(
  *   .pipeTo(Deno.stdout.writable);
  * ```
  *
- * @category Compression Streams API
+ * @category Streams
  */
 declare interface CompressionStream {
   readonly readable: ReadableStream<Uint8Array>;
@@ -8250,7 +8250,7 @@ declare interface CompressionStream {
  *   .pipeTo(Deno.stdout.writable);
  * ```
  *
- * @category Compression Streams API
+ * @category Streams
  */
 declare var CompressionStream: {
   readonly prototype: CompressionStream;
@@ -8277,7 +8277,7 @@ declare var CompressionStream: {
  *   .pipeTo(output.writable);
  * ```
  *
- * @category Compression Streams API
+ * @category Streams
  */
 declare interface DecompressionStream {
   readonly readable: ReadableStream<Uint8Array>;
@@ -8297,7 +8297,7 @@ declare interface DecompressionStream {
  *   .pipeTo(output.writable);
  * ```
  *
- * @category Compression Streams API
+ * @category Streams
  */
 declare var DecompressionStream: {
   readonly prototype: DecompressionStream;
@@ -8326,21 +8326,21 @@ declare var DecompressionStream: {
  * ```
  * In Deno, this error will terminate the process if not intercepted like above.
  *
- * @category Web APIs
+ * @category Platform
  */
 declare function reportError(
   error: any,
 ): void;
 
-/** @category Web APIs */
+/** @category Platform */
 declare type PredefinedColorSpace = "srgb" | "display-p3";
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface ImageDataSettings {
   readonly colorSpace?: PredefinedColorSpace;
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface ImageData {
   readonly colorSpace: PredefinedColorSpace;
   readonly data: Uint8ClampedArray;
@@ -8348,7 +8348,7 @@ declare interface ImageData {
   readonly width: number;
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare var ImageData: {
   prototype: ImageData;
   new (sw: number, sh: number, settings?: ImageDataSettings): ImageData;
@@ -8367,7 +8367,7 @@ declare var ImageData: {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category DOM APIs */
+/** @category Platform */
 declare interface DomIterable<K, V> {
   keys(): IterableIterator<K>;
   values(): IterableIterator<V>;
@@ -8379,7 +8379,7 @@ declare interface DomIterable<K, V> {
   ): void;
 }
 
-/** @category Fetch API */
+/** @category Fetch */
 declare type FormDataEntryValue = File | string;
 
 /** Provides a way to easily construct a set of key/value pairs representing
@@ -8387,7 +8387,7 @@ declare type FormDataEntryValue = File | string;
  * XMLHttpRequest.send() method. It uses the same format a form would use if the
  * encoding type were set to "multipart/form-data".
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare interface FormData extends DomIterable<string, FormDataEntryValue> {
   append(name: string, value: string | Blob, fileName?: string): void;
@@ -8398,13 +8398,13 @@ declare interface FormData extends DomIterable<string, FormDataEntryValue> {
   set(name: string, value: string | Blob, fileName?: string): void;
 }
 
-/** @category Fetch API */
+/** @category Fetch */
 declare var FormData: {
   readonly prototype: FormData;
   new (): FormData;
 };
 
-/** @category Fetch API */
+/** @category Fetch */
 declare interface Body {
   /** A simple getter used to expose a `ReadableStream` of the body contents. */
   readonly body: ReadableStream<Uint8Array> | null;
@@ -8434,7 +8434,7 @@ declare interface Body {
   text(): Promise<string>;
 }
 
-/** @category Fetch API */
+/** @category Fetch */
 declare type HeadersInit = Iterable<string[]> | Record<string, string>;
 
 /** This Fetch API interface allows you to perform various actions on HTTP
@@ -8445,7 +8445,7 @@ declare type HeadersInit = Iterable<string[]> | Record<string, string>;
  * methods of this interface, header names are matched by case-insensitive byte
  * sequence.
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare interface Headers extends DomIterable<string, string> {
   /** Appends a new value onto an existing header inside a `Headers` object, or
@@ -8480,16 +8480,16 @@ declare interface Headers extends DomIterable<string, string> {
  * methods of this interface, header names are matched by case-insensitive byte
  * sequence.
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare var Headers: {
   readonly prototype: Headers;
   new (init?: HeadersInit): Headers;
 };
 
-/** @category Fetch API */
+/** @category Fetch */
 declare type RequestInfo = Request | string;
-/** @category Fetch API */
+/** @category Fetch */
 declare type RequestCache =
   | "default"
   | "force-cache"
@@ -8497,13 +8497,13 @@ declare type RequestCache =
   | "no-store"
   | "only-if-cached"
   | "reload";
-/** @category Fetch API */
+/** @category Fetch */
 declare type RequestCredentials = "include" | "omit" | "same-origin";
-/** @category Fetch API */
+/** @category Fetch */
 declare type RequestMode = "cors" | "navigate" | "no-cors" | "same-origin";
-/** @category Fetch API */
+/** @category Fetch */
 declare type RequestRedirect = "error" | "follow" | "manual";
-/** @category Fetch API */
+/** @category Fetch */
 declare type ReferrerPolicy =
   | ""
   | "no-referrer"
@@ -8514,7 +8514,7 @@ declare type ReferrerPolicy =
   | "strict-origin"
   | "strict-origin-when-cross-origin"
   | "unsafe-url";
-/** @category Fetch API */
+/** @category Fetch */
 declare type BodyInit =
   | Blob
   | BufferSource
@@ -8522,7 +8522,7 @@ declare type BodyInit =
   | URLSearchParams
   | ReadableStream<Uint8Array>
   | string;
-/** @category Fetch API */
+/** @category Fetch */
 declare type RequestDestination =
   | ""
   | "audio"
@@ -8543,7 +8543,7 @@ declare type RequestDestination =
   | "worker"
   | "xslt";
 
-/** @category Fetch API */
+/** @category Fetch */
 declare interface RequestInit {
   /**
    * A BodyInit object or null to set request's body.
@@ -8610,7 +8610,7 @@ declare interface RequestInit {
 
 /** This Fetch API interface represents a resource request.
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare interface Request extends Body {
   /**
@@ -8700,21 +8700,21 @@ declare interface Request extends Body {
 
 /** This Fetch API interface represents a resource request.
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare var Request: {
   readonly prototype: Request;
   new (input: RequestInfo | URL, init?: RequestInit): Request;
 };
 
-/** @category Fetch API */
+/** @category Fetch */
 declare interface ResponseInit {
   headers?: HeadersInit;
   status?: number;
   statusText?: string;
 }
 
-/** @category Fetch API */
+/** @category Fetch */
 declare type ResponseType =
   | "basic"
   | "cors"
@@ -8725,7 +8725,7 @@ declare type ResponseType =
 
 /** This Fetch API interface represents the response to a request.
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare interface Response extends Body {
   readonly headers: Headers;
@@ -8740,7 +8740,7 @@ declare interface Response extends Body {
 
 /** This Fetch API interface represents the response to a request.
  *
- * @category Fetch API
+ * @category Fetch
  */
 declare var Response: {
   readonly prototype: Response;
@@ -8761,7 +8761,7 @@ declare var Response: {
  * ```
  *
  * @tags allow-net, allow-read
- * @category Fetch API
+ * @category Fetch
  */
 declare function fetch(
   input: URL | Request | string,
@@ -8769,14 +8769,14 @@ declare function fetch(
 ): Promise<Response>;
 
 /**
- * @category Fetch API
+ * @category Fetch
  */
 declare interface EventSourceInit {
   withCredentials?: boolean;
 }
 
 /**
- * @category Fetch API
+ * @category Fetch
  */
 declare interface EventSourceEventMap {
   "error": Event;
@@ -8785,7 +8785,7 @@ declare interface EventSourceEventMap {
 }
 
 /**
- * @category Fetch API
+ * @category Fetch
  */
 declare interface EventSource extends EventTarget {
   onerror: ((this: EventSource, ev: Event) => any) | null;
@@ -8843,7 +8843,7 @@ declare interface EventSource extends EventTarget {
 }
 
 /**
- * @category Fetch API
+ * @category Fetch
  */
 declare var EventSource: {
   prototype: EventSource;
@@ -8861,7 +8861,7 @@ declare var EventSource: {
 /// <reference lib="esnext" />
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUObjectBase {
@@ -8869,7 +8869,7 @@ declare interface GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUObjectDescriptorBase {
@@ -8877,7 +8877,7 @@ declare interface GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUSupportedLimits {
@@ -8903,6 +8903,8 @@ declare class GPUSupportedLimits {
   maxVertexAttributes?: number;
   maxVertexBufferArrayStride?: number;
   maxInterStageShaderComponents?: number;
+  maxColorAttachments?: number;
+  maxColorAttachmentBytesPerSample?: number;
   maxComputeWorkgroupStorageSize?: number;
   maxComputeInvocationsPerWorkgroup?: number;
   maxComputeWorkgroupSizeX?: number;
@@ -8912,7 +8914,7 @@ declare class GPUSupportedLimits {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUSupportedFeatures {
@@ -8933,7 +8935,7 @@ declare class GPUSupportedFeatures {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUAdapterInfo {
@@ -8944,7 +8946,7 @@ declare class GPUAdapterInfo {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPU {
@@ -8955,7 +8957,7 @@ declare class GPU {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURequestAdapterOptions {
@@ -8964,13 +8966,13 @@ declare interface GPURequestAdapterOptions {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUPowerPreference = "low-power" | "high-performance";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUAdapter {
@@ -8979,11 +8981,11 @@ declare class GPUAdapter {
   readonly isFallbackAdapter: boolean;
 
   requestDevice(descriptor?: GPUDeviceDescriptor): Promise<GPUDevice>;
-  requestAdapterInfo(unmaskHints?: string[]): Promise<GPUAdapterInfo>;
+  requestAdapterInfo(): Promise<GPUAdapterInfo>;
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUDeviceDescriptor extends GPUObjectDescriptorBase {
@@ -8992,7 +8994,7 @@ declare interface GPUDeviceDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUFeatureName =
@@ -9005,6 +9007,9 @@ declare type GPUFeatureName =
   | "timestamp-query"
   | "indirect-first-instance"
   | "shader-f16"
+  | "rg11b10ufloat-renderable"
+  | "bgra8unorm-storage"
+  | "float32-filterable"
   // extended from spec
   | "mappable-primary-buffers"
   | "sampled-texture-binding-array"
@@ -9020,7 +9025,7 @@ declare type GPUFeatureName =
   | "vertex-attribute-64bit";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUDevice extends EventTarget implements GPUObjectBase {
@@ -9073,7 +9078,7 @@ declare class GPUDevice extends EventTarget implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUBuffer implements GPUObjectBase {
@@ -9095,13 +9100,13 @@ declare class GPUBuffer implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUBufferMapState = "unmapped" | "pending" | "mapped";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBufferDescriptor extends GPUObjectDescriptorBase {
@@ -9111,19 +9116,19 @@ declare interface GPUBufferDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUBufferUsageFlags = number;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUFlagsConstant = number;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUBufferUsage {
@@ -9140,13 +9145,13 @@ declare class GPUBufferUsage {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUMapModeFlags = number;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUMapMode {
@@ -9155,7 +9160,7 @@ declare class GPUMapMode {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUTexture implements GPUObjectBase {
@@ -9175,7 +9180,7 @@ declare class GPUTexture implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUTextureDescriptor extends GPUObjectDescriptorBase {
@@ -9189,19 +9194,19 @@ declare interface GPUTextureDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUTextureDimension = "1d" | "2d" | "3d";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUTextureUsageFlags = number;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUTextureUsage {
@@ -9213,7 +9218,7 @@ declare class GPUTextureUsage {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUTextureView implements GPUObjectBase {
@@ -9221,7 +9226,7 @@ declare class GPUTextureView implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUTextureViewDescriptor extends GPUObjectDescriptorBase {
@@ -9235,7 +9240,7 @@ declare interface GPUTextureViewDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUTextureViewDimension =
@@ -9247,13 +9252,13 @@ declare type GPUTextureViewDimension =
   | "3d";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUTextureAspect = "all" | "stencil-only" | "depth-only";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUTextureFormat =
@@ -9282,6 +9287,7 @@ declare type GPUTextureFormat =
   | "bgra8unorm"
   | "bgra8unorm-srgb"
   | "rgb9e5ufloat"
+  | "rgb10a2uint"
   | "rgb10a2unorm"
   | "rg11b10ufloat"
   | "rg32uint"
@@ -9353,7 +9359,7 @@ declare type GPUTextureFormat =
   | "astc-12x12-unorm-srgb";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUSampler implements GPUObjectBase {
@@ -9361,7 +9367,7 @@ declare class GPUSampler implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUSamplerDescriptor extends GPUObjectDescriptorBase {
@@ -9378,25 +9384,25 @@ declare interface GPUSamplerDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUAddressMode = "clamp-to-edge" | "repeat" | "mirror-repeat";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUFilterMode = "nearest" | "linear";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUMipmapFilterMode = "nearest" | "linear";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUCompareFunction =
@@ -9410,7 +9416,7 @@ declare type GPUCompareFunction =
   | "always";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUBindGroupLayout implements GPUObjectBase {
@@ -9418,7 +9424,7 @@ declare class GPUBindGroupLayout implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBindGroupLayoutDescriptor extends GPUObjectDescriptorBase {
@@ -9426,7 +9432,7 @@ declare interface GPUBindGroupLayoutDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBindGroupLayoutEntry {
@@ -9440,13 +9446,13 @@ declare interface GPUBindGroupLayoutEntry {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUShaderStageFlags = number;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUShaderStage {
@@ -9456,7 +9462,7 @@ declare class GPUShaderStage {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBufferBindingLayout {
@@ -9466,13 +9472,13 @@ declare interface GPUBufferBindingLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUBufferBindingType = "uniform" | "storage" | "read-only-storage";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUSamplerBindingLayout {
@@ -9480,7 +9486,7 @@ declare interface GPUSamplerBindingLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUSamplerBindingType =
@@ -9489,7 +9495,7 @@ declare type GPUSamplerBindingType =
   | "comparison";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUTextureBindingLayout {
@@ -9499,7 +9505,7 @@ declare interface GPUTextureBindingLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUTextureSampleType =
@@ -9510,13 +9516,16 @@ declare type GPUTextureSampleType =
   | "uint";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
-declare type GPUStorageTextureAccess = "write-only";
+declare type GPUStorageTextureAccess =
+  | "write-only"
+  | "read-only"
+  | "read-write";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUStorageTextureBindingLayout {
@@ -9526,7 +9535,7 @@ declare interface GPUStorageTextureBindingLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUBindGroup implements GPUObjectBase {
@@ -9534,7 +9543,7 @@ declare class GPUBindGroup implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBindGroupDescriptor extends GPUObjectDescriptorBase {
@@ -9543,7 +9552,7 @@ declare interface GPUBindGroupDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUBindingResource =
@@ -9552,7 +9561,7 @@ declare type GPUBindingResource =
   | GPUBufferBinding;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBindGroupEntry {
@@ -9561,7 +9570,7 @@ declare interface GPUBindGroupEntry {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBufferBinding {
@@ -9571,7 +9580,7 @@ declare interface GPUBufferBinding {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUPipelineLayout implements GPUObjectBase {
@@ -9579,7 +9588,7 @@ declare class GPUPipelineLayout implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUPipelineLayoutDescriptor extends GPUObjectDescriptorBase {
@@ -9587,13 +9596,13 @@ declare interface GPUPipelineLayoutDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUCompilationMessageType = "error" | "warning" | "info";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUCompilationMessage {
@@ -9604,7 +9613,7 @@ declare interface GPUCompilationMessage {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUCompilationInfo {
@@ -9612,7 +9621,31 @@ declare interface GPUCompilationInfo {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
+ * @tags unstable
+ */
+declare class GPUPipelineError extends DOMException {
+  constructor(message?: string, options?: GPUPipelineErrorInit);
+
+  readonly reason: GPUPipelineErrorReason;
+}
+
+/**
+ * @category GPU
+ * @tags unstable
+ */
+declare interface GPUPipelineErrorInit {
+  reason: GPUPipelineErrorReason;
+}
+
+/**
+ * @category GPU
+ * @tags unstable
+ */
+declare type GPUPipelineErrorReason = "validation" | "internal";
+
+/**
+ * @category GPU
  * @tags unstable
  */
 declare class GPUShaderModule implements GPUObjectBase {
@@ -9620,7 +9653,7 @@ declare class GPUShaderModule implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUShaderModuleDescriptor extends GPUObjectDescriptorBase {
@@ -9629,13 +9662,13 @@ declare interface GPUShaderModuleDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUAutoLayoutMode = "auto";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUPipelineDescriptorBase extends GPUObjectDescriptorBase {
@@ -9643,7 +9676,7 @@ declare interface GPUPipelineDescriptorBase extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUPipelineBase {
@@ -9651,16 +9684,17 @@ declare interface GPUPipelineBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUProgrammableStage {
   module: GPUShaderModule;
-  entryPoint: string;
+  entryPoint?: string;
+  constants?: Record<string, number>;
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUComputePipeline implements GPUObjectBase, GPUPipelineBase {
@@ -9670,7 +9704,7 @@ declare class GPUComputePipeline implements GPUObjectBase, GPUPipelineBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUComputePipelineDescriptor
@@ -9679,7 +9713,7 @@ declare interface GPUComputePipelineDescriptor
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPURenderPipeline implements GPUObjectBase, GPUPipelineBase {
@@ -9689,7 +9723,7 @@ declare class GPURenderPipeline implements GPUObjectBase, GPUPipelineBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderPipelineDescriptor
@@ -9702,7 +9736,7 @@ declare interface GPURenderPipelineDescriptor
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUPrimitiveState {
@@ -9714,7 +9748,7 @@ declare interface GPUPrimitiveState {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUPrimitiveTopology =
@@ -9725,19 +9759,19 @@ declare type GPUPrimitiveTopology =
   | "triangle-strip";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUFrontFace = "ccw" | "cw";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUCullMode = "none" | "front" | "back";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUMultisampleState {
@@ -9747,7 +9781,7 @@ declare interface GPUMultisampleState {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUFragmentState extends GPUProgrammableStage {
@@ -9755,7 +9789,7 @@ declare interface GPUFragmentState extends GPUProgrammableStage {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUColorTargetState {
@@ -9766,7 +9800,7 @@ declare interface GPUColorTargetState {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBlendState {
@@ -9775,13 +9809,13 @@ declare interface GPUBlendState {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUColorWriteFlags = number;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUColorWrite {
@@ -9793,7 +9827,7 @@ declare class GPUColorWrite {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUBlendComponent {
@@ -9803,7 +9837,7 @@ declare interface GPUBlendComponent {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUBlendFactor =
@@ -9822,7 +9856,7 @@ declare type GPUBlendFactor =
   | "one-minus-constant";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUBlendOperation =
@@ -9833,7 +9867,7 @@ declare type GPUBlendOperation =
   | "max";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUDepthStencilState {
@@ -9854,7 +9888,7 @@ declare interface GPUDepthStencilState {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUStencilFaceState {
@@ -9865,7 +9899,7 @@ declare interface GPUStencilFaceState {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUStencilOperation =
@@ -9879,13 +9913,13 @@ declare type GPUStencilOperation =
   | "decrement-wrap";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUIndexFormat = "uint16" | "uint32";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUVertexFormat =
@@ -9918,16 +9952,17 @@ declare type GPUVertexFormat =
   | "sint32"
   | "sint32x2"
   | "sint32x3"
-  | "sint32x4";
+  | "sint32x4"
+  | "unorm10-10-10-2";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUVertexStepMode = "vertex" | "instance";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUVertexState extends GPUProgrammableStage {
@@ -9935,7 +9970,7 @@ declare interface GPUVertexState extends GPUProgrammableStage {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUVertexBufferLayout {
@@ -9945,7 +9980,7 @@ declare interface GPUVertexBufferLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUVertexAttribute {
@@ -9956,7 +9991,7 @@ declare interface GPUVertexAttribute {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUImageDataLayout {
@@ -9966,7 +10001,7 @@ declare interface GPUImageDataLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUCommandBuffer implements GPUObjectBase {
@@ -9974,13 +10009,13 @@ declare class GPUCommandBuffer implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUCommandBufferDescriptor extends GPUObjectDescriptorBase {}
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUCommandEncoder implements GPUObjectBase {
@@ -10041,13 +10076,13 @@ declare class GPUCommandEncoder implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUCommandEncoderDescriptor extends GPUObjectDescriptorBase {}
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUImageCopyBuffer extends GPUImageDataLayout {
@@ -10055,7 +10090,7 @@ declare interface GPUImageCopyBuffer extends GPUImageDataLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUImageCopyTexture {
@@ -10066,7 +10101,7 @@ declare interface GPUImageCopyTexture {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUProgrammablePassEncoder {
@@ -10090,7 +10125,7 @@ declare interface GPUProgrammablePassEncoder {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUComputePassEncoder
@@ -10122,7 +10157,7 @@ declare class GPUComputePassEncoder
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUComputePassTimestampWrites {
@@ -10132,7 +10167,7 @@ declare interface GPUComputePassTimestampWrites {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUComputePassDescriptor extends GPUObjectDescriptorBase {
@@ -10140,7 +10175,7 @@ declare interface GPUComputePassDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderEncoderBase {
@@ -10181,7 +10216,7 @@ declare interface GPURenderEncoderBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPURenderPassEncoder
@@ -10261,7 +10296,7 @@ declare class GPURenderPassEncoder
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderPassTimestampWrites {
@@ -10271,7 +10306,7 @@ declare interface GPURenderPassTimestampWrites {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderPassDescriptor extends GPUObjectDescriptorBase {
@@ -10282,7 +10317,7 @@ declare interface GPURenderPassDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderPassColorAttachment {
@@ -10295,7 +10330,7 @@ declare interface GPURenderPassColorAttachment {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderPassDepthStencilAttachment {
@@ -10313,19 +10348,19 @@ declare interface GPURenderPassDepthStencilAttachment {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPULoadOp = "load" | "clear";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUStoreOp = "store" | "discard";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPURenderBundle implements GPUObjectBase {
@@ -10333,13 +10368,13 @@ declare class GPURenderBundle implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderBundleDescriptor extends GPUObjectDescriptorBase {}
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPURenderBundleEncoder
@@ -10396,7 +10431,7 @@ declare class GPURenderBundleEncoder
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderPassLayout extends GPUObjectDescriptorBase {
@@ -10406,7 +10441,7 @@ declare interface GPURenderPassLayout extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPURenderBundleEncoderDescriptor extends GPURenderPassLayout {
@@ -10415,7 +10450,7 @@ declare interface GPURenderBundleEncoderDescriptor extends GPURenderPassLayout {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUQueue implements GPUObjectBase {
@@ -10442,7 +10477,7 @@ declare class GPUQueue implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUQuerySet implements GPUObjectBase {
@@ -10455,7 +10490,7 @@ declare class GPUQuerySet implements GPUObjectBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUQuerySetDescriptor extends GPUObjectDescriptorBase {
@@ -10464,19 +10499,19 @@ declare interface GPUQuerySetDescriptor extends GPUObjectDescriptorBase {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUQueryType = "occlusion" | "timestamp";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUDeviceLostReason = "destroyed";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUDeviceLostInfo {
@@ -10485,7 +10520,7 @@ declare interface GPUDeviceLostInfo {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUError {
@@ -10493,7 +10528,7 @@ declare class GPUError {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUOutOfMemoryError extends GPUError {
@@ -10501,7 +10536,7 @@ declare class GPUOutOfMemoryError extends GPUError {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare class GPUValidationError extends GPUError {
@@ -10509,13 +10544,42 @@ declare class GPUValidationError extends GPUError {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
-declare type GPUErrorFilter = "out-of-memory" | "validation";
+declare class GPUInternalError extends GPUError {
+  constructor(message: string);
+}
 
 /**
- * @category WebGPU
+ * @category GPU
+ * @tags unstable
+ */
+declare type GPUErrorFilter = "out-of-memory" | "validation" | "internal";
+
+/**
+ * @category GPU
+ * @tags unstable
+ */
+declare class GPUUncapturedErrorEvent extends EventTarget {
+  constructor(
+    type: string,
+    gpuUncapturedErrorEventInitDict: GPUUncapturedErrorEventInit,
+  );
+
+  readonly error: GPUError;
+}
+
+/**
+ * @category GPU
+ * @tags unstable
+ */
+declare interface GPUUncapturedErrorEventInit extends EventInit {
+  error: GPUError;
+}
+
+/**
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUColorDict {
@@ -10526,13 +10590,13 @@ declare interface GPUColorDict {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUColor = number[] | GPUColorDict;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUOrigin3DDict {
@@ -10542,13 +10606,13 @@ declare interface GPUOrigin3DDict {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUOrigin3D = number[] | GPUOrigin3DDict;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUExtent3DDict {
@@ -10558,19 +10622,19 @@ declare interface GPUExtent3DDict {
 }
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUExtent3D = number[] | GPUExtent3DDict;
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare type GPUCanvasAlphaMode = "opaque" | "premultiplied";
 
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUCanvasConfiguration {
@@ -10584,7 +10648,7 @@ declare interface GPUCanvasConfiguration {
   height: number;
 }
 /**
- * @category WebGPU
+ * @category GPU
  * @tags unstable
  */
 declare interface GPUCanvasContext {
@@ -10600,14 +10664,14 @@ declare interface GPUCanvasContext {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Web Sockets */
+/** @category WebSockets */
 declare interface CloseEventInit extends EventInit {
   code?: number;
   reason?: string;
   wasClean?: boolean;
 }
 
-/** @category Web Sockets */
+/** @category WebSockets */
 declare interface CloseEvent extends Event {
   /**
    * Returns the WebSocket connection close code provided by the server.
@@ -10623,13 +10687,13 @@ declare interface CloseEvent extends Event {
   readonly wasClean: boolean;
 }
 
-/** @category Web Sockets */
+/** @category WebSockets */
 declare var CloseEvent: {
   readonly prototype: CloseEvent;
   new (type: string, eventInitDict?: CloseEventInit): CloseEvent;
 };
 
-/** @category Web Sockets */
+/** @category WebSockets */
 declare interface WebSocketEventMap {
   close: CloseEvent;
   error: Event;
@@ -10645,7 +10709,7 @@ declare interface WebSocketEventMap {
  * `Deno.upgradeWebSocket()`.
  *
  * @tags allow-net
- * @category Web Sockets
+ * @category WebSockets
  */
 declare interface WebSocket extends EventTarget {
   /**
@@ -10714,7 +10778,7 @@ declare interface WebSocket extends EventTarget {
   ): void;
 }
 
-/** @category Web Sockets */
+/** @category WebSockets */
 declare var WebSocket: {
   readonly prototype: WebSocket;
   new (url: string | URL, protocols?: string | string[]): WebSocket;
@@ -10724,7 +10788,7 @@ declare var WebSocket: {
   readonly OPEN: number;
 };
 
-/** @category Web Sockets */
+/** @category WebSockets */
 declare type BinaryType = "arraybuffer" | "blob";
 
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
@@ -10738,7 +10802,7 @@ declare type BinaryType = "arraybuffer" | "blob";
  * session or local storage. It allows, for example, the addition, modification,
  * or deletion of stored data items.
  *
- * @category Web Storage API
+ * @category Storage
  */
 declare interface Storage {
   /**
@@ -10770,7 +10834,7 @@ declare interface Storage {
   [name: string]: any;
 }
 
-/** @category Web Storage API */
+/** @category Storage */
 declare var Storage: {
   readonly prototype: Storage;
   new (): never;
@@ -10783,22 +10847,22 @@ declare var Storage: {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Web APIs */
+/** @category Canvas */
 declare type ColorSpaceConversion = "default" | "none";
 
-/** @category Web APIs */
+/** @category Canvas */
 declare type ImageOrientation = "flipY" | "from-image" | "none";
 
-/** @category Web APIs */
+/** @category Canvas */
 declare type PremultiplyAlpha = "default" | "none" | "premultiply";
 
-/** @category Web APIs */
+/** @category Canvas */
 declare type ResizeQuality = "high" | "low" | "medium" | "pixelated";
 
-/** @category Web APIs */
+/** @category Canvas */
 declare type ImageBitmapSource = Blob | ImageData;
 
-/** @category Web APIs */
+/** @category Canvas */
 declare interface ImageBitmapOptions {
   colorSpaceConversion?: ColorSpaceConversion;
   imageOrientation?: ImageOrientation;
@@ -10808,12 +10872,12 @@ declare interface ImageBitmapOptions {
   resizeWidth?: number;
 }
 
-/** @category Web APIs */
+/** @category Canvas */
 declare function createImageBitmap(
   image: ImageBitmapSource,
   options?: ImageBitmapOptions,
 ): Promise<ImageBitmap>;
-/** @category Web APIs */
+/** @category Canvas */
 declare function createImageBitmap(
   image: ImageBitmapSource,
   sx: number,
@@ -10823,14 +10887,14 @@ declare function createImageBitmap(
   options?: ImageBitmapOptions,
 ): Promise<ImageBitmap>;
 
-/** @category Web APIs */
+/** @category Canvas */
 declare interface ImageBitmap {
   readonly height: number;
   readonly width: number;
   close(): void;
 }
 
-/** @category Web APIs */
+/** @category Canvas */
 declare var ImageBitmap: {
   prototype: ImageBitmap;
   new (): ImageBitmap;
@@ -10843,26 +10907,26 @@ declare var ImageBitmap: {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare var crypto: Crypto;
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface Algorithm {
   name: string;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface KeyAlgorithm {
   name: string;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare type AlgorithmIdentifier = string | Algorithm;
-/** @category Web Crypto API */
+/** @category Crypto */
 declare type HashAlgorithmIdentifier = AlgorithmIdentifier;
-/** @category Web Crypto API */
+/** @category Crypto */
 declare type KeyType = "private" | "public" | "secret";
-/** @category Web Crypto API */
+/** @category Crypto */
 declare type KeyUsage =
   | "decrypt"
   | "deriveBits"
@@ -10872,19 +10936,19 @@ declare type KeyUsage =
   | "unwrapKey"
   | "verify"
   | "wrapKey";
-/** @category Web Crypto API */
+/** @category Crypto */
 declare type KeyFormat = "jwk" | "pkcs8" | "raw" | "spki";
-/** @category Web Crypto API */
+/** @category Crypto */
 declare type NamedCurve = string;
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaOtherPrimesInfo {
   d?: string;
   r?: string;
   t?: string;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface JsonWebKey {
   alg?: string;
   crv?: string;
@@ -10906,129 +10970,129 @@ declare interface JsonWebKey {
   y?: string;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface AesCbcParams extends Algorithm {
   iv: BufferSource;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface AesGcmParams extends Algorithm {
   iv: BufferSource;
   additionalData?: BufferSource;
   tagLength?: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface AesCtrParams extends Algorithm {
   counter: BufferSource;
   length: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface HmacKeyGenParams extends Algorithm {
   hash: HashAlgorithmIdentifier;
   length?: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface EcKeyGenParams extends Algorithm {
   namedCurve: NamedCurve;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface EcKeyImportParams extends Algorithm {
   namedCurve: NamedCurve;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface EcdsaParams extends Algorithm {
   hash: HashAlgorithmIdentifier;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaHashedImportParams extends Algorithm {
   hash: HashAlgorithmIdentifier;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaHashedKeyGenParams extends RsaKeyGenParams {
   hash: HashAlgorithmIdentifier;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaKeyGenParams extends Algorithm {
   modulusLength: number;
   publicExponent: Uint8Array;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaPssParams extends Algorithm {
   saltLength: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaOaepParams extends Algorithm {
   label?: Uint8Array;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface HmacImportParams extends Algorithm {
   hash: HashAlgorithmIdentifier;
   length?: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface EcKeyAlgorithm extends KeyAlgorithm {
   namedCurve: NamedCurve;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface HmacKeyAlgorithm extends KeyAlgorithm {
   hash: KeyAlgorithm;
   length: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaHashedKeyAlgorithm extends RsaKeyAlgorithm {
   hash: KeyAlgorithm;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface RsaKeyAlgorithm extends KeyAlgorithm {
   modulusLength: number;
   publicExponent: Uint8Array;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface HkdfParams extends Algorithm {
   hash: HashAlgorithmIdentifier;
   info: BufferSource;
   salt: BufferSource;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface Pbkdf2Params extends Algorithm {
   hash: HashAlgorithmIdentifier;
   iterations: number;
   salt: BufferSource;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface AesDerivedKeyParams extends Algorithm {
   length: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface EcdhKeyDeriveParams extends Algorithm {
   public: CryptoKey;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface AesKeyGenParams extends Algorithm {
   length: number;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface AesKeyAlgorithm extends KeyAlgorithm {
   length: number;
 }
@@ -11036,7 +11100,7 @@ declare interface AesKeyAlgorithm extends KeyAlgorithm {
 /** The CryptoKey dictionary of the Web Crypto API represents a cryptographic
  * key.
  *
- * @category Web Crypto API
+ * @category Crypto
  */
 declare interface CryptoKey {
   readonly algorithm: KeyAlgorithm;
@@ -11045,7 +11109,7 @@ declare interface CryptoKey {
   readonly usages: KeyUsage[];
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare var CryptoKey: {
   readonly prototype: CryptoKey;
   new (): never;
@@ -11054,14 +11118,14 @@ declare var CryptoKey: {
 /** The CryptoKeyPair dictionary of the Web Crypto API represents a key pair for
  * an asymmetric cryptography algorithm, also known as a public-key algorithm.
  *
- * @category Web Crypto API
+ * @category Crypto
  */
 declare interface CryptoKeyPair {
   privateKey: CryptoKey;
   publicKey: CryptoKey;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare var CryptoKeyPair: {
   readonly prototype: CryptoKeyPair;
   new (): never;
@@ -11071,7 +11135,7 @@ declare var CryptoKeyPair: {
  * functions. It is accessed via the Crypto.subtle properties available in a
  * window context (via Window.crypto).
  *
- * @category Web Crypto API
+ * @category Crypto
  */
 declare interface SubtleCrypto {
   generateKey(
@@ -11205,13 +11269,13 @@ declare interface SubtleCrypto {
   ): Promise<CryptoKey>;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare var SubtleCrypto: {
   readonly prototype: SubtleCrypto;
   new (): never;
 };
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare interface Crypto {
   readonly subtle: SubtleCrypto;
   getRandomValues<
@@ -11231,7 +11295,7 @@ declare interface Crypto {
   randomUUID(): `${string}-${string}-${string}-${string}-${string}`;
 }
 
-/** @category Web Crypto API */
+/** @category Crypto */
 declare var Crypto: {
   readonly prototype: Crypto;
   new (): never;
@@ -11245,7 +11309,7 @@ declare var Crypto: {
 /// <reference lib="esnext" />
 
 /**
- * @category Broadcast Channel
+ * @category Messaging
  * @tags unstable
  */
 declare interface BroadcastChannelEventMap {
@@ -11254,7 +11318,7 @@ declare interface BroadcastChannelEventMap {
 }
 
 /**
- * @category Broadcast Channel
+ * @category Messaging
  * @tags unstable
  */
 declare interface BroadcastChannel extends EventTarget {
@@ -11297,7 +11361,7 @@ declare interface BroadcastChannel extends EventTarget {
 }
 
 /**
- * @category Broadcast Channel
+ * @category Messaging
  * @tags unstable
  */
 declare var BroadcastChannel: {
@@ -11869,14 +11933,14 @@ declare namespace Deno {
 /// <reference lib="deno.websocket" />
 /// <reference lib="deno.crypto" />
 
-/** @category WebAssembly */
+/** @category WASM */
 declare namespace WebAssembly {
   /**
    * The `WebAssembly.CompileError` object indicates an error during WebAssembly decoding or validation.
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/CompileError)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class CompileError extends Error {
     /** Creates a new `WebAssembly.CompileError` object. */
@@ -11890,7 +11954,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Global)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class Global {
     /** Creates a new `Global` object. */
@@ -11913,7 +11977,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Instance)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class Instance {
     /** Creates a new Instance object. */
@@ -11933,7 +11997,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/LinkError)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class LinkError extends Error {
     /** Creates a new WebAssembly.LinkError object. */
@@ -11949,7 +12013,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class Memory {
     /** Creates a new `Memory` object. */
@@ -11971,7 +12035,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class Module {
     /** Creates a new `Module` object. */
@@ -11999,7 +12063,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/RuntimeError)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class RuntimeError extends Error {
     /** Creates a new `WebAssembly.RuntimeError` object. */
@@ -12014,7 +12078,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Table)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export class Table {
     /** Creates a new `Table` object. */
@@ -12036,7 +12100,7 @@ declare namespace WebAssembly {
   /** The `GlobalDescriptor` describes the options you can pass to
    * `new WebAssembly.Global()`.
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export interface GlobalDescriptor {
     mutable?: boolean;
@@ -12046,7 +12110,7 @@ declare namespace WebAssembly {
   /** The `MemoryDescriptor` describes the options you can pass to
    * `new WebAssembly.Memory()`.
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export interface MemoryDescriptor {
     initial: number;
@@ -12057,7 +12121,7 @@ declare namespace WebAssembly {
   /** A `ModuleExportDescriptor` is the description of a declared export in a
    * `WebAssembly.Module`.
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export interface ModuleExportDescriptor {
     kind: ImportExportKind;
@@ -12067,7 +12131,7 @@ declare namespace WebAssembly {
   /** A `ModuleImportDescriptor` is the description of a declared import in a
    * `WebAssembly.Module`.
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export interface ModuleImportDescriptor {
     kind: ImportExportKind;
@@ -12078,7 +12142,7 @@ declare namespace WebAssembly {
   /** The `TableDescriptor` describes the options you can pass to
    * `new WebAssembly.Table()`.
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export interface TableDescriptor {
     element: TableKind;
@@ -12088,7 +12152,7 @@ declare namespace WebAssembly {
 
   /** The value returned from `WebAssembly.instantiate`.
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export interface WebAssemblyInstantiatedSource {
     /* A `WebAssembly.Instance` object that contains all the exported WebAssembly functions. */
@@ -12101,21 +12165,21 @@ declare namespace WebAssembly {
     module: Module;
   }
 
-  /** @category WebAssembly */
+  /** @category WASM */
   export type ImportExportKind = "function" | "global" | "memory" | "table";
-  /** @category WebAssembly */
+  /** @category WASM */
   export type TableKind = "anyfunc";
-  /** @category WebAssembly */
+  /** @category WASM */
   export type ValueType = "f32" | "f64" | "i32" | "i64";
-  /** @category WebAssembly */
+  /** @category WASM */
   export type ExportValue = Function | Global | Memory | Table;
-  /** @category WebAssembly */
+  /** @category WASM */
   export type Exports = Record<string, ExportValue>;
-  /** @category WebAssembly */
+  /** @category WASM */
   export type ImportValue = ExportValue | number;
-  /** @category WebAssembly */
+  /** @category WASM */
   export type ModuleImports = Record<string, ImportValue>;
-  /** @category WebAssembly */
+  /** @category WASM */
   export type Imports = Record<string, ModuleImports>;
 
   /**
@@ -12126,7 +12190,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/compile)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export function compile(bytes: BufferSource): Promise<Module>;
 
@@ -12138,7 +12202,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/compileStreaming)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export function compileStreaming(
     source: Response | Promise<Response>,
@@ -12155,7 +12219,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export function instantiate(
     bytes: BufferSource,
@@ -12172,7 +12236,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export function instantiate(
     moduleObject: Module,
@@ -12186,7 +12250,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export function instantiateStreaming(
     response: Response | PromiseLike<Response>,
@@ -12200,7 +12264,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/validate)
    *
-   * @category WebAssembly
+   * @category WASM
    */
   export function validate(bytes: BufferSource): boolean;
 }
@@ -12212,7 +12276,7 @@ declare namespace WebAssembly {
  * setTimeout(() => { console.log('hello'); }, 500);
  * ```
  *
- * @category Timers
+ * @category Platform
  */
 declare function setTimeout(
   /** callback function to execute when timer expires */
@@ -12230,7 +12294,7 @@ declare function setTimeout(
  * setInterval(() => { console.log('hello'); }, 500);
  * ```
  *
- * @category Timers
+ * @category Platform
  */
 declare function setInterval(
   /** callback function to execute when timer expires */
@@ -12250,7 +12314,7 @@ declare function setInterval(
  * clearInterval(id);
  * ```
  *
- * @category Timers
+ * @category Platform
  */
 declare function clearInterval(id?: number): void;
 
@@ -12262,11 +12326,11 @@ declare function clearInterval(id?: number): void;
  * clearTimeout(id);
  * ```
  *
- * @category Timers
+ * @category Platform
  */
 declare function clearTimeout(id?: number): void;
 
-/** @category Scheduling */
+/** @category Platform */
 declare interface VoidFunction {
   (): void;
 }
@@ -12281,7 +12345,7 @@ declare interface VoidFunction {
  * queueMicrotask(() => { console.log('This event loop stack is complete'); });
  * ```
  *
- * @category Scheduling
+ * @category Platform
  */
 declare function queueMicrotask(func: VoidFunction): void;
 
@@ -12294,11 +12358,11 @@ declare function queueMicrotask(func: VoidFunction): void;
  * dispatchEvent(new Event('unload'));
  * ```
  *
- * @category DOM Events
+ * @category Events
  */
 declare function dispatchEvent(event: Event): boolean;
 
-/** @category DOM APIs */
+/** @category Platform */
 declare interface DOMStringList {
   /** Returns the number of strings in strings. */
   readonly length: number;
@@ -12309,13 +12373,13 @@ declare interface DOMStringList {
   [index: number]: string;
 }
 
-/** @category Typed Arrays */
+/** @category Platform */
 declare type BufferSource = ArrayBufferView | ArrayBuffer;
 
-/** @category Console and Debugging */
+/** @category I/O */
 declare var console: Console;
 
-/** @category DOM Events */
+/** @category Events */
 declare interface ErrorEventInit extends EventInit {
   message?: string;
   filename?: string;
@@ -12324,7 +12388,7 @@ declare interface ErrorEventInit extends EventInit {
   error?: any;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare interface ErrorEvent extends Event {
   readonly message: string;
   readonly filename: string;
@@ -12333,25 +12397,25 @@ declare interface ErrorEvent extends Event {
   readonly error: any;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare var ErrorEvent: {
   readonly prototype: ErrorEvent;
   new (type: string, eventInitDict?: ErrorEventInit): ErrorEvent;
 };
 
-/** @category Observability */
+/** @category Events */
 declare interface PromiseRejectionEventInit extends EventInit {
   promise: Promise<any>;
   reason?: any;
 }
 
-/** @category Observability */
+/** @category Events */
 declare interface PromiseRejectionEvent extends Event {
   readonly promise: Promise<any>;
   readonly reason: any;
 }
 
-/** @category Observability */
+/** @category Events */
 declare var PromiseRejectionEvent: {
   readonly prototype: PromiseRejectionEvent;
   new (
@@ -12360,24 +12424,24 @@ declare var PromiseRejectionEvent: {
   ): PromiseRejectionEvent;
 };
 
-/** @category Web Workers */
+/** @category Workers */
 declare interface AbstractWorkerEventMap {
   "error": ErrorEvent;
 }
 
-/** @category Web Workers */
+/** @category Workers */
 declare interface WorkerEventMap extends AbstractWorkerEventMap {
   "message": MessageEvent;
   "messageerror": MessageEvent;
 }
 
-/** @category Web Workers */
+/** @category Workers */
 declare interface WorkerOptions {
   type?: "classic" | "module";
   name?: string;
 }
 
-/** @category Web Workers */
+/** @category Workers */
 declare interface Worker extends EventTarget {
   onerror: (this: Worker, e: ErrorEvent) => any | null;
   onmessage: (this: Worker, e: MessageEvent) => any | null;
@@ -12407,7 +12471,7 @@ declare interface Worker extends EventTarget {
   terminate(): void;
 }
 
-/** @category Web Workers */
+/** @category Workers */
 declare var Worker: {
   readonly prototype: Worker;
   new (specifier: string | URL, options?: WorkerOptions): Worker;
@@ -12574,25 +12638,25 @@ declare var PerformanceMeasure: {
   new (): never;
 };
 
-/** @category DOM Events */
+/** @category Events */
 declare interface CustomEventInit<T = any> extends EventInit {
   detail?: T;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare interface CustomEvent<T = any> extends Event {
   /** Returns any custom data event was created with. Typically used for
    * synthetic events. */
   readonly detail: T;
 }
 
-/** @category DOM Events */
+/** @category Events */
 declare var CustomEvent: {
   readonly prototype: CustomEvent;
   new <T>(typeArg: string, eventInitDict?: CustomEventInit<T>): CustomEvent<T>;
 };
 
-/** @category DOM APIs */
+/** @category Platform */
 declare interface ErrorConstructor {
   /** See https://v8.dev/docs/stack-trace-api#stack-trace-collection-for-custom-exceptions. */
   captureStackTrace(error: Object, constructor?: Function): void;
@@ -12607,10 +12671,10 @@ declare interface ErrorConstructor {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Cache API */
+/** @category Cache */
 declare var caches: CacheStorage;
 
-/** @category Cache API */
+/** @category Cache */
 declare interface CacheStorage {
   /** Open a cache storage for the provided name. */
   open(cacheName: string): Promise<Cache>;
@@ -12620,7 +12684,7 @@ declare interface CacheStorage {
   delete(cacheName: string): Promise<boolean>;
 }
 
-/** @category Cache API */
+/** @category Cache */
 declare interface Cache {
   /**
    * Put the provided request/response into the cache.
@@ -12654,19 +12718,19 @@ declare interface Cache {
   ): Promise<boolean>;
 }
 
-/** @category Cache API */
+/** @category Cache */
 declare var Cache: {
   readonly prototype: Cache;
   new (): never;
 };
 
-/** @category Cache API */
+/** @category Cache */
 declare var CacheStorage: {
   readonly prototype: CacheStorage;
   new (): never;
 };
 
-/** @category Cache API */
+/** @category Cache */
 declare interface CacheQueryOptions {
   ignoreMethod?: boolean;
   ignoreSearch?: boolean;
@@ -12682,14 +12746,14 @@ declare interface CacheQueryOptions {
 /// <reference lib="esnext" />
 /// <reference lib="deno.cache" />
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface WindowEventMap {
   "error": ErrorEvent;
   "unhandledrejection": PromiseRejectionEvent;
   "rejectionhandled": PromiseRejectionEvent;
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface Window extends EventTarget {
   readonly window: Window & typeof globalThis;
   readonly self: Window & typeof globalThis;
@@ -12746,40 +12810,40 @@ declare interface Window extends EventTarget {
   ): void;
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare var Window: {
   readonly prototype: Window;
   new (): never;
 };
 
-/** @category Web APIs */
+/** @category Platform */
 declare var window: Window & typeof globalThis;
-/** @category Web APIs */
+/** @category Platform */
 declare var self: Window & typeof globalThis;
-/** @category Web APIs */
+/** @category Platform */
 declare var closed: boolean;
-/** @category Web APIs */
+/** @category Platform */
 declare function close(): void;
-/** @category DOM Events */
+/** @category Events */
 declare var onerror: ((this: Window, ev: ErrorEvent) => any) | null;
-/** @category DOM Events */
+/** @category Events */
 declare var onload: ((this: Window, ev: Event) => any) | null;
-/** @category DOM Events */
+/** @category Events */
 declare var onbeforeunload: ((this: Window, ev: Event) => any) | null;
-/** @category DOM Events */
+/** @category Events */
 declare var onunload: ((this: Window, ev: Event) => any) | null;
-/** @category Observability */
+/** @category Events */
 declare var onunhandledrejection:
   | ((this: Window, ev: PromiseRejectionEvent) => any)
   | null;
-/** @category Web Storage API */
+/** @category Storage */
 declare var localStorage: Storage;
-/** @category Web Storage API */
+/** @category Storage */
 declare var sessionStorage: Storage;
-/** @category Cache API */
+/** @category Cache */
 declare var caches: CacheStorage;
 
-/** @category Web APIs */
+/** @category Platform */
 declare interface Navigator {
   readonly gpu: GPU;
   readonly hardwareConcurrency: number;
@@ -12788,13 +12852,13 @@ declare interface Navigator {
   readonly languages: string[];
 }
 
-/** @category Web APIs */
+/** @category Platform */
 declare var Navigator: {
   readonly prototype: Navigator;
   new (): never;
 };
 
-/** @category Web APIs */
+/** @category Platform */
 declare var navigator: Navigator;
 
 /**
@@ -12802,7 +12866,7 @@ declare var navigator: Navigator;
  *
  * If the stdin is not interactive, it does nothing.
  *
- * @category Web APIs
+ * @category Platform
  *
  * @param message
  */
@@ -12815,7 +12879,7 @@ declare function alert(message?: string): void;
  *
  * If the stdin is not interactive, it returns false.
  *
- * @category Web APIs
+ * @category Platform
  *
  * @param message
  */
@@ -12832,7 +12896,7 @@ declare function confirm(message?: string): boolean;
  *
  * If the stdin is not interactive, it returns null.
  *
- * @category Web APIs
+ * @category Platform
  *
  * @param message
  * @param defaultValue
@@ -12848,7 +12912,7 @@ declare function prompt(message?: string, defaultValue?: string): string | null;
  * dispatchEvent(new Event('unload'));
  * ```
  *
- * @category DOM Events
+ * @category Events
  */
 declare function addEventListener<
   K extends keyof WindowEventMap,
@@ -12857,7 +12921,7 @@ declare function addEventListener<
   listener: (this: Window, ev: WindowEventMap[K]) => any,
   options?: boolean | AddEventListenerOptions,
 ): void;
-/** @category DOM Events */
+/** @category Events */
 declare function addEventListener(
   type: string,
   listener: EventListenerOrEventListenerObject,
@@ -12872,7 +12936,7 @@ declare function addEventListener(
  * removeEventListener('load', listener);
  * ```
  *
- * @category DOM Events
+ * @category Events
  */
 declare function removeEventListener<
   K extends keyof WindowEventMap,
@@ -12881,7 +12945,7 @@ declare function removeEventListener<
   listener: (this: Window, ev: WindowEventMap[K]) => any,
   options?: boolean | EventListenerOptions,
 ): void;
-/** @category DOM Events */
+/** @category Events */
 declare function removeEventListener(
   type: string,
   listener: EventListenerOrEventListenerObject,
@@ -12894,7 +12958,7 @@ declare function removeEventListener(
  * reflected on the object it relates to. Accessible via
  * `globalThis.location`.
  *
- * @category Web APIs
+ * @category Platform
  */
 declare interface Location {
   /** Returns a DOMStringList object listing the origins of the ancestor
@@ -12964,7 +13028,7 @@ declare interface Location {
  * reflected on the object it relates to. Accessible via
  * `globalThis.location`.
  *
- * @category Web APIs
+ * @category Platform
  */
 declare var Location: {
   readonly prototype: Location;
@@ -12973,10 +13037,10 @@ declare var Location: {
 
 // TODO(nayeemrmn): Move this to `extensions/web` where its implementation is.
 // The types there must first be split into window, worker and global types.
-/** @category Web APIs */
+/** @category Platform */
 declare var location: Location;
 
-/** @category Web APIs */
+/** @category Platform */
 declare var name: string;
 
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
@@ -13824,7 +13888,7 @@ declare namespace Deno {
    *  | "x11" (Linux)     | Xlib `Window` | Xlib `Display*` |
    *  | "wayland" (Linux) | `wl_surface*` | `wl_display*`   |
    *
-   * @category WebGPU
+   * @category GPU
    * @tags unstable
    */
   export class UnsafeWindowSurface {
@@ -13921,7 +13985,7 @@ declare namespace Deno {
    * const req = await fetch("https://myserver.com", { client });
    * ```
    *
-   * @category Fetch API
+   * @category Fetch
    * @tags unstable
    */
   export interface HttpClient extends Disposable {
@@ -13933,7 +13997,7 @@ declare namespace Deno {
    *
    * The options used when creating a {@linkcode Deno.HttpClient}.
    *
-   * @category Fetch API
+   * @category Fetch
    * @tags unstable
    */
   export interface CreateHttpClientOptions {
@@ -13972,7 +14036,7 @@ declare namespace Deno {
    * The definition of a proxy when specifying
    * {@linkcode Deno.CreateHttpClientOptions}.
    *
-   * @category Fetch API
+   * @category Fetch
    * @tags unstable
    */
   export interface Proxy {
@@ -13987,7 +14051,7 @@ declare namespace Deno {
    * Basic authentication credentials to be used with a {@linkcode Deno.Proxy}
    * server when specifying {@linkcode Deno.CreateHttpClientOptions}.
    *
-   * @category Fetch API
+   * @category Fetch
    * @tags unstable
    */
   export interface BasicAuth {
@@ -14016,7 +14080,7 @@ declare namespace Deno {
    * const response = await fetch("https://myserver.com", { client });
    * ```
    *
-   * @category Fetch API
+   * @category Fetch
    * @tags unstable
    */
   export function createHttpClient(
@@ -14038,7 +14102,7 @@ declare namespace Deno {
    * const response = await fetch("https://myserver.com", { client });
    * ```
    *
-   * @category Fetch API
+   * @category Fetch
    * @tags unstable
    */
   export function createHttpClient(
@@ -14250,7 +14314,7 @@ declare namespace Deno {
    * can be found in the Deno Manual.
    *
    * @tags allow-read, allow-write, unstable
-   * @category KV
+   * @category Cloud
    */
   export function openKv(path?: string): Promise<Deno.Kv>;
 
@@ -14258,7 +14322,7 @@ declare namespace Deno {
    *
    * CronScheduleExpression is used as the type of `minute`, `hour`,
    * `dayOfMonth`, `month`, and `dayOfWeek` in {@linkcode CronSchedule}.
-   * @category Cron
+   * @category Cloud
    * @tags unstable
    */
   export type CronScheduleExpression = number | { exact: number | number[] } | {
@@ -14271,7 +14335,7 @@ declare namespace Deno {
    *
    * CronSchedule is the interface used for JSON format
    * cron `schedule`.
-   * @category Cron
+   * @category Cloud
    * @tags unstable
    */
   export interface CronSchedule {
@@ -14303,7 +14367,7 @@ declare namespace Deno {
    * as specified by interface {@linkcode CronSchedule}, where time is specified
    * using UTC time zone.
    *
-   * @category Cron
+   * @category Cloud
    * @tags unstable
    */
   export function cron(
@@ -14335,7 +14399,7 @@ declare namespace Deno {
    * means that a failed execution will be retried at most 3 times, with 1
    * second, 5 seconds, and 10 seconds delay between each retry.
    *
-   * @category Cron
+   * @category Cloud
    * @tags unstable
    */
   export function cron(
@@ -14360,7 +14424,7 @@ declare namespace Deno {
    * exceeds this limit, an error will be thrown on the operation that this key
    * was passed to.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvKey = readonly KvKeyPart[];
@@ -14397,7 +14461,7 @@ declare namespace Deno {
    * `1.0` is a number and `0n` is a bigint, and type ordering has precedence
    * over the ordering of values within a type.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvKeyPart =
@@ -14415,7 +14479,7 @@ declare namespace Deno {
    * - `strong` - This operation must be strongly-consistent.
    * - `eventual` - Eventually-consistent behavior is allowed.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvConsistencyLevel = "strong" | "eventual";
@@ -14430,7 +14494,7 @@ declare namespace Deno {
    * starting at a given key). A range selector selects all keys that are
    * lexicographically between the given start and end keys.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvListSelector =
@@ -14469,7 +14533,7 @@ declare namespace Deno {
    *   existing value must be of type `Deno.KvU64`. If the key does not exist,
    *   the value is set to the given value.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvMutation =
@@ -14489,7 +14553,7 @@ declare namespace Deno {
    * The cursor getter returns the cursor that can be used to resume the
    * iteration from the current position in the future.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export class KvListIterator<T> implements AsyncIterableIterator<KvEntry<T>> {
@@ -14512,7 +14576,7 @@ declare namespace Deno {
    * key-value pair. It can be used to perform atomic operations on the KV store
    * by passing it to the `check` method of a {@linkcode Deno.AtomicOperation}.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvEntry<T> = { key: KvKey; value: T; versionstamp: string };
@@ -14525,7 +14589,7 @@ declare namespace Deno {
    * This is the same as a {@linkcode KvEntry}, but the `value` and `versionstamp`
    * fields may be `null` if no value exists for the given key in the KV store.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export type KvEntryMaybe<T> = KvEntry<T> | {
@@ -14538,7 +14602,7 @@ declare namespace Deno {
    *
    * Options for listing key-value pairs in a {@linkcode Deno.Kv}.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export interface KvListOptions {
@@ -14593,7 +14657,7 @@ declare namespace Deno {
   }
 
   /**
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export interface KvCommitResult {
@@ -14603,7 +14667,7 @@ declare namespace Deno {
   }
 
   /**
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export interface KvCommitError {
@@ -14617,7 +14681,7 @@ declare namespace Deno {
    * not match the given versionstamp. A check with a `null` versionstamp checks
    * that the key-value pair does not currently exist in the KV store.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export interface AtomicCheck {
@@ -14659,7 +14723,7 @@ declare namespace Deno {
    * will be a {@linkcode Deno.KvCommitResult} object with a `ok: true` property
    * and the versionstamp of the value committed to KV.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export class AtomicOperation {
@@ -14776,7 +14840,7 @@ declare namespace Deno {
    * of a JSON serialization of that same value. If theses limits are exceeded,
    * an exception will be thrown.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export class Kv implements Disposable {
@@ -15047,7 +15111,7 @@ declare namespace Deno {
    * Wrapper type for 64-bit unsigned integers for use as values in a
    * {@linkcode Deno.Kv}.
    *
-   * @category KV
+   * @category Cloud
    * @tags unstable
    */
   export class KvU64 {
@@ -15264,7 +15328,7 @@ declare namespace Deno {
  * way to connect via proxies and use custom TLS certificates.
  *
  * @tags allow-net, allow-read, unstable
- * @category Fetch API
+ * @category Fetch
  */
 declare function fetch(
   input: Request | URL | string,
@@ -15273,7 +15337,7 @@ declare function fetch(
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @category Web Workers
+ * @category Workers
  * @tags unstable
  */
 declare interface WorkerOptions {
@@ -15314,7 +15378,7 @@ declare interface WorkerOptions {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @category Web Sockets
+ * @category WebSockets
  * @tags unstable
  */
 declare interface WebSocketStreamOptions {
@@ -15325,7 +15389,7 @@ declare interface WebSocketStreamOptions {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @category Web Sockets
+ * @category WebSockets
  * @tags unstable
  */
 declare interface WebSocketConnection {
@@ -15337,7 +15401,7 @@ declare interface WebSocketConnection {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @category Web Sockets
+ * @category WebSockets
  * @tags unstable
  */
 declare interface WebSocketCloseInfo {
@@ -15348,7 +15412,7 @@ declare interface WebSocketCloseInfo {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @tags allow-net, unstable
- * @category Web Sockets
+ * @category WebSockets
  */
 declare interface WebSocketStream {
   url: string;
@@ -15360,7 +15424,7 @@ declare interface WebSocketStream {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @tags allow-net, unstable
- * @category Web Sockets
+ * @category WebSockets
  */
 declare var WebSocketStream: {
   readonly prototype: WebSocketStream;
@@ -15370,7 +15434,7 @@ declare var WebSocketStream: {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @tags allow-net, unstable
- * @category Web Sockets
+ * @category WebSockets
  */
 declare interface WebSocketError extends DOMException {
   readonly closeCode: number;
@@ -15380,7 +15444,7 @@ declare interface WebSocketError extends DOMException {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @tags allow-net, unstable
- * @category Web Sockets
+ * @category WebSockets
  */
 declare var WebSocketError: {
   readonly prototype: WebSocketError;
@@ -17611,7 +17675,7 @@ declare namespace Intl {
  * A typed array of 16-bit float values. The contents are initialized to 0. If the requested number
  * of bytes could not be allocated an exception is raised.
  *
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16Array {
@@ -17926,7 +17990,7 @@ declare interface Float16Array {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16ArrayConstructor {
@@ -17969,13 +18033,13 @@ declare interface Float16ArrayConstructor {
   ): Float16Array;
 }
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare var Float16Array: Float16ArrayConstructor;
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16 {
@@ -17995,7 +18059,7 @@ declare interface Float16 {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16Constructor {
@@ -18015,7 +18079,7 @@ declare interface Float16Constructor {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16Array {
@@ -18023,7 +18087,7 @@ declare interface Float16Array {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16Array {
@@ -18036,7 +18100,7 @@ declare interface Float16Array {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16ArrayConstructor {
@@ -18044,7 +18108,7 @@ declare interface Float16ArrayConstructor {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16Array {
@@ -18056,7 +18120,7 @@ declare interface Float16Array {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface Float16Array {
@@ -18132,7 +18196,7 @@ declare interface Float16Array {
 }
 
 /**
- * @category Web APIs
+ * @category Platform
  * @tags unstable
  */
 declare interface DataView {
