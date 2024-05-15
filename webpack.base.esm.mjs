@@ -384,7 +384,6 @@ const browserslist = [
     // 'opera55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // 截至2023年11月21日，发现esbuild目前还没有“es2023”的标识，而且用“es2023”会报错！所以用“esnext”来代表最新的语法。
     'esnext',
 
     // PC端各主流浏览器的最新版本，至20240515。Start
@@ -4805,7 +4804,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.37.0',
+              } )() || '3.37.1',
               proposals: true,
             },
             /**

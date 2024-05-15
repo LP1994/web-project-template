@@ -2,7 +2,7 @@
   "display": "tsconfig.tsx.json",
   "_version": "1.0.0",
   "_typescript_version": "5.4.5",
-  "_tsx_version": "4.9.0",
+  "_tsx_version": "4.10.2",
   "_description": "这是给tsx使用的tsconfig.json。该配置扩展自tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
