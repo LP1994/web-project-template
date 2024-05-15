@@ -112,11 +112,11 @@
     "Android >= 124",
     "ChromeAndroid >= 124",
     "Edge >= 124",
-    "Firefox >= 125",
-    "FirefoxAndroid >= 125",
+    "Firefox >= 126",
+    "FirefoxAndroid >= 126",
     "Safari >= 17",
     "iOS >= 17",
-    "Opera >= 109"
+    "Opera >= 110"
   ],
   "sideEffects": [
     "**/*.se.*",

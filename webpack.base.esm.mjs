@@ -340,22 +340,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240417。Start
+    // PC端各主流浏览器的最新版本，至20240515。Start
     'Chrome >= 124',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 124',
-    'Firefox >= 125',
+    'Firefox >= 126',
     'Safari >= 17',
-    'Opera >= 109',
-    // PC端各主流浏览器的最新版本，至20240417。End
+    'Opera >= 110',
+    // PC端各主流浏览器的最新版本，至20240515。End
 
-    // 移动端各主流浏览器的最新版本，至20240417。Start
+    // 移动端各主流浏览器的最新版本，至20240515。Start
     'ChromeAndroid >= 124',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 124',
-    'FirefoxAndroid >= 125',
+    'FirefoxAndroid >= 126',
     'iOS >= 17',
-    // 移动端各主流浏览器的最新版本，至20240417。End
+    // 移动端各主流浏览器的最新版本，至20240515。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -384,19 +384,20 @@ const browserslist = [
     // 'opera55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    'es2023',
+    // 截至2023年11月21日，发现esbuild目前还没有“es2023”的标识，而且用“es2023”会报错！所以用“esnext”来代表最新的语法。
+    'esnext',
 
-    // PC端各主流浏览器的最新版本，至20240417。Start
+    // PC端各主流浏览器的最新版本，至20240515。Start
     'chrome124',
     'edge124',
-    'firefox125',
+    'firefox126',
     'safari17',
-    'opera109',
-    // PC端各主流浏览器的最新版本，至20240417。End
+    'opera110',
+    // PC端各主流浏览器的最新版本，至20240515。End
 
-    // 移动端各主流浏览器的最新版本，至20240417。Start
+    // 移动端各主流浏览器的最新版本，至20240515。Start
     'ios17',
-    // 移动端各主流浏览器的最新版本，至20240417。End
+    // 移动端各主流浏览器的最新版本，至20240515。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -430,19 +431,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240417。Start
+    // PC端各主流浏览器的最新版本，至20240515。Start
     chrome: 124,
     edge: 124,
-    firefox: 125,
+    firefox: 126,
     safari: 17,
-    opera: 109,
-    // PC端各主流浏览器的最新版本，至20240417。End
+    opera: 110,
+    // PC端各主流浏览器的最新版本，至20240515。End
 
-    // 移动端各主流浏览器的最新版本，至20240417。Start
+    // 移动端各主流浏览器的最新版本，至20240515。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 124,
     ios: 17,
-    // 移动端各主流浏览器的最新版本，至20240417。End
+    // 移动端各主流浏览器的最新版本，至20240515。End
   },
   /**
    * 编译目标配置。
