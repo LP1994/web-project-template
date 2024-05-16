@@ -108,9 +108,9 @@
     "npm": ">=10.8.0"
   },
   "browserslist": [
-    "Chrome >= 124",
-    "Android >= 124",
-    "ChromeAndroid >= 124",
+    "Chrome >= 125",
+    "Android >= 125",
+    "ChromeAndroid >= 125",
     "Edge >= 124",
     "Firefox >= 126",
     "FirefoxAndroid >= 126",

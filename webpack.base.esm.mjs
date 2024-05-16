@@ -340,22 +340,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240515。Start
-    'Chrome >= 124',
+    // PC端各主流浏览器的最新版本，至20240517。Start
+    'Chrome >= 125',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 124',
     'Firefox >= 126',
     'Safari >= 17',
     'Opera >= 110',
-    // PC端各主流浏览器的最新版本，至20240515。End
+    // PC端各主流浏览器的最新版本，至20240517。End
 
-    // 移动端各主流浏览器的最新版本，至20240515。Start
-    'ChromeAndroid >= 124',
+    // 移动端各主流浏览器的最新版本，至20240517。Start
+    'ChromeAndroid >= 125',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 124',
+    'Android >= 125',
     'FirefoxAndroid >= 126',
     'iOS >= 17',
-    // 移动端各主流浏览器的最新版本，至20240515。End
+    // 移动端各主流浏览器的最新版本，至20240517。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -386,17 +386,17 @@ const browserslist = [
 
     'esnext',
 
-    // PC端各主流浏览器的最新版本，至20240515。Start
-    'chrome124',
+    // PC端各主流浏览器的最新版本，至20240517。Start
+    'chrome125',
     'edge124',
     'firefox126',
     'safari17',
     'opera110',
-    // PC端各主流浏览器的最新版本，至20240515。End
+    // PC端各主流浏览器的最新版本，至20240517。End
 
-    // 移动端各主流浏览器的最新版本，至20240515。Start
+    // 移动端各主流浏览器的最新版本，至20240517。Start
     'ios17',
-    // 移动端各主流浏览器的最新版本，至20240515。End
+    // 移动端各主流浏览器的最新版本，至20240517。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -430,19 +430,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240515。Start
-    chrome: 124,
+    // PC端各主流浏览器的最新版本，至20240517。Start
+    chrome: 125,
     edge: 124,
     firefox: 126,
     safari: 17,
     opera: 110,
-    // PC端各主流浏览器的最新版本，至20240515。End
+    // PC端各主流浏览器的最新版本，至20240517。End
 
-    // 移动端各主流浏览器的最新版本，至20240515。Start
+    // 移动端各主流浏览器的最新版本，至20240517。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 124,
+    android: 125,
     ios: 17,
-    // 移动端各主流浏览器的最新版本，至20240515。End
+    // 移动端各主流浏览器的最新版本，至20240517。End
   },
   /**
    * 编译目标配置。
