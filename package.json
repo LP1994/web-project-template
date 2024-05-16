@@ -104,8 +104,8 @@
   ],
   "private": true,
   "engines": {
-    "node": ">=22.1.0",
-    "npm": ">=10.7.0"
+    "node": ">=22.2.0",
+    "npm": ">=10.8.0"
   },
   "browserslist": [
     "Chrome >= 124",
@@ -172,7 +172,7 @@
     "graphql_codegen": "graphql-codegen-esm --config ./GraphqlCodegenConfig.esm.mts"
   },
   "devDependencies": {
-    "@angular/core": "^17.3.8",
+    "@angular/core": "^17.3.9",
     "@apollo/client": "^3.10.4",
     "@appium/typedoc-plugin-appium": "^0.6.6",
     "@babel/cli": "^7.24.5",
@@ -982,7 +982,7 @@
     "ejs-loader": "^0.5.0",
     "element-plus": "^2.7.3",
     "element-ui": "^2.15.14",
-    "esbuild": "^0.21.2",
+    "esbuild": "^0.21.3",
     "esbuild-loader": "^4.1.0",
     "eslint": "^9.2.0",
     "eslint-plugin-react": "^7.34.1",
@@ -1089,7 +1089,7 @@
     "mocha-loader": "^5.1.5",
     "mockjs": "^1.1.0",
     "module-mapping-webpack-plugin": "^1.1.1",
-    "mongodb": "^6.6.1",
+    "mongodb": "^6.6.2",
     "mongodb-core": "^3.2.7",
     "mongoose": "^8.3.5",
     "mustache-loader": "^1.4.3",
@@ -1098,7 +1098,7 @@
     "node-gyp": "^10.1.0",
     "node-html-parser": "^6.1.13",
     "nodemon": "^3.1.0",
-    "npm": "^10.7.0",
+    "npm": "^10.8.0",
     "npm-check-updates": "^16.14.20",
     "nrm": "^1.2.6",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
