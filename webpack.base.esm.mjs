@@ -5366,6 +5366,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                   'hashbang': true,
                   'import-assertions': true,
                   'nested-rest-binding': true,
+                  'function-or-class-property-access': true,
+                  'regexp-set-notation': true,
+                  'using': true,
                   // ESNext语法 End
 
                   // node（node:module） Start
