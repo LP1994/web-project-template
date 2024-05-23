@@ -1,1 +1,1 @@
-tsx --no-cache --tsconfig ../../../../../../../tsconfig.tsx.json ./Main.test.mts&pause
+esbuild ./Main.test.mts --target=node22 --tsconfig=../../../../../../../tsconfig.tsx.json --outfile=./esbuild.out.node.mjs --bundle --platform=node --format=esm --allow-overwrite --minify --tree-shaking=true&node ./esbuild.out.node.mjs&del /q esbuild.out.node.mjs&pause
