@@ -833,7 +833,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
     5、特殊的ESNext值是指您的TypeScript版本支持的最高版本。应该谨慎使用此设置，因为它在不同的TypeScript版本之间并不意味着相同的事情，并且会使升级变得难以预测。
     */
-    "target": "esnext",
+    "target": "es2023",
     /*
     发出符合ECMAScript标准的类字段。
     1、如果“target”选项值是es2022或更高版本，包括esnext，则该选项值默认为true，否则为false。

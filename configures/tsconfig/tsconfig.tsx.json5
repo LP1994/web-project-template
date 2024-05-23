@@ -18,7 +18,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "_tsx_docs": "https://github.com/privatenumber/tsx",
   "extends": "./tsconfig.bases.json5",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2023",
     "module": "NodeNext",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
