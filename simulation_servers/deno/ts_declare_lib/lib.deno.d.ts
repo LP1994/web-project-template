@@ -1466,6 +1466,23 @@ declare namespace Deno {
    */
   export function exit(code?: number): never;
 
+  /** The exit code for the Deno process.
+   *
+   * If no exit code has been supplied, then Deno will assume a return code of `0`.
+   *
+   * When setting an exit code value, a number or non-NaN string must be provided,
+   * otherwise a TypeError will be thrown.
+   *
+   * ```ts
+   * console.log(Deno.exitCode); //-> 0
+   * Deno.exitCode = 1;
+   * console.log(Deno.exitCode); //-> 1
+   * ```
+   *
+   * @category Runtime
+   */
+  export var exitCode: number;
+
   /** An interface containing methods to interact with the process environment
    * variables.
    *
@@ -2563,8 +2580,7 @@ declare namespace Deno {
      * ```
      */
     statSync(): FileInfo;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Flushes any pending data and metadata operations of the given file
      * stream to disk.
      *
@@ -2582,8 +2598,7 @@ declare namespace Deno {
      * @category I/O
      */
     sync(): Promise<void>;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Synchronously flushes any pending data and metadata operations of the given
      * file stream to disk.
      *
@@ -2601,8 +2616,7 @@ declare namespace Deno {
      * @category I/O
      */
     syncSync(): void;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Flushes any pending data operations of the given file stream to disk.
      *  ```ts
      * using file = await Deno.open(
@@ -2617,8 +2631,7 @@ declare namespace Deno {
      * @category I/O
      */
     syncData(): Promise<void>;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Synchronously flushes any pending data operations of the given file stream
      * to disk.
      *
@@ -2686,27 +2699,23 @@ declare namespace Deno {
      * ```
      */
     setRaw(mode: boolean, options?: SetRawOptions): void;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Acquire an advisory file-system lock for the file.
      *
      * @param [exclusive=false]
      */
     lock(exclusive?: boolean): Promise<void>;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Synchronously acquire an advisory file-system lock synchronously for the file.
      *
      * @param [exclusive=false]
      */
     lockSync(exclusive?: boolean): void;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Release an advisory file-system lock for the file.
      */
     unlock(): Promise<void>;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Synchronously release an advisory file-system lock for the file.
      */
     unlockSync(): void;
@@ -5738,7 +5747,7 @@ declare namespace Deno {
      * `pong` within the timeout specified, the connection is deemed
      * unhealthy and is closed. The `close` and `error` event will be emitted.
      *
-     * The unit is seconds, with a default of 120.
+     * The unit is seconds, with a default of 30.
      * Set to `0` to disable timeouts. */
     idleTimeout?: number;
   }
@@ -8421,6 +8430,10 @@ declare interface Body {
    */
   blob(): Promise<Blob>;
   /** Takes a `Response` stream and reads it to completion. It returns a promise
+   * that resolves with a `Uint8Array`.
+   */
+  bytes(): Promise<Uint8Array>;
+  /** Takes a `Response` stream and reads it to completion. It returns a promise
    * that resolves with a `FormData` object.
    */
   formData(): Promise<FormData>;
@@ -8862,7 +8875,7 @@ declare var EventSource: {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUObjectBase {
   label: string;
@@ -8870,7 +8883,7 @@ declare interface GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUObjectDescriptorBase {
   label?: string;
@@ -8878,7 +8891,7 @@ declare interface GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUSupportedLimits {
   maxTextureDimension1D?: number;
@@ -8915,7 +8928,7 @@ declare class GPUSupportedLimits {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUSupportedFeatures {
   forEach(
@@ -8936,7 +8949,7 @@ declare class GPUSupportedFeatures {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUAdapterInfo {
   readonly vendor: string;
@@ -8947,7 +8960,7 @@ declare class GPUAdapterInfo {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPU {
   requestAdapter(
@@ -8958,7 +8971,7 @@ declare class GPU {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURequestAdapterOptions {
   powerPreference?: GPUPowerPreference;
@@ -8967,13 +8980,13 @@ declare interface GPURequestAdapterOptions {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUPowerPreference = "low-power" | "high-performance";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUAdapter {
   readonly features: GPUSupportedFeatures;
@@ -8986,7 +8999,7 @@ declare class GPUAdapter {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUDeviceDescriptor extends GPUObjectDescriptorBase {
   requiredFeatures?: GPUFeatureName[];
@@ -8995,7 +9008,7 @@ declare interface GPUDeviceDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUFeatureName =
   | "depth-clip-control"
@@ -9026,7 +9039,7 @@ declare type GPUFeatureName =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUDevice extends EventTarget implements GPUObjectBase {
   label: string;
@@ -9079,7 +9092,7 @@ declare class GPUDevice extends EventTarget implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUBuffer implements GPUObjectBase {
   label: string;
@@ -9101,13 +9114,13 @@ declare class GPUBuffer implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUBufferMapState = "unmapped" | "pending" | "mapped";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBufferDescriptor extends GPUObjectDescriptorBase {
   size: number;
@@ -9117,19 +9130,19 @@ declare interface GPUBufferDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUBufferUsageFlags = number;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUFlagsConstant = number;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUBufferUsage {
   static MAP_READ: 0x0001;
@@ -9146,13 +9159,13 @@ declare class GPUBufferUsage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUMapModeFlags = number;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUMapMode {
   static READ: 0x0001;
@@ -9161,7 +9174,7 @@ declare class GPUMapMode {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUTexture implements GPUObjectBase {
   label: string;
@@ -9181,7 +9194,7 @@ declare class GPUTexture implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUTextureDescriptor extends GPUObjectDescriptorBase {
   size: GPUExtent3D;
@@ -9195,19 +9208,19 @@ declare interface GPUTextureDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUTextureDimension = "1d" | "2d" | "3d";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUTextureUsageFlags = number;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUTextureUsage {
   static COPY_SRC: 0x01;
@@ -9219,7 +9232,7 @@ declare class GPUTextureUsage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUTextureView implements GPUObjectBase {
   label: string;
@@ -9227,7 +9240,7 @@ declare class GPUTextureView implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUTextureViewDescriptor extends GPUObjectDescriptorBase {
   format?: GPUTextureFormat;
@@ -9241,7 +9254,7 @@ declare interface GPUTextureViewDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUTextureViewDimension =
   | "1d"
@@ -9253,13 +9266,13 @@ declare type GPUTextureViewDimension =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUTextureAspect = "all" | "stencil-only" | "depth-only";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUTextureFormat =
   | "r8unorm"
@@ -9360,7 +9373,7 @@ declare type GPUTextureFormat =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUSampler implements GPUObjectBase {
   label: string;
@@ -9368,7 +9381,7 @@ declare class GPUSampler implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUSamplerDescriptor extends GPUObjectDescriptorBase {
   addressModeU?: GPUAddressMode;
@@ -9385,25 +9398,25 @@ declare interface GPUSamplerDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUAddressMode = "clamp-to-edge" | "repeat" | "mirror-repeat";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUFilterMode = "nearest" | "linear";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUMipmapFilterMode = "nearest" | "linear";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUCompareFunction =
   | "never"
@@ -9417,7 +9430,7 @@ declare type GPUCompareFunction =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUBindGroupLayout implements GPUObjectBase {
   label: string;
@@ -9425,7 +9438,7 @@ declare class GPUBindGroupLayout implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBindGroupLayoutDescriptor extends GPUObjectDescriptorBase {
   entries: GPUBindGroupLayoutEntry[];
@@ -9433,7 +9446,7 @@ declare interface GPUBindGroupLayoutDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBindGroupLayoutEntry {
   binding: number;
@@ -9447,13 +9460,13 @@ declare interface GPUBindGroupLayoutEntry {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUShaderStageFlags = number;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUShaderStage {
   static VERTEX: 0x1;
@@ -9463,7 +9476,7 @@ declare class GPUShaderStage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBufferBindingLayout {
   type?: GPUBufferBindingType;
@@ -9473,13 +9486,13 @@ declare interface GPUBufferBindingLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUBufferBindingType = "uniform" | "storage" | "read-only-storage";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUSamplerBindingLayout {
   type?: GPUSamplerBindingType;
@@ -9487,7 +9500,7 @@ declare interface GPUSamplerBindingLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUSamplerBindingType =
   | "filtering"
@@ -9496,7 +9509,7 @@ declare type GPUSamplerBindingType =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUTextureBindingLayout {
   sampleType?: GPUTextureSampleType;
@@ -9506,7 +9519,7 @@ declare interface GPUTextureBindingLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUTextureSampleType =
   | "float"
@@ -9517,7 +9530,7 @@ declare type GPUTextureSampleType =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUStorageTextureAccess =
   | "write-only"
@@ -9526,7 +9539,7 @@ declare type GPUStorageTextureAccess =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUStorageTextureBindingLayout {
   access: GPUStorageTextureAccess;
@@ -9536,7 +9549,7 @@ declare interface GPUStorageTextureBindingLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUBindGroup implements GPUObjectBase {
   label: string;
@@ -9544,7 +9557,7 @@ declare class GPUBindGroup implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBindGroupDescriptor extends GPUObjectDescriptorBase {
   layout: GPUBindGroupLayout;
@@ -9553,7 +9566,7 @@ declare interface GPUBindGroupDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUBindingResource =
   | GPUSampler
@@ -9562,7 +9575,7 @@ declare type GPUBindingResource =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBindGroupEntry {
   binding: number;
@@ -9571,7 +9584,7 @@ declare interface GPUBindGroupEntry {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBufferBinding {
   buffer: GPUBuffer;
@@ -9581,7 +9594,7 @@ declare interface GPUBufferBinding {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUPipelineLayout implements GPUObjectBase {
   label: string;
@@ -9589,7 +9602,7 @@ declare class GPUPipelineLayout implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUPipelineLayoutDescriptor extends GPUObjectDescriptorBase {
   bindGroupLayouts: GPUBindGroupLayout[];
@@ -9597,13 +9610,13 @@ declare interface GPUPipelineLayoutDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUCompilationMessageType = "error" | "warning" | "info";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUCompilationMessage {
   readonly message: string;
@@ -9614,7 +9627,7 @@ declare interface GPUCompilationMessage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUCompilationInfo {
   readonly messages: ReadonlyArray<GPUCompilationMessage>;
@@ -9622,7 +9635,7 @@ declare interface GPUCompilationInfo {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUPipelineError extends DOMException {
   constructor(message?: string, options?: GPUPipelineErrorInit);
@@ -9632,7 +9645,7 @@ declare class GPUPipelineError extends DOMException {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUPipelineErrorInit {
   reason: GPUPipelineErrorReason;
@@ -9640,13 +9653,13 @@ declare interface GPUPipelineErrorInit {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUPipelineErrorReason = "validation" | "internal";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUShaderModule implements GPUObjectBase {
   label: string;
@@ -9654,7 +9667,7 @@ declare class GPUShaderModule implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUShaderModuleDescriptor extends GPUObjectDescriptorBase {
   code: string;
@@ -9663,13 +9676,13 @@ declare interface GPUShaderModuleDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUAutoLayoutMode = "auto";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUPipelineDescriptorBase extends GPUObjectDescriptorBase {
   layout: GPUPipelineLayout | GPUAutoLayoutMode;
@@ -9677,7 +9690,7 @@ declare interface GPUPipelineDescriptorBase extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUPipelineBase {
   getBindGroupLayout(index: number): GPUBindGroupLayout;
@@ -9685,7 +9698,7 @@ declare interface GPUPipelineBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUProgrammableStage {
   module: GPUShaderModule;
@@ -9695,7 +9708,7 @@ declare interface GPUProgrammableStage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUComputePipeline implements GPUObjectBase, GPUPipelineBase {
   label: string;
@@ -9705,7 +9718,7 @@ declare class GPUComputePipeline implements GPUObjectBase, GPUPipelineBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUComputePipelineDescriptor
   extends GPUPipelineDescriptorBase {
@@ -9714,7 +9727,7 @@ declare interface GPUComputePipelineDescriptor
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPURenderPipeline implements GPUObjectBase, GPUPipelineBase {
   label: string;
@@ -9724,7 +9737,7 @@ declare class GPURenderPipeline implements GPUObjectBase, GPUPipelineBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderPipelineDescriptor
   extends GPUPipelineDescriptorBase {
@@ -9737,7 +9750,7 @@ declare interface GPURenderPipelineDescriptor
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUPrimitiveState {
   topology?: GPUPrimitiveTopology;
@@ -9749,7 +9762,7 @@ declare interface GPUPrimitiveState {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUPrimitiveTopology =
   | "point-list"
@@ -9760,19 +9773,19 @@ declare type GPUPrimitiveTopology =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUFrontFace = "ccw" | "cw";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUCullMode = "none" | "front" | "back";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUMultisampleState {
   count?: number;
@@ -9782,7 +9795,7 @@ declare interface GPUMultisampleState {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUFragmentState extends GPUProgrammableStage {
   targets: (GPUColorTargetState | null)[];
@@ -9790,7 +9803,7 @@ declare interface GPUFragmentState extends GPUProgrammableStage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUColorTargetState {
   format: GPUTextureFormat;
@@ -9801,7 +9814,7 @@ declare interface GPUColorTargetState {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBlendState {
   color: GPUBlendComponent;
@@ -9810,13 +9823,13 @@ declare interface GPUBlendState {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUColorWriteFlags = number;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUColorWrite {
   static RED: 0x1;
@@ -9828,7 +9841,7 @@ declare class GPUColorWrite {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUBlendComponent {
   operation?: GPUBlendOperation;
@@ -9838,7 +9851,7 @@ declare interface GPUBlendComponent {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUBlendFactor =
   | "zero"
@@ -9857,7 +9870,7 @@ declare type GPUBlendFactor =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUBlendOperation =
   | "add"
@@ -9868,7 +9881,7 @@ declare type GPUBlendOperation =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUDepthStencilState {
   format: GPUTextureFormat;
@@ -9889,7 +9902,7 @@ declare interface GPUDepthStencilState {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUStencilFaceState {
   compare?: GPUCompareFunction;
@@ -9900,7 +9913,7 @@ declare interface GPUStencilFaceState {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUStencilOperation =
   | "keep"
@@ -9914,13 +9927,13 @@ declare type GPUStencilOperation =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUIndexFormat = "uint16" | "uint32";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUVertexFormat =
   | "uint8x2"
@@ -9957,13 +9970,13 @@ declare type GPUVertexFormat =
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUVertexStepMode = "vertex" | "instance";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUVertexState extends GPUProgrammableStage {
   buffers?: (GPUVertexBufferLayout | null)[];
@@ -9971,7 +9984,7 @@ declare interface GPUVertexState extends GPUProgrammableStage {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUVertexBufferLayout {
   arrayStride: number;
@@ -9981,7 +9994,7 @@ declare interface GPUVertexBufferLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUVertexAttribute {
   format: GPUVertexFormat;
@@ -9992,7 +10005,7 @@ declare interface GPUVertexAttribute {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUImageDataLayout {
   offset?: number;
@@ -10002,7 +10015,7 @@ declare interface GPUImageDataLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUCommandBuffer implements GPUObjectBase {
   label: string;
@@ -10010,13 +10023,13 @@ declare class GPUCommandBuffer implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUCommandBufferDescriptor extends GPUObjectDescriptorBase {}
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUCommandEncoder implements GPUObjectBase {
   label: string;
@@ -10077,13 +10090,13 @@ declare class GPUCommandEncoder implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUCommandEncoderDescriptor extends GPUObjectDescriptorBase {}
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUImageCopyBuffer extends GPUImageDataLayout {
   buffer: GPUBuffer;
@@ -10091,7 +10104,7 @@ declare interface GPUImageCopyBuffer extends GPUImageDataLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUImageCopyTexture {
   texture: GPUTexture;
@@ -10102,7 +10115,7 @@ declare interface GPUImageCopyTexture {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUProgrammablePassEncoder {
   setBindGroup(
@@ -10126,7 +10139,7 @@ declare interface GPUProgrammablePassEncoder {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUComputePassEncoder
   implements GPUObjectBase, GPUProgrammablePassEncoder {
@@ -10158,7 +10171,7 @@ declare class GPUComputePassEncoder
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUComputePassTimestampWrites {
   querySet: GPUQuerySet;
@@ -10168,7 +10181,7 @@ declare interface GPUComputePassTimestampWrites {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUComputePassDescriptor extends GPUObjectDescriptorBase {
   timestampWrites?: GPUComputePassTimestampWrites;
@@ -10176,7 +10189,7 @@ declare interface GPUComputePassDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderEncoderBase {
   setPipeline(pipeline: GPURenderPipeline): undefined;
@@ -10217,7 +10230,7 @@ declare interface GPURenderEncoderBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPURenderPassEncoder
   implements GPUObjectBase, GPUProgrammablePassEncoder, GPURenderEncoderBase {
@@ -10297,7 +10310,7 @@ declare class GPURenderPassEncoder
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderPassTimestampWrites {
   querySet: GPUQuerySet;
@@ -10307,7 +10320,7 @@ declare interface GPURenderPassTimestampWrites {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderPassDescriptor extends GPUObjectDescriptorBase {
   colorAttachments: (GPURenderPassColorAttachment | null)[];
@@ -10318,7 +10331,7 @@ declare interface GPURenderPassDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderPassColorAttachment {
   view: GPUTextureView;
@@ -10331,7 +10344,7 @@ declare interface GPURenderPassColorAttachment {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderPassDepthStencilAttachment {
   view: GPUTextureView;
@@ -10349,19 +10362,19 @@ declare interface GPURenderPassDepthStencilAttachment {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPULoadOp = "load" | "clear";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUStoreOp = "store" | "discard";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPURenderBundle implements GPUObjectBase {
   label: string;
@@ -10369,13 +10382,13 @@ declare class GPURenderBundle implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderBundleDescriptor extends GPUObjectDescriptorBase {}
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPURenderBundleEncoder
   implements GPUObjectBase, GPUProgrammablePassEncoder, GPURenderEncoderBase {
@@ -10432,7 +10445,7 @@ declare class GPURenderBundleEncoder
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderPassLayout extends GPUObjectDescriptorBase {
   colorFormats: (GPUTextureFormat | null)[];
@@ -10442,7 +10455,7 @@ declare interface GPURenderPassLayout extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPURenderBundleEncoderDescriptor extends GPURenderPassLayout {
   depthReadOnly?: boolean;
@@ -10451,7 +10464,7 @@ declare interface GPURenderBundleEncoderDescriptor extends GPURenderPassLayout {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUQueue implements GPUObjectBase {
   label: string;
@@ -10478,7 +10491,7 @@ declare class GPUQueue implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUQuerySet implements GPUObjectBase {
   label: string;
@@ -10491,7 +10504,7 @@ declare class GPUQuerySet implements GPUObjectBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUQuerySetDescriptor extends GPUObjectDescriptorBase {
   type: GPUQueryType;
@@ -10500,19 +10513,19 @@ declare interface GPUQuerySetDescriptor extends GPUObjectDescriptorBase {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUQueryType = "occlusion" | "timestamp";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUDeviceLostReason = "destroyed";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUDeviceLostInfo {
   readonly reason: GPUDeviceLostReason;
@@ -10521,7 +10534,7 @@ declare interface GPUDeviceLostInfo {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUError {
   readonly message: string;
@@ -10529,7 +10542,7 @@ declare class GPUError {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUOutOfMemoryError extends GPUError {
   constructor(message: string);
@@ -10537,7 +10550,7 @@ declare class GPUOutOfMemoryError extends GPUError {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUValidationError extends GPUError {
   constructor(message: string);
@@ -10545,7 +10558,7 @@ declare class GPUValidationError extends GPUError {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUInternalError extends GPUError {
   constructor(message: string);
@@ -10553,13 +10566,13 @@ declare class GPUInternalError extends GPUError {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUErrorFilter = "out-of-memory" | "validation" | "internal";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare class GPUUncapturedErrorEvent extends EventTarget {
   constructor(
@@ -10572,7 +10585,7 @@ declare class GPUUncapturedErrorEvent extends EventTarget {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUUncapturedErrorEventInit extends EventInit {
   error: GPUError;
@@ -10580,7 +10593,7 @@ declare interface GPUUncapturedErrorEventInit extends EventInit {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUColorDict {
   r: number;
@@ -10591,13 +10604,13 @@ declare interface GPUColorDict {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUColor = number[] | GPUColorDict;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUOrigin3DDict {
   x?: number;
@@ -10607,13 +10620,13 @@ declare interface GPUOrigin3DDict {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUOrigin3D = number[] | GPUOrigin3DDict;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUExtent3DDict {
   width: number;
@@ -10623,19 +10636,19 @@ declare interface GPUExtent3DDict {
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUExtent3D = number[] | GPUExtent3DDict;
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare type GPUCanvasAlphaMode = "opaque" | "premultiplied";
 
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUCanvasConfiguration {
   device: GPUDevice;
@@ -10649,7 +10662,7 @@ declare interface GPUCanvasConfiguration {
 }
 /**
  * @category GPU
- * @tags unstable
+ * @experimental
  */
 declare interface GPUCanvasContext {
   configure(configuration: GPUCanvasConfiguration): undefined;
@@ -11310,7 +11323,7 @@ declare var Crypto: {
 
 /**
  * @category Messaging
- * @tags unstable
+ * @experimental
  */
 declare interface BroadcastChannelEventMap {
   "message": MessageEvent;
@@ -11319,7 +11332,7 @@ declare interface BroadcastChannelEventMap {
 
 /**
  * @category Messaging
- * @tags unstable
+ * @experimental
  */
 declare interface BroadcastChannel extends EventTarget {
   /**
@@ -11362,7 +11375,7 @@ declare interface BroadcastChannel extends EventTarget {
 
 /**
  * @category Messaging
- * @tags unstable
+ * @experimental
  */
 declare var BroadcastChannel: {
   readonly prototype: BroadcastChannel;
@@ -13058,7 +13071,7 @@ declare namespace Deno {
   /** Information for a HTTP request.
    *
    * @category HTTP Server
-   * @tags unstable
+   * @experimental
    */
   export interface ServeHandlerInfo {
     /** The remote address of the connection. */
@@ -13084,7 +13097,7 @@ declare namespace Deno {
    * *Note*: This API is not implemented on Windows
    *
    * @category File System
-   * @tags unstable
+   * @experimental
    */
   export function umask(mask?: number): number;
 
@@ -13093,7 +13106,7 @@ declare namespace Deno {
    * All plain number types for interfacing with foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeNumberType =
     | "u8"
@@ -13110,7 +13123,7 @@ declare namespace Deno {
    * All BigInt number types for interfacing with foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeBigIntType =
     | "u64"
@@ -13123,7 +13136,7 @@ declare namespace Deno {
    * The native boolean type for interfacing to foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeBooleanType = "bool";
 
@@ -13132,7 +13145,7 @@ declare namespace Deno {
    * The native pointer type for interfacing to foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativePointerType = "pointer";
 
@@ -13141,7 +13154,7 @@ declare namespace Deno {
    * The native buffer type for interfacing to foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeBufferType = "buffer";
 
@@ -13150,7 +13163,7 @@ declare namespace Deno {
    * The native function type for interfacing with foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeFunctionType = "function";
 
@@ -13159,7 +13172,7 @@ declare namespace Deno {
    * The native void type for interfacing with foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeVoidType = "void";
 
@@ -13168,56 +13181,56 @@ declare namespace Deno {
    * The native struct type for interfacing with foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeStructType = { readonly struct: readonly NativeType[] };
 
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export const brand: unique symbol;
 
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeU8Enum<T extends number> = "u8" & { [brand]: T };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeI8Enum<T extends number> = "i8" & { [brand]: T };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeU16Enum<T extends number> = "u16" & { [brand]: T };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeI16Enum<T extends number> = "i16" & { [brand]: T };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeU32Enum<T extends number> = "u32" & { [brand]: T };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeI32Enum<T extends number> = "i32" & { [brand]: T };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeTypedPointer<T extends PointerObject> = "pointer" & {
     [brand]: T;
   };
   /**
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeTypedFunction<T extends UnsafeCallbackDefinition> =
     & "function"
@@ -13230,7 +13243,7 @@ declare namespace Deno {
    * All supported types for interfacing with foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeType =
     | NativeNumberType
@@ -13244,7 +13257,7 @@ declare namespace Deno {
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type NativeResultType = NativeType | NativeVoidType;
 
@@ -13254,7 +13267,7 @@ declare namespace Deno {
    * types.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type ToNativeType<T extends NativeType = NativeType> = T extends
     NativeStructType ? BufferSource
@@ -13265,7 +13278,7 @@ declare namespace Deno {
       : T extends NativeU32Enum<infer U> ? U
       : T extends NativeI32Enum<infer U> ? U
       : number
-    : T extends NativeBigIntType ? number | bigint
+    : T extends NativeBigIntType ? bigint
     : T extends NativeBooleanType ? boolean
     : T extends NativePointerType
       ? T extends NativeTypedPointer<infer U> ? U | null : PointerValue
@@ -13280,7 +13293,7 @@ declare namespace Deno {
    * Type conversion for unsafe callback return types.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type ToNativeResultType<
     T extends NativeResultType = NativeResultType,
@@ -13292,7 +13305,7 @@ declare namespace Deno {
       : T extends NativeU32Enum<infer U> ? U
       : T extends NativeI32Enum<infer U> ? U
       : number
-    : T extends NativeBigIntType ? number | bigint
+    : T extends NativeBigIntType ? bigint
     : T extends NativeBooleanType ? boolean
     : T extends NativePointerType
       ? T extends NativeTypedPointer<infer U> ? U | null : PointerValue
@@ -13308,7 +13321,7 @@ declare namespace Deno {
    * A utility type for conversion of parameter types of foreign functions.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type ToNativeParameterTypes<T extends readonly NativeType[]> =
     //
@@ -13326,7 +13339,7 @@ declare namespace Deno {
    * parameters.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type FromNativeType<T extends NativeType = NativeType> = T extends
     NativeStructType ? Uint8Array
@@ -13337,7 +13350,7 @@ declare namespace Deno {
       : T extends NativeU32Enum<infer U> ? U
       : T extends NativeI32Enum<infer U> ? U
       : number
-    : T extends NativeBigIntType ? number | bigint
+    : T extends NativeBigIntType ? bigint
     : T extends NativeBooleanType ? boolean
     : T extends NativePointerType
       ? T extends NativeTypedPointer<infer U> ? U | null : PointerValue
@@ -13352,7 +13365,7 @@ declare namespace Deno {
    * Type conversion for foreign symbol return types.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type FromNativeResultType<
     T extends NativeResultType = NativeResultType,
@@ -13364,7 +13377,7 @@ declare namespace Deno {
       : T extends NativeU32Enum<infer U> ? U
       : T extends NativeI32Enum<infer U> ? U
       : number
-    : T extends NativeBigIntType ? number | bigint
+    : T extends NativeBigIntType ? bigint
     : T extends NativeBooleanType ? boolean
     : T extends NativePointerType
       ? T extends NativeTypedPointer<infer U> ? U | null : PointerValue
@@ -13378,7 +13391,7 @@ declare namespace Deno {
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type FromNativeParameterTypes<
     T extends readonly NativeType[],
@@ -13398,7 +13411,7 @@ declare namespace Deno {
    * types.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export interface ForeignFunction<
     Parameters extends readonly NativeType[] = readonly NativeType[],
@@ -13431,7 +13444,7 @@ declare namespace Deno {
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export interface ForeignStatic<Type extends NativeType = NativeType> {
     /** Name of the symbol, defaults to the key name in symbols object. */
@@ -13450,7 +13463,7 @@ declare namespace Deno {
    * A foreign library interface descriptor.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export interface ForeignLibraryInterface {
     [name: string]: ForeignFunction | ForeignStatic;
@@ -13461,7 +13474,7 @@ declare namespace Deno {
    * A utility type that infers a foreign symbol.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type StaticForeignSymbol<T extends ForeignFunction | ForeignStatic> =
     T extends ForeignFunction ? FromForeignFunction<T>
@@ -13471,7 +13484,7 @@ declare namespace Deno {
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    *  @category FFI
-   *  @tags unstable
+   *  @experimental
    */
   export type FromForeignFunction<T extends ForeignFunction> =
     T["parameters"] extends readonly [] ? () => StaticForeignSymbolReturnType<T>
@@ -13482,7 +13495,7 @@ declare namespace Deno {
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type StaticForeignSymbolReturnType<T extends ForeignFunction> =
     ConditionalAsync<T["nonblocking"], FromNativeResultType<T["result"]>>;
@@ -13490,7 +13503,7 @@ declare namespace Deno {
   /** **UNSTABLE**: New API, yet to be vetted.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type ConditionalAsync<IsAsync extends boolean | undefined, T> =
     IsAsync extends true ? Promise<T> : T;
@@ -13500,7 +13513,7 @@ declare namespace Deno {
    * A utility type that infers a foreign library interface.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type StaticForeignLibraryInterface<T extends ForeignLibraryInterface> =
     {
@@ -13523,7 +13536,7 @@ declare namespace Deno {
    * {@linkcode UnsafePointer} class.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type PointerObject<T = unknown> = { [brand]: T };
 
@@ -13533,7 +13546,7 @@ declare namespace Deno {
    * object or a `null` if the pointer is null.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type PointerValue<T = unknown> = null | PointerObject<T>;
 
@@ -13542,11 +13555,11 @@ declare namespace Deno {
    * A collection of static functions for interacting with pointer objects.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export class UnsafePointer {
     /** Create a pointer from a numeric value. This one is <i>really</i> dangerous! */
-    static create<T = unknown>(value: number | bigint): PointerValue<T>;
+    static create<T = unknown>(value: bigint): PointerValue<T>;
     /** Returns `true` if the two pointers point to the same address. */
     static equals<T = unknown>(a: PointerValue<T>, b: PointerValue<T>): boolean;
     /** Return the direct memory pointer to the typed array in memory. */
@@ -13559,7 +13572,7 @@ declare namespace Deno {
       offset: number,
     ): PointerValue<T>;
     /** Get the numeric value of a pointer */
-    static value(value: PointerValue): number | bigint;
+    static value(value: PointerValue): bigint;
   }
 
   /** **UNSTABLE**: New API, yet to be vetted.
@@ -13570,7 +13583,7 @@ declare namespace Deno {
    * location (numbers, strings and raw bytes).
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export class UnsafePointerView {
     constructor(pointer: PointerObject);
@@ -13599,10 +13612,10 @@ declare namespace Deno {
     getInt32(offset?: number): number;
     /** Gets an unsigned 64-bit integer at the specified byte offset from the
      * pointer. */
-    getBigUint64(offset?: number): number | bigint;
+    getBigUint64(offset?: number): bigint;
     /** Gets a signed 64-bit integer at the specified byte offset from the
      * pointer. */
-    getBigInt64(offset?: number): number | bigint;
+    getBigInt64(offset?: number): bigint;
     /** Gets a signed 32-bit float at the specified byte offset from the
      * pointer. */
     getFloat32(offset?: number): number;
@@ -13654,7 +13667,7 @@ declare namespace Deno {
    * as symbols.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export class UnsafeFnPointer<const Fn extends ForeignFunction> {
     /** The pointer to the function. */
@@ -13675,7 +13688,7 @@ declare namespace Deno {
    * Definition of a unsafe callback function.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export interface UnsafeCallbackDefinition<
     Parameters extends readonly NativeType[] = readonly NativeType[],
@@ -13692,7 +13705,7 @@ declare namespace Deno {
    * An unsafe callback function.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export type UnsafeCallbackFunction<
     Parameters extends readonly NativeType[] = readonly NativeType[],
@@ -13723,7 +13736,7 @@ declare namespace Deno {
    * called from foreign threads.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export class UnsafeCallback<
     const Definition extends UnsafeCallbackDefinition =
@@ -13807,7 +13820,7 @@ declare namespace Deno {
    * library and return this interface.
    *
    * @category FFI
-   * @tags unstable
+   * @experimental
    */
   export interface DynamicLibrary<S extends ForeignLibraryInterface> {
     /** All of the registered library along with functions for calling them. */
@@ -13861,13 +13874,14 @@ declare namespace Deno {
    * );
    *
    * // Call the symbol `add`
-   * const result = dylib.symbols.add(35, 34); // 69
+   * const result = dylib.symbols.add(35n, 34n); // 69n
    *
    * console.log(`Result from external addition of 35 and 34: ${result}`);
    * ```
    *
-   * @tags allow-ffi, unstable
+   * @tags allow-ffi
    * @category FFI
+   * @experimental
    */
   export function dlopen<const S extends ForeignLibraryInterface>(
     filename: string | URL,
@@ -13889,7 +13903,7 @@ declare namespace Deno {
    *  | "wayland" (Linux) | `wl_surface*` | `wl_display*`   |
    *
    * @category GPU
-   * @tags unstable
+   * @experimental
    */
   export class UnsafeWindowSurface {
     constructor(
@@ -13906,7 +13920,7 @@ declare namespace Deno {
    * These are unstable options which can be used with {@linkcode Deno.run}.
    *
    * @category Sub Process
-   * @tags unstable
+   * @experimental
    */
   export interface UnstableRunOptions extends RunOptions {
     /** If `true`, clears the environment variables before executing the
@@ -13967,8 +13981,9 @@ declare namespace Deno {
    *
    * Requires `allow-run` permission.
    *
-   * @tags allow-run, unstable
+   * @tags allow-run
    * @category Sub Process
+   * @experimental
    */
   export function run<T extends UnstableRunOptions = UnstableRunOptions>(
     opt: T,
@@ -13986,7 +14001,7 @@ declare namespace Deno {
    * ```
    *
    * @category Fetch
-   * @tags unstable
+   * @experimental
    */
   export interface HttpClient extends Disposable {
     /** Close the HTTP client. */
@@ -13998,7 +14013,7 @@ declare namespace Deno {
    * The options used when creating a {@linkcode Deno.HttpClient}.
    *
    * @category Fetch
-   * @tags unstable
+   * @experimental
    */
   export interface CreateHttpClientOptions {
     /** A list of root certificates that will be used in addition to the
@@ -14037,7 +14052,7 @@ declare namespace Deno {
    * {@linkcode Deno.CreateHttpClientOptions}.
    *
    * @category Fetch
-   * @tags unstable
+   * @experimental
    */
   export interface Proxy {
     /** The string URL of the proxy server to use. */
@@ -14052,7 +14067,7 @@ declare namespace Deno {
    * server when specifying {@linkcode Deno.CreateHttpClientOptions}.
    *
    * @category Fetch
-   * @tags unstable
+   * @experimental
    */
   export interface BasicAuth {
     /** The username to be used against the proxy server. */
@@ -14081,7 +14096,7 @@ declare namespace Deno {
    * ```
    *
    * @category Fetch
-   * @tags unstable
+   * @experimental
    */
   export function createHttpClient(
     options: CreateHttpClientOptions,
@@ -14103,7 +14118,7 @@ declare namespace Deno {
    * ```
    *
    * @category Fetch
-   * @tags unstable
+   * @experimental
    */
   export function createHttpClient(
     options: CreateHttpClientOptions & TlsCertifiedKeyOptions,
@@ -14114,7 +14129,7 @@ declare namespace Deno {
    * Represents membership of a IPv4 multicast group.
    *
    * @category Network
-   * @tags unstable
+   * @experimental
    */
   export interface MulticastV4Membership {
     /** Leaves the multicast group. */
@@ -14130,7 +14145,7 @@ declare namespace Deno {
    * Represents membership of a IPv6 multicast group.
    *
    * @category Network
-   * @tags unstable
+   * @experimental
    */
   export interface MulticastV6Membership {
     /** Leaves the multicast group. */
@@ -14144,7 +14159,7 @@ declare namespace Deno {
    * A generic transport listener for message-oriented protocols.
    *
    * @category Network
-   * @tags unstable
+   * @experimental
    */
   export interface DatagramConn extends AsyncIterable<[Uint8Array, Addr]> {
     /** Joins an IPv4 multicast group. */
@@ -14178,7 +14193,7 @@ declare namespace Deno {
 
   /**
    * @category Network
-   * @tags unstable
+   * @experimental
    */
   export interface TcpListenOptions extends ListenOptions {
     /** When `true` the SO_REUSEPORT flag will be set on the listener. This
@@ -14201,7 +14216,7 @@ declare namespace Deno {
    * {@linkcode Deno.listenDatagram}.
    *
    * @category Network
-   * @tags unstable
+   * @experimental
    */
   export interface UdpListenOptions extends ListenOptions {
     /** When `true` the specified address will be reused, even if another
@@ -14235,8 +14250,9 @@ declare namespace Deno {
    *
    * Requires `allow-net` permission.
    *
-   * @tags allow-net, unstable
+   * @tags allow-net
    * @category Network
+   * @experimental
    */
   export function listenDatagram(
     options: UdpListenOptions & { transport: "udp" },
@@ -14255,8 +14271,9 @@ declare namespace Deno {
    *
    * Requires `allow-read` and `allow-write` permission.
    *
-   * @tags allow-read, allow-write, unstable
+   * @tags allow-read, allow-write
    * @category Network
+   * @experimental
    */
   export function listenDatagram(
     options: UnixListenOptions & { transport: "unixpacket" },
@@ -14268,7 +14285,7 @@ declare namespace Deno {
    *
    * @param [exclusive=false]
    * @category File System
-   * @tags unstable
+   * @experimental
    */
   export function flock(rid: number, exclusive?: boolean): Promise<void>;
 
@@ -14278,7 +14295,7 @@ declare namespace Deno {
    *
    * @param [exclusive=false]
    * @category File System
-   * @tags unstable
+   * @experimental
    */
   export function flockSync(rid: number, exclusive?: boolean): void;
 
@@ -14287,7 +14304,7 @@ declare namespace Deno {
    * Release an advisory file-system lock for the provided file.
    *
    * @category File System
-   * @tags unstable
+   * @experimental
    */
   export function funlock(rid: number): Promise<void>;
 
@@ -14296,7 +14313,7 @@ declare namespace Deno {
    * Release an advisory file-system lock for the provided file synchronously.
    *
    * @category File System
-   * @tags unstable
+   * @experimental
    */
   export function funlockSync(rid: number): void;
 
@@ -14313,8 +14330,9 @@ declare namespace Deno {
    * `localStorage` persistence). More information about the origin storage key
    * can be found in the Deno Manual.
    *
-   * @tags allow-read, allow-write, unstable
+   * @tags allow-read, allow-write
    * @category Cloud
+   * @experimental
    */
   export function openKv(path?: string): Promise<Deno.Kv>;
 
@@ -14323,7 +14341,7 @@ declare namespace Deno {
    * CronScheduleExpression is used as the type of `minute`, `hour`,
    * `dayOfMonth`, `month`, and `dayOfWeek` in {@linkcode CronSchedule}.
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type CronScheduleExpression = number | { exact: number | number[] } | {
     start?: number;
@@ -14336,7 +14354,7 @@ declare namespace Deno {
    * CronSchedule is the interface used for JSON format
    * cron `schedule`.
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export interface CronSchedule {
     minute?: CronScheduleExpression;
@@ -14368,7 +14386,7 @@ declare namespace Deno {
    * using UTC time zone.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export function cron(
     name: string,
@@ -14400,7 +14418,7 @@ declare namespace Deno {
    * second, 5 seconds, and 10 seconds delay between each retry.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export function cron(
     name: string,
@@ -14425,7 +14443,7 @@ declare namespace Deno {
    * was passed to.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvKey = readonly KvKeyPart[];
 
@@ -14462,7 +14480,7 @@ declare namespace Deno {
    * over the ordering of values within a type.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvKeyPart =
     | Uint8Array
@@ -14480,7 +14498,7 @@ declare namespace Deno {
    * - `eventual` - Eventually-consistent behavior is allowed.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvConsistencyLevel = "strong" | "eventual";
 
@@ -14495,7 +14513,7 @@ declare namespace Deno {
    * lexicographically between the given start and end keys.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvListSelector =
     | { prefix: KvKey }
@@ -14534,7 +14552,7 @@ declare namespace Deno {
    *   the value is set to the given value.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvMutation =
     & { key: KvKey }
@@ -14554,7 +14572,7 @@ declare namespace Deno {
    * iteration from the current position in the future.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export class KvListIterator<T> implements AsyncIterableIterator<KvEntry<T>> {
     /**
@@ -14577,7 +14595,7 @@ declare namespace Deno {
    * by passing it to the `check` method of a {@linkcode Deno.AtomicOperation}.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvEntry<T> = { key: KvKey; value: T; versionstamp: string };
 
@@ -14590,7 +14608,7 @@ declare namespace Deno {
    * fields may be `null` if no value exists for the given key in the KV store.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export type KvEntryMaybe<T> = KvEntry<T> | {
     key: KvKey;
@@ -14603,7 +14621,7 @@ declare namespace Deno {
    * Options for listing key-value pairs in a {@linkcode Deno.Kv}.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export interface KvListOptions {
     /**
@@ -14658,7 +14676,7 @@ declare namespace Deno {
 
   /**
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export interface KvCommitResult {
     ok: true;
@@ -14668,7 +14686,7 @@ declare namespace Deno {
 
   /**
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export interface KvCommitError {
     ok: false;
@@ -14682,7 +14700,7 @@ declare namespace Deno {
    * that the key-value pair does not currently exist in the KV store.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export interface AtomicCheck {
     key: KvKey;
@@ -14724,7 +14742,7 @@ declare namespace Deno {
    * and the versionstamp of the value committed to KV.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export class AtomicOperation {
     /**
@@ -14841,7 +14859,7 @@ declare namespace Deno {
    * an exception will be thrown.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export class Kv implements Disposable {
     /**
@@ -15112,7 +15130,7 @@ declare namespace Deno {
    * {@linkcode Deno.Kv}.
    *
    * @category Cloud
-   * @tags unstable
+   * @experimental
    */
   export class KvU64 {
     /** Create a new `KvU64` instance from the given bigint value. If the value
@@ -15128,12 +15146,12 @@ declare namespace Deno {
    * When accessed outside of Jupyter notebook context an error will be thrown.
    *
    * @category Jupyter
-   * @tags unstable
+   * @experimental
    */
   export namespace jupyter {
     /**
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export interface DisplayOptions {
       raw?: boolean;
@@ -15143,7 +15161,7 @@ declare namespace Deno {
 
     /**
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export type VegaObject = {
       $schema: string;
@@ -15154,7 +15172,7 @@ declare namespace Deno {
      * A collection of supported media types and data for Jupyter frontends.
      *
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export type MediaBundle = {
       "text/plain"?: string;
@@ -15186,13 +15204,13 @@ declare namespace Deno {
 
     /**
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export const $display: unique symbol;
 
     /**
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export type Displayable = {
       [$display]: () => MediaBundle | Promise<MediaBundle>;
@@ -15206,7 +15224,7 @@ declare namespace Deno {
      * @param obj - The object to be displayed
      * @param options - Display options with a default { raw: true }
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export function display(obj: unknown, options?: DisplayOptions): void;
 
@@ -15231,7 +15249,7 @@ declare namespace Deno {
      * ```
      *
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export function md(
       strings: TemplateStringsArray,
@@ -15251,7 +15269,7 @@ declare namespace Deno {
      * ```
      *
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export function html(
       strings: TemplateStringsArray,
@@ -15270,7 +15288,7 @@ declare namespace Deno {
      *    </svg>`
      *
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export function svg(
       strings: TemplateStringsArray,
@@ -15284,7 +15302,7 @@ declare namespace Deno {
      * @returns MediaBundle
      *
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export function format(obj: unknown): MediaBundle;
 
@@ -15308,7 +15326,7 @@ declare namespace Deno {
      * ```
      *
      * @category Jupyter
-     * @tags unstable
+     * @experimental
      */
     export function broadcast(
       msgType: string,
@@ -15327,8 +15345,9 @@ declare namespace Deno {
  * which also supports setting a {@linkcode Deno.HttpClient} which provides a
  * way to connect via proxies and use custom TLS certificates.
  *
- * @tags allow-net, allow-read, unstable
+ * @tags allow-net, allow-read
  * @category Fetch
+ * @experimental
  */
 declare function fetch(
   input: Request | URL | string,
@@ -15338,7 +15357,7 @@ declare function fetch(
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @category Workers
- * @tags unstable
+ * @experimental
  */
 declare interface WorkerOptions {
   /** **UNSTABLE**: New API, yet to be vetted.
@@ -15379,7 +15398,7 @@ declare interface WorkerOptions {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @category WebSockets
- * @tags unstable
+ * @experimental
  */
 declare interface WebSocketStreamOptions {
   protocols?: string[];
@@ -15390,7 +15409,7 @@ declare interface WebSocketStreamOptions {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @category WebSockets
- * @tags unstable
+ * @experimental
  */
 declare interface WebSocketConnection {
   readable: ReadableStream<string | Uint8Array>;
@@ -15402,7 +15421,7 @@ declare interface WebSocketConnection {
 /** **UNSTABLE**: New API, yet to be vetted.
  *
  * @category WebSockets
- * @tags unstable
+ * @experimental
  */
 declare interface WebSocketCloseInfo {
   code?: number;
@@ -15411,8 +15430,9 @@ declare interface WebSocketCloseInfo {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @tags allow-net, unstable
+ * @tags allow-net
  * @category WebSockets
+ * @experimental
  */
 declare interface WebSocketStream {
   url: string;
@@ -15423,8 +15443,9 @@ declare interface WebSocketStream {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @tags allow-net, unstable
+ * @tags allow-net
  * @category WebSockets
+ * @experimental
  */
 declare var WebSocketStream: {
   readonly prototype: WebSocketStream;
@@ -15433,8 +15454,9 @@ declare var WebSocketStream: {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @tags allow-net, unstable
+ * @tags allow-net
  * @category WebSockets
+ * @experimental
  */
 declare interface WebSocketError extends DOMException {
   readonly closeCode: number;
@@ -15443,8 +15465,9 @@ declare interface WebSocketError extends DOMException {
 
 /** **UNSTABLE**: New API, yet to be vetted.
  *
- * @tags allow-net, unstable
+ * @tags allow-net
  * @category WebSockets
+ * @experimental
  */
 declare var WebSocketError: {
   readonly prototype: WebSocketError;
@@ -15457,17 +15480,17 @@ declare var WebSocketError: {
  * [Specification](https://tc39.es/proposal-temporal/docs/index.html)
  *
  * @category Temporal
- * @tags unstable
+ * @experimental
  */
 declare namespace Temporal {
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ComparisonResult = -1 | 0 | 1;
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type RoundingMode =
     | "ceil"
@@ -15485,7 +15508,7 @@ declare namespace Temporal {
    * `from()`.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type AssignmentOptions = {
     /**
@@ -15507,7 +15530,7 @@ declare namespace Temporal {
    * `Duration.prototype.add()` and `Duration.prototype.subtract()`.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type DurationOptions = {
     /**
@@ -15527,7 +15550,7 @@ declare namespace Temporal {
    * Options for conversions of `Temporal.PlainDateTime` to `Temporal.Instant`
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ToInstantOptions = {
     /**
@@ -15557,7 +15580,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type OffsetDisambiguationOptions = {
     /**
@@ -15597,7 +15620,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ZonedDateTimeAssignmentOptions = Partial<
     AssignmentOptions & ToInstantOptions & OffsetDisambiguationOptions
@@ -15607,7 +15630,7 @@ declare namespace Temporal {
    * Options for arithmetic operations like `add()` and `subtract()`
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ArithmeticOptions = {
     /**
@@ -15623,12 +15646,12 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type DateUnit = "year" | "month" | "week" | "day";
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type TimeUnit =
     | "hour"
@@ -15639,7 +15662,7 @@ declare namespace Temporal {
     | "nanosecond";
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type DateTimeUnit = DateUnit | TimeUnit;
 
@@ -15649,7 +15672,7 @@ declare namespace Temporal {
    * or 'hours' are aso accepted too.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PluralUnit<T extends DateTimeUnit> = {
     year: "years";
@@ -15666,17 +15689,17 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type LargestUnit<T extends DateTimeUnit> = "auto" | T | PluralUnit<T>;
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type SmallestUnit<T extends DateTimeUnit> = T | PluralUnit<T>;
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type TotalUnit<T extends DateTimeUnit> = T | PluralUnit<T>;
 
@@ -15684,7 +15707,7 @@ declare namespace Temporal {
    * Options for outputting precision in toString() on types with seconds
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ToStringPrecisionOptions = {
     fractionalSecondDigits?: "auto" | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -15711,7 +15734,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ShowCalendarOption = {
     calendarName?: "auto" | "always" | "never" | "critical";
@@ -15719,7 +15742,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type CalendarTypeToStringOptions = Partial<
     ToStringPrecisionOptions & ShowCalendarOption
@@ -15727,7 +15750,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ZonedDateTimeToStringOptions = Partial<
     CalendarTypeToStringOptions & {
@@ -15738,7 +15761,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type InstantToStringOptions = Partial<
     ToStringPrecisionOptions & {
@@ -15751,7 +15774,7 @@ declare namespace Temporal {
    * `Temporal` types.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export interface DifferenceOptions<T extends DateTimeUnit> {
     /**
@@ -15814,7 +15837,7 @@ declare namespace Temporal {
    * `smallestUnit` property value is that string.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type RoundTo<T extends DateTimeUnit> =
     | SmallestUnit<T>
@@ -15860,7 +15883,7 @@ declare namespace Temporal {
    * object whose `smallestUnit` property value is that string.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type DurationRoundTo =
     | SmallestUnit<DateTimeUnit>
@@ -15991,7 +16014,7 @@ declare namespace Temporal {
    * Options to control behavior of `Duration.prototype.total()`
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type DurationTotalOf =
     | TotalUnit<DateTimeUnit>
@@ -16036,7 +16059,7 @@ declare namespace Temporal {
    * `Duration.subtract()`
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export interface DurationArithmeticOptions {
     /**
@@ -16069,7 +16092,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type DurationLike = {
     years?: number;
@@ -16091,7 +16114,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/duration.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class Duration {
     static from(
@@ -16164,7 +16187,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/instant.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class Instant {
     static fromEpochSeconds(epochSeconds: number): Temporal.Instant;
@@ -16246,14 +16269,14 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type YearOrEraAndEraYear = { era: string; eraYear: number } | {
     year: number;
   };
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type MonthCodeOrMonthAndYear =
     | (YearOrEraAndEraYear & { month: number })
@@ -16262,13 +16285,13 @@ declare namespace Temporal {
     };
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type MonthOrMonthCode = { month: number } | { monthCode: string };
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export interface CalendarProtocol {
     id: string;
@@ -16422,7 +16445,7 @@ declare namespace Temporal {
    * Any of these types can be passed to Temporal methods instead of a Temporal.Calendar.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type CalendarLike =
     | string
@@ -16442,7 +16465,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/calendar.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class Calendar implements CalendarProtocol {
     static from(item: CalendarLike): Temporal.Calendar | CalendarProtocol;
@@ -16597,7 +16620,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainDateLike = {
     era?: string | undefined;
@@ -16611,7 +16634,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainDateISOFields = {
     isoYear: number;
@@ -16630,7 +16653,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/date.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class PlainDate {
     static from(
@@ -16713,7 +16736,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainDateTimeLike = {
     era?: string | undefined;
@@ -16733,7 +16756,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainDateTimeISOFields = {
     isoYear: number;
@@ -16759,7 +16782,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/datetime.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class PlainDateTime {
     static from(
@@ -16887,7 +16910,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainMonthDayLike = {
     era?: string | undefined;
@@ -16907,7 +16930,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/monthday.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class PlainMonthDay {
     static from(
@@ -16943,7 +16966,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainTimeLike = {
     hour?: number;
@@ -16956,7 +16979,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainTimeISOFields = {
     isoHour: number;
@@ -16983,7 +17006,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/time.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class PlainTime {
     static from(
@@ -17075,7 +17098,7 @@ declare namespace Temporal {
    * A plain object implementing the protocol for a custom time zone.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export interface TimeZoneProtocol {
     id: string;
@@ -17106,7 +17129,7 @@ declare namespace Temporal {
    * Any of these types can be passed to Temporal methods instead of a Temporal.TimeZone.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type TimeZoneLike = string | TimeZoneProtocol | ZonedDateTime;
 
@@ -17125,7 +17148,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/timezone.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class TimeZone implements TimeZoneProtocol {
     static from(timeZone: TimeZoneLike): Temporal.TimeZone | TimeZoneProtocol;
@@ -17158,7 +17181,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type PlainYearMonthLike = {
     era?: string | undefined;
@@ -17177,7 +17200,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/yearmonth.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class PlainYearMonth {
     static from(
@@ -17242,7 +17265,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ZonedDateTimeLike = {
     era?: string | undefined;
@@ -17264,7 +17287,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export type ZonedDateTimeISOFields = {
     isoYear: number;
@@ -17283,7 +17306,7 @@ declare namespace Temporal {
 
   /**
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export class ZonedDateTime {
     static from(
@@ -17418,7 +17441,7 @@ declare namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/now.html for more details.
    *
    * @category Temporal
-   * @tags unstable
+   * @experimental
    */
   export const Now: {
     /**
@@ -17574,7 +17597,7 @@ declare namespace Temporal {
 
 /**
  * @category Temporal
- * @tags unstable
+ * @experimental
  */
 declare interface Date {
   toTemporalInstant(): Temporal.Instant;
@@ -17582,12 +17605,12 @@ declare interface Date {
 
 /**
  * @category Intl
- * @tags unstable
+ * @experimental
  */
 declare namespace Intl {
   /**
    * @category Intl
-   * @tags unstable
+   * @experimental
    */
   export type Formattable =
     | Date
@@ -17601,7 +17624,7 @@ declare namespace Intl {
 
   /**
    * @category Intl
-   * @tags unstable
+   * @experimental
    */
   export interface DateTimeFormatRangePart {
     source: "shared" | "startRange" | "endRange";
@@ -17609,7 +17632,7 @@ declare namespace Intl {
 
   /**
    * @category Intl
-   * @tags unstable
+   * @experimental
    */
   export interface DateTimeFormat {
     /**
@@ -17661,7 +17684,7 @@ declare namespace Intl {
 
   /**
    * @category Intl
-   * @tags unstable
+   * @experimental
    */
   export interface DateTimeFormatOptions {
     // TODO: remove the props below after TS lib declarations are updated
@@ -17676,7 +17699,7 @@ declare namespace Intl {
  * of bytes could not be allocated an exception is raised.
  *
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16Array {
   /**
@@ -17991,7 +18014,7 @@ declare interface Float16Array {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16ArrayConstructor {
   readonly prototype: Float16Array;
@@ -18034,13 +18057,13 @@ declare interface Float16ArrayConstructor {
 }
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare var Float16Array: Float16ArrayConstructor;
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16 {
   [Symbol.iterator](): IterableIterator<number>;
@@ -18060,7 +18083,7 @@ declare interface Float16 {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16Constructor {
   new (elements: Iterable<number>): Float16;
@@ -18080,7 +18103,7 @@ declare interface Float16Constructor {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16Array {
   readonly [Symbol.toStringTag]: "Float16Array";
@@ -18088,7 +18111,7 @@ declare interface Float16Array {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16Array {
   /**
@@ -18101,7 +18124,7 @@ declare interface Float16Array {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16ArrayConstructor {
   new (): Float16Array;
@@ -18109,7 +18132,7 @@ declare interface Float16ArrayConstructor {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16Array {
   /**
@@ -18121,7 +18144,7 @@ declare interface Float16Array {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface Float16Array {
   /**
@@ -18197,7 +18220,7 @@ declare interface Float16Array {
 
 /**
  * @category Platform
- * @tags unstable
+ * @experimental
  */
 declare interface DataView {
   /**
