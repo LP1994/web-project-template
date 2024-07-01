@@ -1,1 +1,1 @@
-esbuild ./Main.test.mts --target=es2023 --tsconfig=../../../../../../tsconfig.tsx.json --outfile=./esbuild.out.esm.mjs --bundle --platform=neutral --format=esm --allow-overwrite --minify --tree-shaking=true&node ./esbuild.out.esm.mjs&del /q esbuild.out.esm.mjs&pause
+esbuild ./Main.test.mts --target=es2024 --tsconfig=../../../../../../tsconfig.tsx.json --outfile=./esbuild.out.esm.mjs --bundle --platform=neutral --format=esm --allow-overwrite --minify --tree-shaking=true&node ./esbuild.out.esm.mjs&del /q esbuild.out.esm.mjs&pause
