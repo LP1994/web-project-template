@@ -50,10 +50,10 @@ declare interface ImportMeta {
    * * Example:
    * ```
    * // Unix
-   * console.log(import.meta.dirname); // /home/alice/
+   * console.log(import.meta.dirname); // /home/alice
    *
    * // Windows
-   * console.log(import.meta.dirname); // C:\alice\
+   * console.log(import.meta.dirname); // C:\alice
    * ```
    */
   dirname?: string;
@@ -4969,7 +4969,12 @@ declare namespace Deno {
       | "osUptime"
       | "uid"
       | "gid"
-      | "cpus";
+      | "username"
+      | "cpus"
+      | "homedir"
+      | "statfs"
+      | "getPriority"
+      | "setPriority";
   }
 
   /** The permission descriptor for the `allow-ffi` and `deny-ffi` permissions, which controls
@@ -6257,6 +6262,8 @@ declare namespace Deno {
    */
   export interface ServeOptions {
     /** The port to listen on.
+     *
+     * Set to `0` to listen on any available port.
      *
      * @default {8000} */
     port?: number;
@@ -7639,6 +7646,7 @@ declare interface Blob {
   readonly size: number;
   readonly type: string;
   arrayBuffer(): Promise<ArrayBuffer>;
+  bytes(): Promise<Uint8Array>;
   slice(start?: number, end?: number, contentType?: string): Blob;
   stream(): ReadableStream<Uint8Array>;
   text(): Promise<string>;
@@ -10577,7 +10585,7 @@ declare type GPUErrorFilter = "out-of-memory" | "validation" | "internal";
  * @category GPU
  * @experimental
  */
-declare class GPUUncapturedErrorEvent extends EventTarget {
+declare class GPUUncapturedErrorEvent extends Event {
   constructor(
     type: string,
     gpuUncapturedErrorEventInitDict: GPUUncapturedErrorEventInit,
@@ -11522,7 +11530,10 @@ declare namespace Deno {
 
   /** @category Network */
   export interface ListenOptions {
-    /** The port to listen on. */
+    /** The port to listen on.
+     *
+     * Set to `0` to listen on any available port.
+     */
     port: number;
     /** A literal IP address or host name that can be resolved to an IP address.
      *
@@ -13431,11 +13442,6 @@ declare namespace Deno {
     /** When `true`, function calls will run on a dedicated blocking thread and
      * will return a `Promise` resolving to the `result`. */
     nonblocking?: NonBlocking;
-    /** When `true`, function calls can safely callback into JavaScript or
-     * trigger a garbage collection event.
-     *
-     * @default {false} */
-    callback?: boolean;
     /** When `true`, dlopen will not fail if the symbol is not found.
      * Instead, the symbol will be set to `null`.
      *
