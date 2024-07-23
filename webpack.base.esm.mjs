@@ -103,7 +103,7 @@ import package_json from './package.json' with { type: 'json', };
 
 import postcss from 'postcss';
 
-import * as DartSass from 'sass';
+import * as SassEmbedded from 'sass-embedded';
 
 import Stylus from 'stylus';
 
@@ -340,22 +340,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240712。Start
-    'Chrome >= 126',
+    // PC端各主流浏览器的最新版本，至20240724。Start
+    'Chrome >= 127',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 126',
     'Firefox >= 128',
     'Safari >= 17',
     'Opera >= 112',
-    // PC端各主流浏览器的最新版本，至20240712。End
+    // PC端各主流浏览器的最新版本，至20240724。End
 
-    // 移动端各主流浏览器的最新版本，至20240712。Start
-    'ChromeAndroid >= 126',
+    // 移动端各主流浏览器的最新版本，至20240724。Start
+    'ChromeAndroid >= 127',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 126',
+    'Android >= 127',
     'FirefoxAndroid >= 128',
     'iOS >= 17',
-    // 移动端各主流浏览器的最新版本，至20240712。End
+    // 移动端各主流浏览器的最新版本，至20240724。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -386,17 +386,17 @@ const browserslist = [
 
     'es2024',
 
-    // PC端各主流浏览器的最新版本，至20240712。Start
-    'chrome126',
+    // PC端各主流浏览器的最新版本，至20240724。Start
+    'chrome127',
     'edge126',
     'firefox128',
     'safari17',
     'opera112',
-    // PC端各主流浏览器的最新版本，至20240712。End
+    // PC端各主流浏览器的最新版本，至20240724。End
 
-    // 移动端各主流浏览器的最新版本，至20240712。Start
+    // 移动端各主流浏览器的最新版本，至20240724。Start
     'ios17',
-    // 移动端各主流浏览器的最新版本，至20240712。End
+    // 移动端各主流浏览器的最新版本，至20240724。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -430,19 +430,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20240712。Start
-    chrome: 126,
+    // PC端各主流浏览器的最新版本，至20240724。Start
+    chrome: 127,
     edge: 126,
     firefox: 128,
     safari: 17,
     opera: 112,
-    // PC端各主流浏览器的最新版本，至20240712。End
+    // PC端各主流浏览器的最新版本，至20240724。End
 
-    // 移动端各主流浏览器的最新版本，至20240712。Start
+    // 移动端各主流浏览器的最新版本，至20240724。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 126,
+    android: 127,
     ios: 17,
-    // 移动端各主流浏览器的最新版本，至20240712。End
+    // 移动端各主流浏览器的最新版本，至20240724。End
   },
   /**
    * 编译目标配置。
@@ -5702,8 +5702,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       sassLoader = {
         loader: 'sass-loader',
         options: {
-          // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
-          implementation: DartSass,
+          /**
+           * 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded。导入sass这个包名就行，它已经等同于dart-sass包。
+           * 注意：sass-loader从开始15.0.0，默认使用“sass-embedded”作为默认实现！
+           */
+          implementation: SassEmbedded,
           // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
           sourceMap: false,
           /**
@@ -5720,11 +5723,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           warnRuleAsWarning: true,
           /**
            * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
-           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
+           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'、'modern-compiler'。<br />
            * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
            * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           * 4、同时使用 modern-compiler 和 sass-embedded 可显著提高性能并缩短构建时间。 我们强烈推荐使用它们。 我们将在未来的主要版本中默认启用它们。<br />
            */
-          api: 'modern',
+          api: 'modern-compiler',
           /**
            * 1、data、file这两个选项是不可用的，会被忽略。<br />
            * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
@@ -5764,13 +5768,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
                * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
                */
-              indentType: 'space',
+              // indentType: 'space',
               /**
                * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
                * 1、值类型：number，默认值：2。<br />
                * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
                */
-              indentWidth: 4,
+              // indentWidth: 4,
               /**
                * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
                * 1、'lf'使用U+000A换行。<br />
@@ -5780,7 +5784,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
                * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
                */
-              linefeed: 'lf',
+              // linefeed: 'lf',
               /**
                * 已编译CSS的输出样式。有4种可能的输出样式：<br />
                * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
@@ -5835,8 +5839,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       scssLoader = {
         loader: 'sass-loader',
         options: {
-          // 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded（处于试验阶段）。导入sass这个包名就行，它已经等同于dart-sass包。
-          implementation: DartSass,
+          /**
+           * 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded。导入sass这个包名就行，它已经等同于dart-sass包。
+           * 注意：sass-loader从开始15.0.0，默认使用“sass-embedded”作为默认实现！
+           */
+          implementation: SassEmbedded,
           // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
           sourceMap: false,
           /**
@@ -5853,11 +5860,12 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           warnRuleAsWarning: true,
           /**
            * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
-           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'。<br />
+           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'、'modern-compiler'。<br />
            * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
            * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
+           * 4、同时使用 modern-compiler 和 sass-embedded 可显著提高性能并缩短构建时间。 我们强烈推荐使用它们。 我们将在未来的主要版本中默认启用它们。<br />
            */
-          api: 'modern',
+          api: 'modern-compiler',
           /**
            * 1、data、file这两个选项是不可用的，会被忽略。<br />
            * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
@@ -5897,13 +5905,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                * 1、值类型：string，默认值：space，有效值：'space'、'tab'。<br />
                * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
                */
-              indentType: 'space',
+              // indentType: 'space',
               /**
                * 每个应使用多少空格或制表符（二者到底哪个取决于indentType选项）生成的CSS中的缩进级别。它必须介于0和10之间（包括0和10）。<br />
                * 1、值类型：number，默认值：2。<br />
                * 2、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
                */
-              indentWidth: 2,
+              // indentWidth: 2,
               /**
                * 在生成的CSS中每个行的末尾使用哪个字符序列，它可以具有以下值：<br />
                * 1、'lf'使用U+000A换行。<br />
@@ -5913,7 +5921,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                * 5、值类型：string，默认值：'lf'，有效值有：'lf'、'lfcr'、'cr'、'crlf'。<br />
                * 6、sass-embedded实现不支持该选项，但是Dart Sass实现还是支持的。<br />
                */
-              linefeed: 'lf',
+              // linefeed: 'lf',
               /**
                * 已编译CSS的输出样式。有4种可能的输出样式：<br />
                * 1、'expanded'：Dart Sass的默认值，写入每个选择器并声明自己的路线。<br />
