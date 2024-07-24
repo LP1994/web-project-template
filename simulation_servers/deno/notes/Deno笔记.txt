@@ -240,7 +240,7 @@ deno fmt --watch
 完整性标志（锁定文件），影响（也就是说可以在这几个子命令中使用这个命令参数标识）：deno cache、deno run、deno test、deno bundle、deno doc、deno compile这几个子命令。
 影响可以将资源下载到缓存的命令：deno cache、deno run、deno test、deno bundle、deno doc、deno compile。
 --lock <FILE>：检查指定的锁文件。
---lock-write：写锁文件。与--lock一起使用。
+--lock-write（在deno 2.X中会被删除）：写锁文件。与--lock一起使用。
 详细见：
 https://deno.land/manual@v1.27.0/linking_to_external_code/integrity_checking
 
@@ -283,7 +283,7 @@ deno run --check main.ts
 --no-check=https://deno.land/std@0.137.0/bytes/bytes_list.ts,https://deno.land/std@0.137.0/io/buffer.ts,https://deno.land/std@0.137.0/testing/_diff.ts
 但是--no-check=[,,,]不能跟--check=all一起使用。
 例子：
-deno run -A --config=./deno.json --lock-write --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m
+deno run -A --config=./deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m
 这种写法，只会对自己编写的代码做类型检查，不会对第三方的代码做类型检查。
 
 
