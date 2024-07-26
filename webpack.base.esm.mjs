@@ -3563,22 +3563,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 },
               ],
               /**
-               * @babel/plugin-proposal-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-proposal-duplicate-named-capturing-groups-regex、https://github.com/tc39/proposal-duplicate-named-capturing-groups
-               * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
-               * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
-               * 3、目前该提案处于第3阶段。<br />
-               */
-              [
-                '@babel/plugin-proposal-duplicate-named-capturing-groups-regex',
-                {
-                  /**
-                   * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
-                   * 1、值类型：boolean，默认值：true。<br />
-                   */
-                  runtime: true,
-                },
-              ],
-              /**
                * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers、https://github.com/tc39/proposal-regexp-modifiers
                * 1、目前该提案处于第3阶段。<br />
                */
@@ -3637,6 +3621,30 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  : [];
         } )( true ),
         // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） End
+
+        // ES2025（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-duplicate-named-capturing-groups-regex：https://babeljs.io/docs/babel-plugin-transform-duplicate-named-capturing-groups-regex、https://github.com/tc39/proposal-duplicate-named-capturing-groups
+               * 1、注意：这个插件生成需要ES6正则表达式功能的代码。<br />
+               * 2、如果您需要支持旧版浏览器，请使用runtime: false选项或导入适当的polyfill（例如：core-js）。<br />
+               */
+              [
+                '@babel/plugin-transform-duplicate-named-capturing-groups-regex',
+                {
+                  /**
+                   * 当这个选项被禁用时，Babel不会使用_wrapRegExp帮助器包装RegExps。输出仅支持内部组引用，不支持运行时属性。<br />
+                   * 1、值类型：boolean，默认值：true。<br />
+                   */
+                  runtime: true,
+                },
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2025（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
         // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
         ...( isEnable => {
