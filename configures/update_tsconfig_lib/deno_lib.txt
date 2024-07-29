@@ -1,4 +1,4 @@
-Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2）的（99个）：
+Deno_1.45.4程序允许的并检验通过的集合了Deno和TypeScript（5.5.4）的（103个）：
 'es5',
 'es6',
 'es2015',
@@ -19,6 +19,7 @@ Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2�
 'webworker',
 'webworker.importscripts',
 'webworker.iterable',
+'webworker.asynciterable',
 'scripthost',
 'es2015.core',
 'es2015.collection',
@@ -30,6 +31,7 @@ Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2�
 'es2015.symbol',
 'es2015.symbol.wellknown',
 'es2016.array.include',
+'es2016.intl',
 'es2017.date',
 'es2017.object',
 'es2017.sharedmemory',
@@ -67,6 +69,7 @@ Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2�
 'es2022.regexp',
 'es2023.array',
 'es2023.collection',
+'es2023.intl',
 'esnext.array',
 'esnext.collection',
 'esnext.symbol',
@@ -78,6 +81,8 @@ Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2�
 'esnext.promise',
 'esnext.weakref',
 'esnext.decorators',
+'esnext.object',
+'esnext.regexp',
 'decorators',
 'decorators.legacy',
 'deno.window',
@@ -85,23 +90,22 @@ Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2�
 'deno.shared_globals',
 'deno.ns',
 'deno.unstable',
-'esnext.object',
-'deno.websocket',
 'deno.broadcast_channel',
-'deno.webgpu',
-'deno.cache',
-'deno.console',
-'deno.webstorage',
-'deno.crypto',
-'deno.web',
-'deno.canvas',
 'deno.fetch',
+'deno.crypto',
+'deno.cache',
 'deno.net',
+'deno.websocket',
 'deno.url',
+'deno.console',
+'deno.webgpu',
+'deno.canvas',
+'deno.web',
+'deno.webstorage'
 
 
 
-Deno_1.41.1源码包中存在的独属于Deno的（19个）：
+Deno_1.45.4源码包中存在的独属于Deno的（18个）：
 "deno",
 "deno.ns",
 "deno.shared_globals",
@@ -112,7 +116,6 @@ Deno_1.41.1源码包中存在的独属于Deno的（19个）：
 "deno_cache",
 "deno_canvas",
 "deno_console",
-"deno_core",
 "deno_crypto",
 "deno_fetch",
 "deno_net",
@@ -120,11 +123,11 @@ Deno_1.41.1源码包中存在的独属于Deno的（19个）：
 "deno_web",
 "deno_webgpu",
 "deno_websocket",
-"deno_webstorage",
+"deno_webstorage"
 
 
 
-deno.json当前（1.41.1，20240307）在用的集合了Deno和TypeScript（5.4.2）的（83个）：
+deno.json当前（1.45.4，20240730）在用的集合了Deno和TypeScript（5.5.4）的（88个）：
 "deno.broadcast_channel",
 "deno.cache",
 "deno.canvas",
@@ -155,6 +158,7 @@ deno.json当前（1.41.1，20240307）在用的集合了Deno和TypeScript（5.4.
 "es2015.symbol.wellknown",
 "es2016",
 "es2016.array.include",
+"es2016.intl",
 "es2017",
 "es2017.date",
 "es2017.intl",
@@ -199,35 +203,38 @@ deno.json当前（1.41.1，20240307）在用的集合了Deno和TypeScript（5.4.
 "es2023",
 "es2023.array",
 "es2023.collection",
+"es2023.intl",
 "es5",
 "es6",
 "esnext",
+"esnext.array",
 "esnext.collection",
 "esnext.decorators",
 "esnext.disposable",
 "esnext.intl",
 "esnext.object",
 "esnext.promise",
+"esnext.regexp",
+"esnext.string"
 
 
 
-Deno_1.41.1程序允许的并检验通过的集合了Deno和TypeScript（5.4.2）的（99个）
+Deno_1.45.4程序允许的并检验通过的集合了Deno和TypeScript（5.5.4）的（103个）
 -
-deno.json当前（1.41.1，20240307）在用的集合了Deno和TypeScript（5.4.2）的（83个）
+deno.json当前（1.45.4，20240730）在用的集合了Deno和TypeScript（5.5.4）的（88个）
 =
-"es7",
-"dom",
-"dom.iterable",
-"dom.asynciterable",
-"dom.extras",
-"webworker",
-"webworker.importscripts",
-"webworker.iterable",
-"scripthost",
-"esnext.array",
-"esnext.symbol",
-"esnext.asynciterable",
-"esnext.bigint",
-"esnext.string",
-"esnext.weakref",
-"deno.worker",
+'es7',
+'dom',
+'dom.iterable',
+'dom.asynciterable',
+'dom.extras',
+'webworker',
+'webworker.importscripts',
+'webworker.iterable',
+'webworker.asynciterable',
+'scripthost',
+'esnext.symbol',
+'esnext.asynciterable',
+'esnext.bigint',
+'esnext.weakref',
+'deno.worker'
