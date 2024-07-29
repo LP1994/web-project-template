@@ -2,12 +2,12 @@
 
 /.idea/
 
-/dist/
+# /dist/
 
-/log/
+# /log/
 
-/simulation_servers/deno/cache/
-/simulation_servers/deno/log/
+# /simulation_servers/deno/cache/
+# /simulation_servers/deno/log/
 /simulation_servers/deno/node_modules/
 
 /node_modules/
@@ -15,5 +15,5 @@
 /node_modules.zip
 /node_modules.rar
 
-/test/
-/ts_compiled/
+# /test/
+# /ts_compiled/
