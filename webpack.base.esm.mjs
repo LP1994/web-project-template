@@ -1428,7 +1428,7 @@ const aliasConfig = {
     includeDynamicImportedAssets: true,
     metadata: {
       display: 'webpack_assets_manifest',
-      version: '6.0.0',
+      version: '8.0.0',
       date: ( () => {
         const {
           year,
