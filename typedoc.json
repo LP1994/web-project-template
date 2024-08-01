@@ -35,7 +35,7 @@
   "excludePrivate": false,
   "excludeProtected": false,
   "hideGenerator": false,
-  "htmlLang": "zh-CN",
+  "lang": "zh",
   "includeVersion": true,
   "lightHighlightTheme": "light-plus",
   "logLevel": 1,
