@@ -91,8 +91,6 @@
  */
 import {
   default as chalk,
-
-  // @ts-ignore
 } from 'https://deno.land/x/chalk_deno/source/index.js';
 
 // 内部使用的7788的处理函数。Start
