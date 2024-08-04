@@ -952,7 +952,7 @@
     "clipboard": "^2.0.11",
     "compression-webpack-plugin": "^11.1.0",
     "copy-webpack-plugin": "^12.0.2",
-    "core-js": "^3.37.1",
+    "core-js": "^3.38.0",
     "create-kitql": "^0.1.6",
     "create-vite": "^5.4.0",
     "cross-inspect": "^1.0.0",
