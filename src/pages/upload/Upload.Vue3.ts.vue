@@ -181,7 +181,9 @@ import {
   sha512,
 } from 'js-sha512';
 
-import Mime from 'mime';
+import {
+  Mime,
+} from 'mime';
 
 import {
   reactive,
@@ -198,7 +200,7 @@ function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
 }
 
 function GetFileMIME( file: File ): string{
-  return Mime.getType( file.name ) ?? 'application/octet-stream';
+  return new Mime().getType( file.name ) ?? 'application/octet-stream';
 }
 
 // @ts-expect-error
