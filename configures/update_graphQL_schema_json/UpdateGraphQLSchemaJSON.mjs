@@ -82,7 +82,7 @@ if( false ){
     },
     ca: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
     key: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
-    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_2_7_CA.crt' ), 'utf8' ),
+    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
   };
 
   function UpdateGraphQLSchemaJSON( opt = {} ){
@@ -168,7 +168,7 @@ if( false ){
     },
     ca: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
     key: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
-    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_192_168_2_7_CA.crt' ), 'utf8' ),
+    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
   };
 
   function UpdateGraphQLSchemaJSON( opt = {} ){

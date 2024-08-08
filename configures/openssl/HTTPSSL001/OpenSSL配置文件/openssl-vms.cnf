@@ -176,7 +176,7 @@ stateOrProvinceName_default	= GuangDong
 
 #城市
 localityName			= Locality Name (eg, city)
-localityName_default	= ShenZhen
+localityName_default	= GuangZhou
 
 #企业/单位名称
 organizationName		= Organization Name (eg, company)
@@ -193,7 +193,7 @@ organizationalUnitName_default	= IT
 #证书的主域名，如：192.168.2.7
 commonName			= Common Name (e.g. server FQDN or YOUR name)
 commonName_max		= 102400
-commonName_default	= 192.168.2.7
+commonName_default	= HTTPSSL001_CommonName
 
 #邮箱
 emailAddress			= Email Address

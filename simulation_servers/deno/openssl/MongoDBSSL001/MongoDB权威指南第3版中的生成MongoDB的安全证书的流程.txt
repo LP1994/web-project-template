@@ -5,8 +5,8 @@ Windows查看证书的命令：certmgr.msc（当前用户）、mmc（本地计�
 关于在生成操作的过程中，对于输入值的说明：
 1、以生成“MongoDBSSL001_Root_CA.crt”中的输入值为基准。
 2、生成“MongoDBSSL001_MiddlemanSigning_CA.csr”时，输入值中除了“Common Name”选项的值可以跟“基准”的“Common Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
-3、生成“MongoDBSSL001_Servers_192_168_2_7_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
-4、生成“MongoDBSSL001_Clients_192_168_2_7_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
+3、生成“MongoDBSSL001_Servers_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
+4、生成“MongoDBSSL001_Clients_CA.csr”时，输入值中除了“Common Name”、“Organizational Unit Name”选项的值可以跟“基准”、“MongoDBSSL001_MiddlemanSigning_CA.csr”的“Common Name”、“Organizational Unit Name”选项的值不一样（最好不一样），其他选项值都必须跟“基准”的一样。
 5、多个“成员_服务端CA证书”之间的输入值中，“Organizational Unit Name”选项的值必须一样。
 6、多个“客户端CA证书”之间的输入值中，“Organizational Unit Name”选项的值必须一样。
 7、多个“成员_服务端CA证书”之间的输入值中，“Common Name”选项的值可以是各自不同的域名、IP，且该值也这只能是域名、IP。当然在生成的过程中可以通过设置“subjectAltName”来设置多个域名、IP别名。
@@ -204,15 +204,15 @@ type MongoDBSSL001_MiddlemanSigning_CA.crt >> MongoDBSSL001_Root_CA.pem
 
 
 注意：使用openssl_带subjectAltName.cfg、openssl_带subjectAltName.cnf、openssl-vms_带subjectAltName.cnf！！！
-第5步：“成员证书/x.509服务器证书”，可以有多个，现在假定只创建一个“MongoDBSSL001_Servers_192_168_2_7_CA.crt”。
+第5步：“成员证书/x.509服务器证书”，可以有多个，现在假定只创建一个“MongoDBSSL001_Servers_CA.crt”。
 “成员证书”通常称为“x.509服务器证书”。应该对“mongod进程”和“mongos进程”使用该类型的证书（成员证书）。
 “MongoDB集群成员”会使用这些证书（成员证书/x.509服务器证书）来验证集群中的“成员身份”。换句话说，“mongod”就是用“成员证书/x.509服务器证书”来为“副本集的其他成员”提供“身份验证”的。
-1）创建新的“私钥，MongoDBSSL001_Servers_192_168_2_7_CA_Key.key”：
+1）创建新的“私钥，MongoDBSSL001_Servers_CA_Key.key”：
 Windows不支持加密的key，加密会导致MongoDB无法启动：
-openssl genrsa -out MongoDBSSL001_Servers_192_168_2_7_CA_Key.key 4096
+openssl genrsa -out MongoDBSSL001_Servers_CA_Key.key 4096
 
-2）为“私钥，MongoDBSSL001_Servers_192_168_2_7_CA_Key.key”生成“成员证书的签名请求，MongoDBSSL001_Servers_192_168_2_7_CA.csr”：
-openssl req -new -key MongoDBSSL001_Servers_192_168_2_7_CA_Key.key -out MongoDBSSL001_Servers_192_168_2_7_CA.csr -config openssl.cnf
+2）为“私钥，MongoDBSSL001_Servers_CA_Key.key”生成“成员证书的签名请求，MongoDBSSL001_Servers_CA.csr”：
+openssl req -new -key MongoDBSSL001_Servers_CA_Key.key -out MongoDBSSL001_Servers_CA.csr -config openssl.cnf
 执行输出：
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -235,31 +235,31 @@ A challenge password []:@MongoDBSSL001.2023#
 An optional company name [MongoDBSSL001]:MongoDBSSL001
 
 3）通过“中间签名CA，MongoDBSSL001_MiddlemanSigning_CA.crt”对“成员证书”进行签名：
-openssl x509 -req -days 365 -in MongoDBSSL001_Servers_192_168_2_7_CA.csr -CA MongoDBSSL001_MiddlemanSigning_CA.crt -CAkey MongoDBSSL001_MiddlemanSigning_CA_Key.key -CAcreateserial -out MongoDBSSL001_Servers_192_168_2_7_CA.crt -extfile openssl.cnf -extensions v3_req
+openssl x509 -req -days 365 -in MongoDBSSL001_Servers_CA.csr -CA MongoDBSSL001_MiddlemanSigning_CA.crt -CAkey MongoDBSSL001_MiddlemanSigning_CA_Key.key -CAcreateserial -out MongoDBSSL001_Servers_CA.crt -extfile openssl.cnf -extensions v3_req
 执行输出：
 Certificate request self-signature ok
 subject=C = CN, ST = GuangDong, L = ShenZhen, O = MongoDBSSL001, OU = MongoDBSSL001_Servers, CN = 192.168.10.101, emailAddress = 2726893248@qq.com
 Enter pass phrase for MongoDBSSL001_MiddlemanSigning_CA_Key.key:@MongoDBSSL001.2023#
 
 4）：
-type MongoDBSSL001_Servers_192_168_2_7_CA.crt > MongoDBSSL001_Servers_192_168_2_7_CA.pem
+type MongoDBSSL001_Servers_CA.crt > MongoDBSSL001_Servers_CA.pem
 
 5）：
-type MongoDBSSL001_Servers_192_168_2_7_CA_Key.key >> MongoDBSSL001_Servers_192_168_2_7_CA.pem
+type MongoDBSSL001_Servers_CA_Key.key >> MongoDBSSL001_Servers_CA.pem
 
 
 
 注意：使用openssl_带subjectAltName.cfg、openssl_带subjectAltName.cnf、openssl-vms_带subjectAltName.cnf！！！
-第6步：“客户端证书”，可以有多个，现在假定只创建一个“MongoDBSSL001_Clients_192_168_2_7_CA.crt”。
+第6步：“客户端证书”，可以有多个，现在假定只创建一个“MongoDBSSL001_Clients_CA.crt”。
 “客户端证书”用于“mongo shell”、“MongoDB Compass”、“MongoDB实用程序”和“工具”、“MongoDB驱动的应用程序”。
 生成“客户端证书”的过程与生成“成员证书/x.509服务器证书”的过程基
 本相同，唯一的区别是要确保O（Organization Name）、OU（Organizational Unit）和DC值的组合与上面生成的“成员证书/x.509服务器证书”不同。
 1）：
 Windows不支持加密的key，加密会导致MongoDB无法启动：
-openssl genrsa -out MongoDBSSL001_Clients_192_168_2_7_CA_Key.key 4096
+openssl genrsa -out MongoDBSSL001_Clients_CA_Key.key 4096
 
 2）：
-openssl req -new -key MongoDBSSL001_Clients_192_168_2_7_CA_Key.key -out MongoDBSSL001_Clients_192_168_2_7_CA.csr -config openssl.cnf
+openssl req -new -key MongoDBSSL001_Clients_CA_Key.key -out MongoDBSSL001_Clients_CA.csr -config openssl.cnf
 执行输出：
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -282,17 +282,17 @@ A challenge password []:@MongoDBSSL001.2023#
 An optional company name [MongoDBSSL001]:MongoDBSSL001
 
 3）：
-openssl x509 -req -days 365 -in MongoDBSSL001_Clients_192_168_2_7_CA.csr -CA MongoDBSSL001_MiddlemanSigning_CA.crt -CAkey MongoDBSSL001_MiddlemanSigning_CA_Key.key -CAcreateserial -out MongoDBSSL001_Clients_192_168_2_7_CA.crt -extfile openssl.cnf -extensions v3_req
+openssl x509 -req -days 365 -in MongoDBSSL001_Clients_CA.csr -CA MongoDBSSL001_MiddlemanSigning_CA.crt -CAkey MongoDBSSL001_MiddlemanSigning_CA_Key.key -CAcreateserial -out MongoDBSSL001_Clients_CA.crt -extfile openssl.cnf -extensions v3_req
 执行输出：
 Certificate request self-signature ok
 subject=C = CN, ST = GuangDong, L = ShenZhen, O = MongoDBSSL001, OU = MongoDBSSL001_Clients, CN = 192.168.10.101, emailAddress = 2726893248@qq.com
 Enter pass phrase for MongoDBSSL001_MiddlemanSigning_CA_Key.key:@MongoDBSSL001.2023#
 
 4）：
-type MongoDBSSL001_Clients_192_168_2_7_CA.crt > MongoDBSSL001_Clients_192_168_2_7_CA.pem
+type MongoDBSSL001_Clients_CA.crt > MongoDBSSL001_Clients_CA.pem
 
 5）：
-type MongoDBSSL001_Clients_192_168_2_7_CA_Key.key >> MongoDBSSL001_Clients_192_168_2_7_CA.pem
+type MongoDBSSL001_Clients_CA_Key.key >> MongoDBSSL001_Clients_CA.pem
 
 
 
@@ -302,4 +302,4 @@ mongod --config D:\MongoDB\App\bin\mongod.cfg
 
 2、命令行中使用mongosh连接MongodDB数据库：
 由于服务端启用了对客户端的身份认证以及客户端的操作权限限制，所以启用客户端时，需要客户端提供客户端自己的证书，并且客户端只能进行服务端已经授权给客户端自己的操作权限。
-mongosh --host 127.0.0.1 --port 27777 --tls --tlsCertificateKeyFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Clients_192_168_2_7_CA.pem --tlsCAFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Root_CA.pem --authenticationDatabase "$external" --authenticationMechanism MONGODB-X509
+mongosh --host 127.0.0.1 --port 27777 --tls --tlsCertificateKeyFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Clients_CA.pem --tlsCAFile D:\MongoDB\App\bin\ssl\MongoDBSSL001_Root_CA.pem --authenticationDatabase "$external" --authenticationMechanism MONGODB-X509
