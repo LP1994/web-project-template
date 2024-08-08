@@ -180,7 +180,7 @@ stateOrProvinceName_max = 64
 
 #地点名称（如城市）
 localityName			= Locality Name (eg, city)
-localityName_default = ShenZhen
+localityName_default = GuangZhou
 localityName_max = 64
 
 #组织名称（如公司）
