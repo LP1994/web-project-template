@@ -21,20 +21,19 @@
 const localHost = 'localhost';
 
 /**
- * 远端调试工具(weinre)的本地服务的端口值，值类型只能是number。<br />
- * 1、在package.json中的scripts.weinre里头默认也是用8300的。<br />
+ * 远端调试工具(chii)的本地服务的端口值，值类型只能是number。<br />
+ * 1、在package.json中的scripts.Chii4RemoteLikeWeinre里头默认也是用8300的。<br />
+ * 2、具体见：notes/其他笔记/远程调试工具chii的使用.txt。<br />
  */
-const weinreLocalPort = 8300,
+const Chii4RemoteLikeWeinreLocalPort = 8300,
   /**
-   * 映射到公网的IP地址，一般是配合远端调试工具(weinre)的远端调试需要，值类型只能是string。<br />
+   * 映射到公网的地址，一般是配合远端调试工具(chii)的远端调试需要，值类型只能是string。<br />
    * 1、null表示还没设置。<br />
+   * 2、值形如：https://4238dv65-8300.usw3.devtunnels.ms、https://4238dv65-8300.usw3.devtunnels.ms:8300，切记值末尾不要再加“/”了！！！<br />
+   * 3、如果有使用这个公网地址，记得也得在启动命令中添加参数“-d”，如：“-d https://4238dv65-8300.usw3.devtunnels.ms”！<br />
+   * 4、具体见：notes/其他笔记/远程调试工具chii的使用.txt。<br />
    */
-  weinrePublicNetworkHost = null,
-  /**
-   * 映射到公网的端口，一般是配合远端调试工具(weinre)的远端调试需要，值类型只能是string。<br />
-   * 1、null表示还没设置。<br />
-   */
-  weinrePublicNetworkPort = null;
+  Chii4RemoteLikeWeinreRemoteAddr = null;
 
 /**
  * 给devServer用的参数，分2种环境dev_server、local_server。<br />
@@ -300,9 +299,8 @@ export {
   HttpResponseHeadersFun,
   postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
   postcssViewportHeightCorrectionJS,
-  weinreLocalPort,
-  weinrePublicNetworkHost,
-  weinrePublicNetworkPort,
+  Chii4RemoteLikeWeinreLocalPort,
+  Chii4RemoteLikeWeinreRemoteAddr,
 };
 
 export default {
@@ -311,7 +309,6 @@ export default {
   HttpResponseHeadersFun,
   postcssViewportHeightCorrectionCustomViewportCorrectionVariable,
   postcssViewportHeightCorrectionJS,
-  weinreLocalPort,
-  weinrePublicNetworkHost,
-  weinrePublicNetworkPort,
+  Chii4RemoteLikeWeinreLocalPort,
+  Chii4RemoteLikeWeinreRemoteAddr,
 };

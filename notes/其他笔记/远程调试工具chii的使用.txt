@@ -1,0 +1,20 @@
+文档地址：
+https://github.com/liriliri/chii
+
+使用：
+1、基本启动命令参数，如：
+-p, --port <port>：set the port to start on. defaults to 3000', parseInt
+-h, --host <host>：set the host. defaults to 0.0.0.0
+-d, --domain <domain>：set the domain. defaults to localhost:port
+--base-path <basePath>：set base path. defaults to /
+--cdn <cdn>：use cdn like jsdelivr
+--https：serve chii over https
+--ssl-cert <cert>：provide an ssl certificate
+--ssl-key <key>：provide an ssl key
+启动命令例子：
+chii start -p 8300 -h 0.0.0.0 --https --ssl-cert ./configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt --ssl-key ./configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key
+
+2、待启动命令后，浏览器访问，如：https://192.168.1.102:8300，即可到调试面板。
+
+3、当要调试某个页面时，将如下代码嵌入到页面即可。
+<script src="https://192.168.1.102:8300/target.js"></script>

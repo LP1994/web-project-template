@@ -24,9 +24,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import entryConfig from './EntryConfig.esm.mjs';
 
 import {
-  weinreLocalPort,
-  weinrePublicNetworkHost,
-  weinrePublicNetworkPort,
+  Chii4RemoteLikeWeinreLocalPort,
+  Chii4RemoteLikeWeinreRemoteAddr,
 } from './GlobalParameters.esm.mjs';
 
 import {
@@ -146,11 +145,10 @@ const defaultData = {
   startupImgForApple: StartupImgForApple,
   dynamicREM: true,
   webpackAssetsManifest: '../webpack_assets_manifest.json',
-  weinreTool: {
+  chii4RemoteLikeWeinreTool: {
     isEnable: false,
-    weinreLocalPort,
-    id: '',
-    custom: null,
+    Chii4RemoteLikeWeinreLocalPort,
+    Chii4RemoteLikeWeinreRemoteAddr,
   },
   // 以上的顶级变量，就算不需要也要保证它们被设置为null，否则会出现顶级变量未定义的编译错误。
 
