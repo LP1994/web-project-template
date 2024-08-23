@@ -4149,7 +4149,14 @@ declare namespace Deno {
    * @category File System */
   export interface FsEvent {
     /** The kind/type of the file system event. */
-    kind: "any" | "access" | "create" | "modify" | "remove" | "other";
+    kind:
+      | "any"
+      | "access"
+      | "create"
+      | "modify"
+      | "rename"
+      | "remove"
+      | "other";
     /** An array of paths that are associated with the file system event. */
     paths: string[];
     /** Any additional flags associated with the event. */
@@ -4236,7 +4243,7 @@ declare namespace Deno {
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    *
-   * @category Sub Process */
+   * @category Subprocess */
   export interface RunOptions {
     /** Arguments to pass.
      *
@@ -4303,7 +4310,7 @@ declare namespace Deno {
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    *
-   * @category Sub Process */
+   * @category Subprocess */
   export type ProcessStatus =
     | {
       success: true;
@@ -4324,7 +4331,7 @@ declare namespace Deno {
    * {@link https://docs.deno.com/runtime/manual/advanced/migrate_deprecations | Deno 1.x to 2.x Migration Guide}
    * for migration instructions.
    *
-   * @category Sub Process */
+   * @category Subprocess */
   export class Process<T extends RunOptions = RunOptions> {
     /** The resource ID of the sub-process. */
     readonly rid: number;
@@ -4530,7 +4537,7 @@ declare namespace Deno {
    * for migration instructions.
    *
    * @tags allow-run
-   * @category Sub Process
+   * @category Subprocess
    */
   export function run<T extends RunOptions = RunOptions>(opt: T): Process<T>;
 
@@ -4599,7 +4606,7 @@ declare namespace Deno {
    * ```
    *
    * @tags allow-run
-   * @category Sub Process
+   * @category Subprocess
    */
   export class Command {
     constructor(command: string | URL, options?: CommandOptions);
@@ -4633,7 +4640,7 @@ declare namespace Deno {
    * The interface for handling a child process returned from
    * {@linkcode Deno.Command.spawn}.
    *
-   * @category Sub Process
+   * @category Subprocess
    */
   export class ChildProcess implements AsyncDisposable {
     get stdin(): WritableStream<Uint8Array>;
@@ -4667,7 +4674,7 @@ declare namespace Deno {
   /**
    * Options which can be set when calling {@linkcode Deno.Command}.
    *
-   * @category Sub Process
+   * @category Subprocess
    */
   export interface CommandOptions {
     /** Arguments to pass to the process. */
@@ -4729,7 +4736,7 @@ declare namespace Deno {
   }
 
   /**
-   * @category Sub Process
+   * @category Subprocess
    */
   export interface CommandStatus {
     /** If the child process exits with a 0 status code, `success` will be set
@@ -4746,7 +4753,7 @@ declare namespace Deno {
    * {@linkcode Deno.Command.outputSync} which represents the result of spawning the
    * child process.
    *
-   * @category Sub Process
+   * @category Subprocess
    */
   export interface CommandOutput extends CommandStatus {
     /** The buffered output from the child process' `stdout`. */
@@ -5822,7 +5829,7 @@ declare namespace Deno {
    * Requires `allow-run` permission.
    *
    * @tags allow-run
-   * @category Sub Process
+   * @category Subprocess
    */
   export function kill(pid: number, signo?: Signal): void;
 
@@ -6255,6 +6262,35 @@ declare namespace Deno {
     request: Request,
     info: ServeHandlerInfo,
   ) => Response | Promise<Response>;
+
+  /** Interface that module run with `deno serve` subcommand must conform to.
+   *
+   * To ensure your code is type-checked properly, make sure to add `satisfies Deno.ServeDefaultExport`
+   * to the `export default { ... }` like so:
+   *
+   * ```ts
+   * export default {
+   *   fetch(req) {
+   *     return new Response("Hello world");
+   *   }
+   * } satisfies Deno.ServeDefaultExport;
+   * ```
+   *
+   * @category HTTP Server
+   */
+  export interface ServeDefaultExport {
+    /** A handler for HTTP requests. Consumes a request and returns a response.
+     *
+     * If a handler throws, the server calling the handler will assume the impact
+     * of the error is isolated to the individual request. It will catch the error
+     * and if necessary will close the underlying connection.
+     *
+     * @category HTTP Server
+     */
+    fetch: (
+      request: Request,
+    ) => Response | Promise<Response>;
+  }
 
   /** Options which can be set when calling {@linkcode Deno.serve}.
    *
@@ -6981,6 +7017,20 @@ declare interface URLPatternResult {
 }
 
 /**
+ * Options for the {@linkcode URLPattern} constructor.
+ *
+ * @category URL
+ */
+declare interface URLPatternOptions {
+  /**
+   * Enables case-insensitive matching.
+   *
+   * @default {false}
+   */
+  ignoreCase: boolean;
+}
+
+/**
  * The URLPattern API provides a web platform primitive for matching URLs based
  * on a convenient pattern syntax.
  *
@@ -7074,6 +7124,9 @@ declare interface URLPattern {
   readonly search: string;
   /** The pattern string for the `hash`. */
   readonly hash: string;
+
+  /** Whether or not any of the specified groups use regexp groups. */
+  readonly hasRegExpGroups: boolean;
 }
 
 /**
@@ -7108,7 +7161,12 @@ declare interface URLPattern {
  */
 declare var URLPattern: {
   readonly prototype: URLPattern;
-  new (input: URLPatternInput, baseURL?: string): URLPattern;
+  new (
+    input: URLPatternInput,
+    baseURL: string,
+    options?: URLPatternOptions,
+  ): URLPattern;
+  new (input?: URLPatternInput, options?: URLPatternOptions): URLPattern;
 };
 
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
@@ -7419,9 +7477,24 @@ declare interface TextDecodeOptions {
   stream?: boolean;
 }
 
-/** @category Encoding */
+/**
+ * Represents a decoder for a specific text encoding, allowing you to convert
+ * binary data into a string given the encoding.
+ *
+ * @example
+ * ```ts
+ * const decoder = new TextDecoder('utf-8');
+ * const buffer = new Uint8Array([72, 101, 108, 108, 111]);
+ * const decodedString = decoder.decode(buffer);
+ * console.log(decodedString); // Outputs: "Hello"
+ * ```
+ *
+ * @category Encoding
+ */
 declare interface TextDecoder extends TextDecoderCommon {
-  /** Returns the result of running encoding's decoder. */
+  /** Turns binary data, often in the form of a Uint8Array, into a string given
+   * the encoding.
+   */
   decode(input?: BufferSource, options?: TextDecodeOptions): string;
 }
 
@@ -7451,6 +7524,27 @@ declare interface TextEncoderEncodeIntoResult {
 declare interface TextEncoder extends TextEncoderCommon {
   /** Returns the result of running UTF-8's encoder. */
   encode(input?: string): Uint8Array;
+  encodeInto(input: string, dest: Uint8Array): TextEncoderEncodeIntoResult;
+}
+/**
+ * Allows you to convert a string into binary data (in the form of a Uint8Array)
+ * given the encoding.
+ *
+ * @example
+ * ```ts
+ * const encoder = new TextEncoder();
+ * const str = "Hello";
+ * const encodedData = encoder.encode(str);
+ * console.log(encodedData); // Outputs: Uint8Array(5) [72, 101, 108, 108, 111]
+ * ```
+ *
+ * @category Encoding
+ */
+declare interface TextEncoder extends TextEncoderCommon {
+  /** Turns a string into binary data (in the form of a Uint8Array) using UTF-8 encoding. */
+  encode(input?: string): Uint8Array;
+
+  /** Encodes a string into the destination Uint8Array and returns the result of the encoding. */
   encodeInto(input: string, dest: Uint8Array): TextEncoderEncodeIntoResult;
 }
 
@@ -8718,6 +8812,7 @@ declare type BodyInit =
   | FormData
   | URLSearchParams
   | ReadableStream<Uint8Array>
+  | AsyncIterable<Uint8Array>
   | string;
 /** @category Fetch */
 declare type RequestDestination =
@@ -9175,10 +9270,10 @@ declare type GPUPowerPreference = "low-power" | "high-performance";
 declare class GPUAdapter {
   readonly features: GPUSupportedFeatures;
   readonly limits: GPUSupportedLimits;
+  readonly info: GPUAdapterInfo;
   readonly isFallbackAdapter: boolean;
 
   requestDevice(descriptor?: GPUDeviceDescriptor): Promise<GPUDevice>;
-  requestAdapterInfo(): Promise<GPUAdapterInfo>;
 }
 
 /**
@@ -11044,37 +11139,103 @@ declare var Storage: {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Canvas */
+/**
+ * Specifies whether the image should be decoded using color space conversion.
+ * Either none or default (default). The value default indicates that
+ * implementation-specific behavior is used.
+ *
+ * @category Canvas
+ */
 declare type ColorSpaceConversion = "default" | "none";
 
-/** @category Canvas */
+/**
+ * Specifies how the bitmap image should be oriented.
+ *
+ * @category Canvas
+ */
 declare type ImageOrientation = "flipY" | "from-image" | "none";
 
-/** @category Canvas */
+/**
+ * Specifies whether the bitmap's color channels should be premultiplied by
+ * the alpha channel.
+ *
+ * @category Canvas
+ */
 declare type PremultiplyAlpha = "default" | "none" | "premultiply";
 
-/** @category Canvas */
+/**
+ * Specifies the algorithm to be used for resizing the input to match the
+ * output dimensions. One of `pixelated`, `low` (default), `medium`, or `high`.
+ *
+ * @category Canvas
+ */
 declare type ResizeQuality = "high" | "low" | "medium" | "pixelated";
 
-/** @category Canvas */
+/**
+ * The `ImageBitmapSource` type represents an image data source that can be
+ * used to create an `ImageBitmap`.
+ *
+ * @category Canvas */
 declare type ImageBitmapSource = Blob | ImageData;
 
-/** @category Canvas */
+/**
+ * The options of {@linkcode createImageBitmap}.
+ *
+ * @category Canvas */
 declare interface ImageBitmapOptions {
+  /**
+   * Specifies whether the image should be decoded using color space
+   * conversion. Either none or default (default). The value default
+   * indicates that implementation-specific behavior is used.
+   */
   colorSpaceConversion?: ColorSpaceConversion;
+  /** Specifies how the bitmap image should be oriented. */
   imageOrientation?: ImageOrientation;
+  /**
+   * Specifies whether the bitmap's color channels should be premultiplied
+   * by the alpha channel. One of none, premultiply, or default (default).
+   */
   premultiplyAlpha?: PremultiplyAlpha;
+  /** The output height. */
   resizeHeight?: number;
+  /**
+   * Specifies the algorithm to be used for resizing the input to match the
+   * output dimensions. One of pixelated, low (default), medium, or high.
+   */
   resizeQuality?: ResizeQuality;
+  /** The output width. */
   resizeWidth?: number;
 }
 
-/** @category Canvas */
+/**
+ * Create a new {@linkcode ImageBitmap} object from a given source.
+ *
+ * @param image The image to create an {@linkcode ImageBitmap} from.
+ * @param options The options for creating the {@linkcode ImageBitmap}.
+ *
+ * @category Canvas
+ */
 declare function createImageBitmap(
   image: ImageBitmapSource,
   options?: ImageBitmapOptions,
 ): Promise<ImageBitmap>;
-/** @category Canvas */
+/**
+ * Create a new {@linkcode ImageBitmap} object from a given source, cropping
+ * to the specified rectangle.
+ *
+ * @param image The image to create an {@linkcode ImageBitmap} from.
+ * @param sx The x coordinate of the top-left corner of the sub-rectangle from
+ *           which the {@linkcode ImageBitmap} will be cropped.
+ * @param sy The y coordinate of the top-left corner of the sub-rectangle from
+ *           which the {@linkcode ImageBitmap} will be cropped.
+ * @param sw The width of the sub-rectangle from which the
+ *           {@linkcode ImageBitmap} will be cropped.
+ * @param sh The height of the sub-rectangle from which the
+ *           {@linkcode ImageBitmap} will be cropped.
+ * @param options The options for creating the {@linkcode ImageBitmap}.
+ *
+ * @category Canvas
+ */
 declare function createImageBitmap(
   image: ImageBitmapSource,
   sx: number,
@@ -11084,14 +11245,31 @@ declare function createImageBitmap(
   options?: ImageBitmapOptions,
 ): Promise<ImageBitmap>;
 
-/** @category Canvas */
+/**
+ * `ImageBitmap` interface represents a bitmap image which can be drawn to a canvas.
+ *
+ * @category Canvas
+ */
 declare interface ImageBitmap {
+  /**
+   * The height of the bitmap.
+   */
   readonly height: number;
+  /**
+   * The width of the bitmap.
+   */
   readonly width: number;
+  /**
+   * Releases imageBitmap's resources.
+   */
   close(): void;
 }
 
-/** @category Canvas */
+/**
+ * `ImageBitmap` represents a bitmap image which can be drawn to a canvas.
+ *
+ * @category Canvas
+ */
 declare var ImageBitmap: {
   prototype: ImageBitmap;
   new (): ImageBitmap;
@@ -14100,7 +14278,7 @@ declare namespace Deno {
    *
    * These are unstable options which can be used with {@linkcode Deno.run}.
    *
-   * @category Sub Process
+   * @category Subprocess
    * @experimental
    */
   export interface UnstableRunOptions extends RunOptions {
@@ -14163,7 +14341,7 @@ declare namespace Deno {
    * Requires `allow-run` permission.
    *
    * @tags allow-run
-   * @category Sub Process
+   * @category Subprocess
    * @experimental
    */
   export function run<T extends UnstableRunOptions = UnstableRunOptions>(
@@ -14204,7 +14382,7 @@ declare namespace Deno {
     caCerts?: string[];
     /** A HTTP proxy to use for new connections. */
     proxy?: Proxy;
-    /** Sets the maximum numer of idle connections per host allowed in the pool. */
+    /** Sets the maximum number of idle connections per host allowed in the pool. */
     poolMaxIdlePerHost?: number;
     /** Set an optional timeout for idle sockets being kept-alive.
      * Set to false to disable the timeout. */
@@ -15850,7 +16028,7 @@ declare namespace Temporal {
   /**
    * When the name of a unit is provided to a Temporal API as a string, it is
    * usually singular, e.g. 'day' or 'hour'. But plural unit names like 'days'
-   * or 'hours' are aso accepted too.
+   * or 'hours' are also accepted.
    *
    * @category Temporal
    * @experimental
@@ -16169,8 +16347,8 @@ declare namespace Temporal {
          * This value must be either a `Temporal.PlainDateTime`, a
          * `Temporal.ZonedDateTime`, or a string or object value that can be
          * passed to `from()` of those types. Examples:
-         * - `'2020-01'01T00:00-08:00[America/Los_Angeles]'`
-         * - `'2020-01'01'`
+         * - `'2020-01-01T00:00-08:00[America/Los_Angeles]'`
+         * - `'2020-01-01'`
          * - `Temporal.PlainDate.from('2020-01-01')`
          *
          * `Temporal.ZonedDateTime` will be tried first because it's more
@@ -16215,8 +16393,8 @@ declare namespace Temporal {
        * This value must be either a `Temporal.PlainDateTime`, a
        * `Temporal.ZonedDateTime`, or a string or object value that can be passed
        * to `from()` of those types. Examples:
-       * - `'2020-01'01T00:00-08:00[America/Los_Angeles]'`
-       * - `'2020-01'01'`
+       * - `'2020-01-01T00:00-08:00[America/Los_Angeles]'`
+       * - `'2020-01-01'`
        * - `Temporal.PlainDate.from('2020-01-01')`
        *
        * `Temporal.ZonedDateTime` will be tried first because it's more
@@ -16251,8 +16429,8 @@ declare namespace Temporal {
      * This value must be either a `Temporal.PlainDateTime`, a
      * `Temporal.ZonedDateTime`, or a string or object value that can be passed
      * to `from()` of those types. Examples:
-     * - `'2020-01'01T00:00-08:00[America/Los_Angeles]'`
-     * - `'2020-01'01'`
+     * - `'2020-01-01T00:00-08:00[America/Los_Angeles]'`
+     * - `'2020-01-01'`
      * - `Temporal.PlainDate.from('2020-01-01')`
      *
      * `Temporal.ZonedDateTime` will be tried first because it's more
@@ -16270,6 +16448,16 @@ declare namespace Temporal {
       | PlainDateTimeLike
       | string;
   }
+
+  /**
+   * Options to control behaviour of `ZonedDateTime.prototype.getTimeZoneTransition()`
+   *
+   * @category Temporal
+   * @experimental
+   */
+  export type TransitionDirection = "next" | "previous" | {
+    direction: "next" | "previous";
+  };
 
   /**
    * @category Temporal
@@ -16371,9 +16559,7 @@ declare namespace Temporal {
    * @experimental
    */
   export class Instant {
-    static fromEpochSeconds(epochSeconds: number): Temporal.Instant;
     static fromEpochMilliseconds(epochMilliseconds: number): Temporal.Instant;
-    static fromEpochMicroseconds(epochMicroseconds: bigint): Temporal.Instant;
     static fromEpochNanoseconds(epochNanoseconds: bigint): Temporal.Instant;
     static from(item: Temporal.Instant | string): Temporal.Instant;
     static compare(
@@ -16381,9 +16567,7 @@ declare namespace Temporal {
       two: Temporal.Instant | string,
     ): ComparisonResult;
     constructor(epochNanoseconds: bigint);
-    readonly epochSeconds: number;
     readonly epochMilliseconds: number;
-    readonly epochMicroseconds: bigint;
     readonly epochNanoseconds: bigint;
     equals(other: Temporal.Instant | string): boolean;
     add(
@@ -16544,14 +16728,14 @@ declare namespace Temporal {
         | Temporal.PlainDateTime
         | PlainDateLike
         | string,
-    ): number;
+    ): number | undefined;
     yearOfWeek(
       date:
         | Temporal.PlainDate
         | Temporal.PlainDateTime
         | PlainDateLike
         | string,
-    ): number;
+    ): number | undefined;
     daysInWeek(
       date:
         | Temporal.PlainDate
@@ -16720,14 +16904,14 @@ declare namespace Temporal {
         | Temporal.PlainDateTime
         | PlainDateLike
         | string,
-    ): number;
+    ): number | undefined;
     yearOfWeek(
       date:
         | Temporal.PlainDate
         | Temporal.PlainDateTime
         | PlainDateLike
         | string,
-    ): number;
+    ): number | undefined;
     daysInWeek(
       date:
         | Temporal.PlainDate
@@ -16858,11 +17042,10 @@ declare namespace Temporal {
     readonly monthCode: string;
     readonly day: number;
     readonly calendarId: string;
-    getCalendar(): CalendarProtocol;
     readonly dayOfWeek: number;
     readonly dayOfYear: number;
-    readonly weekOfYear: number;
-    readonly yearOfWeek: number;
+    readonly weekOfYear: number | undefined;
+    readonly yearOfWeek: number | undefined;
     readonly daysInWeek: number;
     readonly daysInYear: number;
     readonly daysInMonth: number;
@@ -16999,11 +17182,10 @@ declare namespace Temporal {
     readonly microsecond: number;
     readonly nanosecond: number;
     readonly calendarId: string;
-    getCalendar(): CalendarProtocol;
     readonly dayOfWeek: number;
     readonly dayOfYear: number;
-    readonly weekOfYear: number;
-    readonly yearOfWeek: number;
+    readonly weekOfYear: number | undefined;
+    readonly yearOfWeek: number | undefined;
     readonly daysInWeek: number;
     readonly daysInYear: number;
     readonly daysInMonth: number;
@@ -17016,9 +17198,6 @@ declare namespace Temporal {
     ): Temporal.PlainDateTime;
     withPlainTime(
       timeLike?: Temporal.PlainTime | PlainTimeLike | string,
-    ): Temporal.PlainDateTime;
-    withPlainDate(
-      dateLike: Temporal.PlainDate | PlainDateLike | string,
     ): Temporal.PlainDateTime;
     withCalendar(calendar: CalendarLike): Temporal.PlainDateTime;
     add(
@@ -17075,8 +17254,6 @@ declare namespace Temporal {
       options?: ToInstantOptions,
     ): Temporal.ZonedDateTime;
     toPlainDate(): Temporal.PlainDate;
-    toPlainYearMonth(): Temporal.PlainYearMonth;
-    toPlainMonthDay(): Temporal.PlainMonthDay;
     toPlainTime(): Temporal.PlainTime;
     getISOFields(): PlainDateTimeISOFields;
     toLocaleString(
@@ -17127,7 +17304,6 @@ declare namespace Temporal {
     readonly monthCode: string;
     readonly day: number;
     readonly calendarId: string;
-    getCalendar(): CalendarProtocol;
     equals(other: Temporal.PlainMonthDay | PlainMonthDayLike | string): boolean;
     with(
       monthDayLike: PlainMonthDayLike,
@@ -17257,13 +17433,6 @@ declare namespace Temporal {
         | "nanosecond"
       >,
     ): Temporal.PlainTime;
-    toPlainDateTime(
-      temporalDate: Temporal.PlainDate | PlainDateLike | string,
-    ): Temporal.PlainDateTime;
-    toZonedDateTime(timeZoneAndDate: {
-      timeZone: TimeZoneLike;
-      plainDate: Temporal.PlainDate | PlainDateLike | string;
-    }): Temporal.ZonedDateTime;
     getISOFields(): PlainTimeISOFields;
     toLocaleString(
       locales?: string | string[],
@@ -17293,12 +17462,6 @@ declare namespace Temporal {
       dateTime: Temporal.PlainDateTime | PlainDateTimeLike | string,
       options?: ToInstantOptions,
     ): Temporal.Instant;
-    getNextTransition?(
-      startingPoint: Temporal.Instant | string,
-    ): Temporal.Instant | null;
-    getPreviousTransition?(
-      startingPoint: Temporal.Instant | string,
-    ): Temporal.Instant | null;
     getPossibleInstantsFor(
       dateTime: Temporal.PlainDateTime | PlainDateTimeLike | string,
     ): Temporal.Instant[];
@@ -17335,7 +17498,6 @@ declare namespace Temporal {
     static from(timeZone: TimeZoneLike): Temporal.TimeZone | TimeZoneProtocol;
     constructor(timeZoneIdentifier: string);
     readonly id: string;
-    equals(timeZone: TimeZoneLike): boolean;
     getOffsetNanosecondsFor(instant: Temporal.Instant | string): number;
     getOffsetStringFor(instant: Temporal.Instant | string): string;
     getPlainDateTimeFor(
@@ -17346,12 +17508,6 @@ declare namespace Temporal {
       dateTime: Temporal.PlainDateTime | PlainDateTimeLike | string,
       options?: ToInstantOptions,
     ): Temporal.Instant;
-    getNextTransition(
-      startingPoint: Temporal.Instant | string,
-    ): Temporal.Instant | null;
-    getPreviousTransition(
-      startingPoint: Temporal.Instant | string,
-    ): Temporal.Instant | null;
     getPossibleInstantsFor(
       dateTime: Temporal.PlainDateTime | PlainDateTimeLike | string,
     ): Temporal.Instant[];
@@ -17404,7 +17560,6 @@ declare namespace Temporal {
     readonly month: number;
     readonly monthCode: string;
     readonly calendarId: string;
-    getCalendar(): CalendarProtocol;
     readonly daysInMonth: number;
     readonly daysInYear: number;
     readonly monthsInYear: number;
@@ -17516,13 +17671,11 @@ declare namespace Temporal {
     readonly microsecond: number;
     readonly nanosecond: number;
     readonly timeZoneId: string;
-    getTimeZone(): TimeZoneProtocol;
     readonly calendarId: string;
-    getCalendar(): CalendarProtocol;
     readonly dayOfWeek: number;
     readonly dayOfYear: number;
-    readonly weekOfYear: number;
-    readonly yearOfWeek: number;
+    readonly weekOfYear: number | undefined;
+    readonly yearOfWeek: number | undefined;
     readonly hoursInDay: number;
     readonly daysInWeek: number;
     readonly daysInMonth: number;
@@ -17542,9 +17695,6 @@ declare namespace Temporal {
     ): Temporal.ZonedDateTime;
     withPlainTime(
       timeLike?: Temporal.PlainTime | PlainTimeLike | string,
-    ): Temporal.ZonedDateTime;
-    withPlainDate(
-      dateLike: Temporal.PlainDate | PlainDateLike | string,
     ): Temporal.ZonedDateTime;
     withCalendar(calendar: CalendarLike): Temporal.ZonedDateTime;
     withTimeZone(timeZone: TimeZoneLike): Temporal.ZonedDateTime;
@@ -17598,11 +17748,12 @@ declare namespace Temporal {
       >,
     ): Temporal.ZonedDateTime;
     startOfDay(): Temporal.ZonedDateTime;
+    getTimeZoneTransition(
+      direction: TransitionDirection,
+    ): Temporal.ZonedDateTime | null;
     toInstant(): Temporal.Instant;
     toPlainDateTime(): Temporal.PlainDateTime;
     toPlainDate(): Temporal.PlainDate;
-    toPlainYearMonth(): Temporal.PlainYearMonth;
-    toPlainMonthDay(): Temporal.PlainMonthDay;
     toPlainTime(): Temporal.PlainTime;
     getISOFields(): ZonedDateTimeISOFields;
     toLocaleString(
@@ -17640,29 +17791,6 @@ declare namespace Temporal {
     instant: () => Temporal.Instant;
 
     /**
-     * Get the current calendar date and clock time in a specific calendar and
-     * time zone.
-     *
-     * The `calendar` parameter is required. When using the ISO 8601 calendar or
-     * if you don't understand the need for or implications of a calendar, then
-     * a more ergonomic alternative to this method is
-     * `Temporal.Now.zonedDateTimeISO()`.
-     *
-     * @param {CalendarLike} [calendar] - calendar identifier, or
-     * a `Temporal.Calendar` instance, or an object implementing the calendar
-     * protocol.
-     * @param {TimeZoneLike} [tzLike] -
-     * {@link https://en.wikipedia.org/wiki/List_of_tz_database_time_zones|IANA time zone identifier}
-     * string (e.g. `'Europe/London'`), `Temporal.TimeZone` instance, or an
-     * object implementing the time zone protocol. If omitted, the environment's
-     * current time zone will be used.
-     */
-    zonedDateTime: (
-      calendar: CalendarLike,
-      tzLike?: TimeZoneLike,
-    ) => Temporal.ZonedDateTime;
-
-    /**
      * Get the current calendar date and clock time in a specific time zone,
      * using the ISO 8601 calendar.
      *
@@ -17673,34 +17801,6 @@ declare namespace Temporal {
      * current time zone will be used.
      */
     zonedDateTimeISO: (tzLike?: TimeZoneLike) => Temporal.ZonedDateTime;
-
-    /**
-     * Get the current calendar date and clock time in a specific calendar and
-     * time zone.
-     *
-     * The calendar is required. When using the ISO 8601 calendar or if you
-     * don't understand the need for or implications of a calendar, then a more
-     * ergonomic alternative to this method is `Temporal.Now.plainDateTimeISO`.
-     *
-     * Note that the `Temporal.PlainDateTime` type does not persist the time zone,
-     * but retaining the time zone is required for most time-zone-related use
-     * cases. Therefore, it's usually recommended to use
-     * `Temporal.Now.zonedDateTimeISO` or `Temporal.Now.zonedDateTime` instead
-     * of this function.
-     *
-     * @param {CalendarLike} [calendar] - calendar identifier, or
-     * a `Temporal.Calendar` instance, or an object implementing the calendar
-     * protocol.
-     * @param {TimeZoneLike} [tzLike] -
-     * {@link https://en.wikipedia.org/wiki/List_of_tz_database_time_zones|IANA time zone identifier}
-     * string (e.g. `'Europe/London'`), `Temporal.TimeZone` instance, or an
-     * object implementing the time zone protocol. If omitted,
-     * the environment's current time zone will be used.
-     */
-    plainDateTime: (
-      calendar: CalendarLike,
-      tzLike?: TimeZoneLike,
-    ) => Temporal.PlainDateTime;
 
     /**
      * Get the current date and clock time in a specific time zone, using the
@@ -17718,27 +17818,6 @@ declare namespace Temporal {
      * current time zone will be used.
      */
     plainDateTimeISO: (tzLike?: TimeZoneLike) => Temporal.PlainDateTime;
-
-    /**
-     * Get the current calendar date in a specific calendar and time zone.
-     *
-     * The calendar is required. When using the ISO 8601 calendar or if you
-     * don't understand the need for or implications of a calendar, then a more
-     * ergonomic alternative to this method is `Temporal.Now.plainDateISO`.
-     *
-     * @param {CalendarLike} [calendar] - calendar identifier, or
-     * a `Temporal.Calendar` instance, or an object implementing the calendar
-     * protocol.
-     * @param {TimeZoneLike} [tzLike] -
-     * {@link https://en.wikipedia.org/wiki/List_of_tz_database_time_zones|IANA time zone identifier}
-     * string (e.g. `'Europe/London'`), `Temporal.TimeZone` instance, or an
-     * object implementing the time zone protocol. If omitted,
-     * the environment's current time zone will be used.
-     */
-    plainDate: (
-      calendar: CalendarLike,
-      tzLike?: TimeZoneLike,
-    ) => Temporal.PlainDate;
 
     /**
      * Get the current date in a specific time zone, using the ISO 8601

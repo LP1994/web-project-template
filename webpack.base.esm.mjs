@@ -341,18 +341,18 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20240727。Start
-    'Chrome >= 127',
+    'Chrome >= 128',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 127',
+    'Edge >= 128',
     'Firefox >= 129',
     'Safari >= 17',
-    'Opera >= 112',
+    'Opera >= 113',
     // PC端各主流浏览器的最新版本，至20240727。End
 
     // 移动端各主流浏览器的最新版本，至20240727。Start
-    'ChromeAndroid >= 127',
+    'ChromeAndroid >= 128',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 127',
+    'Android >= 128',
     'FirefoxAndroid >= 129',
     'iOS >= 17',
     // 移动端各主流浏览器的最新版本，至20240727。End
@@ -387,11 +387,11 @@ const browserslist = [
     'es2024',
 
     // PC端各主流浏览器的最新版本，至20240727。Start
-    'chrome127',
-    'edge127',
+    'chrome128',
+    'edge128',
     'firefox129',
     'safari17',
-    'opera112',
+    'opera113',
     // PC端各主流浏览器的最新版本，至20240727。End
 
     // 移动端各主流浏览器的最新版本，至20240727。Start
@@ -431,16 +431,16 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20240727。Start
-    chrome: 127,
-    edge: 127,
+    chrome: 128,
+    edge: 128,
     firefox: 129,
     safari: 17,
-    opera: 112,
+    opera: 113,
     // PC端各主流浏览器的最新版本，至20240727。End
 
     // 移动端各主流浏览器的最新版本，至20240727。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 127,
+    android: 128,
     ios: 17,
     // 移动端各主流浏览器的最新版本，至20240727。End
   },
