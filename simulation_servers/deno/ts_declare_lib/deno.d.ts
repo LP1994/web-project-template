@@ -8812,7 +8812,6 @@ declare type BodyInit =
   | FormData
   | URLSearchParams
   | ReadableStream<Uint8Array>
-  | AsyncIterable<Uint8Array>
   | string;
 /** @category Fetch */
 declare type RequestDestination =
@@ -11508,7 +11507,7 @@ declare var CryptoKeyPair: {
 
 /** This Web Crypto API interface provides a number of low-level cryptographic
  * functions. It is accessed via the Crypto.subtle properties available in a
- * window context (via Window.crypto).
+ * window context (via globalThis.crypto).
  *
  * @category Crypto
  */

@@ -344,7 +344,7 @@ const browserslist = [
     'Chrome >= 128',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 128',
-    'Firefox >= 129',
+    'Firefox >= 130',
     'Safari >= 17',
     'Opera >= 113',
     // PC端各主流浏览器的最新版本，至20240828。End
@@ -353,7 +353,7 @@ const browserslist = [
     'ChromeAndroid >= 128',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 128',
-    'FirefoxAndroid >= 129',
+    'FirefoxAndroid >= 130',
     'iOS >= 17',
     // 移动端各主流浏览器的最新版本，至20240828。End
   ],
@@ -389,7 +389,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20240828。Start
     'chrome128',
     'edge128',
-    'firefox129',
+    'firefox130',
     'safari17',
     'opera113',
     // PC端各主流浏览器的最新版本，至20240828。End
@@ -433,7 +433,7 @@ const browserslist = [
     // PC端各主流浏览器的最新版本，至20240828。Start
     chrome: 128,
     edge: 128,
-    firefox: 129,
+    firefox: 130,
     safari: 17,
     opera: 113,
     // PC端各主流浏览器的最新版本，至20240828。End
@@ -3272,7 +3272,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
               }
-            } )() || '7.25.0',
+            } )() || '7.25.6',
             helpers: true,
             // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
             regenerator: true,
