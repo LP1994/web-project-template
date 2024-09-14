@@ -145,6 +145,7 @@
       "esnext.decorators",
       "esnext.disposable",
       "esnext.intl",
+      "esnext.iterator",
       "esnext.object",
       "esnext.promise",
       "esnext.regexp",
