@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run -A --config=./deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m"
+    "start": "deno run -A --config=./deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr ./src/App.mts --color=16m"
   },
   "nodeModulesDir": false,
   "lock": "./deno.lock",

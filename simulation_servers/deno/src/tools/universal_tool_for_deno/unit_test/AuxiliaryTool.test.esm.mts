@@ -15,7 +15,7 @@
 
 /**
  * 在Deno中要想能正常使用“chalk”得在启用命令中添加“--color=16m”（真彩色支持，1600 万色）标识，加在入口脚本的后面，如：<br />
- * deno run -A --config=./deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./src/App.mts --color=16m
+ * deno run -A --config=./deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr ./src/App.mts --color=16m
  * 支持的标识还有：--color=256（256色支持）、--color（该标识表示默认启用控制台颜色）、--color=16m（真彩色支持，1600 万色）。<br />
  */
 import {

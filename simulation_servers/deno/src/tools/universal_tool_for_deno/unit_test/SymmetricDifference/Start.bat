@@ -1,1 +1,1 @@
-deno run -A --config=../../../../../deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --unstable-hmr ./Main.test.mts --color=16m&pause
+deno run -A --config=../../../../../deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr ./Main.test.mts --color=16m&pause
