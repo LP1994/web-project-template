@@ -2,7 +2,7 @@
   "tasks": {
     "start": "deno run -A --config=./deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr ./src/App.mts --color=16m"
   },
-  "nodeModulesDir": false,
+  "nodeModulesDir": "none",
   "lock": "./deno.lock",
   "exclude": [],
   "unstable": [
@@ -72,7 +72,6 @@
     }
   },
   "compilerOptions": {
-    "allowJs": true,
     "checkJs": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -96,18 +95,12 @@
 
     "useUnknownInCatchVariables": true,
 
-    "alwaysStrict": true,
     "exactOptionalPropertyTypes": true,
     "noPropertyAccessFromIndexSignature": false,
 
-    "allowArbitraryExtensions": true,
     "verbatimModuleSyntax": true,
-    "removeComments": false,
     "emitDecoratorMetadata": false,
     "experimentalDecorators": false,
-    "moduleSuffixes": [
-      ""
-    ],
 
     "lib": [
       "deno.broadcast_channel",
