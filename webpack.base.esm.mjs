@@ -72,6 +72,7 @@ import {
   basename,
   dirname,
   join,
+  posix,
   resolve,
 } from 'node:path';
 
@@ -751,22 +752,22 @@ const autoprefixerConfig = {
    * @type {array}
    */
   watchIgnoredArr = [
-    resolve( __dirname, './.git/' ),
-    resolve( __dirname, './.idea/' ),
-    resolve( __dirname, './assist_tools/' ),
-    resolve( __dirname, './backups/' ),
-    resolve( __dirname, './bats/' ),
-    resolve( __dirname, './configures/' ),
-    resolve( __dirname, './dist/' ),
-    resolve( __dirname, './log/' ),
-    resolve( __dirname, './node_modules/' ),
-    resolve( __dirname, './notes/' ),
-    resolve( __dirname, './read_me/' ),
-    resolve( __dirname, './simulation_servers/' ),
-    resolve( __dirname, './test/' ),
-    resolve( __dirname, './ts_compiled/' ),
-    resolve( __dirname, './webpack_location/' ),
-    resolve( __dirname, './webpack_records/' ),
+    posix.resolve( __dirname, './.git/' ),
+    posix.resolve( __dirname, './.idea/' ),
+    posix.resolve( __dirname, './assist_tools/' ),
+    posix.resolve( __dirname, './backups/' ),
+    posix.resolve( __dirname, './bats/' ),
+    posix.resolve( __dirname, './configures/' ),
+    posix.resolve( __dirname, './dist/' ),
+    posix.resolve( __dirname, './log/' ),
+    posix.resolve( __dirname, './node_modules/' ),
+    posix.resolve( __dirname, './notes/' ),
+    posix.resolve( __dirname, './read_me/' ),
+    posix.resolve( __dirname, './simulation_servers/' ),
+    posix.resolve( __dirname, './test/' ),
+    posix.resolve( __dirname, './ts_compiled/' ),
+    posix.resolve( __dirname, './webpack_location/' ),
+    posix.resolve( __dirname, './webpack_records/' ),
   ],
   /**
    * 默认情况下，它只影响按需块，因为更改初始块会影响HTML文件应包含以运行项目的脚本标记。<br />
