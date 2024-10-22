@@ -11358,7 +11358,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    */
   targetConfig = [
     'web',
-    'es2023',
+    'es2024',
   ],
   /**
    * 供插件“typedoc-webpack-plugin”使用的配置参数。<br />
