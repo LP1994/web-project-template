@@ -3227,8 +3227,177 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       join( __dirname, './webpack_records/' ),
     ];
 
-    // 注意插件之间的顺序！插件的执行是从上往下。
-    const babelPlugins = [
+    const babelParserPlugins = [
+        // Language extensions Start
+
+        /**
+         * 1、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
+         * 2、placeholders跟v8intrinsic不能同时使用。
+         */
+        // 'placeholders',
+        /**
+         * 1、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
+         * 2、placeholders跟v8intrinsic不能同时使用。
+         */
+        // 'v8intrinsic',
+        // flow跟typescript不能同时使用。
+        /*
+         [
+         'flow',
+         {
+         // 默认值为：false。
+         all: false,
+         enums: true,
+         },
+         ],
+         */
+        // flow跟typescript不能同时使用。
+        [
+          'typescript',
+          {
+            // 默认值为：false。
+            dts: false,
+            // 默认值为：false。
+            disallowAmbiguousJSXLike: false,
+          },
+        ],
+        'flowComments',
+        'jsx',
+
+        // Language extensions End
+
+        // ECMAScript proposals Start
+
+        'doExpressions',
+        'explicitResourceManagement',
+        // asyncDoExpressions依赖上面的doExpressions。
+        'asyncDoExpressions',
+        'decimal',
+        // decorators和decorators-legacy不能同时使用，建议使用decorators。
+        // 'decorators-legacy',
+        // decorators和decorators-legacy不能同时使用，建议使用decorators。
+        [
+          'decorators',
+          {
+            // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+            decoratorsBeforeExport: false,
+            // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
+            allowCallParenthesized: false,
+          },
+        ],
+        'decoratorAutoAccessors',
+        /**
+         * 提案见：https://github.com/tc39/proposal-defer-import-eval
+         * 例子：import defer * as ns from "dep";
+         */
+        'deferredImportEvaluation',
+        'destructuringPrivate',
+        'exportDefaultFrom',
+        'functionBind',
+        'importReflection',
+        // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+        /*
+         [
+         'moduleAttributes',
+         {
+         version: 'may-2020',
+         },
+         ],
+         */
+        'moduleBlocks',
+        /**
+         * 提案：https://github.com/tc39/proposal-optional-chaining-assignment
+         * 例子：x?.prop = 2
+         */
+        [
+          'optionalChainingAssign',
+          {
+            version: '2023-07',
+          },
+        ],
+        'partialApplication',
+        [
+          'pipelineOperator',
+          {
+            /**
+             * 1、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+             * 2、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
+             * 3、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
+             * 4、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+             */
+            proposal: 'hack',
+            /**
+             * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+             */
+            topicToken: '^^',
+          },
+        ],
+        [
+          'recordAndTuple',
+          {
+            /**
+             * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+             * 2、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
+             */
+            syntaxType: 'hash',
+          },
+        ],
+        /**
+         * 提案：https://github.com/tc39/proposal-source-phase-imports
+         * 例子：import source x from "./x"
+         */
+        'sourcePhaseImports',
+        'throwExpressions',
+        'importMeta',
+        [
+          'estree',
+          {
+            classFeatures: true,
+          },
+        ],
+        // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+        // 'importAssertions',
+        // deprecatedImportAssert同importAssertions。
+        // 'deprecatedImportAssert',
+
+        // ECMAScript proposals End
+
+        // Latest ECMAScript features Start
+
+        'asyncGenerators',
+        'bigInt',
+        'classPrivateMethods',
+        'classPrivateProperties',
+        'classProperties',
+        // Enabled by default
+        'classStaticBlock',
+        'dynamicImport',
+        // deprecated
+        'exportNamespaceFrom',
+        'functionSent',
+        'logicalAssignment',
+        'moduleStringNames',
+        'nullishCoalescingOperator',
+        'numericSeparator',
+        'objectRestSpread',
+        'optionalCatchBinding',
+        'optionalChaining',
+        // Enabled by default
+        'privateIn',
+        'regexpUnicodeSets',
+        'topLevelAwait',
+        // importAttributes已经取代了importAssertions。
+        [
+          'importAttributes',
+          {
+            deprecatedAssertSyntax: true,
+          },
+        ],
+
+        // Latest ECMAScript features End
+      ],
+      // 注意插件之间的顺序！插件的执行是从上往下。
+      babelPlugins = [
         /**
          * 关于插件的注意事项：<br />
          * 1、@babel/plugin-transform-runtime已经包含了@babel/plugin-external-helpers的功能了，用@babel/plugin-transform-runtime就好，不需要再手动明确使用@babel/plugin-external-helpers。<br />
@@ -3273,7 +3442,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               else{
                 throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
               }
-            } )() || '7.25.9',
+            } )() || '7.26.0',
             helpers: true,
             // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
             regenerator: true,
@@ -3293,6 +3462,38 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  ? [
               [
                 'babel-plugin-transform-jsbi-to-bigint',
+              ],
+            ]
+                 : [];
+        } )( false ),
+
+        /**
+         * @babel/plugin-bugfix-firefox-class-in-computed-class-key：https://babeljs.io/docs/babel-plugin-bugfix-firefox-class-in-computed-class-key
+         * 1、此错误修复插件可转换其他类的计算键内的类，以解决 SpiderMonkey 在私有类元素方面的一个错误。<br />
+         * 2、该插件包含在 @babel/preset-env 中，当目标受浏览器 bug 影响时，Babel 会自动为您启用该插件。<br />
+         * 3、版本早于 5.30.2 的 Terser 会取消此插件所做的转换。 请确保至少使用 5.30.2 版，或将 Terser 的 compress.inline 选项设为 false。<br />
+         */
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              [
+                '@babel/plugin-bugfix-firefox-class-in-computed-class-key',
+              ],
+            ]
+                 : [];
+        } )( false ),
+
+        /**
+         * @babel/plugin-bugfix-safari-class-field-initializer-scope：https://babeljs.io/docs/babel-plugin-bugfix-safari-class-field-initializer-scope
+         * 1、此错误修复插件用 IIFE 封装了一些类字段初始化程序，以解决影响 Safari 15 的 WebKit 错误。<br />
+         * 2、该插件包含在 @babel/preset-env 中，当目标受浏览器 bug 影响时，Babel 会自动为您启用该插件。<br />
+         * 3、版本早于 5.30.2 的 Terser 会取消此插件所做的转换。 请确保至少使用 5.30.2 版，或将 Terser 的 compress.inline 选项设为 false。<br />
+         */
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              [
+                '@babel/plugin-bugfix-safari-class-field-initializer-scope',
               ],
             ]
                  : [];
@@ -3468,42 +3669,18 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-proposal-destructuring-private',
               ],
               /**
-               * @babel/plugin-syntax-import-attributes：https://babeljs.io/docs/babel-plugin-syntax-import-attributes
-               * 1、目前该提案处于第2阶段，且此插件仅使Babel能够解析这种语法，Babel不支持转换这种语法。<br />
-               * import pkg from "./package.json" with { type: "json" }，很强大的提案，可以前往提案的文档详细了解！<br />
-               * 2、详细提案见：<br />
-               * https://github.com/tc39/proposal-import-attributes（https://github.com/tc39/proposal-import-assertions也会指向https://github.com/tc39/proposal-import-attributes这个网址）。<br />
-               * https://github.com/tc39/proposal-json-modules（第3阶段），该提案是从https://github.com/tc39/proposal-import-attributes提案单独分出来的。<br />
-               * 3、关于废弃旧的“assert”提案详细见：<br />
-               * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
-               */
-              [
-                '@babel/plugin-syntax-import-attributes',
-                {
-                  /**
-                   * 1、默认值为：false。<br />
-                   * 2、如果启用，支持使用废弃的assert关键字解析导入属性：<br />
-                   * import foo from "./foo.json" assert { type: "json" };
-                   * “assert”这种语法只在基于V8的引擎中支持，目前正在调查将其从WEB中移除，使用更为规范的“with”提案，其很强大的提案，可以前往“with”提案（https://github.com/tc39/proposal-import-attributes）的文档详细了解！<br />
-                   */
-                  deprecatedAssertSyntax: true,
-                },
-              ],
-              /**
                * @babel/plugin-proposal-import-attributes-to-assertions：https://babeljs.io/docs/babel-plugin-proposal-import-attributes-to-assertions
-               * 1、这是一个WEB兼容的插件，其提案是：https://github.com/tc39/proposal-import-attributes（目前该提案处于第2阶段）、https://github.com/tc39/proposal-json-modules（目前该提案处于第3阶段）。<br />
-               * 2、这个插件将生成与当前ECMAScript规范或任何当前提议的补充规范不兼容的代码。<br />
-               * 3、只有当你正在运送本地ES模块，并且需要专门与<br />
-               * 不支持导入属性语法（import pkg from "./package.json" with { type: "json" }）
-               * 但<br />
-               * 支持旧的导入断言语法（import pkg from "./package.json" assert { type: "json" }）
-               * 的工具兼容时，才使用它，例如Chrome 91+和Node.js 17.2+。<br />
-               * 4、该插件会将最新的规范<br />
+               * 1、该插件生成的代码将与当前的ECMAScript规范或任何当前提议的新增规范不兼容。<br />
+               * 2、只有当您正在发布本地ES模块，
+               * 并且只需要与不支持导入属性语法(import pkg from "./package.json" with { type: "json" })，
+               * 但支持旧的导入断言语法(import pkg from "./package.json" assert { type: "json" })的工具兼容时，才会使用该插件，
+               * 例如：Chrome 91 - 122、Node.js ^16.14 || ^18 || ^20 < 20.10。<br />
+               * 3、该插件会将最新的规范<br />
                * import pkg from "./package.json" with { type: "json" }
                * 转为旧的规范<br />
                * import pkg from "./package.json" assert { type: "json" }
-               * 5、目前，个人建议不启用该插件。<br />
-               * 6、关于废弃旧的“assert”提案详细见：<br />
+               * 4、目前，个人建议不启用该插件。<br />
+               * 5、关于废弃旧的“assert”提案详细见：<br />
                * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
                */
               /*
@@ -3513,19 +3690,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                */
 
               // 处于提案第3阶段！
-              /**
-               * @babel/plugin-syntax-import-assertions：https://github.com/tc39/proposal-import-assertions
-               * 1、目前该提案处于第3阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
-               * 2、该提案目前被指向新的提案：https://babeljs.io/docs/babel-plugin-syntax-import-attributes、https://github.com/tc39/proposal-import-attributes。<br />
-               * 3、关于废弃旧的“assert”提案详细见：<br />
-               * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
-               * 4、@babel/plugin-syntax-import-attributes跟@babel/plugin-syntax-import-assertions不能同时使用，故优先使用@babel/plugin-syntax-import-attributes。<br />
-               */
-              /*
-               [
-               '@babel/plugin-syntax-import-assertions',
-               ],
-               */
               /**
                * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
                * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
@@ -3564,13 +3728,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 },
               ],
               /**
-               * @babel/plugin-proposal-regexp-modifiers：https://babeljs.io/docs/babel-plugin-proposal-regexp-modifiers、https://github.com/tc39/proposal-regexp-modifiers
-               * 1、目前该提案处于第3阶段。<br />
-               */
-              [
-                '@babel/plugin-proposal-regexp-modifiers',
-              ],
-              /**
                * @babel/plugin-proposal-explicit-resource-management：https://babeljs.io/docs/babel-plugin-proposal-explicit-resource-management
                * 1、目前该提案处于第3阶段。<br />
                * 2、详细提案见：<br />
@@ -3592,20 +3749,6 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                */
               [
                 '@babel/plugin-proposal-import-wasm-source',
-              ],
-              /**
-               * @babel/plugin-proposal-json-modules：https://babeljs.io/docs/babel-plugin-proposal-json-modules
-               * 1、目前该提案处于第3阶段。<br />
-               * 2、详细提案见：<br />
-               * https://github.com/tc39/proposal-json-modules/
-               * 3、将“import ... with { type: "json" }”声明转换为特定平台的API，以读取并“JSON.parse”导入的文件。<br />
-               * 4、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
-               * 5、该插件只转换“import”标记，不转换动态“import()”调用。<br />
-               * 6、使用例子：<br />
-               * import data from "./data.json" with { type: "json" };
-               */
-              [
-                '@babel/plugin-proposal-json-modules',
               ],
 
               // 处于无效提案，但是有新的替代提案处于讨论中！
@@ -3640,6 +3783,81 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    * 1、值类型：boolean，默认值：true。<br />
                    */
                   runtime: true,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-json-modules：https://babeljs.io/docs/babel-plugin-transform-json-modules
+               * 1、详细提案见：<br />
+               * https://github.com/tc39/proposal-json-modules/
+               * 2、将“import ... with { type: "json" }”声明转换为特定平台的API，以读取并“JSON.parse”导入的文件。<br />
+               * 3、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
+               * 4、该插件只转换“import”标记，不转换动态“import()”调用。<br />
+               * 5、使用例子：<br />
+               * 输入：
+               * import data from "./data.json" with { type: "json" };
+               * 将转换为：
+               * Browsers：
+               * const data = await fetch(import.meta.resolve("./data.json")).then(r => r.json());
+               * Node.js (ESM)：
+               * import { readFileSync as _readFileSync } from "fs";
+               * const data = JSON.parse(_readFileSync(new URL(import.meta.resolve("./data.json"))));
+               * Node.js (CommonJS)：
+               * "use strict";
+               * const data = JSON.parse(require("fs").readFileSync(require.resolve("./data.json")));
+               * Browsers and Node.js (ESM)：
+               * const data = await (
+               *   typeof process === "object" && process.versions?.node
+               *     ? import("fs").then(fs => fs.promises.readFile(new URL(import.meta.resolve("./data.json")))).then(JSON.parse)
+               *     : fetch(import.meta.resolve("./data.json")).then(r => r.json())
+               * );
+               */
+              [
+                '@babel/plugin-transform-json-modules',
+                {
+                  /**
+                   * 1、默认值为：false，值类型为：boolean。<br />
+                   * 2、babel v7.25.0时，增加的该选项。<br />
+                   * 3、设置为"true"时，插件将直接使用require来导入JSON文件，从而生成更简单的输出。
+                   * 在以CommonJS为目标时，该选项会导致输出更易于分析捆绑程序，但不会检查导入的模块是否真的是JSON。<br />
+                   * 例子：
+                   * 输入：
+                   * import data from "./data.json" with { type: "json" };
+                   * 输出(没有uncheckedRequire: true)：
+                   * const data = JSON.parse(require("fs").readFileSync(require.resolve("./data.json")));
+                   * 输出(有uncheckedRequire: true)：
+                   * const data = require("./data.json");
+                   */
+                  uncheckedRequire: false,
+                },
+              ],
+              /**
+               * @babel/plugin-transform-regexp-modifiers：https://github.com/tc39/transform-regexp-modifiers
+               */
+              [
+                '@babel/plugin-transform-regexp-modifiers',
+              ],
+              /**
+               * @babel/plugin-syntax-import-attributes：https://babeljs.io/docs/babel-plugin-syntax-import-attributes
+               * 1、此插件仅使Babel能够解析这种语法，Babel不支持转换这种语法。<br />
+               * import pkg from "./package.json" with { type: "json" }，很强大的提案，可以前往提案的文档详细了解！<br />
+               * 虽然，Babel自7.25.0版起默认支持解析导入属性，但仍需要该插件才能让Babel在生成代码时选择正确的语法。
+               * 作为该插件的替代，您可以使用@babel/generator的importAttributesKeyword选项：{ generatorOpts: { importAttributesKeyword: 'with', }, }
+               * 2、详细提案见：<br />
+               * https://github.com/tc39/proposal-import-attributes（https://github.com/tc39/proposal-import-assertions也会指向https://github.com/tc39/proposal-import-attributes这个网址）。<br />
+               * https://github.com/tc39/proposal-json-modules，该提案是从https://github.com/tc39/proposal-import-attributes提案单独分出来的。<br />
+               * 3、关于废弃旧的“assert”提案详细见：<br />
+               * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+               */
+              [
+                '@babel/plugin-syntax-import-attributes',
+                {
+                  /**
+                   * 1、默认值为：false。<br />
+                   * 2、如果启用，支持使用废弃的assert关键字解析导入属性：<br />
+                   * import foo from "./foo.json" assert { type: "json" };
+                   * “assert”这种语法只在基于V8的引擎中支持，目前正在调查将其从WEB中移除，使用更为规范的“with”提案，其很强大的提案，可以前往“with”提案（https://github.com/tc39/proposal-import-attributes）的文档详细了解！<br />
+                   */
+                  deprecatedAssertSyntax: true,
                 },
               ],
             ]
@@ -4937,7 +5155,13 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           // 1、@babel/eslint-parser会为你设置。不建议将attachComment: false与Babel转换一起使用，因为这样做会删除输出代码中的所有注释，并呈现/* istanbul ignore next */等注释。
           attachComment: true,
           // 默认情况下，Babel根据ECMAScript的附件B "网络浏览器的附加ECMAScript功能 "语法来解析JavaScript。当这个选项设置为false时，Babel将解析没有附件B特定扩展的语法。
-          // annexb: true,
+          // annexB: true,
+          /**
+           * 默认情况下，解析器将动态导入 import() 解析为调用表达式节点。
+           * 当此选项设置为 true 时，将改为创建 ImportExpression AST 节点。
+           * 在 Babel 8 中，此选项将默认为 true。
+           */
+          createImportExpressions: true,
           // 同上面的sourceType选项。
           sourceType: 'unambiguous',
           // 默认情况下，仅当存在'use strict'指令或解析的文件是ECMAScript模块时，ECMAScript代码才会解析为严格。将此选项设置为true以始终以严格模式解析文件。
@@ -4945,153 +5169,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           ...( isEnable => {
             return isEnable
                    ? {
-                plugins: [
-                  // Language extensions Start
-
-                  /**
-                   * 1、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
-                   * 2、placeholders跟v8intrinsic不能同时使用。
-                   */
-                  // 'placeholders',
-                  /**
-                   * 1、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
-                   * 2、placeholders跟v8intrinsic不能同时使用。
-                   */
-                  // 'v8intrinsic',
-                  // flow跟typescript不能同时使用。
-                  /*
-                   [
-                   'flow',
-                   {
-                   // 默认值为：false。
-                   all: false,
-                   enums: true,
-                   },
-                   ],
-                   */
-                  // flow跟typescript不能同时使用。
-                  [
-                    'typescript',
-                    {
-                      // 默认值为：false。
-                      dts: false,
-                      // 默认值为：false。
-                      disallowAmbiguousJSXLike: false,
-                    },
-                  ],
-                  'flowComments',
-                  'jsx',
-
-                  // Language extensions End
-
-                  // ECMAScript proposals Start
-
-                  'doExpressions',
-                  'explicitResourceManagement',
-                  // asyncDoExpressions依赖上面的doExpressions。
-                  'asyncDoExpressions',
-                  'decimal',
-                  // decorators和decorators-legacy不能同时使用，建议使用decorators。
-                  // 'decorators-legacy',
-                  // decorators和decorators-legacy不能同时使用，建议使用decorators。
-                  [
-                    'decorators',
-                    {
-                      // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-                      decoratorsBeforeExport: false,
-                      // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-                      allowCallParenthesized: false,
-                    },
-                  ],
-                  'decoratorAutoAccessors',
-                  'destructuringPrivate',
-                  'exportDefaultFrom',
-                  'functionBind',
-                  // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                  // 'importAssertions',
-                  // importAttributes已经取代了importAssertions。
-                  [
-                    'importAttributes',
-                    {
-                      deprecatedAssertSyntax: true,
-                    },
-                  ],
-                  'importReflection',
-                  // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                  /*
-                   [
-                   'moduleAttributes',
-                   {
-                   version: 'may-2020',
-                   },
-                   ],
-                   */
-                  'moduleBlocks',
-                  'partialApplication',
-                  [
-                    'pipelineOperator',
-                    {
-                      /**
-                       * 1、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                       * 2、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
-                       * 3、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
-                       * 4、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                       */
-                      proposal: 'hack',
-                      /**
-                       * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                       */
-                      topicToken: '^^',
-                    },
-                  ],
-                  [
-                    'recordAndTuple',
-                    {
-                      /**
-                       * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                       * 2、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                       */
-                      syntaxType: 'hash',
-                    },
-                  ],
-                  'regexpUnicodeSets',
-                  'throwExpressions',
-                  'importMeta',
-                  [
-                    'estree',
-                    {
-                      classFeatures: true,
-                    },
-                  ],
-
-                  // ECMAScript proposals End
-
-                  // Latest ECMAScript features Start
-
-                  'asyncGenerators',
-                  'bigInt',
-                  'classPrivateMethods',
-                  'classPrivateProperties',
-                  'classProperties',
-                  // Enabled by default
-                  'classStaticBlock',
-                  'dynamicImport',
-                  // deprecated
-                  'exportNamespaceFrom',
-                  'functionSent',
-                  'logicalAssignment',
-                  'moduleStringNames',
-                  'nullishCoalescingOperator',
-                  'numericSeparator',
-                  'objectRestSpread',
-                  'optionalCatchBinding',
-                  'optionalChaining',
-                  // Enabled by default
-                  'privateIn',
-                  'topLevelAwait',
-
-                  // Latest ECMAScript features End
-                ],
+                plugins: babelParserPlugins,
               }
                    : {};
           } )( false ),
@@ -5141,6 +5219,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           decoratorsBeforeExport: false,
           recordAndTupleSyntaxType: 'hash',
           topicToken: '^^',
+          importAttributesKeyword: 'with',
         },
         /**
          * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
@@ -9154,153 +9233,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 ...( isEnabled => {
                   return isEnabled
                          ? {
-                      babelParserPlugins: [
-                        // Language extensions Start
-
-                        /**
-                         * 1、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
-                         * 2、placeholders跟v8intrinsic不能同时使用。
-                         */
-                        // 'placeholders',
-                        /**
-                         * 1、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
-                         * 2、placeholders跟v8intrinsic不能同时使用。
-                         */
-                        // 'v8intrinsic',
-                        // flow跟typescript不能同时使用。
-                        /*
-                         [
-                         'flow',
-                         {
-                         // 默认值为：false。
-                         all: false,
-                         enums: true,
-                         },
-                         ],
-                         */
-                        // flow跟typescript不能同时使用。
-                        [
-                          'typescript',
-                          {
-                            // 默认值为：false。
-                            dts: false,
-                            // 默认值为：false。
-                            disallowAmbiguousJSXLike: false,
-                          },
-                        ],
-                        'flowComments',
-                        'jsx',
-
-                        // Language extensions End
-
-                        // ECMAScript proposals Start
-
-                        'doExpressions',
-                        'explicitResourceManagement',
-                        // asyncDoExpressions依赖上面的doExpressions。
-                        'asyncDoExpressions',
-                        'decimal',
-                        // decorators和decorators-legacy不能同时使用，建议使用decorators。
-                        // 'decorators-legacy',
-                        // decorators和decorators-legacy不能同时使用，建议使用decorators。
-                        [
-                          'decorators',
-                          {
-                            // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-                            decoratorsBeforeExport: false,
-                            // 在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
-                            allowCallParenthesized: false,
-                          },
-                        ],
-                        'decoratorAutoAccessors',
-                        'destructuringPrivate',
-                        'exportDefaultFrom',
-                        'functionBind',
-                        // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                        // 'importAssertions',
-                        // importAttributes已经取代了importAssertions。
-                        [
-                          'importAttributes',
-                          {
-                            deprecatedAssertSyntax: true,
-                          },
-                        ],
-                        'importReflection',
-                        // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
-                        /*
-                         [
-                         'moduleAttributes',
-                         {
-                         version: 'may-2020',
-                         },
-                         ],
-                         */
-                        'moduleBlocks',
-                        'partialApplication',
-                        [
-                          'pipelineOperator',
-                          {
-                            /**
-                             * 1、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                             * 2、["pipelineOperator", { proposal: "hack" }]跟插件“placeholders”有冲突，二者只能取其一。
-                             * 3、["pipelineOperator", { proposal: "hack" }]跟插件“v8intrinsic”有冲突，二者只能取其一。
-                             * 4、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                             */
-                            proposal: 'hack',
-                            /**
-                             * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                             */
-                            topicToken: '^^',
-                          },
-                        ],
-                        [
-                          'recordAndTuple',
-                          {
-                            /**
-                             * 1、["pipelineOperator", { proposal: "hack", topicToken: "#" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                             * 2、["pipelineOperator", { proposal: "smart" }]跟["recordAndtuple", { syntaxType: "hash"}]有冲突，二者只能取其一。
-                             */
-                            syntaxType: 'hash',
-                          },
-                        ],
-                        'regexpUnicodeSets',
-                        'throwExpressions',
-                        'importMeta',
-                        [
-                          'estree',
-                          {
-                            classFeatures: true,
-                          },
-                        ],
-
-                        // ECMAScript proposals End
-
-                        // Latest ECMAScript features Start
-
-                        'asyncGenerators',
-                        'bigInt',
-                        'classPrivateMethods',
-                        'classPrivateProperties',
-                        'classProperties',
-                        // Enabled by default
-                        'classStaticBlock',
-                        'dynamicImport',
-                        // deprecated
-                        'exportNamespaceFrom',
-                        'functionSent',
-                        'logicalAssignment',
-                        'moduleStringNames',
-                        'nullishCoalescingOperator',
-                        'numericSeparator',
-                        'objectRestSpread',
-                        'optionalCatchBinding',
-                        'optionalChaining',
-                        // Enabled by default
-                        'privateIn',
-                        'topLevelAwait',
-
-                        // Latest ECMAScript features End
-                      ],
+                      babelParserPlugins,
                     }
                          : {};
                 } )( false ),
