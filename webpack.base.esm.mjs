@@ -3467,6 +3467,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  : [];
         } )( false ),
 
+        // Bugfix Start
+
         /**
          * @babel/plugin-bugfix-firefox-class-in-computed-class-key：https://babeljs.io/docs/babel-plugin-bugfix-firefox-class-in-computed-class-key
          * 1、此错误修复插件可转换其他类的计算键内的类，以解决 SpiderMonkey 在私有类元素方面的一个错误。<br />
@@ -3540,6 +3542,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  : [];
         } )( false ),
 
+        // Bugfix End
+
         // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） Start
         ...( isEnable => {
           return isEnable
@@ -3563,15 +3567,15 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-syntax-decimal',
               ],
               /**
-               * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-do-expressions、https://github.com/tc39/proposal-do-expressions
-               * 1、它可以看作是三元运算符的复杂版本。<br />
-               * 2、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/babel-plugin-proposal-do-expressions、https://github.com/tc39/proposal-do-expressions
+               * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 2、它可以看作是三元运算符的复杂版本。<br />
                */
               [
                 '@babel/plugin-proposal-do-expressions',
               ],
               /**
-               * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/en/babel-plugin-proposal-async-do-expressions、https://github.com/tc39/proposal-async-do-expressions
+               * @babel/plugin-proposal-async-do-expressions：https://babeljs.io/docs/babel-plugin-proposal-async-do-expressions、https://github.com/tc39/proposal-async-do-expressions
                * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
                * 2、该插件需要在@babel/plugin-transform-async-to-generator之前。<br />
                */
@@ -3579,7 +3583,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-proposal-async-do-expressions',
               ],
               /**
-               * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from、https://github.com/tc39/proposal-export-default-from
+               * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from、https://github.com/leebyron/ecmascript-export-default-from
                * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
                */
               [
@@ -3599,18 +3603,27 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
               [
                 '@babel/plugin-proposal-optional-chaining-assign',
                 {
-                  'version': '2023-07',
+                  /**
+                   * “2023-07”：第 1 阶段提案，定义在 tc39/proposal-optional-chaining-assignment@49d055c44b，于 2023 年 7 月 TC39 会议上提出。见：https://github.com/tc39/proposal-optional-chaining-assignment/commit/e7b48795b66a8196b1abcab2e52e2049d055c44b
+                   */
+                  version: '2023-07',
                 },
               ],
 
               // 处于提案第2阶段！
               /**
-               * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-js-module-blocks、https://github.com/tc39/proposal-module-expressions
-               * 1、目前该提案处于第2阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+               * @babel/plugin-proposal-import-defer：https://babeljs.io/docs/babel-plugin-proposal-import-defer、https://github.com/tc39/proposal-defer-import-eval/
+               * 1、目前该提案处于第2.7阶段。<br />
+               * 2、将导入延迟声明转换为延迟的 require() 调用。<br />
+               * 3、此插件仅在将模块编译为 CommonJS 时才可使用。<br />
+               * 4、该插件需要保证在“@babel/plugin-transform-modules-commonjs”之前被引用，如：
+               * [ '@babel/plugin-proposal-import-defer', '@babel/plugin-transform-modules-commonjs', ]
                */
-              [
-                '@babel/plugin-syntax-module-blocks',
-              ],
+              /*
+               [
+               '@babel/plugin-proposal-import-defer',
+               ],
+               */
               /**
                * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent、https://github.com/tc39/proposal-function.sent
                * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
@@ -3650,7 +3663,9 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
                    */
                   polyfillModuleName: '@bloomberg/record-tuple-polyfill',
-                  syntaxType: 'hash',
+
+                  // 该选项貌似不再被使用了。目前先注释掉吧！
+                  // syntaxType: 'hash',
                 },
               ],
               /**
@@ -3661,7 +3676,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-proposal-throw-expressions',
               ],
               /**
-               * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/en/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
+               * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
                * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
                * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
                */
@@ -3691,7 +3706,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
 
               // 处于提案第3阶段！
               /**
-               * @babel/plugin-proposal-decorators：https://babeljs.io/docs/en/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
+               * @babel/plugin-proposal-decorators：https://babeljs.io/docs/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
                * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
                * 2、目前该提案处于第3阶段。<br />
                */
@@ -3699,16 +3714,16 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-proposal-decorators',
                 {
                   /**
-                   * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-05'、'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
-                   * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md。<br />
+                   * 从v7.17.0开始添加这个新的version选项，有效值有：'2023-11'、'2023-05'、'2023-01'、'2022-03'、'2021-12'、'2018-09'（为默认值）、'legacy'。<br />
+                   * 1、'legacy'：是最初的Stage 1提案，见：https://github.com/wycats/javascript-decorators/blob/e1bf8d41bfa2591d949dd3bbf013514c8904b913/README.md、https://github.com/babel/babel/issues/8864#issuecomment-688535867。<br />
                    * 2、'2018-09'：是最初提升到第2阶段的提案版本，于2018年9月提交给TC39，见：https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b。<br />
                    * 3、'2021-12'：是2021年12月提交给TC39的提案版本，见：https://github.com/tc39/proposal-decorators/tree/d6c056fa061646178c34f361bad33d583316dc85。<br />
                    * 4、'2022-03'：是在2022年3月的TC39会议上就Stage 3达成共识的提案版本，见：https://github.com/tc39/proposal-decorators/tree/8ca65c046dd5e9aa3846a1fe5df343a6f7efd9f8。<br />
-                   * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本。<br />
-                   * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/tc39/proposal-decorators。<br />
+                   * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本，见：https://github.com/pzuraq/ecma262/pull/4。<br />
+                   * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/pzuraq/ecma262/compare/e86128e13b63a3c2efc3728f76c8332756752b02...c4465e44d514c6c1dba810487ec2721ccd6b08f9。<br />
                    * 7、'2023-11'：是在2023年11月TC30会议上达成共识的更新后的提案版本，其中纳入了这一变更，见：https://github.com/pzuraq/ecma262/pull/12。<br />
                    * 8、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
-                   * 9、Babel 8仅支持'2023-05'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-05'。<br />
+                   * 9、Babel 8仅支持'2023-11'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-11'。<br />
                    */
                   version: '2023-11',
                   /**
@@ -3738,24 +3753,30 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-proposal-explicit-resource-management',
               ],
               /**
-               * @babel/plugin-proposal-import-wasm-source：https://babeljs.io/docs/babel-plugin-proposal-import-wasm-source
+               * @babel/plugin-proposal-import-wasm-source：https://babeljs.io/docs/babel-plugin-proposal-import-wasm-source、https://github.com/tc39/proposal-source-phase-imports/
                * 1、目前该提案处于第3阶段。<br />
-               * 2、详细提案见：<br />
-               * https://github.com/tc39/proposal-source-phase-imports/
-               * 3、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
-               * 4、使用例子：<br />
+               * 2、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
+               * 3、使用例子：<br />
                * import source libMod from "./lib.wasm";
                * 注意，前面的新的关键字“source”，“import source”才是完整的导入语法。<br />
                */
               [
                 '@babel/plugin-proposal-import-wasm-source',
               ],
+              /**
+               * @babel/plugin-syntax-module-blocks：https://github.com/tc39/proposal-module-expressions
+               * 1、目前该提案处于第3阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+               */
+              [
+                '@babel/plugin-syntax-module-blocks',
+              ],
 
               // 处于无效提案，但是有新的替代提案处于讨论中！
               /**
-               * @babel/plugin-proposal-function-bind：https://babeljs.io/docs/en/babel-plugin-proposal-function-bind、https://github.com/tc39/proposal-bind-operator
+               * @babel/plugin-proposal-function-bind：https://babeljs.io/docs/babel-plugin-proposal-function-bind、https://github.com/zenparsing/es-function-bind、https://babeljs.io/blog/2015/05/14/function-bind
                * 1、该提案目前已无效，但是有3个包含该提案的新提案。<br />
                * 2、详细见：<br />
+               * https://github.com/tc39/proposal-bind-operator
                * https://babeljs.io/blog/2015/05/14/function-bind
                */
               [
@@ -3882,15 +3903,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         } )( false ),
         // ES2024（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
-        // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
-        ...( isEnable => {
-          return isEnable
-                 ? []
-                 : [];
-        } )( false ),
-        // ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
-
-        // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        // ES2022、ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
         ...( isEnable => {
           return isEnable
                  ? [
@@ -3964,7 +3977,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
             ]
                  : [];
         } )( false ),
-        // ES2022（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
+        // ES2022、ES2023（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
         // ES2021（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
         ...( isEnable => {
@@ -3998,14 +4011,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           return isEnable
                  ? [
               /**
-               * @babel/plugin-transform-export-namespace-from：https://babeljs.io/docs/babel-plugin-transform-export-namespace-from
+               * @babel/plugin-transform-export-namespace-from：https://babeljs.io/docs/babel-plugin-transform-export-namespace-from、https://github.com/leebyron/ecmascript-export-ns-from
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
                */
               [
                 '@babel/plugin-transform-export-namespace-from',
               ],
               /**
-               * @babel/plugin-transform-nullish-coalescing-operator：https://babeljs.io/docs/babel-plugin-transform-nullish-coalescing-operator
+               * @babel/plugin-transform-nullish-coalescing-operator：https://babeljs.io/docs/babel-plugin-transform-nullish-coalescing-operator、https://github.com/tc39-transfer/proposal-nullish-coalescing
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
                * 2、注意：我们不能在这里使用!=null因为document.all==null并且document.all被认为不是“nullish（无效的）”。<br />
                */
@@ -4022,7 +4035,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 },
               ],
               /**
-               * @babel/plugin-transform-optional-chaining：https://babeljs.io/docs/babel-plugin-transform-optional-chaining
+               * @babel/plugin-transform-optional-chaining：https://babeljs.io/docs/babel-plugin-transform-optional-chaining、https://github.com/tc39/proposal-optional-chaining
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
                * 2、访问深度嵌套的属性、调用深度嵌套的函数、构建深度嵌套的类、删除深度嵌套的属性（在v 7.8.0添加的）。<br />
                */
@@ -4055,23 +4068,19 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                 '@babel/plugin-syntax-dynamic-import',
               ],
               /**
-               * @babel/plugin-proposal-dynamic-import：https://babeljs.io/docs/babel-plugin-proposal-dynamic-import
-               * 启用该插件时会报如下错误：
-               * “@babel/plugin-proposal-dynamic-import”依赖以下“模块转换插件”中的任何一个：
-               * @babel/plugin-transform-modules-commonjs ^7.4.0
-               * @babel/plugin-transform-modules-amd ^7.4.0
-               * @babel/plugin-transform-modules-systemjs ^7.4.0
-               *
-               * 1、如果您正在使用Webpack或Rollup，因此不想babel来转译你的输入、输出，你可以用“@babel/plugin-syntax-dynamic-import”插件，让你的绑定器（Webpack或Rollup）处理动态导入（import()）。
-               * 2、不使用此插件，如果你正在使用一个捆绑器，如Webpack、Rollup或Parcel，你不应该使用这个插件，让你的捆绑器处理import()表达式。
+               * @babel/plugin-transform-dynamic-import：https://babeljs.io/docs/babel-plugin-transform-dynamic-import、https://github.com/tc39/proposal-dynamic-import
+               * 1、将import()表达式转换为非ESM模块格式。
+               * 2、如果使用 Webpack、Rollup 或 Parcel 等捆绑程序，则不应使用此插件，而应让捆绑程序处理 import() 表达式。
                * 3、你应该使用这个插件，如果：
                * 你正在ESM中编写一个Node.js库，但想在CommonJS(CJS)中发布它：安装这个插件和 @babel/plugin-transform-modules-commonjs
                * 你使用RequireJS在浏览器中加载模块：安装这个插件和 @babel/plugin-transform-modules-amd
                * 你使用SystemJS在浏览器中加载模块：安装此插件和 @babel/plugin-transform-modules-systemjs
+               * PS：该插件必须与上述3种模块转换插件之一配合使用。
+               * 例子：
+               * [ '@babel/plugin-transform-dynamic-import', '@babel/plugin-transform-modules-commonjs', ]
                */
               /*
                [
-               // '@babel/plugin-proposal-dynamic-import',
                '@babel/plugin-transform-dynamic-import',
                ],
                */
@@ -4093,14 +4102,14 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           return isEnable
                  ? [
               /**
-               * @babel/plugin-transform-json-strings：https://babeljs.io/docs/babel-plugin-transform-json-strings
+               * @babel/plugin-transform-json-strings：https://babeljs.io/docs/babel-plugin-transform-json-strings、https://github.com/babel/proposals/issues/43
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
                */
               [
                 '@babel/plugin-transform-json-strings',
               ],
               /**
-               * @babel/plugin-transform-optional-catch-binding：https://babeljs.io/docs/babel-plugin-transform-optional-catch-binding
+               * @babel/plugin-transform-optional-catch-binding：https://babeljs.io/docs/babel-plugin-transform-optional-catch-binding、https://github.com/babel/proposals/issues/7
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2019。<br />
                */
               [
@@ -4116,7 +4125,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           return isEnable
                  ? [
               /**
-               * @babel/plugin-transform-async-generator-functions：https://babeljs.io/docs/babel-plugin-transform-async-generator-functions
+               * @babel/plugin-transform-async-generator-functions：https://babeljs.io/docs/babel-plugin-transform-async-generator-functions、https://github.com/tc39/proposal-async-iteration
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2018。<br />
                */
               [
@@ -4193,7 +4202,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
           return isEnable
                  ? [
               /**
-               * @babel/plugin-transform-async-to-generator：https://babeljs.io/docs/babel-plugin-transform-async-to-generator
+               * @babel/plugin-transform-async-to-generator：https://babeljs.io/docs/babel-plugin-transform-async-to-generator、https://github.com/tc39/ecmascript-asyncawait
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2017 Babel 7中，transform-async-to-module-method被合并到这个插件中。<br />
                * 2、当使用带有非承诺值的等待时，Bluebird将抛出“Error: A value was yielded that could not be treated as a promise（错误：产生的值不能被视为承诺）”。由于Babel无法自动处理此运行时错误，因此您应该手动将其转换为Promise：<br />
                * 如：<br />
@@ -5285,6 +5294,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  */
                 noNewArrows: false,
                 /**
+                 * 假设在类初始化之前，代码从未尝试访问过类的私有字段。
+                 */
+                noUninitializedPrivateFieldAccess: false,
+                /**
                  * 在对象解构中使用休息模式时，假设解构对象没有符号键，或者如果不复制它们就没有问题。
                  */
                 objectRestNoSymbols: false,
@@ -5292,6 +5305,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 假设“软隐私”对于私有字段就足够了，因此它们可以存储为具有唯一名称的公共不可枚举属性（而不是使用外部WeakMap）。这使得调试编译的私有字段更容易。
                  */
                 privateFieldsAsProperties: false,
+                /**
+                 * 假设 "软隐私 "对私有字段来说就足够了，因此可以将它们存储为带有符号键的公共属性（而不是使用外部 WeakMap）。 这使得调试已编译的私有字段变得更容易。
+                 */
+                privateFieldsAsSymbols: false,
                 /**
                  * 假设getter（如果存在）没有副作用并且可以多次访问。
                  */
