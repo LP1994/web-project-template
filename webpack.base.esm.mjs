@@ -4778,14 +4778,26 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                    * topLevel：值类型：boolean，破坏顶级标识符（默认值：false）。<br />
                    * keepClassName：值类型：boolean，防止破坏更改类名（默认值：false）。<br />
                    * 3、以前的版本中，当函数、类的方法的默认参数设置为常量或私有变量时，该插件会报错：Cannot read property 'add' of undefined，解决方案是直接禁用该选项：mangle: false。<br />
+                   * 4、当babel的各个生态系列包更新到“v7.26.1 (2024-10-25)”、“v7.26.0 (2024-10-25)”、“v7.25.9 (2024-10-22)”时，启用这个选项会出现错误！
+                   * 目前的解决方案只能是直接设置为false来禁用该选项了。
+                   * 一时半会儿也搞不懂到底是哪个插件导致原本可以，但是更新后就不行了：
+                   * ERROR in ./src/pages/index/Index.mjs
+                   * Module build failed (from ./node_modules/babel-loader/lib/index.js):
+                   * TypeError: G:\WebStormWS\web-project-template\src\pages\index\Index.mjs: Cannot read properties of undefined (reading 'getCode')
+                   *     at NodePath.getSource (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\path\introspection.js:137:27)
+                   *     at PluginPass.exit (G:\WebStormWS\web-project-template\node_modules\babel-plugin-minify-mangle-names\lib\index.js:543:45)
+                   *     at newFn (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\visitors.js:172:14)
                    */
-                  mangle: {
-                    exclude: {},
-                    eval: false,
-                    keepFnName: true,
-                    topLevel: false,
-                    keepClassName: true,
-                  },
+                  /*
+                   mangle: {
+                   exclude: {},
+                   eval: false,
+                   keepFnName: true,
+                   topLevel: false,
+                   keepClassName: true,
+                   },
+                   */
+                  mangle: false,
                   /**
                    * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/en/babel-plugin-transform-member-expression-literals
                    * 1、默认值：true。<br />
