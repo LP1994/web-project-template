@@ -195,7 +195,8 @@
   },
   "scopes": {
     "https://esm.sh/": {
-      "https://esm.sh/v135/@types/graphql@14.5.0/index.d.ts": "https://esm.sh/graphql/index.d.ts"
+      "https://esm.sh/v135/@types/graphql@14.5.0/index.d.ts": "https://esm.sh/graphql/index.d.ts",
+      "https://esm.sh/v135/graphql@16.8.1/denonext/graphql.mjs": "https://esm.sh/v135/graphql@16.9.0/denonext/graphql.mjs"
     }
   },
   "imports": {
