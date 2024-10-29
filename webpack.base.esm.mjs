@@ -312,9 +312,9 @@ const __dirname = Get__dirname( import.meta.url ),
     // 'https://www.xxx.com/',
   ];
 
-console.log( chalk.cyan( `\n当前使用“${ isUseESBuildLoader
-                                        ? 'ESBuild'
-                                        : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n` ) );
+console.log( chalk.cyan( `当前使用“${ isUseESBuildLoader
+                                      ? 'ESBuild'
+                                      : 'Babel' }”处理“JS”、“TS”等等脚本！！！\n` ) );
 
 /**
  * 目标浏览器版本。
@@ -2064,6 +2064,17 @@ const aliasConfig = {
       }
 
       console.log( chalk.cyan( `\nwebpack-dev-server开始监听端口：${ devServer.server.address().port }！！！\n` ) );
+
+      const arr = [];
+
+      devServer.options.static.forEach( ( {
+        directory,
+        publicPath: [ current, ],
+      } ) => {
+        arr.push( `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }${ current }/\n其内容来自：${ directory }\n` );
+      } );
+
+      console.log( chalk.cyan( `可用的静态服务器：\n${ arr.join( '\n' ) }` ) );
     },
     open: [
       // Windows平台上的Edge浏览器。
