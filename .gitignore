@@ -2,18 +2,21 @@
 
 /.idea/
 
-# /dist/
-
-# /log/
-
-# /simulation_servers/deno/cache/
-# /simulation_servers/deno/log/
-/simulation_servers/deno/node_modules/
+/dist/
+/log/
 
 /node_modules/
 /node_modules.7z
 /node_modules.zip
 /node_modules.rar
 
-# /test/
-# /ts_compiled/
+/simulation_servers/deno/cache/
+/simulation_servers/deno/log/
+/simulation_servers/deno/test/
+/simulation_servers/deno/upload/
+/simulation_servers/deno/web/
+/simulation_servers/deno/node_modules/
+
+/test/
+/ts_compiled/
+/webpack_records/
