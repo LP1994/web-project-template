@@ -10,8 +10,8 @@
  */
 
 /**
- * 1、直到2024年03月23日，基于：npm包mongodb@6.5.0、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongodb@6.5.0、MongoDB社区版@7.0.7在node中是可以的。
+ * 1、直到2024年10月30日，基于：npm包mongodb@6.10.0、mongodb-windows-x86_64-enterprise-8.0.3、deno@2.0.4，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongodb@6.10.0、mongodb-windows-x86_64-enterprise-8.0.3在node@23.1.0中是可以的。
  */
 
 'use strict';
@@ -118,7 +118,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * @type {string}
    */
-  // authMechanism: 'MONGODB-X509',
+  authMechanism: 'MONGODB-X509',
   /**
    * 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -140,7 +140,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * @type {string}
    */
-  // authSource: '$external',
+  authSource: '$external',
   /**
    * 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -346,7 +346,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * @type {boolean}
    */
-  tls: false,
+  tls: true,
   /**
    * 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
@@ -552,8 +552,8 @@ const mongoClientConfig: T_MongoClientOptions = {
    */
   driverInfo: {
     name: 'npm_mongodb_driver_for_deno',
-    platform: 'deno@1.41.3',
-    version: 'mongodb@6.5.0',
+    platform: 'deno@2.0.4',
+    version: 'mongodb@6.10.0',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
