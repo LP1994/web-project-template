@@ -112,6 +112,24 @@ main {
 
   }
 
+  /*
+  > .demo001 {
+    box-sizing: content-box;
+
+    width: env(safe-area-inset-top);
+    height: env(safe-area-inset-bottom);
+
+    padding-right: env(safe-area-inset-right);
+    padding-left: env(safe-area-inset-left);
+
+    background-color: red;
+    background-clip: content-box;
+
+    margin-top: 10px;
+    margin-left: 50%;
+  }
+  */
+
 }
 </style>
 <template>
@@ -169,6 +187,7 @@ main {
         </button>
       </section>
     </article>
+<!--<div class = 'css-reset demo001'></div>-->
   </main>
 </template>
 <script
