@@ -10,7 +10,7 @@
  */
 
 /**
- * 2024年03月23日，基于：npm包mongodb@6.5.0、MongoDB社区版@7.0.7、npm@10.5.0、node@21.7.1，带客户端证书的与数据库进行的TLS连接测试成功！
+ * 2024年10月30日，基于：npm包mongodb@6.10.0、mongodb-windows-x86_64-enterprise-8.0.3、npm@10.9.0、node@23.1.0，带客户端证书的与数据库进行的TLS连接测试成功！
  * 注意该文件不是deno版！
  */
 
@@ -546,8 +546,8 @@ const mongoClientConfig: T_MongoClientOptions = {
    */
   driverInfo: {
     name: 'npm_mongodb_driver_for_node',
-    platform: 'node@21.7.1',
-    version: 'mongodb@6.5.0',
+    platform: 'node@23.1.0',
+    version: 'mongodb@6.10.0',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />

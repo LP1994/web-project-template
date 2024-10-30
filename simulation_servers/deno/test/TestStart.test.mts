@@ -19,7 +19,7 @@ console.log( `\n\n\n` );
 
 /*
  if( true ){
- import('./mongodb_demo/npm_mongodb_for_deno.test.mts').catch( ( error: unknown ): void => {
+ import( './mongodb_demo/npm_mongodb_for_deno.test.mts' ).catch( ( error: unknown ): void => {
  console.error( error );
  } ).finally( (): void => {
  console.log( `\n\n\n` );
