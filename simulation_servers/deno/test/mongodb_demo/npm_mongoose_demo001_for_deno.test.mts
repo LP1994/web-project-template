@@ -10,8 +10,8 @@
  */
 
 /**
- * 1、直到2024年03月23日，基于：npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7、deno@1.41.3，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongoose@8.2.3（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.7在node中是可以的。
+ * 1、直到2024年10月30日，基于：npm包mongoose@8.7.3（该版本的mongoose是基于npm包mongodb@6.9.0）、mongodb-windows-x86_64-enterprise-8.0.3、deno@2.0.4，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@8.7.3（该版本的mongoose是基于npm包mongodb@6.9.0）、mongodb-windows-x86_64-enterprise-8.0.3在node@23.1.0中是可以的。
  */
 
 'use strict';
