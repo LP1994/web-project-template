@@ -71,35 +71,3 @@ only screen and (max-width: 1300px) and (max-device-pixel-ratio: 1.9) and (min-d
 .overflow-hidden-auto {
   overflow: hidden auto;
 }
-
-/*
-@media only screen and (width: 428px) and (max-device-height: 896px) and (orientation: portrait) and (-moz-device-pixel-ratio: 3),
-only screen and (width: 428px) and (max-device-height: 896px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3),
-only screen and (width: 428px) and (max-device-height: 896px) and (orientation: portrait) and (device-pixel-ratio: 3) {
-
-  .title {
-    color: red !important;
-  }
-
-}
-
-html {
-  background-color: aqua;
-}
-
-body {
-  background-color: purple;
-}
-
-#LocalScroll {
-  background-color: gold;
-}
-
-#UploadAPP {
-  background-color: #a55c0e;
-}
-
-main {
-  background-color: lightcoral;
-}
-*/
