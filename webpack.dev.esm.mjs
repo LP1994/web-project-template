@@ -33,6 +33,8 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
 
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
 import {
   VueLoaderPlugin,
 } from 'vue-loader';
@@ -61,6 +63,7 @@ import {
   htmlWebpackPluginConfig,
   limitChunkCountPluginConfig,
   minChunkSizePluginConfig,
+  miniCssExtractPluginConfig,
   moduleConfig,
   nodeConfig,
   optimizationConfig,
@@ -177,7 +180,9 @@ export default {
     level: 'info',
   },
   mode: 'development',
-  module: moduleConfig(),
+  module: moduleConfig( {
+    MiniCssExtractPlugin,
+  } ),
   /**
    * 配置的名称。加载多个配置时使用。<br />
    */
@@ -213,6 +218,15 @@ export default {
     // 插件顺序很重要。错误的顺序将导致一些钩子未定义并且生成失败。ForkTsCheckerWebpackPlugin必须在ForkTsCheckerNotifierWebpackPlugin之前生效执行。
     new ForkTsCheckerWebpackPlugin( forkTsCheckerWebpackPluginConfig ),
     new ForkTsCheckerNotifierWebpackPlugin( forkTsCheckerNotifierWebpackPluginConfig ),
+
+    /**
+     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+     */
+    new MiniCssExtractPlugin( miniCssExtractPluginConfig ),
 
     new webpack.DefinePlugin( definePluginConfig ),
     new webpack.optimize.LimitChunkCountPlugin( limitChunkCountPluginConfig ),

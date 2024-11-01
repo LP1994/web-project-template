@@ -3044,7 +3044,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
    * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
    * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-   * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+   * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+   * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
    *
    * @type {object}
    */
@@ -5576,28 +5577,26 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         jsxFragment: 'React.Fragment',
       } );
 
-    const MiniCssExtractPluginLoader = isProduction
-                                       ? {
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            /**
-             * 1、默认值：false。
-             * 2、只有在 css-loader 中将 namedExport 设置为 true 时，该选项才会起作用。
-             * 3、默认情况下，mini-css-extract-plugin 会根据 css-loader 中的 esModule 和 namedExport 选项生成 JS 模块。
-             * 使用 esModule 和 namedExport 选项可以更好地优化代码。
-             * 如果在 css-loader 中设置 esModule: true 和 namedExport: true，mini-css-extract-plugin 将只生成命名导出。
-             * 我们的官方建议是只使用命名导出，以提高未来的兼容性。
-             * 但对于某些应用程序，要快速将代码从默认导出重写为已命名导出并不容易。
-             * 4、如果同时需要默认导出和命名导出，可以启用此选项。
-             */
-            defaultExport: true,
-            // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
-            emit: true,
-            // 该loader的该选项默认值是true。
-            // esModule: true,
-          },
-        }
-                                       : {},
+    const MiniCssExtractPluginLoader = {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          /**
+           * 1、默认值：false。
+           * 2、只有在 css-loader 中将 namedExport 设置为 true 时，该选项才会起作用。
+           * 3、默认情况下，mini-css-extract-plugin 会根据 css-loader 中的 esModule 和 namedExport 选项生成 JS 模块。
+           * 使用 esModule 和 namedExport 选项可以更好地优化代码。
+           * 如果在 css-loader 中设置 esModule: true 和 namedExport: true，mini-css-extract-plugin 将只生成命名导出。
+           * 我们的官方建议是只使用命名导出，以提高未来的兼容性。
+           * 但对于某些应用程序，要快速将代码从默认导出重写为已命名导出并不容易。
+           * 4、如果同时需要默认导出和命名导出，可以启用此选项。
+           */
+          defaultExport: true,
+          // 如果为真，则发出一个文件（将文件写入文件系统）。如果为false，插件将提取CSS，但不会发出文件。对服务器端包禁用此选项通常很有用。
+          emit: true,
+          // 该loader的该选项默认值是true。
+          // esModule: true,
+        },
+      },
       styleLoader = {
         loader: 'style-loader',
         options: {
@@ -5698,40 +5697,10 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         hashStrategy: 'resource-path-and-local-name',
         /**
          * 注意：<br />
-         * 1、namedExport选项如果设置成true时，就只能使用具名的按需导出，而不能使用默认导出（因为内部模块的default这个属性的值为undefined）。<br />
-         * 例如：<br />
-         * namedExport选项如果设置成true时，就只能使用具名的按需导出：<br />
-         * import { red: 'xxx', blueColor: 'xxx', plumColor: 'xxx', ... } from './css_modules/example.module.css';
-         *
-         * 如果是使用默认导出：<br />
-         * import exampleCSS from './css_modules/example.module.css';
-         * 那么“exampleCSS”的值会变成一个undefined，因为内部模块的default这个属性的值为undefined。<br />
-         *
-         * 但是可以使用全部导出：<br />
-         * import * as exampleCSS from './css_modules/example.module.css';
-         * 那么“exampleCSS”里就会包含所有的属性，但是里面的default属性的值为undefined。<br />
-         * “exampleCSS”的值形如：{ red: 'xxx', blueColor: 'xxx', plumColor: 'xxx', default: undefined, ... }。<br />
-         *
-         * 因为对于Vue的SFC来说，只有内部模块部署了default属性并且其上有各个样式值，才能成功注入并处于可使用状态。<br />
-         *
-         * 2、当namedExport选项如果设置成false时（也是推荐设置成false），只能使用默认导出（因为内部模块只部署了default这个属性），而不能使用具名的按需导出。<br />
-         * 使用默认导出：<br />
-         * import exampleCSS from './css_modules/example.module.css';
-         * 通过exampleCSS.Black就能取到值。<br />
-         *
-         * 当使用全部导出时：<br />
-         * import * as exampleCSS from './css_modules/example.module.css';
-         * “exampleCSS”的值形如：<br />
-         * { default: { Black: 'xxx', red: 'xxx', palegreenColor: 'xxx', [ 'blue-color' ]: 'xxx', plum_color: 'xxx' }, }
-         * 可见，即使是全部导出，也只有default属性。<br />
-         *
-         * 不能使用具名的按需导出：<br />
-         * import { Black, ... } from './css_modules/example.module.css';
-         * 不仅取不到“Black”属性的值，还会报错！因为内部模块只部署了默认导出（也就是只部署了default属性）。<br />
-         *
-         * 对于Vue的SFC来说，namedExport设置成false，也就没有任何问题了，都能通过诸如useCssModule( 'examplePcss' )来使用。因为内部模块部署了默认导出（也就是部署了default属性），Vue的SFC就是使用了这个默认导出。<br />
+         * 1、因为对于Vue的SFC来说，只有内部模块部署了default属性并且其上有各个样式值，才能成功注入并处于可使用状态，诸如useCssModule( 'examplePcss' )。<br />
+         * 2、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。因为，namedExport为true时，需要mini-css-extract-plugin的选项defaultExport为true一起配合，才能正常使用（也就是可以同时使用具名导出、默认导出、全部导出）。<br />
          */
-        namedExport: isProduction,
+        namedExport: true,
         // 允许css-loader从全局的类或id导出名称，这样就可以将其用作本地名称。
         exportGlobals: true,
         /**
@@ -6390,10 +6359,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
              */
-            ...( () => {
-              return isProduction
+            ...( ( isBoolean ) => {
+              return isBoolean
                      ? [
                   MiniCssExtractPluginLoader,
                 ]
@@ -6413,7 +6383,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     return obj1;
                   } )( styleLoader ),
                 ];
-            } )(),
+            } )( true ),
             ( cssLoader => {
               const options = Object.assign( {}, cssLoader.options );
 
@@ -6461,10 +6431,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
-                ...( () => {
-                  return isProduction
+                ...( ( isBoolean ) => {
+                  return isBoolean
                          ? [
                       MiniCssExtractPluginLoader,
                     ]
@@ -6484,7 +6455,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         return obj1;
                       } )( styleLoader ),
                     ];
-                } )(),
+                } )( true ),
                 ( cssLoader => {
                   const options = Object.assign( {}, cssLoader.options );
 
@@ -6530,7 +6501,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
                 ...( () => {
                   return isProduction
@@ -7326,10 +7298,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
              */
-            ...( () => {
-              return isProduction
+            ...( ( isBoolean ) => {
+              return isBoolean
                      ? [
                   MiniCssExtractPluginLoader,
                 ]
@@ -7349,7 +7322,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     return obj1;
                   } )( styleLoader ),
                 ];
-            } )(),
+            } )( true ),
             ( cssLoader => {
               const options = Object.assign( {}, cssLoader.options );
 
@@ -7406,10 +7379,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
-                ...( () => {
-                  return isProduction
+                ...( ( isBoolean ) => {
+                  return isBoolean
                          ? [
                       MiniCssExtractPluginLoader,
                     ]
@@ -7429,7 +7403,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         return obj1;
                       } )( styleLoader ),
                     ];
-                } )(),
+                } )( true ),
                 ( cssLoader => {
                   const options = Object.assign( {}, cssLoader.options );
 
@@ -7484,7 +7458,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
                 ...( () => {
                   return isProduction
@@ -8029,10 +8004,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
              */
-            ...( () => {
-              return isProduction
+            ...( ( isBoolean ) => {
+              return isBoolean
                      ? [
                   MiniCssExtractPluginLoader,
                 ]
@@ -8052,7 +8028,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     return obj1;
                   } )( styleLoader ),
                 ];
-            } )(),
+            } )( true ),
             ( cssLoader => {
               const options = Object.assign( {}, cssLoader.options );
 
@@ -8100,10 +8076,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
-                ...( () => {
-                  return isProduction
+                ...( ( isBoolean ) => {
+                  return isBoolean
                          ? [
                       MiniCssExtractPluginLoader,
                     ]
@@ -8123,7 +8100,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         return obj1;
                       } )( styleLoader ),
                     ];
-                } )(),
+                } )( true ),
                 ( cssLoader => {
                   const options = Object.assign( {}, cssLoader.options );
 
@@ -8169,7 +8146,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
                 ...( () => {
                   return isProduction
@@ -8271,10 +8249,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
              */
-            ...( () => {
-              return isProduction
+            ...( ( isBoolean ) => {
+              return isBoolean
                      ? [
                   MiniCssExtractPluginLoader,
                 ]
@@ -8294,7 +8273,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     return obj1;
                   } )( styleLoader ),
                 ];
-            } )(),
+            } )( true ),
             ( cssLoader => {
               const options = Object.assign( {}, cssLoader.options );
 
@@ -8361,10 +8340,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
-                ...( () => {
-                  return isProduction
+                ...( ( isBoolean ) => {
+                  return isBoolean
                          ? [
                       MiniCssExtractPluginLoader,
                     ]
@@ -8384,7 +8364,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         return obj1;
                       } )( styleLoader ),
                     ];
-                } )(),
+                } )( true ),
                 ( cssLoader => {
                   const options = Object.assign( {}, cssLoader.options );
 
@@ -8449,7 +8429,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
                 ...( () => {
                   return isProduction
@@ -8538,10 +8519,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
              */
-            ...( () => {
-              return isProduction
+            ...( ( isBoolean ) => {
+              return isBoolean
                      ? [
                   MiniCssExtractPluginLoader,
                 ]
@@ -8561,7 +8543,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     return obj1;
                   } )( styleLoader ),
                 ];
-            } )(),
+            } )( true ),
             ( cssLoader => {
               const options = Object.assign( {}, cssLoader.options );
 
@@ -8628,10 +8610,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
-                ...( () => {
-                  return isProduction
+                ...( ( isBoolean ) => {
+                  return isBoolean
                          ? [
                       MiniCssExtractPluginLoader,
                     ]
@@ -8651,7 +8634,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         return obj1;
                       } )( styleLoader ),
                     ];
-                } )(),
+                } )( true ),
                 ( cssLoader => {
                   const options = Object.assign( {}, cssLoader.options );
 
@@ -8716,7 +8699,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
                 ...( () => {
                   return isProduction
@@ -8805,10 +8789,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
              * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
              * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
              * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-             * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
              */
-            ...( () => {
-              return isProduction
+            ...( ( isBoolean ) => {
+              return isBoolean
                      ? [
                   MiniCssExtractPluginLoader,
                 ]
@@ -8828,7 +8813,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                     return obj1;
                   } )( styleLoader ),
                 ];
-            } )(),
+            } )( true ),
             ( cssLoader => {
               const options = Object.assign( {}, cssLoader.options );
 
@@ -8880,10 +8865,11 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
-                ...( () => {
-                  return isProduction
+                ...( ( isBoolean ) => {
+                  return isBoolean
                          ? [
                       MiniCssExtractPluginLoader,
                     ]
@@ -8903,7 +8889,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                         return obj1;
                       } )( styleLoader ),
                     ];
-                } )(),
+                } )( true ),
                 ( cssLoader => {
                   const options = Object.assign( {}, cssLoader.options );
 
@@ -8953,7 +8939,8 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
                  * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
                  * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
                  * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
                  */
                 ...( () => {
                   return isProduction
