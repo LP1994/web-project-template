@@ -51,27 +51,9 @@ new Worker(`data:application/javascript;base64,${btoa(`postMessage("ok");`)}`, {
 --unstable-kv
 启用此标记可在 Deno 命名空间中使用 Deno KV API。
 
---unstable-ffi
-启用不稳定的 FFI API，详细见：
-https://docs.deno.com/runtime/manual/runtime/ffi_api
-
---unstable-fs
-在 Deno 命名空间中启用不稳定的文件系统 API。这些 API 包括：
-Deno.flock
-Deno.flockSync
-Deno.funlock
-Deno.funlockSync
-Deno.umask
-
 --unstable-net
 启用 Deno 命名空间中的不稳定 net API。这些 API 包括
 Deno.DatagramConn
-
---unstable-http
-Enable unstable HTTP APIs
-
---unstable-temporal
-Enable unstable Temporal API
 
 --watch-hmr
 您可以在运行 deno 时使用 --watch-hmr 标志来启用热模块替换模式。运行时将尝试就地更新程序，而不是重启程序。如果就地更新失败，程序仍将重启。
@@ -257,6 +239,7 @@ PS:
 deno run --reload http://localhost:8081/WebProTpl/dist/Deno4TestA.js
 --unstable                    启用不稳定的 API
 使用“--unstable”时，保证在配置文件中的"lib"选项中必须包含"deno.window", "deno.unstable" 这两个类型描述文件。
+“--unstable”在deno v2中会被删除！
 
 
 影响执行用户代码的命令，deno run和deno test：
@@ -682,6 +665,7 @@ declare global {
 也就是说，配置文件中的lib选项里只要包含"deno.url"即可，不要写入"dom.extras"。
 
 如果命令中使用了“--unstable”标志，那么配置文件中的lib选项里一定得要有"deno.window", "deno.unstable"。
+“--unstable”在deno v2中会被删除！
 
 "deno.window"与"dom"、"dom.iterable"冲突
 参照上面的“"dom.extras"与"deno.url"冲突”的说明。

@@ -11,11 +11,7 @@
     "worker-options",
     "cron",
     "kv",
-    "ffi",
-    "fs",
-    "net",
-    "http",
-    "temporal"
+    "net"
   ],
   "lint": {
     "include": [

@@ -12,6 +12,10 @@
 /**
  * 1、直到2024年10月30日，基于：npm包mongoose@8.7.3（该版本的mongoose是基于npm包mongodb@6.9.0）、mongodb-windows-x86_64-enterprise-8.0.3、deno@2.0.4，还是无法使用TLS以及客户端证书跟数据库进行连接。
  * 但是同样的npm包mongoose@8.7.3（该版本的mongoose是基于npm包mongodb@6.9.0）、mongodb-windows-x86_64-enterprise-8.0.3在node@23.1.0中是可以的。
+ * PS：
+ * 个人反馈的BUG链接：
+ * Connecting to MongoDB database that requires SSL doesn't work in deno@2.0.4, But it works in node@23.1.0. #26660
+ * https://github.com/denoland/deno/issues/26660
  */
 
 'use strict';
