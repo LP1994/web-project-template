@@ -1275,7 +1275,7 @@
     "react-native-fs": "^2.20.0",
     "reflect-metadata": "^0.2.2",
     "requirejs": "^2.3.7",
-    "rollup": "^4.24.4",
+    "rollup": "^4.25.0",
     "rollup-plugin-cson": "^1.0.2",
     "rollup-plugin-handlebars": "^1.0.0",
     "rollup-plugin-html": "^0.2.1",
