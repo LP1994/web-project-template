@@ -8,8 +8,12 @@
  */
 
 /**
- * 1、直到2024年04月28日，基于：npm包mongoose@8.3.2（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.9、deno@1.42.4，还是无法使用TLS以及客户端证书跟数据库进行连接。
- * 但是同样的npm包mongoose@8.3.2（该版本的mongoose也是基于npm包mongodb@6.5.0）、MongoDB社区版@7.0.9在node中是可以的。
+ * 1、直到2024年11月09日，基于：npm包mongoose@8.8.1（该版本的mongoose也是基于npm包mongodb@6.10.0）、mongodb-windows-x86_64-enterprise-8.0.3、deno@2.0.5，还是无法使用TLS以及客户端证书跟数据库进行连接。
+ * 但是同样的npm包mongoose@8.8.1（该版本的mongoose也是基于npm包mongodb@6.10.0）、mongodb-windows-x86_64-enterprise-8.0.3在node@23.1.0中是可以的。
+ * PS：
+ * 个人反馈的BUG链接：
+ * Connecting to MongoDB database that requires SSL doesn't work in deno@2.0.4, But it works in node@23.1.0. #26660
+ * https://github.com/denoland/deno/issues/26660
  */
 
 'use strict';
@@ -576,8 +580,8 @@ const mongooseConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver_for_deno',
-    platform: 'deno@1.42.4',
-    version: 'mongoose@8.3.2',
+    platform: 'deno@2.0.5',
+    version: 'npm_mongoose@8.8.1',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
