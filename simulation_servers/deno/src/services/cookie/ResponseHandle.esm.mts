@@ -49,7 +49,7 @@ import ResponseError from 'public/ResponseError.esm.mts';
 function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     isClientCookie: boolean = url.searchParams.has( 'isClientCookie' ),
-    httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request ),
+    httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request ) as Record<string, string>,
     headers: Headers = new Headers( httpResHeaders );
 
   let result: string = '';
