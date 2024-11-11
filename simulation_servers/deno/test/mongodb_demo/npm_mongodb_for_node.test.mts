@@ -548,7 +548,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    */
   driverInfo: {
     name: 'npm_mongodb_driver_for_node',
-    platform: `node${ node_version }`,
+    platform: `node ${ node_version }`,
     version: 'npm_mongodb@6.10.0',
   },
   /**

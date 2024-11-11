@@ -579,7 +579,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver_for_node',
-    platform: `node${ node_version }`,
+    platform: `node ${ node_version }`,
     version: 'npm_mongoose@8.8.1',
   },
   /**
