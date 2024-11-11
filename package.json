@@ -60,6 +60,7 @@
     "Go",
     "SSE",
     "Web Socket",
+    "WebTransport",
     "HTTP",
     "HTTPS",
     "HTTP/1.1",
