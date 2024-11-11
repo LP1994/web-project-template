@@ -43,6 +43,8 @@ import {
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
+MyConsole.Green( `\n${ JSON.stringify( Deno.version ) }` );
+
 Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
 

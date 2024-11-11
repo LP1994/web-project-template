@@ -574,7 +574,7 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver_for_deno',
-    platform: 'deno@2.0.4',
+    platform: `deno@${ Deno.version.deno }`,
     version: 'mongoose@8.7.3',
   },
   /**

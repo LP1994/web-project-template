@@ -556,7 +556,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    */
   driverInfo: {
     name: 'npm_mongodb_driver_for_deno',
-    platform: 'deno@2.0.4',
+    platform: `deno@${ Deno.version.deno }`,
     version: 'mongodb@6.10.0',
   },
   /**
