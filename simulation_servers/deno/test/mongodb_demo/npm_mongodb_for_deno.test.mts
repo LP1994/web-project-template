@@ -557,7 +557,7 @@ const mongoClientConfig: T_MongoClientOptions = {
   driverInfo: {
     name: 'npm_mongodb_driver_for_deno',
     platform: `deno@${ Deno.version.deno }`,
-    version: 'mongodb@6.10.0',
+    version: 'npm_mongodb@6.10.0',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />

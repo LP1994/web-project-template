@@ -16,6 +16,8 @@
 
 'use strict';
 
+import { version as node_version } from 'node:process';
+
 import {
   type ConnectOptions as T_ConnectOptions,
   type Connection as T_Connection,
@@ -577,8 +579,8 @@ const mongooseClientConfig: T_ConnectOptions = {
    */
   driverInfo: {
     name: 'npm_mongoose_driver_for_node',
-    platform: 'node@23.1.0',
-    version: 'mongoose@8.7.3',
+    platform: `node${ node_version }`,
+    version: 'npm_mongoose@8.8.1',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
