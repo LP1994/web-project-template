@@ -765,7 +765,7 @@
     "@types/svgo": "^3.0.0",
     "@types/swiper": "^6.0.0",
     "@types/tapable": "^2.2.7",
-    "@types/three": "^0.169.0",
+    "@types/three": "^0.170.0",
     "@types/through": "^0.0.33",
     "@types/through2": "^2.0.41",
     "@types/tough-cookie": "^4.0.5",
