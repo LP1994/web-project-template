@@ -112,10 +112,10 @@
     "npm": ">=10.9.0"
   },
   "browserslist": [
-    "Chrome >= 130",
-    "Android >= 130",
-    "ChromeAndroid >= 130",
-    "Edge >= 130",
+    "Chrome >= 131",
+    "Android >= 131",
+    "ChromeAndroid >= 131",
+    "Edge >= 131",
     "Firefox >= 132",
     "FirefoxAndroid >= 132",
     "Safari >= 18",
@@ -1110,7 +1110,7 @@
     "node-html-parser": "^6.1.13",
     "nodemon": "^3.1.7",
     "npm": "^10.9.0",
-    "npm-check-updates": "^17.1.10",
+    "npm-check-updates": "^17.1.11",
     "nrm": "^1.3.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "papaparse": "^5.4.1",
