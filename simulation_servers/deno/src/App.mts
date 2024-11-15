@@ -44,6 +44,12 @@ const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 MyConsole.Green( `\n${ JSON.stringify( Deno.version ) }` );
+if( Deno.env.has( 'HTTP_PROXY' ) ){
+  MyConsole.Green( `HTTP_PROXY: ${ Deno.env.get( 'HTTP_PROXY' ) }` );
+}
+if( Deno.env.has( 'HTTPS_PROXY' ) ){
+  MyConsole.Green( `HTTPS_PROXY: ${ Deno.env.get( 'HTTPS_PROXY' ) }` );
+}
 
 Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
