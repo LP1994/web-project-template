@@ -239,7 +239,7 @@ async function ValidateReqHeadSRI( request: Request ): Promise<T_QueryOneResult>
 async function ResponseHandle( request: Request ): Promise<T_Response001>{
   const url: URL = new URL( request.url ),
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim(),
-    httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request );
+    httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request ) as Record<string, string>;
 
   let result: T_Response001;
 

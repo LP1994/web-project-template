@@ -44,7 +44,7 @@ const resolvers: T_Resolvers = {
       },
     },
   },
-};
+} as T_Resolvers;
 
 export {
   typeDefs,

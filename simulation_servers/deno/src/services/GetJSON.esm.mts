@@ -106,6 +106,7 @@ async function Handle(
     } );
   }
   finally{
+    // @ts-expect-error
     await mongooseConnectForSingleton.MyMongooseConnection.myClose( true );
   }
 }

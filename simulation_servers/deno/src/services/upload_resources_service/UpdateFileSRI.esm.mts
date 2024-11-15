@@ -91,7 +91,7 @@ async function GetFileMIME( blob: Blob, fileName: string ): Promise<string>{
     fileMIME = ( await fileTypeFromBlob( blob ) )?.mime ?? 'application/octet-stream';
   }
   else{
-    fileMIME = typeByExtension( fileName.split( '.' ).pop() ) ?? ( ( await fileTypeFromBlob( blob ) )?.mime ?? 'application/octet-stream' );
+    fileMIME = typeByExtension( ( fileName.split( '.' ).pop() ) as string ) ?? ( ( await fileTypeFromBlob( blob ) )?.mime ?? 'application/octet-stream' );
   }
 
   return fileMIME;

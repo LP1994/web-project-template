@@ -23,7 +23,7 @@ import {
 
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Greetings.type.graphql` ) ) );
 
-const resolvers: T_Resolvers = {
+const resolvers: Partial<T_Resolvers> = {
   Subscription: {
     greetings: {
       subscribe: async function* (

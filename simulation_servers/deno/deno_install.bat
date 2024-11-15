@@ -1,0 +1,23 @@
+@echo off
+start cmd /k "deno install -g --allow-net --allow-read -n corejs https://deno.land/x/corejs/index.js"
+start cmd /k "deno install -g --allow-net --allow-read -n graphql-ws_lib https://esm.sh/graphql-ws/lib"
+start cmd /k "deno install -g --allow-net --allow-read -n graphql-http_lib_use_fetch https://esm.sh/graphql-http/lib/use/fetch"
+start cmd /k "deno install -g --allow-net --allow-read -n graphql-sse_lib_use_fetch https://esm.sh/graphql-sse/lib/use/fetch"
+start cmd /k "deno install -g --allow-net --allow-read -n graphql https://esm.sh/graphql"
+start cmd /k "deno install -g --allow-net --allow-read -n dejs https://deno.land/x/dejs/mod.ts"
+start cmd /k "deno install -g --allow-net --allow-read -n chalk_deno https://deno.land/x/chalk_deno/source/index.js"
+start cmd /k "deno install -g --allow-net --allow-read -n std_path https://deno.land/std/path/mod.ts"
+start cmd /k "deno install -g --allow-net --allow-read -n graphql-tools_schema https://esm.sh/@graphql-tools/schema"
+start cmd /k "deno install -g --allow-net --allow-read -n std_media_types https://deno.land/std/media_types/mod.ts"
+start cmd /k "deno install -g --allow-net --allow-read -n std_encoding https://deno.land/std/encoding/hex.ts"
+start cmd /k "deno install -g --allow-net --allow-read -n std_io https://deno.land/std/io/to_writable_stream.ts"
+
+start cmd /k "deno install -g --allow-net --allow-read npm:mongodb"
+start cmd /k "deno install -g --allow-net --allow-read npm:mongoose"
+start cmd /k "deno install -g --allow-net --allow-read npm:file-type"
+
+start cmd /k "deno cache G:/WebStormWS/web-project-template/simulation_servers/deno/src/database/mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts"
+start cmd /k "deno cache G:/WebStormWS/web-project-template/simulation_servers/deno/src/database/mongo/tools/MongooseConfig.esm.mts"
+start cmd /k "deno cache G:/WebStormWS/web-project-template/simulation_servers/deno/src/database/mongo/tools/MongooseConnect.esm.mts"
+start cmd /k "deno cache G:/WebStormWS/web-project-template/simulation_servers/deno/src/services/upload_resources_service/UpdateFileSRI.esm.mts"
+start cmd /k "deno cache G:/WebStormWS/web-project-template/simulation_servers/deno/src/services/GetJSON.esm.mts"

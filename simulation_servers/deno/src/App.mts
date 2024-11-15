@@ -40,16 +40,69 @@ import {
   GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
+function SomeEnvInfo(): void{
+  MyConsole.Green( `\n${ JSON.stringify( Deno.version ) }` );
+
+  if( Deno.env.has( 'DENO_AUTH_TOKENS' ) ){
+    MyConsole.Green( `DENO_AUTH_TOKENS: ${ Deno.env.get( 'DENO_AUTH_TOKENS' ) }` );
+  }
+  if( Deno.env.has( 'DENO_TLS_CA_STORE' ) ){
+    MyConsole.Green( `DENO_TLS_CA_STORE: ${ Deno.env.get( 'DENO_TLS_CA_STORE' ) }` );
+  }
+  if( Deno.env.has( 'DENO_CERT' ) ){
+    MyConsole.Green( `DENO_CERT: ${ Deno.env.get( 'DENO_CERT' ) }` );
+  }
+  if( Deno.env.has( 'DENO_DIR' ) ){
+    MyConsole.Green( `DENO_DIR: ${ Deno.env.get( 'DENO_DIR' ) }` );
+  }
+  if( Deno.env.has( 'DENO_INSTALL_ROOT' ) ){
+    MyConsole.Green( `DENO_INSTALL_ROOT: ${ Deno.env.get( 'DENO_INSTALL_ROOT' ) }` );
+  }
+  if( Deno.env.has( 'DENO_REPL_HISTORY' ) ){
+    MyConsole.Green( `DENO_REPL_HISTORY: ${ Deno.env.get( 'DENO_REPL_HISTORY' ) }` );
+  }
+  if( Deno.env.has( 'DENO_NO_PACKAGE_JSON' ) ){
+    MyConsole.Green( `DENO_NO_PACKAGE_JSON: ${ Deno.env.get( 'DENO_NO_PACKAGE_JSON' ) }` );
+  }
+  if( Deno.env.has( 'DENO_NO_PROMPT' ) ){
+    MyConsole.Green( `DENO_NO_PROMPT: ${ Deno.env.get( 'DENO_NO_PROMPT' ) }` );
+  }
+  if( Deno.env.has( 'DENO_NO_UPDATE_CHECK' ) ){
+    MyConsole.Green( `DENO_NO_UPDATE_CHECK: ${ Deno.env.get( 'DENO_NO_UPDATE_CHECK' ) }` );
+  }
+  if( Deno.env.has( 'DENO_V8_FLAGS' ) ){
+    MyConsole.Green( `DENO_V8_FLAGS: ${ Deno.env.get( 'DENO_V8_FLAGS' ) }` );
+  }
+  if( Deno.env.has( 'DENO_JOBS' ) ){
+    MyConsole.Green( `DENO_JOBS: ${ Deno.env.get( 'DENO_JOBS' ) }` );
+  }
+  if( Deno.env.has( 'DENO_WEBGPU_TRACE' ) ){
+    MyConsole.Green( `DENO_WEBGPU_TRACE: ${ Deno.env.get( 'DENO_WEBGPU_TRACE' ) }` );
+  }
+  if( Deno.env.has( 'DENO_WEBGPU_BACKEND' ) ){
+    MyConsole.Green( `DENO_WEBGPU_BACKEND: ${ Deno.env.get( 'DENO_WEBGPU_BACKEND' ) }` );
+  }
+  if( Deno.env.has( 'HTTP_PROXY' ) ){
+    MyConsole.Green( `HTTP_PROXY: ${ Deno.env.get( 'HTTP_PROXY' ) }` );
+  }
+  if( Deno.env.has( 'HTTPS_PROXY' ) ){
+    MyConsole.Green( `HTTPS_PROXY: ${ Deno.env.get( 'HTTPS_PROXY' ) }` );
+  }
+  if( Deno.env.has( 'NPM_CONFIG_REGISTRY' ) ){
+    MyConsole.Green( `NPM_CONFIG_REGISTRY: ${ Deno.env.get( 'NPM_CONFIG_REGISTRY' ) }` );
+  }
+  if( Deno.env.has( 'NO_COLOR' ) ){
+    MyConsole.Green( `NO_COLOR: ${ Deno.env.get( 'NO_COLOR' ) }` );
+  }
+  if( Deno.env.has( 'NO_PROXY' ) ){
+    MyConsole.Green( `NO_PROXY: ${ Deno.env.get( 'NO_PROXY' ) }` );
+  }
+}
+
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-MyConsole.Green( `\n${ JSON.stringify( Deno.version ) }` );
-if( Deno.env.has( 'HTTP_PROXY' ) ){
-  MyConsole.Green( `HTTP_PROXY: ${ Deno.env.get( 'HTTP_PROXY' ) }` );
-}
-if( Deno.env.has( 'HTTPS_PROXY' ) ){
-  MyConsole.Green( `HTTPS_PROXY: ${ Deno.env.get( 'HTTPS_PROXY' ) }` );
-}
+SomeEnvInfo();
 
 Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
