@@ -30,7 +30,7 @@ emsdk update-tags
 显信息示版本：emcc -v、em++ -v
 
 9、执行转换命令
-emcc MathTool.cpp --std=c++2a -Os -s WASM=1 -s SIDE_MODULE=1 -o ../../basic/MathTool.wasm
+emcc MathTool.cpp -std=c++23 -Os -s WASM=1 -s SIDE_MODULE=1 -o MathTool.wasm
 注：
 note: use 'c++98' or 'c++03' for 'ISO C++ 1998 with amendments' standard
 note: use 'gnu++98' or 'gnu++03' for 'ISO C++ 1998 with amendments and GNU extensions' standard
@@ -57,7 +57,30 @@ note: use 'gnu2x' for 'Working Draft for ISO C2x with GNU extensions' standard
 
 emcc就是Emscripten编译器，test.c是我们的输入文件，-Os表示这次编译需要优化，-s WASM=1表示输出wasm的文件，因为默认的是输出asm.js，
 -s SIDE_MODULE=1表示就只要这一个模块，不要给我其他乱七八糟的代码，-o test.wasm是我们的输出文件。
---std=c++2a用于.cpp文件，--std=c2x用于.c文件
+-std=c++23用于.cpp文件，-std=c23用于.c文件
+
+emcc参数说明：
+https://emscripten.org/docs/tools_reference/emcc.html
+关于”-std“参数见：
+c++：https://clang.llvm.org/cxx_status.html
+Clang实现了以下已发布和即将发布的ISO C++标准：
+Language Standard   Flag         Available in Clang?
+C++2c               -std=c++2c   Partial
+C++23               -std=c++23   Partial
+C++20               -std=c++20   Partial
+C++17               -std=c++17   Clang 5
+C++14               -std=c++14   Clang 3.4
+C++11               -std=c++11   Clang 3.3
+C++98/C++03         -std=c++98   Yes (other than export)
+c：https://clang.llvm.org/c_status.html
+Clang实现了以下已发布和即将推出的ISO C标准：
+Language Standard   Flag       Available in Clang?
+C2y                 -std=c2y   Partial
+C23                 -std=c23   Partial
+C17                 -std=c17   Partial
+C11                 -std=c11   Partial
+C99                 -std=c99   Clang 17
+C89                 -std=c89   Yes
 
 
 

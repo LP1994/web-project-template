@@ -2,9 +2,9 @@ MathTool.cpp的文档说明
 
 生成对应的“.wasm”的命令：
 1、第一步：
-在“MathTool.cpp”文件所在的文件夹下执行命令“emcmdprompt”。
+在“MathTool.cpp”文件所在的文件夹下执行命令“emsdk_env.bat”。
 2、第二步：
-emcc MathTool.cpp --std=c++2a -Os -s WASM=1 -s SIDE_MODULE=1 -o MathTool.wasm
+emcc MathTool.cpp -std=c++23 -Os -s WASM=1 -s SIDE_MODULE=1 -o MathTool.wasm
 
 /*
 1、注意三角函数（sin（），cos（），tan（），asin（），acos（），atan（），atan2（））期望（和返回）以弧度表示的角度。

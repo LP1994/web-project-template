@@ -10,9 +10,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
 /*
 生成对应的“.wasm”的命令：
 1、第一步：
-在“MathTool.cpp”文件所在的文件夹下执行命令“emcmdprompt”。
+在“MathTool.cpp”文件所在的文件夹下执行命令“emsdk_env.bat”。
 2、第二步：
-emcc MathTool.cpp --std=c++2a -Os -s WASM=1 -s SIDE_MODULE=1 -o MathTool.wasm
+emcc MathTool.cpp -std=c++23 -Os -s WASM=1 -s SIDE_MODULE=1 -o MathTool.wasm
 */
 
 #include <climits>
