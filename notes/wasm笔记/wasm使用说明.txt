@@ -92,81 +92,30 @@ PS：
 建议在C语言用“double”(8字节的大小)代替"long long int"。
 
 
-第一种：
-import('wasmBDir/Index.wasm').then( modules => {
-                                      const { Add } = modules;
 
-                                      console.log( Add( 2019, 1 ) );
-                                  } )
-                                  .catch( error => {
-                                      console.error( error );
-                                  } );
-
-第二种：
-( async () => {
-    await fetch( '../wasm/basic/MathTool.wasm' )
-        .then( response => response.arrayBuffer() )
-        .then( bufferSource => WebAssembly.validate( bufferSource )
-                               ? WebAssembly.instantiate( bufferSource, importObject )
-                               : undefined )
-        .then( ( {
-                     module,
-                     instance: {
-                         exports: {
-                             Add, Sub, Mul, Div, Mod, Fib,
-                         },
-                     }
-                 } = throw new Error( '这是一个无效的“wasm”模块！' ) ) => {
-            // console.dir( WebAssembly.Module.imports( module ) );
-            // console.dir( WebAssembly.Module.exports( module ) );
-
-            console.log( '<--------------------fetch WASM Start-------------------->' );
-
-            const startTime = performance.now();
-
-            const fibValue = BigInt( Fib( FibX ) );
-
-            const endTime = performance.now();
-
-            console.log( `WASM_Fib_${ FibX }：${ fibValue }` );
-            console.log( `WASM：${ ( endTime - startTime ) / 1000 }秒、${ ( endTime - startTime ) / 60000 }分钟` );
-
-            console.log( '<--------------------fetch WASM End-------------------->' );
-        } )
-        .catch( error => console.error( error ) );
-} )();
-
-
-
-这个 loadWebAssembly 函数还接受第二个参数，表示要传递给 wasm 的变量，在初始化 WebAssembly 实例的时候，可以把一些接口传递给 wasm 代码。
-/**
- * @param {String} path wasm 文件路径
- * @param {Object} imports 传递到 wasm 代码中的变量
- */
-function loadWebAssembly (path, imports = {}) {
-  return fetch(path)
-    .then(response => response.arrayBuffer())
-    .then(buffer => WebAssembly.compile(buffer))
-    .then(module => {
-      imports.env = imports.env || {}
-
-      // 开辟内存空间
-      imports.env.memoryBase = imports.env.memoryBase || 0
-      if (!imports.env.memory) {
-        imports.env.memory = new WebAssembly.Memory({ initial: 256 })
+强烈推荐优先使用WebAssembly.instantiateStreaming()来处理Wasm！
+https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiateStreaming_static
+WebAssembly.instantiateStreaming() 静态方法直接从流式底层源编译并实例化 WebAssembly 模块。这是加载 Wasm 代码最有效、最优化的方法。
+例子：
+WebAssembly.instantiateStreaming( fetch( MathTool ), ).then(
+  (
+    {
+      module,
+      instance: {
+        exports: {
+          Add,
+          Sub,
+          Mul,
+          Div,
+          Mod,
+          Fib,
+        },
       }
-
-      // 创建变量映射表
-      imports.env.tableBase = imports.env.tableBase || 0
-      if (!imports.env.table) {
-        // 在 MVP 版本中 element 只能是 "anyfunc"
-        imports.env.table = new WebAssembly.Table({ initial: 0, element: 'anyfunc' })
-      }
-
-      // 创建 WebAssembly 实例
-      return new WebAssembly.Instance(module, imports)
-    })
-}
+    }
+  ) => {
+    console.log( BigInt( Fib( 100, 1, 1 ) ) );
+  },
+);
 
 
 
