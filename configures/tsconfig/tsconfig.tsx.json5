@@ -10,7 +10,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 {
   "display": "tsconfig.tsx.json5",
   "_version": "1.0.0",
-  "_typescript_version": "5.6.3",
+  "_typescript_version": "5.7.2",
   "_tsx_version": "4.19.2",
   "_description": "这是给tsx使用的tsconfig.json。该配置扩展自tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
@@ -18,7 +18,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "_tsx_docs": "https://github.com/privatenumber/tsx",
   "extends": "./tsconfig.bases.json5",
   "compilerOptions": {
-    "target": "es2023",
+    "target": "es2024",
     "module": "NodeNext",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。

@@ -58,7 +58,7 @@
     "skipLibCheck": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
 
-    "target": "es2023",
+    "target": "es2024",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "baseUrl": "./",

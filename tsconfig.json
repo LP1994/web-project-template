@@ -1,7 +1,7 @@
 {
   "display": "tsconfig.json",
   "_version": "1.0.0",
-  "_typescript_version": "5.6.3",
+  "_typescript_version": "5.7.2",
   "_description": "这是给WebStorm这个IDE使用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -44,7 +44,7 @@
     "transpileOnly": false
   },
   "compilerOptions": {
-    "target": "es2023",
+    "target": "es2024",
     "module": "esnext",
     "moduleResolution": "bundler",
     "baseUrl": "./",

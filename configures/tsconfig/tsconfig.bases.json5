@@ -10,7 +10,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
 {
   "display": "tsconfig.bases.json5",
   "_version": "1.0.0",
-  "_typescript_version": "5.6.3",
+  "_typescript_version": "5.7.2",
   "_description": "这是一个基本通用的tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
@@ -827,13 +827,13 @@ CreateDate: 2022-01-01 00:00:00 星期六
     // "reactNamespace": "React",
     /*
     为发出的JavaScript设置JavaScript语言版本，并包含兼容的库声明。
-    1、有效值：es3（在TypeScript 5.0中已经放弃该选项值）、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、esnext。
+    1、有效值：es3（在TypeScript 5.0中已经放弃该选项值）、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、es2023、es2024、esnext。
     2、更改目标也会更改lib的默认值。您可以根据需要“混合和匹配”目标和库设置，但为了方便起见，您可以设置目标。
     3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
     4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
     5、特殊的ESNext值是指您的TypeScript版本支持的最高版本。应该谨慎使用此设置，因为它在不同的TypeScript版本之间并不意味着相同的事情，并且会使升级变得难以预测。
     */
-    "target": "es2023",
+    "target": "es2024",
     /*
     发出符合ECMAScript标准的类字段。
     1、如果“target”选项值是es2022或更高版本，包括esnext，则该选项值默认为true，否则为false。

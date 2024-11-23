@@ -1,7 +1,7 @@
 {
   "display": "tsconfig.tsx.json",
   "_version": "1.0.0",
-  "_typescript_version": "5.6.3",
+  "_typescript_version": "5.7.2",
   "_tsx_version": "4.19.2",
   "_description": "这是给tsx使用的tsconfig.json。该配置扩展自tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
@@ -83,7 +83,7 @@
     "skipLibCheck": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
 
-    "target": "es2023",
+    "target": "es2024",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "baseUrl": "./",
