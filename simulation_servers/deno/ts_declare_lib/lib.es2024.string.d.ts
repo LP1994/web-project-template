@@ -16,11 +16,14 @@ and limitations under the License.
 
 /// <reference no-default-lib="true"/>
 
-/// <reference lib="es2016" />
-/// <reference lib="es2017.arraybuffer" />
-/// <reference lib="es2017.date" />
-/// <reference lib="es2017.intl" />
-/// <reference lib="es2017.object" />
-/// <reference lib="es2017.sharedmemory" />
-/// <reference lib="es2017.string" />
-/// <reference lib="es2017.typedarrays" />
+interface String {
+    /**
+     * Returns true if all leading surrogates and trailing surrogates appear paired and in order.
+     */
+    isWellFormed(): boolean;
+
+    /**
+     * Returns a string where all lone or out-of-order surrogates have been replaced by the Unicode replacement character (U+FFFD).
+     */
+    toWellFormed(): string;
+}
