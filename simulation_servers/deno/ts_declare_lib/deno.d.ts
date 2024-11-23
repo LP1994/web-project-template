@@ -2971,6 +2971,10 @@ declare namespace Deno {
      * field from `stat` on Mac/BSD and `ftCreationTime` on Windows. This may
      * not be available on all platforms. */
     birthtime: Date | null;
+    /** The last change time of the file. This corresponds to the `ctime`
+     * field from `stat` on Mac/BSD and `ChangeTime` on Windows. This may
+     * not be available on all platforms. */
+    ctime: Date | null;
     /** ID of the device containing the file. */
     dev: number;
     /** Inode number.
@@ -2979,8 +2983,7 @@ declare namespace Deno {
     ino: number | null;
     /** The underlying raw `st_mode` bits that contain the standard Unix
      * permissions for this file/directory.
-     *
-     * _Linux/Mac OS only._ */
+     */
     mode: number | null;
     /** Number of hard links pointing to this file.
      *
@@ -4532,7 +4535,7 @@ declare namespace Deno {
   /** The object that is returned from a {@linkcode Deno.upgradeWebSocket}
    * request.
    *
-   * @category Web Sockets */
+   * @category WebSockets */
   export interface WebSocketUpgrade {
     /** The response object that represents the HTTP response to the client,
      * which should be used to the {@linkcode RequestEvent} `.respondWith()` for
@@ -4546,7 +4549,7 @@ declare namespace Deno {
   /** Options which can be set when performing a
    * {@linkcode Deno.upgradeWebSocket} upgrade of a {@linkcode Request}
    *
-   * @category Web Sockets */
+   * @category WebSockets */
   export interface UpgradeWebSocketOptions {
     /** Sets the `.protocol` property on the client side web socket to the
      * value provided here, which should be one of the strings specified in the
@@ -4594,7 +4597,7 @@ declare namespace Deno {
    * This operation does not yet consume the request or open the websocket. This
    * only happens once the returned response has been passed to `respondWith()`.
    *
-   * @category Web Sockets
+   * @category WebSockets
    */
   export function upgradeWebSocket(
     request: Request,
@@ -8148,6 +8151,8 @@ type BodyInit =
   | FormData
   | URLSearchParams
   | ReadableStream<Uint8Array>
+  | Iterable<Uint8Array>
+  | AsyncIterable<Uint8Array>
   | string;
 /** @category Fetch */
 type RequestDestination =
@@ -11128,14 +11133,14 @@ declare namespace Deno {
 /// <reference lib="deno.crypto" />
 /// <reference lib="deno.ns" />
 
-/** @category WASM */
+/** @category Wasm */
 declare namespace WebAssembly {
   /**
    * The `WebAssembly.CompileError` object indicates an error during WebAssembly decoding or validation.
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/CompileError)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class CompileError extends Error {
     /** Creates a new `WebAssembly.CompileError` object. */
@@ -11149,7 +11154,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Global)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class Global {
     /** Creates a new `Global` object. */
@@ -11172,7 +11177,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Instance)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class Instance {
     /** Creates a new Instance object. */
@@ -11192,7 +11197,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/LinkError)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class LinkError extends Error {
     /** Creates a new WebAssembly.LinkError object. */
@@ -11208,7 +11213,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class Memory {
     /** Creates a new `Memory` object. */
@@ -11230,7 +11235,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class Module {
     /** Creates a new `Module` object. */
@@ -11258,7 +11263,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/RuntimeError)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class RuntimeError extends Error {
     /** Creates a new `WebAssembly.RuntimeError` object. */
@@ -11273,7 +11278,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Table)
    *
-   * @category WASM
+   * @category Wasm
    */
   export class Table {
     /** Creates a new `Table` object. */
@@ -11295,7 +11300,7 @@ declare namespace WebAssembly {
   /** The `GlobalDescriptor` describes the options you can pass to
    * `new WebAssembly.Global()`.
    *
-   * @category WASM
+   * @category Wasm
    */
   export interface GlobalDescriptor {
     mutable?: boolean;
@@ -11305,7 +11310,7 @@ declare namespace WebAssembly {
   /** The `MemoryDescriptor` describes the options you can pass to
    * `new WebAssembly.Memory()`.
    *
-   * @category WASM
+   * @category Wasm
    */
   export interface MemoryDescriptor {
     initial: number;
@@ -11316,7 +11321,7 @@ declare namespace WebAssembly {
   /** A `ModuleExportDescriptor` is the description of a declared export in a
    * `WebAssembly.Module`.
    *
-   * @category WASM
+   * @category Wasm
    */
   export interface ModuleExportDescriptor {
     kind: ImportExportKind;
@@ -11326,7 +11331,7 @@ declare namespace WebAssembly {
   /** A `ModuleImportDescriptor` is the description of a declared import in a
    * `WebAssembly.Module`.
    *
-   * @category WASM
+   * @category Wasm
    */
   export interface ModuleImportDescriptor {
     kind: ImportExportKind;
@@ -11337,7 +11342,7 @@ declare namespace WebAssembly {
   /** The `TableDescriptor` describes the options you can pass to
    * `new WebAssembly.Table()`.
    *
-   * @category WASM
+   * @category Wasm
    */
   export interface TableDescriptor {
     element: TableKind;
@@ -11347,7 +11352,7 @@ declare namespace WebAssembly {
 
   /** The value returned from `WebAssembly.instantiate`.
    *
-   * @category WASM
+   * @category Wasm
    */
   export interface WebAssemblyInstantiatedSource {
     /* A `WebAssembly.Instance` object that contains all the exported WebAssembly functions. */
@@ -11360,21 +11365,21 @@ declare namespace WebAssembly {
     module: Module;
   }
 
-  /** @category WASM */
+  /** @category Wasm */
   export type ImportExportKind = "function" | "global" | "memory" | "table";
-  /** @category WASM */
+  /** @category Wasm */
   export type TableKind = "anyfunc";
-  /** @category WASM */
+  /** @category Wasm */
   export type ValueType = "f32" | "f64" | "i32" | "i64";
-  /** @category WASM */
+  /** @category Wasm */
   export type ExportValue = Function | Global | Memory | Table;
-  /** @category WASM */
+  /** @category Wasm */
   export type Exports = Record<string, ExportValue>;
-  /** @category WASM */
+  /** @category Wasm */
   export type ImportValue = ExportValue | number;
-  /** @category WASM */
+  /** @category Wasm */
   export type ModuleImports = Record<string, ImportValue>;
-  /** @category WASM */
+  /** @category Wasm */
   export type Imports = Record<string, ModuleImports>;
 
   /**
@@ -11385,7 +11390,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/compile)
    *
-   * @category WASM
+   * @category Wasm
    */
   export function compile(bytes: BufferSource): Promise<Module>;
 
@@ -11397,7 +11402,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/compileStreaming)
    *
-   * @category WASM
+   * @category Wasm
    */
   export function compileStreaming(
     source: Response | Promise<Response>,
@@ -11414,7 +11419,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate)
    *
-   * @category WASM
+   * @category Wasm
    */
   export function instantiate(
     bytes: BufferSource,
@@ -11431,7 +11436,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate)
    *
-   * @category WASM
+   * @category Wasm
    */
   export function instantiate(
     moduleObject: Module,
@@ -11445,7 +11450,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming)
    *
-   * @category WASM
+   * @category Wasm
    */
   export function instantiateStreaming(
     response: Response | PromiseLike<Response>,
@@ -11459,7 +11464,7 @@ declare namespace WebAssembly {
    *
    * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/validate)
    *
-   * @category WASM
+   * @category Wasm
    */
   export function validate(bytes: BufferSource): boolean;
 }
@@ -13429,6 +13434,32 @@ declare namespace Deno {
     ): Displayable;
 
     /**
+     * Display a JPG or PNG image.
+     *
+     * ```
+     * Deno.jupyter.image("./cat.jpg");
+     * Deno.jupyter.image("./dog.png");
+     * ```
+     *
+     * @category Jupyter
+     * @experimental
+     */
+    export function image(path: string): Displayable;
+
+    /**
+     * Display a JPG or PNG image.
+     *
+     * ```
+     * const img = Deno.readFileSync("./cat.jpg");
+     * Deno.jupyter.image(img);
+     * ```
+     *
+     * @category Jupyter
+     * @experimental
+     */
+    export function image(data: Uint8Array): Displayable;
+
+    /**
      * Format an object for displaying in Deno
      *
      * @param obj - The object to be displayed
@@ -13469,6 +13500,73 @@ declare namespace Deno {
         buffers?: Uint8Array[];
       },
     ): Promise<void>;
+
+    export {}; // only export exports
+  }
+
+  /**
+   * **UNSTABLE**: New API, yet to be vetted.
+   *
+   * APIs for working with the OpenTelemetry observability framework. Deno can
+   * export traces, metrics, and logs to OpenTelemetry compatible backends via
+   * the OTLP protocol.
+   *
+   * Deno automatically instruments the runtime with OpenTelemetry traces and
+   * metrics. This data is exported via OTLP to OpenTelemetry compatible
+   * backends. User logs from the `console` API are exported as OpenTelemetry
+   * logs via OTLP.
+   *
+   * User code can also create custom traces, metrics, and logs using the
+   * OpenTelemetry API. This is done using the official OpenTelemetry package
+   * for JavaScript:
+   * [`npm:@opentelemetry/api`](https://opentelemetry.io/docs/languages/js/).
+   * Deno integrates with this package to provide trace context propagation
+   * between native Deno APIs (like `Deno.serve` or `fetch`) and custom user
+   * code. Deno also provides APIs that allow exporting custom telemetry data
+   * via the same OTLP channel used by the Deno runtime. This is done using the
+   * [`jsr:@deno/otel`](https://jsr.io/@deno/otel) package.
+   *
+   * @example Using OpenTelemetry API to create custom traces
+   * ```ts,ignore
+   * import { trace } from "npm:@opentelemetry/api@1";
+   * import "jsr:@deno/otel@0.0.2/register";
+   *
+   * const tracer = trace.getTracer("example-tracer");
+   *
+   * async function doWork() {
+   *   return tracer.startActiveSpan("doWork", async (span) => {
+   *     span.setAttribute("key", "value");
+   *     await new Promise((resolve) => setTimeout(resolve, 1000));
+   *     span.end();
+   *   });
+   * }
+   *
+   * Deno.serve(async (req) => {
+   *   await doWork();
+   *   const resp = await fetch("https://example.com");
+   *   return resp;
+   * });
+   * ```
+   *
+   * @category Telemetry
+   * @experimental
+   */
+  export namespace telemetry {
+    /**
+     * A SpanExporter compatible with OpenTelemetry.js
+     * https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_sdk_trace_base.SpanExporter.html
+     * @category Telemetry
+     * @experimental
+     */
+    export class SpanExporter {}
+
+    /**
+     * A ContextManager compatible with OpenTelemetry.js
+     * https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_api.ContextManager.html
+     * @category Telemetry
+     * @experimental
+     */
+    export class ContextManager {}
 
     export {}; // only export exports
   }
