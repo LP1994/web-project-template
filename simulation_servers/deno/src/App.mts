@@ -142,7 +142,7 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
     }
   }
 
-  if( hostName.length > 0 ){
+  if( arr.length > 0 ){
     MyConsole.Blue( `simulation_servers_deno有如下WEB服务器地址:` );
 
     hostName.forEach( ( item: string ): void => {
@@ -194,7 +194,7 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。End
 ] )
   .then(
-    async ( resolve: Array<PromiseSettledResult<unknown>> ): Promise<void> => {
+    ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
       // resolve ---> [ { status: "fulfilled", value: Module {} } ]
 
       WebResourcesServiceInfo( resolve );
