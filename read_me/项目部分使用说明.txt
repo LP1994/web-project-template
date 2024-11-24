@@ -45,7 +45,7 @@ webpack编译结束后，static文件夹整个会被复制到如：dist/producti
 五、提取JS(htmlWebpackPlugin只有files和options两个属性)
 htmlWebpackPlugin.files的值如下：
 <% const files = htmlWebpackPlugin.files; %>
-<%= JSON.stringify( files, null, ' ' ) %>
+<%= JSON.stringify( files, null, 4 ) %>
 生产模式：
 {
     'publicPath': '../',
@@ -124,7 +124,7 @@ htmlWebpackPlugin.files的值如下：
                         } )
                 );
 %>
-<%= JSON.stringify( result, null, ' ' ) %>
+<%= JSON.stringify( result, null, 4 ) %>
 生产模式：
 {
     'fonts/Helvetica_841db1021f0d697d.otf': {

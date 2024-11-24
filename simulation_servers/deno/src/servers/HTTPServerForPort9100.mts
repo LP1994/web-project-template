@@ -37,7 +37,7 @@ import {
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-Deno.serve(
+const HTTPServerForPort9100: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
   {
     port: 9100,
     /**
@@ -139,7 +139,7 @@ ${ JSON.stringify( {
 
         return result;
       } )(),
-    }, null, ' ' ) }
+    }, null, 4 ) }
 
 HTTP Server request--->End
 ` );
@@ -148,7 +148,7 @@ HTTP Server request--->End
 来自：simulation_servers/deno/src/servers/HTTPServerForPort9100.mts
 HTTP Server info--->Start
 
-${ JSON.stringify( info, null, ' ' ) }
+${ JSON.stringify( info, null, 4 ) }
 
 HTTP Server info--->End
 ` );
@@ -156,3 +156,9 @@ HTTP Server info--->End
     return Routers( request );
   },
 );
+
+export {
+  HTTPServerForPort9100,
+};
+
+export default HTTPServerForPort9100;

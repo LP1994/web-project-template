@@ -50,7 +50,7 @@ import {
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-Deno.serve(
+const HTTPSAndWebSocketSByServerForPort9000: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
   {
     port: 9000,
     /**
@@ -154,7 +154,7 @@ ${ JSON.stringify( {
 
         return result;
       } )(),
-    }, null, ' ' ) }
+    }, null, 4 ) }
 
 HTTPS and WebSocket Server request--->End
 ` );
@@ -163,7 +163,7 @@ HTTPS and WebSocket Server request--->End
 来自：simulation_servers/deno/src/servers/HTTPSAndWebSocketSByServerForPort9000.mts
 HTTPS and WebSocket Server info--->Start
 
-${ JSON.stringify( info, null, ' ' ) }
+${ JSON.stringify( info, null, 4 ) }
 
 HTTPS and WebSocket Server info--->End
 ` );
@@ -171,3 +171,9 @@ HTTPS and WebSocket Server info--->End
     return Routers( request );
   },
 );
+
+export {
+  HTTPSAndWebSocketSByServerForPort9000,
+};
+
+export default HTTPSAndWebSocketSByServerForPort9000;

@@ -48,4 +48,4 @@ const __dirname = Get__dirname( import.meta.url ),
 
 tsConfig[ 'compilerOptions' ][ 'lib' ] = Array.from( new Set( libs ) ).sort();
 
-writeFileSync( join( __dirname, '../../tsconfig.json' ), JSON.stringify( tsConfig ) );
+writeFileSync( join( __dirname, '../../tsconfig.json' ), JSON.stringify( tsConfig, null, 4 ) );

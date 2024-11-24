@@ -2283,7 +2283,7 @@ const aliasConfig = {
       const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
           logWriteStream.write( `--->${ req.url }<---Start
 请求头：
-${ JSON.stringify( req.headers, null, ' ' ) }
+${ JSON.stringify( req.headers, null, 4 ) }
 --->${ req.url }<---End
 \n` );
 
@@ -2305,7 +2305,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         ResRoot = ( req, response ) => {
           logWriteStream.write( `--->${ req.originalUrl }<---Start
 请求头：
-${ JSON.stringify( req.headers, null, ' ' ) }
+${ JSON.stringify( req.headers, null, 4 ) }
 --->${ req.originalUrl }<---End
 \n` );
 
@@ -2337,7 +2337,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
       devServer.app.all( '*', ( req, res, next ) => {
         logWriteStream.write( `--->${ req.url }<---Start
 请求头：
-${ JSON.stringify( req.headers, null, ' ' ) }
+${ JSON.stringify( req.headers, null, 4 ) }
 --->${ req.url }<---End
 \n` );
 
@@ -2384,7 +2384,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         middleware: ( req, res ) => {
           logWriteStream.write( `--->${ req.url }<---Start
 请求头：
-${ JSON.stringify( req.headers, null, ' ' ) }
+${ JSON.stringify( req.headers, null, 4 ) }
 --->${ req.url }<---End
 \n` );
 
@@ -2428,7 +2428,7 @@ ${ JSON.stringify( req.headers, null, ' ' ) }
         middleware: ( req, res ) => {
           logWriteStream.write( `--->${ req.url }<---Start
 请求头：
-${ JSON.stringify( req.headers, null, ' ' ) }
+${ JSON.stringify( req.headers, null, 4 ) }
 --->${ req.url }<---End
 \n` );
 

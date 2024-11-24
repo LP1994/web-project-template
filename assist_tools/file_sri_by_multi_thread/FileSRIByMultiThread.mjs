@@ -171,7 +171,7 @@ ${ messageData.filePath }
       } );
     }
     else if( successTotal === fileQuantity ){
-      await writeFile( savePath, JSON.stringify( saveResult ), {
+      await writeFile( savePath, JSON.stringify( saveResult, null, 4 ), {
         flag: 'w+',
       } );
 

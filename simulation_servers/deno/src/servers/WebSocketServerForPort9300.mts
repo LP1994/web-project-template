@@ -37,7 +37,7 @@ import {
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-Deno.serve(
+const WebSocketServerForPort9300: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
   {
     port: 9300,
     /**
@@ -139,7 +139,7 @@ ${ JSON.stringify( {
 
         return result;
       } )(),
-    }, null, ' ' ) }
+    }, null, 4 ) }
 
 WebSocket Server request--->End
 ` );
@@ -148,7 +148,7 @@ WebSocket Server request--->End
 来自：simulation_servers/deno/src/servers/WebSocketServerForPort9300.mts
 WebSocket Server info--->Start
 
-${ JSON.stringify( info, null, ' ' ) }
+${ JSON.stringify( info, null, 4 ) }
 
 WebSocket Server info--->End
 ` );
@@ -156,3 +156,9 @@ WebSocket Server info--->End
     return Routers( request );
   },
 );
+
+export {
+  WebSocketServerForPort9300,
+};
+
+export default WebSocketServerForPort9300;

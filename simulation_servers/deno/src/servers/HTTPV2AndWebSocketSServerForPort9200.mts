@@ -50,7 +50,7 @@ import {
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
-Deno.serve(
+const HTTPV2AndWebSocketSServerForPort9200: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
   {
     port: 9200,
     /**
@@ -156,7 +156,7 @@ ${ JSON.stringify( {
 
         return result;
       } )(),
-    }, null, ' ' ) }
+    }, null, 4 ) }
 
 HTTP/2 服务 request--->End
 ` );
@@ -165,7 +165,7 @@ HTTP/2 服务 request--->End
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 info--->Start
 
-${ JSON.stringify( info, null, ' ' ) }
+${ JSON.stringify( info, null, 4 ) }
 
 HTTP/2 服务 info--->End
 ` );
@@ -173,3 +173,9 @@ HTTP/2 服务 info--->End
     return Routers( request );
   },
 );
+
+export {
+  HTTPV2AndWebSocketSServerForPort9200,
+};
+
+export default HTTPV2AndWebSocketSServerForPort9200;

@@ -34,6 +34,10 @@ import {
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
+  webDir,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
   type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
@@ -99,6 +103,56 @@ function SomeEnvInfo(): void{
   }
 }
 
+async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unknown>> ): Promise<void>{
+  const arr: Array<string> = [],
+    hostName: Array<string> = [];
+
+  for(
+    const {
+      value,
+    } of
+    resolve as Array<PromiseFulfilledResult<Record<string, any>>>
+    ){
+    const {
+      hostname,
+      port,
+      transport
+    }: Deno.NetAddr = Object.values( value )[ 0 ].addr;
+
+    hostName.push( `http${
+      ( transport?.toLowerCase() ?? '' ) === 'tcp'
+      ? ''
+      : 's'
+    }://${
+      hostname === '0.0.0.0'
+      ? 'localhost'
+      : hostname
+    }:${ port }` );
+  }
+
+  for await (
+    const {
+      name,
+      isDirectory
+    } of
+    Deno.readDir( new URL( `${ webDir }/` ) )
+    ){
+    if( isDirectory ){
+      arr.push( `/simulation_servers_deno/web/${ name }/` );
+    }
+  }
+
+  if( hostName.length > 0 ){
+    MyConsole.Blue( `simulation_servers_deno有如下WEB服务器地址:` );
+
+    hostName.forEach( ( item: string ): void => {
+      arr.forEach( ( i: string ): void => {
+        MyConsole.Blue( `${ item }${ i }` );
+      } );
+    } );
+  }
+}
+
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
@@ -140,13 +194,16 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。End
 ] )
   .then(
-    ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
+    async ( resolve: Array<PromiseSettledResult<unknown>> ): Promise<void> => {
       // resolve ---> [ { status: "fulfilled", value: Module {} } ]
+
+      WebResourcesServiceInfo( resolve );
+
       logWriteStream.write( `
 来自：simulation_servers/deno/src/App.mts
 resolve--->Start
 
-${ JSON.stringify( resolve ) }
+${ JSON.stringify( resolve, null, 4 ) }
 
 resolve--->End
 ` );

@@ -59,7 +59,7 @@ const __dirname = Get__dirname( import.meta.url ),
     query: readFileSync( join( __dirname, '../../src/graphQL/api/GetSchemaJSON.graphql' ), {
       encoding: 'utf8',
     } ),
-  } );
+  }, null, 4 );
 
 // 获取"系统默认"的"GraphQL的Schema文档"。
 if( false ){
@@ -140,7 +140,7 @@ if( false ){
     .then( result => {
       writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
         __schema: {},
-      }, result.data ) ) );
+      }, result.data ), null, 4 ) );
     } )
     .catch( e => {
       MyConsole.Red( `\n${ e.message }\n` );
@@ -232,7 +232,7 @@ if( false ){
     .then( result => {
       writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
         __schema: {},
-      }, result.data ) ) );
+      }, result.data ), null, 4 ) );
     } )
     .catch( e => {
       MyConsole.Red( `\n${ e.message }\n` );
