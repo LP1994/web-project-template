@@ -120,7 +120,7 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  * filename：同output.filename。<br />
  *
  * import：string、[ string ]（强烈建议优先使用这个值类型设置），启动时加载的模块。<br />
- * 1、例如：设置成：[ './src/pages/index/Index.mjs' ]，就表示说该入口点的位置是在这里。<br />
+ * 1、例如：设置成：[ './src/pages/index/Index.mts' ]，就表示说该入口点的位置是在这里。<br />
  * 2、注意，由于“configures/EntryConfig.esm.mjs”最后是被“webpack.base.esm.mjs”文件引入使用，所以，当设置为相对路径时，也应该是以“webpack.base.esm.mjs”文件所在的文件夹路径开始。<br />
  *
  * layer：string，指定放置此入口点模块的层。<br />
@@ -140,7 +140,7 @@ function Fix_HMR_Experiments_BuildHttp_Webpack5( entryImport, isHMR = true ){
  *   Index: {
  *     import: [
  *       './src/pages/index/Index.css',
- *       './src/pages/index/Index.mjs',
+ *       './src/pages/index/Index.mts',
  *     ],
  *     dependOn: [
  *       'UniversalTools',
@@ -165,7 +165,7 @@ const entryConfig = {
   Index: {
     import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
       './src/pages/index/Index.css',
-      './src/pages/index/Index.mjs',
+      './src/pages/index/Index.mts',
     ] ),
   },
 

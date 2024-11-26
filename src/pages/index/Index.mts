@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: src/pages/index/Index.mjs
+ * FileDirPath: src/pages/index/Index.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -9,4 +9,5 @@
 
 'use strict';
 
+// @ts-expect-error
 document.querySelector( 'main' ).textContent = `Hello World!`;
