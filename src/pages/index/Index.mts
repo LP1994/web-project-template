@@ -9,5 +9,4 @@
 
 'use strict';
 
-// @ts-expect-error
-document.querySelector( 'main' ).textContent = `Hello World!`;
+document.querySelector( 'main' )!.textContent = `Hello World!`;
