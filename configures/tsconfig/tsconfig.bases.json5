@@ -444,11 +444,11 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、允许的值：
     remove：删除仅引用类型的导入语句的默认行为。
     preserve：保留其值或类型从未使用过的所有导入语句。这可能会导致保留导入/副作用。
-    error：这会保留所有导入（与 preserve 选项相同），但当值导入仅用作类型时会出错。如果您想确保没有意外导入任何值，但仍使副作用导入显式，这可能很有用。
+    error(强烈推荐设置成这个选项)：这会保留所有导入（与 preserve 选项相同），但当值导入仅用作类型时会出错。如果您想确保没有意外导入任何值，但仍使副作用导入显式，这可能很有用。保留输入类型的import 语句(与preserve 相同)，但是必须写成import type的形式，否则报错。
     2、此标志有效，因为您可以使用导入类型显式创建一个永远不应发送到JavaScript中的导入语句。
     3、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，并且importsNotUsedAsValues选项不能与选项'verbatimModuleSyntax'一起指定。
     */
-    // "importsNotUsedAsValues": "preserve",
+    // "importsNotUsedAsValues": "error",
     /*
     在发出的JavaScript中包含sourceMap文件。
     1、与sourceMap互斥。
