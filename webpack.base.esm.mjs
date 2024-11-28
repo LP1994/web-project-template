@@ -341,22 +341,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20241113。Start
+    // PC端各主流浏览器的最新版本，至20241128。Start
     'Chrome >= 131',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 131',
-    'Firefox >= 132',
+    'Firefox >= 133',
     'Safari >= 18',
-    'Opera >= 114',
-    // PC端各主流浏览器的最新版本，至20241113。End
+    'Opera >= 115',
+    // PC端各主流浏览器的最新版本，至20241128。End
 
-    // 移动端各主流浏览器的最新版本，至20241113。Start
+    // 移动端各主流浏览器的最新版本，至20241128。Start
     'ChromeAndroid >= 131',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 131',
-    'FirefoxAndroid >= 132',
+    'FirefoxAndroid >= 133',
     'iOS >= 18',
-    // 移动端各主流浏览器的最新版本，至20241113。End
+    // 移动端各主流浏览器的最新版本，至20241128。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -387,17 +387,17 @@ const browserslist = [
 
     'es2024',
 
-    // PC端各主流浏览器的最新版本，至20241113。Start
+    // PC端各主流浏览器的最新版本，至20241128。Start
     'chrome131',
     'edge131',
-    'firefox132',
+    'firefox133',
     'safari18',
-    'opera114',
-    // PC端各主流浏览器的最新版本，至20241113。End
+    'opera115',
+    // PC端各主流浏览器的最新版本，至20241128。End
 
-    // 移动端各主流浏览器的最新版本，至20241113。Start
+    // 移动端各主流浏览器的最新版本，至20241128。Start
     'ios18',
-    // 移动端各主流浏览器的最新版本，至20241113。End
+    // 移动端各主流浏览器的最新版本，至20241128。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -431,19 +431,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20241113。Start
+    // PC端各主流浏览器的最新版本，至20241128。Start
     chrome: 131,
     edge: 131,
-    firefox: 132,
+    firefox: 133,
     safari: 18,
-    opera: 114,
-    // PC端各主流浏览器的最新版本，至20241113。End
+    opera: 115,
+    // PC端各主流浏览器的最新版本，至20241128。End
 
-    // 移动端各主流浏览器的最新版本，至20241113。Start
+    // 移动端各主流浏览器的最新版本，至20241128。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 131,
     ios: 18,
-    // 移动端各主流浏览器的最新版本，至20241113。End
+    // 移动端各主流浏览器的最新版本，至20241128。End
   },
   /**
    * 编译目标配置。

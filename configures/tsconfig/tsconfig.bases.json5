@@ -96,6 +96,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
   // 确保你在运行程序前自动编译已保存变更后的代码。
   "compileOnSave": true,
   "compilerOptions": {
+    "strictBuiltinIteratorReturn": true,
+    "noUncheckedSideEffectImports": true,
+
     /*
     解析定制标志 Start
     JavaScript工具现在可以模拟"混合"解析规则，就像我们上面描述的“bundler”模式。
