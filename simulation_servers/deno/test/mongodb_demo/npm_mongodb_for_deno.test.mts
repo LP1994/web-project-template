@@ -48,6 +48,22 @@ interface I_StartupLogCollectionSchema {
   buildinfo: object;
 }
 
+import {
+  Buffer,
+} from 'node:buffer';
+
+import {
+  type SecureContext,
+
+  createSecureContext,
+} from 'node:tls';
+
+const secureContext: SecureContext = createSecureContext( {
+  ca: Buffer.from( Deno.readFileSync( new URL( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ) ) ),
+  cert: Buffer.from( Deno.readFileSync( new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_CA.pem` ) ) ),
+  key: Buffer.from( Deno.readFileSync( new URL( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_CA_Key.key` ) ) ),
+} );
+
 /**
  * node版本的mongodb驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options
@@ -377,7 +393,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * @type {string}
    */
-  tlsCAFile: decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ).slice( 8 ) ),
+  // tlsCAFile: decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/001根CA证书/MongoDBSSL001_Root_CA.pem` ).slice( 8 ) ),
   /**
    * 指定客户端证书文件或客户端私钥文件的路径。如果两者都需要，则必须将文件连接起来。<br />
    * 指定本地.pem文件的位置，该文件包含客户的TLS/SSL证书和密钥，或者当tlsCertificateFile被用来提供证书时，只包含客户的TLS/SSL密钥。<br />
@@ -387,7 +403,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    *
    * @type {string}
    */
-  tlsCertificateKeyFile: decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_CA.pem` ).slice( 8 ) ),
+  // tlsCertificateKeyFile: decodeURI( import.meta.resolve( `${ opensslDir }/MongoDBSSL001/004客户端CA证书/MongoDBSSL001_Clients_CA.pem` ).slice( 8 ) ),
   /**
    * 指定包含客户端撤销列表的本地 CRL.pem 文件的位置。
    *
@@ -742,6 +758,7 @@ const mongoClientConfig: T_MongoClientOptions = {
    * @type {SecureContext}
    */
   // secureContext: null,
+  secureContext,
   /**
    * 遗留机制，选择要使用的TLS协议版本，它不支持最小和最大版本的独立控制，也不支持将协议限制在TLSv1.3。<br />
    * 使用minVersion和maxVersion代替。<br />
