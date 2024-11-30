@@ -186,13 +186,15 @@ import {
 } from 'mime';
 
 import {
+  type Reactive as T_Reactive,
+
   reactive,
   onMounted,
 } from 'vue';
 
 type T_State = {
   titleText: string;
-  [ key: string | number ]: any;
+  [ key: string | number ]: unknown;
 };
 
 function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
@@ -323,7 +325,7 @@ function UploadForMultiple( event: Event ): void{
   }
 }
 
-const state: T_State = reactive( {
+const state: T_Reactive<T_State> = reactive<T_State>( {
   titleText: `测试DIY的Deno服务器的文件上传`,
 } );
 
