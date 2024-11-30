@@ -860,7 +860,7 @@ async function run(): Promise<void>{
   try{
     const database: T_Db = client.db( 'local' ),
       startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = database.collection<I_StartupLogCollectionSchema>( 'startup_log' ),
-      startup_log: Array<I_StartupLogCollectionSchema> = await startup_log_collection.find<I_StartupLogCollectionSchema>( { "hostname": "LPQAQ", } ).toArray();
+      startup_log: Array<I_StartupLogCollectionSchema> = await startup_log_collection.find<I_StartupLogCollectionSchema>( { 'hostname': 'LPQAQ', } ).toArray();
 
     console.dir( startup_log );
   }

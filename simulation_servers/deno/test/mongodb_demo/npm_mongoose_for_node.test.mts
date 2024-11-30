@@ -887,7 +887,7 @@ async function run(): Promise<void>{
 
     const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = client.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
-    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( { "hostname": "LPQAQ", } ) ).toArray();
+    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( { 'hostname': 'LPQAQ', } ) ).toArray();
 
     console.dir( startup_log );
   }
