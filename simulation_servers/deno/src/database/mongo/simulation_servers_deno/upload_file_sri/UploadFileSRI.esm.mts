@@ -78,7 +78,14 @@ type T_GenerateModel = {
 const collectionName: string = 'upload_file_sri';
 
 async function GenerateModel(): Promise<T_GenerateModel>{
-  const MongooseClient: T_Connection = MongooseConnect();
+  let MongooseClient: T_Connection;
+
+  try{
+    MongooseClient = MongooseConnect();
+  }
+  catch( e: unknown ){
+    console.error( e as Error );
+  }
 
   // 创建一个“Schema”，相当于定义了面向对象编程中的一个“接口”。
   const UploadFileSRISchema: Schema<
