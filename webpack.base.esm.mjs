@@ -9652,14 +9652,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     // exposes: {},
     shared: {
-      'js-sha512': {
-        singleton: true,
-      },
-      mime: {
-        singleton: true,
-      },
       vue: {
         singleton: true,
+        eager: true,
       },
     },
     manifest: {
