@@ -204,7 +204,7 @@ export default [
     performance: performanceConfig,
     plugins: [
       ...( () => {
-        return env.npm_lifecycle_script.includes( 'webpack-dashboard' )
+        return env?.npm_lifecycle_script?.includes( 'webpack-dashboard' )
                ? [ new DashboardPlugin(), ]
                : [];
       } )(),

@@ -9635,7 +9635,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 1、默认值：'remoteEntry.js'。<br />
      * 2、作为“output.path”目录内的相对路径。<br />
      */
-    filename: 'js/Webpack5_MF2_Main.js',
+    // filename: 'js/Webpack5_MF2_Main.js',
+    remotes: {
+      UploadForMultiple: 'UploadForMultiple@https://localhost:8101/dev_server/js/Webpack5_MF2_RemoteEntry_UploadForMultiple.js',
+      // UploadForSingle: 'UploadForSingle@https://localhost:8102/dev_server/js/Webpack5_MF2_RemoteEntry_UploadForSingle.js',
+    },
     /**
      * 1、设置要导出的模块。<br />
      * 2、确保所有键都以'./'开头。<br />
@@ -9646,11 +9650,42 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * }
      * </code>
      */
-    exposes: {},
+    // exposes: {},
     shared: {
+      'js-sha512': {
+        singleton: true,
+      },
+      mime: {
+        singleton: true,
+      },
       vue: {
         singleton: true,
       },
+    },
+    manifest: {
+      /**
+       * 作为“output.path”目录内的相对路径。一般不用设置，默认就直接输出在“output.path”下，跟“webpack_assets_manifest.json”同级目录。<br />
+       * 1、如果设置了，那请求路径形如：<br />
+       * https://localhost:8100/dev_server/mf2-json/Webpack5_MF2_Main-manifest.json
+       * https://localhost:8100/dev_server/mf2-json/Webpack5_MF2_Main-manifest-stats.json
+       */
+      // filePath: 'mf2-json',
+      /**
+       * 同时还会有一个名为：Webpack5_MF2_Main-manifest-stats.json的文件。<br />
+       * 1、如果设置了，那请求路径形如：<br />
+       * https://localhost:8100/dev_server/Webpack5_MF2_Main-manifest.json
+       * https://localhost:8100/dev_server/Webpack5_MF2_Main-manifest-stats.json
+       */
+      fileName: 'Webpack5_MF2_Main-manifest.json',
+      // additionalData( options ){},
+      /**
+       * 值类型为boolean，默认值为undefined，非必要！<br />
+       * 1、不建议设置此配置。设置后，预加载功能将被禁用！<br />
+       * 2、在复杂项目中分析资产可能需要很长时间。如果将此选项设置为true，资产分析将被禁用，从而优化构建时间。<br />
+       * 3、如果项目纯粹面向消费者，则在开发过程中默认设置为true。<br />
+       * 4、如果设置为"true"，清单中将不会出现shared和exposes字段，远程中也不会出现assets。<br />
+       */
+      // disableAssetsAnalyze: undefined,
     },
   },
   /**
