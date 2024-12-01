@@ -144,7 +144,7 @@ const defaultData = {
   search: null,
   startupImgForApple: StartupImgForApple,
   dynamicREM: true,
-  webpackAssetsManifest: '../webpack_assets_manifest.json',
+  webpackAssetsManifest: URLHead + '/webpack_assets_manifest.json',
   chii4RemoteLikeWeinreTool: {
     isEnable: false,
     Chii4RemoteLikeWeinreLocalPort,
@@ -305,7 +305,7 @@ function HTMLWebpackPluginConfig( {
     },
   ];
 
-  const arr = config.map( item => {
+  const configArr = config.map( item => {
     /**
      * 详细的配置见：
      * node_modules/html-webpack-plugin/typings.d.ts:39
@@ -452,8 +452,8 @@ function HTMLWebpackPluginConfig( {
 
   return isSPA
     // 当isSPA为true时，会只取config里的第1个配置，因为此时项目被设置为单页应用。
-         ? [ arr[ 0 ] ]
-         : arr;
+         ? [ configArr[ 0 ] ]
+         : configArr;
 }
 
 export {
