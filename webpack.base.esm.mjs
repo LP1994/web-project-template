@@ -9622,6 +9622,38 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     };
   },
   /**
+   * @type {import('./node_modules/@module-federation/sdk/dist/src/types/plugins/ModuleFederationPlugin.d.ts').ModuleFederationPluginOptions} ModuleFederationPluginOptions
+   */
+  moduleFederationPluginConfig = {
+    /**
+     * 模块联邦的模块名称，该名称必须是唯一的。必须。<br />
+     * 1、模块联盟使用该名称进行运行时数据检索和全局块存储变量引用。<br />
+     */
+    name: 'Webpack5_MF2_Main',
+    /**
+     * 确定生成的remoteEntry的文件名。非必须。<br />
+     * 1、默认值：'remoteEntry.js'。<br />
+     * 2、作为“output.path”目录内的相对路径。<br />
+     */
+    filename: 'js/Webpack5_MF2_Main.js',
+    /**
+     * 1、设置要导出的模块。<br />
+     * 2、确保所有键都以'./'开头。<br />
+     * 例如：<br />
+     * <code>
+     * exposes: {
+     *   './button': './src/components/button.vue',
+     * }
+     * </code>
+     */
+    exposes: {},
+    shared: {
+      vue: {
+        singleton: true,
+      },
+    },
+  },
+  /**
    * @type {object}
    */
   optimizationConfig = isProduction
@@ -11418,6 +11450,7 @@ export {
   limitChunkCountPluginConfig,
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
+  moduleFederationPluginConfig,
   nodeConfig,
   moduleConfig,
   optimizationConfig,
@@ -11467,6 +11500,7 @@ export default {
   limitChunkCountPluginConfig,
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
+  moduleFederationPluginConfig,
   nodeConfig,
   moduleConfig,
   optimizationConfig,

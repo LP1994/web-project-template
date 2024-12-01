@@ -36,6 +36,10 @@ import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import {
+  ModuleFederationPlugin,
+} from '@module-federation/enhanced/webpack';
+
+import {
   VueLoaderPlugin,
 } from 'vue-loader';
 
@@ -65,6 +69,7 @@ import {
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   moduleConfig,
+  moduleFederationPluginConfig,
   nodeConfig,
   optimizationConfig,
   outputConfig,
@@ -237,6 +242,8 @@ export default {
     new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
+
+    new ModuleFederationPlugin( moduleFederationPluginConfig ),
   ],
   /**
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />

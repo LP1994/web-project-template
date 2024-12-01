@@ -35,6 +35,10 @@ import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
+import {
+  ModuleFederationPlugin,
+} from '@module-federation/enhanced/webpack';
+
 /**
  * 供插件“typedoc-webpack-plugin”使用的配置参数。<br />
  * 说明：<br />
@@ -94,6 +98,7 @@ import {
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   moduleConfig,
+  moduleFederationPluginConfig,
   nodeConfig,
   optimizationConfig,
   outputConfig,
@@ -316,6 +321,8 @@ export default {
      * 4、参数“options”是描述配置文件的路径，所以要使用绝对路径（其他参数如果也是表示路径什么的，也要如此），如：options: resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' )。<br />
      */
     ...( () => typedocWebpackPluginConfig.map( item => new TypedocWebpackPlugin( item ) ) )(),
+
+    new ModuleFederationPlugin( moduleFederationPluginConfig ),
   ],
   /**
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />
