@@ -1,0 +1,118 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/head_meta/Common001.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-09-10 15:46:18 星期六
+-->
+<!--
+若网站有做google+推广，那可以相应地使用管理员工具绑定google+账号。
+值如：https://plus.google.com/115229808208707341778
+-->
+<% if(publisherByGooglePlus !== null && publisherByGooglePlus !== undefined){ %>
+    <link rel = 'publisher'
+          href = '<%= publisherByGooglePlus %>'
+          crossorigin = 'anonymous' />
+<% } %>
+<!--
+给PWA用的manifest文件地址。
+.webmanifest是约定俗成的manifest文件的扩展名，但返回文件内容类型需要是：Content-Type: application/manifest+json，也支持.json扩展名。
+
+href：链接文件的后缀名可以是.webmanifest、.json。
+-->
+<% if(manifestByPWA !== null && manifestByPWA !== undefined){ %>
+    <link rel = 'manifest'
+          type = 'application/manifest+json'
+          href = '<%= manifestByPWA %>'
+          crossorigin = 'anonymous' />
+<% } %>
+<!--
+这个标签是告诉iPhone、iPad的Safari浏览器，这个网站对应的原生app是什么，然后在页面上面显示一个下载banner。
+
+值如：
+app-id=544007664, app-argument=https://m.youtube.com/?referring_app=com.apple.mobilesafari-smartbanner, affiliate-data=ct=smart_app_banner_polymer&amp;pt=9008
+其中app-id的值一般指该应用在苹果应用商城上的唯一应用ID。
+-->
+<% if(apple_itunes_app !== null && apple_itunes_app !== undefined){ %>
+    <meta name = 'apple-itunes-app'
+          content = '<%= apple_itunes_app %>' />
+<% } %>
+<!--
+生效情况：
+1、标注Meta声明这一适配方案仅限适用于百度移动搜索，即只有当用户通过百度移动搜索访问站点时，适配才会生效；通过其他渠道则不生效。
+2、生效时间：在标注准确对应关系无误的情况下，百度会在七天左右进行处理，老旧页面会有延迟。但百度不保证一定能在移动搜索结果中按照您提交的对应关系进行替换。
+3、name='mobile-agent'为更新后的meta声明，建议使用。原有meta规则http-equiv='mobile-agent'能够兼容并继续生效，已标注过的无需修改。
+4、如：<meta name = 'mobile-agent' http-equiv = 'mobile-agent' content = 'format=html5;url=https://mip.keoaeic.org/' />
+format有3个可用值：html5、xhtml、wml。
+url的值为网站地址。
+-->
+<% if(mobileAgent !== null && mobileAgent !== undefined){ %>
+    <meta name = 'mobile-agent'
+          http-equiv = 'mobile-agent'
+          content = '<%= mobileAgent %>' />
+<% } %>
+<!--
+HTML Imports，Web Components开发重要组成部分之一。
+-->
+<% if(Array.isArray( importByHTML )){ %>
+    <% for( const {
+        url,
+        attr
+    } of
+            importByHTML ){ %>
+        <%= '<link rel = \'import\'' %>
+        <%= 'href = ' %> <%= url %>
+        <% Object.entries( Object.assign( {}, { crossorigin: 'anonymous' }, attr ) ).forEach( ( [ keyName, keyValue ] ) => { %>
+            <%= keyName %> <%= '=' %> <%= keyValue %>
+        <% } ) %>
+        <%= '/>' %>
+    <% } %>
+<% } %>
+<!--
+网站当前页面对应的短链接，这样分享链接的时候更容易（微博字数限制，微信或QQ中地址呈现等）。
+
+关于：
+一些网站创建短链接，以便通过即时消息更轻松地共享链接。
+
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
+https://code.google.com/archive/p/shortlink/wikis/Specification.wiki
+https://en.wikipedia.org/wiki/URL_shortening
+-->
+<% if(shortlink !== null && shortlink !== undefined){ %>
+    <link rel = 'shortlink'
+          href = '<%= shortlink %>'
+          crossorigin = 'anonymous' />
+<% } %>
+<!--
+表示链接地址是当前网站或资源对于的搜索文档接口页面。
+
+关于：
+设置type属性值为application/opensearchdescription+xml，则对应的资源（OpenSearch描述文件）可以作为Firefox或者Internet Explorer的搜索插件。
+
+属性说明：
+href：对应的xml地址（如：https://www.xxx.com/opensearch.xml?locale=zh_CN）。
+title：应用名。
+
+对应的xml文件内容如：
+<?xml version = "1.0" encoding = "UTF-8"?>
+<OpenSearchDescription xmlns = "">
+　<InputEncoding>UTF-8</InputEncoding>
+　<ShortName>关键词搜索</ShortName>
+　<Description>关键词搜索</Description>
+　<Image height = "16" width = "16" type = "image/">/</Image>
+　<Url type = "text/html" template = "/wordpress/?s={searchTerms}" />
+</OpenSearchDescription>
+
+详细见：
+https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
+https://developer.mozilla.org/en-US/docs/Web/OpenSearch
+-->
+<% if(search !== null && search !== undefined){ %>
+    <link rel = 'search'
+          type = 'application/opensearchdescription+xml'
+          href = '<%= search.href %>'
+          title = '<%= search.title ?? '' %>'
+          crossorigin = 'anonymous' />
+<% } %>

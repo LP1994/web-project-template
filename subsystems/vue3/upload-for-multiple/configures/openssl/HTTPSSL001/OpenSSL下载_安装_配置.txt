@@ -1,0 +1,56 @@
+OpenSSL下载、安装、配置（下述都是以Windows 64位为例子进行的）
+全程可参考官方文档（Windows版本）：
+https://github.com/openssl/openssl/blob/master/NOTES-WINDOWS.md
+其他参考教程：
+https://blog.csdn.net/weixin_43936250/article/details/118387456
+竟然还有人制作了可执行文件的版本：
+http://slproweb.com/products/Win32OpenSSL.html
+
+
+
+一、OpenSSL源码下载：
+OpenSSL从1.X之后就没有可执行文件（如.exe等）了，都是需要从源码编译安装。
+如，OpenSSL 3.0.5源码资源下载：
+https://www.openssl.org/source/openssl-3.0.5.tar.gz
+
+二、Strawberry Perl下载：
+https://strawberryperl.com/
+
+三、NASM下载：
+https://www.nasm.us/pub/nasm/releasebuilds/?C=M;O=D
+
+四、确保上述安装的Perl和NASM都在系统环境变量“PATH”上。
+1、在安装“Strawberry Perl”时，会自动在系统环境变量“PATH”上部署对应环境变量：
+D:\StrawberryPerl\App\c\bin
+D:\StrawberryPerl\App\perl\site\bin
+D:\StrawberryPerl\App\perl\bin
+2、在安装“NASM”时，需要在安装结束后手动设置环境变量：
+D:\NASM\App
+
+五：配置PREFIX、OPENSSLDIR的环境变量。
+1、新增系统变量：PREFIX，值形如：D:\OpenSSL\Prefix
+2、新增系统变量：OPENSSLDIR，值形如：D:\OpenSSL\App
+
+六、执行“vcvars64.bat”。
+进到如“D:\VisualStudio\App\Professional\VC\Auxiliary\Build”，执行“vcvars64.bat”。
+
+七：以“管理员身份”执行“x64 Native Tools Command Prompt for VS 2022”。
+进到如“C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Visual Studio 2022\Visual Studio Tools\VC”，以“管理员身份”执行“x64 Native Tools Command Prompt for VS 2022”。
+
+八、在第六步的基础上，进到OpenSSL”路径下。
+如“D:\OpenSSL\Source\OpenSSL”。
+
+九、在第七步的基础上按顺序执行如下命令：
+1、perl Configure VC-WIN64A
+2、nmake（执行时间有点长，但是可以不盯着）
+3、nmake test（执行时间有点长，但是必须盯着，因为过程中会有一个执行请求需要手动通过）
+4、nmake install
+
+十、最终会在“C:\Program Files\OpenSSL”下生成编译安装后的成果！貌似并没在我们自己所设置的文件夹里生成。
+
+十一、最后将“OpenSSL”文件夹下的“bin”文件夹配置到系统环境变量的path里头。
+
+十二、本次安装后，发现本机系统的OpenSSL版本默认指向：OpenSSL 1.1.1i  8 Dec 2020。
+原因是因为上面安装的“StrawberryPerl”里面有一个“openssl.exe”，见：D:\StrawberryPerl\App\c\bin\openssl.exe
+可以在安装、配置完后，将环境变量“D:\StrawberryPerl\App\c\bin”删除。
+实在不行就进到“D:\OpenSSL\App\bin”，然后在其下进行各种证书配置操作。

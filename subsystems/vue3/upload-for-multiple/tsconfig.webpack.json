@@ -1,0 +1,459 @@
+{
+  "display": "tsconfig.webpack.json",
+  "_version": "1.0.0",
+  "_typescript_version": "5.7.2",
+  "_description": "这是给基于Webpack及其插件、加载器等等配置的web-project-template使用的适用于WEB一类项目的tsconfig.json。",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "docs": "https://www.typescriptlang.org/tsconfig",
+  "_tsc_cli": "tsc -p ./tsconfig.webpack.json",
+  "extends": "./configures/tsconfig/tsconfig.web.json5",
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.cts",
+    "./src/**/*.mts",
+    "./src/**/*.tsx",
+    "./src/**/*.d.ts",
+    "./src/**/*.d.cts",
+    "./src/**/*.d.mts",
+    "./src/**/*.ts.vue",
+    "./src/**/*.cts.vue",
+    "./src/**/*.mts.vue",
+    "./src/**/*.tsx.vue",
+    "./subsystems/**/*.ts",
+    "./subsystems/**/*.cts",
+    "./subsystems/**/*.mts",
+    "./subsystems/**/*.tsx",
+    "./subsystems/**/*.d.ts",
+    "./subsystems/**/*.d.cts",
+    "./subsystems/**/*.d.mts",
+    "./subsystems/**/*.ts.vue",
+    "./subsystems/**/*.cts.vue",
+    "./subsystems/**/*.mts.vue",
+    "./subsystems/**/*.tsx.vue"
+  ],
+  "exclude": [
+    "./.git",
+    "./.idea",
+    "./node_modules",
+    "./simulation_servers",
+    "./simulation_servers/deno/node_modules",
+    "./**/*.test.ts",
+    "./**/*.test.cts",
+    "./**/*.test.mts",
+    "./**/*.test.esm.ts",
+    "./**/*.test.commonjs.cts",
+    "./**/*.test.esm.mts"
+  ],
+  "ts-node": {
+    "compiler": "typescript",
+    "compilerHost": false,
+    "emit": false,
+    "esm": true,
+    "experimentalReplAwait": true,
+    "experimentalResolver": false,
+    "experimentalTsImportSpecifiers": true,
+    "files": false,
+    "logError": false,
+    "preferTsExts": true,
+    "pretty": true,
+    "skipIgnore": false,
+    "swc": false,
+    "transpileOnly": false
+  },
+  "compilerOptions": {
+    "target": "es2024",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "rootDir": ".",
+    "declarationDir": "./ts_compiled/",
+    "outDir": "./ts_compiled/",
+    "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
+    "types": [],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/custom_declare_types",
+      "./simulation_servers/deno/src/custom_declare_types"
+    ],
+    "moduleSuffixes": [
+      ""
+    ],
+    "lib": [
+      "decorators",
+      "decorators.legacy",
+      "dom",
+      "dom.asynciterable",
+      "dom.iterable",
+      "es2015",
+      "es2015.collection",
+      "es2015.core",
+      "es2015.generator",
+      "es2015.iterable",
+      "es2015.promise",
+      "es2015.proxy",
+      "es2015.reflect",
+      "es2015.symbol",
+      "es2015.symbol.wellknown",
+      "es2016",
+      "es2016.array.include",
+      "es2016.intl",
+      "es2017",
+      "es2017.date",
+      "es2017.intl",
+      "es2017.object",
+      "es2017.sharedmemory",
+      "es2017.string",
+      "es2017.typedarrays",
+      "es2018",
+      "es2018.asyncgenerator",
+      "es2018.asynciterable",
+      "es2018.intl",
+      "es2018.promise",
+      "es2018.regexp",
+      "es2019",
+      "es2019.array",
+      "es2019.intl",
+      "es2019.object",
+      "es2019.string",
+      "es2019.symbol",
+      "es2020",
+      "es2020.bigint",
+      "es2020.date",
+      "es2020.intl",
+      "es2020.number",
+      "es2020.promise",
+      "es2020.sharedmemory",
+      "es2020.string",
+      "es2020.symbol.wellknown",
+      "es2021",
+      "es2021.intl",
+      "es2021.promise",
+      "es2021.string",
+      "es2021.weakref",
+      "es2022",
+      "es2022.array",
+      "es2022.error",
+      "es2022.intl",
+      "es2022.object",
+      "es2022.regexp",
+      "es2022.sharedmemory",
+      "es2022.string",
+      "es2023",
+      "es2023.array",
+      "es2023.collection",
+      "es2023.intl",
+      "es5",
+      "es6",
+      "esnext",
+      "esnext.array",
+      "esnext.collection",
+      "esnext.decorators",
+      "esnext.disposable",
+      "esnext.intl",
+      "esnext.iterator",
+      "esnext.object",
+      "esnext.promise",
+      "esnext.regexp",
+      "esnext.string",
+      "scripthost",
+      "webworker",
+      "webworker.asynciterable",
+      "webworker.importscripts",
+      "webworker.iterable"
+    ],
+    "paths": {
+      "element-ui-css": [
+        "./node_modules/element-ui/lib/theme-chalk/index.css"
+      ],
+      "element-plus-css": [
+        "./node_modules/element-plus/dist/index.css"
+      ],
+      "swiper-css": [
+        "./node_modules/swiper/swiper-bundle.min.css"
+      ],
+      "tslib": [
+        "./node_modules/tslib/"
+      ],
+
+      "assetsDir/*": [
+        "./src/assets/*"
+      ],
+      "docDir/*": [
+        "./src/assets/doc/*"
+      ],
+      "csonDir/*": [
+        "./src/assets/doc/cson/*"
+      ],
+      "csvDir/*": [
+        "./src/assets/doc/csv/*"
+      ],
+      "jsonDir/*": [
+        "./src/assets/doc/json/*"
+      ],
+      "json5Dir/*": [
+        "./src/assets/doc/json5/*"
+      ],
+      "tomlDir/*": [
+        "./src/assets/doc/toml/*"
+      ],
+      "tsvDir/*": [
+        "./src/assets/doc/tsv/*"
+      ],
+      "txtDir/*": [
+        "./src/assets/doc/txt/*"
+      ],
+      "xmlDir/*": [
+        "./src/assets/doc/xml/*"
+      ],
+      "yamlDir/*": [
+        "./src/assets/doc/yaml/*"
+      ],
+      "fontsDir/*": [
+        "./src/assets/fonts/*"
+      ],
+      "imgDir/*": [
+        "./src/assets/img/*"
+      ],
+      "musicDir/*": [
+        "./src/assets/music/*"
+      ],
+      "videosDir/*": [
+        "./src/assets/videos/*"
+      ],
+      "gQLAPIDir/*": [
+        "./src/graphQL/api/*"
+      ],
+      "nativeComponentsDir/*": [
+        "./src/native_components/*"
+      ],
+      "pagesDir/*": [
+        "./src/pages/*"
+      ],
+      "pwaManifestDir/*": [
+        "./src/pwa_manifest/*"
+      ],
+      "stylesDir/*": [
+        "./src/styles/*"
+      ],
+      "cssDir/*": [
+        "./src/styles/css/*"
+      ],
+      "lessDir/*": [
+        "./src/styles/less/*"
+      ],
+      "postcssDir/*": [
+        "./src/styles/postcss/*"
+      ],
+      "sassDir/*": [
+        "./src/styles/sass/*"
+      ],
+      "scssDir/*": [
+        "./src/styles/scss/*"
+      ],
+      "stylusDir/*": [
+        "./src/styles/stylus/*"
+      ],
+      "templateDir/*": [
+        "./src/template/*"
+      ],
+      "ejsDir/*": [
+        "./src/template/ejs/*"
+      ],
+      "handlebarsDir/*": [
+        "./src/template/handlebars/*"
+      ],
+      "htmlDir/*": [
+        "./src/template/html/*"
+      ],
+      "markdownDir/*": [
+        "./src/template/markdown/*"
+      ],
+      "mustacheDir/*": [
+        "./src/template/mustache/*"
+      ],
+      "pug_jadeDir/*": [
+        "./src/template/pug_jade/*"
+      ],
+      "toolsDir/*": [
+        "./src/tools/*"
+      ],
+      "jsDir/*": [
+        "./src/tools/js/*"
+      ],
+      "tsDir/*": [
+        "./src/tools/ts/*"
+      ],
+      "currency_toolsDir/*": [
+        "./src/tools/js/currency_tools/*"
+      ],
+      "universal_toolsDir/*": [
+        "./src/tools/ts/universal_tools/*"
+      ],
+      "wasmDir/*": [
+        "./src/wasm/build/*"
+      ],
+      "webComponentsDir/*": [
+        "./src/web_components/*"
+      ],
+      "workersDir/*": [
+        "./src/workers/*"
+      ],
+      "serviceWorkersDir/*": [
+        "./src/workers/service_workers/*"
+      ],
+      "sharedWorkersDir/*": [
+        "./src/workers/shared_workers/*"
+      ],
+      "workersToolsDir/*": [
+        "./src/workers/tools/*"
+      ],
+      "webWorkersDir/*": [
+        "./src/workers/web_workers/*"
+      ],
+
+      "deno_std/*": [
+        "https://deno.land/std/*"
+      ],
+      "deno_std_encoding/*": [
+        "https://deno.land/std/encoding/*"
+      ],
+      "deno_std_io/*": [
+        "https://deno.land/std/io/*"
+      ],
+      "deno_std_media_types": [
+        "https://deno.land/std/media_types/mod.ts"
+      ],
+      "deno_std_path": [
+        "https://deno.land/std/path/mod.ts"
+      ],
+
+      "deno_x/*": [
+        "https://deno.land/x/*"
+      ],
+      "deno_x_corejs": [
+        "https://deno.land/x/corejs/index.js"
+      ],
+      "deno_x_ejs": [
+        "https://deno.land/x/dejs/mod.ts"
+      ],
+      "deno_x_mongo": [
+        "https://deno.land/x/mongo/mod.ts"
+      ],
+
+      "esm_sh/*": [
+        "https://esm.sh/*"
+      ],
+      "esm_sh_graphql": [
+        "https://esm.sh/graphql"
+      ],
+
+      "preact/*": [
+        "https://cdn.skypack.dev/preact/*"
+      ],
+      "preact_jsx-runtime": [
+        "https://cdn.skypack.dev/preact/jsx-runtime?dts"
+      ],
+      "preact_jsx-dev-runtime": [
+        "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts"
+      ],
+
+      "deno_src/*": [
+        "./simulation_servers/deno/src/*"
+      ],
+      "configures/*": [
+        "./simulation_servers/deno/src/configures/*"
+      ],
+      "route_map_config/*": [
+        "./simulation_servers/deno/src/configures/route_map_config/*"
+      ],
+      "database/*": [
+        "./simulation_servers/deno/src/database/*"
+      ],
+      "deno_db/*": [
+        "./simulation_servers/deno/src/database/deno_db/*"
+      ],
+      "firebase/*": [
+        "./simulation_servers/deno/src/database/firebase/*"
+      ],
+      "graphql/*": [
+        "./simulation_servers/deno/src/database/graphql/*"
+      ],
+      "mongo/*": [
+        "./simulation_servers/deno/src/database/mongo/*"
+      ],
+      "mysql/*": [
+        "./simulation_servers/deno/src/database/mysql/*"
+      ],
+      "postgres/*": [
+        "./simulation_servers/deno/src/database/postgres/*"
+      ],
+      "sqlite/*": [
+        "./simulation_servers/deno/src/database/sqlite/*"
+      ],
+      "supabase/*": [
+        "./simulation_servers/deno/src/database/supabase/*"
+      ],
+      "public/*": [
+        "./simulation_servers/deno/src/public/*"
+      ],
+      "routers/*": [
+        "./simulation_servers/deno/src/routers/*"
+      ],
+      "servers/*": [
+        "./simulation_servers/deno/src/servers/*"
+      ],
+      "services/*": [
+        "./simulation_servers/deno/src/services/*"
+      ],
+      "ssr/*": [
+        "./simulation_servers/deno/src/ssr/*"
+      ],
+      "template/*": [
+        "./simulation_servers/deno/src/template/*"
+      ],
+      "ejs/*": [
+        "./simulation_servers/deno/src/template/ejs/*"
+      ],
+      "handlebars/*": [
+        "./simulation_servers/deno/src/template/handlebars/*"
+      ],
+      "html/*": [
+        "./simulation_servers/deno/src/template/html/*"
+      ],
+      "markdown/*": [
+        "./simulation_servers/deno/src/template/markdown/*"
+      ],
+      "mustache/*": [
+        "./simulation_servers/deno/src/template/mustache/*"
+      ],
+      "pug_jade/*": [
+        "./simulation_servers/deno/src/template/pug_jade/*"
+      ],
+      "tools/*": [
+        "./simulation_servers/deno/src/tools/*"
+      ],
+      "third_party_modules/*": [
+        "./simulation_servers/deno/src/tools/third_party_modules/*"
+      ],
+      "universal_tool_for_deno/*": [
+        "./simulation_servers/deno/src/tools/universal_tool_for_deno/*"
+      ],
+      "static/*": [
+        "./simulation_servers/deno/static/*"
+      ],
+      "test/*": [
+        "./simulation_servers/deno/test/*"
+      ],
+      "upload/*": [
+        "./simulation_servers/deno/upload/*"
+      ],
+      "web/*": [
+        "./simulation_servers/deno/web/*"
+      ],
+
+      "GSD2TSTD": [
+        "./simulation_servers/deno/src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
+      ]
+    }
+  }
+}

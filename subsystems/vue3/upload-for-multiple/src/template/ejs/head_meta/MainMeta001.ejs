@@ -1,0 +1,105 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/head_meta/MainMeta001.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-09-11 11:58:33 星期日
+-->
+<!--
+HTML的标签<meta>的值可以是相对路径，也可以是绝对路径。
+<meta http-equiv="refresh" content="5;url=another.html">
+<meta http-equiv="refresh" content="5;url=https://www.runoob.com/html/html-meta.html">
+-->
+<!--
+该meta项用途：
+如果指定，内容属性必须具有值“IE=edge”，用户代理需要忽略此编译指示。
+
+值说明：
+IE=edge：使用IE的最高标准模式解析页面。
+chrome=1：声明当前页面用chrome内核来渲染。
+IE=edge,chrome=1：如果安装了GCF（Google Chrome Frame：谷歌内嵌浏览器框架GCF），则使用GCF来渲染页面，如果未安装GCF，则使用最高版本的IE内核进行渲染。
+IE=9：使用IE 9的文档模式渲染。
+IE=EmulateIE9：限定浏览器对文档的解析到某一特定版本，或者将浏览器限定到一些旧版本的表现中。
+IE=7,IE=9,IE=10：多个模式的指定，我们可以用逗号分割多个版本，浏览器会从这个列表中选择一个它所支持的最高版本来使用标准模式进行渲染，如例子，在IE8进行浏览时，将会使用IE7的标准模式进行渲染，因为他本身不支持IE9和IE10。
+
+注意：
+“X-UA-Compatible”头标签大小写不敏感，必须用在head标签中，必须在除title标签外的其他meta标签之前使用。
+
+详见：
+https://blog.csdn.net/ccfxue/article/details/70739646
+-->
+<meta http-equiv = 'X-UA-Compatible'
+      content = 'IE=edge,chrome=1' />
+<!--
+该meta项用途：
+此属性声明文档的字符编码，如果该属性存在，其值必须是字符串“UTF-8”的不区分大小写的ASCII匹配，因为UTF-8是HTML5文档的唯一有效编码。
+
+注意：
+声明字符编码的meta元素必须完全位于文档的前1024个字节内。
+-->
+<meta charset = 'UTF-8' />
+<!--
+该meta项用途（360浏览器）：
+指定浏览器使用哪种默认的渲染内核渲染页面。
+
+值说明：
+webkit：webkit内核。
+ie-comp：IE兼容模式。
+ie-stand：IE标准模式。
+always：csdn这么写的。
+-->
+<meta name = 'renderer'
+      content = 'webkit' />
+<!--
+该meta项用途：
+指定360浏览器用webkit内核渲染网页。
+-->
+<meta name = 'force-rendering'
+      content = 'webkit' />
+<!--
+该meta项用途：
+提供有关视口初始大小大小的提示。
+
+详见：
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name
+-->
+<meta name = 'viewport'
+      content = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,minimal-ui,maximum-scale=1.0,user-scalable=no,shrink-to-fit=no,uc-fitscreen=no,viewport-fit=cover' />
+<!--
+该meta项用途：
+允许页面作者为当前页面定义内容策略，内容策略主要指定允许的服务器来源和脚本端点，这有助于防止“跨站点脚本攻击（XSS）”。
+值格式：<policy-directive>;<policy-directive>;......，多个<policy-directive>之间用英文分号“;”隔开，其中<policy-directive>格式为：<directive（指令）> <value（有效值）> <value（有效值）> ......，内部没有标点符号，<directive>和<value>之间是一个空格，多个<value>之间也是用空格隔开。
+
+值说明：
+指令：
+default-src：“获取指令（Fetch directives）”的一种，作为其他“获取指令”的后备。
+值：
+'self'：指代当前域名，需要加英文的单引号，也只能是英文的单引号的字符串'self'，该值表示限制所有的外部资源，都只能从当前域名加载。如果同时设置某个单项的“获取指令”（比如font-src）和default-src，前者会覆盖后者，即字体文件会采用“font-src”指令的值，其他“获取指令”依然采用“default-src”的值。
+
+注意：
+<directive（指令）>是有版本的，也就是“CSP version”，到2022-02-22为止有这3个版本：1、2、3，前两个版本各个浏览器兼容性还不错，第3个版本兼容性不会太好，大多属于实验性阶段。
+“获取指令（Fetch directives）”中的“child-src”指令（CSP version：2）可用、也建议用“frame-src”指令（CSP version：1）、“worker-src”指令（CSP version：3）来代替，只要后两个指令能被目标浏览器兼容即可。
+不是所有的“指令”都被“meta元素”或“Content-Security-Policy-Report-Only标头字段”支持的，详细要看以下的文档链接。
+“meta元素”与“HTTP头”只是形式不同而作用是一致的，如果“meta元素”与“HTTP头”定义同时存在，则优先采用“HTTP头”中的定义。
+如果用户浏览器已经为当前文档执行了一个CSP策略，则会跳过“meta元素”的定义，如果“meta元素”缺少“content属性”也同样会跳过。
+使用该meta项时，该meta标签应该是<head>标签的第1个子元素，但是其他meta项也有位置规定，故将其放在这个位置也是不错的！
+
+详见：
+directive（指令）：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#directives
+value（有效值）：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#values
+MDN例子：
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#examples
+看Mozilla网络安全指南更多示例：
+https://infosec.mozilla.org/guidelines/web_security#content-security-policy
+-->
+<% if(contentSecurityPolicy !== null && contentSecurityPolicy !== undefined){ %>
+    <!--
+    <meta http-equiv = 'Content-Security-Policy' content = "default-src 'self';object-src 'none'" />
+    -->
+    <meta http-equiv = 'Content-Security-Policy'
+          content = '<%= contentSecurityPolicy %>' />
+<% } %>
+<!--以上6个meta项有着严格的先后顺序，一般不要变动！-->

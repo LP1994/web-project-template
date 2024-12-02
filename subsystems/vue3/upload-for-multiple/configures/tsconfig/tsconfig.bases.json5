@@ -1,0 +1,1062 @@
+/*
+Project: web-project-template
+FileDirPath: configures/tsconfig/tsconfig.bases.json5
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-01-01 00:00:00 星期六
+*/
+
+{
+  "display": "tsconfig.bases.json5",
+  "_version": "1.0.0",
+  "_typescript_version": "5.7.2",
+  "_description": "这是一个基本通用的tsconfig.json。",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "docs": "https://www.typescriptlang.org/tsconfig",
+  /*
+  1、指定要包含在程序中的文件允许列表，如果找不到任何文件，则会发生错误，所以也不要设置成空数组。
+  2、当您只有少量文件并且不需要使用全局来引用许多文件时，这很有用，如果您需要全局来引用许多文件时，请使用“include”选项。
+  3、如果tsconfig.json中不存在“files”或“include”属性，编译器默认包括包含目录和子目录中的所有文件，但“exclude”指定的文件除外，指定“files”属性时，仅包括那些文件和“include”指定的文件。
+  4、必须是文件，包括通过通配符匹配到的文件，但是不能是文件夹。
+  */
+  // 5、通过通配符匹配到的文件，如："**/*.spec.ts"，在这个选项里当“/”为打头时极可能代表磁盘的根目录，但是还没验证，使用时切记注意。
+  // "files": [
+  // "./xxx/core.ts",
+  // "**/*.spec.ts",
+  // "./src/**/*.ts",
+  // "/src/DemoA.ts"
+  // ],
+
+  /*
+  1、extends的值是一个字符串，其中包含要继承的另一个配置文件的路径，该路径可能使用Node.js样式解析。
+  PS：当该选项设置为如：/configures/tsconfig/web.tsconfig.json5时，实际的解析路径成为了：G:/configures/tsconfig/web.tsconfig.json5，这显然是错误的，因为这个选项里的“/”为打头时代表磁盘的根目录了，当然在其他选项里“/”为打头时就不一定是这样的表示了。
+  2、首先加载基本文件中的配置，然后被继承配置文件中的配置覆盖，在配置文件中找到的所有相对路径都将相对于它们所在的配置文件进行解析。
+  3、值得注意的是，继承配置文件中的“include”和"exclude"文件会覆盖基本配置文件中的文件，并且不允许配置文件之间的循环。
+  4、目前，唯一从继承中排除的顶级属性是“references”。
+  5、在配置文件中找到的具有相对路径的属性（未从继承中排除）将相对于它们起源的配置文件进行解析。
+  6、也可以引用npm上的配置包，如："extends": "@tsconfig/node18/tsconfig.json"。
+  */
+  // "extends": "@tsconfig/esm/tsconfig.json",
+
+  /*
+  1、指定与要包含在编译中的文件匹配的全局模式列表，如果tsconfig.json中不存在“files”或“include”属性，编译器默认包括包含目录和子目录中的所有文件，但“exclude”指定的文件除外，需要TypeScript 2.0或更高版本。
+  2、指定要包含在程序中的文件名或模式数组，这些文件名相对于包含tsconfig.json文件的目录进行解析。
+  3、“include”和"exclude"支持通配符以生成全局模式：
+  *：匹配零个或多个字符（不包括目录分隔符）。
+  ?：匹配任何一个字符（不包括目录分隔符）。
+  4、如果全局模式不包含文件扩展名，则仅包含具有受支持扩展名的文件（例如，默认情况下为.ts、.tsx和.d.ts，如果allowJs设置为true，则为.js和.jsx）。
+  */
+  // 5、**/：匹配任何嵌套到任何级别的目录。
+  // 6、读取所有可识别的src目录下的文件："./src/**/*"，更多匹配模式可以参考写在上面的“files”选项中的说明，在这个选项里当“/”为打头时极可能代表磁盘的根目录，但是还没验证，使用时切记注意。
+  //  "include": [
+  //    "./src/**/*.ts",
+  //    "./src/**/*.cts",
+  //    "./src/**/*.mts",
+  //    "./src/**/*.tsx",
+  //    "./src/**/*.d.ts",
+  //    "./src/**/*.d.cts",
+  //    "./src/**/*.d.mts",
+  //    "./src/**/*.ts.vue",
+  //    "./src/**/*.cts.vue",
+  //    "./src/**/*.mts.vue",
+  //    "./src/**/*.tsx.vue"
+  //  ],
+
+  /*
+  1、指定解析包含时应跳过的文件名或模式数组。
+  2、指定要从编译中排除的文件列表。“exclude”属性仅影响通过“include”属性包含的文件，而不影响“files”属性，全局模式需要TypeScript 2.0或更高版本。
+  3、重要的：exclude仅更改由于include设置而包含的文件，由于代码中的导入语句、类型包含、/// <reference 指令或在“files”中指定，由exclude指定的文件仍然可以成为代码库的一部分。
+  4、它不是一种阻止文件被包含在代码库中的机制——它只是改变了“include”设置找到的内容。
+  5、匹配模式的用法可以参见“include”选项的说明，在这个选项里当“/”为打头时极可能代表磁盘的根目录，但是还没验证，使用时切记注意。
+  */
+  //  "exclude": [
+  //    "./src/**/*.test.*",
+  //    "./subsystems/**/*.test.*",
+  //    "./dist",
+  //    "./node_modules",
+  //    "./bower_components",
+  //    "./jspm_packages"
+  //  ],
+
+  /*
+  引用的项目。需要TypeScript 3.0或更高版本。
+  */
+  /*
+  "references": [
+    {
+      // 引用的tsconfig或包含tsconfig的文件夹的路径。
+      // 1、在这个选项里当“/”为打头时极可能代表磁盘的根目录，但是还没验证，使用时切记注意
+      // 2、每个引用的path属性可以指向包含tsconfig.json文件的目录，或指向配置文件本身（可以有任何名称）。
+      "path": "/tsconfig.json"
+    }
+  ],
+  */
+
+  // 确保你在运行程序前自动编译已保存变更后的代码。
+  "compileOnSave": true,
+  "compilerOptions": {
+    "strictBuiltinIteratorReturn": true,
+    "noUncheckedSideEffectImports": true,
+
+    /*
+    解析定制标志 Start
+    JavaScript工具现在可以模拟"混合"解析规则，就像我们上面描述的“bundler”模式。
+    因为工具的支持可能略有不同，TypeScript 5.0提供了启用或禁用一些功能的方法，这些功能可能与你的配置一起使用，也可能不使用。
+    */
+    /*
+    允许TypeScript文件以TypeScript特定的扩展名（如.ts、.mts或.tsx）相互导入。
+    1、这个标志只有在启用了noEmit或emitDeclarationOnly时才允许，因为这些导入路径在运行时无法在JavaScript输出文件中解析。
+    这里的期望是，你的解析器（例如你的捆绑器、运行时或其他工具）将使这些.ts文件之间的导入发挥作用。
+    */
+    "allowImportingTsExtensions": true,
+    /*
+    resolvePackageJsonExports迫使TypeScript在从node_modules中的包中读取数据时查阅package.json文件的exports字段。
+    1、这个选项在node16、nodenext和bundler的-moduleResolution选项下默认为true。
+    */
+    // "resolvePackageJsonExports": false,
+    /*
+    resolvePackageJsonImports强制TypeScript在执行以#开头的查找时，查阅package.json文件的进口字段，该文件的祖先目录包含package.json。
+    1、这个选项在node16、nodenext和bundler的--moduleResolution选项下默认为true。
+    */
+    // "resolvePackageJsonImports": false,
+    /*
+    在TypeScript 5.0中，当导入路径以扩展名结尾，而该扩展名不是已知的JavaScript或TypeScript文件扩展名时，编译器会以{file basename}.d.{extension}.ts的形式为该路径寻找声明文件。
+    1、例如，如果你在一个捆绑项目中使用一个CSS加载器，你可能想为这些样式表编写（或生成）声明文件：
+    // app.css
+    .cookie-banner {
+      display: none;
+    }
+
+    // app.d.css.ts
+    declare const css: {
+      cookieBanner: string;
+    };
+    export default css;
+
+    // App.tsx
+    import styles from "./app.css";
+
+    // string
+    styles.cookieBanner;
+
+    默认情况下，这种导入会引发一个错误，让你知道TypeScript不理解这种文件类型，你的运行时可能不支持导入它。
+    但如果你已经配置了你的运行时或捆绑器来处理它，你可以用新的--allowArbitraryExtensions编译器选项来抑制这个错误。
+
+    2、请注意，在历史上，类似的效果往往可以通过添加一个名为app.css.d.ts而不是app.d.css.ts的声明文件来实现。
+    然而，这只是通过Node对CommonJS的要求解析规则来实现。
+    严格来说，前者被解释为一个名为app.css.js的JavaScript文件的声明文件。
+    因为相对文件的导入需要在Node的ESM支持中包含扩展名，所以TypeScript会在-moduleResolution为node16或nodenext下的ESM文件中对我们的例子出错。
+    */
+    "allowArbitraryExtensions": true,
+    /*
+    解析定制标志 End
+    JavaScript工具现在可以模拟"混合"解析规则，就像我们上面描述的“bundler”模式。
+    因为工具的支持可能略有不同，TypeScript 5.0提供了启用或禁用一些功能的方法，这些功能可能与你的配置一起使用，也可能不使用。
+    */
+
+    /*
+    TypeScript 5.0引入了一个名为verbatimModuleSyntax的新选项，详细见：https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#verbatimmodulesyntax
+    verbatimModuleSyntax提供了一个比importsNotUsedAsValues和preserveValueImports更加一致的故事，这2个现有的标志正在被废弃，以支持verbatimModuleSyntax。
+    */
+    "verbatimModuleSyntax": true,
+    /*
+    允许无法访问的代码。
+    1、有三个值：
+    undefined：默认，向编辑提供建议作为警告。
+    true：无法访问的代码被忽略，不做出任何警告。
+    false：引发有关无法访问代码的编译器错误。
+    2、这些警告仅与可证明由于使用JavaScript语法而无法访问的代码有关。
+    3、这不会影响基于由于类型分析而似乎无法访问的代码的错误。
+    */
+    "allowUnreachableCode": false,
+    /*
+    允许执行不到的标签。
+    1、有三个值：
+    undefined：默认，向编辑提供建议作为警告。
+    true：未使用的标签被忽略，不做出任何警告。
+    false：引发关于未使用标签的编译器错误。
+    */
+    "allowUnusedLabels": false,
+    /*
+    确保您的文件在ECMAScript严格模式下解析，并为每个源文件发出"use strict"。
+    1、ECMAScript严格模式是在ES5中引入的，它为JavaScript引擎的运行时提供行为调整以提高性能，并抛出一组错误而不是默默地忽略它们。
+    */
+    "alwaysStrict": true,
+    /*
+    类型检查时区分未定义和不存在。
+    1、启用exactOptionalPropertyTypes后，TypeScript应用更严格的规则来处理它如何处理“type”或带“?”的属性的“interfaces”，如：
+    此接口声明有一个属性可以是两个字符串之一：“dark”或“light”，或者它不应该在对象中。
+    interface UserDefaults {
+      colorThemeOverride?: "dark" | "light";
+    }
+    2、exactOptionalPropertyTypes使TypeScript真正强制执行作为可选属性提供的定义。
+    3、该选项的启用（true）依赖“strictNullChecks”选项的启用（true），否则无法启用生效。
+    */
+    "exactOptionalPropertyTypes": true,
+    /*
+    true表示启用这个错误警告，在switch语句中报告失败案例的错误，确保switch语句中的任何非空大小写都包括break或return，这意味着您不会意外地发送一个案例失败的错误。
+    */
+    "noFallthroughCasesInSwitch": true,
+    /*
+    为true时启用为隐含“any”类型的表达式和声明启用错误报告。
+    */
+    "noImplicitAny": true,
+    /*
+    确保使用重写修饰符“override”标记派生类中的重写成员。
+    1、当处理使用继承的类时，子类可能与在基类中重命名时重载的函数“不同步”。
+    2、使用noImplicitOverride您可以确保子类永远不会不同步，方法是确保覆盖的函数包含关键字“override”。
+    3、为true时的作用：当子类中的某个方法没有显示的使用关键字“override”来修饰该方法会覆盖父类的同名方法时，就发出错误提示。
+    */
+    "noImplicitOverride": true,
+    /*
+    为未在函数中显式返回的代码路径启用错误报告。
+    1、设置为true启用后，TypeScript将检查函数中的所有代码路径以确保它们返回值。
+    */
+    "noImplicitReturns": true,
+    /*
+    为true时，当“this”被指定为“any”类型时，启用错误报告。
+    1、使用隐含的“any”类型在“this”表达式上引发错误。
+    */
+    "noImplicitThis": true,
+    /*
+    强制对使用索引类型声明的键使用索引访问器。
+    1、此设置确保通过“.”（obj.key）语法访问字段和“索引”（obj[“key”]）以及在类型中声明属性的方式之间的一致性。
+    2、如果没有这个标志，TypeScript将允许您使用点语法来访问未定义的字段。
+    3、此标志的目标是在您的调用语法中表明您对该属性存在的确定程度。
+    4、打开标志会引发错误，因为未知字段使用点语法而不是索引语法。
+    5、设置成true时（推荐设置成true），只能使用“索引”（obj[“key”]）的语法对未知字段进行调用，如果用“.”（obj.key）语法就会报错，这么做的目标是在您的调用语法中表明您对该属性存在的确定程度。
+    6、建议设置成false，不然会报很多这个相关的类型错误，改起来工程量过大。
+    */
+    "noPropertyAccessFromIndexSignature": false,
+    /*
+    使用索引访问时，向类型添加“undefined”，强烈建议设置为true。
+    1、TypeScript有一种方法可以通过索引签名来描述对象上具有未知键但已知值的对象。
+    2、开启noUncheckedIndexedAccess会将undefined添加到类型中任何未声明的字段。
+    */
+    "noUncheckedIndexedAccess": true,
+    /*
+    为true时报告未使用的局部变量的错误。
+    */
+    "noUnusedLocals": true,
+    /*
+    为true时报告函数中未使用参数的错误。
+    */
+    "noUnusedParameters": true,
+    /*
+    启用所有严格类型检查选项。
+    1、strict标志支持范围广泛的类型检查行为，从而更有力地保证程序的正确性，启用此选项相当于启用所有严格模式族选项，如下所述，然后，可以根据需要关闭各个严格模式族检查。
+    2、TypeScript的未来版本可能会在此标志下引入更多更严格的检查，因此TypeScript的升级可能会导致程序中出现新的类型错误，在适当且可能的情况下，将添加相应的标志以禁用该行为。
+    3、目前将默认启用如下选项的严格检查：alwaysStrict、strictNullChecks、strictBindCallApply、strictFunctionTypes、strictPropertyInitializatio、noImplicitAny、noImplicitThis、useUnknownInCatchVariables。
+    */
+    "strict": true,
+    /*
+    检查“bind”、“call”和“apply”方法的参数是否与原始函数匹配。
+    */
+    "strictBindCallApply": true,
+    /*
+    分配函数时，请检查以确保参数和返回值与子类型兼容。
+    1、启用后，此标志会导致更正确地检查函数参数。
+    2、在开发此功能的过程中，我们发现了大量固有的不安全类层次结构，包括DOM中的一些。因此，该设置仅适用于以“函数语法”编写的函数，不适用于以“方法语法”编写的函数。
+    */
+    "strictFunctionTypes": true,
+    /*
+    在进行类型检查时，请考虑“null”和“undefined”。
+    1、当strictNullChecks为false时，语言会有效地忽略null和undefined，这可能会导致运行时出现意外错误。
+    2、当strictNullChecks为true时，null和undefined有它们自己不同的类型，如果你试图在需要具体值的地方使用它们，你会得到一个类型错误。
+    3、该选项值为true时决定了“exactOptionalPropertyTypes”选项值为true时的有效启用。
+    */
+    "strictNullChecks": true,
+    /*
+    检查构造函数中声明但未设置的类属性。
+    1、当设置为true时，TypeScript将在声明了类属性但未在构造函数中设置时引发错误。
+    */
+    "strictPropertyInitialization": true,
+    /*
+    默认catch子句变量为“unknown”，而不是“any”，强烈设置成true。
+    1、在TypeScript 4.0中，添加了支持以允许将catch子句中的变量类型从any更改为unknown。
+    2、此模式确保错误处理代码变得更加全面，因为您无法保证提前抛出的对象是错误子类。启用标志useUnknownInCatchVariables后，您就不需要额外的语法（：unknown）或linter规则来尝试强制执行此行为。
+    */
+    "useUnknownInCatchVariables": true,
+    /*
+    允许从模块访问UMD全局。
+    1、当设置为true时，allowUmdGlobalAccess允许您从模块文件内部访问作为全局变量的UMD导出。模块文件是具有导入和/或导出的文件。如果没有此标志，则使用UMD模块的导出需要导入声明。
+    2、此标志的一个示例用例是一个Web项目，您知道特定库（如jQuery或Lodash）在运行时始终可用，但是您不能通过导入来访问它。
+    */
+    "allowUmdGlobalAccess": true,
+    /*
+    指定用于解析非相对模块名称的基目录。
+    1、允许您设置基本目录以解析非绝对模块名称。
+    2、在此项目中使用"baseUrl": "./"，TypeScript将查找从与tsconfig.json相同的文件夹开始的文件。
+    3、如果您厌倦了总是看起来像“../”或“./”的导入，或者需要在移动文件时更改它们，这是解决这个问题的好方法。
+    */
+    // "baseUrl": "./",
+    /*
+    设置程序的模块系统。
+    1、对于“node”项目，您很可能需要设置成“commonjs”，如果是按ESM模块化写Node项目的话，系不用设置成“commonjs”的，用“es6”及其以上的都行。
+    2、更改“module”选项会影响“moduleResolution”选项。
+    3、该选项默认情况下受“target”选项影响，如果“target”选项值是ES3或ES5，则该选项默认为“commonjs”，否则该选项默认为：es6（别名：es2015）。
+    4、允许的值有：none（等同于commonjs）、commonjs、amd、umd、system、es6（别名：es2015）、es2020、es2022、esnext、node16、nodenext。
+    5、如果“target”选项值为ES3或ES5，强烈建议将该选项值设置为commonjs。
+    6、如果你想知道es6（别名：es2015）和es2020之间的区别，es2020增加了对“动态导入”和“import.meta”的支持。
+    7、从4.7+开始，node16和nodenext模式与Node的原生ECMAScript模块支持集成。
+    8、发出的JavaScript使用commonjs或es2020输出，具体取决于“文件扩展名”和最近的package.json中“type”设置的值，“Module resolution”的工作方式也不同，您可以在手册中了解更多信息。
+    9、确保避免设置module为“commonjs”，否则webpack将无法对您的代码进行tree-shaking。
+    10、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
+    这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
+    例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
+    */
+    "module": "NodeNext",
+    /*
+    指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
+    1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
+    2、允许的值有：classic、node、node16、nodenext、bundler（TypeScript 5.0新增的，见：https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#moduleresolution-bundler）。
+    3、选项值node用于Node.js的CommonJS实现。
+    4、选项值node16、nodenext从TypeScript 4.5开始，用于Node.js的ECMAScript模块支持。
+    5、选项值classic用于TypeScript 1.6之前的版本。您可能不需要在现代代码中使用“classic”值。
+    6、该选项值为“node”值时，决定了“resolveJsonModule”选项值为true时的有效设置并启用。
+    7、设置成“node”时，路径必须以“./”、“../”这样的相对路径打头，否则会报错，设置成“classic”就不会有这个问题。
+    8、如果未指定，则默认为Node for --module commonjs，否则为classic（包括将module设置为amd、system、umd、es2015、esnext等时）。
+    9、如果您在TypeScript中遇到导入和导出的解析问题，请尝试设置moduleResolution: "node" 以查看它是否解决了问题。
+    10、强烈建议设置成：node、node16、nodenext其中之一，并且尽可能以“相对路径”（./、../）或“设置路径别名”来作为导入路径中的打头开始。
+    11、优先设置成“node”，可以解决很多情况下的报错！
+    12、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
+    这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
+    例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
+    13、但是对于许多使用捆绑器等工具的开发者来说，node16、nodenext的设置是很麻烦的，因为捆绑器没有大部分的这些限制。
+    在某些方面，设置成“node”解析模式对任何使用捆绑器的人来说都是更好的。
+    但在某些方面，最初的“node”解析模式已经过时了。
+    大多数现代捆绑器在Node.js中使用了ECMAScript模块和CommonJS查询规则的融合。
+    例如，无扩展的导入和CommonJS中一样，可以正常工作，但是当翻看一个包的导出条件时，他们会像ECMAScript文件中一样，更喜欢导入条件。
+    14、为了模拟捆绑器的工作方式，TypeScript现在引入了一个新的策略：bundler，如果你正在使用现代捆绑器，如Vite、esbuild、swc、Webpack、Parcel和其他实施混合查找策略的捆绑器，新的捆绑器选项值“bundler”应该很适合你。
+    另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
+    所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
+    */
+    "moduleResolution": "NodeNext",
+    /*
+    默认情况下（noResolve的默认值是false），TypeScript将检查“import”和“<reference”指令的初始文件集，并将这些已解析的文件添加到您的程序中。
+    1、如果设置了noResolve，则不会发生此过程。但是，仍会检查import语句以查看它们是否解析为有效的模块，因此您需要确保通过其他方式满足此要求。
+    */
+    "noResolve": false,
+    /*
+    指定将导入重新映射到其他查找位置的一组条目，也就是路径别名。
+    1、允许你声明TypeScript应该如何解析你的require/imports中的导入。
+    2、您也可以告诉TypeScript文件解析器支持许多自定义前缀来查找代码。此模式可用于避免代码库中较长的相对路径，如："config/*": [ "app/_config/*" ]。
+    3、该项的功用可以理解为跟webpack中的路径别名一样的用途。
+    4、在导入axios、echarts、jquery、swiper、vue、vue-router、vuex、element-plus、element-ui等等第三方包时，就没必要为它们设置别名路径了，会报类型错误，直接导入它们的包名就行，会自行查找它们对应的包描述类型文件的。
+    5、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。
+    */
+    "paths": {
+      "element-ui-css": [
+        "./node_modules/element-ui/lib/theme-chalk/index.css"
+      ],
+      "element-plus-css": [
+        "./node_modules/element-plus/dist/index.css"
+      ],
+      "swiper-css": [
+        "./node_modules/swiper/swiper-bundle.min.css"
+      ],
+      // tslib这个别名只能设置成如下的样式。
+      "tslib": [
+        "./node_modules/tslib/"
+      ],
+    },
+    /*
+    启用.json文件的导入。
+    1、允许导入带有“.json”扩展名的模块，这是“node”项目中的常见做法。这包括根据静态JSON形状为导入生成类型。
+    2、启用该选项允许导入JSON，并验证该JSON文件中的类型。
+    3、该选项的启用（true）依赖“moduleResolution”选项值为“node”值，否则无法启用。
+    */
+    "resolveJsonModule": true,
+    /*
+    指定源文件中的根文件夹。
+    1、所有非声明输入文件的最长公共路径。如果设置了复合，则默认为包含tsconfig.json文件的目录。
+    2、当TypeScript编译文件时，它在输出目录中保持与输入目录中相同的目录结构。
+    */
+    // "rootDir": ".",
+    /*
+    默认情况下，所有可见的“@types”包都包含在您的编译中。
+    1、任何封闭文件夹的node_modules/@types中的包都被认为是可见的。
+    2、所有路径都相对于tsconfig.json。
+    3、如果指定了typeRoots，则仅包含typeRoots下的包。
+    */
+    /*
+    "typeRoots": [
+      "./node_modules/@types",
+    ],
+    */
+    /*
+    指定要包含的类型包名称，而不在源文件中引用。
+    1、默认情况下，所有可见的“@types”包都包含在您的编译中。任何封闭文件夹的node_modules/@types中的包都被认为是可见的。
+    2、此功能与typeRoots的不同之处在于它只指定您想要包含的确切类型，而typeRoots支持说您想要特定的文件夹。
+    3、空数组将禁用自动引入@types包。
+    4、如果指定了types，则仅列出的包将包含在全局范围内。
+    */
+    // "types": [],
+    /*
+    在项目中为TypeScript或JavaScript生成对应的.d.ts文件。
+    1、这些.d.ts文件是描述模块外部API的类型定义文件。
+    2、使用.d.ts文件，TypeScript等工具可以为无类型代码提供智能感知和准确类型。
+    */
+    "declaration": true,
+    /*
+    提供一种方法来配置发出声明文件的根目录。
+    */
+    // "declarationDir": "./ts_compiled/",
+    /*
+    为d.ts文件创建源映射。
+    1、如果您使用“project references”，您应该强烈考虑将其打开。
+    */
+    "declarationMap": true,
+    /*
+    为迭代发出更兼容但冗长且性能更低的JavaScript。
+    1、降级是TypeScript的术语，用于转换为旧版本的JavaScript。这个标志是为了支持更准确地实现现代JavaScript如何迭代旧JavaScript运行时中的新概念。
+    2、如果“target”选项值为es3、es5，则强烈建议启用该选项，因为会使用最严格合规（符合ECMAScript的标准）的转换代码来模拟ES6的迭代器。
+    */
+    "downlevelIteration": true,
+    /*
+    在输出文件的开头发出UTF-8字节顺序标记（BOM）。
+    1、一些运行时环境需要BOM才能正确解释JavaScript文件；其他人要求它不存在。默认值false通常是最好的，除非您有理由更改它。
+    */
+    "emitBOM": false,
+    /*
+    仅输出d.ts文件，不输出JavaScript文件。
+    1、这一设置在2种情况下是有用的：
+    你正在使用TypeScript以外的转码器来生成你的JavaScript。
+    你正在使用TypeScript只为你的消费者生成d.ts文件。
+    2、当跟Vite以及vite-plugin-checker（基于并依赖了vue-tsc）一起使用时，该选项要设置为false，并且noEmit选项要设置为true，否则会报错，说这两个选项不能一起使用。
+    之所以会有这么个设置，是因为当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，要想使用类型检查，就必须是“noEmit”为true，表示开启该选项（true代表不在构建时发出任何文件，诸如：编译后的.js、类型描述文件等等），并且“emitDeclarationOnly”为false，表示关闭该选项（false代表不在构建时发出描述文件）。
+    3、当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，该选项交由CIL命令行中设置，不用在配置文件中设置，直接注释掉即可，如：
+    开发模式的构建：
+    vue-tsc --noEmit && vite serve --force --mode dev_server --config ./vite.config.mjs
+    生产模式的构建：
+    vue-tsc --noEmit && vite build --force --mode production --config ./vite.config.mjs
+    只希望进行生成类型描述文件：
+    vue-tsc --declaration --emitDeclarationOnly
+    */
+    "emitDeclarationOnly": true,
+    /*
+    允许在每个项目中从tslib导入一次助手函数，而不是在每个文件中包含它们。
+    1、对于某些降级操作，TypeScript使用一些帮助代码进行扩展类、扩展数组或对象以及异步操作等操作。
+    2、默认情况下，这些助手被插入到使用它们的文件中。如果在许多不同的模块中使用相同的帮助程序，这可能会导致代码重复。
+    3、设置成false，则不会在控制台输出多余的tslib处理信息，但是还是要设置成true，因为不会为每个文件都产生转译语法，而是从tslib导入那些转译语法，这样就不会产生大量重复的转译代码。
+    */
+    "importHelpers": true,
+    /*
+    为仅用于类型的导入指定发射/检查行为。
+    1、允许的值：
+    remove：删除仅引用类型的导入语句的默认行为。
+    preserve：保留其值或类型从未使用过的所有导入语句。这可能会导致保留导入/副作用。
+    error(强烈推荐设置成这个选项)：这会保留所有导入（与 preserve 选项相同），但当值导入仅用作类型时会出错。如果您想确保没有意外导入任何值，但仍使副作用导入显式，这可能很有用。保留输入类型的import 语句(与preserve 相同)，但是必须写成import type的形式，否则报错。
+    2、此标志有效，因为您可以使用导入类型显式创建一个永远不应发送到JavaScript中的导入语句。
+    3、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，并且importsNotUsedAsValues选项不能与选项'verbatimModuleSyntax'一起指定。
+    */
+    // "importsNotUsedAsValues": "error",
+    /*
+    在发出的JavaScript中包含sourceMap文件。
+    1、与sourceMap互斥。
+    2、设置后，TypeScript不会写出.js.map文件来提供源映射，而是将源映射内容嵌入到.js文件中。
+    3、虽然这会导致JS文件变大，但在某些场景下会很方便。例如，您可能希望在不允许提供.map文件的网络服务器上调试JS文件。
+    */
+    "inlineSourceMap": false,
+    /*
+    在发出的JavaScript中的sourcemaps中包含源代码。
+    1、设置后，TypeScript会将.ts文件的原始内容作为嵌入字符串包含在源映射中（使用源映射的sourcesContent属性）。这在与inlineSourceMap相同的情况下通常很有用。
+    2、需要设置sourceMap或inlineSourceMap。
+    */
+    "inlineSources": false,
+    /*
+    指定调试器应在其中定位映射文件的位置，而不是生成的位置。
+    1、指定调试器应该定位映射文件而不是生成的位置的位置。此字符串在源映射中逐字处理。
+    */
+    // "mapRoot": "https://my-website.com/debug/sourcemaps/",
+    /*
+    设置用于发射文件的换行符。
+    1、指定发出文件时要使用的行尾序列：“CRLF”（dos）或“LF”（unix）。
+    2、允许的值：crlf、lf。
+    */
+    "newLine": "crlf",
+    /*
+    禁用从编译发出文件。
+    1、不要发出编译器输出文件，如JavaScript源代码、源映射或声明。
+    2、这为Babel或swc等其他工具腾出空间来处理将TypeScript文件转换为可以在JavaScript环境中运行的文件。
+    3、然后，您可以将TypeScript用作提供编辑器集成的工具，并用作源代码类型检查器。
+    4、当跟Vite以及vite-plugin-checker（基于并依赖了vue-tsc）一起使用时，该选项要设置为true，并且emitDeclarationOnly选项要设置为false，否则会报错，说这两个选项不能一起使用。
+    之所以会有这么个设置，是因为当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，要想使用类型检查，就必须是“noEmit”为true，表示开启该选项（true代表不在构建时发出任何文件，诸如：编译后的.js、类型描述文件等等），并且“emitDeclarationOnly”为false，表示关闭该选项（false代表不在构建时发出描述文件）。
+    5、当配合Vite以及vite-plugin-checker（基于并依赖了vue-tsc）、vue-tsc时，该选项交由CIL命令行中设置，不用在配置文件中设置，直接注释掉即可，如：
+    开发模式的构建：
+    vue-tsc --noEmit && vite serve --force --mode dev_server --config ./vite.config.mjs
+    生产模式的构建：
+    vue-tsc --noEmit && vite build --force --mode production --config ./vite.config.mjs
+    只希望进行生成类型描述文件：
+    vue-tsc --declaration --emitDeclarationOnly
+    */
+    "noEmit": false,
+    /*
+    禁用在编译输出中生成自定义帮助程序函数，如“__extends”。
+    1、您可以在全局范围内为您使用的助手提供实现，并完全关闭助手函数的发射，而不是使用importHelpers导入助手。
+    */
+    "noEmitHelpers": false,
+    /*
+    如果报告了任何类型检查错误，则禁用发送文件。
+    1、如果报告了任何错误，请不要发出编译器输出文件，如JavaScript源代码、源映射或声明。
+    2、这默认为false，这使得在“watch-like”的环境中使用TypeScript变得更容易，在这种环境中，您可能希望在确保解决所有错误之前在另一个环境中查看代码更改的结果。
+    3、当使用typescript 5.0.2时，用ts-node编译运行时或webpack时，该选项为true时会报错！还是一个莫名其妙让人奔溃的奇葩错误！
+    */
+    "noEmitOnError": false,
+    /*
+    为所有发出的文件指定输出文件夹。
+    1、如果指定，.js（以及 .d.ts、.js.map 等）文件将被发送到此目录。保留原始源文件的目录结构。
+    2、如果未指定，.js文件将在与生成它们的.ts文件相同的目录中发出。
+    */
+    // "outDir": "./ts_compiled/",
+    /*
+    如果指定，所有全局（非模块）文件将连接到指定的单个输出文件中。
+    1、注意：除非“module”选项值是none、system或amd，否则不能使用outFile。此选项不能用于捆绑commonjs或es6模块。
+    2、如果“module”选项值是system或amd，所有的模块文件也将在所有全局内容之后连接到这个文件中。
+    */
+    // "outFile": "./ts_compiled/AllOutFile.js",
+    /*
+    禁用擦除生成代码中的“const enum”声明。
+    1、不要删除生成代码中的const枚举声明。const枚举提供了一种通过发出枚举值而不是引用来减少应用程序在运行时的整体内存占用的方法。
+    2、这实质上使此类const枚举仅成为源代码功能，没有运行时跟踪。
+    */
+    "preserveConstEnums": true,
+    /*
+    在JavaScript输出中保留未使用的导入值，否则将被删除。
+    1、在某些情况下，TypeScript无法检测到您正在使用导入，或使用Svelte或Vue等“编译为 HTML”语言的代码，如：
+    import { Animal } from "./animal.js";
+    eval("console.log(new Animal().isDangerous())");
+    2、当与isolatedModules结合使用时：导入的类型必须标记为“type-only”，因为一次处理单个文件的编译器无法知道导入是否是未使用的值，或必须删除以避免运行时崩溃的类型。
+    3、可以通过在TitleComponentProps前加上“type”来将其标记为仅类型导入来修复：
+    import { TitleComponent, type TitleComponentProps } from "./TitleComponent.js";
+    4、在TypeScript 5.0中已经放弃该选项，可用"verbatimModuleSyntax": true来代替，“preserveValueImports”选项不能与选项'verbatimModuleSyntax'一起指定。
+    */
+    // "preserveValueImports": true,
+    /*
+    转换为JavaScript时从TypeScript文件中删除所有注释。默认为false，设置成false才能保留webpack魔术注解，以供webpack处理。
+    */
+    "removeComments": false,
+    /*
+    为发出的JavaScript文件创建源映射文件。、
+    1、启用源映射文件的生成。这些文件允许调试器和其他工具在实际使用发出的JavaScript文件时显示原始TypeScript源代码。
+    2、源映射文件作为.js.map（或.jsx.map）文件在相应的.js输出文件旁边发出。
+    */
+    "sourceMap": true,
+    /*
+    指定调试器查找参考源代码的根路径。
+    1、指定调试器应该定位TypeScript文件的位置，而不是相对源位置。此字符串在源映射中逐字处理，您可以在其中使用路径或URL。
+    */
+    // "sourceRoot": "https://my-website.com/debug/source/",
+    /*
+    禁止发出在JSDoc注释中包含“@internal”的声明，该选项默认值是false。
+    1、不要为在其JSDoc注释中具有@internal注释的代码发出声明。这是一个内部编译器选项；使用风险自负，因为编译器不会检查结果是否有效。
+    2、如果您正在寻找一种工具来处理d.ts文件中的其他可见性级别，请查看api-extractor。
+    */
+    "stripInternal": false,
+    /*
+    允许JavaScript文件成为程序的一部分。使用“checkJs”选项从这些文件中获取错误。
+    */
+    "allowJs": true,
+    /*
+    在已检查类型的JavaScript文件中启用错误报告。
+    1、与“allowJs”选项协同工作。启用“checkJs”选项后，会在JavaScript文件中报告错误。这相当于在项目中包含的所有JavaScript文件的顶部包含“// @ts-check”。
+    */
+    "checkJs": false,
+    /*
+    指定用于检查来自“node_modules”的JavaScript文件的最大文件夹深度。仅适用于“allowJs”。
+    1、在“node_modules”下搜索和加载JavaScript文件的最大依赖深度。
+    2、这个标志只能在启用“allowJs”时使用，如果你想让TypeScript为你的node_modules中的所有JavaScript推断类型，就可以使用这个标志。
+    3、理想情况下，这应该保持为0（默认值），并且应该使用d.ts文件来明确定义模块的形状。但是，在某些情况下，您可能希望以牺牲速度和潜在准确性为代价来打开它。
+    */
+    "maxNodeModuleJsDepth": 0,
+    /*
+    删除TypeScript语言服务器中JavaScript文件的总源代码大小的20MB上限。
+    1、为了避免在处理非常大的JavaScript项目时可能出现的内存膨胀问题，TypeScript将分配的内存量有一个上限。打开此标志将删除限制。
+    */
+    "disableSizeLimit": true,
+    /*
+    当模块没有默认导出时，允许“import x from y”。
+    1、默认情况：如果“module”选项值是“system”，或者“esModuleInterop”选项启用，并且“module”选项值不是es6、es2015或esnext，则为true。否则为false。
+    2、此标志不会影响TypeScript发出的JavaScript，它仅用于类型检查。此选项将TypeScript的行为与Babel内联，其中会发出额外的代码以使使用模块的默认导出更符合人体工程学。
+    */
+    "allowSyntheticDefaultImports": true,
+    /*
+    发出额外的JavaScript以简化对导入CommonJS模块的支持。这将启用“allowSyntheticDefaultImports”以实现类型兼容性。
+    1、默认情况下（esModuleInterop为false或未设置）TypeScript将CommonJS/AMD/UMD模块视为类似于ES6模块。在这样做时，特别是有两个部分被证明是有缺陷的假设：
+    像import * as moment from "moment"这样的命名空间导入与const moment = require("moment")的作用相同。
+    像import moment from "moment"这样的默认导入与const moment = require("moment").default相同。
+    2、通过为所有导入创建名称空间对象，启用CommonJS和ES模块之间的发射互操作性。
+    */
+    "esModuleInterop": true,
+    /*
+    设置此选项后，如果程序试图通过与磁盘上的大小写不同的大小写来包含文件，则TypeScript将发出错误。
+    1、TypeScript遵循运行它的文件系统的区分大小写规则。如果一些开发人员在区分大小写的文件系统中工作而其他开发人员不是，这可能会出现问题。
+    2、如果文件尝试通过指定./FileManager.ts来导入fileManager.ts，则该文件将在不区分大小写的文件系统中找到，但不在区分大小写的文件系统中。
+    */
+    "forceConsistentCasingInFileNames": true,
+    /*
+    设置isolatedModules标志会告诉TypeScript，如果您编写的某些代码无法由单个文件转换过程正确解释，则会发出警告。
+    1、如果设置了isolatedModules，则所有实现文件都必须是模块（这意味着它具有某种形式的导入/导出）。如果任何文件不是模块，则会发生错误(此限制不适用于.d.ts文件)。
+    2、这些限制可能会导致某些类型脚本功能（如常量枚举和命名空间）出现运行时问题。
+    3、它不会更改代码的行为，也不会更改TypeScript检查和发出进程的行为。
+    4、虽然您可以使用TypeScript从TypeScript代码生成JavaScript代码，但使用Babel等其他转译器也很常见。
+    5、但是，其他转译器一次只对单个文件进行操作，这意味着它们不能应用依赖于对完整类型系统的理解的代码转换。
+    6、此限制也适用于某些构建工具使用的TypeScript的ts.transpileModule API。
+    7、isolatedModules选项不能与选项'verbatimModuleSyntax'一起指定。
+    8、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为true，也是Vite要求设置为true的。
+    */
+    // "isolatedModules": false,
+    /*
+    这是为了在Node.js中反映相同的标志；它不解析符号链接的实际路径。
+    1、此标志还显示与Webpack的resolve.symlinks选项相反的行为（即将TypeScript的preserveSymlinks设置为true与将Webpack的resolve.symlinks设置为false并行，反之亦然）。
+    2、启用此功能后，对模块和包的引用（例如imports和/// <reference type="..." />指令）都相对于符号链接文件的位置进行解析，而不是相对于符号链接解析到的路径。
+    */
+    "preserveSymlinks": false,
+    /*
+    不再支持。在早期版本中，手动设置读取文件的文本编码。
+    1、在以前的TypeScript版本中，这控制了从磁盘读取文本文件时使用的编码。今天，TypeScript采用UTF-8编码，但可以正确检测UTF-16（BE和LE）或UTF-8 BOM。
+    2、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "charset": "utf8",
+    /*
+    不推荐使用，使keyof仅返回字符串，而不是字符串、数字或符号。
+    1、此标志用于帮助人们在TypeScript 2.9发布之前保持这种行为。
+    2、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "keyofStringsOnly": false,
+    /*
+    禁止在发出的JavaScript文件中添加"use strict"指令。
+    1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
+    2、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "noImplicitUseStrict": false,
+    /*
+    禁用对函数类型中的泛型签名进行严格检查。
+    1、TypeScript在比较两个泛型函数时会统一类型参数。
+    2、此标志可用于删除该检查。
+    3、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "noStrictGenericChecks": false,
+    /*
+    请改用outFile选项。已弃用。
+    1、out选项以不可预测或一致的方式计算最终文件位置。保留此选项仅是为了向后兼容并且已弃用。
+    2、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "out": "./ts_compiled/AllOut.js",
+    /*
+     true将禁用报告多余的属性错误。在创建对象文字期间，禁用报告多余的属性错误。
+     1、添加此标志是为了帮助人们迁移到TypeScript 1.6中对新对象文字进行更严格的检查。
+     2、我们不建议在现代代码库中使用此标志，您可以使用“// @ts-ignore”抑制一次性需要的情况。
+     3、在TypeScript 5.0中已经放弃该选项。
+     */
+    // "suppressExcessPropertyErrors": false,
+    /*
+     启用“suppressImplicitAnyIndexErrors”将禁止在索引到对象时报告有关隐式Any的错误。
+     1、使用suppressImplicitAnyIndexErrors是一种非常严格的方法。建议使用'// @ts-ignore'注释代替。
+     2、对缺少索引签名的对象进行索引时，禁止出现“noImplicitAny”错误。
+     3、将suppressImplicitAnyIndexErrors设为true将禁止在对对象进行索引时报告有关隐式anys的错误。
+     4、使用suppressImplicitAnyIndexErrors是一种非常激进的方法。建议改用“@ts-ignore”注释。
+     5、在TypeScript 5.0中已经放弃该选项。
+     */
+    // "suppressImplicitAnyIndexErrors": false,
+    /*
+    启用对与模块反射元数据一起使用的装饰器发射类型元数据的实验性支持。
+    1、为源文件中的修饰声明发出设计类型元数据。
+    2、截至2024年04月19日，Decorators提案已经处于第3阶段（详细见：https://github.com/tc39/proposal-decorators），且不同于早期旧版的Decorators提案！
+    3、鉴于旧版的提案会被废弃不用，而且最新的提案规范会成为正式语法，所以将该选项设置为false，会让TS直接按最新的语法提案进行工作。
+    4、如果想让TS按照旧版的语法提案进行工作，可以将该选项设置为true。
+    */
+    "emitDecoratorMetadata": false,
+    /*
+    在TC39标准化流程的第2阶段，为装饰器启用实验支持。
+    1、装饰器是一种语言功能，尚未完全批准到JavaScript规范中。这意味着TypeScript中的实现版本可能与TC39决定的JavaScript中的实现版本有所不同。
+    2、截至2024年04月19日，Decorators提案已经处于第3阶段（详细见：https://github.com/tc39/proposal-decorators），且不同于早期旧版的Decorators提案！
+    3、鉴于旧版的提案会被废弃不用，而且最新的提案规范会成为正式语法，所以将该选项设置为false，会让TS直接按最新的语法提案进行工作。
+    4、如果想让TS按照旧版的语法提案进行工作，可以将该选项设置为true。
+    */
+    "experimentalDecorators": false,
+    /*
+    控制如何在JavaScript文件中发出JSX构造。这仅影响以.tsx为扩展名的文件的JS文件的输出。
+    1、有效值如下：
+    preserve：发出JSX不变的.jsx文件。
+    react：默认值，使用JSX发送.js文件更改为等效的React.createElement调用。
+    react-native：发出JSX不变的.js文件。
+    react-jsx：React 17，将JSX更改为_jsx调用时发出.js文件。
+    react-jsxdev：React 17 dev，将JSX更改为_jsx调用时发出.js文件。
+    */
+    "jsx": "react",
+    /*
+    在使用经典JSX运行时编译JSX Elements时更改在.js文件中调用的函数。如果使用preact，最常见的更改是使用“h”或“preact.h”而不是默认的“React.createElement”。
+    1、该属性不能和“reactNamespace”一起使用！默认值是：React.createElement。
+    */
+    "jsxFactory": "React.createElement",
+    /*
+    指定针对React JSX emit时用于片段的JSX片段引用，例如“React.Fragment”或“Fragment”。
+    1、指定当使用jsxFactory编译器选项指定react JSX发射时要使用的JSX片段工厂函数，例如分段。
+    2、默认值：React.Fragment。
+    */
+    "jsxFragmentFactory": "React.Fragment",
+    /*
+    指定使用“jsx: react-jsx”时用于导入JSX工厂函数的模块说明符。
+    1、当将jsx用作TypeScript 4.1中引入的“react-jsx”或“react-jsxdev”时，声明用于导入jsx和jsxs工厂函数的模块说明符。默认值：react。
+    2、在React 17中，该库通过单独的导入支持一种新形式的JSX转换。
+    3、还有一个有效值：preact。
+    4、当选项“jsx”选项值为“react”时，无法指定选项“jsxImportSource”的值。
+    */
+    // "jsxImportSource": "react",
+    /*
+    指定一组描述目标运行时环境的绑定库声明文件。
+    1、TypeScript包括一组用于内置JS API（如 Math）的默认类型定义，以及在浏览器环境中找到的内容（如文档）的类型定义。
+    2、TypeScript还包括与您指定的目标匹配的更新JS功能的API；例如，如果目标是ES6或更高版本，则可以使用Map的定义。
+    */
+    "lib": [
+      "decorators",
+      "decorators.legacy",
+      // DOM定义 - 窗口、文档等等。
+      "dom",
+      "dom.iterable",
+      // ES2015（也称为ES6）中可用的其他API - array.find, Promise, Proxy, Symbol, Map, Set, Reflect等等。
+      "es2015",
+      "es2015.collection",
+      "es2015.core",
+      "es2015.generator",
+      "es2015.iterable",
+      "es2015.promise",
+      "es2015.proxy",
+      "es2015.reflect",
+      "es2015.symbol",
+      "es2015.symbol.wellknown",
+      // ES2016中可用的其他API - array.include等等。
+      "es2016",
+      "es2016.array.include",
+      // .full的不能包含。
+      // "es2016.full",
+      // ES2017中可用的其他API - Object.entries, Object.values, Atomics, SharedArrayBuffer, date.formatToParts, typed arrays等等。
+      "es2017",
+      "es2017.date",
+      // .full的不能包含。
+      // "es2017.full",
+      "es2017.intl",
+      "es2017.object",
+      "es2017.sharedmemory",
+      "es2017.string",
+      "es2017.typedarrays",
+      // ES2018中可用的其他API - async iterables, promise.finally, Intl.PluralRules, regexp.groups等等。
+      "es2018",
+      "es2018.asyncgenerator",
+      "es2018.asynciterable",
+      // .full的不能包含。
+      // "es2018.full",
+      "es2018.intl",
+      "es2018.promise",
+      "es2018.regexp",
+      // ES2019中可用的其他API - array.flat, array.flatMap, Object.fromEntries, string.trimStart, string.trimEnd等等。
+      "es2019",
+      "es2019.array",
+      "es2019.intl",
+      // .full的不能包含。
+      // "es2019.full",
+      "es2019.object",
+      "es2019.string",
+      "es2019.symbol",
+      // ES2020中可用的其他API - string.matchAll等等。
+      "es2020",
+      "es2020.bigint",
+      "es2020.date",
+      // .full的不能包含。
+      // "es2020.full",
+      "es2020.intl",
+      "es2020.number",
+      "es2020.promise",
+      "es2020.sharedmemory",
+      "es2020.string",
+      "es2020.symbol.wellknown",
+      // ES2021中可用的其他API - promise.any, string.replaceAll等等。
+      "es2021",
+      // .full的不能包含。
+      // "es2021.full",
+      "es2021.intl",
+      "es2021.promise",
+      "es2021.string",
+      "es2021.weakref",
+      "es2022",
+      "es2022.array",
+      "es2022.error",
+      // .full的不能包含。
+      // "es2022.full",
+      "es2022.intl",
+      "es2022.object",
+      "es2022.regexp",
+      "es2022.sharedmemory",
+      "es2022.string",
+      "es2023",
+      "es2023.array",
+      "es2023.collection",
+      //  所有ES3和ES5功能的核心定义。
+      "es5",
+      // “ES2015”的别名。
+      "es6",
+      // ESNext中可用的其他API - 这随着JavaScript规范的发展而变化。
+      "esnext",
+      "esnext.decorators",
+      "esnext.disposable",
+      // .full的不能包含。
+      // "esnext.full",
+      "esnext.intl",
+      // 适用于Windows脚本托管系统的API。
+      "scripthost",
+      // WebWorker上下文中可用的API。
+      "webworker",
+      "webworker.importscripts",
+      "webworker.iterable",
+    ],
+    /*
+    三个值：
+    1、auto（默认值）：TypeScript不仅会查找import和export语句，还会检查package.json中的“type”字段是否设置为“module”，当使用module: nodenext或node16运行时，并在jsx下运行时检查当前文件是否为JSX文件：react-jsx。
+    2、legacy：与4.6及之前版本相同的行为，使用import和export语句来确定文件是否为模块。
+    3、force：确保每个非声明文件都被视为一个模块。
+    */
+    "moduleDetection": "auto",
+    /*
+    禁用自动包含任何库文件，包括默认lib.d.ts。如果设置此选项，则忽略lib。
+    */
+    "noLib": false,
+    /*
+    该属性不能和“jsxFactory”一起使用。
+    1、指定为“createElement”调用的对象。这仅适用于以“react”JSX emit为目标的情况。
+    2、请改用jsxFactory。指定针对TSX文件的响应时为createElement调用的对象。
+    */
+    // "reactNamespace": "React",
+    /*
+    为发出的JavaScript设置JavaScript语言版本，并包含兼容的库声明。
+    1、有效值：es3（在TypeScript 5.0中已经放弃该选项值）、es5、es6/es2015、es2016、es2017、es2018、es2019、es2020、es2021、es2022、es2023、es2024、esnext。
+    2、更改目标也会更改lib的默认值。您可以根据需要“混合和匹配”目标和库设置，但为了方便起见，您可以设置目标。
+    3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
+    4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
+    5、特殊的ESNext值是指您的TypeScript版本支持的最高版本。应该谨慎使用此设置，因为它在不同的TypeScript版本之间并不意味着相同的事情，并且会使升级变得难以预测。
+    */
+    "target": "es2024",
+    /*
+    发出符合ECMAScript标准的类字段。
+    1、如果“target”选项值是es2022或更高版本，包括esnext，则该选项值默认为true，否则为false。
+    2、此标志切换到即将到来的ECMA运行时行为。您可以在3.7发行说明中阅读有关转换的更多信息。
+    3、此标志用作迁移到即将推出的标准版本的类字段的一部分。TypeScript在TC39批准之前多年就引入了类字段。
+    4、即将发布的规范的最新版本与TypeScript的实现有不同的运行时行为，但语法相同。
+    */
+    "useDefineForClassFields": true,
+    /*
+    生成后输出编译器性能信息。不推荐使用，已经废弃了。
+    1、用于输出诊断信息以进行调试。该命令是extendedDiagnostics的一个子集，其结果更加面向用户，并且更易于解释。
+    2、如果TypeScript编译器工程师要求您在编译中使用此标志给出结果，那么使用extendedDiagnostics代替是没有害处的。
+    */
+    // "diagnostics": true,
+    /*
+    此选项用于调试文件如何成为编译的一部分。
+    1、打印TypeScript视为项目一部分的文件的名称以及它们是编译一部分的原因。
+    2、设置成false就不会输出辣么多的冗余信息。
+    */
+    "explainFiles": false,
+    /*
+    您可以使用此标志来发现TypeScript在编译时花费的时间。这是一个用于了解代码库整体性能特征的工具。
+    1、生成后输出更详细的编译器性能信息。
+    2、设置成false就不会输出辣么多的冗余信息。
+    */
+    "extendedDiagnostics": false,
+    /*
+    此选项使您有机会在编译器运行期间让TypeScript发出v8 CPU配置文件。CPU配置文件可以让您深入了解构建速度缓慢的原因。
+    1、此选项只能通过CLI使用（所以tsconfig.json中的设置系无效的）：--generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5，如：npm run tsc --generateCpuProfile ./ts_compiled/TSCOutputProfile.cpuprofile.json5。
+    */
+    // "generateCpuProfile": "./ts_compiled/TSCOutputProfile.cpuprofile.json5",
+    /*
+    编译后打印发出文件的名称。
+    1、将编译的一部分生成文件的名称打印到终端。
+    2、该标志在两种情况下很有用：
+    您想将TypeScript转换为终端中构建链的一部分，该终端在下一条命令中处理文件名。
+    您不确定TypeScript是否包含了所需的文件，这是调试文件包含设置的一部分。
+    3、通常，TypeScript会在成功时静默返回。
+    4、设置成false，就不会打印出辣么多日志了。
+    */
+    "listEmittedFiles": false,
+    /*
+    打印文件名称的一部分。当您不确定TypeScript是否包含所需的文件时，此功能很有用。
+    1、请注意，如果使用TypeScript 4.2，请更喜欢explainFiles，它也解释了为什么添加了文件。
+    */
+    // "listFiles": false,
+    /*
+    1、当您尝试调试未包含模块的原因时。您可以将traceResolutions设置为true，以使TypeScript打印有关每个已处理文件的解析过程的信息。
+    2、设置成false就不会在控制台输出详细的处理信息，但是这样就不能清楚的知道各个的文件处理过程。
+    */
+    "traceResolution": false,
+    /*
+    启用允许TypeScript项目与项目引用一起使用的约束。
+    1、复合选项强制执行某些约束，使构建工具（包括TypeScript本身，在--build模式下）能够快速确定项目是否已经构建。
+    2、当此设置开启时：
+    rootDir选项设置，如果没有明确设置，默认为包含tsconfig.json文件的目录。
+    所有实现文件必须由包含模式匹配或列在文件数组中。如果违反此约束，tsc 将通知您未指定哪些文件。
+    declaration选项值默认为true。
+    3、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为false。当出现类型错误什么的通不过校验时，会很神奇的报错而且还终止编译！且报这种鬼错误提示：
+    Debug.assert(getRootLength(fromDirectory) > 0 === getRootLength(to) > 0, "Paths must either both be absolute or both be relative");
+    Error: Debug Failure. False expression: Paths must either both be absolute or both be relative
+    */
+    "composite": true,
+    /*
+    减少TypeScript自动加载的项目数。
+    1、在多项目TypeScript程序中，TypeScript会将所有可用项目加载到内存中，以便为需要完整知识图的编辑器响应提供准确的结果，例如“查找所有参考”。
+    2、如果您的项目很大，您可以使用标志disableReferencedProjectLoad来禁用所有项目的自动加载。相反，当您通过编辑器打开文件时，项目会动态加载。
+    */
+    "disableReferencedProjectLoad": false,
+    /*
+    编辑时从多项目引用检查中选择一个项目。
+    1、在使用复合TypeScript项目时，此选项提供了一种声明您不希望在使用查找所有引用或在编辑器中跳转到定义等功能时包含项目的方法。
+    2、您可以使用此标志来提高大型复合项目的响应能力。
+    */
+    "disableSolutionSearching": false,
+    /*
+    禁用项目引用重定向的源。
+    1、在处理复合TypeScript项目时，此选项提供了一种返回3.7之前的行为的方法，其中d.ts文件被用作模块之间的边界。在3.7中，事实来源现在是您的TypeScript文件。
+    */
+    "disableSourceOfProjectReferenceRedirect": false,
+    /*
+    告诉TypeScript将上次编译的项目图信息保存到存储在磁盘上的文件中。这将在编译输出所在的文件夹中创建一系列.tsbuildinfo文件。
+    1、它们在运行时不被JavaScript使用，可以安全地删除。
+    2、composite选项值为true时，则该选项也为true，否则为假。
+    3、告诉TypeScript将上次编译的项目图信息保存到磁盘上存储的文件中。这会在编译输出所在的文件夹中创建一系列.tsbuildinfo文件。
+    4、您的JavaScript在运行时不使用它们，可以安全地删除它们。您可以在3.4发行说明中阅读有关该标志的更多信息。
+    5、要控制要将文件构建到哪些文件夹，请使用配置选项tsBuildInfoFile。
+    6、当跟Vite以及vite-plugin-checker一起使用时，该选项要设置为false。当出现类型错误什么的通不过校验时，会很神奇的报错而且还终止编译！且报这种鬼错误提示：
+    Debug.assert(getRootLength(fromDirectory) > 0 === getRootLength(to) > 0, "Paths must either both be absolute or both be relative");
+    Error: Debug Failure. False expression: Paths must either both be absolute or both be relative
+    */
+    "incremental": true,
+    /*
+    此设置允许您指定用于存储增量编译信息的文件作为复合项目的一部分，从而可以更快地构建更大的TypeScript代码库。您可以在手册中阅读有关复合项目的更多信息。
+    1、此选项提供了一种配置TypeScript跟踪其存储在磁盘上的文件以指示项目的构建状态的位置的方法——默认情况下，它们与您发出的JavaScript位于同一文件夹中。
+    2、当跟Vite以及vite-plugin-checker一起使用时，该选项不要设置！当出现类型错误什么的通不过校验时，会很神奇的报错而且还终止编译！且报这种鬼错误提示：
+    Debug.assert(getRootLength(fromDirectory) > 0 === getRootLength(to) > 0, "Paths must either both be absolute or both be relative");
+    Error: Debug Failure. False expression: Paths must either both be absolute or both be relative
+    */
+    // "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
+    /*
+    不要截断错误消息。
+    */
+    "noErrorTruncation": true,
+    /*
+    是否在监视模式下保持过时的控制台输出，而不是每次发生更改时清除屏幕。true表示保留。
+    */
+    "preserveWatchOutput": true,
+    /*
+    使用颜色和上下文对错误和消息进行样式化，默认情况下启用 - 让您有机会从编译器获得不那么简洁、单一颜色的消息，默认值为true。
+    */
+    "pretty": true,
+    /*
+    改用选项“skipLibCheck”，本选项算是弃用了。
+    */
+    // "skipDefaultLibCheck": true,
+    /*
+    跳过默认库声明文件的类型检查。
+    1、这可以在编译期间节省时间，但会牺牲类型系统的准确性。例如，两个库可以以不一致的方式定义相同类型的两个副本。
+    2、TypeScript不会对所有.d.ts文件进行全面检查，而是对您在应用程序源代码中特别引用的代码进行类型检查。
+    */
+    "skipLibCheck": true,
+    /*
+    启用此选项后，TypeScript将避免重新检查/重新生成所有真正可能受影响的文件，并且只重新检查/重新生成已更改的文件以及直接导入它们的文件。
+    1、这可以被认为是监视算法的“快速和松散”实现，它可以大大减少增量重建时间，但代价是必须偶尔运行完整的构建以获取所有编译器错误消息。
+    2、在“-incremental”和“-watch”中进行重新编译假定文件中的更改只会直接影响依赖于它的文件。需要TypeScript版本3.8或更高版本。
+    */
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    // 该选项属于CIL命令行中设置的，不该在配置文件中设置！
+    // "generateTrace": "./ts_compiled/",
+    "moduleSuffixes": [
+      "",
+    ],
+  },
+  /*
+  您可以配置TypeScript --watch的工作方式。本节主要用于处理fs.watch和fs.watchFile具有附加约束的情况，例如在Linux上。您可以在“Configuring Watch”中阅读更多内容。
+  */
+  // "watchOptions": {
+  /*
+  如何查看单个文件的策略。需要TypeScript版本3.8或更高版本。
+  1、有效值：
+  fixedPollingInterval：以固定的时间间隔每秒多次检查每个文件的更改。
+  priorityPollingInterval：每秒检查每个文件多次更改，但使用启发式方法检查某些类型的文件的频率低于其他文件。
+  dynamicPriorityPolling：使用动态队列，不经常检查修改频率较低的文件。
+  useFsEvents：默认，尝试使用操作系统/文件系统的本机事件进行文件更改。
+  useFsEventsOnParentDirectory：尝试使用操作系统/文件系统的本机事件来监听文件父目录的变化。
+  fixedChunkSizePolling：文档没提到这个选项的具体描述。
+  */
+  // "watchFile": "useFsEvents",
+  /*
+  在缺少递归文件监视功能的系统下如何监视整个目录树的策略。需要TypeScript版本3.8或更高版本。
+  1、有效值：
+  useFsEvents：默认，尝试使用操作系统/文件系统的本机事件进行目录更改。
+  fixedPollingInterval：以固定的时间间隔每秒多次检查每个目录的更改。
+  dynamicPriorityPolling：使用动态队列，不经常检查修改频率较低的目录。
+  fixedChunkSizePolling：文档没提到这个选项的具体描述。
+  */
+  // "watchDirectory": "useFsEvents",
+  /*
+  使用文件系统事件时，此选项指定当系统用完本机文件观察程序和/或不支持本机文件观察程序时使用的轮询策略。需要TypeScript版本3.8或更高版本。
+  1、有效值：
+  fixedPollingInterval：以固定的时间间隔每秒多次检查每个文件的更改。
+  priorityPollingInterval：每秒检查每个文件多次更改，但使用启发式方法检查某些类型的文件的频率低于其他文件。
+  dynamicPriorityPolling：使用动态队列，不经常检查修改频率较低的文件。
+  fixedChunkSize：文档没提到这个选项的具体描述。
+  */
+  // "fallbackPolling": "priorityPollingInterval",
+  /*
+  在本机不支持递归观察的平台上同步调用回调并更新目录观察者的状态。而不是给一个小的超时以允许对文件进行潜在的多次编辑。
+  */
+  // "synchronousWatchDirectory": true,
+  /*
+  您可以使用excludeDirectories来大幅减少--watch期间监视的文件数量。这可能是减少TypeScript在Linux上跟踪的打开文件数量的有用方法。
+  */
+  // "excludeDirectories": [
+  //   "**/node_modules",
+  //   "_build",
+  //   "temp/*"
+  // ],
+  /*
+  您可以使用excludeFiles从被监视的文件中删除一组特定文件。
+  */
+  // "excludeFiles": [
+  //   "temp/file.ts"
+  // ],
+  // },
+
+  /*
+  类型获取仅对JavaScript项目很重要。在TypeScript项目中，您需要在项目中明确包含类型。但是，对于JavaScript项目，TypeScript工具将在后台和node_modules文件夹之外为您的模块下载类型。
+  */
+  "typeAcquisition": {
+    /*
+    false表示提供用于在JavaScript项目中禁用类型获取的配置。
+    1、这可能会删除您项目的所有编辑器自动完成功能，如果您想找回它们，您可以使用类型搜索来查找@types包或其中包含类型的包。
+    */
+    "enable": true,
+    /*
+    如果你有一个JavaScript项目，其中TypeScript需要额外的指导来理解全局依赖关系，或者通过disableFilenameBasedTypeAcquisition禁用了内置推理。
+    1、指定要包含在自动类型获取中的类型声明列表。
+    2、你可以使用include来指定应该使用的类型：DefinitelyTyped："typeAcquisition": { "include": ["jquery"] }。
+    */
+    /*
+    "include": [
+      "jquery",
+      "lodash",
+    ],
+    */
+    /*
+    提供用于禁用JavaScript项目中某个模块的类型获取的配置。这对于在测试基础设施中包含主应用程序不需要的其他库的项目很有用。
+    1、"typeAcquisition": { "exclude": ["jest", "mocha"] }。
+    */
+    /*
+    "exclude": [
+      "jest",
+      "mocha",
+    ],
+    */
+    /*
+    TypeScript的类型获取可以根据项目中的文件名推断应该添加哪些类型。这意味着在您的项目中拥有像jquery.js这样的文件会自动从DefinitiveTyped下载JQuery的类型。
+    */
+    "disableFilenameBasedTypeAcquisition": false,
+  },
+}

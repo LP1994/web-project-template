@@ -1,0 +1,87 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/head_meta/Meta_icon_001.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-09-11 12:27:48 星期日
+-->
+<!--
+shortcut icon：特指浏览器中地址栏左侧显示的图标，一般大小为16x16，后缀名为.icon。
+.icon的MIME类型：image/vnd.microsoft.icon，亦可是出于兼容性原因而使用的“image/x-icon”（优先用这个）。然而最好使用IANA注册的MIME类型，因为多数主流浏览器现在支持它。
+图片链接最好是https://的。
+-->
+<% if(Array.isArray( shortcutIcons )){ %>
+    <% for( const {
+        type,
+        sizes,
+        href,
+        crossorigin = 'anonymous'
+    } of
+            shortcutIcons ){ %>
+        <link rel = 'shortcut icon'
+              type = '<%= type %>'
+              sizes = '<%= sizes %>'
+              href = '<%= href %>'
+              crossorigin = '<%= crossorigin %>' />
+    <% } %>
+<% } %>
+<!--
+icon：指的是图标，格式可为PNG、GIF、JPEG，尺寸一般为16x16、24x24、36x36等等。
+图片链接最好是https://的。
+-->
+<% if(Array.isArray( icons )){ %>
+    <% for( const {
+        type,
+        sizes,
+        href,
+        crossorigin = 'anonymous'
+    } of
+            icons ){ %>
+        <link rel = 'icon'
+              type = '<%= type %>'
+              sizes = '<%= sizes %>'
+              href = '<%= href %>'
+              crossorigin = '<%= crossorigin %>' />
+    <% } %>
+<% } %>
+<!--
+apple-touch-icon：增加高光光亮的图标。
+apple-touch-icon-precomposed：设计原图图标。
+图片链接最好是https://的。
+-->
+<% if(Array.isArray( appleTouchIcon )){ %>
+    <% for( const {
+        type,
+        sizes,
+        href,
+        crossorigin = 'anonymous'
+    } of
+            appleTouchIcon ){ %>
+        <link rel = 'apple-touch-icon'
+              type = '<%= type %>'
+              sizes = '<%= sizes %>'
+              href = '<%= href %>'
+              crossorigin = '<%= crossorigin %>' />
+    <% } %>
+<% } %>
+<!--
+apple-touch-icon：增加高光光亮的图标。
+apple-touch-icon-precomposed：设计原图图标。
+图片链接最好是https://的。
+-->
+<% if(Array.isArray( appleTouchIconPrecomposed )){ %>
+    <% for( const {
+        type,
+        sizes,
+        href,
+        crossorigin = 'anonymous'
+    } of
+            appleTouchIconPrecomposed ){ %>
+        <link rel = 'apple-touch-icon-precomposed'
+              type = '<%= type %>'
+              sizes = '<%= sizes %>'
+              href = '<%= href %>'
+              crossorigin = '<%= crossorigin %>' />
+    <% } %>
+<% } %>
