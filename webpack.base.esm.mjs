@@ -9681,7 +9681,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 一般来说，设置了该选项的，就表示其是一个远端模块使用者（也叫做：远端模块消费者之类的）。<br />
      */
     remotes: {
-      UploadForMultiple: 'UploadForMultiple@https://localhost:8101/Webpack5_MF2_RemoteEntry_UploadForMultiple.js',
+      UploadForMultiple: 'UploadForMultiple@https://localhost:8101/dev_server/Webpack5_MF2_RemoteEntry_UploadForMultiple.js',
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
