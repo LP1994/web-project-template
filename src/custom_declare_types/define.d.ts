@@ -48,6 +48,13 @@ declare const __VUE_OPTIONS_API__: boolean;
 declare const __VUE_PROD_DEVTOOLS__: boolean;
 
 /**
+ * 启用/禁用生产环境构建下激活(hydration)不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能，默认值false。仅在3.4+中可用。
+ *
+ * @type {boolean}
+ */
+declare const __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: boolean;
+
+/**
  * 代理http、https请求的写法例子，假定目标请求地址为：https://127.0.0.1:9200/graphql<br />
  * 注意：<br />
  * 在业务代码中使用时，记得在它后面加"/"，这里在定义时特意没加，以便在业务代码中使用时能有良好的编码语义理解。<br />
