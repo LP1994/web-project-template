@@ -3,12 +3,9 @@
 /.idea/
 
 /dist/
-/subsystems/vue3/upload-for-multiple/dist/
 /log/
-/subsystems/vue3/upload-for-multiple/log/
 
 /node_modules/
-/subsystems/vue3/upload-for-multiple/node_modules/
 /node_modules.7z
 /node_modules.zip
 /node_modules.rar
@@ -22,6 +19,4 @@
 
 /test/
 /ts_compiled/
-/subsystems/vue3/upload-for-multiple/ts_compiled/
 /webpack_records/
-/subsystems/vue3/upload-for-multiple/webpack_records/
