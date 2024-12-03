@@ -268,8 +268,8 @@ const devServerGlobalParameters = {
     };
 
     if( request ){
-      result[ 'Access-Control-Allow-Origin' ] = `${ request.protocol }://${ request.host }:${ request.socket.localPort }`;
-      result[ 'Vary' ] = 'Origin';
+      // result[ 'Access-Control-Allow-Origin' ] = `${ request.protocol }://${ request.host }:${ request.socket.localPort }`;
+      // result[ 'Vary' ] = 'Origin';
     }
 
     return result;
