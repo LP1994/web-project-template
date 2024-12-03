@@ -9665,23 +9665,24 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    */
   moduleFederationPluginConfig = {
     /**
-     * 模块联邦的模块名称，该名称必须是唯一的。必须。<br />
+     * 模块联邦的远端模块提供者名称，该名称必须是唯一的。必须。<br />
      * 1、模块联盟使用该名称进行运行时数据检索和全局块存储变量引用。<br />
+     * 2、表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
      */
-    name: 'Webpack5_MF2_Main',
+    // name: 'Remote_UploadForMultiple',
     /**
-     * 确定生成的remoteEntry的文件名。非必须。<br />
+     * 远端模块提供者生成的remoteEntry的文件名。非必须。<br />
      * 1、默认值：'remoteEntry.js'。<br />
      * 2、作为“output.path”目录内的相对路径。<br />
-     * 例如，可以设置为：'js/Webpack5_MF2_Main.js'，表示生成的JS文件路径会是：'${ output.path }/js/Webpack5_MF2_Main.js'。<br />
-     * 3、一般来说，设置了该选项的，就表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用其他的远端模块提供者提供的远端模块）。<br />
+     * 例如，可以设置为：'mf-js/RemoteEntry_UploadForMultiple.js'，表示生成的JS文件路径会是：'${ output.path }/mf-js/RemoteEntry_UploadForMultiple.js'。<br />
+     * 3、一般来说，设置了该选项的，就表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
      */
-    // filename: 'Webpack5_MF2_Main.js',
+    // filename: 'mf-js/RemoteEntry_UploadForMultiple.js',
     /**
      * 一般来说，设置了该选项的，就表示其是一个远端模块使用者（也叫做：远端模块消费者之类的）。<br />
      */
     remotes: {
-      UploadForMultiple: 'UploadForMultiple@https://localhost:8101/dev_server/Webpack5_MF2_RemoteEntry_UploadForMultiple.js',
+      RemoteUploadForMultiple: 'Remote_UploadForMultiple@https://localhost:8101/dev_server/mf-js/RemoteEntry_UploadForMultiple.js',
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
@@ -9694,7 +9695,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * }
      * </code>
      */
-    // exposes: {},
+    /*
+     exposes: {
+     './UploadForMultiple': './src/components/UploadForMultiple.Vue3.ts.vue',
+     },
+     */
     shared: {
       vue: {
         /**
@@ -9745,31 +9750,36 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // shareStrategy?: 'version-first'(默认) | 'loaded-first';
       },
     },
-    manifest: {
-      /**
-       * 作为“output.path”目录内的相对路径。一般不用设置，默认就直接输出在“output.path”下，跟“webpack_assets_manifest.json”同级目录。<br />
-       * 1、如果设置了，那请求路径形如：<br />
-       * https://localhost:8100/dev_server/mf2-json/Webpack5_MF2_Main-manifest.json
-       * https://localhost:8100/dev_server/mf2-json/Webpack5_MF2_Main-manifest-stats.json
-       */
-      // filePath: 'mf2-json',
-      /**
-       * 同时还会有一个名为：Webpack5_MF2_Main-manifest-stats.json的文件。<br />
-       * 1、如果设置了，那请求路径形如：<br />
-       * https://localhost:8100/dev_server/Webpack5_MF2_Main-manifest.json
-       * https://localhost:8100/dev_server/Webpack5_MF2_Main-manifest-stats.json
-       */
-      fileName: 'Webpack5_MF2_Main-manifest.json',
-      // additionalData( options ){},
-      /**
-       * 值类型为boolean，默认值为undefined，非必要！<br />
-       * 1、不建议设置此配置。设置后，预加载功能将被禁用！<br />
-       * 2、在复杂项目中分析资产可能需要很长时间。如果将此选项设置为true，资产分析将被禁用，从而优化构建时间。<br />
-       * 3、如果项目纯粹面向消费者，则在开发过程中默认设置为true。<br />
-       * 4、如果设置为"true"，清单中将不会出现shared和exposes字段，远程中也不会出现assets。<br />
-       */
-      // disableAssetsAnalyze: undefined,
-    },
+    /**
+     * 表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
+     */
+    /*
+     manifest: {
+     /!**
+     * 作为“output.path”目录内的相对路径。一般不用设置，默认就直接输出在“output.path”下，跟“webpack_assets_manifest.json”同级目录。<br />
+     * 1、如果设置了，那请求路径形如：<br />
+     * https://localhost:8101/dev_server/mf-json/Remote_UploadForMultiple-manifest.json
+     * https://localhost:8101/dev_server/mf-json/Remote_UploadForMultiple-manifest-stats.json
+     *!/
+     filePath: 'mf-json',
+     /!**
+     * 同时还会有一个名为：Remote_UploadForMultiple-manifest-stats.json的文件。<br />
+     * 1、如果设置了，那请求路径形如：<br />
+     * https://localhost:8101/dev_server/mf-json/Remote_UploadForMultiple-manifest.json
+     * https://localhost:8101/dev_server/mf-json/Remote_UploadForMultiple-manifest-stats.json
+     *!/
+     fileName: 'Remote_UploadForMultiple-manifest.json',
+     // additionalData( options ){},
+     /!**
+     * 值类型为boolean，默认值为undefined，非必要！<br />
+     * 1、不建议设置此配置。设置后，预加载功能将被禁用！<br />
+     * 2、在复杂项目中分析资产可能需要很长时间。如果将此选项设置为true，资产分析将被禁用，从而优化构建时间。<br />
+     * 3、如果项目纯粹面向消费者，则在开发过程中默认设置为true。<br />
+     * 4、如果设置为"true"，清单中将不会出现shared和exposes字段，远程中也不会出现assets。<br />
+     *!/
+     // disableAssetsAnalyze: undefined,
+     },
+     */
     experiments: {
       federationRuntime: 'hoisted',
     },
