@@ -945,26 +945,53 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
-          'axios',
-          'echarts',
-          'jquery',
-          'swiper',
+          'axios[\\\\/]',
+          'echarts[\\\\/]',
+          'jquery[\\\\/]',
+          'swiper[\\\\/]',
+          // 表示所有以“@vue”开头的包名，例如：@vue/reactivity、@vue/runtime-dom、@vue/shared等等。
+          '@vue',
+          // 表示所有以“vue”开头的包名，例如：vue、vue-router、vuex等等。
           'vue',
-          'vue-router',
-          'vuex',
-          'pinia',
-          'element-ui',
-          'element-plus',
+          'pinia[\\\\/]',
+          'element-ui[\\\\/]',
+          'element-plus[\\\\/]',
         ] ),
 
-        EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
-          name: 'EchartsJS',
-        },
+        VueFamilyJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'VueFamilyJS',
+          };
+        } )( [
+          // 表示所有以“@vue”开头的包名，例如：@vue/reactivity、@vue/runtime-dom、@vue/shared等等。
+          '@vue',
+          // 表示所有以“vue”开头的包名，例如：vue、vue-router、vuex等等。
+          'vue',
+          'pinia[\\\\/]',
+        ] ),
+
+        ElementUIJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'ElementUIJS',
+          };
+        } )( [
+          'element-ui',
+        ] ),
+
+        ElementPlusJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'ElementPlusJS',
+          };
+        } )( [
+          'element-plus',
+        ] ),
 
         Vendors001JS: ( arr => {
           return {
@@ -977,27 +1004,10 @@ const autoprefixerConfig = {
           'swiper',
         ] ),
 
-        VueFamilyJS: ( arr => {
-          return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
-            name: 'VueFamilyJS',
-          };
-        } )( [
-          'vue',
-          'vue-router',
-          'vuex',
-          'pinia',
-        ] ),
-
-        ElementUIJS: ( arr => {
-          return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
-            name: 'ElementUIJS',
-          };
-        } )( [
-          'element-ui',
-          'element-plus',
-        ] ),
+        EchartsJS: {
+          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
+          name: 'EchartsJS',
+        },
       };
 
       /**
@@ -1067,25 +1077,43 @@ const autoprefixerConfig = {
 
         VendorsJS: ( arr => {
           return {
-            test: new RegExp( `node_modules[\\\\/](?!${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
+            test: new RegExp( `node_modules[\\\\/](?!${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
             name: 'VendorsJS',
           };
         } )( [
-          'axios',
-          'echarts',
-          'jquery',
-          'swiper',
+          'axios[\\\\/]',
+          'echarts[\\\\/]',
+          'jquery[\\\\/]',
+          'swiper[\\\\/]',
+          // 表示所有以“@vue”开头的包名，例如：@vue/reactivity、@vue/runtime-dom、@vue/shared等等。
+          '@vue',
+          // 表示所有以“vue”开头的包名，例如：vue、vue-router、vuex等等。
           'vue',
-          'vue-router',
-          'vuex',
-          'pinia',
-          'element-ui',
-          'element-plus',
+          'pinia[\\\\/]',
+          'element-ui[\\\\/]',
+          'element-plus[\\\\/]',
         ] ),
 
-        EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
-          name: 'EchartsJS',
+        VueFamilyJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'VueFamilyJS',
+          };
+        } )( [
+          // 表示所有以“@vue”开头的包名，例如：@vue/reactivity、@vue/runtime-dom、@vue/shared等等。
+          '@vue',
+          // 表示所有以“vue”开头的包名，例如：vue、vue-router、vuex等等。
+          'vue',
+          'pinia[\\\\/]',
+        ] ),
+
+        ELEMENTJS: {
+          test: /node_modules[\\/]element-ui[\\/].*\.(js)$/i,
+          name: 'ELEMENTJS',
+        },
+        ElementPlusJS: {
+          test: /node_modules[\\/]element-plus[\\/].*\.(js)$/i,
+          name: 'ElementPlusJS',
         },
 
         AxiosJS: {
@@ -1101,43 +1129,9 @@ const autoprefixerConfig = {
           name: 'SwiperJS',
         },
 
-        /*
-         VueFamilyJS: ( arr => {
-         return {
-         test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
-         name: 'VueFamilyJS',
-         };
-         } )( [
-         'vue',
-         'vue-router',
-         'vuex',
-         'pinia',
-         ] ),
-         */
-        VueJS: {
-          test: /node_modules[\\/]vue[\\/].*\.(js)$/i,
-          name: 'VueJS',
-        },
-        VueRouterJS: {
-          test: /node_modules[\\/]vue-router[\\/].*\.(js)$/i,
-          name: 'VueRouterJS',
-        },
-        VuexJS: {
-          test: /node_modules[\\/]vuex[\\/].*\.(js)$/i,
-          name: 'VuexJS',
-        },
-        PiniaJS: {
-          test: /node_modules[\\/]pinia[\\/].*\.(js)$/i,
-          name: 'PiniaJS',
-        },
-
-        ELEMENTJS: {
-          test: /node_modules[\\/]element-ui[\\/].*\.(js)$/i,
-          name: 'ELEMENTJS',
-        },
-        ElementPlusJS: {
-          test: /node_modules[\\/]element-plus[\\/].*\.(js)$/i,
-          name: 'ElementPlusJS',
+        EchartsJS: {
+          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
+          name: 'EchartsJS',
         },
       };
 
