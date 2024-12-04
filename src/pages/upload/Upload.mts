@@ -45,6 +45,6 @@ UploadAPP.config.errorHandler = ( error: unknown, instance: T_ComponentPublicIns
  */
 const RootComponent: T_ComponentPublicInstance = UploadAPP.mount( '#UploadAPP' );
 
-console.log( `\n\n\n一个Vue 3的根组件实例：` );
+console.log( `\n\n\nVue3版本的“根组件”实例：` );
 console.dir( RootComponent );
 console.log( `\n\n\n` );

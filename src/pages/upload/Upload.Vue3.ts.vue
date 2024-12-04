@@ -331,7 +331,7 @@ const state: T_Reactive<T_State> = reactive<T_State>( {
 
 onMounted( (): void => {
   console.log( `\n\n
-DOM已挂载。
+Vue3版本的“文件上传组件”的DOM已挂载。
 \n\n` );
 } );
 </script>
