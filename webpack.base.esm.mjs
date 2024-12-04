@@ -3068,7 +3068,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    * @type {{maxChunks: number}}
    */
   limitChunkCountPluginConfig = {
-    maxChunks: 100,
+    // maxChunks: 100,
+    maxChunks: 1,
   },
   /**
    * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
@@ -3077,7 +3078,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    * @type {object}
    */
   minChunkSizePluginConfig = {
-    minChunkSize: 5 * 1024,
+    // minChunkSize: 5 * 1024,
+    minChunkSize: 1,
   },
   /**
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
@@ -10927,26 +10929,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     crossOriginLoading: 'anonymous',
     /**
      * 启用入口点使用的wasm装载类型列表。
+     * 该配置项有效值见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:78
      */
     enabledWasmLoadingTypes: [
       'fetch',
       'async-node',
-
-      // 从源码中可知，该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:95
-      'async-node-module',
-
-      /**
-       * 该值会报错！
-       * 报：
-       * Error: Unsupported wasm loading type fetch-streaming.
-       * Plugins which provide custom wasm loading types must call EnableWasmLoadingPlugin.setEnabled(compiler, type) to disable this error.
-       *
-       * 详细见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:74
-       */
-      // 'fetch-streaming',
-
-      // 从源码中可知，目前还没实现！该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:103
-      // 'universal',
+      'universal',
     ],
     /**
      * 告诉webpack在生成的运行时代码中可以使用哪种ES特性。<br />
@@ -11096,22 +11084,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     strictModuleErrorHandling: !isProduction,
     /**
-     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)、'fetch-streaming'（会报错）、'async-node-module'（从源码中可知）、'universal'（从源码中可知，目前还没实现！），但其他方法可能由插件添加。<br />
+     * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)、'universal'，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
      * Defaults to 'fetch' if target is set to 'web', 'webworker', 'electron-renderer' or 'node-webkit'.<br />
      * Defaults to 'async-node' if target is set to 'node', 'async-node', 'electron-main' or 'electron-preload'.<br />
-     *
-     * 2、“fetch-streaming”会报错：
-     * 报：
-     * Error: Unsupported wasm loading type fetch-streaming.
-     * Plugins which provide custom wasm loading types must call EnableWasmLoadingPlugin.setEnabled(compiler, type) to disable this error.
-     * 详细见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:74
-     *
-     * 3、从源码中可知，还有这个选项值：async-node-module
-     * 该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:95
-     *
-     * 4、从源码中可知，还有这个选项值：universal
-     * 目前还没实现！该值说明见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:103
      */
     wasmLoading: 'fetch',
     /**
