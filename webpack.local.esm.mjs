@@ -229,10 +229,19 @@ export default {
     new MiniCssExtractPlugin( miniCssExtractPluginConfig ),
 
     new webpack.DefinePlugin( definePluginConfig ),
+    /**
+     * 限制生成的代码块（chunk）数量。值类型为：number，无默认值。<br />
+     * 1、如果生成的chunk数量超过maxChunks设置的值，Webpack会尝试合并某些chunk以满足该数量限制。<br />
+     * 2、较大的值：如果你希望生成的chunk文件较多，可以设置一个较大的maxChunks。这会增加生成的文件数量，但会增加HTTP请求的数量。<br />
+     * 3、较小的值：如果你希望Webpack自动优化拆分文件数目（通过合并一些文件），可以设置较小的maxChunks值。尽量少的文件数量，会减少HTTP请求的数量。<br />
+     */
     new webpack.optimize.LimitChunkCountPlugin( limitChunkCountPluginConfig ),
     /**
-     * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
-     * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
+     * 确保拆分出的代码块达到一定的最小尺寸。单位是：字节。无默认值。例如：1 * 1024，就表示：1KB。<br />
+     * 1、确保拆分出来的每个chunk至少达到指定的最小大小。如果某个chunk的大小小于minChunkSize配置的值，Webpack会尝试将其合并到其他chunk中。<br />
+     * 2、较大的值：如果你希望避免生成过小的文件，可以设置较大的minChunkSize。这会迫使Webpack合并那些过小的chunk。<br />
+     * 3、较小的值：如果你希望拆分出更多的小文件（例如为了优化缓存策略或其他原因），可以设置较小的minChunkSize。<br />
+     * 4、注意，如果设置的值大于某个动态加载文件的大小，且其会用作“预取”，那么会导致其被合并到其他文件中，从而使“预取”不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
      */
     new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
