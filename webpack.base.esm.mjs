@@ -5849,7 +5849,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           // ?vue&type=style&index=1&module=exampleMCSS&lang=css&external
           resourceQuery,
           resourceFragment
-        ) => basename( resourcePath ).includes( '.module.' ) || /module/.test( resourceQuery ),
+        ) => basename( resourcePath ).includes( '.module.' ) || basename( resourcePath ).includes( '.modules.' ) || /module/.test( resourceQuery ),
         mode: (
           // G:\WebStormWS\web-project-template\src\pages\index\css_modules\example.module.css
           resourcePath,
@@ -6538,7 +6538,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
          */
         {
-          test: /\.module\.css$/i,
+          test: /\.(module|modules)\.css$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
@@ -6659,7 +6659,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.css$/i,
+                /\.(module|modules)\.css$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -6722,7 +6722,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.css$/i,
+                /\.(module|modules)\.css$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -7477,7 +7477,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
          */
         {
-          test: /\.module\.less$/i,
+          test: /\.(module|modules)\.less$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
@@ -7616,7 +7616,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.less$/i,
+                /\.(module|modules)\.less$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -7693,7 +7693,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.less$/i,
+                /\.(module|modules)\.less$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8183,7 +8183,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
          */
         {
-          test: /\.module\.(pcss|postcss)$/i,
+          test: /\.(module|modules)\.(pcss|postcss)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
@@ -8304,7 +8304,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.(pcss|postcss)$/i,
+                /\.(module|modules)\.(pcss|postcss)$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8367,7 +8367,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.(pcss|postcss)$/i,
+                /\.(module|modules)\.(pcss|postcss)$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8428,7 +8428,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
          */
         {
-          test: /\.module\.sass$/i,
+          test: /\.(module|modules)\.sass$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
@@ -8587,7 +8587,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.sass$/i,
+                /\.(module|modules)\.sass$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8674,7 +8674,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.sass$/i,
+                /\.(module|modules)\.sass$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8698,7 +8698,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
          */
         {
-          test: /\.module\.scss$/i,
+          test: /\.(module|modules)\.scss$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
@@ -8857,7 +8857,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.scss$/i,
+                /\.(module|modules)\.scss$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8944,7 +8944,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.scss$/i,
+                /\.(module|modules)\.scss$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -8968,7 +8968,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
          */
         {
-          test: /\.module\.(styl|stylus)$/i,
+          test: /\.(module|modules)\.(styl|stylus)$/i,
           // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
           use: [
             /**
@@ -9097,7 +9097,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.(styl|stylus)$/i,
+                /\.(module|modules)\.(styl|stylus)$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
@@ -9169,7 +9169,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 join( __dirname, './webpack_location/' ),
               ],
               exclude: [
-                /\.module\.(styl|stylus)$/i,
+                /\.(module|modules)\.(styl|stylus)$/i,
 
                 join( __dirname, './src/assets/' ),
                 join( __dirname, './src/custom_declare_types/' ),
