@@ -1,0 +1,64 @@
+splitChunks.layer 是 Webpack 中的一项配置，用于根据模块所属的 layer（图层） 来控制模块的拆分规则。Layer 是 Webpack 5 中引入的一个概念，通常用于将不同类型的代码（例如运行时代码、库代码或特定环境的代码）分组管理。
+
+作用
+通过指定 splitChunks.layer，可以限定某个缓存组仅对特定的 layer 应用拆分规则。这为模块拆分提供了更高的灵活性，使开发者能够更精细地控制不同类型模块的分组和优化。
+
+配置示例
+javascript
+复制代码
+module.exports = {
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/, // 匹配 node_modules 中的模块
+          name: 'vendors',
+          chunks: 'all',
+          layer: 'libraries', // 仅匹配 layer 为 "libraries" 的模块
+        },
+      },
+    },
+  },
+};
+在这个例子中：
+
+layer: 'libraries'：该规则只会作用于标记为 libraries 的模块层。
+配合 Layer 使用
+Layer 是通过在代码中声明模块所属层来实现的。可以通过 webpack.config.js 或其他方式为模块添加 layer。
+
+示例：为模块添加 Layer
+在 Webpack 配置中，使用 module.rules 来为模块设置层：
+
+javascript
+复制代码
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        resourceQuery: /layer=libraries/,
+        type: 'javascript/auto',
+        layer: 'libraries', // 将此规则应用的模块标记为 "libraries" 层
+      },
+    ],
+  },
+};
+示例：代码中指定 Layer
+在 JavaScript 文件中通过 import 声明 Layer：
+
+javascript
+复制代码
+import(/* webpackLayer: "libraries" */ './someLibrary');
+上述代码将 someLibrary 模块归类到 libraries 层。
+
+参数解释
+layer：指定缓存组只应用于特定的模块图层。其值为一个字符串，匹配特定层的名称。
+未指定时：如果没有设置 layer，缓存组的规则将应用于所有模块，而不区分图层。
+使用场景
+分离特定用途的代码：例如，将核心库代码与业务代码分离到不同的 layer 进行独立优化。
+优化模块管理：在复杂项目中，根据模块层次结构更清晰地管理代码。
+结合多种优化策略：可以与 splitChunks 的其他参数（如 test 和 chunks）配合使用，进一步提高优化效果。
+注意事项
+Webpack 版本要求：splitChunks.layer 是 Webpack 5 引入的功能，请确保使用的是 Webpack 5 及以上版本。
+配置优先级：如果 layer 和其他参数（如 test 或 chunks）冲突，Webpack 会根据具体的规则优先级来决定如何拆分模块。
+通过合理利用 splitChunks.layer，可以更加灵活地优化代码分割，提升项目的性能和可维护性。
