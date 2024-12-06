@@ -57,6 +57,19 @@
  * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。
  */
 
+/**
+ * 关于在“Webpack 5.97.1”中的模块类型（Module Type）
+ * 1、详细见：node_modules/webpack/lib/ModuleTypeConstants.js，都有：
+ * 'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、
+ * 'webassembly/async'、'webassembly/sync'、
+ * 'css'、'css/global'、'css/module'、'css/auto'、
+ * 'asset'、'asset/inline'、'asset/resource'、'asset/source'、'asset/raw-data-url'、
+ * 'runtime'、
+ * 'fallback-module'、'remote-module'、'provide-module'、'consume-shared-module'、
+ * 'lazy-compilation-proxy'
+ * 2、在插件“mini-css-extract-plugin”中，还有该插件特有的模块类型（Module Type）：'css/mini-extract'。
+ */
+
 'use strict';
 
 import {
