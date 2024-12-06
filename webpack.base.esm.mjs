@@ -808,37 +808,55 @@ const autoprefixerConfig = {
     /**
      * 这表明将选择对哪些块进行优化。<br />
      * 1、值类型：string（只有3个有效值：'all'、'async'、'initial'）、chunk => boolean，默认值：'all'。<br />
+     * <code>
+     * chunks( chunk ){
+     *     // exclude `my-excluded-chunk`，返回true就表示要优化、拆分这个块！
+     *     return chunk.name !== 'my-excluded-chunk';
+     * },
+     * </code>
      * 2、当提供值为'all'，可能特别强大，因为这意味着即使在异步和非异步块之间也可以共享块。<br />
      * 3、该选项也可以在splitChunks.fallbackCacheGroup中使用。<br />
+     * 4、如果使用的是“webpack 5.86.0”或更高版本的webpack，还可以传递正则表达式。<br />
+     * <code>
+     * chunks: /foo/,
+     * </code>
      */
     chunks: 'all',
     /**
-     * 按需加载（Async块）时的最大并行请求数。<br />
-     * 1、值类型：number，默认值：30。<br />
+     * 按需加载（Async块）时的最大并行请求数。值类型：number，默认值：30。<br />
+     * 1、当实际生成的数量大于这个选项设置的值的时候，会将多余的小块进行合并。<br />
      */
-    maxAsyncRequests: 100,
+    maxAsyncRequests: 50,
     /**
-     * 入口点的最大并行请求数。
-     * 1、值类型：number，默认值：30。<br />
+     * 入口点的最大并行请求数。值类型：number，默认值：30。<br />
+     * 1、它影响的是入口文件加载时的资源请求数量。<br />
+     * 2、如果生成的 chunk数量超过限制，Webpack会尝试合并较小的chunk。<br />
      */
-    maxInitialRequests: 100,
+    maxInitialRequests: 50,
     /**
      * 使用数字限制文件大小时，有哪些类型的文件可以受数字限制文件大小。<br />
      * 1、值类型：[string]，默认值：[ 'javascript', 'unknown', ]。<br />
      */
     defaultSizeTypes: [
-      // '...'值大概是表示扩展吧！
-      '...',
-      // 'css/mini-extract'值来自node_modules/mini-css-extract-plugin/types/utils.d.ts:37。
-      'css/mini-extract',
+      /**
+       * '...'值大概是表示扩展吧！
+       */
+      // '...',
       'javascript',
-      'css',
       'unknown',
-      'webassembly',
+      // 'css',
+      /**
+       * 'css/mini-extract'值来自node_modules/mini-css-extract-plugin/types/utils.d.ts:37。
+       */
+      // 'css/mini-extract',
+      // 'wasm',
+      // 'webassembly',
     ],
     /**
-     * 在拆分之前，模块必须在块之间共享的最少次数。<br />
+     * 控制一个模块至少需要被多少次引用，才会被拆分到公共chunk中。可以通过增加该值减少公共chunk的数量。<br />
      * 1、值类型：number，默认值：1。<br />
+     * 2、较大的值：如果希望只在模块“非常多的被共享使用”的情况下才提取它到公共chunk中，可以设置一个较大的minChunks值（例如：2、3）。这可以减少公共chunk的数量。<br />
+     * 3、较小的值：如果你希望更积极地拆分出公共模块，可以将minChunks设置得较小，比如：1。<br />
      */
     minChunks: 1,
     /**
@@ -847,71 +865,177 @@ const autoprefixerConfig = {
      */
     hidePathInfo: isProduction,
     /**
-     * 要生成新的拆分块的最小大小（以字节为单位）。<br />
+     * 要生成新的拆分块的最小大小（以字节为单位）。例如：1 * 1024，就表示：1KB。<br />
      * 1、值类型：number（默认值：20000）、{ [index: string]: number }。<br />
+     * <code>
+     * minSize: {
+     *   // '...': 1 * 1024,
+     *   javascript: 1 * 1024,
+     *   unknown: 1 * 1024,
+     *   // css: 1 * 1024,
+     *   // 'css/mini-extract': 1 * 1024,
+     *   // wasm: 1 * 1024,
+     *   // webassembly: 1 * 1024,
+     * },
+     * </code>
+     * 2、控制拆分出的代码块的最小尺寸。如果拆分出的代码块小于指定的minSize，Webpack将不会拆分该块。<br />
+     * 3、较大的值：如果你希望避免生成过多的小文件，或者你不希望拆分太小的代码块，可以设置较大的minSize。这会迫使Webpack合并一些小的模块，从而减少HTTP请求的数量，但可能会导致某些块过大。<br />
+     * 4、较小的值：如果你希望拆分更多的代码块（比如，拆分出更多的小模块，以减少单个模块的大小），可以设置较小的minSize，但要注意不要拆分得太小。<br />
      */
-    minSize: 800 * 1024,
+    minSize: 1 * 1024,
     /**
-     * 生成新的拆分块所需的主块（包）的最小大小减少（以字节为单位）。这意味着如果拆分成1个新的拆分块不会将主块（捆绑）的大小减少给定的字节数，那么即使它满足splitChunks.minSize值，它也不会被拆分。<br />
+     * 用于控制一个代码块在被拆分后，相较于原始大小需要缩小多少才能被认为是有益的并因此生成新的代码块。如果减少量小于这个值，则不会进行拆分。即使它满足splitChunks.minSize值，它也不会被拆分。<br />
      * 1、值类型：number（默认值：0）、{ [index: string]: number }。<br />
+     * <code>
+     * minSizeReduction: {
+     *   // '...': 0,
+     *   javascript: 0,
+     *   unknown: 0,
+     *   // css: 0,
+     *   // 'css/mini-extract': 0,
+     *   // wasm: 0,
+     *   // webassembly: 0,
+     * },
+     * </code>
      * 2、splitChunks.minSizeReduction和splitChunks.minSize都需要满足才能生成新的拆分块。<br />
      */
     minSizeReduction: 0,
     /**
-     * 设置1个强制拆分的大小阈值，超过这个阈值就强制拆分。其他限制（minRemainingSize、maxAsyncRequests、maxInitialRequests）的大小阈值都被忽略（以字节为单位）。<br />
-     * 1、值类型：number，默认值：50000。<br />
+     * 用于指定在进行代码分割时强制应用的大小阈值。当代码块的大小超过这个阈值时，即使它不符合splitChunks.minSize或其他限制（minRemainingSize、maxAsyncRequests、maxInitialRequests），Webpack也会强制将其分割，以字节为单位。<br />
+     * 1、值类型：number、{ [index: string]: number }，默认值：50000。<br />
+     * <code>
+     * enforceSizeThreshold: {
+     *   // '...': 1 * 1024 * 1024,
+     *   javascript: 1 * 1024 * 1024,
+     *   unknown: 1 * 1024 * 1024,
+     *   // css: 1 * 1024 * 1024,
+     *   // 'css/mini-extract': 1 * 1024 * 1024,
+     *   // wasm: 1 * 1024 * 1024,
+     *   // webassembly: 1 * 1024 * 1024,
+     * },
+     * </code>
      * 2、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.enforceSizeThreshold。<br />
      */
     enforceSizeThreshold: 1 * 1024 * 1024,
     /**
-     * 在webpack 5中引入了splitChunks.minRemainingSize选项，通过确保拆分后剩余的块的最小大小高于限制来避免零大小的模块。<br />
-     * 1、值类型：number，默认值：0。<br />
+     * 在webpack 5中引入了splitChunks.minRemainingSize选项，通过确保拆分后剩余的块的最小大小高于“该选项设置的值”来避免零大小的模块。<br />
+     * 1、值类型：number、{ [index: string]: number }，默认值：0。<br />
+     * <code>
+     * minRemainingSize: {
+     *   // '...': isProduction ? 1 * 1024 : 0,
+     *   javascript: isProduction ? 1 * 1024 : 0,
+     *   unknown: isProduction ? 1 * 1024 : 0,
+     *   // css: isProduction ? 1 * 1024 : 0,
+     *   // 'css/mini-extract': isProduction ? 1 * 1024 : 0,
+     *   // wasm: isProduction ? 1 * 1024 : 0,
+     *   // webassembly: isProduction ? 1 * 1024 : 0,
+     * },
+     * </code>
      * 2、在“开发”模式下默认为0。对于其他情况，splitChunks.minRemainingSize默认为splitChunks.minSize的值，因此除了需要深度控制的极少数情况外，不需要手动指定。<br />
      * 3、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.minRemainingSize。<br />
      * 4、splitChunks.minRemainingSize仅在剩余单个块时生效。<br />
      */
     minRemainingSize: isProduction
-                      ? 100 * 1024
+                      ? 1 * 1024
                       : 0,
     /**
      * 按模块层将模块分配给缓存组。<br />
      * 1、值类型：RegExp、string、function。<br />
      * 2、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.layer。<br />
+     * 3、具体的使用例子见：notes/webpack笔记/splitChunks.layer使用说明.txt
      */
-    // layer: null,其实我也不知道这个选项的默认值是什么。
+    // layer: null,
     /**
-     * 使用maxSize告诉webpack尝试将大于maxSize字节的块拆分为更小的部分。<br />
-     * 1、值类型：number，默认值：0。<br />
+     * 控制生成的每个代码块的最大尺寸。如果某个代码块的大小超过了maxSize设置的值，Webpack会尝试进一步拆分这个代码块，直到每个代码块的大小都小于maxSize。单位是字节。<br />
+     * 1、值类型：number、{ [index: string]: number }，默认值：0。<br />
+     * <code>
+     * maxSize: {
+     *   // '...': 1 * 1024 * 1024,
+     *   javascript: 1 * 1024 * 1024,
+     *   unknown: 1 * 1024 * 1024,
+     *   // css: 1 * 1024 * 1024,
+     *   // 'css/mini-extract': 1 * 1024 * 1024,
+     *   // wasm: 1 * 1024 * 1024,
+     *   // webassembly: 1 * 1024 * 1024,
+     * },
+     * </code>
      * 2、该选项也可用于每个缓存组optimization.splitChunks.cacheGroups[x].maxSize或后备缓存组optimization.splitChunks.fallbackCacheGroup.maxSize 。<br />
      * 3、零件的大小至少为minSize，该算法是确定性的，对模块的更改只会产生局部影响。<br />
      * 4、这样它在使用长期缓存时可用并且不需要记录。maxSize只是一个提示，当模块大于maxSize或拆分会违反minSize时可能会违反。<br />
      * 5、当块已经有名称时，每个部分都会从该名称中获得一个新名称。根据optimization.splitChunks.hidePathInfo的值，它将添加从第一个模块名称或它的哈希派生的键。<br />
      * 6、maxSize选项旨在与HTTP/2和长期缓存一起使用。它增加了请求计数以获得更好的缓存。它还可以用于减小文件大小以加快重建速度。<br />
-     * 7、maxSize的优先级高于maxInitialRequest/maxAsyncRequests。实际优先级是maxInitialRequest/maxAsyncRequests < maxSize < minSize。<br />
+     * 7、maxInitialRequest/maxAsyncRequests的优先级高于maxSize。实际优先级是：maxSize < maxInitialRequest/maxAsyncRequests < minSize。<br />
      * 8、设置maxSize的值会同时设置maxAsyncSize和maxInitialSize的值。<br />
+     * 9、较大的值：如果你希望生成较大的代码块（减少拆分的次数），可以设置一个较大的maxSize。但需要注意，生成的文件过大会影响浏览器缓存和加载性能。<br />
+     * 10、较小的值：如果你希望每个代码块都相对较小，可以设置一个较小的maxSize。但要平衡拆分的数量，避免生成过多的小文件。<br />
      */
     maxSize: 1 * 1024 * 1024,
     /**
      * maxAsyncSize和maxSize之间的区别在于maxAsyncSize只会影响按需加载块。<br />
-     * 1、值类型：number，默认值：0。<br />
+     * 1、值类型：number、{ [index: string]: number }，默认值：0。<br />
+     * <code>
+     * maxAsyncSize: {
+     *   // '...': 1 * 1024 * 1024,
+     *   javascript: 1 * 1024 * 1024,
+     *   unknown: 1 * 1024 * 1024,
+     *   // css: 1 * 1024 * 1024,
+     *   // 'css/mini-extract': 1 * 1024 * 1024,
+     *   // wasm: 1 * 1024 * 1024,
+     *   // webassembly: 1 * 1024 * 1024,
+     * },
+     * </code>
+     * 2、该选项也可以用于：splitChunks.cacheGroups.{cacheGroup}.maxAsyncSize、splitChunks.fallbackCacheGroup.maxAsyncSize。<br />
      */
     // maxAsyncSize: 1 * 1024 * 1024,
     /**
      * maxInitialSize和maxSize的区别在于maxInitialSize只会影响初始加载块。<br />
-     * 1、值类型：number，默认值：0。<br />
+     * 1、值类型：number、{ [index: string]: number }，默认值：0。<br />
+     * <code>
+     * maxInitialSize: {
+     *   // '...': 1 * 1024 * 1024,
+     *   javascript: 1 * 1024 * 1024,
+     *   unknown: 1 * 1024 * 1024,
+     *   // css: 1 * 1024 * 1024,
+     *   // 'css/mini-extract': 1 * 1024 * 1024,
+     *   // wasm: 1 * 1024 * 1024,
+     *   // webassembly: 1 * 1024 * 1024,
+     * },
+     * </code>
+     * 2、该选项也可以用于：splitChunks.cacheGroups.{cacheGroup}.maxInitialSize、splitChunks.fallbackCacheGroup.maxInitialSize。<br />
      */
     // maxInitialSize: 1 * 1024 * 1024,
     /**
      * 拆分块的名称。提供false将保持块的相同名称，因此它不会不必要地更改名称。这是生产构建的推荐值。<br />
      * 1、提供字符串或函数允许您使用自定义名称。指定一个字符串或一个总是返回相同字符串的函数会将所有常见的模块和供应商合并到一个块中。<br />
-     * 2、这可能会导致更大的初始下载并减慢页面加载速度。<br />
+     * 2、动态生成名称时，注意不要引入复杂的计算逻辑，否则可能增加打包时间。这可能会导致更大的初始下载并减慢页面加载速度。<br />
      * 3、如果您选择指定一个函数，您可能会发现chunk.name和chunk.hash属性（其中chunk是chunks数组的一个元素）在为您的块选择名称时特别有用。<br />
-     * 4、如果splitChunks.name与入口点名称匹配，则入口点将被删除。<br />
+     * 4、如果splitChunks.name与入口点名称相匹配，入口点chunk和缓存组将合并为一个chunk。<br />
+     * 5、该选项也可以用于splitChunks.cacheGroups.{cacheGroup}.name。<br />
+     * 6、警告，如果多个cacheGroups使用相同的name值，Webpack会将它们合并为一个代码块。但不建议这样做，因为这样会导致下载更多的代码。<br />
+     * 7、值类型：boolean（有效值只有false，表示不指定名称，Webpack会使用默认的命名规则。）、string、Function，<br />
+     * <code>
+     * commons: {
+     *   test: /[\\/]node_modules[\\/]/,
+     *   // 这里的cacheGroupKey是作为cacheGroup关键字的“commons”。
+     *   // module：当前正在处理的模块对象。chunks：使用该代码的所有代码块的数组。cacheGroupKey：当前缓存组的名称。
+     *   name(module, chunks, cacheGroupKey){
+     *     const moduleFileName = module.identifier().split('/').reduceRight((item) => item);
+     *
+     *     const allChunksNames = chunks.map((item) => item.name).join('~');
+     *
+     *     // 返回类似这样的文件名：commons-main-lodash.js.e7519d2bb8777058fa27.js
+     *     return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
+     *   },
+     *   chunks: 'all',
+     * }
+     * </code>
+     * 8、splitChunks.name仅影响拆分后的chunk名称，与主入口文件的命名规则（由output.filename控制）无关。<br />
      */
     // name: false,
     /**
      * 找出模块使用哪些导出来破坏导出名称，省略未使用的导出并生成更高效的代码。当它为true时：分析每个运行时使用的导出，当它是“global”时：全局分析所有运行时组合的导出。<br />
      * 1、值类型：boolean，默认值：true。<br />
+     * 2、该选项也可以用在：splitChunks.cacheGroups{cacheGroup}.usedExports。<br />
      */
     usedExports: true,
     /**
@@ -1136,19 +1260,29 @@ const autoprefixerConfig = {
       };
 
       Object.entries( SPACacheGroups ).forEach( ( item, i, ) => {
-        // 数值越高越先添加加载，自定义缓存组中该值默认值为0，默认缓存组该值为-20。
+        // 选项决定了哪些缓存组应该优先拆分，尤其在多个缓存组都匹配到同一个模块时，可以指定哪个缓存组更优先处理该模块。自定义缓存组中该值默认值为0，默认缓存组该值为-20。
         item[ 1 ].priority = 100000000 - i;
-        // 告诉webpack忽略splitChunks.minSize、splitChunks.minChunks、splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项，并始终为此缓存组创建块。
+        // 告诉webpack忽略splitChunks.minSize、splitChunks.minChunks、splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项，并始终为此缓存组创建块。并且使enforceSizeThreshold设置生效。
         item[ 1 ].enforce = true;
-        // 如果当前块包含已经从主包中分离出来的模块，它将被重用，而不是生成一个新的。这可能会影响块的结果文件名。
+        /**
+         * 1、如果设置为true，Webpack会尝试复用已经存在的chunk，而不是重新创建一个新的chunk。这样可以减少冗余的chunk文件，优化最终的输出。<br />
+         * 2、设置为false（默认值），Webpack会为每个匹配的模块生成一个新的chunk，而不是复用现有的chunk。<br />
+         *
+         * @type {boolean}
+         */
         item[ 1 ].reuseExistingChunk = true;
       } );
       Object.entries( MPACacheGroups ).forEach( ( item, i, ) => {
-        // 数值越高越先添加加载，自定义缓存组中该值默认值为0，默认缓存组该值为-20。
+        // 选项决定了哪些缓存组应该优先拆分，尤其在多个缓存组都匹配到同一个模块时，可以指定哪个缓存组更优先处理该模块。自定义缓存组中该值默认值为0，默认缓存组该值为-20。
         item[ 1 ].priority = 100000000 - i;
-        // 告诉webpack忽略splitChunks.minSize、splitChunks.minChunks、splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项，并始终为此缓存组创建块。
+        // 告诉webpack忽略splitChunks.minSize、splitChunks.minChunks、splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项，并始终为此缓存组创建块。并且使enforceSizeThreshold设置生效。
         item[ 1 ].enforce = true;
-        // 如果当前块包含已经从主包中分离出来的模块，它将被重用，而不是生成一个新的。这可能会影响块的结果文件名。
+        /**
+         * 1、如果设置为true，Webpack会尝试复用已经存在的chunk，而不是重新创建一个新的chunk。这样可以减少冗余的chunk文件，优化最终的输出。<br />
+         * 2、设置为false（默认值），Webpack会为每个匹配的模块生成一个新的chunk，而不是复用现有的chunk。<br />
+         *
+         * @type {boolean}
+         */
         item[ 1 ].reuseExistingChunk = true;
       } );
 
@@ -1616,13 +1750,13 @@ const aliasConfig = {
    * @type {{maxLength: number}}
    */
   deterministicChunkIdsPluginConfig = {
-    maxLength: 9,
+    maxLength: 12,
   },
   /**
    * @type {{maxLength: number}}
    */
   deterministicModuleIdsPluginConfig = {
-    maxLength: 9,
+    maxLength: 12,
   },
   /**
    * 这组选项由webpack-dev-server获取，可用于以各种方式更改其行为。<br />
@@ -3057,23 +3191,27 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     HTMLMinifyConfig,
   } ),
   /**
-   * 使用大于或等于1的值限制最大块数。使用1将阻止添加任何额外的块，因为条目、主块也包含在计数中。
+   * 限制生成的代码块（chunk）数量。值类型为：number，无默认值。<br />
+   * 1、如果生成的chunk数量超过maxChunks设置的值，Webpack会尝试合并某些chunk以满足该数量限制。<br />
+   * 2、较大的值：如果你希望生成的chunk文件较多，可以设置一个较大的maxChunks。这会增加生成的文件数量，但会增加HTTP请求的数量。<br />
+   * 3、较小的值：如果你希望Webpack自动优化拆分文件数目（通过合并一些文件），可以设置较小的maxChunks值。尽量少的文件数量，会减少HTTP请求的数量。<br />
    *
    * @type {{maxChunks: number}}
    */
   limitChunkCountPluginConfig = {
-    // maxChunks: 100,
-    maxChunks: 1,
+    maxChunks: 100,
   },
   /**
-   * 1、通过合并小于minChunkSize的块，将块大小保持在指定限制之上，单位是：字节。<br />
-   * 2、注意，如果设置的值大于某个动态加载文件的大小，且其会用作预取，那么会导致其被合并到其他文件中，从而使预取不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
+   * 确保拆分出的代码块达到一定的最小尺寸。单位是：字节。无默认值。例如：1 * 1024，就表示：1KB。<br />
+   * 1、确保拆分出来的每个chunk至少达到指定的最小大小。如果某个chunk的大小小于minChunkSize配置的值，Webpack会尝试将其合并到其他chunk中。<br />
+   * 2、较大的值：如果你希望避免生成过小的文件，可以设置较大的minChunkSize。这会迫使Webpack合并那些过小的chunk。<br />
+   * 3、较小的值：如果你希望拆分出更多的小文件（例如为了优化缓存策略或其他原因），可以设置较小的minChunkSize。<br />
+   * 4、注意，如果设置的值大于某个动态加载文件的大小，且其会用作“预取”，那么会导致其被合并到其他文件中，从而使“预取”不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
    *
-   * @type {object}
+   * @type {{minChunkSize: number}}
    */
   minChunkSizePluginConfig = {
-    // minChunkSize: 5 * 1024,
-    minChunkSize: 1,
+    minChunkSize: 1 * 1024,
   },
   /**
    * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
