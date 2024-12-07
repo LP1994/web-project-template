@@ -10004,7 +10004,78 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       federationRuntime: 'hoisted',
     },
-    dts: false,
+    /**
+     * 开发模式、生产模式都试了一下！发现没啥效果，只是纯粹的执行所设置的函数，没函数参数，返回值也没被使用！而且还是被立即执行函数包起来执行的！
+     * 倒是可以在里面编码修改一些webpack特有的局部变量之类的：
+     * <code>
+     *   // 直接写死修改webpack的配置“output.publicPath”的值。
+     *   __webpack_public_path__ = process.env.PUBLIC_PATH || 'https://localhost:8100/';
+     * </code>
+     * 1、值类型：string，必须以'function'开头。<br />
+     */
+    // getPublicPath: `function(){}`,
+    dev: {
+      disableLiveReload: false,
+      disableHotTypesReload: false,
+      disableDynamicRemoteTypeHints: false,
+    },
+    /**
+     * 使用场景：用于控制模块联盟生成/消耗类型行为。<br />
+     * 1、配置完成后，生产者会在构建过程中自动生成一个压缩类型文件“@mf-types.zip”（默认名称），消费者会自动提取远程的类型文件并解压为“@mf-types”（默认名称）。<br />
+     */
+    dts: {
+      tsConfigPath: join( __dirname, './tsconfig.webpack.json' ),
+      /**
+       * 用于控制模块联盟生成类型行为。<br />
+       * 1、该选项设置为true时，等同于如下配置：<br />
+       * <code>
+       *   {
+       *     generateAPITypes: true,
+       *     abortOnError: false,
+       *     extractThirdParty: true,
+       *     extractRemoteTypes: true,
+       *     compileInChildProcess: true,
+       *   }
+       * </code>
+       * 2、
+       */
+      generateTypes: {
+        extractRemoteTypes: true,
+        extractThirdParty: true,
+        generateAPITypes: true,
+        compileInChildProcess: true,
+        // 在类型生成过程中遇到问题时是否抛出错误，默认值为：false。
+        abortOnError: true,
+        // dts.generateTypes.tsConfigPath > dts.tsConfigPath
+        tsConfigPath: join( __dirname, './tsconfig.webpack.json' ),
+        // typesFolder: '@mf-types',
+        // deleteTypesFolder: false,
+        compilerInstance: 'tsc',
+        // compiledTypesFolder: '@mf-types',
+        // 附加文件到编译中。
+        // additionalFilesToCompile: string[]
+      },
+      /**
+       * 用于控制模块联邦消耗（加载）类型行为。<br />
+       * 1、该选项设置为true时，等同于如下配置：<br />
+       * <code>
+       *   {
+       *     abortOnError: false,
+       *     consumeAPITypes: true,
+       *   }
+       * </code>
+       */
+      consumeTypes: {
+        consumeAPITypes: true,
+        maxRetries: 3,
+        abortOnError: true,
+        // typesFolder: '@mf-types',
+        // deleteTypesFolder: false,
+        // remoteTypesFolder: '@mf-types',
+        // runtimePkgs?: string[],
+      },
+    },
+    shareStrategy: 'version-first',
   },
   /**
    * @type {object}
