@@ -9884,7 +9884,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * </code>
      */
     remotes: {
-      RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+      RemoteUpload: `Remote_Upload@${ process.env.RemoteUploadURL }RemoteEntry_Upload.js`,
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
