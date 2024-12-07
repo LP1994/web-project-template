@@ -9875,6 +9875,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     /**
      * 一般来说，设置了该选项的，就表示其是一个远端模块使用者（也叫做：远端模块消费者之类的）。<br />
      * 1、当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
+     * 2、在"@module-federation/enhanced v0.8.1"中，发现有效的能运行起来的就该选项的配置写法只能是如下这种：
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+     * }
+     * PS：(RemotesItem | RemotesObject)[]，这个类型的配置写法，都会报错！
+     * </code>
      */
     remotes: {
       RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
@@ -9890,9 +9897,24 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * </code>
      */
     /*
-     exposes: {
-     './UploadForMultiple': './src/components/UploadForMultiple.Vue3.ts.vue',
+     exposes: [
+     {
+     './UploadForSingle': {
+     import: [
+     './src/components/UploadForSingle.Vue3.ts.vue',
+     ],
+     // 外露模块的自定义块名称，可选。
+     // name: '',
      },
+     './UploadForMultiple': {
+     import: [
+     './src/components/UploadForMultiple.Vue3.ts.vue',
+     ],
+     // 外露模块的自定义块名称，可选。
+     // name: '',
+     },
+     },
+     ],
      */
     shared: {
       vue: {
