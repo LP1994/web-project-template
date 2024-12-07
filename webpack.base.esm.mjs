@@ -101,6 +101,11 @@ import chalk from 'chalk';
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
+import {
+  // 该函数的函数参数详细见：node_modules/dotenv/lib/main.d.ts:21
+  config as DotenvConfig,
+} from 'dotenv';
+
 import ESBuild from 'esbuild';
 
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
@@ -251,14 +256,56 @@ const __dirname = Get__dirname( import.meta.url ),
 
       throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
     }
-  } )( argv ),
-  /**
-   * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
-   * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
-   *
-   * @type {boolean}
-   */
-  isProduction = ( argv => {
+  } )( argv );
+
+switch( env_platform ){
+  case 'dev_server':
+    /**
+     * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
+     */
+    DotenvConfig( {
+      path: `./.env.dev`,
+    } );
+
+    break;
+  case 'local_server':
+    /**
+     * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
+     */
+    DotenvConfig( {
+      path: `./.env.local`,
+    } );
+
+    break;
+  case 'test':
+    /**
+     * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
+     */
+    DotenvConfig( {
+      path: `./.env.test`,
+    } );
+
+    break;
+  case 'production':
+    /**
+     * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
+     */
+    DotenvConfig( {
+      path: `./.env.production`,
+    } );
+
+    break;
+  default:
+    throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
+}
+
+/**
+ * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
+ * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
+ *
+ * @type {boolean}
+ */
+const isProduction = ( argv => {
     const num1 = argv.findIndex( c => c === '--mode' );
 
     if( num1 !== -1 ){
@@ -9808,6 +9855,136 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     };
   },
   /**
+   * @type {import('node_modules/@module-federation/sdk/dist/src/types/plugins/ModuleFederationPlugin.d.ts').ModuleFederationPluginOptions} ModuleFederationPluginOptions
+   */
+  moduleFederationPluginConfig = {
+    /**
+     * 模块联邦的模块名称，该名称必须是唯一的。必须。<br />
+     * 1、模块联邦使用该名称进行运行时数据检索和全局块存储变量引用。<br />
+     * 2、远端模块提供者、模块使用者都得设置该参数！<br />
+     */
+    name: 'MF2_Main',
+    /**
+     * 远端模块提供者生成的remoteEntry的文件名。非必须。<br />
+     * 1、默认值：'remoteEntry.js'。<br />
+     * 2、作为“output.path”目录内的相对路径。<br />
+     * 例如，可以设置为：'mf2/RemoteEntry_UploadForMultiple.js'，表示生成的JS文件路径会是：'${ output.path }/mf2/RemoteEntry_UploadForMultiple.js'。<br />
+     * 3、一般来说，设置了该选项的，就表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
+     */
+    // filename: 'RemoteEntry_UploadForMultiple.js',
+    /**
+     * 一般来说，设置了该选项的，就表示其是一个远端模块使用者（也叫做：远端模块消费者之类的）。<br />
+     * 1、当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
+     */
+    remotes: {
+      RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+    },
+    /**
+     * 远端模块提供者所要导出的各个模块。<br />
+     * 1、确保所有键名都以'./'开头的。<br />
+     * 例如：<br />
+     * <code>
+     * exposes: {
+     *   './button': './src/components/button.vue',
+     * }
+     * </code>
+     */
+    /*
+     exposes: {
+     './UploadForMultiple': './src/components/UploadForMultiple.Vue3.ts.vue',
+     },
+     */
+    shared: {
+      vue: {
+        /**
+         * 应提供给共享作用域的模块。如果在共享作用域中找不到共享模块或版本无效，也可作为后备模块。默认为属性名称。<br />
+         * 1、值类型为：false、string。<br />
+         */
+        import: 'vue',
+        /**
+         * 软件包名称，用于从描述文件中确定所需的版本。只有在无法从请求中自动确定软件包名称时才需要这样做。<br />
+         * 2、值类型：string。<br />
+         */
+        packageName: 'vue',
+        /**
+         * 所提供模块的版本。将替换较低的匹配版本，但不会替换更高的版本。默认情况下，webpack使用依赖项的package.json文件中的版本。<br />
+         * 1、值类型为：false、string。<br />
+         */
+        version: GetVersion4NPMPackageName2PackageJson( 'vue' ),
+        /**
+         * 此字段指定软件包所需的版本。值类型为：false、string。<br />
+         * 1、它接受语义版本控制，例如："^1.2.3"。<br />
+         * 2、此外，如果版本以URL形式提供，它会检索版本，例如："git+ssh://git@github.com:foo/bar.git#v1.0.0"。<br />
+         * 3、所需的版本，可以是一个版本范围。默认值是当前应用程序的依赖关系版本。<br />
+         * 4、当使用共享依赖关系时，它会检查依赖关系版本是否大于或等于requiredVersion。如果大于或等于，将正常使用。如果小于requiredVersion，控制台将发出警告，并将使用共享依赖项中可用的最小版本。<br />
+         * 5、当一方设置了requiredVersion，另一方设置了singleton时，将加载具有requiredVersion的依赖项，singleton方将直接使用具有requiredVersion的依赖项，而不管其版本如何。<br />
+         */
+        requiredVersion: GetVersion4NPMPackageName2PackageJson( 'vue' ),
+        /**
+         * 在共享范围内只允许共享模块的一个版本（默认已禁用）。值类型为：boolean。<br />
+         * 1、是否只允许在共享范围内使用一个版本的共享模块（单机模式）。如果设置为true，则启用单机模式；如果设置为false，则不启用单机模式。<br />
+         * 2、如果启用单机模式，远程应用程序组件和主机应用程序之间的共享依赖项将只加载一次，如果版本不一致，将加载更高的版本。<br />
+         * 3、如果未启用单机模式，且远程应用程序和主机应用程序之间的共享依赖项版本不同，则将分别加载各自的依赖项。<br />
+         * 4、某些库使用全局内部状态（如：react、react-dom）。如果共享作用域中的同一依赖关系有多个版本，则使用语义最高的版本。<br />
+         */
+        singleton: true,
+        /**
+         * 此提示允许webpack在版本无效时拒绝共享模块（当本地回退模块可用且共享模块不是单例时，默认为true；否则为false；如果没有指定所需的版本，则此提示无效）。如果找不到所需的版本，则会抛出运行时错误。<br />
+         * 1、值类型为：boolean。<br />
+         */
+        strictVersion: true,
+        /**
+         * 将eager设为true会将共享的依赖关系打包到入口文件中，这可能会导致入口文件较大。请谨慎使用。值类型：boolean。<br />
+         * 1、此提示将允许webpack直接包含所提供的模块和回退模块，而不是通过异步请求获取库。换句话说，这允许在初始块中使用该共享模块。此外，需要注意的是，启用此提示后，所有提供的模块和备用模块都会被下载。<br />
+         * 2、是否立即加载共享模块。在正常情况下，需要启用lazy entry，然后按需异步加载共享模块。如果想使用共享模块，但又不想启用lazy entry，可以将eager设为true。<br />
+         * 3、如果是启用了：experiments: { federationRuntime: 'hoisted', }，该选项就设置为false就行。<br />
+         */
+        eager: false,
+        // shareKey?: string;
+        // shareScope?: string;
+        // shareStrategy?: 'version-first'(默认) | 'loaded-first';
+      },
+    },
+    /**
+     * 表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
+     * 1、一般来说，远端模块提供者，不要设置该选项，毕竟上面已经配置了“filename选项”。<br />
+     */
+    /*
+     manifest: {
+     /!**
+     * 作为“output.path”目录内的相对路径。一般不用设置，默认就直接输出在“output.path”下，跟“webpack_assets_manifest.json”同级目录。<br />
+     * 1、如果设置了，那请求路径形如：<br />
+     * http://localhost:8101/mf2/RemoteEntry_UploadForMultiple-manifest.json
+     * http://localhost:8101/mf2/RemoteEntry_UploadForMultiple-manifest-stats.json
+     *!/
+     filePath: 'mf2',
+     /!**
+     * 同时还会有一个名为：RemoteEntry_UploadForMultiple-manifest-stats.json的文件，默认值：mf-manifest.json（同样还会有一个：mf-manifest-stats.json）。<br />
+     * 1、如果设置了，那请求路径形如：<br />
+     * http://localhost:8101/RemoteEntry_UploadForMultiple-manifest.json
+     * http://localhost:8101/RemoteEntry_UploadForMultiple-manifest-stats.json
+     *!/
+     fileName: 'RemoteEntry_UploadForMultiple-manifest.json',
+     // additionalData( options ){},
+     /!**
+     * 值类型为boolean，默认值为undefined，非必要！<br />
+     * 1、不建议设置此配置。设置后，预加载功能将被禁用！<br />
+     * 2、在复杂项目中分析资产可能需要很长时间。如果将此选项设置为true，资产分析将被禁用，从而优化构建时间。<br />
+     * 3、如果项目纯粹面向消费者，则在开发过程中默认设置为true。<br />
+     * 4、如果设置为"true"，清单中将不会出现shared和exposes字段，远程中也不会出现assets。<br />
+     *!/
+     // disableAssetsAnalyze: undefined,
+     },
+     */
+    experiments: {
+      /**
+       * 启用了该选项，入口文件就不用再用异步请求包装（如：import('./bootstrap.js')）了，上面的“eager选项”也不用设置为true了。
+       */
+      federationRuntime: 'hoisted',
+    },
+    dts: false,
+  },
+  /**
    * @type {object}
    */
   optimizationConfig = isProduction
@@ -11580,6 +11757,7 @@ export {
   miniCssExtractPluginConfig,
   nodeConfig,
   moduleConfig,
+  moduleFederationPluginConfig,
   optimizationConfig,
   outputConfig,
   performanceConfig,
@@ -11629,6 +11807,7 @@ export default {
   miniCssExtractPluginConfig,
   nodeConfig,
   moduleConfig,
+  moduleFederationPluginConfig,
   optimizationConfig,
   outputConfig,
   performanceConfig,

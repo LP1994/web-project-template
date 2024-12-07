@@ -35,6 +35,10 @@ import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
+import {
+  ModuleFederationPlugin,
+} from '@module-federation/enhanced/webpack';
+
 /**
  * 供插件“typedoc-webpack-plugin”使用的配置参数。<br />
  * 说明：<br />
@@ -94,6 +98,7 @@ import {
   minChunkSizePluginConfig,
   miniCssExtractPluginConfig,
   moduleConfig,
+  moduleFederationPluginConfig,
   nodeConfig,
   optimizationConfig,
   outputConfig,
@@ -253,6 +258,8 @@ export default {
              ? [ new DashboardPlugin(), ]
              : [];
     } )(),
+
+    new ModuleFederationPlugin( moduleFederationPluginConfig ),
 
     // 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
     ...htmlWebpackPluginConfig,
