@@ -253,6 +253,7 @@ switch( env_platform ){
     DotenvConfig( {
       path: `./.env.dev`,
     } );
+    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.dev”。\n` ) );
 
     break;
   case 'local_server':
@@ -262,6 +263,7 @@ switch( env_platform ){
     DotenvConfig( {
       path: `./.env.local`,
     } );
+    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.local”。\n` ) );
 
     break;
   case 'test':
@@ -271,6 +273,7 @@ switch( env_platform ){
     DotenvConfig( {
       path: `./.env.test`,
     } );
+    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.test”。\n` ) );
 
     break;
   case 'production':
@@ -280,6 +283,7 @@ switch( env_platform ){
     DotenvConfig( {
       path: `./.env.production`,
     } );
+    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.production”。\n` ) );
 
     break;
   default:
