@@ -16,7 +16,22 @@ import {
   createApp,
 } from 'vue';
 
+import {
+  MF_v2_RuntimeAPI_Init,
+} from 'MF_v2_RuntimeAPI';
+
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
+
+MF_v2_RuntimeAPI_Init( {
+  name: 'MF2_Main_Upload',
+  remotes: [
+    {
+      name: 'Remote_UploadForMultiple',
+      entry: `${ env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+      alias: 'RemoteUploadForMultiple',
+    },
+  ],
+} );
 
 /**
  * 创建了一个Vue 3的应用实例。

@@ -140,35 +140,8 @@ main {
         </button>
       </section>
     </article>
-    <article class = 'css-reset upload'>
-      <h3 class = 'css-reset'>FormData的单文件上传（uploadType=single）：</h3>
-      <section class = 'css-reset'>
-        <input
-          id = 'UploadForSingle'
-          class = 'css-reset'
-          type = 'file' />
-        <button
-          class = 'css-reset'
-          type = 'button'
-          @click.prevent = 'UploadForSingle'>上传
-        </button>
-      </section>
-    </article>
-    <article class = 'css-reset upload'>
-      <h3 class = 'css-reset'>FormData的多文件上传（uploadType=multiple）：</h3>
-      <section class = 'css-reset'>
-        <input
-          id = 'UploadForMultiple'
-          class = 'css-reset'
-          type = 'file'
-          multiple />
-        <button
-          class = 'css-reset'
-          type = 'button'
-          @click.prevent = 'UploadForMultiple'>上传
-        </button>
-      </section>
-    </article>
+    <RemoteUploadForSingleComponent />
+    <RemoteUploadForMultipleComponent />
   </main>
 </template>
 <script
@@ -188,9 +161,19 @@ import {
 import {
   type Reactive as T_Reactive,
 
+  defineAsyncComponent,
   reactive,
   onMounted,
 } from 'vue';
+
+import {
+  MF_v2_RuntimeAPI_LoadRemote,
+} from 'MF_v2_RuntimeAPI';
+
+// @ts-ignore
+const RemoteUploadForSingleComponent = defineAsyncComponent( () => import( 'RemoteUploadForSingle/UploadForSingle' ) );
+// @ts-ignore
+const RemoteUploadForMultipleComponent = defineAsyncComponent( () => MF_v2_RuntimeAPI_LoadRemote( 'RemoteUploadForMultiple/UploadForMultiple' ) );
 
 type T_State = {
   titleText: string;
@@ -222,89 +205,6 @@ async function UploadForBinary( event: Event ): Promise<void>{
         Accept: 'application/json',
         'content-type': GetFileMIME( file ),
         'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
-        ...httpRequestHeaders,
-      },
-      method: 'POST',
-      credentials: 'same-origin',
-      mode: 'same-origin',
-    } ).then(
-      async ( res: Response ): Promise<Response> => {
-        console.dir( await res.clone().json() );
-
-        return res;
-      },
-      ( reject: unknown ): void => {
-        console.error( reject );
-      },
-    ).catch( ( error: unknown ): void => {
-      console.error( error );
-    } );
-  }
-}
-
-// @ts-expect-error
-async function UploadForSingle( event: Event ): Promise<void>{
-  const uploadForSingle: HTMLInputElement = document.querySelector( '#UploadForSingle' ) as HTMLInputElement,
-    files: FileList = uploadForSingle.files as FileList;
-
-  if( files.length !== 0 ){
-    const file: File = files[ 0 ] as File;
-
-    console.dir( file );
-
-    const formData: FormData = new FormData();
-
-    formData.append( 'uploadType', 'single' );
-    formData.append( 'file', file, file.name );
-    formData.append( 'fileName', `${ file.name }` );
-
-    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false`, {
-      body: formData,
-      cache: 'no-cache',
-      headers: {
-        Accept: 'application/json',
-        'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
-        ...httpRequestHeaders,
-      },
-      method: 'POST',
-      credentials: 'same-origin',
-      mode: 'same-origin',
-    } ).then(
-      async ( res: Response ): Promise<Response> => {
-        console.dir( await res.clone().json() );
-
-        return res;
-      },
-      ( reject: unknown ): void => {
-        console.error( reject );
-      },
-    ).catch( ( error: unknown ): void => {
-      console.error( error );
-    } );
-  }
-}
-
-// @ts-expect-error
-function UploadForMultiple( event: Event ): void{
-  const uploadForMultiple: HTMLInputElement = document.querySelector( '#UploadForMultiple' ) as HTMLInputElement,
-    files: FileList = uploadForMultiple.files as FileList;
-
-  if( files.length !== 0 ){
-    console.dir( files );
-
-    const formData: FormData = new FormData();
-
-    formData.append( 'uploadType', 'multiple' );
-
-    Array.from( files ).forEach( ( file: File ): void => {
-      formData.append( 'files', file, file.name );
-    } );
-
-    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
-      body: formData,
-      cache: 'no-cache',
-      headers: {
-        Accept: 'application/json',
         ...httpRequestHeaders,
       },
       method: 'POST',
