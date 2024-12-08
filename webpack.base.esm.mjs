@@ -836,6 +836,7 @@ const autoprefixerConfig = {
     posix.resolve( __dirname, './ts_compiled/' ),
     posix.resolve( __dirname, './webpack_location/' ),
     posix.resolve( __dirname, './webpack_records/' ),
+    '**/@mf-types/**',
   ],
   /**
    * 默认情况下，它只影响按需块，因为更改初始块会影响HTML文件应包含以运行项目的脚本标记。<br />
