@@ -72,7 +72,7 @@ function ModuleFederation_v2_Config_Fun( {
      * 4、目前，“ModuleFederation v2”在插件模式下除了能通过“.env”文件来设置不同打包环境的URL值外，想要真正的根据实际业务开发需求进行动态设置“remotes”，那就只能使用“ModuleFederation v2”的运行时API了。<br />
      */
     remotes: {
-      RemoteUpload: `Remote_Upload@${ process.env.RemoteUploadURL }RemoteEntry_Upload.js`,
+      RemoteUploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />

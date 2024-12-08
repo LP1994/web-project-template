@@ -12,6 +12,13 @@
  */
 
 /**
+ * 值等同于“process.env”。
+ *
+ * @type {Record<string, any>}
+ */
+declare const env: Record<string, any>;
+
+/**
  * 值可为这4个中的任意一个：'dev_server'、'local_server'、'test'、'production'。
  *
  * @type {string}

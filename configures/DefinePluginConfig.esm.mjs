@@ -48,6 +48,7 @@ function DefinePluginConfig( {
   const wsHost001 = `( location.protocol === "http:" ? "ws:" : "wss:" ) + "//" + location.hostname + ":" + location.port + `;
 
   return {
+    env: JSON.stringify( process.env ),
     env_platform: JSON.stringify( env_platform ),
     isProduction: JSON.stringify( isProduction ),
     httpRequestHeaders: JSON.stringify( httpRequestHeaders ),
