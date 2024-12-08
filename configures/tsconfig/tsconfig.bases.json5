@@ -74,6 +74,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   //    "./src/**/*.test.*",
   //    "./subsystems/**/*.test.*",
   //    "./dist",
+  //    "**/node_modules/**",
   //    "./node_modules",
   //    "./bower_components",
   //    "./jspm_packages"

@@ -34,6 +34,7 @@
   "exclude": [
     "./.git",
     "./.idea",
+    "**/node_modules/**",
     "./node_modules",
     "./simulation_servers",
     "./simulation_servers/deno/node_modules",
