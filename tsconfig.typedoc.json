@@ -448,6 +448,9 @@
 
       "GSD2TSTD": [
         "./simulation_servers/deno/src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
+      ],
+      "MF_v2_RuntimeAPI": [
+        "./src/ModuleFederation_v2_RuntimeAPI.esm.mts"
       ]
     }
   }
