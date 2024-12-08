@@ -17,21 +17,28 @@ import {
 } from 'vue';
 
 import {
-  MF_v2_RuntimeAPI_Init,
+  MF_v2_RuntimeAPI_RegisterRemotes,
 } from 'MF_v2_RuntimeAPI';
 
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
-MF_v2_RuntimeAPI_Init( {
-  name: 'MF2_Main_Upload',
-  remotes: [
+MF_v2_RuntimeAPI_RegisterRemotes(
+  [
     {
       name: 'Remote_UploadForMultiple',
-      entry: `${ env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+      entry: `${ isProduction
+                 ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
+                 : env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
       alias: 'RemoteUploadForMultiple',
     },
   ],
-} );
+  /*
+   {
+   // true，表示此处的配置会强制覆盖掉在此之前的“name”相同的其他配置。
+   force: true,
+   }
+   */
+);
 
 /**
  * 创建了一个Vue 3的应用实例。
