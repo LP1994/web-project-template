@@ -19,6 +19,27 @@
  * @type {import('node_modules/@module-federation/runtime/dist/src/index.d.ts')}
  */
 
+/**
+ * 例子：registerRemotes
+ * <code>
+ * registerRemotes(
+ *   [
+ *     {
+ *       name: 'Remote_UploadForMultiple',
+ *       entry: `${ isProduction
+ *                  ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
+ *                  : env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+ *       alias: 'RemoteUploadForMultiple',
+ *     },
+ *   ],
+ *   // {
+ *   // true，表示此处的配置会强制覆盖掉在此之前的“name”相同的其他配置。
+ *   // force: true,
+ *   // }
+ * );
+ * </code>
+ */
+
 'use strict';
 
 import {
