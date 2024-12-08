@@ -68,6 +68,8 @@ function ModuleFederation_v2_Config_Fun( {
      * }
      * PS：(RemotesItem | RemotesObject)[]，这个类型的配置写法，都会报错！
      * </code>
+     * 3、注意！如果“@”之后的URL设置的格式不对，是会导致打包出的代码不含有期望的可以成功运行的代码！<br />
+     * 4、目前，“ModuleFederation v2”在插件模式下除了能通过“.env”文件来设置不同打包环境的URL值外，想要真正的根据实际业务开发需求进行动态设置“remotes”，那就只能使用“ModuleFederation v2”的运行时API了。<br />
      */
     remotes: {
       RemoteUpload: `Remote_Upload@${ process.env.RemoteUploadURL }RemoteEntry_Upload.js`,
