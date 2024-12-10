@@ -49,22 +49,22 @@ function ModuleFederation_v2_Config_Fun( {
      * 1、模块联邦使用该名称进行运行时数据检索和全局块存储变量引用。<br />
      * 2、远端模块提供者、模块使用者都得设置该参数！<br />
      */
-    name: 'MF2_Main',
+    name: 'MF_v2_Main',
     /**
      * 远端模块提供者生成的remoteEntry的文件名。非必须。<br />
      * 1、默认值：'remoteEntry.js'。<br />
      * 2、作为“output.path”目录内的相对路径。<br />
-     * 例如，可以设置为：'mf2/RemoteEntry_Upload.js'，表示生成的JS文件路径会是：'${ output.path }/mf2/RemoteEntry_Upload.js'。<br />
+     * 例如，可以设置为：'mf_v2/Remote_UploadForSingle.js'，表示生成的JS文件路径会是：'${ output.path }/mf_v2/Remote_UploadForSingle.js'。<br />
      * 3、一般来说，设置了该选项的，就表示其是一个远端模块提供者（也叫做：远端模块分享者之类的，当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
      */
-    // filename: 'RemoteEntry_Upload.js',
+    // filename: 'Remote_UploadForSingle.js',
     /**
      * 一般来说，设置了该选项的，就表示其是一个远端模块使用者（也叫做：远端模块消费者之类的）。<br />
      * 1、当然远端模块提供者也是可以使用（消费）其他的远端模块提供者提供的远端模块）。<br />
      * 2、在"@module-federation/enhanced v0.8.1"中，发现有效的能运行起来的就该选项的配置写法只能是如下这种：
      * <code>
      * remotes: {
-     *   RemoteUpload: `Remote_Upload@${ process.env.RemoteUploadURL }RemoteEntry_Upload.js`,
+     *   RemoteUploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
      * }
      * PS：(RemotesItem | RemotesObject)[]，这个类型的配置写法，都会报错！
      * </code>
@@ -164,17 +164,17 @@ function ModuleFederation_v2_Config_Fun( {
      /!**
      * 作为“output.path”目录内的相对路径。一般不用设置，默认就直接输出在“output.path”下，跟“webpack_assets_manifest.json”同级目录。<br />
      * 1、如果设置了，那请求路径形如：<br />
-     * http://localhost:8101/mf2/RemoteEntry_Upload-manifest.json
-     * http://localhost:8101/mf2/RemoteEntry_Upload-manifest-stats.json
+     * http://localhost:8101/mf_v2/Remote_UploadForSingle-manifest.json
+     * http://localhost:8101/mf_v2/Remote_UploadForSingle-manifest-stats.json
      *!/
-     filePath: 'mf2',
+     filePath: 'mf_v2',
      /!**
-     * 同时还会有一个名为：RemoteEntry_Upload-manifest-stats.json的文件，默认值：mf-manifest.json（同样还会有一个：mf-manifest-stats.json）。<br />
+     * 同时还会有一个名为：Remote_UploadForSingle-manifest-stats.json的文件，默认值：mf-manifest.json（同样还会有一个：mf-manifest-stats.json）。<br />
      * 1、如果设置了，那请求路径形如：<br />
-     * http://localhost:8101/RemoteEntry_Upload-manifest.json
-     * http://localhost:8101/RemoteEntry_Upload-manifest-stats.json
+     * http://localhost:8101/Remote_UploadForSingle-manifest.json
+     * http://localhost:8101/Remote_UploadForSingle-manifest-stats.json
      *!/
-     fileName: 'RemoteEntry_Upload-manifest.json',
+     fileName: 'Remote_UploadForSingle-manifest.json',
      // additionalData( options ){},
      /!**
      * 值类型为boolean，默认值为undefined，非必要！<br />
