@@ -20,7 +20,30 @@
  */
 
 /**
+ * 例子：init
+ * PS：当在运行时（不是插件配置）用“init”注册的远端模块提供者，可以同时使用“loadRemote”、“import()”来加载它们。
+ * <code>
+ * init( {
+ *   // 在运行时配置（不是插件配置）的“init”中的“name”可以跟插件配置里的“name”是可以一样的！
+ *   name: 'MF_v2_Main',
+ *   remotes: [
+ *     {
+ *       name: 'Remote_UploadForSingle',
+ *       entry: `${
+ *         isProduction
+ *         ? new URL( '../mf_v2/upload_for_single/', location.href ).href
+ *         : env.RemoteUploadForSingleURL
+ *       }RemoteEntry_UploadForSingle.js`,
+ *       alias: 'RemoteUploadForSingle',
+ *     },
+ *   ],
+ * } );
+ * </code>
+ */
+
+/**
  * 例子：registerRemotes
+ * PS：用“registerRemotes”注册的远端模块提供者，只能用“loadRemote”加载它们，否者会报错！
  * <code>
  * registerRemotes(
  *   [
@@ -53,6 +76,8 @@ import {
    * 详细见：https://module-federation.io/guide/basic/runtime.html#registerremotes
    * 1、注意！该API跟“init”的区别！该API也是可以多次调用的！而“init”是创建运行时实例，也可重复调用，但只能存在1个实例。如果要动态注册远端模块，请使用：registerRemotes。<br />
    * 2、当配置“force: true”时请务必谨慎！它将合并远程（包括已加载的远程），删除已加载的远程缓存，并使用console.warn警告此操作可能有风险。通俗点说：就是后设置的会覆盖前面设置的。<br />
+   * 3、用“registerRemotes”注册的远端模块提供者，只能用“loadRemote”加载它们，否者会报错！<br />
+   * 4、实际测试发现！不知为何！当使用“registerRemotes”并设置了“force: true”的远端模块提供者，来覆盖由插件或运行时“init”设置的远端模块提供者时，会出现，虽然加载了远端模块提供者的样式，其也正常的被加载了，但是，却不生效其样式，因为，对应的DOM上竟然没有对应的CSS作用域标识！<br />
    */
     registerRemotes as MF_v2_RuntimeAPI_RegisterRemotes,
   /**
@@ -60,7 +85,7 @@ import {
    * 详细见：https://module-federation.io/guide/basic/runtime.html#loadremote
    * 1、该函数的类型为：T_MF_v2_RuntimeAPI_LoadRemote。<br />
    * 2、与构建插件一起使用时，可通过本地import("remote_name/expose")语法直接加载，构建插件会自动将其转换为loadRemote("remote_name/expose")用法。<br />
-   * PS：实际测试！不知道为什么！并不会这样！要特别注意了！还是得使用“loadRemote”加载远端模块了。<br />
+   * PS：实际测试发现！当使用的是插件配置的远端模块提供者时，只能用“import()”加载它们。但是，当是用运行时的“init”注册的远端模块提供者时，可以同时使用“loadRemote”、“import()”来加载它们。<br />
    */
     loadRemote as MF_v2_RuntimeAPI_LoadRemote,
 
@@ -70,6 +95,8 @@ import {
    * 1、该函数的函数参数类型为：T_MF_v2_RuntimeAPI_UserOptions。该函数调用后返回值的类型为：T_MF_v2_RuntimeAPI_FederationHost。<br />
    * 2、注意！无论是“插件模式”还是“运行时”，都必须保证在整个项目中至少执行1次“初始化”！<br />
    * 3、如果已经是在webpack、Vite等等之类的构建工具中配置了其插件模式，而后还想在项目中动态注册远端模块，还是用“registerRemotes”更为合适的！<br />
+   * 4、在运行时配置（不是插件配置）的“init”中的“name”可以跟插件配置里的“name”是可以一样的！而后，可以用“loadRemote”加载远端模块提供者，也可以继续用“import()”加载远端模块提供者。<br />
+   * 5、换言之，在运行时（不是插件配置）用“init”注册的远端模块提供者，可以同时使用“loadRemote”、“import()”来加载它们。<br />
    */
     init as MF_v2_RuntimeAPI_Init,
 
@@ -107,6 +134,8 @@ export {
    * 详细见：https://module-federation.io/guide/basic/runtime.html#registerremotes
    * 1、注意！该API跟“init”的区别！该API也是可以多次调用的！而“init”是创建运行时实例，也可重复调用，但只能存在1个实例。如果要动态注册远端模块，请使用：registerRemotes。<br />
    * 2、当配置“force: true”时请务必谨慎！它将合并远程（包括已加载的远程），删除已加载的远程缓存，并使用console.warn警告此操作可能有风险。通俗点说：就是后设置的会覆盖前面设置的。<br />
+   * 3、用“registerRemotes”注册的远端模块提供者，只能用“loadRemote”加载它们，否者会报错！<br />
+   * 4、实际测试发现！不知为何！当使用“registerRemotes”并设置了“force: true”的远端模块提供者，来覆盖由插件或运行时“init”设置的远端模块提供者时，会出现，虽然加载了远端模块提供者的样式，其也正常的被加载了，但是，却不生效其样式，因为，对应的DOM上竟然没有对应的CSS作用域标识！<br />
    */
     MF_v2_RuntimeAPI_RegisterRemotes,
   /**
@@ -114,7 +143,7 @@ export {
    * 详细见：https://module-federation.io/guide/basic/runtime.html#loadremote
    * 1、该函数的类型为：T_MF_v2_RuntimeAPI_LoadRemote。<br />
    * 2、与构建插件一起使用时，可通过本地import("remote_name/expose")语法直接加载，构建插件会自动将其转换为loadRemote("remote_name/expose")用法。<br />
-   * PS：实际测试！不知道为什么！并不会这样！要特别注意了！还是得使用“loadRemote”加载远端模块了。<br />
+   * PS：实际测试发现！当使用的是插件配置的远端模块提供者时，只能用“import()”加载它们。但是，当是用运行时的“init”注册的远端模块提供者时，可以同时使用“loadRemote”、“import()”来加载它们。<br />
    */
     MF_v2_RuntimeAPI_LoadRemote,
 
@@ -124,6 +153,8 @@ export {
    * 1、该函数的函数参数类型为：T_MF_v2_RuntimeAPI_UserOptions。该函数调用后返回值的类型为：T_MF_v2_RuntimeAPI_FederationHost。<br />
    * 2、注意！无论是“插件模式”还是“运行时”，都必须保证在整个项目中至少执行1次“初始化”！<br />
    * 3、如果已经是在webpack、Vite等等之类的构建工具中配置了其插件模式，而后还想在项目中动态注册远端模块，还是用“registerRemotes”更为合适的！<br />
+   * 4、在运行时配置（不是插件配置）的“init”中的“name”可以跟插件配置里的“name”是可以一样的！而后，可以用“loadRemote”加载远端模块提供者，也可以继续用“import()”加载远端模块提供者。<br />
+   * 5、换言之，在运行时（不是插件配置）用“init”注册的远端模块提供者，可以同时使用“loadRemote”、“import()”来加载它们。<br />
    */
     MF_v2_RuntimeAPI_Init,
 
@@ -153,6 +184,8 @@ export default {
    * 详细见：https://module-federation.io/guide/basic/runtime.html#registerremotes
    * 1、注意！该API跟“init”的区别！该API也是可以多次调用的！而“init”是创建运行时实例，也可重复调用，但只能存在1个实例。如果要动态注册远端模块，请使用：registerRemotes。<br />
    * 2、当配置“force: true”时请务必谨慎！它将合并远程（包括已加载的远程），删除已加载的远程缓存，并使用console.warn警告此操作可能有风险。通俗点说：就是后设置的会覆盖前面设置的。<br />
+   * 3、用“registerRemotes”注册的远端模块提供者，只能用“loadRemote”加载它们，否者会报错！<br />
+   * 4、实际测试发现！不知为何！当使用“registerRemotes”并设置了“force: true”的远端模块提供者，来覆盖由插件或运行时“init”设置的远端模块提供者时，会出现，虽然加载了远端模块提供者的样式，其也正常的被加载了，但是，却不生效其样式，因为，对应的DOM上竟然没有对应的CSS作用域标识！<br />
    */
   MF_v2_RuntimeAPI_RegisterRemotes,
   /**
@@ -160,7 +193,7 @@ export default {
    * 详细见：https://module-federation.io/guide/basic/runtime.html#loadremote
    * 1、该函数的类型为：T_MF_v2_RuntimeAPI_LoadRemote。<br />
    * 2、与构建插件一起使用时，可通过本地import("remote_name/expose")语法直接加载，构建插件会自动将其转换为loadRemote("remote_name/expose")用法。<br />
-   * PS：实际测试！不知道为什么！并不会这样！要特别注意了！还是得使用“loadRemote”加载远端模块了。<br />
+   * PS：实际测试发现！当使用的是插件配置的远端模块提供者时，只能用“import()”加载它们。但是，当是用运行时的“init”注册的远端模块提供者时，可以同时使用“loadRemote”、“import()”来加载它们。<br />
    */
   MF_v2_RuntimeAPI_LoadRemote,
 
@@ -170,6 +203,8 @@ export default {
    * 1、该函数的函数参数类型为：T_MF_v2_RuntimeAPI_UserOptions。该函数调用后返回值的类型为：T_MF_v2_RuntimeAPI_FederationHost。<br />
    * 2、注意！无论是“插件模式”还是“运行时”，都必须保证在整个项目中至少执行1次“初始化”！<br />
    * 3、如果已经是在webpack、Vite等等之类的构建工具中配置了其插件模式，而后还想在项目中动态注册远端模块，还是用“registerRemotes”更为合适的！<br />
+   * 4、在运行时配置（不是插件配置）的“init”中的“name”可以跟插件配置里的“name”是可以一样的！而后，可以用“loadRemote”加载远端模块提供者，也可以继续用“import()”加载远端模块提供者。<br />
+   * 5、换言之，在运行时（不是插件配置）用“init”注册的远端模块提供者，可以同时使用“loadRemote”、“import()”来加载它们。<br />
    */
   MF_v2_RuntimeAPI_Init,
 

@@ -26,9 +26,11 @@ MF_v2_RuntimeAPI_RegisterRemotes(
   [
     {
       name: 'Remote_UploadForMultiple',
-      entry: `${ isProduction
-                 ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
-                 : env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+      entry: `${
+        isProduction
+        ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
+        : env.RemoteUploadForMultipleURL
+      }RemoteEntry_UploadForMultiple.js`,
       alias: 'RemoteUploadForMultiple',
     },
   ],
