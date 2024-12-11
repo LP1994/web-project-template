@@ -120,11 +120,22 @@ import {
     registerPlugins as MF_v2_RuntimeAPI_RegisterPlugins,
 } from '@module-federation/enhanced/runtime';
 
+import {
+  type DefineComponent as T_DefineComponent,
+} from 'vue';
+
+import {
+  type AsyncComponentLoader as T_AsyncComponentLoader,
+} from '@vue/runtime-core';
+
+type T_LoadRemoteVueComponent = Awaited<ReturnType<T_AsyncComponentLoader<T_DefineComponent<{}, {}, any>>>>;
+
 type T_MF_v2_RuntimeAPI_FederationHost = typeof MF_v2_RuntimeAPI_FederationHost;
 
 type T_MF_v2_RuntimeAPI_LoadRemote<T> = typeof MF_v2_RuntimeAPI_LoadRemote<T>;
 
 export {
+  type T_LoadRemoteVueComponent,
   type T_MF_v2_RuntimeAPI_UserOptions,
   type T_MF_v2_RuntimeAPI_FederationHost,
   type T_MF_v2_RuntimeAPI_LoadRemote,

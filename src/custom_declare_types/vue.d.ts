@@ -16,3 +16,13 @@ declare module '*.vue' {
 
   export default component;
 }
+
+declare module 'Remote_Vue_*' {
+  import {
+    type DefineComponent,
+  } from 'vue';
+
+  const component: DefineComponent<{}, {}, any>;
+
+  export default component;
+}

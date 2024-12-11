@@ -167,13 +167,14 @@ import {
 } from 'vue';
 
 import {
+  type T_LoadRemoteVueComponent,
+
   MF_v2_RuntimeAPI_LoadRemote,
 } from 'MF_v2_RuntimeAPI';
 
-// @ts-ignore
-const RemoteUploadForSingleComponent = defineAsyncComponent( () => import( 'RemoteUploadForSingle/UploadForSingle' ) );
-// @ts-ignore
-const RemoteUploadForMultipleComponent = defineAsyncComponent( () => MF_v2_RuntimeAPI_LoadRemote( 'RemoteUploadForMultiple/UploadForMultiple' ) );
+const RemoteUploadForSingleComponent = defineAsyncComponent( () => import( 'Remote_Vue_UploadForSingle/UploadForSingle' ) );
+
+const RemoteUploadForMultipleComponent = defineAsyncComponent( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'RemoteUploadForMultiple/UploadForMultiple' ) as Promise<T_LoadRemoteVueComponent> );
 
 type T_State = {
   titleText: string;
