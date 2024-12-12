@@ -9,6 +9,14 @@ CreateDate: 2024-1-1 00:00:00 星期一
 <style
   scoped
   lang = 'scss'>
+@font-face {
+  font-family: 'MyFont_Helvetica';
+  src: url(fontsDir/Helvetica.otf) format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+}
+
 .upload {
   box-sizing: border-box;
 
@@ -22,6 +30,7 @@ CreateDate: 2024-1-1 00:00:00 星期一
     width: 100%;
     height: auto;
 
+    font-family: 'MyFont_Helvetica', serif;
     color: blue;
 
     line-height: 1;
@@ -70,6 +79,7 @@ CreateDate: 2024-1-1 00:00:00 星期一
       width: 100px;
       height: 100%;
 
+      font-family: 'MyFont_Helvetica', serif;
       color: black;
       font-size: 20px;
 
@@ -82,9 +92,7 @@ CreateDate: 2024-1-1 00:00:00 星期一
 
       background-color: white;
     }
-
   }
-
 }
 </style>
 <template>
@@ -106,75 +114,58 @@ CreateDate: 2024-1-1 00:00:00 星期一
 </template>
 <script
   setup
-  type = 'module'>
+  type = 'module'
+  lang = 'ts'>
 'use strict';
 
 import {
   onMounted,
 } from 'vue';
 
-function UploadForMultiple( event ){
-  const uploadForMultiple = document.querySelector( '#UploadForMultiple' ),
-    files = uploadForMultiple.files;
+// @ts-expect-error
+function UploadForMultiple( event: Event ): void{
+  const uploadForMultiple: HTMLInputElement = document.querySelector( '#UploadForMultiple' ) as HTMLInputElement,
+    files: FileList = uploadForMultiple.files as FileList;
 
   if( files.length !== 0 ){
     console.dir( files );
 
-    const formData = new FormData();
+    const formData: FormData = new FormData();
 
     formData.append( 'uploadType', 'multiple' );
 
-    Array.from( files ).forEach( ( file ) => {
+    Array.from( files ).forEach( ( file: File ): void => {
       formData.append( 'files', file, file.name );
     } );
 
-    fetch( `https://localhost:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
+    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false`, {
       body: formData,
       cache: 'no-cache',
       headers: {
         Accept: 'application/json',
-        ...{
-          /**
-           * Cache-Control：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
-           */
-          'Cache-Control': 'no-cache',
-          /**
-           * Access-Control-Request-Headers：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers
-           * 1、浏览器在发出预检请求时使用Access-Control-Request-Headers请求标头，让服务器知道在发出实际请求时客户端可能发送哪些HTTP标头（例如使用setRequestHeader()）。
-           * 2、Access-Control-Allow-Headers的补充服务器端标头将回答此浏览器端标头。
-           * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
-           */
-          'Access-Control-Request-Headers': 'deno-custom-file-sri, Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control',
-          /**
-           * Access-Control-Request-Method：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Method
-           * 1、浏览器在发出预检请求时使用Access-Control-Request-Method请求标头，让服务器知道在发出实际请求时将使用哪种HTTP方法。
-           * 2、这个标头是必需的，因为预检请求始终是一个选项，并且不使用与实际请求相同的方法。
-           * 3、该标头系用于客户端发起的请求中的标头，而不是用于服务器的响应中的标头。
-           */
-          'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
-        },
+        ...httpRequestHeaders,
       },
       method: 'POST',
-      credentials: 'omit',
-      mode: 'cors',
+      credentials: 'same-origin',
+      mode: 'same-origin',
     } ).then(
-      async ( res ) => {
+      async ( res: Response ): Promise<Response> => {
         console.dir( await res.clone().json() );
 
         return res;
       },
-      ( reject ) => {
+      ( reject: unknown ): void => {
         console.error( reject );
       },
-    ).catch( ( error ) => {
+    ).catch( ( error: unknown ): void => {
       console.error( error );
     } );
   }
 }
 
-onMounted( () => {
+onMounted( (): void => {
   console.log( `\n\n
-模块提供者：Vue3版本的“UploadForMultiple”的DOM已挂载。
+远端模块提供者：Vue3版本的“UploadForMultiple”的DOM已挂载。
 \n\n` );
 } );
 </script>
