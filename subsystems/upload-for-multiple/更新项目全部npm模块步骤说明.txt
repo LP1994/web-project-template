@@ -1,0 +1,6 @@
+第1步：npm --force update
+第2步：ncu -u --color --timeout 1800000
+第3步：npm --force install -D
+
+PS：
+目前，因为写了一个全自动的脚本，所以只需要双击运行项目根目录下的“AutoUpdateLocalNPMPackages.bat”即可。

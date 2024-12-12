@@ -1,0 +1,99 @@
+该文件夹下用于存放的文件的内容都是：
+使用“graphql-codegen”工具自动地将“GraphQL”的全部定义“Schema Definition”一对一的转换成“TypeScript”的“Type Definition”，
+这样就不用再手动写符合“GraphQL Schema Definition”的“TypeScript Type Definition”。
+
+例如：
+// Message.type.graphql
+"消息内容。"
+input MessageInput {
+  "作者。"
+  author: String,
+  "内容。"
+  content: String,
+}
+
+type Message {
+  id: ID!,
+  author: String,
+  content: String,
+}
+
+type Query {
+  getMessage(id: ID!): Message,
+}
+
+type Mutation {
+  createMessage(input: MessageInput): Message,
+  updateMessage(id: ID!, input: MessageInput): Message,
+}
+
+一对一的转换成“TypeScript”的“Type Definition”：
+
+// GSD2TSTD.esm.mts
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+};
+
+export type Message = {
+  __typename?: "Message";
+  author?: Maybe<Scalars["String"]["output"]>;
+  content?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["ID"]["output"];
+};
+
+/** 消息内容。 */
+export type MessageInput = {
+  /** 作者。 */
+  author?: InputMaybe<Scalars["String"]["input"]>;
+  /** 内容。 */
+  content?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type Mutation = {
+  __typename?: "Mutation";
+  createMessage?: Maybe<Message>;
+  updateMessage?: Maybe<Message>;
+};
+
+export type MutationCreateMessageArgs = {
+  input?: InputMaybe<MessageInput>;
+};
+
+export type MutationUpdateMessageArgs = {
+  id: Scalars["ID"]["input"];
+  input?: InputMaybe<MessageInput>;
+};
+
+export type Query = {
+  __typename?: "Query";
+  getMessage?: Maybe<Message>;
+};
+
+export type QueryGetMessageArgs = {
+  id: Scalars["ID"]["input"];
+};

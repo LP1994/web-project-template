@@ -1,0 +1,29 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/head_meta/Meta_Facebook_001.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-10-03 16:39:14 星期一
+-->
+<% if(facebook !== null && facebook !== undefined){ %>
+    <!--
+    使用Facebook的分析工具，必须提供唯一的ID号码关联你的账户，分析要用的网站应用的Facebook应用编号。
+    值如：87741124305。
+    -->
+    <% if(facebook.appID !== null && facebook.appID !== undefined){ %>
+        <meta property = 'fb:app_id'
+              content = '<%= facebook.appID %>' />
+    <% } %>
+
+    <!--值如：100001422224225-->
+    <% if(facebook.admins !== null && facebook.admins !== undefined){ %>
+        <meta property = 'fb:admins'
+              content = '<%= facebook.admins %>' />
+    <% } %>
+    <!--值如：241333394220-->
+    <% if(facebook.pageID !== null && facebook.pageID !== undefined){ %>
+        <meta property = 'fb:page_id'
+              content = '<%= facebook.pageID %>' />
+    <% } %>
+<% } %>

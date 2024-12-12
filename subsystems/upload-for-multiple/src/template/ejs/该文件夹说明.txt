@@ -1,0 +1,15 @@
+该文件夹下都是.ejs模板文件。
+src/template/ejs/head_meta文件夹下都是HTML文件中<head>标签中公共<meta>标签、<link>标签的提取归纳的.ejs模板文件。
+
+PS：
+src/template/ejs/Index.ejs是个参考的模板，实际开发时只要先复制，然后改完文件名再修改里面的几个变量就能使用了。
+
+关于在.ejs文件中导入各类资源文件时的写法：
+例如：
+推荐优先使用这种，能获得良好的编译器代码提示：
+<img src = '<%= require( "imgDir/iPhone_2796_1290.png" ) %>' />
+
+这种也可以，但是不会有什么编译器代码提示：
+<img src = '${ require( "imgDir/iPhone_2796_1290.png" ) }' />
+
+这些资源文件的导入都会遵循webpack配置的各种loader处理，注意，文件夹的排除和包含规则！

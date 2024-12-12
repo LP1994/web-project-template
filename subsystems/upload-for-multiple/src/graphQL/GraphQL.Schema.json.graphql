@@ -1,0 +1,46 @@
+# This file was generated. Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+"返回的“消息”主体。"
+type Message {
+  "作者。"
+  author: String!
+  "内容。"
+  content: String!
+  "消息ID。"
+  id: String!
+}
+
+type Mutation {
+  "新建一个“消息”。"
+  createMessage(input: MessageInput!): Message!
+  "根据消息ID更新对应的“消息”内容。"
+  updateMessage(id: String!, input: MessageInput!): Message!
+}
+
+type Query {
+  "根据消息ID返回对应的“消息”主体。"
+  getMessage(id: String!): Message!
+  "表示一个值类型是String的值。"
+  hello: String!
+  "服务器的时间，值类型是：String，被JSON.stringify处理过的，可以通过JSON.parse将该值转成Object。"
+  serverDate: String!
+}
+
+type Subscription {
+  "返回5种颜色。"
+  greetings: String
+}
+
+"表示“消息内容”的输入参数类型。"
+input MessageInput {
+  "作者。"
+  author: String!
+  "内容。"
+  content: String!
+}

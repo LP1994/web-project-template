@@ -1,0 +1,1 @@
+该工具用于从node_modules文件夹中获取typescript包里面lib文件夹下的各个.d.ts文件来更新tsconfig配置中的compilerOptions选项的lib选项值。

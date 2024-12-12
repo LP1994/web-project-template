@@ -1,0 +1,121 @@
+<!--
+Project: web-project-template
+FileDirPath: src/template/ejs/head_meta/Meta_twitter_001.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-09-11 12:49:28 星期日
+-->
+<% if(twitter !== null && twitter !== undefined){ %>
+    <!--
+    twitter:type的值可能有（参照og:type的）：
+    website（https://ogp.me/ns/website#）：网站，如果它是一个没有特定垂直行业的一般网站，你可能更适合使用“website”类型。
+    article（https://ogp.me/ns/article#）：文章。
+    book（https://ogp.me/ns/book#）：书籍。
+    profile（https://ogp.me/ns/profile#）：个人。
+    music.song（https://ogp.me/ns/music#）：歌曲。
+    music.album（https://ogp.me/ns/music#）：歌曲专辑。
+    music.playlist（https://ogp.me/ns/music#）：歌曲播放列表。
+    music.radio_station（https://ogp.me/ns/music#）：广播电台。
+    video.movie（https://ogp.me/ns/video#）：电影。
+    video.episode（https://ogp.me/ns/video#）：插曲。
+    video.tv_show（https://ogp.me/ns/video#）：电视节目。
+    video.other（https://ogp.me/ns/video#）：其他类别的视频。
+
+    更多类型见：
+    https://developers.facebook.com/apps/redirect/open-graph/action-types
+    -->
+    <% if(twitter.type !== null && twitter.type !== undefined){ %>
+        <meta property = 'twitter:type'
+              content = '<%= twitter.type %>' />
+    <% } %>
+    <!--创作者-->
+    <% if(twitter.creator !== null && twitter.creator !== undefined){ %>
+        <meta property = 'twitter:creator'
+              content = '<%= twitter.creator %>' />
+    <% } %>
+    <!--twitter.site的值如：https://music.youtube.com-->
+    <% if(twitter.site !== null && twitter.site !== undefined){ %>
+        <meta property = 'twitter:site'
+              content = '<%= twitter.site %>' />
+    <% } %>
+    <!--twitter.url的值如：https://music.youtube.com-->
+    <% if(twitter.url !== null && twitter.url !== undefined){ %>
+        <meta property = 'twitter:url'
+              content = '<%= twitter.url %>' />
+    <% } %>
+    <% if(twitter.title !== null && twitter.title !== undefined){ %>
+        <meta property = 'twitter:title'
+              content = '<%= twitter.title %>' />
+    <% } %>
+    <% if(twitter.description !== null && twitter.description !== undefined){ %>
+        <meta property = 'twitter:description'
+              content = '<%= twitter.description %>' />
+    <% } %>
+    <!--twitter:card的值有：summary（概述）、summary_large_image（带大图的概述）、app（应用）、player（播放器）、photo（图片）、gallery（展览、陈列）、product（产品）。-->
+    <% if(twitter.card !== null && twitter.card !== undefined){ %>
+        <meta property = 'twitter:card'
+              content = '<%= twitter.card %>' />
+    <% } %>
+    <!--图片地址尽量提供https的安全地址。-->
+    <% if(twitter.image !== null && twitter.image !== undefined){ %>
+        <meta property = 'twitter:image'
+              content = '<%= twitter.image %>' />
+        <meta property = 'twitter:image:src'
+              content = '<%= twitter.image %>' />
+    <% } %>
+    <% if(twitter.iphone !== null && twitter.iphone !== undefined){ %>
+        <!--一般指该应用在苹果应用商城上的唯一应用ID，值如：1017492454-->
+        <% if(twitter.iphone.id !== null && twitter.iphone.id !== undefined){ %>
+            <meta property = 'twitter:app:id:iphone'
+                  content = '<%= twitter.iphone.id %>' />
+        <% } %>
+        <!--应用名-->
+        <% if(twitter.iphone.name !== null && twitter.iphone.name !== undefined){ %>
+            <meta property = 'twitter:app:name:iphone'
+                  content = '<%= twitter.iphone.name %>' />
+        <% } %>
+        <!--跳到对应的原生应用的协议地址，由原生端提供，值如：vnd.youtube.music://music.youtube.com/?feature=applinks-->
+        <% if(twitter.iphone.url !== null && twitter.iphone.url !== undefined){ %>
+            <meta property = 'twitter:app:url:iphone'
+                  class = 'meta-vendor-applink'
+                  content = '<%= twitter.iphone.url %>' />
+        <% } %>
+    <% } %>
+    <% if(twitter.ipad !== null && twitter.ipad !== undefined){ %>
+        <!--一般指该应用在苹果应用商城上的唯一应用ID，值如：1017492454-->
+        <% if(twitter.ipad.id !== null && twitter.ipad.id !== undefined){ %>
+            <meta property = 'twitter:app:id:ipad'
+                  content = '<%= twitter.ipad.id %>' />
+        <% } %>
+        <!--应用名-->
+        <% if(twitter.ipad.name !== null && twitter.ipad.name !== undefined){ %>
+            <meta property = 'twitter:app:name:ipad'
+                  content = '<%= twitter.ipad.name %>' />
+        <% } %>
+        <!--跳到对应的原生应用的协议地址，由原生端提供，值如：vnd.youtube.music://music.youtube.com/?feature=applinks-->
+        <% if(twitter.ipad.url !== null && twitter.ipad.url !== undefined){ %>
+            <meta property = 'twitter:app:url:ipad'
+                  class = 'meta-vendor-applink'
+                  content = '<%= twitter.ipad.url %>' />
+        <% } %>
+    <% } %>
+    <% if(twitter.googleplay !== null && twitter.googleplay !== undefined){ %>
+        <!--一般指该应用在谷歌应用商城上的唯一应用包名，值如：com.google.android.apps.youtube.music-->
+        <% if(twitter.googleplay.id !== null && twitter.googleplay.id !== undefined){ %>
+            <meta property = 'twitter:app:id:googleplay'
+                  content = '<%= twitter.googleplay.id %>' />
+        <% } %>
+        <!--应用名-->
+        <% if(twitter.googleplay.name !== null && twitter.googleplay.name !== undefined){ %>
+            <meta property = 'twitter:app:name:googleplay'
+                  content = '<%= twitter.googleplay.name %>' />
+        <% } %>
+        <!--跳到对应的原生应用的协议地址，由原生端提供，值如：vnd.youtube.music://music.youtube.com/?feature=applinks-->
+        <% if(twitter.googleplay.url !== null && twitter.googleplay.url !== undefined){ %>
+            <meta property = 'twitter:app:url:googleplay'
+                  class = 'meta-url'
+                  content = '<%= twitter.googleplay.url %>' />
+        <% } %>
+    <% } %>
+<% } %>

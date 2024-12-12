@@ -1,0 +1,4 @@
+该文件夹下是需要被JS等文件导入使用的.graphql、.graphqls、.gql，一般是前端自己写的。
+
+PS:
+1、所有的片段(fragment)文件必须是以“.fragment.graphql”、“.fragment.graphqls”、“.fragment.gql”为结尾的文件名命名的！

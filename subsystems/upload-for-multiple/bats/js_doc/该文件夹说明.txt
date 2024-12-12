@@ -1,0 +1,12 @@
+js_doc文件夹下都是用于生成JS文件对应的注释文档的bat命令，使用“jsdoc”，目前其只支持对“.js”后缀的文件生成文档。
+
+例如：
+cd ../../src/tools/js/currency_tools&rd /s /q doc&jsdoc -d doc CurrencyTools.esm.js&pause
+
+根据“tsc-tsconfig.json”配置文件将TS编译成JS：tsc --project ./tsc-tsconfig.json
+
+拷贝并重名命：copy UniversalTools.esm.mjs UniversalTools.esm.js
+
+静默地删除文件夹：rd /s /q doc
+
+使用“jsdoc”生成文档，文档都在文件夹“doc”下：jsdoc -d doc UniversalTools.esm.js

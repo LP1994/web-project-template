@@ -1,0 +1,4 @@
+wasm文件夹下都是将“src/wasm/source_codes”文件夹下的源码编译成.wasm文件的bat命令。
+
+例如：
+cd ../../src/wasm/source_codes/c++/math_tool&emsdk_env.bat&emcc MathTool.cpp -std=c++23 -Os -s WASM=1 -s SIDE_MODULE=1 -o ../../../build/c++/math_tool/MathTool.wasm&pause

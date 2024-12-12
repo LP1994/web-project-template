@@ -1,0 +1,16 @@
+type_doc文件夹下都是用于生成TS文件对应的注释文档的bat命令，使用“typedoc”，其支持对“.mts”、“.ts”、“.cts”、“.mjs”、“.js”、“.cjs”等等后缀名生成文档。
+
+1、关于“typedoc”的配置文件“typedoc.json”、“tsconfig.typedoc.json”、“README.md”的编写，
+可参照“src/tools/ts/universal_tools/type_doc”文件夹下的“typedoc.json”、“tsconfig.typedoc.json”、“README.md”，及其里面引用到的其他文件等等,
+详细参照说明还可以配合“src/tools/ts/universal_tools/type_doc”文件夹下的“该文件夹说明.txt”中的描述。
+2、配置文件中如果涉及路径，那么在参照使用时要注意修改这些路径，毕竟它们都是相对路径。
+3、“typedoc”的官方文档见：
+https://typedoc.org/schema.json
+https://typedoc.org/guides/options/
+https://typedoc.org/guides/overview/
+
+
+
+例如：
+cd ../../src/tools/ts/universal_tools/type_doc&typedoc --options typedoc.json&pause
+cd ../../src/tools/ts/universal_tools/type_doc&GenerateDocument.bat&pause

@@ -1,0 +1,35 @@
+{
+  "projects": {
+    "upload-for-multiple": {
+      "name": "upload-for-multiple",
+      "schema": [
+        "./src/graphQL/GraphQL.Schema.json"
+      ],
+      "include": [
+        "./src/**/*.{graphql,graphqls,gql}",
+        "./webpack_location/**/*.{graphql,graphqls,gql}"
+      ],
+      "exclude": [
+        "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
+        "./src/graphQL/GraphQL.Schema.json.graphql",
+        "./src/**/*.type.{graphql,graphqls,gql}"
+      ],
+      "extensions": {
+        "endpoints": {
+          "deno001:https://127.0.0.1:9200": {
+            "url": "https://127.0.0.1:9200/graphql",
+            "introspect": true,
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json; charset=utf-8",
+              "Cache-Control": "no-cache",
+              "Access-Control-Request-Headers": "Authorization, Accept, Content-Type, Content-Language, Accept-Language, Cache-Control",
+              "Access-Control-Request-Method": "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH",
+              "user-agent": "GraphQL plugin from WebStorm."
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+/*
+Project: web-project-template
+FileDirPath: configures/tsconfig/tsconfig.tsx.json5
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2022-01-01 00:00:00 星期六
+*/
+
+{
+  "display": "tsconfig.tsx.json5",
+  "_version": "1.0.0",
+  "_typescript_version": "5.7.2",
+  "_tsx_version": "4.19.2",
+  "_description": "这是给tsx使用的tsconfig.json。该配置扩展自tsconfig.json。",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "docs": "https://www.typescriptlang.org/tsconfig",
+  "_tsx_docs": "https://github.com/privatenumber/tsx",
+  "extends": "./tsconfig.bases.json5",
+  "compilerOptions": {
+    "target": "es2024",
+    "module": "NodeNext",
+    /*
+    指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
+    1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
+    2、允许的值有：classic、node、node16、nodenext、bundler（TypeScript 5.0新增的，见：https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#moduleresolution-bundler）。
+    3、选项值node用于Node.js的CommonJS实现。
+    4、选项值node16、nodenext从TypeScript 4.5开始，用于Node.js的ECMAScript模块支持。
+    5、选项值classic用于TypeScript 1.6之前的版本。您可能不需要在现代代码中使用“classic”值。
+    6、该选项值为“node”值时，决定了“resolveJsonModule”选项值为true时的有效设置并启用。
+    7、设置成“node”时，路径必须以“./”、“../”这样的相对路径打头，否则会报错，设置成“classic”就不会有这个问题。
+    8、如果未指定，则默认为Node for --module commonjs，否则为classic（包括将module设置为amd、system、umd、es2015、esnext等时）。
+    9、如果您在TypeScript中遇到导入和导出的解析问题，请尝试设置moduleResolution: "node" 以查看它是否解决了问题。
+    10、强烈建议设置成：node、node16、nodenext其中之一，并且尽可能以“相对路径”（./、../）或“设置路径别名”来作为导入路径中的打头开始。
+    11、优先设置成“node”，可以解决很多情况下的报错！
+    12、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
+    这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
+    例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
+    13、但是对于许多使用捆绑器等工具的开发者来说，node16、nodenext的设置是很麻烦的，因为捆绑器没有大部分的这些限制。
+    在某些方面，设置成“node”解析模式对任何使用捆绑器的人来说都是更好的。
+    但在某些方面，最初的“node”解析模式已经过时了。
+    大多数现代捆绑器在Node.js中使用了ECMAScript模块和CommonJS查询规则的融合。
+    例如，无扩展的导入和CommonJS中一样，可以正常工作，但是当翻看一个包的导出条件时，他们会像ECMAScript文件中一样，更喜欢导入条件。
+    14、为了模拟捆绑器的工作方式，TypeScript现在引入了一个新的策略：bundler，如果你正在使用现代捆绑器，如Vite、esbuild、swc、Webpack、Parcel和其他实施混合查找策略的捆绑器，新的捆绑器选项值“bundler”应该很适合你。
+    另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
+    所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
+    */
+    "moduleResolution": "NodeNext",
+  },
+}

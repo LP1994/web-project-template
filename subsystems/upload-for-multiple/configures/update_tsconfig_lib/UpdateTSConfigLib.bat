@@ -1,0 +1,1 @@
+node --experimental-import-meta-resolve --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation ./UpdateTSConfigLib.mjs&pause

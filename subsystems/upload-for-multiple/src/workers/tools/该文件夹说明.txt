@@ -1,0 +1,1 @@
+这里头存放着Web Worker、Shared Worker、Service Worker这三个类型worker会共同用到的工具类。
