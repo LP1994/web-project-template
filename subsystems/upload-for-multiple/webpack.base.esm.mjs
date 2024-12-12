@@ -1,10 +1,10 @@
 /**
- * Project: web-project-template
+ * Project: upload-for-multiple
  * FileDirPath: webpack.base.esm.mjs
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-01-01 00:00:00 星期六
+ * CreateDate: 2024-1-1 00:00:00 星期一
  */
 
 /**
@@ -1525,11 +1525,11 @@ if( !isProduction ){
  * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
  * 5、path.resolve和path.join的区别在于：<br />
  * 例如：<br />
- * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets
- * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets\
+ * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\upload-for-multiple\src\assets
+ * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\upload-for-multiple\src\assets\
  * 有或是没有最后的“\”在具体应用时很重要！不然容易出现不如你所愿的现象。<br />
- * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets）最尾部都不会包含“\”。<br />
- * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）最尾部就会包含“\”，反之不会。<br />
+ * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets）最尾部都不会包含“\”。<br />
+ * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets\）最尾部就会包含“\”，反之不会。<br />
  * 8、设置文件夹的路径别名时，建议使用path.resolve，这样在后续使用路径别名时，就可以按正常的习惯使用：import JSONDemo001 from 'jsonDir/Demo001.json';<br />
  *
  * @type {object}
@@ -5021,10 +5021,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                    * 一时半会儿也搞不懂到底是哪个插件导致原本可以，但是更新后就不行了：
                    * ERROR in ./src/pages/index/Index.mts
                    * Module build failed (from ./node_modules/babel-loader/lib/index.js):
-                   * TypeError: G:\WebStormWS\web-project-template\src\pages\index\Index.mts: Cannot read properties of undefined (reading 'getCode')
-                   *     at NodePath.getSource (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\path\introspection.js:137:27)
-                   *     at PluginPass.exit (G:\WebStormWS\web-project-template\node_modules\babel-plugin-minify-mangle-names\lib\index.js:543:45)
-                   *     at newFn (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\visitors.js:172:14)
+                   * TypeError: G:\WebStormWS\upload-for-multiple\src\pages\index\Index.mts: Cannot read properties of undefined (reading 'getCode')
+                   *     at NodePath.getSource (G:\WebStormWS\upload-for-multiple\node_modules\@babel\traverse\lib\path\introspection.js:137:27)
+                   *     at PluginPass.exit (G:\WebStormWS\upload-for-multiple\node_modules\babel-plugin-minify-mangle-names\lib\index.js:543:45)
+                   *     at newFn (G:\WebStormWS\upload-for-multiple\node_modules\@babel\traverse\lib\visitors.js:172:14)
                    */
                   /*
                    mangle: {
@@ -5855,7 +5855,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              *
              * @param {string} url 资源的url，值形如：../static/ico/favicon.ico、http://www.xxx.com/1.jpg、~imgDir/ico_48_48.png。<br />
              *
-             * @param {string} resourcePath css文件的路径，值形如：G:\WebStormWS\web-project-template\src\pages\index\Index.css。<br />
+             * @param {string} resourcePath css文件的路径，值形如：G:\WebStormWS\upload-for-multiple\src\pages\index\Index.css。<br />
              *
              * @returns {boolean} 函数里返回true表示处理，返回false就是不处理，其原样留在代码里。
              */
@@ -5884,14 +5884,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       },
       cssLoaderModules = {
         auto: (
-          // G:\WebStormWS\web-project-template\src\pages\index\css_modules\example.module.css
+          // G:\WebStormWS\upload-for-multiple\src\pages\index\css_modules\example.module.css
           resourcePath,
           // ?vue&type=style&index=1&module=exampleMCSS&lang=css&external
           resourceQuery,
           resourceFragment
         ) => basename( resourcePath ).includes( '.module.' ) || basename( resourcePath ).includes( '.modules.' ) || /module/.test( resourceQuery ),
         mode: (
-          // G:\WebStormWS\web-project-template\src\pages\index\css_modules\example.module.css
+          // G:\WebStormWS\upload-for-multiple\src\pages\index\css_modules\example.module.css
           resourcePath,
           // ?vue&type=style&index=1&module=exampleMCSS&lang=css&external
           resourceQuery,
@@ -6521,17 +6521,17 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        * 注意。<br />
        * 1、path.resolve和path.join的区别在于：<br />
        * 例如：<br />
-       * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets
-       * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets\
+       * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\upload-for-multiple\src\assets
+       * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\upload-for-multiple\src\assets\
        * 有或是没有最后的“\”在具体应用时很重要！不然容易出现不如你所愿的现象。<br />
-       * 2、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets）都不会包含“\”。<br />
-       * 3、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）就会包含“\”，反之不会。<br />
+       * 2、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets）都不会包含“\”。<br />
+       * 3、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets\）就会包含“\”，反之不会。<br />
        * 4、设置文件夹的路径别名时，建议使用path.resolve，这样在后续使用路径别名时，就可以按正常的习惯使用：import JSONDemo001 from 'jsonDir/Demo001.json';<br />
-       * 5、设置各个loader的include、exclude选项时，最好用path.join，因为webpack在处理exclude选项的值时，会用字符串的“startsWith”方法进行匹配，此时，最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）最尾部包不包含“\”会起到很大的区别。<br />
+       * 5、设置各个loader的include、exclude选项时，最好用path.join，因为webpack在处理exclude选项的值时，会用字符串的“startsWith”方法进行匹配，此时，最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets\）最尾部包不包含“\”会起到很大的区别。<br />
        * 6、webpack处理exclude选项的源代码在，node_modules/webpack/lib/rules/RuleSetCompiler.js:228：<br />
        * 源码：fn: str => typeof str === "string" && str.startsWith(condition)<br />
-       * str：G:\WebStormWS\web-project-template\src\assets\doc\json5\Demo001.json5<br />
-       * condition：G:\WebStormWS\web-project-template\src\assets\doc\json5\<br />
+       * str：G:\WebStormWS\upload-for-multiple\src\assets\doc\json5\Demo001.json5<br />
+       * condition：G:\WebStormWS\upload-for-multiple\src\assets\doc\json5\<br />
        */
       rules: [
         // 处理.cson文件。
@@ -9473,15 +9473,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  * 设置该选项后会报错！因为内部代码有BUG！
                  * 详细见：
                  * TypeError: Cannot read properties of undefined (reading 'name')
-                 *     at registerBinding (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4653:19)
-                 *     at walkObjectPattern (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4734:13)
-                 *     at walkDeclaration (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4698:21)
-                 *     at Object.compileScript (G:\WebStormWS\web-project-template\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4263:13)
-                 *     at resolveScript (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:283:31)
-                 *     at genScriptCode (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2469:18)
-                 *     at transformMain (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2282:54)
-                 *     at Object.transform (file:///G:/WebStormWS/web-project-template/node_modules/@vitejs/plugin-vue/dist/index.mjs:2785:16)
-                 *     at file:///G:/WebStormWS/web-project-template/node_modules/rollup/dist/es/shared/node-entry.js:24551:40
+                 *     at registerBinding (G:\WebStormWS\upload-for-multiple\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4653:19)
+                 *     at walkObjectPattern (G:\WebStormWS\upload-for-multiple\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4734:13)
+                 *     at walkDeclaration (G:\WebStormWS\upload-for-multiple\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4698:21)
+                 *     at Object.compileScript (G:\WebStormWS\upload-for-multiple\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:4263:13)
+                 *     at resolveScript (file:///G:/WebStormWS/upload-for-multiple/node_modules/@vitejs/plugin-vue/dist/index.mjs:283:31)
+                 *     at genScriptCode (file:///G:/WebStormWS/upload-for-multiple/node_modules/@vitejs/plugin-vue/dist/index.mjs:2469:18)
+                 *     at transformMain (file:///G:/WebStormWS/upload-for-multiple/node_modules/@vitejs/plugin-vue/dist/index.mjs:2282:54)
+                 *     at Object.transform (file:///G:/WebStormWS/upload-for-multiple/node_modules/@vitejs/plugin-vue/dist/index.mjs:2785:16)
+                 *     at file:///G:/WebStormWS/upload-for-multiple/node_modules/rollup/dist/es/shared/node-entry.js:24551:40
                  */
                 ...( isEnabled => {
                   return isEnabled

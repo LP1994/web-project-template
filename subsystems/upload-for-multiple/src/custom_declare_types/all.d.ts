@@ -7,12 +7,12 @@
 /// <reference types="./vue.d.ts" />
 
 /**
- * Project: web-project-template
+ * Project: upload-for-multiple
  * FileDirPath: src/custom_declare_types/all.d.ts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-01-01 00:00:00 星期六
+ * CreateDate: 2024-1-1 00:00:00 星期一
  */
 
 /**

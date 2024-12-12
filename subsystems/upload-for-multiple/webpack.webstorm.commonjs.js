@@ -1,10 +1,10 @@
 /**
- * Project: web-project-template
+ * Project: upload-for-multiple
  * FileDirPath: webpack.webstorm.commonjs.js
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-01-01 00:00:00 星期六
+ * CreateDate: 2024-1-1 00:00:00 星期一
  */
 
 /**
@@ -28,11 +28,11 @@ module.exports = {
      * 4、也可以指定完整路径：xxx: path.resolve(path.join(__dirname, 'src/module1'))。<br />
      * 5、path.resolve和path.join的区别在于：<br />
      * 例如：<br />
-     * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets
-     * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\web-project-template\src\assets\
+     * path.resolve( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\upload-for-multiple\src\assets
+     * path.join( __dirname, './src/assets/' )，最后解析成：G:\WebStormWS\upload-for-multiple\src\assets\
      * 有或是没有最后的“\”在具体应用时很重要！不然容易出现不如你所愿的现象。<br />
-     * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets）最尾部都不会包含“\”。<br />
-     * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\web-project-template\src\assets\）最尾部就会包含“\”，反之不会。<br />
+     * 6、当设置文件夹的路径别名时，用path.resolve设置时，其值包不包含最后的“/”都没关系，因为最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets）最尾部都不会包含“\”。<br />
+     * 7、当设置文件夹的路径别名时，用path.join设置时，其值如果包含最后的“/”，则最后生成的路径（如：G:\WebStormWS\upload-for-multiple\src\assets\）最尾部就会包含“\”，反之不会。<br />
      * 8、设置文件夹的路径别名时，建议使用path.resolve，这样在后续使用路径别名时，就可以按正常的习惯使用：import JSONDemo001 from 'jsonDir/Demo001.json';<br />
      */
     alias: {

@@ -1,10 +1,10 @@
 /**
- * Project: web-project-template
+ * Project: upload-for-multiple
  * FileDirPath: GraphqlCodegenConfig.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-01-01 00:00:00 星期六
+ * CreateDate: 2024-1-1 00:00:00 星期一
  */
 
 'use strict';
@@ -245,7 +245,7 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
 
           return `
 /**
- * Project: web-project-template
+ * Project: upload-for-multiple
  * FileDirPath: src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
