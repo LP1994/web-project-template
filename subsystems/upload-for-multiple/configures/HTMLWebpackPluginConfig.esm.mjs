@@ -83,7 +83,7 @@ const defaultData = {
     url: URLHead + '/pages/Index.html',
     name: 'Index',
     description: 'This is a page for Index.',
-    image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
+    image: URLHead + '/static/ico/uncompressed/ico_167_167.png',
   },
   appLinks: {
     web: {
@@ -94,7 +94,7 @@ const defaultData = {
       url: URLHead + '/pages/Index.html',
       title: 'Index',
       description: 'This is a page for Index.',
-      image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
+      image: URLHead + '/static/ico/uncompressed/ico_167_167.png',
     },
   },
   shortcutIcons: ShortcutIcons,
@@ -109,12 +109,12 @@ const defaultData = {
     description: 'This is a page for Index.',
     locale: 'zh_CN',
     image: {
-      url: URLHead + '/static/ico/uncompressed/ico_512_512.png',
-      secureURL: URLHead + '/static/ico/uncompressed/ico_512_512.png',
+      url: URLHead + '/static/ico/uncompressed/ico_167_167.png',
+      secureURL: URLHead + '/static/ico/uncompressed/ico_167_167.png',
       type: 'image/png',
-      width: '512',
-      height: '512',
-      alt: '网站图片_512x512.png',
+      width: '167',
+      height: '167',
+      alt: '网站图片_167x167.png',
     },
   },
   alternate: null,
@@ -126,7 +126,7 @@ const defaultData = {
     title: 'Index',
     description: 'This is a page for Index.',
     card: 'summary_large_image',
-    image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
+    image: URLHead + '/static/ico/uncompressed/ico_167_167.png',
   },
   facebook: null,
   publisherByGooglePlus: null,
@@ -142,7 +142,7 @@ const defaultData = {
   importByHTML: null,
   shortlink: null,
   search: null,
-  startupImgForApple: StartupImgForApple,
+  startupImgForApple: null,
   dynamicREM: true,
   webpackAssetsManifest: URLHead + '/webpack_assets_manifest.json',
   chii4RemoteLikeWeinreTool: {
@@ -242,65 +242,6 @@ function HTMLWebpackPluginConfig( {
                      : ExcludeChunks( 'Index' ),
       data: {
         ...defaultData,
-      },
-    },
-
-    {
-      title: 'Upload',
-      filename: 'pages/Upload.html',
-      template: './src/pages/upload/Upload.ejs',
-      excludeChunks: isSPA
-                     ? []
-                     : ExcludeChunks( 'Upload' ),
-      data: {
-        ...defaultData,
-        description: 'This is a page for Upload.',
-        appName: 'Upload',
-        itemprop: {
-          type: 'website',
-          url: URLHead + '/pages/Upload.html',
-          name: 'Upload',
-          description: 'This is a page for Upload.',
-          image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
-        },
-        appLinks: {
-          web: {
-            url: URLHead + '/pages/Upload.html',
-          },
-          share: {
-            type: 'website',
-            url: URLHead + '/pages/Upload.html',
-            title: 'Upload',
-            description: 'This is a page for Upload.',
-            image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
-          },
-        },
-        og: {
-          og: 'website',
-          title: 'Upload',
-          url: URLHead + '/pages/Upload.html',
-          siteName: 'Upload',
-          description: 'This is a page for Upload.',
-          locale: 'zh_CN',
-          image: {
-            url: URLHead + '/static/ico/uncompressed/ico_512_512.png',
-            secureURL: URLHead + '/static/ico/uncompressed/ico_512_512.png',
-            type: 'image/png',
-            width: '512',
-            height: '512',
-            alt: '网站图片_512x512.png',
-          },
-        },
-        twitter: {
-          type: 'website',
-          creator: '1227839175@qq.com',
-          site: URLHead + '/pages/Upload.html',
-          url: URLHead + '/pages/Upload.html',
-          title: 'Upload',
-          description: 'This is a page for Upload.',
-          card: 'summary_large_image',
-          image: URLHead + '/static/ico/uncompressed/ico_512_512.png',
-        },
       },
     },
   ];

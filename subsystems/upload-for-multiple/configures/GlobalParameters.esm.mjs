@@ -25,7 +25,7 @@ const localHost = 'localhost';
  * 1、在package.json中的scripts.Chii4RemoteLikeWeinre里头默认也是用8300的。<br />
  * 2、具体见：notes/其他笔记/远程调试工具chii的使用.txt。<br />
  */
-const Chii4RemoteLikeWeinreLocalPort = 8300,
+const Chii4RemoteLikeWeinreLocalPort = 8301,
   /**
    * 映射到公网的地址，一般是配合远端调试工具(chii)的远端调试需要，值类型只能是string。<br />
    * 1、null表示还没设置。<br />
@@ -53,7 +53,7 @@ const devServerGlobalParameters = {
        * 1、有效值类型有：string（有一个预设值'auto'，表示自动使用空闲端口）、number。<br />
        * 2、该选项值不能为null或空字符串，要自动使用空闲端口，请使用port: 'auto'。<br />
        */
-      port: 8100,
+      port: 8101,
       /**
        * 用于指定开发模式下，构建完成后，自动打开浏览器时，要打开的页面路径。注意，该选项值不是指一个标准网址！
        * 1、该选项值指的是页面路径，是相对于输出文件夹的。如：'pages/Index.html'，表示要打开的页面是存在于输出文件夹“dist/production”下的，有一个“pages”文件夹，其下有一个"Index.html"文件。
@@ -74,7 +74,7 @@ const devServerGlobalParameters = {
        * 1、有效值类型有：string（有一个预设值'auto'，表示自动使用空闲端口）、number。<br />
        * 2、该选项值不能为null或空字符串，要自动使用空闲端口，请使用port: 'auto'。<br />
        */
-      port: 8200,
+      port: 8201,
       /**
        * 用于指定开发模式下，构建完成后，自动打开浏览器时，要打开的页面路径。注意，该选项值不是指一个标准网址！
        * 1、该选项值指的是页面路径，是相对于输出文件夹的。如：'pages/Index.html'，表示要打开的页面是存在于输出文件夹“dist/production”下的，有一个“pages”文件夹，其下有一个"Index.html"文件。

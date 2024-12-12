@@ -168,13 +168,6 @@ const entryConfig = {
       './src/pages/index/Index.mts',
     ] ),
   },
-
-  Upload: {
-    import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
-      './src/pages/upload/Upload.css',
-      './src/pages/upload/Upload.mts',
-    ] ),
-  },
 };
 
 /**
