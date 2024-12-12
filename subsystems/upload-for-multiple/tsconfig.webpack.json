@@ -221,6 +221,9 @@
       "videosDir/*": [
         "./src/assets/videos/*"
       ],
+      "componentsDir/*": [
+        "./src/components/*"
+      ],
       "gQLAPIDir/*": [
         "./src/graphQL/api/*"
       ],

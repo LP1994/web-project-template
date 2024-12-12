@@ -1560,6 +1560,8 @@ const aliasConfig = {
     videosDir: resolve( __dirname, './src/assets/videos/' ),
     // assets文件夹 End
 
+    componentsDir: resolve( __dirname, './src/components/' ),
+
     gQLAPIDir: resolve( __dirname, './src/graphQL/api/' ),
 
     nativeComponentsDir: resolve( __dirname, './src/native_components/' ),
@@ -3459,7 +3461,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       join( __dirname, './notes/' ),
       join( __dirname, './read_me/' ),
       join( __dirname, './simulation_servers/' ),
-      join( __dirname, './subsystems/' ),
+      // join( __dirname, './subsystems/' ),
       join( __dirname, './test/' ),
       join( __dirname, './ts_compiled/' ),
       join( __dirname, './webpack_records/' ),

@@ -17,7 +17,7 @@ CreateDate: 2024-1-1 00:00:00 星期一
   font-size: 20px;
 }
 
-.upload {
+.upload-for-multiple.upload {
   box-sizing: border-box;
 
   width: 100%;
@@ -96,7 +96,7 @@ CreateDate: 2024-1-1 00:00:00 星期一
 }
 </style>
 <template>
-  <article class = 'css-reset upload'>
+  <article class = 'css-reset upload-for-multiple upload'>
     <h3 class = 'css-reset'>FormData的多文件上传（uploadType=multiple）：</h3>
     <section class = 'css-reset'>
       <input

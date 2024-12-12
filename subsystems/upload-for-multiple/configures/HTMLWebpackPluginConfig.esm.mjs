@@ -235,7 +235,7 @@ function HTMLWebpackPluginConfig( {
     {
       title: 'Index',
       filename: 'pages/Index.html',
-      template: './src/template/ejs/Index.ejs',
+      template: './src/pages/index/Index.ejs',
       excludeChunks: isSPA
                      ? []
         // 注意这里传入的字符串必须跟entry配置（EntryConfig.esm.mjs）中对应的入口项的key名一致。

@@ -61,6 +61,8 @@ module.exports = {
       'videosDir': path.resolve( __dirname, './src/assets/videos/' ),
       // assets文件夹 End
 
+      'componentsDir': path.resolve( __dirname, './src/components/' ),
+
       'gQLAPIDir': path.resolve( __dirname, './src/graphQL/api/' ),
 
       'nativeComponentsDir': path.resolve( __dirname, './src/native_components/' ),

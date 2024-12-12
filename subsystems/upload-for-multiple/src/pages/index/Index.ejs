@@ -1,0 +1,51 @@
+<!--
+Project: upload-for-multiple
+FileDirPath: src/pages/index/Index.ejs
+Author: 12278
+Email: 1227839175@qq.com
+IDE: WebStorm
+CreateDate: 2024-1-1 00:00:00 星期一
+-->
+<%
+const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
+        htmlWebpackPluginOptionsData = htmlWebpackPluginOptions.data;
+%>
+<!DOCTYPE html>
+<html class = 'css-reset full-screen overflow-hidden'
+      lang = '<%= htmlWebpackPluginOptionsData.lang ?? 'zh-CN' %>'
+<% if(htmlWebpackPluginOptionsData.prefix !== null && htmlWebpackPluginOptionsData.prefix !== undefined){ %>
+      prefix = '<%= htmlWebpackPluginOptionsData.prefix %>'
+        <% } %>
+>
+<head>
+    <%= require( 'ejsDir/head_meta/MainMeta001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/MetaHttpEquiv001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/MetaName001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <!--以上3个必须，且顺序有严格的要求：MainMeta001.ejs、MetaHttpEquiv001.ejs、MetaName001.ejs-->
+    <!--可选 Start-->
+    <%= require( 'ejsDir/tool/WebpackAssetsManifest.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_PreOperation_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_itemprop_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_og_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_Facebook_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_twitter_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_AppLinks_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_alternate_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Common001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/Meta_icon_001.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <%= require( 'ejsDir/head_meta/StartupImgForApple.ejs' )( htmlWebpackPluginOptionsData ) %>
+    <!--可选 End-->
+    <title><%= htmlWebpackPluginOptions.title ?? '' %></title>
+    <%= require( 'ejsDir/tool/DynamicREM.ejs' )( htmlWebpackPluginOptionsData ) %>
+</head>
+<body class = 'css-reset full-screen overflow-hidden'>
+<!--LocalScroll节点说明：局部滚动容器，用于避免全局滚动下出现的滚动穿透BUG！-->
+<div id = 'LocalScroll'
+     class = 'css-reset full-screen overflow-auto'>
+    <!--该节点说明：保证PC端下标准的最小尺寸(对于“pc-min”因为在相关样式中写好了媒体查询所以保持这样就行了)，在这个节点里写HTML。-->
+    <div class = 'css-reset pc-min overflow-hidden'
+         id = 'UploadAPP'></div>
+</div>
+<%= require( 'ejsDir/tool/Chii4RemoteLikeWeinreTool.ejs' )( htmlWebpackPluginOptionsData ) %>
+</body>
+</html>

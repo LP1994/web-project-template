@@ -71,11 +71,3 @@ only screen and (max-width: 1300px) and (max-device-pixel-ratio: 1.9) and (min-d
 .overflow-hidden-auto {
   overflow: hidden auto;
 }
-
-main {
-  font-family: 'MyFont_Helvetica', serif;
-  color: black;
-
-  line-height: 1;
-  text-align: center;
-}
