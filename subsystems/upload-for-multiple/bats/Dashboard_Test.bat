@@ -1,1 +1,0 @@
-cd ../&dashboard:test&pause

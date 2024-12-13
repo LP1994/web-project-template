@@ -1,1 +1,0 @@
-cd ../&dashboard:production&pause

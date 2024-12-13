@@ -1,1 +1,0 @@
-cd ../&dashboard:dev&pause

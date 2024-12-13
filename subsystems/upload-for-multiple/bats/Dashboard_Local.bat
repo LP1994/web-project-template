@@ -1,1 +1,0 @@
-cd ../&dashboard:local&pause
