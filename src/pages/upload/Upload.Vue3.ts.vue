@@ -4,114 +4,145 @@ FileDirPath: src/pages/upload/Upload.Vue3.ts.vue
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
-CreateDate: 2022-12-17 08:08:45 星期六
+CreateDate: 2024-12-27 22:30:00 星期五
 -->
 <style
   scoped
   lang = 'scss'>
-@font-face {
-  font-family: 'MyFont_Helvetica';
-  src: url(fontsDir/Helvetica.otf) format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-size: 20px;
-}
-
 main {
-
-  > .title {
-    width: 100%;
-    height: auto;
-
-    font-family: 'MyFont_Helvetica', serif;
-    color: green;
-
-    line-height: 1;
-    text-align: center;
-
-    margin-bottom: 20px;
-  }
-
-  > .upload {
+  > .bookmark-list-box {
     box-sizing: border-box;
 
-    width: 100%;
-    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
 
-    padding-left: 20px;
-    margin-bottom: 40px;
+    width: 300px;
+    height: 100%;
 
-    > h3 {
-      width: 100%;
-      height: auto;
+    padding: 20px 0;
 
-      font-family: 'MyFont_Helvetica', serif;
-      color: blue;
+    > .bookmark-item-box {
+      &:hover {
+        border: 5px solid blue;
+      }
 
-      line-height: 1;
-      text-align: left;
+      box-sizing: border-box;
 
-      margin-bottom: 20px;
-    }
-
-    > section {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
+      position: relative;
 
       width: 100%;
       height: 50px;
 
-      > input[type='file'] {
-        width: 200px;
+      background-color: white;
+
+      border: 1px solid darkgrey;
+
+      margin-bottom: 20px;
+
+      > .bookmark-item-index {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+
+        width: 50px;
         height: 100%;
       }
 
-      > input[type='file' i] {
-        display: inline-block !important;
-        height: 100% !important;
-        color: red;
+      > .bookmark-item-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 50px;
 
-        &::-webkit-file-upload-button {
-          display: inline-block !important;
-          width: 80px !important;
-          height: 100% !important;
-          color: green;
+        width: auto;
+        height: 100%;
+      }
+    }
+  }
 
-          padding: 0;
-          border: 1px solid palevioletred;
-          border-radius: 5px;
-          margin: 0 20px 0 0;
-          outline: none;
+  > .rules-box {
+    box-sizing: border-box;
 
-          background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 300px;
+
+    width: auto;
+    height: 100%;
+
+    padding: 20px 0;
+
+    > .add-rule {
+      width: 100%;
+      height: 40px;
+    }
+
+    > .rule-item-box {
+      &:hover {
+        border: 5px solid blue;
+      }
+
+      box-sizing: border-box;
+
+      position: relative;
+
+      width: 100%;
+      height: 150px;
+
+      background-color: white;
+
+      border: 1px solid darkgrey;
+
+      margin-bottom: 20px;
+
+      > .rule-item-index {
+        width: 100%;
+        height: 30%;
+      }
+
+      > .rule-item-name {
+        width: 100%;
+        height: 30%;
+
+        > label {
+          width: auto;
+          height: 100%;
+        }
+
+        > input {
+          width: auto;
+          height: 100%;
         }
       }
 
-      > button {
-        box-sizing: border-box;
+      > .rule-item-content {
+        width: 100%;
+        height: 40%;
 
-        width: 100px;
-        height: 100%;
+        > label {
+          width: auto;
+          height: 100%;
+        }
 
-        font-family: 'MyFont_Helvetica', serif;
-        color: black;
-        font-size: 20px;
-
-        line-height: 48px;
-        text-align: center;
-
-        border: 1px solid palevioletred;
-        border-radius: 10px;
-        margin-left: 40px;
-
-        background-color: white;
+        > textarea {
+          width: auto;
+          height: 100%;
+        }
       }
-
     }
-
   }
-
+}
+</style>
+<style
+  lang = 'scss'>
+.high-brightness {
+  border: 5px solid green !important;
 }
 </style>
 <template>
@@ -125,23 +156,62 @@ main {
   <!--*********弹窗、悬浮一类节点的书写区域 End*********-->
   <!--在main这个节点里写主体HTML。-->
   <main class = 'css-reset full-screen overflow-hidden-auto'>
-    <h1 class = 'css-reset title'>{{ state.titleText }}</h1>
-    <article class = 'css-reset upload'>
-      <h3 class = 'css-reset'>单个二进制文件流上传（uploadType=binary）：</h3>
-      <section class = 'css-reset'>
-        <input
-          id = 'UploadForBinary'
-          class = 'css-reset'
-          type = 'file' />
-        <button
-          class = 'css-reset'
-          type = 'button'
-          @click.prevent = 'UploadForBinary'>上传
-        </button>
+    <aside class = 'css-reset bookmark-list-box overflow-hidden-auto'>
+      <section class = 'css-reset bookmark-item-box'
+               v-for = '( { ruleID, ruleName, }, index, ) of rulesData'
+               :key = '"bookmark-item-" + ruleID'
+               :data-rule-id = 'String(ruleID)'
+               :class = '{"high-brightness":myIndex===ruleID}'
+               @click.prevent = 'BookmarkItemClick($event,{
+                 ruleID,
+                 index,
+               })'>
+        <label class = 'css-reset bookmark-item-index flexBox flexC'
+               :data-rule-id = 'String(ruleID)'
+               :for = 'String(ruleID)'>{{ index + 1 }}</label>
+        <input class = 'css-reset bookmark-item-content'
+               type = 'text'
+               :id = 'String(ruleID)'
+               :data-rule-id = 'String(ruleID)'
+               :value = 'ruleName'
+               placeholder = '请输入规则名'
+               @input = 'RuleNameChange( $event, { ruleID: ruleID, } )' />
       </section>
+    </aside>
+    <article class = 'css-reset rules-box overflow-hidden-auto'>
+      <button class = 'css-reset add-rule flexBox flexC'
+              @click = 'AddRule($event,0)'>再次插入规则
+      </button>
+      <template
+        v-for = '( { ruleID, ruleName, ruleContent, }, index, ) of rulesData'
+        :key = '"rule-item-" + ruleID'>
+        <section class = 'css-reset rule-item-box'
+                 :class = '{"high-brightness":myIndex===ruleID}'>
+          <label class = 'css-reset rule-item-index flexBox flexSC'>规则{{ index + 1 }}（序号）</label>
+          <div class = 'css-reset rule-item-name flexBox flexSC'>
+            <label class = 'css-reset flexBox flexSC'
+                   :for = '"rule-item-name-" + String(ruleID)'>规则名：</label>
+            <input class = 'css-reset'
+                   type = 'text'
+                   :id = '"rule-item-name-" + String(ruleID)'
+                   :data-rule-id = 'String(ruleID)'
+                   :value = 'ruleName'
+                   placeholder = '请输入规则名'
+                   @input = 'RuleNameChange( $event, { ruleID: ruleID, } )' />
+          </div>
+          <div class = 'css-reset rule-item-content flexBox flexSC'>
+            <label class = 'css-reset flexBox flexSC'
+                   :for = '"rule-item-content-" + String(ruleID)'>配置项：</label>
+            <textarea class = 'css-reset'
+                      placeholder = '请输入配置项'
+                      :id = '"rule-item-content-" + String(ruleID)'>{{ ruleContent }}</textarea>
+          </div>
+        </section>
+        <button class = 'css-reset add-rule flexBox flexC'
+                @click = 'AddRule($event,index +1)'>再次插入规则
+        </button>
+      </template>
     </article>
-    <RemoteUploadForSingleComponent />
-    <RemoteUploadForMultipleComponent />
   </main>
 </template>
 <script
@@ -151,84 +221,107 @@ main {
 'use strict';
 
 import {
-  sha512,
-} from 'js-sha512';
-
-import {
-  Mime,
-} from 'mime';
-
-import {
-  type Reactive as T_Reactive,
-
-  defineAsyncComponent,
+  ref,
   reactive,
+
   onMounted,
 } from 'vue';
 
-import {
-  type T_LoadRemoteVueComponent,
+let myIndex = ref( 0 );
 
-  MF_v2_RuntimeAPI_LoadRemote,
-} from 'MF_v2_RuntimeAPI';
+const rulesData = reactive( [
+  {
+    ruleID: 2024001,
+    ruleName: '规则1',
+    ruleContent: 'value1',
+  },
+  {
+    ruleID: 2024002,
+    ruleName: '规则2',
+    ruleContent: 'value2',
+  },
+  {
+    ruleID: 2024003,
+    ruleName: '规则3',
+    ruleContent: 'value3',
+  },
+  {
+    ruleID: 2024004,
+    ruleName: '规则4',
+    ruleContent: 'value4',
+  },
+  {
+    ruleID: 2024005,
+    ruleName: '规则5',
+    ruleContent: 'value5',
+  },
+  {
+    ruleID: 2024006,
+    ruleName: '规则6',
+    ruleContent: 'value6',
+  },
+  {
+    ruleID: 2024007,
+    ruleName: '规则7',
+    ruleContent: 'value7',
+  },
+  {
+    ruleID: 2024008,
+    ruleName: '规则8',
+    ruleContent: 'value8',
+  },
+  {
+    ruleID: 2024009,
+    ruleName: '规则9',
+    ruleContent: 'value9',
+  },
+  {
+    ruleID: 2024010,
+    ruleName: '规则10',
+    ruleContent: 'value10',
+  },
+] );
 
-const RemoteUploadForSingleComponent = defineAsyncComponent( () => import( 'Remote_Vue_UploadForSingle/UploadForSingle' ) );
+function RuleNameChange( event: Event, {
+  ruleID,
+}: {
+  ruleID: number;
+} ){
+  // @ts-expect-error
+  rulesData.find( ( item, ): boolean => {
+    if( item.ruleID === ruleID ){
+      // @ts-expect-error
+      item.ruleName = event!.target!.value as string;
 
-const RemoteUploadForMultipleComponent = defineAsyncComponent( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'RemoteUploadForMultiple/UploadForMultiple' ) as Promise<T_LoadRemoteVueComponent> );
-
-type T_State = {
-  titleText: string;
-  [ key: string | number ]: unknown;
-};
-
-function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
-  return sha512.create().update( data ).hex();
-}
-
-function GetFileMIME( file: File ): string{
-  return new Mime().getType( file.name ) ?? 'application/octet-stream';
+      return true;
+    }
+  } );
 }
 
 // @ts-expect-error
-async function UploadForBinary( event: Event ): Promise<void>{
-  const uploadForBinary: HTMLInputElement = document.querySelector( '#UploadForBinary' ) as HTMLInputElement,
-    files: FileList = uploadForBinary.files as FileList;
-
-  if( files.length !== 0 ){
-    const file: File = files[ 0 ] as File;
-
-    console.dir( file );
-
-    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=true`, {
-      body: file.slice(),
-      cache: 'no-cache',
-      headers: {
-        Accept: 'application/json',
-        'content-type': GetFileMIME( file ),
-        'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
-        ...httpRequestHeaders,
-      },
-      method: 'POST',
-      credentials: 'same-origin',
-      mode: 'same-origin',
-    } ).then(
-      async ( res: Response ): Promise<Response> => {
-        console.dir( await res.clone().json() );
-
-        return res;
-      },
-      ( reject: unknown ): void => {
-        console.error( reject );
-      },
-    ).catch( ( error: unknown ): void => {
-      console.error( error );
-    } );
-  }
+function AddRule( event: Event, index: number ){
+  rulesData.splice( index, 0, {
+    ruleID: rulesData.length + 2024000 + 1,
+    ruleName: '',
+    ruleContent: '',
+  } );
 }
 
-const state: T_Reactive<T_State> = reactive<T_State>( {
-  titleText: `测试DIY的Deno服务器的文件上传`,
-} );
+// @ts-expect-error
+function BookmarkItemClick( event: Event, {
+  ruleID,
+  index,
+}: {
+  ruleID: number;
+  index: number;
+} ){
+  myIndex.value = ruleID;
+
+  // @ts-expect-error
+  const offsetHeight: number = document!.querySelector( '.rule-item-box' )!.offsetHeight as number;
+
+  document!.querySelector( '.rules-box' )!.scrollTop = ( offsetHeight * index ) + ( 20 * index ) + ( 40 * index );
+}
 
 onMounted( (): void => {
   console.log( `\n\n

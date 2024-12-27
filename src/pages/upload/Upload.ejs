@@ -19,22 +19,7 @@ const htmlWebpackPluginOptions = htmlWebpackPlugin.options,
 >
 <head>
     <%= require( 'ejsDir/head_meta/MainMeta001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/MetaHttpEquiv001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/MetaName001.ejs' )( htmlWebpackPluginOptionsData ) %>
     <!--以上3个必须，且顺序有严格的要求：MainMeta001.ejs、MetaHttpEquiv001.ejs、MetaName001.ejs-->
-    <!--可选 Start-->
-    <%= require( 'ejsDir/tool/WebpackAssetsManifest.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_PreOperation_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_itemprop_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_og_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_Facebook_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_twitter_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_AppLinks_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_alternate_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Common001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/Meta_icon_001.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <%= require( 'ejsDir/head_meta/StartupImgForApple.ejs' )( htmlWebpackPluginOptionsData ) %>
-    <!--可选 End-->
     <title><%= htmlWebpackPluginOptions.title ?? '' %></title>
     <%= require( 'ejsDir/tool/DynamicREM.ejs' )( htmlWebpackPluginOptionsData ) %>
 </head>

@@ -193,7 +193,10 @@ export default {
    */
   name: 'webpack.dev.esm.mjs',
   node: nodeConfig,
-  optimization: optimizationConfig,
+  // optimization: optimizationConfig,
+  optimization: {
+    minimize: false,
+  },
   output: outputConfig,
   /**
    * 限制并行处理模块的数量。可用于微调性能或获得更可靠的分析结果。<br />
@@ -242,7 +245,7 @@ export default {
      * 2、较大的值：如果你希望生成的chunk文件较多，可以设置一个较大的maxChunks。这会增加生成的文件数量，但会增加HTTP请求的数量。<br />
      * 3、较小的值：如果你希望Webpack自动优化拆分文件数目（通过合并一些文件），可以设置较小的maxChunks值。尽量少的文件数量，会减少HTTP请求的数量。<br />
      */
-    new webpack.optimize.LimitChunkCountPlugin( limitChunkCountPluginConfig ),
+    // new webpack.optimize.LimitChunkCountPlugin( limitChunkCountPluginConfig ),
     /**
      * 确保拆分出的代码块达到一定的最小尺寸。单位是：字节。无默认值。例如：1 * 1024，就表示：1KB。<br />
      * 1、确保拆分出来的每个chunk至少达到指定的最小大小。如果某个chunk的大小小于minChunkSize配置的值，Webpack会尝试将其合并到其他chunk中。<br />
@@ -250,7 +253,7 @@ export default {
      * 3、较小的值：如果你希望拆分出更多的小文件（例如为了优化缓存策略或其他原因），可以设置较小的minChunkSize。<br />
      * 4、注意，如果设置的值大于某个动态加载文件的大小，且其会用作“预取”，那么会导致其被合并到其他文件中，从而使“预取”不生效，此时，只要更改该设置值成小于那个预取文件的大小就行。<br />
      */
-    new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
+    // new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
   ],

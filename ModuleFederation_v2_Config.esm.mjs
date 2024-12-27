@@ -14,10 +14,6 @@
 
 'use strict';
 
-import {
-  join,
-} from 'node:path';
-
 import package_json from './package.json' with { type: 'json', };
 
 function GetVersion4NPMPackageName2PackageJson( npmPackageName ){
@@ -72,7 +68,8 @@ function ModuleFederation_v2_Config_Fun( {
      * 4、目前，“ModuleFederation v2”在插件模式下除了能通过“.env”文件来设置不同打包环境的URL值外，想要真正的根据实际业务开发需求进行动态设置“remotes”，那就只能使用“ModuleFederation v2”的运行时API了。<br />
      */
     remotes: {
-      Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
+      // Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
+      // RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
@@ -202,8 +199,14 @@ function ModuleFederation_v2_Config_Fun( {
      * 1、值类型：string，必须以'function'开头。<br />
      */
     // getPublicPath: `function(){}`,
+    /**
+     * 用于控制模块联盟的开发行为。<br />
+     * 1、一般来说，该选项用于远端模块使用者，这样当远端模块提供者发生变化后，远端模块使用者就可以实时热更新、加载远端模块提供者最新的“Type”。<br />
+     * 2、当然，远端模块提供者也可以是使用其他远端模块提供者提供的模块，从而也算是远端模块使用者了。<br />
+     */
     dev: {
-      disableLiveReload: false,
+      // 该选项跟webpack的顶级配置项devServer的liveReload选项是一样功用的。
+      disableLiveReload: true,
       disableHotTypesReload: false,
       disableDynamicRemoteTypeHints: false,
     },
@@ -212,7 +215,7 @@ function ModuleFederation_v2_Config_Fun( {
      * 1、配置完成后，生产者会在构建过程中自动生成一个压缩类型文件“@mf-types.zip”（默认名称），消费者会自动提取远程的类型文件并解压为“@mf-types”（默认名称）。<br />
      */
     dts: {
-      tsConfigPath: join( __dirname, './tsconfig.webpack.json' ),
+      // tsConfigPath: join( __dirname, './tsconfig.webpack.json' ),
       /**
        * 用于控制模块联盟生成类型行为。<br />
        * 1、该选项设置为true时，等同于如下配置：<br />
@@ -225,24 +228,25 @@ function ModuleFederation_v2_Config_Fun( {
        *     compileInChildProcess: true,
        *   }
        * </code>
-       * 2、
        */
-      generateTypes: {
-        extractRemoteTypes: true,
-        extractThirdParty: true,
-        generateAPITypes: true,
-        compileInChildProcess: true,
-        // 在类型生成过程中遇到问题时是否抛出错误，默认值为：false。
-        abortOnError: true,
-        // dts.generateTypes.tsConfigPath > dts.tsConfigPath
-        tsConfigPath: join( __dirname, './tsconfig.webpack.json' ),
-        // typesFolder: '@mf-types',
-        // deleteTypesFolder: false,
-        compilerInstance: 'tsc',
-        // compiledTypesFolder: '@mf-types',
-        // 附加文件到编译中。
-        // additionalFilesToCompile: string[]
-      },
+      /*
+       generateTypes: {
+       extractRemoteTypes: true,
+       extractThirdParty: true,
+       generateAPITypes: true,
+       compileInChildProcess: true,
+       // 在类型生成过程中遇到问题时是否抛出错误，默认值为：false。
+       abortOnError: true,
+       // dts.generateTypes.tsConfigPath > dts.tsConfigPath
+       tsConfigPath: join( __dirname, './tsconfig.webpack.json' ),
+       // typesFolder: '@mf-types',
+       // deleteTypesFolder: false,
+       compilerInstance: 'tsc',
+       // compiledTypesFolder: '@mf-types',
+       // 附加文件到编译中。
+       // additionalFilesToCompile: string[]
+       },
+       */
       /**
        * 用于控制模块联邦消耗（加载）类型行为。<br />
        * 1、该选项设置为true时，等同于如下配置：<br />

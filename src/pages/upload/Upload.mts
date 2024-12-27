@@ -16,31 +16,31 @@ import {
   createApp,
 } from 'vue';
 
-import {
-  MF_v2_RuntimeAPI_RegisterRemotes,
-} from 'MF_v2_RuntimeAPI';
+/*
+ import {
+ MF_v2_RuntimeAPI_RegisterRemotes,
+ } from 'MF_v2_RuntimeAPI';
+ */
+
+import 'cssDir/FlexBox.css';
 
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
-MF_v2_RuntimeAPI_RegisterRemotes(
-  [
-    {
-      name: 'Remote_UploadForMultiple',
-      entry: `${
-        isProduction
-        ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
-        : env.RemoteUploadForMultipleURL
-      }RemoteEntry_UploadForMultiple.js`,
-      alias: 'RemoteUploadForMultiple',
-    },
-  ],
-  /*
-   {
-   // true，表示此处的配置会强制覆盖掉在此之前的“name”相同的其他配置。
-   force: true,
-   }
-   */
-);
+/*
+ MF_v2_RuntimeAPI_RegisterRemotes(
+ [
+ {
+ name: 'Remote_UploadForMultiple',
+ entry: `${
+ isProduction
+ ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
+ : env.RemoteUploadForMultipleURL
+ }RemoteEntry_UploadForMultiple.js`,
+ alias: 'RemoteUploadForMultiple',
+ },
+ ],
+ );
+ */
 
 /**
  * 创建了一个Vue 3的应用实例。
