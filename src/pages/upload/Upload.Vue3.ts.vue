@@ -165,6 +165,7 @@ main {
                @click.prevent = 'BookmarkItemClick($event,{
                  ruleID,
                  index,
+                 isScrollTop: true,
                })'>
         <label class = 'css-reset bookmark-item-index flex-box flex-center'
                :data-rule-id = 'String(ruleID)'
@@ -186,7 +187,12 @@ main {
         v-for = '( { ruleID, ruleName, ruleContent, }, index, ) of rulesData'
         :key = '"rule-item-" + ruleID'>
         <section class = 'css-reset rule-item-box'
-                 :class = '{"high-brightness":myIndex===ruleID}'>
+                 :class = '{"high-brightness":myIndex===ruleID}'
+                 @click.prevent = 'BookmarkItemClick($event,{
+                 ruleID,
+                 index,
+                 isScrollTop: false,
+               })'>
           <label class = 'css-reset rule-item-index flex-box flex-start-center'>规则{{ index + 1 }}（序号）</label>
           <div class = 'css-reset rule-item-name flex-box flex-start-center'>
             <label class = 'css-reset flex-box flex-start-center'
@@ -311,16 +317,26 @@ function AddRule( event: Event, index: number ){
 function BookmarkItemClick( event: Event, {
   ruleID,
   index,
+  isScrollTop,
 }: {
   ruleID: number;
   index: number;
+  isScrollTop: boolean;
 } ){
   myIndex.value = ruleID;
 
-  // @ts-expect-error
-  const offsetHeight: number = document!.querySelector( '.rule-item-box' )!.offsetHeight as number;
+  if( isScrollTop ){
+    // @ts-expect-error
+    const offsetHeight: number = document!.querySelector( '.rule-item-box' )!.offsetHeight as number;
 
-  document!.querySelector( '.rules-box' )!.scrollTop = ( offsetHeight * index ) + ( 20 * index ) + ( 40 * index );
+    document!.querySelector( '.rules-box' )!.scrollTop = ( offsetHeight * index ) + ( 20 * index ) + ( 40 * index );
+  }
+  else{
+    // @ts-expect-error
+    const offsetHeight: number = document!.querySelector( '.bookmark-item-box' )!.offsetHeight as number;
+
+    document!.querySelector( '.bookmark-list-box' )!.scrollTop = ( offsetHeight * index ) + ( 20 * index );
+  }
 }
 
 onMounted( (): void => {
