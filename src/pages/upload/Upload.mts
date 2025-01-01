@@ -22,21 +22,19 @@ import {
  } from 'MF_v2_RuntimeAPI';
  */
 
-import 'cssDir/FlexBox.css';
-
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
 
 /*
  MF_v2_RuntimeAPI_RegisterRemotes(
  [
  {
- name: 'Remote_UploadForMultiple',
+ name: 'Remote_UploadForSingle',
  entry: `${
  isProduction
- ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
- : env.RemoteUploadForMultipleURL
- }RemoteEntry_UploadForMultiple.js`,
- alias: 'RemoteUploadForMultiple',
+ ? new URL( '../mf_v2/upload_for_single/', location.href ).href
+ : env.RemoteUploadForSingleURL
+ }RemoteEntry_UploadForSingle.js`,
+ alias: 'Remote_Vue_UploadForSingle',
  },
  ],
  );

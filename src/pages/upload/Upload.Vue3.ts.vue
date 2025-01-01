@@ -6,6 +6,13 @@ Email: 1227839175@qq.com
 IDE: WebStorm
 CreateDate: 2024-12-27 22:30:00 星期五
 -->
+<style src = 'cssDir/FlexBox.css' />
+<style
+  lang = 'scss'>
+.high-brightness {
+  border: 5px solid green !important;
+}
+</style>
 <style
   scoped
   lang = 'scss'>
@@ -137,12 +144,6 @@ main {
       }
     }
   }
-}
-</style>
-<style
-  lang = 'scss'>
-.high-brightness {
-  border: 5px solid green !important;
 }
 </style>
 <template>
