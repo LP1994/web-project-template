@@ -15,53 +15,67 @@ CreateDate: 2022-01-01 00:00:00 星期六
   display: inline-grid;
 }
 
-.gridAFC {
-  grid-auto-flow: column;
-}
+/*direction Start*/
 
-.gridAFR {
-  grid-auto-flow: row;
-}
-
-.gridAFD {
-  grid-auto-flow: dense;
-}
-
-.gridAFCD {
-  grid-auto-flow: column dense;
-}
-
-.gridAFRD {
-  grid-auto-flow: row dense;
-}
-
-.grid-wMH, .grid-wMVR *, .grid-wMVL *, .grid-wMSR *, .grid-wMSL * {
-  writing-mode: horizontal-tb;
-}
-
-.grid-wMVR {
-  writing-mode: vertical-lr;
-}
-
-.grid-wMVL {
-  writing-mode: vertical-rl;
-}
-
-.grid-wMSR {
-  writing-mode: sideways-lr;
-}
-
-.grid-wMSL {
-  writing-mode: sideways-rl;
-}
-
-.grid-dirLTR {
+/*从左到右*/
+.grid-dir-ltr {
   direction: ltr;
 }
 
-.grid-dirRTL {
+/*从右到左*/
+.grid-dir-rtl {
   direction: rtl;
 }
+
+/*direction End*/
+
+/*writing-mode Start*/
+
+.grid-writingMode-horizontalTB {
+  writing-mode: horizontal-tb;
+}
+
+.grid-writingMode-verticalLR {
+  writing-mode: vertical-lr;
+}
+
+.grid-writingMode-verticalRL {
+  writing-mode: vertical-rl;
+}
+
+.grid-writingMode-sidewaysLR {
+  writing-mode: sideways-lr;
+}
+
+.grid-writingMode-sidewaysRL {
+  writing-mode: sideways-rl;
+}
+
+/*writing-mode End*/
+
+/*grid-auto-flow Start*/
+
+.grid-autoFlow-row {
+  grid-auto-flow: row;
+}
+
+.grid-autoFlow-rowDense {
+  grid-auto-flow: row dense;
+}
+
+.grid-autoFlow-column {
+  grid-auto-flow: column;
+}
+
+.grid-autoFlow-columnDense {
+  grid-auto-flow: column dense;
+}
+
+.grid-autoFlow-dense {
+  grid-auto-flow: dense;
+}
+
+/*grid-auto-flow End*/
 
 .gridS {
   justify-items: start;
