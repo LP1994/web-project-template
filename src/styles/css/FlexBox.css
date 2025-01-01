@@ -17,20 +17,20 @@ CreateDate: 2022-01-01 00:00:00 星期六
 
 /*flex-direction Start*/
 
-.flex-dir-column {
-  flex-direction: column;
-}
-
-.flex-dir-columnReverse {
-  flex-direction: column-reverse;
-}
-
 .flex-dir-row {
   flex-direction: row;
 }
 
 .flex-dir-rowReverse {
   flex-direction: row-reverse;
+}
+
+.flex-dir-column {
+  flex-direction: column;
+}
+
+.flex-dir-columnReverse {
+  flex-direction: column-reverse;
 }
 
 /*flex-direction End*/
