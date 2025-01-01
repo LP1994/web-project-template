@@ -337,6 +337,12 @@ const isProduction = ( argv => {
    */
   isUseESBuildLoader = false,
   /**
+   * true表示启用“ModuleFederation”。<br />
+   *
+   * @type {boolean}
+   */
+  isUseModuleFederation = false,
+  /**
    * 是否在控制台输出Babel的插件调试日志。<br />
    * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
    * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
@@ -9850,9 +9856,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
   /**
    * @type {import('node_modules/@module-federation/sdk/dist/src/types/plugins/ModuleFederationPlugin.d.ts').ModuleFederationPluginOptions} ModuleFederationPluginOptions
    */
-  moduleFederationPluginConfig = ModuleFederation_v2_Config_Fun( {
-    __dirname,
-  } ),
+  moduleFederationPluginConfig = isUseModuleFederation
+                                 ? ModuleFederation_v2_Config_Fun( {
+      __dirname,
+    } )
+                                 : null,
   /**
    * @type {object}
    */
@@ -11597,6 +11605,7 @@ export {
   env_platform,
   isProduction,
   isSPA,
+  isUseModuleFederation,
 
   browserslist,
   autoprefixerConfig,
@@ -11647,6 +11656,7 @@ export default {
   env_platform,
   isProduction,
   isSPA,
+  isUseModuleFederation,
 
   browserslist,
   autoprefixerConfig,

@@ -49,6 +49,7 @@ import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
 
 import {
   __dirname,
+  isUseModuleFederation,
 
   aliasConfig,
   assetsWebpackPluginConfig,
@@ -208,7 +209,13 @@ export default {
              : [];
     } )(),
 
-    new ModuleFederationPlugin( moduleFederationPluginConfig ),
+    ...( isUseModuleFederation => {
+      return isUseModuleFederation
+             ? [
+          new ModuleFederationPlugin( moduleFederationPluginConfig ),
+        ]
+             : [];
+    } )( isUseModuleFederation ),
 
     // 如果您有使用它的插件，则应在任何集成插件之前先订购html-webpack-plugin。
     ...htmlWebpackPluginConfig,
