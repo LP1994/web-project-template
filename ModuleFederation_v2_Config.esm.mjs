@@ -69,7 +69,7 @@ function ModuleFederation_v2_Config_Fun( {
      */
     remotes: {
       RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
-      // RemoteUploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
+      // Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
