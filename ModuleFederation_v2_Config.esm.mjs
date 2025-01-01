@@ -68,8 +68,8 @@ function ModuleFederation_v2_Config_Fun( {
      * 4、目前，“ModuleFederation v2”在插件模式下除了能通过“.env”文件来设置不同打包环境的URL值外，想要真正的根据实际业务开发需求进行动态设置“remotes”，那就只能使用“ModuleFederation v2”的运行时API了。<br />
      */
     remotes: {
-      // Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
-      // RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+      RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+      // RemoteUploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
@@ -205,7 +205,10 @@ function ModuleFederation_v2_Config_Fun( {
      * 2、当然，远端模块提供者也可以是使用其他远端模块提供者提供的模块，从而也算是远端模块使用者了。<br />
      */
     dev: {
-      // 该选项跟webpack的顶级配置项devServer的liveReload选项是一样功用的。
+      /*
+       该选项跟webpack的顶级配置项devServer的liveReload选项是一样功用的。
+       注意：不知道为什么在“远端模块提供者”中，该选项设置成true时，会报“Babel”相关的错误！但是，在“远端模块使用者”中，却是可以设置成true使用。
+       */
       disableLiveReload: true,
       disableHotTypesReload: false,
       disableDynamicRemoteTypeHints: false,
