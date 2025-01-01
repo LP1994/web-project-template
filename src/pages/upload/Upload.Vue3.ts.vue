@@ -166,7 +166,7 @@ main {
                  ruleID,
                  index,
                })'>
-        <label class = 'css-reset bookmark-item-index flexBox flexC'
+        <label class = 'css-reset bookmark-item-index flex-box flex-center'
                :data-rule-id = 'String(ruleID)'
                :for = 'String(ruleID)'>{{ index + 1 }}</label>
         <input class = 'css-reset bookmark-item-content'
@@ -179,7 +179,7 @@ main {
       </section>
     </aside>
     <article class = 'css-reset rules-box overflow-hidden-auto'>
-      <button class = 'css-reset add-rule flexBox flexC'
+      <button class = 'css-reset add-rule flex-box flex-center'
               @click = 'AddRule($event,0)'>再次插入规则
       </button>
       <template
@@ -187,9 +187,9 @@ main {
         :key = '"rule-item-" + ruleID'>
         <section class = 'css-reset rule-item-box'
                  :class = '{"high-brightness":myIndex===ruleID}'>
-          <label class = 'css-reset rule-item-index flexBox flexSC'>规则{{ index + 1 }}（序号）</label>
-          <div class = 'css-reset rule-item-name flexBox flexSC'>
-            <label class = 'css-reset flexBox flexSC'
+          <label class = 'css-reset rule-item-index flex-box flex-start-center'>规则{{ index + 1 }}（序号）</label>
+          <div class = 'css-reset rule-item-name flex-box flex-start-center'>
+            <label class = 'css-reset flex-box flex-start-center'
                    :for = '"rule-item-name-" + String(ruleID)'>规则名：</label>
             <input class = 'css-reset'
                    type = 'text'
@@ -199,15 +199,15 @@ main {
                    placeholder = '请输入规则名'
                    @input = 'RuleNameChange( $event, { ruleID: ruleID, } )' />
           </div>
-          <div class = 'css-reset rule-item-content flexBox flexSC'>
-            <label class = 'css-reset flexBox flexSC'
+          <div class = 'css-reset rule-item-content flex-box flex-start-center'>
+            <label class = 'css-reset flex-box flex-start-center'
                    :for = '"rule-item-content-" + String(ruleID)'>配置项：</label>
             <textarea class = 'css-reset'
                       placeholder = '请输入配置项'
                       :id = '"rule-item-content-" + String(ruleID)'>{{ ruleContent }}</textarea>
           </div>
         </section>
-        <button class = 'css-reset add-rule flexBox flexC'
+        <button class = 'css-reset add-rule flex-box flex-center'
                 @click = 'AddRule($event,index +1)'>再次插入规则
         </button>
       </template>
