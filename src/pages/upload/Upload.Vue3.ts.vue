@@ -228,15 +228,26 @@ main {
 'use strict';
 
 import {
+  type Ref as T_Ref,
+  type Reactive as T_Reactive,
+
   ref,
   reactive,
 
   onMounted,
 } from 'vue';
 
-let myIndex = ref( 0 );
+type T_rule = {
+  ruleID: number;
+  ruleName: string;
+  ruleContent: string;
+};
 
-const rulesData = reactive( [
+type T_data = Array<T_rule>;
+
+let myIndex: T_Ref<number, number> = ref<number>( 0 );
+
+const rulesData: T_Reactive<T_data> = reactive<T_data>( [
   {
     ruleID: 2024001,
     ruleName: '规则1',
@@ -291,11 +302,9 @@ const rulesData = reactive( [
 
 function RuleNameChange( event: Event, {
   ruleID,
-}: {
-  ruleID: number;
-} ){
+}: Pick<T_rule, 'ruleID'> ): void{
   // @ts-expect-error
-  rulesData.find( ( item, ): boolean => {
+  rulesData.find( ( item: T_rule, ): boolean => {
     if( item.ruleID === ruleID ){
       // @ts-expect-error
       item.ruleName = event!.target!.value as string;
@@ -306,7 +315,7 @@ function RuleNameChange( event: Event, {
 }
 
 // @ts-expect-error
-function AddRule( event: Event, index: number ){
+function AddRule( event: Event, index: number ): void{
   rulesData.splice( index, 0, {
     ruleID: rulesData.length + 2024000 + 1,
     ruleName: '',
@@ -323,7 +332,7 @@ function BookmarkItemClick( event: Event, {
   ruleID: number;
   index: number;
   isScrollTop: boolean;
-} ){
+} ): void{
   myIndex.value = ruleID;
 
   if( isScrollTop ){
