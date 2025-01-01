@@ -15,7 +15,11 @@ CreateDate: 2022-01-01 00:00:00 星期六
   display: inline-grid;
 }
 
-/*direction Start*/
+/*
+direction Start
+1、警告！在可能的情况下，鼓励作者避免使用direction属性，而使用HTML标签中的全局属性dir。
+2、direction属性用于设置文本、表格列和水平溢出的方向。对于从右向左书写的语言（如希伯来语或阿拉伯语），请使用rtl；对于从左向右书写的语言（如英语和大多数其他语言），请使用ltr。
+*/
 
 /*从左到右*/
 .grid-dir-ltr {
