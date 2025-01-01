@@ -7,345 +7,1412 @@ IDE: WebStorm
 CreateDate: 2022-01-01 00:00:00 星期六
 */
 
-.flexBox {
+.flex-box {
   display: flex;
 }
 
-.flexILB {
+.flex-inline-box {
   display: inline-flex;
 }
 
-.flexDC {
+/*flex-direction Start*/
+
+.flex-dir-column {
   flex-direction: column;
 }
 
-.flexDCR {
+.flex-dir-columnReverse {
   flex-direction: column-reverse;
 }
 
-.flexDR {
+.flex-dir-row {
   flex-direction: row;
 }
 
-.flexDRR {
+.flex-dir-rowReverse {
   flex-direction: row-reverse;
 }
 
-.flexWN {
+/*flex-direction End*/
+
+/*flex-wrap Start*/
+
+.flex-wrap-nowrap {
   flex-wrap: nowrap;
 }
 
-.flexWW {
+.flex-wrap {
   flex-wrap: wrap;
 }
 
-.flexWWR {
+.flex-wrap-wrapReverse {
   flex-wrap: wrap-reverse;
 }
 
-.flexS {
+/*flex-wrap End*/
+
+.flex-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-start;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexSC {
+.flex-start-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-start;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexSE {
+.flex-start-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-start;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexSBL {
+.flex-start-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-start;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexSStr {
+.flex-start-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-start;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: stretch;
 }
 
-.flexCS {
+.flex-center-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: center;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexC {
+.flex-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: center;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexCE {
+.flex-center-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: center;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexCBL {
+.flex-center-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: center;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexCStr {
+.flex-center-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: center;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: stretch;
 }
 
-.flexES {
+.flex-end-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-end;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexEC {
+.flex-end-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-end;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexE {
+.flex-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-end;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexEBL {
+.flex-end-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-end;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexEStr {
+.flex-end-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: flex-end;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: stretch;
 }
 
-.flexBLS {
-  justify-content: baseline;
+.flex-stretch-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: stretch;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexBLC {
-  justify-content: baseline;
+.flex-stretch-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: stretch;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexBLE {
-  justify-content: baseline;
+.flex-stretch-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: stretch;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexBL {
-  justify-content: baseline;
+.flex-stretch-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: stretch;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexBLStr {
-  justify-content: baseline;
+.flex-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: stretch;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: stretch;
 }
 
-.flexStrS {
-  justify-content: stretch;
+.flex-spaceBetween-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-between;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexStrC {
-  justify-content: stretch;
+.flex-spaceBetween-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-between;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexStrE {
-  justify-content: stretch;
+.flex-spaceBetween-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-between;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexStrBL {
-  justify-content: stretch;
+.flex-spaceBetween-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-between;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexStr {
-  justify-content: stretch;
+.flex-spaceBetween-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-between;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: stretch;
 }
 
-.flexSBS {
-  justify-content: space-between;
+.flex-spaceAround-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-around;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexSBC {
-  justify-content: space-between;
+.flex-spaceAround-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-around;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexSBE {
-  justify-content: space-between;
+.flex-spaceAround-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-around;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexSBBL {
-  justify-content: space-between;
+.flex-spaceAround-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-around;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexSBStr {
-  justify-content: space-between;
+.flex-spaceAround-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-around;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: stretch;
 }
 
-.flexSAS {
-  justify-content: space-around;
+.flex-spaceEvenly-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-evenly;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-start;
 }
 
-.flexSAC {
-  justify-content: space-around;
+.flex-spaceEvenly-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-evenly;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: center;
 }
 
-.flexSAE {
-  justify-content: space-around;
+.flex-spaceEvenly-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-evenly;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: flex-end;
 }
 
-.flexSABL {
-  justify-content: space-around;
+.flex-spaceEvenly-baseline {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-evenly;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
   align-items: baseline;
 }
 
-.flexSAStr {
+.flex-spaceEvenly-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-evenly;
+  /*align-items属性设置了所有直接子元素的align-self值作为一个组。在Flexbox中，它控制子元素在交叉轴上的对齐。在Grid布局中，它控制了子元素在其网格区域内的块向轴上的对齐。*/
+  align-items: stretch;
+}
+
+/*同时控制主轴和纵轴的内容项之间和周围的空间分配 Start*/
+
+.flex-placeContent-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start;
+}
+
+.flex-placeContent-start-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center flex-start;
+}
+
+.flex-placeContent-start-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end flex-start;
+}
+
+.flex-placeContent-start-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch flex-start;
+}
+
+.flex-placeContent-start-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between flex-start;
+}
+
+.flex-placeContent-start-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around flex-start;
+}
+
+.flex-placeContent-start-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly flex-start;
+}
+
+.flex-placeContent-center-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start center;
+}
+
+.flex-placeContent-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center;
+}
+
+.flex-placeContent-center-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end center;
+}
+
+.flex-placeContent-center-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch center;
+}
+
+.flex-placeContent-center-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between center;
+}
+
+.flex-placeContent-center-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around center;
+}
+
+.flex-placeContent-center-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly center;
+}
+
+.flex-placeContent-end-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start flex-end;
+}
+
+.flex-placeContent-end-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center flex-end;
+}
+
+.flex-placeContent-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end;
+}
+
+.flex-placeContent-end-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch flex-end;
+}
+
+.flex-placeContent-end-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between flex-end;
+}
+
+.flex-placeContent-end-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around flex-end;
+}
+
+.flex-placeContent-end-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly flex-end;
+}
+
+.flex-placeContent-stretch-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start stretch;
+}
+
+.flex-placeContent-stretch-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center stretch;
+}
+
+.flex-placeContent-stretch-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end stretch;
+}
+
+.flex-placeContent-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch;
+}
+
+.flex-placeContent-stretch-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between stretch;
+}
+
+.flex-placeContent-stretch-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around stretch;
+}
+
+.flex-placeContent-stretch-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly stretch;
+}
+
+.flex-placeContent-spaceBetween-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start space-between;
+}
+
+.flex-placeContent-spaceBetween-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center space-between;
+}
+
+.flex-placeContent-spaceBetween-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end space-between;
+}
+
+.flex-placeContent-spaceBetween-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch space-between;
+}
+
+.flex-placeContent-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between;
+}
+
+.flex-placeContent-spaceBetween-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around space-between;
+}
+
+.flex-placeContent-spaceBetween-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly space-between;
+}
+
+.flex-placeContent-spaceAround-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start space-around;
+}
+
+.flex-placeContent-spaceAround-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center space-around;
+}
+
+.flex-placeContent-spaceAround-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end space-around;
+}
+
+.flex-placeContent-spaceAround-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch space-around;
+}
+
+.flex-placeContent-spaceAround-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between space-around;
+}
+
+.flex-placeContent-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around;
+}
+
+.flex-placeContent-spaceAround-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly space-around;
+}
+
+.flex-placeContent-spaceEvenly-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-start space-evenly;
+}
+
+.flex-placeContent-spaceEvenly-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: center space-evenly;
+}
+
+.flex-placeContent-spaceEvenly-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: flex-end space-evenly;
+}
+
+.flex-placeContent-spaceEvenly-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: stretch space-evenly;
+}
+
+.flex-placeContent-spaceEvenly-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-between space-evenly;
+}
+
+.flex-placeContent-spaceEvenly-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-around space-evenly;
+}
+
+.flex-placeContent-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*
+  1、place-content属性是align-content和justify-content的简写。
+  2、第1个值是align-content属性值，设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。。
+  3、第2个值是justify-content属性值，定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。。
+  4、注意：如果第2个值不存在，则第1个值将同时用于这2个属性，前提是它对这2个属性都是有效值。如果其中1个值无效，则整个值都无效。
+  */
+  place-content: space-evenly;
+}
+
+/*同时控制主轴和纵轴的内容项之间和周围的空间分配 End*/
+
+/*justify-content（定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。） Start*/
+
+.flex-justifyContent-start {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: flex-start;
+}
+
+.flex-justifyContent-center {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: center;
+}
+
+.flex-justifyContent-end {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: flex-end;
+}
+
+.flex-justifyContent-stretch {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: stretch;
+}
+
+.flex-justifyContent-spaceBetween {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
+  justify-content: space-between;
+}
+
+.flex-justifyContent-spaceAround {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: space-around;
-  align-items: stretch;
 }
 
-.flexSES {
+.flex-justifyContent-spaceEvenly {
+  /*justify-content属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。*/
   justify-content: space-evenly;
-  align-items: flex-start;
 }
 
-.flexSEC {
-  justify-content: space-evenly;
-  align-items: center;
-}
+/*justify-content（定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。） End*/
 
-.flexSEE {
-  justify-content: space-evenly;
-  align-items: flex-end;
-}
+/*align-content（设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。） Start*/
 
-.flexSEBL {
-  justify-content: space-evenly;
-  align-items: baseline;
-}
+.flex-alignContent-start {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
 
-.flexSEStr {
-  justify-content: space-evenly;
-  align-items: stretch;
-}
-
-.flexACS {
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: flex-start;
 }
 
-.flexACC {
+.flex-alignContent-center {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: center;
 }
 
-.flexACE {
+.flex-alignContent-end {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: flex-end;
 }
 
-.flexACBL {
+.flex-alignContent-baseline {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: baseline;
 }
 
-.flexACStr {
+.flex-alignContent-stretch {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: stretch;
 }
 
-.flexACSB {
+.flex-alignContent-spaceBetween {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: space-between;
 }
 
-.flexACSA {
+.flex-alignContent-spaceAround {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: space-around;
 }
 
-.flexACSE {
+.flex-alignContent-spaceEvenly {
+  /*注意：“flex-wrap: nowrap;”会导致align-content属性无效，所以要将flex-wrap属性设置成wrap或wrap-reverse。*/
+  flex-wrap: wrap !important;
+
+  /*align-content属性设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。*/
   align-content: space-evenly;
 }
 
-.flexASS {
+/*align-content（设置了浏览器如何沿着弹性盒子布局的纵轴和网格布局的主轴在内容项之间和周围分配空间。） End*/
+
+/*
+align-self Start
+1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+*/
+
+.flex-alignSelf-start {
+  /*
+  1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+  2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+  3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+  */
   align-self: flex-start;
 }
 
-.flexASC {
+.flex-alignSelf-center {
+  /*
+  1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+  2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+  3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+  */
   align-self: center;
 }
 
-.flexASE {
+.flex-alignSelf-end {
+  /*
+  1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+  2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+  3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+  */
   align-self: flex-end;
 }
 
-.flexASBL {
+.flex-alignSelf-baseline {
+  /*
+  1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+  2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+  3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+  */
   align-self: baseline;
 }
 
-.flexASStr {
+.flex-alignSelf-stretch {
+  /*
+  1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+  2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+  3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+  */
   align-self: stretch;
 }
 
-.flexO1 {
+/*
+align-self End
+1、align-self属性会对齐当前grid或flex行中的元素，并覆盖父容器中已有的align-items的值。
+2、在网格中，它会使项目在网格区域内对齐。在Flexbox中，会按照cross axis（当前flex元素排列方向，默认是垂直方向，具体方向受flex-direction属性控制）进行排列。
+3、注意：align-self属性必须是写在某个具体的子项上才会让该子项根据align-self属性设置的值对齐的。
+*/
+
+/*order（允许负整数） Start*/
+
+.flex-order-0 {
+  order: 0;
+}
+
+.flex-order-1 {
   order: 1;
 }
 
-.flexGrow1 {
-  flex-grow: 1;
+.flex-order-2 {
+  order: 2;
 }
 
-.flexShrink1 {
-  flex-shrink: 1;
+.flex-order-3 {
+  order: 3;
 }
 
-.flexBA {
+.flex-order-4 {
+  order: 4;
+}
+
+.flex-order-5 {
+  order: 5;
+}
+
+/*order（允许负整数） End*/
+
+/*
+flex-basis Start
+1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+*/
+
+.flex-basis-auto {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
   flex-basis: auto;
 }
 
-.flexB50 {
-  flex-basis: 50%;
-}
-
-.flexBC {
+.flex-basis-content {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
   flex-basis: content;
 }
 
-.flexBMaxC {
-  flex-basis: -moz-max-content;
-  flex-basis: max-content;
-}
-
-.flexBMinC {
-  flex-basis: -moz-min-content;
+.flex-basis-minContent {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
   flex-basis: min-content;
 }
 
-.flexBFitC {
-  flex-basis: -moz-fit-content;
+.flex-basis-maxContent {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
+  flex-basis: max-content;
+}
+
+.flex-basis-fitContent {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
   flex-basis: fit-content;
 }
 
-.flexBFill {
-  flex-basis: fill;
+/*
+flex-basis End
+1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+*/
+
+/*
+flex-grow（负值无效） Start
+1、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+*/
+
+.flex-grow-0 {
+  /*
+  1 、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+  2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+  3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+  */
+  flex-grow: 0;
 }
 
-.flexA {
+.flex-grow-1 {
+  /*
+  1 、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+  2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+  3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+  */
+  flex-grow: 1;
+}
+
+.flex-grow-2 {
+  /*
+  1 、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+  2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+  3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+  */
+  flex-grow: 2;
+}
+
+.flex-grow-3 {
+  /*
+  1 、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+  2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+  3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+  */
+  flex-grow: 3;
+}
+
+.flex-grow-4 {
+  /*
+  1 、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+  2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+  3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+  */
+  flex-grow: 4;
+}
+
+.flex-grow-5 {
+  /*
+  1 、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+  2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+  3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+  */
+  flex-grow: 5;
+}
+
+/*
+flex-grow（负值无效） End
+1、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
+2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
+3、flex-grow属性必须是写在某个具体的子项上才会让该子项根据flex-grow属性设置的值生效的。
+*/
+
+/*
+flex-shrink Start
+注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+1、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+移除空间比添加空间要复杂一些。
+柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+*/
+
+.flex-shrink-1 {
+  /*
+  注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+  1 、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+  2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+  3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+  该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+  只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+  flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+  flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+  移除空间比添加空间要复杂一些。
+  柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+  */
+  flex-shrink: 1;
+}
+
+.flex-shrink-2 {
+  /*
+  注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+  1 、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+  2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+  3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+  该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+  只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+  flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+  flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+  移除空间比添加空间要复杂一些。
+  柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+  */
+  flex-shrink: 2;
+}
+
+.flex-shrink-3 {
+  /*
+  注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+  1 、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+  2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+  3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+  该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+  只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+  flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+  flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+  移除空间比添加空间要复杂一些。
+  柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+  */
+  flex-shrink: 3;
+}
+
+.flex-shrink-4 {
+  /*
+  注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+  1 、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+  2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+  3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+  该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+  只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+  flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+  flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+  移除空间比添加空间要复杂一些。
+  柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+  */
+  flex-shrink: 4;
+}
+
+.flex-shrink-5 {
+  /*
+  注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+  1 、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+  2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+  3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+  该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+  只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+  flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+  flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+  移除空间比添加空间要复杂一些。
+  柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+  */
+  flex-shrink: 5;
+}
+
+/*
+flex-shrink End
+注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+1、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+移除空间比添加空间要复杂一些。
+柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+*/
+
+/*flex简写（flex-grow、flex-shrink、flex-basis） Start*/
+
+/*等同于：“flex: 1 1 auto;”*/
+.flex-auto {
+  /*等同于：“flex: 1 1 auto;”*/
   flex: auto;
 }
 
-.flexN {
+/*等同于：“flex: 0 0 auto;”*/
+.flex-none {
+  /*等同于：“flex: 0 0 auto;”*/
   flex: none;
 }
 
-.flex50 {
-  flex: 1 1 50%;
-}
+/*flex简写（flex-grow、flex-shrink、flex-basis） End*/
