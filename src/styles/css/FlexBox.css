@@ -1132,100 +1132,6 @@ align-self End
 /*order（允许负整数） End*/
 
 /*
-flex-basis Start
-1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-*/
-
-.flex-basis-auto {
-  /*
-  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-  */
-  flex-basis: auto;
-}
-
-.flex-basis-content {
-  /*
-  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-  */
-  flex-basis: content;
-}
-
-.flex-basis-minContent {
-  /*
-  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-  */
-  flex-basis: min-content;
-}
-
-.flex-basis-maxContent {
-  /*
-  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-  */
-  flex-basis: max-content;
-}
-
-.flex-basis-fitContent {
-  /*
-  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-  */
-  flex-basis: fit-content;
-}
-
-/*
-flex-basis End
-1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
-2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
-3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
-4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
-注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
-5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
-后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
-再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
-*/
-
-/*
 flex-grow（负值无效） Start
 1、flex-grow属性设置flex项主尺寸的flex增长系数，规定了flex-grow项在flex容器中分配剩余空间的相对比例。负值无效，默认为0，这将阻止柔性项目的增长。该值表示的是一个比率量。
 2、剩余空间是flex容器的大小减去所有flex项的大小加起来的大小。如果所有的兄弟项目都有相同的flex-grow系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的flex-grow定义的比例进行分配。
@@ -1306,6 +1212,22 @@ flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不
 移除空间比添加空间要复杂一些。
 柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
 */
+
+.flex-shrink-0 {
+  /*
+  注意：flex-shrink属性必须是写在某个具体的子项上才会让该子项根据flex-shrink属性设置的值生效的。
+  1 、flex-shrink属性指定了flex元素的收缩规则。flex元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据flex-shrink的值，该值表示一个比率量。负值无效。默认为：1。属性只能是一个<number>。
+  2、flex-shrink属性可设置柔性项目的柔性收缩因子。如果所有柔性项的尺寸都大于柔性容器，则柔性项可以根据其柔性收缩值进行收缩。每条柔性线条的负空闲空间将分配给该线条中柔性收缩值大于0的柔性项。
+  3、flex-shrink属性用于指定弹性收缩因子，该因子决定了在分配负的可用空间时，弹性项目相对于弹性容器中其他弹性项目的收缩程度。
+  该属性用于处理浏览器在计算弹性项目的弹性基准值时发现它们太大而无法装入弹性容器的情况。
+  只要flex-shrink属性的值为正数，项目就会缩小，以免溢出容器。
+  flex-grow属性用于分配与每个项目的弹性增长因子成比例的可用正空闲空间，唯一的考虑因素是flex-grow属性的值。
+  flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
+  移除空间比添加空间要复杂一些。
+  柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+  */
+  flex-shrink: 0;
+}
 
 .flex-shrink-1 {
   /*
@@ -1399,6 +1321,100 @@ flex-grow属性用于分配与每个项目的弹性增长因子成比例的可�
 flex-shrink属性用于移除负空闲空间，使盒子能够装入容器而不会溢出。
 移除空间比添加空间要复杂一些。
 柔性收缩因子乘以柔性基本尺寸，这将根据项目的收缩程度按比例分配负空间。
+*/
+
+/*
+flex-basis Start
+1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+*/
+
+.flex-basis-auto {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
+  flex-basis: auto;
+}
+
+.flex-basis-content {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
+  flex-basis: content;
+}
+
+.flex-basis-minContent {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
+  flex-basis: min-content;
+}
+
+.flex-basis-maxContent {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
+  flex-basis: max-content;
+}
+
+.flex-basis-fitContent {
+  /*
+  1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+  2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+  3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+  4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+  注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+  5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+  后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+  再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
+  */
+  flex-basis: fit-content;
+}
+
+/*
+flex-basis End
+1、flex-basis属性必须是写在某个具体的子项上才会让该子项根据flex-basis属性设置的值生效的。
+2、flex-basis属性指定了flex元素在主轴方向上的初始大小。如果不使用box-sizing改变盒模型的话，那么这个属性就决定了flex元素的内容盒（content-box）的尺寸。
+3、当一个元素同时被设置了flex-basis（除值为auto外）和width（或者在flex-direction: column情况下设置了height），flex-basis具有更高的优先级。
+4、“flex-basis: content;”表示基于flex的元素的内容自动调整大小。
+注意：由于最初规范中没有包括这个值，在一些早期的浏览器实现的flex布局中，content值无效，可以利用设置width、height为auto达到同样的效果。
+5、最初，“flex-basis: auto”的含义是“参照我的width和height属性”。
+后来，“flex-basis: auto”的含义变成了“自动尺寸”，而"main-size"变成了"参照我的width和height属性"。
+再后来，“flex-basis: auto”变回了原来的含义（原来的含义：参照我的width和height属性），而一个新的关键字“content”变成了自动尺寸。
 */
 
 /*flex简写（flex-grow、flex-shrink、flex-basis） Start*/
