@@ -136,7 +136,11 @@ import {
   type ModelRef as T_ModelRef,
   type PropType as T_PropType,
 
-  defineModel,
+  /*
+   1、“Vue 3.2”及以上版本中，“Vue 3”中的一些常见编译器宏（包括：defineProps、defineEmits、defineModel等等）不需要手动导入。
+   2、还有：withDefaults，用于给defineProps中的某些属性提供默认值，通常用来为某些props设置默认值。
+   */
+  // defineModel,
 
   onMounted,
 } from 'vue';
