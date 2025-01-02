@@ -126,7 +126,7 @@ let myIndex: T_ModelRef<number, string, number, number> = defineModel<number>( '
     rulesData: T_data;
     myIndex: number;
   }> ): boolean{
-    return typeof value === 'number';
+    return value >= 0;
   },
 } );
 
