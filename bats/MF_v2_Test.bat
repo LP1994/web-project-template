@@ -1,0 +1,2 @@
+@echo on
+start cmd /k "chcp 65001 && cd /d G:\WebStormWS\upload-for-multiple && npm run test && cd /d G:\WebStormWS\upload-for-single && npm run test && cd /d G:\WebStormWS\web-project-template && npm run test && xcopy "G:\WebStormWS\upload-for-multiple\dist\test" "G:\WebStormWS\web-project-template\dist\test\mf_v2\upload_for_multiple" /E /I /Y /C && xcopy "G:\WebStormWS\upload-for-single\dist\test" "G:\WebStormWS\web-project-template\dist\test\mf_v2\upload_for_single" /E /I /Y /C && pause"
