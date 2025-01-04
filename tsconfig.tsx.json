@@ -9,6 +9,7 @@
   "_tsx_docs": "https://github.com/privatenumber/tsx",
   "extends": "./tsconfig.json",
   "include": [
+    "./**/@mf-types/*",
     "./**/*.ts",
     "./**/*.cts",
     "./**/*.mts"

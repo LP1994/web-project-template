@@ -8,6 +8,7 @@
   "_tsc_cli": "tsc -p ./tsconfig.webpack.json",
   "extends": "./configures/tsconfig/tsconfig.web.json5",
   "include": [
+    "./**/@mf-types/*",
     "./src/**/*.ts",
     "./src/**/*.cts",
     "./src/**/*.mts",
