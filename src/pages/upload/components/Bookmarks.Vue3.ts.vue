@@ -158,7 +158,11 @@ function BookmarkItemClick( event: Event, {
   // @ts-expect-error
   const offsetHeight: number = document!.querySelector( '.rule-item-box' )!.offsetHeight as number;
 
-  document!.querySelector( '.rules-box' )!.scrollTop = ( offsetHeight * index ) + ( 20 * index ) + ( 40 * index );
+  document!.querySelector( '.rules-box' )!.scrollTo( {
+    left: 0,
+    top: ( offsetHeight * index ) + ( 20 * index ) + ( 40 * index ),
+    behavior: 'smooth',
+  } );
 }
 
 onMounted( (): void => {

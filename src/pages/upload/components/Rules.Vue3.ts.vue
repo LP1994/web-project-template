@@ -203,7 +203,11 @@ function BookmarkItemClick( event: Event, {
   // @ts-expect-error
   const offsetHeight: number = document!.querySelector( '.bookmark-item-box' )!.offsetHeight as number;
 
-  document!.querySelector( '.bookmark-list-box' )!.scrollTop = ( offsetHeight * index ) + ( 20 * index );
+  document!.querySelector( '.bookmark-list-box' )!.scrollTo( {
+    left: 0,
+    top: ( offsetHeight * index ) + ( 20 * index ),
+    behavior: 'smooth',
+  } );
 }
 
 onMounted( (): void => {
