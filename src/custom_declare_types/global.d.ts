@@ -22,6 +22,8 @@ import {
 
 import {
   type DefineComponent as T_DefineComponent,
+  type Ref as T_Ref,
+  type Reactive as T_Reactive,
 } from 'vue';
 
 import {
@@ -30,6 +32,10 @@ import {
 
 declare global {
   type T_VueComponent = T_DefineComponent<{}, {}, any>;
+
+  type T_VueRef<T, S> = T_Ref<T, S>;
+
+  type T_VueReactive<T> = T_Reactive<T>;
 
   type T_LoadRemoteVueComponent = Awaited<ReturnType<T_AsyncComponentLoader<T_DefineComponent<{}, {}, any>>>>;
 

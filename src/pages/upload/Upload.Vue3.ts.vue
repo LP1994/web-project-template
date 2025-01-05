@@ -36,9 +36,6 @@ CreateDate: 2024-12-27 22:30:00 星期五
 'use strict';
 
 import {
-  type Ref as T_Ref,
-  type Reactive as T_Reactive,
-
   ref,
   reactive,
 
@@ -56,9 +53,9 @@ type T_rule = {
 
 type T_data = Array<T_rule>;
 
-let myIndex: T_Ref<number, number> = ref<number>( 0 );
+let myIndex: T_VueRef<number, number> = ref<number>( 0 );
 
-const rulesData: T_Reactive<T_data> = reactive<T_data>( [
+const rulesData: T_VueReactive<T_data> = reactive<T_data>( [
   {
     ruleID: 2024001,
     ruleName: '规则1',
