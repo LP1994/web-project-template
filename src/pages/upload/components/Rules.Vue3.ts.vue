@@ -133,9 +133,6 @@ CreateDate: 2024-12-27 22:30:00 星期五
 'use strict';
 
 import {
-  type ModelRef as T_ModelRef,
-  type PropType as T_PropType,
-
   /*
    1、“Vue 3.2”及以上版本中，“Vue 3”中的一些常见编译器宏（包括：defineProps、defineEmits、defineModel等等）不需要手动导入。
    2、还有：withDefaults，用于给defineProps中的某些属性提供默认值，通常用来为某些props设置默认值。
@@ -153,16 +150,16 @@ type T_rule = {
 
 type T_data = Array<T_rule>;
 
-const rulesData: T_ModelRef<T_data, string, T_data, T_data> = defineModel<T_data>( 'rulesData', {
+const rulesData: T_VueModelRef<T_data, string, T_data, T_data> = defineModel<T_data>( 'rulesData', {
   required: true,
 } );
 
 // @ts-expect-error
-let myIndex: T_ModelRef<number, string, number, number> = defineModel<number>( 'myIndex', {
+let myIndex: T_VueModelRef<number, string, number, number> = defineModel<number>( 'myIndex', {
   required: true,
   default: 0,
   // @ts-expect-error
-  validator( value: number, props: T_PropType<{
+  validator( value: number, props: T_VuePropType<{
     rulesData: T_data;
     myIndex: number;
   }> ): boolean{

@@ -22,6 +22,8 @@ import {
 
 import {
   type DefineComponent as T_DefineComponent,
+  type ModelRef as T_ModelRef,
+  type PropType as T_PropType,
   type Ref as T_Ref,
   type Reactive as T_Reactive,
 } from 'vue';
@@ -32,6 +34,10 @@ import {
 
 declare global {
   type T_VueComponent = T_DefineComponent<{}, {}, any>;
+
+  type T_VueModelRef<T, M, G, S> = T_ModelRef<T, M, G, S>;
+
+  type T_VuePropType<T> = T_PropType<T>;
 
   type T_VueRef<T, S> = T_Ref<T, S>;
 
