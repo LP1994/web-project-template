@@ -16,29 +16,7 @@ import {
   createApp,
 } from 'vue';
 
-/*
- import {
- MF_v2_RuntimeAPI_RegisterRemotes,
- } from 'MF_v2_RuntimeAPI';
- */
-
 import UploadComponentForVue3 from './Upload.Vue3.ts.vue';
-
-/*
- MF_v2_RuntimeAPI_RegisterRemotes(
- [
- {
- name: 'Remote_UploadForSingle',
- entry: `${
- isProduction
- ? new URL( '../mf_v2/upload_for_single/', location.href ).href
- : env.RemoteUploadForSingleURL
- }RemoteEntry_UploadForSingle.js`,
- alias: 'Remote_Vue_UploadForSingle',
- },
- ],
- );
- */
 
 /**
  * 创建了一个Vue 3的应用实例。
