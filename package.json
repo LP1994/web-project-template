@@ -645,7 +645,7 @@
     "@omnigraph/sqlite": "^0.7.10",
     "@omnigraph/thrift": "^0.8.10",
     "@parcel/watcher": "^2.5.0",
-    "@preact/preset-vite": "^2.9.3",
+    "@preact/preset-vite": "^2.9.4",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-dsv": "^3.0.5",
     "@rollup/plugin-dynamic-import-vars": "^2.1.5",
