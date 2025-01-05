@@ -22,6 +22,10 @@ import {
 
 import {
   type DefineComponent as T_DefineComponent,
+  type ExtractPropTypes as T_ExtractPropTypes,
+  type ExtractPublicPropTypes as T_ExtractPublicPropTypes,
+  type MaybeRef as T_MaybeRef,
+  type MaybeRefOrGetter as T_MaybeRefOrGetter,
   type ModelRef as T_ModelRef,
   type PropType as T_PropType,
   type Ref as T_Ref,
@@ -34,6 +38,14 @@ import {
 
 declare global {
   type T_VueComponent = T_DefineComponent<{}, {}, any>;
+
+  type T_VueExtractPropTypes<T> = T_ExtractPropTypes<T>;
+
+  type T_VueExtractPublicPropTypes<T> = T_ExtractPublicPropTypes<T>;
+
+  type T_VueMaybeRef<T> = T_MaybeRef<T>;
+
+  type T_VueMaybeRefOrGetter<T> = T_MaybeRefOrGetter<T>;
 
   type T_VueModelRef<T, M, G, S> = T_ModelRef<T, M, G, S>;
 
