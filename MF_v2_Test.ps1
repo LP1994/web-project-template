@@ -1,6 +1,8 @@
-# 自动开始生产模式打包，在全部完成后，将各个子项目的输出复制到主项目的输出目录中。
+# 自动开始生产模式（test）打包，在全部完成后，将各个子项目的输出复制到主项目的输出目录中。
 
 chcp 65001
+
+Write-Host "`n`n自动开始生产模式（test）打包，在全部完成后，将各个子项目的输出复制到主项目的输出目录中。`n`n"
 
 $OutputEncoding = New-Object -typename System.Text.UTF8Encoding
 
