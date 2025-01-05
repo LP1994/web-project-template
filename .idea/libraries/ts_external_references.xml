@@ -1,0 +1,42 @@
+<component name="libraryTable">
+  <library name="ts-external-references" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/node_modules/@vueuse/core/node_modules/vue-demi/lib/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/@vueuse/shared/node_modules/vue-demi/lib/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/clipboard.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/core.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/engine.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/enter.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/paragraph.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/select-all.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/typing.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/ui.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/undo.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/upload.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/utils.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/watchdog.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/widget.d.ts" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/node_modules/@vueuse/core/node_modules/vue-demi/lib/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/@vueuse/shared/node_modules/vue-demi/lib/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/clipboard.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/core.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/engine.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/enter.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/paragraph.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/select-all.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/typing.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/ui.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/undo.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/upload.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/utils.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/watchdog.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/ckeditor5/src/widget.d.ts" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="WS-243.22562.222">
+    <data-source name="27777_TLS" uuid="823ef4bf-7418-4619-9d6c-89baa4d376ff">
+      <database-info product="Mongo DB" version="8.0.3" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="8.0.3" exact-driver-version="1.18" />
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <auth-provider>MongoDB.MONGODB-X509</auth-provider>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" negative="1" />
+        </introspection-scope>
+      </schema-mapping>
+      <ssl-config use-ide-store="true" use-java-store="true" use-system-store="true">
+        <ca-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\001根CA证书\MongoDBSSL001_Root_CA.pem</ca-cert>
+        <client-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA.crt</client-cert>
+        <client-key>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA_Key.key</client-key>
+        <enabled>true</enabled>
+        <mode>VERIFY_FULL</mode>
+      </ssl-config>
+    </data-source>
+    <data-source name="27777_NO_TLS" uuid="40a3481f-7b7f-4cb8-a3c0-25076b1e276e">
+      <database-info product="Mongo DB" version="8.0.3" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="8.0.3" exact-driver-version="1.18" />
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <auth-provider>no-auth</auth-provider>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" negative="1" />
+        </introspection-scope>
+      </schema-mapping>
+      <load-sources>user_sources</load-sources>
+      <ssl-config>
+        <ca-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\001根CA证书\MongoDBSSL001_Root_CA.pem</ca-cert>
+        <client-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA.crt</client-cert>
+        <client-key>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA_Key.key</client-key>
+        <enabled>false</enabled>
+        <mode>VERIFY_FULL</mode>
+      </ssl-config>
+    </data-source>
+  </component>
+</project>
