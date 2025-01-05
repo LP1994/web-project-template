@@ -1621,6 +1621,7 @@ const aliasConfig = {
 
     'GSD2TSTD$': resolve( __dirname, './src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts' ),
     'MF_v2_RuntimeAPI$': resolve( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ),
+    'MF_v2_RegisterRemotes$': resolve( __dirname, './src/ModuleFederation_v2_RegisterRemotes.esm.mts' ),
   },
   /**
    * @type {object}

@@ -451,6 +451,9 @@
       ],
       "MF_v2_RuntimeAPI": [
         "./src/ModuleFederation_v2_RuntimeAPI.esm.mts"
+      ],
+      "MF_v2_RegisterRemotes": [
+        "./src/ModuleFederation_v2_RegisterRemotes.esm.mts"
       ]
     }
   }
