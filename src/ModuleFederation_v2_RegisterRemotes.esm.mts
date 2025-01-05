@@ -105,10 +105,6 @@
 
 'use strict';
 
-import {
-  MF_v2_RuntimeAPI_RegisterRemotes,
-} from 'MF_v2_RuntimeAPI';
-
 MF_v2_RuntimeAPI_RegisterRemotes(
   [
     {

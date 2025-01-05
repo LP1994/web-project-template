@@ -11488,6 +11488,31 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
     CurrencyTools: resolve( join( __dirname, './src/tools/js/currency_tools/CurrencyTools.esm.mjs' ) ),
     UniversalTools: resolve( join( __dirname, './src/tools/ts/universal_tools/UniversalTools.esm.mts' ) ),
+
+    MF_v2_RuntimeAPI_RegisterRemotes: [
+      resolve( join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+      'MF_v2_RuntimeAPI_RegisterRemotes',
+    ],
+    MF_v2_RuntimeAPI_LoadRemote: [
+      resolve( join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+      'MF_v2_RuntimeAPI_LoadRemote',
+    ],
+    MF_v2_RuntimeAPI_Init: [
+      resolve( join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+      'MF_v2_RuntimeAPI_Init',
+    ],
+    MF_v2_RuntimeAPI_LoadShare: [
+      resolve( join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+      'MF_v2_RuntimeAPI_LoadShare',
+    ],
+    MF_v2_RuntimeAPI_PreloadRemote: [
+      resolve( join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+      'MF_v2_RuntimeAPI_PreloadRemote',
+    ],
+    MF_v2_RuntimeAPI_RegisterPlugins: [
+      resolve( join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+      'MF_v2_RuntimeAPI_RegisterPlugins',
+    ],
   },
   /**
    * 使用此选项生成一个JSON文件，其中包含webpack“记录”——用于跨多个构建存储模块标识符的数据片段。您可以使用此文件来跟踪模块在构建之间的变化。<br />
