@@ -21,6 +21,8 @@ import {
 } from '@module-federation/enhanced/runtime';
 
 import {
+  type App as T_App,
+  type ComponentPublicInstance as T_ComponentPublicInstance,
   type DefineComponent as T_DefineComponent,
   type ExtractPropTypes as T_ExtractPropTypes,
   type ExtractPublicPropTypes as T_ExtractPublicPropTypes,
@@ -37,6 +39,10 @@ import {
 } from '@vue/runtime-core';
 
 declare global {
+  type T_VueApp<T> = T_App<T>;
+
+  type T_VueComponentPublicInstance = T_ComponentPublicInstance;
+
   type T_VueComponent = T_DefineComponent<{}, {}, any>;
 
   type T_VueExtractPropTypes<T> = T_ExtractPropTypes<T>;
