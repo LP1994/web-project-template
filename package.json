@@ -966,6 +966,7 @@
     "chalk": "^5.4.1",
     "cheerio": "^1.0.0",
     "chii": "^1.15.4",
+    "classnames": "^2.5.1",
     "clean-webpack-plugin": "^4.0.0",
     "clipboard": "^2.0.11",
     "compression-webpack-plugin": "^11.1.0",
