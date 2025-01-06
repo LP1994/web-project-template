@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: src/ModuleFederation_v2_RegisterRemotes.esm.mts
+ * FileDirPath: src/ModuleFederation_v2_RegisterRemotes.se.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
