@@ -13,6 +13,10 @@ import {
   useState,
 } from 'react';
 
+import {
+  useImmer,
+} from 'use-immer';
+
 import './App.scss';
 
 import Bookmarks from './components/bookmarks/Bookmarks.esm.jsx';
@@ -28,7 +32,7 @@ function App(){
   const [
     rulesData,
     setRulesData,
-  ] = useState( [
+  ] = useImmer( [
     {
       ruleID: 2024001,
       ruleName: '规则1',
@@ -85,8 +89,8 @@ function App(){
     setMyIndex( myIndex );
   }
 
-  function onMutationRulesData( rulesData ){
-    setRulesData( rulesData );
+  function onMutationRulesData( setRulesDataFun ){
+    setRulesData( setRulesDataFun );
   }
 
   return (

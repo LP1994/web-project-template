@@ -41,21 +41,15 @@ function Bookmarks( {
   function ruleNameChange( event, {
     ruleID: ruleID,
   } ){
-    const newRulesData = [
-        ...rulesData,
-      ],
-      findIndex = newRulesData.findIndex( ( {
-        ruleID: itemRuleID,
-      } ) => itemRuleID === ruleID );
+    onMutationRulesData( rulesData => {
+      rulesData.find( ( item, ) => {
+        if( item.ruleID === ruleID ){
+          item.ruleName = event.target.value;
 
-    if( findIndex !== -1 ){
-      newRulesData.splice( findIndex, 1, {
-        ...newRulesData[ findIndex ],
-        ruleName: event.target.value,
+          return true;
+        }
       } );
-
-      onMutationRulesData( newRulesData );
-    }
+    } );
   }
 
   return (

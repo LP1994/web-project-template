@@ -28,35 +28,25 @@ function Rules( {
   function ruleNameChange( event, {
     ruleID: ruleID,
   } ){
-    const newRulesData = [
-        ...rulesData,
-      ],
-      findIndex = newRulesData.findIndex( ( {
-        ruleID: itemRuleID,
-      } ) => itemRuleID === ruleID );
+    onMutationRulesData( rulesData => {
+      rulesData.find( ( item, ) => {
+        if( item.ruleID === ruleID ){
+          item.ruleName = event.target.value;
 
-    if( findIndex !== -1 ){
-      newRulesData.splice( findIndex, 1, {
-        ...newRulesData[ findIndex ],
-        ruleName: event.target.value,
+          return true;
+        }
       } );
-
-      onMutationRulesData( newRulesData );
-    }
+    } );
   }
 
   function addRule( event, index ){
-    const newRulesData = [
-      ...rulesData,
-    ];
-
-    newRulesData.splice( index, 0, {
-      ruleID: newRulesData.length + 2024000 + 1,
-      ruleName: '',
-      ruleContent: '',
+    onMutationRulesData( rulesData => {
+      rulesData.splice( index, 0, {
+        ruleID: rulesData.length + 2024000 + 1,
+        ruleName: '',
+        ruleContent: '',
+      } );
     } );
-
-    onMutationRulesData( newRulesData );
   }
 
   function bookmarkItemClick( event, {
