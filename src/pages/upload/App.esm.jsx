@@ -85,8 +85,8 @@ function App(){
     },
   ] );
 
-  function onMutationMyIndex( myIndex ){
-    setMyIndex( myIndex );
+  function onMutationMyIndex( newMyIndex ){
+    setMyIndex( newMyIndex );
   }
 
   function onMutationRulesData( setRulesDataFun ){
