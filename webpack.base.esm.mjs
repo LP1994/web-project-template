@@ -1142,6 +1142,8 @@ const autoprefixerConfig = {
           'pinia[\\\\/]',
           'element-ui[\\\\/]',
           'element-plus[\\\\/]',
+          // 表示所有以“react”开头的包名，例如：react、react-dom等等。
+          'react',
         ] ),
 
         VueFamilyJS: ( arr => {
@@ -1173,6 +1175,16 @@ const autoprefixerConfig = {
           };
         } )( [
           'element-plus',
+        ] ),
+
+        ReactFamilyJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'ReactFamilyJS',
+          };
+        } )( [
+          // 表示所有以“react”开头的包名，例如：react、react-dom等等。
+          'react',
         ] ),
 
         Vendors001JS: ( arr => {
@@ -1274,6 +1286,8 @@ const autoprefixerConfig = {
           'pinia[\\\\/]',
           'element-ui[\\\\/]',
           'element-plus[\\\\/]',
+          // 表示所有以“react”开头的包名，例如：react、react-dom等等。
+          'react',
         ] ),
 
         VueFamilyJS: ( arr => {
@@ -1297,6 +1311,16 @@ const autoprefixerConfig = {
           test: /node_modules[\\/]element-plus[\\/].*\.(js)$/i,
           name: 'ElementPlusJS',
         },
+
+        ReactFamilyJS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'ReactFamilyJS',
+          };
+        } )( [
+          // 表示所有以“react”开头的包名，例如：react、react-dom等等。
+          'react',
+        ] ),
 
         AxiosJS: {
           test: /node_modules[\\/]axios[\\/].*\.(js)$/i,
