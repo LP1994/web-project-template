@@ -45,17 +45,17 @@ import {
 import Bookmarks from './components/Bookmarks.Vue3.ts.vue';
 import Rules from './components/Rules.Vue3.ts.vue';
 
-type T_rule = {
+type T_Rule = {
   ruleID: number;
   ruleName: string;
   ruleContent: string;
 };
 
-type T_data = Array<T_rule>;
+type T_Data = Array<T_Rule>;
 
 let myIndex: T_VueRef<number, number> = ref<number>( 0 );
 
-const rulesData: T_VueReactive<T_data> = reactive<T_data>( [
+const rulesData: T_VueReactive<T_Data> = reactive<T_Data>( [
   {
     ruleID: 2024001,
     ruleName: '规则1',

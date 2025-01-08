@@ -106,15 +106,15 @@ import {
   onMounted,
 } from 'vue';
 
-type T_rule = {
+type T_Rule = {
   ruleID: number;
   ruleName: string;
   ruleContent: string;
 };
 
-type T_data = Array<T_rule>;
+type T_Data = Array<T_Rule>;
 
-const rulesData: T_VueModelRef<T_data, string, T_data, T_data> = defineModel<T_data>( 'rulesData', {
+const rulesData: T_VueModelRef<T_Data, string, T_Data, T_Data> = defineModel<T_Data>( 'rulesData', {
   required: true,
 } );
 
@@ -124,7 +124,7 @@ let myIndex: T_VueModelRef<number, string, number, number> = defineModel<number>
   default: 0,
   // @ts-expect-error
   validator( value: number, props: T_VuePropType<{
-    rulesData: T_data;
+    rulesData: T_Data;
     myIndex: number;
   }> ): boolean{
     return value >= 0;
@@ -133,9 +133,9 @@ let myIndex: T_VueModelRef<number, string, number, number> = defineModel<number>
 
 function RuleNameChange( event: Event, {
   ruleID,
-}: Pick<T_rule, 'ruleID'> ): void{
+}: Pick<T_Rule, 'ruleID'> ): void{
   // @ts-expect-error
-  rulesData.value.find( ( item: T_rule, ): boolean => {
+  rulesData.value.find( ( item: T_Rule, ): boolean => {
     if( item.ruleID === ruleID ){
       // @ts-expect-error
       item.ruleName = event!.target!.value as string;
