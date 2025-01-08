@@ -172,7 +172,7 @@ const entryConfig = {
   Upload: {
     import: Fix_HMR_Experiments_BuildHttp_Webpack5( [
       './src/pages/upload/Upload.css',
-      './src/pages/upload/Upload.jsx',
+      './src/pages/upload/Upload.mts',
     ] ),
   },
 };
