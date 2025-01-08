@@ -29,13 +29,6 @@
 'use strict';
 
 import {
-  type Server as T_Server,
-  type ServerOptions as T_ServerOptions,
-
-  makeServer as makeServerByWS,
-} from 'esm_sh/graphql-ws/lib/server';
-
-import {
   // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
   GRAPHQL_TRANSPORT_WS_PROTOCOL,
   //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
@@ -43,6 +36,13 @@ import {
 
   CloseCode,
 } from 'esm_sh/graphql-ws/lib/common';
+
+import {
+  type Server as T_Server,
+  type ServerOptions as T_ServerOptions,
+
+  makeServer as makeServerByWS,
+} from 'esm_sh/graphql-ws/lib/server';
 
 import {
   type FetchAPI as T_FetchAPI,
