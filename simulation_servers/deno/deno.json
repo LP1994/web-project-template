@@ -177,22 +177,28 @@
       "es2023.intl",
       "es5",
       "es6",
+      "es7",
       "esnext",
       "esnext.array",
+      "esnext.asynciterable",
+      "esnext.bigint",
       "esnext.collection",
       "esnext.decorators",
       "esnext.disposable",
       "esnext.intl",
+      "esnext.iterator",
       "esnext.object",
       "esnext.promise",
       "esnext.regexp",
-      "esnext.string"
+      "esnext.string",
+      "esnext.symbol",
+      "esnext.weakref"
     ]
   },
   "scopes": {
     "https://esm.sh/": {
       "https://esm.sh/v135/@types/graphql@14.5.0/index.d.ts": "https://esm.sh/graphql/index.d.ts",
-      "https://esm.sh/v135/graphql@16.8.1/denonext/graphql.mjs": "https://esm.sh/v135/graphql@16.9.0/denonext/graphql.mjs"
+      "https://esm.sh/v135/graphql@16.9.0/denonext/graphql.mjs": "https://esm.sh/v135/graphql@16.10.0/denonext/graphql.mjs"
     }
   },
   "imports": {
