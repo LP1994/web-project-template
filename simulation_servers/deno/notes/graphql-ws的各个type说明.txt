@@ -1,0 +1,98 @@
+MessageType["Subscribe"] = "subscribe";
+
+
+
+MessageType["ConnectionInit"] = "connection_init";
+客户端发送 ConnectionInit 请求： 客户端通过 WebSocket 连接向服务器发送一个 ConnectionInit 消息，通常包含连接参数（如认证信息）：
+{
+  "type": "connection_init",
+  "payload": {
+    "authToken": "your-auth-token"
+  }
+}
+
+
+
+MessageType["ConnectionAck"] = "connection_ack";
+服务器回应 ConnectionAck： 服务器在成功处理 ConnectionInit 请求后，会返回一个 ConnectionAck 消息，确认连接已建立：
+{
+  "type": "connection_ack"
+}
+
+
+
+MessageType["Ping"] = "ping";
+MessageType["Pong"] = "pong";
+Ping：WebSocket 服务器向客户端发送一个 Ping 消息，询问客户端是否仍然在线。客户端收到 Ping 消息后，会自动回应一个 Pong 消息，表示连接仍然有效。
+Pong：客户端回应服务器的 Ping 消息时，发送一个 Pong 消息。Pong 消息可以是对 Ping 消息的直接回应，也可以是由客户端发送的独立消息。
+这个机制常用于确保连接活跃，尤其是在长时间没有数据传输时。
+
+
+
+MessageType["Next"] = "next";
+在 graphql-ws 协议中，next 消息类型是用于 GraphQL 订阅（subscription）的数据传输。具体来说，它表示服务器向客户端发送的订阅结果或数据更新。
+next 消息的含义
+当客户端订阅了一个 GraphQL 订阅（例如某个数据流的变化），服务器会在数据发生变化时，向客户端推送新数据。这些数据会以 next 消息的形式传输。
+next 消息的结构
+next 消息通常包含服务器推送的实际数据。它会发送一个 JSON 对象，其中包含订阅查询的响应数据。
+{
+  "type": "next",
+  "id": "subscription-id",
+  "payload": {
+    "data": {
+      "newMessage": {
+        "content": "Hello, world!"
+      }
+    }
+  }
+}
+type: 必须是 next，表示这是一个新的数据消息。
+id: 订阅的唯一标识符，客户端和服务器通过这个 ID 来关联不同的订阅请求。
+payload: 包含实际的数据，通常是 GraphQL 查询的响应结果，里面的 data 字段就是推送的内容。
+next 消息的作用
+数据推送：next 消息的主要作用是推送订阅的数据更新。例如，如果客户端订阅了某个消息或事件（如用户发帖、消息更新等），每次数据变化时，服务器都会发送一个 next 消息，通知客户端新的数据。
+实时性：next 消息是 GraphQL 订阅的核心，允许服务器向客户端实时推送更新。比如，实时聊天应用、在线游戏、股票价格更新等都可以使用订阅并通过 next 消息传递数据。
+
+
+
+MessageType["Error"] = "error";
+在 graphql-ws 协议中，error 消息表示在处理 GraphQL 查询、订阅或变更请求时发生了错误。它用于通知客户端某个操作失败或遇到问题，通常是由于查询或订阅本身的错误、网络问题或服务器端的异常。
+error 消息的含义
+当服务器在处理客户端发送的 GraphQL 请求时遇到错误时，它会通过 error 消息通知客户端。这个消息通常包含关于错误的详细信息，可以帮助客户端了解发生了什么问题。
+error 消息的结构
+error 消息的结构通常如下：
+{
+  "type": "error",
+  "id": "subscription-id",   // 可能是订阅的 ID，或者是查询/变更的 ID
+  "payload": {
+    "errors": [
+      {
+        "message": "Detailed error message",
+        "locations": [
+          { "line": 1, "column": 2 }
+        ],
+        "path": ["field"]
+      }
+    ]
+  }
+}
+type: 这是固定的值 "error"，表示这是一个错误消息。
+id: 与这个请求或订阅相关的唯一标识符。通常是客户端发起的订阅或查询的 ID。
+payload: 错误的详细信息，通常包含 errors 字段，errors 是一个数组，其中每个错误对象都包含错误的具体信息。
+
+
+
+MessageType["Complete"] = "complete";
+在 graphql-ws 协议中，complete 消息表示一个订阅已经完成或被取消。当一个订阅不再继续提供数据时，服务器会发送一个 complete 消息，通知客户端订阅已结束。
+complete 消息的含义
+complete 消息通常是在以下情况下发送的：
+订阅完成：某个订阅的生命周期已结束，服务器不再发送新的数据。
+订阅取消：客户端或服务器主动取消订阅，或者订阅所依赖的资源不再可用，导致订阅终止。
+complete 消息的结构
+complete 消息的结构非常简单，它不携带任何额外的数据。通常，它只有一个固定的 type 字段，表示这是一个 complete 消息。
+{
+  "type": "complete",
+  "id": "subscription-id"
+}
+type: 固定值 "complete"，表示这是一个表示订阅完成或取消的消息。
+id: 与该订阅相关的唯一标识符。客户端和服务器通过这个 ID 来关联订阅请求。

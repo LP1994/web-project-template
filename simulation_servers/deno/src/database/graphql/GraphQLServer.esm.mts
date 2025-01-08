@@ -33,14 +33,16 @@ import {
   type ServerOptions as T_ServerOptions,
 
   makeServer as makeServerByWS,
+} from 'esm_sh/graphql-ws/lib/server';
 
+import {
   // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
   GRAPHQL_TRANSPORT_WS_PROTOCOL,
   //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
   DEPRECATED_GRAPHQL_WS_PROTOCOL,
 
   CloseCode,
-} from 'esm_sh/graphql-ws/lib';
+} from 'esm_sh/graphql-ws/lib/common';
 
 import {
   type FetchAPI as T_FetchAPI,
@@ -166,6 +168,7 @@ function GraphQLServer( {
 
   if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
     const {
+      // socket.protocol为空字符！可能是Deno的BUG！所以只能重写：graphql-ws/lib/use/deno里的makeHandler函数！
       socket,
       response,
     }: Deno.WebSocketUpgrade = Deno.upgradeWebSocket( request, {

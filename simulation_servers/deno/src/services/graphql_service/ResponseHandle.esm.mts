@@ -150,6 +150,7 @@ function ResponseHandle( request: Request ): T_Response001{
     ],
     graphqlWSOptions: {
       schema,
+      connectionInitWaitTimeout: 1 * 60 * 1000,
     },
     graphqlSSEOptions: [
       {
