@@ -9,6 +9,8 @@
 
 'use strict';
 
+import 'MF_v2_RegisterRemotes';
+
 import {
   createApp,
 } from 'vue';
