@@ -1119,7 +1119,7 @@ export class Events4PublishSubscribe {
 /**
  * BeforeInstallPromptEvent 接口的 userChoice 属性表示用户在收到安装应用程序的提示时所作的安装选择。
  */
-export type T_userChoiceResult = {
+export type T_UserChoiceResult = {
   /**
    * 表示用户是否选择安装应用程序的字符串。必须是以下值之一：
    * "accepted"：用户安装了应用程序。
@@ -1153,14 +1153,14 @@ export interface I_BeforeInstallPromptEvent
   /**
    * 返回一个 Promise，该 Promise 将解析为一个对象，描述用户在被提示安装应用程序时的选择。
    */
-  readonly userChoice: Promise<T_userChoiceResult>;
+  readonly userChoice: Promise<T_UserChoiceResult>;
 
   /**
    * 显示提示，询问用户是否要安装应用程序。该方法会返回一个 Promise，解析为一个对象，描述用户在被提示安装应用程序时的选择。
    * BeforeInstallPromptEvent 接口的 prompt() 方法允许开发人员在自己选择的时间显示安装提示。通常，应用程序自定义安装 UI 的事件处理程序会调用该方法。
    * 该方法必须在用户操作（如点击按钮）的事件处理程序中调用，并且只能在给定的 BeforeInstallPromptEvent 实例中调用一次。
    */
-  prompt: () => Promise<T_userChoiceResult>;
+  prompt: () => Promise<T_UserChoiceResult>;
 }
 
 /**
@@ -1186,15 +1186,15 @@ export type T_AppInstallEventConfig = {
   /**
    * 当用户确定添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数。
    *
-   * @param {T_userChoiceResult} userChoiceResult
+   * @param {T_UserChoiceResult} userChoiceResult
    */
-  accepted: ( userChoiceResult: T_userChoiceResult ) => void;
+  accepted: ( userChoiceResult: T_UserChoiceResult ) => void;
   /**
    * 当用户取消添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数。
    *
-   * @param {T_userChoiceResult} userChoiceResult
+   * @param {T_UserChoiceResult} userChoiceResult
    */
-  dismissed: ( userChoiceResult: T_userChoiceResult ) => void;
+  dismissed: ( userChoiceResult: T_UserChoiceResult ) => void;
   /**
    * onbeforeinstallprompt的event.userChoice的拒绝事件，有一个error参数。
    *
@@ -1253,20 +1253,20 @@ export class AppInstallEvent {
   /**
    * 当用户确定添加到主屏幕时，会被执行的函数。
    *
-   * @type {( userChoiceResult: T_userChoiceResult ) => void}
+   * @type {( userChoiceResult: T_UserChoiceResult ) => void}
    *
    * @private
    */
-  #accepted: ( userChoiceResult: T_userChoiceResult ) => void;
+  #accepted: ( userChoiceResult: T_UserChoiceResult ) => void;
 
   /**
    * 当用户取消添加到主屏幕时，会被执行的函数。
    *
-   * @type {( userChoiceResult: T_userChoiceResult ) => void}
+   * @type {( userChoiceResult: T_UserChoiceResult ) => void}
    *
    * @private
    */
-  #dismissed: ( userChoiceResult: T_userChoiceResult ) => void;
+  #dismissed: ( userChoiceResult: T_UserChoiceResult ) => void;
 
   /**
    * BeforeInstallPromptEvent 是 Window 对象在提示用户将网站 "安装 "到手机主屏幕之前触发的 beforeinstallprompt 事件的接口。
@@ -1285,9 +1285,9 @@ export class AppInstallEvent {
   /**
    * BeforeInstallPromptEvent 接口的 userChoice 属性表示用户在收到安装应用程序的提示时所作的安装选择。
    *
-   * @type {T_userChoiceResult | undefined}
+   * @type {T_UserChoiceResult | undefined}
    */
-  public userChoiceResult: T_userChoiceResult | undefined;
+  public userChoiceResult: T_UserChoiceResult | undefined;
 
   /**
    * 构造函数，初始化事件。
@@ -1300,9 +1300,9 @@ export class AppInstallEvent {
    *
    * @param {boolean} config.isPreventDefault 布尔值，true禁用默认事件，false反之，默认值true，可选。
    *
-   * @param {((userChoiceResult: T_userChoiceResult) => void)} config.accepted 当用户确定添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数，可选。
+   * @param {((userChoiceResult: T_UserChoiceResult) => void)} config.accepted 当用户确定添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数，可选。
    *
-   * @param {((userChoiceResult: T_userChoiceResult) => void)} config.dismissed 当用户取消添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数，可选。
+   * @param {((userChoiceResult: T_UserChoiceResult) => void)} config.dismissed 当用户取消添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数，可选。
    *
    * @param {((error: Error) => void)} config.rejected onbeforeinstallprompt的event.userChoice的拒绝事件，有一个error参数，可选。
    */
@@ -1322,13 +1322,13 @@ export class AppInstallEvent {
     isPreventDefault = true,
     accepted = (
       // @ts-expect-error
-      userChoiceResult: T_userChoiceResult
+      userChoiceResult: T_UserChoiceResult
     ): void => {
       console.log( 'Web APP已经添加到主屏幕了！' );
     },
     dismissed = (
       // @ts-expect-error
-      userChoiceResult: T_userChoiceResult
+      userChoiceResult: T_UserChoiceResult
     ): void => {
       console.log( 'Web APP还没添加到主屏幕！' );
     },
@@ -1353,7 +1353,7 @@ export class AppInstallEvent {
 
       onBeforeInstallPrompt( event );
 
-      event[ 'userChoice' ].then( ( userChoiceResult: T_userChoiceResult ): void => {
+      event[ 'userChoice' ].then( ( userChoiceResult: T_UserChoiceResult ): void => {
         this.userChoiceResult = userChoiceResult;
 
         if( userChoiceResult === undefined || userChoiceResult[ 'outcome' ] === 'dismissed' ){
@@ -1382,9 +1382,9 @@ export class AppInstallEvent {
   /**
    * 当onbeforeinstallprompt第1次被触发后，或outcome === 'dismissed'时，这2种情况下，调用该方法会触发添加到主屏幕的提示。
    *
-   * @returns {Promise<T_userChoiceResult | void>}
+   * @returns {Promise<T_UserChoiceResult | void>}
    */
-  public async prompt(): Promise<T_userChoiceResult | void>{
+  public async prompt(): Promise<T_UserChoiceResult | void>{
     if( ( this.beforeInstallPromptEvent && this.userChoiceResult === undefined ) || ( this.beforeInstallPromptEvent && this.userChoiceResult !== undefined && this.userChoiceResult[ 'outcome' ] === 'dismissed' ) ){
       return await this.beforeInstallPromptEvent.prompt();
     }
@@ -1393,18 +1393,18 @@ export class AppInstallEvent {
   /**
    * 当用户确定添加到主屏幕时，会被执行的函数。
    *
-   * @param {(userChoiceResult: T_userChoiceResult) => void} fun 函数，该函数有一个userChoiceResult参数，必须。<br />
+   * @param {(userChoiceResult: T_UserChoiceResult) => void} fun 函数，该函数有一个userChoiceResult参数，必须。<br />
    */
-  public accepted( fun: ( userChoiceResult: T_userChoiceResult ) => void ): void{
+  public accepted( fun: ( userChoiceResult: T_UserChoiceResult ) => void ): void{
     this.#accepted = fun;
   }
 
   /**
    * 当用户取消添加到主屏幕时，会被执行的函数。
    *
-   * @param {(userChoiceResult: T_userChoiceResult) => void} fun 函数，该函数有一个userChoiceResult参数，必须。<br />
+   * @param {(userChoiceResult: T_UserChoiceResult) => void} fun 函数，该函数有一个userChoiceResult参数，必须。<br />
    */
-  public dismissed( fun: ( userChoiceResult: T_userChoiceResult ) => void ): void{
+  public dismissed( fun: ( userChoiceResult: T_UserChoiceResult ) => void ): void{
     this.#dismissed = fun;
   }
 
