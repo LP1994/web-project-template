@@ -23,7 +23,7 @@
 
 
 
-/subsystems/**/.idea/
+#/subsystems/**/.idea/
 
 /subsystems/**/dist/
 !/subsystems/**/backups/**/dist/
