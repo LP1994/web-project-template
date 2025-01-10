@@ -195,8 +195,20 @@ function ModuleFederation_v2_Config_Fun( {
      * <code>
      *   // 直接写死修改webpack的配置“output.publicPath”的值。
      *   __webpack_public_path__ = process.env.PUBLIC_PATH || 'https://localhost:8100/';
+     *   // 直接写死修改webpack的配置“output.publicPath”的值。
+     *   __webpack_require__.p = process.env.PUBLIC_PATH || 'https://localhost:8100/';
      * </code>
-     * 1、值类型：string，必须以'function'开头。<br />
+     * 1、值类型：string，可以'function'开头。<br />
+     * 注意：node_modules/@module-federation/enhanced/dist/src/lib/container/runtime/RemoteEntryPlugin.js
+     * 根据其源码可知，当getPublicPath选项的值是以“function”开头的字符串时，其会被处理为：
+     * `(${this._getPublicPath})()`
+     * 当不以“function”开头的字符串时，其会被处理为：
+     * `${compiler.webpack.RuntimeGlobals.publicPath} = new Function(${JSON.stringify(this._getPublicPath)})()`
+     * 其中“compiler.webpack.RuntimeGlobals.publicPath”的值为“__webpack_require__.p”的字符串。
+     * 例如：
+     * 将“getPublicPath”设置为`return new URL('../mf_v2/upload_for_multiple/',location.href).href`时，
+     * 在“业务代码（不是webpack的配置代码）”中可以通过：__webpack_public_path__、__webpack_require__.p这两个直接变量，就可以取到实际运行在浏览器（当前浏览器的URL：http://localhost:8090/web-project-template/dist/test/pages/Upload.html）下的具体URL值了：
+     * http://localhost:8090/web-project-template/dist/test/mf_v2/upload_for_multiple/
      */
     // getPublicPath: `function(){}`,
     /**
