@@ -105,6 +105,14 @@
 
 'use strict';
 
+import {
+  ModuleFederation_v2_CustomRuntimePlugin,
+} from './ModuleFederation_v2_CustomRuntimePlugin.esm.mts';
+
+MF_v2_RuntimeAPI_RegisterPlugins( [
+  ModuleFederation_v2_CustomRuntimePlugin(),
+] );
+
 MF_v2_RuntimeAPI_RegisterRemotes(
   [
     {
