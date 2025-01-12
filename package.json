@@ -502,7 +502,7 @@
     "@graphql-mesh/graphql": "^0.103.12",
     "@graphql-mesh/grpc": "^0.107.1",
     "@graphql-mesh/http": "^0.105.12",
-    "@graphql-mesh/json-schema": "^0.108.11",
+    "@graphql-mesh/json-schema": "^0.108.12",
     "@graphql-mesh/merger-bare": "^0.104.14",
     "@graphql-mesh/merger-federation": "^0.102.11",
     "@graphql-mesh/merger-stitching": "^0.104.11",
