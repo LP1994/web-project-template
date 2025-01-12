@@ -71,6 +71,57 @@ function ModuleFederation_v2_Config_Fun( {
      * </code>
      * 3、注意！如果“@”之后的URL设置的格式不对，是会导致打包出的代码不含有期望的可以成功运行的代码！<br />
      * 4、目前，“ModuleFederation v2”在插件模式下除了能通过“.env”文件来设置不同打包环境的URL值外，想要真正的根据实际业务开发需求进行动态设置“remotes”，那就只能使用“ModuleFederation v2”的运行时API了。<br />
+     * 5、个人编写了一个自定义插件（注意，只是扩展了功能，不影响原本的功能）：“./src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts”。<br />
+     * 注意：该自定义插件只能在插件构建模式下使用，不能在运行时注册使用该插件！因为其功用是在“beforeInit”函数中定义的，但是该函数是不会在运行时被调用的，只会在插件构建模式下被调用。<br />
+     * 其功用是在“beforeInit”函数中，将自定义标识“#auto#”处理为：<br />
+     * <code>
+     * remote.entry = new URL( remote.entry.split( '#auto#' ).at( -1 ), location.href ).href
+     * </code>
+     * 自定义标识“#auto#”表示，该“远端模块提供者”的加载地址(也就是JS脚本url)是根据“远端模块使用者”的“origin”、“浏览器页面上的url”等处理成相对“远端模块使用者”url路径的“远端模块提供者”url路径。<br />
+     * 使用例如：<br />
+     * 在“ModuleFederation_v2_Config.esm.mjs”中有如下设置：<br />
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${
+     *     isProduction
+     *     ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
+     *     : process.env.RemoteUploadForMultipleURL
+     *   }RemoteEntry_UploadForMultiple.js`,
+     * },
+     * runtimePlugins: [
+     *   resolve( __dirname, './src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
+     * ],
+     * </code>
+     * 在环境变量配置文件（.env.dev）中：<br />
+     * <code>
+     * RemoteUploadForMultipleURL=https://localhost:8101/dev_server/mf_v2/
+     * </code>
+     * 在环境变量配置文件（.env.production）中：<br />
+     * <code>
+     * RemoteUploadForMultipleURL=../mf_v2/upload_for_multiple/mf_v2/
+     * </code>
+     * 在开发模式（isProduction为false）下，上面的“remotes”实际是如此：<br />
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@https://localhost:8101/dev_server/mf_v2/RemoteEntry_UploadForMultiple.js`,
+     * },
+     * </code>
+     * 在生产模式（isProduction为true）下，上面的“remotes”实际是如此：<br />
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@#auto#../mf_v2/upload_for_multiple/mf_v2/RemoteEntry_UploadForMultiple.js`,
+     * },
+     * </code>
+     * 通过自定义插件（注意，只是扩展了功能，不影响原本的功能）处理后，生产模式（isProduction为true）下，上面的“remotes”实际是如此：<br />
+     * 假定“远端模块使用者”的浏览器页面url地址是：<br />
+     * http://localhost:8090/web-project-template/dist/production/pages/Upload.html
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@http://localhost:8090/web-project-template/dist/production/mf_v2/upload_for_multiple/mf_v2/RemoteEntry_UploadForMultiple.js`,
+     * },
+     * </code>
+     * 这样，原本插件构建模式下的“固定url（这里的“固定”一词是相对运行时可以动态设置远端模块提供者的url）”也就可以做到类似在运行时那样，可以动态设置远端模块提供者的url。<br />
+     * 注意！该自定义插件只是扩展了功能，不影响原本的功能。<br />
      */
     remotes: {
       RemoteUploadForMultiple: `Remote_UploadForMultiple@${
@@ -78,6 +129,13 @@ function ModuleFederation_v2_Config_Fun( {
         ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
         : process.env.RemoteUploadForMultipleURL
       }RemoteEntry_UploadForMultiple.js`,
+      /*
+       Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${
+       isProduction
+       ? `#auto#${ process.env.RemoteUploadForSingleURL }`
+       : process.env.RemoteUploadForSingleURL
+       }RemoteEntry_UploadForSingle.js`,
+       */
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
@@ -291,6 +349,60 @@ function ModuleFederation_v2_Config_Fun( {
       },
     },
     shareStrategy: 'version-first',
+    /**
+     * 允许使用自定义插件、第三方插件、“MF v2”自己的生态插件进行扩展处理。<br />
+     * 1、个人编写了一个自定义插件（注意，只是扩展了功能，不影响原本的功能）：“./src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts”。<br />
+     * 注意：该自定义插件只能在插件构建模式下使用，不能在运行时注册使用该插件！因为其功用是在“beforeInit”函数中定义的，但是该函数是不会在运行时被调用的，只会在插件构建模式下被调用。<br />
+     * 其功用是在“beforeInit”函数中，将自定义标识“#auto#”处理为：<br />
+     * <code>
+     * remote.entry = new URL( remote.entry.split( '#auto#' ).at( -1 ), location.href ).href
+     * </code>
+     * 自定义标识“#auto#”表示，该“远端模块提供者”的加载地址(也就是JS脚本url)是根据“远端模块使用者”的“origin”、“浏览器页面上的url”等处理成相对“远端模块使用者”url路径的“远端模块提供者”url路径。<br />
+     * 使用例如：<br />
+     * 在“ModuleFederation_v2_Config.esm.mjs”中有如下设置：<br />
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${
+     *     isProduction
+     *     ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
+     *     : process.env.RemoteUploadForMultipleURL
+     *   }RemoteEntry_UploadForMultiple.js`,
+     * },
+     * runtimePlugins: [
+     *   resolve( __dirname, './src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
+     * ],
+     * </code>
+     * 在环境变量配置文件（.env.dev）中：<br />
+     * <code>
+     * RemoteUploadForMultipleURL=https://localhost:8101/dev_server/mf_v2/
+     * </code>
+     * 在环境变量配置文件（.env.production）中：<br />
+     * <code>
+     * RemoteUploadForMultipleURL=../mf_v2/upload_for_multiple/mf_v2/
+     * </code>
+     * 在开发模式（isProduction为false）下，上面的“remotes”实际是如此：<br />
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@https://localhost:8101/dev_server/mf_v2/RemoteEntry_UploadForMultiple.js`,
+     * },
+     * </code>
+     * 在生产模式（isProduction为true）下，上面的“remotes”实际是如此：<br />
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@#auto#../mf_v2/upload_for_multiple/mf_v2/RemoteEntry_UploadForMultiple.js`,
+     * },
+     * </code>
+     * 通过自定义插件（注意，只是扩展了功能，不影响原本的功能）处理后，生产模式（isProduction为true）下，上面的“remotes”实际是如此：<br />
+     * 假定“远端模块使用者”的浏览器页面url地址是：<br />
+     * http://localhost:8090/web-project-template/dist/production/pages/Upload.html
+     * <code>
+     * remotes: {
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@http://localhost:8090/web-project-template/dist/production/mf_v2/upload_for_multiple/mf_v2/RemoteEntry_UploadForMultiple.js`,
+     * },
+     * </code>
+     * 这样，原本插件构建模式下的“固定url（这里的“固定”一词是相对运行时可以动态设置远端模块提供者的url）”也就可以做到类似在运行时那样，可以动态设置远端模块提供者的url。<br />
+     * 注意！该自定义插件只是扩展了功能，不影响原本的功能。<br />
+     */
     runtimePlugins: [
       resolve( __dirname, './src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
     ],
