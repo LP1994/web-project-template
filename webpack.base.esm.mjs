@@ -2571,18 +2571,16 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           response.statusCode = 200;
           response.statusMessage = 'OK';
 
-          response.end( `
-                   <!DOCTYPE html>
-                   <html lang = 'zh-CN'>
-                   <head>
-                     <meta charset = 'UTF-8' />
-                     <title>index</title>
-                   </head>
-                   <body>
-                     <p>This is a index page(${ req.originalUrl }) for webpack-dev-server config.</p>
-                   </body>
-                   </html>
-                   `, 'utf8' );
+          response.end( `<!DOCTYPE html>
+<html lang = 'zh-CN'>
+<head>
+  <meta charset = 'UTF-8' />
+  <title>index</title>
+</head>
+<body>
+  <p>This is a index page(${ req.originalUrl }) for webpack-dev-server config.</p>
+</body>
+</html>`, 'utf8' );
         };
 
       devServer.app.all( '*', ( req, res, next ) => {
@@ -9884,6 +9882,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
   moduleFederationPluginConfig = isUseModuleFederation
                                  ? ModuleFederation_v2_Config_Fun( {
       __dirname,
+      isProduction,
     } )
                                  : null,
   /**
