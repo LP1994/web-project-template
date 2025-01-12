@@ -14,6 +14,10 @@
 
 'use strict';
 
+import {
+  resolve,
+} from 'node:path';
+
 import package_json from './package.json' with { type: 'json', };
 
 function GetVersion4NPMPackageName2PackageJson( npmPackageName ){
@@ -35,6 +39,7 @@ function GetVersion4NPMPackageName2PackageJson( npmPackageName ){
 
 function ModuleFederation_v2_Config_Fun( {
   __dirname,
+  isProduction,
 } ){
   /**
    * @type {import('node_modules/@module-federation/sdk/dist/src/types/plugins/ModuleFederationPlugin.d.ts').ModuleFederationPluginOptions} ModuleFederationPluginOptions
@@ -68,8 +73,11 @@ function ModuleFederation_v2_Config_Fun( {
      * 4、目前，“ModuleFederation v2”在插件模式下除了能通过“.env”文件来设置不同打包环境的URL值外，想要真正的根据实际业务开发需求进行动态设置“remotes”，那就只能使用“ModuleFederation v2”的运行时API了。<br />
      */
     remotes: {
-      RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
-      // Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${ process.env.RemoteUploadForSingleURL }RemoteEntry_UploadForSingle.js`,
+      RemoteUploadForMultiple: `Remote_UploadForMultiple@${
+        isProduction
+        ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
+        : process.env.RemoteUploadForMultipleURL
+      }RemoteEntry_UploadForMultiple.js`,
     },
     /**
      * 远端模块提供者所要导出的各个模块。<br />
@@ -283,6 +291,9 @@ function ModuleFederation_v2_Config_Fun( {
       },
     },
     shareStrategy: 'version-first',
+    runtimePlugins: [
+      resolve( __dirname, './src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
+    ],
   };
 }
 
