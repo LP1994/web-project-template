@@ -364,7 +364,7 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      */
     beforeInit( args: T_BeforeInitOptions ): T_BeforeInitOptions{
       // @ts-expect-error
-      args.userOptions.remotes.forEach( ( remote: T_Remote, ): void => ( remote.entry.includes( `#auto#` ) && ( remote.entry = new URL( remote.entry.split( '#auto#' ).at( -1 ), location.href ).href ) ) );
+      args.userOptions.remotes.forEach( ( remote: T_Remote, ): void => ( remote.entry.includes( `#auto#` ) && ( remote.entry = new URL( remote.entry.split( '#auto#' ).at( -1 ).trim(), location.href ).href ) ) );
 
       return args;
     },
