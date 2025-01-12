@@ -29,6 +29,7 @@ import {
   type RemoteWithVersion as T_RemoteWithVersion,
 } from '@module-federation/sdk';
 
+// @ts-ignore
 type T_AfterResolveOptions = {
   id: string;
   pkgNameOrAlias: string;
@@ -51,6 +52,7 @@ type T_BeforeInitOptions = {
   shareInfo: T_ShareInfos;
 };
 
+// @ts-ignore
 type T_BeforeRequestOptions = {
   id: string;
   options: T_FederationRuntimeOptions;
@@ -59,6 +61,7 @@ type T_BeforeRequestOptions = {
 
 type T_Callback<T, K> = ( ...args: T_ArgsType<T> ) => K;
 
+// @ts-ignore
 type T_CreateScriptOptions = {
   url: string;
   attrs?: Record<string, any>;
@@ -74,6 +77,7 @@ type T_FederationRuntimeOptions = {
   inBrowser: boolean;
 };
 
+// @ts-ignore
 type T_InitOptions = {
   options: T_FederationRuntimeOptions;
   origin: FederationHost;
@@ -83,7 +87,7 @@ type T_InitScope = T_InitTokens[];
 
 type T_InitTokens = Record<string, Record<string, any>>;
 
-// @ts-expect-error
+// @ts-ignore
 type T_LoadEntryOptions = {
   createScriptHook: typeof T_SyncHook,
   remoteEntryExports?: T_RemoteEntryExports,
@@ -95,6 +99,7 @@ type T_ModuleOptions = {
   host: FederationHost;
 };
 
+// @ts-ignore
 type T_OnLoadOptions = {
   id: string;
   expose: string;
@@ -246,9 +251,8 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      * @returns {T_BeforeInitOptions}
      */
     beforeInit( args: T_BeforeInitOptions ): T_BeforeInitOptions{
-      console.log( `\n\n\nbeforeInit----------------Start` );
-      console.dir( args );
-      console.log( `beforeInit----------------End\n\n\n` );
+      // @ts-expect-error
+      args.userOptions.remotes.forEach( ( remote: T_Remote, ): void => ( remote.entry.includes( `#auto#` ) && ( remote.entry = new URL( remote.entry.split( '#auto#' ).at( -1 ), location.href ).href ) ) );
 
       return args;
     },
@@ -259,11 +263,13 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      *
      * @param {T_InitOptions} args
      */
-    init( args: T_InitOptions ): void{
-      console.log( `\n\n\ninit----------------Start` );
-      console.dir( args );
-      console.log( `init----------------End\n\n\n` );
-    },
+    /*
+     init( args: T_InitOptions ): void{
+     console.log( `\n\n\ninit----------------Start` );
+     console.dir( args );
+     console.log( `init----------------End\n\n\n` );
+     },
+     */
 
     /**
      * 在解析远程容器之前调用，用于在查找之前注入容器或更新某些内容。<br />
@@ -273,13 +279,15 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      *
      * @returns {Promise<T_BeforeRequestOptions>}
      */
-    async beforeRequest( args: T_BeforeRequestOptions ): Promise<T_BeforeRequestOptions>{
-      console.log( `\n\n\nbeforeRequest----------------Start` );
-      console.dir( args );
-      console.log( `beforeRequest----------------End\n\n\n` );
+    /*
+     async beforeRequest( args: T_BeforeRequestOptions ): Promise<T_BeforeRequestOptions>{
+     console.log( `\n\n\nbeforeRequest------${ args.id }----------Start` );
+     console.dir( args );
+     console.log( `beforeRequest--------${ args.id }--------End\n\n\n` );
 
-      return args;
-    },
+     return args;
+     },
+     */
 
     /**
      * 在解析容器后调用，允许重定向或修改已解析的信息。<br />
@@ -289,13 +297,15 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      *
      * @returns {Promise<T_AfterResolveOptions>}
      */
-    async afterResolve( args: T_AfterResolveOptions ): Promise<T_AfterResolveOptions>{
-      console.log( `\n\n\nafterResolve--------${ args.id }--------Start` );
-      console.dir( args );
-      console.log( `afterResolve--------${ args.id }--------End\n\n\n` );
+    /*
+     async afterResolve( args: T_AfterResolveOptions ): Promise<T_AfterResolveOptions>{
+     console.log( `\n\n\nafterResolve--------${ args.id }--------Start` );
+     console.dir( args );
+     console.log( `afterResolve--------${ args.id }--------End\n\n\n` );
 
-      return args;
-    },
+     return args;
+     },
+     */
 
     /**
      * 联合模块完全加载时触发，允许访问和修改已加载文件的导出内容。<br />
@@ -305,11 +315,13 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      *
      * @returns {Promise<void>}
      */
-    async onLoad( args: T_OnLoadOptions ): Promise<void>{
-      console.log( `\n\n\nonLoad----------------Start` );
-      console.dir( args );
-      console.log( `onLoad----------------End\n\n\n` );
-    },
+    /*
+     async onLoad( args: T_OnLoadOptions ): Promise<void>{
+     console.log( `\n\n\nonLoad-------${ args.id }---------Start` );
+     console.dir( args );
+     console.log( `onLoad-------${ args.id }---------End\n\n\n` );
+     },
+     */
 
     /**
      * 创建加载远端模块的“script标签”。<br />
@@ -323,30 +335,30 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      *
      * @returns {HTMLScriptElement | {script?: HTMLScriptElement, timeout?: number} | void}
      */
-    createScript( {
-      url,
-      attrs,
-    }: T_CreateScriptOptions ): HTMLScriptElement | {
-      script?: HTMLScriptElement,
-      timeout?: number
-    } | void{
-      console.log( `\n\n\ncreateScript-----------${ url }-----------Start` );
-      console.dir( attrs );
-      console.log( `createScript-----------${ url }-----------End\n\n\n` );
+    /*
+     createScript( {
+     url,
+     attrs,
+     }: T_CreateScriptOptions ): HTMLScriptElement | {
+     script?: HTMLScriptElement,
+     timeout?: number
+     } | void{
+     console.log( `\n\n\ncreateScript-----------${ url }-----------Start` );
+     console.dir( attrs );
+     console.log( `createScript-----------${ url }-----------End\n\n\n` );
 
-      /*
-       const script = document.createElement( 'script' );
+     // const script = document.createElement( 'script' );
 
-       script.src = `${ new URL( '../mf_v2/upload_for_multiple/', location.href ).href }${ url }`;
+     // script.src = `${ new URL( '../mf_v2/upload_for_multiple/', location.href ).href }${ url }`;
 
-       // can modify the attrs object
-       // attrs[ 'loader-hooks' ] = 'isTrue';
-       // or add them to the script
-       // script.setAttribute( 'crossorigin', 'anonymous' );
+     // can modify the attrs object
+     // attrs[ 'loader-hooks' ] = 'isTrue';
+     // or add them to the script
+     // script.setAttribute( 'crossorigin', 'anonymous' );
 
-       return script;
-       */
-    },
+     // return script;
+     },
+     */
 
     /**
      * fetch函数允许自定义获取清单JSON的请求。成功的Response必须生成有效的JSON。<br />
