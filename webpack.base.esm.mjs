@@ -10981,9 +10981,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       removeAvailableModules: true,
       // 告诉webpack检测并删除空的块。将optimization.removeEmptyChunks设置为false将禁用此优化。
       removeEmptyChunks: true,
-      runtimeChunk: {
-        name: ( { name } ) => `RuntimeChunk_${ name }`,
-      },
+      ...( isUseModuleFederation => {
+        return isUseModuleFederation
+               ? {}
+               : {
+            runtimeChunk: {
+              name: ( { name } ) => `RuntimeChunk_${ name }`,
+            },
+          };
+      } )( isUseModuleFederation ),
       // optimization.sideEffects依赖optimization.providedExports。前者的启用依赖后者的启用。
       sideEffects: true,
       /**
@@ -11031,9 +11037,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       removeAvailableModules: false,
       // 告诉webpack检测并删除空的块。将optimization.removeEmptyChunks设置为false将禁用此优化。
       removeEmptyChunks: true,
-      runtimeChunk: {
-        name: ( { name } ) => `RuntimeChunk_${ name }`,
-      },
+      ...( isUseModuleFederation => {
+        return isUseModuleFederation
+               ? {}
+               : {
+            runtimeChunk: {
+              name: ( { name } ) => `RuntimeChunk_${ name }`,
+            },
+          };
+      } )( isUseModuleFederation ),
       // optimization.sideEffects依赖optimization.providedExports。前者的启用依赖后者的启用。
       sideEffects: true,
       /**
