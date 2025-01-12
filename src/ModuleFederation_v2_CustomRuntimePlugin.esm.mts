@@ -251,6 +251,7 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
 
     /**
      * 在远程容器初始化过程之前更新联合主机配置。<br />
+     * 注意：该函数只会在插件构建模式下被调用！<br />
      * PS: SyncWaterfallHook
      *
      * @param {T_BeforeInitOptions} args
@@ -266,6 +267,7 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
 
     /**
      * 在远程容器初始化期间调用。<br />
+     * 注意：该函数只会在插件构建模式下被调用！<br />
      * PS: SyncHook
      *
      * @param {T_InitOptions} args
