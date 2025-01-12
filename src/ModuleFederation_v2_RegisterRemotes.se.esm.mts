@@ -105,21 +105,13 @@
 
 'use strict';
 
-import {
-  ModuleFederation_v2_CustomRuntimePlugin,
-} from './ModuleFederation_v2_CustomRuntimePlugin.esm.mts';
-
-MF_v2_RuntimeAPI_RegisterPlugins( [
-  ModuleFederation_v2_CustomRuntimePlugin(),
-] );
-
 MF_v2_RuntimeAPI_RegisterRemotes(
   [
     {
       name: 'Remote_UploadForSingle',
       entry: `${
         isProduction
-        ? new URL( '../mf_v2/upload_for_single/', location.href ).href
+        ? new URL( env.RemoteUploadForSingleURL, location.href ).href
         : env.RemoteUploadForSingleURL
       }RemoteEntry_UploadForSingle.js`,
       alias: 'Remote_Vue_UploadForSingle',
