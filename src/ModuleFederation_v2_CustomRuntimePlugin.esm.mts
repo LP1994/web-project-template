@@ -238,6 +238,13 @@ declare class T_SyncHook<T, K> {
   removeAll(): void;
 }
 
+/**
+ * ModuleFederation_v2_CustomRuntimePlugin
+ *
+ * @returns {T_FederationRuntimePlugin}
+ *
+ * @constructor
+ */
 function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
   return {
     name: 'mf-v2-custom-runtime-plugin',
