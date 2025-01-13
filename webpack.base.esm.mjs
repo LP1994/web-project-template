@@ -341,7 +341,7 @@ const isProduction = ( argv => {
    *
    * @type {boolean}
    */
-  isUseModuleFederation = false,
+  isUseModuleFederation = true,
   /**
    * 是否在控制台输出Babel的插件调试日志。<br />
    * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
@@ -1146,6 +1146,22 @@ const autoprefixerConfig = {
           'react',
         ] ),
 
+        Vendors001JS: ( arr => {
+          return {
+            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
+            name: 'Vendors001JS',
+          };
+        } )( [
+          'axios',
+          'jquery',
+          'swiper',
+        ] ),
+
+        EchartsJS: {
+          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
+          name: 'EchartsJS',
+        },
+
         VueFamilyJS: ( arr => {
           return {
             test: new RegExp( `node_modules[\\\\/](${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
@@ -1186,22 +1202,6 @@ const autoprefixerConfig = {
           // 表示所有以“react”开头的包名，例如：react、react-dom等等。
           'react',
         ] ),
-
-        Vendors001JS: ( arr => {
-          return {
-            test: new RegExp( `node_modules[\\\\/](${ arr.map( item => item + '[\\\\/]' ).join( '|' ) }).*\\.(js)$`, 'i' ),
-            name: 'Vendors001JS',
-          };
-        } )( [
-          'axios',
-          'jquery',
-          'swiper',
-        ] ),
-
-        EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
-          name: 'EchartsJS',
-        },
       };
 
       /**
@@ -1235,17 +1235,6 @@ const autoprefixerConfig = {
           'element-plus',
         ] ),
 
-        SwiperCSS: {
-          test: /node_modules[\\/]swiper[\\/].*\.css$/i,
-          ...( () => {
-            return isProduction
-                   ? {
-                type: 'css/mini-extract',
-              }
-                   : {};
-          } )(),
-          name: 'SwiperCSS',
-        },
         ELEMENTCSS: {
           test: /node_modules[\\/]element-ui[\\/].*\.css$/i,
           ...( () => {
@@ -1268,6 +1257,17 @@ const autoprefixerConfig = {
           } )(),
           name: 'ElementPlusCSS',
         },
+        SwiperCSS: {
+          test: /node_modules[\\/]swiper[\\/].*\.css$/i,
+          ...( () => {
+            return isProduction
+                   ? {
+                type: 'css/mini-extract',
+              }
+                   : {};
+          } )(),
+          name: 'SwiperCSS',
+        },
 
         VendorsJS: ( arr => {
           return {
@@ -1288,7 +1288,39 @@ const autoprefixerConfig = {
           'element-plus[\\\\/]',
           // 表示所有以“react”开头的包名，例如：react、react-dom等等。
           'react',
+          // 表示所有以“@module-federation”开头的包名，例如：@module-federation/enhanced/runtime、@module-federation/enhanced/webpack等等。
+          // '@module-federation',
         ] ),
+
+        /*
+         MFv2JS: ( arr => {
+         return {
+         test: new RegExp( `node_modules[\\\\/](${ arr.join( '|' ) }).*\\.(js)$`, 'i' ),
+         name: 'MFv2JS',
+         };
+         } )( [
+         // 表示所有以“@module-federation”开头的包名，例如：@module-federation/enhanced/runtime、@module-federation/enhanced/webpack等等。
+         '@module-federation',
+         ] ),
+         */
+
+        AxiosJS: {
+          test: /node_modules[\\/]axios[\\/].*\.(js)$/i,
+          name: 'AxiosJS',
+        },
+        jQueryJS: {
+          test: /node_modules[\\/]jquery[\\/].*\.(js)$/i,
+          name: 'jQueryJS',
+        },
+        SwiperJS: {
+          test: /node_modules[\\/]swiper[\\/].*\.(js)$/i,
+          name: 'SwiperJS',
+        },
+
+        EchartsJS: {
+          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
+          name: 'EchartsJS',
+        },
 
         VueFamilyJS: ( arr => {
           return {
@@ -1321,24 +1353,6 @@ const autoprefixerConfig = {
           // 表示所有以“react”开头的包名，例如：react、react-dom等等。
           'react',
         ] ),
-
-        AxiosJS: {
-          test: /node_modules[\\/]axios[\\/].*\.(js)$/i,
-          name: 'AxiosJS',
-        },
-        jQueryJS: {
-          test: /node_modules[\\/]jquery[\\/].*\.(js)$/i,
-          name: 'jQueryJS',
-        },
-        SwiperJS: {
-          test: /node_modules[\\/]swiper[\\/].*\.(js)$/i,
-          name: 'SwiperJS',
-        },
-
-        EchartsJS: {
-          test: /node_modules[\\/]echarts[\\/].*\.(js)$/i,
-          name: 'EchartsJS',
-        },
       };
 
       Object.entries( SPACacheGroups ).forEach( ( item, i, ) => {
