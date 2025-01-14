@@ -10995,6 +10995,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       removeAvailableModules: true,
       // 告诉webpack检测并删除空的块。将optimization.removeEmptyChunks设置为false将禁用此优化。
       removeEmptyChunks: true,
+      /**
+       * 1、当使用“Module Federation v2”时，无论是在“远端模块使用者”的项目里，还是“远端模块提供者”的项目里，当该选项被设置成“runtimeChunk: false”以外的设置时，都将导致代码无法成功运行。
+       * 2、runtimeChunk选项默认为：false，表示每个条目块（entry chunk）都嵌入运行时。
+       */
       ...( isUseModuleFederation => {
         return isUseModuleFederation
                ? {}
@@ -11011,6 +11015,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        * 1、“optimization.usedExports”不能与cacheUnaffected一起使用，因为导出使用是一种全局影响。<br />
        */
       usedExports: true,
+      /**
+       * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用该选项时，会导致页面不会渲染出内容。
+       * 2、但是，在“远端模块使用者”的项目里，是可以正常使用该选项的。
+       */
       splitChunks: splitChunksConfig,
     }
                        : {
@@ -11051,6 +11059,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       removeAvailableModules: false,
       // 告诉webpack检测并删除空的块。将optimization.removeEmptyChunks设置为false将禁用此优化。
       removeEmptyChunks: true,
+      /**
+       * 1、当使用“Module Federation v2”时，无论是在“远端模块使用者”的项目里，还是“远端模块提供者”的项目里，当该选项被设置成“runtimeChunk: false”以外的设置时，都将导致代码无法成功运行。
+       * 2、runtimeChunk选项默认为：false，表示每个条目块（entry chunk）都嵌入运行时。
+       */
       ...( isUseModuleFederation => {
         return isUseModuleFederation
                ? {}
@@ -11067,6 +11079,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        * 1、“optimization.usedExports”不能与cacheUnaffected一起使用，因为导出使用是一种全局影响。<br />
        */
       usedExports: true,
+      /**
+       * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用该选项时，会导致页面不会渲染出内容。
+       * 2、但是，在“远端模块使用者”的项目里，是可以正常使用该选项的。
+       */
       splitChunks: splitChunksConfig,
     },
   /**

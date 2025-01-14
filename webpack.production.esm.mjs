@@ -293,6 +293,10 @@ export default {
      */
     new MiniCssExtractPlugin( miniCssExtractPluginConfig ),
 
+    /**
+     * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目（即子项目）里，如果被定义成“远端模块”的模块没被子项目自身引用使用，那么启用该插件时，在打包时会报错，导致打包不成功。
+     * 2、报错原因说是因为“远端模块”没有节点容器使用它，导致无法为它生成对应的“sri值”。
+     */
     new SubresourceIntegrityPlugin( subresourceIntegrityPluginConfig ),
 
     new webpack.DefinePlugin( definePluginConfig ),
