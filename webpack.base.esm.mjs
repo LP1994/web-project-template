@@ -1097,7 +1097,9 @@ const autoprefixerConfig = {
      */
     usedExports: true,
     /**
-     * 缓存组可以继承和/或覆盖splitChunks.*的任何选项；但是test、priority和reuseExistingChunk只能在缓存组级别进行配置。要禁用任何默认缓存组，请将它们设置为false。<br />
+     * 1、缓存组可以继承和/或覆盖splitChunks.*的任何选项；但是test、priority和reuseExistingChunk只能在缓存组级别进行配置。要禁用任何默认缓存组，请将它们设置为false。<br />
+     * 2、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用“splitChunks.cacheGroups”选项时，会导致页面不会渲染出内容。
+     * 3、但是，在“远端模块使用者”的项目里，是可以正常使用“splitChunks.cacheGroups”选项的。
      */
     cacheGroups: ( () => {
       /**
@@ -11016,8 +11018,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       usedExports: true,
       /**
-       * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用该选项时，会导致页面不会渲染出内容。
-       * 2、但是，在“远端模块使用者”的项目里，是可以正常使用该选项的。
+       * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用“splitChunks.cacheGroups”选项时，会导致页面不会渲染出内容。
+       * 2、但是，在“远端模块使用者”的项目里，是可以正常使用“splitChunks.cacheGroups”选项的。
        */
       splitChunks: splitChunksConfig,
     }
@@ -11080,8 +11082,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       usedExports: true,
       /**
-       * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用该选项时，会导致页面不会渲染出内容。
-       * 2、但是，在“远端模块使用者”的项目里，是可以正常使用该选项的。
+       * 1、当使用“Module Federation v2”时，在“远端模块提供者”的项目里，启用“splitChunks.cacheGroups”选项时，会导致页面不会渲染出内容。
+       * 2、但是，在“远端模块使用者”的项目里，是可以正常使用“splitChunks.cacheGroups”选项的。
        */
       splitChunks: splitChunksConfig,
     },
