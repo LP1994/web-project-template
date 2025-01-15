@@ -37,11 +37,12 @@ CreateDate: 2024-12-27 22:30:00 星期五
 'use strict';
 
 import {
-  ref,
-  reactive,
+  defineAsyncComponent,
 
   onMounted,
-  defineAsyncComponent,
+
+  reactive,
+  ref,
 } from 'vue';
 
 const RemoteBookmarksComponent: T_VueComponent = defineAsyncComponent<T_VueComponent>( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'RemoteUploadForMultiple/Bookmarks' ) as Promise<T_LoadRemoteVueComponent> );
@@ -56,9 +57,7 @@ type T_Rule = {
 
 type T_Data = Array<T_Rule>;
 
-let myIndex: T_VueRef<number, number> = ref<number>( 0 );
-
-const rulesData: T_VueReactive<T_Data> = reactive<T_Data>( [
+const data: T_Data = [
   {
     ruleID: 2024001,
     ruleName: '规则1',
@@ -109,7 +108,11 @@ const rulesData: T_VueReactive<T_Data> = reactive<T_Data>( [
     ruleName: '规则10',
     ruleContent: 'value10',
   },
-] );
+];
+
+let myIndex: T_VueRef<number, number> = ref<number>( 0 );
+
+const rulesData: T_VueReactive<T_Data> = reactive<T_Data>( data );
 
 onMounted( (): void => {
   console.log( `\n\n
