@@ -4,110 +4,13 @@ FileDirPath: src/pages/upload/Upload.Vue3.ts.vue
 Author: 12278
 Email: 1227839175@qq.com
 IDE: WebStorm
-CreateDate: 2022-12-17 08:08:45 星期六
+CreateDate: 2024-12-27 22:30:00 星期五
 -->
+<style src = 'cssDir/FlexBox.css' />
 <style
-  scoped
   lang = 'scss'>
-@font-face {
-  font-family: 'MyFont_Helvetica';
-  src: url(fontsDir/Helvetica.otf) format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-size: 20px;
-}
-
-main {
-  > .title {
-    width: 100%;
-    height: auto;
-
-    font-family: 'MyFont_Helvetica', serif;
-    color: green;
-
-    line-height: 1;
-    text-align: center;
-
-    margin-bottom: 20px;
-  }
-
-  > .upload {
-    box-sizing: border-box;
-
-    width: 100%;
-    height: auto;
-
-    padding-left: 20px;
-    margin-bottom: 40px;
-
-    > h3 {
-      width: 100%;
-      height: auto;
-
-      font-family: 'MyFont_Helvetica', serif;
-      color: blue;
-
-      line-height: 1;
-      text-align: left;
-
-      margin-bottom: 20px;
-    }
-
-    > section {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-
-      width: 100%;
-      height: 50px;
-
-      > input[type='file'] {
-        width: 200px;
-        height: 100%;
-      }
-
-      > input[type='file' i] {
-        display: inline-block !important;
-        height: 100% !important;
-        color: red;
-
-        &::-webkit-file-upload-button {
-          display: inline-block !important;
-          width: 80px !important;
-          height: 100% !important;
-          color: green;
-
-          padding: 0;
-          border: 1px solid palevioletred;
-          border-radius: 5px;
-          margin: 0 20px 0 0;
-          outline: none;
-
-          background-color: white;
-        }
-      }
-
-      > button {
-        box-sizing: border-box;
-
-        width: 100px;
-        height: 100%;
-
-        font-family: 'MyFont_Helvetica', serif;
-        color: black;
-        font-size: 20px;
-
-        line-height: 48px;
-        text-align: center;
-
-        border: 1px solid palevioletred;
-        border-radius: 10px;
-        margin-left: 40px;
-
-        background-color: white;
-      }
-    }
-  }
+.high-brightness {
+  border: 5px solid green !important;
 }
 </style>
 <template>
@@ -121,23 +24,10 @@ main {
   <!--*********弹窗、悬浮一类节点的书写区域 End*********-->
   <!--在main这个节点里写主体HTML。-->
   <main class = 'css-reset full-screen overflow-hidden-auto'>
-    <h1 class = 'css-reset title'>{{ state.titleText }}</h1>
-    <article class = 'css-reset upload-for-binary upload'>
-      <h3 class = 'css-reset'>单个二进制文件流上传（uploadType=binary）：</h3>
-      <section class = 'css-reset'>
-        <input
-          id = 'UploadForBinary'
-          class = 'css-reset'
-          type = 'file' />
-        <button
-          class = 'css-reset'
-          type = 'button'
-          @click.prevent = 'UploadForBinary'>上传
-        </button>
-      </section>
-    </article>
-    <RemoteUploadForSingleComponent />
-    <RemoteUploadForMultipleComponent />
+    <RemoteBookmarksComponent v-model:rulesData = 'rulesData'
+                              v-model:myIndex = 'myIndex' />
+    <RemoteRulesComponent v-model:rulesData = 'rulesData'
+                          v-model:myIndex = 'myIndex' />
   </main>
 </template>
 <script
@@ -147,76 +37,79 @@ main {
 'use strict';
 
 import {
-  sha512,
-} from 'js-sha512';
-
-import {
-  Mime,
-} from 'mime';
-
-import {
-  defineAsyncComponent,
+  ref,
   reactive,
+
   onMounted,
+  defineAsyncComponent,
 } from 'vue';
 
-const RemoteUploadForSingleComponent: T_VueComponent = defineAsyncComponent<T_VueComponent>( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'Remote_Vue_UploadForSingle/UploadForSingle' ) as Promise<T_LoadRemoteVueComponent> );
+const RemoteBookmarksComponent: T_VueComponent = defineAsyncComponent<T_VueComponent>( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'RemoteUploadForMultiple/Bookmarks' ) as Promise<T_LoadRemoteVueComponent> );
 
-const RemoteUploadForMultipleComponent: T_VueComponent = defineAsyncComponent<T_VueComponent>( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'RemoteUploadForMultiple/UploadForMultiple' ) as Promise<T_LoadRemoteVueComponent> );
+const RemoteRulesComponent: T_VueComponent = defineAsyncComponent<T_VueComponent>( (): Promise<T_LoadRemoteVueComponent> => MF_v2_RuntimeAPI_LoadRemote<T_LoadRemoteVueComponent>( 'Remote_Vue_UploadForSingle/Rules' ) as Promise<T_LoadRemoteVueComponent> );
 
-type T_State = {
-  titleText: string;
-  [ key: string | number ]: unknown;
+type T_Rule = {
+  ruleID: number;
+  ruleName: string;
+  ruleContent: string;
 };
 
-function FileSRI( data: string | number[] | ArrayBuffer | Uint8Array ): string{
-  return sha512.create().update( data ).hex();
-}
+type T_Data = Array<T_Rule>;
 
-function GetFileMIME( file: File ): string{
-  return new Mime().getType( file.name ) ?? 'application/octet-stream';
-}
+let myIndex: T_VueRef<number, number> = ref<number>( 0 );
 
-// @ts-expect-error
-async function UploadForBinary( event: Event ): Promise<void>{
-  const uploadForBinary: HTMLInputElement = document.querySelector( '#UploadForBinary' ) as HTMLInputElement,
-    files: FileList = uploadForBinary.files as FileList;
-
-  if( files.length !== 0 ){
-    const file: File = files[ 0 ] as File;
-
-    console.dir( file );
-
-    fetch( `${ https4deno }/simulation_servers_deno/upload?uploadType=binary&fileName=${ file.name }&isForcedWrite=true`, {
-      body: file.slice(),
-      cache: 'no-cache',
-      headers: {
-        Accept: 'application/json',
-        'content-type': GetFileMIME( file ),
-        'deno-custom-file-sri': `${ FileSRI( new Uint8Array( await file.arrayBuffer() ) ) }`,
-        ...httpRequestHeaders,
-      },
-      method: 'POST',
-      credentials: 'same-origin',
-      mode: 'same-origin',
-    } ).then(
-      async ( res: Response ): Promise<Response> => {
-        console.dir( await res.clone().json() );
-
-        return res;
-      },
-      ( reject: unknown ): void => {
-        console.error( reject );
-      },
-    ).catch( ( error: unknown ): void => {
-      console.error( error );
-    } );
-  }
-}
-
-const state: T_VueReactive<T_State> = reactive<T_State>( {
-  titleText: `测试DIY的Deno服务器的文件上传`,
-} );
+const rulesData: T_VueReactive<T_Data> = reactive<T_Data>( [
+  {
+    ruleID: 2024001,
+    ruleName: '规则1',
+    ruleContent: 'value1',
+  },
+  {
+    ruleID: 2024002,
+    ruleName: '规则2',
+    ruleContent: 'value2',
+  },
+  {
+    ruleID: 2024003,
+    ruleName: '规则3',
+    ruleContent: 'value3',
+  },
+  {
+    ruleID: 2024004,
+    ruleName: '规则4',
+    ruleContent: 'value4',
+  },
+  {
+    ruleID: 2024005,
+    ruleName: '规则5',
+    ruleContent: 'value5',
+  },
+  {
+    ruleID: 2024006,
+    ruleName: '规则6',
+    ruleContent: 'value6',
+  },
+  {
+    ruleID: 2024007,
+    ruleName: '规则7',
+    ruleContent: 'value7',
+  },
+  {
+    ruleID: 2024008,
+    ruleName: '规则8',
+    ruleContent: 'value8',
+  },
+  {
+    ruleID: 2024009,
+    ruleName: '规则9',
+    ruleContent: 'value9',
+  },
+  {
+    ruleID: 2024010,
+    ruleName: '规则10',
+    ruleContent: 'value10',
+  },
+] );
 
 onMounted( (): void => {
   console.log( `\n\n
