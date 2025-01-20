@@ -35,14 +35,14 @@ import {
   DEPRECATED_GRAPHQL_WS_PROTOCOL,
 
   CloseCode,
-} from 'esm_sh/graphql-ws/common';
+} from 'esm_sh/graphql-ws';
 
 import {
   type Server as T_Server,
   type ServerOptions as T_ServerOptions,
 
   makeServer as makeServerByWS,
-} from 'esm_sh/graphql-ws/server';
+} from 'esm_sh/graphql-ws';
 
 import {
   type FetchAPI as T_FetchAPI,
