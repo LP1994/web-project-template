@@ -1,6 +1,6 @@
 @echo off
 start cmd /k "deno install -g -f --allow-net --allow-read -n corejs https://deno.land/x/corejs/index.js"
-start cmd /k "deno install -g -f --allow-net --allow-read -n graphql-ws_lib https://esm.sh/graphql-ws/lib"
+start cmd /k "deno install -g -f --allow-net --allow-read -n graphql-ws_lib https://esm.sh/graphql-ws"
 start cmd /k "deno install -g -f --allow-net --allow-read -n graphql-http_lib_use_fetch https://esm.sh/graphql-http/lib/use/fetch"
 start cmd /k "deno install -g -f --allow-net --allow-read -n graphql-sse_lib_use_fetch https://esm.sh/graphql-sse/lib/use/fetch"
 start cmd /k "deno install -g -f --allow-net --allow-read -n graphql https://esm.sh/graphql"
