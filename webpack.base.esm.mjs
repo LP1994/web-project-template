@@ -7053,7 +7053,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           ],
         },
 
-        // 处理.graphql文件、.graphqls文件、.gql文件，区分结尾带“?raw”和不带“?raw”的2种处理，注意事项去看：notes/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
+        // 处理.graphql文件、.graphqls文件、.gql文件，区分结尾带“?raw”和不带“?raw”的2种处理，注意事项去看：notes/graphql笔记/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
         {
           test: /\.(graphql|graphqls|gql)$/i,
           oneOf: [
@@ -11374,7 +11374,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 不过可以使用“output.filename”、“output.chunkFilename”这两个选项的函数值，做过滤输出，倒是可以指定输出到某个文件夹，目前个人已经这样做了些处理。<br />
      * 所以，强烈建议在new Worker()的时候，给构造函数的第二个参数设置这样的参数：{ name: 'Worker文件名.worker', }，这样设置之后，就可以把worker文件打包到“workers”这个文件夹内。<br />
      * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
-     * 2、当然也可以在new Worker()的时候在第二个参数里使用“魔术注解”来设置打包后的“worker”代码要存放的文件夹，比如放到“workers”这个文件夹内。关于worker中的更多“魔术注解”的使用，见：notes/webpack魔术注解.txt。<br />
+     * 2、当然也可以在new Worker()的时候在第二个参数里使用“魔术注解”来设置打包后的“worker”代码要存放的文件夹，比如放到“workers”这个文件夹内。关于worker中的更多“魔术注解”的使用，见：notes/webpack笔记/webpack魔术注解.txt。<br />
      */
     // workerPublicPath: null,
     /**

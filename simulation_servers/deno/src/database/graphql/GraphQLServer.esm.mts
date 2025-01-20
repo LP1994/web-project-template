@@ -35,14 +35,14 @@ import {
   DEPRECATED_GRAPHQL_WS_PROTOCOL,
 
   CloseCode,
-} from 'esm_sh/graphql-ws/lib/common';
+} from 'esm_sh/graphql-ws/common';
 
 import {
   type Server as T_Server,
   type ServerOptions as T_ServerOptions,
 
   makeServer as makeServerByWS,
-} from 'esm_sh/graphql-ws/lib/server';
+} from 'esm_sh/graphql-ws/server';
 
 import {
   type FetchAPI as T_FetchAPI,
@@ -128,7 +128,7 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
  * 1、一般来说，里面总是会有选项schema。
  * 2、详细参数见：
- * node_modules/graphql-ws/lib/server.d.ts:402
+ * node_modules/graphql-ws/server.d.ts:402
  *
  * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>, ]} config.graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。
  * 1、一般来说，第一个参数里面总是会有选项schema。
@@ -168,7 +168,7 @@ function GraphQLServer( {
 
   if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
     const {
-      // socket.protocol为空字符！可能是Deno的BUG！所以只能重写：graphql-ws/lib/use/deno里的makeHandler函数！
+      // socket.protocol为空字符！可能是Deno的BUG！所以只能重写：graphql-ws/use/deno里的makeHandler函数！
       socket,
       response,
     }: Deno.WebSocketUpgrade = Deno.upgradeWebSocket( request, {
