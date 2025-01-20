@@ -347,6 +347,7 @@ function ModuleFederation_v2_Config_Fun( {
         // remoteTypesFolder: '@mf-types',
         // runtimePkgs?: string[],
       },
+      displayErrorInTerminal: true,
     },
     shareStrategy: 'version-first',
     /**
