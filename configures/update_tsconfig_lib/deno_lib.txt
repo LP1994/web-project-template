@@ -1,10 +1,10 @@
-"deno":"2.1.4",
+"deno":"2.1.6",
 "v8":"13.0.245.12-rusty",
 "typescript":"5.6.2"
 
 
 
-Deno_2.1.4程序允许的并检验通过的（104个）：
+Deno_2.1.6程序允许的并检验通过的（104个）：
 "decorators",
 "decorators.legacy",
 "deno.broadcast_channel",
@@ -112,7 +112,7 @@ Deno_2.1.4程序允许的并检验通过的（104个）：
 
 
 
-Deno_2.1.4源码包中存在的独属于Deno的（18个）：
+Deno_2.1.6源码包中存在的独属于Deno的（18个）：
 "deno",
 "deno.ns",
 "deno.shared_globals",
