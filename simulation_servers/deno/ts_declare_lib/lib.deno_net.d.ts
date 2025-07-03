@@ -18,8 +18,18 @@ declare namespace Deno {
     path: string;
   }
 
+  /**
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   * @category Network
+   */
+  export interface VsockAddr {
+    transport: "vsock";
+    cid: number;
+    port: number;
+  }
+
   /** @category Network */
-  export type Addr = NetAddr | UnixAddr;
+  export type Addr = NetAddr | UnixAddr | VsockAddr;
 
   /** A generic network listener for stream-oriented protocols.
    *
@@ -66,6 +76,14 @@ declare namespace Deno {
    * @category Network
    */
   export type UnixListener = Listener<UnixConn, UnixAddr>;
+
+  /** Specialized listener that accepts VSOCK connections.
+   *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * @category Network
+   */
+  export type VsockListener = Listener<VsockConn, VsockAddr>;
 
   /** @category Network */
   export interface Conn<A extends Addr = Addr> extends Disposable {
@@ -136,8 +154,8 @@ declare namespace Deno {
     /** Make the connection not block the event loop from finishing. */
     unref(): void;
 
-    readonly readable: ReadableStream<Uint8Array>;
-    readonly writable: WritableStream<Uint8Array>;
+    readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
+    readonly writable: WritableStream<Uint8Array<ArrayBufferLike>>;
   }
 
   /** @category Network */
@@ -223,6 +241,38 @@ declare namespace Deno {
     options: UnixListenOptions & { transport: "unix" },
   ): UnixListener;
 
+  /** Options which can be set when opening a VSOCK listener via
+   * {@linkcode Deno.listen}.
+   *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * @category Network
+   */
+  export interface VsockListenOptions {
+    cid: number;
+    port: number;
+  }
+
+  /** Listen announces on the local transport address.
+   *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * The VSOCK address family facilitates communication between virtual machines and the host they are running on: https://man7.org/linux/man-pages/man7/vsock.7.html
+   *
+   * ```ts
+   * const listener = Deno.listen({ cid: -1, port: 80, transport: "vsock" })
+   * ```
+   *
+   * Requires `allow-net` permission.
+   *
+   * @tags allow-net
+   * @category Network
+   */
+  // deno-lint-ignore adjacent-overload-signatures
+  export function listen(
+    options: VsockListenOptions & { transport: "vsock" },
+  ): VsockListener;
+
   /**
    * Provides certified key material from strings. The key material is provided in
    * `PEM`-format (Privacy Enhanced Mail, https://www.rfc-editor.org/rfc/rfc1422) which can be identified by having
@@ -289,7 +339,10 @@ declare namespace Deno {
      *
      * @default {"127.0.0.1"} */
     hostname?: string;
+    /** The transport layer protocol to use. */
     transport?: "tcp";
+    /** An {@linkcode AbortSignal} to close the tcp connection. */
+    signal?: AbortSignal;
   }
 
   /**
@@ -349,6 +402,41 @@ declare namespace Deno {
    */
   // deno-lint-ignore adjacent-overload-signatures
   export function connect(options: UnixConnectOptions): Promise<UnixConn>;
+
+  /**
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   * @category Network
+   */
+  export interface VsockConnectOptions {
+    transport: "vsock";
+    cid: number;
+    port: number;
+  }
+
+  /** @category Network */
+  export interface VsockConn extends Conn<VsockAddr> {}
+
+  /** Connects to the hostname (default is "127.0.0.1") and port on the named
+   * transport (default is "tcp"), and resolves to the connection (`Conn`).
+   *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * ```ts
+   * const conn1 = await Deno.connect({ port: 80 });
+   * const conn2 = await Deno.connect({ hostname: "192.0.2.1", port: 80 });
+   * const conn3 = await Deno.connect({ hostname: "[2001:db8::1]", port: 80 });
+   * const conn4 = await Deno.connect({ hostname: "golang.org", port: 80, transport: "tcp" });
+   * const conn5 = await Deno.connect({ path: "/foo/bar.sock", transport: "unix" });
+   * const conn6 = await Deno.connect({ cid: -1, port: 80, transport: "vsock" });
+   * ```
+   *
+   * Requires `allow-net` permission for "tcp" and "vsock", and `allow-read` for "unix".
+   *
+   * @tags allow-net, allow-read
+   * @category Network
+   */
+  // deno-lint-ignore adjacent-overload-signatures
+  export function connect(options: VsockConnectOptions): Promise<VsockConn>;
 
   /** @category Network */
   export interface ConnectTlsOptions {
@@ -751,7 +839,7 @@ declare namespace Deno {
      * `maxDatagramSize`. */
     sendDatagram(data: Uint8Array): Promise<void>;
     /** Receive a datagram. */
-    readDatagram(): Promise<Uint8Array>;
+    readDatagram(): Promise<Uint8Array<ArrayBuffer>>;
 
     /** The endpoint for this connection. */
     readonly endpoint: QuicEndpoint;
@@ -800,7 +888,8 @@ declare namespace Deno {
    * @experimental
    * @category Network
    */
-  export interface QuicSendStream extends WritableStream<Uint8Array> {
+  export interface QuicSendStream
+    extends WritableStream<Uint8Array<ArrayBufferLike>> {
     /** Indicates the send priority of this stream relative to other streams for
      * which the value has been set. */
     sendOrder: number;
@@ -817,7 +906,8 @@ declare namespace Deno {
    * @experimental
    * @category Network
    */
-  export interface QuicReceiveStream extends ReadableStream<Uint8Array> {
+  export interface QuicReceiveStream
+    extends ReadableStream<Uint8Array<ArrayBuffer>> {
     /**
      * 62-bit stream ID, unique within this connection.
      */
@@ -850,6 +940,18 @@ declare namespace Deno {
   export function connectQuic<ZRTT extends boolean>(
     options: ConnectQuicOptions<ZRTT>,
   ): ZRTT extends true ? (QuicConn | Promise<QuicConn>) : Promise<QuicConn>;
+
+  /**
+   * **UNSTABLE**: New API, yet to be vetted.
+   *
+   * Upgrade a QUIC connection into a WebTransport instance.
+   *
+   * @category Network
+   * @experimental
+   */
+  export function upgradeWebTransport(
+    conn: QuicConn,
+  ): Promise<WebTransport & { url: string }>;
 
   export {}; // only export exports
 }

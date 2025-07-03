@@ -234,7 +234,7 @@ declare namespace Deno {
      * @category Errors */
     export class AlreadyExists extends Error {}
     /**
-     * Raised when an operation to returns data that is invalid for the
+     * Raised when an operation returns data that is invalid for the
      * operation being performed.
      *
      * @category Errors */
@@ -248,7 +248,7 @@ declare namespace Deno {
     /**
      * Raised when the underlying operating system reports an `EINTR` error. In
      * many cases, this underlying IO error will be handled internally within
-     * Deno, or result in an @{link BadResource} error instead.
+     * Deno, or result in an {@link BadResource} error instead.
      *
      * @category Errors */
     export class Interrupted extends Error {}
@@ -1242,6 +1242,17 @@ declare namespace Deno {
     /** If at least one bench has `only` set to true, only run benches that have
      * `only` set to `true` and fail the bench suite. */
     only?: boolean;
+    /** Number of iterations to perform.
+     * @remarks When the benchmark is very fast, this will only be used as a
+     * suggestion in order to get a more accurate measurement.
+     */
+    n?: number;
+    /** Number of warmups to do before running the benchmark.
+     * @remarks A warmup will always be performed even if this is `0` in order to
+     * determine the speed of the benchmark in order to improve the measurement. When
+     * the benchmark is very fast, this will be used as a suggestion.
+     */
+    warmup?: number;
     /** Ensure the bench case does not prematurely cause the process to exit,
      * for example via a call to {@linkcode Deno.exit}.
      *
@@ -1499,7 +1510,7 @@ declare namespace Deno {
      *
      * ```ts
      * console.log(Deno.env.get("HOME"));  // e.g. outputs "/home/alice"
-     * console.log(Deno.env.get("MADE_UP_VAR"));  // outputs "undefined"
+     * console.log(Deno.env.get("MADE_UP_VAR"));  // outputs undefined
      * ```
      *
      * Requires `allow-env` permission.
@@ -1580,9 +1591,6 @@ declare namespace Deno {
    * console.log(Deno.execPath());  // e.g. "/home/alice/.local/bin/deno"
    * ```
    *
-   * Requires `allow-read` permission.
-   *
-   * @tags allow-read
    * @category Runtime
    */
   export function execPath(): string;
@@ -1786,7 +1794,7 @@ declare namespace Deno {
      * }
      * ```
      */
-    readonly readable: ReadableStream<Uint8Array>;
+    readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
     /** A {@linkcode WritableStream} instance to write the contents of the
      * file. This makes it easy to interoperate with other web streams based
      * APIs.
@@ -1801,7 +1809,7 @@ declare namespace Deno {
      * }
      * ```
      */
-    readonly writable: WritableStream<Uint8Array>;
+    readonly writable: WritableStream<Uint8Array<ArrayBufferLike>>;
     /** Write the contents of the array buffer (`p`) to the file.
      *
      * Resolves to the number of bytes written.
@@ -2110,8 +2118,7 @@ declare namespace Deno {
      * @category File System
      */
     utimeSync(atime: number | Date, mtime: number | Date): void;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Checks if the file resource is a TTY (terminal).
      *
      * ```ts
@@ -2121,8 +2128,7 @@ declare namespace Deno {
      * ```
      */
     isTerminal(): boolean;
-    /** **UNSTABLE**: New API, yet to be vetted.
-     *
+    /**
      * Set TTY to be under raw mode or not. In raw mode, characters are read and
      * returned as is, without being processed. All special processing of
      * characters by the terminal is disabled, including echoing input
@@ -2268,7 +2274,7 @@ declare namespace Deno {
      */
     close(): void;
     /** A readable stream interface to `stdin`. */
-    readonly readable: ReadableStream<Uint8Array>;
+    readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
     /**
      * Set TTY to be under raw mode or not. In raw mode, characters are read and
      * returned as is, without being processed. All special processing of
@@ -2346,7 +2352,7 @@ declare namespace Deno {
      */
     close(): void;
     /** A writable stream interface to `stdout`. */
-    readonly writable: WritableStream<Uint8Array>;
+    readonly writable: WritableStream<Uint8Array<ArrayBufferLike>>;
     /**
      * Checks if `stdout` is a TTY (terminal).
      *
@@ -2410,7 +2416,7 @@ declare namespace Deno {
      */
     close(): void;
     /** A writable stream interface to `stderr`. */
-    readonly writable: WritableStream<Uint8Array>;
+    readonly writable: WritableStream<Uint8Array<ArrayBufferLike>>;
     /**
      * Checks if `stderr` is a TTY (terminal).
      *
@@ -2905,7 +2911,7 @@ declare namespace Deno {
 
   /** Reads and resolves to the entire contents of a file as an array of bytes.
    * `TextDecoder` can be used to transform the bytes to string if required.
-   * Reading a directory returns an empty data array.
+   * Rejects with an error when reading a directory.
    *
    * ```ts
    * const decoder = new TextDecoder("utf-8");
@@ -2921,11 +2927,11 @@ declare namespace Deno {
   export function readFile(
     path: string | URL,
     options?: ReadFileOptions,
-  ): Promise<Uint8Array>;
+  ): Promise<Uint8Array<ArrayBuffer>>;
 
   /** Synchronously reads and returns the entire contents of a file as an array
    * of bytes. `TextDecoder` can be used to transform the bytes to string if
-   * required. Reading a directory returns an empty data array.
+   * required. Throws an error when reading a directory.
    *
    * ```ts
    * const decoder = new TextDecoder("utf-8");
@@ -2938,7 +2944,7 @@ declare namespace Deno {
    * @tags allow-read
    * @category File System
    */
-  export function readFileSync(path: string | URL): Uint8Array;
+  export function readFileSync(path: string | URL): Uint8Array<ArrayBuffer>;
 
   /** Provides information about a file and is returned by
    * {@linkcode Deno.stat}, {@linkcode Deno.lstat}, {@linkcode Deno.statSync},
@@ -3124,7 +3130,7 @@ declare namespace Deno {
    * @tags allow-read
    * @category File System
    */
-  export function readDirSync(path: string | URL): Iterable<DirEntry>;
+  export function readDirSync(path: string | URL): IteratorObject<DirEntry>;
 
   /** Copies the contents and permissions of one file to another specified path,
    * by default creating a new file if needed, else overwriting. Fails if target
@@ -3433,24 +3439,6 @@ declare namespace Deno {
    */
   export function truncateSync(name: string, len?: number): void;
 
-  /** @category Runtime
-   *
-   * @deprecated This will be removed in Deno 2.0.
-   */
-  export interface OpMetrics {
-    opsDispatched: number;
-    opsDispatchedSync: number;
-    opsDispatchedAsync: number;
-    opsDispatchedAsyncUnref: number;
-    opsCompleted: number;
-    opsCompletedSync: number;
-    opsCompletedAsync: number;
-    opsCompletedAsyncUnref: number;
-    bytesSentControl: number;
-    bytesSentData: number;
-    bytesReceived: number;
-  }
-
   /**
    * Additional information for FsEvent objects with the "other" kind.
    *
@@ -3731,9 +3719,9 @@ declare namespace Deno {
    * @category Subprocess
    */
   export class ChildProcess implements AsyncDisposable {
-    get stdin(): WritableStream<Uint8Array>;
-    get stdout(): ReadableStream<Uint8Array>;
-    get stderr(): ReadableStream<Uint8Array>;
+    get stdin(): WritableStream<Uint8Array<ArrayBufferLike>>;
+    get stdout(): ReadableStream<Uint8Array<ArrayBuffer>>;
+    get stderr(): ReadableStream<Uint8Array<ArrayBuffer>>;
     readonly pid: number;
     /** Get the status of the child. */
     readonly status: Promise<CommandStatus>;
@@ -3821,6 +3809,20 @@ declare namespace Deno {
      *
      * @default {false} */
     windowsRawArguments?: boolean;
+
+    /** Whether to detach the spawned process from the current process.
+     * This allows the spawned process to continue running after the current
+     * process exits.
+     *
+     * Note: In order to allow the current process to exit, you need to ensure
+     * you call `unref()` on the child process.
+     *
+     * In addition, the stdio streams – if inherited or piped – may keep the
+     * current process from exiting until the streams are closed.
+     *
+     * @default {false}
+     */
+    detached?: boolean;
   }
 
   /**
@@ -3845,9 +3847,9 @@ declare namespace Deno {
    */
   export interface CommandOutput extends CommandStatus {
     /** The buffered output from the child process' `stdout`. */
-    readonly stdout: Uint8Array;
+    readonly stdout: Uint8Array<ArrayBuffer>;
     /** The buffered output from the child process' `stderr`. */
-    readonly stderr: Uint8Array;
+    readonly stderr: Uint8Array<ArrayBuffer>;
   }
 
   /** Option which can be specified when performing {@linkcode Deno.inspect}.
@@ -4081,6 +4083,21 @@ declare namespace Deno {
     path?: string | URL;
   }
 
+  /** The permission descriptor for the `allow-import` and `deny-import` permissions, which controls
+   * access to importing from remote hosts via the network. The option `host` allows scoping the
+   * permission for outbound connection to a specific host and port.
+   *
+   * @category Permissions */
+  export interface ImportPermissionDescriptor {
+    name: "import";
+    /** Optional host string of the form `"<hostname>[:<port>]"`. Examples:
+     *
+     *      "github.com"
+     *      "deno.land:8080"
+     */
+    host?: string;
+  }
+
   /** Permission descriptors which define a permission and can be queried,
    * requested, or revoked.
    *
@@ -4096,7 +4113,8 @@ declare namespace Deno {
     | NetPermissionDescriptor
     | EnvPermissionDescriptor
     | SysPermissionDescriptor
-    | FfiPermissionDescriptor;
+    | FfiPermissionDescriptor
+    | ImportPermissionDescriptor;
 
   /** The interface which defines what event types are supported by
    * {@linkcode PermissionStatus} instances.
@@ -4358,6 +4376,7 @@ declare namespace Deno {
       | "aix"
       | "solaris"
       | "illumos";
+    standalone: boolean;
     /** The computer vendor that the Deno CLI was built for. */
     vendor: string;
     /** Optional environment flags that were set for this build of Deno CLI. */
@@ -5087,6 +5106,12 @@ declare namespace Deno {
      * @category HTTP Server
      */
     fetch: ServeHandler;
+    /**
+     * The callback which is called when the server starts listening.
+     *
+     * @category HTTP Server
+     */
+    onListen?: (localAddr: Deno.Addr) => void;
   }
 
   /** Options which can be set when calling {@linkcode Deno.serve}.
@@ -5147,6 +5172,25 @@ declare namespace Deno {
 
     /** The unix domain socket path to listen on. */
     path: string;
+  }
+
+  /**
+   * Options that can be passed to `Deno.serve` to create a server listening on
+   * a VSOCK socket.
+   *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * @category HTTP Server
+   */
+  export interface ServeVsockOptions extends ServeOptions<Deno.VsockAddr> {
+    /** The transport to use. */
+    transport?: "vsock";
+
+    /** The context identifier to use. */
+    cid: number;
+
+    /** The port to use. */
+    port: number;
   }
 
   /**
@@ -5252,6 +5296,60 @@ declare namespace Deno {
   ): HttpServer<Deno.UnixAddr>;
   /** Serves HTTP requests with the given option bag and handler.
    *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * You can specify an object with the cid and port options for the VSOCK interface.
+   *
+   * The VSOCK address family facilitates communication between virtual machines and the host they are running on: https://man7.org/linux/man-pages/man7/vsock.7.html
+   *
+   * ```ts
+   * Deno.serve(
+   *   { cid: -1, port: 3000 },
+   *   (_req) => new Response("Hello, world")
+   * );
+   * ```
+   *
+   * You can stop the server with an {@linkcode AbortSignal}. The abort signal
+   * needs to be passed as the `signal` option in the options bag. The server
+   * aborts when the abort signal is aborted. To wait for the server to close,
+   * await the promise returned from the `Deno.serve` API.
+   *
+   * ```ts
+   * const ac = new AbortController();
+   *
+   * const server = Deno.serve(
+   *    { signal: ac.signal, cid: -1, port: 3000 },
+   *    (_req) => new Response("Hello, world")
+   * );
+   * server.finished.then(() => console.log("Server closed"));
+   *
+   * console.log("Closing server...");
+   * ac.abort();
+   * ```
+   *
+   * By default `Deno.serve` prints the message `Listening on cid:port`.
+   * If you want to change this behavior, you can specify a custom `onListen`
+   * callback.
+   *
+   * ```ts
+   * Deno.serve({
+   *   onListen({ cid, port }) {
+   *     console.log(`Server started at ${cid}:${port}`);
+   *     // ... more info specific to your server ..
+   *   },
+   *   cid: -1,
+   *   port: 3000,
+   * }, (_req) => new Response("Hello, world"));
+   * ```
+   *
+   * @category HTTP Server
+   */
+  export function serve(
+    options: ServeVsockOptions,
+    handler: ServeHandler<Deno.VsockAddr>,
+  ): HttpServer<Deno.VsockAddr>;
+  /** Serves HTTP requests with the given option bag and handler.
+   *
    * You can specify an object with a port and hostname option, which is the
    * address to listen on. The default is port `8000` on hostname `"0.0.0.0"`.
    *
@@ -5337,6 +5435,37 @@ declare namespace Deno {
   export function serve(
     options: ServeUnixOptions & ServeInit<Deno.UnixAddr>,
   ): HttpServer<Deno.UnixAddr>;
+  /** Serves HTTP requests with the given option bag.
+   *
+   * The VSOCK address family facilitates communication between virtual machines and the host they are running on: https://man7.org/linux/man-pages/man7/vsock.7.html
+   *
+   * @experimental **UNSTABLE**: New API, yet to be vetted.
+   *
+   * You can specify an object with the cid and port options for the VSOCK interface.
+   *
+   * ```ts
+   * const ac = new AbortController();
+   *
+   * const server = Deno.serve({
+   *   cid: -1,
+   *   port: 3000,
+   *   handler: (_req) => new Response("Hello, world"),
+   *   signal: ac.signal,
+   *   onListen({ cid, port }) {
+   *     console.log(`Server started at ${cid}:${port}`);
+   *   },
+   * });
+   * server.finished.then(() => console.log("Server closed"));
+   *
+   * console.log("Closing server...");
+   * ac.abort();
+   * ```
+   *
+   * @category HTTP Server
+   */
+  export function serve(
+    options: ServeVsockOptions & ServeInit<Deno.VsockAddr>,
+  ): HttpServer<Deno.VsockAddr>;
   /** Serves HTTP requests with the given option bag.
    *
    * You can specify an object with a port and hostname option, which is the
@@ -5429,7 +5558,7 @@ declare namespace Deno {
   /**
    * @category FFI
    */
-  export const brand: unique symbol;
+  const brand: unique symbol;
 
   /**
    * @category FFI
@@ -5557,7 +5686,7 @@ declare namespace Deno {
    * @category FFI
    */
   export type FromNativeType<T extends NativeType = NativeType> = T extends
-    NativeStructType ? Uint8Array
+    NativeStructType ? Uint8Array<ArrayBuffer>
     : T extends NativeNumberType ? T extends NativeU8Enum<infer U> ? U
       : T extends NativeI8Enum<infer U> ? U
       : T extends NativeU16Enum<infer U> ? U
@@ -5582,7 +5711,7 @@ declare namespace Deno {
    */
   export type FromNativeResultType<
     T extends NativeResultType = NativeResultType,
-  > = T extends NativeStructType ? Uint8Array
+  > = T extends NativeStructType ? Uint8Array<ArrayBuffer>
     : T extends NativeNumberType ? T extends NativeU8Enum<infer U> ? U
       : T extends NativeI8Enum<infer U> ? U
       : T extends NativeU16Enum<infer U> ? U
@@ -6071,7 +6200,7 @@ declare namespace Deno {
      *
      * Must be in PEM format. */
     caCerts?: string[];
-    /** A HTTP proxy to use for new connections. */
+    /** An alternative transport (a proxy) to use for new connections. */
     proxy?: Proxy;
     /** Sets the maximum number of idle connections per host allowed in the pool. */
     poolMaxIdlePerHost?: number;
@@ -6094,20 +6223,51 @@ declare namespace Deno {
      * @default {false}
      */
     allowHost?: boolean;
+    /** Sets the local address where the socket will connect from. */
+    localAddress?: string;
   }
 
   /**
-   * The definition of a proxy when specifying
+   * The definition for alternative transports (or proxies) in
    * {@linkcode Deno.CreateHttpClientOptions}.
+   *
+   * Supported proxies:
+   *  - HTTP/HTTPS proxy: this uses the HTTP CONNECT method to tunnel HTTP
+   *    requests through a different server.
+   *  - SOCKS5 proxy: this uses the SOCKS5 protocol to tunnel TCP connections
+   *    through a different server.
+   *  - Unix domain socket: this sends all requests to a local Unix domain
+   *    socket rather than a TCP socket. *Not supported on Windows.*
+   *  - Vsock socket: this sends all requests to a local vsock socket.
+   *    *Only supported on Linux and macOS.*
    *
    * @category Fetch
    */
-  export interface Proxy {
-    /** The string URL of the proxy server to use. */
+  export type Proxy = {
+    transport?: "http" | "https" | "socks5";
+    /**
+     * The string URL of the proxy server to use.
+     *
+     * For `http` and `https` transports, the URL must start with `http://` or
+     * `https://` respectively, or be a plain hostname.
+     *
+     * For `socks` transport, the URL must start with `socks5://` or
+     * `socks5h://`.
+     */
     url: string;
     /** The basic auth credentials to be used against the proxy server. */
     basicAuth?: BasicAuth;
-  }
+  } | {
+    transport: "unix";
+    /** The path to the unix domain socket to use. */
+    path: string;
+  } | {
+    transport: "vsock";
+    /** The CID (Context Identifier) of the vsock to connect to. */
+    cid: number;
+    /** The port of the vsock to connect to. */
+    port: number;
+  };
 
   /**
    * Basic authentication credentials to be used with a {@linkcode Deno.Proxy}
@@ -6158,6 +6318,89 @@ declare namespace Deno {
       | CreateHttpClientOptions
       | (CreateHttpClientOptions & TlsCertifiedKeyPem),
   ): HttpClient;
+
+  /**
+   * APIs for working with the OpenTelemetry observability framework. Deno can
+   * export traces, metrics, and logs to OpenTelemetry compatible backends via
+   * the OTLP protocol.
+   *
+   * Deno automatically instruments the runtime with OpenTelemetry traces and
+   * metrics. This data is exported via OTLP to OpenTelemetry compatible
+   * backends. User logs from the `console` API are exported as OpenTelemetry
+   * logs via OTLP.
+   *
+   * User code can also create custom traces, metrics, and logs using the
+   * OpenTelemetry API. This is done using the official OpenTelemetry package
+   * for JavaScript:
+   * [`npm:@opentelemetry/api`](https://opentelemetry.io/docs/languages/js/).
+   * Deno integrates with this package to provide tracing, metrics, and trace
+   * context propagation between native Deno APIs (like `Deno.serve` or `fetch`)
+   * and custom user code. Deno automatically registers the providers with the
+   * OpenTelemetry API, so users can start creating custom traces, metrics, and
+   * logs without any additional setup.
+   *
+   * @example Using OpenTelemetry API to create custom traces
+   * ```ts,ignore
+   * import { trace } from "npm:@opentelemetry/api@1";
+   *
+   * const tracer = trace.getTracer("example-tracer");
+   *
+   * async function doWork() {
+   *   return tracer.startActiveSpan("doWork", async (span) => {
+   *     span.setAttribute("key", "value");
+   *     await new Promise((resolve) => setTimeout(resolve, 1000));
+   *     span.end();
+   *   });
+   * }
+   *
+   * Deno.serve(async (req) => {
+   *   await doWork();
+   *   const resp = await fetch("https://example.com");
+   *   return resp;
+   * });
+   * ```
+   *
+   * @category Telemetry
+   */
+  export namespace telemetry {
+    /**
+     * A TracerProvider compatible with OpenTelemetry.js
+     * https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_api.TracerProvider.html
+     *
+     * This is a singleton object that implements the OpenTelemetry
+     * TracerProvider interface.
+     *
+     * @category Telemetry
+     */
+    // deno-lint-ignore no-explicit-any
+    export const tracerProvider: any;
+
+    /**
+     * A ContextManager compatible with OpenTelemetry.js
+     * https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_api.ContextManager.html
+     *
+     * This is a singleton object that implements the OpenTelemetry
+     * ContextManager interface.
+     *
+     * @category Telemetry
+     */
+    // deno-lint-ignore no-explicit-any
+    export const contextManager: any;
+
+    /**
+     * A MeterProvider compatible with OpenTelemetry.js
+     * https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_api.MeterProvider.html
+     *
+     * This is a singleton object that implements the OpenTelemetry
+     * MeterProvider interface.
+     *
+     * @category Telemetry
+     */
+    // deno-lint-ignore no-explicit-any
+    export const meterProvider: any;
+
+    export {}; // only export exports
+  }
 
   export {}; // only export exports
 }

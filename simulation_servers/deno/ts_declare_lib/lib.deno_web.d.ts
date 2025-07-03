@@ -218,10 +218,76 @@ declare var EventTarget: {
 
 /** @category Events */
 interface EventListener {
+  /**
+   * The `EventListener` interface represents a callback function to be called
+   * whenever an event of a specific type occurs on a target object.
+   *
+   * This is a basic event listener, represented by a simple function
+   * that receives an Event object as its only parameter.
+   *
+   * @example
+   * ```ts
+   * // Create an event listener function
+   * const handleEvent = (event: Event) => {
+   *   console.log(`Event of type "${event.type}" occurred`);
+   *   console.log(`Event phase: ${event.eventPhase}`);
+   *
+   *   // Access event properties
+   *   if (event.cancelable) {
+   *     event.preventDefault();
+   *   }
+   * };
+   *
+   * // Attach the event listener to a target
+   * const target = new EventTarget();
+   * target.addEventListener('custom', handleEvent);
+   *
+   * // Or create a listener inline
+   * target.addEventListener('message', (event) => {
+   *   console.log('Message received:', event);
+   * });
+   * ```
+   *
+   * @category Events
+   */
   (evt: Event): void;
 }
 
-/** @category Events */
+/**
+ * The `EventListenerObject` interface represents an object that can handle events
+ * dispatched by an `EventTarget` object.
+ *
+ * This interface provides an alternative to using a function as an event listener.
+ * When implementing an object with this interface, the `handleEvent()` method
+ * will be called when the event is triggered.
+ *
+ * @example
+ * ```ts
+ * // Creating an object that implements `EventListenerObject`
+ * const myEventListener = {
+ *   handleEvent(event) {
+ *     console.log(`Event of type ${event.type} occurred`);
+ *
+ *     // You can use 'this' to access other methods or properties
+ *     this.additionalProcessing(event);
+ *   },
+ *
+ *   additionalProcessing(event) {
+ *     // Additional event handling logic
+ *     console.log('Additional processing for:', event);
+ *   }
+ * };
+ *
+ * // Using with any EventTarget (server or client contexts)
+ * const target = new EventTarget();
+ * target.addEventListener('message', myEventListener);
+ *
+ * // Later, to remove it:
+ * target.removeEventListener('message', myEventListener);
+ * ```
+ *
+ * @category Events
+ */
 interface EventListenerObject {
   handleEvent(evt: Event): void;
 }
@@ -231,10 +297,48 @@ type EventListenerOrEventListenerObject =
   | EventListener
   | EventListenerObject;
 
-/** @category Events */
+/**
+ * Options for configuring an event listener via `addEventListener`.
+ *
+ * This interface extends `EventListenerOptions` and provides additional configuration
+ * options to control event listener behavior.
+ *
+ * @example
+ * ```ts
+ * eventTarget.addEventListener('message', handler, {
+ *   once: true,
+ *   passive: true,
+ *   signal: controller.signal
+ * });
+ * ```
+ *
+ * @category Events */
 interface AddEventListenerOptions extends EventListenerOptions {
+  /**
+   * When set to true, the listener will automatically be removed after it has been invoked once.
+   */
   once?: boolean;
+
+  /**
+   * When set to true, indicates that the listener will never call `preventDefault()`.
+   * This provides a performance optimization opportunity for event processing.
+   * If a passive listener attempts to call `preventDefault()`, the call will be ignored
+   * and a warning may be generated.
+   */
   passive?: boolean;
+
+  /**
+   * An `AbortSignal` that can be used to remove the event listener when aborted.
+   *
+   * @example
+   * ```ts
+   * const controller = new AbortController();
+   * eventTarget.addEventListener('message', handler, { signal: controller.signal });
+   *
+   * // Later, to remove the listener:
+   * controller.abort();
+   * ```
+   */
   signal?: AbortSignal;
 }
 
@@ -1378,3 +1482,221 @@ declare var ImageData: {
     settings?: ImageDataSettings,
   ): ImageData;
 };
+
+/** @category Platform */
+interface WebTransportCloseInfo {
+  closeCode?: number;
+  reason?: string;
+}
+
+/** @category Platform */
+interface WebTransportErrorOptions {
+  source?: WebTransportErrorSource;
+  streamErrorCode?: number | null;
+}
+
+/** @category Platform */
+interface WebTransportHash {
+  algorithm?: string;
+  value?: BufferSource;
+}
+
+/** @category Platform */
+interface WebTransportOptions {
+  allowPooling?: boolean;
+  congestionControl?: WebTransportCongestionControl;
+  requireUnreliable?: boolean;
+  serverCertificateHashes?: WebTransportHash[];
+}
+
+/** @category Platform */
+interface WebTransportSendStreamOptions {
+  sendGroup?: WebTransportSendGroup;
+  sendOrder?: number;
+  waitUntilAvailable?: boolean;
+}
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport)
+ * @category Platform
+ */
+interface WebTransport {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/closed) */
+  readonly closed: Promise<WebTransportCloseInfo>;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/datagrams) */
+  readonly datagrams: WebTransportDatagramDuplexStream;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/incomingBidirectionalStreams) */
+  readonly incomingBidirectionalStreams: ReadableStream<
+    WebTransportBidirectionalStream
+  >;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/incomingUnidirectionalStreams) */
+  readonly incomingUnidirectionalStreams: ReadableStream<
+    WebTransportReceiveStream
+  >;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/ready) */
+  readonly ready: Promise<undefined>;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/close) */
+  close(closeInfo?: WebTransportCloseInfo): void;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/createBidirectionalStream) */
+  createBidirectionalStream(
+    options?: WebTransportSendStreamOptions,
+  ): Promise<WebTransportBidirectionalStream>;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/createUnidirectionalStream) */
+  createUnidirectionalStream(
+    options?: WebTransportSendStreamOptions,
+  ): Promise<WebTransportSendStream>;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/createSendGroup) */
+  createSendGroup(): WebTransportSendGroup;
+}
+
+/** @category Platform */
+declare var WebTransport: {
+  prototype: WebTransport;
+  new (url: string | URL, options?: WebTransportOptions): WebTransport;
+};
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportBidirectionalStream)
+ * @category Platform
+ */
+interface WebTransportBidirectionalStream {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportBidirectionalStream/readable) */
+  readonly readable: WebTransportReceiveStream;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportBidirectionalStream/writable) */
+  readonly writable: WebTransportSendStream;
+}
+
+/** @category Platform */
+declare var WebTransportBidirectionalStream: {
+  prototype: WebTransportBidirectionalStream;
+  new (): WebTransportBidirectionalStream;
+};
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream)
+ * @category Platform
+ */
+interface WebTransportDatagramDuplexStream {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/incomingHighWaterMark) */
+  incomingHighWaterMark: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/incomingMaxAge) */
+  incomingMaxAge: number | null;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/maxDatagramSize) */
+  readonly maxDatagramSize: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/outgoingHighWaterMark) */
+  outgoingHighWaterMark: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/outgoingMaxAge) */
+  outgoingMaxAge: number | null;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/readable) */
+  readonly readable: WebTransportReceiveStream;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportDatagramDuplexStream/writable) */
+  readonly writable: WebTransportSendStream;
+}
+
+/** @category Platform */
+declare var WebTransportDatagramDuplexStream: {
+  prototype: WebTransportDatagramDuplexStream;
+  new (): WebTransportDatagramDuplexStream;
+};
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendStream)
+ * @category Platform
+ */
+interface WebTransportSendStream extends WritableStream<Uint8Array> {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendStream/sendOrder) */
+  sendOrder: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendStream/sendGroup) */
+  sendGroup?: WebTransportSendGroup;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendStream/getStats) */
+  getStats(): Promise<WebTransportSendStreamStats>;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendStream/getWriter) */
+  getWriter(): WebTransportWriter;
+}
+
+/** @category Platform */
+declare var WebTransportSendStream: {
+  prototype: WebTransportSendStream;
+  new (): WebTransportSendStream;
+};
+
+/** @category Platform */
+interface WebTransportSendStreamStats {
+  bytesWritten: number;
+  bytesSent: number;
+  bytesAcknowledged: number;
+}
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportWriter)
+ * @category Platform
+ */
+interface WebTransportWriter extends WritableStreamDefaultWriter<Uint8Array> {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportWriter/atomicWrite) */
+  atomicWrite(chunk: any): Promise<undefined>;
+}
+
+/** @category Platform */
+declare var WebTransportWriter: {
+  prototype: WebTransportWriter;
+  new (): WebTransportWriter;
+};
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportReceiveStream)
+ * @category Platform
+ */
+interface WebTransportReceiveStream extends ReadableStream<Uint8Array> {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportReceiveStream/getStats) */
+  getStats(): Promise<WebTransportReceiveStreamStats>;
+}
+
+/** @category Platform */
+declare var WebTransportReceiveStream: {
+  prototype: WebTransportReceiveStream;
+  new (): WebTransportReceiveStream;
+};
+
+/** @category Platform */
+interface WebTransportReceiveStreamStats {
+  bytesReceived: number;
+  bytesRead: number;
+}
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendGroup)
+ * @category Platform
+ */
+interface WebTransportSendGroup {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportSendGroup/getStats) */
+  getStats(): Promise<WebTransportSendStreamStats>;
+}
+
+/** @category Platform */
+declare var WebTransportSendGroup: {
+  prototype: WebTransportSendGroup;
+  new (): WebTransportSendGroup;
+};
+
+/**
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportError)
+ * @category Platform
+ */
+interface WebTransportError extends DOMException {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportError/source) */
+  readonly source: WebTransportErrorSource;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransportError/streamErrorCode) */
+  readonly streamErrorCode: number | null;
+}
+
+/** @category Platform */
+declare var WebTransportError: {
+  prototype: WebTransportError;
+  new (message?: string, options?: WebTransportErrorOptions): WebTransportError;
+};
+
+/** @category Platform */
+type WebTransportCongestionControl = "default" | "low-latency" | "throughput";
+
+/** @category Platform */
+type WebTransportErrorSource = "session" | "stream";
