@@ -5335,7 +5335,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.43.0',
+              } )() || '3.44.0',
               proposals: true,
             },
             /**
