@@ -1166,6 +1166,78 @@ declare namespace Deno {
       options: Omit<TestDefinition, "fn" | "only">,
       fn: (t: TestContext) => void | Promise<void>,
     ): void;
+
+    /** Register a function to be called before all tests in the current scope.
+     *
+     * These functions are run in FIFO order (first in, first out).
+     *
+     * If an exception is raised during execution of this hook, the remaining `beforeAll` hooks will not be run.
+     *
+     * ```ts
+     * Deno.test.beforeAll(() => {
+     *   // Setup code that runs once before all tests
+     *   console.log("Setting up test suite");
+     * });
+     * ```
+     *
+     * @category Testing
+     */
+    beforeAll(
+      fn: () => void | Promise<void>,
+    ): void;
+
+    /** Register a function to be called before each test in the current scope.
+     *
+     * These functions are run in FIFO order (first in, first out).
+     *
+     * If an exception is raised during execution of this hook, the remaining hooks will not be run and the currently running
+     * test case will be marked as failed.
+     *
+     * ```ts
+     * Deno.test.beforeEach(() => {
+     *   // Setup code that runs before each test
+     *   console.log("Setting up test");
+     * });
+     * ```
+     *
+     * @category Testing
+     */
+    beforeEach(fn: () => void | Promise<void>): void;
+
+    /** Register a function to be called after each test in the current scope.
+     *
+     * These functions are run in LIFO order (last in, first out).
+     *
+     * If an exception is raised during execution of this hook, the remaining hooks will not be run and the currently running
+     * test case will be marked as failed.
+     *
+     * ```ts
+     * Deno.test.afterEach(() => {
+     *   // Cleanup code that runs after each test
+     *   console.log("Cleaning up test");
+     * });
+     * ```
+     *
+     * @category Testing
+     */
+    afterEach(fn: () => void | Promise<void>): void;
+
+    /** Register a function to be called after all tests in the current scope have finished running.
+     *
+     * These functions are run in the LIFO order (last in, first out).
+     *
+     * If an exception is raised during execution of this hook, the remaining `afterAll` hooks will not be run.
+     *
+     * ```ts
+     * Deno.test.afterAll(() => {
+     *   // Cleanup code that runs once after all tests
+     *   console.log("Cleaning up test suite");
+     * });
+     * ```
+     *
+     * @category Testing
+     */
+    afterAll(fn: () => void | Promise<void>): void;
   }
 
   /**
@@ -2701,7 +2773,8 @@ declare namespace Deno {
    * | 1      | execute only |
    * | 0      | no permission |
    *
-   * NOTE: This API currently throws on Windows
+   * Note: On Windows, only the read and write permissions can be modified.
+   * Distinctions between owner, group, and others are not supported.
    *
    * Requires `allow-write` permission.
    *
@@ -2718,8 +2791,6 @@ declare namespace Deno {
    * ```
    *
    * For a full description, see {@linkcode Deno.chmod}.
-   *
-   * NOTE: This API currently throws on Windows
    *
    * Requires `allow-write` permission.
    *
@@ -3720,8 +3791,8 @@ declare namespace Deno {
    */
   export class ChildProcess implements AsyncDisposable {
     get stdin(): WritableStream<Uint8Array<ArrayBufferLike>>;
-    get stdout(): ReadableStream<Uint8Array<ArrayBuffer>>;
-    get stderr(): ReadableStream<Uint8Array<ArrayBuffer>>;
+    get stdout(): SubprocessReadableStream;
+    get stderr(): SubprocessReadableStream;
     readonly pid: number;
     /** Get the status of the child. */
     readonly status: Promise<CommandStatus>;
@@ -3745,6 +3816,36 @@ declare namespace Deno {
     unref(): void;
 
     [Symbol.asyncDispose](): Promise<void>;
+  }
+
+  /**
+   * The interface for stdout and stderr streams for child process returned from
+   * {@linkcode Deno.Command.spawn}.
+   *
+   * @category Subprocess
+   */
+  export interface SubprocessReadableStream
+    extends ReadableStream<Uint8Array<ArrayBuffer>> {
+    /**
+     * Reads the stream to completion. It returns a promise that resolves with
+     * an `ArrayBuffer`.
+     */
+    arrayBuffer(): Promise<ArrayBuffer>;
+    /**
+     * Reads the stream to completion. It returns a promise that resolves with
+     * a `Uint8Array`.
+     */
+    bytes(): Promise<Uint8Array<ArrayBuffer>>;
+    /**
+     * Reads the stream to completion. It returns a promise that resolves with
+     * the result of parsing the body text as JSON.
+     */
+    json(): Promise<any>;
+    /**
+     * Reads the stream to completion. It returns a promise that resolves with
+     * a `USVString` (text).
+     */
+    text(): Promise<string>;
   }
 
   /**
@@ -5158,6 +5259,18 @@ declare namespace Deno {
 
     /** Sets `SO_REUSEPORT` on POSIX systems. */
     reusePort?: boolean;
+
+    /** Maximum number of pending connections in the listen queue.
+     *
+     * This parameter controls how many incoming connections can be queued by the
+     * operating system while waiting for the application to accept them. If more
+     * connections arrive when the queue is full, they will be refused.
+     *
+     * The kernel may adjust this value (e.g., rounding up to the next power of 2
+     * plus 1). Different operating systems have different maximum limits.
+     *
+     * @default {511} */
+    tcpBacklog?: number;
   }
 
   /**
@@ -6232,10 +6345,11 @@ declare namespace Deno {
    * {@linkcode Deno.CreateHttpClientOptions}.
    *
    * Supported proxies:
-   *  - HTTP/HTTPS proxy: this uses the HTTP CONNECT method to tunnel HTTP
-   *    requests through a different server.
+   *  - HTTP/HTTPS proxy: this uses passthrough to tunnel HTTP requests, or HTTP
+   *    CONNECT to tunnel HTTPS requests through a different server.
    *  - SOCKS5 proxy: this uses the SOCKS5 protocol to tunnel TCP connections
    *    through a different server.
+   *  - TCP socket: this sends all requests to a specified TCP socket.
    *  - Unix domain socket: this sends all requests to a local Unix domain
    *    socket rather than a TCP socket. *Not supported on Windows.*
    *  - Vsock socket: this sends all requests to a local vsock socket.
@@ -6257,6 +6371,12 @@ declare namespace Deno {
     url: string;
     /** The basic auth credentials to be used against the proxy server. */
     basicAuth?: BasicAuth;
+  } | {
+    transport: "tcp";
+    /** The hostname of the TCP server to connect to. */
+    hostname: string;
+    /** The port of the TCP server to connect to. */
+    port: number;
   } | {
     transport: "unix";
     /** The path to the unix domain socket to use. */
@@ -7947,7 +8067,7 @@ interface TextDecoder extends TextDecoderCommon {
   /** Turns binary data, often in the form of a Uint8Array, into a string given
    * the encoding.
    */
-  decode(input?: BufferSource, options?: TextDecodeOptions): string;
+  decode(input?: AllowSharedBufferSource, options?: TextDecodeOptions): string;
 }
 
 /** @category Encoding */
@@ -7972,12 +8092,6 @@ interface TextEncoderEncodeIntoResult {
   written: number;
 }
 
-/** @category Encoding */
-interface TextEncoder extends TextEncoderCommon {
-  /** Returns the result of running UTF-8's encoder. */
-  encode(input?: string): Uint8Array;
-  encodeInto(input: string, dest: Uint8Array): TextEncoderEncodeIntoResult;
-}
 /**
  * Allows you to convert a string into binary data (in the form of a Uint8Array)
  * given the encoding.
@@ -7994,10 +8108,13 @@ interface TextEncoder extends TextEncoderCommon {
  */
 interface TextEncoder extends TextEncoderCommon {
   /** Turns a string into binary data (in the form of a Uint8Array) using UTF-8 encoding. */
-  encode(input?: string): Uint8Array;
+  encode(input?: string): Uint8Array<ArrayBuffer>;
 
   /** Encodes a string into the destination Uint8Array and returns the result of the encoding. */
-  encodeInto(input: string, dest: Uint8Array): TextEncoderEncodeIntoResult;
+  encodeInto(
+    input: string,
+    dest: Uint8Array<ArrayBufferLike>,
+  ): TextEncoderEncodeIntoResult;
 }
 
 /** @category Encoding */
@@ -8015,7 +8132,7 @@ interface TextEncoderCommon {
 /** @category Encoding */
 interface TextDecoderStream extends GenericTransformStream, TextDecoderCommon {
   readonly readable: ReadableStream<string>;
-  readonly writable: WritableStream<BufferSource>;
+  readonly writable: WritableStream<AllowSharedBufferSource>;
 }
 
 /** @category Encoding */
@@ -8026,7 +8143,7 @@ declare var TextDecoderStream: {
 
 /** @category Encoding */
 interface TextEncoderStream extends GenericTransformStream, TextEncoderCommon {
-  readonly readable: ReadableStream<Uint8Array>;
+  readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
   readonly writable: WritableStream<string>;
 }
 
@@ -8204,9 +8321,9 @@ interface Blob {
   readonly size: number;
   readonly type: string;
   arrayBuffer(): Promise<ArrayBuffer>;
-  bytes(): Promise<Uint8Array>;
+  bytes(): Promise<Uint8Array<ArrayBuffer>>;
   slice(start?: number, end?: number, contentType?: string): Blob;
-  stream(): ReadableStream<Uint8Array>;
+  stream(): ReadableStream<Uint8Array<ArrayBuffer>>;
   text(): Promise<string>;
 }
 
@@ -8311,7 +8428,9 @@ interface ReadableStreamBYOBReader extends ReadableStreamGenericReader {
 /** @category Streams */
 declare var ReadableStreamBYOBReader: {
   readonly prototype: ReadableStreamBYOBReader;
-  new (stream: ReadableStream<Uint8Array>): ReadableStreamBYOBReader;
+  new (
+    stream: ReadableStream<Uint8Array<ArrayBuffer>>,
+  ): ReadableStreamBYOBReader;
 };
 
 /** @category Streams */
@@ -8496,7 +8615,7 @@ declare var ReadableStream: {
   new (
     underlyingSource: UnderlyingByteSource,
     strategy?: { highWaterMark?: number },
-  ): ReadableStream<Uint8Array>;
+  ): ReadableStream<Uint8Array<ArrayBuffer>>;
   new <R = any>(
     underlyingSource: UnderlyingDefaultSource<R>,
     strategy?: QueuingStrategy<R>,
@@ -8876,7 +8995,7 @@ declare function structuredClone<T = any>(
  * @category Streams
  */
 interface CompressionStream extends GenericTransformStream {
-  readonly readable: ReadableStream<Uint8Array>;
+  readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
   readonly writable: WritableStream<BufferSource>;
 }
 
@@ -8923,7 +9042,7 @@ declare var CompressionStream: {
  * @category Streams
  */
 interface DecompressionStream extends GenericTransformStream {
-  readonly readable: ReadableStream<Uint8Array>;
+  readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
   readonly writable: WritableStream<BufferSource>;
 }
 
@@ -8986,7 +9105,7 @@ interface ImageDataSettings {
 /** @category Platform */
 interface ImageData {
   readonly colorSpace: PredefinedColorSpace;
-  readonly data: Uint8ClampedArray;
+  readonly data: Uint8ClampedArray<ArrayBuffer>;
   readonly height: number;
   readonly width: number;
 }
@@ -8996,7 +9115,7 @@ declare var ImageData: {
   readonly prototype: ImageData;
   new (sw: number, sh: number, settings?: ImageDataSettings): ImageData;
   new (
-    data: Uint8ClampedArray,
+    data: Uint8ClampedArray<ArrayBuffer>,
     sw: number,
     sh?: number,
     settings?: ImageDataSettings,
@@ -9268,7 +9387,7 @@ declare var FormData: {
 /** @category Fetch */
 interface Body {
   /** A simple getter used to expose a `ReadableStream` of the body contents. */
-  readonly body: ReadableStream<Uint8Array> | null;
+  readonly body: ReadableStream<Uint8Array<ArrayBuffer>> | null;
   /** Stores a `Boolean` that declares whether the body has been used in a
    * response yet.
    */
@@ -9284,7 +9403,7 @@ interface Body {
   /** Takes a `Response` stream and reads it to completion. It returns a promise
    * that resolves with a `Uint8Array`.
    */
-  bytes(): Promise<Uint8Array>;
+  bytes(): Promise<Uint8Array<ArrayBuffer>>;
   /** Takes a `Response` stream and reads it to completion. It returns a promise
    * that resolves with a `FormData` object.
    */
@@ -9640,6 +9759,7 @@ declare function fetch(
  */
 interface EventSourceInit {
   withCredentials?: boolean;
+  headers?: HeadersInit;
 }
 
 /**
@@ -11664,6 +11784,13 @@ interface WebSocket extends EventTarget {
  * // Using URL object instead of string
  * const url = new URL("ws://localhost:8080/path");
  * const wsWithUrl = new WebSocket(url);
+ *
+ * // WebSocket with headers
+ * const wsWithProtocols = new WebSocket("ws://localhost:8080", {
+ *   headers: {
+ *     "Authorization": "Bearer foo",
+ *   },
+ * });
  * ```
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket
@@ -11671,12 +11798,51 @@ interface WebSocket extends EventTarget {
  */
 declare var WebSocket: {
   readonly prototype: WebSocket;
-  new (url: string | URL, protocols?: string | string[]): WebSocket;
+  new (
+    url: string | URL,
+    protocolsOrOptions?: string | string[] | WebSocketOptions,
+  ): WebSocket;
   readonly CLOSED: number;
   readonly CLOSING: number;
   readonly CONNECTING: number;
   readonly OPEN: number;
 };
+
+/**
+ * Options for a WebSocket instance.
+ * This feature is non-standard.
+ *
+ * @category WebSockets
+ */
+interface WebSocketOptions {
+  /**
+   * The sub-protocol(s) that the client would like to use, in order of preference.
+   */
+  protocols?: string | string[];
+  /**
+   * A Headers object, an object literal, or an array of two-item arrays to set handshake's headers.
+   * This feature is non-standard.
+   */
+  headers?: HeadersInit;
+  /**
+   * An `HttpClient` instance to use when creating the WebSocket connection.
+   * This is useful when you need to connect through a proxy or customize TLS settings.
+   *
+   * ```ts
+   * const client = Deno.createHttpClient({
+   *   proxy: {
+   *     transport: "unix",
+   *     path: "/path/to/socket",
+   *   },
+   * });
+   *
+   * const ws = new WebSocket("ws://localhost:8000/socket", { client });
+   * ```
+   *
+   * @experimental
+   */
+  client?: Deno.HttpClient;
+}
 
 /**
  * Specifies the type of binary data being received over a `WebSocket` connection.
@@ -11995,6 +12161,8 @@ type KeyUsage =
 type KeyFormat = "jwk" | "pkcs8" | "raw" | "spki";
 /** @category Crypto */
 type NamedCurve = string;
+/** @category Crypto */
+type BigInteger = Uint8Array<ArrayBuffer>;
 
 /** @category Crypto */
 interface RsaOtherPrimesInfo {
@@ -12078,7 +12246,7 @@ interface RsaHashedKeyGenParams extends RsaKeyGenParams {
 /** @category Crypto */
 interface RsaKeyGenParams extends Algorithm {
   modulusLength: number;
-  publicExponent: Uint8Array;
+  publicExponent: BigInteger;
 }
 
 /** @category Crypto */
@@ -12088,7 +12256,7 @@ interface RsaPssParams extends Algorithm {
 
 /** @category Crypto */
 interface RsaOaepParams extends Algorithm {
-  label?: Uint8Array;
+  label?: BufferSource;
 }
 
 /** @category Crypto */
@@ -12116,7 +12284,7 @@ interface RsaHashedKeyAlgorithm extends RsaKeyAlgorithm {
 /** @category Crypto */
 interface RsaKeyAlgorithm extends KeyAlgorithm {
   modulusLength: number;
-  publicExponent: Uint8Array;
+  publicExponent: BigInteger;
 }
 
 /** @category Crypto */
@@ -12606,20 +12774,7 @@ interface Crypto {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues
    */
-  getRandomValues<
-    T extends
-      | Int8Array
-      | Int16Array
-      | Int32Array
-      | Uint8Array
-      | Uint16Array
-      | Uint32Array
-      | Uint8ClampedArray
-      | BigInt64Array
-      | BigUint64Array,
-  >(
-    array: T,
-  ): T;
+  getRandomValues<T extends ArrayBufferView>(array: T): T;
 
   /**
    * Generates a random RFC 4122 version 4 UUID using a cryptographically
@@ -12921,6 +13076,18 @@ declare namespace Deno {
      *
      * @default {"0.0.0.0"} */
     hostname?: string;
+
+    /** Maximum number of pending connections in the listen queue.
+     *
+     * This parameter controls how many incoming connections can be queued by the
+     * operating system while waiting for the application to accept them. If more
+     * connections arrive when the queue is full, they will be refused.
+     *
+     * The kernel may adjust this value (e.g., rounding up to the next power of 2
+     * plus 1). Different operating systems have different maximum limits.
+     *
+     * @default {511} */
+    tcpBacklog?: number;
   }
 
   /** @category Network */
@@ -13186,6 +13353,15 @@ declare namespace Deno {
      * TLS handshake.
      */
     alpnProtocols?: string[];
+    /** If true, the certificate's common name or subject alternative names will not be
+     * checked against the hostname provided in the options.
+     *
+     * This disables hostname verification but still validates the certificate chain.
+     * Use with caution and only when connecting to known servers.
+     *
+     * @default {false}
+     */
+    unsafelyDisableHostnameVerification?: boolean;
   }
 
   /** Establishes a secure connection over TLS (transport layer security) using
@@ -13235,6 +13411,15 @@ declare namespace Deno {
      * TLS handshake.
      */
     alpnProtocols?: string[];
+    /** If true, the certificate's common name or subject alternative names will not be
+     * checked against the hostname provided in the options.
+     *
+     * This disables hostname verification but still validates the certificate chain.
+     * Use with caution and only when connecting to known servers.
+     *
+     * @default {false}
+     */
+    unsafelyDisableHostnameVerification?: boolean;
   }
 
   /** Start TLS handshake from an existing connection using an optional list of
@@ -13487,7 +13672,7 @@ declare namespace Deno {
    * @experimental
    * @category Network
    */
-  export interface QuicListener extends AsyncIterable<QuicConn> {
+  export interface QuicListener extends AsyncIterable<QuicIncoming> {
     /** Waits for and resolves to the next incoming connection. */
     incoming(): Promise<QuicIncoming>;
 
@@ -13497,7 +13682,7 @@ declare namespace Deno {
     /** Stops the listener. This does not close the endpoint. */
     stop(): void;
 
-    [Symbol.asyncIterator](): AsyncIterableIterator<QuicConn>;
+    [Symbol.asyncIterator](): AsyncIterableIterator<QuicIncoming>;
 
     /** The endpoint for this listener. */
     readonly endpoint: QuicEndpoint;
@@ -14138,7 +14323,10 @@ interface DOMStringList {
 }
 
 /** @category Platform */
-type BufferSource = ArrayBufferView | ArrayBuffer;
+type BufferSource = ArrayBufferView<ArrayBuffer> | ArrayBuffer;
+
+/** @category Platform */
+type AllowSharedBufferSource = ArrayBufferView | ArrayBufferLike;
 
 /**
  * A global console object that provides methods for logging, debugging, and error reporting.
@@ -15289,6 +15477,171 @@ declare var name: string;
 
 declare namespace Deno {
   export {}; // stop default export type behavior
+
+  /**
+   * @category Bundler
+   * @experimental
+   */
+  export namespace bundle {
+    /**
+     * The target platform of the bundle.
+     * @category Bundler
+     * @experimental
+     */
+    export type Platform = "browser" | "deno";
+
+    /**
+     * The output format of the bundle.
+     * @category Bundler
+     * @experimental
+     */
+    export type Format = "esm" | "cjs" | "iife";
+
+    /**
+     * The source map type of the bundle.
+     * @category Bundler
+     * @experimental
+     */
+    export type SourceMapType = "linked" | "inline" | "external";
+
+    /**
+     * How to handle packages.
+     *
+     * - `bundle`: packages are inlined into the bundle.
+     * - `external`: packages are excluded from the bundle, and treated as external dependencies.
+     * @category Bundler
+     * @experimental
+     */
+    export type PackageHandling = "bundle" | "external";
+
+    /**
+     * Options for the bundle.
+     * @category Bundler
+     * @experimental
+     */
+    export interface Options {
+      /**
+       * The entrypoints of the bundle.
+       */
+      entrypoints: string[];
+      /**
+       * Output file path.
+       */
+      outputPath?: string;
+      /**
+       * Output directory path.
+       */
+      outputDir?: string;
+      /**
+       * External modules to exclude from bundling.
+       */
+      external?: string[];
+      /**
+       * Bundle format.
+       */
+      format?: Format;
+      /**
+       * Whether to minify the output.
+       */
+      minify?: boolean;
+      /**
+       * Whether to enable code splitting.
+       */
+      codeSplitting?: boolean;
+      /**
+       * Whether to inline imports.
+       */
+      inlineImports?: boolean;
+      /**
+       * How to handle packages.
+       */
+      packages?: PackageHandling;
+      /**
+       * Source map configuration.
+       */
+      sourcemap?: SourceMapType;
+      /**
+       * Target platform.
+       */
+      platform?: Platform;
+
+      /**
+       * Whether to write the output to the filesystem.
+       *
+       * @default true if outputDir or outputPath is set, false otherwise
+       */
+      write?: boolean;
+    }
+
+    /**
+     * The location of a message.
+     * @category Bundler
+     * @experimental
+     */
+    export interface MessageLocation {
+      file: string;
+      namespace?: string;
+      line: number;
+      column: number;
+      length: number;
+      suggestion?: string;
+    }
+
+    /**
+     * A note about a message.
+     * @category Bundler
+     * @experimental
+     */
+    export interface MessageNote {
+      text: string;
+      location?: MessageLocation;
+    }
+
+    /**
+     * A message emitted from the bundler.
+     * @category Bundler
+     * @experimental
+     */
+    export interface Message {
+      text: string;
+      location?: MessageLocation;
+      notes?: MessageNote[];
+    }
+
+    /**
+     * An output file in the bundle.
+     * @category Bundler
+     * @experimental
+     */
+    export interface OutputFile {
+      path: string;
+      contents?: Uint8Array<ArrayBuffer>;
+      hash: string;
+      text(): string;
+    }
+
+    /**
+     * The result of bundling.
+     * @category Bundler
+     * @experimental
+     */
+    export interface Result {
+      errors: Message[];
+      warnings: Message[];
+      success: boolean;
+      outputFiles?: OutputFile[];
+    }
+  }
+
+  /** **UNSTABLE**: New API, yet to be vetted.
+   *
+   * Bundle Typescript/Javascript code
+   * @category Bundle
+   * @experimental
+   */
+  export function bundle(
+    options: Deno.bundle.Options,
+  ): Promise<Deno.bundle.Result>;
 
   /** **UNSTABLE**: New API, yet to be vetted.
    *
