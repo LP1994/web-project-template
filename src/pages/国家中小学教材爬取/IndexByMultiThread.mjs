@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- tag_list不为空数组、resource_type_code为assets_document、学段为“特殊教育”的
+ tag_list不为空数组、resource_type_code为assets_document
  检测书籍对应的详情url是否都能成功请求到数据！！！
  生成最终的下载地址.json、开始下载，并重命名每个下载下来的书籍名，并放到其对应的文件夹里。
  会发起实际的网络请求！！！
@@ -43,7 +43,6 @@ const startTimer = performance.now(),
   accessToken = `7F938B205F876FC3C7550081F114A1A42FFD0684C043FF4C1BFA9681A0DE12D70CFA13B3C460A96AD8A6ED9BE3662D87B45B062DECF2D7F0`,
   dataVersionUrl = `https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json`,
   dataDetailsJSONUrlPart = `https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/`,
-  specialEducationTag = `22700532-3cf7-4007-9168-c676bd3aefa2`,
   generateBookDetailJSONForWorkerThreadByFilePath = './worker/GenerateBookDetailJSONForWorkerThread.mjs',
   bookDownloadForWorkerThreadByFilePath = './worker/BookDownloadForWorkerThread.mjs',
   bookDetailJSONDir = `各本书籍对应的详情`;
@@ -152,28 +151,17 @@ let resultData = dataSource.filter(
     // tag_list不为空数组、resource_type_code为assets_document
     return tag_list.length !== 0 && tag_paths.length !== 0 && tag_paths[ 0 ].trim().length !== 0 && resource_type_code.trim() === 'assets_document';
   }
-)
-  .filter(
-    (
-      {
-        tag_list,
-        tag_paths,
-      }
-    ) => {
-      // 学段为“特殊教育”的
-      return tag_paths[ 0 ].trim().split( `/` )[ 2 ] === specialEducationTag;
-    }
-  );
+);
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  `获取tag_list不为空数组.resource_type_code为assets_document.字段是完整的.${ resultData.length }本.书籍信息.json`,
   JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
 resultData = resultData.filter(
   (
@@ -200,14 +188,14 @@ resultData = resultData.filter(
 );
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  `获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
   JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
 resultData = resultData.map(
   (
@@ -581,14 +569,14 @@ async function StartBookDownload(){
 
   if( bookDownloadQuantity > 0 ){
     await writeFile(
-      `获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json`,
+      `获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json`,
       JSON.stringify( successBookDownloadUrlObj, null, 4 ),
       {
         flag: 'w+',
       }
     );
 
-    console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json\n` );
+    console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json\n` );
 
     let createBookDownloadForWorkerThreadQuantity = threadQuantity,
       bookDownloadForWorkerInsArr = [];
