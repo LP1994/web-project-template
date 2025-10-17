@@ -200,14 +200,14 @@ resultData = resultData.filter(
 );
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  `获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
   JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
 resultData = resultData.map(
   (
