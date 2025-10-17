@@ -3054,17 +3054,15 @@ declare namespace Deno {
     ctime: Date | null;
     /** ID of the device containing the file. */
     dev: number;
-    /** Inode number.
-     *
-     * _Linux/Mac OS only._ */
+    /** Corresponds to the inode number on Unix systems. On Windows, this is
+     * the file index number that is unique within a volume. This may not be
+     * available on all platforms. */
     ino: number | null;
     /** The underlying raw `st_mode` bits that contain the standard Unix
      * permissions for this file/directory.
      */
     mode: number | null;
-    /** Number of hard links pointing to this file.
-     *
-     * _Linux/Mac OS only._ */
+    /** Number of hard links pointing to this file. */
     nlink: number | null;
     /** User ID of the owner of this file.
      *
@@ -3082,9 +3080,7 @@ declare namespace Deno {
      *
      * _Linux/Mac OS only._ */
     blksize: number | null;
-    /** Number of blocks allocated to the file, in 512-byte units.
-     *
-     * _Linux/Mac OS only._ */
+    /** Number of blocks allocated to the file, in 512-byte units. */
     blocks: number | null;
     /**  True if this is info for a block device.
      *
@@ -8377,7 +8373,7 @@ type ReadableStreamController<T> =
 
 /** @category Streams */
 interface ReadableStreamGenericReader {
-  readonly closed: Promise<undefined>;
+  readonly closed: Promise<void>;
   cancel(reason?: any): Promise<void>;
 }
 
@@ -8719,9 +8715,9 @@ declare var WritableStreamDefaultController: {
  * @category Streams
  */
 interface WritableStreamDefaultWriter<W = any> {
-  readonly closed: Promise<undefined>;
+  readonly closed: Promise<void>;
   readonly desiredSize: number | null;
-  readonly ready: Promise<undefined>;
+  readonly ready: Promise<void>;
   abort(reason?: any): Promise<void>;
   close(): Promise<void>;
   releaseLock(): void;
@@ -9173,7 +9169,7 @@ interface WebTransport {
     WebTransportReceiveStream
   >;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/ready) */
-  readonly ready: Promise<undefined>;
+  readonly ready: Promise<void>;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/close) */
   close(closeInfo?: WebTransportCloseInfo): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/WebTransport/createBidirectionalStream) */
@@ -10601,20 +10597,32 @@ interface GPUCompilationInfo {
   readonly messages: ReadonlyArray<GPUCompilationMessage>;
 }
 
-/** @category GPU */
-declare class GPUPipelineError extends DOMException {
-  constructor(message?: string, options?: GPUPipelineErrorInit);
-
-  readonly reason: GPUPipelineErrorReason;
+/**
+ * The **`GPUPipelineError`** interface of the WebGPU API describes a pipeline failure.
+ * Available only in secure contexts.
+ *
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/GPUPipelineError)
+ * @category GPU
+ */
+interface GPUPipelineError extends DOMException {
+  /**
+   * The **`reason`** read-only property of the GPUPipelineError interface defines the reason the pipeline creation failed in a machine-readable way.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/GPUPipelineError/reason)
+   */
+  readonly reason: "validation" | "internal";
 }
+
+/** @category GPU */
+declare var GPUPipelineError: {
+  prototype: GPUPipelineError;
+  new (message: string, options: GPUPipelineErrorInit): GPUPipelineError;
+};
 
 /** @category GPU */
 interface GPUPipelineErrorInit {
-  reason: GPUPipelineErrorReason;
+  reason: "validation" | "internal";
 }
-
-/** @category GPU */
-type GPUPipelineErrorReason = "validation" | "internal";
 
 /**
  * Represents a compiled shader module that can be used to create graphics or compute pipelines.
@@ -11426,25 +11434,55 @@ interface GPUDeviceLostInfo {
   readonly message: string;
 }
 
-/** @category GPU */
-declare class GPUError {
+/**
+ * The **`GPUError`** interface of the WebGPU API is the base interface for errors surfaced by GPUDevice.popErrorScope and the GPUDevice.uncapturederror_event event.
+ * Available only in secure contexts.
+ *
+ * [MDN Reference](https://developer.mozilla.org/docs/Web/API/GPUError)
+ * @category GPU
+ */
+interface GPUError {
+  /**
+   * The **`message`** read-only property of the A string.
+   * The **`message`** read-only property of the GPUError interface provides a human-readable message that explains why the error occurred.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/GPUError/message)
+   */
   readonly message: string;
 }
 
 /** @category GPU */
-declare class GPUOutOfMemoryError extends GPUError {
-  constructor(message: string);
-}
+declare var GPUError: {
+  prototype: GPUError;
+  new (): GPUError;
+};
 
 /** @category GPU */
-declare class GPUValidationError extends GPUError {
-  constructor(message: string);
-}
+interface GPUOutOfMemoryError extends GPUError {}
 
 /** @category GPU */
-declare class GPUInternalError extends GPUError {
-  constructor(message: string);
-}
+declare var GPUOutOfMemoryError: {
+  prototype: GPUOutOfMemoryError;
+  new (message?: string): GPUOutOfMemoryError;
+};
+
+/** @category GPU */
+interface GPUValidationError extends GPUError {}
+
+/** @category GPU */
+declare var GPUValidationError: {
+  prototype: GPUValidationError;
+  new (message?: string): GPUValidationError;
+};
+
+/** @category GPU */
+interface GPUInternalError extends GPUError {}
+
+/** @category GPU */
+declare var GPUInternalError: {
+  prototype: GPUInternalError;
+  new (message?: string): GPUInternalError;
+};
 
 /** @category GPU */
 type GPUErrorFilter = "out-of-memory" | "validation" | "internal";
@@ -15631,6 +15669,8 @@ declare namespace Deno {
       success: boolean;
       outputFiles?: OutputFile[];
     }
+
+    export {}; // only export exports
   }
 
   /** **UNSTABLE**: New API, yet to be vetted.
@@ -21892,35 +21932,72 @@ declare namespace Intl {
  * @category Platform
  * @experimental
  */
-interface ErrorConstructor {
-  /**
-   * Indicates whether the argument provided is a built-in Error instance or not.
-   */
-  isError(error: unknown): error is Error;
-}
-
-/**
- * @category Platform
- * @experimental
- */
-interface Atomics {
-  /**
-   * Signals to the CPU that it is running in a spin-wait loop.
-   * @param durationHint An integer that may be used to determine how many times
-   * the signal is sent.
-   */
-  pause(durationHint?: number): void;
-}
-
-/**
- * @category Platform
- * @experimental
- */
 interface RegExpConstructor {
   /**
    * Returns a new string in which characters that are potentially special in a
    * regular expression pattern are replaced with escape sequences.
    * @param string The string to escape.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape)
    */
   escape(string: string): string;
+}
+
+/**
+ * @category Platform
+ * @experimental
+ */
+interface Uint8Array {
+  /**
+   * Converts this `Uint8Array` object to a base64 string.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/toBase64)
+   */
+  toBase64(options?: {
+    alphabet?: "base64" | "base64url";
+    omitPadding?: boolean;
+  }): string;
+  /**
+   * Populates this `Uint8Array` object with data from a base64 string.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/setFromBase64)
+   */
+  setFromBase64(string: string, options?: {
+    alphabet?: "base64" | "base64url";
+    lastChunkHandling?: "loose" | "strict" | "stop-before-partial";
+  }): { read: number; written: number };
+  /**
+   * Converts this `Uint8Array` object to a hex string.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/toHex)
+   */
+  toHex(): string;
+  /**
+   * Populates this `Uint8Array` object with data from a hex string.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/setFromHex)
+   */
+  setFromHex(string: string): { read: number; written: number };
+}
+
+/**
+ * @category Platform
+ * @experimental
+ */
+interface Uint8ArrayConstructor {
+  /**
+   * Creates a new `Uint8Array` object from a base64 string.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/fromBase64)
+   */
+  fromBase64(string: string, options?: {
+    alphabet?: "base64" | "base64url";
+    lastChunkHandling?: "loose" | "strict" | "stop-before-partial";
+  }): Uint8Array<ArrayBuffer>;
+  /**
+   * Creates a new `Uint8Array` object from a hex string.
+   *
+   * [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/fromHex)
+   */
+  fromHex(string: string): Uint8Array<ArrayBuffer>;
 }

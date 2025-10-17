@@ -251,7 +251,8 @@ message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
         exitCode => {
           MyConsole.Yellow( `\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
 
-          exit( 0 );
+          // 会强制退成程序！！！
+          // exit( 0 );
         },
         reject => {
           throw new Error( reject );

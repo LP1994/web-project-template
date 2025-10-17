@@ -38,6 +38,10 @@ import {
 
 let startTimer001 = 0,
   obj001 = {
+    md5: {
+      hex: '',
+      base64: '',
+    },
     sha256: {
       hex: '',
       base64: '',

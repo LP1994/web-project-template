@@ -415,22 +415,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20250703。Start
-    'Chrome >= 138',
+    // PC端各主流浏览器的最新版本，至20251017。Start
+    'Chrome >= 141',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 138',
-    'Firefox >= 140',
-    'Safari >= 18',
-    'Opera >= 120',
-    // PC端各主流浏览器的最新版本，至20250703。End
+    'Edge >= 141',
+    'Firefox >= 144',
+    'Safari >= 26',
+    'Opera >= 122',
+    // PC端各主流浏览器的最新版本，至20251017。End
 
-    // 移动端各主流浏览器的最新版本，至20250703。Start
-    'ChromeAndroid >= 138',
+    // 移动端各主流浏览器的最新版本，至20251017。Start
+    'ChromeAndroid >= 141',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 138',
-    'FirefoxAndroid >= 140',
-    'iOS >= 18',
-    // 移动端各主流浏览器的最新版本，至20250703。End
+    'Android >= 141',
+    'FirefoxAndroid >= 144',
+    'iOS >= 26',
+    // 移动端各主流浏览器的最新版本，至20251017。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -461,17 +461,17 @@ const browserslist = [
 
     'es2024',
 
-    // PC端各主流浏览器的最新版本，至20250703。Start
-    'chrome138',
-    'edge138',
-    'firefox140',
-    'safari18',
-    'opera120',
-    // PC端各主流浏览器的最新版本，至20250703。End
+    // PC端各主流浏览器的最新版本，至20251017。Start
+    'chrome141',
+    'edge141',
+    'firefox144',
+    'safari26',
+    'opera122',
+    // PC端各主流浏览器的最新版本，至20251017。End
 
-    // 移动端各主流浏览器的最新版本，至20250703。Start
-    'ios18',
-    // 移动端各主流浏览器的最新版本，至20250703。End
+    // 移动端各主流浏览器的最新版本，至20251017。Start
+    'ios26',
+    // 移动端各主流浏览器的最新版本，至20251017。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -505,19 +505,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20250703。Start
-    chrome: 138,
-    edge: 138,
-    firefox: 140,
-    safari: 18,
-    opera: 120,
-    // PC端各主流浏览器的最新版本，至20250703。End
+    // PC端各主流浏览器的最新版本，至20251017。Start
+    chrome: 141,
+    edge: 141,
+    firefox: 144,
+    safari: 26,
+    opera: 122,
+    // PC端各主流浏览器的最新版本，至20251017。End
 
-    // 移动端各主流浏览器的最新版本，至20250703。Start
+    // 移动端各主流浏览器的最新版本，至20251017。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 138,
-    ios: 18,
-    // 移动端各主流浏览器的最新版本，至20250703。End
+    android: 141,
+    ios: 26,
+    // 移动端各主流浏览器的最新版本，至20251017。End
   },
   /**
    * 编译目标配置。
@@ -3725,7 +3725,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               else{
                 throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
               }
-            } )() || '7.28.2',
+            } )() || '7.28.4',
             helpers: true,
             // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
             regenerator: true,
@@ -5335,7 +5335,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.44.0',
+              } )() || '3.46.0',
               proposals: true,
             },
             /**
