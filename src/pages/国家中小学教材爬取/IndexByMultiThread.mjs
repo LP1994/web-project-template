@@ -359,7 +359,7 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
     {
       workerData: {
         workerInsID: `workerInsID${ workerInsIndex }`,
-        bookDetailJSONDir: `../${ bookDetailJSONDir }`,
+        bookDetailJSONDir: `${ bookDetailJSONDir }`,
       },
     }
   );
