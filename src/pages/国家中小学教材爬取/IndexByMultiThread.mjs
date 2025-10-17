@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- tag_list不为空数组、resource_type_code为assets_document
+ tag_list不为空数组、resource_type_code为thematic_course
  检测书籍对应的详情url是否都能成功请求到数据！！！
  生成最终的下载地址.json、开始下载，并重命名每个下载下来的书籍名，并放到其对应的文件夹里。
  会发起实际的网络请求！！！
@@ -42,7 +42,7 @@ const startTimer = performance.now(),
   threadQuantity = cpus().length - 1,
   accessToken = `7F938B205F876FC3C7550081F114A1A42FFD0684C043FF4C1BFA9681A0DE12D70CFA13B3C460A96AD8A6ED9BE3662D87B45B062DECF2D7F0`,
   dataVersionUrl = `https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json`,
-  dataDetailsJSONUrlPart = `https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/`,
+  dataDetailsJSONUrlPart = 'https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/special_edu/thematic_course/${id}/resources/list.json',
   generateBookDetailJSONForWorkerThreadByFilePath = './worker/GenerateBookDetailJSONForWorkerThread.mjs',
   bookDownloadForWorkerThreadByFilePath = './worker/BookDownloadForWorkerThread.mjs',
   bookDetailJSONDir = `各本书籍对应的详情`;
@@ -148,20 +148,20 @@ let resultData = dataSource.filter(
       resource_type_code,
     }
   ) => {
-    // tag_list不为空数组、resource_type_code为assets_document
-    return tag_list.length !== 0 && tag_paths.length !== 0 && tag_paths[ 0 ].trim().length !== 0 && resource_type_code.trim() === 'assets_document';
+    // tag_list不为空数组、resource_type_code为thematic_course
+    return tag_list.length !== 0 && tag_paths.length !== 0 && tag_paths[ 0 ].trim().length !== 0 && resource_type_code.trim() === 'thematic_course';
   }
 );
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  `获取tag_list不为空数组.resource_type_code为thematic_course.字段是完整的.${ resultData.length }本.书籍信息.json`,
   JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为thematic_course.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
 resultData = resultData.filter(
   (
@@ -188,14 +188,14 @@ resultData = resultData.filter(
 );
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  `获取tag_list不为空数组.resource_type_code为thematic_course.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
   JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为thematic_course.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
 resultData = resultData.map(
   (
@@ -280,7 +280,7 @@ resultData.forEach(
   ) => {
     bookDetailUrlObj[ id ] = {
       path,
-      details: `${ dataDetailsJSONUrlPart }${ id }.json`,
+      details: `${ dataDetailsJSONUrlPart.replaceAll( '${id}', id ) }`,
     };
   }
 );
@@ -413,57 +413,59 @@ Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、thr
       case 'success':
         console.log( `\n第${ generatedBookDetailJSONNum }个生成完成：${ bookDetailJSONDir }/${ id }.json\n` );
 
-        ( bookDetailsJSON?.ti_items ?? [] ).map(
-          async (
-            {
-              // source
-              ti_file_flag,
-              // pdf
-              ti_format,
-              // pdf
-              lc_ti_format,
+        bookDetailsJSON.filter( ( { resource_type_code, } ) => resource_type_code === 'assets_document' ).forEach( bookItem => {
+          ( bookItem?.ti_items ?? [] ).map(
+            async (
+              {
+                // source
+                ti_file_flag,
+                // pdf
+                ti_format,
+                // pdf
+                lc_ti_format,
 
-              // [ ... ]
-              ti_storages,
-            }
-          ) => {
-            if( ti_file_flag === 'source' && ti_format === 'pdf' && lc_ti_format === 'pdf' && ti_storages.length > 0 ){
-              successBookDownloadUrlObj[ id ] = {
-                id,
-                path,
-                bookDetailsJSONUrl,
-                bookDownloadUrl: `${ ti_storages[ 0 ] }?accessToken=${ accessToken }`,
-                bookName: ( () => {
-                  bookName = ( ti_storages[ 0 ].split( '/' ).at( -1 ).split( '.pdf' )[ 0 ] ).trim();
+                // [ ... ]
+                ti_storages,
+              }
+            ) => {
+              if( ti_format === 'pdf' && ti_storages.length > 0 ){
+                successBookDownloadUrlObj[ bookItem.id ] = {
+                  id: bookItem.id,
+                  path,
+                  bookDetailsJSONUrl,
+                  bookDownloadUrl: `${ ti_storages[ 0 ] }?accessToken=${ accessToken }`,
+                  bookName: ( () => {
+                    bookName = ( ti_storages[ 0 ].split( '/' ).at( -1 ).split( '.pdf' )[ 0 ] ).trim();
 
-                  if( bookName === 'pdf' || bookName.startsWith( 'pdf' ) ){
-                    return `${ bookDetailsJSON.title.trim() }_${ id }.pdf`;
+                    if( bookName === 'pdf' || bookName.startsWith( 'pdf' ) ){
+                      return `${ bookItem.title.trim() }_${ bookItem.id }.pdf`;
+                    }
+                    else{
+                      return `${ bookName }_${ bookItem.id }.pdf`;
+                    }
+                  } )(),
+                };
+
+                await writeFile(
+                  `成功获取到的书籍下载地址（都是pdf的）.txt`,
+                  `${ successBookDownloadUrlObj[ bookItem.id ].bookDownloadUrl }\n`,
+                  {
+                    flag: 'a+',
                   }
-                  else{
-                    return `${ bookName }_${ id }.pdf`;
+                );
+              }
+              else if( ti_format === 'pdf' && ti_storages.length === 0 ){
+                await writeFile(
+                  `未能获取到书籍下载地址的书籍对应的书籍详情地址.txt`,
+                  `${ bookDetailsJSONUrl }\n`,
+                  {
+                    flag: 'a+',
                   }
-                } )(),
-              };
-
-              await writeFile(
-                `成功获取到的书籍下载地址（都是pdf的）.txt`,
-                `${ successBookDownloadUrlObj[ id ].bookDownloadUrl }\n`,
-                {
-                  flag: 'a+',
-                }
-              );
+                );
+              }
             }
-            else if( ti_file_flag === 'source' && !( ti_format === 'pdf' && lc_ti_format === 'pdf' && ti_storages.length > 0 ) ){
-              await writeFile(
-                `未能获取到书籍下载地址的书籍对应的书籍详情地址.txt`,
-                `${ bookDetailsJSONUrl }\n`,
-                {
-                  flag: 'a+',
-                }
-              );
-            }
-          }
-        );
+          );
+        } );
 
         await writeFile(
           `获取书籍详情的请求的响应的status为200的请求.txt`,
@@ -511,7 +513,7 @@ Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、thr
         {
           id,
           path,
-          bookDetailsJSONUrl: `${ dataDetailsJSONUrlPart }${ id }.json`,
+          bookDetailsJSONUrl: `${ dataDetailsJSONUrlPart.replaceAll( '${id}', id ) }`,
         }
       );
     }
@@ -552,7 +554,7 @@ Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、thr
     {
       id: bookID,
       path: bookPath,
-      bookDetailsJSONUrl: `${ dataDetailsJSONUrlPart }${ bookID }.json`,
+      bookDetailsJSONUrl: `${ dataDetailsJSONUrlPart.replaceAll( '${id}', bookID ) }`,
     }
   );
 
@@ -569,14 +571,14 @@ async function StartBookDownload(){
 
   if( bookDownloadQuantity > 0 ){
     await writeFile(
-      `获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json`,
+      `获取tag_list不为空数组.resource_type_code为thematic_course.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json`,
       JSON.stringify( successBookDownloadUrlObj, null, 4 ),
       {
         flag: 'w+',
       }
     );
 
-    console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json\n` );
+    console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为thematic_course.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json\n` );
 
     let createBookDownloadForWorkerThreadQuantity = threadQuantity,
       bookDownloadForWorkerInsArr = [];
