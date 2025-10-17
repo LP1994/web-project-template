@@ -11,26 +11,40 @@ import {
   workerData,
 } from 'node:worker_threads';
 
-parentPort.on( 'close', () => {
-  /*  console.log( `
-   用于下载、写入书籍！！！
-   close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
-   该端口已关闭。
-   close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
-   ` );*/
+parentPort.on( 'close', async () => {
+  await writeFile(
+    `../log/用于下载_写入书籍_WorkerThread_close.log`,
+    `\n
+用于下载、写入书籍！！！
+close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+该端口已关闭。
+close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+\n`,
+    {
+      flag: 'a+',
+    }
+  );
 } );
 
-parentPort.on( 'messageerror', errorObject => {
-  /*  console.error( `
-   用于下载、写入书籍！！！
-   反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
-   typeof errorObject--->${ typeof errorObject }
-   ${ errorObject }
-   反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
-   ` );*/
+parentPort.on( 'messageerror', async errorObject => {
+  await writeFile(
+    `../log/用于下载_写入书籍_WorkerThread_messageerror.log`,
+    `\n
+用于下载、写入书籍！！！
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+typeof errorObject--->${ typeof errorObject }
+errorObject.name--->${ errorObject.name }
+errorObject.message--->${ errorObject.message }
+errorObject.stack--->${ errorObject.stack }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+\n`,
+    {
+      flag: 'a+',
+    }
+  );
 } );
 
-parentPort.on( 'message', async (
+parentPort.on( 'message', (
   {
     id,
     path,
@@ -39,7 +53,7 @@ parentPort.on( 'message', async (
     bookName,
   }
 ) => {
-  await fetch( bookDownloadUrl ).then(
+  fetch( bookDownloadUrl ).then(
     async res => {
       if( Number( res.status ) === 200 ){
         await writeFile(
