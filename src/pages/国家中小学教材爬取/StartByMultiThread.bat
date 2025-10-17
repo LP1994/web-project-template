@@ -1,1 +1,0 @@
-node ./IndexByMultiThread.mjs&&pause
