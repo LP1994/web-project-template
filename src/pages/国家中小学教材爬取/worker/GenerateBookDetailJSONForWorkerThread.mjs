@@ -57,7 +57,7 @@ parentPort.on( 'message', (
         const bookDetailsJSON = await res.json();
 
         await writeFile(
-          `各本书籍对应的详情/${ id }.json`,
+          `${ workerData.bookDetailJSONDir }/${ id }.json`,
           JSON.stringify( bookDetailsJSON, null, 4 ),
           {
             flag: 'w+',

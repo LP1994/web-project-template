@@ -30,63 +30,64 @@ import {
   Worker,
 } from 'node:worker_threads';
 
-const startTimer = performance.now();
-
-const accessToken = `7F938B205F876FC3C7550081F114A1A42FFD0684C043FF4C1BFA9681A0DE12D70CFA13B3C460A96AD8A6ED9BE3662D87B45B062DECF2D7F0`,
+const startTimer = performance.now(),
   threadQuantity = cpus().length - 1,
+  accessToken = `7F938B205F876FC3C7550081F114A1A42FFD0684C043FF4C1BFA9681A0DE12D70CFA13B3C460A96AD8A6ED9BE3662D87B45B062DECF2D7F0`,
+  dataVersionUrl = `https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json`,
+  dataDetailsJSONUrlPart = `https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/`,
   generateBookDetailJSONForWorkerThreadByFilePath = './worker/GenerateBookDetailJSONForWorkerThread.mjs',
-  bookDownloadForWorkerThreadByFilePath = './worker/BookDownloadForWorkerThread.mjs';
+  bookDownloadForWorkerThreadByFilePath = './worker/BookDownloadForWorkerThread.mjs',
+  bookDetailJSONDir = `各本书籍对应的详情`;
 
-const data_part_arr = await fetch( `https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json` ).then(
+const bookInfoArr = await fetch( dataVersionUrl ).then(
   async resolve => {
     if( Number( resolve.status ) === 200 ){
-      const data_version = await resolve.json();
+      const dataVersion = await resolve.json();
 
       console.log( `含有获取全部书籍信息的url的json数据--->Start` );
-      console.dir( data_version );
+      console.dir( dataVersion );
       console.log( `
 含有获取全部书籍信息的url的json数据--->End
 ` );
 
       await writeFile(
-        `data_version.json`,
-        JSON.stringify( data_version, null, 4 ),
+        `data_version(含有获取全部书籍信息的url的json数据).json`,
+        JSON.stringify( dataVersion, null, 4 ),
         {
           flag: 'w+',
         }
       );
 
-      const arr001 = data_version?.urls?.split( ',' ) ?? [];
+      const bookInfoArr = dataVersion?.urls?.split( ',' ) ?? [];
 
       console.log( `\n含有全部书籍信息的url--->Start` );
-      console.dir( arr001 );
+      console.dir( bookInfoArr );
       console.log( `
 含有全部书籍信息的url--->End
 ` );
 
-      return arr001;
+      return bookInfoArr;
     }
     else{
-      console.error( `\n\n\n请求“https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json”时，其“status”不为200！！！--->Start` );
+      console.error( `\n\n\n请求“${ dataVersionUrl }”时，其“status”不为200！！！--->Start` );
       console.error( `“status”为：${ resolve.status }` );
-      console.error( `请求“https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json”时，其“status”不为200！！！--->End\n` );
+      console.error( `请求“${ dataVersionUrl }”时，其“status”不为200！！！--->End\n` );
 
-      throw new Error( `\n请求“https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json”时，其“status”不为200！！！\n\n\n` );
+      throw new Error( `\n请求“${ dataVersionUrl }”时，其“status”不为200！！！\n\n\n` );
     }
   },
   reject => {
-    console.error( `\n\n\n请求“https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json”时出错了！！！--->Start` );
+    console.error( `\n\n\n请求“${ dataVersionUrl }”时出错了！！！--->Start` );
     console.error( reject );
-    console.error( `请求“https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json”时出错了！！！--->End\n` );
+    console.error( `请求“${ dataVersionUrl }”时出错了！！！--->End\n` );
 
-    throw new Error( `\n请求“https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json”时出错了！！！\n\n\n` );
+    throw new Error( `\n请求“${ dataVersionUrl }”时出错了！！！\n\n\n` );
   }
 );
 
-const dataSource = await Promise.all( data_part_arr.map( item => fetch( item.trim() ) ) ).then(
+const dataSource = await Promise.all( bookInfoArr.map( item => fetch( item.trim() ) ) ).then(
   async values => {
-    const valuesArr = values.map( async item => await item.json() ),
-      resultArr = ( await Array.fromAsync( valuesArr ) ).flat( Infinity );
+    const resultArr = ( await Array.fromAsync( values.map( async item => await item.json() ) ) ).flat( Infinity );
 
     await writeFile(
       `全部的书籍信息.字段是完整的.${ resultArr.length }本.json`,
@@ -101,15 +102,15 @@ const dataSource = await Promise.all( data_part_arr.map( item => fetch( item.tri
     return resultArr;
   },
   reason => {
-    console.error( `\n\n\n请求这${ data_part_arr.length }个url（${ data_part_arr.join( ',' ) }）时，出错！！！--->Start` );
+    console.error( `\n\n\n请求这${ bookInfoArr.length }个url（${ bookInfoArr.join( ',' ) }）时，出错！！！--->Start` );
     console.error( reason );
-    console.error( `请求这${ data_part_arr.length }个url（${ data_part_arr.join( ',' ) }）时，出错！！！--->End\n` );
+    console.error( `请求这${ bookInfoArr.length }个url（${ bookInfoArr.join( ',' ) }）时，出错！！！--->End\n` );
 
-    throw new Error( `\n\n\n请求这${ data_part_arr.length }个url（${ data_part_arr.join( ',' ) }）时，出错！！！\n\n\n` );
+    throw new Error( `\n\n\n请求这${ bookInfoArr.length }个url（${ bookInfoArr.join( ',' ) }）时，出错！！！\n\n\n` );
   }
 );
 
-let result001 = dataSource.filter(
+let resultData = dataSource.filter(
   (
     {
       tag_list,
@@ -126,7 +127,7 @@ let result001 = dataSource.filter(
         tag_list,
       }
     ) => {
-      const arr001 = tag_list.map(
+      const tagListArr = tag_list.map(
         (
           {
             tag_dimension_id,
@@ -136,34 +137,31 @@ let result001 = dataSource.filter(
         }
       );
 
-      // 学段(zxxxd)、学科(zxxxk)、版本(zxxbb)、年级(zxxnj)
-      const boo001 = arr001.includes( 'zxxxd' ) &&
-        arr001.includes( 'zxxxk' ) &&
-        arr001.includes( 'zxxbb' ) &&
-        arr001.includes( 'zxxnj' );
-
-      // 学段不为“特殊教育”的
-      return boo001;
+      // 学段(zxxxd)、学科(zxxxk)、版本(zxxbb)、年级(zxxnj)，true：学段不为“特殊教育”的
+      return tagListArr.includes( 'zxxxd' ) &&
+        tagListArr.includes( 'zxxxk' ) &&
+        tagListArr.includes( 'zxxbb' ) &&
+        tagListArr.includes( 'zxxnj' );
     }
   );
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.字段是完整的.${ result001.length }本.书籍信息.json`,
-  JSON.stringify( result001, null, 4 ),
+  `获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.字段是完整的.${ result001.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
-result001 = result001.filter(
+resultData = resultData.filter(
   (
     {
       tag_list,
     }
   ) => {
-    const arr001 = [];
+    const tagNameArr = [];
 
     tag_list.forEach(
       (
@@ -184,36 +182,34 @@ result001 = result001.filter(
             'zxxnj',
           ].includes( tag_dimension_id.trim() )
         ){
-          arr001.push( tag_name.trim() );
+          tagNameArr.push( tag_name.trim() );
         }
       }
     );
 
-    const boo001 = !arr001.includes( '' );
-
-    // 学段(zxxxd)、学科(zxxxk)、版本(zxxbb)、年级(zxxnj)的“tag_name”都是不为空字符的
-    return boo001;
+    // true：学段(zxxxd)、学科(zxxxk)、版本(zxxbb)、年级(zxxnj)的“tag_name”都是不为空字符的
+    return !tagNameArr.includes( '' );
   }
 );
 
 await writeFile(
-  `获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ result001.length }本.书籍信息.json`,
-  JSON.stringify( result001, null, 4 ),
+  `获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json`,
+  JSON.stringify( resultData, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ result001.length }本.书籍信息.json\n` );
+console.log( `\n生成完成：获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.字段是完整的.${ resultData.length }本.书籍信息.json\n` );
 
-result001 = result001.map(
+resultData = resultData.map(
   (
     {
       id,
       tag_list,
     }
   ) => {
-    const arr001 = [];
+    const pathArr = [];
 
     tag_list.forEach(
       (
@@ -237,25 +233,25 @@ result001 = result001.map(
           switch( tag_dimension_id.trim() ){
             // 学段
             case 'zxxxd':
-              arr001[ 0 ] = tag_name.trim().replaceAll( '/', '_' );
+              pathArr[ 0 ] = tag_name.trim().replaceAll( '/', '_' );
 
               break;
 
             // 学科
             case 'zxxxk':
-              arr001[ 1 ] = tag_name.trim().replaceAll( '/', '_' );
+              pathArr[ 1 ] = tag_name.trim().replaceAll( '/', '_' );
 
               break;
 
             // 版本
             case 'zxxbb':
-              arr001[ 2 ] = tag_name.trim().replaceAll( '/', '_' );
+              pathArr[ 2 ] = tag_name.trim().replaceAll( '/', '_' );
 
               break;
 
             // 年级
             case 'zxxnj':
-              arr001[ 3 ] = tag_name.trim().replaceAll( '/', '_' );
+              pathArr[ 3 ] = tag_name.trim().replaceAll( '/', '_' );
 
               break;
 
@@ -268,36 +264,36 @@ result001 = result001.map(
 
     return [
       id,
-      arr001.join( '/' ),
+      pathArr.join( '/' ),
     ];
   }
 );
 
-const obj001 = Object.fromEntries( result001 ),
-  arr001 = Array.from( Object.values( obj001 ) ),
-  arr002 = Array.from( new Set( arr001 ) );
+const resultDataObj = Object.fromEntries( resultData ),
+  bookPaths = Array.from( Object.values( resultDataObj ) ),
+  pathArr = Array.from( new Set( bookPaths ) );
 
 await writeFile(
-  `各本书籍对应的文件夹目录.${ arr001.length }个.json`,
-  JSON.stringify( obj001, null, 4 ),
+  `各本书籍对应的文件夹目录.${ bookPaths.length }个.json`,
+  JSON.stringify( resultDataObj, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：各本书籍对应的文件夹目录.${ arr001.length }个.json\n` );
+console.log( `\n生成完成：各本书籍对应的文件夹目录.${ bookPaths.length }个.json\n` );
 
 await writeFile(
-  `需要生成的文件夹目录结构.${ arr002.length }个.json`,
-  JSON.stringify( arr002, null, 4 ),
+  `需要生成的文件夹目录结构.${ pathArr.length }个.json`,
+  JSON.stringify( pathArr, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：需要生成的文件夹目录结构.${ arr002.length }个.json\n` );
+console.log( `\n生成完成：需要生成的文件夹目录结构.${ pathArr.length }个.json\n` );
 
-await Promise.all( arr002.map( item => {
+await Promise.all( pathArr.map( item => {
   return mkdir(
     item,
     {
@@ -317,34 +313,34 @@ await Promise.all( arr002.map( item => {
   }
 );
 
-const obj002 = {};
+const bookDetailUrlObj = {};
 
-result001.forEach(
+resultData.forEach(
   (
     [
       id,
       path
     ]
   ) => {
-    obj002[ id ] = {
+    bookDetailUrlObj[ id ] = {
       path,
-      details: `https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/${ id }.json`,
+      details: `${ dataDetailsJSONUrlPart }${ id }.json`,
     };
   }
 );
 
 await writeFile(
-  `各本书籍对应的详情url.${ arr001.length }个.json`,
-  JSON.stringify( obj002, null, 4 ),
+  `各本书籍对应的详情url.${ bookPaths.length }个.json`,
+  JSON.stringify( bookDetailUrlObj, null, 4 ),
   {
     flag: 'w+',
   }
 );
 
-console.log( `\n生成完成：各本书籍对应的详情url.${ arr001.length }个.json\n` );
+console.log( `\n生成完成：各本书籍对应的详情url.${ bookPaths.length }个.json\n` );
 
-const bookDetailJSONQuantity = result001.length,
-  success_book_download_url_obj = {};
+const bookDetailJSONQuantity = resultData.length,
+  successBookDownloadUrlObj = {};
 
 let bookName = '';
 
@@ -363,51 +359,86 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
     {
       workerData: {
         workerInsID: `workerInsID${ workerInsIndex }`,
+        bookDetailJSONDir: `../${ bookDetailJSONDir }`,
       },
     }
   );
 
-  workerIns.on( 'error', errorEventData => {
-    /*    console.error( `
-     用于下载、生成书籍详情JSON！！！
-     error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-     typeof errorEventData--->${ typeof errorEventData }
-     ${ errorEventData }
-     error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
-     ` );*/
+  workerIns.on( 'error', async errorEventData => {
+    await writeFile(
+      `log/用于下载_生成书籍详情JSON_MainThread_error.log`,
+      `\n
+用于下载、生成书籍详情JSON！！！
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+typeof errorEventData--->${ typeof errorEventData }
+errorEventData.name--->${ errorEventData.name }
+errorEventData.message--->${ errorEventData.message }
+errorEventData.stack--->${ errorEventData.stack }
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
   } );
 
-  workerIns.on( 'exit', exitCode => {
-    /*    console.warn( `
-     用于下载、生成书籍详情JSON！！！
-     exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-     exitCode:${ exitCode }.
-     exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
-     ` );*/
+  workerIns.on( 'messageerror', async errorObject => {
+    await writeFile(
+      `log/用于下载_生成书籍详情JSON_MainThread_messageerror.log`,
+      `\n
+用于下载、生成书籍详情JSON！！！
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+typeof errorObject--->${ typeof errorObject }
+errorObject.name--->${ errorObject.name }
+errorObject.message--->${ errorObject.message }
+errorObject.stack--->${ errorObject.stack }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
+  } );
+
+  workerIns.on( 'online', async () => {
+    await writeFile(
+      `log/用于下载_生成书籍详情JSON_MainThread_online.log`,
+      `\n
+用于下载、生成书籍详情JSON！！！
+子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
+  } );
+
+  workerIns.on( 'exit', async exitCode => {
+    await writeFile(
+      `log/用于下载_生成书籍详情JSON_MainThread_exit.log`,
+      `\n
+用于下载、生成书籍详情JSON！！！
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+exitCode:${ exitCode }.
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
 
     if( Number( exitCode ) !== 0 ){
-      /*      console.warn( `
-       用于下载、生成书籍详情JSON！！！
-       Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.
-       ` );*/
+      await writeFile(
+        `log/用于下载_生成书籍详情JSON_MainThread_exit.log`,
+        `\n
+用于下载、生成书籍详情JSON！！！
+Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.
+\n`,
+        {
+          flag: 'a+',
+        }
+      );
     }
-  } );
-
-  workerIns.on( 'messageerror', errorObject => {
-    /*    console.error( `
-     用于下载、生成书籍详情JSON！！！
-     反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-     typeof errorObject--->${ typeof errorObject }
-     ${ errorObject }
-     反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
-     ` );*/
-  } );
-
-  workerIns.on( 'online', () => {
-    /*    console.log( `
-     用于下载、生成书籍详情JSON！！！
-     子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
-     ` );*/
   } );
 
   workerIns.on( 'message', async (
@@ -424,7 +455,7 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
 
     switch( type ){
       case 'success':
-        console.log( `\n第${ generatedBookDetailJSONNum }个生成完成：各本书籍对应的详情/${ id }.json\n` );
+        console.log( `\n第${ generatedBookDetailJSONNum }个生成完成：${ bookDetailJSONDir }/${ id }.json\n` );
 
         ( bookDetailsJSON?.ti_items ?? [] ).map(
           async (
@@ -441,7 +472,7 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
             }
           ) => {
             if( ti_file_flag === 'source' && ti_format === 'pdf' && lc_ti_format === 'pdf' && ti_storages.length > 0 ){
-              success_book_download_url_obj[ id ] = {
+              successBookDownloadUrlObj[ id ] = {
                 id,
                 path,
                 bookDetailsJSONUrl,
@@ -460,7 +491,7 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
 
               await writeFile(
                 `成功获取到的书籍下载地址（都是pdf的）.txt`,
-                `${ success_book_download_url_obj[ id ].bookDownloadUrl }\n`,
+                `${ successBookDownloadUrlObj[ id ].bookDownloadUrl }\n`,
                 {
                   flag: 'a+',
                 }
@@ -511,46 +542,51 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
         break;
 
       default:
-        throw new Error( `\n当前type值为“${ type }”，该值不在这3个之中：success、fail、reject\n` );
+        throw new Error( `\n用于下载、生成书籍详情JSON！！！当前type值为“${ type }”，该值不在这3个之中：success、fail、reject\n` );
     }
 
-    /*    console.log( `
-     用于下载、生成书籍详情JSON！！！
-     message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
-     ` );*/
-
-    if( result001.length > 0 ){
+    if( resultData.length > 0 ){
       const [
         id,
         path,
-      ] = result001.shift();
+      ] = resultData.shift();
 
       workerIns.postMessage(
         {
           id,
           path,
-          bookDetailsJSONUrl: `https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/${ id }.json`,
+          bookDetailsJSONUrl: `${ dataDetailsJSONUrlPart }${ id }.json`,
         }
       );
     }
     else if( generatedBookDetailJSONNum === bookDetailJSONQuantity ){
       // If the worker was terminated, the exitCode parameter is 1.
       await workerIns.terminate().then(
-        exitCode => {
-          /*          console.warn( `
-           用于下载、生成书籍详情JSON！！！
-           停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
-           ` );*/
+        async exitCode => {
+          await writeFile(
+            `log/用于下载_生成书籍详情JSON_MainThread_terminate().log`,
+            `\n
+用于下载、生成书籍详情JSON！！！
+停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
+\n`,
+            {
+              flag: 'a+',
+            }
+          );
 
           // 会强制退成程序！！！
           // exit( 0 );
         },
         reject => {
-          throw new Error( reject );
+          console.error( `\n\n\n用于下载、生成书籍详情JSON！！！执行“workerIns.terminate()”时，出现reject！！！isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }` );
+          console.error( reject );
+          console.error( `用于下载、生成书籍详情JSON！！！执行“workerIns.terminate()”时，出现reject！！！isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }\n\n\n` );
+
+          throw new Error( `\n\n\n用于下载、生成书籍详情JSON！！！执行“workerIns.terminate()”时，出现reject！！！isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }\n\n\n` );
         }
       );
 
-      console.log( `\n${ generatedBookDetailJSONNum }个“各本书籍对应的详情”的json文件生成完成！都在文件夹“各本书籍对应的详情”里！\n` );
+      console.log( `\n${ generatedBookDetailJSONNum }个“各本书籍对应的详情”的json文件生成完成！都在文件夹“${ bookDetailJSONDir }”里！\n` );
 
       await StartBookDownload();
     }
@@ -560,7 +596,7 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
     {
       id: bookID,
       path: bookPath,
-      bookDetailsJSONUrl: `https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/${ bookID }.json`,
+      bookDetailsJSONUrl: `${ dataDetailsJSONUrlPart }${ bookID }.json`,
     }
   );
 
@@ -571,14 +607,14 @@ let bookDownloadArr = [],
   bookDownloadQuantity = 0;
 
 async function StartBookDownload(){
-  bookDownloadArr = Array.from( Object.values( success_book_download_url_obj ) );
+  bookDownloadArr = Array.from( Object.values( successBookDownloadUrlObj ) );
 
   bookDownloadQuantity = bookDownloadArr.length;
 
   if( bookDownloadQuantity > 0 ){
     await writeFile(
       `获取tag_list不为空数组.resource_type_code为assets_document.学段不为“特殊教育”.“tag_name”不为空字符的.书籍下载地址.${ bookDownloadQuantity }本.json`,
-      JSON.stringify( success_book_download_url_obj, null, 4 ),
+      JSON.stringify( successBookDownloadUrlObj, null, 4 ),
       {
         flag: 'w+',
       }
@@ -632,47 +668,81 @@ async function CreateBookDownloadForWorkerIns(
     }
   );
 
-  workerIns.on( 'error', errorEventData => {
-    /*    console.error( `
-     用于下载、写入书籍！！！
-     error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-     typeof errorEventData--->${ typeof errorEventData }
-     ${ errorEventData }
-     error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
-     ` );*/
+  workerIns.on( 'error', async errorEventData => {
+    await writeFile(
+      `log/用于下载_写入书籍_MainThread_error.log`,
+      `\n
+用于下载、写入书籍！！！
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+typeof errorEventData--->${ typeof errorEventData }
+errorEventData.name--->${ errorEventData.name }
+errorEventData.message--->${ errorEventData.message }
+errorEventData.stack--->${ errorEventData.stack }
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
   } );
 
-  workerIns.on( 'exit', exitCode => {
-    /*    console.warn( `
-     用于下载、写入书籍！！！
-     exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-     exitCode:${ exitCode }.
-     exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
-     ` );*/
+  workerIns.on( 'messageerror', async errorObject => {
+    await writeFile(
+      `log/用于下载_写入书籍_MainThread_messageerror.log`,
+      `\n
+用于下载、写入书籍！！！
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+typeof errorObject--->${ typeof errorObject }
+errorObject.name--->${ errorObject.name }
+errorObject.message--->${ errorObject.message }
+errorObject.stack--->${ errorObject.stack }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
+  } );
+
+  workerIns.on( 'online', async () => {
+    await writeFile(
+      `log/用于下载_写入书籍_MainThread_online.log`,
+      `\n
+用于下载、写入书籍！！！
+子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
+  } );
+
+  workerIns.on( 'exit', async exitCode => {
+    await writeFile(
+      `log/用于下载_写入书籍_MainThread_exit.log`,
+      `\n
+用于下载、写入书籍！！！
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+exitCode:${ exitCode }.
+exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+\n`,
+      {
+        flag: 'a+',
+      }
+    );
 
     if( Number( exitCode ) !== 0 ){
-      /*      console.warn( `
-       用于下载、写入书籍！！！
-       Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.
-       ` );*/
+      await writeFile(
+        `log/用于下载_写入书籍_MainThread_exit.log`,
+        `\n
+用于下载、写入书籍！！！
+Worker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.
+\n`,
+        {
+          flag: 'a+',
+        }
+      );
     }
-  } );
-
-  workerIns.on( 'messageerror', errorObject => {
-    /*    console.error( `
-     用于下载、写入书籍！！！
-     反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-     typeof errorObject--->${ typeof errorObject }
-     ${ errorObject }
-     反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
-     ` );*/
-  } );
-
-  workerIns.on( 'online', () => {
-    /*    console.log( `
-     用于下载、写入书籍！！！
-     子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
-     ` );*/
   } );
 
   workerIns.on( 'message', async (
@@ -717,13 +787,8 @@ async function CreateBookDownloadForWorkerIns(
         break;
 
       default:
-        throw new Error( `\n当前type值为“${ type }”，该值不在这3个之中：success、fail、reject\n` );
+        throw new Error( `\n用于下载、写入书籍！！！当前type值为“${ type }”，该值不在这3个之中：success、fail、reject\n` );
     }
-
-    /*    console.log( `
-     用于下载、生成书籍详情JSON！！！
-     message event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })
-     ` );*/
 
     if( bookDownloadArr.length > 0 ){
       workerIns.postMessage(
@@ -733,17 +798,27 @@ async function CreateBookDownloadForWorkerIns(
     else if( bookDownloadNum === bookDownloadQuantity ){
       // If the worker was terminated, the exitCode parameter is 1.
       await workerIns.terminate().then(
-        exitCode => {
-          /*          console.warn( `
-           用于下载、写入书籍！！！
-           停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
-           ` );*/
+        async exitCode => {
+          await writeFile(
+            `log/用于下载_写入书籍_MainThread_terminate().log`,
+            `\n
+用于下载、写入书籍！！！
+停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。
+\n`,
+            {
+              flag: 'a+',
+            }
+          );
 
           // 会强制退成程序！！！
           // exit( 0 );
         },
         reject => {
-          throw new Error( reject );
+          console.error( `\n\n\n用于下载、写入书籍！！！执行“workerIns.terminate()”时，出现reject！！！isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }` );
+          console.error( reject );
+          console.error( `用于下载、写入书籍！！！执行“workerIns.terminate()”时，出现reject！！！isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }\n\n\n` );
+
+          throw new Error( `\n\n\n用于下载、写入书籍！！！执行“workerIns.terminate()”时，出现reject！！！isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }\n\n\n` );
         }
       );
 
@@ -766,9 +841,9 @@ async function CreateBookDownloadForWorkerIns(
   return workerIns;
 }
 
-if( result001.length > 0 ){
+if( resultData.length > 0 ){
   await mkdir(
-    `各本书籍对应的详情`,
+    bookDetailJSONDir,
     {
       recursive: true,
     }
@@ -777,8 +852,8 @@ if( result001.length > 0 ){
   let createGenerateBookDetailJSONForWorkerThreadQuantity = threadQuantity,
     generateBookDetailJSONForWorkerInsArr = [];
 
-  if( result001.length <= threadQuantity ){
-    createGenerateBookDetailJSONForWorkerThreadQuantity = result001.length;
+  if( resultData.length <= threadQuantity ){
+    createGenerateBookDetailJSONForWorkerThreadQuantity = resultData.length;
   }
 
   for(
@@ -788,7 +863,7 @@ if( result001.length > 0 ){
   ){
     generateBookDetailJSONForWorkerInsArr.push(
       CreateGenerateBookDetailJSONForWorkerIns(
-        result001.shift(),
+        resultData.shift(),
         i
       )
     );
