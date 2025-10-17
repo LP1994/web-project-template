@@ -18,12 +18,21 @@ import {
 } from 'node:os';
 
 import {
+  dirname,
+  join,
+} from 'node:path';
+
+import {
   performance,
 } from 'node:perf_hooks';
 
 import {
   exit,
 } from 'node:process';
+
+import {
+  fileURLToPath,
+} from 'node:url';
 
 import {
   isMainThread,
@@ -38,6 +47,28 @@ const startTimer = performance.now(),
   generateBookDetailJSONForWorkerThreadByFilePath = './worker/GenerateBookDetailJSONForWorkerThread.mjs',
   bookDownloadForWorkerThreadByFilePath = './worker/BookDownloadForWorkerThread.mjs',
   bookDetailJSONDir = `各本书籍对应的详情`;
+
+/**
+ * 该函数返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。<br />
+ *
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ *
+ * @returns {string} 返回值完全等价于“CommonJS modules”中的“__dirname”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\tools。
+ */
+function Get__dirname( import_meta_url = import.meta.url ){
+  return dirname( Get__filename( import_meta_url ) );
+}
+
+/**
+ * 该函数返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。<br />
+ *
+ * @param {string} import_meta_url 只传入import.meta.url即可，默认值（哈哈哈，这个默认值设置的有点多余，纯粹只是为了规避传空报错）：import.meta.url，必需。
+ *
+ * @returns {string} 返回值完全等价于“CommonJS modules”中的“__filename”，是一个字符串，Windows系统下型如：G:\WebStormWS\xx\7788.mjs。
+ */
+function Get__filename( import_meta_url = import.meta.url ){
+  return fileURLToPath( import_meta_url );
+}
 
 const bookInfoArr = await fetch( dataVersionUrl ).then(
   async resolve => {
@@ -359,7 +390,7 @@ async function CreateGenerateBookDetailJSONForWorkerIns(
     {
       workerData: {
         workerInsID: `workerInsID${ workerInsIndex }`,
-        bookDetailJSONDir: `${ bookDetailJSONDir }`,
+        bookDetailJSONDir: `${ join( Get__dirname( import.meta.url ), bookDetailJSONDir ) }`,
       },
     }
   );
