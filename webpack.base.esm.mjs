@@ -3866,14 +3866,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 '@babel/plugin-proposal-async-do-expressions',
               ],
               /**
-               * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/en/babel-plugin-proposal-export-default-from、https://github.com/leebyron/ecmascript-export-default-from
+               * @babel/plugin-proposal-export-default-from：https://babeljs.io/docs/babel-plugin-proposal-export-default-from、https://github.com/tc39/proposal-export-default-from
                * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
                */
               [
                 '@babel/plugin-proposal-export-default-from',
               ],
               /**
-               * @babel/plugin-proposal-partial-application：https://babeljs.io/docs/en/babel-plugin-proposal-partial-application、https://github.com/tc39/proposal-partial-application
+               * @babel/plugin-proposal-partial-application：https://babeljs.io/docs/babel-plugin-proposal-partial-application、https://github.com/tc39/proposal-partial-application
                * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
                */
               [
@@ -3882,11 +3882,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               /**
                * @babel/plugin-proposal-optional-chaining-assign：https://babeljs.io/docs/babel-plugin-proposal-optional-chaining-assign、https://github.com/tc39/proposal-optional-chaining-assignment
                * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 2、该插件受"noDocumentAll"假设的影响。<br />
+               * 该选项详细见：<br />
+               * https://babeljs.io/docs/assumptions#nodocumentall
                */
               [
                 '@babel/plugin-proposal-optional-chaining-assign',
                 {
                   /**
+                   * 1、该选项必须：<br />
                    * “2023-07”：第 1 阶段提案，定义在 tc39/proposal-optional-chaining-assignment@49d055c44b，于 2023 年 7 月 TC39 会议上提出。见：https://github.com/tc39/proposal-optional-chaining-assignment/commit/e7b48795b66a8196b1abcab2e52e2049d055c44b
                    */
                   version: '2023-07',
@@ -3894,19 +3898,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               ],
 
               // 处于提案第2阶段！
-              /**
-               * @babel/plugin-proposal-import-defer：https://babeljs.io/docs/babel-plugin-proposal-import-defer、https://github.com/tc39/proposal-defer-import-eval/
-               * 1、目前该提案处于第2.7阶段。<br />
-               * 2、将导入延迟声明转换为延迟的 require() 调用。<br />
-               * 3、此插件仅在将模块编译为 CommonJS 时才可使用。<br />
-               * 4、该插件需要保证在“@babel/plugin-transform-modules-commonjs”之前被引用，如：
-               * [ '@babel/plugin-proposal-import-defer', '@babel/plugin-transform-modules-commonjs', ]
-               */
-              /*
-               [
-               '@babel/plugin-proposal-import-defer',
-               ],
-               */
               /**
                * @babel/plugin-proposal-function-sent：https://babeljs.io/docs/en/babel-plugin-proposal-function-sent、https://github.com/tc39/proposal-function.sent
                * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
@@ -3918,37 +3909,16 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-proposal-pipeline-operator：https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator、https://github.com/tc39/proposal-pipeline-operator
                * 1、“pipeline operator”有几个相互竞争的提议。使用所需的“proposal”选项配置要使用的提案。默认情况下，它的值是'hack'。<br />
                * 2、如果proposal选项被省略，或者如果proposal: 'hack'，还必须包含："topicToken": "^^"、"topicToken": "^"、"topicToken": "#"、"topicToken": "%"、"topicToken": "@@"。<br />
-               * 3、"proposal": "minimal"、"fsharp"、"smart"这3个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
+               * 3、"proposal": "minimal"、"smart"这2个选项值已被弃用，并可能在未来的主要版本中被删除。<br />
                * 4、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 5、"proposal": "fsharp"，详细见：<br />
+               * https://github.com/valtech-nyc/proposal-fsharp-pipelines
                */
               [
                 '@babel/plugin-proposal-pipeline-operator',
                 {
                   proposal: 'hack',
                   topicToken: '^^',
-                },
-              ],
-              /**
-               * @babel/plugin-proposal-record-and-tuple：https://babeljs.io/docs/en/babel-plugin-proposal-record-and-tuple、https://github.com/tc39/proposal-record-tuple
-               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-               */
-              [
-                '@babel/plugin-proposal-record-and-tuple',
-                {
-                  /**
-                   * 默认情况下，此插件仅使用Record和Tuple全局变量转换提案语法。<br />
-                   * 1、值类型：boolean，默认值：false。<br />
-                   * 2、您需要加载一个polyfill，或者您可以传递"importPolyfill": true选项以将导入注入到由提案作者维护的@bloomberg/record-tuple-polyfill。<br />
-                   */
-                  importPolyfill: true,
-                  /**
-                   * 如果您希望将导入注入到不同于@bloomberg/record-tuple-polyfill的polyfill，您可以使用此选项指定其名称。<br />
-                   * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
-                   */
-                  polyfillModuleName: '@bloomberg/record-tuple-polyfill',
-
-                  // 该选项貌似不再被使用了。目前先注释掉吧！
-                  // syntaxType: 'hash',
                 },
               ],
               /**
@@ -3962,6 +3932,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
                * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
                * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
+               * 3、该插件遵循这些编译器假设：<br />
+               * ignoreFunctionLength：https://babeljs.io/docs/assumptions#ignorefunctionlength
+               * objectRestNoSymbols：https://babeljs.io/docs/assumptions#objectrestnosymbols
                */
               [
                 '@babel/plugin-proposal-destructuring-private',
@@ -3986,8 +3959,43 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                '@babel/plugin-proposal-import-attributes-to-assertions',
                ],
                */
+              /**
+               * @babel/plugin-proposal-discard-binding：https://babeljs.io/docs/babel-plugin-proposal-discard-binding、https://github.com/tc39/proposal-discard-binding
+               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 2、该插件功用：<br />
+               * Transforms discard binding
+               * const [void, x] = arr
+               * to
+               * const [, x] = arr
+               * 3、该插件遵循这些编译器假设：ignoreFunctionLength。<br />
+               * 该选项详细见：<br />
+               * https://babeljs.io/docs/assumptions#ignorefunctionlength
+               */
+              [
+                '@babel/plugin-proposal-discard-binding',
+                {
+                  /**
+                   * 1、该选项必须！<br />
+                   * 2、选择用于表示弃用绑定的语法类型。目前唯一支持的值是"void"。<br />
+                   */
+                  syntaxType: 'void',
+                }
+              ],
 
               // 处于提案第3阶段！
+              /**
+               * @babel/plugin-proposal-import-defer：https://babeljs.io/docs/babel-plugin-proposal-import-defer、https://github.com/tc39/proposal-defer-import-eval/
+               * 1、目前该提案处于第3阶段。<br />
+               * 2、将“import defer”声明转换为延迟的 require() 调用。<br />
+               * 3、此插件仅在将模块编译为 CommonJS 时才可使用。<br />
+               * 4、该插件需要保证在“@babel/plugin-transform-modules-commonjs”之前被引用，如：
+               * [ '@babel/plugin-proposal-import-defer', '@babel/plugin-transform-modules-commonjs', ]
+               */
+              /*
+               [
+               '@babel/plugin-proposal-import-defer',
+               ],
+               */
               /**
                * @babel/plugin-proposal-decorators：https://babeljs.io/docs/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
                * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
@@ -4026,22 +4034,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 },
               ],
               /**
-               * @babel/plugin-proposal-explicit-resource-management：https://babeljs.io/docs/babel-plugin-proposal-explicit-resource-management
-               * 1、目前该提案处于第3阶段。<br />
-               * 2、详细提案见：<br />
-               * https://github.com/tc39/proposal-explicit-resource-management
-               * 异步的提案：https://github.com/tc39/proposal-async-explicit-resource-management
-               */
-              [
-                '@babel/plugin-proposal-explicit-resource-management',
-              ],
-              /**
                * @babel/plugin-proposal-import-wasm-source：https://babeljs.io/docs/babel-plugin-proposal-import-wasm-source、https://github.com/tc39/proposal-source-phase-imports/
                * 1、目前该提案处于第3阶段。<br />
                * 2、将模块编译为AMD、SystemJS或UMD时，不能使用此插件。<br />
                * 3、使用例子：<br />
                * import source libMod from "./lib.wasm";
                * 注意，前面的新的关键字“source”，“import source”才是完整的导入语法。<br />
+               * 4、此插件应用的转换机制依赖于您的顶级目标来检测生成的代码应兼容 Node.js、浏览器还是两者兼容。<br />
+               * 当目标为 Node.js 时，生成的代码还会根据您是否将模块编译为 CommonJS 而发生变化。<br />
                */
               [
                 '@babel/plugin-proposal-import-wasm-source',
@@ -4065,10 +4065,62 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               [
                 '@babel/plugin-proposal-function-bind',
               ],
+
+              // 被撤回的提案！！！
+              /**
+               * @babel/plugin-proposal-record-and-tuple：https://babeljs.io/docs/babel-plugin-proposal-record-and-tuple、https://github.com/tc39/proposal-record-tuple
+               * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
+               * 2、在TC39全体会议（2025 年 4 月 14 日）上，各方达成共识，撤回了“记录和元组”提案。<br />
+               * 详细见：<br />
+               * https://github.com/tc39/proposal-record-tuple/issues/394
+               * 3、有一个新的提案可能会引起任何关注记录和元组提案的人的兴趣。<br />
+               * 它有一些相似之处，但只关注新对象，而不是新的原语。<br />
+               * 我特别怀疑这个问题与记录和元组的关系特别相关：<br />
+               * https://github.com/tc39/proposal-composites/issues/15
+               */
+              [
+                '@babel/plugin-proposal-record-and-tuple',
+                {
+                  /**
+                   * 默认情况下，此插件仅使用Record和Tuple全局变量转换提案语法。<br />
+                   * 1、值类型：boolean，默认值：false。<br />
+                   * 2、您需要加载一个polyfill，或者您可以传递"importPolyfill": true选项以将导入注入到由提案作者维护的@bloomberg/record-tuple-polyfill。<br />
+                   */
+                  importPolyfill: true,
+                  /**
+                   * 如果您希望将导入注入到不同于@bloomberg/record-tuple-polyfill的polyfill，您可以使用此选项指定其名称。<br />
+                   * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
+                   */
+                  polyfillModuleName: '@bloomberg/record-tuple-polyfill',
+
+                  // 该选项貌似不再被使用了。目前先注释掉吧！
+                  // syntaxType: 'hash',
+                },
+              ],
             ]
                  : [];
         } )( true ),
         // TC39 Proposals（除非以后这些插件被列入正式语法，否则都还是要显示手动启用这些，因为@babel/preset-env不处理这些较前沿的提案语法） End
+
+        // ES2026（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
+        ...( isEnable => {
+          return isEnable
+                 ? [
+              /**
+               * @babel/plugin-transform-explicit-resource-management：https://babeljs.io/docs/babel-plugin-transform-explicit-resource-management
+               * 1、该插件使Babel能够转换“using”声明，“using”声明语法如下：<br />
+               * using handler = await read();
+               * 2、语法详细说明见：<br />
+               * https://github.com/tc39/proposal-explicit-resource-management
+               * 其异步版本的提案：https://github.com/tc39/proposal-async-explicit-resource-management
+               */
+              [
+                '@babel/plugin-transform-explicit-resource-management',
+              ],
+            ]
+                 : [];
+        } )( false ),
+        // ES2026（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） End
 
         // ES2025（@babel/preset-env已经包括这些，除非想特定设置某些插件的个性化设置，否则不用特意启动这些，交由@babel/preset-env处理即可） Start
         ...( isEnable => {
