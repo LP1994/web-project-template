@@ -2901,9 +2901,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     futureDefaults: false,
     /**
-     * 启用模块和块层。<br />
+     * 1、启用模块和块层。<br />
+     * 2、v5.102.0：The layers experiment is now stable (you can remove experiments.layers from your webpack.config.js)
      */
-    layers: true,
+    // layers: true,
     /**
      * 设置成false即可，生产环境不要设置成true，会报错！这个貌似是给开发环境用的！仅在使用“entrypoints”和“动态import”时才编译它们。它可用于Web或Node.js。<br />
      * 1、除了设置成Boolean值，还可以是更加详细的Object值：<br />
@@ -2978,9 +2979,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     syncWebAssembly: false,
     /**
-     * 支持Top Level Await Stage 3提案，当在顶层使用await时，它使模块成为异步模块。当experiments.futureDefaults设置为true时默认启用。<br />
+     * 1、支持Top Level Await Stage 3提案，当在顶层使用await时，它使模块成为异步模块。当experiments.futureDefaults设置为true时默认启用。<br />
+     * 2、v5.102.0：The topLevelAwait experiment is now stable (you can remove experiments.topLevelAwait from your webpack.config.js)
      */
-    topLevelAwait: true,
+    // topLevelAwait: true,
   },
   /**
    * 注意，在解析匹配扩展时，是从数组的开头开始匹配的！

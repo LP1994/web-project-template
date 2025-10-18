@@ -30,3 +30,7 @@ new Worker( new URL( './test.worker.ts', import.meta.url ) );
 const url = new URL( './test.worker.ts', import.meta.url );
 new Worker( url );
 </code>
+<br />
+3、webpack v5.99.0：<br />
+Handle new Worker(import.meta.url) and new Worker(new URL(import.meta.url)) syntax
+<br />
