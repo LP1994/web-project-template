@@ -2248,6 +2248,7 @@ const aliasConfig = {
    * @type {object}
    */
   devServerConfig = {
+    // 除非由“allowedHosts”配置或与Host标头不同，否则不允许在Origin标头中具有IP地址的请求连接到WebSocket服务器。<br />
     allowedHosts: 'all',
     bonjour: true,
     client: {
@@ -2263,7 +2264,10 @@ const aliasConfig = {
     },
     compress: true,
     devMiddleware: {
-      // 这个选项是给请求设置请求头的。
+      /**
+       * 1、这个选项是给请求设置请求头的。<br />
+       * 2、除非“Access-Control-Allow-Origin”标头允许，否则不允许跨源请求。<br />
+       */
       headers: httpRequestHeaders,
       index: 'index.html',
       methods: ( methods => methods.split( ',' ).map( item => item.trim() ) )( httpRequestHeaders[ 'Access-Control-Request-Method' ] ),
@@ -2317,7 +2321,10 @@ const aliasConfig = {
        },
        */
     },
-    // 为响应添加响应头。
+    /**
+     * 1、为响应添加响应头。<br />
+     * 2、除非“Access-Control-Allow-Origin”标头允许，否则不允许跨源请求。<br />
+     */
     headers: HttpResponseHeadersFun,
     historyApiFallback: {
       index: '/index.html',
