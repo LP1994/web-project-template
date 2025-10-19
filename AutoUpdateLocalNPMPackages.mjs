@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-shadow-realm --experimental-vm-modules --experimental-wasm-modules --experimental-websocket --max-http-header-size=1024000 --no-warnings --no-deprecation
+#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-quic --experimental-eventsource --experimental-vm-modules --experimental-webstorage --max-http-header-size=1024000 --no-warnings --no-deprecation
 
 /**
  * Project: AutoUpdateLocalNPMPackages
