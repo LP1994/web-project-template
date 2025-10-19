@@ -1,0 +1,29 @@
+webpack、
+deno(https://docs.deno.com/runtime/fundamentals/modules/#import-attributes)、
+支持的：
+type: "json"
+type: "text"（返回：string）
+type: "bytes"（返回：Uint8Array）
+
+webpack、deno不支持的：
+type: "css"
+type: "url"（导入为 URL 字符串）
+type: "wasm"、type: "webassembly"
+
+
+
+HTML规范支持：
+type: "json"
+type: "css"（该类型导入一个“CSSStyleSheet”对象）
+
+
+
+node(https://nodejs.org/docs/latest/api/esm.html#import-attributes)支持的：
+type: "json"
+
+
+
+esbuild支持的：
+type: "json"
+type: "text"（返回：string）更新日志没明确给出，待测试
+type: "bytes"（返回：Uint8Array）更新日志明确给出支持
