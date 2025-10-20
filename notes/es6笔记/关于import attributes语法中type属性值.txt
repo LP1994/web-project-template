@@ -10,6 +10,30 @@ type: "css"
 type: "url"（导入为 URL 字符串）
 type: "wasm"、type: "webassembly"
 
+注意：
+1、在webpack中，对于上述支持的3个type属性值，无需再在“module.rules”里写对应的loader规则了！！！
+2、如果想让webpack能处理自定义的“with { type: 'XXX' }”，那可以在这里配置：
+Rule.with（https://webpack.js.org/configuration/module/#rulewith）
+例子：
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        // Handles imports with the condition "with { type: 'json' }"
+        with: { type: 'json' },
+        // 配置想要自己处理的loader。
+        loader: require.resolve('./loader-assert.js'),
+      },
+    ],
+  },
+};
+PS：上述这个例子实际会报这个错误：[webpack-cli] Error: Compiling RuleSet failed: Properties with are unknown
+3、在webpack中，如果同时配置了某类文件的“module.rules”规则，而有在代码里书写如下例子的代码（上述支持的3个type属性值也是如此），那么webpack的处理会优先被“module.rules”里的规则处理！！！
+例如：
+import data from './data.png' with { type: 'bytes' };
+不会如愿获取到“data.png”的“字节”形式的Uint8Array类型的数据。因为优先会被“module.rules”里的规则处理！
+
 
 
 HTML规范支持：
@@ -20,6 +44,8 @@ type: "css"（该类型导入一个“CSSStyleSheet”对象）
 
 node(https://nodejs.org/docs/latest/api/esm.html#import-attributes)支持的：
 type: "json"
+注意：
+1、在node中，必须明确写出“with { type: 'json' }”才能成功导入json模块，否则会报错！！！
 
 
 
