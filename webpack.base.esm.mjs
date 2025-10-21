@@ -2885,6 +2885,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       frozen: isProduction,
       lockfileLocation: resolve( __dirname, `./webpack_location/lockfile.lock` ),
       upgrade: !isProduction,
+      /**
+       * 1、指定用于获取远程资源的代理服务器。<br />
+       * 2、默认情况下，Webpack 会从环境变量 “http_proxy”（不区分大小写）中获取用于获取远程资源的代理服务器。<br />
+       * 不过，您也可以通过 “proxy” 选项来指定代理服务器。<br />
+       * 3、Type: string
+       */
+      // proxy: '',
     },
     /**
      * 启用未更改的模块的额外内存缓存，并且仅引用未更改的模块。<br />
@@ -2893,7 +2900,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     cacheUnaffected: false,
     /**
-     * 该项设置为true后，会出现不如所愿的CSS处理！还是老老实实的设置为false。启用原生CSS支持。请注意，它是一个仍在开发中的实验性功能，将在webpack v6中默认启用，但是您可以在GitHub上跟踪进度。<br />
+     * 该项设置为true后，会出现不如所愿的CSS处理！还是老老实实的设置为false。
+     * 启用原生CSS支持。
+     * 请注意，它是一个仍在开发中的实验性功能，将在webpack v6中默认启用，但是您可以在GitHub上跟踪进度。<br />
      */
     css: false,
     /**
