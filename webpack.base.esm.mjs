@@ -2992,6 +2992,22 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 2、v5.102.0：The topLevelAwait experiment is now stable (you can remove experiments.topLevelAwait from your webpack.config.js)
      */
     // topLevelAwait: true,
+    /**
+     * 1、启用对TC39提案“import defer”的支持。<br />
+     * 2、此功能允许将模块的执行推迟到首次使用时执行。<br />
+     * 3、这在因“import()”的异步特性而无法同步推迟代码执行时非常有用。<br />
+     * 4、此功能需要运行时环境支持Proxy语法（ES6语法）。例子：<br />
+     * import defer * as module from 'module-name';
+     * // or
+     * import * as module2 from /星号 webpackDefer: true 星号/ 'module-name2';
+     *
+     * export function f() {
+     *   // module-name is evaluated synchronously, then call doSomething() on it.
+     *   // “module-name”被同步执行，然后在其上调用“doSomething()”。
+     *   module.doSomething();
+     * }
+     */
+    deferImport: true,
   },
   /**
    * 注意，在解析匹配扩展时，是从数组的开头开始匹配的！
