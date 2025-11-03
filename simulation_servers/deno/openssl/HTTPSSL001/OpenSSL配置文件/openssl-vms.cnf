@@ -13,7 +13,7 @@
 # defined.
 HOME			= .
 
- # Use this in order to automatically load providers.
+# Use this in order to automatically load providers.
 openssl_conf = openssl_init
 
 # Comment out the next line to ignore configuration errors
@@ -79,20 +79,20 @@ default_ca	= CA_default		# The default ca section
 ####################################################################
 [ CA_default ]
 
-dir		= ./demoCA		# Where everything is kept
-certs		= $dir/certs		# Where the issued certs are kept
-crl_dir		= $dir/crl		# Where the issued crl are kept
-database	= $dir/index.txt	# database index file.
+dir		= sys\$disk:[.demoCA		# Where everything is kept
+certs		= $dir.certs]		# Where the issued certs are kept
+crl_dir		= $dir.crl]		# Where the issued crl are kept
+database	= $dir]index.txt	# database index file.
 #unique_subject	= no			# Set to 'no' to allow creation of
 					# several certs with same subject.
-new_certs_dir	= $dir/newcerts		# default place for new certs.
+new_certs_dir	= $dir.newcerts]		# default place for new certs.
 
-certificate	= $dir/cacert.pem 	# The CA certificate
-serial		= $dir/serial 		# The current serial number
-crlnumber	= $dir/crlnumber	# the current crl number
+certificate	= $dir]cacert.pem 	# The CA certificate
+serial		= $dir]serial. 		# The current serial number
+crlnumber	= $dir]crlnumber.	# the current crl number
 					# must be commented out to leave a V1 CRL
-crl		= $dir/crl.pem 		# The current CRL
-private_key	= $dir/private/cakey.pem# The private key
+crl		= $dir]crl.pem 		# The current CRL
+private_key	= $dir.private]cakey.pem # The private key
 
 x509_extensions	= usr_cert		# The extensions to add to the cert
 
@@ -179,8 +179,8 @@ localityName			= Locality Name (eg, city)
 localityName_default	= GuangZhou
 
 #企业/单位名称
-organizationName		= Organization Name (eg, company)
-organizationName_default	= HTTPSSL001
+0.organizationName		= Organization Name (eg, company)
+0.organizationName_default	= HTTPSSL001
 
 # we can do this but it is not needed normally :-)
 #1.organizationName		= Second Organization Name (eg, company)
@@ -192,7 +192,7 @@ organizationalUnitName_default	= IT
 
 #证书的主域名，如：192.168.2.7
 commonName			= Common Name (e.g. server FQDN or YOUR name)
-commonName_max		= 102400
+commonName_max			= 102400
 commonName_default	= HTTPSSL001_CommonName
 
 #邮箱
@@ -244,12 +244,12 @@ authorityKeyIdentifier=keyid,issuer
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
-
 # Extensions for a typical CA
 [ v3_ca ]
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer
 basicConstraints = critical,CA:true
+
 
 
 
@@ -316,12 +316,12 @@ default_tsa = tsa_config1	# the default TSA section
 [ tsa_config1 ]
 
 # These are used by the TSA reply generation only.
-dir		= ./demoCA		# TSA root directory
-serial		= $dir/tsaserial	# The current serial number (mandatory)
+dir		= sys\$disk:[.demoCA		# TSA root directory
+serial		= $dir]tsaserial.	# The current serial number (mandatory)
 crypto_device	= builtin		# OpenSSL engine to use for signing
 signer_cert	= $dir/tsacert.pem 	# The TSA signing certificate
 					# (optional)
-certs		= $dir/cacert.pem	# Certificate chain to include in reply
+certs		= $dir.cacert.pem]	# Certificate chain to include in reply
 					# (optional)
 signer_key	= $dir/private/tsakey.pem # The TSA private key (optional)
 signer_digest  = sha512			# Signing digest to use. (Optional)
@@ -338,7 +338,7 @@ tsa_name		= yes	# Must the TSA name be included in the reply?
 ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
 				# (optional, default: no)
 ess_cert_id_alg		= sha512	# algorithm to compute certificate
-				# identifier (optional, default: sha1)
+				# identifier (optional, default: sha256)
 
 [insta] # CMP using Insta Demo CA
 # Message transfer
@@ -349,8 +349,8 @@ path = pkix/
 
 # Server authentication
 recipient = "/C=FI/O=Insta Demo/CN=Insta Demo CA" # or set srvcert or issuer
-ignore_keyusage = 1 # potentially needed quirk
-unprotected_errors = 1 # potentially needed quirk
+ignore_keyusage = 1 # quirk needed to accept Insta CA cert not including digitalsignature
+unprotected_errors = 1 # quirk needed to accept negative responses possibly not protected
 extracertsout = insta.extracerts.pem
 
 # Client authentication
@@ -363,7 +363,7 @@ cmd = ir # default operation, can be overridden on cmd line with, e.g., kur
 # Certificate enrollment
 subject = "/CN=openssl-cmp-test"
 newkey = insta.priv.pem
-out_trusted = insta.ca.crt
+out_trusted = apps/insta.ca.crt # does not include keyUsage digitalSignature
 certout = insta.cert.pem
 
 [pbm] # Password-based protection for Insta CA
@@ -373,7 +373,7 @@ secret = $insta::secret # pass:insta
 
 [signature] # Signature-based protection for Insta CA
 # Server authentication
-trusted = insta.ca.crt # does not include keyUsage digitalSignature
+trusted = $insta::out_trusted # apps/insta.ca.crt
 
 # Client authentication
 secret = # disable PBM
