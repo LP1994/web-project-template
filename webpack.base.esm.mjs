@@ -2531,7 +2531,7 @@ const aliasConfig = {
         /**
          * 用于单个私钥和/或PFX的共享密码。<br />
          */
-        passphrase: '@HTTPSSL001.2024#',
+        passphrase: '@HTTPSSL001.2025#',
 
         /**
          * PEM格式的CRL（证书吊销列表）。<br />
