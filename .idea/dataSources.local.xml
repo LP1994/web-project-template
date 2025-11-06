@@ -2,7 +2,7 @@
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="WS-252.27397.92">
     <data-source name="27777_TLS" uuid="823ef4bf-7418-4619-9d6c-89baa4d376ff">
-      <database-info product="Mongo DB" version="8.0.3" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="8.0.3" exact-driver-version="1.18" />
+      <database-info product="Mongo DB" version="8.2.1" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.20" dbms="MONGO" exact-version="8.2.1" exact-driver-version="1.20" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
       <auth-provider>MongoDB.MONGODB-X509</auth-provider>
@@ -20,7 +20,7 @@
       </ssl-config>
     </data-source>
     <data-source name="27777_NO_TLS" uuid="40a3481f-7b7f-4cb8-a3c0-25076b1e276e">
-      <database-info product="Mongo DB" version="8.0.3" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="8.0.3" exact-driver-version="1.18" />
+      <database-info product="Mongo DB" version="8.2.1" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="8.2.1" exact-driver-version="1.18" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
       <auth-provider>no-auth</auth-provider>
