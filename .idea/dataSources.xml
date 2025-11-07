@@ -14,7 +14,7 @@
       </driver-properties>
     </data-source>
     <data-source source="LOCAL" name="27777_NO_TLS" uuid="40a3481f-7b7f-4cb8-a3c0-25076b1e276e">
-      <driver-ref>mongo</driver-ref>
+      <driver-ref>mongo.4</driver-ref>
       <synchronize>true</synchronize>
       <remarks>不启用TLS的连接。</remarks>
       <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
