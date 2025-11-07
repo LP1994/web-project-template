@@ -14,7 +14,7 @@
     "deno_std_path": "https://deno.land/std/path/mod.ts",
 
     "deno_x/": "https://deno.land/x/",
-    "deno_x_corejs": "https://deno.land/x/corejs/index.js",
+    "deno_x_corejs": "https://deno.land/x/corejs@v3.46.0/index.js",
     "deno_x_ejs": "https://deno.land/x/dejs/mod.ts",
     "deno_x_mongo": "https://deno.land/x/mongo/mod.ts",
 

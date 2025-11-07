@@ -29,7 +29,6 @@
           <node kind="schema" negative="1" />
         </introspection-scope>
       </schema-mapping>
-      <load-sources>user_sources</load-sources>
       <ssl-config>
         <ca-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\001根CA证书\MongoDBSSL001_Root_CA.pem</ca-cert>
         <client-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA.crt</client-cert>
