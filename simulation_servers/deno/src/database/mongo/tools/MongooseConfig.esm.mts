@@ -146,7 +146,7 @@ const mongooseConfig: T_ConnectOptions = {
    *
    * @type {string}
    */
-  // authMechanism: 'MONGODB-X509',
+  authMechanism: 'MONGODB-X509',
   /**
    * 指定为认证提供的额外选项，例如为GSSAPI启用主机名规范化。<br />
    * 值格式为逗号分隔的键值对，例如：'opt1:val1,opt2:val2'。<br />
@@ -168,7 +168,7 @@ const mongooseConfig: T_ConnectOptions = {
    *
    * @type {string}
    */
-  // authSource: '$external',
+  authSource: '$external',
   /**
    * 指定发送到或从服务器接收的有线协议信息的允许压缩类型。更多信息见网络压缩。<br />
    * 值格式为逗号分隔的字符串列表，例如：'snappy,zlib,zstd'。<br />
@@ -374,7 +374,7 @@ const mongooseConfig: T_ConnectOptions = {
    *
    * @type {boolean}
    */
-  tls: false,
+  tls: true,
   /**
    * 指定当服务器的TLS证书无效时，驱动程序是否应该出错。<br />
    * 绕过由mongod/mongos实例提交的证书验证。<br />
@@ -581,7 +581,7 @@ const mongooseConfig: T_ConnectOptions = {
   driverInfo: {
     name: 'npm_mongoose_driver_for_deno',
     platform: `deno@${ Deno.version.deno }`,
-    version: 'npm_mongoose@8.8.1',
+    version: 'npm_mongoose@8.19.3',
   },
   /**
    * 一个描述命名的曲线的字符串，或者一个用冒号分隔的曲线NID或名称的列表，例如：P-521:P-384:P-256，用于ECDH密钥协议。<br />
