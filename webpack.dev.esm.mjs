@@ -47,6 +47,12 @@ import webpack from 'webpack';
 
 import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
 
+/*
+ import {
+ WebpackManifestPlugin,
+ } from 'webpack-manifest-plugin';
+ */
+
 import {
   __dirname,
   isUseModuleFederation,
@@ -80,6 +86,7 @@ import {
   recordsPathConfig,
   targetConfig,
   watchOptionsConfig,
+  // webpackManifestPluginConfig,
 } from './webpack.base.esm.mjs';
 
 export default {
@@ -221,6 +228,7 @@ export default {
     ...htmlWebpackPluginConfig,
 
     new AssetsWebpackPlugin( assetsWebpackPluginConfig ),
+    // new WebpackManifestPlugin( webpackManifestPluginConfig ),
 
     new CleanWebpackPlugin( cleanWebpackPluginConfig ),
 

@@ -1664,6 +1664,9 @@ const aliasConfig = {
     'MF_v2_RegisterRemotes$': resolve( __dirname, './src/ModuleFederation_v2_RegisterRemotes.se.esm.mts' ),
   },
   /**
+   * 截至2025年11月08日，插件“assets-webpack-plugin”还是稍稍优于插件“webpack-manifest-plugin”，至少个人评估两者后是这么认为并继续使用前者，虽然前者的GitHub已经很久没更新了。<br />
+   * 后者倒还是在更新的，持续观察后者，未来要是其功能、输出的内容能如同前者提供的，那可以替换掉前者，毕竟，前者已经许久不更新了，多少有隐患。<br />
+   *
    * @type {object}
    */
   assetsWebpackPluginConfig = {
@@ -11774,6 +11777,209 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     aggregateTimeout: 500,
     followSymlinks: false,
     ignored: watchIgnoredArr,
+  },
+  /**
+   * 插件“webpack-manifest-plugin”的配置。<br />
+   * PS：<br />
+   * 截至2025年11月08日，插件“assets-webpack-plugin”还是稍稍优于插件“webpack-manifest-plugin”，至少个人评估两者后是这么认为并继续使用前者，虽然前者的GitHub已经很久没更新了。<br />
+   * 后者倒还是在更新的，持续观察后者，未来要是其功能、输出的内容能如同前者提供的，那可以替换掉前者，毕竟，前者已经许久不更新了，多少有隐患。<br />
+   *
+   * @type {ManifestPluginOptions}
+   */
+  webpackManifestPluginConfig = {
+    /**
+     * 若需在其他插件中使用本插件的输出结果，可通过调整清单生成阶段来实现。<br />
+     * 1、向 assetHookStage 传递新阶段参数即可改变清单生成时机。更多详情请参阅 processAssets 的文档说明（https://webpack.js.org/api/compilation-hooks/#list-of-asset-processing-stages）。<br />
+     * 2、注意：在指定阶段之后添加到编译中的任何文件都不会包含在清单中。<br />
+     * 3、默认值为Infinity。<br />
+     *
+     * @type {number}
+     */
+    // assetHookStage: Infinity,
+    /**
+     * 为清单中的所有“键”指定路径前缀。这对于在清单中包含输出路径非常有用。<br />
+     * 1、默认值为空字符串。<br />
+     *
+     * @type {string}
+     */
+    // basePath: '',
+    /**
+     * 指定生成的清单文件的名称。默认值：manifest.json<br />
+     * 1、默认情况下，插件会将 manifest.json 文件输出到您的输出目录。<br />
+     * 2、如果将绝对路径传递给 fileName 选项，则会同时覆盖文件名和路径。<br />
+     *
+     * @type {string}
+     */
+    fileName: join( __dirname, `./dist/${ env_platform }/webpack_assets_manifest.json` ),
+    /**
+     * 允许筛选构成清单的文件。<br />
+     * 1、传入的函数应符合 (file: FileDescriptor) => Boolean 的签名。<br />
+     * 2、返回 true 保留文件，返回 false 删除文件。<br />
+     *
+     * @param file {FileDescriptor}
+     *
+     * @returns {boolean}
+     */
+    /*
+     filter( file ){
+     return true;
+     },
+     */
+    /**
+     * 用于创建清单文件的自定义函数。<br />
+     * 1、传入的函数签名应符合 (seed: Object, files: FileDescriptor[], entries: string[]) => Object 的形式。<br />
+     * 2、并且可以返回任何能够被 JSON.stringify 序列化的值。<br />
+     *
+     * @param seed {object}
+     *
+     * @param files {FileDescriptor[]}
+     *
+     * @param entries {Record<string, string[]>}
+     *
+     * @param chunkGraph {ChunkGraph}
+     *
+     * @returns {object}
+     */
+    /*
+     generate( seed, files, entries, chunkGraph ){
+     return {};
+     },
+     */
+    /**
+     * 允许修改构成清单的文件。<br />
+     * 1、传入的函数应符合 `(file: FileDescriptor) => FileDescriptor` 的签名。<br />
+     * 2、其中返回一个与 `FileDescriptor` 匹配的对象。<br />
+     *
+     * @param file {FileDescriptor}
+     *
+     * @returns {FileDescriptor}
+     */
+    /*
+     map( file ){
+     return FileDescriptor;
+     },
+     */
+    /**
+     * 将添加到清单“值”中的路径前缀。<br />
+     * 1、默认值：<webpack-config>.output.publicPath
+     *
+     * @type {string}
+     */
+    // publicPath: 'auto',
+    /**
+     * 如果设置为有效的正则表达式，则会从清单“键”中移除哈希值。<br />
+     * 1、默认值：/([a-f0-9]{16,32}\.?)/gi
+     * <br />例子：<br />
+     * <code>
+     * {
+     *   "index.c5a9bff71fdfed9b6046.html": "index.c5a9bff71fdfed9b6046.html"
+     * }
+     * </code>
+     * <br />处理后为：<br />
+     * <code>
+     * {
+     *   "index.html": "index.c5a9bff71fdfed9b6046.html"
+     * }
+     * </code>
+     * 2、此选项的默认值是针对 Webpack 默认 md5 哈希的正则表达式。<br />
+     * 注意：<br />
+     * 当前，Webpack的配置：output.hashFunction值为'sha512'、output.hashDigestLength值为16、output.hashDigest值为'hex'。<br />
+     * 故removeKeyHash该选项的值是要设置成：<code>/([a-f0-9]{16,32}\.?)/gi</code><br />
+     * 3、若需使用其他哈希函数/算法，请将此选项设置为相应的正则表达式。<br />
+     * 4、若要禁用键名中哈希值的替换操作，请将此选项设置为 false。<br />
+     *
+     * @type {RegExp | false}
+     */
+    removeKeyHash: false,
+    /**
+     * 用于为清单提供初始值的键值对缓存。<br />
+     * 1、这可能包含一组要添加到清单中的自定义键值对，也可用于在多编译器模式下合并不同编译版本的清单。<br />
+     * 2、要合并清单，需向每个编译器的 WebpackManifestPlugin 实例传递共享的种子对象。<br />
+     * 3、默认值为：{}。<br />
+     *
+     * @type {{}}
+     */
+    seed: {
+      metadata: {
+        display: 'webpack_assets_manifest',
+        version: '8.0.0',
+        date: ( () => {
+          const {
+            year,
+            month,
+            date,
+            hours,
+            minutes,
+            seconds,
+          } = DateHandle();
+
+          return `${ year }_${ month }_${ date }_${ hours }_${ minutes }_${ seconds }`;
+        } )(),
+      },
+    },
+    /**
+     * 可用于将清单序列化为 json 以外的其他格式（例如 yaml）的函数。<br />
+     *
+     * @param arg {object}
+     *
+     * @returns {string}
+     */
+    /*
+     serialize( arg ){
+     return '';
+     },
+     */
+    /**
+     * 允许对构成清单的文件进行排序。<br />
+     * 1、传递的函数应符合 (fileA: FileDescriptor, fileB: FileDescriptor) => Number 的签名。<br />
+     * 2、返回 0 表示不作更改，-1 表示文件应移至较低索引，1 表示文件应移至较高索引。<br />
+     *
+     * @param fileA {FileDescriptor}
+     *
+     * @param fileB {FileDescriptor}
+     *
+     * @returns {number}
+     */
+    /*
+     sort( fileA, fileB ){
+     return 0;
+     },
+     */
+    /**
+     * 1、默认值：<code>/^(gz|map)$/i</code><br />
+     * 2、该选项详细见插件源码：<br />
+     * node_modules/webpack-manifest-plugin/dist/index.js:19<br />
+     * node_modules/webpack-manifest-plugin/dist/helpers.js:18<br />
+     *
+     * @type {RegExp}
+     */
+    // transformExtensions: /^(gz|map)$/i,
+    /**
+     * 如果为真，则“entry”属性中指定的“键”将用作清单中的“键”。<br />
+     * 1、不会添加文件扩展名（除非作为“entry”属性“键”的一部分指定）。<br />
+     * 2、默认值：false。<br />
+     * 3、当设置为true时，会出现“同名属性”先后覆盖的问题，并不会根据“entry”属性中指定的“键”生成对应的“数组/对象”来存放“同名属性”，它们都是不同的文件类型。所以，该选项的值还是设置为false即可。<br />
+     * 这点就不如插件“assets-webpack-plugin”了！！！<br />
+     *
+     * @type {boolean}
+     */
+    // useEntryKeys: false,
+    /**
+     * 1、如果为真，清单文件将通过已弃用的 webpack emit 钩子生成，以兼容尚未更新的 webpack 插件。<br />
+     * 2、许多 webpack 插件尚未更新以适配新版 webpack 5 API。当其他插件使用已弃用的 emit 钩子时，就会出现问题。<br />
+     * 3、清单文件将在这些其他插件之前生成，因此清单中会缺失文件。<br />
+     * 4、默认值：false。<br />
+     *
+     * @type {boolean}
+     */
+    // useLegacyEmit: false,
+    /**
+     * 1、如果为真，则会将清单输出到构建目录和内存中，以与 webpack-dev-server 兼容。<br />
+     * 2、默认值：false。<br />
+     *
+     * @type {boolean}
+     */
+    // writeToFileEmit: false,
   };
 
 export {
@@ -11825,6 +12031,7 @@ export {
   targetConfig,
   typedocWebpackPluginConfig,
   watchOptionsConfig,
+  webpackManifestPluginConfig,
 };
 
 export default {
@@ -11876,4 +12083,5 @@ export default {
   targetConfig,
   typedocWebpackPluginConfig,
   watchOptionsConfig,
+  webpackManifestPluginConfig,
 };

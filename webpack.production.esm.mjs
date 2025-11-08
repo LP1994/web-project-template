@@ -71,6 +71,12 @@ import webpack from 'webpack';
 
 import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
 
+/*
+ import {
+ WebpackManifestPlugin,
+ } from 'webpack-manifest-plugin';
+ */
+
 import {
   SubresourceIntegrityPlugin,
 } from 'webpack-subresource-integrity';
@@ -132,6 +138,7 @@ import {
    * 4、参数“options”是描述配置文件的路径，所以要使用绝对路径（其他参数如果也是表示路径什么的，也要如此），如：options: resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' )。<br />
    */
     typedocWebpackPluginConfig,
+  // webpackManifestPluginConfig,
 } from './webpack.base.esm.mjs';
 
 export default {
@@ -272,6 +279,7 @@ export default {
     ...htmlWebpackPluginConfig,
 
     new AssetsWebpackPlugin( assetsWebpackPluginConfig ),
+    // new WebpackManifestPlugin( webpackManifestPluginConfig ),
 
     new CleanWebpackPlugin( cleanWebpackPluginConfig ),
 
