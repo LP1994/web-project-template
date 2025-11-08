@@ -139,8 +139,11 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
       // 使用给定的选项对象初始化 TypeDoc。
       var typedocApp = await typedoc.Application.bootstrapWithPlugins( typedocOptions );
 
+      typedocApp.options.addReader( new typedoc.ArgumentsReader( 0 ) );
       typedocApp.options.addReader( new typedoc.TypeDocReader() );
+      typedocApp.options.addReader( new typedoc.PackageJsonReader() );
       typedocApp.options.addReader( new typedoc.TSConfigReader() );
+      typedocApp.options.addReader( new typedoc.ArgumentsReader( 300 ).ignoreErrors() );
 
       // 为给定的文件集运行转换器并返回生成的反射。
       // 成功时的 ProjectReflection 实例，否则未定义。
@@ -157,14 +160,14 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
         if( outPath ){
           console.log( '\nGenerating updated typedocs.\n' );
 
-          // generateDocs(project: ProjectReflection, out: string): Promise<void>
+          // generateDocs(project: Models.ProjectReflection, out: string): Promise<void>
           await typedocApp.generateDocs( project, outPath );
         }
 
         if( jsonPath ){
           console.log( '\nGenerating typedoc json.\n' );
 
-          // generateJson(project: ProjectReflection, out: string): Promise<void>
+          // generateJson(project: Models.ProjectReflection, out: string): Promise<void>
           await typedocApp.generateJson( project, jsonPath );
         }
       }
