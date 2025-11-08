@@ -1352,6 +1352,7 @@
     "tsx": "^4.20.6",
     "typedoc": "^0.28.14",
     "typedoc-github-theme": "^0.3.1",
+    "typedoc-material-theme": "^1.4.1",
     "typedoc-theme-hierarchy": "^6.0.0",
     "typedoc-unhoax-theme": "^0.5.3",
     "typedoc-webpack-plugin": "^1.1.4",

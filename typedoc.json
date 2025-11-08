@@ -46,7 +46,7 @@
   "skipErrorChecking": false,
   "theme": "default",
   "plugin": [
-    "typedoc-unhoax-theme"
+    "typedoc-material-theme"
   ],
   "treatWarningsAsErrors": false,
   "watch": false,

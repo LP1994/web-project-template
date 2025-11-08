@@ -74,7 +74,7 @@ function TypedocWebpackPlugin( options ){
     'excludePrivate': false,
     'excludeProtected': false,
     'hideGenerator': false,
-    'htmlLang': 'zh-CN',
+    'lang': 'zh',
     'includeVersion': true,
     'lightHighlightTheme': 'light-plus',
     'logLevel': 1,
@@ -109,9 +109,9 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
 
   compiler.hooks.emit.tapAsync( 'typedoc-webpack-plugin', async function ( compilation, callback ){
     var arr002 = Array.from( compilation.fileSystemInfo._fileTimestamps.map.entries() )
-                      .filter( function ( [ keyName, keyValue ] ){
-                        return ( this.prevTimestamps?.get?.( keyName )?.safeTime || this.startTime ) < ( keyValue?.safeTime || Infinity );
-                      }.bind( this ) );
+      .filter( function ( [ keyName, keyValue ] ){
+        return ( this.prevTimestamps?.get?.( keyName )?.safeTime || this.startTime ) < ( keyValue?.safeTime || Infinity );
+      }.bind( this ) );
 
     var changedFiles = Array.from( new Map( arr002 ).keys() );
 
@@ -136,17 +136,15 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
       // else if the output path is specified in webpack config and out is relative, output typedocs relative to that path
       var typedocOptions = clone( self.typeDocOptions );
 
-      var typedocApp = new typedoc.Application();
+      // 使用给定的选项对象初始化 TypeDoc。
+      var typedocApp = await typedoc.Application.bootstrapWithPlugins( typedocOptions );
 
       typedocApp.options.addReader( new typedoc.TypeDocReader() );
       typedocApp.options.addReader( new typedoc.TSConfigReader() );
 
-      // 使用给定的选项对象初始化 TypeDoc。
-      typedocApp.bootstrap( typedocOptions );
-
       // 为给定的文件集运行转换器并返回生成的反射。
       // 成功时的 ProjectReflection 实例，否则未定义。
-      var project = typedocApp.convert();
+      var project = await typedocApp.convert();
 
       if( project ){
         typedocApp.validate( project );
@@ -167,7 +165,7 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
           console.log( '\nGenerating typedoc json.\n' );
 
           // generateJson(project: ProjectReflection, out: string): Promise<void>
-          typedocApp.generateJson( project, jsonPath );
+          await typedocApp.generateJson( project, jsonPath );
         }
       }
     }
