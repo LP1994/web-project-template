@@ -1,13 +1,30 @@
 {
   "name": "使用typedoc生成的API文档",
-  "sort": [
-    "source-order"
+  "entryPointStrategy": "resolve",
+  "exclude": [
+    "**/node_modules/**"
   ],
-  "validation": {
-    "notExported": true,
-    "invalidLink": true,
-    "notDocumented": true
-  },
+  "externalPattern": [
+    "**/node_modules/**"
+  ],
+  "excludeExternals": false,
+  "excludeNotDocumented": false,
+  "excludeInternal": false,
+  "excludePrivate": false,
+  "excludePrivateClassFields": false,
+  "excludeProtected": false,
+  "maxTypeConversionDepth": 2025,
+  "includeVersion": true,
+  "disableSources": false,
+  "readme": "none",
+  "pretty": true,
+  "emit": "docs",
+  "theme": "default",
+  "lightHighlightTheme": "light-plus",
+  "darkHighlightTheme": "dark-plus",
+  "lang": "zh",
+  "hideGenerator": false,
+  "cleanOutputDir": true,
   "visibilityFilters": {
     "protected": true,
     "private": true,
@@ -21,39 +38,25 @@
     "@hidden": true,
     "@internal": true
   },
-  "categorizeByGroup": true,
-  "cleanOutputDir": true,
   "commentStyle": "jsdoc",
-  "darkHighlightTheme": "dark-plus",
+  "categorizeByGroup": true,
   "defaultCategory": "Other",
-  "disableSources": false,
-  "emit": "docs",
-  "entryPointStrategy": "resolve",
-  "excludeExternals": false,
-  "excludeInternal": false,
-  "excludeNotDocumented": false,
-  "excludePrivate": false,
-  "excludeProtected": false,
-  "hideGenerator": false,
-  "lang": "zh",
-  "includeVersion": true,
-  "lightHighlightTheme": "light-plus",
-  "logLevel": 1,
-  "preserveWatchOutput": true,
-  "pretty": true,
-  "readme": "none",
-  "showConfig": false,
-  "skipErrorChecking": false,
-  "theme": "default",
-  "plugin": [
-    "typedoc-unhoax-theme"
+  "sort": [
+    "source-order"
   ],
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "rewrittenLink": true,
+    "notDocumented": true,
+    "unusedMergeModuleWith": true
+  },
   "treatWarningsAsErrors": false,
+  "treatValidationWarningsAsErrors": false,
   "watch": false,
-  "externalPattern": [
-    "**/node_modules/**"
-  ],
-  "exclude": [
-    "**/node_modules/**"
-  ]
+  "preserveWatchOutput": true,
+  "version": true,
+  "showConfig": false,
+  "logLevel": 1,
+  "skipErrorChecking": false
 }
