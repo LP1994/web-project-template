@@ -11728,6 +11728,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
     // 参照这个的写法即可。
     // resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' ),
+    // resolve( __dirname, './src/tools/js/currency_tools/type_doc/typedoc.json' ),
   ] ),
   /**
    * 一组用于自定义手表模式的选项。<br />
