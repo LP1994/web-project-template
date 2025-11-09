@@ -46,7 +46,7 @@ import {
  * 2、目前只建议该插件用于生产、测试环境下为指定的用TypeScript编写的文件生成其文档。<br />
  * 3、不要用于开发环境，因为在开发环境下在生成文档后会出现不停的出现webpack重编译的情况，而且，开发环境下也不需要实时生成文档，毕竟生成文档的过程也是耗时的。<br />
  * 4、关于使用该插件时需要的配置文件及其相关的，可参见“src/tools/ts/universal_tools/type_doc”文件夹下的“doc”文件夹、“README.md”文件、"typedoc.json"文件、“tsconfig.typedoc.json”文件，参照它们为其他需要生成文档的文件配置文件。<br />
- * 5、当前基于的“typedoc”版本为“0.23.21”。<br />
+ * 5、当前基于的“typedoc”版本为“0.28.14”。<br />
  * 6、如果需要为多个文件生成文档，只要配置多个诸如“{options: string}”这样的配置即可，所以变量“typedocWebpackPluginConfig”才是一个数组。<br />
  *
  * PS：<br />
@@ -122,7 +122,7 @@ import {
    * 2、目前只建议该插件用于生产、测试环境下为指定的用TypeScript编写的文件生成其文档。<br />
    * 3、不要用于开发环境，因为在开发环境下在生成文档后会出现不停的出现webpack重编译的情况，而且，开发环境下也不需要实时生成文档，毕竟生成文档的过程也是耗时的。<br />
    * 4、关于使用该插件时需要的配置文件及其相关的，可参见“src/tools/ts/universal_tools/type_doc”文件夹下的“doc”文件夹、“README.md”文件、"typedoc.json"文件、“tsconfig.typedoc.json”文件，参照它们为其他需要生成文档的文件配置文件。<br />
-   * 5、当前基于的“typedoc”版本为“0.23.21”。<br />
+   * 5、当前基于的“typedoc”版本为“0.28.14”。<br />
    * 6、如果需要为多个文件生成文档，只要配置多个诸如“{options: string}”这样的配置即可，所以变量“typedocWebpackPluginConfig”才是一个数组。<br />
    *
    * PS：<br />
@@ -335,7 +335,7 @@ export default {
      * 2、目前只建议该插件用于生产、测试环境下为指定的用TypeScript编写的文件生成其文档。<br />
      * 3、不要用于开发环境，因为在开发环境下在生成文档后会出现不停的出现webpack重编译的情况，而且，开发环境下也不需要实时生成文档，毕竟生成文档的过程也是耗时的。<br />
      * 4、关于使用该插件时需要的配置文件及其相关的，可参见“src/tools/ts/universal_tools/type_doc”文件夹下的“doc”文件夹、“README.md”文件、"typedoc.json"文件、“tsconfig.typedoc.json”文件，参照它们为其他需要生成文档的文件配置文件。<br />
-     * 5、当前基于的“typedoc”版本为“0.23.21”。<br />
+     * 5、当前基于的“typedoc”版本为“0.28.14”。<br />
      * 6、如果需要为多个文件生成文档，只要配置多个诸如“{options: string}”这样的配置即可，所以变量“typedocWebpackPluginConfig”才是一个数组。<br />
      *
      * PS：<br />
