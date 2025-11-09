@@ -37,64 +37,8 @@ function TypedocWebpackPlugin( options ){
 
   this.prevTimestamps = {};
 
-  this.defaultTypedocOptions = {
-    'name': 'TypeScript的API文档',
-    'sort': [
-      'source-order'
-    ],
-    'validation': {
-      'notExported': true,
-      'invalidLink': true,
-      'notDocumented': true
-    },
-    'visibilityFilters': {
-      'protected': true,
-      'private': true,
-      'inherited': true,
-      'external': true,
-      '@alpha': true,
-      '@beta': true,
-      '@experimental': true,
-      '@deprecated': true,
-      '@enum': true,
-      '@hidden': true,
-      '@internal': true
-    },
-    'categorizeByGroup': true,
-    'cleanOutputDir': true,
-    'commentStyle': 'jsdoc',
-    'darkHighlightTheme': 'dark-plus',
-    'defaultCategory': 'Other',
-    'disableSources': false,
-    'emit': 'docs',
-    'entryPointStrategy': 'resolve',
-    'excludeExternals': false,
-    'excludeInternal': false,
-    'excludeNotDocumented': false,
-    'excludePrivate': false,
-    'excludeProtected': false,
-    'hideGenerator': false,
-    'lang': 'zh',
-    'includeVersion': true,
-    'lightHighlightTheme': 'light-plus',
-    'logLevel': 1,
-    'preserveWatchOutput': true,
-    'pretty': true,
-    'readme': 'none',
-    'showConfig': false,
-    'skipErrorChecking': false,
-    'theme': 'default',
-    'treatWarningsAsErrors': false,
-    'watch': false,
-    'externalPattern': [
-      '**/node_modules/**'
-    ],
-    'exclude': [
-      '**/node_modules/**'
-    ]
-  };
+  this.defaultTypedocOptions = {};
 
-  // merge user options into default options and assign
   merge( this.defaultTypedocOptions, options );
 
   this.typeDocOptions = this.defaultTypedocOptions;
