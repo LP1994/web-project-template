@@ -55,7 +55,6 @@
   "treatValidationWarningsAsErrors": false,
   "watch": false,
   "preserveWatchOutput": true,
-  "version": true,
   "showConfig": false,
   "logLevel": 1,
   "skipErrorChecking": false
