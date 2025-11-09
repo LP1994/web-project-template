@@ -30,9 +30,20 @@ var clone = require( 'lodash.clone' );
 
 var merge = require( 'lodash.merge' );
 
-var path = require( 'path' );
+var fs = require( 'fs' );
 
 function TypedocWebpackPlugin( options ){
+  if( !( options?.options ) || ( options.options.trim().length === 0 ) || !fs.statSync( options.options.trim() ).isFile() ){
+    console.error( `\n\n\noptions不是一个有效的值--->Start` );
+    console.error( options );
+    console.error( `options不是一个有效的值--->End` );
+
+    throw new Error( `
+“options.options”的值类型必须是一个字符串，表示一个文件路径，值一般形如：
+resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' )
+\n\n\n` );
+  }
+
   this.startTime = Date.now();
 
   this.prevTimestamps = {};
