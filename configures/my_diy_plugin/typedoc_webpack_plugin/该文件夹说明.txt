@@ -1,0 +1,1 @@
+基于插件“typedoc-webpack-plugin v1.1.4”的源码，自己DIY修改的，适用于“webpack v5”和“typedoc v0.28.14”的插件。
