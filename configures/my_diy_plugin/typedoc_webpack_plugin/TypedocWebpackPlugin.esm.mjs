@@ -46,10 +46,6 @@ const pluginName = 'typedoc-webpack-plugin';
 
 class TypedocWebpackPlugin {
 
-  startTime = Date.now();
-
-  prevTimestamps = {};
-
   defaultTypedocOptions = {};
 
   typeDocOptions = {};
@@ -99,73 +95,36 @@ resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' )
     const self = this;
 
     compiler.hooks.emit.tapAsync( pluginName, async function ( compilation, callback ){
-      const changedFiles = Array.from(
-        new Map(
-          Array.from( compilation.fileSystemInfo._fileTimestamps.map.entries() )
-            .filter(
-              (
-                [
-                  keyName,
-                  keyValue
-                ]
-              ) => {
-                return ( compilation.prevTimestamps?.get?.( keyName )?.safeTime || compilation.startTime ) < ( keyValue?.safeTime || Infinity );
-              }
-            )
-        ).keys()
-      );
+      const typedocApp = await typedoc.Application.bootstrapWithPlugins( clone( self.typeDocOptions ) );
 
-      let tsFileEdited = false;
+      typedocApp.options.addReader( new typedoc.ArgumentsReader( 0 ) );
+      typedocApp.options.addReader( new typedoc.TypeDocReader() );
+      typedocApp.options.addReader( new typedoc.PackageJsonReader() );
+      typedocApp.options.addReader( new typedoc.TSConfigReader() );
+      typedocApp.options.addReader( new typedoc.ArgumentsReader( 300 ).ignoreErrors() );
 
-      for(
-        let i = 0;
-        i < changedFiles.length;
-        i++
-      ){
-        if( changedFiles[ i ].endsWith( '.ts' ) || changedFiles[ i ].endsWith( '.mts' ) || changedFiles[ i ].endsWith( '.cts' ) ){
-          tsFileEdited = true;
+      const project = await typedocApp.convert();
 
-          break;
-        }
+      if( project ){
+        typedocApp.validate( project );
       }
 
-      if( tsFileEdited || changedFiles.length === 0 ){
-        const typedocApp = await typedoc.Application.bootstrapWithPlugins( clone( self.typeDocOptions ) );
+      if( project ){
+        const outPath = typedocApp.options.getValue( 'out' ),
+          jsonPath = typedocApp.options.getValue( 'json' );
 
-        typedocApp.options.addReader( new typedoc.ArgumentsReader( 0 ) );
-        typedocApp.options.addReader( new typedoc.TypeDocReader() );
-        typedocApp.options.addReader( new typedoc.PackageJsonReader() );
-        typedocApp.options.addReader( new typedoc.TSConfigReader() );
-        typedocApp.options.addReader( new typedoc.ArgumentsReader( 300 ).ignoreErrors() );
+        if( outPath ){
+          console.log( '\nGenerating updated typedocs.\n' );
 
-        const project = await typedocApp.convert();
-
-        if( project ){
-          typedocApp.validate( project );
+          await typedocApp.generateDocs( project, outPath );
         }
 
-        if( project ){
-          const outPath = typedocApp.options.getValue( 'out' ),
-            jsonPath = typedocApp.options.getValue( 'json' );
+        if( jsonPath ){
+          console.log( '\nGenerating typedoc json.\n' );
 
-          if( outPath ){
-            console.log( '\nGenerating updated typedocs.\n' );
-
-            await typedocApp.generateDocs( project, outPath );
-          }
-
-          if( jsonPath ){
-            console.log( '\nGenerating typedoc json.\n' );
-
-            await typedocApp.generateJson( project, jsonPath );
-          }
+          await typedocApp.generateJson( project, jsonPath );
         }
       }
-      else{
-        console.warn( '\nNo ts filed changed. Not recompling typedocs.\n' );
-      }
-
-      compilation.prevTimestamps = compilation.fileSystemInfo._fileTimestamps.map;
 
       callback();
     } );
