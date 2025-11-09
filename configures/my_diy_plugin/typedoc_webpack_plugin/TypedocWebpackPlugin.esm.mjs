@@ -36,11 +36,11 @@ import {
   statSync,
 } from 'node:fs';
 
-import clone from 'lodash/clone';
+import clone from 'lodash/clone.js';
 
-import merge from 'lodash/merge';
+import merge from 'lodash/merge.js';
 
-import typedoc from 'typedoc';
+import * as typedoc from 'typedoc';
 
 const pluginName = 'typedoc-webpack-plugin';
 
@@ -100,9 +100,16 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
     const changedFiles = Array.from(
       new Map(
         Array.from( compilation.fileSystemInfo._fileTimestamps.map.entries() )
-          .filter( function ( [ keyName, keyValue ] ){
-            return ( this.prevTimestamps?.get?.( keyName )?.safeTime || this.startTime ) < ( keyValue?.safeTime || Infinity );
-          }.bind( this ) )
+          .filter(
+            (
+              [
+                keyName,
+                keyValue
+              ]
+            ) => {
+              return ( compilation.prevTimestamps?.get?.( keyName )?.safeTime || compilation.startTime ) < ( keyValue?.safeTime || Infinity );
+            }
+          )
       ).keys()
     );
 
@@ -156,7 +163,7 @@ TypedocWebpackPlugin.prototype.apply = function ( compiler ){
       console.warn( '\nNo ts filed changed. Not recompling typedocs.\n' );
     }
 
-    this.prevTimestamps = compilation.fileSystemInfo._fileTimestamps.map;
+    compilation.prevTimestamps = compilation.fileSystemInfo._fileTimestamps.map;
 
     callback();
   } );
