@@ -341,7 +341,7 @@ const isProduction = ( argv => {
    *
    * @type {boolean}
    */
-  isUseModuleFederation = true,
+  isUseModuleFederation = false,
   /**
    * 是否在控制台输出Babel的插件调试日志。<br />
    * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
