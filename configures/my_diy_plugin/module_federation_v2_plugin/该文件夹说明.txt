@@ -1,0 +1,1 @@
+自定义的、用于“ModuleFederation v2”的插件。

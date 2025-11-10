@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts
+ * FileDirPath: configures/my_diy_plugin/module_federation_v2_plugin/ModuleFederation_v2_CustomRuntimePlugin.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -14,7 +14,7 @@
  */
 
 /**
- * 个人编写了一个自定义插件（注意，只是扩展了功能，不影响原本的功能）：“./src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts”。<br />
+ * 个人编写了一个自定义插件（注意，只是扩展了功能，不影响原本的功能）：“./configures/my_diy_plugin/module_federation_v2_plugin/ModuleFederation_v2_CustomRuntimePlugin.esm.mts”。<br />
  * 注意：该自定义插件只能在插件构建模式下使用，不能在运行时注册使用该插件！因为其功用是在“beforeInit”函数中定义的，但是该函数是不会在运行时被调用的，只会在插件构建模式下被调用。<br />
  * 其功用是在“beforeInit”函数中，将自定义标识“#auto#”处理为：<br />
  * <code>
@@ -32,7 +32,7 @@
  *   }RemoteEntry_UploadForMultiple.js`,
  * },
  * runtimePlugins: [
- *   resolve( __dirname, './src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
+ *   resolve( __dirname, './configures/my_diy_plugin/module_federation_v2_plugin/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
  * ],
  * </code>
  * 在环境变量配置文件（.env.dev）中：<br />
@@ -295,7 +295,7 @@ declare class T_SyncHook<T, K> {
 /**
  * 自定义插件，通过自定义标识“#auto#”，让插件构建模式下也能支持动态设置“远端模块提供者”的url。<br />
  * 关于自定义插件的使用（详细见：https://module-federation.io/plugin/dev/index.html#plugin-system）：<br />
- * 个人编写了一个自定义插件（注意，只是扩展了功能，不影响原本的功能）：“./src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts”。<br />
+ * 个人编写了一个自定义插件（注意，只是扩展了功能，不影响原本的功能）：“./configures/my_diy_plugin/module_federation_v2_plugin/ModuleFederation_v2_CustomRuntimePlugin.esm.mts”。<br />
  * 注意：该自定义插件只能在插件构建模式下使用，不能在运行时注册使用该插件！因为其功用是在“beforeInit”函数中定义的，但是该函数是不会在运行时被调用的，只会在插件构建模式下被调用。<br />
  * 其功用是在“beforeInit”函数中，将自定义标识“#auto#”处理为：<br />
  * <code>
@@ -313,7 +313,7 @@ declare class T_SyncHook<T, K> {
  *   }RemoteEntry_UploadForMultiple.js`,
  * },
  * runtimePlugins: [
- *   resolve( __dirname, './src/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
+ *   resolve( __dirname, './configures/my_diy_plugin/module_federation_v2_plugin/ModuleFederation_v2_CustomRuntimePlugin.esm.mts' ),
  * ],
  * </code>
  * 在环境变量配置文件（.env.dev）中：<br />
