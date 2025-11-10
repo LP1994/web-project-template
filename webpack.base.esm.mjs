@@ -11717,6 +11717,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     'es2024',
   ],
   /**
+   * 如果需要在生产模式构建时，顺便生成你想要的某些代码的文档，可以在此设置。
+   *
    * @type {[{options: string}]}
    */
   typedocWebpackPluginConfig = ( arr => {
@@ -11724,11 +11726,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       options: item,
     } ) );
   } )( [
-    // 如果需要在生产模式构建时，顺便生成你想要的某些代码的文档，可以在此设置。
-
     // 参照这个的写法即可。
     // resolve( __dirname, './src/tools/ts/universal_tools/type_doc/typedoc.json' ),
     // resolve( __dirname, './src/tools/js/currency_tools/type_doc/typedoc.json' ),
+    // resolve( __dirname, './simulation_servers/node/src/tools/universal_tool_for_node/type_doc/typedoc.json' ),
+    // resolve( __dirname, './simulation_servers/deno/src/tools/universal_tool_for_deno/type_doc/typedoc.json' ),
   ] ),
   /**
    * 一组用于自定义手表模式的选项。<br />
