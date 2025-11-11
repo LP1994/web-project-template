@@ -330,7 +330,7 @@
         "https://deno.land/x/*"
       ],
       "deno_x_corejs": [
-        "https://deno.land/x/corejs/index.js"
+        "https://deno.land/x/corejs@v3.46.0/index.js"
       ],
       "deno_x_ejs": [
         "https://deno.land/x/dejs/mod.ts"
