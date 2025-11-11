@@ -70,10 +70,14 @@
 'use strict';
 
 import {
-  type FederationRuntimePlugin as T_FederationRuntimePlugin,
+  type ModuleFederationRuntimePlugin as T_ModuleFederationRuntimePlugin,
 
-  FederationHost,
+  ModuleFederation,
 } from '@module-federation/enhanced/runtime';
+
+import {
+  SyncWaterfallHook as T_SyncWaterfallHook,
+} from '@module-federation/runtime-core/dist/src/utils/hooks';
 
 import {
   type Module as T_Module,
@@ -90,7 +94,7 @@ type T_AfterResolveOptions = {
   expose: string;
   remote: T_Remote;
   options: T_FederationRuntimeOptions;
-  origin: FederationHost;
+  origin: ModuleFederation;
   remoteInfo: T_RemoteInfo;
   remoteSnapshot?: T_ModuleInfo;
 };
@@ -102,7 +106,7 @@ type T_ArgsType<T> = T extends Array<any>
 type T_BeforeInitOptions = {
   userOptions: T_UserOptions;
   options: T_FederationRuntimeOptions;
-  origin: FederationHost;
+  origin: ModuleFederation;
   shareInfo: T_ShareInfos;
 };
 
@@ -110,7 +114,7 @@ type T_BeforeInitOptions = {
 type T_BeforeRequestOptions = {
   id: string;
   options: T_FederationRuntimeOptions;
-  origin: FederationHost;
+  origin: ModuleFederation;
 };
 
 type T_Callback<T, K> = ( ...args: T_ArgsType<T> ) => K;
@@ -127,14 +131,14 @@ type T_FederationRuntimeOptions = {
   version?: string;
   remotes: Array<T_Remote>;
   shared: T_ShareInfos;
-  plugins: Array<T_FederationRuntimePlugin>;
+  plugins: Array<T_ModuleFederationRuntimePlugin>;
   inBrowser: boolean;
 };
 
 // @ts-ignore
 type T_InitOptions = {
   options: T_FederationRuntimeOptions;
-  origin: FederationHost;
+  origin: ModuleFederation;
 };
 
 type T_InitScope = T_InitTokens[];
@@ -150,7 +154,7 @@ type T_LoadEntryOptions = {
 
 type T_ModuleOptions = {
   remoteInfo: T_RemoteInfo;
-  host: FederationHost;
+  host: ModuleFederation;
 };
 
 // @ts-ignore
@@ -160,7 +164,7 @@ type T_OnLoadOptions = {
   pkgNameOrAlias: string;
   remote: T_Remote;
   options: T_ModuleOptions;
-  origin: FederationHost;
+  origin: ModuleFederation;
   exposeModule: any;
   exposeModuleFactory: any;
   moduleInstance: T_Module;
@@ -174,7 +178,7 @@ type T_Options = {
   version?: string;
   remotes: Array<T_Remote>;
   shared: T_ShareInfos;
-  plugins: Array<T_FederationRuntimePlugin>;
+  plugins: Array<T_ModuleFederationRuntimePlugin>;
   inBrowser: boolean;
   shareStrategy?: T_ShareStrategy;
 };
@@ -347,9 +351,9 @@ declare class T_SyncHook<T, K> {
  * 这样，原本插件构建模式下的“固定url（这里的“固定”一词是相对运行时可以动态设置远端模块提供者的url）”也就可以做到类似在运行时那样，可以动态设置远端模块提供者的url。<br />
  * 注意！该自定义插件只是扩展了功能，不影响原本的功能。<br />
  *
- * @returns {T_FederationRuntimePlugin}
+ * @returns {T_ModuleFederationRuntimePlugin}
  */
-function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
+function ModuleFederation_v2_CustomRuntimePlugin(): T_ModuleFederationRuntimePlugin{
   return {
     name: 'mf-v2-custom-runtime-plugin',
 
@@ -358,11 +362,11 @@ function ModuleFederation_v2_CustomRuntimePlugin(): T_FederationRuntimePlugin{
      * 注意：该函数只会在插件构建模式下被调用！<br />
      * PS: SyncWaterfallHook
      *
-     * @param {T_BeforeInitOptions} args
+     * @param {T_SyncWaterfallHook<T_BeforeInitOptions>} args
      *
-     * @returns {T_BeforeInitOptions}
+     * @returns {T_SyncWaterfallHook<T_BeforeInitOptions>}
      */
-    beforeInit( args: T_BeforeInitOptions ): T_BeforeInitOptions{
+    beforeInit( args: T_SyncWaterfallHook<T_BeforeInitOptions> ): T_SyncWaterfallHook<T_BeforeInitOptions>{
       // @ts-expect-error
       args.userOptions.remotes.forEach( ( remote: T_Remote, ): void => ( remote.entry.includes( `#auto#` ) && ( remote.entry = new URL( remote.entry.split( '#auto#' ).at( -1 ).trim(), location.href ).href ) ) );
 

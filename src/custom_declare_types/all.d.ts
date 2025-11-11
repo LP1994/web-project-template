@@ -40,12 +40,6 @@ declare module '*.module.postcss' {
 }
 
 declare module '*.postcss' {
-  /**
-   * @deprecated Use `import style from './style.pcss?inline'` instead.
-   */
-  const css: string;
-
-  export default css;
 }
 
 declare module '*.cson' {
@@ -330,4 +324,12 @@ declare module '*?sharedworker&inline' {
   };
 
   export default sharedWorkerConstructor;
+}
+
+declare module '@module-federation/runtime-core/dist/src/utils/hooks' {
+  export {
+    SyncWaterfallHook
+  } from '@module-federation/runtime-core/dist/src/utils/hooks';
+
+  export default any;
 }
