@@ -16,7 +16,7 @@ export {};
 
 import {
   type UserOptions,
-  FederationHost,
+  ModuleFederation,
   loadRemote,
 } from '@module-federation/enhanced/runtime';
 
@@ -65,7 +65,7 @@ declare global {
 
   type T_MF_v2_RuntimeAPI_UserOptions = UserOptions;
 
-  type T_MF_v2_RuntimeAPI_FederationHost = typeof FederationHost;
+  type T_MF_v2_RuntimeAPI_ModuleFederation = typeof ModuleFederation;
 
   type T_MF_v2_RuntimeAPI_LoadRemote<T> = typeof loadRemote<T>;
 }

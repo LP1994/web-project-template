@@ -342,7 +342,7 @@ declare const MF_v2_RuntimeAPI_LoadRemote: typeof import('@module-federation/enh
 /**
  * 创建运行时实例，可重复调用，但只能存在一个实例。如果要动态注册远端模块或插件，请使用：registerRemotes、registerPlugins。<br />
  * 详细见：https://module-federation.io/guide/basic/runtime.html#init
- * 1、该函数的函数参数类型为：T_MF_v2_RuntimeAPI_UserOptions。该函数调用后返回值的类型为：T_MF_v2_RuntimeAPI_FederationHost。<br />
+ * 1、该函数的函数参数类型为：T_MF_v2_RuntimeAPI_UserOptions。该函数调用后返回值的类型为：T_MF_v2_RuntimeAPI_ModuleFederation。<br />
  * 2、注意！无论是“插件模式”还是“运行时”，都必须保证在整个项目中至少执行1次“初始化”！<br />
  * 3、如果已经是在webpack、Vite等等之类的构建工具中配置了其插件模式，而后还想在项目中动态注册远端模块，还是用“registerRemotes”更为合适的！<br />
  * 4、当在运行时用“init”注册的或插件配置的远端模块提供者，可以同时使用“loadRemote”、“import()”来加载它们。<br />
