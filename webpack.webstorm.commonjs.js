@@ -121,7 +121,7 @@ module.exports = {
       'deno_std_path$': 'https://deno.land/std/path/mod.ts',
 
       'deno_x/': 'https://deno.land/x/',
-      'deno_x_corejs$': 'https://deno.land/x/corejs/index.js',
+      'deno_x_corejs$': 'https://deno.land/x/corejs@v3.46.0/index.js',
       'deno_x_ejs$': 'https://deno.land/x/dejs/mod.ts',
       'deno_x_mongo$': 'https://deno.land/x/mongo/mod.ts',
 
@@ -315,6 +315,31 @@ module.exports = {
 
         CurrencyTools: path.resolve( path.join( __dirname, './src/tools/js/currency_tools/CurrencyTools.esm.mjs' ) ),
         UniversalTools: path.resolve( path.join( __dirname, './src/tools/ts/universal_tools/UniversalTools.esm.mts' ) ),
+
+        MF_v2_RuntimeAPI_RegisterRemotes: [
+          path.resolve( path.join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+          'MF_v2_RuntimeAPI_RegisterRemotes',
+        ],
+        MF_v2_RuntimeAPI_LoadRemote: [
+          path.resolve( path.join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+          'MF_v2_RuntimeAPI_LoadRemote',
+        ],
+        MF_v2_RuntimeAPI_Init: [
+          path.resolve( path.join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+          'MF_v2_RuntimeAPI_Init',
+        ],
+        MF_v2_RuntimeAPI_LoadShare: [
+          path.resolve( path.join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+          'MF_v2_RuntimeAPI_LoadShare',
+        ],
+        MF_v2_RuntimeAPI_PreloadRemote: [
+          path.resolve( path.join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+          'MF_v2_RuntimeAPI_PreloadRemote',
+        ],
+        MF_v2_RuntimeAPI_RegisterPlugins: [
+          path.resolve( path.join( __dirname, './src/ModuleFederation_v2_RuntimeAPI.esm.mts' ) ),
+          'MF_v2_RuntimeAPI_RegisterPlugins',
+        ],
       } ),
     ],
     symlinks: false,
