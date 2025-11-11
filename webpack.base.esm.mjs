@@ -3000,6 +3000,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 2、此功能允许将模块的执行推迟到首次使用时执行。<br />
      * 3、这在因“import()”的异步特性而无法同步推迟代码执行时非常有用。<br />
      * 4、此功能需要运行时环境支持Proxy语法（ES6语法）。例子：<br />
+     * ```js
      * import defer * as module from 'module-name';
      * // or
      * import * as module2 from /星号 webpackDefer: true 星号/ 'module-name2';
@@ -3009,6 +3010,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      *   // “module-name”被同步执行，然后在其上调用“doSomething()”。
      *   module.doSomething();
      * }
+     * ```
+     * 5、关于“魔法注释”的局限性说明：<br />
+     * 建议将“魔法注释”置于 from 关键字之后。其他位置可能有效，但尚未经过测试。<br />
+     * 将“魔法注释”置于 import 关键字之后会导致文件系统缓存不兼容。<br />
+     * 6、该提案的异步形式尚未实现：<br />
+     * ```js
+     * import.defer('module-name'); // 未实现
+     * import(/星号 webpackDefer: true 星号/ 'module-name'); // 未实现
+     * ```
      */
     deferImport: true,
   },
@@ -11303,11 +11313,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       /**
        * The environment supports async function and await ('async function () { await ... }').<br />
        */
-      asyncFunction: false,
+      asyncFunction: true,
       /**
        * The environment supports BigInt as literal (123n).<br />
        */
-      bigIntLiteral: false,
+      bigIntLiteral: true,
       /**
        * The environment supports const and let for variable declarations.<br />
        */
@@ -11316,6 +11326,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        * The environment supports destructuring ('{ a, b } = obj').<br />
        */
       destructuring: true,
+      /**
+       * The environment supports 'document' variable.
+       */
+      document: true,
       /**
        * The environment supports an async import() function to import EcmaScript modules.<br />
        */
@@ -11331,15 +11345,20 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       /**
        * The environment supports 'globalThis'.<br />
        */
-      globalThis: false,
+      globalThis: true,
       /**
        * The environment supports ECMAScript Module syntax to import ECMAScript modules (import ... from '...').<br />
        */
       module: true,
       /**
+       * 1、确定是否在支持该功能的环境中为核心模块导入生成“node:”前缀。<br />
+       * 2、此功能仅适用于Webpack运行时代码。<br />
+       */
+      nodePrefixForCoreModules: false,
+      /**
        * The environment supports optional chaining ('obj?.a' or 'obj?.()').<br />
        */
-      optionalChaining: false,
+      optionalChaining: true,
       /**
        * The environment supports template literals.<br />
        */
