@@ -63,7 +63,7 @@
  * 'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、
  * 'webassembly/async'、'webassembly/sync'、
  * 'css'、'css/global'、'css/module'、'css/auto'、
- * 'asset'、'asset/inline'、'asset/resource'、'asset/source'、'asset/raw-data-url'、
+ * 'asset'、'asset/inline'、'asset/resource'、'asset/source'、'asset/bytes'、'asset/raw-data-url'、
  * 'runtime'、
  * 'fallback-module'、'remote-module'、'provide-module'、'consume-shared-module'、
  * 'lazy-compilation-proxy'
@@ -415,22 +415,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20251029。Start
+    // PC端各主流浏览器的最新版本，至20251115。Start
     'Chrome >= 142',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 142',
-    'Firefox >= 144',
+    'Firefox >= 145',
     'Safari >= 26',
-    'Opera >= 123',
-    // PC端各主流浏览器的最新版本，至20251029。End
+    'Opera >= 124',
+    // PC端各主流浏览器的最新版本，至20251115。End
 
-    // 移动端各主流浏览器的最新版本，至20251029。Start
+    // 移动端各主流浏览器的最新版本，至20251115。Start
     'ChromeAndroid >= 142',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 142',
-    'FirefoxAndroid >= 144',
+    'FirefoxAndroid >= 145',
     'iOS >= 26',
-    // 移动端各主流浏览器的最新版本，至20251029。End
+    // 移动端各主流浏览器的最新版本，至20251115。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -461,17 +461,17 @@ const browserslist = [
 
     'es2024',
 
-    // PC端各主流浏览器的最新版本，至20251029。Start
+    // PC端各主流浏览器的最新版本，至20251115。Start
     'chrome142',
     'edge142',
-    'firefox144',
+    'firefox145',
     'safari26',
-    'opera123',
-    // PC端各主流浏览器的最新版本，至20251029。End
+    'opera124',
+    // PC端各主流浏览器的最新版本，至20251115。End
 
-    // 移动端各主流浏览器的最新版本，至20251029。Start
+    // 移动端各主流浏览器的最新版本，至20251115。Start
     'ios26',
-    // 移动端各主流浏览器的最新版本，至20251029。End
+    // 移动端各主流浏览器的最新版本，至20251115。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -505,19 +505,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20251029。Start
+    // PC端各主流浏览器的最新版本，至20251115。Start
     chrome: 142,
     edge: 142,
-    firefox: 144,
+    firefox: 145,
     safari: 26,
-    opera: 123,
-    // PC端各主流浏览器的最新版本，至20251029。End
+    opera: 124,
+    // PC端各主流浏览器的最新版本，至20251115。End
 
-    // 移动端各主流浏览器的最新版本，至20251029。Start
+    // 移动端各主流浏览器的最新版本，至20251115。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 142,
     ios: 26,
-    // 移动端各主流浏览器的最新版本，至20251029。End
+    // 移动端各主流浏览器的最新版本，至20251115。End
   },
   /**
    * 编译目标配置。
@@ -2157,11 +2157,14 @@ const aliasConfig = {
    * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v3”的，因为“webpack 5”也是引用“http-proxy-middleware”的。<br />
    *
    * server：从v4.4.0+开始启用，允许设置服务器和选项（默认为“http”）。<br />
-   * 1、有效值类型：string（其中预设的有：http、https、spdy）、object。<br />
+   * 1、有效值类型：string（其中预设的有：http、https、spdy、http2）、object。<br />
    * 2、关于值“spdy”的注意事项，对于Node 15.0.0及更高版本，此选项值将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
    * 3、使用对象语法提供您自己的证书：<br />
    * {<br />
-   * type：可选http、https、spdy三者其中之一。<br />
+   * type：可选http、https、spdy、http2三者其中之一。<br />
+   * 具体可用值见：<br />
+   * node_modules/webpack-dev-server/lib/options.json:532<br />
+   * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
    *
    * options：有8个属性，它还允许您设置其他TLS选项，例如：minVersion: 'TLSv1.1'。<br />
    *   {<br />
@@ -2458,13 +2461,17 @@ const aliasConfig = {
      * 4、当前发现一个小问题！使用'spdy'（使用HTTP/2）时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
      * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
      * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
+     * 5、server.type设置为“http2”时，也会报错！！！所以还是继续使用“https”！！！<br />
      */
     server: {
       /**
-       * 'http'（使用HTTP/1.1）、'https'（使用HTTP/1.1）、'spdy'（使用HTTP/2）
+       * 'http'（使用HTTP/1.1）、'https'（使用HTTP/1.1）、'spdy'（使用HTTP/2）、'http2'
        * PS：当前发现一个小问题！使用'spdy'（使用HTTP/2）时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
        * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
        * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
+       * 具体可用值见：<br />
+       * node_modules/webpack-dev-server/lib/options.json:532<br />
+       * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
        */
       type: 'https',
       // 具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions
@@ -3463,6 +3470,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    * 'javascript/esm'：同上述的“javascript”。<br />
    *
    * javascript：object，javascript模块的解析器选项，下述选项不是全部的，太多了，我没全部记录。<br />
+   * PS：默认值见：node_modules/webpack/lib/config/defaults.js:698<br />
    *   {<br />
    *   commonjs：boolean，分析CommonJS语法。<br />
    *
@@ -6544,34 +6552,50 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       },
       parserJavascriptConfig = {
         amd: false,
-        requireJs: true,
-        system: true,
-        commonjs: true,
         browserify: true,
+        commonjs: true,
         commonjsMagicComments: true,
+        // 其默认值是同：experimentsConfig.deferImport
+        deferImport: true,
         dynamicImportFetchPriority: 'auto',
-        dynamicImportMode: 'lazy',
+        // dynamicImportMode的默认值为'lazy'
+        // dynamicImportMode: 'lazy',
         dynamicImportPrefetch: true,
         dynamicImportPreload: true,
+        // dynamicUrl的默认值为true
+        // dynamicUrl: true,
         exportsPresence: 'error',
-        exprContextCritical: true,
-        exprContextRecursive: true,
+        // exprContextCritical的默认值为true
+        // exprContextCritical: true,
+        // exprContextRecursive的默认值为true
+        // exprContextRecursive: true,
+        // exprContextRegExp的默认值为false
+        // exprContextRegExp: false,
+        // exprContextRequest的默认值为'.'
+        // exprContextRequest: '.',
         harmony: true,
         import: true,
         importExportsPresence: 'error',
-        importMeta: true,
+        // importMeta的默认值为true
+        // importMeta: true,
         importMetaContext: true,
         node: nodeConfig,
         reexportExportsPresence: 'error',
         requireContext: true,
         requireEnsure: true,
         requireInclude: true,
+        requireJs: true,
         strictThisContextOnImports: true,
+        system: true,
+        // unknownContextCritical的默认值为true
+        // unknownContextCritical: true,
+        // unknownContextRecursive的默认值为true
+        // unknownContextRecursive: true,
+        // unknownContextRegExp的默认值为false
+        // unknownContextRegExp: false,
+        // unknownContextRequest的默认值为'.'
+        // unknownContextRequest: '.',
         url: 'relative',
-        unknownContextCritical: true,
-        unknownContextRecursive: true,
-        wrappedContextCritical: true,
-        wrappedContextRecursive: true,
         /**
          * 自定义WebWorker对javascript文件的处理，'...'是指默认值。
          * 值类型有：string[]、布尔值（true，表示使用默认值，也就是[ '...' ]，false表示禁用该选项）。
@@ -6581,6 +6605,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          '...',
          ],
          */
+        wrappedContextCritical: true,
+        // wrappedContextRecursive的默认值为true
+        // wrappedContextRecursive: true,
+        // wrappedContextRegExp的默认值为：/.*/
+        // wrappedContextRegExp: /.*/,
       };
 
     return {
