@@ -60,7 +60,8 @@
 /**
  * 关于在“Webpack 5.97.1”中的模块类型（Module Type）
  * 1、详细见：node_modules/webpack/lib/ModuleTypeConstants.js，都有：
- * 'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、
+ * 'javascript/auto'、'javascript/dynamic'、'javascript/esm'、
+ * 'json'、
  * 'webassembly/async'、'webassembly/sync'、
  * 'css'、'css/global'、'css/module'、'css/auto'、
  * 'asset'、'asset/inline'、'asset/resource'、'asset/source'、'asset/bytes'、'asset/raw-data-url'、
@@ -6550,6 +6551,75 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // 单位字节，设置为10KB。
         maxSize: 10 * 1024,
       },
+      parserCSSConfig = {
+        /**
+         * 1、此选项启用对 CSS 文件中 `@import` 规则的处理。<br />
+         * 2、设置为 true 时，将处理 `@import` 语句，从而允许从其他 CSS 文件模块化地引入样式。<br />
+         * 3、值类型：boolean。<br />
+         * 4、该选项是从webpack v5.97.0+开始使用。<br />
+         * 5、要过滤特定导入，可以使用 Webpack 内置的 IgnorePlugin 插件。css-loader 中提供的 filter 选项不受支持。<br />
+         * 6、例子：<br />
+         * <code>
+         * // reset-styles.css
+         * body {
+         *   margin: 0;
+         *   padding: 0;
+         * }
+         *
+         * // styles.css
+         * @import './reset-styles.css';
+         *
+         * body {
+         *   background-color: red;
+         * }
+         * </code>
+         */
+        import: true,
+        /**
+         * 1、此选项允许使用名为 export 的 ES 模块导出 CSS。<br />
+         * 2、设置为 true 时，CSS 模块将使用命名导出方式导出其类和样式。<br />
+         * 3、值类型：boolean。<br />
+         * 4、该选项是从webpack v5.90.0+开始使用的。<br />
+         * 5、当 CSS 模块的 namedExports 设置为 false 时，您可以使用各种导入方法来获取 CSS 类。<br />
+         * 命名导出会被重定向以改善开发者体验 (DX)，从而实现从默认导出到命名导出的平滑过渡。<br />
+         * 例子：<br />
+         * ```js
+         * import * as styles from './styles.module.css';
+         * import styles1 from './styles.module.css';
+         * import { foo } from './styles.module.css';
+         *
+         * console.log(styles.default.foo); // Access via styles.default
+         * console.log(styles.foo); // Access directly from styles
+         * console.log(styles1.foo); // Access via default import styles1
+         * console.log(foo); // Direct named import
+         * ```
+         * 6、启用命名导出（默认行为）后，您只能使用命名导出来导入 CSS 类。<br />
+         * 例子：<br />
+         * <code>
+         * // styles.module.css
+         * .header {
+         *   color: blue;
+         * }
+         *
+         * .footer {
+         *   color: green;
+         * }
+         * </code>
+         * ```js
+         * import { header, footer } from './styles.module.css';
+         * ```
+         * 7、启用 namedExports，您可以采用更模块化、更易于维护的方式来管理 JavaScript 项目中的 CSS，利用 ES 模块语法实现更清晰、更明确的导入。<br />
+         */
+        namedExports: false,
+        /**
+         * 1、此选项用于启用或禁用 CSS 文件中诸如 url()、image-set()、src() 和 image() 等函数对 URL 的处理。<br />
+         * 2、启用后，这些 URL 将由 webpack 解析和处理。<br />
+         * 3、值类型：boolean。<br />
+         * 4、该选项是从webpack v5.97.0+开始使用了。<br />
+         * 5、要过滤特定导入，可以使用 Webpack 内置的 IgnorePlugin 插件。css-loader 中提供的 filter 选项不受支持。<br />
+         */
+        url: true,
+      },
       parserJavascriptConfig = {
         amd: false,
         browserify: true,
@@ -6616,8 +6686,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       generator: {
         /**
          * 该选项有一个验证配置类的BUG：<br />
-         * 1、该选项会在'asset/inline'、'asset/resource'这2个之间进行自动切换，但是该选项的配置（该选项下一共有5个配置项）却无法通过验证。<br />
-         * 2、因为当命中'asset/inline'时，其有效配置项只有dataUrl选项，而命中'asset/resource'时，其有效配置为：emit、filename、outputPath、publicPath这4个。<br />
+         * 1、该选项会在'asset/inline'、'asset/resource'这2个之间进行自动切换，但是该选项的配置（该选项下一共有6个配置项）却无法通过验证。<br />
+         * 2、因为当命中'asset/inline'时，其有效配置项只有binary、dataUrl这2个选项，而命中'asset/resource'时，其有效配置为：binary、emit、filename、outputPath、publicPath这5个。<br />
          * 3、所以，无论为'asset'选项配置任何选项，都无法同时满足'asset/inline'、'asset/resource'的配置验证，从而导致webpack在编译时报出配置验证错误。<br />
          * 4、建议，不使用该'asset'选项，而是直接配置'asset/inline'、'asset/resource'这2个，而且这样也不会影响后面的type: 'asset'的使用。<br />
          *
@@ -6628,45 +6698,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
          * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
          */
-        /*
-         asset: {
-         dataUrl: {
-         encoding: 'base64',
-         },
-         emit: true,
-         filename( pathData, assetInfo ){
-         return '[name]_[contenthash][ext]';
-         },
-         outputPath( pathData, assetInfo ){
-         return './assets/';
-         },
-         publicPath( pathData, assetInfo ){
-         return '../assets/';
-         },
-         },
-         */
-        /**
-         * 注意：
-         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
-         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
-         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
-         * 而且应用配置的优先级为：module.generator[ 'asset/inline' ]的配置 > module.generator[ 'asset' ]的配置。<br />
-         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
-         */
-        'asset/inline': {
+        asset: {
+          // 是否将此资产模块视为二进制数据。可以将其设置为“false”，以将此资产模块视为文本数据。
+          // binary: false,
           dataUrl: {
+            // 该选项有2个值：false、'base64'，默认值是：'base64'。
             encoding: 'base64',
+            // 该选项的默认值是取：文件扩展名。
+            // mimetype: '',
           },
-        },
-        /**
-         * 注意：
-         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
-         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
-         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
-         * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
-         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
-         */
-        'asset/resource': {
           emit: true,
           filename( pathData, assetInfo ){
             return '[name]_[contenthash][ext]';
@@ -6678,16 +6718,116 @@ ${ JSON.stringify( req.headers, null, 4 ) }
             return '../assets/';
           },
         },
+        // 'asset/bytes': { /*没有可用的选项。*/ },
+        /**
+         * 注意：
+         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
+         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
+         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
+         * 而且应用配置的优先级为：module.generator[ 'asset/inline' ]的配置 > module.generator[ 'asset' ]的配置。<br />
+         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
+         */
+        'asset/inline': {
+          // 是否将此资产模块视为二进制数据。可以将其设置为“false”，以将此资产模块视为文本数据。
+          // binary: false,
+          dataUrl: {
+            // 该选项有2个值：false、'base64'，默认值是：'base64'。
+            encoding: 'base64',
+            // 该选项的默认值是取：文件扩展名。
+            // mimetype: '',
+          },
+        },
+        /**
+         * 注意：
+         * 1、当从第3方包（如：npm包）中导入文件时，如果该文件还包含其他类型的文件，如果在已有loader配置中能找到该其他类型文件对应的loader，那么就会使用该loader来加载这个其他类型文件，否则会报错，提示需要对应的loader来处理。<br />
+         * 2、对上述第1点列出1个案例来进一步说明该注意事项：在某个js文件中引入element-ui的css文件，而且该css文件中还引用了字体文件，但是在处理字体的loader中没有包含该字体文件所在的文件夹。<br />
+         * 然而依然还是能处理该字体文件的，但是对其所有的处理后的输出路径等配置都不是由对应loader下的配置决定的，而是由全局配置中的module.generator、module.parser、output.assetModuleFilename决定的。<br />
+         * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
+         * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
+         */
+        'asset/resource': {
+          // 是否将此资产模块视为二进制数据。可以将其设置为“false”，以将此资产模块视为文本数据。
+          // binary: false,
+          emit: true,
+          filename( pathData, assetInfo ){
+            return '[name]_[contenthash][ext]';
+          },
+          outputPath( pathData, assetInfo ){
+            return './assets/';
+          },
+          publicPath( pathData, assetInfo ){
+            return '../assets/';
+          },
+        },
+        // 'asset/source': { /*没有可用的选项。*/ },
+
+        // 不在此设置生成选项，都交由各种CSS对应的loader处理！！！
+        // css: { /* 详细选项见：node_modules/webpack/schemas/WebpackOptions.json:455 */ },
+        // 'css/auto': { /* 详细选项见：node_modules/webpack/schemas/WebpackOptions.json:374 */ },
+        // 'css/global': { /* 详细选项见：node_modules/webpack/schemas/WebpackOptions.json:468 */ },
+        // 'css/module': { /* 详细选项见：node_modules/webpack/schemas/WebpackOptions.json:503 */ },
+
+        // javascript: { /*没有可用的选项。*/ },
+        // 'javascript/auto': { /*没有可用的选项。*/ },
+        // 'javascript/dynamic': { /*没有可用的选项。*/ },
+        // 'javascript/esm': { /*没有可用的选项。*/ },
+
+        json: {
+          // 默认值是true，当 JSON 字符串超过 20 个字符时，请使用“JSON.parse”。
+          JSONParse: true,
+        },
       },
       parser: {
         asset: {
           dataUrlCondition,
         },
+        // 'asset/bytes': { /*没有可用的选项。*/ },
+        // 'asset/inline': { /*没有可用的选项。*/ },
+        // 'asset/resource': { /*没有可用的选项。*/ },
+        // 'asset/source': { /*没有可用的选项。*/ },
+
+        // 不在此设置解析选项，都交由各种CSS对应的loader处理！！！
+        // 这是用于 CSS 文件的模块类型。
+        // 'css': parserCSSConfig,
+        // 这是用于 CSS 文件的模块类型，如果模块的文件名包含 `.module.` 或 `.modules.`，则该模块将被解析为“CSS modules”。
+        // 'css/auto': parserCSSConfig,
+        // 这是用于“CSS modules”文件的模块类型，您需要在选择器列表中使用 `:local` 来对类进行哈希处理。
+        // 'css/global': parserCSSConfig,
+        // 这是用于“CSS modules”文件的模块类型，默认情况下所有类都会被哈希处理。
+        // 'css/module': parserCSSConfig,
+
         javascript: parserJavascriptConfig,
         'javascript/auto': parserJavascriptConfig,
         'javascript/dynamic': parserJavascriptConfig,
         // 注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。
         'javascript/esm': parserJavascriptConfig,
+
+        // json: {
+        //   /**
+        //    * 1、标记为exportInfo的json依赖深度。<br />
+        //    * 2、默认情况下，在“生产模式”下设置为Infinity，在“开发模式”下设置为1。<br />
+        //    * 3、其值类型：number<br />
+        //    * 4、该选项是从webpack v5.98.0+开始支持的。<br />
+        //    * 5、例子：<br />
+        //    * ```js
+        //    * {
+        //    *     "depth_1": {
+        //    *         "depth_2": {
+        //    *             "depth_3": "foo"
+        //    *         }
+        //    *     },
+        //    *     "_depth_1": "bar"
+        //    * }
+        //    * ```
+        //    * 当 'exportsDepth： 1' 时，'depth_2' 和 'depth_3' 不会被标记为 'exportInfo'。
+        //    */
+        //   /*
+        //    exportsDepth: isProduction
+        //    ? Infinity
+        //    : 1,
+        //    */
+        //   // parse: import('../lib/json/JsonParser').ParseFn,
+        // },
       },
       unsafeCache: false,
       /**
