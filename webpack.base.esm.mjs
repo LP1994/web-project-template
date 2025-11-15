@@ -5513,7 +5513,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         presets: babelPresets,
         targets: babel_targets,
         /**
-         * 1、值类型：string，默认值：'module'，有效值有：'script'、'module'、'unambiguous'。<br />
+         * 1、值类型：string，默认值：'module'，有效值有：'script'、'module'、'unambiguous'、'commonjs'。<br />
          * 2、script：使用ECMAScript脚本语法解析文件。不允许导入/导出语句，并且文件不是严格模式。<br />
          * 3、module：使用ECMAScript模块语法解析文件。文件是自动严格的，并且允许import、export语句。<br />
          * 4、unambiguous：如果存在import、export语句，则将文件视为'module'，否则将其视为'script'。<br />
@@ -5601,7 +5601,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           } )( false ),
         },
         /**
-         * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。详细选项见：https://babeljs.io/docs/options#code-generator-options
+         * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。<br />
+         * 详细选项见：<br />
+         * https://babeljs.io/docs/options#code-generator-options
+         * https://babeljs.io/docs/babel-generator#options
          * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
          * minified: true,
          * comments: true,
