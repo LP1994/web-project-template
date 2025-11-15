@@ -3694,7 +3694,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
             classFeatures: true,
           },
         ],
-        // importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
+        // 该值已弃用，importAssertions跟moduleAttributes不能同时使用，且importAssertions已经取代了moduleAttributes。
         // 'importAssertions',
         // deprecatedImportAssert同importAssertions。
         // 'deprecatedImportAssert',
@@ -3711,7 +3711,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // Enabled by default
         'classStaticBlock',
         'dynamicImport',
-        // deprecated
         'exportNamespaceFrom',
         'functionSent',
         'logicalAssignment',
@@ -5530,7 +5529,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         sourceType: 'unambiguous',
         // 在Babel的错误消息中突出显示代码片段中的标记，使其更易于阅读。
         highlightCode: true,
-        // 一个不透明的对象，包含传递给正在使用的解析器的选项。
+        // 一个不透明的对象，包含传递给正在使用的解析器的选项。详细选项见：https://babeljs.io/docs/babel-parser#options
         parserOpts: {
           // 默认情况下，解析器在表达式节点上设置extra.parenthesized。当此选项设置为true时，将创建ParenthesizedExpression AST节点。
           // createParenthesizedExpressions: true,
@@ -5545,12 +5544,21 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           // startColumn: 0,
           // 默认情况下，解析的代码被视为从第1行第0列开始。您可以提供一个行号以替代开始。对于与其他源工具的集成很有用。
           // startLine: 1,
+          /**
+           * 1、默认情况下，所有源索引均从0开始。通过此选项可指定替代起始索引。<br />
+           * 2、为确保抽象语法树（AST）源索引的准确性，当startLine大于1时应始终提供此选项。该功能适用于与其他源工具的集成。<br />
+           * 3、“@babel/parser v7.26.0”开始提供该选项值。<br />
+           */
+          // startIndex: 0,
+
           // 默认情况下，导入和导出声明只能出现在程序的顶层。将此选项设置为true允许它们在任何允许声明的地方出现。
           allowImportExportEverywhere: false,
           // 默认情况下，await只允许在异步函数内部使用，或者在启用topLevelAwait插件时，在模块的顶级范围内使用。将此设置为true以在脚本的顶级范围内也接受它。不鼓励使用此选项以支持topLevelAwait插件。
           allowAwaitOutsideFunction: true,
+          // 默认情况下，yield 仅允许在生成器函数内部使用。将其设置为 true 可使其也允许在顶层函数中使用。在“@babel/parser v7.27.0”中开始提供该选项。
+          allowYieldOutsideFunction: false,
           // 默认情况下，new.target的使用在函数或类之外是不允许的。将此设置为 "true "以接受此类代码。
-          allowNewTargetOutsideFunction: false,
+          allowNewTargetOutsideFunction: true,
           // 默认情况下，顶层的return语句会引发错误。将此设置为true以接受此类代码。
           allowReturnOutsideFunction: true,
           // 默认情况下，不允许在类和对象方法之外使用super。将此设置为true以接受此类代码。
@@ -5574,7 +5582,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
            * 在 Babel 8 中，此选项将默认为 true。
            */
           createImportExpressions: true,
-          // 同上面的sourceType选项。
+          /**
+           * 1、指定代码应采用的解析模式。<br />
+           * 2、值类型：string，默认值：'script'，有效值有：'script'、'module'、'unambiguous'、'commonjs'(@babel/parser v7.28.0开始提供该选项值)。<br />
+           * 3、"unambiguous"模式下，@babel/parser将根据ES6导入/导出语句的存在情况进行智能判断。包含ES6导入/导出语句的文件视为"module"模式，其余文件视为"script"模式。<br />
+           * 4、"commonjs"模式表示代码应在CommonJS环境（如Node.js）中运行。<br />
+           * 该模式与"script"模式基本兼容，但允许在顶级作用域中使用return、new.target以及using/await使用声明。<br />
+           */
           sourceType: 'unambiguous',
           // 默认情况下，仅当存在'use strict'指令或解析的文件是ECMAScript模块时，ECMAScript代码才会解析为严格。将此选项设置为true以始终以严格模式解析文件。
           strictMode: true,
@@ -5587,7 +5601,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           } )( false ),
         },
         /**
-         * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。<br />
+         * 1、一个不透明的对象，包含传递给正在使用的代码生成器的选项。详细选项见：https://babeljs.io/docs/options#code-generator-options
          * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
          * minified: true,
          * comments: true,
@@ -5635,7 +5649,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         },
         /**
          * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
-         * 1、详细文档见：https://babeljs.io/docs/en/assumptions。<br />
+         * 1、详细文档见：https://babeljs.io/docs/assumptions
          * 2、从Babel 7.13.0开始，您可以在配置中指定一个假设选项来告诉Babel它可以对您的代码做出哪些假设，从而更好地优化编译结果。注意：这取代了插件中的各种松散选项，取而代之的是可以应用于多个插件的顶级选项（RFC链接）。<br />
          * 3、这是高级功能。启用假设时请小心，因为它们不符合规范，并且可能会以意想不到的方式破坏您的代码。<br />
          * 4、当前下面的配置全被我设置成false，以使用非宽松的规范语法去转译它们。<br />
@@ -6698,26 +6712,28 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 而且应用配置的优先级为：module.generator[ 'asset/resource' ]的配置 > module.generator[ 'asset' ]的配置 > output.assetModuleFilename的配置 > 具体loader中设置的generator选项里的各个选项。<br />
          * 要想避免这种情况的出现，可以手动将对应文件夹加入到对应loader的处理文件夹中，这样那些文件都会应用loader里的配置，如：输出配置等等。<br />
          */
-        asset: {
-          // 是否将此资产模块视为二进制数据。可以将其设置为“false”，以将此资产模块视为文本数据。
-          // binary: false,
-          dataUrl: {
-            // 该选项有2个值：false、'base64'，默认值是：'base64'。
-            encoding: 'base64',
-            // 该选项的默认值是取：文件扩展名。
-            // mimetype: '',
-          },
-          emit: true,
-          filename( pathData, assetInfo ){
-            return '[name]_[contenthash][ext]';
-          },
-          outputPath( pathData, assetInfo ){
-            return './assets/';
-          },
-          publicPath( pathData, assetInfo ){
-            return '../assets/';
-          },
-        },
+        /*
+         asset: {
+         // 是否将此资产模块视为二进制数据。可以将其设置为“false”，以将此资产模块视为文本数据。
+         // binary: false,
+         dataUrl: {
+         // 该选项有2个值：false、'base64'，默认值是：'base64'。
+         encoding: 'base64',
+         // 该选项的默认值是取：文件扩展名。
+         // mimetype: '',
+         },
+         emit: true,
+         filename( pathData, assetInfo ){
+         return '[name]_[contenthash][ext]';
+         },
+         outputPath( pathData, assetInfo ){
+         return './assets/';
+         },
+         publicPath( pathData, assetInfo ){
+         return '../assets/';
+         },
+         },
+         */
         // 'asset/bytes': { /*没有可用的选项。*/ },
         /**
          * 注意：
