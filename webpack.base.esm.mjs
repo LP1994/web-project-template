@@ -5890,10 +5890,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   'decorators': true,
                   'hashbang': true,
                   'import-assertions': true,
+                  'import-attributes': true,
                   'nested-rest-binding': true,
                   'function-or-class-property-access': true,
                   'regexp-set-notation': true,
                   'using': true,
+                  'from-base64': true,
+                  'function-name-configurable': true,
                   // ESNext语法 End
 
                   // node（node:module） Start
