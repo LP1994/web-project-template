@@ -1328,7 +1328,7 @@
     "stylus": "^0.64.0",
     "stylus-loader": "^8.1.2",
     "sugarss": "^5.0.1",
-    "svelte": "^5.43.7",
+    "svelte": "^5.43.8",
     "svelte-check": "^4.3.4",
     "svelte-language-server": "^0.17.22",
     "svelte2tsx": "^0.7.45",
