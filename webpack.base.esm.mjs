@@ -585,7 +585,7 @@ const autoprefixerConfig = {
    * @type {object}
    */
   esbuildMinifyConfig = {
-    // 有效值有：'js'、'jsx'、'ts'、'tsx'、'css'、'json'、'text'、'base64'、'file'、'dataurl'、'binary'、'copy'、'default'。
+    // 有效值有：'base64' | 'binary' | 'copy' | 'css' | 'dataurl' | 'default' | 'empty' | 'file' | 'js' | 'json' | 'jsx' | 'local-css' | 'text' | 'ts' | 'tsx'。
     loader: 'js',
     minifyWhitespace: true,
     minifyIdentifiers: true,
@@ -686,14 +686,20 @@ const autoprefixerConfig = {
     } )(),
     target: esbuildMinify_target,
     // 有效值有：silent、error、warning、info、debug、verbose。
-    logLevel: 'error',
+    logLevel: 'info',
     logOverride: {
+      'assert-to-with': 'warning',
+      'assert-type-json': 'warning',
       'assign-to-constant': 'error',
+      'assign-to-define': 'error',
       'assign-to-import': 'error',
       'call-import-namespace': 'error',
+      'class-name-will-throw': 'error',
       'commonjs-variable-in-esm': 'error',
       'delete-super-property': 'error',
+      'direct-eval': 'warning',
       'duplicate-case': 'error',
+      'duplicate-class-member': 'error',
       'duplicate-object-key': 'error',
       'empty-import-meta': 'error',
       // 浮点相等的定义使得NaN永远不等于任何东西，所以"x === NaN"总是返回假。您需要使用“isNaN(x)”来测试NaN。
@@ -704,26 +710,30 @@ const autoprefixerConfig = {
       'html-comment-in-js': 'error',
       // 表达式“typeof x”实际上在JavaScript中计算为“object”，而不是“null”。你需要使用“x === null”来测试null。
       'impossible-typeof': 'error',
-      'indirect-require': 'error',
+      'indirect-require': 'warning',
       'private-name-will-throw': 'error',
       'semicolon-after-return': 'warning',
       // 代码“!x in y”被解析为“(!x) in y”。您需要插入括号才能获得“!(x in y)”。
       'suspicious-boolean-not': 'error',
+      'suspicious-define': 'error',
+      'suspicious-logical-operator': 'error',
+      'suspicious-nullish-coalescing': 'error',
       // 当文件是ECMAScript模块[this-is-undefined-in-esm]，因此顶级“this”将被替换为undefined。
-      'this-is-undefined-in-esm': 'warning',
+      'this-is-undefined-in-esm': 'error',
       // 此“import”表达式不会被捆绑（import(foo)），因为参数不是字符串文字。
-      'unsupported-dynamic-import': 'warning',
+      'unsupported-dynamic-import': 'silent',
       'unsupported-jsx-comment': 'error',
       // 正则表达式标志“d”在配置的目标环境（“chrome50”）中不可用。此正则表达式文字已转换为“new RegExp()”构造函数以避免生成带有语法错误的代码。但是，您需要为“RegExp”包含一个polyfill您的代码在运行时具有正确的行为。
-      'unsupported-regexp': 'warning',
-      'unsupported-require-call': 'warning',
+      'unsupported-regexp': 'error',
+      'unsupported-require-call': 'silent',
 
       'css-syntax-error': 'error',
-      'invalid-@charset': 'error',
+      'invalid-@charset': 'warning',
       'invalid-@import': 'warning',
-      'invalid-@layer': 'warning',
+      'invalid-@layer': 'error',
       'invalid-calc': 'error',
-      'js-comment-in-css': 'warning',
+      'js-comment-in-css': 'error',
+      'undefined-composes-from': 'warning',
       'unsupported-@charset': 'error',
       'unsupported-@namespace': 'error',
       'unsupported-css-property': 'warning',
@@ -731,8 +741,9 @@ const autoprefixerConfig = {
 
       'ambiguous-reexport': 'warning',
       'different-path-case': 'silent',
+      'empty-glob': 'warning',
       'ignored-bare-import': 'error',
-      'ignored-dynamic-import': 'silent',
+      'ignored-dynamic-import': 'error',
       'import-is-undefined': 'error',
       'require-resolve-not-external': 'error',
 
