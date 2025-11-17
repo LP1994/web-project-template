@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-quic --experimental-eventsource --experimental-vm-modules --experimental-webstorage --max-http-header-size=1024000 --no-warnings --no-deprecation
+#!/usr/bin/env -S node --experimental-import-meta-resolve --experimental-quic --experimental-eventsource --experimental-vm-modules --max-http-header-size=1024000 --no-warnings --no-deprecation
 
 /**
  * Project: web-project-template
