@@ -66,7 +66,7 @@ export default {
          */
         version: true,
       },
-      // 不支持“ts”的处理！是webpack的BUG！
+      // 不支持“.ts”、“.cts”、“.mts”的处理！是webpack的BUG！
       'v-module-demo002': {
         type: '.mts',
         source( loaderContext ){
