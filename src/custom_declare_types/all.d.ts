@@ -5,6 +5,7 @@
 /// <reference types="./music.d.ts" />
 /// <reference types="./provide.d.ts" />
 /// <reference types="./videos.d.ts" />
+/// <reference types="./virtual_module.d.ts" />
 /// <reference types="./vue.d.ts" />
 
 /**

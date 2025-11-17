@@ -1,0 +1,178 @@
+VirtualUrlPlugin插件的配置项。
+
+
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
+const webpack = require('webpack');
+
+/** 工具函数 */
+const posix = p => p.replace(/\\/g, '/');
+const walk = (dir, filterFn = () => true, out = []) => {
+  if (!fs.existsSync(dir)) return out;
+  for (const name of fs.readdirSync(dir)) {
+    const abs = path.join(dir, name);
+    const stat = fs.statSync(abs);
+    if (stat.isDirectory()) walk(abs, filterFn, out);
+    else if (filterFn(abs)) out.push(abs);
+  }
+  return out;
+};
+const hashOfFiles = (files) => {
+  const h = crypto.createHash('sha256');
+  for (const f of files.sort()) {
+    const s = fs.statSync(f);
+    h.update(f).update(String(s.mtimeMs)).update(String(s.size));
+  }
+  return h.digest('hex');
+};
+
+const SRC = path.resolve(__dirname, 'src');
+const ROUTES_DIR = path.join(SRC, 'routes');
+const LOCALES_DIR = path.join(SRC, 'locales');
+
+// 将 routes/<...>.{ts,tsx,js,jsx} 转为路由路径：
+// - 去掉扩展名
+// - 去掉末尾 /index
+// - 顶级 index => '/'
+// - 其余以 '/' 开头
+// - 简单支持 [param] => :param 占位符（可按需更改）
+const toRoutePath = (absFile) => {
+  const rel = posix(path.relative(ROUTES_DIR, absFile));
+  const noExt = rel.replace(/\.(t|j)sx?$/, '');
+  let p = noExt.replace(/(^|\/)index$/, '$1'); // 去掉末尾 index
+  if (p.endsWith('/')) p = p.slice(0, -1);
+  p = p.replace(/\[([^\]]+)\]/g, ':$1'); // 可选：动态段 [id] => :id
+  return '/' + p.replace(/^\/+/, ''); // 确保以 /
+};
+
+module.exports = (env, argv) => {
+  const isProd = argv.mode === 'production';
+
+  return {
+    mode: isProd ? 'production' : 'development',
+    entry: path.join(SRC, 'main.ts'),
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+      clean: true,
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+      alias: { '@': SRC },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.[tj]sx?$/,
+          use: {
+            loader: 'ts-loader',
+            options: { transpileOnly: true }, // 更快：如需类型检查可关掉此项并配合 tsc --noEmit
+          },
+          exclude: /node_modules/,
+        },
+        // 如果你需要从虚拟模块里 import CSS/JSON，可另行加 loader：
+        // { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      ],
+    },
+    plugins: [
+      // 关键：动态生成虚拟模块
+      new webpack.experiments.schemes.VirtualUrlPlugin(
+        {
+          /** 1) virtual:routes —— 自动路由清单（.ts 类型，带类型推导） */
+          routes: {
+            type: '.ts',
+            source(loaderContext) {
+              // 监听目录增删
+              loaderContext.addContextDependency(ROUTES_DIR); // 官方建议使用目录依赖以便 watch 生效。:contentReference[oaicite:2]{index=2}
+              // 收集页面文件
+              const files = walk(
+                ROUTES_DIR,
+                (f) => /\.(t|j)sx?$/.test(f) && !/\.d\.ts$/.test(f)
+              );
+              // 监听文件改动
+              files.forEach((f) => loaderContext.addDependency(f));
+
+              // 构建 { '/about': () => import('@/routes/about'), ... }
+              const records = files.map((abs) => {
+                const routePath = toRoutePath(abs);
+                const relFromSrc = posix(path.relative(SRC, abs)).replace(/\.(t|j)sx?$/, '');
+                return `'${routePath || '/'}': () => import('@/` + relFromSrc + `')`;
+              });
+
+              const code = `
+                export const routes = { ${records.join(',\n')} } as const;
+                export type RoutePath = keyof typeof routes;
+              `;
+              return code;
+            },
+            // 对目录状态做哈希，变化即触发失效（可选，但更稳）
+            version: () => {
+              const files = walk(ROUTES_DIR, (f) => /\.(t|j)sx?$/.test(f) && !/\.d\.ts$/.test(f));
+              return hashOfFiles(files);
+            },
+          },
+
+          /** 2) virtual:i18n —— 合并 locales/<lang>/*.json（.ts 类型，导出常量与类型） */
+          i18n: {
+            type: '.ts',
+            source(loaderContext) {
+              loaderContext.addContextDependency(LOCALES_DIR);
+
+              // 收集多语言目录
+              const languages = fs.existsSync(LOCALES_DIR)
+                ? fs.readdirSync(LOCALES_DIR).filter((d) => {
+                    const p = path.join(LOCALES_DIR, d);
+                    return fs.existsSync(p) && fs.statSync(p).isDirectory();
+                  })
+                : [];
+
+              // 每个语言目录也作为 context 依赖；每个 json 文件作为文件依赖
+              const all = {};
+              for (const lang of languages) {
+                const dir = path.join(LOCALES_DIR, lang);
+                loaderContext.addContextDependency(dir);
+                const jsonFiles = walk(dir, (f) => f.endsWith('.json'));
+                const pack = {};
+                for (const jf of jsonFiles) {
+                  loaderContext.addDependency(jf);
+                  const ns = path.basename(jf, '.json');
+                  const json = JSON.parse(fs.readFileSync(jf, 'utf8'));
+                  pack[ns] = json;
+                }
+                all[lang] = pack;
+              }
+
+              // 生成强类型导出
+              const code =
+                `export const locales = ${JSON.stringify(languages)} as const;\n` +
+                `export const resources = ${JSON.stringify(all)} as const;\n` +
+                `export type Locale = typeof locales[number];\n` +
+                `export type Resources = typeof resources;\n`;
+              return code;
+            },
+            version: () => {
+              const files = walk(LOCALES_DIR, (f) => f.endsWith('.json'));
+              return hashOfFiles(files);
+            },
+          },
+        },
+        // 可自定义协议前缀；这里保持默认 'virtual'，也可传 'v' 后用 'v:routes'
+        // 见官方 “Use custom schema” 示例。:contentReference[oaicite:3]{index=3}
+        'virtual'
+      ),
+    ],
+
+    devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',
+
+    devServer: {
+      static: path.resolve(__dirname, 'dist'),
+      hot: true,
+      port: 5173,
+      historyApiFallback: true,
+      open: false,
+    },
+  };
+};

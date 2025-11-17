@@ -60,9 +60,14 @@ import {
 } from 'webpack-subresource-integrity';
 
 import {
+  VirtualUrlPluginConfig,
+} from './configures/virtual_url_plugin_config/VirtualUrlPluginConfig.esm.mjs';
+
+import {
   __dirname,
   isProduction,
   isUseModuleFederation,
+  isUseVirtualUrlPlugin,
 
   aliasConfig,
   assetsWebpackPluginConfig,
@@ -283,6 +288,14 @@ export default {
     new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
+
+    ...( isUseVirtualUrlPlugin => {
+      return isUseVirtualUrlPlugin
+             ? [
+          new webpack.experiments.schemes.VirtualUrlPlugin( ...VirtualUrlPluginConfig( {} ) ),
+        ]
+             : [];
+    } )( isUseVirtualUrlPlugin ),
 
     ...( () => typedocWebpackPluginConfig.map( item => new TypedocWebpackPlugin( item ) ) )(),
   ],

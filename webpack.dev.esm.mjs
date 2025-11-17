@@ -54,8 +54,13 @@ import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
  */
 
 import {
+  VirtualUrlPluginConfig,
+} from './configures/virtual_url_plugin_config/VirtualUrlPluginConfig.esm.mjs';
+
+import {
   __dirname,
   isUseModuleFederation,
+  isUseVirtualUrlPlugin,
 
   aliasConfig,
   assetsWebpackPluginConfig,
@@ -268,6 +273,14 @@ export default {
     new webpack.optimize.MinChunkSizePlugin( minChunkSizePluginConfig ),
     ...prefetchPluginConfig,
     new webpack.ProvidePlugin( providePluginConfig ),
+
+    ...( isUseVirtualUrlPlugin => {
+      return isUseVirtualUrlPlugin
+             ? [
+          new webpack.experiments.schemes.VirtualUrlPlugin( ...VirtualUrlPluginConfig( {} ) ),
+        ]
+             : [];
+    } )( isUseVirtualUrlPlugin ),
   ],
   /**
    * 捕获应用程序的“配置文件”（捕获每个模块的计时信息），包括统计信息和提示，然后可以使用分析工具对其进行剖析。它还将注销模块计时的摘要。<br />

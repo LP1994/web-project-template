@@ -344,6 +344,15 @@ const isProduction = ( argv => {
    */
   isUseModuleFederation = false,
   /**
+   * true表示启用“VirtualUrlPlugin”插件。具体配置项见：configures/virtual_url_plugin_config/VirtualUrlPluginConfig.esm.mjs<br />
+   * VirtualUrlPlugin插件(webpack v5.100.0+开始启用)的使用见：<br />
+   * https://webpack.js.org/plugins/virtual-url-plugin/
+   * https://github.com/webpack/webpack/blob/main/examples/virtual-modules/README.md
+   *
+   * @type {boolean}
+   */
+  isUseVirtualUrlPlugin = true,
+  /**
    * 是否在控制台输出Babel的插件调试日志。<br />
    * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
    * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
@@ -12194,6 +12203,7 @@ export {
   isProduction,
   isSPA,
   isUseModuleFederation,
+  isUseVirtualUrlPlugin,
 
   browserslist,
   autoprefixerConfig,
@@ -12246,6 +12256,7 @@ export default {
   isProduction,
   isSPA,
   isUseModuleFederation,
+  isUseVirtualUrlPlugin,
 
   browserslist,
   autoprefixerConfig,
