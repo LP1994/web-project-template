@@ -1384,7 +1384,7 @@
     "vite-plugin-wasm": "^3.5.0",
     "vite-plugin-watch-and-run": "^1.7.5",
     "vite-plugin-xml-loader": "^1.0.2",
-    "vitest": "^4.0.9",
+    "vitest": "^4.0.10",
     "vls": "^0.8.5",
     "vti": "^0.1.11",
     "vtk.js": "^34.15.0",
