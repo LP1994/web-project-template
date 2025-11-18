@@ -5462,7 +5462,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.46.0',
+              } )() || '3.47.0',
               proposals: true,
             },
             /**
@@ -11557,6 +11557,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        * The environment supports 'globalThis'.<br />
        */
       globalThis: true,
+      /**
+       * The environment supports `import.meta.dirname` and `import.meta.filename`.
+       */
+      importMetaDirnameAndFilename: true,
       /**
        * The environment supports ECMAScript Module syntax to import ECMAScript modules (import ... from '...').<br />
        */
