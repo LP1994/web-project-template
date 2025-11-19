@@ -49,6 +49,9 @@ function DefinePluginConfig( {
 
   return {
     env: JSON.stringify( process.env ),
+    'process.env': JSON.stringify( process.env ),
+    // 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+    'import.meta.env': JSON.stringify( process.env ),
     env_platform: JSON.stringify( env_platform ),
     isProduction: JSON.stringify( isProduction ),
     httpRequestHeaders: JSON.stringify( httpRequestHeaders ),
