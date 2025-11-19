@@ -1,0 +1,24 @@
+webpack编译时，其环境支持的“import.meta”上的各个特殊属性：
+1、文档见：
+https://webpack.js.org/api/module-variables/#importmeta
+2、从webpack v5.103.0开始支持如下新的属性：
+  1)import.meta.env：
+  功用同process.env，都是用于在编译后的JS代码中注入定义的变量！
+  2)import.meta.dirname：
+  输出字符串，形如：'G:\\WebStormWS\\web-project-template'
+  3)import.meta.filename：
+  输出字符串，形如：'G:\\WebStormWS\\web-project-template\\webpack.base.esm.mjs'
+  4)import.meta.main：
+  输出布尔值：false，表示当前模块不是入口模块！反之，输出true，则表示当前模块是入口模块！
+
+
+
+关于“JavaScript”中支持的“import.meta”上的各个属性：
+1、文档见MDN：
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import.meta
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import.meta/resolve
+2、目前（截至2025年11月19日）“import.meta”上仅支持如下2个属性：
+  1)import.meta.url：
+  输出当前模块的完整URL地址字符串！
+  2)import.meta.resolve( moduleName )：
+  一个函数，用于将模块的相对路径解析为绝对路径URL地址字符串！
