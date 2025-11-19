@@ -56,6 +56,9 @@ function SomeEnvInfo(): void{
   if( Deno.env.has( 'DENO_CERT' ) ){
     MyConsole.Green( `DENO_CERT: ${ Deno.env.get( 'DENO_CERT' ) }` );
   }
+  if( Deno.env.has( 'DENO_COVERAGE_DIR' ) ){
+    MyConsole.Green( `DENO_COVERAGE_DIR: ${ Deno.env.get( 'DENO_COVERAGE_DIR' ) }` );
+  }
   if( Deno.env.has( 'DENO_DIR' ) ){
     MyConsole.Green( `DENO_DIR: ${ Deno.env.get( 'DENO_DIR' ) }` );
   }
