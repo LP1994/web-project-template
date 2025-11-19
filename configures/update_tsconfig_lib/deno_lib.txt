@@ -7,6 +7,7 @@
 Deno_2.5.6程序允许的并检验通过的（125个）：
 "decorators",
 "decorators.legacy",
+
 "deno.broadcast_channel",
 "deno.cache",
 "deno.canvas",
@@ -24,10 +25,12 @@ Deno_2.5.6程序允许的并检验通过的（125个）：
 "deno.webstorage",
 "deno.window",
 "deno.worker",
+
 "dom",
 "dom.asynciterable",
 "dom.extras",
 "dom.iterable",
+
 "es2015",
 "es2015.collection",
 "es2015.core",
@@ -125,6 +128,7 @@ Deno_2.5.6程序允许的并检验通过的（125个）：
 "esnext.string",
 "esnext.symbol",
 "esnext.weakref",
+
 "scripthost",
 "webworker",
 "webworker.asynciterable",
