@@ -253,6 +253,8 @@ switch( env_platform ){
      */
     DotenvConfig( {
       path: `./.env.dev`,
+      debug: true,
+      override: true,
     } );
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.dev”。\n` ) );
 
@@ -263,6 +265,8 @@ switch( env_platform ){
      */
     DotenvConfig( {
       path: `./.env.local`,
+      debug: true,
+      override: true,
     } );
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.local”。\n` ) );
 
@@ -273,6 +277,8 @@ switch( env_platform ){
      */
     DotenvConfig( {
       path: `./.env.test`,
+      debug: true,
+      override: true,
     } );
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.test”。\n` ) );
 
@@ -283,6 +289,8 @@ switch( env_platform ){
      */
     DotenvConfig( {
       path: `./.env.production`,
+      debug: true,
+      override: true,
     } );
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.production”。\n` ) );
 
