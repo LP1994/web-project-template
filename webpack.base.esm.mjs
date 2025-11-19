@@ -6868,6 +6868,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         //    ? Infinity
         //    : 1,
         //    */
+        //   /**
+        //    * 1、Allow named exports for json of object type.<br />
+        //    * 2、从webpack v5.103.0开始使用该选项。<br />
+        //    * 3、默认值是false。<br />
+        //    */
+        //   // namedExports: false,
         //   // parse: import('../lib/json/JsonParser').ParseFn,
         // },
       },
@@ -11558,7 +11564,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       globalThis: true,
       /**
-       * The environment supports `import.meta.dirname` and `import.meta.filename`.
+       * 1、The environment supports `import.meta.dirname` and `import.meta.filename`.<br />
+       * 2、从webpack v5.103.0开始使用该选项。<br />
        */
       importMetaDirnameAndFilename: true,
       /**
