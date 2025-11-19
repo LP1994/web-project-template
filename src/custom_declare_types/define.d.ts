@@ -18,6 +18,12 @@
  */
 declare const env: Record<string, any>;
 
+declare const process: Record<string, any>;
+
+interface ProcessEnv
+  extends Record<string, any> {
+}
+
 /**
  * 值可为这4个中的任意一个：'dev_server'、'local_server'、'test'、'production'。
  *
