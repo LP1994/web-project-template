@@ -629,6 +629,41 @@
     }
   },
   "compilerOptions": {
+    /*
+    不推荐使用，使keyof仅返回字符串，而不是字符串、数字或符号。
+    1、此标志用于帮助人们在TypeScript 2.9发布之前保持这种行为。
+    2、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "keyofStringsOnly": false,
+    /*
+    禁止在发出的JavaScript文件中添加"use strict"指令。
+    1、你不应该需要这个。默认情况下，当向非ES6目标发出模块文件时，TypeScript发出"use strict"；文件顶部的序言。此设置禁用序言。
+    2、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "noImplicitUseStrict": false,
+    /*
+    禁用对函数类型中的泛型签名进行严格检查。
+    1、TypeScript在比较两个泛型函数时会统一类型参数。
+    2、此标志可用于删除该检查。
+    3、在TypeScript 5.0中已经放弃该选项。
+    */
+    // "noStrictGenericChecks": false,
+    /*
+     true将禁用报告多余的属性错误。在创建对象文字期间，禁用报告多余的属性错误。
+     1、添加此标志是为了帮助人们迁移到TypeScript 1.6中对新对象文字进行更严格的检查。
+     2、我们不建议在现代代码库中使用此标志，您可以使用“// @ts-ignore”抑制一次性需要的情况。
+     3、在TypeScript 5.0中已经放弃该选项。
+     */
+    // "suppressExcessPropertyErrors": false,
+    /*
+     启用“suppressImplicitAnyIndexErrors”将禁止在索引到对象时报告有关隐式Any的错误。
+     1、使用suppressImplicitAnyIndexErrors是一种非常严格的方法。建议使用'// @ts-ignore'注释代替。
+     2、对缺少索引签名的对象进行索引时，禁止出现“noImplicitAny”错误。
+     3、将suppressImplicitAnyIndexErrors设为true将禁止在对对象进行索引时报告有关隐式anys的错误。
+     4、使用suppressImplicitAnyIndexErrors是一种非常激进的方法。建议改用“@ts-ignore”注释。
+     5、在TypeScript 5.0中已经放弃该选项。
+     */
+    // "suppressImplicitAnyIndexErrors": false,
     "skipLibCheck": true,
     "isolatedDeclarations": false,
     "erasableSyntaxOnly": true,
