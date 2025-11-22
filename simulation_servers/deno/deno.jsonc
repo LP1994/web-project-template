@@ -629,6 +629,9 @@
     }
   },
   "compilerOptions": {
+    "skipLibCheck": true,
+    "isolatedDeclarations": false,
+    "erasableSyntaxOnly": true,
     "checkJs": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -649,12 +652,10 @@
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
-
+    "strictBuiltinIteratorReturn": true,
     "useUnknownInCatchVariables": true,
-
     "exactOptionalPropertyTypes": true,
     "noPropertyAccessFromIndexSignature": false,
-
     "verbatimModuleSyntax": true,
     "emitDecoratorMetadata": false,
     "experimentalDecorators": false,

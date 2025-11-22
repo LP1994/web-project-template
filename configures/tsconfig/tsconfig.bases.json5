@@ -98,6 +98,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
   // 确保你在运行程序前自动编译已保存变更后的代码。
   "compileOnSave": true,
   "compilerOptions": {
+    // "jsxPrecompileSkipElements": [ 'xxx' ],
+    "isolatedDeclarations": false,
+    "erasableSyntaxOnly": true,
     "strictBuiltinIteratorReturn": true,
     "noUncheckedSideEffectImports": true,
 
