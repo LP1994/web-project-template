@@ -30,131 +30,600 @@
         "recommended"
       ],
       "include": [
+        /*
+        要求重载签名彼此相邻。
+        相邻位置的重载签名若未紧邻排列，可能导致代码难以阅读和维护。
+        */
         "adjacent-overload-signatures",
+        /*
+        禁止使用基本类型包装对象（例如字符串对象是基本类型字符串的包装），以及非显式函数类型和易被误解的对象类型。
+        */
         "ban-types",
-        "ban-untagged-ignore",
+        /*
+        警告未使用的忽略指令。
+        */
         "ban-unused-ignore",
+        /*
+        验证构造函数和super()调用的正确使用。
+        */
         "constructor-super",
+        /*
+        强制使用类型安全的等值运算符 === 和 !==，而非更易出错的 == 和 != 运算符。
+        */
         "eqeqeq",
+        /*
+        要求所有函数都具有显式返回类型。
+        */
         "explicit-function-return-type",
+        /*
+        要求所有模块导出项均采用完全类型声明。
+        */
         "explicit-module-boundary-types",
+        /*
+        要求 for 循环控制变量按正确方向递增。
+        */
         "for-direction",
+        /*
+        要求所有属性获取函数必须返回值。
+        */
         "getter-return",
+        /*
+        确保在JSX表达式周围始终使用大括号。
+        */
         "jsx-curly-braces",
+        /*
+        在将可迭代对象传递给 JSX 时，请确保包含 key 属性。
+        这能让框架优化元素顺序的检查。
+        */
         "jsx-key",
+        /*
+        JavaScript 注释在文本节点中会被 JSX 渲染为纯文本，这通常会导致意外结果。
+        */
         "jsx-no-comment-text-nodes",
+        /*
+        禁止重复的 JSX 属性。
+        后续属性将始终覆盖先前属性，这常导致意外结果。
+        */
         "jsx-no-duplicate-props",
+        /*
+        在JSX中保留>或}字符通常是不希望出现的，且难以察觉。
+        强制要求这些字符必须作为字符串传递。
+        */
         "jsx-no-unescaped-entities",
+        /*
+        片段仅在JSX“块”的顶部且存在多个子元素时才需要。其他情况下无需使用片段。
+        */
         "jsx-no-useless-fragment",
+        /*
+        重复展开相同的表达式通常是错误的，会导致不必要的计算。
+        */
         "jsx-props-no-spread-multi",
+        /*
+        确保HTML中的空元素不包含任何子元素，因为这不符合HTML规范。
+        */
         "jsx-void-dom-elements-no-children",
+        /*
+        要求不得使用异步 Promise 执行器函数。
+        Promise 构造函数将执行器函数作为参数，该函数带有 resolve 和 reject 参数，可用于控制创建的 Promise 状态。虽然允许该函数为异步函数，但出于以下原因通常不建议这样做：
+        若异步执行器函数抛出错误，该错误将丢失且不会导致新创建的 Promise 拒绝。这将导致某些错误难以调试和处理。
+        若异步 Promise 执行函数使用 await 语句，通常表明无需使用 new Promise 构造函数。此时可重构代码避免使用 Promise，或缩小 new Promise 构造函数的作用域——将异步代码提取出来并改为同步执行。
+        */
         "no-async-promise-executor",
+        /*
+        在 for 循环体内不应使用 await。
+        JavaScript 中的 async 和 await 用于实现并行执行。若在 for 循环中对每个元素都使用 await 进行等待，则会抵消 async/await 的优势——当前元素处理完毕前，循环中的后续元素将无法被处理。
+        常见解决方案是重构代码：将循环体改为异步执行并捕获生成的 Promise。循环结束后，可一次性等待所有 Promise 完成。
+        */
+        "no-await-in-loop",
+        /*
+        禁止在非异步函数内部使用 await 关键字。
+        在非异步函数内部使用 await 关键字属于语法错误。若要在函数内部使用 await，该函数必须通过 async 关键字标记为异步函数。
+        */
         "no-await-in-sync-fn",
-        "no-case-declarations",
+        /*
+        禁止修改类声明的变量。
+        */
         "no-class-assign",
+        /*
+        禁止与负零（-0）进行比较。
+        直接将值与负数进行比较可能无法达到预期效果，因为该操作也会对非负零（即 0 和 +0）返回通过结果。
+        若需显式与负零进行比较，可使用 Object.is 方法实现。
+        */
         "no-compare-neg-zero",
+        /*
+        禁止修改声明为 const 的变量。
+        */
         "no-const-assign",
+        /*
+        禁止删除变量。
+        */
         "no-delete-var",
+        /*
+        警告：已弃用的 Deno API 正在被使用。
+        */
         "no-deprecated-deno-api",
+        /*
+        禁止在函数签名中重复使用同一个参数名称。
+        */
         "no-dupe-args",
+        /*
+        禁止在类中重复使用成员函数名称。
+        */
         "no-dupe-class-members",
+        /*
+        禁止在if/else if语句中重复使用相同条件。
+        */
         "no-dupe-else-if",
+        /*
+        禁止在对象字面量中使用重复键。
+        */
         "no-dupe-keys",
+        /*
+        禁止在switch语句中重复使用相同的case子句。
+        */
         "no-duplicate-case",
+        /*
+        禁止声明空枚举。
+        */
+        "no-empty-enum",
+        /*
+        禁止声明空接口。
+        */
+        "no-empty-interface",
+        /*
+        禁止在解构中使用空模式。
+        */
         "no-empty-pattern",
+        /*
+        禁止使用eval函数。
+        */
         "no-eval",
+        /*
+        禁止重新赋值异常参数。
+        */
         "no-ex-assign",
+        /*
+        禁止不必要的非空断言。
+        非空断言通过 ! 符号向编译器表明该值确定不为空。
+        连续多次使用该运算符，或与可选链式运算符 (?) 组合使用，既令人困惑又毫无必要。
+        */
         "no-extra-non-null-assertion",
+        /*
+        禁止case语句的隐式跳转。
+        未添加break语句的case语句将执行其主体代码，随后跳转至下一个case或default代码块并执行该块内容。
+        虽然此行为有时是开发者有意为之，但多数情况下开发者忘记添加break语句，实际意图仅执行单个case语句。
+        本规则强制要求：每个case语句末尾必须添加break语句，或添加明确标注跳转行为属预期的注释。
+        该跳转注释必须包含以下任一表述：fallthrough、falls through或fall through。
+        */
         "no-fallthrough",
+        /*
+        禁止覆盖/重新赋值现有函数。
+        */
         "no-func-assign",
+        /*
+        禁止向原生 JavaScript 对象赋值。
+        */
         "no-global-assign",
+        /*
+        禁止重新分配导入模块的绑定。
+        ES模块导入绑定应视为只读，因为在代码执行期间修改它们可能会导致运行时错误。
+        此举还会降低代码可读性并增加维护难度。
+        */
         "no-import-assign",
+        /*
+        禁止在嵌套代码块中定义变量或函数。
+        嵌套代码块中的函数声明可能导致代码可读性下降，并因不同 JavaScript 运行时的兼容性问题引发意外结果。
+        此规则不适用于嵌套代码块环境中有效的命名函数或匿名函数。
+        在嵌套代码块中使用 var 声明的变量同样会降低代码可读性。
+        由于这些变量会被提升至模块根作用域，为保持清晰度建议直接在模块根作用域声明。
+        需注意 let 或 const 声明的变量属于块作用域，故本规则不适用于此类声明。
+        */
+        "no-inner-declarations",
+        /*
+        禁止在 RegExp 构造函数中指定无效的正则表达式。
+        */
         "no-invalid-regexp",
+        /*
+        警告错误使用三斜杠引用指令的情况。
+        */
         "no-invalid-triple-slash-reference",
+        /*
+        禁止使用非空格或非制表符的空白字符。
+        */
         "no-irregular-whitespace",
+        /*
+        禁止为接口定义构造函数或为类定义new操作符
+        */
         "no-misused-new",
+        /*
+        禁止在 TypeScript 代码中使用 namespace 和 module 关键字。
+        namespace 和 module 均被视为组织代码的过时关键字。通常更推荐使用 ES2015 模块语法（如 import/export）。
+        但本规则仍允许在以下两种情形使用这些关键字：
+        与 declare 关键字配合定义"环境"命名空间时
+        在 TypeScript 类型定义文件（.d.ts）中使用时
+        */
         "no-namespace",
+        /*
+        禁止使用内置符号的新建运算符。
+        无效的：
+        const foo = new Symbol("foo");
+        有效的：
+        const foo = Symbol("foo");
+
+        function func(Symbol: typeof SomeClass) {
+          // This `Symbol` is not built-in one
+          const bar = new Symbol();
+        }
+        */
         "no-new-symbol",
+        /*
+        禁止使用 NodeJS 全局对象。
+        */
         "no-node-globals",
+        /*
+        禁止在可选链表达式后使用非空断言。?.
+        可选链表达式在对象为空或未定义时返回 undefined。
+        使用 ! 非空断言来断言 ?. 可选链表达式的结果为非空，很可能是不正确的。
+        */
         "no-non-null-asserted-optional-chain",
+        /*
+        禁止使用后缀运算符 ! 进行非空断言。
+        TypeScript 的 ! 非空断言运算符向类型系统断言某个表达式不可为空，即不为 null 或 undefined。
+        使用断言向类型系统传递新信息通常表明代码尚未完全实现类型安全。
+        通常更优的做法是设计程序逻辑，使 TypeScript 能理解何时值可能为空。
+        */
         "no-non-null-assertion",
+        /*
+        禁止像调用函数那样调用内置全局对象。
+        以下内置对象不应像函数那样被调用，即使它们看起来像构造函数：
+        Math、
+        JSON、
+        Reflect、
+        Atomics、
+        将这些对象作为函数调用会导致运行时错误。本规则通过静态检查防止此类错误用法。
+        */
         "no-obj-calls",
+        /*
+        禁止使用以0开头的数字字面量表示八进制数。
+        */
         "no-octal",
+        /*
+        禁止使用 NodeJS 的 process 全局变量。
+        */
         "no-process-global",
+        /*
+        禁止重新声明同名变量、函数及参数。
+        */
         "no-redeclare",
+        /*
+        禁止在正则表达式字面量中使用多个空格。
+        */
         "no-regex-spaces",
+        /*
+        禁止自我赋值。
+        诸如 a = a; 之类的自我赋值完全无效。
+        若代码中存在此类赋值，很可能意味着作者仍在重构过程中，尚有未完成的工作待处理。
+        */
         "no-self-assign",
+        /*
+        禁止两侧完全相同的比较操作。
+        变量或值与自身进行比较通常属于错误，可能是输入错误或重构失误。
+        此类操作会混淆读者，并可能引发运行时错误。
+        */
         "no-self-compare",
+        /*
+        禁止从设置器返回值。
+        */
         "no-setter-return",
-        "no-shadow-restricted-names",
+        /*
+        强制要求在模块指定符中显式指定路径引用。也就是不能省略文件后缀名。
+        */
         "no-sloppy-imports",
+        /*
+        强制使用显式类型或可简单推断的类型。
+        */
         "no-slow-types",
+        /*
+        禁止使用稀疏数组。
+        稀疏数组是包含空槽位的数组，这些槽位后续可能被数组方法视为未定义值或被跳过，这可能导致意外行为。
+        */
         "no-sparse-arrays",
+        /*
+        禁止在异步函数内部使用同步函数。
+        使用 Deno.readTextFileSync 等同步函数会阻塞 Deno 事件循环，因此不建议在异步函数内部使用此类函数，因为这会阻止所有其他异步任务的执行进程。
+        */
+        "no-sync-fn-in-async-fn",
+        /*
+        禁止在构造函数中调用 super() 之前使用 this 或 super。
+        在派生类的构造函数中，若在调用 super() 之前访问 this 或 super，将导致引用错误。
+        为防止此类错误，本代码检查规则会检测构造函数中是否存在此类提前访问行为。
+        */
         "no-this-before-super",
+        /*
+        禁止将字面量作为异常抛出。
+        */
         "no-throw-literal",
+        /*
+        禁止使用未声明的变量。
+        */
         "no-undef",
+        /*
+        禁止在控制流语句之后出现无法到达的代码。
+        */
         "no-unreachable",
+        /*
+        禁止在finally代码块中使用控制流语句。
+        */
         "no-unsafe-finally",
+        /*
+        禁止将否定运算符 ! 用作关系运算符的左操作数。
+        */
         "no-unsafe-negation",
+        /*
+        禁止使用未使用的标签。
+        */
         "no-unused-labels",
+        /*
+        强制要求所有变量至少使用1次。
+        */
         "no-unused-vars",
+        /*
+        禁止执行无意义的重命名操作，即当原始名称与新名称完全相同时。此类操作通常是重构过程的残留产物，可安全移除。
+        */
         "no-useless-rename",
+        /*
+        禁止使用 window 对象。
+        */
         "no-window",
+        /*
+        禁止通过 window 对象使用 Web API。
+        */
         "no-window-prefix",
+        /*
+        禁止使用 with 语句。
+        */
         "no-with",
+        /*
+        建议使用 const 断言（如 as const）而非显式指定字面量类型或使用类型断言。
+        声明原始字面量类型的新变量时，有3种方式：
+        添加显式类型注释
+        使用常规类型断言（如 as "foo" 或 <"foo">）
+        使用 const 断言 (as const)
+        本代码检查规则建议使用 const 断言，因其通常能提升代码安全性。
+        */
         "prefer-as-const",
+        /*
+        建议在声明 TypeScript 模块时使用 namespace 关键字而非 module 关键字。
+        */
         "prefer-namespace-keyword",
+        /*
+        禁止使用dangerouslySetInnerHTML方法，该方法若使用不当可能导致跨站脚本漏洞。
+        */
         "react-no-danger",
+        /*
+        将 JSX 子元素与 dangerouslySetInnerHTML 一起使用是不合法的，因为它们会被忽略。
+        */
         "react-no-danger-with-children",
+        /*
+        确保在 React/Preact 组件中正确调用钩子函数。
+        它们必须在组件的顶级调用，而不能置于条件语句或循环内部。
+        */
         "react-rules-of-hooks",
+        /*
+        禁止使用不包含 await 表达式或 await using 声明的异步函数。
+        通常，使用异步函数的主要目的是在其内部使用 await 表达式或 await using 声明。
+        如果某个异步函数既不包含前者也不包含后者，则很可能是无意中的错误。
+        */
         "require-await",
+        /*
+        禁止使用不含 yield 语句的生成器函数。
+        JavaScript 提供了以 function* 形式表达的生成器函数，允许我们在函数执行过程中暂停并后续恢复。
+        此时需使用 yield 关键字。换言之，创建不含 yield 关键字的生成器函数毫无意义，因为此类函数完全可以写成普通函数。
+        */
         "require-yield",
+        /*
+        禁止使用某些三斜杠指令，转而采用 ES6 风格的导入声明。
+        */
         "triple-slash-reference",
+        /*
+        禁止与NaN进行比较。
+        本规则要求您使用isNaN()或Number.isNaN()来判断值是否为NaN。
+        */
         "use-isnan",
+        /*
+        限制 typeof 运算符的使用范围，仅限于特定字符串常量集。
+        */
         "valid-typeof"
       ],
       "exclude": [
+        /*
+        禁止在未添加注释的情况下使用TypeScript指令。
+        TypeScript指令会降低编译器的效率，因此仅应在特殊情况下使用。使用原因需在指令旁通过注释进行说明。
+        */
         "ban-ts-comment",
+        /*
+        警告在忽略指令中使用未知规则代码。
+        */
         "ban-unknown-rule-code",
+        /*
+        需要为 deno-lint-ignore 添加一个或多个规则名称的注释。
+        */
+        "ban-untagged-ignore",
+        /*
+        待办事项必须标注用户标签（@用户名）或问题引用（#问题编号）。
+        */
         "ban-untagged-todo",
+        /*
+        强制要求变量名使用驼峰式命名法。
+        */
         "camelcase",
+        /*
+        强制将默认参数置于函数签名的末尾。
+        */
         "default-param-last",
+        /*
+        检查命名中间件导出的正确命名。
+        */
         "fresh-handler-export",
+        /*
+        禁止在新建服务器组件中使用事件处理程序。
+        */
         "fresh-server-event-handlers",
+        /*
+        要求 for-in 循环必须包含 if 语句。
+        使用 for-in 循环遍历对象时，会包含通过原型链继承的属性。这种行为可能导致 for 循环中出现意外项。
+        */
         "guard-for-in",
+        /*
+        强制执行一致的 JSX 布尔值样式。使用简写语法时，可省略布尔值 true 的传递。
+        */
         "jsx-boolean-value",
+        /*
+        强制要求所有<button>元素必须包含type属性。
+        若将<button>置于<form>元素内部，默认会将其视为提交按钮，这可能导致预期之外的行为。
+        */
         "jsx-button-has-type",
+        /*
+        将子元素作为 JSX 子元素传递，而非作为属性传递。
+        */
         "jsx-no-children-prop",
+        /*
+        强制执行数组构造的常规用法。
+        数组构造通常通过字面量表示法实现，例如[]或[1, 2, 3]。
+        不建议使用new Array()或new Array(1, 2, 3)的方式。
+        原因有二：
+        首先，单个参数定义数组长度，而多个参数则填充无固定大小的数组；
+        仅通过字面量表示法创建预填充数组可避免此类混淆。
+        避免使用Array构造函数的第二点理由在于全局变量Array可能被重新定义。
+        此规则的唯一例外是创建固定长度数组时，例如new Array(6)。
+        这是创建固定长度数组的常规方式。
+        */
         "no-array-constructor",
-        "no-await-in-loop",
+        /*
+        要求所有接受任意数量布尔字面量作为参数的函数，改用自文档化常量替代。
+        */
         "no-boolean-literal-for-arguments",
+        /*
+        要求在switch的case或default子句中，使用括号限定词法声明（let、const、function和class）的作用域。
+        若未在case或default块中添加括号，词法声明将对整个switch块可见，但仅在赋值时初始化——这仅当该case/default被执行时发生。
+        此情况可能导致意外错误。解决方案是确保每个case或default块都用括号包裹，以限制声明的作用域。
+        */
+        "no-case-declarations",
+        /*
+        禁止在条件语句中使用赋值运算符 =。
+        */
         "no-cond-assign",
+        /*
+        禁止使用控制台全局变量。
+        */
         "no-console",
+        /*
+        禁止在条件测试中使用常量表达式。
+        */
         "no-constant-condition",
+        /*
+        禁止在正则表达式中使用ASCII控制字符。
+        控制字符是ASCII码0-31范围内的不可见字符。在正则表达式中使用这些字符的情况较为罕见，通常会导致正则表达式出现错误。
+        */
         "no-control-regex",
+        /*
+        禁止使用调试器语句。
+        */
         "no-debugger",
+        /*
+        禁止使用空代码块语句。
+        */
         "no-empty",
+        /*
+        禁止在正则表达式中使用空字符类。
+        正则表达式字符类是由方括号括起的一系列字符，例如 [abc]。
+        若方括号内未填充任何内容，则表示匹配任何内容，这很可能是笔误或错误。
+        */
         "no-empty-character-class",
-        "no-empty-enum",
-        "no-empty-interface",
+        /*
+        禁止使用 any 类型。
+        */
         "no-explicit-any",
+        /*
+        禁止使用外部导入。
+        */
         "no-external-import",
+        /*
+        禁止不必要的布尔类型转换。
+        */
         "no-extra-boolean-cast",
+        /*
+        禁止在"环境"命名空间中使用隐式导出。
+        TypeScript会隐式导出"环境"命名空间中的所有成员，除非存在显式命名的导出项。
+        */
         "no-implicit-declare-namespace-export",
+        /*
+        禁止在导入属性中使用 assert 关键字。
+        */
         "no-import-assertions",
+        /*
+        确保所有依赖项均在 deno.json 或 package.json 中声明。
+        */
         "no-import-prefix",
+        /*
+        禁止使用易于推断的类型。
+        变量初始化为 JavaScript 基本类型（及 null）时，其类型显而易见。
+        显式指定类型会增加代码冗余。
+        例如在 const x: number = 5 中，指定 number 类型实属多余，因为 5 显然属于 number 类型。
+        */
         "no-inferrable-types",
-        "no-inner-declarations",
+        /*
+        禁止直接使用 Object.prototype 内置属性。
+        若通过 Object.create(null) 创建对象，则该对象未指定原型。当您假设对象继承自 Object.prototype 的属性并尝试调用以下方法时，可能导致运行时错误：
+        hasOwnProperty、
+        isPrototypeOf、
+        propertyIsEnumerable
+        建议始终显式从 Object.prototype 调用这些方法。
+        */
         "no-prototype-builtins",
-        "no-sync-fn-in-async-fn",
+        /*
+        禁止遮蔽受限名称。
+        */
+        "no-shadow-restricted-names",
+        /*
+        禁止将变量赋值给 this。
+        */
         "no-this-alias",
+        /*
+        禁止使用顶级 await 表达式。
+        */
         "no-top-level-await",
+        /*
+        确保内联依赖项导入包含版本说明符。
+        */
         "no-unversioned-import",
+        /*
+        强制使用块作用域变量替代更易出错的函数作用域变量。块作用域变量通过 const 和 let 关键字定义。
+        const 和 let 关键字确保使用这些关键字定义的变量在其块作用域之外不可访问。
+        而使用 var 关键字定义的变量仅受限于其函数作用域。
+        */
         "no-var",
+        /*
+        确保代码完全采用ASCII字符编写。
+        */
         "prefer-ascii",
+        /*
+        建议使用 const 而不是 let 声明变量。
+        */
         "prefer-const",
+        /*
+        建议使用原始对象中的冻结内置函数，而非默认的全局变量。
+        */
         "prefer-primordials",
+        /*
+        禁止在同一声明语句中定义多个变量。
+        */
         "single-var-declarator",
+        /*
+        强制要求类型导入必须声明为类型导入。
+        此规则确保在启用 TypeScript 编译器选项 verbatimModuleSyntax 时代码能够正常运行。
+        对于分发 TypeScript 代码的库而言，此规则有助于在更多场景下保持兼容性。
+        */
         "verbatim-module-syntax"
       ]
     }
