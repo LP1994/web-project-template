@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A --config=../../../../deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../../.env.deno
+#!/usr/bin/env -S deno run -A --config=../../../../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../../.env.deno
 
 /**
  * Project: web-project-template
@@ -46,7 +46,7 @@ for(
     args: [
       'run',
       '-A',
-      '--config=../../../../deno.json',
+      '--config=../../../../deno.jsonc',
       '--check',
       '--v8-flags=--max-old-space-size=1024000',
       `${ commandArr[ i ] }`,

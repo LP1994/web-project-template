@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A --config=../deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../.env.deno
+#!/usr/bin/env -S deno run -A --config=../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../.env.deno
 
 /**
  * Project: web-project-template
@@ -9,7 +9,7 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
-// deno run -A --config=../deno.json --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../.env.deno ./src/App.mts --color=16m
+// deno run -A --config=../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../.env.deno ./src/App.mts --color=16m
 
 /**
  * 这是程序的启动入口。
