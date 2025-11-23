@@ -706,6 +706,9 @@
       "deno.crypto",
       "deno.fetch",
       "deno.net",
+      /*
+      包含所有自定义的Deno全局命名空间API，以及Deno对import.meta的扩展。通常不会与其他库或全局类型冲突。
+      */
       "deno.ns",
       "deno.shared_globals",
       "deno.unstable",
@@ -714,11 +717,31 @@
       "deno.webgpu",
       "deno.websocket",
       "deno.webstorage",
-      "deno.window",
-      "deno.worker",
+      /*
+      这是检查Deno主运行时脚本时使用的"默认"库。
+      它包含"deno.ns"以及Deno内置扩展的其他类型库。
+      该库会与"dom"和"dom.iterable"等标准TypeScript库发生冲突。
+      */
+      // "deno.window",
+      /*
+      用于检查 Deno Web Worker 脚本的库。
+      */
+      // "deno.worker",
 
+      /*
+      TypeScript自带的浏览器全局主库。
+      其类型定义与"deno.window"存在诸多冲突，因此若使用"dom"，建议仅使用"deno.ns"来暴露Deno特有的API。
+      */
+      "dom",
+      /*
+      当前 TypeScript 未包含 Deno（及部分浏览器）实现的 DOM 异步迭代器，因此我们自行实现了该功能，直至 TypeScript 正式支持。
+      */
       "dom.asynciterable",
       "dom.extras",
+      /*
+      浏览器全局库的可迭代扩展。
+      */
+      "dom.iterable",
 
       "es2015",
       "es2015.collection",
@@ -818,9 +841,23 @@
       "esnext.symbol",
       "esnext.weakref",
 
+      /*
+      面向Microsoft Windows脚本宿主的库。
+      */
       "scripthost",
+      /*
+      浏览器中Web Worker的核心库。
+      与"dom"类似，该库会与"deno.window"或"deno.worker"发生冲突，建议仅使用"deno.ns"来暴露Deno特有的API。
+      */
+      "webworker",
       "webworker.asynciterable",
+      /*
+      在Web Worker中暴露importScripts() API的库。
+      */
       "webworker.importscripts",
+      /*
+      为 Web Worker 对象添加可迭代对象的库。现代浏览器支持此功能。
+      */
       "webworker.iterable"
     ]
   },
