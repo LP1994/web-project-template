@@ -3816,7 +3816,7 @@ export class CT {
   /**
    * 获取数据类型<br />
    * PS:<br />
-   * 1、如果传入的是被Proxy代理过的对象，会报错！！！<br />
+   * 1、如果传入的是被Proxy代理过的对象，会报错！！！2025年11月23日，测试发现，最新的谷歌浏览器（142）下是不会再报错了，估计是被修复了。<br />
    * 2、<br />
    * '[object HTMLDocument]'.slice( 8, -1 ); // HTMLDocument<br />
    * '[object HTMLDocument XXX]'.slice( 8, -1 ); // HTMLDocument XXX<br />
@@ -3888,6 +3888,19 @@ export class CT {
   }
 
   /**
+   * 判断数据是否为AsyncDisposableStack类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isAsyncDisposableStack( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'AsyncDisposableStack' );
+  }
+
+  /**
    * 判断数据是否为async...await的异步函数类型(包括异步的Generator函数)
    *
    * @param arg 数据，参数个数为1，必需
@@ -3922,6 +3935,17 @@ export class CT {
     'use strict';
 
     return IsHandle1.call( this, arg, 'AsyncGeneratorFunction' );
+  }
+
+  /**
+   * 判断数据是否为AsyncIterator类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isAsyncIterator( arg ){
+    return IsHandle1.call( this, arg, 'AsyncIterator' ) || IsHandle1.call( this, arg, 'Async Iterator' );
   }
 
   /**
@@ -4024,6 +4048,19 @@ export class CT {
     'use strict';
 
     return IsHandle1.call( this, arg, 'Date' );
+  }
+
+  /**
+   * 判断数据是否为DisposableStack类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isDisposableStack( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'DisposableStack' );
   }
 
   /**
@@ -4313,6 +4350,162 @@ export class CT {
   }
 
   /**
+   * 判断数据是否为Intl类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntl( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl' );
+  }
+
+  /**
+   * 判断数据是否为Intl.Collator类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlCollator( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.Collator' );
+  }
+
+  /**
+   * 判断数据是否为Intl.DateTimeFormat类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlDateTimeFormat( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.DateTimeFormat' );
+  }
+
+  /**
+   * 判断数据是否为Intl.DisplayNames类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlDisplayNames( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.DisplayNames' );
+  }
+
+  /**
+   * 判断数据是否为Intl.DurationFormat类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlDurationFormat( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.DurationFormat' );
+  }
+
+  /**
+   * 判断数据是否为Intl.ListFormat类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlListFormat( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.ListFormat' );
+  }
+
+  /**
+   * 判断数据是否为Intl.Locale类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlLocale( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.Locale' );
+  }
+
+  /**
+   * 判断数据是否为Intl.NumberFormat类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlNumberFormat( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.NumberFormat' );
+  }
+
+  /**
+   * 判断数据是否为Intl.PluralRules类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlPluralRules( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.PluralRules' );
+  }
+
+  /**
+   * 判断数据是否为Intl.RelativeTimeFormat类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlRelativeTimeFormat( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.RelativeTimeFormat' );
+  }
+
+  /**
+   * 判断数据是否为Intl.Segmenter类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIntlSegmenter( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Intl.Segmenter' );
+  }
+
+  /**
+   * 判断数据是否为Iterator类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isIterator( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Iterator' );
+  }
+
+  /**
    * 判断数据是否为一个jQuery ElementList
    *
    * @param arg 数据，参数个数为1，必需
@@ -4347,6 +4540,19 @@ export class CT {
     'use strict';
 
     return IsHandle1.call( this, arg, 'Math' );
+  }
+
+  /**
+   * 判断数据是否为Module类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isModule( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Module' );
   }
 
   /**
@@ -4411,6 +4617,19 @@ export class CT {
     'use strict';
 
     return IsHandle1.call( this, arg, 'Promise' );
+  }
+
+  /**
+   * 判断数据是否为Reflect类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isReflect( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Reflect' );
   }
 
   /**
