@@ -3925,6 +3925,19 @@ export class CT {
   }
 
   /**
+   * 判断数据是否为Atomics类型。
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isAtomics( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Atomics' );
+  }
+
+  /**
    * 判断数据是否为BigInt类型
    *
    * @param arg 数据，参数个数为1，必需
@@ -4126,6 +4139,19 @@ export class CT {
   }
 
   /**
+   * 判断数据是否为FinalizationRegistry类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isFinalizationRegistry( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'FinalizationRegistry' );
+  }
+
+  /**
    * 判断数据是否为一个有穷数，不转换参数，new Number(Infinity)为false，new Number(Infinity).valueOf()为false，<br />
    * new Number(1)为false，new Number(1).valueOf()为true<br />
    * 注意：如果参数类型不是数值，Number.isFinite一律返回false。
@@ -4138,6 +4164,19 @@ export class CT {
     'use strict';
 
     return Number.isFinite( arg );
+  }
+
+  /**
+   * 判断数据是否为Float16Array类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isFloat16Array( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Float16Array' );
   }
 
   /**
@@ -4298,6 +4337,19 @@ export class CT {
   }
 
   /**
+   * 判断数据是否为Math类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isMath( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Math' );
+  }
+
+  /**
    * 判断数据是否为NaN值，不转换参数。new Number(NaN)为false，new Number(NaN).valueOf()为true<br />
    * 注意：如果参数类型不是NaN，Number.isNaN一律返回false。
    *
@@ -4452,6 +4504,136 @@ export class CT {
   }
 
   /**
+   * 判断数据是否为Temporal类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporal( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.Duration类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalDuration( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.Duration' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.Instant类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalInstant( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.Instant' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.Now类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalNow( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.Now' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.PlainDate类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalPlainDate( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.PlainDate' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.PlainDateTime类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalPlainDateTime( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.PlainDateTime' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.PlainMonthDay类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalPlainMonthDay( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.PlainMonthDay' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.PlainTime类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalPlainTime( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.PlainTime' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.PlainYearMonth类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalPlainYearMonth( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.PlainYearMonth' );
+  }
+
+  /**
+   * 判断数据是否为Temporal.ZonedDateTime类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isTemporalZonedDateTime( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'Temporal.ZonedDateTime' );
+  }
+
+  /**
    * 判断数据是否为Uint8Array类型
    *
    * @param arg 数据，参数个数为1，必需
@@ -4527,6 +4709,19 @@ export class CT {
     'use strict';
 
     return IsHandle1.call( this, arg, 'WeakMap' );
+  }
+
+  /**
+   * 判断数据是否是WeakRef类型
+   *
+   * @param arg 数据，参数个数为1，必需
+   *
+   * @returns {Boolean} boolean，是true，否false
+   */
+  isWeakRef( arg ){
+    'use strict';
+
+    return IsHandle1.call( this, arg, 'WeakRef' );
   }
 
   /**
