@@ -1,0 +1,38 @@
+1、安装依赖：
+rustup target add wasm32-unknown-unknown wasm32-unknown-emscripten
+
+2、编译命令：
+cargo build --target-dir ./out --release --target wasm32-unknown-unknown
+
+3、编译完成后，你会得到(就在当前执行命令的文件夹下，默认是这么输出的)：
+target/wasm32-unknown-unknown/release/wasm_demo.wasm
+
+
+
+例子：“MathTool.rs”、“Cargo.toml”都在同一个文件夹层级下，编译命令也是在这个文件夹层级下执行的。
+
+// MathTool.rs的内容：
+// #[unsafe(no_mangle)] → 保证函数名不会被 Rust 编译器修改。Rust 2024语法这么要求写的！
+// extern "C" → 使用 C ABI，方便其他语言或运行时调用。
+#[unsafe(no_mangle)]
+pub extern "C" fn Add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+
+
+// Cargo.toml的内容：
+[package]
+# 要生成的 .wasm 文件的名称。
+name = "MathTool"
+version = "1.0.0"
+# edition可有值：2015、2018、2021、2024
+edition = "2024"
+
+[lib]
+# 要生成的 .wasm 文件的名称。
+name = "MathTool"
+# Rust源码文件路径。
+path = "MathTool.rs"
+#对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
+crate-type = ["cdylib"]

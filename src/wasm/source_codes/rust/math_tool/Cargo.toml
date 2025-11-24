@@ -1,0 +1,14 @@
+[package]
+# 要生成的 .wasm 文件的名称。
+name = "MathTool"
+version = "1.0.0"
+# edition可有值：2015、2018、2021、2024
+edition = "2024"
+
+[lib]
+# 要生成的 .wasm 文件的名称。
+name = "MathTool"
+# Rust源码文件路径。
+path = "MathTool.rs"
+#对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
+crate-type = ["cdylib"]
