@@ -39,6 +39,8 @@ pub extern "C" fn Fib(index: usize, initial1: f64, initial2: f64) -> f64 {
         return initial1;
     } else if index == 2 {
         return initial2;
+    } else if index > 1476 {
+        return f64::NAN;
     }
 
     let mut prev = initial1;
