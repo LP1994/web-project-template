@@ -74,8 +74,7 @@
     "types": [],
     "typeRoots": [
       "./node_modules/@types",
-      "./src/custom_declare_types",
-      "./simulation_servers/deno/src/custom_declare_types"
+      "./src/custom_declare_types"
     ],
     "moduleSuffixes": [
       ""
@@ -159,8 +158,12 @@
       "esnext.collection",
       "esnext.decorators",
       "esnext.disposable",
+      "esnext.error",
+      "esnext.float16",
       "esnext.intl",
       "esnext.iterator",
+      "esnext.promise",
+      "esnext.sharedmemory",
       "scripthost",
       "webworker",
       "webworker.asynciterable",
@@ -337,7 +340,7 @@
         "https://deno.land/x/*"
       ],
       "deno_x_corejs": [
-        "https://deno.land/x/corejs@v3.46.0/index.js"
+        "https://deno.land/x/corejs@v3.47.0/index.js"
       ],
       "deno_x_ejs": [
         "https://deno.land/x/dejs/mod.ts"
@@ -458,7 +461,7 @@
       ],
 
       "GSD2TSTD": [
-        "./simulation_servers/deno/src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
+        "./src/graphql_schema_definition_to_ts_type_definition/GSD2TSTD.esm.mts"
       ],
       "MF_v2_RuntimeAPI": [
         "./src/ModuleFederation_v2_RuntimeAPI.esm.mts"
