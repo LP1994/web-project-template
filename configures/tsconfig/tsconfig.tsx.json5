@@ -11,7 +11,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "display": "tsconfig.tsx.json5",
   "_version": "1.0.0",
   "_typescript_version": "5.9.3",
-  "_tsx_version": "4.20.6",
+  "_tsx_version": "4.21.0",
   "_description": "这是给tsx使用的tsconfig.json。该配置扩展自tsconfig.json。",
   "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://www.typescriptlang.org/tsconfig",
