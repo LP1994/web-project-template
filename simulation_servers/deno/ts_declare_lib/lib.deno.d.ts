@@ -1700,9 +1700,6 @@ declare namespace Deno {
    *
    * Throws {@linkcode Deno.errors.NotFound} if directory not available.
    *
-   * Requires `allow-read` permission.
-   *
-   * @tags allow-read
    * @category Runtime
    */
   export function cwd(): string;
@@ -3796,13 +3793,13 @@ declare namespace Deno {
     /** Waits for the child to exit completely, returning all its output and
      * status. */
     output(): Promise<CommandOutput>;
-    /** Kills the process with given {@linkcode Deno.Signal}.
+    /** Kills the process with given {@linkcode Deno.Signal} or numeric signal.
      *
      * Defaults to `SIGTERM` if no signal is provided.
      *
      * @param [signo="SIGTERM"]
      */
-    kill(signo?: Signal): void;
+    kill(signo?: Signal | number): void;
 
     /** Ensure that the status of the child process prevents the Deno process
      * from exiting. */
@@ -4739,12 +4736,14 @@ declare namespace Deno {
    * Deno.kill(child.pid, "SIGINT");
    * ```
    *
+   * As a special case, a signal of 0 can be used to test for the existence of a process.
+   *
    * Requires `allow-run` permission.
    *
    * @tags allow-run
    * @category Subprocess
    */
-  export function kill(pid: number, signo?: Signal): void;
+  export function kill(pid: number, signo?: Signal | number): void;
 
   /** The type of the resource record to resolve via DNS using
    * {@linkcode Deno.resolveDns}.
@@ -6034,11 +6033,17 @@ declare namespace Deno {
     getFloat64(offset?: number): number;
     /** Gets a pointer at the specified byte offset from the pointer */
     getPointer<T = unknown>(offset?: number): PointerValue<T>;
-    /** Gets a C string (`null` terminated string) at the specified byte offset
-     * from the pointer. */
+    /** Gets a UTF-8 encoded string at the specified byte offset until 0 byte.
+     *
+     * Returned string doesn't include U+0000 character.
+     *
+     * Invalid UTF-8 characters are replaced with U+FFFD character in the returned string. */
     getCString(offset?: number): string;
-    /** Gets a C string (`null` terminated string) at the specified byte offset
-     * from the specified pointer. */
+    /** Gets a UTF-8 encoded string at the specified byte offset from the specified pointer until 0 byte.
+     *
+     * Returned string doesn't include U+0000 character.
+     *
+     * Invalid UTF-8 characters are replaced with U+FFFD character in the returned string. */
     static getCString(pointer: PointerObject, offset?: number): string;
     /** Gets an `ArrayBuffer` of length `byteLength` at the specified byte
      * offset from the pointer. */
@@ -8852,8 +8857,43 @@ declare var MessageEvent: {
 /** @category Events */
 type Transferable = MessagePort | ArrayBuffer;
 
-/** @category Platform */
+/**
+ * Options that control structured serialization operations such as
+ * `structuredClone(value, options)` and `MessagePort.postMessage(message, options)`.
+ *
+ * The optional `transfer` array lists {@link Transferable} objects whose
+ * underlying resources should be moved (transferred) to the receiving side
+ * instead of being cloned. After a successful transfer:
+ *
+ * - For an `ArrayBuffer`, the original buffer becomes neutered (its
+ *   `byteLength` is set to `0`).
+ * - For a `MessagePort`, the port becomes unusable on the sending side and
+ *   future events will arrive only on the transferred port at the receiver.
+ *
+ * Validation rules:
+ * - Each transferable may appear only once in the `transfer` list.
+ * - A `MessagePort` cannot be listed together with its counterpart port from
+ *   the same `MessageChannel` in the same transfer operation.
+ * - Duplicate or otherwise invalid entries will cause a `DataCloneError`
+ *   `DOMException` to be thrown.
+ *
+ * Transferring improves performance for large binary data and allows moving
+ * communication endpoints without copying.
+ *
+ * @example
+ * ```ts
+ * // Transferring an ArrayBuffer (zero-copy for large data)
+ * const buffer = new ArrayBuffer(16);
+ * const cloned = structuredClone(buffer, { transfer: [buffer] });
+ *
+ * // After transfer, the original buffer is neutered
+ * console.log(buffer.byteLength); // 0
+ * console.log(cloned.byteLength); // 16
+ *
+ * @category Platform
+ */
 interface StructuredSerializeOptions {
+  /** List of transferable objects whose ownership is moved instead of cloned. */
   transfer?: Transferable[];
 }
 
@@ -9094,16 +9134,26 @@ declare function reportError(
 type PredefinedColorSpace = "srgb" | "display-p3";
 
 /** @category Platform */
+type ImageDataArray =
+  | Uint8ClampedArray<ArrayBuffer>
+  | Float16Array<ArrayBuffer>;
+
+/** @category Platform */
+type ImageDataPixelFormat = "rgba-unorm8" | "rgba-float16";
+
+/** @category Platform */
 interface ImageDataSettings {
   readonly colorSpace?: PredefinedColorSpace;
+  readonly pixelFormat?: ImageDataPixelFormat;
 }
 
 /** @category Platform */
 interface ImageData {
-  readonly colorSpace: PredefinedColorSpace;
-  readonly data: Uint8ClampedArray<ArrayBuffer>;
-  readonly height: number;
   readonly width: number;
+  readonly height: number;
+  readonly data: ImageDataArray;
+  readonly pixelFormat: ImageDataPixelFormat;
+  readonly colorSpace: PredefinedColorSpace;
 }
 
 /** @category Platform */
@@ -9111,7 +9161,7 @@ declare var ImageData: {
   readonly prototype: ImageData;
   new (sw: number, sh: number, settings?: ImageDataSettings): ImageData;
   new (
-    data: Uint8ClampedArray<ArrayBuffer>,
+    data: ImageDataArray,
     sw: number,
     sh?: number,
     settings?: ImageDataSettings,
@@ -12862,7 +12912,6 @@ declare var Crypto: {
 
 /**
  * @category Messaging
- * @experimental
  */
 interface BroadcastChannelEventMap {
   "message": MessageEvent;
@@ -12871,7 +12920,6 @@ interface BroadcastChannelEventMap {
 
 /**
  * @category Messaging
- * @experimental
  */
 interface BroadcastChannel extends EventTarget {
   /**
@@ -12914,7 +12962,6 @@ interface BroadcastChannel extends EventTarget {
 
 /**
  * @category Messaging
- * @experimental
  */
 declare var BroadcastChannel: {
   readonly prototype: BroadcastChannel;
@@ -13925,6 +13972,7 @@ declare namespace Deno {
 /// <reference lib="deno.websocket" />
 /// <reference lib="deno.crypto" />
 /// <reference lib="deno.ns" />
+/// <reference lib="deno.broadcast_channel" />
 
 /** @category Wasm */
 declare namespace WebAssembly {
@@ -15509,7 +15557,6 @@ declare var name: string;
 
 /// <reference no-default-lib="true" />
 /// <reference lib="deno.ns" />
-/// <reference lib="deno.broadcast_channel" />
 /// <reference lib="esnext" />
 /// <reference lib="es2022.intl" />
 
