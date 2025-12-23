@@ -8,6 +8,7 @@
             <SchemaInfo>
               <option name="name" value="TSConfig" />
               <option name="relativePathToSchema" value="http://json.schemastore.org/tsconfig" />
+              <option name="schemaVersion" value="JSON Schema 202,012" />
               <option name="applicationDefined" value="true" />
               <option name="patterns">
                 <list>

@@ -14,7 +14,6 @@ CreateDate: 2022-12-17 08:08:45 星期六
   src: url(fontsDir/Helvetica.otf) format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-size: 20px;
 }
 
 main {
@@ -25,6 +24,7 @@ main {
 
     font-family: 'MyFont_Helvetica', serif;
     color: green;
+    font-size: 20px;
 
     line-height: 1;
     text-align: center;
@@ -47,6 +47,7 @@ main {
 
       font-family: 'MyFont_Helvetica', serif;
       color: blue;
+      font-size: 20px;
 
       line-height: 1;
       text-align: left;

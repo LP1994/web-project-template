@@ -12,7 +12,6 @@ CreateDate: 2022-07-30 14:06:00 星期六
   src: url(fontsDir/Helvetica.otf) format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-size: 20px;
 }
 
 .css-reset {
@@ -75,6 +74,7 @@ only screen and (max-width: 1300px) and (max-device-pixel-ratio: 1.9) and (min-d
 main {
   font-family: 'MyFont_Helvetica', serif;
   color: black;
+  font-size: 20px;
 
   line-height: 1;
   text-align: center;
