@@ -1,4 +1,4 @@
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
@@ -6526,7 +6526,7 @@ declare namespace Deno {
   export {}; // only export exports
 }
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any
 
@@ -6785,7 +6785,7 @@ interface Console {
   profileEnd(label?: string): void;
 }
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
 
@@ -7639,7 +7639,7 @@ declare var URLPattern: {
   new (input?: URLPatternInput, options?: URLPatternOptions): URLPattern;
 };
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
 
@@ -9391,7 +9391,7 @@ type WebTransportCongestionControl = "default" | "low-latency" | "throughput";
 /** @category Platform */
 type WebTransportErrorSource = "session" | "stream";
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
 
@@ -9685,7 +9685,8 @@ interface Request extends Body {
   readonly isHistoryNavigation: boolean;
   /**
    * Returns a boolean indicating whether or not request is for a reload
-   * navigation.
+   * navigation, e.g. a refresh triggered via the browser's reload control or
+   * by calling location.reload().
    */
   readonly isReloadNavigation: boolean;
   /**
@@ -9891,7 +9892,7 @@ declare var EventSource: {
   readonly CLOSED: 2;
 };
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-empty-interface
 
@@ -10640,15 +10641,17 @@ interface GPUPipelineLayoutDescriptor extends GPUObjectDescriptorBase {
 type GPUCompilationMessageType = "error" | "warning" | "info";
 
 /** @category GPU */
-interface GPUCompilationMessage {
+declare class GPUCompilationMessage {
   readonly message: string;
   readonly type: GPUCompilationMessageType;
   readonly lineNum: number;
   readonly linePos: number;
+  readonly offset: number;
+  readonly length: number;
 }
 
 /** @category GPU */
-interface GPUCompilationInfo {
+declare class GPUCompilationInfo {
   readonly messages: ReadonlyArray<GPUCompilationMessage>;
 }
 
@@ -11608,7 +11611,7 @@ interface GPUCanvasContext {
   getCurrentTexture(): GPUTexture;
 }
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
 
@@ -11970,7 +11973,7 @@ interface WebSocketOptions {
  */
 type BinaryType = "arraybuffer" | "blob";
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
 
@@ -12019,7 +12022,7 @@ declare var Storage: {
   new (): never;
 };
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-var
 
@@ -12214,7 +12217,7 @@ declare var ImageBitmap: {
   new (): ImageBitmap;
 };
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-var
 
@@ -12908,7 +12911,7 @@ declare var Crypto: {
   new (): never;
 };
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
 
@@ -12973,7 +12976,7 @@ declare var BroadcastChannel: {
   new (name: string): BroadcastChannel;
 };
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
@@ -13961,7 +13964,7 @@ declare namespace Deno {
   export {}; // only export exports
 }
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // Documentation partially adapted from [MDN](https://developer.mozilla.org/),
 // by Mozilla Contributors, which is licensed under CC-BY-SA 2.5.
@@ -14703,6 +14706,23 @@ interface Performance extends EventTarget {
   /** Removes stored timestamp with the associated name. */
   clearMeasures(measureName?: string): void;
 
+  /** Removes all performance entries with an entryType of "resource" from the
+   * performance timeline and sets the size of the performance resource data
+   * buffer to zero.
+   *
+   * Note: Deno does not currently track resource timings, so this method has
+   * no observable effect. It is provided for API compatibility.
+   */
+  clearResourceTimings(): void;
+
+  /** Sets the desired size of the browser's resource timing buffer which
+   * stores the "resource" performance entries.
+   *
+   * Note: Deno does not currently track resource timings, so this method has
+   * no observable effect. It is provided for API compatibility.
+   */
+  setResourceTimingBufferSize(maxSize: number): void;
+
   getEntries(): PerformanceEntryList;
   getEntriesByName(name: string, type?: string): PerformanceEntryList;
   getEntriesByType(type: string): PerformanceEntryList;
@@ -14885,7 +14905,7 @@ declare function fetch(
   init?: RequestInit & { client?: Deno.HttpClient },
 ): Promise<Response>;
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-var
 
@@ -14958,7 +14978,7 @@ interface CacheQueryOptions {
   ignoreVary?: boolean;
 }
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 /// <reference no-default-lib="true" />
 /// <reference lib="deno.ns" />
@@ -15558,7 +15578,7 @@ declare var location: Location;
 /** @category Platform */
 declare var name: string;
 
-// Copyright 2018-2025 the Deno authors. MIT license.
+// Copyright 2018-2026 the Deno authors. MIT license.
 
 /// <reference no-default-lib="true" />
 /// <reference lib="deno.ns" />
