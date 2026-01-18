@@ -1084,7 +1084,7 @@
     "imagemin-webp": "^8.0.0",
     "imagemin-zopfli": "^7.0.0",
     "jest": "^30.2.0",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "jquery.nicescroll": "^3.7.6",
     "js-base64": "^3.7.8",
     "js-md5": "^0.8.3",
