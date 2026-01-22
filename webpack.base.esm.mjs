@@ -5470,7 +5470,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.47.0',
+              } )() || '3.48.0',
               proposals: true,
             },
             /**
@@ -11791,6 +11791,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    * @type {object}
    */
   providePluginConfig = {
+    // axios: resolve( join( __dirname, './node_modules/axios/dist/axios.js' ) ),
     axios: [
       resolve( join( __dirname, './node_modules/axios/dist/esm/axios.js' ) ),
       'default',
@@ -11798,6 +11799,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
     Ckeditor5ClassicEditor: resolve( join( __dirname, './node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js' ) ),
 
+    // d3: resolve( join( __dirname, './node_modules/d3/dist/d3.js' ) ),
     d3: 'd3',
 
     echarts: resolve( join( __dirname, './node_modules/echarts/dist/echarts.js' ) ),
@@ -11806,7 +11808,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * element-ui依赖vue 2.X，而当前安装的时vue 3.X，所以如果要使用element-ui，要去安装vue 2.X的包，如：vue@2.6.14。<br />
      * 1、当要使用element-ui且安装了vue 2.X，并且设置了：ELEMENT: 'element-ui'、Vue: 'vue'，那么在代码中使用这两个的时候要写成：Vue.default.use( ELEMENT )。<br />
      */
+    // ELEMENT: resolve( join( __dirname, './node_modules/element-ui/lib/index.js' ) ),
     ELEMENT: resolve( join( __dirname, './node_modules/element-ui/lib/element-ui.common.js' ) ),
+    // ElementPlus: resolve( join( __dirname, './node_modules/element-plus/dist/index.full.js' ) ),
     ElementPlus: 'element-plus',
 
     /**
@@ -11815,6 +11819,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 详细见：https://github.com/niklasvh/html2canvas <br />
      * Options选项见：https://html2canvas.hertzen.com/configuration <br />
      */
+    // html2canvas: resolve( join( __dirname, './node_modules/html2canvas/dist/html2canvas.js' ) ),
     html2canvas: resolve( join( __dirname, './node_modules/html2canvas/dist/html2canvas.esm.js' ) ),
 
     $: resolve( join( __dirname, './node_modules/jquery/dist/jquery.js' ) ),
@@ -11868,8 +11873,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
     lodash: resolve( join( __dirname, './node_modules/lodash/lodash.js' ) ),
 
+    // PIXI: resolve( join( __dirname, './node_modules/pixi.js/dist/pixi.js' ) ),
     PIXI: 'pixi.js',
 
+    // Swiper: resolve( join( __dirname, './node_modules/swiper/swiper.js' ) ),
     Swiper: [
       resolve( join( __dirname, './node_modules/swiper/swiper.mjs' ) ),
       'default',
@@ -11877,6 +11884,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
     THREE: 'three',
 
+    // underscore: resolve( join( __dirname, './node_modules/underscore/underscore.js' ) ),
     underscore: 'underscore',
 
     /**
