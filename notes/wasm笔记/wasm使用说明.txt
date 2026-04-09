@@ -16,9 +16,33 @@ git pull
 
 4、下载并安装最新的SDK工具。(先进入“emsdk”文件夹)(这个用Windows命令)
 emsdk install latest
+PS：会通过网路下载安装所需的资源包！所以网络要好些，不然会老是安装失败！
+-------------------------------------------------------------------------
+注意，新版本中，要做如下环境变量配置：
+创建新的系统环境变量：
+EMSDK=D:\EmscriptenSDK\App\emsdk
+EMSDK_PYTHON=D:\EmscriptenSDK\App\emsdk\python\3.13.3_64bit\python.exe
+EMSDK_NODE=D:\EmscriptenSDK\App\emsdk\node\22.16.0_64bit\bin\node.exe
+系统环境变量PATH中需要添加：
+D:\EmscriptenSDK\App\emsdk
+D:\EmscriptenSDK\App\emsdk\upstream\emscripten
+--------------------------------------
+其中
+D:\EmscriptenSDK\App\emsdk\upstream\emscripten
+里拥有emcc、em++等等命令！！！还有诸多其他命令，如有需要，可自行去官方文档查阅！！！或者直接问AI它们的使用方法！
 
 5、使当前用户的“最新” SDK“活动”。 （写入〜/ .emscripten文件，先进入“emsdk”文件夹）(这个用Windows命令)
-emsdk activate latest
+emsdk activate latest --system
+PS：
+加上 --system 参数，让配置全局生效。
+激活成功后，emcc、em++等等命令理论上在所有新打开的终端中都应该可用了。也就不再需要通过运行emsdk_env.bat来执行emcc、em++等等命令了！！！
+======================
+一键启动EMSDK.bat
+内容：
+cd /d D:\EmscriptenSDK\App\emsdk & emcmdprompt.bat
+也就不需要“一键启动EMSDK.bat”了！！！
+======================
+emsdk activate latest --system可以多执行几次，知道输出的信息中没有再出现什么环境变量配置的错误！！！
 
 6、在当前终端中激活PATH和其他环境变量(先进入“emsdk”文件夹)(这个用Windows命令)
 运行emsdk_env.bat
