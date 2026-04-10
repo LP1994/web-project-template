@@ -51,5 +51,5 @@ type: "json"
 
 esbuild支持的：
 type: "json"
-type: "text"（返回：string）更新日志没明确给出，待测试
+type: "text"（返回：string），esbuild v0.28.0明确支持
 type: "bytes"（返回：Uint8Array）更新日志明确给出支持
