@@ -434,19 +434,19 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20260225。Start
-    'Chrome >= 145',
+    'Chrome >= 147',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 145',
-    'Firefox >= 148',
+    'Edge >= 147',
+    'Firefox >= 149',
     'Safari >= 26',
-    'Opera >= 128',
+    'Opera >= 130',
     // PC端各主流浏览器的最新版本，至20260225。End
 
     // 移动端各主流浏览器的最新版本，至20260225。Start
-    'ChromeAndroid >= 145',
+    'ChromeAndroid >= 147',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 145',
-    'FirefoxAndroid >= 148',
+    'Android >= 147',
+    'FirefoxAndroid >= 149',
     'iOS >= 26',
     // 移动端各主流浏览器的最新版本，至20260225。End
   ],
@@ -477,14 +477,14 @@ const browserslist = [
     // 'opera55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    'es2024',
+    'es2025',
 
     // PC端各主流浏览器的最新版本，至20260225。Start
-    'chrome145',
-    'edge145',
-    'firefox148',
+    'chrome147',
+    'edge147',
+    'firefox149',
     'safari26',
-    'opera128',
+    'opera130',
     // PC端各主流浏览器的最新版本，至20260225。End
 
     // 移动端各主流浏览器的最新版本，至20260225。Start
@@ -524,16 +524,16 @@ const browserslist = [
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
     // PC端各主流浏览器的最新版本，至20260225。Start
-    chrome: 145,
-    edge: 145,
-    firefox: 148,
+    chrome: 147,
+    edge: 147,
+    firefox: 149,
     safari: 26,
-    opera: 128,
+    opera: 130,
     // PC端各主流浏览器的最新版本，至20260225。End
 
     // 移动端各主流浏览器的最新版本，至20260225。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 145,
+    android: 147,
     ios: 26,
     // 移动端各主流浏览器的最新版本，至20260225。End
   },
@@ -3808,7 +3808,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               else{
                 throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
               }
-            } )() || '7.29.0',
+            } )() || '7.29.2',
             helpers: true,
             // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
             regenerator: true,
@@ -5470,7 +5470,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 else{
                   throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
                 }
-              } )() || '3.48.0',
+              } )() || '3.49.0',
               proposals: true,
             },
             /**
@@ -11971,7 +11971,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    */
   targetConfig = [
     'web',
-    'es2024',
+    'es2025',
   ],
   /**
    * 如果需要在生产模式构建时，顺便生成你想要的某些代码的文档，可以在此设置。
