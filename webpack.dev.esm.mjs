@@ -327,4 +327,5 @@ export default {
    */
   // watch: true,
   watchOptions: watchOptionsConfig,
+  validate: true,
 };

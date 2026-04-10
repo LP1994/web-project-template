@@ -339,4 +339,5 @@ export default {
    * 在webpack-dev-server和webpack-dev-middleware中默认启用watch模式。<br />
    */
   watch: false,
+  validate: true,
 };
