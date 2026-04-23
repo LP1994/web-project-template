@@ -61,7 +61,6 @@
     "target": "es2025",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "baseUrl": "./",
     "rootDir": ".",
     "outDir": "./ts_compiled/",
     "types": [],

@@ -66,7 +66,6 @@
     "target": "es2025",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "baseUrl": "./",
     "rootDir": ".",
     "declarationDir": "./ts_compiled/",
     "outDir": "./ts_compiled/",
