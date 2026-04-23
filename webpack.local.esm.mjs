@@ -327,5 +327,9 @@ export default {
    */
   // watch: true,
   watchOptions: watchOptionsConfig,
+  /**
+   * 1、v5.106.0开始启用。<br />
+   * 2、在 webpack/plugins/loaders 中添加了 validate 选项，用于启用或禁用验证功能，同时实现了相关 API，以便在插件内部进行操作。
+   */
   validate: true,
 };
