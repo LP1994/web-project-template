@@ -12,7 +12,7 @@
 /**
  * 自动拉取本地项目中最新的npm包版本信息并自动更新安装新版本的npm包到本地项目。
  * 完整过程如下：
- * 1、ncu -u --color --timeout 1800000
+ * 1、ncu -u --color --timeout 1800000 --concurrency 31
  * 2、npm --force install -D XXX XXX XXX ...
  */
 
@@ -53,7 +53,7 @@ const timer001 = setInterval( () => {
   console.log( `拉取已经耗时：${ num001 }秒。` );
 }, 1000 );
 
-const stdoutFromCommand001 = execSync( `ncu -u --color --timeout 1800000`, config ).toString( 'utf8', );
+const stdoutFromCommand001 = execSync( `ncu -u --color --timeout 1800000 --concurrency 31`, config ).toString( 'utf8', );
 
 clearInterval( timer001 );
 
