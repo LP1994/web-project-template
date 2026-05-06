@@ -1,7 +1,5 @@
 node v25
 
-
-
 --experimental-import-meta-resolve
 experimental ES Module import.meta.resolve() parentURL support
 
@@ -16,3 +14,8 @@ experimental ES Module support in vm module
 
 --experimental-transform-types
 enable transformation of TypeScript-onlysyntax into JavaScript code
+
+
+
+node v26
+--experimental-transform-types：已经被移除了！！！
