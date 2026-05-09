@@ -11,6 +11,10 @@
  * devServer启动时的“代理”配置。
  * 1、这些文件都有引入这个代理配置文件：webpack.base.esm.mjs。
  * 2、注意，当前文件编写的配置是遵循“http-proxy-middleware v4”的，因为“webpack 5”也是引用“http-proxy-middleware”的。
+ * 3、在“http-proxy-middleware v4”中，已将代理从 http-proxy 切换为 httpxy。
+ * 此举替换了长期使用的核心依赖项，并引入了 httpxy 项目中记录的众多上游修复和行为改进：
+ * https://github.com/unjs/httpxy/issues/2
+ * https://github.com/unjs/httpxy/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed
  *
  * 当设置为'0.0.0.0'时的注意事项：<br />
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -485,7 +489,7 @@ const proxyConfig = [
 
     // http-proxy-middleware options End
 
-    // http-proxy options Start
+    // httpxy options(具体见：https://github.com/unjs/httpxy#options、node_modules/httpxy/dist/index.d.mts:32) Start
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
@@ -531,6 +535,9 @@ const proxyConfig = [
      */
     // agent,
 
+    // 启用HTTP/2监听器，默认是：false。
+    http2: true,
+
     /**
      * 是否要验证SSL证书。<br />
      * 1、有效值类型：boolean、undefined。<br />
@@ -538,7 +545,7 @@ const proxyConfig = [
     secure: false,
 
     /**
-     * 要传递给https.createServer()的对象。<br />
+     * 如果启用了 `http2` 选项，则该对象将传递给 https.createServer() 或 http2.createSecureServer()。<br />
      * 保证跟服务端（webpack-dev-server、Deno）设置的各个证书一样就行。<br />
      * 该选项里头的各个有效属性其实可以参考webpack的顶级配置项“devServer”中的“server.options”选项里的各个属性。<br />
      * 因为它们都是属于“tls.createSecureContext([options])”中的“options”选项，具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions。<br />
@@ -677,29 +684,33 @@ const proxyConfig = [
 
     /**
      * 作为请求正文发送的数据流。也许您有一些中间件在代理请求流之前使用它，例如，如果您将请求的正文读入名为“req.rawbody”的字段中，则可以在缓冲区选项中重新传输该字段，有效值类型：stream.Stream、undefined。<br />
-     * const streamify = require('stream-array');
-     * const HttpProxy = require('http-proxy');
-     * const proxy = new HttpProxy();
+     * import { createProxyServer } from 'httpxy';
+     * import streamify from 'stream-array';
      *
-     * module.exports = (req, res, next) => {
+     * const proxy = createProxyServer();
      *
-     *   proxy.web(req, res, {
-     *     target: 'http://localhost:4003/',
-     *     buffer: streamify(req.rawBody)
-     *   }, next);
-     *
-     * };
+     * export default function proxyWithBody(req, res, next) {
+     *   proxy.web(
+     *     req,
+     *     res,
+     *     {
+     *       target: 'http://127.0.0.1:4003/',
+     *       buffer: streamify(req.rawBody),
+     *     },
+     *     next,
+     *   );
+     * }
      */
     // buffer,
 
-    // http-proxy options End
+    // httpxy options(具体见：https://github.com/unjs/httpxy#options、node_modules/httpxy/dist/index.d.mts:32) End
 
-    // http-proxy events Start
+    // httpxy events(详细见：https://github.com/unjs/httpxy#events) Start
 
     /**
-     * http-proxy各个事件监听配置。
+     * httpxy各个事件监听配置。
      * PS：
-     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     * 1、该选项从“http-proxy-middleware V4.0”开始使用。
      */
     on: {
       /**
@@ -792,9 +803,17 @@ HTTP代理--->${ req.originalUrl }<---End
        */
       close: ( proxyRes, proxySocket, proxyHead ) => {
       },
+
+      // Proxy processing started
+      start: ( req, res, target ) => {
+      },
+
+      // Proxy request completed
+      end: ( req, res, proxyRes ) => {
+      },
     },
 
-    // http-proxy events End
+    // httpxy events(详细见：https://github.com/unjs/httpxy#events) End
   },
 
   /**
@@ -922,7 +941,7 @@ HTTP代理--->${ req.originalUrl }<---End
 
     // http-proxy-middleware options End
 
-    // http-proxy options Start
+    // httpxy options(具体见：https://github.com/unjs/httpxy#options、node_modules/httpxy/dist/index.d.mts:32) Start
 
     /**
      * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
@@ -968,6 +987,9 @@ HTTP代理--->${ req.originalUrl }<---End
      */
     // agent,
 
+    // 启用HTTP/2监听器，默认是：false。
+    http2: true,
+
     /**
      * 是否要验证SSL证书。<br />
      * 1、有效值类型：boolean、undefined。<br />
@@ -975,7 +997,7 @@ HTTP代理--->${ req.originalUrl }<---End
     secure: false,
 
     /**
-     * 要传递给https.createServer()的对象。<br />
+     * 如果启用了 `http2` 选项，则该对象将传递给 https.createServer() 或 http2.createSecureServer()。<br />
      * 保证跟服务端（webpack-dev-server、Deno）设置的各个证书一样就行。<br />
      * 该选项里头的各个有效属性其实可以参考webpack的顶级配置项“devServer”中的“server.options”选项里的各个属性。<br />
      * 因为它们都是属于“tls.createSecureContext([options])”中的“options”选项，具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions。<br />
@@ -1114,29 +1136,33 @@ HTTP代理--->${ req.originalUrl }<---End
 
     /**
      * 作为请求正文发送的数据流。也许您有一些中间件在代理请求流之前使用它，例如，如果您将请求的正文读入名为“req.rawbody”的字段中，则可以在缓冲区选项中重新传输该字段，有效值类型：stream.Stream、undefined。<br />
-     * const streamify = require('stream-array');
-     * const HttpProxy = require('http-proxy');
-     * const proxy = new HttpProxy();
+     * import { createProxyServer } from 'httpxy';
+     * import streamify from 'stream-array';
      *
-     * module.exports = (req, res, next) => {
+     * const proxy = createProxyServer();
      *
-     *   proxy.web(req, res, {
-     *     target: 'http://localhost:4003/',
-     *     buffer: streamify(req.rawBody)
-     *   }, next);
-     *
-     * };
+     * export default function proxyWithBody(req, res, next) {
+     *   proxy.web(
+     *     req,
+     *     res,
+     *     {
+     *       target: 'http://127.0.0.1:4003/',
+     *       buffer: streamify(req.rawBody),
+     *     },
+     *     next,
+     *   );
+     * }
      */
     // buffer,
 
-    // http-proxy options End
+    // httpxy options(具体见：https://github.com/unjs/httpxy#options、node_modules/httpxy/dist/index.d.mts:32) End
 
-    // http-proxy events Start
+    // httpxy events(详细见：https://github.com/unjs/httpxy#events) Start
 
     /**
-     * http-proxy各个事件监听配置。
+     * httpxy各个事件监听配置。
      * PS：
-     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     * 1、该选项从“http-proxy-middleware V4.0”开始使用。
      */
     on: {
       /**
@@ -1229,9 +1255,17 @@ WebSocket代理--->${ options.context }<---End
        */
       close: ( proxyRes, proxySocket, proxyHead ) => {
       },
+
+      // Proxy processing started
+      start: ( req, res, target ) => {
+      },
+
+      // Proxy request completed
+      end: ( req, res, proxyRes ) => {
+      },
     },
 
-    // http-proxy events End
+    // httpxy events(详细见：https://github.com/unjs/httpxy#events) End
   },
 ];
 
