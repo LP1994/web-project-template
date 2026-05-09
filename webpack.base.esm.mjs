@@ -127,6 +127,17 @@ import * as SassEmbedded from 'sass-embedded';
 
 import Stylus from 'stylus';
 
+/*
+ 1、terser-webpack-plugin 已更名为 minimizer-webpack-plugin，并整合了 css-minimizer-webpack-plugin 和 html-minimizer-webpack-plugin 中的其他压缩功能。
+ 我们将继续以旧名称发布新版本，但建议您切换至新包——minimizer-webpack-plugin。
+ 现在，它已成为一个用于代码压缩的单一插件。
+ 此外，我们还新增了仅使用一个插件实例即可指定不同压缩类型的功能，这将提升性能。
+ 2、将 terserOptions 重命名为 minimizerOptions，terserOptions 仍保留为已弃用的别名。
+ 3、Webpack v5 默认已内置最新的 minimizer-webpack-plugin。
+ 4、如果您使用的是 Webpack v5 或更高版本，且希望自定义相关选项，仍需安装 minimizer-webpack-plugin。
+ 5、若使用 Webpack v4，则必须安装 terser-webpack-plugin v4。
+ 6、minimizer-webpack-plugin 仅面向 Webpack v5 及以上版本发布。
+ */
 import MinimizerWebpackPlugin from 'minimizer-webpack-plugin';
 
 // import ThreadLoader from 'thread-loader';
@@ -10257,6 +10268,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         /**
          * 1、这个插件，个人将其配置成用来压缩JS，但是不做语法转译。<br />
          * 2、MinimizerWebpackPlugin比EsbuildPlugin更好地支持esbuild，即MinimizerWebpackPlugin支持缓存和多线程。<br />
+         * 3、terser-webpack-plugin 已更名为 minimizer-webpack-plugin，并整合了 css-minimizer-webpack-plugin 和 html-minimizer-webpack-plugin 中的其他压缩功能。<br />
+         * 4、我们将继续以旧名称发布新版本，但建议您切换至新包——minimizer-webpack-plugin。<br />
+         * 5、现在，它已成为一个用于代码压缩的单一插件。<br />
+         * 6、此外，我们还新增了仅使用一个插件实例即可指定不同压缩类型的功能，这将提升性能。<br />
+         * 7、将 terserOptions 重命名为 minimizerOptions，terserOptions 仍保留为已弃用的别名。<br />
+         * 8、Webpack v5 默认已内置最新的 minimizer-webpack-plugin。<br />
+         * 9、如果您使用的是 Webpack v5 或更高版本，且希望自定义相关选项，仍需安装 minimizer-webpack-plugin。<br />
+         * 10、若使用 Webpack v4，则必须安装 terser-webpack-plugin v4。<br />
+         * 11、minimizer-webpack-plugin 仅面向 Webpack v5 及以上版本发布。<br />
          */
         new MinimizerWebpackPlugin( {
           test: /\.(js|cjs|mjs)$/i,
@@ -10265,7 +10285,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
           minify: MinimizerWebpackPlugin.esbuildMinify,
           // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
-          terserOptions: esbuildMinifyConfig,
+          minimizerOptions: esbuildMinifyConfig,
         } ),
         /**
          * 这个插件使用cssnano来优化和缩小你的CSS。就像optimize-css-assets-webpack-plugin但使用查询字符串对源映射和资产更准确，允许缓存并在并行模式下工作。<br />
