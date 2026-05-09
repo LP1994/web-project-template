@@ -106,10 +106,10 @@ export default {
     ],
     /**
      * 1、加载 .env 文件的目录。
-     * 2、true表示从项目根目录（上下文）加载。
-     * 3、也可以指定具体的文件夹路径。
+     * 2、true表示从项目根目录（上下文）加载。但是，实际上运行时，webpack会提示不允许出现true这个值。因为，允许的值类型只有：boolean（值仅允许：false）、string（表示绝对路径）。
+     * 3、也可以指定具体的文件夹路径，就是绝对路径。
      */
-    dir: true,
+    dir: resolve( __dirname, './' ),
     /**
      * 1、.env 文件名的模板模式。使用 [mode] 作为 Webpack 模式的占位符（例如：development、production）。
      * 2、文件按指定顺序加载，后面的文件会覆盖前面的文件。此外，process.env 中已设置的变量具有最高优先级。
