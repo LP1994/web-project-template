@@ -127,7 +127,7 @@ import * as SassEmbedded from 'sass-embedded';
 
 import Stylus from 'stylus';
 
-import TerserPlugin from 'terser-webpack-plugin';
+import MinimizerWebpackPlugin from 'minimizer-webpack-plugin';
 
 // import ThreadLoader from 'thread-loader';
 
@@ -10252,18 +10252,18 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       mergeDuplicateChunks: true,
       minimize: true,
       minimizer: [
-        // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `terser-webpack-plugin`）。
+        // 对于webpack@5，您可以使用`...`语法来扩展现有的最小化程序（即 `minimizer-webpack-plugin`）。
         '...',
         /**
          * 1、这个插件，个人将其配置成用来压缩JS，但是不做语法转译。<br />
-         * 2、TerserPlugin比EsbuildPlugin更好地支持esbuild，即TerserPlugin支持缓存和多线程。<br />
+         * 2、MinimizerWebpackPlugin比EsbuildPlugin更好地支持esbuild，即MinimizerWebpackPlugin支持缓存和多线程。<br />
          */
-        new TerserPlugin( {
+        new MinimizerWebpackPlugin( {
           test: /\.(js|cjs|mjs)$/i,
           parallel: cpus().length - 1,
           extractComments: false,
           // 使用esbuildMinify时，不支持上面的extractComments选项，所有法律评论（即版权、许可证等）将被保留，但是esbuildMinify自己的配置选项是可以有选项来删除注释的。
-          minify: TerserPlugin.esbuildMinify,
+          minify: MinimizerWebpackPlugin.esbuildMinify,
           // 当使用babel转换JS语法时，drop选项不使用，其同样的功能交给babel预设处理，这里就不用重复设置了。但是如果使用esbuild转换JS时，还是要启用drop选项的。
           terserOptions: esbuildMinifyConfig,
         } ),

@@ -144,7 +144,7 @@ export default {
    * eval-cheap-source-map：构建：好的，重建：快，与eval-source-map类似，每个模块都使用eval()执行。它很“cheap便宜”，因为它没有列映射，它只映射行号。它忽略来自Loaders的SourceMaps，只显示类似于eval devtool的转译代码。<br />
    * eval-cheap-module-source-map：构建：慢，重建：快，然而，与eval-cheap-source-map类似，在这种情况下，来自Loaders的Source Map被处理以获得更好的结果。然而，Loader Source Maps被简化为每行一个映射。<br />
    *
-   * 2、生产环境，推荐的值（如果默认的webpack最小化器已被覆盖（例如自定义terser-webpack-plugin选项），请确保将其替换为sourceMap: true以启用SourceMap支持）：<br />
+   * 2、生产环境，推荐的值（如果默认的webpack最小化器已被覆盖（例如自定义minimizer-webpack-plugin选项），请确保将其替换为sourceMap: true以启用SourceMap支持）：<br />
    * false：或者不设置这个devtool选项时，构建、重建的速度都是最快的，不发出SourceMap，具有最高性能的生产构建的推荐选择。<br />
    *
    * source-map：构建、重建的速度都是最慢的，具有高质量SourceMap的生产构建的推荐选择。<br />
