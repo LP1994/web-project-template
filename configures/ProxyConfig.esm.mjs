@@ -10,7 +10,7 @@
 /**
  * devServer启动时的“代理”配置。
  * 1、这些文件都有引入这个代理配置文件：webpack.base.esm.mjs。
- * 2、注意，当前文件编写的配置是遵循“http-proxy-middleware v3”的，因为“webpack 5”也是引用“http-proxy-middleware”的。
+ * 2、注意，当前文件编写的配置是遵循“http-proxy-middleware v4”的，因为“webpack 5”也是引用“http-proxy-middleware”的。
  *
  * 当设置为'0.0.0.0'时的注意事项：<br />
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -345,7 +345,7 @@ if( !isProduction ){
  * },
  * ]<br />
  * 4、上面的context选项的有效值类型：string、[ string ]、( pathname: string, req: Request ) => boolean。<br />
- * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v3”的，因为“webpack 5”也是引用“http-proxy-middleware”的。<br />
+ * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v4”的，因为“webpack 5”也是引用“http-proxy-middleware”的。<br />
  *
  * 当设置为'0.0.0.0'时的注意事项：<br />
  * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
@@ -488,7 +488,7 @@ const proxyConfig = [
     // http-proxy options Start
 
     /**
-     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
      * 1、有效值类型：string、Partial<url.Url>、ProxyTargetDetailed、undefined。<br />
      * 2、其中ProxyTargetDetailed的结构为：<br />
      * {<br />
@@ -521,7 +521,7 @@ const proxyConfig = [
     target: 'https://0.0.0.0:9200',
 
     /**
-     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
      * 1、有效值类型：string、Partial<url.Url>、undefined。<br />
      */
     // forward,
@@ -925,7 +925,7 @@ HTTP代理--->${ req.originalUrl }<---End
     // http-proxy options Start
 
     /**
-     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
      * 1、有效值类型：string、Partial<url.Url>、ProxyTargetDetailed、undefined。<br />
      * 2、其中ProxyTargetDetailed的结构为：<br />
      * {<br />
@@ -958,7 +958,7 @@ HTTP代理--->${ req.originalUrl }<---End
     target: 'wss://0.0.0.0:9200',
 
     /**
-     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。<br />
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
      * 1、有效值类型：string、Partial<url.Url>、undefined。<br />
      */
     // forward,
