@@ -103,6 +103,30 @@ import {
 } from './webpack.base.esm.mjs';
 
 export default {
+  // webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/
+  dotenv: {
+    /**
+     * 1、默认值为：'WEBPACK_'。
+     * 2、出于安全考虑，不允许使用空字符串 '' 作为前缀，因为这会导致所有环境变量被暴露。
+     */
+    prefix: [
+      'WEBPACK_',
+    ],
+    /**
+     * 1、加载 .env 文件的目录。
+     * 2、true表示从项目根目录（上下文）加载。
+     * 3、也可以指定具体的文件夹路径。
+     */
+    dir: true,
+    /**
+     * 1、.env 文件名的模板模式。使用 [mode] 作为 Webpack 模式的占位符（例如：development、production）。
+     * 2、文件按指定顺序加载，后面的文件会覆盖前面的文件。此外，process.env 中已设置的变量具有最高优先级。
+     * 3、[mode] 占位符将被替换为当前的 webpack 模式。例如，在生产模式下，.env.[mode] 将变为 .env.production。
+     */
+    template: [
+      '.env.test',
+    ],
+  },
   /**
    * 在第1个错误上失败而不是容忍它。默认情况下，webpack会在终端以及使用HMR时的浏览器控制台中以红色记录这些错误，但会继续捆绑。<br />
    * 1、设置成true，这将强制webpack退出其捆绑过程，设置成false将容忍它。<br />

@@ -102,10 +102,13 @@ import chalk from 'chalk';
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
-import {
-  // 该函数的函数参数详细见：node_modules/dotenv/lib/main.d.ts:21
-  config as DotenvConfig,
-} from 'dotenv';
+/*
+ // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
+ import {
+ // 该函数的函数参数详细见：node_modules/dotenv/lib/main.d.ts:21
+ config as DotenvConfig,
+ } from 'dotenv';
+ */
 
 import ESBuild from 'esbuild';
 
@@ -262,11 +265,15 @@ switch( env_platform ){
     /**
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    DotenvConfig( {
-      path: `./.env.dev`,
-      debug: true,
-      override: true,
-    } );
+    /*
+     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
+     DotenvConfig( {
+     path: `./.env.dev`,
+     debug: true,
+     override: true,
+     } );
+     */
+
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.dev”。\n` ) );
 
     break;
@@ -274,11 +281,15 @@ switch( env_platform ){
     /**
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    DotenvConfig( {
-      path: `./.env.local`,
-      debug: true,
-      override: true,
-    } );
+    /*
+     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
+     DotenvConfig( {
+     path: `./.env.local`,
+     debug: true,
+     override: true,
+     } );
+     */
+
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.local”。\n` ) );
 
     break;
@@ -286,11 +297,15 @@ switch( env_platform ){
     /**
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    DotenvConfig( {
-      path: `./.env.test`,
-      debug: true,
-      override: true,
-    } );
+    /*
+     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
+     DotenvConfig( {
+     path: `./.env.test`,
+     debug: true,
+     override: true,
+     } );
+     */
+
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.test”。\n` ) );
 
     break;
@@ -298,11 +313,15 @@ switch( env_platform ){
     /**
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    DotenvConfig( {
-      path: `./.env.production`,
-      debug: true,
-      override: true,
-    } );
+    /*
+     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
+     DotenvConfig( {
+     path: `./.env.production`,
+     debug: true,
+     override: true,
+     } );
+     */
+
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.production”。\n` ) );
 
     break;

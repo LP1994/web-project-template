@@ -28,7 +28,7 @@
  *       entry: `${
  *         isProduction
  *         ? new URL( '../mf_v2/upload_for_single/', location.href ).href
- *         : env.RemoteUploadForSingleURL
+ *         : env.WEBPACK_RemoteUploadForSingleURL
  *       }RemoteEntry_UploadForSingle.js`,
  *       alias: 'Remote_Vue_UploadForSingle',
  *     },
@@ -72,7 +72,7 @@
  *       entry: `${
  *         isProduction
  *         ? new URL( '../mf_v2/upload_for_single/', location.href ).href
- *         : env.RemoteUploadForSingleURL
+ *         : env.WEBPACK_RemoteUploadForSingleURL
  *       }RemoteEntry_UploadForSingle.js`,
  *       alias: 'RemoteUploadForSingle',
  *     },
@@ -91,7 +91,7 @@
  *       name: 'Remote_UploadForMultiple',
  *       entry: `${ isProduction
  *                  ? new URL( '../mf_v2/upload_for_multiple/', location.href ).href
- *                  : env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+ *                  : env.WEBPACK_RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
  *       alias: 'RemoteUploadForMultiple',
  *     },
  *   ],
@@ -111,8 +111,8 @@ MF_v2_RuntimeAPI_RegisterRemotes(
       name: 'Remote_UploadForSingle',
       entry: `${
         isProduction
-        ? new URL( env.RemoteUploadForSingleURL, location.href ).href
-        : env.RemoteUploadForSingleURL
+        ? new URL( env.WEBPACK_RemoteUploadForSingleURL, location.href ).href
+        : env.WEBPACK_RemoteUploadForSingleURL
       }RemoteEntry_UploadForSingle.js`,
       alias: 'Remote_Vue_UploadForSingle',
     },

@@ -65,7 +65,7 @@ function ModuleFederation_v2_Config_Fun( {
      * 2、在"@module-federation/enhanced v0.8.1"中，发现有效的能运行起来的就该选项的配置写法只能是如下这种：
      * <code>
      * remotes: {
-     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
+     *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${ process.env.WEBPACK_RemoteUploadForMultipleURL }RemoteEntry_UploadForMultiple.js`,
      * }
      * PS：(RemotesItem | RemotesObject)[]，这个类型的配置写法，都会报错！
      * </code>
@@ -84,8 +84,8 @@ function ModuleFederation_v2_Config_Fun( {
      * remotes: {
      *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${
      *     isProduction
-     *     ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
-     *     : process.env.RemoteUploadForMultipleURL
+     *     ? `#auto#${ process.env.WEBPACK_RemoteUploadForMultipleURL }`
+     *     : process.env.WEBPACK_RemoteUploadForMultipleURL
      *   }RemoteEntry_UploadForMultiple.js`,
      * },
      * runtimePlugins: [
@@ -94,11 +94,11 @@ function ModuleFederation_v2_Config_Fun( {
      * </code>
      * 在环境变量配置文件（.env.dev）中：<br />
      * <code>
-     * RemoteUploadForMultipleURL=https://localhost:8101/dev_server/mf_v2/
+     * WEBPACK_RemoteUploadForMultipleURL=https://localhost:8101/dev_server/mf_v2/
      * </code>
      * 在环境变量配置文件（.env.production）中：<br />
      * <code>
-     * RemoteUploadForMultipleURL=../mf_v2/upload_for_multiple/mf_v2/
+     * WEBPACK_RemoteUploadForMultipleURL=../mf_v2/upload_for_multiple/mf_v2/
      * </code>
      * 在开发模式（isProduction为false）下，上面的“remotes”实际是如此：<br />
      * <code>
@@ -126,14 +126,14 @@ function ModuleFederation_v2_Config_Fun( {
     remotes: {
       RemoteUploadForMultiple: `Remote_UploadForMultiple@${
         isProduction
-        ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
-        : process.env.RemoteUploadForMultipleURL
+        ? `#auto#${ process.env.WEBPACK_RemoteUploadForMultipleURL }`
+        : process.env.WEBPACK_RemoteUploadForMultipleURL
       }RemoteEntry_UploadForMultiple.js`,
       /*
        Remote_Vue_UploadForSingle: `Remote_UploadForSingle@${
        isProduction
-       ? `#auto#${ process.env.RemoteUploadForSingleURL }`
-       : process.env.RemoteUploadForSingleURL
+       ? `#auto#${ process.env.WEBPACK_RemoteUploadForSingleURL }`
+       : process.env.WEBPACK_RemoteUploadForSingleURL
        }RemoteEntry_UploadForSingle.js`,
        */
     },
@@ -365,8 +365,8 @@ function ModuleFederation_v2_Config_Fun( {
      * remotes: {
      *   RemoteUploadForMultiple: `Remote_UploadForMultiple@${
      *     isProduction
-     *     ? `#auto#${ process.env.RemoteUploadForMultipleURL }`
-     *     : process.env.RemoteUploadForMultipleURL
+     *     ? `#auto#${ process.env.WEBPACK_RemoteUploadForMultipleURL }`
+     *     : process.env.WEBPACK_RemoteUploadForMultipleURL
      *   }RemoteEntry_UploadForMultiple.js`,
      * },
      * runtimePlugins: [
@@ -375,11 +375,11 @@ function ModuleFederation_v2_Config_Fun( {
      * </code>
      * 在环境变量配置文件（.env.dev）中：<br />
      * <code>
-     * RemoteUploadForMultipleURL=https://localhost:8101/dev_server/mf_v2/
+     * WEBPACK_RemoteUploadForMultipleURL=https://localhost:8101/dev_server/mf_v2/
      * </code>
      * 在环境变量配置文件（.env.production）中：<br />
      * <code>
-     * RemoteUploadForMultipleURL=../mf_v2/upload_for_multiple/mf_v2/
+     * WEBPACK_RemoteUploadForMultipleURL=../mf_v2/upload_for_multiple/mf_v2/
      * </code>
      * 在开发模式（isProduction为false）下，上面的“remotes”实际是如此：<br />
      * <code>
