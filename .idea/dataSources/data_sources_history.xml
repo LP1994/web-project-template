@@ -1,7 +1,7 @@
 <DataSourcesHistory>
   <DataSourceFromHistory isRemovedFromProject="false">
     <data-source source="LOCAL" name="27777_TLS" uuid="823ef4bf-7418-4619-9d6c-89baa4d376ff">
-      <database-info product="Mongo DB" version="8.2.2" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.20" dbms="MONGO" exact-version="8.2.2" exact-driver-version="1.20" />
+      <database-info product="Mongo DB" version="8.3.1" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.20" dbms="MONGO" exact-version="8.3.1" exact-driver-version="1.20" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <driver-ref>mongo.4</driver-ref>
       <synchronize>true</synchronize>
@@ -21,9 +21,9 @@
         <property name="authSource" value="$external" />
       </driver-properties>
       <ssl-config use-ide-store="true" use-java-store="true" use-system-store="true">
-        <ca-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\001根CA证书\MongoDBSSL001_Root_CA.pem</ca-cert>
-        <client-cert>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA.crt</client-cert>
-        <client-key>D:\MongoDB\Doc\关于创建MongoDB的安全证书\004客户端CA证书\MongoDBSSL001_Clients_CA_Key.key</client-key>
+        <ca-cert>D:\MongoDB\App\bin\ssl\MongoDBSSL001_Root_CA.pem</ca-cert>
+        <client-cert>D:\MongoDB\App\bin\ssl\MongoDBSSL001_Clients_CA.crt</client-cert>
+        <client-key>D:\MongoDB\App\bin\ssl\MongoDBSSL001_Clients_CA_Key.key</client-key>
         <enabled>true</enabled>
         <mode>VERIFY_FULL</mode>
       </ssl-config>
