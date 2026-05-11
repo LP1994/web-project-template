@@ -13,12 +13,26 @@
  * https://github.com/webpack/webpack/blob/main/examples/virtual-modules/README.md
  */
 
+/**
+ * PS：
+ * 1、配置完“虚拟模块”后，记得要在“虚拟模块”所属的“type属性值”对应的loader规则中加入如下配置：
+ * // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+ * include: [ /^v:/, ]
+ * 否则，会出现错误提示，说什么没有找到对应的loader规则处理该虚拟模块。
+ */
+
 'use strict';
 
 /**
  * VirtualUrlPlugin插件(webpack v5.100.0+开始启用)的使用见：<br />
  * https://webpack.js.org/plugins/virtual-url-plugin/<br />
  * https://github.com/webpack/webpack/blob/main/examples/virtual-modules/README.md<br />
+ *
+ * PS：<br />
+ * 1、配置完“虚拟模块”后，记得要在“虚拟模块”所属的“type属性值”对应的loader规则中加入如下配置：<br />
+ * // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。<br />
+ * include: [ /^v:/, ]
+ * <br />否则，会出现错误提示，说什么没有找到对应的loader规则处理该虚拟模块。<br />
  *
  * @returns {Array<Record<string, { type: string; source: string | ( ( loaderContext: import( 'webpack' ).LoaderContext< T > ) => Promise<string | Buffer> | string | Buffer ); version: () => string | true | string; }>, string>}
  */
@@ -65,6 +79,7 @@ export default {
          * @type {boolean}
          */
         version: true,
+        context: 'auto',
       },
       // 不支持“.ts”、“.cts”、“.mts”的处理！是webpack的BUG！
       'v-module-demo002': {
@@ -74,9 +89,12 @@ export default {
 'use strict';
 
 export type T_Inform = string | number;
+
+export const num001: number = 2026001;
 `;
         },
         version: true,
+        context: 'auto',
       },
     },
     /**

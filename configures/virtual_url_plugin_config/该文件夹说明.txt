@@ -1,5 +1,14 @@
 VirtualUrlPlugin插件的配置项。
 
+PS：
+1、配置完“虚拟模块”后，记得要在“虚拟模块”所属的“type属性值”对应的loader规则中加入如下配置：
+// 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+include: [ /^v:/, ]
+否则，会出现错误提示，说什么没有找到对应的loader规则处理该虚拟模块。
+
+
+
+
 
 
 /* eslint-disable @typescript-eslint/no-var-requires */
