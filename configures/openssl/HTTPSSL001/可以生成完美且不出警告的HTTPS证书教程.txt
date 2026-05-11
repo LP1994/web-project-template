@@ -155,7 +155,7 @@ Email Address [2726893248@qq.com]:2726893248@qq.com
 
 Please enter the following 'extra' attributes
 to be sent with your certificate request
-A challenge password []:@HTTPSSL001.2025#
+A challenge password []:@HTTPSSL001.2026#
 An optional company name [HTTPSSL001]:HTTPSSL001
 
 
@@ -180,7 +180,7 @@ Email Address [2726893248@qq.com]:2726893248@qq.com
 
 Please enter the following 'extra' attributes
 to be sent with your certificate request
-A challenge password []:@HTTPSSL001.2025#
+A challenge password []:@HTTPSSL001.2026#
 An optional company name [HTTPSSL001]:HTTPSSL001
 
 
@@ -212,7 +212,7 @@ type HTTPSSL001_Root_CA_Key.key >> HTTPSSL001_Clients_CA.pem
 
 
 7、将“根CA证书，HTTPSSL001_Root_CA.crt”打包为“p12格式，HTTPSSL001_Root_CA.p12”：
-openssl pkcs12 -export -clcerts -in HTTPSSL001_Root_CA.crt -inkey HTTPSSL001_Root_CA_Key.key -out HTTPSSL001_Root_CA.p12 -password pass:@HTTPSSL001.2025#
+openssl pkcs12 -export -clcerts -in HTTPSSL001_Root_CA.crt -inkey HTTPSSL001_Root_CA_Key.key -out HTTPSSL001_Root_CA.p12 -password pass:@HTTPSSL001.2026#
 执行输出：
 Warning: -clcerts option ignored with -export
 
