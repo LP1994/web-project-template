@@ -6950,8 +6950,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/csv/' ),
@@ -7028,8 +7029,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -7103,8 +7105,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.css$/i,
@@ -7169,8 +7172,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.css$/i,
@@ -7213,8 +7217,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -7263,8 +7268,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -7318,8 +7324,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -7360,8 +7367,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -7415,8 +7423,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -7476,8 +7485,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/' ),
@@ -7523,8 +7533,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/' ),
@@ -7566,8 +7577,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -7614,8 +7626,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -7672,8 +7685,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -7714,8 +7728,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -7769,8 +7784,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -7821,8 +7837,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -7871,8 +7888,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -7917,8 +7935,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -7946,8 +7965,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -8033,8 +8053,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -8117,8 +8138,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.less$/i,
@@ -8197,8 +8219,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.less$/i,
@@ -8234,8 +8257,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -8270,8 +8294,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -8323,8 +8348,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -8369,8 +8395,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './node_modules/' ),
@@ -8411,8 +8438,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             /\.manifest\.json$/i,
@@ -8503,8 +8531,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -8558,8 +8587,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -8600,8 +8630,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -8655,8 +8686,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -8697,8 +8729,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -8769,8 +8802,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -8844,8 +8878,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.(pcss|postcss)$/i,
@@ -8910,8 +8945,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.(pcss|postcss)$/i,
@@ -8954,8 +8990,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -9045,8 +9082,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -9139,8 +9177,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.sass$/i,
@@ -9229,8 +9268,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.sass$/i,
@@ -9324,8 +9364,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -9418,8 +9459,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.scss$/i,
@@ -9508,8 +9550,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.scss$/i,
@@ -9588,8 +9631,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -9667,8 +9711,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.(styl|stylus)$/i,
@@ -9742,8 +9787,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 /\.(module|modules)\.(styl|stylus)$/i,
@@ -9796,8 +9842,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -9841,8 +9888,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -9891,8 +9939,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -9933,8 +9982,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -9988,8 +10038,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/doc/' ),
@@ -10222,8 +10273,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/' ),
@@ -10275,8 +10327,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/' ),
@@ -10317,8 +10370,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                 join( __dirname, './webpack_location/' ),
 
-                // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
                 /^v:/,
+                /^virtual:/,
               ],
               exclude: [
                 join( __dirname, './src/assets/' ),
@@ -10348,8 +10402,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
@@ -10387,8 +10442,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
             join( __dirname, './webpack_location/' ),
 
-            // 匹配所有 v: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
             /^v:/,
+            /^virtual:/,
           ],
           exclude: [
             join( __dirname, './src/assets/doc/cson/' ),
