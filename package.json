@@ -984,7 +984,7 @@
     "copy-webpack-plugin": "^14.0.0",
     "core-js": "^3.49.0",
     "create-kitql": "^0.1.7",
-    "create-vite": "^9.0.6",
+    "create-vite": "^9.0.7",
     "cross-inspect": "^1.0.1",
     "cson": "^8.4.0",
     "cson-loader": "^0.1.0",
@@ -1374,7 +1374,7 @@
     "use-immer": "^0.11.0",
     "val-loader": "^6.0.0",
     "varvara-typedoc-theme": "^0.3.9",
-    "vite": "^8.0.11",
+    "vite": "^8.0.12",
     "vite-plugin-checker": "^0.13.0",
     "vite-plugin-clean": "^2.0.1",
     "vite-plugin-cp": "^6.0.3",
@@ -1477,7 +1477,7 @@
     "wslink": "^2.5.0",
     "wujie": "^1.0.29",
     "xml-loader": "^1.2.1",
-    "yaml": "^2.8.4",
+    "yaml": "^2.9.0",
     "yamljs": "^0.3.0",
     "zepto": "^1.2.0"
   }

@@ -1,7 +1,7 @@
 [ v3_req ]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectKeyIdentifier = hash
+subjectKeyIdentifier=hash
 nsComment = "OpenSSL Generated Certificate"
 extendedKeyUsage = serverAuth, clientAuth
 subjectAltName = @alt_names
