@@ -34,7 +34,7 @@
  * include: [ /^v:/, /^virtual:/, ]
  * <br />否则，会出现错误提示，说什么没有找到对应的loader规则处理该虚拟模块。<br />
  *
- * @returns {Array<Record<string, { type: string; source: string | ( ( loaderContext: import( 'webpack' ).LoaderContext< T > ) => Promise<string | Buffer> | string | Buffer ); version: () => string | true | string; }>, string>}
+ * @returns {Array<Record<string, { context: string; type: string; source: string | ( ( loaderContext: import( 'webpack' ).LoaderContext< T > ) => Promise<string | Buffer> | string | Buffer ); version: string | true | ( () => string ); }>, { scheme: string; context: string; }>}
  */
 function VirtualUrlPluginConfig( {} ){
   return [
@@ -97,12 +97,15 @@ export const num001: number = 2026001;
         context: 'auto',
       },
     },
-    /**
-     * 可定制虚拟模块的前缀协议，默认是：'virtual'。<br />
-     *
-     * @type {string}
-     */
-    'v'
+    {
+      context: 'auto',
+      /**
+       * 可定制虚拟模块的前缀协议，默认是：'virtual'。<br />
+       *
+       * @type {string}
+       */
+      scheme: 'v',
+    },
   ];
 }
 
