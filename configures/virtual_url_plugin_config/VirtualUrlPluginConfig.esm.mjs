@@ -45,9 +45,29 @@ function VirtualUrlPluginConfig( {} ){
          * 虚拟模块的内容类型。<br />
          * 1、该选项的值可以是：'.ts'、'.json'、'.css'等等，默认值是：'.js'。也可以是任何有对应loader处理的类型。<br />
          *
+         * PS：<br />
+         * 1、配置完“虚拟模块”后，记得要在“虚拟模块”所属的“type属性值”对应的loader规则中加入如下配置：<br />
+         * // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。<br />
+         * include: [ /^v:/, /^virtual:/, ]
+         * <br />否则，会出现错误提示，说什么没有找到对应的loader规则处理该虚拟模块。<br />
+         *
          * @type {string}
          */
         type: '.mjs',
+        /**
+         * 当无效化被触发时，如果版本值与之前不同，则会再次调用源函数。一般来说，保持是true即可！<br />
+         * 1、若设置为true，则始终触发源函数。<br />
+         * 2、该选项的值类型有：( () => string ) | boolean(只有true这一个有效) | string
+         *
+         * @type {( () => string ) | true | string}
+         */
+        version: true,
+        /**
+         * 虚拟模块的上下文。字符串路径。默认为'auto'，将尝试从模块ID解析上下文。<br />
+         *
+         * @type {string}
+         */
+        context: 'auto',
         /**
          * 用于生成虚拟模块内容的工厂函数。<br />
          * 1、该选项的值类型有：string、( loaderContext: import( 'webpack' ).LoaderContext< T > ) => Promise<string | Buffer> | string | Buffer
@@ -71,19 +91,43 @@ export default {
 };
 `;
         },
+      },
+      'v-module-demo002': {
+        /**
+         * 虚拟模块的内容类型。<br />
+         * 1、该选项的值可以是：'.ts'、'.json'、'.css'等等，默认值是：'.js'。也可以是任何有对应loader处理的类型。<br />
+         *
+         * PS：<br />
+         * 1、配置完“虚拟模块”后，记得要在“虚拟模块”所属的“type属性值”对应的loader规则中加入如下配置：<br />
+         * // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。<br />
+         * include: [ /^v:/, /^virtual:/, ]
+         * <br />否则，会出现错误提示，说什么没有找到对应的loader规则处理该虚拟模块。<br />
+         *
+         * @type {string}
+         */
+        type: '.mts',
         /**
          * 当无效化被触发时，如果版本值与之前不同，则会再次调用源函数。一般来说，保持是true即可！<br />
          * 1、若设置为true，则始终触发源函数。<br />
-         * 2、该选项的值类型有：() => string | boolean(只有true这一个有效) | string
+         * 2、该选项的值类型有：( () => string ) | boolean(只有true这一个有效) | string
          *
-         * @type {boolean}
+         * @type {( () => string ) | true | string}
          */
         version: true,
+        /**
+         * 虚拟模块的上下文。字符串路径。默认为'auto'，将尝试从模块ID解析上下文。<br />
+         *
+         * @type {string}
+         */
         context: 'auto',
-      },
-      // 不支持“.ts”、“.cts”、“.mts”的处理！是webpack的BUG！
-      'v-module-demo002': {
-        type: '.mts',
+        /**
+         * 用于生成虚拟模块内容的工厂函数。<br />
+         * 1、该选项的值类型有：string、( loaderContext: import( 'webpack' ).LoaderContext< T > ) => Promise<string | Buffer> | string | Buffer
+         *
+         * @param {import( 'webpack' ).LoaderContext< T >} loaderContext
+         *
+         * @returns {Promise<string | Buffer> | string | Buffer}
+         */
         source( loaderContext ){
           return `
 'use strict';
@@ -93,11 +137,14 @@ export type T_Inform = string | number;
 export const num001: number = 2026001;
 `;
         },
-        version: true,
-        context: 'auto',
       },
     },
     {
+      /**
+       * 虚拟模块的默认上下文。字符串路径。默认值为'auto'，将尝试从模块ID解析上下文。<br />
+       *
+       * @type {string}
+       */
       context: 'auto',
       /**
        * 可定制虚拟模块的前缀协议，默认是：'virtual'。<br />
