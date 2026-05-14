@@ -708,7 +708,8 @@ composite、
 declaration、
 declarationMap、
 disableSizeLimit、
-downlevelIteration、
+// Typescript 6中已经弃用该选项，并在Typescript 7停止使用该选项。
+// downlevelIteration、
 emitBOM、
 emitDeclarationOnly、
 esModuleInterop、

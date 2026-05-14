@@ -397,7 +397,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     3、空数组将禁用自动引入@types包。
     4、如果指定了types，则仅列出的包将包含在全局范围内。
     */
-    // "types": [],
+    // "types": [ "node" ],
     /*
     在项目中为TypeScript或JavaScript生成对应的.d.ts文件。
     1、这些.d.ts文件是描述模块外部API的类型定义文件。
@@ -417,8 +417,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     为迭代发出更兼容但冗长且性能更低的JavaScript。
     1、降级是TypeScript的术语，用于转换为旧版本的JavaScript。这个标志是为了支持更准确地实现现代JavaScript如何迭代旧JavaScript运行时中的新概念。
     2、如果“target”选项值为es3、es5，则强烈建议启用该选项，因为会使用最严格合规（符合ECMAScript的标准）的转换代码来模拟ES6的迭代器。
+    3、Typescript 6中已经弃用该选项，并在Typescript 7停止使用该选项。
     */
-    "downlevelIteration": true,
+    // "downlevelIteration": true,
     /*
     在输出文件的开头发出UTF-8字节顺序标记（BOM）。
     1、一些运行时环境需要BOM才能正确解释JavaScript文件；其他人要求它不存在。默认值false通常是最好的，除非您有理由更改它。
