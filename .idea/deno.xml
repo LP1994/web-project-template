@@ -3,6 +3,5 @@
   <component name="DenoSettings">
     <option name="denoInit" value="{&#10;  &quot;enable&quot;: true,&#10;  &quot;lint&quot;: true,&#10;  &quot;unstable&quot;: true,&#10;  &quot;config&quot;: &quot;G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\deno.jsonc&quot;&#10;}" />
     <option name="enableFormatting" value="false" />
-    <option name="useDenoValue" value="ENABLE" />
   </component>
 </project>
