@@ -562,7 +562,7 @@
         */
         "no-import-assertions",
         /*
-        确保所有依赖项均在 deno.json 或 package.json 中声明。
+        确保所有依赖项均在 deno.jsonc 或 package.json 中声明。
         */
         "no-import-prefix",
         /*

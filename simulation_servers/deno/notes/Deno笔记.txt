@@ -61,7 +61,7 @@ Deno.DatagramConn
 
 
 
-当在deno.json配置文件中指定“imports”或“scopes”时，将忽略“importMap”设置。
+当在deno.jsonc配置文件中指定“imports”或“scopes”时，将忽略“importMap”设置。
 
 
 
@@ -134,7 +134,7 @@ deno install https://deno.land/std/http/file_server.ts
 
 
 
-关于deno.json中的几个跟官方默认配置不一样的选项说明：
+关于deno.jsonc中的几个跟官方默认配置不一样的选项说明：
 自定义的，官方默认都是false。
 "noFallthroughCasesInSwitch": true,
 "noImplicitReturns": true,
@@ -282,7 +282,7 @@ deno run -A --config=./deno.jsonc --check --v8-flags=--max-old-space-size=102400
 
 
 
-配置文件：--config deno.json
+配置文件：--config deno.jsonc
 Deno 支持配置文件，允许自定义内置的 TypeScript 编译器、格式化程序和 linter。
 配置文件支持 .json 和 .jsonc 扩展名。从 v1.18 开始，Deno 将自动检测 deno.json 或 deno.jsonc 配置文件是否在您当前的工作目录（或父目录）中。
 要手动告诉 Deno 使用特定的配置文件，请传递 --config path/to/file.json 标志。
@@ -699,7 +699,7 @@ import { initializeApp } from "firebase/app";
 
 
 
-deno.json中如果设置了跟tsconfig.json中大多数一样的设置时，deno在运行时会出现以下警告，
+deno.jsonc中如果设置了跟tsconfig.json中大多数一样的设置时，deno在运行时会出现以下警告，
 说以下选项被忽略，保留这些选项即可，反正会被忽略，未来可能就支持某些选项了：
 allowSyntheticDefaultImports、
 allowUmdGlobalAccess、

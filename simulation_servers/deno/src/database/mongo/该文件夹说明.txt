@@ -11,7 +11,7 @@
 4、“deno_mongo”的文档使用说明地址是：https://deno.land/x/mongo
 5、实际试了一下旧的版本“deno_mongo@0.31.1”，会报错，因为它依赖的另外一个包“https://deno.land/x/web_bson@v0.2.5/mod.ts”中报了类型错误。
 错误在“https://deno.land/x/web_bson@v0.2.5/src/extended_json.ts?source”中的56行，
-它是一个莫名其妙的类型错误，可能是因为这个项目配置了自己的“deno.json”，里面配置了比较严格的类型检查，这可能导致那个莫名其妙的类型错误，毕竟不是所有的包都应用严格的类型检查。
+它是一个莫名其妙的类型错误，可能是因为这个项目配置了自己的“deno.jsonc”，里面配置了比较严格的类型检查，这可能导致那个莫名其妙的类型错误，毕竟不是所有的包都应用严格的类型检查。
 6、由于这个包“deno_mongo@0.31.1”的源码中未实现以SSL连接数据库的功能。
 从源码中可知是因为其底层依赖的“https://deno.land/api?unstable=&s=Deno.connectTls”、“https://deno.land/api?s=Deno.ConnectTlsOptions&unstable=”在先前的旧版本中还未实现相关的选项、功能。
 
