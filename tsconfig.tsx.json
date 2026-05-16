@@ -86,13 +86,11 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
 
     "target": "es2025",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "esnext",
+    "moduleResolution": "nodenext",
     "rootDir": ".",
     "outDir": "./ts_compiled/",
-    "types": [
-      "node"
-    ],
+    "types": [],
     "typeRoots": [
       "./node_modules/@types",
       "./src/custom_declare_types",

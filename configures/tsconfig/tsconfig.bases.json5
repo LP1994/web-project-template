@@ -98,10 +98,23 @@ CreateDate: 2022-01-01 00:00:00 星期六
   // 确保你在运行程序前自动编译已保存变更后的代码。
   "compileOnSave": true,
   "compilerOptions": {
+    /*
+    1、TypeScript 4.5 引入了用自定义库文件替换默认库文件的功能。
+    2、--libReplacement 标志可用于禁用此行为。如果您未使用任何 @typescript/lib-* 包，现在可以通过 --libReplacement false 禁用这些包的查找。
+    3、未来，--libReplacement false 可能会成为默认设置，因此如果您目前依赖此行为，应考虑通过 --libReplacement true 显式启用它。
+    4、在Typescript 6中，libReplacement 默认值现设为 false。
+    5、此前该标志会导致每次运行时产生大量模块解析失败，进而增加了在 --watch 和编辑器场景下需要监视的位置数量。
+    6、在新项目中，除非有其他显式配置，否则 libReplacement 不会执行任何操作，因此默认禁用该功能以提升性能是合理的。
+    */
+    "libReplacement": false,
+
     // "jsxPrecompileSkipElements": [ 'xxx' ],
     "isolatedDeclarations": false,
     "erasableSyntaxOnly": true,
     "strictBuiltinIteratorReturn": true,
+    /*
+    1、在Typescript 6中，noUncheckedSideEffectImports 默认值现为 true，这有助于发现仅产生副作用的导入语句中的拼写错误。
+    */
     "noUncheckedSideEffectImports": true,
 
     /*
@@ -186,6 +199,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     /*
     确保您的文件在ECMAScript严格模式下解析，并为每个源文件发出"use strict"。
     1、ECMAScript严格模式是在ES5中引入的，它为JavaScript引擎的运行时提供行为调整以提高性能，并抛出一组错误而不是默默地忽略它们。
+    2、在Typescript 6中，已弃用：--alwaysStrict false。
     */
     "alwaysStrict": true,
     /*
@@ -253,6 +267,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、strict标志支持范围广泛的类型检查行为，从而更有力地保证程序的正确性，启用此选项相当于启用所有严格模式族选项，如下所述，然后，可以根据需要关闭各个严格模式族检查。
     2、TypeScript的未来版本可能会在此标志下引入更多更严格的检查，因此TypeScript的升级可能会导致程序中出现新的类型错误，在适当且可能的情况下，将添加相应的标志以禁用该行为。
     3、目前将默认启用如下选项的严格检查：alwaysStrict、strictNullChecks、strictBindCallApply、strictFunctionTypes、strictPropertyInitializatio、noImplicitAny、noImplicitThis、useUnknownInCatchVariables。
+    4、在Typescript 6中，strict的默认值为true。
     */
     "strict": true,
     /*
@@ -294,6 +309,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     1、允许您设置基本目录以解析非绝对模块名称。
     2、在此项目中使用"baseUrl": "./"，TypeScript将查找从与tsconfig.json相同的文件夹开始的文件。
     3、如果您厌倦了总是看起来像“../”或“./”的导入，或者需要在移动文件时更改它们，这是解决这个问题的好方法。
+    4、在Typescript 6中，已弃用：baseUrl。
     */
     // "baseUrl": "./",
     /*
@@ -310,8 +326,10 @@ CreateDate: 2022-01-01 00:00:00 星期六
     10、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
     这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
     例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
+    11、在Typescript 6中，module 默认值为 esnext，同样地，新的默认模块格式为 esnext，这反映了 ESM 现已成为主流模块格式的事实。
+    12、在Typescript 6中，已弃用这些值，module: amd、module: umd、module: systemjs、module: none。这也意味着将不再支持 `amd-module` 指令，该指令将不再产生任何效果。
     */
-    "module": "NodeNext",
+    "module": "esnext",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
     1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
@@ -336,8 +354,10 @@ CreateDate: 2022-01-01 00:00:00 星期六
     14、为了模拟捆绑器的工作方式，TypeScript现在引入了一个新的策略：bundler，如果你正在使用现代捆绑器，如Vite、esbuild、swc、Webpack、Parcel和其他实施混合查找策略的捆绑器，新的捆绑器选项值“bundler”应该很适合你。
     另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
     所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
+    15、在Typescript 6中，已弃用：--moduleResolution node（又名 --moduleResolution node10 ）、--moduleResolution classic。
+    16、在Typescript 6中，若计划直接针对 Node.js 进行开发，建议原使用 --moduleResolution node 的用户迁移至 --moduleResolution nodenext；若计划使用打包工具或 Bun，则建议迁移至 --moduleResolution bundler。
     */
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "nodenext",
     /*
     默认情况下（noResolve的默认值是false），TypeScript将检查“import”和“<reference”指令的初始文件集，并将这些已解析的文件添加到您的程序中。
     1、如果设置了noResolve，则不会发生此过程。但是，仍会检查import语句以查看它们是否解析为有效的模块，因此您需要确保通过其他方式满足此要求。
@@ -377,8 +397,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     指定源文件中的根文件夹。
     1、所有非声明输入文件的最长公共路径。如果设置了复合，则默认为包含tsconfig.json文件的目录。
     2、当TypeScript编译文件时，它在输出目录中保持与输入目录中相同的目录结构。
+    3、在Typescript 6中，rootDir 现在默认值为"."。
     */
-    // "rootDir": ".",
+    "rootDir": ".",
     /*
     默认情况下，所有可见的“@types”包都包含在您的编译中。
     1、任何封闭文件夹的node_modules/@types中的包都被认为是可见的。
@@ -396,8 +417,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     2、此功能与typeRoots的不同之处在于它只指定您想要包含的确切类型，而typeRoots支持说您想要特定的文件夹。
     3、空数组将禁用自动引入@types包。
     4、如果指定了types，则仅列出的包将包含在全局范围内。
+    5、在Typescript 6中，types 现在默认值为 []。这一改动可防止项目在构建时无意中引入数百甚至数千个不需要的声明文件。我们观察到的许多项目仅通过合理设置 `types`，就将构建时间缩短了 20% 至 50%。
     */
-    // "types": [ "node" ],
+     "types": [],
     /*
     在项目中为TypeScript或JavaScript生成对应的.d.ts文件。
     1、这些.d.ts文件是描述模块外部API的类型定义文件。
@@ -520,6 +542,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     如果指定，所有全局（非模块）文件将连接到指定的单个输出文件中。
     1、注意：除非“module”选项值是none、system或amd，否则不能使用outFile。此选项不能用于捆绑commonjs或es6模块。
     2、如果“module”选项值是system或amd，所有的模块文件也将在所有全局内容之后连接到这个文件中。
+    3、在Typescript 6中，已弃用：outFile。
     */
     // "outFile": "./ts_compiled/AllOutFile.js",
     /*
@@ -585,6 +608,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     当模块没有默认导出时，允许“import x from y”。
     1、默认情况：如果“module”选项值是“system”，或者“esModuleInterop”选项启用，并且“module”选项值不是es6、es2015或esnext，则为true。否则为false。
     2、此标志不会影响TypeScript发出的JavaScript，它仅用于类型检查。此选项将TypeScript的行为与Babel内联，其中会发出额外的代码以使使用模块的默认导出更符合人体工程学。
+    3、在Typescript 6中，已弃用：--allowSyntheticDefaultImports false，但是--allowSyntheticDefaultImports true还是使用的。将它们设为 false 通常会在从 ESM 加载 CommonJS 模块时导致难以察觉的运行时问题。在 TypeScript 6.0 中，更安全的互操作行为始终处于启用状态。
     */
     "allowSyntheticDefaultImports": true,
     /*
@@ -593,6 +617,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     像import * as moment from "moment"这样的命名空间导入与const moment = require("moment")的作用相同。
     像import moment from "moment"这样的默认导入与const moment = require("moment").default相同。
     2、通过为所有导入创建名称空间对象，启用CommonJS和ES模块之间的发射互操作性。
+    3、在Typescript 6中，已弃用：--esModuleInterop false，但是--esModuleInterop true，还是继续使用的。将它们设为 false 通常会在从 ESM 加载 CommonJS 模块时导致难以察觉的运行时问题。在 TypeScript 6.0 中，更安全的互操作行为始终处于启用状态。
     */
     "esModuleInterop": true,
     /*
@@ -841,6 +866,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
     4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
     5、特殊的ESNext值是指您的TypeScript版本支持的最高版本。应该谨慎使用此设置，因为它在不同的TypeScript版本之间并不意味着相同的事情，并且会使升级变得难以预测。
+    6、在Typescript 6中，target 默认值为当年最新的 ECMAScript 版本，目前，该目标版本为 es2025。
+    7、在Typescript 6中，已弃用："target: es5"。
     */
     "target": "es2025",
     /*

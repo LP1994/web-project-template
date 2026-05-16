@@ -40,6 +40,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     14、为了模拟捆绑器的工作方式，TypeScript现在引入了一个新的策略：bundler，如果你正在使用现代捆绑器，如Vite、esbuild、swc、Webpack、Parcel和其他实施混合查找策略的捆绑器，新的捆绑器选项值“bundler”应该很适合你。
     另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
     所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
+    15、在Typescript 6中，已弃用：--moduleResolution node（又名 --moduleResolution node10 ）、--moduleResolution classic。
+    16、在Typescript 6中，若计划直接针对 Node.js 进行开发，建议原使用 --moduleResolution node 的用户迁移至 --moduleResolution nodenext；若计划使用打包工具或 Bun，则建议迁移至 --moduleResolution bundler。
     */
     "moduleResolution": "bundler",
   },
