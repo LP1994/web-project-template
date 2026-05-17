@@ -570,7 +570,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
     设置用于发射文件的换行符。
     1、指定发出文件时要使用的行尾序列：“CRLF”（dos）或“LF”（unix）。
     2、允许的值：crlf、lf。
-    3、TypeScript 5.0 已弃用：隐式特定于操作系统的“newLine”。
+    3、TypeScript 5.0 中有这样的变化：--newLine 选项用于控制 JavaScript 文件中输出的行结束符，此前若未指定，系统会根据当前操作系统进行推断。
+    我们认为构建过程应尽可能具有确定性，且 Windows 记事本现已支持换行符（LF）作为行结束符，因此新的默认设置为 LF。旧有的基于操作系统的推断行为现已不再可用。
     */
     "newLine": "crlf",
     /*
@@ -693,6 +694,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     设置此选项后，如果程序试图通过与磁盘上的大小写不同的大小写来包含文件，则TypeScript将发出错误。
     1、TypeScript遵循运行它的文件系统的区分大小写规则。如果一些开发人员在区分大小写的文件系统中工作而其他开发人员不是，这可能会出现问题。
     2、如果文件尝试通过指定./FileManager.ts来导入fileManager.ts，则该文件将在不区分大小写的文件系统中找到，但不在区分大小写的文件系统中。
+    3、在TypeScript 5中，--forceConsistentCasingInFileNames 选项现已默认设为 true，该选项可确保项目中所有对同一文件名的引用在大小写方面保持一致。这有助于发现因在不区分大小写的文件系统上编写代码而导致的差异问题。
     */
     "forceConsistentCasingInFileNames": true,
     /*
@@ -1091,6 +1093,23 @@ CreateDate: 2022-01-01 00:00:00 星期六
     "assumeChangesOnlyAffectDirectDependencies": true,
     // 该选项属于CIL命令行中设置的，不该在配置文件中设置！
     // "generateTrace": "./ts_compiled/",
+    /*
+    1、TypeScript 4.7 现已支持 `moduleSuffixes` 选项，用于自定义模块限定符的查找方式。
+    2、例子：
+    有tsconfig.json配置为：
+    {
+      "compilerOptions": {
+        "moduleSuffixes": [ ".ios", ".native", "" ]
+      }
+    }
+
+    根据上述配置，如下所示的导入语句……
+    import * as foo from "./foo";
+
+    将尝试查找相应的文件 ./foo.ios.ts、./foo.native.ts，最后是 ./foo.ts。
+    请注意，moduleSuffixes 中的空字符串 "" 是必要的，这样 TypeScript 才能同时查找 ./foo.ts。从某种意义上说，moduleSuffixes 的默认值是 [""]。
+    此功能对于 React Native 项目非常有用，因为每个目标平台可以使用具有不同 moduleSuffixes 的独立 tsconfig.json 文件。
+    */
     "moduleSuffixes": [
       "",
     ],
