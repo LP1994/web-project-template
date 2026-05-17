@@ -42,8 +42,16 @@ CreateDate: 2022-01-01 00:00:00 星期六
     14、为了模拟捆绑器的工作方式，TypeScript现在引入了一个新的策略：bundler，如果你正在使用现代捆绑器，如Vite、esbuild、swc、Webpack、Parcel和其他实施混合查找策略的捆绑器，新的捆绑器选项值“bundler”应该很适合你。
     另一方面，如果你正在编写一个要在npm上发布的库，使用“bundler”选项值可以隐藏可能出现的兼容性问题，因为你的用户并没有使用捆绑器。
     所以在这些情况下，使用node、node16或nodenext解析选项可能是一个更好的途径。
-    15、在Typescript 6中，已弃用：--moduleResolution node（又名 --moduleResolution node10 ）、--moduleResolution classic。
-    16、在Typescript 6中，若计划直接针对 Node.js 进行开发，建议原使用 --moduleResolution node 的用户迁移至 --moduleResolution nodenext；若计划使用打包工具或 Bun，则建议迁移至 --moduleResolution bundler。
+    15、在 TypeScript 5.2 中，在最新的 Node.js 设置下，`--module`和`--moduleResolution`必须保持一致。
+    `--module` 和 `--moduleResolution` 选项各自支持 `node16` 和 `nodenext` 设置。这些实际上是“现代 Node.js”设置，应在任何最新的 Node.js 项目中使用。我们发现，当这两个选项在使用 Node.js 相关设置方面不一致时，项目实际上就会配置错误。
+    在 TypeScript 5.2 中，当 --module 或 --moduleResolution 选项中的任一者使用 node16 或 nodenext 时，TypeScript 现在要求另一个选项也采用类似的 Node.js 相关设置。
+    如果设置不一致，您可能会收到类似以下任一的错误信息：
+    Option 'moduleResolution' must be set to 'NodeNext' (or left unspecified) when option 'module' is set to 'NodeNext'.
+    -------------------------------------------
+    Option 'module' must be set to 'Node16' when option 'moduleResolution' is set to 'Node16'.
+    例如，--module esnext --moduleResolution node16 将会被拒绝——但你最好只使用 --module nodenext，或者使用 --module esnext --moduleResolution bundler。
+    16、在Typescript 6中，已弃用：--moduleResolution node（又名 --moduleResolution node10 ）、--moduleResolution classic。
+    17、在Typescript 6中，若计划直接针对 Node.js 进行开发，建议原使用 --moduleResolution node 的用户迁移至 --moduleResolution nodenext；若计划使用打包工具或 Bun，则建议迁移至 --moduleResolution bundler。
     */
     "moduleResolution": "bundler",
     "types": [
