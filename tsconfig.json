@@ -11,6 +11,7 @@
     "./**/@mf-types/*",
     "./**/*.ts",
     "./**/*.cts",
+    "./**/*.mjs",
     "./**/*.mts",
     "./**/*.tsx",
     "./**/*.d.ts",
@@ -47,13 +48,15 @@
   },
   "compilerOptions": {
     "target": "es2025",
-    "module": "esnext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": ".",
     "declarationDir": "./ts_compiled/",
     "outDir": "./ts_compiled/",
     "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",
-    "types": [],
+    "types": [
+      "node"
+    ],
     "typeRoots": [
       "./node_modules/@types",
       "./src/custom_declare_types",

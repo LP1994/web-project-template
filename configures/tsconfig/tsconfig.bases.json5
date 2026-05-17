@@ -377,7 +377,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     13、在Typescript 6中，module 默认值为 esnext，同样地，新的默认模块格式为 esnext，这反映了 ESM 现已成为主流模块格式的事实。
     14、在Typescript 6中，已弃用这些值，module: amd、module: umd、module: systemjs、module: none。这也意味着将不再支持 `amd-module` 指令，该指令将不再产生任何效果。
     */
-    "module": "esnext",
+    "module": "nodenext",
     /*
     指定TypeScript如何从给定“模块说明符（也就是导入文件时写的字符串形式的文件路径）”中查找文件。
     1、如果“module”选项值是amd、umd、system或es6（别名：es2015），该选项默认值为classic，如果“module”选项值是node16、nodenext，该选项默认值为node。
@@ -467,7 +467,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、如果指定了types，则仅列出的包将包含在全局范围内。
     5、在Typescript 6中，types 现在默认值为 []。这一改动可防止项目在构建时无意中引入数百甚至数千个不需要的声明文件。我们观察到的许多项目仅通过合理设置 `types`，就将构建时间缩短了 20% 至 50%。
     */
-     "types": [],
+     "types": [
+       "node"
+     ],
     /*
     在项目中为TypeScript或JavaScript生成对应的.d.ts文件。
     1、这些.d.ts文件是描述模块外部API的类型定义文件。
