@@ -99,6 +99,30 @@ CreateDate: 2022-01-01 00:00:00 星期六
   "compileOnSave": true,
   "compilerOptions": {
     /*
+    1、TypeScript 5.6 引入了一个新的编译器选项 --noCheck，它允许您跳过对所有输入文件的类型检查。这样在执行生成输出文件所需的语义分析时，即可避免不必要的类型检查。
+    2、请注意，如果指定了 --noCheck，但项目未使用 --isolatedDeclarations，TypeScript 仍会执行必要的类型检查以生成 .d.ts 文件。从这个意义上说，--noCheck 这个名称稍显不准确；不过，该过程会比完整的类型检查更“懒惰”，仅计算未注释声明的类型。这应该比完整的类型检查快得多。
+    3、
+    */
+    "noCheck": false,
+    /*
+    TypeScript 5.7引入该选项。
+    1、将“输出文件”中“相对导入路径”中的 .ts、.tsx、.mts 和 .cts 文件扩展名重写为对应的 JavaScript 扩展名。
+    2、当导入路径为相对路径（以 ./ 或 ../ 开头）、以 TypeScript 扩展名（.ts、.tsx、.mts、.cts）结尾，且文件非声明文件时，编译器会将路径重写为对应的 JavaScript 扩展名（.js、.jsx、.mjs、.cjs）。
+    3、在 --rewriteRelativeImportExtensions... 选项下
+    // 这些内容将被重写。
+    import * as foo from "./foo.ts";
+    import * as bar from "../someFolder/bar.mts";
+
+    // 这些内容绝不会以任何形式被改写。
+    import * as a from "./foo";
+    import * as b from "some-package/file.ts";
+    import * as c from "@some-scope/some-package/file.ts";
+    import * as d from "#/file.ts";
+    import * as e from "./file.js";
+    4、rewriteRelativeImportExtensions选项的值会影响allowImportingTsExtensions选项的默认值。如果“rewriteRelativeImportExtensions”选项为true，则allowImportingTsExtensions选项的默认值为true；否则allowImportingTsExtensions选项的默认值为false。
+    */
+    "rewriteRelativeImportExtensions": false,
+    /*
     1、TypeScript 4.5 引入了用自定义库文件替换默认库文件的功能。
     2、--libReplacement 标志可用于禁用此行为。如果您未使用任何 @typescript/lib-* 包，现在可以通过 --libReplacement false 禁用这些包的查找。
     3、未来，--libReplacement false 可能会成为默认设置，因此如果您目前依赖此行为，应考虑通过 --libReplacement true 显式启用它。
@@ -110,10 +134,31 @@ CreateDate: 2022-01-01 00:00:00 星期六
 
     // "jsxPrecompileSkipElements": [ 'xxx' ],
     "isolatedDeclarations": false,
-    "erasableSyntaxOnly": true,
+    /*
+    1、TypeScript 5.8 引入了 --erasableSyntaxOnly 标志。erasable Syntax Only：仅限可擦除语法。
+    2、从 v23.6 版本开始，Node.js 支持直接运行 TypeScript 文件；但在该模式下，仅支持那些不具有运行时语义的 TypeScript 特有语法。
+    换言之，必须能够轻松地从文件中移除任何 TypeScript 特有语法，从而保留一个有效的 JavaScript 文件。
+    3、这意味着以下结构不被支持：
+      a）"enum" declarations
+      b）"namespace" and "module" with runtime code
+      c）parameter properties in classes
+      d）Non-ECMAScript "import =" and "export =" assignments
+      e）"<prefix>"-style type assertions
+    4、类似的工具，如 ts-blank-space 或 Amaro（Node.js 中类型剥离的底层库），也存在同样的局限性。当这些工具遇到不符合上述要求的代码时，会提供有用的错误信息，但你仍需等到实际运行代码时，才能发现代码无法正常工作。
+    --erasableSyntaxOnly 标志将导致 TypeScript 对大多数具有运行时行为的 TypeScript 特定构造报错。
+    5、错误！当启用 'erasableSyntaxOnly' 时，不允许使用此语法。
+    class C {
+      constructor(public x: number) { }
+      //          ~~~~~~~~~~~~~~~~
+      // 错误！当启用 'erasableSyntaxOnly' 时，不允许使用此语法。
+    }
+    6、通常，您需要将此标志与 --verbatimModuleSyntax 结合使用，以确保模块包含正确的导入语法，并且不会发生导入省略。
+    */
+    "erasableSyntaxOnly": false,
     "strictBuiltinIteratorReturn": true,
     /*
-    1、在Typescript 6中，noUncheckedSideEffectImports 默认值现为 true，这有助于发现仅产生副作用的导入语句中的拼写错误。
+    1、TypeScript 5.6 引入了一个名为 --noUncheckedSideEffectImports 的新编译器选项。启用 --noUncheckedSideEffectImports 后，如果 TypeScript 无法为某个副作用导入找到源文件，就会报错。
+    2、在Typescript 6中，noUncheckedSideEffectImports 默认值现为 true，这有助于发现仅产生副作用的导入语句中的拼写错误。
     */
     "noUncheckedSideEffectImports": true,
 
@@ -126,6 +171,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     允许TypeScript文件以TypeScript特定的扩展名（如.ts、.mts或.tsx）相互导入。
     1、这个标志只有在启用了noEmit或emitDeclarationOnly时才允许，因为这些导入路径在运行时无法在JavaScript输出文件中解析。
     这里的期望是，你的解析器（例如你的捆绑器、运行时或其他工具）将使这些.ts文件之间的导入发挥作用。
+    2、allowImportingTsExtensions选项的默认值为：如果“rewriteRelativeImportExtensions”选项为true，则为true；否则为false。
     */
     "allowImportingTsExtensions": true,
     /*
@@ -326,8 +372,10 @@ CreateDate: 2022-01-01 00:00:00 星期六
     10、TypeScript 4.7为--module和--moduleResolution设置引入了“node16”和“nodenext”选项。
     这些选项的意图是为了更好地模拟Node.js中ECMAScript模块的精确查找规则。然而，这种模式有许多限制，其他工具并没有真正执行。
     例如，在Node.js中的ECMAScript模块中，任何相对导入都需要包括一个文件扩展名。
-    11、在Typescript 6中，module 默认值为 esnext，同样地，新的默认模块格式为 esnext，这反映了 ESM 现已成为主流模块格式的事实。
-    12、在Typescript 6中，已弃用这些值，module: amd、module: umd、module: systemjs、module: none。这也意味着将不再支持 `amd-module` 指令，该指令将不再产生任何效果。
+    11、在TypeScript 5.8中，引入了稳定的 --module node18 标志。在 node18 环境下不允许对 ECMAScript 模块使用 require()，但在 nodenext 环境下允许。
+    12、在TypeScript 5.9中，引入了一个名为 node20 的稳定选项，除非另有配置，否则指定 --module node20 将隐含 --target es2023，另一方面，--module nodenext 则隐含了动态的 --target esnext。
+    13、在Typescript 6中，module 默认值为 esnext，同样地，新的默认模块格式为 esnext，这反映了 ESM 现已成为主流模块格式的事实。
+    14、在Typescript 6中，已弃用这些值，module: amd、module: umd、module: systemjs、module: none。这也意味着将不再支持 `amd-module` 指令，该指令将不再产生任何效果。
     */
     "module": "esnext",
     /*
@@ -502,6 +550,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     设置用于发射文件的换行符。
     1、指定发出文件时要使用的行尾序列：“CRLF”（dos）或“LF”（unix）。
     2、允许的值：crlf、lf。
+    3、TypeScript 5.0 已弃用：隐式特定于操作系统的“newLine”。
     */
     "newLine": "crlf",
     /*
@@ -866,8 +915,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     3、对于像Node这样的开发者平台，有目标的基线，具体取决于平台的类型及其版本。
     4、您可以在@tsconfig/bases找到一组社区组织的TSConfig，其中包含常见平台及其版本的配置。
     5、特殊的ESNext值是指您的TypeScript版本支持的最高版本。应该谨慎使用此设置，因为它在不同的TypeScript版本之间并不意味着相同的事情，并且会使升级变得难以预测。
-    6、在Typescript 6中，target 默认值为当年最新的 ECMAScript 版本，目前，该目标版本为 es2025。
-    7、在Typescript 6中，已弃用："target: es5"。
+    6、TypeScript 5.7 现已支持 --target es2024 选项。该目标主要用于启用新的 --lib es2024 选项，其中包含许多针对 SharedArrayBuffer 和 ArrayBuffer、Object.groupBy、Map.groupBy、Promise.withResolvers 等功能的新特性。此外，Atomics.waitAsync 也从 --lib es2022 移至 --lib es2024。
+    7、在Typescript 6中，target 默认值为当年最新的 ECMAScript 版本，目前(截至2026年05月17日)，该目标版本为 es2025。
+    8、在Typescript 6中，已弃用："target: es5"。
     */
     "target": "es2025",
     /*
