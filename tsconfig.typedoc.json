@@ -170,7 +170,18 @@
       "webworker",
       "webworker.asynciterable",
       "webworker.importscripts",
-      "webworker.iterable"
+      "webworker.iterable",
+      "es7",
+      "esnext.asynciterable",
+      "esnext.bigint",
+      "esnext.float16",
+      "esnext.iterator",
+      "esnext.object",
+      "esnext.promise",
+      "esnext.regexp",
+      "esnext.string",
+      "esnext.symbol",
+      "esnext.weakref"
     ],
     "paths": {
       "element-ui-css": [

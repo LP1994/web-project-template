@@ -419,6 +419,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、在导入axios、echarts、jquery、swiper、vue、vue-router、vuex、element-plus、element-ui等等第三方包时，就没必要为它们设置别名路径了，会报类型错误，直接导入它们的包名就行，会自行查找它们对应的包描述类型文件的。
     5、路径别名到底是路径别名，别用于直接指向具体的文件，尤其是JS文件，因为会导致无法根据导入语法的不同自行加载到相应的模块文件，致使报错；但是CSS一类的文件倒是可以直接指向到具体的文件。
     */
+    /*
     "paths": {
       "element-ui-css": [
         "./node_modules/element-ui/lib/theme-chalk/index.css"
@@ -434,6 +435,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
         "./node_modules/tslib/"
       ],
     },
+    */
     /*
     启用.json文件的导入。
     1、允许导入带有“.json”扩展名的模块，这是“node”项目中的常见做法。这包括根据静态JSON形状为导入生成类型。
@@ -467,9 +469,9 @@ CreateDate: 2022-01-01 00:00:00 星期六
     4、如果指定了types，则仅列出的包将包含在全局范围内。
     5、在Typescript 6中，types 现在默认值为 []。这一改动可防止项目在构建时无意中引入数百甚至数千个不需要的声明文件。我们观察到的许多项目仅通过合理设置 `types`，就将构建时间缩短了 20% 至 50%。
     */
-     "types": [
-       "node"
-     ],
+    "types": [
+      "node"
+    ],
     /*
     在项目中为TypeScript或JavaScript生成对应的.d.ts文件。
     1、这些.d.ts文件是描述模块外部API的类型定义文件。
@@ -797,6 +799,7 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "decorators.legacy",
       // DOM定义 - 窗口、文档等等。
       "dom",
+      "dom.asynciterable",
       "dom.iterable",
       // ES2015（也称为ES6）中可用的其他API - array.find, Promise, Proxy, Symbol, Map, Set, Reflect等等。
       "es2015",
@@ -812,13 +815,11 @@ CreateDate: 2022-01-01 00:00:00 星期六
       // ES2016中可用的其他API - array.include等等。
       "es2016",
       "es2016.array.include",
-      // .full的不能包含。
-      // "es2016.full",
+      "es2016.intl",
       // ES2017中可用的其他API - Object.entries, Object.values, Atomics, SharedArrayBuffer, date.formatToParts, typed arrays等等。
       "es2017",
+      "es2017.arraybuffer",
       "es2017.date",
-      // .full的不能包含。
-      // "es2017.full",
       "es2017.intl",
       "es2017.object",
       "es2017.sharedmemory",
@@ -828,8 +829,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "es2018",
       "es2018.asyncgenerator",
       "es2018.asynciterable",
-      // .full的不能包含。
-      // "es2018.full",
       "es2018.intl",
       "es2018.promise",
       "es2018.regexp",
@@ -837,8 +836,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "es2019",
       "es2019.array",
       "es2019.intl",
-      // .full的不能包含。
-      // "es2019.full",
       "es2019.object",
       "es2019.string",
       "es2019.symbol",
@@ -846,8 +843,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "es2020",
       "es2020.bigint",
       "es2020.date",
-      // .full的不能包含。
-      // "es2020.full",
       "es2020.intl",
       "es2020.number",
       "es2020.promise",
@@ -856,8 +851,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "es2020.symbol.wellknown",
       // ES2021中可用的其他API - promise.any, string.replaceAll等等。
       "es2021",
-      // .full的不能包含。
-      // "es2021.full",
       "es2021.intl",
       "es2021.promise",
       "es2021.string",
@@ -865,33 +858,63 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "es2022",
       "es2022.array",
       "es2022.error",
-      // .full的不能包含。
-      // "es2022.full",
       "es2022.intl",
       "es2022.object",
       "es2022.regexp",
-      "es2022.sharedmemory",
       "es2022.string",
       "es2023",
       "es2023.array",
       "es2023.collection",
-      //  所有ES3和ES5功能的核心定义。
+      "es2023.intl",
+      "es2024",
+      "es2024.arraybuffer",
+      "es2024.collection",
+      "es2024.object",
+      "es2024.promise",
+      "es2024.regexp",
+      "es2024.sharedmemory",
+      "es2024.string",
+      "es2025",
+      "es2025.collection",
+      "es2025.float16",
+      "es2025.intl",
+      "es2025.iterator",
+      "es2025.promise",
+      "es2025.regexp",
+      // 所有ES3和ES5功能的核心定义。
       "es5",
       // “ES2015”的别名。
       "es6",
       // ESNext中可用的其他API - 这随着JavaScript规范的发展而变化。
       "esnext",
+      "esnext.array",
+      "esnext.collection",
+      "esnext.date",
       "esnext.decorators",
       "esnext.disposable",
-      // .full的不能包含。
-      // "esnext.full",
+      "esnext.error",
       "esnext.intl",
+      "esnext.sharedmemory",
+      "esnext.temporal",
+      "esnext.typedarrays",
       // 适用于Windows脚本托管系统的API。
       "scripthost",
       // WebWorker上下文中可用的API。
       "webworker",
+      "webworker.asynciterable",
       "webworker.importscripts",
       "webworker.iterable",
+      "es7",
+      "esnext.asynciterable",
+      "esnext.bigint",
+      "esnext.float16",
+      "esnext.iterator",
+      "esnext.object",
+      "esnext.promise",
+      "esnext.regexp",
+      "esnext.string",
+      "esnext.symbol",
+      "esnext.weakref"
     ],
     /*
     三个值：
