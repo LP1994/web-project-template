@@ -14,6 +14,46 @@
 // 用于确保该文件是模块。
 export {};
 
+import {
+  type App as T_App,
+  type ComponentPublicInstance as T_ComponentPublicInstance,
+  type DefineComponent as T_DefineComponent,
+  type ExtractPropTypes as T_ExtractPropTypes,
+  type ExtractPublicPropTypes as T_ExtractPublicPropTypes,
+  type MaybeRef as T_MaybeRef,
+  type MaybeRefOrGetter as T_MaybeRefOrGetter,
+  type ModelRef as T_ModelRef,
+  type PropType as T_PropType,
+  type Ref as T_Ref,
+  type Reactive as T_Reactive,
+} from 'vue';
+
+import {
+  type AsyncComponentLoader as T_AsyncComponentLoader,
+} from '@vue/runtime-core';
+
 declare global {
-  // type T_VueComponent = T_DefineComponent<{}, {}, any>;
+  type T_VueApp<T> = T_App<T>;
+
+  type T_VueComponentPublicInstance = T_ComponentPublicInstance;
+
+  type T_VueComponent = T_DefineComponent<{}, {}, any>;
+
+  type T_VueExtractPropTypes<T> = T_ExtractPropTypes<T>;
+
+  type T_VueExtractPublicPropTypes<T> = T_ExtractPublicPropTypes<T>;
+
+  type T_VueMaybeRef<T> = T_MaybeRef<T>;
+
+  type T_VueMaybeRefOrGetter<T> = T_MaybeRefOrGetter<T>;
+
+  type T_VueModelRef<T, M, G, S> = T_ModelRef<T, M, G, S>;
+
+  type T_VuePropType<T> = T_PropType<T>;
+
+  type T_VueRef<T, S> = T_Ref<T, S>;
+
+  type T_VueReactive<T> = T_Reactive<T>;
+
+  type T_LoadRemoteVueComponent = Awaited<ReturnType<T_AsyncComponentLoader<T_DefineComponent<{}, {}, any>>>>;
 }
