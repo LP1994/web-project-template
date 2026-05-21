@@ -2890,6 +2890,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
    * 在webpack 5中引入了实验选项，以使用户能够激活和试用实验性功能。<br />
    * 1、由于实验性功能具有宽松的语义版本控制并且可能包含重大更改，因此请确保将webpack的版本修复为次要版本，例如webpack: ~5.4.3而不是webpack: ^5.4.3或者在使用实验时使用锁定文件。<br />
    * 2、禁用所有实验性功能：experiments: false。<br />
+   * 3、具体都有哪些实验选项，可见：node_modules/webpack/schemas/WebpackOptions.json中的“definitions”->“Experiments”。<br />
    *
    * @type {object}
    */
@@ -2975,14 +2976,54 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     css: false,
     /**
+     * 1、启用对TC39提案“import defer”的支持。<br />
+     * 2、此功能允许将模块的执行推迟到首次使用时执行。<br />
+     * 3、这在因“import()”的异步特性而无法同步推迟代码执行时非常有用。<br />
+     * 4、此功能需要运行时环境支持Proxy语法（ES6语法）。例子：<br />
+     * ```js
+     * import defer * as module from 'module-name';
+     * // or
+     * import * as module2 from /星号 webpackDefer: true 星号/ 'module-name2';
+     *
+     * export function f() {
+     *   // module-name is evaluated synchronously, then call doSomething() on it.
+     *   // “module-name”被同步执行，然后在其上调用“doSomething()”。
+     *   module.doSomething();
+     * }
+     * ```
+     * 5、关于“魔法注释”的局限性说明：<br />
+     * 建议将“魔法注释”置于 from 关键字之后。其他位置可能有效，但尚未经过测试。<br />
+     * 将“魔法注释”置于 import 关键字之后会导致文件系统缓存不兼容。<br />
+     * 6、该提案的异步形式尚未实现：<br />
+     * ```js
+     * import.defer('module-name'); // 未实现
+     * import(/星号 webpackDefer: true 星号/ 'module-name'); // 未实现
+     * ```
+     */
+    deferImport: true,
+    /**
      * 该项设置为true后，会出现不如所愿的CSS处理！还是老老实实的设置为false，而且还不知会不会导致其他处理不如所愿。使用下一个主要webpack的默认值，并在任何有问题的地方显示警告。<br />
      */
     futureDefaults: false,
     /**
-     * 1、启用模块和块层。<br />
-     * 2、v5.102.0：The layers experiment is now stable (you can remove experiments.layers from your webpack.config.js)
+     * 1、5.107.0+开始启用。详细见：https://webpack.js.org/configuration/experiments/#experimentshtml<br />
+     * 2、启用实验性 HTML 支持。此标志本身并不会使 `.html` 文件可以直接用作入口点，而无需额外的 HTML 处理。<br />
+     * 3、启用原生 HTML 模块支持。从 JavaScript 导入 .html 文件时，其中的标签引用将通过常规的 webpack 处理流程进行处理，从而取代了 html-loader 多年来所扮演的角色。该标志会在 NormalModuleFactory 上注册 html 模块类型。<br />
+     * 4、然后通过 JavaScript 导入该 HTML 文件。默认导出的是经过处理的 HTML 字符串，其中所有资源引用均已通过 webpack 解析：<br />
+     * ```js
+     * // src/index.js
+     * import page from "./page.html";
+     *
+     * document.documentElement.innerHTML = page;
+     * ```
+     * 5、警告！！！此功能尚处于实验阶段且功能不完整。Webpack 5.107 仅实现了 html-loader 部分：从 JavaScript 导入 HTML 文件时，会将其中引用的标签通过 Webpack 处理流程进行处理。目前尚不支持 HTML 入口点（即直接将 .html 文件作为入口，即 html-webpack-plugin 部分），该功能计划在下一个次要版本中实现。相关进展请参见问题 #536。<br />
+     * 6、该实验性功能也会处理这些html中的内容：Inline <style> tags、Inline <script> tags、<script src>、<link rel="modulepreload">。<br />
+     * 7、也支持魔术注释，魔术注释详细见：https://webpack.js.org/api/module-methods/#magic-comments<br />
+     * ```js
+     * 在标签前立即添加 HTML <!-- webpackIgnore: true --> 注释，可指示 webpack 跳过该标签的 src、href、srcset 及类似属性的 URL 解析。
+     * ```
      */
-    // layers: true,
+    html: false,
     /**
      * 设置成false即可，生产环境不要设置成true，会报错！这个貌似是给开发环境用的！仅在使用“entrypoints”和“动态import”时才编译它们。它可用于Web或Node.js。<br />
      * 1、除了设置成Boolean值，还可以是更加详细的Object值：<br />
@@ -3052,41 +3093,51 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     outputModule: false,
     /**
+     * 1、5.106.0+开始启用。详细见：https://webpack.js.org/configuration/experiments/#experimentssourceimport<br />
+     * 2、启用实验性的 tc39 提案 https://github.com/tc39/proposal-source-phase-imports。这将允许在源代码阶段导入模块。<br />
+     * 3、该提案提出了一种在源代码阶段导入模块的方法，而非立即对其进行求值。在 webpack 中，目前已针对 WebAssembly 模块实现了此实验性支持：您首先获取一个已编译的 WebAssembly.Module，随后再使用自定义导入语句对其进行实例化。对 JavaScript 源代码导入的支持计划在未来版本中实现。<br />
+     * 4、该实验性选项通常是需要与 asyncWebAssembly 一起启用，以便可以使用webpack集成的WebAssembly相关功能。<br />
+     * 5、然后使用静态或动态源阶段语法，并通过 .wasm 导入：<br />
+     * ```js
+     * // Static form
+     * import source wasmModule from "./module.wasm";
+     *
+     * // Dynamic form
+     * const wasmModule2 = await import.source("./module.wasm");
+     *
+     * const instance = await WebAssembly.instantiate(wasmModule);
+     * ```
+     * 6、关于魔术注释的使用：<br />
+     * ```js
+     * import /星号 webpackDefer: true 星号/ * as ns from "..."; // 会导致魔术注释不可用的写法。
+     * import * as ns from /星号 webpackDefer: true 星号/ "..."; // 推荐使用魔术注释的写法。
+     * ```
+     * 请确保您的加载器不会移除该魔法注释。TypeScript、Babel、SWC 和 Flow.js 均可配置为保留该魔法注释。
+     * Esbuild 目前不支持此功能（参见 evanw/esbuild#1439 和 evanw/esbuild#309），但未来可能会支持。
+     * 5.105.0+，ContextModule 现已支持 import.defer()（导入路径为动态表达式）。示例请参阅延迟加载指南。
+     */
+    sourceImport: true,
+    /**
      * 像webpack 4一样支持旧的WebAssembly。<br />
      * 1、这是不推荐的在webpack 4中的实验性选项。<br />
      */
     syncWebAssembly: false,
     /**
+     * 1、5.107.0+开始启用。<br />
+     */
+    typescript: false,
+    /**
+     * 已被移除！！！
+     * 1、启用模块和块层。<br />
+     * 2、v5.102.0：The layers experiment is now stable (you can remove experiments.layers from your webpack.config.js)
+     */
+    // layers: true,
+    /**
+     * 已被移除！！！
      * 1、支持Top Level Await Stage 3提案，当在顶层使用await时，它使模块成为异步模块。当experiments.futureDefaults设置为true时默认启用。<br />
      * 2、v5.102.0：The topLevelAwait experiment is now stable (you can remove experiments.topLevelAwait from your webpack.config.js)
      */
     // topLevelAwait: true,
-    /**
-     * 1、启用对TC39提案“import defer”的支持。<br />
-     * 2、此功能允许将模块的执行推迟到首次使用时执行。<br />
-     * 3、这在因“import()”的异步特性而无法同步推迟代码执行时非常有用。<br />
-     * 4、此功能需要运行时环境支持Proxy语法（ES6语法）。例子：<br />
-     * ```js
-     * import defer * as module from 'module-name';
-     * // or
-     * import * as module2 from /星号 webpackDefer: true 星号/ 'module-name2';
-     *
-     * export function f() {
-     *   // module-name is evaluated synchronously, then call doSomething() on it.
-     *   // “module-name”被同步执行，然后在其上调用“doSomething()”。
-     *   module.doSomething();
-     * }
-     * ```
-     * 5、关于“魔法注释”的局限性说明：<br />
-     * 建议将“魔法注释”置于 from 关键字之后。其他位置可能有效，但尚未经过测试。<br />
-     * 将“魔法注释”置于 import 关键字之后会导致文件系统缓存不兼容。<br />
-     * 6、该提案的异步形式尚未实现：<br />
-     * ```js
-     * import.defer('module-name'); // 未实现
-     * import(/星号 webpackDefer: true 星号/ 'module-name'); // 未实现
-     * ```
-     */
-    deferImport: true,
   },
   /**
    * 注意，在解析匹配扩展时，是从数组的开头开始匹配的！
@@ -5666,7 +5717,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
          * minified: true,
          * comments: true,
-         * shouldPrintComment: () => true,
+         * shouldPrintComment: ( commentString ) => true,
          */
         generatorOpts: {
           /**
@@ -5689,7 +5740,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
            * 当compact: true时，省略块尾分号，在可能的情况下从new Foo()中省略 ()，并且可能输出较短版本的文字。<br />
            * 1、值类型：boolean，默认值：false。<br />
            */
-          minified: isProduction,
+          minified: false,
           /**
            * 如果没有给出函数，则为下面shouldPrintComment选项提供默认的评论状态。有关详细信息，请参阅下面的shouldPrintComment该选项的默认值。<br />
            * 1、值类型：boolean，默认值：true。<br />
@@ -5698,10 +5749,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           /**
            * 一个函数，可以决定给定的注释是否应该包含在Babel的输出代码中。<br />
            * 1、值类型：function（ ( value: string ) => boolean ），默认值：<br />
-           * 没有上面的minified选项（如果有但是值为false）时，默认值为：( val ) => opts.comments || /@license|@preserve/.test( val ) 。<br />
-           * 有上面的minified选项（且值为true）时，默认值为：() => opts.comments 。<br />
+           * 没有上面的minified选项（如果有但是值为false）时，默认值为：( commentString ) => opts.comments || /@license|@preserve/.test( commentString ) 。<br />
+           * 有上面的minified选项（且值为true）时，默认值为：( commentString ) => opts.comments 。<br />
            */
-          shouldPrintComment: () => true,
+          shouldPrintComment: ( commentString ) => {
+            // 仅保留包含 "webpack" 关键字的注释，例如 Webpack 魔法注释
+            // return /webpack/i.test( commentString );
+
+            return true;
+          },
           // 设置为true以在输出中“export”之前打印装饰符。在2022年3月的TC39会议上就Stage 3达成共识的提案版本要求decoratorsBeforeExport为false，allowCallParenthesized也为false。
           decoratorsBeforeExport: false,
           recordAndTupleSyntaxType: 'hash',
