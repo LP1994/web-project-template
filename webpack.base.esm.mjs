@@ -5715,7 +5715,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * https://babeljs.io/docs/options#code-generator-options
          * https://babeljs.io/docs/babel-generator#options
          * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
-         * minified: true,
+         * minified: false,
          * comments: true,
          * shouldPrintComment: ( commentString ) => true,
          */
@@ -10229,7 +10229,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                    * 详细见：node_modules/@vue/compiler-core/dist/compiler-core.d.ts:185
                    */
                   // optimizeImports: isProduction,
-                  comments: !isProduction,
+                  comments: true,
                   whitespace: !isProduction
                               ? 'preserve'
                               : 'condense',

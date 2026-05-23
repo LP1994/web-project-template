@@ -831,13 +831,23 @@ declare namespace Deno {
      * not await. This helps in preventing logic errors and memory leaks
      * in the application code.
      *
-     * @default {true} */
+     * Can also be enabled globally with the `--sanitize-ops` CLI flag,
+     * the `DENO_TEST_SANITIZE_OPS=1` environment variable, or the
+     * `test.sanitizeOps` option in `deno.json`. Can be set per-module
+     * with {@linkcode Deno.test.sanitizer}.
+     *
+     * @default {false} */
     sanitizeOps?: boolean;
     /** Ensure the test step does not "leak" resources - like open files or
      * network connections - by ensuring the open resources at the start of the
      * test match the open resources at the end of the test.
      *
-     * @default {true} */
+     * Can also be enabled globally with the `--sanitize-resources` CLI flag,
+     * the `DENO_TEST_SANITIZE_RESOURCES=1` environment variable, or the
+     * `test.sanitizeResources` option in `deno.json`. Can be set per-module
+     * with {@linkcode Deno.test.sanitizer}.
+     *
+     * @default {false} */
     sanitizeResources?: boolean;
     /** Ensure the test case does not prematurely cause the process to exit,
      * for example via a call to {@linkcode Deno.exit}.
@@ -852,6 +862,13 @@ declare namespace Deno {
      *
      * @default {"inherit"} */
     permissions?: PermissionOptions;
+    /** Maximum duration in milliseconds that the test is allowed to run
+     * before being marked as a failed test. Both asynchronous hangs and
+     * synchronous hot loops are caught.
+     *
+     * If unset or `0`, the test runs without a deadline.
+     */
+    timeout?: number;
   }
 
   /** Register a test which will be run when `deno test` is used on the command
@@ -1243,6 +1260,41 @@ declare namespace Deno {
      * @category Testing
      */
     afterAll(fn: () => void | Promise<void>): void;
+
+    /** Configure sanitizers at the module level. This overrides CLI flags and
+     * config file settings, but can still be overridden per-test via
+     * `sanitizeOps` / `sanitizeResources` in test options.
+     *
+     * Should be called at the top of the module, before any `Deno.test()`
+     * registrations — each call sets the defaults that subsequently registered
+     * tests inherit, so tests registered before the call use the previous
+     * defaults.
+     *
+     * ```ts
+     * // Enable both sanitizers for all tests in this file
+     * Deno.test.sanitizer({ ops: true, resources: true });
+     *
+     * Deno.test("my test", () => {
+     *   // This test will have ops and resources sanitizers enabled
+     * });
+     *
+     * Deno.test({
+     *   name: "override per-test",
+     *   sanitizeOps: false,
+     *   fn() {
+     *     // This test opts out of ops sanitizer
+     *   },
+     * });
+     * ```
+     *
+     * @category Testing
+     */
+    sanitizer(options: {
+      /** Enable or disable the ops sanitizer for all tests in this module. */
+      ops?: boolean;
+      /** Enable or disable the resources sanitizer for all tests in this module. */
+      resources?: boolean;
+    }): void;
   }
 
   /**
@@ -4366,7 +4418,8 @@ declare namespace Deno {
       | "homedir"
       | "statfs"
       | "getPriority"
-      | "setPriority";
+      | "setPriority"
+      | "ca";
   }
 
   /** The permission descriptor for the `allow-ffi` and `deny-ffi` permissions, which controls
@@ -4882,6 +4935,33 @@ declare namespace Deno {
      * The unit is seconds, with a default of 30.
      * Set to `0` to disable timeouts. */
     idleTimeout?: number;
+    /** A `node:net` `Socket` from a `node:http` server's `"upgrade"` event.
+     * When provided, the WebSocket upgrade is performed over this existing
+     * TCP connection instead of through `Deno.serve`'s built-in upgrade
+     * mechanism. The 101 Switching Protocols response is written
+     * automatically.
+     *
+     * ```ts ignore
+     * import http from "node:http";
+     *
+     * const server = http.createServer();
+     * server.on("upgrade", (req, socket, head) => {
+     *   const { socket: ws } = Deno.upgradeWebSocket(
+     *     new Request(`http://${req.headers.host}/`, {
+     *       headers: req.headers as HeadersInit,
+     *     }),
+     *     { socket: socket as import("node:net").Socket, head },
+     *   );
+     *   ws.onmessage = (e) => ws.send(e.data);
+     * });
+     * ```
+     */
+    socket?: import("node:net").Socket;
+    /** Extra bytes already buffered by the HTTP parser that arrived with
+     * the upgrade request headers. This is the `head` `Buffer` from the
+     * `node:http` server's `"upgrade"` event and must be forwarded so
+     * those bytes are not lost. */
+    head?: Uint8Array;
   }
 
   /**
@@ -5321,14 +5401,14 @@ declare namespace Deno {
    *
    * @category Runtime
    */
-  export function refTimer(id: number): void;
+  export function refTimer(id: number | NodeJS.Timeout): void;
 
   /**
    * Make the timer of the given `id` not block the event loop from finishing.
    *
    * @category Runtime
    */
-  export function unrefTimer(id: number): void;
+  export function unrefTimer(id: number | NodeJS.Timeout): void;
 
   /**
    * Returns the user id of the process on POSIX platforms. Returns null on Windows.
@@ -9621,6 +9701,833 @@ type WebTransportCongestionControl = "default" | "low-latency" | "throughput";
 /** @category Platform */
 type WebTransportErrorSource = "session" | "stream";
 
+/**
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMMatrix2DInit {
+  a?: number;
+  b?: number;
+  c?: number;
+  d?: number;
+  e?: number;
+  f?: number;
+  m11?: number;
+  m12?: number;
+  m21?: number;
+  m22?: number;
+  m41?: number;
+  m42?: number;
+}
+
+/**
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMMatrixInit extends DOMMatrix2DInit {
+  is2D?: boolean;
+  m13?: number;
+  m14?: number;
+  m23?: number;
+  m24?: number;
+  m31?: number;
+  m32?: number;
+  m33?: number;
+  m34?: number;
+  m43?: number;
+  m44?: number;
+}
+
+/**
+ * The **`DOMMatrix`** interface represents 4×4 matrices, suitable for 2D and 3D operations including rotation and translation. It is a mutable version of the DOMMatrixReadOnly interface. The interface is available inside web workers.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMMatrix)
+ *
+ * ```
+ * | m11 m21 m31 m41 |
+ * | m12 m22 m32 m42 |
+ * | m13 m23 m33 m43 |
+ * | m14 m24 m34 m44 |
+ * ```
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMMatrix extends DOMMatrixReadOnly {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  a: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  b: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  c: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  d: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  e: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  f: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m11: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m12: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m13: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m14: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m21: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m22: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m23: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m24: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m31: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m32: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m33: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m34: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m41: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m42: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m43: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix#instance_properties) */
+  m44: number;
+  /**
+   * The **`invertSelf()`** method of the DOMMatrix interface inverts the original matrix. If the matrix cannot be inverted, the new matrix's components are all set to NaN and its is2D property is set to false.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/invertSelf)
+   */
+  invertSelf(): DOMMatrix;
+  /**
+   * The **`multiplySelf()`** method of the DOMMatrix interface multiplies a matrix by the otherMatrix parameter, computing the dot product of the original matrix and the specified matrix: A⋅B. If no matrix is specified as the multiplier, the matrix is multiplied by a matrix in which every element is 0 except the bottom-right corner and the element immediately above and to its left: m33 and m34. These have the default value of 1.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/multiplySelf)
+   */
+  multiplySelf(other?: DOMMatrixInit): DOMMatrix;
+  /**
+   * The **`preMultiplySelf()`** method of the DOMMatrix interface modifies the matrix by pre-multiplying it with the specified DOMMatrix. This is equivalent to the dot product B⋅A, where matrix A is the source matrix and B is the matrix given as an input to the method. If no matrix is specified as the multiplier, the matrix is multiplied by a matrix in which every element is 0 except the bottom-right corner and the element immediately above and to its left: m33 and m34. These have the default value of 1.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/preMultiplySelf)
+   */
+  preMultiplySelf(other?: DOMMatrixInit): DOMMatrix;
+  /**
+   * The **`rotateAxisAngleSelf()`** method of the DOMMatrix interface is a transformation method that rotates the source matrix by the given vector and angle, returning the altered matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/rotateAxisAngleSelf)
+   */
+  rotateAxisAngleSelf(
+    x?: number,
+    y?: number,
+    z?: number,
+    angle?: number,
+  ): DOMMatrix;
+  /**
+   * The **`rotateFromVectorSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix by rotating the matrix by the angle between the specified vector and (1, 0). The rotation angle is determined by the angle between the vector (1,0)T and (x,y)T in the clockwise direction, or (+/-)arctan(y/x). If x and y are both 0, the angle is specified as 0, and the matrix is not altered.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/rotateFromVectorSelf)
+   */
+  rotateFromVectorSelf(x?: number, y?: number): DOMMatrix;
+  /**
+   * The **`rotateSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix. It rotates the source matrix around each of its axes by the specified number of degrees and returns the rotated matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/rotateSelf)
+   */
+  rotateSelf(rotX?: number, rotY?: number, rotZ?: number): DOMMatrix;
+  /**
+   * The **`scale3dSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix by applying a specified scaling factor to all three axes, centered on the given origin, with a default origin of (0, 0, 0), returning the 3D-scaled matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/scale3dSelf)
+   */
+  scale3dSelf(
+    scale?: number,
+    originX?: number,
+    originY?: number,
+    originZ?: number,
+  ): DOMMatrix;
+  /**
+   * The **`scaleSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix by applying a specified scaling factor, centered on the given origin, with a default origin of (0, 0), returning the scaled matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/scaleSelf)
+   */
+  scaleSelf(
+    scaleX?: number,
+    scaleY?: number,
+    scaleZ?: number,
+    originX?: number,
+    originY?: number,
+    originZ?: number,
+  ): DOMMatrix;
+  /**
+   * The **`setMatrixValue()`** method of the DOMMatrix interface replaces the contents of the matrix with the matrix described by the specified transform or transforms, returning itself.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/setMatrixValue)
+   */
+  setMatrixValue(transformList: string): DOMMatrix;
+  /**
+   * The **`skewXSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix. It skews the source matrix by applying the specified skew transformation along the X-axis and returns the skewed matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/skewXSelf)
+   */
+  skewXSelf(sx?: number): DOMMatrix;
+  /**
+   * The **`skewYSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix. It skews the source matrix by applying the specified skew transformation along the Y-axis and returns the skewed matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/skewYSelf)
+   */
+  skewYSelf(sy?: number): DOMMatrix;
+  /**
+   * The **`translateSelf()`** method of the DOMMatrix interface is a mutable transformation method that modifies a matrix. It applies the specified vectors and returns the updated matrix. The default vector is [0, 0, 0].
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/translateSelf)
+   */
+  translateSelf(tx?: number, ty?: number, tz?: number): DOMMatrix;
+}
+
+/**
+ * The **`DOMMatrix`** interface represents 4×4 matrices, suitable for 2D and 3D operations including rotation and translation. It is a mutable version of the DOMMatrixReadOnly interface. The interface is available inside web workers.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMMatrix)
+ *
+ * ```
+ * | m11 m21 m31 m41 |
+ * | m12 m22 m32 m42 |
+ * | m13 m23 m33 m43 |
+ * | m14 m24 m34 m44 |
+ * ```
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMMatrix: {
+  prototype: DOMMatrix;
+  new (init?: string | number[]): DOMMatrix;
+  /**
+   * The **`fromFloat32Array()`** static method of the DOMMatrix interface creates a new DOMMatrix object given an array of single-precision (32-bit) floating-point values.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/fromFloat32Array_static)
+   */
+  fromFloat32Array(array32: Float32Array<ArrayBuffer>): DOMMatrix;
+  /**
+   * The **`fromFloat64Array()`** static method of the DOMMatrix interface creates a new DOMMatrix object given an array of double-precision (64-bit) floating-point values.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/fromFloat64Array_static)
+   */
+  fromFloat64Array(array64: Float64Array<ArrayBuffer>): DOMMatrix;
+  /**
+   * The **`fromMatrix()`** static method of the DOMMatrix interface creates a new DOMMatrix object given an existing matrix or an object which provides the values for its properties.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/fromMatrix_static)
+   */
+  fromMatrix(other?: DOMMatrixInit): DOMMatrix;
+};
+
+/**
+ * The **`DOMMatrixReadOnly`** interface represents a read-only 4×4 matrix, suitable for 2D and 3D operations. The DOMMatrix interface — which is based upon DOMMatrixReadOnly—adds mutability, allowing you to alter the matrix after creating it.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly)
+ *
+ * ```
+ * | m11 m21 m31 m41 |
+ * | m12 m22 m32 m42 |
+ * | m13 m23 m33 m43 |
+ * | m14 m24 m34 m44 |
+ * ```
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMMatrixReadOnly {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly a: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly b: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly c: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly d: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly e: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly f: number;
+  /**
+   * The readonly **`is2D`** property of the DOMMatrixReadOnly interface is a Boolean flag that is true when the matrix is 2D. The value is true if the matrix was initialized as a 2D matrix and only 2D transformation operations were applied. Otherwise, the matrix is defined in 3D, and is2D is false.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/is2D)
+   */
+  readonly is2D: boolean;
+  /**
+   * The readonly **`isIdentity`** property of the DOMMatrixReadOnly interface is a Boolean whose value is true if the matrix is the identity matrix.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/isIdentity)
+   */
+  readonly isIdentity: boolean;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m11: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m12: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m13: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m14: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m21: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m22: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m23: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m24: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m31: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m32: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m33: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m34: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m41: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m42: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m43: number;
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly#instance_properties) */
+  readonly m44: number;
+  /**
+   * The **`flipX()`** method of the DOMMatrixReadOnly interface creates a new matrix being the result of the original matrix flipped about the x-axis. This is equivalent to multiplying the matrix by DOMMatrix(-1, 0, 0, 1, 0, 0). The original matrix is not modified.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/flipX)
+   */
+  flipX(): DOMMatrix;
+  /**
+   * The **`flipY()`** method of the DOMMatrixReadOnly interface creates a new matrix being the result of the original matrix flipped about the y-axis. This is equivalent to multiplying the matrix by DOMMatrix(1, 0, 0, -1, 0, 0). The original matrix is not modified.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/flipY)
+   */
+  flipY(): DOMMatrix;
+  /**
+   * The **`inverse()`** method of the DOMMatrixReadOnly interface creates a new matrix which is the inverse of the original matrix. If the matrix cannot be inverted, the new matrix's components are all set to NaN and its is2D property is set to false. The original matrix is not changed.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/inverse)
+   */
+  inverse(): DOMMatrix;
+  /**
+   * The **`multiply()`** method of the DOMMatrixReadOnly interface creates and returns a new matrix which is the dot product of the matrix and the otherMatrix parameter. If otherMatrix is omitted, the matrix is multiplied by a matrix in which every element is 0 except the bottom-right corner and the element immediately above and to its left: m33 and m34. These have the default value of 1. The original matrix is not modified.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/multiply)
+   */
+  multiply(other?: DOMMatrixInit): DOMMatrix;
+  /**
+   * The **`rotate()`** method of the DOMMatrixReadOnly interface returns a new DOMMatrix created by rotating the source matrix around each of its axes by the specified number of degrees. The original matrix is not altered.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/rotate)
+   */
+  rotate(rotX?: number, rotY?: number, rotZ?: number): DOMMatrix;
+  /**
+   * The **`rotateAxisAngle()`** method of the DOMMatrixReadOnly interface returns a new DOMMatrix created by rotating the source matrix by the given vector and angle. The original matrix is not altered.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/rotateAxisAngle)
+   */
+  rotateAxisAngle(
+    x?: number,
+    y?: number,
+    z?: number,
+    angle?: number,
+  ): DOMMatrix;
+  /**
+   * The **`rotateFromVector()`** method of the DOMMatrixReadOnly interface is returns a new DOMMatrix created by rotating the source matrix by the angle between the specified vector and (1, 0). The rotation angle is determined by the angle between the vector (1,0)T and (x,y)T in the clockwise direction, or (+/-)arctan(y/x). If x and y are both 0, the angle is specified as 0. The original matrix is not altered.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/rotateFromVector)
+   */
+  rotateFromVector(x?: number, y?: number): DOMMatrix;
+  /**
+   * The **`scale()`** method of the DOMMatrixReadOnly interface creates a new matrix being the result of the original matrix with a scale transform applied.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/scale)
+   */
+  scale(
+    scaleX?: number,
+    scaleY?: number,
+    scaleZ?: number,
+    originX?: number,
+    originY?: number,
+    originZ?: number,
+  ): DOMMatrix;
+  /**
+   * The **`scale3d()`** method of the DOMMatrixReadOnly interface creates a new matrix which is the result of a 3D scale transform being applied to the matrix. It returns a new DOMMatrix created by scaling the source 3d matrix by the given scale factor centered on the origin point specified by the origin parameters, with a default origin of (0, 0, 0). The original matrix is not modified.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/scale3d)
+   */
+  scale3d(
+    scale?: number,
+    originX?: number,
+    originY?: number,
+    originZ?: number,
+  ): DOMMatrix;
+  /** @deprecated */
+  scaleNonUniform(scaleX?: number, scaleY?: number): DOMMatrix;
+  /**
+   * The **`skewX()`** method of the DOMMatrixReadOnly interface returns a new DOMMatrix created by applying the specified skew transformation to the source matrix along its x-axis. The original matrix is not modified.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/skewX)
+   */
+  skewX(sx?: number): DOMMatrix;
+  /**
+   * The **`skewY()`** method of the DOMMatrixReadOnly interface returns a new DOMMatrix created by applying the specified skew transformation to the source matrix along its y-axis. The original matrix is not modified.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/skewY)
+   */
+  skewY(sy?: number): DOMMatrix;
+  /**
+   * The **`toFloat32Array()`** method of the DOMMatrixReadOnly interface returns a new Float32Array containing all 16 elements (m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44) which comprise the matrix. The elements are stored into the array as single-precision floating-point numbers in column-major (colexographical access, or "colex") order. (In other words, down the first column from top to bottom, then the second column, and so forth.)
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/toFloat32Array)
+   */
+  toFloat32Array(): Float32Array<ArrayBuffer>;
+  /**
+   * The **`toFloat64Array()`** method of the DOMMatrixReadOnly interface returns a new Float64Array containing all 16 elements (m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44) which comprise the matrix. The elements are stored into the array as double-precision floating-point numbers in column-major (colexographical access, or "colex") order. (In other words, down the first column from top to bottom, then the second column, and so forth.)
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/toFloat64Array)
+   */
+  toFloat64Array(): Float64Array<ArrayBuffer>;
+  /**
+   * The **`toJSON()`** method of the DOMMatrixReadOnly interface creates and returns a JSON object. The JSON object includes the 2D matrix elements a through f, the 16 elements of the 4X4 3D matrix, m[1-4][1-4], the boolean is2D property, and the boolean isIdentity property.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/toJSON)
+   */
+  toJSON(): any;
+  /**
+   * The **`transformPoint`** method of the DOMMatrixReadOnly interface creates a new DOMPoint object, transforming a specified point by the matrix. Neither the matrix nor the original point are altered.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/transformPoint)
+   */
+  transformPoint(point?: DOMPointInit): DOMPoint;
+  /**
+   * The **`translate()`** method of the DOMMatrixReadOnly interface creates a new matrix being the result of the original matrix with a translation applied.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/translate)
+   */
+  translate(tx?: number, ty?: number, tz?: number): DOMMatrix;
+  toString(): string;
+}
+
+/**
+ * The **`DOMMatrixReadOnly`** interface represents a read-only 4×4 matrix, suitable for 2D and 3D operations. The DOMMatrix interface — which is based upon DOMMatrixReadOnly—adds mutability, allowing you to alter the matrix after creating it.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly)
+ *
+ * ```
+ * | m11 m21 m31 m41 |
+ * | m12 m22 m32 m42 |
+ * | m13 m23 m33 m43 |
+ * | m14 m24 m34 m44 |
+ * ```
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMMatrixReadOnly: {
+  prototype: DOMMatrixReadOnly;
+  new (init?: string | number[]): DOMMatrixReadOnly;
+  /**
+   * The **`fromFloat32Array()`** static method of the DOMMatrixReadOnly interface creates a new DOMMatrixReadOnly object given an array of single-precision (32-bit) floating-point values.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/fromFloat32Array_static)
+   */
+  fromFloat32Array(array32: Float32Array<ArrayBuffer>): DOMMatrixReadOnly;
+  /**
+   * The **`fromFloat64Array()`** static method of the DOMMatrixReadOnly interface creates a new DOMMatrixReadOnly object given an array of double-precision (64-bit) floating-point values.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/fromFloat64Array_static)
+   */
+  fromFloat64Array(array64: Float64Array<ArrayBuffer>): DOMMatrixReadOnly;
+  /**
+   * The **`fromMatrix()`** static method of the DOMMatrixReadOnly interface creates a new DOMMatrixReadOnly object given an existing matrix or an object which provides the values for its properties.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/fromMatrix_static)
+   */
+  fromMatrix(other?: DOMMatrixInit): DOMMatrixReadOnly;
+};
+
+/**
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMPointInit {
+  w?: number;
+  x?: number;
+  y?: number;
+  z?: number;
+}
+
+/**
+ * A **`DOMPoint`** object represents a 2D or 3D point in a coordinate system; it includes values for the coordinates in up to three dimensions, as well as an optional perspective value. DOMPoint is based on DOMPointReadOnly but allows its properties' values to be changed.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMPoint)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMPoint extends DOMPointReadOnly {
+  /**
+   * The DOMPoint interface's **`w`** property holds the point's perspective value, w, for a point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPoint/w)
+   */
+  w: number;
+  /**
+   * The DOMPoint interface's **`x`** property holds the horizontal coordinate, x, for a point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPoint/x)
+   */
+  x: number;
+  /**
+   * The DOMPoint interface's **`y`** property holds the vertical coordinate, y, for a point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPoint/y)
+   */
+  y: number;
+  /**
+   * The DOMPoint interface's **`z`** property specifies the depth coordinate of a point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPoint/z)
+   */
+  z: number;
+}
+
+/**
+ * A **`DOMPoint`** object represents a 2D or 3D point in a coordinate system; it includes values for the coordinates in up to three dimensions, as well as an optional perspective value. DOMPoint is based on DOMPointReadOnly but allows its properties' values to be changed.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMPoint)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMPoint: {
+  prototype: DOMPoint;
+  new (x?: number, y?: number, z?: number, w?: number): DOMPoint;
+  /**
+   * The **`fromPoint()`** static method of the DOMPoint interface creates and returns a new mutable DOMPoint object given a source point.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPoint/fromPoint_static)
+   */
+  fromPoint(other?: DOMPointInit): DOMPoint;
+};
+
+/**
+ * The **`DOMPointReadOnly`** interface specifies the coordinate and perspective fields used by DOMPoint to define a 2D or 3D point in a coordinate system.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMPointReadOnly {
+  /**
+   * The DOMPointReadOnly interface's **`w`** property holds the point's perspective value, w, for a read-only point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/w)
+   */
+  readonly w: number;
+  /**
+   * The DOMPointReadOnly interface's **`x`** property holds the horizontal coordinate, x, for a read-only point in space. This property cannot be changed by JavaScript code in this read-only version of the DOMPoint object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/x)
+   */
+  readonly x: number;
+  /**
+   * The DOMPointReadOnl**`y`** interface's y property holds the vertical coordinate, y, for a read-only point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/y)
+   */
+  readonly y: number;
+  /**
+   * The DOMPointReadOnly interface's **`z`** property holds the depth coordinate, z, for a read-only point in space.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/z)
+   */
+  readonly z: number;
+  /**
+   * The **`matrixTransform()`** method of the DOMPointReadOnly interface applies a matrix transform specified as an object to the DOMPointReadOnly object, creating and returning a new DOMPointReadOnly object. Neither the matrix nor the point are altered.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/matrixTransform)
+   */
+  matrixTransform(matrix?: DOMMatrixInit): DOMPoint;
+  /**
+   * The DOMPointReadOnly method **`toJSON()`** returns an object giving the JSON form of the point object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/toJSON)
+   */
+  toJSON(): any;
+}
+
+/**
+ * The **`DOMPointReadOnly`** interface specifies the coordinate and perspective fields used by DOMPoint to define a 2D or 3D point in a coordinate system.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMPointReadOnly: {
+  prototype: DOMPointReadOnly;
+  new (x?: number, y?: number, z?: number, w?: number): DOMPointReadOnly;
+  /**
+   * The static DOMPointReadOnly method **`fromPoint()`** creates and returns a new DOMPointReadOnly object given a source point.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/fromPoint_static)
+   */
+  fromPoint(other?: DOMPointInit): DOMPointReadOnly;
+};
+
+/**
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMQuadInit {
+  p1?: DOMPointInit;
+  p2?: DOMPointInit;
+  p3?: DOMPointInit;
+  p4?: DOMPointInit;
+}
+
+/**
+ * A **`DOMQuad`** is a collection of four DOMPoints defining the corners of an arbitrary quadrilateral. Returning DOMQuads lets getBoxQuads() return accurate information even when arbitrary 2D or 3D transforms are present. It has a handy bounds attribute returning a DOMRectReadOnly for those cases where you just want an axis-aligned bounding rectangle.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMQuad)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMQuad {
+  /**
+   * The DOMQuad interface's **`p1`** property holds the DOMPoint object that represents one of the four corners of the DOMQuad. When created from DOMQuad.fromRect(), it is the point (x, y).
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/p1)
+   */
+  readonly p1: DOMPoint;
+  /**
+   * The DOMQuad interface's **`p2`** property holds the DOMPoint object that represents one of the four corners of the DOMQuad. When created from DOMQuad.fromRect(), it is the point (x + width, y).
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/p2)
+   */
+  readonly p2: DOMPoint;
+  /**
+   * The DOMQuad interface's **`p3`** property holds the DOMPoint object that represents one of the four corners of the DOMQuad. When created from DOMQuad.fromRect(), it is the point (x + width, y + height).
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/p3)
+   */
+  readonly p3: DOMPoint;
+  /**
+   * The DOMQuad interface's **`p4`** property holds the DOMPoint object that represents one of the four corners of the DOMQuad. When created from DOMQuad.fromRect(), it is the point (x, y + height).
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/p4)
+   */
+  readonly p4: DOMPoint;
+  /**
+   * The DOMQuad method **`getBounds()`** returns a DOMRect object representing the smallest rectangle that fully contains the DOMQuad object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/getBounds)
+   */
+  getBounds(): DOMRect;
+  /**
+   * The DOMQuad method **`toJSON()`** returns a JSON representation of the DOMQuad object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/toJSON)
+   */
+  toJSON(): any;
+}
+
+/**
+ * A **`DOMQuad`** is a collection of four DOMPoints defining the corners of an arbitrary quadrilateral. Returning DOMQuads lets getBoxQuads() return accurate information even when arbitrary 2D or 3D transforms are present. It has a handy bounds attribute returning a DOMRectReadOnly for those cases where you just want an axis-aligned bounding rectangle.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMQuad)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMQuad: {
+  prototype: DOMQuad;
+  new (
+    p1?: DOMPointInit,
+    p2?: DOMPointInit,
+    p3?: DOMPointInit,
+    p4?: DOMPointInit,
+  ): DOMQuad;
+  /**
+   * The **`fromQuad()`** static method of the DOMQuad interface returns a new DOMQuad object based on the provided set of coordinates in the shape of another DOMQuad object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/fromQuad_static)
+   */
+  fromQuad(other?: DOMQuadInit): DOMQuad;
+  /**
+   * The **`fromRect()`** static method of the DOMQuad interface returns a new DOMQuad object based on the provided set of coordinates in the shape of a DOMRect object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMQuad/fromRect_static)
+   */
+  fromRect(other?: DOMRectInit): DOMQuad;
+};
+
+/**
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMRectInit {
+  height?: number;
+  width?: number;
+  x?: number;
+  y?: number;
+}
+
+/**
+ * A **`DOMRect`** describes the size and position of a rectangle.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMRect)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMRect extends DOMRectReadOnly {
+  /**
+   * The **`height`** property of the DOMRect interface represents the height of the rectangle. The value can be negative.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRect/height)
+   */
+  height: number;
+  /**
+   * The **`width`** property of the DOMRect interface represents the width of the rectangle. The value can be negative.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRect/width)
+   */
+  width: number;
+  /**
+   * The **`x`** property of the DOMRect interface represents the x-coordinate of the rectangle, which is the horizontal distance between the viewport's left edge and the rectangle's origin.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRect/x)
+   */
+  x: number;
+  /**
+   * The **`y`** property of the DOMRect interface represents the y-coordinate of the rectangle, which is the vertical distance between the viewport's top edge and the rectangle's origin.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRect/y)
+   */
+  y: number;
+}
+
+/**
+ * A **`DOMRect`** describes the size and position of a rectangle.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMRect)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMRect: {
+  prototype: DOMRect;
+  new (x?: number, y?: number, width?: number, height?: number): DOMRect;
+  /**
+   * The **`fromRect()`** static method of the DOMRect object creates a new DOMRect object with a given location and dimensions.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRect/fromRect_static)
+   */
+  fromRect(other?: DOMRectInit): DOMRect;
+};
+
+/**
+ * The **`DOMRectReadOnly`** interface specifies the standard properties (also used by DOMRect) to define a rectangle whose properties are immutable.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+interface DOMRectReadOnly {
+  /**
+   * The **`bottom`** read-only property of the DOMRectReadOnly interface returns the bottom coordinate value of the DOMRect. (Has the same value as y + height, or y if height is negative.)
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/bottom)
+   */
+  readonly bottom: number;
+  /**
+   * The **`height`** read-only property of the DOMRectReadOnly interface represents the height of the DOMRect.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/height)
+   */
+  readonly height: number;
+  /**
+   * The **`left`** read-only property of the DOMRectReadOnly interface returns the left coordinate value of the DOMRect. (Has the same value as x, or x + width if width is negative.)
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/left)
+   */
+  readonly left: number;
+  /**
+   * The **`right`** read-only property of the DOMRectReadOnly interface returns the right coordinate value of the DOMRect. (Has the same value as x + width, or x if width is negative.)
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/right)
+   */
+  readonly right: number;
+  /**
+   * The **`top`** read-only property of the DOMRectReadOnly interface returns the top coordinate value of the DOMRect. (Has the same value as y, or y + height if height is negative.)
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/top)
+   */
+  readonly top: number;
+  /**
+   * The **`width`** read-only property of the DOMRectReadOnly interface represents the width of the DOMRect.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/width)
+   */
+  readonly width: number;
+  /**
+   * The **`x`** read-only property of the DOMRectReadOnly interface represents the x coordinate of the DOMRect's origin.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/x)
+   */
+  readonly x: number;
+  /**
+   * The **`y`** read-only property of the DOMRectReadOnly interface represents the y coordinate of the DOMRect's origin.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/y)
+   */
+  readonly y: number;
+  /**
+   * The DOMRectReadOnly method **`toJSON()`** returns a JSON representation of the DOMRectReadOnly object.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/toJSON)
+   */
+  toJSON(): any;
+}
+
+/**
+ * The **`DOMRectReadOnly`** interface specifies the standard properties (also used by DOMRect) to define a rectangle whose properties are immutable.
+ *
+ * [MDN](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly)
+ *
+ * @category Geometry Interfaces Module API
+ * @experimental
+ */
+declare var DOMRectReadOnly: {
+  prototype: DOMRectReadOnly;
+  new (
+    x?: number,
+    y?: number,
+    width?: number,
+    height?: number,
+  ): DOMRectReadOnly;
+  /**
+   * The **`fromRect()`** static method of the DOMRectReadOnly object creates a new DOMRectReadOnly object with a given location and dimensions.
+   *
+   * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/fromRect_static)
+   */
+  fromRect(other?: DOMRectInit): DOMRectReadOnly;
+};
+
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
@@ -10147,7 +11054,7 @@ declare class GPUSupportedLimits {
   readonly maxTextureArrayLayers: number;
   readonly maxBindGroups: number;
   // TODO(@crowlKats): support max_bind_groups_plus_vertex_buffers
-  readonly maxBindGroupsPlusVertexBuffers?: number;
+  readonly maxBindGroupsPlusVertexBuffers: number;
   readonly maxBindingsPerBindGroup: number;
   readonly maxDynamicUniformBuffersPerPipelineLayout: number;
   readonly maxDynamicStorageBuffersPerPipelineLayout: number;
@@ -10165,7 +11072,7 @@ declare class GPUSupportedLimits {
   readonly maxVertexAttributes: number;
   readonly maxVertexBufferArrayStride: number;
   // TODO(@crowlKats): support max_inter_stage_shader_variables
-  readonly maxInterStageShaderVariables?: number;
+  readonly maxInterStageShaderVariables: number;
   readonly maxColorAttachments: number;
   readonly maxColorAttachmentBytesPerSample: number;
   readonly maxComputeWorkgroupStorageSize: number;
@@ -10822,7 +11729,7 @@ type GPUStorageTextureAccess =
 
 /** @category GPU */
 interface GPUStorageTextureBindingLayout {
-  access: GPUStorageTextureAccess;
+  access?: GPUStorageTextureAccess;
   format: GPUTextureFormat;
   viewDimension?: GPUTextureViewDimension;
 }
@@ -11821,26 +12728,6 @@ interface GPUExtent3DDict {
 /** @category GPU */
 type GPUExtent3D = number[] | GPUExtent3DDict;
 
-/** @category GPU */
-type GPUCanvasAlphaMode = "opaque" | "premultiplied";
-
-/** @category GPU */
-interface GPUCanvasConfiguration {
-  device: GPUDevice;
-  format: GPUTextureFormat;
-  usage?: GPUTextureUsageFlags;
-  viewFormats?: GPUTextureFormat[];
-  colorSpace?: "srgb" | "display-p3";
-  alphaMode?: GPUCanvasAlphaMode;
-}
-
-/** @category GPU */
-interface GPUCanvasContext {
-  configure(configuration: GPUCanvasConfiguration): undefined;
-  unconfigure(): undefined;
-  getCurrentTexture(): GPUTexture;
-}
-
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 // deno-lint-ignore-file no-explicit-any no-var
@@ -12406,7 +13293,7 @@ declare function createImageBitmap(
  *   console.error("Failed to create ImageBitmap:", error);
  * }
  * ```
- * @see https://developer.mozilla.org/en-US/docs/Web/API/createImageBitmap/createImageBitmap
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/createImageBitmap
  */
 declare function createImageBitmap(
   image: ImageBitmapSource,
@@ -12445,6 +13332,117 @@ interface ImageBitmap {
 declare var ImageBitmap: {
   prototype: ImageBitmap;
   new (): ImageBitmap;
+};
+
+/** @category Canvas */
+type OffscreenRenderingContextId = "bitmaprenderer" | "webgpu";
+/** @category Canvas */
+type OffscreenRenderingContext = ImageBitmapRenderingContext | GPUCanvasContext;
+
+/** @category Canvas */
+interface ImageEncodeOptions {
+  quality?: number;
+  type?: string;
+}
+
+/** @category Canvas */
+type GPUCanvasAlphaMode = "opaque" | "premultiplied";
+
+/** @category Canvas */
+type GPUPresentMode =
+  | "auto-vsync"
+  | "auto-no-vsync"
+  | "fifo"
+  | "fifo-relaxed"
+  | "immediate"
+  | "mailbox";
+
+/** @category Canvas */
+interface GPUCanvasConfiguration {
+  device: GPUDevice;
+  format: GPUTextureFormat;
+  usage?: GPUTextureUsageFlags;
+  viewFormats?: GPUTextureFormat[];
+  colorSpace?: "srgb" | "display-p3";
+  alphaMode?: GPUCanvasAlphaMode;
+
+  // extended from spec
+  presentMode?: GPUPresentMode;
+}
+
+/** @category Canvas */
+interface GPUCanvasContext {
+  /** The canvas that this context is bound to. */
+  readonly canvas: OffscreenCanvas;
+
+  configure(configuration: GPUCanvasConfiguration): undefined;
+  getConfiguration(): GPUCanvasConfiguration | null;
+  unconfigure(): undefined;
+  getCurrentTexture(): GPUTexture;
+}
+/** @category Canvas */
+declare var GPUCanvasContext: {
+  prototype: GPUCanvasContext;
+};
+
+/** @category Canvas */
+interface ImageBitmapRenderingContext {
+  /** The canvas that this context is bound to. */
+  readonly canvas: OffscreenCanvas;
+
+  transferFromImageBitmap(bitmap: ImageBitmap | null): undefined;
+}
+/** @category Canvas */
+declare var ImageBitmapRenderingContext: {
+  prototype: ImageBitmapRenderingContext;
+};
+
+/**
+ * @category Canvas
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
+ */
+interface OffscreenCanvas extends EventTarget {
+  /** The height of the canvas. */
+  height: number;
+  /** The width of the canvas. */
+  width: number;
+
+  /** Create a Blob object representing the image contained in the canvas. */
+  convertToBlob(options?: ImageEncodeOptions): Promise<Blob>;
+
+  /**
+   * Get a drawing context for the canvas.
+   * If this was previously called, it will return the same context.
+   */
+  getContext(
+    contextId: "bitmaprenderer",
+    options?: any,
+  ): ImageBitmapRenderingContext | null;
+  getContext(contextId: "webgpu", options?: any): GPUCanvasContext | null;
+  getContext(
+    contextId: OffscreenRenderingContextId,
+    options?: any,
+  ): OffscreenRenderingContext | null;
+  // Spec also defines "2d", "webgl", and "webgl2" context ids; Deno does
+  // not implement those and getContext returns null for them.
+  getContext(
+    contextId: "2d" | "webgl" | "webgl2",
+    options?: any,
+  ): null;
+
+  /**
+   * Create an ImageBitmap object representing the image contained in the canvas.
+   */
+  transferToImageBitmap(): ImageBitmap;
+}
+
+/**
+ * @category Canvas
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
+ */
+declare var OffscreenCanvas: {
+  prototype: OffscreenCanvas;
+  new (width: number, height: number): OffscreenCanvas;
 };
 
 // Copyright 2018-2026 the Deno authors. MIT license.
@@ -14211,6 +15209,7 @@ declare namespace Deno {
 /// <reference lib="deno.crypto" />
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.broadcast_channel" />
+/// <reference lib="node" />
 
 /** @category Wasm */
 declare namespace WebAssembly {
@@ -14548,61 +15547,6 @@ declare namespace WebAssembly {
   export function validate(bytes: BufferSource): boolean;
 }
 
-/** Sets a timer which executes a function once after the delay (in milliseconds) elapses. Returns
- * an id which may be used to cancel the timeout.
- *
- * ```ts
- * setTimeout(() => { console.log('hello'); }, 500);
- * ```
- *
- * @category Platform
- */
-declare function setTimeout(
-  cb: string | ((...args: any[]) => void),
-  delay?: number,
-  ...args: any[]
-): number;
-
-/** Repeatedly calls a function , with a fixed time delay between each call.
- *
- * ```ts
- * // Outputs 'hello' to the console every 500ms
- * setInterval(() => { console.log('hello'); }, 500);
- * ```
- *
- * @category Platform
- */
-declare function setInterval(
-  cb: string | ((...args: any[]) => void),
-  delay?: number,
-  ...args: any[]
-): number;
-
-/** Cancels a timed, repeating action which was previously started by a call
- * to `setInterval()`
- *
- * ```ts
- * const id = setInterval(() => {console.log('hello');}, 500);
- * // ...
- * clearInterval(id);
- * ```
- *
- * @category Platform
- */
-declare function clearInterval(id?: number): void;
-
-/** Cancels a scheduled action initiated by `setTimeout()`
- *
- * ```ts
- * const id = setTimeout(() => {console.log('hello');}, 500);
- * // ...
- * clearTimeout(id);
- * ```
- *
- * @category Platform
- */
-declare function clearTimeout(id?: number): void;
-
 /** @category Platform */
 interface VoidFunction {
   (): void;
@@ -14635,23 +15579,6 @@ declare function queueMicrotask(func: VoidFunction): void;
  */
 declare function dispatchEvent(event: Event): boolean;
 
-/** @category Platform */
-interface DOMStringList {
-  /** Returns the number of strings in strings. */
-  readonly length: number;
-  /** Returns true if strings contains string, and false otherwise. */
-  contains(string: string): boolean;
-  /** Returns the string with index index from strings. */
-  item(index: number): string | null;
-  [index: number]: string;
-}
-
-/** @category Platform */
-type BufferSource = ArrayBufferView<ArrayBuffer> | ArrayBuffer;
-
-/** @category Platform */
-type AllowSharedBufferSource = ArrayBufferView | ArrayBufferLike;
-
 /**
  * A global console object that provides methods for logging, debugging, and error reporting.
  * The console object provides access to the browser's or runtime's debugging console functionality.
@@ -14670,6 +15597,23 @@ type AllowSharedBufferSource = ArrayBufferView | ArrayBufferLike;
  * @category I/O
  */
 declare var console: Console;
+
+/** @category Platform */
+interface DOMStringList {
+  /** Returns the number of strings in strings. */
+  readonly length: number;
+  /** Returns true if strings contains string, and false otherwise. */
+  contains(string: string): boolean;
+  /** Returns the string with index index from strings. */
+  item(index: number): string | null;
+  [index: number]: string;
+}
+
+/** @category Platform */
+type BufferSource = ArrayBufferView<ArrayBuffer> | ArrayBuffer;
+
+/** @category Platform */
+type AllowSharedBufferSource = ArrayBufferView | ArrayBufferLike;
 
 /** @category Events */
 interface ErrorEventInit extends EventInit {
@@ -15134,6 +16078,33 @@ declare function fetch(
   input: RequestInfo | URL,
   init?: RequestInit & { client?: Deno.HttpClient },
 ): Promise<Response>;
+
+/** @category Platform */
+interface Math {
+  /**
+   * Returns the sum of the given values using a more precise algorithm than a
+   * naive `+`-based reduction, avoiding the floating-point rounding errors
+   * that accumulate when summing many numbers.
+   *
+   * [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sumPrecise)
+   */
+  sumPrecise(values: Iterable<number>): number;
+}
+
+/** @category Intl */
+declare namespace Intl {
+  /** @category Intl */
+  export interface Locale {
+    /**
+     * Returns the variant subtags of the locale as a single string, with
+     * subtags separated by `-`. Returns `undefined` if the locale has no
+     * variant subtags.
+     *
+     * [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/variants)
+     */
+    readonly variants: string | undefined;
+  }
+}
 
 // Copyright 2018-2026 the Deno authors. MIT license.
 
@@ -16512,6 +17483,11 @@ declare namespace Deno {
    * @experimental
    */
   export class UnsafeWindowSurface {
+    /** The height of the window. */
+    height: number;
+    /** The width of the window. */
+    width: number;
+
     constructor(
       options: {
         system: "cocoa" | "win32" | "x11" | "wayland";
@@ -16521,12 +17497,13 @@ declare namespace Deno {
         height: number;
       },
     );
-    getContext(context: "webgpu"): GPUCanvasContext;
+
+    getContext(
+      contextId: OffscreenRenderingContextId,
+      options?: any,
+    ): OffscreenRenderingContext | null;
+
     present(): void;
-    /**
-     * This method should be invoked when the size of the window changes.
-     */
-    resize(width: number, height: number): void;
   }
 
   /** **UNSTABLE**: New API, yet to be vetted.
