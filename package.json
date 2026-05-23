@@ -121,8 +121,8 @@
     "Android >= 148",
     "ChromeAndroid >= 148",
     "Edge >= 148",
-    "Firefox >= 150",
-    "FirefoxAndroid >= 150",
+    "Firefox >= 151",
+    "FirefoxAndroid >= 151",
     "Safari >= 26",
     "iOS >= 26",
     "Opera >= 131"
@@ -155,6 +155,7 @@
     "**/*.sass",
     "**/*.styl",
     "**/*.stylus",
+    "**/*.sss",
     "**/*.pcss",
     "**/*.postcss"
   ],

@@ -463,22 +463,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20260506。Start
+    // PC端各主流浏览器的最新版本，至20260523。Start
     'Chrome >= 148',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
     'Edge >= 148',
-    'Firefox >= 150',
+    'Firefox >= 151',
     'Safari >= 26',
     'Opera >= 131',
-    // PC端各主流浏览器的最新版本，至20260506。End
+    // PC端各主流浏览器的最新版本，至20260523。End
 
-    // 移动端各主流浏览器的最新版本，至20260506。Start
+    // 移动端各主流浏览器的最新版本，至20260523。Start
     'ChromeAndroid >= 148',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
     'Android >= 148',
-    'FirefoxAndroid >= 150',
+    'FirefoxAndroid >= 151',
     'iOS >= 26',
-    // 移动端各主流浏览器的最新版本，至20260506。End
+    // 移动端各主流浏览器的最新版本，至20260523。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -509,17 +509,17 @@ const browserslist = [
 
     'es2025',
 
-    // PC端各主流浏览器的最新版本，至20260506。Start
+    // PC端各主流浏览器的最新版本，至20260523。Start
     'chrome148',
     'edge148',
-    'firefox150',
+    'firefox151',
     'safari26',
     'opera131',
-    // PC端各主流浏览器的最新版本，至20260506。End
+    // PC端各主流浏览器的最新版本，至20260523。End
 
-    // 移动端各主流浏览器的最新版本，至20260506。Start
+    // 移动端各主流浏览器的最新版本，至20260523。Start
     'ios26',
-    // 移动端各主流浏览器的最新版本，至20260506。End
+    // 移动端各主流浏览器的最新版本，至20260523。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -553,19 +553,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20260506。Start
+    // PC端各主流浏览器的最新版本，至20260523。Start
     chrome: 148,
     edge: 148,
-    firefox: 150,
+    firefox: 151,
     safari: 26,
     opera: 131,
-    // PC端各主流浏览器的最新版本，至20260506。End
+    // PC端各主流浏览器的最新版本，至20260523。End
 
-    // 移动端各主流浏览器的最新版本，至20260506。Start
+    // 移动端各主流浏览器的最新版本，至20260523。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
     android: 148,
     ios: 26,
-    // 移动端各主流浏览器的最新版本，至20260506。End
+    // 移动端各主流浏览器的最新版本，至20260523。End
   },
   /**
    * 编译目标配置。
