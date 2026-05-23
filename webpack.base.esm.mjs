@@ -1758,7 +1758,7 @@ const aliasConfig = {
     includeDynamicImportedAssets: true,
     metadata: {
       display: 'webpack_assets_manifest',
-      version: '8.0.0',
+      version: '5.0.0',
       date: ( () => {
         const {
           year,
@@ -12680,7 +12680,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     seed: {
       metadata: {
         display: 'webpack_assets_manifest',
-        version: '8.0.0',
+        version: '5.0.0',
         date: ( () => {
           const {
             year,
