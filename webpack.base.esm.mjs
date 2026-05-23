@@ -9867,6 +9867,226 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           ],
         },
 
+        /**
+         * 处理.module.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss），也就是CSS Modules的处理。<br />
+         * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+         */
+        {
+          test: /\.(module|modules)\.sss$/i,
+          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+          use: [
+            /**
+             * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+             * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+             * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+             * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+             * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+             */
+            ...( ( isBoolean ) => {
+              return isBoolean
+                     ? [
+                  MiniCssExtractPluginLoader,
+                ]
+                     : [
+                  /*
+                   {
+                   loader: 'thread-loader',
+                   options: cssWorkerPoolConfig,
+                   },
+                   */
+                  ( styleLoader => {
+                    const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                    obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                    obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
+
+                    return obj1;
+                  } )( styleLoader ),
+                ];
+            } )( true ),
+            ( cssLoader => {
+              const options = Object.assign( {}, cssLoader.options );
+
+              options.modules = cssLoaderModules;
+
+              return Object.assign( {}, cssLoader, { options, } );
+            } )( cssLoader ),
+            postCSSLoader,
+          ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
+        },
+        // 处理.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss）。
+        {
+          test: /\.sss$/i,
+          oneOf: [
+            {
+              resourceQuery: {
+                and: [
+                  /module/,
+                ],
+              },
+              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+              use: [
+                /**
+                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                 */
+                ...( ( isBoolean ) => {
+                  return isBoolean
+                         ? [
+                      MiniCssExtractPluginLoader,
+                    ]
+                         : [
+                      /*
+                       {
+                       loader: 'thread-loader',
+                       options: cssWorkerPoolConfig,
+                       },
+                       */
+                      ( styleLoader => {
+                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                        obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
+
+                        return obj1;
+                      } )( styleLoader ),
+                    ];
+                } )( true ),
+                ( cssLoader => {
+                  const options = Object.assign( {}, cssLoader.options );
+
+                  options.modules = cssLoaderModules;
+
+                  return Object.assign( {}, cssLoader, { options, } );
+                } )( cssLoader ),
+                postCSSLoader,
+              ],
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                /^v:/,
+                /^virtual:/,
+              ],
+              exclude: [
+                /\.(module|modules)\.sss$/i,
+
+                join( __dirname, './src/assets/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/css/' ),
+                join( __dirname, './src/styles/less/' ),
+                join( __dirname, './src/styles/sass/' ),
+                join( __dirname, './src/styles/scss/' ),
+                join( __dirname, './src/styles/stylus/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+              sideEffects: true,
+            },
+            {
+              resourceQuery: {
+                not: [
+                  /module/,
+                ],
+              },
+              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+              use: [
+                /**
+                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                 */
+                ...( () => {
+                  return isProduction
+                         ? [
+                      MiniCssExtractPluginLoader,
+                    ]
+                         : [
+                      /*
+                       {
+                       loader: 'thread-loader',
+                       options: cssWorkerPoolConfig,
+                       },
+                       */
+                      ( styleLoader => {
+                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                        obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
+
+                        return obj1;
+                      } )( styleLoader ),
+                    ];
+                } )(),
+                cssLoader,
+                postCSSLoader,
+              ],
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                /^v:/,
+                /^virtual:/,
+              ],
+              exclude: [
+                /\.(module|modules)\.sss$/i,
+
+                join( __dirname, './src/assets/' ),
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/graphQL/' ),
+                join( __dirname, './src/pwa_manifest/' ),
+                join( __dirname, './src/static/' ),
+                join( __dirname, './src/styles/css/' ),
+                join( __dirname, './src/styles/less/' ),
+                join( __dirname, './src/styles/sass/' ),
+                join( __dirname, './src/styles/scss/' ),
+                join( __dirname, './src/styles/stylus/' ),
+                join( __dirname, './src/wasm/' ),
+              ].concat( exclude001 ),
+              sideEffects: true,
+            },
+          ],
+        },
+
         // 处理.ts文件、.mts文件、.cts文件。
         {
           test: /\.(ts|mts|cts)$/i,
