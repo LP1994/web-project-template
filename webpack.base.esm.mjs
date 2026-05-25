@@ -6241,6 +6241,21 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         },
       },
       /**
+       * 该postcss的配置专用于SugarSS语法，SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss。
+       */
+      postCSSSugarSSLoader = {
+        loader: 'postcss-loader',
+        options: {
+          implementation: postcss,
+          // 在CSS-in-JS中启用PostCSS Parser支持。如果您使用JS样式的postcss-js解析器，请添加执行选项为true。
+          execute: false,
+          sourceMap: false,
+          postcssOptions: {
+            config: resolve( __dirname, './postcss.sugarss.config.mjs' ),
+          },
+        },
+      },
+      /**
        * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
        * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
        * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
@@ -9911,7 +9926,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
               return Object.assign( {}, cssLoader, { options, } );
             } )( cssLoader ),
-            postCSSLoader,
+            postCSSSugarSSLoader,
           ],
           include: [
             join( __dirname, './node_modules/' ),
@@ -9987,7 +10002,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
 
                   return Object.assign( {}, cssLoader, { options, } );
                 } )( cssLoader ),
-                postCSSLoader,
+                postCSSSugarSSLoader,
               ],
               include: [
                 join( __dirname, './node_modules/' ),
@@ -10054,7 +10069,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                     ];
                 } )(),
                 cssLoader,
-                postCSSLoader,
+                postCSSSugarSSLoader,
               ],
               include: [
                 join( __dirname, './node_modules/' ),
@@ -12272,6 +12287,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
   performanceConfig = {
     // 要对哪类文件进行性能检测，返回true就表示对它进行性能检测。
     assetFilter( assetFilename ){
+      // TODO 校对！！！
       const arr1 = Array.from( new Set( JSON.parse( '["3gp","3gpp","aac","aiff","amr","ape","apng","arw","asf","asx","au","avi","avif","bmp","bpg","cda","cjs","cr2","cson","css","csv","cts","cur","dat","dcx","dng","ejs","eot","flac","flif","flv","fon","font","gif","gql","graphql","graphqls","handlebars","hbs","heic","heif","htm","html","icns","ico","j2c","j2k","jade","jbig2","jng","jp2","jpe","jpeg","jpg","jpm","jpx","js","json","json5","jsx","jxl","jxr","kar","ktx","less","m4a","m4v","markdown","md","mid","midi","mj2","mjs","mkv","mng","mod","mov","mp1","mp2","opus","mp3","mp4","mpeg","mpeg-1","mpeg-2","mpeg-4","mpeg-layer3","mpg","mts","mustache","nef","ogg","orf","otf","pam","pbm","pcss","pcx","pgm","jfif","pjpeg","pjp","png","pnm","postcss","ppm","psd","pug","ra","raf","raw","rgbe","rm","rmvb","rmx","rw2","sass","scss","styl","stylus","svg","svgz","tga","tif","tiff","toml","ts","tsv","tsx","ttc","ttf","txt","vob","vorbis","vqf","vue","wasm","wav","wave","wbmp","webm","webp","wp2","wma","wmv","woff","woff2","xbm","xhtml","xml","xpm","yaml"]' ) ) );
 
       return new RegExp( `\\.(${ arr1.join( '|' ) })$`, 'i' ).test( assetFilename );
