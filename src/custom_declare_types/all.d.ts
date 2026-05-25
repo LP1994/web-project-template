@@ -239,12 +239,6 @@ declare module '*.jade' {
   export default module;
 }
 
-declare module '*.wasm' {
-  const module: I_WASMObject;
-
-  export default module;
-}
-
 declare module '*.xml' {
   const module: I_Object001;
 
@@ -269,7 +263,13 @@ declare module '*.pdf' {
   export default src;
 }
 
-// wasm?init Start
+// wasm Start
+
+declare module '*.wasm' {
+  const module: I_WASMObject;
+
+  export default module;
+}
 
 declare module '*.wasm?init' {
   const initWasm: (
@@ -279,7 +279,7 @@ declare module '*.wasm?init' {
   export default initWasm;
 }
 
-// wasm?init End
+// wasm End
 
 // web worker Start
 declare module '*?worker' {
@@ -360,6 +360,8 @@ declare module '*?sharedworker&url' {
 
 // web worker End
 
+// resourceQuery Start
+
 declare module '*?raw' {
   const src: string;
 
@@ -395,6 +397,8 @@ declare module '*?url&no-inline' {
 
   export default src;
 }
+
+// resourceQuery End
 
 declare module '@module-federation/runtime-core/dist/src/utils/hooks' {
   export {
