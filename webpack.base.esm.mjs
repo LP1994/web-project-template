@@ -12177,6 +12177,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       importMetaDirnameAndFilename: true,
       /**
+       * 该环境支持对象方法简写（'{ module() {} }'）。
+       */
+      methodShorthand: true,
+      /**
        * The environment supports ECMAScript Module syntax to import ECMAScript modules (import ... from '...').<br />
        */
       module: true,
