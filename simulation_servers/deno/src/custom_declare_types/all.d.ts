@@ -260,6 +260,13 @@ declare module '*.pdf' {
   export default src;
 }
 
+// 视频的字幕文件。
+declare module '*.vtt' {
+  const src: string;
+
+  export default src;
+}
+
 // wasm Start
 
 declare module '*.wasm' {

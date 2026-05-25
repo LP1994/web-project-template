@@ -124,9 +124,3 @@ declare module '*.webm' {
 
   export default src;
 }
-
-declare module '*.vtt' {
-  const src: string;
-
-  export default src;
-}
