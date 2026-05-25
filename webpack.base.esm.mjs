@@ -10348,6 +10348,52 @@ ${ JSON.stringify( req.headers, null, 4 ) }
             },
           ],
         },
+        // 处理视频的字幕文件。
+        {
+          test: /\.vtt$/i,
+          /**
+           * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+           * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+           * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+           * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+           */
+          type: 'asset/resource',
+          generator: {
+            emit: true,
+            filename( pathData, assetInfo ){
+              return '[name]_[contenthash][ext]';
+            },
+            outputPath( pathData, assetInfo ){
+              return './videos/';
+            },
+            publicPath( pathData, assetInfo ){
+              return '../videos/';
+            },
+          },
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/doc/' ),
+            join( __dirname, './src/assets/fonts/' ),
+            join( __dirname, './src/assets/img/' ),
+            join( __dirname, './src/assets/music/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+        },
 
         // 处理.vue文件，该loader一定得在html-loader之后。
         {
