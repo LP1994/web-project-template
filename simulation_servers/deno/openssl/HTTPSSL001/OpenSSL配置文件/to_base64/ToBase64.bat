@@ -1,1 +1,0 @@
-node --experimental-import-meta-resolve --experimental-quic --experimental-eventsource --experimental-vm-modules --experimental-webstorage --max-http-header-size=1024000 --no-warnings --no-deprecation ./ToBase64.mjs&pause
