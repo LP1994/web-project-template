@@ -7016,18 +7016,19 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         //    * ```
         //    * 当 'exportsDepth： 1' 时，'depth_2' 和 'depth_3' 不会被标记为 'exportInfo'。
         //    */
-        //   /*
-        //    exportsDepth: isProduction
-        //    ? Infinity
-        //    : 1,
-        //    */
+        //   exportsDepth: Infinity,
         //   /**
-        //    * 1、Allow named exports for json of object type.<br />
+        //    * 1、允许为对象类型的 JSON 数据使用命名导出。<br />
         //    * 2、从webpack v5.103.0开始使用该选项。<br />
         //    * 3、默认值是false。<br />
+        //    * 4、例子：<br />
+        //    * ```js
+        //    * import { myField } from "./file.json";
+        //    * console.log(myField);
+        //    * ```
         //    */
-        //   // namedExports: false,
-        //   // parse: import('../lib/json/JsonParser').ParseFn,
+        //   namedExports: true,
+        //   parse: JSON5.parse,
         // },
       },
       unsafeCache: false,
