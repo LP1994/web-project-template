@@ -6778,7 +6778,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 2、默认值为应用程序 “true”，库 ‘false’（当设置了 “output.library” 时），以避免不必要的打包体积开销。
          * 3、此外，将匿名默认导出的 “.name” 修正逻辑提取到一个共享的运行时辅助函数（“__webpack_require__.dn”）中，用每个模块一次简短的调用替换重复的内联 “Object.defineProperty” / “Object.getOwnPropertyDescriptor” 调用，从而减小输出大小。
          * 4、将“.name”设置为“default”可实现ES规范中匿名默认导出函数和类的功能。如果不需要“.name”，则禁用此功能可减小输出文件大小。
-         * 5、这条有待实际考证！！！对于 export default 后跟一个赋值表达式（如匿名函数表达式 export default (function() {})），情况有所不同。匿名函数表达式的 .name 属性通常为空字符串 ""，此时 export default 不会为其推断出 "default" 名称。
+         * 5、对于 export default 后跟一个赋值表达式（如匿名函数表达式 export default (function() {})），在当前的webpack配置下，实际测试后，发现规则逻辑同上述的描述。
          */
         anonymousDefaultExportName: true,
         browserify: true,
