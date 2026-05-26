@@ -12126,22 +12126,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       return `js/[name]_Chunk_[contenthash].js`;
     },
     /**
-     * 指定磁盘上的初始输出css文件的文件名模板。<br />
-     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
-     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
-     */
-    cssFilename( pathData, assetInfo ){
-      return 'styles/[name]_Bundle_[contenthash].css';
-    },
-    /**
-     * 指定磁盘上的非初始输出css文件的文件名模板。<br />
-     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
-     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
-     */
-    cssChunkFilename( pathData, assetInfo ){
-      return 'styles/[name]_Chunk_[contenthash].css';
-    },
-    /**
      * 块的格式，默认块的格式包括：'array-push'(web/WebWorker)、'commonjs'(node.js)、'module'(ESM)，但其他格式可能由插件添加。<br />
      * 1、这个选项的默认值取决于目标和output.module设置。<br />
      */
@@ -12151,14 +12135,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     chunkLoadTimeout: 120000,
     /**
-     * 全局变量被webpack用于加载chunks。<br />
-     */
-    chunkLoadingGlobal: 'WebpackGlobal',
-    /**
      * 加载块的方法，默认包括的方法：'jsonp'（web）、'import'（ESM）、'import-scripts'（WebWorker）、'require'（同步node.js）、'async-node'（异步node.js），但其他可能由插件添加。<br />
      * 1、这个选项的默认值取决于目标和chunkFormat设置。<br />
      */
     chunkLoading: 'jsonp',
+    /**
+     * 全局变量被webpack用于加载chunks。<br />
+     */
+    chunkLoadingGlobal: 'WebpackGlobal',
     /**
      * 在发出之前清理输出目录，不要用这个选项，用clean-webpack-plugin插件，因为用这个选项，无法设置排除项（后来可以了，通过设置对象类型的值，就可以进一步细化该选项的配置了）。<br />
      * 1、5.20.0+新增的选项。<br />
@@ -12179,6 +12163,40 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 'use-credentials'：启用有证书的跨源加载。<br />
      */
     crossOriginLoading: 'anonymous',
+    /**
+     * 指定磁盘上的非初始输出css文件的文件名模板。<br />
+     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
+     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
+     */
+    cssChunkFilename( pathData, assetInfo ){
+      return 'styles/[name]_Chunk_[contenthash].css';
+    },
+    /**
+     * 指定磁盘上的初始输出css文件的文件名模板。<br />
+     * 1、你必须不在这里指定一个绝对路径，但路径可以包含由'/'分隔的文件夹。<br />
+     * 2、指定的路径与'output.path'选项的值联合起来，以确定磁盘上的位置。<br />
+     */
+    cssFilename( pathData, assetInfo ){
+      return 'styles/[name]_Bundle_[contenthash].css';
+    },
+    /**
+     * 1、入口点可用的块加载类型列表。
+     * 2、该列表将由 webpack 自动填充。仅在使用函数作为入口选项，并从该函数中返回 chunkLoading 选项时才需要此列表。
+     * 3、有效值为：["jsonp", "import-scripts", "require", "async-node", "import"]
+     */
+    /*
+     enabledChunkLoadingTypes: [
+     'jsonp',
+     'import-scripts',
+     ],
+     */
+    /**
+     * 1、允许入口点使用的库类型列表。
+     * 2、有效值：[ "var","module","assign","assign-properties","this","window","self","global","commonjs","commonjs2","commonjs-module","commonjs-static","amd","amd-require","umd","umd2","jsonp","system", ]
+     */
+    /*
+     enabledLibraryTypes: [],
+     */
     /**
      * 启用入口点使用的wasm装载类型列表。
      * 该配置项有效值见：node_modules/webpack/lib/wasm/EnableWasmLoadingPlugin.js:78
@@ -12298,6 +12316,28 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     hashFunction: 'sha512',
     /**
+     * 1、指定磁盘上非初始输出 HTML 文件的文件名模板。
+     * 2、您**不能**在此处指定绝对路径，但路径可以包含以“/”分隔的文件夹！
+     * 3、指定的路径将与“output.path”选项的值结合，以确定磁盘上的位置。
+     * 4、该选项是配合“module.generator.html.extract”为true时使用的。
+     */
+    /*
+     htmlChunkFilename( pathData, assetInfo ){
+     return `pages/[name].html`;
+     },
+     */
+    /**
+     * 1、指定磁盘上输出 HTML 文件的文件名模板。
+     * 2、此处**切勿**指定绝对路径，但路径中可以包含以 ‘/’ 分隔的文件夹！
+     * 3、指定的路径将与 ‘output.path’ 选项的值组合，以确定磁盘上的具体位置。
+     * 4、该选项是配合“module.generator.html.extract”为true时使用的。
+     */
+    /*
+     htmlFilename( pathData, assetInfo ){
+     return `pages/[name].html`;
+     },
+     */
+    /**
      * 忽略浏览器中的警告。
      */
     ignoreBrowserWarnings: false,
@@ -12361,12 +12401,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     wasmLoading: 'fetch',
     /**
-     * 该选项基本同上面的“wasmLoading”选项。<br />
+     * WebAssembly模块的文件名作为'output.path'目录内的相对路径。<br />
+     * 1、值类型为string。<br />
+     * 2、值不是一个绝对路径，是相对路径，相对于'output.path'。<br />
+     * 3、该选项值的占位参数目前只支持：[id]、[hash]。<br />
      */
-    workerWasmLoading: 'fetch',
+    webassemblyModuleFilename: 'wasm/[id]_[hash].wasm',
     /**
      * 新选项workerChunkLoading控制worker的块加载。<br />
-     * 1、有效值：'jsonp' (web)、'require'(sync node.js)、'import-scripts'(WebWorker)、'async-node'(async node.js)、'import'(ESM)、'universal'、false。<br />
+     * 1、有效值：'require'(sync node.js)、'import-scripts'(WebWorker)、'async-node'(async node.js)、'import'(ESM)、false。<br />
      */
     workerChunkLoading: 'import-scripts',
     /**
@@ -12381,12 +12424,9 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     // workerPublicPath: null,
     /**
-     * WebAssembly模块的文件名作为'output.path'目录内的相对路径。<br />
-     * 1、值类型为string。<br />
-     * 2、值不是一个绝对路径，是相对路径，相对于'output.path'。<br />
-     * 3、该选项值的占位参数目前只支持：[id]、[hash]。<br />
+     * 该选项基本同上面的“wasmLoading”选项。<br />
      */
-    webassemblyModuleFilename: 'wasm/[id]_[hash].wasm',
+    workerWasmLoading: 'fetch',
   },
   /**
    * 这些选项允许您控制webpack如何通知您超出特定文件限制的资产和入口点。此功能的灵感来自webpack性能预算的想法。<br />
