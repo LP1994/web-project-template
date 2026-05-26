@@ -6771,50 +6771,91 @@ ${ JSON.stringify( req.headers, null, 4 ) }
       },
       parserJavascriptConfig = {
         amd: false,
+        /**
+         * 1、从5.107.0+开始启用，用于控制 webpack 是否根据 ES 规范将匿名默认导出函数和类的 “.name” 设置为 “default”。
+         * 2、默认值为应用程序 “true”，库 ‘false’（当设置了 “output.library” 时），以避免不必要的打包体积开销。
+         * 3、此外，将匿名默认导出的 “.name” 修正逻辑提取到一个共享的运行时辅助函数（“__webpack_require__.dn”）中，用每个模块一次简短的调用替换重复的内联 “Object.defineProperty” / “Object.getOwnPropertyDescriptor” 调用，从而减小输出大小。
+         * 4、将“.name”设置为“default”可实现ES规范中匿名默认导出函数和类的功能。如果不需要“.name”，则禁用此功能可减小输出文件大小。
+         * 5、这条有待实际考证！！！对于 export default 后跟一个赋值表达式（如匿名函数表达式 export default (function() {})），情况有所不同。匿名函数表达式的 .name 属性通常为空字符串 ""，此时 export default 不会为其推断出 "default" 名称。
+         */
+        anonymousDefaultExportName: true,
         browserify: true,
         commonjs: true,
         commonjsMagicComments: true,
+
+        // 启用/禁用对“import { createRequire } from \“module\””的解析以及对 createRequire() 的求值。
+        // createRequire: boolean、string
+
         // 其默认值是同：experimentsConfig.deferImport
         deferImport: true,
         dynamicImportFetchPriority: 'auto',
+
         // dynamicImportMode的默认值为'lazy'
         // dynamicImportMode: 'lazy',
+
         dynamicImportPrefetch: true,
         dynamicImportPreload: true,
+
         // dynamicUrl的默认值为true
         // dynamicUrl: true,
+
         exportsPresence: 'error',
+
         // exprContextCritical的默认值为true
         // exprContextCritical: true,
+
         // exprContextRecursive的默认值为true
         // exprContextRecursive: true,
+
         // exprContextRegExp的默认值为false
         // exprContextRegExp: false,
+
         // exprContextRequest的默认值为'.'
         // exprContextRequest: '.',
+
         harmony: true,
         import: true,
         importExportsPresence: 'error',
+
         // importMeta的默认值为true
         // importMeta: true,
+
         importMetaContext: true,
         node: nodeConfig,
+
+        /**
+         * 1、从5.93.0+开始启用，将该模块的强制模式设置为严格或非严格。
+         * 2、这可能会影响模块的行为（严格模式和非严格模式在某些行为上有所不同），因此请谨慎配置此选项。
+         * 3、有效值有：strict、non-strict
+         */
+        // overrideStrict: 'strict',
+
         reexportExportsPresence: 'error',
         requireContext: true,
         requireEnsure: true,
         requireInclude: true,
         requireJs: true,
+        sourceImport: true,
         strictThisContextOnImports: true,
         system: true,
+
+        // 允许原生支持typescript！目前还是单独处理为好，毕竟期间涉及到部分特殊typescript代码的处理。
+        // typescript: false,
+
         // unknownContextCritical的默认值为true
         // unknownContextCritical: true,
+
         // unknownContextRecursive的默认值为true
         // unknownContextRecursive: true,
+
         // unknownContextRegExp的默认值为false
         // unknownContextRegExp: false,
+
         // unknownContextRequest的默认值为'.'
         // unknownContextRequest: '.',
+
         url: 'relative',
+
         /**
          * 自定义WebWorker对javascript文件的处理，'...'是指默认值。
          * 值类型有：string[]、布尔值（true，表示使用默认值，也就是[ '...' ]，false表示禁用该选项）。
@@ -6824,9 +6865,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          '...',
          ],
          */
+
         wrappedContextCritical: true,
+
         // wrappedContextRecursive的默认值为true
         // wrappedContextRecursive: true,
+
         // wrappedContextRegExp的默认值为：/.*/
         // wrappedContextRegExp: /.*/,
       };
