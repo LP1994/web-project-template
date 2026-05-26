@@ -20,7 +20,8 @@
     "./**/*.ts.vue",
     "./**/*.cts.vue",
     "./**/*.mts.vue",
-    "./**/*.tsx.vue"
+    "./**/*.tsx.vue",
+    "./**/*.json"
   ],
   "exclude": [
     "./.git",

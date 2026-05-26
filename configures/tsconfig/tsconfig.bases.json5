@@ -61,7 +61,8 @@ CreateDate: 2022-01-01 00:00:00 星期六
   //    "./src/**/*.ts.vue",
   //    "./src/**/*.cts.vue",
   //    "./src/**/*.mts.vue",
-  //    "./src/**/*.tsx.vue"
+  //    "./src/**/*.tsx.vue",
+  //    "./src/**/*.json"
   //  ],
 
   /*

@@ -100,6 +100,8 @@ import {
 
 import chalk from 'chalk';
 
+import CSONParser from 'cson-parser';
+
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 /*
@@ -6997,39 +6999,39 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // 注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。
         'javascript/esm': parserJavascriptConfig,
 
-        // json: {
-        //   /**
-        //    * 1、标记为exportInfo的json依赖深度。<br />
-        //    * 2、默认情况下，在“生产模式”下设置为Infinity，在“开发模式”下设置为1。<br />
-        //    * 3、其值类型：number<br />
-        //    * 4、该选项是从webpack v5.98.0+开始支持的。<br />
-        //    * 5、例子：<br />
-        //    * ```js
-        //    * {
-        //    *     "depth_1": {
-        //    *         "depth_2": {
-        //    *             "depth_3": "foo"
-        //    *         }
-        //    *     },
-        //    *     "_depth_1": "bar"
-        //    * }
-        //    * ```
-        //    * 当 'exportsDepth： 1' 时，'depth_2' 和 'depth_3' 不会被标记为 'exportInfo'。
-        //    */
-        //   exportsDepth: Infinity,
-        //   /**
-        //    * 1、允许为对象类型的 JSON 数据使用命名导出。<br />
-        //    * 2、从webpack v5.103.0开始使用该选项。<br />
-        //    * 3、默认值是false。<br />
-        //    * 4、例子：<br />
-        //    * ```js
-        //    * import { myField } from "./file.json";
-        //    * console.log(myField);
-        //    * ```
-        //    */
-        //   namedExports: true,
-        //   parse: JSON5.parse,
-        // },
+        json: {
+          /**
+           * 1、标记为exportInfo的json依赖深度。<br />
+           * 2、默认情况下，在“生产模式”下设置为Infinity，在“开发模式”下设置为1。<br />
+           * 3、其值类型：number<br />
+           * 4、该选项是从webpack v5.98.0+开始支持的。<br />
+           * 5、例子：<br />
+           * ```js
+           * {
+           *     "depth_1": {
+           *         "depth_2": {
+           *             "depth_3": "foo"
+           *         }
+           *     },
+           *     "_depth_1": "bar"
+           * }
+           * ```
+           * 当 'exportsDepth： 1' 时，'depth_2' 和 'depth_3' 不会被标记为 'exportInfo'。
+           */
+          exportsDepth: Infinity,
+          /**
+           * 1、允许为对象类型的 JSON 数据使用命名导出。<br />
+           * 2、从webpack v5.103.0开始使用该选项。<br />
+           * 3、默认值是false。<br />
+           * 4、例子：<br />
+           * ```js
+           * import { myField } from "./file.json";
+           * console.log(myField);
+           * ```
+           */
+          namedExports: true,
+          parse: JSON5.parse,
+        },
       },
       unsafeCache: false,
       /**
@@ -7052,13 +7054,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // 处理.cson文件。
         {
           test: /\.cson$/i,
-          type: 'javascript/auto',
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'cson-loader',
-            },
-          ],
+          type: 'json',
+          parser: {
+            exportsDepth: Infinity,
+            namedExports: true,
+            parse: CSONParser.parse,
+          },
           include: [
             join( __dirname, './node_modules/' ),
 
@@ -8071,6 +8072,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           test: /\.json5$/i,
           type: 'json',
           parser: {
+            exportsDepth: Infinity,
+            namedExports: true,
             parse: JSON5.parse,
           },
           include: [
@@ -8364,6 +8367,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           test: /\.toml$/i,
           type: 'json',
           parser: {
+            exportsDepth: Infinity,
+            namedExports: true,
             parse: Toml.parse,
           },
           include: [
@@ -8535,17 +8540,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // 自定义处理.json文件，以免.manifest.json文件被当成.json文件处理，而且该自定义必须得在.manifest.json处理之后。
         {
           test: /\.json$/i,
-          type: 'javascript/auto',
-          // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-          use: [
-            {
-              loader: 'json5-loader',
-              options: {
-                // 该loader的该选项默认值是true。
-                // esModule: true,
-              },
-            },
-          ],
+          type: 'json',
+          parser: {
+            exportsDepth: Infinity,
+            namedExports: true,
+            parse: JSON5.parse,
+          },
           include: [
             join( __dirname, './node_modules/' ),
 
@@ -10815,6 +10815,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           test: /\.(yaml|yml)$/i,
           type: 'json',
           parser: {
+            exportsDepth: Infinity,
+            namedExports: true,
             parse: Yaml.parse,
           },
           include: [

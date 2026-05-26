@@ -20,6 +20,7 @@
     "./src/**/*.cts.vue",
     "./src/**/*.mts.vue",
     "./src/**/*.tsx.vue",
+    "./src/**/*.json",
     "./subsystems/**/*.ts",
     "./subsystems/**/*.cts",
     "./subsystems/**/*.mts",
@@ -30,7 +31,8 @@
     "./subsystems/**/*.ts.vue",
     "./subsystems/**/*.cts.vue",
     "./subsystems/**/*.mts.vue",
-    "./subsystems/**/*.tsx.vue"
+    "./subsystems/**/*.tsx.vue",
+    "./subsystems/**/*.json"
   ],
   "exclude": [
     "./.git",
