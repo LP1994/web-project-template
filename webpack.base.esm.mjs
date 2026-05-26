@@ -6964,6 +6964,20 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // 'css/global': { /* 详细选项见：node_modules/webpack/schemas/WebpackOptions.json:468 */ },
         // 'css/module': { /* 详细选项见：node_modules/webpack/schemas/WebpackOptions.json:503 */ },
 
+        /**
+         * 1、详细见：node_modules/webpack/schemas/WebpackOptions.json:1778中的“HtmlGeneratorOptions”。
+         * 2、将解析并重写 URL 后的 HTML 作为独立的 `.html` 输出文件与模块的 JavaScript 导出文件一起输出。
+         * 如果未设置，则对于用作编译入口点（HTML 入口点）的 HTML 模块，提取默认为 `true`；
+         * 对于从 JavaScript 导入的 HTML 模块，提取默认为 `false`。
+         * 文件名遵循 `output.htmlFilename` / `output.htmlChunkFilename` 的格式。
+         * 3、一般来说，不用设置该选项，其默认设置即可满足当前配置。
+         */
+        /*
+         html: {
+         extract: true,
+         },
+         */
+
         // javascript: { /*没有可用的选项。*/ },
         // 'javascript/auto': { /*没有可用的选项。*/ },
         // 'javascript/dynamic': { /*没有可用的选项。*/ },
