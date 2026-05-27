@@ -2515,9 +2515,9 @@ const aliasConfig = {
      * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。<br />
      * 2、安装证书如下：<br />
      * “configures/openssl/HTTPSSL001”文件夹下的3个：<br />
-     * 001根CA证书：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
-     * 002服务端CA证书：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。<br />
-     * 003客户端CA证书：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。<br />
+     * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
+     * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。<br />
+     * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。<br />
      * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。<br />
      * 4、当前发现一个小问题！使用'spdy'（使用HTTP/2）时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
      * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
@@ -2556,7 +2556,7 @@ const aliasConfig = {
          * 1、一般指的是“根CA证书，HTTPSSL001_Root_CA.crt”，“根CA证书，HTTPSSL001_Root_CA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
          */
         ca: [
-          readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
+          readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
         ],
 
         /**
@@ -2567,12 +2567,12 @@ const aliasConfig = {
          * 1、在生成“服务端CA证书，HTTPSSL001_Servers_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
          * 2、当前“HTTPSSL001_Root_CA_Key.key”没使用加密。<br />
          */
-        key: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
+        key: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
         /**
          * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_CA.crt）。<br />
          */
-        cert: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
+        cert: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/002_Servers_CA/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
 
         /**
          * 如果SSL/TLS握手未在指定的毫秒数内完成，则中止连接。只要握手超时，就会在tls.Server对象上发出“tlsClientError”。默认值：120000（120000毫秒 = 120秒）。<br />
@@ -2616,7 +2616,7 @@ const aliasConfig = {
          *
          * 该选项跟上面的“key”、“cert”选项是互斥的，也就是不要同时设置该选项跟“key”、“cert”选项，否则会报错，说什么太长了。<br />
          */
-        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
+        // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
       },
     },
     setupExitSignals: true,

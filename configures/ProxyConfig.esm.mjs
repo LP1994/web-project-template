@@ -256,7 +256,7 @@ const __dirname = Get__dirname( import.meta.url ),
      * 1、一般指的是“根CA证书，HTTPSSL001_Root_CA.crt”，“根CA证书，HTTPSSL001_Root_CA.crt”用于安装到系统、浏览器（尤其是火狐浏览器，它有自己的证书列表，也要给它安装）的证书列表中，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。<br />
      */
     ca: [
-      readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
+      readFileSync( join( __dirname, './openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
     ],
 
     /**
@@ -267,12 +267,12 @@ const __dirname = Get__dirname( import.meta.url ),
      * 1、在生成“服务端CA证书，HTTPSSL001_Servers_CA.crt”的“HTTPSSL001_Root_CA_Key.key”文件时，除了用.key作为文件的扩展后缀，也可以用.pem做后缀，一般首选.key。<br />
      * 2、当前“HTTPSSL001_Root_CA_Key.key”没使用加密。<br />
      */
-    key: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
+    key: readFileSync( join( __dirname, './openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
 
     /**
      * PEM格式的证书链（服务端CA证书，HTTPSSL001_Servers_CA.crt）。<br />
      */
-    cert: readFileSync( join( __dirname, './openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
+    cert: readFileSync( join( __dirname, './openssl/HTTPSSL001/002_Servers_CA/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
 
     /**
      * 如果SSL/TLS握手未在指定的毫秒数内完成，则中止连接。只要握手超时，就会在tls.Server对象上发出“tlsClientError”。默认值：120000（120000毫秒 = 120秒）。<br />
@@ -316,7 +316,7 @@ const __dirname = Get__dirname( import.meta.url ),
      *
      * 该选项跟上面的“key”、“cert”选项是互斥的，也就是不要同时设置该选项跟“key”、“cert”选项，否则会报错，说什么太长了。<br />
      */
-    // pfx: readFileSync( join( __dirname, './openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
+    // pfx: readFileSync( join( __dirname, './openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
   };
 
 let logWriteStream = null;

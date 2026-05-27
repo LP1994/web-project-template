@@ -12,7 +12,7 @@ https://github.com/liriliri/chii
 --ssl-cert <cert>：provide an ssl certificate
 --ssl-key <key>：provide an ssl key
 启动命令例子：
-chii start -p 8300 -h 0.0.0.0 --https --ssl-cert ./configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt --ssl-key ./configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key
+chii start -p 8300 -h 0.0.0.0 --https --ssl-cert ./configures/openssl/HTTPSSL001/002_Servers_CA/HTTPSSL001_Servers_CA.crt --ssl-key ./configures/openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA_Key.key
 
 2、待启动命令后，浏览器访问，如：https://192.168.1.102:8300，即可到调试面板。
 

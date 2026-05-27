@@ -80,9 +80,9 @@ if( false ){
       'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
       'User-Agent': 'My NodeJS for UpdateGraphQLSchemaJSON',
     },
-    ca: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
-    key: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
-    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
+    ca: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
+    key: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
+    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002_Servers_CA/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
   };
 
   function UpdateGraphQLSchemaJSON( opt = {} ){
@@ -166,9 +166,9 @@ if( false ){
       'Access-Control-Request-Method': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH',
       'User-Agent': 'My NodeJS for UpdateGraphQLSchemaJSON',
     },
-    ca: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
-    key: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
-    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
+    ca: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.crt' ), 'utf8' ),
+    key: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA_Key.key' ), 'utf8' ),
+    cert: readFileSync( join( Get__dirname( import.meta.url ), '../openssl/HTTPSSL001/002_Servers_CA/HTTPSSL001_Servers_CA.crt' ), 'utf8' ),
   };
 
   function UpdateGraphQLSchemaJSON( opt = {} ){

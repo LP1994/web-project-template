@@ -182,7 +182,7 @@
     "simulation_servers_deno": "cd ./simulation_servers/deno&Start.bat",
     "update_graphQL_schema_json": "node --experimental-import-meta-resolve --experimental-quic --experimental-eventsource --experimental-vm-modules --max-http-header-size=1024000 --no-warnings --no-deprecation ./configures/update_graphQL_schema_json/UpdateGraphQLSchemaJSON.mjs",
     "update_tsconfig_lib": "node --experimental-import-meta-resolve --experimental-quic --experimental-eventsource --experimental-vm-modules --max-http-header-size=1024000 --no-warnings --no-deprecation ./configures/update_tsconfig_lib/UpdateTSConfigLib.mjs",
-    "Chii4RemoteLikeWeinre": "chii start -p 8300 -h 0.0.0.0 --https --ssl-cert ./configures/openssl/HTTPSSL001/002服务端CA证书/HTTPSSL001_Servers_CA.crt --ssl-key ./configures/openssl/HTTPSSL001/001根CA证书/HTTPSSL001_Root_CA_Key.key",
+    "Chii4RemoteLikeWeinre": "chii start -p 8300 -h 0.0.0.0 --https --ssl-cert ./configures/openssl/HTTPSSL001/002_Servers_CA/HTTPSSL001_Servers_CA.crt --ssl-key ./configures/openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA_Key.key",
     "graphql_codegen": "graphql-codegen-esm --config ./GraphqlCodegenConfig.esm.mts"
   },
   "devDependencies": {
