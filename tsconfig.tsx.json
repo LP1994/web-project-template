@@ -91,11 +91,6 @@
     "moduleResolution": "nodenext",
     "rootDir": ".",
     "outDir": "./ts_compiled/",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/custom_declare_types",
-      "./simulation_servers/deno/src/custom_declare_types"
-    ],
     "paths": {
       "element-ui-css": [
         "./node_modules/element-ui/lib/theme-chalk/index.css"
