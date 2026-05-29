@@ -664,6 +664,7 @@
      5、在TypeScript 5.0中已经放弃该选项。
      */
     // "suppressImplicitAnyIndexErrors": false,
+
     "skipLibCheck": true,
     "isolatedDeclarations": false,
     "erasableSyntaxOnly": true,
@@ -803,6 +804,7 @@
       "es2022.intl",
       "es2022.object",
       "es2022.regexp",
+      "es2022.sharedmemory",
       "es2022.string",
       "es2023",
       "es2023.array",
@@ -818,6 +820,14 @@
       "es2024.regexp",
       "es2024.sharedmemory",
       "es2024.string",
+      "es2025",
+      "es2025.collection",
+      "es2025.float16",
+      "es2025.full",
+      "es2025.intl",
+      "es2025.iterator",
+      "es2025.promise",
+      "es2025.regexp",
       "es5",
       "es6",
       "es7",
@@ -826,6 +836,7 @@
       "esnext.asynciterable",
       "esnext.bigint",
       "esnext.collection",
+      "esnext.date",
       "esnext.decorators",
       "esnext.disposable",
       "esnext.error",
@@ -839,6 +850,8 @@
       "esnext.sharedmemory",
       "esnext.string",
       "esnext.symbol",
+      "esnext.temporal",
+      "esnext.typedarrays",
       "esnext.weakref",
 
       /*
