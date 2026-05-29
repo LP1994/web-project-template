@@ -854,6 +854,8 @@
       "esnext.typedarrays",
       "esnext.weakref",
 
+      // "node",
+
       /*
       面向Microsoft Windows脚本宿主的库。
       */
