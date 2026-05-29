@@ -1,10 +1,10 @@
-"deno":"2.5.6",
-"v8":"14.0.365.5-rusty",
-"typescript":"5.9.2"
+"deno":"2.8.1",
+"v8":"14.9.207.2-rusty",
+"typescript":"6.0.3"
 
 
 
-Deno_2.5.6程序允许的并检验通过的（125个）：
+Deno_2.8.1程序允许的并检验通过的（138个）：
 "decorators",
 "decorators.legacy",
 
@@ -91,6 +91,7 @@ Deno_2.5.6程序允许的并检验通过的（125个）：
 "es2022.intl",
 "es2022.object",
 "es2022.regexp",
+"es2022.sharedmemory",
 "es2022.string",
 "es2023",
 "es2023.array",
@@ -106,6 +107,14 @@ Deno_2.5.6程序允许的并检验通过的（125个）：
 "es2024.regexp",
 "es2024.sharedmemory",
 "es2024.string",
+"es2025",
+"es2025.collection",
+"es2025.float16",
+"es2025.full",
+"es2025.intl",
+"es2025.iterator",
+"es2025.promise",
+"es2025.regexp",
 "es5",
 "es6",
 "es7",
@@ -114,6 +123,7 @@ Deno_2.5.6程序允许的并检验通过的（125个）：
 "esnext.asynciterable",
 "esnext.bigint",
 "esnext.collection",
+"esnext.date",
 "esnext.decorators",
 "esnext.disposable",
 "esnext.error",
@@ -127,10 +137,15 @@ Deno_2.5.6程序允许的并检验通过的（125个）：
 "esnext.sharedmemory",
 "esnext.string",
 "esnext.symbol",
+"esnext.temporal",
+"esnext.typedarrays",
 "esnext.weakref",
 
+"node",
+
 "scripthost",
+
 "webworker",
 "webworker.asynciterable",
 "webworker.importscripts",
-"webworker.iterable",
+"webworker.iterable"
