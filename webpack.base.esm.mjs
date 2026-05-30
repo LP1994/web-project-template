@@ -6632,6 +6632,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
             'src/**/*.cts.vue',
             'src/**/*.mts.vue',
             'src/**/*.tsx.vue',
+            '!src/**/*.test.*',
             '!src/**/*.test.ts',
             '!src/**/*.test.cts',
             '!src/**/*.test.mts',
