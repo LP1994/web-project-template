@@ -854,6 +854,7 @@
       "esnext.typedarrays",
       "esnext.weakref",
 
+      // deno v2.8开始，支持直接使用node专属的API，因此，才引入该lib属性，但是，个人认为，既然选择了deno，还是应该尽量的使用deno原生API来开发，除非是为了兼容node代码，否则没必要启用该lib属性。
       // "node",
 
       /*
