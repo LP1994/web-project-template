@@ -72,7 +72,7 @@ Deno.DatagramConn
 
 
 安装的：
-deno install https://deno.land/x/corejs/index.js
+deno install https://deno.land/x/corejs@v3.49.0/index.js
 deno install https://deno.land/std/crypto/mod.ts
 
 deno install https://deno.land/std/media_types/mod.ts
