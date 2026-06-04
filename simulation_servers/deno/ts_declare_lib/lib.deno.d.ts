@@ -2346,6 +2346,10 @@ declare namespace Deno {
    * system. It's not a reflection of how many characters will fit within the
    * console window, but can be used as part of that calculation.
    *
+   * Throws if none of stdin, stdout, or stderr is connected to a terminal
+   * (e.g. all are piped or redirected). Use {@linkcode Deno.stdout.isTerminal}
+   * to check before calling.
+   *
    * @category I/O
    */
   export function consoleSize(): {
@@ -7259,7 +7263,10 @@ interface URLSearchParams {
   readonly size: number;
 }
 
-/** @category URL */
+/** The constructor object for {@linkcode URLSearchParams}, used to create a new
+ * `URLSearchParams` object for parsing and building URL query strings.
+ *
+ * @category URL */
 declare var URLSearchParams: {
   readonly prototype: URLSearchParams;
   /**
@@ -7964,7 +7971,11 @@ interface DOMException extends Error {
   readonly DATA_CLONE_ERR: 25;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode DOMException}, used to construct an
+ * exception describing an abnormal event raised by a web API. It also exposes
+ * the legacy numeric error code constants (e.g. `ABORT_ERR`).
+ *
+ * @category Platform */
 declare var DOMException: {
   readonly prototype: DOMException;
   new (message?: string, name?: string): DOMException;
@@ -8011,7 +8022,10 @@ interface QuotaExceededError extends DOMException {
   readonly requested: number | null;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode QuotaExceededError}, used to construct
+ * an error thrown when an operation would exceed an enforced quota.
+ *
+ * @category Platform */
 declare var QuotaExceededError: {
   readonly prototype: QuotaExceededError;
   new (
@@ -8381,7 +8395,11 @@ interface TextDecoder extends TextDecoderCommon {
   decode(input?: AllowSharedBufferSource, options?: TextDecodeOptions): string;
 }
 
-/** @category Encoding */
+/** The constructor object for {@linkcode TextDecoder}, used to create a decoder
+ * for a given text encoding (UTF-8 by default) that turns byte streams into
+ * strings.
+ *
+ * @category Encoding */
 declare var TextDecoder: {
   readonly prototype: TextDecoder;
   new (label?: string, options?: TextDecoderOptions): TextDecoder;
@@ -8428,7 +8446,10 @@ interface TextEncoder extends TextEncoderCommon {
   ): TextEncoderEncodeIntoResult;
 }
 
-/** @category Encoding */
+/** The constructor object for {@linkcode TextEncoder}, used to create an
+ * encoder that turns strings into UTF-8 encoded bytes.
+ *
+ * @category Encoding */
 declare var TextEncoder: {
   readonly prototype: TextEncoder;
   new (): TextEncoder;
@@ -8446,7 +8467,10 @@ interface TextDecoderStream extends GenericTransformStream, TextDecoderCommon {
   readonly writable: WritableStream<AllowSharedBufferSource>;
 }
 
-/** @category Encoding */
+/** The constructor object for {@linkcode TextDecoderStream}, used to create a
+ * transform stream that decodes a stream of bytes into a stream of strings.
+ *
+ * @category Encoding */
 declare var TextDecoderStream: {
   readonly prototype: TextDecoderStream;
   new (label?: string, options?: TextDecoderOptions): TextDecoderStream;
@@ -8458,7 +8482,11 @@ interface TextEncoderStream extends GenericTransformStream, TextEncoderCommon {
   readonly writable: WritableStream<string>;
 }
 
-/** @category Encoding */
+/** The constructor object for {@linkcode TextEncoderStream}, used to create a
+ * transform stream that encodes a stream of strings into a stream of UTF-8
+ * bytes.
+ *
+ * @category Encoding */
 declare var TextEncoderStream: {
   readonly prototype: TextEncoderStream;
   new (): TextEncoderStream;
@@ -8529,7 +8557,13 @@ interface AbortSignal extends EventTarget {
   throwIfAborted(): void;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode AbortSignal}.
+ *
+ * `AbortSignal` instances are obtained from an `AbortController` or via the
+ * static `abort`, `timeout`, and `any` factory methods rather than constructed
+ * directly, so calling the constructor throws.
+ *
+ * @category Platform */
 declare var AbortSignal: {
   readonly prototype: AbortSignal;
   new (): never;
@@ -8600,7 +8634,11 @@ interface FileReader extends EventTarget {
   ): void;
 }
 
-/** @category File */
+/** The constructor object for {@linkcode FileReader}, used to create a reader
+ * that asynchronously reads the contents of a {@linkcode Blob} or
+ * {@linkcode File} into memory.
+ *
+ * @category File */
 declare var FileReader: {
   readonly prototype: FileReader;
   new (): FileReader;
@@ -8716,7 +8754,11 @@ interface ReadableStreamDefaultReader<R = any>
   releaseLock(): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ReadableStreamDefaultReader}, used to
+ * create a default reader locked to the given {@linkcode ReadableStream}. Most
+ * code obtains one via {@linkcode ReadableStream.getReader} instead.
+ *
+ * @category Streams */
 declare var ReadableStreamDefaultReader: {
   readonly prototype: ReadableStreamDefaultReader;
   new <R = any>(stream: ReadableStream<R>): ReadableStreamDefaultReader<R>;
@@ -8736,7 +8778,11 @@ interface ReadableStreamBYOBReader extends ReadableStreamGenericReader {
   releaseLock(): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ReadableStreamBYOBReader}, used to
+ * create a "bring your own buffer" reader locked to the given byte stream. Most
+ * code obtains one via `ReadableStream.getReader({ mode: "byob" })` instead.
+ *
+ * @category Streams */
 declare var ReadableStreamBYOBReader: {
   readonly prototype: ReadableStreamBYOBReader;
   new (
@@ -8751,7 +8797,12 @@ interface ReadableStreamBYOBRequest {
   respondWithNewView(view: ArrayBufferView): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ReadableStreamBYOBRequest}.
+ *
+ * Instances are provided to a byte stream's controller rather than constructed
+ * directly, so calling the constructor throws.
+ *
+ * @category Streams */
 declare var ReadableStreamBYOBRequest: {
   readonly prototype: ReadableStreamBYOBRequest;
   new (): never;
@@ -8820,7 +8871,13 @@ interface ReadableStreamDefaultController<R = any> {
   error(e?: any): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ReadableStreamDefaultController}.
+ *
+ * Instances are passed to a {@linkcode ReadableStream}'s underlying source
+ * callbacks rather than constructed directly, so calling the constructor
+ * throws.
+ *
+ * @category Streams */
 declare var ReadableStreamDefaultController: {
   readonly prototype: ReadableStreamDefaultController;
   new (): never;
@@ -8835,7 +8892,13 @@ interface ReadableByteStreamController {
   error(e?: any): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ReadableByteStreamController}.
+ *
+ * Instances are passed to a byte-oriented {@linkcode ReadableStream}'s
+ * underlying source callbacks rather than constructed directly, so calling the
+ * constructor throws.
+ *
+ * @category Streams */
 declare var ReadableByteStreamController: {
   readonly prototype: ReadableByteStreamController;
   new (): never;
@@ -8870,7 +8933,11 @@ interface CountQueuingStrategy extends QueuingStrategy {
   readonly size: QueuingStrategySize;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode CountQueuingStrategy}, used to create a
+ * queuing strategy that counts each chunk as a single unit toward the stream's
+ * high water mark.
+ *
+ * @category Streams */
 declare var CountQueuingStrategy: {
   readonly prototype: CountQueuingStrategy;
   new (init: QueuingStrategyInit): CountQueuingStrategy;
@@ -8882,7 +8949,11 @@ interface ByteLengthQueuingStrategy extends QueuingStrategy<ArrayBufferView> {
   readonly size: QueuingStrategySize<ArrayBufferView>;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ByteLengthQueuingStrategy}, used to
+ * create a queuing strategy that measures each chunk by its `byteLength` toward
+ * the stream's high water mark.
+ *
+ * @category Streams */
 declare var ByteLengthQueuingStrategy: {
   readonly prototype: ByteLengthQueuingStrategy;
   new (init: QueuingStrategyInit): ByteLengthQueuingStrategy;
@@ -8920,7 +8991,11 @@ interface ReadableStream<R = any> {
   ): AsyncIterableIterator<R>;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode ReadableStream}, used to create a
+ * readable stream from an underlying source describing how data is enqueued and
+ * consumed.
+ *
+ * @category Streams */
 declare var ReadableStream: {
   readonly prototype: ReadableStream;
   new (
@@ -8995,7 +9070,11 @@ interface WritableStream<W = any> {
   getWriter(): WritableStreamDefaultWriter<W>;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode WritableStream}, used to create a
+ * writable stream from an underlying sink describing how written chunks are
+ * handled.
+ *
+ * @category Streams */
 declare var WritableStream: {
   readonly prototype: WritableStream;
   new <W = any>(
@@ -9016,7 +9095,13 @@ interface WritableStreamDefaultController {
   error(e?: any): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode WritableStreamDefaultController}.
+ *
+ * Instances are passed to a {@linkcode WritableStream}'s underlying sink
+ * callbacks rather than constructed directly, so calling the constructor
+ * throws.
+ *
+ * @category Streams */
 declare var WritableStreamDefaultController: {
   readonly prototype: WritableStreamDefaultController;
   new (): never;
@@ -9039,7 +9124,11 @@ interface WritableStreamDefaultWriter<W = any> {
   write(chunk?: W): Promise<void>;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode WritableStreamDefaultWriter}, used to
+ * create a writer locked to the given {@linkcode WritableStream}. Most code
+ * obtains one via {@linkcode WritableStream.getWriter} instead.
+ *
+ * @category Streams */
 declare var WritableStreamDefaultWriter: {
   readonly prototype: WritableStreamDefaultWriter;
   new <W = any>(stream: WritableStream<W>): WritableStreamDefaultWriter<W>;
@@ -9051,7 +9140,11 @@ interface TransformStream<I = any, O = any> {
   readonly writable: WritableStream<I>;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode TransformStream}, used to create a
+ * transform stream from a transformer describing how chunks read from its
+ * writable side are transformed before appearing on its readable side.
+ *
+ * @category Streams */
 declare var TransformStream: {
   readonly prototype: TransformStream;
   new <I = any, O = any>(
@@ -9069,7 +9162,12 @@ interface TransformStreamDefaultController<O = any> {
   terminate(): void;
 }
 
-/** @category Streams */
+/** The constructor object for {@linkcode TransformStreamDefaultController}.
+ *
+ * Instances are passed to a {@linkcode TransformStream}'s transformer callbacks
+ * rather than constructed directly, so calling the constructor throws.
+ *
+ * @category Streams */
 declare var TransformStreamDefaultController: {
   readonly prototype: TransformStreamDefaultController;
   new (): never;
@@ -9158,7 +9256,11 @@ interface MessageEvent<T = any> extends Event {
   ): void;
 }
 
-/** @category Events */
+/** The constructor object for {@linkcode MessageEvent}, used to construct an
+ * event carrying a message, such as those dispatched for `BroadcastChannel`,
+ * `MessagePort`, and `Worker` messaging.
+ *
+ * @category Events */
 declare var MessageEvent: {
   readonly prototype: MessageEvent;
   new <T>(type: string, eventInitDict?: MessageEventInit<T>): MessageEvent<T>;
@@ -9471,7 +9573,11 @@ interface ImageData {
   readonly colorSpace: PredefinedColorSpace;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode ImageData}, used to create an object
+ * holding the raw pixel data of a rectangular image region, either zero-filled
+ * for the given dimensions or wrapping an existing pixel array.
+ *
+ * @category Platform */
 declare var ImageData: {
   readonly prototype: ImageData;
   new (sw: number, sh: number, settings?: ImageDataSettings): ImageData;
@@ -9549,7 +9655,10 @@ interface WebTransport {
   createSendGroup(): WebTransportSendGroup;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransport}, used to open a new
+ * WebTransport session to the server at the given `url`.
+ *
+ * @category Platform */
 declare var WebTransport: {
   prototype: WebTransport;
   new (url: string | URL, options?: WebTransportOptions): WebTransport;
@@ -9566,7 +9675,12 @@ interface WebTransportBidirectionalStream {
   readonly writable: WebTransportSendStream;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportBidirectionalStream}.
+ *
+ * Instances are obtained from a {@linkcode WebTransport} session rather than
+ * constructed directly.
+ *
+ * @category Platform */
 declare var WebTransportBidirectionalStream: {
   prototype: WebTransportBidirectionalStream;
   new (): WebTransportBidirectionalStream;
@@ -9593,7 +9707,12 @@ interface WebTransportDatagramDuplexStream {
   readonly writable: WebTransportSendStream;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportDatagramDuplexStream}.
+ *
+ * The datagram duplex stream is obtained from
+ * {@linkcode WebTransport.datagrams} rather than constructed directly.
+ *
+ * @category Platform */
 declare var WebTransportDatagramDuplexStream: {
   prototype: WebTransportDatagramDuplexStream;
   new (): WebTransportDatagramDuplexStream;
@@ -9614,7 +9733,12 @@ interface WebTransportSendStream extends WritableStream<Uint8Array> {
   getWriter(): WebTransportWriter;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportSendStream}.
+ *
+ * Instances are obtained from a {@linkcode WebTransport} session rather than
+ * constructed directly.
+ *
+ * @category Platform */
 declare var WebTransportSendStream: {
   prototype: WebTransportSendStream;
   new (): WebTransportSendStream;
@@ -9636,7 +9760,12 @@ interface WebTransportWriter extends WritableStreamDefaultWriter<Uint8Array> {
   atomicWrite(chunk: any): Promise<undefined>;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportWriter}.
+ *
+ * Instances are obtained from a {@linkcode WebTransportSendStream} rather than
+ * constructed directly.
+ *
+ * @category Platform */
 declare var WebTransportWriter: {
   prototype: WebTransportWriter;
   new (): WebTransportWriter;
@@ -9651,7 +9780,12 @@ interface WebTransportReceiveStream extends ReadableStream<Uint8Array> {
   getStats(): Promise<WebTransportReceiveStreamStats>;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportReceiveStream}.
+ *
+ * Instances are obtained from a {@linkcode WebTransport} session rather than
+ * constructed directly.
+ *
+ * @category Platform */
 declare var WebTransportReceiveStream: {
   prototype: WebTransportReceiveStream;
   new (): WebTransportReceiveStream;
@@ -9672,7 +9806,12 @@ interface WebTransportSendGroup {
   getStats(): Promise<WebTransportSendStreamStats>;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportSendGroup}.
+ *
+ * Instances are obtained from a {@linkcode WebTransport} session rather than
+ * constructed directly.
+ *
+ * @category Platform */
 declare var WebTransportSendGroup: {
   prototype: WebTransportSendGroup;
   new (): WebTransportSendGroup;
@@ -9689,7 +9828,11 @@ interface WebTransportError extends DOMException {
   readonly streamErrorCode: number | null;
 }
 
-/** @category Platform */
+/** The constructor object for {@linkcode WebTransportError}, used to construct
+ * an error describing a failure of a {@linkcode WebTransport} session or one of
+ * its streams.
+ *
+ * @category Platform */
 declare var WebTransportError: {
   prototype: WebTransportError;
   new (message?: string, options?: WebTransportErrorOptions): WebTransportError;
@@ -10566,7 +10709,11 @@ interface FormData extends DomIterable<string, FormDataEntryValue> {
   set(name: string, value: string | Blob, fileName?: string): void;
 }
 
-/** @category Fetch */
+/** The constructor object for {@linkcode FormData}, used to create a new,
+ * empty `FormData` object that can be populated with fields and submitted with
+ * {@linkcode fetch}.
+ *
+ * @category Fetch */
 declare var FormData: {
   readonly prototype: FormData;
   new (): FormData;
@@ -10960,7 +11107,11 @@ interface EventSourceEventMap {
   "open": Event;
 }
 
-/**
+/** Represents a connection to a server that sends
+ * [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events),
+ * receiving updates pushed by the server as a stream of `message` events over a
+ * persistent HTTP connection that automatically reconnects when interrupted.
+ *
  * @category Fetch
  */
 interface EventSource extends EventTarget {
@@ -11018,7 +11169,10 @@ interface EventSource extends EventTarget {
   ): void;
 }
 
-/**
+/** The constructor object for {@linkcode EventSource}, used to open a new
+ * server-sent events connection to the given `url`. The object also exposes the
+ * `CONNECTING`, `OPEN`, and `CLOSED` ready-state constants.
+ *
  * @category Fetch
  */
 declare var EventSource: {
@@ -13133,7 +13287,13 @@ interface Storage {
   [name: string]: any;
 }
 
-/** @category Storage */
+/** The constructor object for {@linkcode Storage}.
+ *
+ * `Storage` instances are accessed via the global `localStorage` and
+ * `sessionStorage` properties rather than constructed directly, so calling the
+ * constructor throws.
+ *
+ * @category Storage */
 declare var Storage: {
   readonly prototype: Storage;
   new (): never;
@@ -13370,7 +13530,11 @@ interface GPUCanvasConfiguration {
   presentMode?: GPUPresentMode;
 }
 
-/** @category Canvas */
+/** The rendering context that presents WebGPU-rendered images on an
+ * {@linkcode OffscreenCanvas}. Obtained from
+ * {@linkcode OffscreenCanvas.getContext} with the `"webgpu"` context id.
+ *
+ * @category Canvas */
 interface GPUCanvasContext {
   /** The canvas that this context is bound to. */
   readonly canvas: OffscreenCanvas;
@@ -13380,24 +13544,45 @@ interface GPUCanvasContext {
   unconfigure(): undefined;
   getCurrentTexture(): GPUTexture;
 }
-/** @category Canvas */
+/** The constructor object for {@linkcode GPUCanvasContext}.
+ *
+ * A `GPUCanvasContext` is obtained from
+ * {@linkcode OffscreenCanvas.getContext} with the `"webgpu"` context id rather
+ * than constructed directly.
+ *
+ * @category Canvas */
 declare var GPUCanvasContext: {
   prototype: GPUCanvasContext;
 };
 
-/** @category Canvas */
+/** A rendering context that displays the contents of an {@linkcode ImageBitmap}
+ * on an {@linkcode OffscreenCanvas}. Obtained from
+ * {@linkcode OffscreenCanvas.getContext} with the `"bitmaprenderer"` context
+ * id.
+ *
+ * @category Canvas */
 interface ImageBitmapRenderingContext {
   /** The canvas that this context is bound to. */
   readonly canvas: OffscreenCanvas;
 
   transferFromImageBitmap(bitmap: ImageBitmap | null): undefined;
 }
-/** @category Canvas */
+/** The constructor object for {@linkcode ImageBitmapRenderingContext}.
+ *
+ * An `ImageBitmapRenderingContext` is obtained from
+ * {@linkcode OffscreenCanvas.getContext} with the `"bitmaprenderer"` context id
+ * rather than constructed directly.
+ *
+ * @category Canvas */
 declare var ImageBitmapRenderingContext: {
   prototype: ImageBitmapRenderingContext;
 };
 
-/**
+/** A canvas that can be rendered to off the main thread and without being
+ * attached to the DOM. It exposes drawing contexts via
+ * {@linkcode OffscreenCanvas.getContext} and can produce a {@linkcode Blob} or
+ * {@linkcode ImageBitmap} from its contents.
+ *
  * @category Canvas
  * @see https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
  */
@@ -13436,7 +13621,10 @@ interface OffscreenCanvas extends EventTarget {
   transferToImageBitmap(): ImageBitmap;
 }
 
-/**
+/** The constructor object for {@linkcode OffscreenCanvas}, used to create a new
+ * offscreen canvas with the given `width` and `height` that can be rendered to
+ * without being attached to the DOM.
+ *
  * @category Canvas
  * @see https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
  */
@@ -13452,7 +13640,13 @@ declare var OffscreenCanvas: {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Crypto */
+/** The global instance of {@linkcode Crypto} that provides access to the Web
+ * Crypto API, including cryptographically secure random number generation via
+ * {@linkcode Crypto.getRandomValues}, random UUID generation via
+ * {@linkcode Crypto.randomUUID}, and the low-level primitives exposed by
+ * {@linkcode SubtleCrypto} through {@linkcode Crypto.subtle}.
+ *
+ * @category Crypto */
 declare var crypto: Crypto;
 
 /** @category Crypto */
@@ -13657,7 +13851,13 @@ interface CryptoKey {
   readonly usages: KeyUsage[];
 }
 
-/** @category Crypto */
+/** The constructor object for {@linkcode CryptoKey}.
+ *
+ * `CryptoKey` instances cannot be created directly; they are produced by
+ * {@linkcode SubtleCrypto} methods such as `generateKey`, `importKey`, and
+ * `deriveKey`, so calling the constructor throws.
+ *
+ * @category Crypto */
 declare var CryptoKey: {
   readonly prototype: CryptoKey;
   new (): never;
@@ -13673,7 +13873,13 @@ interface CryptoKeyPair {
   publicKey: CryptoKey;
 }
 
-/** @category Crypto */
+/** The constructor object for {@linkcode CryptoKeyPair}.
+ *
+ * `CryptoKeyPair` objects are returned by {@linkcode SubtleCrypto.generateKey}
+ * for asymmetric algorithms and cannot be constructed directly, so calling the
+ * constructor throws.
+ *
+ * @category Crypto */
 declare var CryptoKeyPair: {
   readonly prototype: CryptoKeyPair;
   new (): never;
@@ -14072,13 +14278,24 @@ interface SubtleCrypto {
   ): Promise<CryptoKey>;
 }
 
-/** @category Crypto */
+/** The constructor object for {@linkcode SubtleCrypto}.
+ *
+ * The `SubtleCrypto` instance is accessed via {@linkcode Crypto.subtle}
+ * (`crypto.subtle`) rather than constructed directly, so calling the
+ * constructor throws.
+ *
+ * @category Crypto */
 declare var SubtleCrypto: {
   readonly prototype: SubtleCrypto;
   new (): never;
 };
 
-/** @category Crypto */
+/** This Web Crypto API interface provides basic cryptographic functionality.
+ * It is accessed via the global {@linkcode crypto} property, which gives access
+ * to cryptographically strong random number generation and to the low-level
+ * primitives exposed by {@linkcode SubtleCrypto} through {@linkcode Crypto.subtle}.
+ *
+ * @category Crypto */
 interface Crypto {
   readonly subtle: SubtleCrypto;
 
@@ -14133,7 +14350,12 @@ interface Crypto {
   randomUUID(): `${string}-${string}-${string}-${string}-${string}`;
 }
 
-/** @category Crypto */
+/** The constructor object for {@linkcode Crypto}.
+ *
+ * The `Crypto` instance is accessed via the global {@linkcode crypto} property
+ * rather than constructed directly, so calling the constructor throws.
+ *
+ * @category Crypto */
 declare var Crypto: {
   readonly prototype: Crypto;
   new (): never;
@@ -14154,7 +14376,11 @@ interface BroadcastChannelEventMap {
   "messageerror": MessageEvent;
 }
 
-/**
+/** Represents a named channel that any
+ * {@linkcode BroadcastChannel} with the same name (across workers or isolates
+ * in the same Deno process) can use to send and receive messages, allowing
+ * one-to-many communication between execution contexts.
+ *
  * @category Messaging
  */
 interface BroadcastChannel extends EventTarget {
@@ -14196,7 +14422,12 @@ interface BroadcastChannel extends EventTarget {
   ): void;
 }
 
-/**
+/** The constructor object for {@linkcode BroadcastChannel}.
+ *
+ * Construct a channel with `new BroadcastChannel(name)` to join the channel
+ * identified by `name`; messages posted on it are delivered to every other
+ * `BroadcastChannel` connected to the same name.
+ *
  * @category Messaging
  */
 declare var BroadcastChannel: {
@@ -14211,30 +14442,48 @@ declare var BroadcastChannel: {
 /// <reference lib="esnext.disposable" />
 
 declare namespace Deno {
-  /** @category Network */
+  /** The address of a network connection or listener using an IP-based
+   * transport.
+   *
+   * @category Network */
   export interface NetAddr {
+    /** The IP-based transport protocol. */
     transport: "tcp" | "udp";
+    /** The IP address. */
     hostname: string;
+    /** The port number. */
     port: number;
   }
 
-  /** @category Network */
+  /** The address of a network connection or listener using a Unix domain
+   * socket.
+   *
+   * @category Network */
   export interface UnixAddr {
+    /** The Unix domain socket transport protocol. */
     transport: "unix" | "unixpacket";
+    /** The file system path to the socket. */
     path: string;
   }
 
-  /**
+  /** The address of a network connection or listener using the VSOCK transport
+   * for communication between a virtual machine and its host.
+   *
    * @experimental **UNSTABLE**: New API, yet to be vetted.
    * @category Network
    */
   export interface VsockAddr {
+    /** The VSOCK transport protocol. */
     transport: "vsock";
+    /** The context identifier (CID) of the peer. */
     cid: number;
+    /** The port number. */
     port: number;
   }
 
-  /** @category Network */
+  /** The address of a network connection or listener, regardless of transport.
+   *
+   * @category Network */
   export type Addr = NetAddr | UnixAddr | VsockAddr;
 
   /** A generic network listener for stream-oriented protocols.
@@ -14246,11 +14495,19 @@ declare namespace Deno {
     /** Waits for and resolves to the next connection to the `Listener`. */
     accept(): Promise<T>;
     /** Close closes the listener. Any pending accept promises will be rejected
-     * with errors. */
+     * with errors. A pending async iterator `next()` call will settle after the
+     * underlying accept promise is rejected.
+     *
+     * If the listener has a pending accept operation, the underlying socket may
+     * not be released until the pending promise is rejected. If you need to
+     * listen on the same address immediately after closing the listener, await
+     * the pending accept promise before calling {@linkcode Deno.listen} again.
+     */
     close(): void;
     /** Return the address of the `Listener`. */
     readonly addr: A;
 
+    /** Iterates over the connections accepted by the listener. */
     [Symbol.asyncIterator](): AsyncIterableIterator<T>;
 
     /**
@@ -14291,7 +14548,10 @@ declare namespace Deno {
    */
   export type VsockListener = Listener<VsockConn, VsockAddr>;
 
-  /** @category Network */
+  /** A generic stream-oriented network connection that can be read from and
+   * written to.
+   *
+   * @category Network */
   export interface Conn<A extends Addr = Addr> extends Disposable {
     /** Read the incoming data from the connection into an array buffer (`p`).
      *
@@ -14360,11 +14620,15 @@ declare namespace Deno {
     /** Make the connection not block the event loop from finishing. */
     unref(): void;
 
+    /** A {@linkcode ReadableStream} of the data received over the connection. */
     readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
+    /** A {@linkcode WritableStream} for sending data over the connection. */
     readonly writable: WritableStream<Uint8Array<ArrayBufferLike>>;
   }
 
-  /** @category Network */
+  /** Information about a completed TLS handshake.
+   *
+   * @category Network */
   export interface TlsHandshakeInfo {
     /**
      * Contains the ALPN protocol selected during negotiation with the server.
@@ -14373,7 +14637,9 @@ declare namespace Deno {
     alpnProtocol: string | null;
   }
 
-  /** @category Network */
+  /** A TLS-encrypted stream connection over an IP-based transport.
+   *
+   * @category Network */
   export interface TlsConn extends Conn<NetAddr> {
     /** Runs the client or server handshake protocol to completion if that has
      * not happened yet. Calling this method is optional; the TLS handshake
@@ -14381,7 +14647,10 @@ declare namespace Deno {
     handshake(): Promise<TlsHandshakeInfo>;
   }
 
-  /** @category Network */
+  /** Options which can be set when opening a listener via
+   * {@linkcode Deno.listen}.
+   *
+   * @category Network */
   export interface ListenOptions {
     /** The port to listen on.
      *
@@ -14411,7 +14680,10 @@ declare namespace Deno {
     tcpBacklog?: number;
   }
 
-  /** @category Network */
+  /** Options which can be set when opening a TCP listener via
+   * {@linkcode Deno.listen}.
+   *
+   * @category Network */
   export interface TcpListenOptions extends ListenOptions {
   }
 
@@ -14467,7 +14739,10 @@ declare namespace Deno {
    * @category Network
    */
   export interface VsockListenOptions {
+    /** The context identifier (CID) to listen on. Use `-1` to listen on any
+     * CID. */
     cid: number;
+    /** The port to listen on. */
     port: number;
   }
 
@@ -14517,8 +14792,12 @@ declare namespace Deno {
     cert: string;
   }
 
-  /** @category Network */
+  /** Options which can be set when opening a TLS listener via
+   * {@linkcode Deno.listenTls}.
+   *
+   * @category Network */
   export interface ListenTlsOptions extends TcpListenOptions {
+    /** The transport layer protocol to use. */
     transport?: "tcp";
 
     /** Application-Layer Protocol Negotiation (ALPN) protocols to announce to
@@ -14548,7 +14827,9 @@ declare namespace Deno {
     options: ListenTlsOptions & TlsCertifiedKeyPem,
   ): TlsListener;
 
-  /** @category Network */
+  /** Options which can be set when connecting via {@linkcode Deno.connect}.
+   *
+   * @category Network */
   export interface ConnectOptions {
     /** The port to connect to. */
     port: number;
@@ -14581,7 +14862,9 @@ declare namespace Deno {
    */
   export function connect(options: ConnectOptions): Promise<TcpConn>;
 
-  /** @category Network */
+  /** A TCP stream connection.
+   *
+   * @category Network */
   export interface TcpConn extends Conn<NetAddr> {
     /**
      * Enable/disable the use of Nagle's algorithm.
@@ -14593,13 +14876,20 @@ declare namespace Deno {
     setKeepAlive(keepAlive?: boolean): void;
   }
 
-  /** @category Network */
+  /** Options which can be set when connecting to a Unix domain socket via
+   * {@linkcode Deno.connect}.
+   *
+   * @category Network */
   export interface UnixConnectOptions {
+    /** The Unix domain socket transport protocol. */
     transport: "unix";
+    /** The file system path to the socket to connect to. */
     path: string;
   }
 
-  /** @category Network */
+  /** A Unix domain socket stream connection.
+   *
+   * @category Network */
   export interface UnixConn extends Conn<UnixAddr> {}
 
   /** Connects to the hostname (default is "127.0.0.1") and port on the named
@@ -14621,17 +14911,24 @@ declare namespace Deno {
   // deno-lint-ignore adjacent-overload-signatures
   export function connect(options: UnixConnectOptions): Promise<UnixConn>;
 
-  /**
+  /** Options which can be set when connecting over VSOCK via
+   * {@linkcode Deno.connect}.
+   *
    * @experimental **UNSTABLE**: New API, yet to be vetted.
    * @category Network
    */
   export interface VsockConnectOptions {
+    /** The VSOCK transport protocol. */
     transport: "vsock";
+    /** The context identifier (CID) of the peer to connect to. */
     cid: number;
+    /** The port to connect to. */
     port: number;
   }
 
-  /** @category Network */
+  /** A VSOCK stream connection.
+   *
+   * @category Network */
   export interface VsockConn extends Conn<VsockAddr> {}
 
   /** Connects to the hostname (default is "127.0.0.1") and port on the named
@@ -14656,7 +14953,10 @@ declare namespace Deno {
   // deno-lint-ignore adjacent-overload-signatures
   export function connect(options: VsockConnectOptions): Promise<VsockConn>;
 
-  /** @category Network */
+  /** Options which can be set when establishing a TLS connection via
+   * {@linkcode Deno.connectTls}.
+   *
+   * @category Network */
   export interface ConnectTlsOptions {
     /** The port to connect to. */
     port: number;
@@ -14716,7 +15016,10 @@ declare namespace Deno {
     options: ConnectTlsOptions | (ConnectTlsOptions & TlsCertifiedKeyPem),
   ): Promise<TlsConn>;
 
-  /** @category Network */
+  /** Options which can be set when upgrading an existing connection to TLS via
+   * {@linkcode Deno.startTls}.
+   *
+   * @category Network */
   export interface StartTlsOptions {
     /** A literal IP address or host name that can be resolved to an IP address.
      *
@@ -15003,6 +15306,7 @@ declare namespace Deno {
     /** Stops the listener. This does not close the endpoint. */
     stop(): void;
 
+    /** Iterates over the incoming connections received by the listener. */
     [Symbol.asyncIterator](): AsyncIterableIterator<QuicIncoming>;
 
     /** The endpoint for this listener. */
@@ -15211,7 +15515,16 @@ declare namespace Deno {
 /// <reference lib="deno.broadcast_channel" />
 /// <reference lib="node" />
 
-/** @category Wasm */
+/** The `WebAssembly` JavaScript object acts as the namespace for all
+ * [WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly)-related
+ * functionality. Unlike most global objects, it is not a constructor; it groups
+ * the functions used to compile and instantiate WebAssembly modules together
+ * with the classes (`Module`, `Instance`, `Memory`, `Table`, `Global`) and
+ * error types used to work with them.
+ *
+ * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)
+ *
+ * @category Wasm */
 declare namespace WebAssembly {
   /**
    * The `WebAssembly.CompileError` object indicates an error during WebAssembly decoding or validation.
@@ -15381,7 +15694,10 @@ declare namespace WebAssembly {
    * @category Wasm
    */
   export interface GlobalDescriptor {
+    /** Whether the global variable can be modified after creation. Defaults to
+     * `false`. */
     mutable?: boolean;
+    /** The data type of the global variable. */
     value: ValueType;
   }
 
@@ -15391,8 +15707,14 @@ declare namespace WebAssembly {
    * @category Wasm
    */
   export interface MemoryDescriptor {
+    /** The initial size of the memory, in units of WebAssembly pages (64KB
+     * each). */
     initial: number;
+    /** The maximum size the memory is allowed to grow to, in units of
+     * WebAssembly pages. */
     maximum?: number;
+    /** Whether the memory is shared between agents (backed by a
+     * `SharedArrayBuffer`). Defaults to `false`. */
     shared?: boolean;
   }
 
@@ -15402,7 +15724,9 @@ declare namespace WebAssembly {
    * @category Wasm
    */
   export interface ModuleExportDescriptor {
+    /** The kind of entity being exported. */
     kind: ImportExportKind;
+    /** The name under which the entity is exported. */
     name: string;
   }
 
@@ -15412,8 +15736,11 @@ declare namespace WebAssembly {
    * @category Wasm
    */
   export interface ModuleImportDescriptor {
+    /** The kind of entity being imported. */
     kind: ImportExportKind;
+    /** The name of the module the entity is imported from. */
     module: string;
+    /** The name of the imported entity within its module. */
     name: string;
   }
 
@@ -15423,8 +15750,11 @@ declare namespace WebAssembly {
    * @category Wasm
    */
   export interface TableDescriptor {
+    /** The type of value stored in the table. */
     element: TableKind;
+    /** The initial number of elements in the table. */
     initial: number;
+    /** The maximum number of elements the table is allowed to grow to. */
     maximum?: number;
   }
 
@@ -15433,7 +15763,7 @@ declare namespace WebAssembly {
    * @category Wasm
    */
   export interface WebAssemblyInstantiatedSource {
-    /* A `WebAssembly.Instance` object that contains all the exported WebAssembly functions. */
+    /** A `WebAssembly.Instance` object that contains all the exported WebAssembly functions. */
     instance: Instance;
 
     /**
@@ -15443,21 +15773,39 @@ declare namespace WebAssembly {
     module: Module;
   }
 
-  /** @category Wasm */
+  /** The kind of entity referenced by a module import or export descriptor.
+   *
+   * @category Wasm */
   export type ImportExportKind = "function" | "global" | "memory" | "table";
-  /** @category Wasm */
+  /** The type of value stored in a `WebAssembly.Table`.
+   *
+   * @category Wasm */
   export type TableKind = "anyfunc";
-  /** @category Wasm */
+  /** The data type of a WebAssembly value, used to describe globals.
+   *
+   * @category Wasm */
   export type ValueType = "f32" | "f64" | "i32" | "i64";
-  /** @category Wasm */
+  /** A value that can be exported from a WebAssembly module instance.
+   *
+   * @category Wasm */
   export type ExportValue = Function | Global | Memory | Table;
-  /** @category Wasm */
+  /** The set of values exported by a WebAssembly module instance, keyed by
+   * export name.
+   *
+   * @category Wasm */
   export type Exports = Record<string, ExportValue>;
-  /** @category Wasm */
+  /** A value that can be supplied to a WebAssembly module as an import.
+   *
+   * @category Wasm */
   export type ImportValue = ExportValue | number;
-  /** @category Wasm */
+  /** The set of values imported from a single module, keyed by import name.
+   *
+   * @category Wasm */
   export type ModuleImports = Record<string, ImportValue>;
-  /** @category Wasm */
+  /** The import object supplied when instantiating a WebAssembly module,
+   * grouping imported values by module name.
+   *
+   * @category Wasm */
   export type Imports = Record<string, ModuleImports>;
 
   /**
@@ -15633,7 +15981,11 @@ interface ErrorEvent extends Event {
   readonly error: any;
 }
 
-/** @category Events */
+/** The constructor object for {@linkcode ErrorEvent}, used to construct an
+ * event describing an uncaught error, such as the one dispatched on the global
+ * scope as `error`.
+ *
+ * @category Events */
 declare var ErrorEvent: {
   readonly prototype: ErrorEvent;
   new (type: string, eventInitDict?: ErrorEventInit): ErrorEvent;
@@ -15651,7 +16003,11 @@ interface PromiseRejectionEvent extends Event {
   readonly reason: any;
 }
 
-/** @category Events */
+/** The constructor object for {@linkcode PromiseRejectionEvent}, used to
+ * construct the event dispatched on the global scope as `unhandledrejection`
+ * and `rejectionhandled` when a promise is rejected without a handler.
+ *
+ * @category Events */
 declare var PromiseRejectionEvent: {
   readonly prototype: PromiseRejectionEvent;
   new (
@@ -15931,13 +16287,22 @@ interface Performance extends EventTarget {
   toJSON(): any;
 }
 
-/** @category Performance */
+/** The constructor object for {@linkcode Performance}.
+ *
+ * The `Performance` instance is accessed via the global {@linkcode performance}
+ * property rather than constructed directly, so calling the constructor throws.
+ *
+ * @category Performance */
 declare var Performance: {
   readonly prototype: Performance;
   new (): never;
 };
 
-/** @category Performance */
+/** The global {@linkcode Performance} instance, providing access to
+ * high-resolution timing via `performance.now()` and the user-timing marks and
+ * measures APIs.
+ *
+ * @category Performance */
 declare var performance: Performance;
 
 /** @category Performance */
@@ -16052,7 +16417,11 @@ interface CustomEvent<T = any> extends Event {
   readonly detail: T;
 }
 
-/** @category Events */
+/** The constructor object for {@linkcode CustomEvent}, used to construct an
+ * event that can carry arbitrary application-defined data via its `detail`
+ * property.
+ *
+ * @category Events */
 declare var CustomEvent: {
   readonly prototype: CustomEvent;
   new <T>(typeArg: string, eventInitDict?: CustomEventInit<T>): CustomEvent<T>;
@@ -16091,9 +16460,19 @@ interface Math {
   sumPrecise(values: Iterable<number>): number;
 }
 
-/** @category Intl */
+/** The `Intl` namespace groups the
+ * [ECMAScript Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+ * constructors and functions.
+ *
+ * This declaration augments the standard `Intl` namespace with members that are
+ * not yet part of the bundled TypeScript library definitions.
+ *
+ * @category Intl */
 declare namespace Intl {
-  /** @category Intl */
+  /** Augments the standard {@linkcode Intl.Locale} interface with members not
+   * yet present in the bundled TypeScript library definitions.
+   *
+   * @category Intl */
   export interface Locale {
     /**
      * Returns the variant subtags of the locale as a single string, with
@@ -16113,10 +16492,18 @@ declare namespace Intl {
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 
-/** @category Cache */
+/** The global {@linkcode CacheStorage} instance, providing access to the named
+ * {@linkcode Cache} objects used to store and retrieve `Request`/`Response`
+ * pairs.
+ *
+ * @category Cache */
 declare var caches: CacheStorage;
 
-/** @category Cache */
+/** Represents the storage for named {@linkcode Cache} objects. It provides the
+ * methods used to open, enumerate, look up, and delete caches, and is accessed
+ * via the global {@linkcode caches} property.
+ *
+ * @category Cache */
 interface CacheStorage {
   /** Open a cache storage for the provided name. */
   open(cacheName: string): Promise<Cache>;
@@ -16139,7 +16526,11 @@ interface CacheStorage {
   ): Promise<Response | undefined>;
 }
 
-/** @category Cache */
+/** Represents a single named store of `Request`/`Response` pairs. Obtain a
+ * `Cache` via {@linkcode CacheStorage.open} and use it to persist responses and
+ * later match incoming requests against them.
+ *
+ * @category Cache */
 interface Cache {
   /**
    * Put the provided request/response into the cache.
@@ -16173,13 +16564,23 @@ interface Cache {
   ): Promise<boolean>;
 }
 
-/** @category Cache */
+/** The constructor object for {@linkcode Cache}.
+ *
+ * `Cache` instances are obtained via {@linkcode CacheStorage.open} rather than
+ * constructed directly, so calling the constructor throws.
+ *
+ * @category Cache */
 declare var Cache: {
   readonly prototype: Cache;
   new (): never;
 };
 
-/** @category Cache */
+/** The constructor object for {@linkcode CacheStorage}.
+ *
+ * The `CacheStorage` instance is accessed via the global {@linkcode caches}
+ * property rather than constructed directly, so calling the constructor throws.
+ *
+ * @category Cache */
 declare var CacheStorage: {
   readonly prototype: CacheStorage;
   new (): never;
@@ -17162,7 +17563,11 @@ declare function addEventListener<
   listener: (this: Window, ev: WindowEventMap[K]) => any,
   options?: boolean | AddEventListenerOptions,
 ): void;
-/** @category Events */
+/** Registers an event listener for an arbitrary event `type` on the global
+ * scope.
+ *
+ * @category Events
+ */
 declare function addEventListener(
   type: string,
   listener: EventListenerOrEventListenerObject,
@@ -17186,7 +17591,11 @@ declare function removeEventListener<
   listener: (this: Window, ev: WindowEventMap[K]) => any,
   options?: boolean | EventListenerOptions,
 ): void;
-/** @category Events */
+/** Removes a previously registered event listener for an arbitrary event
+ * `type` from the global scope.
+ *
+ * @category Events
+ */
 declare function removeEventListener(
   type: string,
   listener: EventListenerOrEventListenerObject,
@@ -17278,10 +17687,19 @@ declare var Location: {
 
 // TODO(nayeemrmn): Move this to `extensions/web` where its implementation is.
 // The types there must first be split into window, worker and global types.
-/** @category Platform */
+/** The {@linkcode Location} object describing the absolute URL of the main
+ * module, available when the program is started with the `--location` flag.
+ * Accessing it without `--location` throws.
+ *
+ * @category Platform */
 declare var location: Location;
 
-/** @category Platform */
+/** Gets or sets the name of the global scope's browsing context.
+ *
+ * Provided for web compatibility; Deno has no browsing context, so this is an
+ * empty string by default.
+ *
+ * @category Platform */
 declare var name: string;
 
 // Copyright 2018-2026 the Deno authors. MIT license.
