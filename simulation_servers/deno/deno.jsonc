@@ -11,8 +11,7 @@
     "worker-options",
     "cron",
     "kv",
-    "net",
-    "temporal"
+    "net"
   ],
   "lint": {
     "include": [
