@@ -95,7 +95,14 @@ import {
 } from './webpack.base.esm.mjs';
 
 export default {
-  // webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/
+  /**
+   * webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/
+   * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+   * 如在项目的业务代码中使用如下写法：
+   * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+   * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+   * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+   */
   dotenv: {
     /**
      * 1、默认值为：'WEBPACK_'。
