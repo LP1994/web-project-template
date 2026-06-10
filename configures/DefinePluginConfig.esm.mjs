@@ -48,10 +48,19 @@ function DefinePluginConfig( {
   const wsHost001 = `( location.protocol === "http:" ? "ws:" : "wss:" ) + "//" + location.hostname + ":" + location.port + `;
 
   return {
-    env: JSON.stringify( process.env ),
-    'process.env': JSON.stringify( process.env ),
+    /**
+     * 不建议将“process.env”、“import.meta.env”通过全局定义使用！甚至是不要这么干！
+     * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+     * 如在项目的业务代码中使用如下写法：
+     * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+     * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+     * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+     */
+    // env: JSON.stringify( process.env ),
+    // 'process.env': JSON.stringify( process.env ),
     // 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
-    'import.meta.env': JSON.stringify( process.env ),
+    // 'import.meta.env': JSON.stringify( process.env ),
+
     env_platform: JSON.stringify( env_platform ),
     isProduction: JSON.stringify( isProduction ),
     httpRequestHeaders: JSON.stringify( httpRequestHeaders ),
