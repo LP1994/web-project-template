@@ -1935,6 +1935,11 @@ declare namespace Deno {
      *   console.log(decoder.decode(chunk));
      * }
      * ```
+     *
+     * Note that the readable stream *takes ownership of the file*: reading the
+     * stream to completion (or cancelling it) closes the file automatically, so
+     * you should not close the file yourself while the stream is still being
+     * consumed.
      */
     readonly readable: ReadableStream<Uint8Array<ArrayBuffer>>;
     /** A {@linkcode WritableStream} instance to write the contents of the
@@ -1950,6 +1955,10 @@ declare namespace Deno {
      *   await writer.write(encoder.encode(item));
      * }
      * ```
+     *
+     * Note that the writable stream *takes ownership of the file*: closing or
+     * aborting the stream closes the file automatically, so you should not
+     * close the file yourself while the stream is still in use.
      */
     readonly writable: WritableStream<Uint8Array<ArrayBufferLike>>;
     /** Write the contents of the array buffer (`p`) to the file.
@@ -4817,7 +4826,12 @@ declare namespace Deno {
    * await Deno.symlink("old/name", "new/name");
    * ```
    *
-   * Requires full `allow-read` and `allow-write` permissions.
+   * Requires `allow-read` and `allow-write` permissions granted *without* a
+   * path scope (i.e. `--allow-read --allow-write`, not
+   * `--allow-read=./dir --allow-write=./dir`). A symlink's target may be a
+   * relative, absolute, or not-yet-existing path that is only resolved when the
+   * link is later traversed, so it cannot be checked against a path-scoped
+   * allow-list at creation time. Path-scoped grants are therefore rejected.
    *
    * @tags allow-read, allow-write
    * @category File System
@@ -4838,7 +4852,12 @@ declare namespace Deno {
    * Deno.symlinkSync("old/name", "new/name");
    * ```
    *
-   * Requires full `allow-read` and `allow-write` permissions.
+   * Requires `allow-read` and `allow-write` permissions granted *without* a
+   * path scope (i.e. `--allow-read --allow-write`, not
+   * `--allow-read=./dir --allow-write=./dir`). A symlink's target may be a
+   * relative, absolute, or not-yet-existing path that is only resolved when the
+   * link is later traversed, so it cannot be checked against a path-scoped
+   * allow-list at creation time. Path-scoped grants are therefore rejected.
    *
    * @tags allow-read, allow-write
    * @category File System
@@ -6019,7 +6038,7 @@ declare namespace Deno {
    * @category FFI
    */
   export type ToNativeType<T extends NativeType = NativeType> = T extends
-    NativeStructType ? BufferSource
+    NativeStructType ? AllowSharedBufferSource
     : T extends NativeNumberType ? T extends NativeU8Enum<infer U> ? U
       : T extends NativeI8Enum<infer U> ? U
       : T extends NativeU16Enum<infer U> ? U
@@ -6035,7 +6054,7 @@ declare namespace Deno {
     : T extends NativeFunctionType
       ? T extends NativeTypedFunction<infer U> ? PointerValue<U> | null
       : PointerValue
-    : T extends NativeBufferType ? BufferSource | null
+    : T extends NativeBufferType ? AllowSharedBufferSource | null
     : never;
 
   /** Type conversion for unsafe callback return types.
@@ -6044,7 +6063,7 @@ declare namespace Deno {
    */
   export type ToNativeResultType<
     T extends NativeResultType = NativeResultType,
-  > = T extends NativeStructType ? BufferSource
+  > = T extends NativeStructType ? AllowSharedBufferSource
     : T extends NativeNumberType ? T extends NativeU8Enum<infer U> ? U
       : T extends NativeI8Enum<infer U> ? U
       : T extends NativeU16Enum<infer U> ? U
@@ -6060,7 +6079,7 @@ declare namespace Deno {
     : T extends NativeFunctionType
       ? T extends NativeTypedFunction<infer U> ? PointerObject<U> | null
       : PointerValue
-    : T extends NativeBufferType ? BufferSource | null
+    : T extends NativeBufferType ? AllowSharedBufferSource | null
     : T extends NativeVoidType ? void
     : never;
 
@@ -6265,7 +6284,7 @@ declare namespace Deno {
     static equals<T = unknown>(a: PointerValue<T>, b: PointerValue<T>): boolean;
     /** Return the direct memory pointer to the typed array in memory. */
     static of<T = unknown>(
-      value: Deno.UnsafeCallback | BufferSource,
+      value: Deno.UnsafeCallback | AllowSharedBufferSource,
     ): PointerValue<T>;
     /** Return a new pointer offset from the original by `offset` bytes. */
     static offset<T = unknown>(
@@ -6349,7 +6368,7 @@ declare namespace Deno {
      * Length is determined from the typed array's `byteLength`.
      *
      * Also takes optional byte offset from the pointer. */
-    copyInto(destination: BufferSource, offset?: number): void;
+    copyInto(destination: AllowSharedBufferSource, offset?: number): void;
     /** Copies the memory of the specified pointer into a typed array.
      *
      * Length is determined from the typed array's `byteLength`.
@@ -6357,7 +6376,7 @@ declare namespace Deno {
      * Also takes optional byte offset from the pointer. */
     static copyInto(
       pointer: PointerObject,
-      destination: BufferSource,
+      destination: AllowSharedBufferSource,
       offset?: number,
     ): void;
   }
@@ -7263,10 +7282,15 @@ interface URLSearchParams {
   readonly size: number;
 }
 
-/** The constructor object for {@linkcode URLSearchParams}, used to create a new
- * `URLSearchParams` object for parsing and building URL query strings.
+/** The URLSearchParams interface defines utility methods to work with the
+ * query string of a URL. An object implementing URLSearchParams can directly
+ * be used in a `for...of` structure to iterate over key/value pairs in the
+ * same order as they appear in the query string.
  *
- * @category URL */
+ * @see https://developer.mozilla.org/docs/Web/API/URLSearchParams
+ *
+ * @category URL
+ */
 declare var URLSearchParams: {
   readonly prototype: URLSearchParams;
   /**
@@ -10709,11 +10733,15 @@ interface FormData extends DomIterable<string, FormDataEntryValue> {
   set(name: string, value: string | Blob, fileName?: string): void;
 }
 
-/** The constructor object for {@linkcode FormData}, used to create a new,
- * empty `FormData` object that can be populated with fields and submitted with
- * {@linkcode fetch}.
+/** Provides a way to construct a set of key/value pairs representing form
+ * fields and their values, which can then be sent using the {@linkcode fetch}
+ * API. It uses the same format a form would use if the encoding type were set
+ * to `"multipart/form-data"`.
  *
- * @category Fetch */
+ * @see https://developer.mozilla.org/docs/Web/API/FormData
+ *
+ * @category Fetch
+ */
 declare var FormData: {
   readonly prototype: FormData;
   new (): FormData;
@@ -10823,6 +10851,8 @@ type RequestMode = "cors" | "navigate" | "no-cors" | "same-origin";
 /** @category Fetch */
 type RequestRedirect = "error" | "follow" | "manual";
 /** @category Fetch */
+type RequestPriority = "auto" | "high" | "low";
+/** @category Fetch */
 type ReferrerPolicy =
   | ""
   | "no-referrer"
@@ -10904,6 +10934,11 @@ interface RequestInit {
    * restricted to same-origin URLs. Sets request's mode.
    */
   mode?: RequestMode;
+  /**
+   * A string indicating the relative priority of the request. Sets request's
+   * priority.
+   */
+  priority?: RequestPriority;
   /**
    * A string indicating whether request follows redirects, results in an error
    * upon encountering a redirect, or returns the redirect (in an opaque
@@ -11169,9 +11204,12 @@ interface EventSource extends EventTarget {
   ): void;
 }
 
-/** The constructor object for {@linkcode EventSource}, used to open a new
- * server-sent events connection to the given `url`. The object also exposes the
- * `CONNECTING`, `OPEN`, and `CLOSED` ready-state constants.
+/** The `EventSource` interface is a web content's interface to server-sent
+ * events. An `EventSource` instance opens a persistent connection to an HTTP
+ * server, which sends events in `text/event-stream` format. The connection
+ * remains open until closed by calling {@linkcode EventSource.close}.
+ *
+ * @see https://developer.mozilla.org/docs/Web/API/EventSource
  *
  * @category Fetch
  */
@@ -13287,13 +13325,15 @@ interface Storage {
   [name: string]: any;
 }
 
-/** The constructor object for {@linkcode Storage}.
+/** This Web Storage API interface provides access to a particular domain's
+ * session or local storage. Instances of this interface are not constructable
+ * and are accessed through the {@linkcode localStorage} and
+ * {@linkcode sessionStorage} globals.
  *
- * `Storage` instances are accessed via the global `localStorage` and
- * `sessionStorage` properties rather than constructed directly, so calling the
- * constructor throws.
+ * @see https://developer.mozilla.org/docs/Web/API/Storage
  *
- * @category Storage */
+ * @category Storage
+ */
 declare var Storage: {
   readonly prototype: Storage;
   new (): never;
@@ -14288,6 +14328,42 @@ interface SubtleCrypto {
 declare var SubtleCrypto: {
   readonly prototype: SubtleCrypto;
   new (): never;
+  /**
+   * Synchronous feature detection for Web Crypto algorithm/operation
+   * combinations, per the WICG "Modern Algorithms in the Web Crypto API"
+   * proposal. Returns `true` when this runtime implements the requested
+   * combination, `false` otherwise.
+   *
+   * The third argument is interpreted as the derived-bit length when it is
+   * a number (relevant for `"deriveBits"`), and as a related algorithm —
+   * e.g. the derived-key algorithm for `"deriveKey"`, the wrapped/unwrapped
+   * key algorithm for `"wrapKey"` / `"unwrapKey"`, or the shared-key
+   * algorithm for `"encapsulateKey"` / `"decapsulateKey"` — otherwise.
+   *
+   * @see https://wicg.github.io/webcrypto-modern-algos/#dom-subtlecrypto-supports
+   */
+  supports(
+    operation:
+      | "encrypt"
+      | "decrypt"
+      | "sign"
+      | "verify"
+      | "digest"
+      | "generateKey"
+      | "deriveKey"
+      | "deriveBits"
+      | "importKey"
+      | "exportKey"
+      | "wrapKey"
+      | "unwrapKey"
+      | "encapsulateKey"
+      | "encapsulateBits"
+      | "decapsulateKey"
+      | "decapsulateBits"
+      | "getPublicKey",
+    algorithm: string | object,
+    lengthOrHash?: number | string | object | null,
+  ): boolean;
 };
 
 /** This Web Crypto API interface provides basic cryptographic functionality.
@@ -14656,7 +14732,7 @@ declare namespace Deno {
      *
      * Set to `0` to listen on any available port.
      */
-    port: number;
+    port?: number;
     /** A literal IP address or host name that can be resolved to an IP address.
      *
      * __Note about `0.0.0.0`__ While listening `0.0.0.0` works on all platforms,
@@ -18063,6 +18139,20 @@ declare namespace Deno {
 
   /** **UNSTABLE**: New API, yet to be vetted.
    *
+   * Unstable options which can be set when opening a `unixpacket` datagram
+   * listener via {@linkcode Deno.listenDatagram}.
+   *
+   * @category Network
+   * @experimental
+   */
+  export interface UnixListenDatagramOptions {
+    /** A path to the Unix Socket. When omitted the socket is left unbound, so
+     * it can be used to send messages but cannot receive them. */
+    path?: string;
+  }
+
+  /** **UNSTABLE**: New API, yet to be vetted.
+   *
    * Listen announces on the local transport address.
    *
    * ```ts
@@ -18079,7 +18169,7 @@ declare namespace Deno {
    * @experimental
    */
   export function listenDatagram(
-    options: UnixListenOptions & { transport: "unixpacket" },
+    options: UnixListenDatagramOptions & { transport: "unixpacket" },
   ): DatagramConn;
 
   /** **UNSTABLE**: New API, yet to be vetted.
