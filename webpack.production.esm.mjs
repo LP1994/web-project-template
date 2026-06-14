@@ -110,30 +110,34 @@ export default {
    * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
    * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
    * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+   *
+   * 注意，个人不建议使用这个webpack选项，因为通过这种配置注入的“环境变量”，只能是在项目代码中使用，但是不能在webpack配置文件中使用，也就是不能在webpack启动过程中使用。
+   * 个人建议使用npm包“dotenv”来注入“环境变量”，这样即可在项目代码中使用，也能在webpack配置文件中使用，也就是能在webpack启动过程中使用。
+   * 但是！！！注意！！！不能在webpack配置文件中使用“import.meta.env”来获取“环境变量”，也就是不能在webpack启动过程中使用，但是其可以用在项目代码中。“process.env”则没有这个限制。
    */
-  dotenv: {
-    /**
-     * 1、默认值为：'WEBPACK_'。
-     * 2、出于安全考虑，不允许使用空字符串 '' 作为前缀，因为这会导致所有环境变量被暴露。
-     */
-    prefix: [
-      'WEBPACK_',
-    ],
-    /**
-     * 1、加载 .env 文件的目录。
-     * 2、true表示从项目根目录（上下文）加载。但是，实际上运行时，webpack会提示不允许出现true这个值。因为，允许的值类型只有：boolean（值仅允许：false）、string（表示绝对路径）。
-     * 3、也可以指定具体的文件夹路径，就是绝对路径。
-     */
-    dir: resolve( __dirname, './' ),
-    /**
-     * 1、.env 文件名的模板模式。使用 [mode] 作为 Webpack 模式的占位符（例如：development、production）。
-     * 2、文件按指定顺序加载，后面的文件会覆盖前面的文件。此外，process.env 中已设置的变量具有最高优先级。
-     * 3、[mode] 占位符将被替换为当前的 webpack 模式。例如，在生产模式下，.env.[mode] 将变为 .env.production。
-     */
-    template: [
-      '.env.production',
-    ],
-  },
+  // dotenv: {
+  //   /**
+  //    * 1、默认值为：'WEBPACK_'。
+  //    * 2、出于安全考虑，不允许使用空字符串 '' 作为前缀，因为这会导致所有环境变量被暴露。
+  //    */
+  //   prefix: [
+  //     'WEBPACK_',
+  //   ],
+  //   /**
+  //    * 1、加载 .env 文件的目录。
+  //    * 2、true表示从项目根目录（上下文）加载。但是，实际上运行时，webpack会提示不允许出现true这个值。因为，允许的值类型只有：boolean（值仅允许：false）、string（表示绝对路径）。
+  //    * 3、也可以指定具体的文件夹路径，就是绝对路径。
+  //    */
+  //   dir: resolve( __dirname, './' ),
+  //   /**
+  //    * 1、.env 文件名的模板模式。使用 [mode] 作为 Webpack 模式的占位符（例如：development、production）。
+  //    * 2、文件按指定顺序加载，后面的文件会覆盖前面的文件。此外，process.env 中已设置的变量具有最高优先级。
+  //    * 3、[mode] 占位符将被替换为当前的 webpack 模式。例如，在生产模式下，.env.[mode] 将变为 .env.production。
+  //    */
+  //   template: [
+  //     '.env.production',
+  //   ],
+  // },
   /**
    * 在第1个错误上失败而不是容忍它。默认情况下，webpack会在终端以及使用HMR时的浏览器控制台中以红色记录这些错误，但会继续捆绑。<br />
    * 1、设置成true，这将强制webpack退出其捆绑过程，设置成false将容忍它。<br />

@@ -104,13 +104,21 @@ import CSONParser from 'cson-parser';
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
-/*
- // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
- import {
- // 该函数的函数参数详细见：node_modules/dotenv/lib/main.d.ts:21
- config as DotenvConfig,
- } from 'dotenv';
+/**
+ * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+ * 如在项目的业务代码中使用如下写法：
+ * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+ * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+ * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+ *
+ * 注意，个人不建议使用webpack的顶级配置项“dotenv”（webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/），因为通过这种配置注入的“环境变量”，只能是在项目代码中使用，但是不能在webpack配置文件中使用，也就是不能在webpack启动过程中使用。
+ * 个人建议使用npm包“dotenv”来注入“环境变量”，这样即可在项目代码中使用，也能在webpack配置文件中使用，也就是能在webpack启动过程中使用。
+ * 但是！！！注意！！！不能在webpack配置文件中使用“import.meta.env”来获取“环境变量”，也就是不能在webpack启动过程中使用，但是其可以用在项目代码中。“process.env”则没有这个限制。
  */
+import {
+  // 该函数的函数参数详细见：node_modules/dotenv/lib/main.d.ts:25
+  config as DotenvConfig,
+} from 'dotenv';
 
 import ESBuild from 'esbuild';
 
@@ -265,64 +273,100 @@ const __dirname = Get__dirname( import.meta.url ),
 switch( env_platform ){
   case 'dev_server':
     /**
+     * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+     * 如在项目的业务代码中使用如下写法：
+     * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+     * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+     * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+     *
+     * 注意，个人不建议使用webpack的顶级配置项“dotenv”（webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/），因为通过这种配置注入的“环境变量”，只能是在项目代码中使用，但是不能在webpack配置文件中使用，也就是不能在webpack启动过程中使用。
+     * 个人建议使用npm包“dotenv”来注入“环境变量”，这样即可在项目代码中使用，也能在webpack配置文件中使用，也就是能在webpack启动过程中使用。
+     * 但是！！！注意！！！不能在webpack配置文件中使用“import.meta.env”来获取“环境变量”，也就是不能在webpack启动过程中使用，但是其可以用在项目代码中。“process.env”则没有这个限制。
+     *
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    /*
-     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
-     DotenvConfig( {
-     path: `./.env.dev`,
-     debug: true,
-     override: true,
-     } );
-     */
+    DotenvConfig( {
+      path: `./.env.dev`,
+      encoding: 'utf8',
+      quiet: false,
+      debug: true,
+      override: true,
+    } );
 
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.dev”。\n` ) );
 
     break;
   case 'local_server':
     /**
+     * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+     * 如在项目的业务代码中使用如下写法：
+     * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+     * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+     * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+     *
+     * 注意，个人不建议使用webpack的顶级配置项“dotenv”（webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/），因为通过这种配置注入的“环境变量”，只能是在项目代码中使用，但是不能在webpack配置文件中使用，也就是不能在webpack启动过程中使用。
+     * 个人建议使用npm包“dotenv”来注入“环境变量”，这样即可在项目代码中使用，也能在webpack配置文件中使用，也就是能在webpack启动过程中使用。
+     * 但是！！！注意！！！不能在webpack配置文件中使用“import.meta.env”来获取“环境变量”，也就是不能在webpack启动过程中使用，但是其可以用在项目代码中。“process.env”则没有这个限制。
+     *
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    /*
-     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
-     DotenvConfig( {
-     path: `./.env.local`,
-     debug: true,
-     override: true,
-     } );
-     */
+    DotenvConfig( {
+      path: `./.env.local`,
+      encoding: 'utf8',
+      quiet: false,
+      debug: true,
+      override: true,
+    } );
 
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.local”。\n` ) );
 
     break;
   case 'test':
     /**
+     * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+     * 如在项目的业务代码中使用如下写法：
+     * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+     * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+     * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+     *
+     * 注意，个人不建议使用webpack的顶级配置项“dotenv”（webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/），因为通过这种配置注入的“环境变量”，只能是在项目代码中使用，但是不能在webpack配置文件中使用，也就是不能在webpack启动过程中使用。
+     * 个人建议使用npm包“dotenv”来注入“环境变量”，这样即可在项目代码中使用，也能在webpack配置文件中使用，也就是能在webpack启动过程中使用。
+     * 但是！！！注意！！！不能在webpack配置文件中使用“import.meta.env”来获取“环境变量”，也就是不能在webpack启动过程中使用，但是其可以用在项目代码中。“process.env”则没有这个限制。
+     *
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    /*
-     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
-     DotenvConfig( {
-     path: `./.env.test`,
-     debug: true,
-     override: true,
-     } );
-     */
+    DotenvConfig( {
+      path: `./.env.test`,
+      encoding: 'utf8',
+      quiet: false,
+      debug: true,
+      override: true,
+    } );
 
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.test”。\n` ) );
 
     break;
   case 'production':
     /**
+     * 一般直接在项目的业务代码中使用“process.env”、“import.meta.env”即可获取各个设置好的环境变量。
+     * 如在项目的业务代码中使用如下写法：
+     * import.meta.env.WEBPACK_XXX、process.env.WEBPACK_XXX
+     * 一般不用导入“node:process”！！！webpack会自动处理“process.env”的。
+     * 从webpack v5.103.0开始支持“import.meta.env”这个环境变量，效果同“process.env”。
+     *
+     * 注意，个人不建议使用webpack的顶级配置项“dotenv”（webpack v5.103.0+开始启用该选项！详细见：https://webpack.js.org/configuration/dotenv/），因为通过这种配置注入的“环境变量”，只能是在项目代码中使用，但是不能在webpack配置文件中使用，也就是不能在webpack启动过程中使用。
+     * 个人建议使用npm包“dotenv”来注入“环境变量”，这样即可在项目代码中使用，也能在webpack配置文件中使用，也就是能在webpack启动过程中使用。
+     * 但是！！！注意！！！不能在webpack配置文件中使用“import.meta.env”来获取“环境变量”，也就是不能在webpack启动过程中使用，但是其可以用在项目代码中。“process.env”则没有这个限制。
+     *
      * @type {import('node_modules/dotenv/lib/main.d.ts').config} config
      */
-    /*
-     // 改用webpack v5.103.0+启用的顶级配置选项“dotenv”！详细见：https://webpack.js.org/configuration/dotenv/
-     DotenvConfig( {
-     path: `./.env.production`,
-     debug: true,
-     override: true,
-     } );
-     */
+    DotenvConfig( {
+      path: `./.env.production`,
+      encoding: 'utf8',
+      quiet: false,
+      debug: true,
+      override: true,
+    } );
 
     console.log( chalk.cyan( `当前使用的“.env”文件是“.env.production”。\n` ) );
 
