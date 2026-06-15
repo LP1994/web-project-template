@@ -11560,7 +11560,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                     ...( () => {
                       const config = {
                         // 压缩格式，值类型：string，无默认值，有效值：'av1'、'hevc'，可选。
-                        compression: 'hevc',
+                        compression: 'av1',
                         // 质量，值类型：number，默认值：50，值范围：1-100，可选。
                         quality: 50,
                         // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
@@ -12049,7 +12049,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                         encodeOptions: {
                           [ item ]: {
                             // 压缩格式，值类型：string，无默认值，有效值：'av1'、'hevc'，可选。
-                            compression: 'hevc',
+                            compression: 'av1',
                             // 质量，值类型：number，默认值：50，值范围：1-100，可选。
                             quality: 50,
                             // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
