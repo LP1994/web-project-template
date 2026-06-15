@@ -11237,7 +11237,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              */
             sharpMinify: new ImageMinimizerPlugin( {
               // |heif|heic
-              test: /\.(jpeg|jpe|jpg|png|webp|gif|jp2|tiff|tif|avif|jxl|raw|heif|heic)$/i,
+              test: /\.(jpeg|jpe|jpg|png|webp|gif|jp2|tiff|tif|avif|jxl|raw)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
                 implementation: ImageMinimizerPlugin.sharpMinify,
