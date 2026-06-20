@@ -5848,8 +5848,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         sourceType: 'unambiguous',
         // 在Babel的错误消息中突出显示代码片段中的标记，使其更易于阅读。
         highlightCode: true,
-        // 一个不透明的对象，包含传递给正在使用的解析器的选项。详细选项见：https://babeljs.io/docs/babel-parser#options
+        // 一个不透明的对象，包含传递给正在使用的解析器的选项。详细选项见：https://babeljs.io/docs/babel-parser#options、node_modules/@babel/parser/typings/babel-parser.d.ts:461
         parserOpts: {
+          // 将所有解析后的标记添加到文件节点上的标记属性中。
+          // tokens: true,
           // 默认情况下，解析器在表达式节点上设置extra.parenthesized。当此选项设置为true时，将创建ParenthesizedExpression AST节点。
           // createParenthesizedExpressions: true,
           /**
@@ -5926,6 +5928,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 详细选项见：<br />
          * https://babeljs.io/docs/options#code-generator-options
          * https://babeljs.io/docs/babel-generator#options
+         * node_modules/@babel/generator/lib/index.d.ts:5
          * 2、minified、comments、shouldPrintComment这3个选项会影响魔术注解！当它们为如下时才能正常使魔术注解生效，尤其是动态导入的代码切割等等能力：<br />
          * minified: false,
          * comments: true,
