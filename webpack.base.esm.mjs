@@ -3786,6 +3786,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          */
         'deferredImportEvaluation',
         'destructuringPrivate',
+        'discardBinding',
         'exportDefaultFrom',
         'functionBind',
         'importReflection',
@@ -3809,7 +3810,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
             version: '2023-07',
           },
         ],
-        'partialApplication',
+        [
+          'partialApplication',
+          {
+            // v8.0.0开始启用该选项！且更新到“v8.0.0”后必须使用该选项，不然会在编译时卡死不动。
+            version: '2018-07',
+          },
+        ],
         [
           'pipelineOperator',
           {
@@ -5862,6 +5869,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
            * 3、“@babel/parser v7.26.0”开始提供该选项值。<br />
            */
           // startIndex: 0,
+          // v8.0.0开始启用的，默认值为 true，这会为每个节点添加一个 loc 属性，该属性是一个包含 start 和 end 属性的对象，而 start 和 end 属性又是分别包含行号和列号的对象。当设置为 false 时，"loc" 属性将不会包含在输出的 AST 中。
+          // locations: true,
 
           // 默认情况下，导入和导出声明只能出现在程序的顶层。将此选项设置为true允许它们在任何允许声明的地方出现。
           allowImportExportEverywhere: false,
@@ -5965,7 +5974,15 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           decoratorsBeforeExport: false,
           recordAndTupleSyntaxType: 'hash',
           topicToken: '^^',
-          importAttributesKeyword: 'with',
+          // v8.0.0移除了该选项！
+          // importAttributesKeyword: 'with',
+          /**
+           * 1、v7.26.0启用了该选项。<br />
+           * 2、当设置为 true 时，生成器将尝试保留输入和输出代码中均存在的所有节点和标记的位置。<br />
+           * 要使用此选项，目前需要启用生成器选项 retainLines: true，以及解析器选项 tokens: true 和 createParenthesizedExpressions: true。<br />
+           * 3、一旦该选项支持一种无需保留行号、只需保留标记相对位置的模式，它将升级为稳定版。<br />
+           */
+          // experimental_preserveFormat: false,
         },
         /**
          * assumptions选项，默认情况下，Babel会尝试编译您的代码，以使其尽可能地匹配本机行为。然而，这有时意味着生成更多的输出代码，或者更慢的输出代码，只是为了支持一些你不关心的边缘情况。<br />
