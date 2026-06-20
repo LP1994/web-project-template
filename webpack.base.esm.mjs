@@ -4177,6 +4177,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                */
               [
                 '@babel/plugin-proposal-partial-application',
+                {
+                  // v8.0.0开始启用该选项！且更新到“v8.0.0”后必须使用该选项，不然会在编译时卡死不动。
+                  version: '2018-07',
+                },
               ],
               /**
                * @babel/plugin-proposal-optional-chaining-assign：https://babeljs.io/docs/babel-plugin-proposal-optional-chaining-assign、https://github.com/tc39/proposal-optional-chaining-assignment
@@ -5384,265 +5388,266 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          *   console.log( `index--->${ ++index }` );
          * }
          * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+         * 3、不建议使用该压缩了，其已经不再被“Babel 8”支持了，而且启用后会报错！<br />
          */
-        ...( isProduction => {
-          return isProduction
-                 ? [
-              [
-                'minify',
-                {
-                  /**
-                   * babel-plugin-transform-minify-booleans：https://babeljs.io/docs/en/babel-plugin-transform-minify-booleans
-                   * 1、默认值：true。<br />
-                   */
-                  booleans: true,
-                  /**
-                   * babel-plugin-minify-builtins：https://babeljs.io/docs/en/babel-plugin-minify-builtins
-                   * 1、默认值：true。<br />
-                   * 2、有参数：<br />
-                   * tdz：值类型：boolean，TDZ。<br />
-                   */
-                  builtIns: false,
-                  /**
-                   * babel-plugin-transform-inline-consecutive-adds：https://babeljs.io/docs/en/babel-plugin-transform-inline-consecutive-adds
-                   * 1、默认值：true。<br />
-                   */
-                  consecutiveAdds: true,
-                  /**
-                   * babel-plugin-minify-dead-code-elimination：https://babeljs.io/docs/en/babel-plugin-minify-dead-code-elimination
-                   * 1、默认值：true。<br />
-                   * 2、有参数：<br />
-                   * optimizeRawSize：值类型：boolean。<br />
-                   * keepFnName：值类型：boolean，防止插件删除函数名。对取决于fn.name的代码很有用。<br />
-                   * keepFnArgs：值类型：boolean，防止插件删除函数参数。对取决于fn.length的代码很有用。<br />
-                   * keepClassName：值类型：boolean，防止插件删除类名。对取决于cls.name的代码很有用。<br />
-                   * tdz：值类型：boolean，TDZ。<br />
-                   */
-                  deadcode: {
-                    optimizeRawSize: true,
-                    keepFnName: true,
-                    keepFnArgs: true,
-                    keepClassName: true,
-                    tdz: true,
-                  },
-                  /**
-                   * babel-plugin-minify-constant-folding：https://babeljs.io/docs/en/babel-plugin-minify-constant-folding
-                   * 1、默认值：true。<br />
-                   * 2、有参数：<br />
-                   * tdz：值类型：boolean，TDZ。<br />
-                   */
-                  evaluate: {
-                    tdz: true,
-                  },
-                  /**
-                   * babel-plugin-minify-flip-comparisons：https://babeljs.io/docs/en/babel-plugin-minify-flip-comparisons
-                   * 1、默认值：true。<br />
-                   */
-                  flipComparisons: false,
-                  /**
-                   * babel-plugin-minify-guarded-expressions：https://babeljs.io/docs/en/babel-plugin-minify-guarded-expressions
-                   * 1、默认值：true。<br />
-                   */
-                  guards: false,
-                  /**
-                   * babel-plugin-minify-infinity：https://babeljs.io/docs/en/babel-plugin-minify-infinity
-                   * 1、默认值：true。<br />
-                   */
-                  infinity: false,
-                  /**
-                   * babel-plugin-minify-mangle-names：https://babeljs.io/docs/en/babel-plugin-minify-mangle-names
-                   * 1、默认值：true。<br />
-                   * 2、有参数：<br />
-                   * exclude：值类型：object，一个普通的JS对象，其键作为标识符名称和值指示是否排除（默认值：{}）。<br />
-                   * eval：值类型：boolean，在eval可访问的范围内修改标识符（默认值：false）。<br />
-                   * keepFnName：值类型：boolean，防止破坏更改函数名称。对取决于fn.name的代码很有用（默认值：false）。<br />
-                   * topLevel：值类型：boolean，破坏顶级标识符（默认值：false）。<br />
-                   * keepClassName：值类型：boolean，防止破坏更改类名（默认值：false）。<br />
-                   * 3、以前的版本中，当函数、类的方法的默认参数设置为常量或私有变量时，该插件会报错：Cannot read property 'add' of undefined，解决方案是直接禁用该选项：mangle: false。<br />
-                   * 4、当babel的各个生态系列包更新到“v7.26.1 (2024-10-25)”、“v7.26.0 (2024-10-25)”、“v7.25.9 (2024-10-22)”时，启用这个选项会出现错误！
-                   * 目前的解决方案只能是直接设置为false来禁用该选项了。
-                   * 一时半会儿也搞不懂到底是哪个插件导致原本可以，但是更新后就不行了：
-                   * ERROR in ./src/pages/index/Index.mts
-                   * Module build failed (from ./node_modules/babel-loader/lib/index.js):
-                   * TypeError: G:\WebStormWS\web-project-template\src\pages\index\Index.mts: Cannot read properties of undefined (reading 'getCode')
-                   *     at NodePath.getSource (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\path\introspection.js:137:27)
-                   *     at PluginPass.exit (G:\WebStormWS\web-project-template\node_modules\babel-plugin-minify-mangle-names\lib\index.js:543:45)
-                   *     at newFn (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\visitors.js:172:14)
-                   */
-                  /*
-                   mangle: {
-                   exclude: {},
-                   eval: false,
-                   keepFnName: true,
-                   topLevel: false,
-                   keepClassName: true,
-                   },
-                   */
-                  mangle: false,
-                  /**
-                   * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/en/babel-plugin-transform-member-expression-literals
-                   * 1、默认值：true。<br />
-                   * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-member-expression-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-member-expression-literals来设置。<br />
-                   */
-                  memberExpressions: false,
-                  /**
-                   * babel-plugin-transform-merge-sibling-variables：https://babeljs.io/docs/en/babel-plugin-transform-merge-sibling-variables
-                   * 1、默认值：true。<br />
-                   */
-                  mergeVars: true,
-                  /**
-                   * babel-plugin-minify-numeric-literals：https://babeljs.io/docs/en/babel-plugin-minify-numeric-literals
-                   * 1、默认值：true。<br />
-                   */
-                  numericLiterals: true,
-                  /**
-                   * @babel/plugin-transform-property-literals：https://babeljs.io/docs/en/babel-plugin-transform-property-literals
-                   * 1、默认值：true。<br />
-                   * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-property-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-property-literals来设置。<br />
-                   */
-                  propertyLiterals: false,
-                  /**
-                   * babel-plugin-transform-regexp-constructors：https://babeljs.io/docs/en/babel-plugin-transform-regexp-constructors
-                   * 1、默认值：true。<br />
-                   */
-                  regexpConstructors: true,
-                  /**
-                   * babel-plugin-transform-remove-console：https://babeljs.io/docs/en/babel-plugin-transform-remove-console
-                   * 1、默认值：false。<br />
-                   * 2、有参数：<br />
-                   * exclude：值类型：array，要从删除中排除的一组控制台方法。<br />
-                   * 3、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
-                   * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-                   *
-                   * 这里有个注意事项！！！<br />
-                   * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
-                   * 说明：<br />
-                   * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
-                   * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
-                   * 例如：<br />
-                   * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
-                   *
-                   * for( const item of arr001 ){
-                   *   str001 + = item;
-                   *
-                   *   console.log( `index--->${ ++index }` );
-                   * }
-                   * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
-                   *
-                   * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
-                   */
-                  removeConsole: ( () => {
-                    if( env_platform === 'dev_server' ){
-                      return false;
-                    }
-                    else if( env_platform === 'local_server' ){
-                      return false;
-
-                    }
-                    else if( env_platform === 'test' ){
-                      return false;
-
-                    }
-                    else if( env_platform === 'production' ){
-                      return true;
-
-                    }
-                    else{
-                      return false;
-                    }
-                  } )(),
-                  /**
-                   * babel-plugin-transform-remove-debugger：https://babeljs.io/docs/en/babel-plugin-transform-remove-debugger
-                   * 1、默认值：false。<br />
-                   * 2、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
-                   * 3、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-                   * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
-                   *
-                   * 这里有个注意事项！！！<br />
-                   * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
-                   * 说明：<br />
-                   * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
-                   * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
-                   * 例如：<br />
-                   * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
-                   *
-                   * for( const item of arr001 ){
-                   *   str001 + = item;
-                   *
-                   *   console.log( `index--->${ ++index }` );
-                   * }
-                   * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
-                   *
-                   * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
-                   */
-                  removeDebugger: ( () => {
-                    if( env_platform === 'dev_server' ){
-                      return false;
-                    }
-                    else if( env_platform === 'local_server' ){
-                      return false;
-
-                    }
-                    else if( env_platform === 'test' ){
-                      return false;
-
-                    }
-                    else if( env_platform === 'production' ){
-                      return true;
-
-                    }
-                    else{
-                      return false;
-                    }
-                  } )(),
-                  /**
-                   * babel-plugin-transform-remove-undefined：https://babeljs.io/docs/en/babel-plugin-transform-remove-undefined
-                   * 1、默认值：true。<br />
-                   * 2、对于函数，这将删除评估为未定义的返回参数。<br />
-                   */
-                  removeUndefined: {
-                    tdz: true,
-                  },
-                  /**
-                   * babel-plugin-minify-replace：https://babeljs.io/docs/en/babel-plugin-minify-replace
-                   * 1、默认值：true。<br />
-                   * 2、有参数：<br />
-                   * replacements：值类型：array[ { identifierName: string, replacement: { type: string, value: boolean }, } ]。<br />
-                   */
-                  replace: false,
-                  /**
-                   * babel-plugin-minify-simplify：https://babeljs.io/docs/en/babel-plugin-minify-simplify
-                   * 1、默认值：true。<br />
-                   * 2、将语句简化为表达式，使表达尽可能统一以获得更好的可压缩性。<br />
-                   */
-                  simplify: false,
-                  /**
-                   * babel-plugin-transform-simplify-comparison-operators：https://babeljs.io/docs/en/babel-plugin-transform-simplify-comparison-operators
-                   * 1、默认值：true。<br />
-                   */
-                  simplifyComparisons: false,
-                  /**
-                   * babel-plugin-minify-type-constructors：https://babeljs.io/docs/en/babel-plugin-minify-type-constructors
-                   * 1、默认值：true。<br />
-                   * 2、有参数：<br />
-                   * array：值类型：boolean，防止插件缩小数组。<br />
-                   * boolean：值类型：boolean，防止插件缩小布尔值。<br />
-                   * number：值类型：boolean，防止插件缩小数字。<br />
-                   * object：值类型：boolean，防止插件缩小对象。<br />
-                   * string：值类型：boolean，防止插件缩小字符串。<br />
-                   */
-                  typeConstructors: false,
-                  /**
-                   * babel-plugin-transform-undefined-to-void：https://babeljs.io/docs/en/babel-plugin-transform-undefined-to-void
-                   * 1、默认值：true。<br />
-                   * 2、这个插件将undefined转换为void 0，无论它是否被重新分配，它都会返回undefined。<br />
-                   */
-                  undefinedToVoid: true,
-                },
-              ],
-            ]
-                 : [];
-        } )( isProduction ),
+        // ...( isProduction => {
+        //   return isProduction
+        //          ? [
+        //       [
+        //         'minify',
+        //         {
+        //           /**
+        //            * babel-plugin-transform-minify-booleans：https://babeljs.io/docs/en/babel-plugin-transform-minify-booleans
+        //            * 1、默认值：true。<br />
+        //            */
+        //           booleans: true,
+        //           /**
+        //            * babel-plugin-minify-builtins：https://babeljs.io/docs/en/babel-plugin-minify-builtins
+        //            * 1、默认值：true。<br />
+        //            * 2、有参数：<br />
+        //            * tdz：值类型：boolean，TDZ。<br />
+        //            */
+        //           builtIns: false,
+        //           /**
+        //            * babel-plugin-transform-inline-consecutive-adds：https://babeljs.io/docs/en/babel-plugin-transform-inline-consecutive-adds
+        //            * 1、默认值：true。<br />
+        //            */
+        //           consecutiveAdds: true,
+        //           /**
+        //            * babel-plugin-minify-dead-code-elimination：https://babeljs.io/docs/en/babel-plugin-minify-dead-code-elimination
+        //            * 1、默认值：true。<br />
+        //            * 2、有参数：<br />
+        //            * optimizeRawSize：值类型：boolean。<br />
+        //            * keepFnName：值类型：boolean，防止插件删除函数名。对取决于fn.name的代码很有用。<br />
+        //            * keepFnArgs：值类型：boolean，防止插件删除函数参数。对取决于fn.length的代码很有用。<br />
+        //            * keepClassName：值类型：boolean，防止插件删除类名。对取决于cls.name的代码很有用。<br />
+        //            * tdz：值类型：boolean，TDZ。<br />
+        //            */
+        //           deadcode: {
+        //             optimizeRawSize: true,
+        //             keepFnName: true,
+        //             keepFnArgs: true,
+        //             keepClassName: true,
+        //             tdz: true,
+        //           },
+        //           /**
+        //            * babel-plugin-minify-constant-folding：https://babeljs.io/docs/en/babel-plugin-minify-constant-folding
+        //            * 1、默认值：true。<br />
+        //            * 2、有参数：<br />
+        //            * tdz：值类型：boolean，TDZ。<br />
+        //            */
+        //           evaluate: {
+        //             tdz: true,
+        //           },
+        //           /**
+        //            * babel-plugin-minify-flip-comparisons：https://babeljs.io/docs/en/babel-plugin-minify-flip-comparisons
+        //            * 1、默认值：true。<br />
+        //            */
+        //           flipComparisons: false,
+        //           /**
+        //            * babel-plugin-minify-guarded-expressions：https://babeljs.io/docs/en/babel-plugin-minify-guarded-expressions
+        //            * 1、默认值：true。<br />
+        //            */
+        //           guards: false,
+        //           /**
+        //            * babel-plugin-minify-infinity：https://babeljs.io/docs/en/babel-plugin-minify-infinity
+        //            * 1、默认值：true。<br />
+        //            */
+        //           infinity: false,
+        //           /**
+        //            * babel-plugin-minify-mangle-names：https://babeljs.io/docs/en/babel-plugin-minify-mangle-names
+        //            * 1、默认值：true。<br />
+        //            * 2、有参数：<br />
+        //            * exclude：值类型：object，一个普通的JS对象，其键作为标识符名称和值指示是否排除（默认值：{}）。<br />
+        //            * eval：值类型：boolean，在eval可访问的范围内修改标识符（默认值：false）。<br />
+        //            * keepFnName：值类型：boolean，防止破坏更改函数名称。对取决于fn.name的代码很有用（默认值：false）。<br />
+        //            * topLevel：值类型：boolean，破坏顶级标识符（默认值：false）。<br />
+        //            * keepClassName：值类型：boolean，防止破坏更改类名（默认值：false）。<br />
+        //            * 3、以前的版本中，当函数、类的方法的默认参数设置为常量或私有变量时，该插件会报错：Cannot read property 'add' of undefined，解决方案是直接禁用该选项：mangle: false。<br />
+        //            * 4、当babel的各个生态系列包更新到“v7.26.1 (2024-10-25)”、“v7.26.0 (2024-10-25)”、“v7.25.9 (2024-10-22)”时，启用这个选项会出现错误！
+        //            * 目前的解决方案只能是直接设置为false来禁用该选项了。
+        //            * 一时半会儿也搞不懂到底是哪个插件导致原本可以，但是更新后就不行了：
+        //            * ERROR in ./src/pages/index/Index.mts
+        //            * Module build failed (from ./node_modules/babel-loader/lib/index.js):
+        //            * TypeError: G:\WebStormWS\web-project-template\src\pages\index\Index.mts: Cannot read properties of undefined (reading 'getCode')
+        //            *     at NodePath.getSource (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\path\introspection.js:137:27)
+        //            *     at PluginPass.exit (G:\WebStormWS\web-project-template\node_modules\babel-plugin-minify-mangle-names\lib\index.js:543:45)
+        //            *     at newFn (G:\WebStormWS\web-project-template\node_modules\@babel\traverse\lib\visitors.js:172:14)
+        //            */
+        //           /*
+        //            mangle: {
+        //            exclude: {},
+        //            eval: false,
+        //            keepFnName: true,
+        //            topLevel: false,
+        //            keepClassName: true,
+        //            },
+        //            */
+        //           mangle: false,
+        //           /**
+        //            * @babel/plugin-transform-member-expression-literals：https://babeljs.io/docs/en/babel-plugin-transform-member-expression-literals
+        //            * 1、默认值：true。<br />
+        //            * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-member-expression-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-member-expression-literals来设置。<br />
+        //            */
+        //           memberExpressions: false,
+        //           /**
+        //            * babel-plugin-transform-merge-sibling-variables：https://babeljs.io/docs/en/babel-plugin-transform-merge-sibling-variables
+        //            * 1、默认值：true。<br />
+        //            */
+        //           mergeVars: true,
+        //           /**
+        //            * babel-plugin-minify-numeric-literals：https://babeljs.io/docs/en/babel-plugin-minify-numeric-literals
+        //            * 1、默认值：true。<br />
+        //            */
+        //           numericLiterals: true,
+        //           /**
+        //            * @babel/plugin-transform-property-literals：https://babeljs.io/docs/en/babel-plugin-transform-property-literals
+        //            * 1、默认值：true。<br />
+        //            * 2、该选项就是使用ES 3的语法转译插件@babel/plugin-transform-property-literals来设置的，这里就不启用了，交由插件@babel/plugin-transform-property-literals来设置。<br />
+        //            */
+        //           propertyLiterals: false,
+        //           /**
+        //            * babel-plugin-transform-regexp-constructors：https://babeljs.io/docs/en/babel-plugin-transform-regexp-constructors
+        //            * 1、默认值：true。<br />
+        //            */
+        //           regexpConstructors: true,
+        //           /**
+        //            * babel-plugin-transform-remove-console：https://babeljs.io/docs/en/babel-plugin-transform-remove-console
+        //            * 1、默认值：false。<br />
+        //            * 2、有参数：<br />
+        //            * exclude：值类型：array，要从删除中排除的一组控制台方法。<br />
+        //            * 3、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+        //            * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+        //            *
+        //            * 这里有个注意事项！！！<br />
+        //            * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
+        //            * 说明：<br />
+        //            * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+        //            * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+        //            * 例如：<br />
+        //            * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+        //            *
+        //            * for( const item of arr001 ){
+        //            *   str001 + = item;
+        //            *
+        //            *   console.log( `index--->${ ++index }` );
+        //            * }
+        //            * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+        //            *
+        //            * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
+        //            */
+        //           removeConsole: ( () => {
+        //             if( env_platform === 'dev_server' ){
+        //               return false;
+        //             }
+        //             else if( env_platform === 'local_server' ){
+        //               return false;
+        //
+        //             }
+        //             else if( env_platform === 'test' ){
+        //               return false;
+        //
+        //             }
+        //             else if( env_platform === 'production' ){
+        //               return true;
+        //
+        //             }
+        //             else{
+        //               return false;
+        //             }
+        //           } )(),
+        //           /**
+        //            * babel-plugin-transform-remove-debugger：https://babeljs.io/docs/en/babel-plugin-transform-remove-debugger
+        //            * 1、默认值：false。<br />
+        //            * 2、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+        //            * 3、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+        //            * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+        //            *
+        //            * 这里有个注意事项！！！<br />
+        //            * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
+        //            * 说明：<br />
+        //            * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+        //            * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+        //            * 例如：<br />
+        //            * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+        //            *
+        //            * for( const item of arr001 ){
+        //            *   str001 + = item;
+        //            *
+        //            *   console.log( `index--->${ ++index }` );
+        //            * }
+        //            * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+        //            *
+        //            * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
+        //            */
+        //           removeDebugger: ( () => {
+        //             if( env_platform === 'dev_server' ){
+        //               return false;
+        //             }
+        //             else if( env_platform === 'local_server' ){
+        //               return false;
+        //
+        //             }
+        //             else if( env_platform === 'test' ){
+        //               return false;
+        //
+        //             }
+        //             else if( env_platform === 'production' ){
+        //               return true;
+        //
+        //             }
+        //             else{
+        //               return false;
+        //             }
+        //           } )(),
+        //           /**
+        //            * babel-plugin-transform-remove-undefined：https://babeljs.io/docs/en/babel-plugin-transform-remove-undefined
+        //            * 1、默认值：true。<br />
+        //            * 2、对于函数，这将删除评估为未定义的返回参数。<br />
+        //            */
+        //           removeUndefined: {
+        //             tdz: true,
+        //           },
+        //           /**
+        //            * babel-plugin-minify-replace：https://babeljs.io/docs/en/babel-plugin-minify-replace
+        //            * 1、默认值：true。<br />
+        //            * 2、有参数：<br />
+        //            * replacements：值类型：array[ { identifierName: string, replacement: { type: string, value: boolean }, } ]。<br />
+        //            */
+        //           replace: false,
+        //           /**
+        //            * babel-plugin-minify-simplify：https://babeljs.io/docs/en/babel-plugin-minify-simplify
+        //            * 1、默认值：true。<br />
+        //            * 2、将语句简化为表达式，使表达尽可能统一以获得更好的可压缩性。<br />
+        //            */
+        //           simplify: false,
+        //           /**
+        //            * babel-plugin-transform-simplify-comparison-operators：https://babeljs.io/docs/en/babel-plugin-transform-simplify-comparison-operators
+        //            * 1、默认值：true。<br />
+        //            */
+        //           simplifyComparisons: false,
+        //           /**
+        //            * babel-plugin-minify-type-constructors：https://babeljs.io/docs/en/babel-plugin-minify-type-constructors
+        //            * 1、默认值：true。<br />
+        //            * 2、有参数：<br />
+        //            * array：值类型：boolean，防止插件缩小数组。<br />
+        //            * boolean：值类型：boolean，防止插件缩小布尔值。<br />
+        //            * number：值类型：boolean，防止插件缩小数字。<br />
+        //            * object：值类型：boolean，防止插件缩小对象。<br />
+        //            * string：值类型：boolean，防止插件缩小字符串。<br />
+        //            */
+        //           typeConstructors: false,
+        //           /**
+        //            * babel-plugin-transform-undefined-to-void：https://babeljs.io/docs/en/babel-plugin-transform-undefined-to-void
+        //            * 1、默认值：true。<br />
+        //            * 2、这个插件将undefined转换为void 0，无论它是否被重新分配，它都会返回undefined。<br />
+        //            */
+        //           undefinedToVoid: true,
+        //         },
+        //       ],
+        //     ]
+        //          : [];
+        // } )( isProduction ),
         /**
          * @babel/preset-env。<br />
          * 1、注意：@babel/preset-env不会包含任何低于第3阶段的JavaScript语法提案，因为在TC39流程的那个阶段，无论如何它都不会被任何浏览器实现。如果需要它，需要手动包含在内。<br />
