@@ -3898,27 +3898,112 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          */
 
         /**
+         * babel-plugin-polyfill-corejs3：https://github.com/babel/babel-polyfills/tree/main/packages/babel-plugin-polyfill-corejs3、https://github.com/babel/babel-polyfills/blob/main/docs/usage.md#method
+         * 1、v8.0.0开始提到可以使用该插件来代替各个插件中的“corejs”选项！！！<br />
+         */
+        [
+          'polyfill-corejs3',
+          {
+            /**
+             * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
+             * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
+             * 说明：表示当编译目标为chrome < 94, firefox < 93, opera < 80, safari这些时，会启用“proposal-class-static-block”。<br />
+             */
+            debug: isBabelDebug,
+            /**
+             * 1、有效值有：usage-pure、usage-global、entry-global。<br />
+             * 2、usage-pure：<br />
+             * 会为已使用的功能注入 polyfill，并在内联中调用它们，而不会污染全局作用域。这与 @babel/plugin-transform-runtime 的旧版 corejs 选项类似。<br />
+             * 3、usage-global：<br />
+             * 会为已使用的功能注入 polyfill，并将它们附加到全局作用域中。这与 @babel/preset-env 中旧版的 useBuiltIns: "usage" 选项类似。<br />
+             * 4、entry-global：<br />
+             * 会为目标浏览器不支持的每个功能注入 polyfill，并将它们附加到全局作用域中，从而提供一个类似原生的环境。这类似于 @babel/preset-env 中旧版的 useBuiltIns: "entry" 选项。<br />
+             * 5、
+             * 6、
+             */
+            method: 'usage-global',
+            targets: babel_targets,
+            /**
+             * 1、此选项仅在与 "method": "usage-global" 或 "method": "usage-pure" 配合使用时才生效。
+             * 2、建议指定您正在使用的次版本，因为 core-js@3.0 可能不包含最新功能的 polyfill。
+             * 3、如果您正在打包一个应用程序，可以直接从您的 Node 模块中提供版本信息。
+             */
+            version: ( () => {
+              const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
+
+              if( coreJSVersionStr ){
+                const str1 = String( coreJSVersionStr ).trim();
+
+                if( /^[0-9]/i.test( str1 ) ){
+                  return str1;
+                }
+                else{
+                  return str1.slice( 1 );
+                }
+              }
+              else{
+                throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
+              }
+            } )() || '3.49.0',
+            /**
+             * 值类型：boolean，默认值：false。此选项仅在与 "method": "usage-global" 或 "method": "usage-pure" 配合使用时才生效。当 proposals 设置为 true 时，core-js 支持的任何 ES 提案也会被进行 polyfill 处理。
+             */
+            proposals: true,
+          },
+        ],
+
+        /**
          * @babel/plugin-transform-runtime：https://babeljs.io/docs/en/babel-plugin-transform-runtime
          * 1、一个插件，可以重用Babel的注入帮助代码以节省代码大小。<br />
          * 2、转换插件通常仅在开发中使用，但运行时本身将取决于您部署的代码。<br />
          * 3、Babel使用非常小的助手来处理常见的功能，例如_extend。默认情况下，这将添加到需要它的每个文件中。这种重复有时是不必要的，尤其是当您的应用程序分布在多个文件中时。<br />
          * 4、这就是@babel/plugin-transform-runtime插件的用武之地：所有的助手都将引用模块@babel/runtime以避免编译输出的重复。运行时将编译到您的构建中。<br />
          * 5、这个转换器的另一个目的是为您的代码创建一个沙盒环境。如果直接导入core-js或@babel/polyfill以及它提供的Promise、Set和Map等内置函数，会污染全局作用域。<br />
+         * 6、该转换插件通常仅在开发阶段使用，但您部署的代码将依赖于该运行时本身。<br />
+         * 7、危险！！！启用此插件时，切勿设置 @babel/preset-env 中的 useBuiltIns 选项。否则，此插件可能无法完全对环境进行沙箱隔离。<br />
          */
         [
           '@babel/plugin-transform-runtime',
           {
-            // 这个选项在v7中被删除，只是将其设为默认值。
+            // 这个选项在v7中被删除，只是将其设为默认值。详细见：node_modules/@babel/plugin-transform-runtime/lib/index.js:29
             // polyfill: null,其实我也不知道它的值类型。
-            // 这个选项在v7中被删除，只是将其设为默认值。
+
+            // 这个选项在v7中被删除，只是将其设为默认值。详细见：node_modules/@babel/plugin-transform-runtime/lib/index.js:22
             // useBuiltIns: null,其实我也不知道它的值类型。
-            // 值类型：boolean，默认值：false，从v 7.13.0版本开始此选项已被弃用。
+
+            // 值类型：boolean，默认值：false，从v 7.13.0版本开始此选项已被弃用。详细见：node_modules/@babel/plugin-transform-runtime/lib/index.js:40
             // useESModules: false,
 
-            corejs: {
-              version: 3,
-              proposals: true,
-            },
+            /**
+             * 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
+             * v8.0.0开始，该选项已经被删除了。详细见：node_modules/@babel/plugin-transform-runtime/lib/index.js:36
+             */
+            // regenerator: true,
+
+            // v8.0.0开始，该选项已经被删除了。详细见：node_modules/@babel/plugin-transform-runtime/lib/index.js:42
+            // helpers: true,
+
+            // v8.0.0开始，该选项已经被删除了。详细见：https://babeljs.io/docs/v8-migration/#getting-ready
+            /*
+             corejs: {
+             version: 3,
+             proposals: true,
+             },
+             */
+
+            absoluteRuntime: false,
+            /**
+             * 1、v7.24.0开始启用该选项。值类型：null、string，默认值为：'@babel/runtime'。<br />
+             * 2、此选项控制 @babel/plugin-transform-runtime 在注入导入时将使用哪个辅助函数包。其优先级顺序如下：<br />
+             * 如果指定了 moduleName 选项<br />
+             * 由任何 babel-plugin-polyfill-* 插件建议的辅助模块<br />
+             * babel-plugin-polyfill-corejs3 建议使用 @babel/runtime-corejs3<br />
+             * babel-plugin-polyfill-corejs2 建议使用 @babel/runtime-corejs2<br />
+             * 否则回退到 @babel/runtime<br />
+             * 3、从源码（node_modules/@babel/plugin-transform-runtime/lib/index.js:55）可见，该选项的值大抵就是：@babel/runtime、@babel/runtime-corejs3、@babel/runtime-corejs2。<br />
+             * 毕竟这3个包里都有“helpers”文件夹，符合源码（node_modules/@babel/plugin-transform-runtime/lib/index.js:55）中的逻辑。<br />
+             */
+            moduleName: '@babel/runtime-corejs3',
             version: ( () => {
               const runtimeCoreJS3VersionStr = package_json.devDependencies[ '@babel/runtime-corejs3' ];
 
@@ -3935,11 +4020,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               else{
                 throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
               }
-            } )() || '7.29.7',
-            helpers: true,
-            // 切换生成器函数是否转换为使用不污染全局范围的再生器运行时。
-            regenerator: true,
-            absoluteRuntime: false,
+            } )() || '8.0.0',
           },
         ],
 
@@ -3948,7 +4029,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、将在当今环境中工作的JSBI代码编译为本机BigInt代码。<br />
          * 2、除非明确目标浏览器支持bigint语法，否则不要使用该插件。<br />
          * 3、如果未来babel支持对bigint进行语法转译，则可以启用该插件，当前babel只支持bigint语法上的识别，不进行bigint转译。<br />
-         * 4、该插件要在@babel/plugin-syntax-bigint之前，如果未来babel出了bigint语法转译插件，也要保证该插件在其之前。<br />
+         * 4、该插件要在@babel/plugin-syntax-bigint（v8.0.0开始，不再需要@babel/plugin-syntax-bigint插件了）之前，如果未来babel出了bigint语法转译插件，也要保证该插件在其之前。<br />
          */
         ...( isEnable => {
           return isEnable
@@ -4123,6 +4204,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * 4、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
                * 5、"proposal": "fsharp"，详细见：<br />
                * https://github.com/valtech-nyc/proposal-fsharp-pipelines
+               * 6、v8.0.0开始，仅支持 fsharp 和 hack 提案。<br />
                */
               [
                 '@babel/plugin-proposal-pipeline-operator',
@@ -4141,7 +4223,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               /**
                * @babel/plugin-proposal-destructuring-private：https://babeljs.io/docs/babel-plugin-proposal-destructuring-private、https://github.com/tc39/proposal-destructuring-private
                * 1、目前该提案处于第2阶段，需要手动包含该插件才会转译该提案的代码。<br />
-               * 2、该插件需要在@babel/plugin-proposal-class-properties之前。<br />
+               * 2、该插件需要在@babel/plugin-transform-class-properties之前。<br />
                * 3、该插件遵循这些编译器假设：<br />
                * ignoreFunctionLength：https://babeljs.io/docs/assumptions#ignorefunctionlength
                * objectRestNoSymbols：https://babeljs.io/docs/assumptions#objectrestnosymbols
@@ -4163,6 +4245,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * 4、目前，个人建议不启用该插件。<br />
                * 5、关于废弃旧的“assert”提案详细见：<br />
                * https://tc39.es/proposal-import-attributes/#sec-deprecated-assert-keyword-for-import-attributes
+               * 6、v8.0.0开始删除了该插件，该插件将标准导入属性 { type: "json" } 转换为旧版格式 assert { type: "json" }，而该格式仅受已弃用的 Chrome（91-122）和 Node.js 18 支持。如果您的编译目标不包含这些版本，可以放心移除此插件。<br />
                */
               /*
                [
@@ -4208,7 +4291,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                */
               /**
                * @babel/plugin-proposal-decorators：https://babeljs.io/docs/babel-plugin-proposal-decorators、https://github.com/tc39/proposal-decorators
-               * 1、如果您手动包含插件并使用@babel/plugin-proposal-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-proposal-class-properties之前。<br />
+               * 1、如果您手动包含插件并使用@babel/plugin-transform-class-properties，请确保@babel/plugin-proposal-decorators位于@babel/plugin-transform-class-properties之前。<br />
                * 2、目前该提案处于第3阶段。<br />
                */
               [
@@ -4223,8 +4306,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                    * 5、'2023-01'：是在2023年1月TC39会议上达成共识的更新后的建议版本，见：https://github.com/pzuraq/ecma262/pull/4。<br />
                    * 6、'2023-05'：是在2023年3月和5月TC39会议上达成共识的更新后的提案版本，见：https://github.com/pzuraq/ecma262/compare/e86128e13b63a3c2efc3728f76c8332756752b02...c4465e44d514c6c1dba810487ec2721ccd6b08f9。<br />
                    * 7、'2023-11'：是在2023年11月TC30会议上达成共识的更新后的提案版本，其中纳入了这一变更，见：https://github.com/pzuraq/ecma262/pull/12。<br />
-                   * 8、当取'legacy'值时，要保证该插件在@babel/plugin-proposal-class-properties之前。<br />
-                   * 9、Babel 8仅支持'2023-11'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-11'。<br />
+                   * 8、当取'legacy'值时，要保证该插件在@babel/plugin-transform-class-properties之前。<br />
+                   * 9、Babel 8仅支持'2023-11'和'legacy'，如果您正在使用不同的装饰器版本，建议迁移到'2023-11'。详细：<br />
+                   * “2023-11”是经过更新后、在 2023 年 11 月 TC39 会议上达成共识的提案版本。如果该版本最终成为正式版本，则将默认启用。它允许在导出语句之前或之后使用装饰器。<br />
+                   * legacy 是旧版 Stage 1 提案，定义见 wycats/javascript-decorators@e1bf8d41bf。旧版模式将不再进行功能更新，且已知存在 Babel 与 TypeScript 之间的差异。建议迁移至“2023-11”提案版本。<br />
                    */
                   version: '2023-11',
                   /**
@@ -4287,26 +4372,46 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * 它有一些相似之处，但只关注新对象，而不是新的原语。<br />
                * 我特别怀疑这个问题与记录和元组的关系特别相关：<br />
                * https://github.com/tc39/proposal-composites/issues/15
+               * 4、在Babel 8中，该插件被移除了！！！关于变更详细见：https://babeljs.io/docs/v8-migration/#babel-plugin-proposal-record-and-tuple<br />
+               * 5、“记录和元组”（Records and Tuples）提案已在 TC39 中被撤回，这意味着该语法已不再有望被纳入该语言。您需要停止使用“记录和元组”语法，并可直接将 @bloomberg/record-tuple-polyfill 作为独立库使用，例子：<br />
+               * ```js
+               * + import { Record, Tuple } from "@bloomberg/record-tuple-polyfill"
+               *
+               * // syntaxType: "hash"
+               *
+               * - #{ p: "value" }
+               * + Record({ p: "value" })
+               *
+               * - #[0, 1, 2]
+               * + Tuple(0, 1, 2)
+               *
+               * // syntaxType: "bar"
+               * - {| p: "value" |}
+               * + Record({ p: "value" })
+               *
+               * - [|0, 1, 2|]
+               * + Tuple(0, 1, 2)
+               * ```
                */
-              [
-                '@babel/plugin-proposal-record-and-tuple',
-                {
-                  /**
-                   * 默认情况下，此插件仅使用Record和Tuple全局变量转换提案语法。<br />
-                   * 1、值类型：boolean，默认值：false。<br />
-                   * 2、您需要加载一个polyfill，或者您可以传递"importPolyfill": true选项以将导入注入到由提案作者维护的@bloomberg/record-tuple-polyfill。<br />
-                   */
-                  importPolyfill: true,
-                  /**
-                   * 如果您希望将导入注入到不同于@bloomberg/record-tuple-polyfill的polyfill，您可以使用此选项指定其名称。<br />
-                   * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
-                   */
-                  polyfillModuleName: '@bloomberg/record-tuple-polyfill',
-
-                  // 该选项貌似不再被使用了。目前先注释掉吧！
-                  // syntaxType: 'hash',
-                },
-              ],
+              // [
+              //   '@babel/plugin-proposal-record-and-tuple',
+              //   {
+              //     /**
+              //      * 默认情况下，此插件仅使用Record和Tuple全局变量转换提案语法。<br />
+              //      * 1、值类型：boolean，默认值：false。<br />
+              //      * 2、您需要加载一个polyfill，或者您可以传递"importPolyfill": true选项以将导入注入到由提案作者维护的@bloomberg/record-tuple-polyfill。<br />
+              //      */
+              //     importPolyfill: true,
+              //     /**
+              //      * 如果您希望将导入注入到不同于@bloomberg/record-tuple-polyfill的polyfill，您可以使用此选项指定其名称。<br />
+              //      * 1、值类型：string，默认值："@bloomberg/record-tuple-polyfill"。<br />
+              //      */
+              //     polyfillModuleName: '@bloomberg/record-tuple-polyfill',
+              //
+              //     // 该选项貌似不再被使用了。目前先注释掉吧！
+              //     // syntaxType: 'hash',
+              //   },
+              // ],
             ]
                  : [];
         } )( true ),
@@ -4456,7 +4561,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-transform-class-static-block：https://babeljs.io/docs/babel-plugin-transform-class-static-block
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
                * 2、具有静态块的类将被转换为静态私有属性，其初始化程序是包装在IIAFE（立即调用箭头函数表达式）中的静态块。<br />
-               * 3、因为输出代码包含私有类属性，如果你已经在使用其他类特性插件（例如`@babel/plugin-proposal-class-properties），一定要把它放在其他的前面。<br />
+               * 3、因为输出代码包含私有类属性，如果你已经在使用其他类特性插件（例如`@babel/plugin-transform-class-properties），一定要把它放在其他的前面。<br />
                */
               [
                 '@babel/plugin-transform-class-static-block',
@@ -4515,10 +4620,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-syntax-top-level-await：https://babeljs.io/docs/babel-plugin-syntax-top-level-await
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2022。<br />
                * 2、此插件仅启用对此功能的语法解析。Babel目前还不支持转换顶层await，但是你可以使用Rollup的experimentalTopLevelAwait或webpack@5的experiments.topLevelAwait选项。<br />
+               * 3、v8.0.0开始，不再需要该插件了。<br />
                */
-              [
-                '@babel/plugin-syntax-top-level-await',
-              ],
+              /*
+               [
+               '@babel/plugin-syntax-top-level-await',
+               ],
+               */
             ]
                  : [];
         } )( false ),
@@ -4600,18 +4708,24 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-syntax-bigint：https://babeljs.io/docs/babel-plugin-syntax-bigint
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
                * 2、此插件仅启用对此功能的语法解析。Babel不支持转换bigint。一个建议是使用JSBI库并最终运行babel-plugin-transform-jsbi-to-bigint以在将来将其代码修改为BigInt。<br />
+               * 3、v8.0.0开始，不再需要该插件了。<br />
                */
-              [
-                '@babel/plugin-syntax-bigint',
-              ],
+              /*
+               [
+               '@babel/plugin-syntax-bigint',
+               ],
+               */
               /**
                * @babel/plugin-syntax-dynamic-import：https://babeljs.io/docs/babel-plugin-syntax-dynamic-import
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
                * 2、如果使用@babel/core 7.8.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
+               * 3、v8.0.0开始，不再需要该插件了。<br />
                */
-              [
-                '@babel/plugin-syntax-dynamic-import',
-              ],
+              /*
+               [
+               '@babel/plugin-syntax-dynamic-import',
+               ],
+               */
               /**
                * @babel/plugin-transform-dynamic-import：https://babeljs.io/docs/babel-plugin-transform-dynamic-import、https://github.com/tc39/proposal-dynamic-import
                * 1、将import()表达式转换为非ESM模块格式。
@@ -4633,10 +4747,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-syntax-import-meta：https://babeljs.io/docs/babel-plugin-syntax-import-meta
                * 1、注意：这个插件包含在@babel/preset-env中，在ES2020。<br />
                * 2、如果使用@babel/core 7.10.0或以上版本，您可以安全地从您的Babel配置中删除这个插件。<br />
+               * 3、v8.0.0开始，不再需要该插件了。<br />
                */
-              [
-                '@babel/plugin-syntax-import-meta',
-              ],
+              /*
+               [
+               '@babel/plugin-syntax-import-meta',
+               ],
+               */
             ]
                  : [];
         } )( false ),
@@ -5129,10 +5246,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               /**
                * @babel/plugin-transform-property-mutators：https://babeljs.io/docs/babel-plugin-transform-property-mutators
                * 1、注意：这个插件包含在@babel/preset-env。<br />
+               * 2、v8.0.0开始，删除了该插件，属性修改器无法被转换，这个插件毫无用处。<br />
                */
-              [
-                '@babel/plugin-transform-property-mutators',
-              ],
+              /*
+               [
+               '@babel/plugin-transform-property-mutators',
+               ],
+               */
             ]
                  : [];
         } )( false ),
@@ -5177,21 +5297,29 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                * @babel/plugin-transform-object-assign：https://babeljs.io/docs/en/babel-plugin-transform-object-assign
                * 1、用于转译Object.assign。<br />
                * 2、注意事项，仅适用于Object.assign或Object['assign']形式的代码。不支持以下模式：<br />
+               * ```js
                * var { assign } = Object;
                * var assign = Object.assign;
+               * ```
+               * 3、v8.0.0开始，删除了该插件，这是一个旧版的 polyfill 插件，现已过时。如果您正在使用此插件来实现 Object.assign 的 polyfill，请改用 babel-plugin-polyfill-corejs3。<br />
                */
-              [
-                '@babel/plugin-transform-object-assign',
-              ],
+              /*
+               [
+               '@babel/plugin-transform-object-assign',
+               ],
+               */
               /**
                * @babel/plugin-transform-object-set-prototype-of-to-assign：https://babeljs.io/docs/en/babel-plugin-transform-object-set-prototype-of-to-assign
                * 1、用于转译Object.setPrototypeOf。<br />
                * 2、注意：使用此插件时有一些注意事项，请参阅@babel/plugin-transform-proto-to-assign文档了解更多信息：https://babeljs.io/docs/en/babel-plugin-transform-proto-to-assign。<br />
                * 3、要注意这个插件的使用需要上头那个插件的配合使用！没用这2个插件，就无法转译Object.setPrototypeOf，也就无法兼容IE 9。<br />
+               * 4、v8.0.0开始删除了该插件，该插件已不再维护。如果您正在使用此插件来对 Object.setPrototypeOf 进行 polyfill，请改用 babel-plugin-polyfill-corejs3。<br />
                */
-              [
-                '@babel/plugin-transform-object-set-prototype-of-to-assign',
-              ],
+              /*
+               [
+               '@babel/plugin-transform-object-set-prototype-of-to-assign',
+               ],
+               */
               /**
                * @babel/plugin-transform-proto-to-assign：https://babeljs.io/docs/en/babel-plugin-transform-proto-to-assign
                * 1、这意味着以下将起作用：<br />
@@ -5518,29 +5646,89 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           '@babel/preset-env',
           {
             /**
+             * 注意：这些优化将在Babel 8中默认启用。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             * 2、v7.9.0开始添加的。<br />
+             * 3、v8.0.0中提到：该选项已在 Babel 8 中移除。@babel/preset-env 会将语法错误的代码编译为目标浏览器支持的、最接近且语法正确的现代语法。详细见：https://babeljs.io/docs/babel-preset-env#bugfixes。<br />
+             * 4、如果更新到v8.0.0后，还在使用该选项，那么会报错，报错逻辑代码可见：node_modules/@babel/preset-env/lib/index.js:8963。<br />
+             */
+            // bugfixes: true,
+            /**
+             * 为此预设中支持它们的任何插件启用更符合规范但可能更慢的转换。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             * 2、v8.0.0提到：这些选项已在 Babel 8 中移除。建议迁移到自 Babel 7.13 起提供的顶级假设配置（assumptions选项）。请参阅“从 @babel/preset-env 的 'loose' 和 'spec' 模式迁移”，其中提供了等效的基于假设的配置（assumptions选项），可直接复制粘贴作为起点。详细见：
+             * https://babeljs.io/docs/babel-preset-env/#loose-spec
+             * https://babeljs.io/docs/assumptions/#migrating-from-babelpreset-envs-loose-and-spec-modes
+             * node_modules/@babel/preset-env/lib/index.js:9092
+             */
+            // spec: true,
+            /**
+             * 为此预设中允许它们的任何插件启用“松散”转换。<br />
+             * 1、值类型：boolean，默认值：false。<br />
+             * 2、考虑迁移到自Babel 7.13以来可用的顶层assumptions选项（在babel-loader的options选项下的assumptions选项），见：https://babeljs.io/docs/en/assumptions。
+             * 3、v8.0.0提到：这些选项已在 Babel 8 中移除。建议迁移到自 Babel 7.13 起提供的顶级假设配置（assumptions选项）。请参阅“从 @babel/preset-env 的 'loose' 和 'spec' 模式迁移”，其中提供了等效的基于假设的配置（assumptions选项），可直接复制粘贴作为起点。详细见：
+             * https://babeljs.io/docs/babel-preset-env/#loose-spec
+             * https://babeljs.io/docs/assumptions/#migrating-from-babelpreset-envs-loose-and-spec-modes
+             * node_modules/@babel/preset-env/lib/index.js:9092
+             */
+            // loose: false,
+            /**
+             * 此选项配置@babel/preset-env如何处理polyfill。<br />
+             * 1、有效值："usage"、"entry"、false，默认值为false。<br />
+             * 2、当使用'usage'或'entry'时，@babel/preset-env将添加对core-js模块的直接引用作为裸imports或requires。这意味着core-js将相对于文件本身进行解析，并且需要可访问。<br />
+             * 3、由于@babel/polyfill在7.4.0中已弃用，我们建议直接添加core-js并通过corejs选项设置版本。<br />
+             * 4、'entry'表示在入口处显示的导入core-js，如：import "core-js";，这样的代码在项目中只能存在1次，如果出现第2次会报错，个人不建议用这个值，'usage'这个值最好了。<br />
+             * 5、'usage'在每个文件中使用polyfill时为它们添加特定的import。我们利用了捆绑器只会加载相同的polyfill一次这一事实。这个值最好了。<br />
+             * 6、关于3个值的说明：<br />
+             * false：无视target.browsers将所有Polyfill加载进来。<br />
+             * entry：根据target.browsers将部分Polyfill加载进来(仅引入有浏览器不支持的Polyfill，需在入口文件import 'core-js/stable')。<br />
+             * usage：根据target.browsers和检测代码里ES6的使用情况将部分Polyfill加载进来(无需在入口文件import 'core-js/stable')。<br />
+             * 7、v8.0.0中，该选项已经被删除了（https://babeljs.io/docs/v8-migration/#getting-ready），详细代码见：node_modules/@babel/preset-env/lib/index.js:8965。<br />
+             */
+            // useBuiltIns: 'usage',
+            /**
+             * 7.4版本的插件写法发生巨变！该选项在v 7.4.0开始添加的。<br />
+             * 1、值类型：string、object（{ version: string, proposals: boolean }），默认值："2.0"。<br />
+             * 2、version选项的值是一个字符串，其可以是任何受支持的core-js版本号。例如，“3.8”或“2.0”。<br />
+             * 3、此选项仅在与useBuiltIns的值为'usage'、'entry'一起使用时有效。<br />
+             * 4、建议指定次要版本，否则“3”将被解释为“3.0”，其中可能不包括最新功能的polyfill。<br />
+             * 5、默认情况下，只注入稳定的ECMAScript特性的polyfill：如果你想polyfill提案，你有三个不同的选项：<br />
+             * 使用useBuiltIns: "entry"时，可以直接导入一个提案polyfill：import "core-js/proposals/string-replace-all"。<br />
+             * 使用useBuiltIns: "usage"时，您有2种不同的选择：<br />
+             * 将shippingProposals选项设置为true。这将为已经在浏览器中提供一段时间的提案启用polyfill和转换。<br />
+             * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
+             * 6、v8.0.0中，该选项已经被删除了。见：https://babeljs.io/docs/babel-preset-env/#usebuiltins-corejs。<br />
+             */
+            /*
+             corejs: {
+             version: ( () => {
+             const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
+
+             if( coreJSVersionStr ){
+             const str1 = String( coreJSVersionStr ).trim();
+
+             if( /^[0-9]/i.test( str1 ) ){
+             return str1;
+             }
+             else{
+             return str1.slice( 1 );
+             }
+             }
+             else{
+             throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
+             }
+             } )() || '3.49.0',
+             proposals: true,
+             },
+             */
+
+            /**
              * 1、会使用“console.log”输出由preset-env启用的polyfill和转换插件，并且会输出哪些目标需要它。<br />
              * 2、比如输出日志中有：proposal-class-static-block { chrome < 94, firefox < 93, opera < 80, safari }。<br />
              * 说明：表示当编译目标为chrome < 94, firefox < 93, opera < 80, safari这些时，会启用“proposal-class-static-block”。<br />
              */
             debug: isBabelDebug,
             targets: babel_targets,
-            /**
-             * 注意：这些优化将在Babel 8中默认启用。<br />
-             * 1、值类型：boolean，默认值：false。<br />
-             * 2、v7.9.0开始添加的。<br />
-             */
-            bugfixes: true,
-            /**
-             * 为此预设中支持它们的任何插件启用更符合规范但可能更慢的转换。<br />
-             * 1、值类型：boolean，默认值：false。<br />
-             */
-            spec: true,
-            /**
-             * 为此预设中允许它们的任何插件启用“松散”转换。<br />
-             * 1、值类型：boolean，默认值：false。<br />
-             * 2、考虑迁移到自Babel 7.13以来可用的顶层assumptions选项（在babel-loader的options选项下的assumptions选项），见：https://babeljs.io/docs/en/assumptions。
-             */
-            loose: false,
             /**
              * 启用将ES模块语法转换为另一种模块类型。<br />
              * 1、有效值："amd"、"umd"、"systemjs"、"commonjs"、"cjs"、"auto"、false，请注意，'cjs'只是'commonjs'的别名，默认值为：'auto'。<br />
@@ -5555,51 +5743,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              * 此外，如果你在应用程序中使用内部库，也必须使用ES模块编译。为了减少应用程序包的大小，必须将所有这些内部库修改为以这种方式编译。<br />
              */
             modules: 'auto',
-            /**
-             * 此选项配置@babel/preset-env如何处理polyfill。<br />
-             * 1、有效值："usage"、"entry"、false，默认值为false。<br />
-             * 2、当使用'usage'或'entry'时，@babel/preset-env将添加对core-js模块的直接引用作为裸imports或requires。这意味着core-js将相对于文件本身进行解析，并且需要可访问。<br />
-             * 3、由于@babel/polyfill在7.4.0中已弃用，我们建议直接添加core-js并通过corejs选项设置版本。<br />
-             * 4、'entry'表示在入口处显示的导入core-js，如：import "core-js";，这样的代码在项目中只能存在1次，如果出现第2次会报错，个人不建议用这个值，'usage'这个值最好了。<br />
-             * 5、'usage'在每个文件中使用polyfill时为它们添加特定的import。我们利用了捆绑器只会加载相同的polyfill一次这一事实。这个值最好了。<br />
-             * 6、关于3个值的说明：<br />
-             * false：无视target.browsers将所有Polyfill加载进来。<br />
-             * entry：根据target.browsers将部分Polyfill加载进来(仅引入有浏览器不支持的Polyfill，需在入口文件import 'core-js/stable')。<br />
-             * usage：根据target.browsers和检测代码里ES6的使用情况将部分Polyfill加载进来(无需在入口文件import 'core-js/stable')。<br />
-             */
-            useBuiltIns: 'usage',
-            /**
-             * 7.4版本的插件写法发生巨变！该选项在v 7.4.0开始添加的。<br />
-             * 1、值类型：string、object（{ version: string, proposals: boolean }），默认值："2.0"。<br />
-             * 2、version选项的值是一个字符串，其可以是任何受支持的core-js版本号。例如，“3.8”或“2.0”。<br />
-             * 3、此选项仅在与useBuiltIns的值为'usage'、'entry'一起使用时有效。<br />
-             * 4、建议指定次要版本，否则“3”将被解释为“3.0”，其中可能不包括最新功能的polyfill。<br />
-             * 5、默认情况下，只注入稳定的ECMAScript特性的polyfill：如果你想polyfill提案，你有三个不同的选项：<br />
-             * 使用useBuiltIns: "entry"时，可以直接导入一个提案polyfill：import "core-js/proposals/string-replace-all"。<br />
-             * 使用useBuiltIns: "usage"时，您有2种不同的选择：<br />
-             * 将shippingProposals选项设置为true。这将为已经在浏览器中提供一段时间的提案启用polyfill和转换。<br />
-             * 使用corejs: { version: '3.8', proposals: true }。这将启用core-js@3.8支持的每个提案的polyfill。<br />
-             */
-            corejs: {
-              version: ( () => {
-                const coreJSVersionStr = package_json.devDependencies[ 'core-js' ];
-
-                if( coreJSVersionStr ){
-                  const str1 = String( coreJSVersionStr ).trim();
-
-                  if( /^[0-9]/i.test( str1 ) ){
-                    return str1;
-                  }
-                  else{
-                    return str1.slice( 1 );
-                  }
-                }
-                else{
-                  throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
-                }
-              } )() || '3.49.0',
-              proposals: true,
-            },
             /**
              * 1、值类型：boolean，默认值：false。<br />
              * 2、借助Babel 7的JavaScript配置文件支持，如果env设置为production，您可以强制运行所有转换。<br />
@@ -5631,6 +5774,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              * 自v 7.9.0开始添加该选项，决定使用哪个运行时。<br />
              * 1、值类型：string（只有2个有效值：'automatic'、'classic'），默认值：'classic'。<br />
              * 2、值'automatic'会自动导入JSX转译成的函数，值'classic'不会自动导入任何东西。<br />
+             * 3、从v8.0.0开始，如果您使用 @babel/preset-react 或 @babel/plugin-transform-react-jsx，请显式设置其“runtime”选项（Babel 7 的默认值为“classic”，Babel 8 的默认值为“automatic”）。如果您继续使用“classic”运行时，请将 useSpread 选项设置为 true。<br />
              */
             runtime: 'automatic',
             /**
@@ -5675,7 +5819,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 5、unambiguous在类型未知的上下文中非常有用，但它可能导致错误匹配，因为拥有不使用import、export语句的模块文件是完全有效的。<br />
          * 6、此选项很重要，因为当前文件的类型会影响输入文件的解析，以及可能希望将import、require用法添加到当前文件的某些转换。<br />
          * 7、例如，@babel/plugin-transform-runtime依赖于当前文档的类型来决定是插入一个import声明，还是一个require()调用。<br />
-         * 8、@babel/preset-env也对自己的“useBuiltIns”选项做同样的事情。<br />
+         * 8、@babel/preset-env也对自己的“useBuiltIns”选项（v8.0.0中，该选项已经被删除了（https://babeljs.io/docs/v8-migration/#getting-ready），详细代码见：node_modules/@babel/preset-env/lib/index.js:8965）做同样的事情。<br />
          * 9、由于Babel默认将文件处理为ES模块，因此这些plugins、presets通常会插入import语句。<br />
          * 10、设置正确的sourceType可能很重要，因为错误的类型会导致Babel将import语句插入到本来应该是CommonJS文件的文件中。<br />
          * 11、这在正在执行node_modules依赖项编译的项目中尤其重要，因为插入import语句可能会导致Webpack和其他工具将文件视为ES模块。破坏原本可以正常工作的CommonJS文件。<br />
@@ -5920,7 +6064,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               },
             }
                  : {};
-        } )( false ),
+        } )( true ),
       },
       babelLoaderJSXConfig = Object.assign( {}, babelLoaderConfig, {
         presets: babelPresetsJSX,
