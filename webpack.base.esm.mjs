@@ -4124,22 +4124,30 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  ? [
               /**
                * @babel/plugin-syntax-import-reflection：https://babeljs.io/docs/babel-plugin-syntax-import-reflection
-               * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。
-               * 2、此插件使Babel能够解析导入反射：
+               * 1、此插件仅使Babel能够解析这种语法。Babel不支持转换这种语法。<br />
+               * 2、此插件使Babel能够解析导入反射：<br />
+               * ```js
                * import module foo from "./foo.wasm";
+               * ```
+               * 3、该插件截至2026.06.20，还是依赖“Babel 7”，但是本配置已经全面更新到“Babel 8”，导致该插件无法使用并且会报错！故目前暂时注释掉该插件，待后期该插件适配到“Babel 8”后，再启用该插件。<br />
                */
-              [
-                '@babel/plugin-syntax-import-reflection',
-              ],
+              /*
+               [
+               '@babel/plugin-syntax-import-reflection',
+               ],
+               */
 
               // 处于提案第1阶段！
               /**
                * @babel/plugin-syntax-decimal：https://github.com/tc39/proposal-decimal
                * 1、目前该提案处于第1阶段，且目前babel只有识别它的语法插件，还没有转换它的插件。<br />
+               * 2、该插件截至2026.06.20，还是依赖“Babel 7”，但是本配置已经全面更新到“Babel 8”，导致该插件无法使用并且会报错！故目前暂时注释掉该插件，待后期该插件适配到“Babel 8”后，再启用该插件。<br />
                */
-              [
-                '@babel/plugin-syntax-decimal',
-              ],
+              /*
+               [
+               '@babel/plugin-syntax-decimal',
+               ],
+               */
               /**
                * @babel/plugin-proposal-do-expressions：https://babeljs.io/docs/babel-plugin-proposal-do-expressions、https://github.com/tc39/proposal-do-expressions
                * 1、目前该提案处于第1阶段，需要手动包含该插件才会转译该提案的代码。<br />
