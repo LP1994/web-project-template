@@ -750,32 +750,26 @@ const autoprefixerConfig = {
      * 对于drop选项，当前配置是这样的，“webpack.test.mjs”中不设置drop选项（对应的是不删除操作），webpack.production.mjs中设置drop选项（对应的是删除操作）。<br />
      */
     ...( () => {
-      return isUseESBuildLoader
-             ? {
-          ...( () => {
-            if( env_platform === 'dev_server' ){
-              return {};
-            }
-            else if( env_platform === 'local_server' ){
-              return {};
-            }
-            else if( env_platform === 'test' ){
-              return {};
-            }
-            else if( env_platform === 'production' ){
-              return {
-                drop: [
-                  'debugger',
-                  'console',
-                ],
-              };
-            }
-            else{
-              return {};
-            }
-          } )(),
-        }
-             : {};
+      if( env_platform === 'dev_server' ){
+        return {};
+      }
+      else if( env_platform === 'local_server' ){
+        return {};
+      }
+      else if( env_platform === 'test' ){
+        return {};
+      }
+      else if( env_platform === 'production' ){
+        return {
+          drop: [
+            'debugger',
+            'console',
+          ],
+        };
+      }
+      else{
+        return {};
+      }
     } )(),
     target: esbuildMinify_target,
     // 有效值有：silent、error、warning、info、debug、verbose。
