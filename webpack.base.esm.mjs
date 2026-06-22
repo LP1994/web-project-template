@@ -376,6 +376,72 @@ switch( env_platform ){
 }
 
 /**
+ * 判断输入的图片是否是一张apng的png图片！返回true表示输入的图片是一张apng的png图片！反之不是apng。
+ *
+ * @param {Uint8Array} uint8Array 以数据类型Uint8Array表示的图片数据。
+ *
+ * @returns {boolean} 返回true表示输入的图片是一张apng的png图片！反之不是apng。
+ */
+function IsAPNG( uint8Array ){
+  const readString = ( bytes, off, length ) => String.fromCharCode.apply( String, Array.prototype.slice.call( bytes.subarray( off, off + length ) ) ),
+    eachChunk = ( bytes, callback ) => {
+      const dv = new DataView( bytes.buffer );
+
+      let off = 8,
+        type = void 0,
+        length = void 0,
+        res = void 0;
+
+      do{
+        length = dv.getUint32( off );
+
+        type = readString( bytes, off + 4, 4 );
+
+        res = callback( type, bytes, off, length );
+
+        off += 12 + length;
+      }
+      while( res !== false && type !== 'IEND' && off < bytes.length );
+    },
+    // '\x89PNG\x0d\x0a\x1a\x0a'
+    PNGSignature = new Uint8Array( [
+      0x89,
+      0x50,
+      0x4e,
+      0x47,
+      0x0d,
+      0x0a,
+      0x1a,
+      0x0a,
+    ] );
+
+  let isNotPNG = true,
+    isNotAPNG = true;
+
+  const bytes = uint8Array;
+
+  if( Array.prototype.some.call( PNGSignature, ( b, i ) => b !== bytes[ i ] ) ){
+    isNotPNG = true;
+  }
+  else{
+    isNotPNG = false;
+  }
+
+  let isAnimated = false;
+
+  eachChunk( bytes, type => !( isAnimated = type === 'acTL' ) );
+
+  if( !isAnimated ){
+    isNotAPNG = true;
+  }
+  else{
+    isNotAPNG = false;
+  }
+
+  return !isNotPNG && !isNotAPNG;
+}
+
+/**
  * isProduction的值为true时表示生产环境，反之开发环境，该值依赖CLI参数中的“--mode”参数值。<br />
  * 1、有效的“--mode”参数设置是：--mode development（用于开发）、--mode production（用于生产）。<br />
  *
@@ -11417,13 +11483,18 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
-                 * @param {Buffer} source source.byteLength表示图片的大小，单位为字节。<br />
+                 * @param {Uint8Array} source source.byteLength表示图片的大小，单位为字节。<br />
                  *
-                 * @param {string} sourcePath 图片路径，如：img/1_1920_1080_fd32eda928ed7872.webp。<br />
+                 * @param {string} sourcePath 图片路径，不是指编译后的图片路径，而是形如：src\pages\index\APNG001.png。<br />
                  *
                  * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
                  */
                 filter( source, sourcePath ){
+                  // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
+                  if( IsAPNG( source ) ){
+                    return false;
+                  }
+
                   if( Number( source.byteLength ) > 10 * 1024 ){
                     return true;
                   }
@@ -11866,6 +11937,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
+                    // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
+                    if( IsAPNG( source ) ){
+                      return false;
+                    }
+
                     if( Number( source.byteLength ) > 10 * 1024 ){
                       return true;
                     }
