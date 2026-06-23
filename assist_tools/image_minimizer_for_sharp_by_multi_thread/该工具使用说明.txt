@@ -1,4 +1,4 @@
-本工具是基于Sharp的图片压缩工具，可压缩avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp、jpx、j2k、j2c这几类格式的图片，且没tinify那样的压缩次数、大小的限制。
+本工具是基于Sharp的图片压缩工具，可压缩jpeg、jpe、jpg、png、webp、gif、jp2、tiff、tif、avif、jxl、raw这几类格式的图片，且没tinify那样的压缩次数、大小的限制。
 
 说明：
 1、

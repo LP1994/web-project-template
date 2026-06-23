@@ -10,7 +10,7 @@
  */
 
 /**
- * 本工具是基于Sharp的图片压缩工具，可压缩avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp这几类格式的图片，且没tinify那样的压缩次数、大小的限制。
+ * 本工具是基于Sharp的图片压缩工具，可压缩jpeg、jpe、jpg、png、webp、gif、jp2、tiff、tif、avif、jxl、raw这几类格式的图片，且没tinify那样的压缩次数、大小的限制。
  *
  * 说明：
  * 1、
@@ -129,20 +129,18 @@ function RetrieveForDir( path ){
       suffix001 = extname( path001 ).slice( 1 ).toLocaleLowerCase().trim();
 
       if( [
-        'avif',
-        'gif',
-        'jp2',
-        'jpe',
         'jpeg',
+        'jpe',
         'jpg',
         'png',
-        'raw',
-        'tif',
-        'tiff',
         'webp',
-        'jpx',
-        'j2k',
-        'j2c',
+        'gif',
+        'jp2',
+        'tiff',
+        'tif',
+        'avif',
+        'jxl',
+        'raw',
       ].includes( suffix001 ) ){
         if( Number( fsStats.size ) > 0 ){
           photoPathArr.push( path001 );
@@ -157,7 +155,7 @@ ${ path001 }
       else{
         MyConsole.Yellow( `
 ${ path001 }
-目前只支持压缩后缀为avif、gif、jp2、jpe、jpeg、jpg、png、raw、tif、tiff、webp的图片。
+目前只支持压缩后缀为jpeg、jpe、jpg、png、webp、gif、jp2、tiff、tif、avif、jxl、raw的图片。
 ` );
       }
     }

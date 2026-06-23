@@ -102,16 +102,20 @@ let startTimer001 = 0,
       'j2c',
       'jp2',
     ],
+    [
+      'jxl',
+      'jxl',
+    ],
   ] ),
   encodeOptions = {
-    // jpeg
+    // jpeg（别名：jpe、jpg）
     ...( () => {
       const config = {
         // 质量，值类型：number，默认值：80，值范围：1-100，可选。
         quality: 80,
         // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
         progressive: false,
-        // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。     
+        // 色度二次采样，值类型：string，默认值：'4:2:0'（色度二次采样），设置为'4:4:4'以防止色度二次采样，可选。
         chromaSubsampling: '4:4:4',
         // 优化霍夫曼编码表，值类型：boolean，默认值：true，可选。
         optimiseCoding: true,
@@ -142,10 +146,15 @@ let startTimer001 = 0,
 
       return {
         jpe: config,
-        jpeg: config,
         jpg: config,
+        jpeg: config,
       };
     } )(),
+    /**
+     * 默认情况下，PNG 输出为每像素 8 位的全彩模式。
+     * 每像素 1、2 或 4 位的索引式 PNG 输入将被转换为每像素 8 位。若需生成较慢的索引式 PNG 输出，请将调色板设置为 true。
+     * 若需生成每像素 16 位的输出，请通过 toColourspace 函数转换为 rgb16。
+     */
     png: {
       // 使用逐行（隔行）扫描，值类型：boolean，默认值：false，可选。
       progressive: false,
@@ -179,16 +188,30 @@ let startTimer001 = 0,
       nearLossless: false,
       // 使用高质量的色度二次采样，值类型：boolean，默认值：false，可选。
       smartSubsample: false,
+      // 值类型：boolean，默认值：false，可选。自动调整去块滤波器，可改善低对比度边缘（速度较慢）。
+      smartDeblock: false,
+      // 值类型：string，默认值：'default'，可选。预处理/滤镜的预设名称，可选值包括：default, photo, picture, drawing, icon, text。
+      preset: 'default',
       // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-6（最慢），可选。
       effort: 4,
       // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
       loop: 0,
       // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
       // delay: 1,
+      // 值类型：boolean，默认值：false，可选。避免使用动画关键帧以减小文件大小（速度较慢）。
+      minSize: false,
+      // 值类型：boolean，默认值：false，可选。允许混合使用有损和无损动画帧（速度较慢）。
+      mixed: false,
+      // 值类型：boolean，默认值：false，可选。保留透明像素中的颜色数据。
+      exact: false,
       // 强制WebP输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
       force: true,
     },
     gif: {
+      // 值类型：boolean，默认值：true，可选。复用现有调色板，否则生成新的（较慢）。
+      reuse: true,
+      // 值类型：boolean，默认值：false，可选。使用逐行扫描（交错扫描）。
+      progressive: false,
       // 调色板条目的最大数量，包括透明度，值类型：number，默认值：256，值范围：2-256，可选。
       colours: 256,
       // colours的替代拼写，值类型：number，默认值：256，值范围：2-256，可选。
@@ -197,6 +220,12 @@ let startTimer001 = 0,
       effort: 7,
       // Floyd-Steinberg误差扩散级别，值类型：number，默认值：1.0，值范围：0（最小）-1（最大），可选。
       dither: 1.0,
+      // 值类型：number，默认值：0，可选。透明度最大帧间误差，范围为 0（无损）至 32。
+      interFrameMaxError: 0,
+      // 值类型：number，默认值：3，可选。调色板复用时的最大调色板间误差，范围为 0 到 256。
+      interPaletteMaxError: 3,
+      // 值类型：boolean，默认值：false，可选。在输出中保留重复的帧，而不是将它们合并。
+      keepDuplicateFrames: false,
       // 动画迭代次数，使用0表示无限动画，值类型：number，默认值：0，可选。
       loop: 0,
       // 动画帧之间的延迟（以毫秒为单位），值类型：number、[ number ]，无默认值，可选。
@@ -204,6 +233,9 @@ let startTimer001 = 0,
       // 强制GIF输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
       force: true,
     },
+    /**
+     * 需要使用支持 OpenJPEG 的 libvips 进行编译。预编译的二进制文件不包含此功能——请参阅“安装自定义 libvips”。
+     */
     jp2: {
       // 质量，值类型：number，默认值：80，值范围：1-100，可选。
       quality: 80,
@@ -213,10 +245,12 @@ let startTimer001 = 0,
       tileWidth: 512,
       // 垂直tile尺寸，值类型：number，默认值：512，可选。
       tileHeight: 512,
-      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
       chromaSubsampling: '4:4:4',
     },
-    // tif
+    /**
+     * tiff（别名：tif），可以通过 withMetadata 以像素/英寸为单位设置密度，而无需提供以像素/毫米为单位的 xres 和 yres。
+     */
     ...( () => {
       const config = {
         // 质量，值类型：number，默认值：80，值范围：1-100，可选。
@@ -225,7 +259,9 @@ let startTimer001 = 0,
         force: true,
         // 压缩选项，值类型：string，默认值：'jpeg'，有效值：'lzw'、'deflate'、'jpeg'、'ccittfax4'，可选。
         compression: 'jpeg',
-        // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none'、'horizontal'、'float'，可选。
+        // 值类型：boolean，默认值：false，可选。使用 BigTIFF 变体（当压缩方式为“无”时，此设置无效）。
+        bigtiff: false,
+        // 压缩预测器选项，值类型：string，默认值：'horizontal'，有效值：'none', 'horizontal', 'float'，可选。
         predictor: 'horizontal',
         // 写一个图像pyramid，值类型：boolean，默认值：false，可选。
         pyramid: false,
@@ -241,8 +277,10 @@ let startTimer001 = 0,
         yres: 1.0,
         // 分辨率单位选项，值类型：string，默认值：'inch'，有效值：'inch'、'cm'，可选。
         resolutionUnit: 'inch',
-        // 将位深度减少到1、2、4bit，值类型：number，默认值：8，可选。
-        bitdepth: 8,
+        // 将位深度减少到1、2、4bit，值类型：number，默认值：0，可选。
+        bitdepth: 0,
+        // 值类型：boolean，默认值：false，可选。将 1 位图像写入 miniswhite。
+        miniswhite: false,
       };
 
       return {
@@ -250,7 +288,7 @@ let startTimer001 = 0,
         tiff: config,
       };
     } )(),
-    // 使用这些AVIF选项输出图像。虽然可以创建小于16x16像素的AVIF图像，但大多数Web浏览器（火狐浏览器支持的）无法正确显示这些图像。不支持AVIF图像序列。
+    // 不支持AVIF图像序列。
     avif: {
       // 质量，值类型：number，默认值：50，值范围：1-100，可选。
       quality: 50,
@@ -258,22 +296,33 @@ let startTimer001 = 0,
       lossless: false,
       // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
       effort: 4,
-      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+      // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
       chromaSubsampling: '4:4:4',
+      // 值类型：number，默认值：8，可选。将位深度设置为 8、10 或 12 位。
+      bitdepth: 8,
+      // 值类型：string，默认值：'auto'，可选。根据质量指标调整输出，可选值包括“auto”（默认）、“iq”、“psnr”或“ssim”。
+      tune: 'auto',
     },
-    // heic，直到20220818，sharp v0.30.7、vips-dev-w64-all-8.12.2，转换heic、heif还是会报错。
+    /**
+     * heif（别名：heic），直到20260614，sharp v0.35.1、vips-dev-x64-all-8.18.3，转换heic、heif还是会报错。
+     * 要支持采用HEVC压缩且受专利限制的HEIC图像，必须使用全局安装的libvips库，且该库需在编译时支持libheif、libde265和x265。
+     */
     ...( () => {
       const config = {
+        // 压缩格式，值类型：string，无默认值，有效值：'av1'、'hevc'，可选。
+        compression: 'av1',
         // 质量，值类型：number，默认值：50，值范围：1-100，可选。
         quality: 50,
-        // 压缩格式，值类型：string，默认值：'av1'，有效值：'av1'、'hevc'，可选。
-        compression: 'av1',
         // 使用无损压缩模式，值类型：boolean，默认值：false，可选。
         lossless: false,
         // CPU工作量，值类型：number，默认值：4，值范围：0（最快）-9（最慢），可选。
         effort: 4,
-        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。 
+        // 色度二次采样，值类型：string，默认值：'4:4:4'（防止色度二次采样），设置为'4:2:0'以使用色度二次采样，可选。
         chromaSubsampling: '4:4:4',
+        // 值类型：number，默认值：8，可选。将位深度设置为 8、10 或 12 位。
+        bitdepth: 8,
+        // 值类型：string，默认值：'auto'，可选。根据质量指标调整输出，可选值包括“auto”（默认）、“iq”、“psnr”或“ssim”。
+        tune: 'auto',
       };
 
       return {
@@ -281,9 +330,30 @@ let startTimer001 = 0,
         heif: config,
       };
     } )(),
-    // 强制输出为原始的、未压缩的像素数据。像素排序是从左到右，从上到下，没有填充。对于非灰度色彩空间，通道排序将是RGB或RGBA。
+    /**
+     * 请使用这些 JPEG-XL (JXL) 选项来生成输出图像。
+     * 此功能尚处于实验阶段，请勿在生产系统中使用。
+     * 需要使用支持 libjxl 的 libvips 进行编译。预编译的二进制文件不包含此功能——请参阅“安装自定义 libvips”。
+     */
+    jxl: {
+      // 值类型：number，默认值：1.0，可选。最大编码误差，范围为 0（最高质量）至 15（最低质量）。
+      distance: 1.0,
+      // 值类型：number，无默认值，可选。根据类似 JPEG 的质量（范围为 1 到 100）计算距离，若已指定则覆盖该距离。
+      quality: 80,
+      // 值类型：number，默认值：0，可选。目标解码速度等级，范围为 0（最高质量）至 4（最低质量）。
+      decodingTier: 0,
+      // 值类型：boolean，默认值：false，可选。使用无损压缩。
+      lossless: false,
+      // 值类型：number，默认值：7，可选。CPU 负载，范围为 1（最快）至 9（最慢）。
+      effort: 7,
+      // 值类型：number，默认值：0，可选。动画迭代次数，若为 0 则表示无限循环。
+      loop: 0,
+      // 值类型：number、[ number ]，无默认值，可选。动画帧之间的延迟（以毫秒为单位）。
+      // delay: 1,
+    },
+    // 强制输出为原始、未压缩的像素数据。像素顺序为从左到右、从上到下，且不进行填充。对于非灰度色彩空间，通道顺序为 RGB 或 RGBA。
     raw: {
-      // bit（位）深，值类型：string，默认值：'uchar'，有效值：'char'、'uchar'（默认值）、'short'、'ushort'、'int'、'uint'、'float'、'complex'、'double'、'dpcomplex'，可选。
+      // bit（位）深，值类型：string，默认值：'uchar'，有效值：char, uchar (default), short, ushort, int, uint, float, complex, double, dpcomplex，可选。
       depth: 'uchar',
     },
   };
