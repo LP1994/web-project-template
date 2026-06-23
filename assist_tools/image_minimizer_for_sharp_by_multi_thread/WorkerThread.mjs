@@ -51,6 +51,14 @@ let startTimer001 = 0,
       'avif',
     ],
     [
+      'heif',
+      'heif',
+    ],
+    [
+      'heic',
+      'heic',
+    ],
+    [
       'jpeg',
       'jpeg',
     ],
