@@ -47,6 +47,72 @@ let startTimer001 = 0,
   resultFilePathParseObj = null,
   currentPhotoPath = '';
 
+/**
+ * 判断输入的图片是否是一张apng的png图片！返回true表示输入的图片是一张apng的png图片！反之不是apng。
+ *
+ * @param {Uint8Array} uint8Array 以数据类型Uint8Array表示的图片数据。
+ *
+ * @returns {boolean} 返回true表示输入的图片是一张apng的png图片！反之不是apng。
+ */
+function IsAPNG( uint8Array ){
+  const readString = ( bytes, off, length ) => String.fromCharCode.apply( String, Array.prototype.slice.call( bytes.subarray( off, off + length ) ) ),
+    eachChunk = ( bytes, callback ) => {
+      const dv = new DataView( bytes.buffer );
+
+      let off = 8,
+        type = void 0,
+        length = void 0,
+        res = void 0;
+
+      do{
+        length = dv.getUint32( off );
+
+        type = readString( bytes, off + 4, 4 );
+
+        res = callback( type, bytes, off, length );
+
+        off += 12 + length;
+      }
+      while( res !== false && type !== 'IEND' && off < bytes.length );
+    },
+    // '\x89PNG\x0d\x0a\x1a\x0a'
+    PNGSignature = new Uint8Array( [
+      0x89,
+      0x50,
+      0x4e,
+      0x47,
+      0x0d,
+      0x0a,
+      0x1a,
+      0x0a,
+    ] );
+
+  let isNotPNG = true,
+    isNotAPNG = true;
+
+  const bytes = uint8Array;
+
+  if( Array.prototype.some.call( PNGSignature, ( b, i ) => b !== bytes[ i ] ) ){
+    isNotPNG = true;
+  }
+  else{
+    isNotPNG = false;
+  }
+
+  let isAnimated = false;
+
+  eachChunk( bytes, type => !( isAnimated = type === 'acTL' ) );
+
+  if( !isAnimated ){
+    isNotAPNG = true;
+  }
+  else{
+    isNotAPNG = false;
+  }
+
+  return !isNotPNG && !isNotAPNG;
+}
+
 function StartCompression( sourceData ){
   return new Promise( ( resolve = () => {
   }, reject = () => {
@@ -109,8 +175,16 @@ parentPort.on( 'message', async ( {
   // photoFileStream--->Uint8Array   photoFileStream.buffer--->ArrayBuffer
   photoFileStream = await readFile( photoPath );
 
-  // resultBuffer--->Uint8Array
-  resultBuffer = await StartCompression( photoFileStream );
+  if( IsAPNG( photoFileStream ) ){
+    MyConsole.Yellow( `\n\n“${ photoPath }”是一张apng图片，当前配置不对该类型图片进行压缩优化，仅原样输出。\n\n` );
+
+    // resultBuffer--->Uint8Array
+    resultBuffer = photoFileStream;
+  }
+  else{
+    // resultBuffer--->Uint8Array
+    resultBuffer = await StartCompression( photoFileStream );
+  }
 
   if( resultBuffer ){
     await writeFile( resultFilePath, resultBuffer );
