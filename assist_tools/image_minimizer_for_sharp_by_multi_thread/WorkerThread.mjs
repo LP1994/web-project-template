@@ -484,6 +484,8 @@ parentPort.on( 'message', async ( {
   photoFileStream = await readFile( photoPath );
 
   if( IsAPNG( photoFileStream ) ){
+    MyConsole.Yellow( `\n\n“${ photoPath }”是一张apng图片，当前配置不对该类型图片进行压缩优化，仅原样输出。\n\n` );
+
     // resultObj.data--->Uint8Array
     resultObj = {
       data: photoFileStream,
