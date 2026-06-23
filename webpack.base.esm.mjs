@@ -11379,7 +11379,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         ...( isEnable => {
           const imageMinimizerPluginConfig = {
             /**
-             * 1、改选项设置为false时，generator选项将不起作用。<br />
+             * 1、该选项设置为false时，generator选项将不起作用。<br />
              * 2、该选项要启用！不然在单独插件模式下，在.ejs中require( 'imgDir/1.png' )时，出现生成的最终图片名跟.html中的图片名不一致，但是跟css文件中的图片名确实一样的。<br />
              */
             loader: true,
