@@ -544,7 +544,13 @@ const isProduction = ( argv => {
   allowedCondition = [
     'http',
     // 'https://www.xxx.com/',
-  ];
+  ],
+  /**
+   * 设置单个图片的最大体积阈值，单位：字节，如：10 * 1024，表示：10KB。生产模式中，图片体积大于该值的图片一般都会被压缩优化。<br />
+   *
+   * @type {number}
+   */
+  maxImgSize = 10 * 1024;
 
 console.log( chalk.cyan( `当前使用“${ isUseESBuildLoader
                                       ? 'ESBuild'
@@ -6982,7 +6988,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     const dataUrlCondition = {
         // 单位字节，设置为10KB。
-        maxSize: 10 * 1024,
+        maxSize: maxImgSize,
       },
       parserCSSConfig = {
         /**
@@ -11423,7 +11429,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
                  */
                 filter( source, sourcePath ){
-                  if( Number( source.byteLength ) > 10 * 1024 ){
+                  if( Number( source.byteLength ) > maxImgSize ){
                     return true;
                   }
                   else{
@@ -11497,7 +11503,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                     return false;
                   }
 
-                  if( Number( source.byteLength ) > 10 * 1024 ){
+                  if( Number( source.byteLength ) > maxImgSize ){
                     return true;
                   }
                   else{
@@ -11866,7 +11872,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                       implementation: ImageMinimizerPlugin.sharpGenerate,
                       filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                       filter( source, sourcePath ){
-                        if( Number( source.byteLength ) > 10 * 1024 ){
+                        if( Number( source.byteLength ) > maxImgSize ){
                           return true;
                         }
                         else{
@@ -11946,7 +11952,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                       return false;
                     }
 
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
@@ -11998,7 +12004,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
@@ -12058,7 +12064,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
@@ -12116,7 +12122,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
@@ -12162,7 +12168,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                       implementation: ImageMinimizerPlugin.sharpGenerate,
                       filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                       filter( source, sourcePath ){
-                        if( Number( source.byteLength ) > 10 * 1024 ){
+                        if( Number( source.byteLength ) > maxImgSize ){
                           return true;
                         }
                         else{
@@ -12227,7 +12233,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
@@ -12276,7 +12282,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                       implementation: ImageMinimizerPlugin.sharpGenerate,
                       filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                       filter( source, sourcePath ){
-                        if( Number( source.byteLength ) > 10 * 1024 ){
+                        if( Number( source.byteLength ) > maxImgSize ){
                           return true;
                         }
                         else{
@@ -12331,7 +12337,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
@@ -12377,7 +12383,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    if( Number( source.byteLength ) > 10 * 1024 ){
+                    if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
                     else{
