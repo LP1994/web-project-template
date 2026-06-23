@@ -11492,6 +11492,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 filter( source, sourcePath ){
                   // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
                   if( IsAPNG( source ) ){
+                    console.log( chalk.yellow( `\n\nImageMinimizerPlugin_minimizer：“${ sourcePath }”是一张apng图片，本配置不对该类型图片进行压缩优化处理。会将其原样输出。\n\n` ) );
+
                     return false;
                   }
 
@@ -11939,6 +11941,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   filter( source, sourcePath ){
                     // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
                     if( IsAPNG( source ) ){
+                      console.log( chalk.yellow( `\n\nImageMinimizerPlugin_generator：“${ sourcePath }”是一张apng图片，本配置不对该类型图片进行压缩优化处理。会将其原样输出。\n\n` ) );
+
                       return false;
                     }
 
