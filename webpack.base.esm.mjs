@@ -4613,7 +4613,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                    * import foo from "./foo.json" assert { type: "json" };
                    * “assert”这种语法只在基于V8的引擎中支持，目前正在调查将其从WEB中移除，使用更为规范的“with”提案，其很强大的提案，可以前往“with”提案（https://github.com/tc39/proposal-import-attributes）的文档详细了解！<br />
                    */
-                  deprecatedAssertSyntax: true,
+                  deprecatedAssertSyntax: false,
                 },
               ],
             ]
