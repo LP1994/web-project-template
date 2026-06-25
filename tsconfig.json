@@ -52,6 +52,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": ".",
+    "baseUrl": "./",
     "declarationDir": "./ts_compiled/",
     "outDir": "./ts_compiled/",
     "tsBuildInfoFile": "./ts_compiled/TSBuildInfo.tsbuildinfo.json5",

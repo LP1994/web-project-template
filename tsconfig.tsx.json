@@ -90,6 +90,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": ".",
+    "baseUrl": "./",
     "outDir": "./ts_compiled/",
     "paths": {
       "element-ui-css": [

@@ -793,8 +793,9 @@ const autoprefixerConfig = {
      * 它目前只适用于esm输出格式，也就是说当选项“format”的值为'esm'时，该选项有效。
      * 还有一个已知的跨代码拆分块的导入语句的排序问题。你可以关注跟踪问题，以了解关于这个功能的更新。
      * 详细见：https://esbuild.github.io/api/#splitting
+     * PS：在esbuild v0.28.1、esbuild-loader v4.5.0中，启用该选项会报错：Invalid option in transform() call: "splitting".
      */
-    splitting: true,
+    // splitting: true,
     // 详细见：https://esbuild.github.io/api/#ignore-annotations
     ignoreAnnotations: false,
     // 有效值有：browser、node、neutral。
@@ -7120,13 +7121,28 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          */
         // overrideStrict: 'strict',
 
+        // v5.108.0+开始启用该选项。其值类型为：string[]。
+        // 将列出的顶级函数名称标记为“无副作用”，以便对这些函数的调用（其结果未被使用）可以被进行树摇操作。这是 /*#__NO_SIDE_EFFECTS__*/ 注释的显式配置对应方式：无需在源代码中添加注释，而是直接列出函数名称。使用“default”可将目标指向默认导出的函数。
+        // 最好按规则配合测试来应用，这样名称只会在预期模块中被标记为无副作用。同时也支持全局形式（module.parser.javascript.pureFunctions）。
+        /*
+         pureFunctions: [
+         '',
+         ],
+         */
+
         reexportExportsPresence: 'error',
         requireContext: true,
         requireEnsure: true,
         requireInclude: true,
         requireJs: true,
         sourceImport: true,
-        strictThisContextOnImports: true,
+        /**
+         * 其默认值是false。
+         * 不要启用该选项（也就是不要设置成true）！！！会导致生产模式下编译代码时，出现代码编译不匹配的情况！
+         * 例如：
+         * 定义了一个class，然后在其他文件中导入该class，并使用了该class，但是在生产模式下编译时，使用该class的地方调用的该class名跟定义该class的名是不一样的，后者被编译压缩成a、b、c这样的名字，但是使用的地方还是编译前的class名。
+         */
+        // strictThisContextOnImports: false,
         system: true,
 
         // 允许原生支持typescript！目前还是单独处理为好，毕竟期间涉及到部分特殊typescript代码的处理。
