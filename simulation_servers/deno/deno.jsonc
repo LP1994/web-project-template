@@ -1,6 +1,24 @@
 {
   "tasks": {
-    "start": "deno run -A --config=./deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=./.env.deno ./src/App.mts --color=16m"
+    "start": {
+      "description": "deno服务器正在运行！！！",
+      "command": "deno run -A --config=./deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=./.env.deno ./src/App.mts --color=16m"
+      //      "files": [
+      //        "src/**/*.js",
+      //        "src/**/*.cjs",
+      //        "src/**/*.mjs",
+      //        "src/**/*.ts",
+      //        "src/**/*.cts",
+      //        "src/**/*.mts",
+      //        "src/**/*.json",
+      //        "src/**/*.json5"
+      //      ],
+      //      "output": [
+      //        "dist/**"
+      //      ],
+      // "dependencies": [ "依赖哪些命令，启动时，会自动依次按顺序执行所依赖的命令，然后再执行本命令", "build", "generate" ],
+      // "env": [ "env 列出了其值作为缓存键组成部分的环境变量名称，因此当其中一个变量发生变化时，任务就会重新运行。", "NODE_ENV" ]
+    }
   },
   "nodeModulesDir": "none",
   "lock": "./deno.lock",
