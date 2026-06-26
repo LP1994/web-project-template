@@ -11,7 +11,8 @@
     "worker-options",
     "cron",
     "kv",
-    "net"
+    "net",
+    "raw-import"
   ],
   "lint": {
     "include": [
