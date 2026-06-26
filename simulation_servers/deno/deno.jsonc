@@ -704,6 +704,7 @@
       "deno.canvas",
       "deno.console",
       "deno.crypto",
+      "deno.desktop",
       "deno.fetch",
       "deno.net",
       /*
