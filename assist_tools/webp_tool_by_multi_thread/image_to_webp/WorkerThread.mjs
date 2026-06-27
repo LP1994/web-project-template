@@ -193,7 +193,7 @@ isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerD
   if( IsAPNG( photoFileStream ) ){
     MyConsole.Yellow( `\n\n“${ photoPath }”是一张apng图片，当前配置不对该类型图片进行压缩优化，仅原样输出。\n\n` );
 
-    execSync( `copy "${ photoPath }" "${ workerData.savePath }"` );
+    execSync( `copy "${ photoPath }" "${ parse( resultFilePath ).dir }"` );
   }
   else{
     execSync( `cwebp -mt -metadata icc -o ${ resultFilePath } -- ${ photoPath }`, {

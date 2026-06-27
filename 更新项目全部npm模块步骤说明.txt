@@ -4,3 +4,6 @@
 
 PS：
 目前，因为写了一个全自动的脚本，所以只需要双击运行项目根目录下的“AutoUpdateLocalNPMPackages.bat”即可。
+
+将命令窗口中的输出信息全部写入文件的方法：
+npm --force install -D > install_info_full.log 2> install_errors_full.log
