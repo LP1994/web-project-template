@@ -6326,7 +6326,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // 这遵循了JSX在虚拟DOM中的普遍使用，适用于绝大多数的JSX库。
         // 然而，有些人编写的JSX库没有这个属性（特别是JSX表达式可以有任意的副作用，在未使用时不能被删除）。
         // 如果你正在使用这样的库，你可以使用这个设置来告诉esbuild，JSX表达式有副作用：jsxSideEffects: true。
-        jsxSideEffects: true,
+        jsxSideEffects: false,
       } ),
       esbuildLoaderConfigForTS = Object.assign( {}, esbuildLoaderConfigForJS, {
         loader: 'ts',
@@ -7072,6 +7072,8 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         anonymousDefaultExportName: true,
         browserify: true,
         commonjs: true,
+        // 请注意，目前仅支持 webpackIgnore 注释：
+        // const x = require(/* webpackIgnore: true */ "x");
         commonjsMagicComments: true,
 
         // 启用/禁用对“import { createRequire } from \“module\””的解析以及对 createRequire() 的求值。
@@ -7122,7 +7124,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
         // overrideStrict: 'strict',
 
         // v5.108.0+开始启用该选项。其值类型为：string[]。
-        // 将列出的顶级函数名称标记为“无副作用”，以便对这些函数的调用（其结果未被使用）可以被进行树摇操作。这是 /*#__NO_SIDE_EFFECTS__*/ 注释的显式配置对应方式：无需在源代码中添加注释，而是直接列出函数名称。使用“default”可将目标指向默认导出的函数。
+        // 将列出的顶级函数名称标记为“无副作用”，可以被树抖安全删除！！！以便对这些函数的调用（其结果未被使用）可以被进行树摇操作。这是 /*#__NO_SIDE_EFFECTS__*/ 注释的显式配置对应方式：无需在源代码中添加注释，而是直接列出函数名称。使用“default”可将目标指向默认导出的函数。
         // 最好按规则配合测试来应用，这样名称只会在预期模块中被标记为无副作用。同时也支持全局形式（module.parser.javascript.pureFunctions）。
         /*
          pureFunctions: [
@@ -7350,6 +7352,83 @@ ${ JSON.stringify( req.headers, null, 4 ) }
           namedExports: true,
           parse: JSON5.parse,
         },
+
+        /**
+         * v5.108.0+开始启用，配置 HTML 解析器的选项。这些选项需要启用 experiments.html 标志。
+         */
+        // html: {
+        //   /**
+        //    * 控制将类似 URL 的属性值（<img src>、<link href>、<script src> 等）作为 webpack 依赖项进行提取。
+        //    * 类型：boolean | Array<'...' | { tag?: string, attribute: string, type: string, filter?: (attributes: Map<string, string>) => boolean }>
+        //    * 值说明：
+        //    * true（默认）——使用内置源列表提取类似 URL 的属性。
+        //    * false——完全禁用提取。类似 URL 的属性保持原样，且 <script src>、<link rel="modulepreload"> 和 <link rel="stylesheet"> 将不再成为编译条目。
+        //    * 内联的 <script> 和 <style> 主体仍会被处理。
+        //    * 使用 webpackIgnore 注释或 IgnorePlugin 来跳过单个 URL。
+        //    * 一个数组 - 自定义哪些标签/属性对被视为 URL。
+        //    * 包含字符串 "..." 可保留内置默认值；
+        //    * 不包含 "..." 的数组则完全放弃默认值。
+        //    *
+        //    * 每个数组条目对象接受以下参数：
+        //    * attribute（必填）——属性名称，其值为一个 URL。
+        //    *
+        //    * type（必填）——值的解析和打包方式。可选值包括：
+        //    * src——作为普通资源打包的单个 URL。
+        //    * srcset——srcset 风格的普通资源候选项列表。
+        //    * script - 经典的代码块条目，例如 <script src>。
+        //    * script-module - ES 模块代码块条目，例如 <script type="module" src>。
+        //    * stylesheet - CSS 代码块条目，例如 <link rel="stylesheet">。
+        //    * stylesheet-style - 将属性值视为完整的内联样式表（如 <style> 主体），并通过 CSS 处理管道进行处理。
+        //    * stylesheet-style-attribute - 将属性值视为 CSS 块的内容（如 style 属性），并通过 CSS 管道处理。
+        //    * css-url - 从 CSS 值属性中提取 url() 引用（例如 SVG 样式呈现属性）。自 webpack 5.108.0 起可用。
+        //    *
+        //    * tag（可选）- 要匹配的标签名。省略时匹配任何元素。
+        //    *
+        //    * filter（可选）- (attributes: Map<string, string>) => boolean；返回 false 表示跳过给定元素的此条目。
+        //    */
+        //   sources: [
+        //     // keep the built-in defaults
+        //     '...',
+        //     {
+        //       tag: 'img',
+        //       attribute: 'data-src',
+        //       type: 'src',
+        //     },
+        //     {
+        //       tag: 'img',
+        //       attribute: 'data-srcset',
+        //       type: 'srcset',
+        //     },
+        //     {
+        //       attribute: 'data-href',
+        //       type: 'src',
+        //     },
+        //   ],
+        //   /**
+        //    * 在解析器提取依赖项之前对原始 HTML 源代码进行转换，以便模板语言（Handlebars、EJS、Eta 等）生成的 URL 仍能被发现并打包。该函数以同步方式运行，且必须返回待解析的 HTML 字符串。
+        //    *
+        //    * @param {string} source
+        //    *
+        //    * @param {HtmlTemplateContext} param1 对象提供了当前模块、其资源路径、构建依赖注册辅助函数（addDependency、addContextDependency、addMissingDependency、addBuildDependency），以及 emitWarning / emitError 方法。
+        //    * @param param1.resource
+        //    * @param param1.addDependency
+        //    *
+        //    * @returns {string}
+        //    */
+        //   template: (
+        //     source,
+        //     {
+        //       resource,
+        //       addDependency,
+        //     }
+        //   ) => {
+        //     addDependency( resource );
+        //
+        //     return source
+        //       .replaceAll( '{{title}}', 'Hello world' )
+        //       .replaceAll( '{{image}}', './image.png' );
+        //   },
+        // },
       },
       unsafeCache: false,
       /**
