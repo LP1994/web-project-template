@@ -163,6 +163,10 @@ import webpack from 'webpack';
 
 import Yaml from 'yamljs';
 
+import {
+  IsAPNG,
+} from './configures/my_diy_plugin/apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
+
 import DefinePluginConfig from './configures/DefinePluginConfig.esm.mjs';
 
 import entryConfig from './configures/EntryConfig.esm.mjs';
@@ -373,72 +377,6 @@ switch( env_platform ){
     break;
   default:
     throw new Error( 'CLI参数中的“--env”参数设置，以“platform=”开头的值，在“platform=”之后紧跟的只能是这4个中的一个：dev_server、local_server、test、production。注意“--env”参数是允许多个的哦。' );
-}
-
-/**
- * 判断输入的图片是否是一张apng的png图片！返回true表示输入的图片是一张apng的png图片！反之不是apng。
- *
- * @param {Uint8Array} uint8Array 以数据类型Uint8Array表示的图片数据。
- *
- * @returns {boolean} 返回true表示输入的图片是一张apng的png图片！反之不是apng。
- */
-function IsAPNG( uint8Array ){
-  const readString = ( bytes, off, length ) => String.fromCharCode.apply( String, Array.prototype.slice.call( bytes.subarray( off, off + length ) ) ),
-    eachChunk = ( bytes, callback ) => {
-      const dv = new DataView( bytes.buffer );
-
-      let off = 8,
-        type = void 0,
-        length = void 0,
-        res = void 0;
-
-      do{
-        length = dv.getUint32( off );
-
-        type = readString( bytes, off + 4, 4 );
-
-        res = callback( type, bytes, off, length );
-
-        off += 12 + length;
-      }
-      while( res !== false && type !== 'IEND' && off < bytes.length );
-    },
-    // '\x89PNG\x0d\x0a\x1a\x0a'
-    PNGSignature = new Uint8Array( [
-      0x89,
-      0x50,
-      0x4e,
-      0x47,
-      0x0d,
-      0x0a,
-      0x1a,
-      0x0a,
-    ] );
-
-  let isNotPNG = true,
-    isNotAPNG = true;
-
-  const bytes = uint8Array;
-
-  if( Array.prototype.some.call( PNGSignature, ( b, i ) => b !== bytes[ i ] ) ){
-    isNotPNG = true;
-  }
-  else{
-    isNotPNG = false;
-  }
-
-  let isAnimated = false;
-
-  eachChunk( bytes, type => !( isAnimated = type === 'acTL' ) );
-
-  if( !isAnimated ){
-    isNotAPNG = true;
-  }
-  else{
-    isNotAPNG = false;
-  }
-
-  return !isNotPNG && !isNotAPNG;
 }
 
 /**

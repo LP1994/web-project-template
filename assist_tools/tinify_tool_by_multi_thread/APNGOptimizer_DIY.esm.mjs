@@ -1564,6 +1564,13 @@ class APNGOptimizer {
     return optAPNG;
   }
 }
+/**
+ * 判断输入的图片是否是一张apng的png图片！返回true表示输入的图片是一张apng的png图片！反之不是apng。
+ *
+ * @param {Uint8Array} uint8Array 以数据类型Uint8Array表示的图片数据。
+ *
+ * @returns {boolean} 返回true表示输入的图片是一张apng的png图片！反之不是apng。
+ */
 function IsAPNG(uint8Array) {
   const readString = (bytes2, off, length) => String.fromCharCode.apply(String, Array.prototype.slice.call(bytes2.subarray(off, off + length))), eachChunk = (bytes2, callback) => {
     const dv = new DataView(bytes2.buffer);
