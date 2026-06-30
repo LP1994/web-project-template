@@ -30,6 +30,7 @@
     "cron",
     "kv",
     "net",
+    "no-legacy-abort",
     "raw-import"
   ],
   "lint": {
