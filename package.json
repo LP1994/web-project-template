@@ -128,7 +128,6 @@
     "Opera >= 132"
   ],
   "sideEffects": [
-    "**/*.vue",
     "**/*.se.*",
     "**/*.se.js",
     "**/*.se.commonjs.js",
