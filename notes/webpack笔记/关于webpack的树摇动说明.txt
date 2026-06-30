@@ -1,4 +1,4 @@
-4种标记无副作用！！！可以被树抖安全删除的方法！！！
+5种标记无副作用！！！可以被树抖安全删除的方法！！！
 
 1、
 "sideEffects": false表示无副作用！！！可以被树抖安全删除！！！
@@ -19,6 +19,21 @@ export function createLogger(prefix) {
 
 4、
 module.parser.javascript.pureFunctions将名称标记为无副作用。可以被树抖安全删除！！！
+
+5、
+Module.Rule.sideEffects，其值类型只支持布尔值类型，标记模块有无副作用。
+false表示无副作用！！！可以被树抖安全删除！！！
+true表示有副作用！！！不会被树抖处理！！！
+例子：
+module: {
+  rules: [
+    {
+      test: /\.css$/i,
+      use: [ ... ],
+      sideEffects: true,
+    },
+  ],
+}
 
 -----------------------------------------------------------------------
 
