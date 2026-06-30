@@ -367,6 +367,7 @@ const proxyConfig = [
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个HTTP服务API为：https://127.0.0.1:9200/simulation_servers_deno/GetJSON。<br />
    */
+  // 拦截：/https4deno/
   {
     context: [
       '/https4deno/',
@@ -816,9 +817,271 @@ HTTP代理--->${ req.originalUrl }<---End
     // httpxy events(详细见：https://github.com/unjs/httpxy#events) End
   },
 
+  // 拦截：/simulation_servers_deno/
+  {
+    context: [
+      '/simulation_servers_deno/',
+    ],
+
+    // http-proxy-middleware options Start
+
+    /**
+     * 缩小需要代理的请求范围。用于过滤的路径是 request.url 路径名。在 Express 中，这是相对于代理挂载点的路径。
+     * 该选项的值类型是：string, []string, glob, []glob, function。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     */
+    pathFilter: [
+      '/simulation_servers_deno/',
+    ],
+
+    /**
+     * 为特定请求重新定位到option.target。<br />
+     * PS：<br />
+     * 1、有效值类型有3种：<br />
+     * { [ hostOrPath: string ]: httpProxy.ServerOptions['target'] }、( req: Request ) => httpProxy.ServerOptions['target']、( req: Request ) => Promise<httpProxy.ServerOptions['target']>。<br />
+     * 2、使用host、path来匹配请求时，将优先使用第一个匹配到的规则，所以配置的顺序很重要，具体使用例如：<br />
+     * host only：<br />
+     * 'localhost:3000': 'http://192.168.1.3:8087'
+     * host + path：<br />
+     * 'localhost:3000/api': 'http://192.168.1.3:8087'
+     * path only：<br />
+     * '/rest': 'http://192.168.1.3:8087'
+     *
+     * 当设置为'0.0.0.0'时的注意事项：<br />
+     * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
+     * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
+     * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
+     *
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
+     */
+    router: {
+      '/simulation_servers_deno': 'https://0.0.0.0:9200',
+
+      'localhost:8100': 'https://0.0.0.0:9200',
+      '127.0.0.1:8100': 'https://0.0.0.0:9200',
+      '192.168.1.3:8100': 'https://0.0.0.0:9200',
+      '192.168.2.10:8100': 'https://0.0.0.0:9200',
+
+      'localhost:8200': 'https://0.0.0.0:9200',
+      '127.0.0.1:8200': 'https://0.0.0.0:9200',
+      '192.168.1.3:8200': 'https://0.0.0.0:9200',
+      '192.168.2.10:8200': 'https://0.0.0.0:9200',
+    },
+
+    /**
+     * 来自 http-proxy-middleware 的日志信息。内部只是'info'、'warn'、'error'级别的日志输出。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V3.0”开始使用。
+     */
+    logger: console,
+
+    // http-proxy-middleware options End
+
+    // httpxy options(具体见：https://github.com/unjs/httpxy#options、node_modules/httpxy/dist/index.d.mts:32) Start
+
+    /**
+     * 要使用url模块解析的url字符串，target和forward两者必须存在至少一个。target 和 forward 现已支持字面形式的 IPv6 URL，例如：http://[::1]:3000。<br />
+     * 1、有效值类型：string、Partial<url.Url>、ProxyTargetDetailed、undefined。<br />
+     * 2、其中ProxyTargetDetailed的结构为：<br />
+     * {<br />
+     * host：string，必需。<br />
+     * port：number，必需。<br />
+     * protocol：string、undefined，可选。<br />
+     * hostname：string、undefined，可选。<br />
+     * socketPath：string、undefined，可选。<br />
+     * key：string、undefined，可选。<br />
+     * passphrase：string、undefined，可选。<br />
+     * pfx：Buffer、string、undefined，可选。<br />
+     * cert：string、undefined，可选。<br />
+     * ca：string、undefined，可选。<br />
+     * ciphers：string、undefined，可选。<br />
+     * secureProtocol：string、undefined，可选。<br />
+     * }<br />
+     *
+     * 当设置为'0.0.0.0'时的注意事项：<br />
+     * 1、关于浏览器通过node服务代理请求本deno服务时，node的代理设置（target、router选项）得指向'0.0.0.0'，否者node会报错误：<br />
+     * ECONNREFUSED (Connection refused): No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.<br />
+     * 2、如上类比，当任何非浏览器端访问、代理到本deno服务时，都得保证其目标指向'0.0.0.0'，否则，大概率会报错。<br />
+     * 3、Windows系统上，浏览器不支持对0.0.0.0的直接访问，例如无法访问：https://0.0.0.0:9000。<br />
+     *
+     * 关于浏览器访问“不安全的HTTPS协议”时的注意事项（尤其是火狐浏览器），浏览器访问“不安全的HTTPS协议”时需要先同意其不安全的警告，否则无法访问：
+     * 1、当页面地址（如“https://localhost:9200”）跟其中的websocket服务地址（如“wss://localhost:9000”）不一样时，因为端口不一致，所以也算不同的服务地址。
+     * 2、这时要先访问一下websocket服务地址对应的HTTP服务地址，即“https://localhost:9000”。
+     * 3、然后才能让页面（如“https://localhost:9200”）成功访问其中的websocket服务地址（如“wss://localhost:9000”）。
+     * 4、可以的话，还是使用同一个端口提供http、https、ws、wss服务，这样只需要同意一次不安全的警告即可。
+     */
+    target: 'https://0.0.0.0:9200',
+
+    // 启用HTTP/2监听器，默认是：false。
+    http2: true,
+
+    /**
+     * 是否要验证SSL证书。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    secure: false,
+
+    /**
+     * 如果启用了 `http2` 选项，则该对象将传递给 https.createServer() 或 http2.createSecureServer()。<br />
+     * 保证跟服务端（webpack-dev-server、Deno）设置的各个证书一样就行。<br />
+     * 该选项里头的各个有效属性其实可以参考webpack的顶级配置项“devServer”中的“server.options”选项里的各个属性。<br />
+     * 因为它们都是属于“tls.createSecureContext([options])”中的“options”选项，具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions。<br />
+     */
+    ssl,
+
+    /**
+     * 是否启用对websockets的代理。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    ws: false,
+
+    /**
+     * 将主机标头的来源更改为目标URL，默认值是false。<br />
+     * 1、有效值类型：boolean、undefined。<br />
+     */
+    changeOrigin,
+
+    /**
+     * 带有要添加到目标请求的额外标头的对象，也就是该选项用来设置请求头的。<br />
+     * 1、有效值类型：object（{ [ header: string ]: string }）、undefined。<br />
+     */
+    headers: httpRequestHeaders,
+
+    /**
+     * 传出代理请求的超时（以毫秒为单位），默认值为120000（等同2分钟）。<br />
+     * 1、有效值类型：number、undefined。<br />
+     */
+    proxyTimeout: 120000,
+
+    /**
+     * 传入请求的超时（以毫秒为单位）。<br />
+     * 1、有效值类型：number、undefined。<br />
+     */
+    timeout: 120000,
+
+    // httpxy options(具体见：https://github.com/unjs/httpxy#options、node_modules/httpxy/dist/index.d.mts:32) End
+
+    // httpxy events(详细见：https://github.com/unjs/httpxy#events) Start
+
+    /**
+     * httpxy各个事件监听配置。
+     * PS：
+     * 1、该选项从“http-proxy-middleware V4.0”开始使用。
+     */
+    on: {
+      /**
+       * 如果对目标的请求失败，则会发出错误事件。我们不对客户端和代理之间传递的消息以及代理和目标之间传递的消息进行任何错误处理，因此建议您侦听错误并进行处理。<br />
+       *
+       * @param {Error} err
+       * @param {Request} req
+       * @param {Response} res
+       * @param {string|Partial<url.Url>} target 可选的参数，不一定都有存在。<br />
+       *
+       * @returns {void} 无返回值。
+       */
+      error: ( err, req, res, target ) => {
+      },
+
+      /**
+       * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“web”连接。<br />
+       *
+       * @param {http.ClientRequest} proxyReq
+       * @param {Request} req
+       * @param {Response} res
+       * @param {httpProxy.ServerOptions} options
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyReq: ( proxyReq, req, res, options ) => {
+        const arr001 = Reflect.ownKeys( proxyReq ).filter( item => typeof item === 'symbol' );
+
+        logWriteStream.write( `HTTP代理--->${ req.originalUrl }<---Start
+原请求方法：${ req.method }
+原请求头：
+${ JSON.stringify( req.headers, null, 4 ) }
+
+代理请求方法：${ proxyReq.method }
+代理请求的protocol：${ proxyReq.protocol }
+代理请求的host：${ proxyReq.host }
+代理请求的path：${ proxyReq.path }
+代理的请求头：
+${ JSON.stringify( Object.fromEntries( Object.values( proxyReq[ arr001[ arr001.findIndex( item => item.toString() === 'Symbol(kOutHeaders)' ) ] ] ) ), null, 4 ) }
+HTTP代理--->${ req.originalUrl }<---End
+\n\n` );
+      },
+
+      /**
+       * 如果对目标的请求得到响应，则会发出此事件。<br />
+       *
+       * @param {http.IncomingMessage} proxyRes
+       * @param {Request} req
+       * @param {Response} res
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyRes: ( proxyRes, req, res ) => {
+      },
+
+      /**
+       * 在发送数据之前发出此事件。它使您有机会更改proxyReq请求对象。适用于“websocket”连接。<br />
+       *
+       * @param {http.ClientRequest} proxyReq
+       * @param {Request} req
+       * @param {net.Socket} socket
+       * @param {httpProxy.ServerOptions} options
+       * @param {any} head
+       *
+       * @returns {void} 无返回值。
+       */
+      proxyReqWs: ( proxyReq, req, socket, options, head ) => {
+      },
+
+      /**
+       * 一旦创建代理websocket并将其通过管道传输到目标websocket，就会发出此事件。<br />
+       * PS：<br />
+       * 1、“proxySocket”事件已经被废弃了现在是用当前这个事件代替它了。<br />
+       *
+       * @param {net.Socket} proxySocket
+       *
+       * @returns {void} 无返回值。
+       */
+      open: proxySocket => {
+      },
+
+      /**
+       * 一旦代理websocket关闭，就会发出此事件。<br />
+       *
+       * @param {Response} proxyRes
+       * @param {net.Socket} proxySocket
+       * @param {any} proxyHead
+       *
+       * @returns {void} 无返回值。
+       */
+      close: ( proxyRes, proxySocket, proxyHead ) => {
+      },
+
+      // Proxy processing started
+      start: ( req, res, target ) => {
+      },
+
+      // Proxy request completed
+      end: ( req, res, proxyRes ) => {
+      },
+    },
+
+    // httpxy events(详细见：https://github.com/unjs/httpxy#events) End
+  },
+
   /**
    * 这是一个标准Demo写法，不要删除！以供参考！假定后端提供一个WebSocket服务API为：wss://127.0.0.1:9200/simulation_servers_deno/subscriptions。<br />
    */
+  // 拦截：/wss4deno/
   {
     context: [
       '/wss4deno/',

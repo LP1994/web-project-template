@@ -297,7 +297,7 @@ switch( env_platform ){
       override: true,
     } );
 
-    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.dev”。\n` ) );
+    console.log( chalk.cyan( `\n当前使用的“.env”文件是“.env.dev”。\n` ) );
 
     break;
   case 'local_server':
@@ -322,7 +322,7 @@ switch( env_platform ){
       override: true,
     } );
 
-    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.local”。\n` ) );
+    console.log( chalk.cyan( `\n当前使用的“.env”文件是“.env.local”。\n` ) );
 
     break;
   case 'test':
@@ -347,7 +347,7 @@ switch( env_platform ){
       override: true,
     } );
 
-    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.test”。\n` ) );
+    console.log( chalk.cyan( `\n当前使用的“.env”文件是“.env.test”。\n` ) );
 
     break;
   case 'production':
@@ -372,7 +372,7 @@ switch( env_platform ){
       override: true,
     } );
 
-    console.log( chalk.cyan( `当前使用的“.env”文件是“.env.production”。\n` ) );
+    console.log( chalk.cyan( `\n当前使用的“.env”文件是“.env.production”。\n` ) );
 
     break;
   default:
@@ -3908,6 +3908,89 @@ ${ JSON.stringify( req.headers, null, 4 ) }
          * 1、@babel/plugin-transform-runtime已经包含了@babel/plugin-external-helpers的功能了，用@babel/plugin-transform-runtime就好，不需要再手动明确使用@babel/plugin-external-helpers。<br />
          * 2、注意：@babel/preset-env不会包含任何低于第3阶段的JavaScript语法提案，因为在TC39流程的那个阶段，无论如何它都不会被任何浏览器实现。如果需要它，需要手动包含在内。<br />
          */
+
+        // 用于生产模式下，删除代码中的“console”、“debugger”。
+        ...( () => {
+          if( env_platform === 'dev_server' ){
+            return [];
+          }
+          else if( env_platform === 'local_server' ){
+            return [];
+          }
+          else if( env_platform === 'test' ){
+            return [];
+          }
+          else if( env_platform === 'production' ){
+            return [
+              /**
+               * babel-plugin-transform-remove-debugger：https://babeljs.io/docs/en/babel-plugin-transform-remove-debugger
+               * 1、默认值：false。<br />
+               * 2、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+               * 3、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+               * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+               *
+               * 这里有个注意事项！！！<br />
+               * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
+               * 说明：<br />
+               * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+               * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+               * 例如：<br />
+               * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+               *
+               * for( const item of arr001 ){
+               *   str001 + = item;
+               *
+               *   console.log( `index--->${ ++index }` );
+               * }
+               * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+               *
+               * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
+               */
+              [
+                'transform-remove-debugger',
+              ],
+              /**
+               * babel-plugin-transform-remove-console：https://babeljs.io/docs/en/babel-plugin-transform-remove-console
+               * 1、默认值：false。<br />
+               * 2、有参数：<br />
+               * exclude：值类型：array，要从删除中排除的一组控制台方法。<br />
+               * 3、生产环境且为测试环境用的话，如果为了方便在测试环境调试BUG，可以禁用这2个选项（removeConsole、removeDebugger，设置成false即可）。但是一般情况下强烈建议始终启用这2个选项。这样才能让测试环境跟正式环境保持正真实际上的一模一样的代码。<br />
+               * 4、当为生产环境且为正式环境（最终给用户用的）用的话，就启用这2个选项（removeConsole、removeDebugger，设置成true即可），它们用于移除JS代码中的console、debugger。正式环境强烈建议始终启用这2个选项。<br />
+               *
+               * 这里有个注意事项！！！<br />
+               * 1、当babel启用removeConsole、removeDebugger这两个插件选项后，某些情况下会有意外的编译输出，详见如下：<br />
+               * 说明：<br />
+               * 如果在诸如console.log()中编写某些跟项目逻辑业务有关的代码，那么当启用removeConsole、removeDebugger时，会导致最后输出的代码中因删除了诸如console.log()，从而导致其中的某些跟项目逻辑业务有关的代码也被删除，最终使生产的代码出现非所愿期望的代码输出，从而报错。<br />
+               * 所以，诸如console.log()中不要做任何逻辑处理（哪怕是：++index这种最简单的逻辑），只作为纯日志输出。<br />
+               * 例如：<br />
+               * let index = 0, arr001 = [ 'qqq', 'www', ], str001 = '';
+               *
+               * for( const item of arr001 ){
+               *   str001 + = item;
+               *
+               *   console.log( `index--->${ ++index }` );
+               * }
+               * 当没有启用removeConsole、removeDebugger时，执行上述代码后，index的值为3，但是如果启用removeConsole、removeDebugger，则index的值为0，那么显然这不是期望的。<br />
+               *
+               * 对于上述的两个选项，当前配置是这样的，“webpack.test.mjs”中是false，webpack.production.mjs是true。<br />
+               */
+              [
+                'transform-remove-console',
+                /*
+                 {
+                 exclude: [
+                 'error',
+                 'warn',
+                 ],
+                 },
+                 */
+              ],
+            ];
+          }
+          else{
+            return [];
+          }
+        } )(),
 
         /**
          * babel-plugin-polyfill-corejs3：https://github.com/babel/babel-polyfills/tree/main/packages/babel-plugin-polyfill-corejs3、https://github.com/babel/babel-polyfills/blob/main/docs/usage.md#method
