@@ -1482,6 +1482,15 @@ const defaultOptions = {
   disabledQuant: false
 };
 class APNGOptimizer {
+  /**
+   * constructorconstructorconstructor
+   *
+   * @param {{wasmPath: string | null; wasmBinary: Uint8Array | null;}} options
+   *
+   * @param {string | null} options.wasmPath 路径、字符串。
+   *
+   * @param {Uint8Array | null} options.wasmBinary 数据。
+   */
   constructor({
     wasmPath = null,
     wasmBinary = null

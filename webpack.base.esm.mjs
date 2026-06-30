@@ -165,7 +165,7 @@ import Yaml from 'yamljs';
 
 import {
   IsAPNG,
-} from './configures/my_diy_plugin/apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
+} from './configures/my_diy_webpack_tools/apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
 
 import DefinePluginConfig from './configures/DefinePluginConfig.esm.mjs';
 
