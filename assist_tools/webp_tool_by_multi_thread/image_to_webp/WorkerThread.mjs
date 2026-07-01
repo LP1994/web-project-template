@@ -151,7 +151,30 @@ parentPort.on( 'message', async ( {
     image: {
       Orientation,
     },
-  } = ( await FastEXIF.read( photoPath ) ) ?? { image: { Orientation: null, }, };
+    // 如果 fast-exif 返回的是 null 而不是包含 EXIF 信息的对象，那么：
+    // 1、要么文件中没有任何 EXIF 信息。
+    // 2、要么 EXIF 标记位于前 512 字节之外。
+    // 在这种情况下，请指定要检查的 512 字节块的数量来搜索 EXIF 信息，如：exif.read('my.jpeg', 20)。
+    // 或者将参数设为 true 以进行不限范围（直至文件末尾）的搜索，如：exif.read('my.jpeg', true)。
+  } = ( await ( async () => {
+    let data;
+
+    try{
+      data = await FastEXIF.read( photoPath, true );
+    }
+    catch( error ){
+      MyConsole.Yellow( `
+
+${ photoPath }
+${ error.message }
+
+` );
+
+      data = { image: { Orientation: null, }, };
+    }
+
+    return data;
+  } )() ) ?? { image: { Orientation: null, }, };
 
   if( String( Orientation ) === 'null' ){
     degree = 0;
@@ -193,14 +216,19 @@ isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerD
   if( IsAPNG( photoFileStream ) ){
     MyConsole.Yellow( `\n\n“${ photoPath }”是一张apng图片，当前配置不对该类型图片进行压缩优化，仅原样输出。\n\n` );
 
+    console.log( '\n' );
     execSync( `copy "${ photoPath }" "${ parse( resultFilePath ).dir }"` );
+    console.log( '\n' );
   }
   else{
+    console.log( '\n' );
     execSync( `cwebp -mt -metadata icc -o ${ resultFilePath } -- ${ photoPath }`, {
       cwd: new URL( '../lib_webp/bin', import.meta.url ),
     } );
+    console.log( '\n' );
     // magick命令依赖本地安装ImageMagick，并将ImageMagick的安装目录添加到系统环境变量中。ImageMagick版本如：ImageMagick-7.1.2-18-Q16-HDRI-x64-dll，最新版本的ImageMagick下载可见：https://imagemagick.org/script/download.php#windows
     execSync( `magick ${ resultFilePath } -rotate ${ degree } ${ resultFilePath }` );
+    console.log( '\n' );
   }
 
   parentPort.postMessage( {

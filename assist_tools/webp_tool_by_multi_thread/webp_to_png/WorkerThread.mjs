@@ -75,9 +75,11 @@ parentPort.on( 'message', ( {
 
   resultFilePath = join( resultFilePathParseObj.dir, `./${ resultFilePathParseObj.name }.png` );
 
+  console.log( '\n' );
   execSync( `dwebp -mt -o ${ resultFilePath } -- ${ photoPath }`, {
     cwd: new URL( '../lib_webp/bin', import.meta.url ),
   } );
+  console.log( '\n' );
 
   parentPort.postMessage( {
     photoPath,

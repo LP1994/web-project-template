@@ -75,9 +75,11 @@ parentPort.on( 'message', ( {
 
   resultFilePath = join( resultFilePathParseObj.dir, `./${ resultFilePathParseObj.name }.webp` );
 
+  console.log( '\n' );
   execSync( `gif2webp -mt -o ${ resultFilePath } -- ${ photoPath }`, {
     cwd: new URL( '../lib_webp/bin', import.meta.url ),
   } );
+  console.log( '\n' );
 
   parentPort.postMessage( {
     photoPath,

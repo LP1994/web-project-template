@@ -9,7 +9,7 @@
 
 'use strict';
 
-import path, {
+import {
   basename,
   dirname,
   extname,
@@ -19,9 +19,21 @@ import path, {
 } from 'node:path';
 
 import {
+  readFile,
+} from 'node:fs/promises';
+
+import FastEXIF from 'fast-exif';
+
+import {
+  fileTypeFromBuffer,
+} from 'file-type';
+
+import {
   IsAPNG,
   APNGOptimizer,
 } from '../apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
+
+let my_rootDirName;
 
 /**
  * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
@@ -39,7 +51,7 @@ import {
  *
  * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
  */
-async function APNGOptimizer( original, options = {}, targetFormat = null ){
+async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
   /**
    * 压缩优化后的图片数据。
    *
@@ -61,6 +73,63 @@ async function APNGOptimizer( original, options = {}, targetFormat = null ){
 
   const inputExt = extname( original.filename ).slice( 1 ).toLowerCase();
 
+  if(
+    ![
+      'png',
+      'apng',
+    ].includes( inputExt )
+  ){
+    console.warn( `
+注意：${ original.filename }，图片文件的后缀名不是“.png”、“.apng”，但是在读取该图片文件的数据时，发现其实际数据是“apng”编码的图片数据。
+显然该图片文件的后缀名并不对，请排查该图片文件的后缀名，建议将其后缀名改成“.png”或“.apng”。
+合规的“apng”编码的图片文件的后缀名可以是“.png”、“.apng”。
+` );
+  }
+
+  // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:859
+  if( 'rotate' in options ){
+    console.warn( `
+注意：${ original.filename }，是“apng”编码的图片。
+当前DIY的功能还不支持“rotate”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
+` );
+  }
+
+  // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:867
+  if( 'resize' in options ){
+    console.warn( `
+注意：${ original.filename }，是“apng”编码的图片。
+当前DIY的功能还不支持“resize”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
+` );
+  }
+
+  // { ext: 'jpg', mime: 'image/jpeg' }
+  const fileTypeResult = await fileTypeFromBuffer( original.data );
+
+  const outputFormat = targetFormat ?? fileTypeResult.ext.toLowerCase();
+
+  // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:908
+  if( 'encodeOptions' in options ){
+    console.warn( `
+注意：${ original.filename }，是“apng”编码的图片。
+当前DIY的功能还不支持“encodeOptions”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
+` );
+  }
+
+  // ====== rename ======
+
+  const outputExt = targetFormat
+                    ? outputFormat
+                    : inputExt;
+
+  // await FastEXIF.read( join( my_rootDirName, original.filename ), true );
+  // original.filename ---> src\pages\index\APNG_Animation.apng
+  // my_rootDirName ---> G:\WebStormWS\web-project-template
+  // console.dir( await FastEXIF.read( join( my_rootDirName, original.filename ), true ) );
+  console.log( '\n\n\n' );
+  console.log( join( my_rootDirName, original.filename ) );
+  console.dir( await readFile( join( my_rootDirName, original.filename ) ) );
+  console.log( '\n\n\n' );
+
   return {
     // filename,
     data: resultData,
@@ -81,9 +150,13 @@ async function APNGOptimizer( original, options = {}, targetFormat = null ){
  *
  * @param {import('image-minimizer-webpack-plugin').sharpMinify} sharpMinify image-minimizer-webpack-plugin.sharpMinify
  *
+ * @param {string} rootDirName 项目根目录的绝对路径。
+ *
  * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
  */
-function SharpMinify_DIY( sharpMinify ){
+function SharpMinify_DIY( sharpMinify, rootDirName ){
+  my_rootDirName = rootDirName;
+
   /**
    * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
    *
@@ -100,10 +173,17 @@ function SharpMinify_DIY( sharpMinify ){
    */
   return async function My_DIY( original, options ){
     if( IsAPNG( original.data ) ){
-      return await APNGOptimizer( original, options );
-    }
+      // TODO 测试用！！！
+      await APNGOptimizer_DIY( original, options );
 
-    return await sharpMinify( original, options );
+      return await sharpMinify( original, options );
+    }
+    else{
+      // TODO 测试用！！！
+      await APNGOptimizer_DIY( original, options );
+
+      return await sharpMinify( original, options );
+    }
   };
 }
 
