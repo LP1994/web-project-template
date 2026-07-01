@@ -52,14 +52,7 @@ import {
  * @returns {Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
  */
 async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
-  /**
-   * 压缩优化后的图片数据。
-   *
-   * @type {Uint8Array}
-   */
-  const resultData = await APNGOptimizer.createOptimizer().then( optimizer => {
-    // Uint8Array   7zip
-    return optimizer.optAPNG( original.data, {
+  const apngEncodeOptionsDefault = {
       // 0: zlib, 1: 7zip, 2: zopfli
       deflateMethod: 1,
       iter: 15,
@@ -68,6 +61,19 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
       processCallback( progress ){
         // MyConsole.Blue( `\n${ progress }\n` );
       },
+    },
+    encodeOptions = options.encodeOptions?.apng ?? apngEncodeOptionsDefault;
+
+  /**
+   * 压缩优化后的图片数据。
+   *
+   * @type {Uint8Array}
+   */
+  const resultData = await APNGOptimizer.createOptimizer().then( optimizer => {
+    // Uint8Array
+    return optimizer.optAPNG( original.data, {
+      ...apngEncodeOptionsDefault,
+      ...encodeOptions,
     } );
   } );
 
@@ -106,14 +112,6 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
   const fileTypeResult = await fileTypeFromBuffer( original.data );
 
   const outputFormat = targetFormat ?? fileTypeResult.ext.toLowerCase();
-
-  // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:908
-  if( 'encodeOptions' in options ){
-    MyConsole.Yellow( `
-注意：${ original.filename }，是“apng”编码的图片。
-当前DIY的功能还不支持“encodeOptions”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
-` );
-  }
 
   // ====== rename ======
 

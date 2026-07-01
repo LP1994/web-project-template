@@ -11881,6 +11881,21 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                       // 强制PNG输出，否则尝试使用输入格式，值类型：boolean，默认值：true，可选。
                       force: true,
                     },
+                    /**
+                     * apng
+                     * 1、通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                     * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                     */
+                    apng: {
+                      // 0: zlib, 1: 7zip, 2: zopfli
+                      deflateMethod: 1,
+                      iter: 15,
+                      minQuality: 0,
+                      maxQuality: 100,
+                      processCallback( progress ){
+                        console.log( `\n${ progress }\n` );
+                      },
+                    },
                     webp: {
                       // 质量，值类型：number，默认值：80，值范围：1-100，可选。
                       quality: 80,
