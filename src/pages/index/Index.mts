@@ -9,4 +9,4 @@
 
 'use strict';
 
-document.querySelector( 'main' )!.textContent = `Hello World!`;
+document.querySelector( 'main' )!.insertAdjacentHTML( 'afterbegin', `Hello World!` );
