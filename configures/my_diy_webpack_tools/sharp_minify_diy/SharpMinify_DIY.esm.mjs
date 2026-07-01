@@ -19,12 +19,6 @@ import {
 } from 'node:path';
 
 import {
-  readFile,
-} from 'node:fs/promises';
-
-import FastEXIF from 'fast-exif';
-
-import {
   fileTypeFromBuffer,
 } from 'file-type';
 
@@ -32,8 +26,6 @@ import {
   IsAPNG,
   APNGOptimizer,
 } from '../apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
-
-let my_rootDirName;
 
 /**
  * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
@@ -121,13 +113,8 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
                     ? outputFormat
                     : inputExt;
 
-  // await FastEXIF.read( join( my_rootDirName, original.filename ), true );
   // original.filename ---> src\pages\index\APNG_Animation.apng
-  // my_rootDirName ---> G:\WebStormWS\web-project-template
-  // console.dir( await FastEXIF.read( join( my_rootDirName, original.filename ), true ) );
   console.log( '\n\n\n' );
-  console.log( join( my_rootDirName, original.filename ) );
-  console.dir( await readFile( join( my_rootDirName, original.filename ) ) );
   console.log( '\n\n\n' );
 
   return {
@@ -150,13 +137,9 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
  *
  * @param {import('image-minimizer-webpack-plugin').sharpMinify} sharpMinify image-minimizer-webpack-plugin.sharpMinify
  *
- * @param {string} rootDirName 项目根目录的绝对路径。
- *
  * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
  */
-function SharpMinify_DIY( sharpMinify, rootDirName ){
-  my_rootDirName = rootDirName;
-
+function SharpMinify_DIY( sharpMinify ){
   /**
    * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
    *
@@ -173,15 +156,9 @@ function SharpMinify_DIY( sharpMinify, rootDirName ){
    */
   return async function My_DIY( original, options ){
     if( IsAPNG( original.data ) ){
-      // TODO 测试用！！！
-      await APNGOptimizer_DIY( original, options );
-
-      return await sharpMinify( original, options );
+      return await APNGOptimizer_DIY( original, options );
     }
     else{
-      // TODO 测试用！！！
-      await APNGOptimizer_DIY( original, options );
-
       return await sharpMinify( original, options );
     }
   };
