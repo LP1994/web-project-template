@@ -9,6 +9,15 @@
 
 'use strict';
 
+import path, {
+  basename,
+  dirname,
+  extname,
+  join,
+  posix,
+  resolve,
+} from 'node:path';
+
 import {
   IsAPNG,
   APNGOptimizer,
@@ -30,7 +39,7 @@ import {
  *
  * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
  */
-async function SharpTransform_DIY( original, options = {}, targetFormat = null ){
+async function APNGOptimizer( original, options = {}, targetFormat = null ){
   /**
    * 压缩优化后的图片数据。
    *
@@ -50,6 +59,8 @@ async function SharpTransform_DIY( original, options = {}, targetFormat = null )
     } );
   } );
 
+  const inputExt = extname( original.filename ).slice( 1 ).toLowerCase();
+
   return {
     // filename,
     data: resultData,
@@ -60,7 +71,7 @@ async function SharpTransform_DIY( original, options = {}, targetFormat = null )
       // width,
       // height,
       // [processedFlag]: true,
-      // [processedBy]: ["sharp", ...(original.info?.[processedBy] ?? [])],
+      // [processedBy]: ["SharpMinify_DIY", ...(original.info?.[processedBy] ?? [])],
     },
   };
 }
@@ -89,7 +100,7 @@ function SharpMinify_DIY( sharpMinify ){
    */
   return async function My_DIY( original, options ){
     if( IsAPNG( original.data ) ){
-      return await SharpTransform_DIY( original, options );
+      return await APNGOptimizer( original, options );
     }
 
     return await sharpMinify( original, options );
