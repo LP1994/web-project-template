@@ -49,7 +49,7 @@ import {
  *
  * @param {any | null} targetFormat target format
  *
- * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
+ * @returns {Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
  */
 async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
   /**
@@ -168,7 +168,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
  *
  * @param {import('image-minimizer-webpack-plugin').sharpMinify} sharpMinify image-minimizer-webpack-plugin.sharpMinify
  *
- * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
+ * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
  */
 function SharpMinify_DIY( sharpMinify ){
   /**
@@ -184,7 +184,7 @@ function SharpMinify_DIY( sharpMinify ){
    *
    * @param {Record<string, any> | undefined} options options
    *
-   * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
+   * @returns {Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
    */
   return async function My_Minify_DIY( original, options ){
     if( IsAPNG( original.data ) ){
@@ -202,7 +202,7 @@ function SharpMinify_DIY( sharpMinify ){
  *
  * @param {import('image-minimizer-webpack-plugin').sharpGenerate} sharpGenerate image-minimizer-webpack-plugin.sharpGenerate
  *
- * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
+ * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
  */
 function SharpGenerate_DIY( sharpGenerate ){
   /**
@@ -218,7 +218,7 @@ function SharpGenerate_DIY( sharpGenerate ){
    *
    * @param {Record<string, any> | undefined} options options
    *
-   * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
+   * @returns {Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
    */
   return async function My_Generate_DIY( original, options ){
     if( IsAPNG( original.data ) ){
