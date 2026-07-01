@@ -1481,14 +1481,15 @@ const defaultOptions = {
   maxQuality: 100,
   disabledQuant: false
 };
+/**
+ * APNGOptimizer
+ */
 class APNGOptimizer {
   /**
    * APNGOptimizer
    *
-   * @param {{wasmPath: string | null; wasmBinary: Uint8Array | null;}} options
-   *
+   * @param {{wasmPath: string | null; wasmBinary: Uint8Array | null;}} options options
    * @param {string | null} options.wasmPath 路径、字符串。
-   *
    * @param {Uint8Array | null} options.wasmBinary 数据。
    */
   constructor({
@@ -1539,6 +1540,13 @@ class APNGOptimizer {
 `);
     }
   }
+  /**
+   * createOptimizer
+   *
+   * @param options options
+   *
+   * @returns {Promise<any>} any
+   */
   static async createOptimizer(options) {
     const optimizer = new APNGOptimizer(options);
     await optimizer.checkReady();
