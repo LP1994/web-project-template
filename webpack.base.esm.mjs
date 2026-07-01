@@ -11887,13 +11887,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                      * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
                      */
                     apng: {
-                      // 0: zlib, 1: 7zip, 2: zopfli
+                      // 0: zlib（压缩优化速度：快）, 1（默认值）: 7zip（压缩优化速度：很快）, 2: zopfli（压缩优化速度：慢）
                       deflateMethod: 1,
                       iter: 15,
                       minQuality: 0,
                       maxQuality: 100,
                       processCallback( progress ){
-                        console.log( `\n${ progress }\n` );
+                        // console.log( `\n${ progress }\n` );
                       },
                     },
                     webp: {

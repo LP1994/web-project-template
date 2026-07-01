@@ -119,7 +119,7 @@ parentPort.on( 'message', async ( {
     resultBuffer = await APNGOptimizer.createOptimizer().then( optimizer => {
       // Uint8Array   7zip
       return optimizer.optAPNG( photoFileStream, {
-        // 0: zlib, 1: 7zip, 2: zopfli
+        // 0: zlib（压缩优化速度：快）, 1（默认值）: 7zip（压缩优化速度：很快）, 2: zopfli（压缩优化速度：慢）
         deflateMethod: 1,
         iter: 15,
         minQuality: 0,
