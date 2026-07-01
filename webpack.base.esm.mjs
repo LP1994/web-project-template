@@ -11685,12 +11685,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              * 3、“width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
-              // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持“apng”。
+              // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
               // |heif|heic
               test: /\.(jpeg|jpe|jpg|png|apng|webp|gif|jp2|tiff|tif|avif|jxl|raw)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
-                // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持“apng”。
+                // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
                 implementation: SharpMinify_DIY( ImageMinimizerPlugin.sharpMinify ),
                 // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
                 filename: 'img/[name]_optimize_sharp(minimizer)_[width]_[height][ext]',
