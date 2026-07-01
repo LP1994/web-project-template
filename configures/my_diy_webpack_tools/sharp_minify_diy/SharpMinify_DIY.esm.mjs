@@ -31,7 +31,12 @@ import {
  * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
  */
 async function SharpTransform_DIY( original, options = {}, targetFormat = null ){
-  await APNGOptimizer.createOptimizer().then( optimizer => {
+  /**
+   * 压缩优化后的图片数据。
+   *
+   * @type {Uint8Array}
+   */
+  const resultData = await APNGOptimizer.createOptimizer().then( optimizer => {
     // Uint8Array   7zip
     return optimizer.optAPNG( original.data, {
       // 0: zlib, 1: 7zip, 2: zopfli
@@ -39,13 +44,25 @@ async function SharpTransform_DIY( original, options = {}, targetFormat = null )
       iter: 15,
       minQuality: 0,
       maxQuality: 100,
-      processCallback: function ( progress ){
+      processCallback( progress ){
         // console.log( `\n${ progress }\n` );
       },
     } );
   } );
 
-  return {};
+  return {
+    // filename,
+    data: resultData,
+    warnings: [ ...original.warnings ],
+    errors: [ ...original.errors ],
+    info: {
+      ...original.info,
+      // width,
+      // height,
+      // [processedFlag]: true,
+      // [processedBy]: ["sharp", ...(original.info?.[processedBy] ?? [])],
+    },
+  };
 }
 
 /**
