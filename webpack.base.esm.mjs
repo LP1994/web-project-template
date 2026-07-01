@@ -165,6 +165,7 @@ import Yaml from 'yamljs';
 
 import {
   SharpMinify_DIY,
+  SharpGenerate_DIY,
 } from './configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs';
 
 import DefinePluginConfig from './configures/DefinePluginConfig.esm.mjs';
@@ -11685,12 +11686,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              * 3、“width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
-              // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
               // |heif|heic
               test: /\.(jpeg|jpe|jpg|png|apng|webp|gif|jp2|tiff|tif|avif|jxl|raw)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
-                // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                /**
+                 * 1、通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                 * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                 */
                 implementation: SharpMinify_DIY( ImageMinimizerPlugin.sharpMinify ),
                 // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
                 filename: 'img/[name]_optimize_sharp(minimizer)_[width]_[height][ext]',
@@ -12070,7 +12073,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 ...( arr => {
                   return arr.map( item => {
                     return {
-                      implementation: ImageMinimizerPlugin.sharpGenerate,
+                      /**
+                       * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                       * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                       */
+                      implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                       filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                       filter( source, sourcePath ){
                         if( Number( source.byteLength ) > maxImgSize ){
@@ -12143,7 +12150,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  * 若需生成每像素 16 位的输出，请通过 toColourspace 函数转换为 rgb16。
                  */
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
@@ -12195,7 +12206,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 },
                 // webp
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
@@ -12255,7 +12270,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 },
                 // gif
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
@@ -12313,7 +12332,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  * 需要使用支持 OpenJPEG 的 libvips 进行编译。预编译的二进制文件不包含此功能——请参阅“安装自定义 libvips”。
                  */
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
@@ -12359,7 +12382,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 ...( arr => {
                   return arr.map( item => {
                     return {
-                      implementation: ImageMinimizerPlugin.sharpGenerate,
+                      /**
+                       * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                       * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                       */
+                      implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                       filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                       filter( source, sourcePath ){
                         if( Number( source.byteLength ) > maxImgSize ){
@@ -12424,7 +12451,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 ] ),
                 // 不支持AVIF图像序列。
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
@@ -12473,7 +12504,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 ...( arr => {
                   return arr.map( item => {
                     return {
-                      implementation: ImageMinimizerPlugin.sharpGenerate,
+                      /**
+                       * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                       * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                       */
+                      implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                       filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                       filter( source, sourcePath ){
                         if( Number( source.byteLength ) > maxImgSize ){
@@ -12528,7 +12563,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  * 需要使用支持 libjxl 的 libvips 进行编译。预编译的二进制文件不包含此功能——请参阅“安装自定义 libvips”。
                  */
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
@@ -12574,7 +12613,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 },
                 // 强制输出为原始、未压缩的像素数据。像素顺序为从左到右、从上到下，且不进行填充。对于非灰度色彩空间，通道顺序为 RGB 或 RGBA。
                 {
-                  implementation: ImageMinimizerPlugin.sharpGenerate,
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){

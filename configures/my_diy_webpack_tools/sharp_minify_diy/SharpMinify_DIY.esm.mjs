@@ -7,16 +7,19 @@
  * CreateDate: 2026-07-01 13:08:10 星期三
  */
 
+/**
+ * 该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+ */
+
 'use strict';
 
 import {
-  basename,
-  dirname,
   extname,
-  join,
-  posix,
-  resolve,
 } from 'node:path';
+
+import {
+  Image as CrossImage,
+} from 'cross-image';
 
 import {
   fileTypeFromBuffer,
@@ -28,7 +31,8 @@ import {
 } from '../apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
 
 /**
- * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+ * 通过DIY扩展ImageMinimizerPlugin.sharpTransform，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。<br />
+ * 1、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。<br />
  *
  * @param {{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}} original original worker result
  * @param {string} original.filename filename
@@ -113,27 +117,50 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
                     ? outputFormat
                     : inputExt;
 
-  // original.filename ---> src\pages\index\APNG_Animation.apng
-  console.log( '\n\n\n' );
-  console.log( '\n\n\n' );
+  const {
+    width,
+    height,
+  } = await CrossImage.decode( original.data );
+
+  const sizeSuffix = typeof options.sizeSuffix === 'function'
+                     ? options.sizeSuffix( width, height )
+                     : '';
+
+  const dotIndex = original.filename.lastIndexOf( '.' );
+
+  const filename = dotIndex > -1
+                   ? `${ original.filename.slice( 0, dotIndex ) }${ sizeSuffix }.${ outputExt }`
+                   : original.filename;
+
+  const processedFlag = targetFormat
+                        ? 'generated'
+                        : 'minimized';
+
+  const processedBy = targetFormat
+                      ? 'generatedBy'
+                      : 'minimizedBy';
 
   return {
-    // filename,
+    filename,
     data: resultData,
     warnings: [ ...original.warnings ],
     errors: [ ...original.errors ],
     info: {
       ...original.info,
-      // width,
-      // height,
-      // [processedFlag]: true,
-      // [processedBy]: ["SharpMinify_DIY", ...(original.info?.[processedBy] ?? [])],
+      width,
+      height,
+      [ processedFlag ]: true,
+      [ processedBy ]: [
+        'SharpMinify_DIY',
+        ...( original.info?.[ processedBy ] ?? [] ),
+      ],
     },
   };
 }
 
 /**
- * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+ * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。<br />
+ * 1、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。<br />
  *
  * @param {import('image-minimizer-webpack-plugin').sharpMinify} sharpMinify image-minimizer-webpack-plugin.sharpMinify
  *
@@ -141,7 +168,8 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
  */
 function SharpMinify_DIY( sharpMinify ){
   /**
-   * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+   * 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。<br />
+   * 1、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。<br />
    *
    * @param {{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}} original original worker result
    * @param {string} original.filename filename
@@ -154,7 +182,7 @@ function SharpMinify_DIY( sharpMinify ){
    *
    * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
    */
-  return async function My_DIY( original, options ){
+  return async function My_Minify_DIY( original, options ){
     if( IsAPNG( original.data ) ){
       return await APNGOptimizer_DIY( original, options );
     }
@@ -164,10 +192,46 @@ function SharpMinify_DIY( sharpMinify ){
   };
 }
 
+/**
+ * 通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。<br />
+ * 1、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。<br />
+ *
+ * @param {import('image-minimizer-webpack-plugin').sharpGenerate} sharpGenerate image-minimizer-webpack-plugin.sharpGenerate
+ *
+ * @returns {function(original: {filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}, options: Record<string, any> | undefined): Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} 自定义函数
+ */
+function SharpGenerate_DIY( sharpGenerate ){
+  /**
+   * 通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。<br />
+   * 1、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。<br />
+   *
+   * @param {{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};}} original original worker result
+   * @param {string} original.filename filename
+   * @param {Uint8Array} original.data data uint8Array
+   * @param {Error[]} original.warnings warnings
+   * @param {Error[]} original.errors errors
+   * @param {import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;}} original.info asset info
+   *
+   * @param {Record<string, any> | undefined} options options
+   *
+   * @returns {Promise<{filename: string; data: Uint8Array; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
+   */
+  return async function My_Generate_DIY( original, options ){
+    if( IsAPNG( original.data ) ){
+      return await APNGOptimizer_DIY( original, options );
+    }
+    else{
+      return await sharpGenerate( original, options );
+    }
+  };
+}
+
 export {
   SharpMinify_DIY,
+  SharpGenerate_DIY,
 };
 
 export default {
   SharpMinify_DIY,
+  SharpGenerate_DIY,
 };
