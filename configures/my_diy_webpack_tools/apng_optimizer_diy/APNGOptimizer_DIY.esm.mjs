@@ -1483,7 +1483,7 @@ const defaultOptions = {
 };
 class APNGOptimizer {
   /**
-   * constructorconstructorconstructor
+   * APNGOptimizer
    *
    * @param {{wasmPath: string | null; wasmBinary: Uint8Array | null;}} options
    *

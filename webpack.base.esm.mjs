@@ -11691,7 +11691,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
               minimizer: {
                 implementation: ImageMinimizerPlugin.sharpMinify,
                 // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
-                filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                filename: 'img/[name]_optimize_sharp(minimizer)_[width]_[height][ext]',
                 /**
                  * 允许过滤图像以进行优化/生成。返回true以优化图像，否则返回false则不优化。<br />
                  *
@@ -12076,7 +12076,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   return arr.map( item => {
                     return {
                       implementation: ImageMinimizerPlugin.sharpGenerate,
-                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                      filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                       filter( source, sourcePath ){
                         if( Number( source.byteLength ) > maxImgSize ){
                           return true;
@@ -12149,7 +12149,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  */
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
                     if( IsAPNG( source ) ){
@@ -12208,7 +12208,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 // webp
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
@@ -12268,7 +12268,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 // gif
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
@@ -12326,7 +12326,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  */
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
@@ -12372,7 +12372,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   return arr.map( item => {
                     return {
                       implementation: ImageMinimizerPlugin.sharpGenerate,
-                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                      filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                       filter( source, sourcePath ){
                         if( Number( source.byteLength ) > maxImgSize ){
                           return true;
@@ -12437,7 +12437,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 // 不支持AVIF图像序列。
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
@@ -12486,7 +12486,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   return arr.map( item => {
                     return {
                       implementation: ImageMinimizerPlugin.sharpGenerate,
-                      filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                      filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                       filter( source, sourcePath ){
                         if( Number( source.byteLength ) > maxImgSize ){
                           return true;
@@ -12541,7 +12541,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  */
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
@@ -12587,7 +12587,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                 // 强制输出为原始、未压缩的像素数据。像素顺序为从左到右、从上到下，且不进行填充。对于非灰度色彩空间，通道顺序为 RGB 或 RGBA。
                 {
                   implementation: ImageMinimizerPlugin.sharpGenerate,
-                  filename: 'img/[name]_optimize_sharp_[width]_[height][ext]',
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
