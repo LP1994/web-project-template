@@ -218,7 +218,31 @@ function SharpGenerate_DIY( sharpGenerate ){
    */
   return async function My_Generate_DIY( original, options ){
     if( IsAPNG( original.data ) ){
-      return await APNGOptimizer_DIY( original, options );
+      const sharpOptions = options ?? {};
+
+      const targetFormats = Object.keys( sharpOptions.encodeOptions ?? {} );
+
+      if( targetFormats.length === 0 ){
+        const error = new Error( `No result from 'SharpGenerate_DIY' for '${ original.filename }', please configure the 'encodeOptions' option to generate images` );
+
+        original.errors.push( error );
+
+        return Promise.resolve( null );
+      }
+
+      if( targetFormats.length > 1 ){
+        const error = new Error( `Multiple values for the 'encodeOptions' option is not supported for '${ original.filename }', specify only one codec for the generator` );
+
+        original.errors.push( error );
+
+        return Promise.resolve( null );
+      }
+
+      const [
+        targetFormat,
+      ] = targetFormats;
+
+      return await APNGOptimizer_DIY( original, sharpOptions, targetFormat );
     }
     else{
       return await sharpGenerate( original, options );
