@@ -12219,6 +12219,54 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                     },
                   },
                 },
+                /**
+                 * apng
+                 * 1、通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                 * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                 */
+                {
+                  /**
+                   * 1、通过DIY扩展ImageMinimizerPlugin.sharpGenerate，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。
+                   * 2、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。
+                   */
+                  implementation: SharpGenerate_DIY( ImageMinimizerPlugin.sharpGenerate ),
+                  filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
+                  filter( source, sourcePath ){
+                    if( Number( source.byteLength ) > maxImgSize ){
+                      return true;
+                    }
+                    else{
+                      return false;
+                    }
+                  },
+                  /**
+                   * 1、若值为'webp-100-100'，那么在查询参数中的使用方法为'?as=webp-100-100'。<br />
+                   */
+                  preset: 'apng',
+                  /**
+                   * 1、该选项有效值有：<br />
+                   * import：表示生成器在“import”、“require”语法中使用，也是默认值。<br />
+                   * asset：表示生成器在其他资源编译中也可用，比如，拷贝插件等等。<br />
+                   */
+                  type: 'import',
+                  /**
+                   * 这里的“options”选项同上面“minimizer”选项里的“options”选项，那里有的选项都可以在这里用。<br />
+                   */
+                  options: {
+                    encodeOptions: {
+                      apng: {
+                        // 0: zlib（压缩优化速度：快）, 1（默认值）: 7zip（压缩优化速度：很快）, 2: zopfli（压缩优化速度：慢）
+                        deflateMethod: 1,
+                        iter: 15,
+                        minQuality: 0,
+                        maxQuality: 100,
+                        processCallback( progress ){
+                          // console.log( `\n${ progress }\n` );
+                        },
+                      },
+                    },
+                  },
+                },
                 // webp
                 {
                   /**
