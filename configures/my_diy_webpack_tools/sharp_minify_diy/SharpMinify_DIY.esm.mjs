@@ -30,6 +30,10 @@ import {
   APNGOptimizer,
 } from '../apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
 
+import {
+  MyConsole,
+} from '../../UniversalToolForNode.esm.mjs';
+
 /**
  * 通过DIY扩展ImageMinimizerPlugin.sharpTransform，来支持对图片后缀名为“.apng”的图片、图片后缀名为“.png”但是实际内部数据是“apng”格式的图片进行压缩优化。<br />
  * 1、该DIY工具扩展自“image-minimizer-webpack-plugin v5.0.0”。<br />
@@ -62,7 +66,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
       minQuality: 0,
       maxQuality: 100,
       processCallback( progress ){
-        // console.log( `\n${ progress }\n` );
+        // MyConsole.Blue( `\n${ progress }\n` );
       },
     } );
   } );
@@ -75,7 +79,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
       'apng',
     ].includes( inputExt )
   ){
-    console.warn( `
+    MyConsole.Yellow( `
 注意：${ original.filename }，图片文件的后缀名不是“.png”、“.apng”，但是在读取该图片文件的数据时，发现其实际数据是“apng”编码的图片数据。
 显然该图片文件的后缀名并不对，请排查该图片文件的后缀名，建议将其后缀名改成“.png”或“.apng”。
 合规的“apng”编码的图片文件的后缀名可以是“.png”、“.apng”。
@@ -84,7 +88,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
 
   // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:859
   if( 'rotate' in options ){
-    console.warn( `
+    MyConsole.Yellow( `
 注意：${ original.filename }，是“apng”编码的图片。
 当前DIY的功能还不支持“rotate”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
 ` );
@@ -92,7 +96,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
 
   // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:867
   if( 'resize' in options ){
-    console.warn( `
+    MyConsole.Yellow( `
 注意：${ original.filename }，是“apng”编码的图片。
 当前DIY的功能还不支持“resize”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
 ` );
@@ -105,7 +109,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
 
   // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:908
   if( 'encodeOptions' in options ){
-    console.warn( `
+    MyConsole.Yellow( `
 注意：${ original.filename }，是“apng”编码的图片。
 当前DIY的功能还不支持“encodeOptions”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
 ` );
@@ -142,7 +146,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
 
   return {
     filename,
-    data: resultData,
+    data: Buffer.from( resultData.buffer, resultData.byteOffset, resultData.byteLength ),
     warnings: [ ...original.warnings ],
     errors: [ ...original.errors ],
     info: {
