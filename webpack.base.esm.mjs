@@ -164,8 +164,8 @@ import webpack from 'webpack';
 import Yaml from 'yamljs';
 
 import {
-  IsAPNG,
-} from './configures/my_diy_webpack_tools/apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
+  SharpMinify_DIY,
+} from './configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs';
 
 import DefinePluginConfig from './configures/DefinePluginConfig.esm.mjs';
 
@@ -11685,11 +11685,13 @@ ${ JSON.stringify( req.headers, null, 4 ) }
              * 3、“width/w”、“height/h”、“as”这三个查询参数目前只在“squoosh”、“sharp”中支持。<br />
              */
             sharpMinify: new ImageMinimizerPlugin( {
+              // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持“apng”。
               // |heif|heic
-              test: /\.(jpeg|jpe|jpg|png|webp|gif|jp2|tiff|tif|avif|jxl|raw)$/i,
+              test: /\.(jpeg|jpe|jpg|png|apng|webp|gif|jp2|tiff|tif|avif|jxl|raw)$/i,
               ...imageMinimizerPluginConfig,
               minimizer: {
-                implementation: ImageMinimizerPlugin.sharpMinify,
+                // 通过DIY扩展ImageMinimizerPlugin.sharpMinify，来支持“apng”。
+                implementation: SharpMinify_DIY( ImageMinimizerPlugin.sharpMinify ),
                 // 该项支持的值见webpack模板字符串，文件级部分，不支持contenthash一类的模板字符串，当前只有sharp、squoosh支持[width]、[height]。
                 filename: 'img/[name]_optimize_sharp(minimizer)_[width]_[height][ext]',
                 /**
@@ -11702,13 +11704,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                  * @returns {boolean|undefined} 返回true以优化图像，否则返回false则不优化。
                  */
                 filter( source, sourcePath ){
-                  // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
-                  if( IsAPNG( source ) ){
-                    console.log( chalk.yellow( `\n\nImageMinimizerPlugin_minimizer：“${ sourcePath }”是一张apng图片，本配置不对该类型图片进行压缩优化处理。会将其原样输出。\n\n` ) );
-
-                    return false;
-                  }
-
                   if( Number( source.byteLength ) > maxImgSize ){
                     return true;
                   }
@@ -12151,13 +12146,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
                   implementation: ImageMinimizerPlugin.sharpGenerate,
                   filename: 'img/[name]_optimize_sharp(generator)_[width]_[height][ext]',
                   filter( source, sourcePath ){
-                    // 鉴于apng格式的png图片是可播放的动画图片，如果进行压缩处理，会导致丢失动画帧，变成一张静止的普通的png图片。故，在这里排除“apng格式的png图片”，即不对“apng格式的png图片”进行优化，而是原样输出。
-                    if( IsAPNG( source ) ){
-                      console.log( chalk.yellow( `\n\nImageMinimizerPlugin_generator：“${ sourcePath }”是一张apng图片，本配置不对该类型图片进行压缩优化处理。会将其原样输出。\n\n` ) );
-
-                      return false;
-                    }
-
                     if( Number( source.byteLength ) > maxImgSize ){
                       return true;
                     }
