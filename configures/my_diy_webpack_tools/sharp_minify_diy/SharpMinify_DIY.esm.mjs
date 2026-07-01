@@ -153,7 +153,7 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
       height,
       [ processedFlag ]: true,
       [ processedBy ]: [
-        'SharpMinify_DIY',
+        'sharp',
         ...( original.info?.[ processedBy ] ?? [] ),
       ],
     },
