@@ -1,0 +1,24 @@
+/**
+ * apng-js是UMD的写法，故实际导出项如下：
+ * APNGJS: {
+ *   APNG: undefined,
+ *   Frame: undefined,
+ *   __esModule: true,
+ *   apng-js: undefined,
+ *   default: {
+ *     isNotPNG: isNotPNG函数,
+ *     isNotAPNG: isNotAPNG函数,
+ *     default: parseAPNG函数,
+ *   },
+ *   isNotAPNG: isNotAPNG函数,
+ *   isNotPNG: isNotPNG函数,
+ *   module.exports: {
+ *     isNotPNG: isNotPNG函数,
+ *     isNotAPNG: isNotAPNG函数,
+ *     default: parseAPNG函数,
+ *   },
+ * }
+ */
+import * as APNGJS from 'apng-js';
+
+const parseAPNGByAPNGJS = APNGJS[ 'default' ][ 'default' ];
