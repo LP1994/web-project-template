@@ -2068,17 +2068,18 @@ const aliasConfig = {
    *   webSocketTransport：此选项允许我们为客户端单独选择当前的devServer传输模式或提供自定义客户端实现。这允许指定浏览器或其他客户端如何与devServer通信。<br />
    *     1）允许设置自定义web socket传输以与开发人员服务器通信。<br />
    *     2）值类型为string，其中有2个预设值：sockjs、ws。<br />
-   *     3）为devServer.webSocketServer提供'ws'、'sockjs'是将devServer.client.webSocketTransport和devServer.webSocketServer设置为给定值的快捷方式。<br />
-   *     4）在提供自定义客户端和服务器实现时，请确保它们相互兼容以成功通信。<br />
-   *     5）要创建自定义客户端实现，请创建一个扩展BaseClient的类。<br />
-   *     6）使用CustomClient.js的路径，自定义WebSocket客户端实现，以及兼容的“ws”服务器：<br />
+   *     3）为devServer.webSocketServer提供'ws'是将devServer.client.webSocketTransport和devServer.webSocketServer设置为给定值的快捷方式。<br />
+   *     4）webpack-dev-server v6.0中，webSocketServer选项不再接受'sockjs'值，请改用默认值'ws'。<br />
+   *     5）在提供自定义客户端和服务器实现时，请确保它们相互兼容以成功通信。<br />
+   *     6）要创建自定义客户端实现，请创建一个扩展BaseClient的类。<br />
+   *     7）使用CustomClient.js的路径，自定义WebSocket客户端实现，以及兼容的“ws”服务器：<br />
    *     devServer: {
    *     client: {
    *       webSocketTransport: require.resolve('./CustomClient'),
    *     },
    *     webSocketServer: 'ws',
    *     }
-   *     7）使用自定义、兼容的WebSocket客户端和服务器实现：<br />
+   *     8）使用自定义、兼容的WebSocket客户端和服务器实现：<br />
    *     devServer: {
    *     client: {
    *       webSocketTransport: require.resolve('./CustomClient'),
@@ -2222,6 +2223,7 @@ const aliasConfig = {
    * http2：允许使用SPDY通过HTTP2提供服务。已弃用，请使用devServer.server。<br />
    * 1、有效值类型：boolean，true表示启用带有自签名证书的HTTP/2。<br />
    * 2、使用spdy通过HTTP/2服务。对于Node 15.0.0及更高版本，此选项将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
+   * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
    * 3、也可以使用devServer.https选项提供您自己的证书。<br />
    *
    * https：默认情况下，dev-server将通过HTTP提供服务。它可以选择通过HTTPS提供服务。此选项已弃用，取而代之的是devServer.server选项。<br />
@@ -2317,11 +2319,12 @@ const aliasConfig = {
    * 5、注意，当前文件编写的配置是遵循“http-proxy-middleware v4”的，因为“webpack 5”也是引用“http-proxy-middleware”的。<br />
    *
    * server：从v4.4.0+开始启用，允许设置服务器和选项（默认为“http”）。<br />
-   * 1、有效值类型：string（其中预设的有：http、https、spdy、http2）、object。<br />
+   * 1、有效值类型：string（其中预设的有：http、https、http2）、object。<br />
    * 2、关于值“spdy”的注意事项，对于Node 15.0.0及更高版本，此选项值将被忽略，因为这些版本的spdy已损坏。一旦Express支持，开发服务器将迁移到Node的内置HTTP/2。<br />
+   * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
    * 3、使用对象语法提供您自己的证书：<br />
    * {<br />
-   * type：可选http、https、spdy、http2三者其中之一。<br />
+   * type：可选http、https、http2三者其中之一。<br />
    * 具体可用值见：<br />
    * node_modules/webpack-dev-server/lib/options.json:532<br />
    * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
@@ -2406,9 +2409,10 @@ const aliasConfig = {
    * 2、当值类型为object时，有关可能的选项（paths、options），请参阅chokidar文档（https://github.com/paulmillr/chokidar）。<br />
    *
    * webSocketServer：此选项允许我们选择当前的web-socket服务器或提供自定义web-socket服务器实现。<br />
-   * 1、有效值类型：boolean（false）、string（'sockjs'、'ws'）、function、object。<br />
+   * 1、有效值类型：boolean（false）、string（'ws'）、function、object。<br />
    * 2、当模式是“ws”时。此模式使用ws作为服务器，在客户端使用原生WebSocket。<br />
    * 3、要创建自定义服务器实现，请创建一个扩展BaseServer的类。<br />
+   * 4、webpack-dev-server v6.0中，该选项不再接受'sockjs'值，请改用默认值'ws'。<br />
    * }<br />
    *
    * @type {object}
@@ -2621,17 +2625,19 @@ const aliasConfig = {
      * 4、当前发现一个小问题！使用'spdy'（使用HTTP/2）时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
      * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
      * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
+     * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
      * 5、server.type设置为“http2”时，也会报错！！！所以还是继续使用“https”！！！<br />
      */
     server: {
       /**
-       * 'http'（使用HTTP/1.1）、'https'（使用HTTP/1.1）、'spdy'（使用HTTP/2）、'http2'
+       * 'http'（使用HTTP/1.1）、'https'（使用HTTP/1.1）、'http2'
        * PS：当前发现一个小问题！使用'spdy'（使用HTTP/2）时，在自动更新代码并自动刷新浏览器页面的时候，会出现某些文件的请求错误：<br />
        * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
        * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
        * 具体可用值见：<br />
        * node_modules/webpack-dev-server/lib/options.json:532<br />
        * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
+       * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
        */
       type: 'https',
       // 具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions
@@ -2982,6 +2988,11 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      ],
      options: {
      usePolling: false,
+     // 函数、正则表达式或路径。
+     // 用于定义要忽略的文件/路径。
+     // 系统会检查整个相对或绝对路径，而不仅仅是文件名。
+     // 如果提供了一个带有两个参数的函数，则该函数会针对每个路径被调用两次——第一次仅传入一个参数（路径），第二次传入两个参数（路径以及该路径对应的 fs.Stats 对象）。
+     ignored: (file) => file.endsWith('.txt'),
      },
      },
      */

@@ -7,3 +7,9 @@ PS：
 
 将命令窗口中的输出信息全部写入文件的方法：
 npm --force install -D > install_info_full.log 2> install_errors_full.log
+
+更新、安装npm包时，出现，内存溢出时，删除node_modules、package-lock.json，重新安装全部npm即可。大多时候能解决。即执行如下即可：
+npm --force install -D > install_info_full.log 2> install_errors_full.log
+
+临时设置内存大小32GB：
+set NODE_OPTIONS=--max-old-space-size=32768

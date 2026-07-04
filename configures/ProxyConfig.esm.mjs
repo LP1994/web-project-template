@@ -376,7 +376,7 @@ const proxyConfig = [
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      * PS：<br />
-     * 1、从webpack-dev-server v5.0开始，bypass选项已被弃用，转而使用router和context选项。<br />
+     * 1、从webpack-dev-server v5.0开始，bypass选项（webpack-dev-server v6.0中已经删除了该选项）已被弃用，转而使用router和context选项。<br />
      *
      * @param {Request} req
      * @param {Response} res
@@ -1090,7 +1090,7 @@ HTTP代理--->${ req.originalUrl }<---End
     /**
      * 有时您不想代理所有内容。可以根据函数的返回值绕过代理。在该函数中，您可以访问请求、响应和代理选项。<br />
      * PS：<br />
-     * 1、从webpack-dev-server v5.0开始，bypass选项已被弃用，转而使用router和context选项。<br />
+     * 1、从webpack-dev-server v5.0开始，bypass选项（webpack-dev-server v6.0中已经删除了该选项）已被弃用，转而使用router和context选项。<br />
      *
      * @param {Request} req
      * @param {Response} res
