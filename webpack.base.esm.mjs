@@ -12883,23 +12883,6 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
      */
     chunkFilename( pathData, assetInfo ){
-      let name = pathData?.chunk?.name,
-        id = pathData?.chunk?.id;
-
-      if( name !== undefined && name !== null && String( name ).includes( '.worker' ) ){
-        return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
-      }
-
-      if(
-        !isProduction
-        && ( name === undefined || name === null )
-        && id !== undefined
-        && id !== null
-        && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) )
-      ){
-        return `workers/[name]_[contenthash].worker.js`;
-      }
-
       return `js/[name]_Chunk_[contenthash].js`;
     },
     /**
@@ -12985,6 +12968,7 @@ ${ JSON.stringify( req.headers, null, 4 ) }
     ],
     /**
      * 告诉webpack在生成的运行时代码中可以使用哪种ES特性。<br />
+     * 1、Webpack 5 中用来精确控制打包后运行时（runtime）代码所用 JavaScript 语言特性的一个配置项。<br />
      */
     environment: {
       /**
@@ -13028,10 +13012,22 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       globalThis: true,
       /**
+       * The environment supports 'Object.hasOwn'.
+       */
+      hasOwn: true,
+      /**
        * 1、The environment supports `import.meta.dirname` and `import.meta.filename`.<br />
        * 2、从webpack v5.103.0开始使用该选项。<br />
        */
-      importMetaDirnameAndFilename: true,
+      importMetaDirnameAndFilename: false,
+      /**
+       * The environment supports let for variable declarations.
+       */
+      let: true,
+      /**
+       * The environment supports logical assignment operators ('a ||= b', 'a &&= b', 'a ??= b').
+       */
+      logicalAssignment: true,
       /**
        * 该环境支持对象方法简写（'{ module() {} }'）。
        */
@@ -13041,6 +13037,10 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        */
       module: true,
       /**
+       * The environment supports `process.getBuiltinModule()` to synchronously load Node.js core modules.
+       */
+      nodeBuiltinModuleGetter: false,
+      /**
        * 1、确定是否在支持该功能的环境中为核心模块导入生成“node:”前缀。<br />
        * 2、此功能仅适用于Webpack运行时代码。<br />
        */
@@ -13049,6 +13049,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
        * The environment supports optional chaining ('obj?.a' or 'obj?.()').<br />
        */
       optionalChaining: true,
+      /**
+       * The environment supports spread and rest in array/object literals and calls ('{ ...obj }', 'fn(...args)').
+       */
+      spread: true,
+      /**
+       * The environment supports 'Symbol' (and well-known symbols like 'Symbol.toStringTag').
+       */
+      symbol: true,
       /**
        * The environment supports template literals.<br />
        */
@@ -13064,25 +13072,12 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 且打包后的完整文件名加扩展名为“Worker文件名_[contenthash].worker.js”。<br />
      */
     filename( pathData, assetInfo ){
-      let name = pathData?.chunk?.name,
-        id = pathData?.chunk?.id;
-
-      if( name !== undefined && name !== null && String( name ).includes( '.worker' ) ){
-        return `workers/${ String( name ).split( '.worker' )[ 0 ] }_[contenthash].worker.js`;
-      }
-
-      if(
-        !isProduction
-        && ( name === undefined || name === null )
-        && id !== undefined
-        && id !== null
-        && ( String( id ).endsWith( '_worker_js' ) || String( id ).endsWith( '_worker_ts' ) )
-      ){
-        return `workers/[name]_[contenthash].worker.js`;
-      }
-
       return 'js/[name]_Bundle_[contenthash].js';
     },
+    /**
+     * 一种用于在运行时代码中引用全局对象/作用域的表达式。
+     */
+    globalObject: 'globalThis',
     hashDigest: 'hex',
     /**
      * 对于webpack v5.65.0+，当启用experiments.futureDefaults时，16将用作hashDigestLength选项的默认值。<br />
@@ -13092,6 +13087,22 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      * 从webpack v5.54.0+开始，hashFunction支持xxhash64作为一种更快的算法，在启用experiments.futureDefaults时将默认使用该算法。<br />
      */
     hashFunction: 'sha512',
+    /**
+     * 1、为每个非 HTML 入口点生成一个 HTML 文件，并将该入口点的初始 JS 和 CSS 输出块（包括通过 dependOn 共享的块）注入其中。<br />
+     * 2、这是 html-webpack-plugin 插件中围绕您的打包文件构建文档的部分，已集成到 webpack 核心中。<br />
+     * 3、它依赖于实验性的 HTML 支持，因此请启用 experiments.html。<br />
+     * 4、5.108.0+开始启用。<br />
+     * 5、值类型：boolean、object。<br />
+     */
+    // html: {
+    //   /**
+    //    * 有效值：
+    //    * "auto"：默认值，生成用于输出 ES 模块的模块脚本（type="module"），否则生成延迟加载脚本。<br />
+    //    * "blocking"：强制执行延迟加载的 <script defer>。<br />
+    //    * "defer"：发出一个普通的阻塞 <script>。<br />
+    //    */
+    //   scriptLoading: 'auto',
+    // },
     /**
      * 1、指定磁盘上非初始输出 HTML 文件的文件名模板。
      * 2、您**不能**在此处指定绝对路径，但路径可以包含以“/”分隔的文件夹！
@@ -13171,6 +13182,14 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     strictModuleErrorHandling: !isProduction,
     /**
+     * 1、添加一个运行时检查，当包中缺少所需的模块 ID 时，该检查会抛出 MODULE_NOT_FOUND 错误。<br />
+     * 2、5.108.0+启用，值类型：boolean。<br />
+     * 3、在开发模式下，该选项默认值为 true；在生产模式下，默认值为 false。<br />
+     * 4、若要在生产环境中重新启用该保护机制（这对调试很有帮助），或是在开发环境中将其禁用，请显式设置该选项。<br />
+     * 5、在 5.108.0 之前，此运行时保护机制与 output.pathinfo 相关联。现在，它由一个专用的选项进行控制。<br />
+     */
+    strictModuleResolution: !isProduction,
+    /**
      * 设置加载WebAssembly模块的方法的选项。默认包含的方法是'fetch' (web/WebWorker)、'async-node' (Node.js)、'universal'，但其他方法可能由插件添加。<br />
      * 1、默认值会受到不同目标的影响：
      * Defaults to 'fetch' if target is set to 'web', 'webworker', 'electron-renderer' or 'node-webkit'.<br />
@@ -13185,8 +13204,19 @@ ${ JSON.stringify( req.headers, null, 4 ) }
      */
     webassemblyModuleFilename: 'wasm/[id]_[hash].wasm',
     /**
+     * 1、5.108.0+开始启用。<br />
+     * 2、此选项用于确定非初始工作节点的块文件名称。它支持与 output.chunkFilename 相同的字符串模板和函数形式，默认值为 output.chunkFilename 的值。<br />
+     * 3、设置此选项可让您为工作节点的块指定独立于常规块的命名规则。<br />
+     * 4、此处不得指定绝对路径，但路径中可以包含以 / 分隔的文件夹。指定的路径将与 output.path 选项的值组合，以确定磁盘上的位置。<br />
+     * 5、webpack 通过 new Worker(new URL(...)) 自动生成的入口会被标记为 worker，因此其输出文件会使用 workerChunkFilename。<br />
+     * 6、另请参阅 entry 级别的 worker 标志。为特定 worker 入口设置的文件名仍优先于此选项。<br />
+     */
+    workerChunkFilename( pathData, assetInfo ){
+      return `workers/[name]_[contenthash].worker.js`;
+    },
+    /**
      * 新选项workerChunkLoading控制worker的块加载。<br />
-     * 1、有效值：'require'(sync node.js)、'import-scripts'(WebWorker)、'async-node'(async node.js)、'import'(ESM)、false。<br />
+     * 1、有效值：jsonp（默认值，web）、'require'(sync node.js)、'import-scripts'(WebWorker)、'async-node'(async node.js)、'import'(ESM)、false。<br />
      */
     workerChunkLoading: 'import-scripts',
     /**
