@@ -92,6 +92,7 @@ import {
 
 import {
   argv,
+  platform as OSPlatform,
 } from 'node:process';
 
 import {
@@ -2520,98 +2521,201 @@ const aliasConfig = {
 
       console.log( chalk.cyan( `可用的静态服务器：\n${ arr.join( '\n' ) }` ) );
     },
-    open: [
-      // Windows平台上的Edge浏览器。
-      {
-        target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
-        ],
-        app: {
-          name: [
-            'msedge',
-          ],
-          arguments: [
-            '--new-window',
-          ],
-        },
-      },
-      // Windows平台上的Chrome浏览器。
-      /*
-       {
-       target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
-       ],
-       app: {
-       name: [
-       'chrome',
-       ],
-       arguments: [
-       '--new-window',
-       ],
-       },
-       },
-       */
-      // Windows平台上的Firefox浏览器。
-      /*
-       {
-       target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
-       ],
-       app: {
-       name: [
-       'firefox',
-       ],
-       arguments: [
-       '--new-window',
-       ],
-       },
-       },
-       */
-      // Windows平台上的Opera浏览器。
-      /*
-       {
-       target: [
-       `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
-       ],
-       app: {
-       name: [
-       'opera',
-       ],
-       arguments: [
-       '--new-window',
-       ],
-       },
-       },
-       */
-      // MacOS平台上的Chrome浏览器。
-      {
-        target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
-        ],
-        app: {
-          name: [
-            'Google Chrome',
-          ],
-          arguments: [
-            '--new-window',
-          ],
-        },
-      },
-      // Linux平台上的Chrome浏览器。
-      {
-        target: [
-          `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
-        ],
-        app: {
-          name: [
-            'google-chrome',
-          ],
-          arguments: [
-            '--new-window',
-          ],
-        },
-      },
-    ],
+    open: ( () => {
+      // Windows（包括 64 位），即使系统是 64 位 Windows，返回值仍然是 'win32'（历史原因）。
+      if( OSPlatform === 'win32' ){
+        return [
+          // Windows平台上的Edge浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'msedge',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+          // Windows平台上的Chrome浏览器。
+          /*
+           {
+           target: [
+           `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+           ],
+           app: {
+           name: [
+           'chrome',
+           ],
+           arguments: [
+           '--new-window',
+           ],
+           },
+           },
+           */
+          // Windows平台上的Firefox浏览器。
+          /*
+           {
+           target: [
+           `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+           ],
+           app: {
+           name: [
+           'firefox',
+           ],
+           arguments: [
+           '--new-window',
+           ],
+           },
+           },
+           */
+          // Windows平台上的Opera浏览器。
+          /*
+           {
+           target: [
+           `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+           ],
+           app: {
+           name: [
+           'opera',
+           ],
+           arguments: [
+           '--new-window',
+           ],
+           },
+           },
+           */
+        ];
+      }
+      // macOS
+      else if( OSPlatform === 'darwin' ){
+        return [
+          // MacOS平台上的Chrome浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'Google Chrome',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+        ];
+      }
+      // Linux
+      else if( OSPlatform === 'linux' ){
+        return [
+          // Linux平台上的Chrome浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'google-chrome',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+        ];
+      }
+      else{
+        return [
+          // Windows平台上的Edge浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'msedge',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+          // Windows平台上的Chrome浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'chrome',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+          // Windows平台上的Firefox浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'firefox',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+          // Windows平台上的Opera浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'opera',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+          // MacOS平台上的Chrome浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'Google Chrome',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+          // Linux平台上的Chrome浏览器。
+          {
+            target: [
+              `https://${ devServerGlobalParameters[ env_platform ]?.host }:${ devServerGlobalParameters[ env_platform ]?.port }/${ env_platform }/${ devServerGlobalParameters[ env_platform ]?.openPage }`,
+            ],
+            app: {
+              name: [
+                'google-chrome',
+              ],
+              arguments: [
+                '--new-window',
+              ],
+            },
+          },
+        ];
+      }
+    } )(),
     port: devServerGlobalParameters[ env_platform ]?.port,
     proxy: proxyConfig,
     /**
