@@ -2743,7 +2743,7 @@ const aliasConfig = {
        * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
        * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
        */
-      type: 'http2',
+      type: 'https',
       // 具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions
       options: {
         /**
