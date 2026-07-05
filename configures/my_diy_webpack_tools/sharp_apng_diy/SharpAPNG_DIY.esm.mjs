@@ -1,5 +1,3 @@
-import fs from 'node:fs';
-
 import sharp from 'sharp';
 
 import UPNG from './UPNG.esm.mjs';
@@ -11,11 +9,14 @@ async function getFrames( image ){
   const {
     pages,
     width,
-    pageHeight
+    pageHeight,
   } = await image.metadata();
+
   const frames = [];
+
   if( pages > 1 ){
     image = sharp( await image.png().toBuffer() );
+
     for(
       let i = 0;
       i < pages;
@@ -27,12 +28,14 @@ async function getFrames( image ){
         width: width,
         height: pageHeight,
       } );
+
       frames.push( sharp( await frame.toBuffer() ) );
     }
   }
   else{
     frames.push( image );
   }
+
   return frames;
 }
 
@@ -40,18 +43,21 @@ async function getFrames( image ){
  * Decode APNG image
  */
 function decodeApng( input ){
-  const buffer = typeof input === 'string'
-                 ? fs.readFileSync( input )
-                 : input;
+  const buffer = input;
+
   const decoder = UPNG.decode( buffer );
+
   const {
     width,
     height,
     depth,
-    ctype
+    ctype,
   } = decoder;
+
   const delay = decoder.frames.map( ( frame ) => frame.delay );
+
   const frames = UPNG.toRGBA8( decoder ).map( ( frame ) => Buffer.from( frame ) );
+
   return {
     width,
     height,
@@ -59,15 +65,13 @@ function decodeApng( input ){
     ctype,
     delay,
     pages: frames.length,
-    frames
+    frames,
   };
 }
 
-/**
- * Create instances of sharp from APNG frames.
- */
 function framesFromApng( input, resolveWithObject = false ){
   const apng = decodeApng( input );
+
   const frames = apng.frames.map( ( frame ) => {
     return sharp( frame, {
       raw: {
@@ -77,10 +81,11 @@ function framesFromApng( input, resolveWithObject = false ){
       },
     } );
   } );
+
   return resolveWithObject
          ? {
       ...apng,
-      frames
+      frames,
     }
          : frames;
 }
@@ -88,7 +93,7 @@ function framesFromApng( input, resolveWithObject = false ){
 /**
  * Write an APNG file from an array of instances of sharp
  */
-async function framesToApng( images, fileOut, options = {} ){
+async function framesToApng( images, options = {} ){
   let {
     width,
     height,
@@ -101,7 +106,7 @@ async function framesToApng( images, fileOut, options = {} ){
       r: 0,
       g: 0,
       b: 0,
-      alpha: 0
+      alpha: 0,
     },
     rawOptions,
   } = options;
@@ -114,14 +119,17 @@ async function framesToApng( images, fileOut, options = {} ){
   const dels = [];
   const cutted = [];
 
-  // Get width and height of output gif
   let meta;
+
   if( !width || !height ){
     meta = await Promise.all( images.map( ( frame ) => frame.metadata() ) );
+
     const math = resizeTo === 'largest'
                  ? Math.max
                  : Math.min;
+
     width = width || math( ...meta.map( ( m ) => m.width ) );
+
     height = height || math( ...meta.map( ( m ) => m.pageHeight || m.height ) );
   }
 
@@ -132,17 +140,22 @@ async function framesToApng( images, fileOut, options = {} ){
     i++
   ){
     const frame = images[ i ];
+
     const {
       pages,
-      delay
+      delay,
     } = meta?.[ i ] || ( await frame.metadata() );
+
     if( pages > 1 ){
       const frames = await getFrames( frame );
+
       cutted.push( ...frames );
+
       dels.push( ...delay );
     }
     else{
       cutted.push( frame );
+
       dels.push( oDelay[ i ] || 0 );
     }
   }
@@ -154,10 +167,12 @@ async function framesToApng( images, fileOut, options = {} ){
     i++
   ){
     const frame = cutted[ i ];
+
     const {
       width: frameWidth,
-      height: frameHeight
+      height: frameHeight,
     } = await frame.metadata();
+
     if( frameWidth !== width || frameHeight !== height ){
       // Resize frame
       if( resizeType === 'zoom' ){
@@ -170,6 +185,7 @@ async function framesToApng( images, fileOut, options = {} ){
       // Extend or extract frame
       else{
         const halfWidth = Math.abs( width - frameWidth ) / 2;
+
         if( frameWidth < width ){
           frame.extend( {
             left: halfWidth,
@@ -182,10 +198,12 @@ async function framesToApng( images, fileOut, options = {} ){
             left: halfWidth,
             top: 0,
             width,
-            height
+            height,
           } );
         }
+
         const halfHeight = Math.abs( height - frameHeight ) / 2;
+
         if( frameHeight < height ){
           frame.extend( {
             top: halfHeight,
@@ -198,22 +216,24 @@ async function framesToApng( images, fileOut, options = {} ){
             left: 0,
             top: halfHeight,
             width,
-            height
+            height,
           } );
         }
       }
     }
 
     const { buffer } = await frame.ensureAlpha().raw( rawOptions ).toBuffer();
+
     bufs.push( buffer );
   }
 
   const buffer = Buffer.from( UPNG.encode( bufs, width, height, cnum, dels ) );
-  fs.writeFileSync( fileOut, buffer );
+
   return {
     width,
     height,
-    size: buffer.length
+    size: buffer.length,
+    buffer,
   };
 }
 

@@ -56,6 +56,7 @@ export declare interface OutputInfo {
   height: Number;
   width: Number;
   size: Number;
+  buffer: Buffer;
 }
 
 /**
@@ -71,11 +72,9 @@ export declare function framesFromApng(
 /**
  * Write an APNG file from sharps
  * @param images - An array of instances of sharp.
- * @param fileOut - The path to write the image data to.
  * @param options - Options for encoding
  */
 export declare function framesToApng(
   images: Sharp[],
-  fileOut: string,
   options?: EncoderOptions
 ): Promise<OutputInfo>;
