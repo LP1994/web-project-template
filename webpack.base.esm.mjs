@@ -101,6 +101,8 @@ import {
 
 import chalk from 'chalk';
 
+import connect from 'connect';
+
 import CSONParser from 'cson-parser';
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -2328,7 +2330,7 @@ const aliasConfig = {
    * type：可选http、https、http2三者其中之一。<br />
    * 具体可用值见：<br />
    * node_modules/webpack-dev-server/lib/options.json:532<br />
-   * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
+   * server.type设置为“http2”时，必须依赖webpack的顶级配置项devServer的app选项。并将该选项的值设置为：() => connect()，仅npm包“connect”支持“http2”。<br />
    *
    * options：有8个属性，它还允许您设置其他TLS选项，例如：minVersion: 'TLSv1.1'。<br />
    *   {<br />
@@ -2730,7 +2732,7 @@ const aliasConfig = {
      * GET https://localhost:8100/dev_server/js/VendorsJS_Bundle_b722f600ea72cf9a.js net::ERR_HTTP2_PROTOCOL_ERROR 200
      * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
      * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
-     * 5、server.type设置为“http2”时，也会报错！！！所以还是继续使用“https”！！！<br />
+     * 5、server.type设置为“http2”时，必须依赖webpack的顶级配置项devServer的app选项。并将该选项的值设置为：() => connect()，仅npm包“connect”支持“http2”。<br />
      */
     server: {
       /**
@@ -2740,10 +2742,10 @@ const aliasConfig = {
        * 只能再次手动刷新页面才能正常加载资源。所以，还是用回'https'（使用HTTP/1.1）。<br />
        * 具体可用值见：<br />
        * node_modules/webpack-dev-server/lib/options.json:532<br />
-       * 但是！值“http2”实际应用后会报错！！！所以还是继续使用“https”！！！<br />
        * webpack-dev-server v6.0中已经移除 spdy 依赖项，通过 server 选项使用内置的 node:http2 模块来支持 HTTP/2。<br />
+       * server.type设置为“http2”时，必须依赖webpack的顶级配置项devServer的app选项。并将该选项的值设置为：() => connect()，仅npm包“connect”支持“http2”。<br />
        */
-      type: 'https',
+      type: 'http2',
       // 具体的选项说明可见：https://nodejs.org/dist/latest/docs/api/tls.html#tlscreatesecurecontextoptions
       options: {
         /**
@@ -2828,6 +2830,11 @@ const aliasConfig = {
         // pfx: readFileSync( join( __dirname, './configures/openssl/HTTPSSL001/001_Root_CA/HTTPSSL001_Root_CA.p12' ), 'utf8' ),
       },
     },
+    /**
+     * 1、允许您使用自定义服务器应用程序，例如 connect、fastify 等。默认使用的应用程序是 express。<br />
+     * 2、Only `connect` supports `http2`.<br />
+     */
+    app: () => connect(),
     setupExitSignals: true,
     setupMiddlewares: ( middlewares, devServer ) => {
       if( !devServer ){
