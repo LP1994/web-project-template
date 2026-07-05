@@ -4667,41 +4667,23 @@ export default {
   deflateRaw,
   gzip,
   inflate,
-  inflate as
-  ungzip,
+  ungzip: inflate,
   inflateRaw,
-  deflate$1 as
-  zlibDeflate,
-  deflateEnd as
-  zlibDeflateEnd,
-  deflateInit as
-  zlibDeflateInit,
-  deflateInit2 as
-  zlibDeflateInit2,
-  deflateReset as
-  zlibDeflateReset,
-  deflateResetKeep as
-  zlibDeflateResetKeep,
-  deflateSetDictionary as
-  zlibDeflateSetDictionary,
-  deflateSetHeader as
-  zlibDeflateSetHeader,
-  inflate$1 as
-  zlibInflate,
-  inflateEnd as
-  zlibInflateEnd,
-  inflateGetHeader as
-  zlibInflateGetHeader,
-  inflateInit as
-  zlibInflateInit,
-  inflateInit2 as
-  zlibInflateInit2,
-  inflateReset as
-  zlibInflateReset,
-  inflateReset2 as
-  zlibInflateReset2,
-  inflateResetKeep as
-  zlibInflateResetKeep,
-  inflateSetDictionary as
-  zlibInflateSetDictionary,
+  zlibDeflate: deflate$1,
+  zlibDeflateEnd: deflateEnd,
+  zlibDeflateInit: deflateInit,
+  zlibDeflateInit2: deflateInit2,
+  zlibDeflateReset: deflateReset,
+  zlibDeflateResetKeep: deflateResetKeep,
+  zlibDeflateSetDictionary: deflateSetDictionary,
+  zlibDeflateSetHeader: deflateSetHeader,
+  zlibInflate: inflate$1,
+  zlibInflateEnd: inflateEnd,
+  zlibInflateGetHeader: inflateGetHeader,
+  zlibInflateInit: inflateInit,
+  zlibInflateInit2: inflateInit2,
+  zlibInflateReset: inflateReset,
+  zlibInflateReset2: inflateReset2,
+  zlibInflateResetKeep: inflateResetKeep,
+  zlibInflateSetDictionary: inflateSetDictionary,
 };
