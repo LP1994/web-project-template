@@ -2867,7 +2867,7 @@ const aliasConfig = {
       };
 
       // 以下是将自定义的中间件函数插入到 middlewares 数组中（保留内部中间件）
-      // 为了控制中间件执行的顺序，我们采用如下顺序：log-middleware -> test-first -> root-handler -> favicon-handler -> [内部中间件] -> test-last
+      // 为了控制中间件执行的顺序，我们采用如下顺序：log-middleware -> test-first -> chrome-devtools-handler -> root-handler -> favicon-handler -> [内部中间件] -> test-last
 
       /**
        * 仅响应：/test/last、/test/last/，push方法对标之前的onAfterSetupMiddleware方法。<br />
