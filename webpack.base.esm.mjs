@@ -74,6 +74,10 @@
 'use strict';
 
 import {
+  randomUUID,
+} from 'node:crypto';
+
+import {
   createReadStream,
   readFileSync,
 } from 'node:fs';
@@ -2846,14 +2850,6 @@ const aliasConfig = {
       }
 
       const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
-        logWriteStream.write( `req.url--->${ req.url }<---Start
-req.originalUrl--->${ req.originalUrl }<---Start
-请求头：
-${ JSON.stringify( req.headers, null, 4 ) }
-req.originalUrl--->${ req.originalUrl }<---End
-req.url--->${ req.url }<---End
-\n` );
-
         res.setHeader( 'Content-Type', Mime.getType( req.url ) );
         res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
         res.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -2884,14 +2880,6 @@ req.url--->${ req.url }<---End
         // path: '/test/last',
         middleware( req, res, next ){
           if( ( req.url.toLowerCase() === '/test/last/' || req.url.toLowerCase() === '/test/last' ) && req.method.toLowerCase() === 'get' ){
-            logWriteStream.write( `req.url--->${ req.url }<---Start
-req.originalUrl--->${ req.originalUrl }<---Start
-请求头：
-${ JSON.stringify( req.headers, null, 4 ) }
-req.originalUrl--->${ req.originalUrl }<---End
-req.url--->${ req.url }<---End
-\n` );
-
             res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
             res.setHeader( 'x-from', 'devServer.setupMiddlewares.test-last' );
             res.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -2964,14 +2952,6 @@ req.url--->${ req.url }<---End
         name: 'root-handler',
         middleware( req, response, next ){
           if( req.method.toLowerCase() === 'get' && ( req.url.toLowerCase() === '/' || req.url.toLowerCase() === '/index.html' || req.url.toLowerCase() === '/index.htm' ) ){
-            logWriteStream.write( `req.url--->${ req.url }<---Start
-req.originalUrl--->${ req.originalUrl }<---Start
-请求头：
-${ JSON.stringify( req.headers, null, 4 ) }
-req.originalUrl--->${ req.originalUrl }<---End
-req.url--->${ req.url }<---End
-\n` );
-
             response.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
             response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
             response.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -3001,6 +2981,37 @@ req.url--->${ req.url }<---End
         },
       } );
 
+      // /.well-known/appspecific/com.chrome.devtools.json，官方说明见：https://developer.chrome.com/docs/devtools/automatic-workspaces?hl=zh-cn
+      middlewares.unshift( {
+        name: 'chrome-devtools-handler',
+        middleware( req, response, next ){
+          if( req.method.toLowerCase() === 'get' && req.url.toLowerCase() === '/.well-known/appspecific/com.chrome.devtools.json' ){
+            response.setHeader( 'Content-Type', 'application/json' );
+            response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
+            response.setHeader( 'x-dev-type', `${ env_platform }` );
+
+            Object.entries( HttpResponseHeadersFun( req, response ) ).forEach( ( [ keyName, keyValue ], ) => {
+              response.setHeader( keyName, keyValue );
+            } );
+
+            response.statusCode = 200;
+            response.statusMessage = 'OK';
+
+            response.end( JSON.stringify( {
+              workspace: {
+                // 本地文件系统上项目根目录的绝对路径。Windows 上的值形如： C:\Users\yourname\projects\my-app
+                root: resolve( __dirname, './' ),
+                // 生成一个随机的 UUID v4，项目的唯一标识符 (UUID v4)。这有助于开发者工具区分不同的项目。
+                uuid: randomUUID(),
+              },
+            } ), 'utf8' );
+          }
+          else{
+            next();
+          }
+        },
+      } );
+
       /**
        * 仅响应：/test/first、/test/first/，unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
        * PS：<br />
@@ -3012,14 +3023,6 @@ req.url--->${ req.url }<---End
         // path: '/test/first',
         middleware( req, res, next ){
           if( ( req.url.toLowerCase() === '/test/first/' || req.url.toLowerCase() === '/test/first' ) && req.method.toLowerCase() === 'get' ){
-            logWriteStream.write( `req.url--->${ req.url }<---Start
-req.originalUrl--->${ req.originalUrl }<---Start
-请求头：
-${ JSON.stringify( req.headers, null, 4 ) }
-req.originalUrl--->${ req.originalUrl }<---End
-req.url--->${ req.url }<---End
-\n` );
-
             res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
             res.setHeader( 'x-from', 'devServer.setupMiddlewares.test-first' );
             res.setHeader( 'x-dev-type', `${ env_platform }` );
