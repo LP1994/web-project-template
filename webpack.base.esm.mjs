@@ -2836,52 +2836,154 @@ const aliasConfig = {
      */
     app: () => connect(),
     setupExitSignals: true,
+    /**
+     * 1、所有逻辑完全基于 middlewares 数组，不再调用 devServer.app.get 等方法，因此无需关心底层是 Express 还是 connect，这个底层可以通过上述app选项来控制是Express实现还是connect，或者是其他实现。<br />
+     * 2、devServer.app的值就是上述app选项值（该值是个函数）执行后的返回值。如果没有手动设置上述app选项，那devServer.app的值就是默认值：Express v5。<br />
+     */
     setupMiddlewares: ( middlewares, devServer ) => {
       if( !devServer ){
         throw new Error( 'webpack-dev-server is not defined!' );
       }
 
       const ResFaviconIco = ( req, res, url = resolve( __dirname, './favicon.ico' ) ) => {
-          logWriteStream.write( `--->${ req.url }<---Start
+        logWriteStream.write( `req.url--->${ req.url }<---Start
+req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, 4 ) }
---->${ req.url }<---End
+req.originalUrl--->${ req.originalUrl }<---End
+req.url--->${ req.url }<---End
 \n` );
 
-          res.setHeader( 'Content-Type', Mime.getType( req.url ) );
-          res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
-          res.setHeader( 'x-dev-type', `${ env_platform }` );
+        res.setHeader( 'Content-Type', Mime.getType( req.url ) );
+        res.setHeader( 'x-from', 'devServer.setupMiddlewares' );
+        res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( HttpResponseHeadersFun( req, res, ) ).forEach( ( [ keyName, keyValue ], ) => {
-            res.setHeader( keyName, keyValue );
-          } );
+        Object.entries( HttpResponseHeadersFun( req, res, ) ).forEach( ( [ keyName, keyValue ], ) => {
+          res.setHeader( keyName, keyValue );
+        } );
 
-          res.statusCode = 200;
-          res.statusMessage = 'OK';
+        res.statusCode = 200;
+        res.statusMessage = 'OK';
 
-          createReadStream( url ).pipe( res, {
-            end: true,
-          } );
+        createReadStream( url ).pipe( res, {
+          end: true,
+        } );
+      };
+
+      // 以下是将自定义的中间件函数插入到 middlewares 数组中（保留内部中间件）
+      // 为了控制中间件执行的顺序，我们采用如下顺序：log-middleware -> test-first -> root-handler -> favicon-handler -> [内部中间件] -> test-last
+
+      /**
+       * 仅响应：/test/last、/test/last/，push方法对标之前的onAfterSetupMiddleware方法。<br />
+       * PS：<br />
+       * 1、实测，启动后，无法访问到！<br />
+       */
+      middlewares.push( {
+        name: 'test-last',
+        path: '/test/last',
+        middleware( req, res, next ){
+          if( ( req.url === '/test/last/' || req.url === '/test/last' ) && req.method.toLowerCase() === 'get' ){
+            logWriteStream.write( `req.url--->${ req.url }<---Start
+req.originalUrl--->${ req.originalUrl }<---Start
+请求头：
+${ JSON.stringify( req.headers, null, 4 ) }
+req.originalUrl--->${ req.originalUrl }<---End
+req.url--->${ req.url }<---End
+\n` );
+
+            res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+            res.setHeader( 'x-from', 'devServer.setupMiddlewares.test-last' );
+            res.setHeader( 'x-dev-type', `${ env_platform }` );
+
+            Object.entries( HttpResponseHeadersFun( req, res ) ).forEach( ( [ keyName, keyValue ], ) => {
+              res.setHeader( keyName, keyValue );
+            } );
+
+            res.statusCode = 200;
+            res.statusMessage = 'OK';
+
+            res.end( `
+<!DOCTYPE html>
+<html lang = 'zh-CN'>
+<head>
+  <meta charset = 'UTF-8' />
+  <title>test-last</title>
+</head>
+<body>
+  <p>该页面仅响应：/test/last、/test/last/</p>
+</body>
+</html>
+`, 'utf8' );
+          }
+          else{
+            next();
+          }
         },
-        ResRoot = ( req, response ) => {
-          logWriteStream.write( `--->${ req.originalUrl }<---Start
+      } );
+
+      /**
+       * 处理请求路径：
+       * /favicon.ico
+       * /favicon.png
+       * /apple-touch-icon.png
+       * /apple-touch-icon-precomposed.png
+       * /apple-touch-icon-120x120.png
+       * /apple-touch-icon-120x120-precomposed.png
+       */
+      middlewares.unshift( {
+        name: 'favicon-handler',
+        middleware( req, res, next ){
+          if( req.method.toLowerCase() === 'get' ){
+            const path = req.url;
+
+            if( path === '/favicon.ico' ){
+              ResFaviconIco( req, res );
+            }
+            else if(
+              path === '/favicon.png' ||
+              path === '/apple-touch-icon.png' ||
+              path === '/apple-touch-icon-precomposed.png' ||
+              path === '/apple-touch-icon-120x120.png' ||
+              path === '/apple-touch-icon-120x120-precomposed.png'
+            ){
+              ResFaviconIco( req, res, resolve( __dirname, './src/static/ico/favicon.png' ) );
+            }
+            else{
+              next();
+            }
+          }
+          else{
+            next();
+          }
+        },
+      } );
+
+      // 根路径处理（'/' 和 '/index.html'）
+      middlewares.unshift( {
+        name: 'root-handler',
+        middleware( req, response, next ){
+          if( req.method.toLowerCase() === 'get' && ( req.url === '/' || req.url === '/index.html' || req.url === '/index.htm' ) ){
+            logWriteStream.write( `req.url--->${ req.url }<---Start
+req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, 4 ) }
---->${ req.originalUrl }<---End
+req.originalUrl--->${ req.originalUrl }<---End
+req.url--->${ req.url }<---End
 \n` );
 
-          response.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
-          response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
-          response.setHeader( 'x-dev-type', `${ env_platform }` );
+            response.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+            response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
+            response.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( HttpResponseHeadersFun( req, response ) ).forEach( ( [ keyName, keyValue ], ) => {
-            response.setHeader( keyName, keyValue );
-          } );
+            Object.entries( HttpResponseHeadersFun( req, response ) ).forEach( ( [ keyName, keyValue ], ) => {
+              response.setHeader( keyName, keyValue );
+            } );
 
-          response.statusCode = 200;
-          response.statusMessage = 'OK';
+            response.statusCode = 200;
+            response.statusMessage = 'OK';
 
-          response.end( `<!DOCTYPE html>
+            response.end( `
+<!DOCTYPE html>
 <html lang = 'zh-CN'>
 <head>
   <meta charset = 'UTF-8' />
@@ -2891,132 +2993,78 @@ ${ JSON.stringify( req.headers, null, 4 ) }
   <p>This is a index page(${ req.originalUrl }) for webpack-dev-server config.</p>
 </body>
 </html>`, 'utf8' );
-        };
-
-      devServer.app.all( '/{*splat}', ( req, res, next ) => {
-        logWriteStream.write( `--->${ req.url }<---Start
-请求头：
-${ JSON.stringify( req.headers, null, 4 ) }
---->${ req.url }<---End
-\n` );
-
-        next();
-      } );
-
-      devServer.app.get( '/', ( req, response ) => {
-        ResRoot( req, response );
-      } );
-      devServer.app.get( '/index.html', ( req, response ) => {
-        ResRoot( req, response );
-      } );
-
-      devServer.app.get( '/favicon.ico', ( req, response ) => {
-        ResFaviconIco( req, response );
-      } );
-      devServer.app.get( '/favicon.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
-      } );
-      devServer.app.get( '/apple-touch-icon.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
-      } );
-      devServer.app.get( '/apple-touch-icon-precomposed.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
-      } );
-      devServer.app.get( '/apple-touch-icon-120x120.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
-      } );
-      devServer.app.get( '/apple-touch-icon-120x120-precomposed.png', ( req, response ) => {
-        ResFaviconIco( req, response, resolve( __dirname, './src/static/ico/favicon.png' ) );
+          }
+          else{
+            next();
+          }
+        },
       } );
 
       /**
-       * unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
+       * 仅响应：/test/first、/test/first/，unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
        * PS：<br />
        * 1、实测，启动后，可以访问到！<br />
        */
       middlewares.unshift( {
-        name: 'test001-first',
-        /**
-         * path选项是可选的，但是最好还是要有。
-         */
-        path: '/test001/first/',
-        middleware: ( req, res ) => {
-          logWriteStream.write( `--->${ req.url }<---Start
+        name: 'test-first',
+        path: '/test/first',
+        middleware( req, res, next ){
+          if( ( req.url === '/test/first/' || req.url === '/test/first' ) && req.method.toLowerCase() === 'get' ){
+            logWriteStream.write( `req.url--->${ req.url }<---Start
+req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, 4 ) }
---->${ req.url }<---End
+req.originalUrl--->${ req.originalUrl }<---End
+req.url--->${ req.url }<---End
 \n` );
 
-          res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
-          res.setHeader( 'x-from', 'devServer.setupMiddlewares.onBeforeSetupMiddleware' );
-          res.setHeader( 'x-dev-type', `${ env_platform }` );
+            res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+            res.setHeader( 'x-from', 'devServer.setupMiddlewares.test-first' );
+            res.setHeader( 'x-dev-type', `${ env_platform }` );
 
-          Object.entries( HttpResponseHeadersFun( req, res ) ).forEach( ( [ keyName, keyValue ], ) => {
-            res.setHeader( keyName, keyValue );
-          } );
+            Object.entries( HttpResponseHeadersFun( req, res ) ).forEach( ( [ keyName, keyValue ], ) => {
+              res.setHeader( keyName, keyValue );
+            } );
 
-          res.statusCode = 200;
-          res.statusMessage = 'OK';
+            res.statusCode = 200;
+            res.statusMessage = 'OK';
 
-          res.end( `
-                   <!DOCTYPE html>
-                   <html lang = 'zh-CN'>
-                   <head>
-                     <meta charset = 'UTF-8' />
-                     <title>test001-first</title>
-                   </head>
-                   <body>
-                     <p>/test001/first/</p>
-                   </body>
-                   </html>
-                   `, 'utf8' );
+            res.end( `
+<!DOCTYPE html>
+<html lang = 'zh-CN'>
+<head>
+  <meta charset = 'UTF-8' />
+  <title>test-first</title>
+</head>
+<body>
+  <p>该页面仅响应：/test/first、/test/first/</p>
+</body>
+</html>
+`, 'utf8' );
+          }
+          else{
+            next();
+          }
         },
       } );
 
-      /**
-       * push方法对标之前的onAfterSetupMiddleware方法。<br />
-       * PS：<br />
-       * 1、实测，启动后，无法访问到！<br />
-       */
-      middlewares.push( {
-        name: 'test001-last',
-        /**
-         * path选项是可选的，但是最好还是要有。
-         */
-        path: '/test001/last/',
-        middleware: ( req, res ) => {
-          logWriteStream.write( `--->${ req.url }<---Start
+      // 全局日志中间件（不响应，仅记录后 next），最后 unshift 日志（确保它是最先执行的）。
+      middlewares.unshift( {
+        name: 'log-middleware',
+        middleware( req, res, next ){
+          logWriteStream.write( `req.url--->${ req.url }<---Start
+req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
 ${ JSON.stringify( req.headers, null, 4 ) }
---->${ req.url }<---End
+req.originalUrl--->${ req.originalUrl }<---End
+req.url--->${ req.url }<---End
 \n` );
 
-          res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
-          res.setHeader( 'x-from', 'devServer.setupMiddlewares.onAfterSetupMiddleware' );
-          res.setHeader( 'x-dev-type', `${ env_platform }` );
-
-          Object.entries( HttpResponseHeadersFun( req, res ) ).forEach( ( [ keyName, keyValue ], ) => {
-            res.setHeader( keyName, keyValue );
-          } );
-
-          res.statusCode = 200;
-          res.statusMessage = 'OK';
-
-          res.end( `
-                   <!DOCTYPE html>
-                   <html lang = 'zh-CN'>
-                   <head>
-                     <meta charset = 'UTF-8' />
-                     <title>test001-last</title>
-                   </head>
-                   <body>
-                     <p>/test001/last/</p>
-                   </body>
-                   </html>
-                   `, 'utf8' );
+          next();
         },
       } );
 
+      // 返回修改后的 middlewares（webpack-dev-server 会使用此数组）
       return middlewares;
     },
     static: ( arr => {
