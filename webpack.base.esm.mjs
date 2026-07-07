@@ -2882,7 +2882,7 @@ req.url--->${ req.url }<---End
         name: 'test-last',
         path: '/test/last',
         middleware( req, res, next ){
-          if( ( req.url === '/test/last/' || req.url === '/test/last' ) && req.method.toLowerCase() === 'get' ){
+          if( ( req.url.toLowerCase() === '/test/last/' || req.url.toLowerCase() === '/test/last' ) && req.method.toLowerCase() === 'get' ){
             logWriteStream.write( `req.url--->${ req.url }<---Start
 req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
@@ -2936,15 +2936,15 @@ req.url--->${ req.url }<---End
           if( req.method.toLowerCase() === 'get' ){
             const path = req.url;
 
-            if( path === '/favicon.ico' ){
+            if( path.toLowerCase() === '/favicon.ico' ){
               ResFaviconIco( req, res );
             }
             else if(
-              path === '/favicon.png' ||
-              path === '/apple-touch-icon.png' ||
-              path === '/apple-touch-icon-precomposed.png' ||
-              path === '/apple-touch-icon-120x120.png' ||
-              path === '/apple-touch-icon-120x120-precomposed.png'
+              path.toLowerCase() === '/favicon.png' ||
+              path.toLowerCase() === '/apple-touch-icon.png' ||
+              path.toLowerCase() === '/apple-touch-icon-precomposed.png' ||
+              path.toLowerCase() === '/apple-touch-icon-120x120.png' ||
+              path.toLowerCase() === '/apple-touch-icon-120x120-precomposed.png'
             ){
               ResFaviconIco( req, res, resolve( __dirname, './src/static/ico/favicon.png' ) );
             }
@@ -2962,7 +2962,7 @@ req.url--->${ req.url }<---End
       middlewares.unshift( {
         name: 'root-handler',
         middleware( req, response, next ){
-          if( req.method.toLowerCase() === 'get' && ( req.url === '/' || req.url === '/index.html' || req.url === '/index.htm' ) ){
+          if( req.method.toLowerCase() === 'get' && ( req.url.toLowerCase() === '/' || req.url.toLowerCase() === '/index.html' || req.url.toLowerCase() === '/index.htm' ) ){
             logWriteStream.write( `req.url--->${ req.url }<---Start
 req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
@@ -3009,7 +3009,7 @@ req.url--->${ req.url }<---End
         name: 'test-first',
         path: '/test/first',
         middleware( req, res, next ){
-          if( ( req.url === '/test/first/' || req.url === '/test/first' ) && req.method.toLowerCase() === 'get' ){
+          if( ( req.url.toLowerCase() === '/test/first/' || req.url.toLowerCase() === '/test/first' ) && req.method.toLowerCase() === 'get' ){
             logWriteStream.write( `req.url--->${ req.url }<---Start
 req.originalUrl--->${ req.originalUrl }<---Start
 请求头：
@@ -3083,11 +3083,11 @@ req.url--->${ req.url }<---End
           maxAge: 0,
           redirect: true,
           setHeaders: ( res, path, stat ) => {
-            res.set( 'x-env-platform', `${ env_platform }` );
-            res.set( 'x-from', 'devServer.static.staticOptions.setHeaders' );
+            res.setHeader( 'x-env-platform', `${ env_platform }` );
+            res.setHeader( 'x-from', 'devServer.static.staticOptions.setHeaders' );
 
             Object.entries( HttpResponseHeadersFun( null, res ) ).forEach( ( [ keyName, keyValue ], ) => {
-              res.set( keyName, keyValue );
+              res.setHeader( keyName, keyValue );
             } );
           },
         },
