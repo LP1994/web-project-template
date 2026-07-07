@@ -2879,7 +2879,9 @@ const aliasConfig = {
         // 设置了path反而不能成功响应了！
         // path: '/test/last',
         middleware( req, res, next ){
-          if( ( req.url.toLowerCase() === '/test/last/' || req.url.toLowerCase() === '/test/last' ) && req.method.toLowerCase() === 'get' ){
+          const path = new URL( req.url, `https://localhost:8100` ).pathname.toLowerCase();
+
+          if( ( path === '/test/last/' || path === '/test/last' ) && req.method.toLowerCase() === 'get' ){
             res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
             res.setHeader( 'x-from', 'devServer.setupMiddlewares.test-last' );
             res.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -2923,17 +2925,17 @@ const aliasConfig = {
         name: 'favicon-handler',
         middleware( req, res, next ){
           if( req.method.toLowerCase() === 'get' ){
-            const path = req.url;
+            const path = new URL( req.url, `https://localhost:8100` ).pathname.toLowerCase();
 
-            if( path.toLowerCase() === '/favicon.ico' ){
+            if( path === '/favicon.ico' ){
               ResFaviconIco( req, res );
             }
             else if(
-              path.toLowerCase() === '/favicon.png' ||
-              path.toLowerCase() === '/apple-touch-icon.png' ||
-              path.toLowerCase() === '/apple-touch-icon-precomposed.png' ||
-              path.toLowerCase() === '/apple-touch-icon-120x120.png' ||
-              path.toLowerCase() === '/apple-touch-icon-120x120-precomposed.png'
+              path === '/favicon.png' ||
+              path === '/apple-touch-icon.png' ||
+              path === '/apple-touch-icon-precomposed.png' ||
+              path === '/apple-touch-icon-120x120.png' ||
+              path === '/apple-touch-icon-120x120-precomposed.png'
             ){
               ResFaviconIco( req, res, resolve( __dirname, './src/static/ico/favicon.png' ) );
             }
@@ -2951,7 +2953,9 @@ const aliasConfig = {
       middlewares.unshift( {
         name: 'root-handler',
         middleware( req, response, next ){
-          if( req.method.toLowerCase() === 'get' && ( req.url.toLowerCase() === '/' || req.url.toLowerCase() === '/index.html' || req.url.toLowerCase() === '/index.htm' ) ){
+          const path = new URL( req.url, `https://localhost:8100` ).pathname.toLowerCase();
+
+          if( req.method.toLowerCase() === 'get' && ( path === '/' || path === '/index.html' || path === '/index.htm' ) ){
             response.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
             response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
             response.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -2985,7 +2989,9 @@ const aliasConfig = {
       middlewares.unshift( {
         name: 'chrome-devtools-handler',
         middleware( req, response, next ){
-          if( req.method.toLowerCase() === 'get' && req.url.toLowerCase() === '/.well-known/appspecific/com.chrome.devtools.json' ){
+          const path = new URL( req.url, `https://localhost:8100` ).pathname.toLowerCase();
+
+          if( req.method.toLowerCase() === 'get' && path === '/.well-known/appspecific/com.chrome.devtools.json' ){
             response.setHeader( 'Content-Type', 'application/json' );
             response.setHeader( 'x-from', 'devServer.setupMiddlewares' );
             response.setHeader( 'x-dev-type', `${ env_platform }` );
@@ -3022,7 +3028,9 @@ const aliasConfig = {
         // 设置了path反而不能成功响应了！
         // path: '/test/first',
         middleware( req, res, next ){
-          if( ( req.url.toLowerCase() === '/test/first/' || req.url.toLowerCase() === '/test/first' ) && req.method.toLowerCase() === 'get' ){
+          const path = new URL( req.url, `https://localhost:8100` ).pathname.toLowerCase();
+
+          if( ( path === '/test/first/' || path === '/test/first' ) && req.method.toLowerCase() === 'get' ){
             res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
             res.setHeader( 'x-from', 'devServer.setupMiddlewares.test-first' );
             res.setHeader( 'x-dev-type', `${ env_platform }` );
