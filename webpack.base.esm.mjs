@@ -2880,7 +2880,8 @@ req.url--->${ req.url }<---End
        */
       middlewares.push( {
         name: 'test-last',
-        path: '/test/last',
+        // 设置了path反而不能成功响应了！
+        // path: '/test/last',
         middleware( req, res, next ){
           if( ( req.url.toLowerCase() === '/test/last/' || req.url.toLowerCase() === '/test/last' ) && req.method.toLowerCase() === 'get' ){
             logWriteStream.write( `req.url--->${ req.url }<---Start
@@ -3007,7 +3008,8 @@ req.url--->${ req.url }<---End
        */
       middlewares.unshift( {
         name: 'test-first',
-        path: '/test/first',
+        // 设置了path反而不能成功响应了！
+        // path: '/test/first',
         middleware( req, res, next ){
           if( ( req.url.toLowerCase() === '/test/first/' || req.url.toLowerCase() === '/test/first' ) && req.method.toLowerCase() === 'get' ){
             logWriteStream.write( `req.url--->${ req.url }<---Start
