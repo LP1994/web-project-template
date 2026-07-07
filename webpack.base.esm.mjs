@@ -2867,14 +2867,14 @@ const aliasConfig = {
       };
 
       // 以下是将自定义的中间件函数插入到 middlewares 数组中（保留内部中间件）
-      // 为了控制中间件执行的顺序，我们采用如下顺序：log-middleware -> test-first -> chrome-devtools-handler -> root-handler -> favicon-handler -> [内部中间件] -> test-last
+      // 为了控制中间件执行的顺序，我们采用如下顺序：log-middleware -> test-first -> chrome-devtools-handler -> root-handler -> favicon-handler -> test-last -> [内部中间件] -> 自定义的中间件函数在这之后（[内部中间件]之后）就无法成功响应了！奇怪！
 
       /**
-       * 仅响应：/test/last、/test/last/，push方法对标之前的onAfterSetupMiddleware方法。<br />
+       * 仅响应：/test/last、/test/last/。<br />
        * PS：<br />
        * 1、实测，启动后，无法访问到！<br />
        */
-      middlewares.push( {
+      middlewares.unshift( {
         name: 'test-last',
         // 设置了path反而不能成功响应了！
         // path: '/test/last',
@@ -3013,7 +3013,7 @@ const aliasConfig = {
       } );
 
       /**
-       * 仅响应：/test/first、/test/first/，unshift方法对标之前的onBeforeSetupMiddleware方法。<br />
+       * 仅响应：/test/first、/test/first/。<br />
        * PS：<br />
        * 1、实测，启动后，可以访问到！<br />
        */
