@@ -18,10 +18,6 @@ import {
 } from 'node:path';
 
 import {
-  Image as CrossImage,
-} from 'cross-image';
-
-import {
   fileTypeFromBuffer,
 } from 'file-type';
 
@@ -29,6 +25,11 @@ import {
   IsAPNG,
   APNGOptimizer,
 } from '../apng_optimizer_diy/APNGOptimizer_DIY.esm.mjs';
+
+import {
+  framesFromApng,
+  framesToApng,
+} from '../sharp_apng_diy/SharpAPNG_DIY.esm.mjs';
 
 import {
   MyConsole,
@@ -52,6 +53,13 @@ import {
  * @returns {Promise<{filename: string; data: Buffer; warnings: Error[]; errors: Error[]; info: import('webpack').AssetInfo & {[worker.isFilenameProcessed]?: boolean;};} | null>} minified result
  */
 async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
+  /**
+   * 压缩优化后的图片数据。
+   *
+   * @type {Uint8Array}
+   */
+  let resultData = original.data;
+
   const apngEncodeOptionsDefault = {
       // 0: zlib（压缩优化速度：快）, 1（默认值）: 7zip（压缩优化速度：很快）, 2: zopfli（压缩优化速度：慢）
       deflateMethod: 1,
@@ -63,19 +71,6 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
       },
     },
     encodeOptions = options.encodeOptions?.apng ?? apngEncodeOptionsDefault;
-
-  /**
-   * 压缩优化后的图片数据。
-   *
-   * @type {Uint8Array}
-   */
-  const resultData = await APNGOptimizer.createOptimizer().then( optimizer => {
-    // Uint8Array
-    return optimizer.optAPNG( original.data, {
-      ...apngEncodeOptionsDefault,
-      ...encodeOptions,
-    } );
-  } );
 
   const inputExt = extname( original.filename ).slice( 1 ).toLowerCase();
 
@@ -92,24 +87,67 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
 ` );
   }
 
-  // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:859
-  if( 'rotate' in options ){
-    MyConsole.Yellow( `
-注意：${ original.filename }，是“apng”编码的图片。
-当前DIY的功能还不支持“rotate”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
-` );
+  const apng = framesFromApng( resultData, true );
+
+  const {
+    delay,
+    frames,
+  } = apng;
+
+  // ====== rotate ======
+
+  if( 'rotate' in options && ( typeof options.rotate === 'number' || options.rotate === 'auto' ) ){
+    frames.forEach( frame => {
+      if( typeof options.rotate === 'number' ){
+        frame.rotate( options.rotate );
+      }
+      else if( options.rotate === 'auto' ){
+        frame.rotate();
+      }
+    } );
   }
 
-  // 具体实现可以参考：image-minimizer-webpack-plugin/dist/utils.js:867
-  if( 'resize' in options ){
-    MyConsole.Yellow( `
-注意：${ original.filename }，是“apng”编码的图片。
-当前DIY的功能还不支持“resize”属性的处理。如果需要，可以自行前往“configures/my_diy_webpack_tools/sharp_minify_diy/SharpMinify_DIY.esm.mjs”，对其进行DIY扩展。
-` );
+  // ====== resize ======
+
+  if( options.resize ){
+    for( const frame of
+      frames ){
+      const {
+        enabled = true,
+        unit = 'px',
+        ...params
+      } = options.resize;
+
+      if( enabled && ( typeof params.width === 'number' || typeof params.height === 'number' ) ){
+        if( unit === 'percent' ){
+          const originalMetadata = await frame.metadata();
+
+          if( typeof params.width === 'number' && originalMetadata.width && Number.isFinite( originalMetadata.width ) && originalMetadata.width > 0 ){
+            params.width = Math.ceil( originalMetadata.width * params.width / 100 );
+          }
+
+          if( typeof params.height === 'number' && originalMetadata.height && Number.isFinite( originalMetadata.height ) && originalMetadata.height > 0 ){
+            params.height = Math.ceil( originalMetadata.height * params.height / 100 );
+          }
+        }
+
+        frame.resize( params );
+      }
+    }
   }
 
-  // { ext: 'jpg', mime: 'image/jpeg' }
-  const fileTypeResult = await fileTypeFromBuffer( original.data );
+  const {
+    width,
+    height,
+    buffer,
+  } = await framesToApng( frames, {
+    delay,
+  } );
+
+  resultData = buffer;
+
+  // 例子：{ ext: 'png', mime: 'image/png' }
+  const fileTypeResult = ( await fileTypeFromBuffer( resultData ) ) ?? { ext: '', };
 
   const outputFormat = targetFormat ?? fileTypeResult.ext.toLowerCase();
 
@@ -118,11 +156,6 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
   const outputExt = targetFormat
                     ? outputFormat
                     : inputExt;
-
-  const {
-    width,
-    height,
-  } = await CrossImage.decode( original.data );
 
   const sizeSuffix = typeof options.sizeSuffix === 'function'
                      ? options.sizeSuffix( width, height )
@@ -141,6 +174,14 @@ async function APNGOptimizer_DIY( original, options = {}, targetFormat = null ){
   const processedBy = targetFormat
                       ? 'generatedBy'
                       : 'minimizedBy';
+
+  resultData = await APNGOptimizer.createOptimizer().then( optimizer => {
+    // Uint8Array
+    return optimizer.optAPNG( resultData, {
+      ...apngEncodeOptionsDefault,
+      ...encodeOptions,
+    } );
+  } );
 
   return {
     filename,

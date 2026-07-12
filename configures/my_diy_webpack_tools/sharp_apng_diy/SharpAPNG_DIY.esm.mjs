@@ -79,6 +79,7 @@ function framesFromApng( input, resolveWithObject = false ){
         height: apng.height,
         channels: 4,
       },
+      animated: true,
     } );
   } );
 
