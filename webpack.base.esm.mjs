@@ -11907,10 +11907,27 @@ req.url--->${ req.url }<---End
                   // rotate: null,
                   /**
                    * 1、重置图片的大小。<br />
-                   * 2、值类型：<br />
+                   * 例子：<br />
+                   * 宽度放大到1000px，高度自动缩放：
+                   * {
+                   *   enabled: true,
+                   *   unit: 'px',
+                   *   width: 1000,
+                   * }
+                   * 宽度缩小50%，高度自动缩放：
+                   * {
+                   *   enabled: true,
+                   *   unit: 'percent',
+                   *   width: 50,
+                   * }
+                   * 2、值类型是一个对象：<br />
                    * {<br />
-                   * enabled: boolean<br />
+                   * enabled: boolean，默认值为true，保持true即可。<br />
+                   *
+                   * unit: string，默认值为'px'，也可设置为'percent'（即百分比）。<br />
+                   *
                    * width: number（必须是正整数），如果只设置了宽度，那么高度会自动等比缩放。<br />
+                   *
                    * height: number（必须是正整数），如果只设置了高度，那么宽度会自动等比缩放。<br />
                    *
                    * 说明：<br />
@@ -11923,6 +11940,7 @@ req.url--->${ req.url }<---End
                    * 3、“等比缩放”、“中心”（position）、“裁剪”（fit）、“黑色填充背景色”（background）等等操作都是以下选项设置的。<br />
                    *
                    * 以上是常用选项。下面的选项是从“sharp”的源代码中找到的，它们一般都有默认值，除非特殊需要，否则不用设置。<br />
+                   * 具体选项可见：https://sharp.pixelplumbing.com/api-resize/#resize<br />
                    *
                    * fit: string，如何调整图像大小以适应上面提供的width、height，默认值是'cover'（修剪）。<br />
                    * 其有效值有：<br />
