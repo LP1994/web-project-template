@@ -9061,7 +9061,10 @@ req.url--->${ req.url }<---End
           parser: {
             exportsDepth: Infinity,
             namedExports: true,
-            parse: Toml.parse,
+            parse: input => Toml.parse( input, {
+              maxDepth: 2026,
+              useTemporal: true,
+            } ),
           },
           include: [
             join( __dirname, './node_modules/' ),
@@ -11509,7 +11512,7 @@ req.url--->${ req.url }<---End
           parser: {
             exportsDepth: Infinity,
             namedExports: true,
-            parse: Yaml.parse,
+            parse: input => Yaml.parse( input, true, null ),
           },
           include: [
             join( __dirname, './node_modules/' ),
