@@ -9064,6 +9064,8 @@ req.url--->${ req.url }<---End
             parse: input => Toml.parse( input, {
               maxDepth: 2026,
               useTemporal: true,
+              // bigint选项的默认值为：false。
+              // bigint: true,
             } ),
           },
           include: [
