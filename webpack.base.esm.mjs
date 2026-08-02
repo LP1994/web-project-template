@@ -576,22 +576,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20260728。Start
-    'Chrome >= 150',
+    // PC端各主流浏览器的最新版本，至20260802。Start
+    'Chrome >= 151',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 150',
+    'Edge >= 151',
     'Firefox >= 153',
     'Safari >= 26',
     'Opera >= 133',
-    // PC端各主流浏览器的最新版本，至20260728。End
+    // PC端各主流浏览器的最新版本，至20260802。End
 
-    // 移动端各主流浏览器的最新版本，至20260728。Start
-    'ChromeAndroid >= 150',
+    // 移动端各主流浏览器的最新版本，至20260802。Start
+    'ChromeAndroid >= 151',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 150',
+    'Android >= 151',
     'FirefoxAndroid >= 153',
     'iOS >= 26',
-    // 移动端各主流浏览器的最新版本，至20260728。End
+    // 移动端各主流浏览器的最新版本，至20260802。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -622,17 +622,17 @@ const browserslist = [
 
     'es2025',
 
-    // PC端各主流浏览器的最新版本，至20260728。Start
-    'chrome150',
-    'edge150',
+    // PC端各主流浏览器的最新版本，至20260802。Start
+    'chrome151',
+    'edge151',
     'firefox153',
     'safari26',
     'opera133',
-    // PC端各主流浏览器的最新版本，至20260728。End
+    // PC端各主流浏览器的最新版本，至20260802。End
 
-    // 移动端各主流浏览器的最新版本，至20260728。Start
+    // 移动端各主流浏览器的最新版本，至20260802。Start
     'ios26',
-    // 移动端各主流浏览器的最新版本，至20260728。End
+    // 移动端各主流浏览器的最新版本，至20260802。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -666,19 +666,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20260728。Start
-    chrome: 150,
-    edge: 150,
+    // PC端各主流浏览器的最新版本，至20260802。Start
+    chrome: 151,
+    edge: 151,
     firefox: 153,
     safari: 26,
     opera: 133,
-    // PC端各主流浏览器的最新版本，至20260728。End
+    // PC端各主流浏览器的最新版本，至20260802。End
 
-    // 移动端各主流浏览器的最新版本，至20260728。Start
+    // 移动端各主流浏览器的最新版本，至20260802。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 150,
+    android: 151,
     ios: 26,
-    // 移动端各主流浏览器的最新版本，至20260728。End
+    // 移动端各主流浏览器的最新版本，至20260802。End
   },
   /**
    * 编译目标配置。
