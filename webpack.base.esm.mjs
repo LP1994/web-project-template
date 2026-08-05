@@ -4272,7 +4272,7 @@ req.url--->${ req.url }<---End
               else{
                 throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
               }
-            } )() || '3.49.0',
+            } )() || '3.50.0',
             /**
              * 值类型：boolean，默认值：false。此选项仅在与 "method": "usage-global" 或 "method": "usage-pure" 配合使用时才生效。当 proposals 设置为 true 时，core-js 支持的任何 ES 提案也会被进行 polyfill 处理。
              */
@@ -6058,7 +6058,7 @@ req.url--->${ req.url }<---End
              else{
              throw new Error( '你需要安装该npm包：core-js，请在项目根目录下执行该命令：npm --force install -D core-js' );
              }
-             } )() || '3.49.0',
+             } )() || '3.50.0',
              proposals: true,
              },
              */
