@@ -1311,7 +1311,7 @@
     "react-router-dom": "^7.18.2",
     "reflect-metadata": "^0.2.2",
     "requirejs": "^2.3.8",
-    "rolldown": "^1.2.2",
+    "rolldown": "^1.2.3",
     "rollup": "^4.62.4",
     "rollup-plugin-cson": "^1.0.2",
     "rollup-plugin-handlebars": "^1.0.0",
