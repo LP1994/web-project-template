@@ -8934,6 +8934,9 @@ interface Blob {
   slice(start?: number, end?: number, contentType?: string): Blob;
   stream(): ReadableStream<Uint8Array<ArrayBuffer>>;
   text(): Promise<string>;
+  /** Returns a `ReadableStream<string>` that streams the blob's data decoded
+   * as UTF-8 text. */
+  textStream(): ReadableStream<string>;
 }
 
 /** A file-like object of immutable, raw data. Blobs represent data that isn't
@@ -11015,6 +11018,9 @@ interface Body {
    * that resolves with a `USVString` (text).
    */
   text(): Promise<string>;
+  /** Takes a `Response` body stream and returns a `ReadableStream<string>`
+   * that streams the body decoded as UTF-8 text. */
+  textStream(): ReadableStream<string>;
 }
 
 /** @category Fetch */
@@ -13952,7 +13958,15 @@ type KeyUsage =
   | "verify"
   | "wrapKey";
 /** @category Crypto */
-type KeyFormat = "jwk" | "pkcs8" | "raw" | "spki";
+type KeyFormat =
+  | "jwk"
+  | "pkcs8"
+  | "raw"
+  | "raw-secret"
+  | "raw-public"
+  | "raw-private"
+  | "raw-seed"
+  | "spki";
 /** @category Crypto */
 type NamedCurve = string;
 /** @category Crypto */
@@ -18412,6 +18426,10 @@ declare namespace Deno {
    *   console.log(file.text());
    * }
    * ```
+   *
+   * Requires read access to local entrypoints and their dependency trees,
+   * import access to remote modules, and write access when output is written
+   * to the filesystem.
    *
    * @category Bundler
    * @experimental

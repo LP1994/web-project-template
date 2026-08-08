@@ -543,6 +543,8 @@ declare namespace Deno {
     // non-standard events
     resize: CustomEvent<BrowserWindowResizeDetail>;
     move: CustomEvent<BrowserWindowMoveDetail>;
+    /** Fires after a navigation finishes loading. */
+    load: Event;
     close: Event;
     menuclick: CustomEvent<MenuClickDetail>;
     contextmenuclick: CustomEvent<MenuClickDetail>;
@@ -619,6 +621,21 @@ declare namespace Deno {
     reload(): void;
 
     setApplicationMenu(menu: MenuItem[]): void;
+    /** Pop up a context menu inside this window.
+     *
+     * `x` and `y` are window-relative CSS pixels with a top-left origin — the
+     * same space as a DOM mouse event's `clientX` / `clientY`, so those can be
+     * forwarded unchanged:
+     *
+     * ```ts
+     * win.addEventListener("mousedown", (e) => {
+     *   if (e.button === 2) win.showContextMenu(e.clientX, e.clientY, menu);
+     * });
+     * ```
+     *
+     * The platform may shift the menu to keep it on screen when it does not
+     * fit below or to the right of that point.
+     */
     showContextMenu(x: number, y: number, menu: MenuItem[]): void;
 
     getNativeWindow(): Deno.UnsafeWindowSurface;
