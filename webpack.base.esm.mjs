@@ -576,22 +576,22 @@ const browserslist = [
     // 'Opera >= 55',
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20260814。Start
-    'Chrome >= 151',
+    // PC端各主流浏览器的最新版本，至20260819。Start
+    'Chrome >= 152',
     // 这里的Edge是指新版的微软Edge，其基于Chromium，带有Blink和V8引擎，后来其最新的版本号，也基本跟Chrome版本号保持一致了。
-    'Edge >= 151',
-    'Firefox >= 153',
+    'Edge >= 152',
+    'Firefox >= 154',
     'Safari >= 26',
     'Opera >= 134',
-    // PC端各主流浏览器的最新版本，至20260814。End
+    // PC端各主流浏览器的最新版本，至20260828。End
 
-    // 移动端各主流浏览器的最新版本，至20260814。Start
-    'ChromeAndroid >= 151',
+    // 移动端各主流浏览器的最新版本，至20260828。Start
+    'ChromeAndroid >= 152',
     // 从Android 4.4后Android WebView直接跟Chrome同步。
-    'Android >= 151',
-    'FirefoxAndroid >= 153',
+    'Android >= 152',
+    'FirefoxAndroid >= 154',
     'iOS >= 26',
-    // 移动端各主流浏览器的最新版本，至20260814。End
+    // 移动端各主流浏览器的最新版本，至20260828。End
   ],
   /**
    * 每个目标环境都是一个环境名称，后跟一个版本号。当前支持以下环境名称：<br />
@@ -622,17 +622,17 @@ const browserslist = [
 
     'es2025',
 
-    // PC端各主流浏览器的最新版本，至20260814。Start
-    'chrome151',
-    'edge151',
-    'firefox153',
+    // PC端各主流浏览器的最新版本，至20260828。Start
+    'chrome152',
+    'edge152',
+    'firefox154',
     'safari26',
     'opera134',
-    // PC端各主流浏览器的最新版本，至20260814。End
+    // PC端各主流浏览器的最新版本，至20260828。End
 
-    // 移动端各主流浏览器的最新版本，至20260814。Start
+    // 移动端各主流浏览器的最新版本，至20260828。Start
     'ios26',
-    // 移动端各主流浏览器的最新版本，至20260814。End
+    // 移动端各主流浏览器的最新版本，至20260828。End
   ],
   /**
    * 目标浏览器版本。<br />
@@ -666,19 +666,19 @@ const browserslist = [
     // opera: 55,
     // PC端完全支持ES 6（ECMAScript 2015）的主流浏览器 End
 
-    // PC端各主流浏览器的最新版本，至20260814。Start
-    chrome: 151,
-    edge: 151,
-    firefox: 153,
+    // PC端各主流浏览器的最新版本，至20260828。Start
+    chrome: 152,
+    edge: 152,
+    firefox: 154,
     safari: 26,
     opera: 134,
-    // PC端各主流浏览器的最新版本，至20260814。End
+    // PC端各主流浏览器的最新版本，至20260828。End
 
-    // 移动端各主流浏览器的最新版本，至20260814。Start
+    // 移动端各主流浏览器的最新版本，至20260828。Start
     /*从Android 4.4后Android WebView直接跟Chrome同步。*/
-    android: 151,
+    android: 152,
     ios: 26,
-    // 移动端各主流浏览器的最新版本，至20260814。End
+    // 移动端各主流浏览器的最新版本，至20260828。End
   },
   /**
    * 编译目标配置。
