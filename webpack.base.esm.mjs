@@ -4348,7 +4348,7 @@ req.url--->${ req.url }<---End
               else{
                 throw new Error( '你需要安装该npm包：@babel/runtime-corejs3，请在项目根目录下执行该命令：npm --force install -D @babel/runtime-corejs3' );
               }
-            } )() || '8.0.0',
+            } )() || '8.0.5',
           },
         ],
 
