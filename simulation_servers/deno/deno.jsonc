@@ -30,6 +30,7 @@
     "cron",
     "kv",
     "net",
+    "bundle",
     "no-legacy-abort",
     "raw-imports"
   ],
