@@ -40,6 +40,12 @@ import {
 import {
   type Server as T_Server,
   type ServerOptions as T_ServerOptions,
+  type Context as T_Context,
+  type PingMessage as T_PingMessage,
+  type PongMessage as T_PongMessage,
+
+  MessageType,
+  stringifyMessage,
 
   makeServer as makeServerByWS,
 } from 'esm_sh/graphql-ws';
@@ -63,6 +69,20 @@ import {
 
   HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  GetDataType,
+
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
+  GetLogWriteStreamForSingleton,
+} from 'public/PublicTools.esm.mts';
+
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
  * 自定义了一个继承于Response的类。
@@ -197,7 +217,58 @@ function GraphQLServer( {
     } );
 
     {
-      const server: T_Server = makeServerByWS( graphqlWSOptions );
+      const server: T_Server = makeServerByWS( {
+        ...graphqlWSOptions,
+
+        // 当客户端通过 `ConnectionInit` 消息请求初始化连接时，会触发此连接回调函数。
+        // 消息载荷（即客户端发送的 `connectionParams`）包含在 `Context.connectionParams` 中。
+        // 若回调函数返回 `true` 或不返回任何值，则允许客户端建立连接，并且返回给客户端数据如下：{ "type": "connection_ack" }。
+        // 若回调函数返回 `false`，则会终止 Socket 连接，并触发带有 `4403: Forbidden` 状态码的关闭事件。
+        // 若回调函数返回一个 Record（对象），则允许客户端建立连接，并将该返回值通过 `ConnectionAck` 消息中的可选载荷字段传递给客户端，返回给客户端数据如下：{ "type": "connection_ack", payload: 此回调函数返回的一个 Record（对象） }。
+        // 若该函数内抛出错误，则会关闭 Socket，并将错误信息作为关闭事件的原因（reason）进行传递。
+        // onConnect?: undefined | ((ctx: Context<P, E>) => Promise<Record<string, unknown> | boolean | void> | Record<string, unknown> | boolean | void);
+        onConnect( ctx: T_Context<P, E> ): Promise<Record<string, unknown> | boolean | void> | Record<string, unknown> | boolean | void{
+          const clientPayload: undefined | Record<string, unknown> = ctx.connectionParams;
+
+          if( GetDataType( clientPayload ) === '[object Object]' ){
+            MyConsole.Green( `
+onConnect函数触发了，客户端向服务器发来了“connection_init”类型的消息！
+并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
+${ JSON.stringify( clientPayload, null, 4 ) }
+` );
+
+            logWriteStream.write( `
+onConnect函数触发了，客户端向服务器发来了“connection_init”类型的消息！
+并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
+${ JSON.stringify( clientPayload, null, 4 ) }
+` );
+
+            // 可以根据具体业务需要，返回一个数据类型为Record<string, unknown>的数据。
+            return;
+          }
+          else{
+            MyConsole.Green( `
+onConnect函数触发了，客户端向服务器发来了“connection_init”类型的消息！
+` );
+
+            logWriteStream.write( `
+onConnect函数触发了，客户端向服务器发来了“connection_init”类型的消息！
+` );
+
+            // 可以根据具体业务需要，返回一个数据类型为Record<string, unknown>的数据。
+            return;
+          }
+        },
+
+        // 当客户端发送 `MessageType.Ping` 消息时（无论是在连接建立后的任何阶段，包括连接初始化阶段之前或之后），该回调都会被触发。
+        // 如果客户端发送的 Ping 消息包含负载数据（payload），该数据将通过第二个参数传入；第一个参数则提供连接的上下文（Context）。
+        // 如果实现了此回调，服务器仍会在此回调执行完毕后自动回复 Pong 消息。若需完全控制响应行为，请使用 WebSocket 本身的底层 `onPing` 监听器——实现该监听器将禁用自动回复 Pong 的功能。
+        // onPing?: undefined | ((ctx: Context<P, E>, payload: PingMessage['payload']) => Promise<void> | void);
+
+        // 当客户端发送 `MessageType.Pong` 消息时（无论是在连接建立后的任何时刻，还是在连接初始化阶段之前或之后），该方法都会被调用。
+        // 如果客户端发送的 Pong 消息包含有效载荷（payload），该载荷将通过第二个参数传入；第一个参数则提供连接的上下文（Context）。
+        // onPong?: undefined | ((ctx: Context<P, E>, payload: PongMessage['payload']) => Promise<void> | void);
+      } );
 
       socket.onerror = ( error: Event | ErrorEvent ): void => {
         console.error( 'Internal error emitted on the WebSocket socket. Please check your implementation.', error );
@@ -216,6 +287,7 @@ function GraphQLServer( {
         // @ts-expect-error
         ev: Event
       ): void => {
+        // (code?: number, reason?: string) => Promise<void>
         closed = server.opened(
           {
             protocol: GRAPHQL_TRANSPORT_WS_PROTOCOL,
@@ -233,6 +305,80 @@ function GraphQLServer( {
                 }
               };
             },
+
+            // 为客户端发送给服务器的 `PingMessage` 实现一个监听器。如果客户端发送的 Ping 包含有效载荷（payload），该载荷将作为第一个参数传入。
+            // 一旦实现了此监听器，服务器将不再自动回复客户端发送的任何 Ping 消息；此时，如何以及何时进行响应将完全由您决定。
+            // onPing?(payload: PingMessage['payload']): Promise<void> | void;
+            onPing( payload: T_PingMessage['payload'] ): Promise<void> | void{
+              if( GetDataType( payload ) === '[object Object]' ){
+                MyConsole.Green( `
+onPing函数触发了，客户端向服务器发来了“ping”类型的消息！
+并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
+${ JSON.stringify( payload, null, 4 ) }
+` );
+
+                logWriteStream.write( `
+onPing函数触发了，客户端向服务器发来了“ping”类型的消息！
+并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
+${ JSON.stringify( payload, null, 4 ) }
+` );
+
+                // 可以根据具体业务需求，返回给客户端一个具体的“payload”荷载数据。这里暂时遵循graphql-ws的默认实现，将客户端传来的原有荷载数据再次返回给客户端。
+                socket.send(
+                  stringifyMessage( {
+                    type: MessageType.Pong,
+                    payload,
+                  } )
+                );
+              }
+              else{
+                MyConsole.Green( `
+onPing函数触发了，客户端向服务器发来了“ping”类型的消息！
+` );
+
+                logWriteStream.write( `
+onPing函数触发了，客户端向服务器发来了“ping”类型的消息！
+` );
+
+                // 可以根据具体业务需求，返回给客户端一个具体的“payload”荷载数据。这里暂时遵循graphql-ws的默认实现。
+                socket.send(
+                  stringifyMessage( {
+                    type: MessageType.Pong,
+                  } )
+                );
+              }
+            },
+
+            // 为客户端发送给服务器的 `PongMessage` 实现一个监听器。如果客户端发送的 pong 消息包含有效载荷（payload），该载荷将通过第一个参数进行传递。
+            // onPong?(payload: PongMessage['payload']): Promise<void> | void;
+            onPong( payload: T_PongMessage['payload'] ): Promise<void> | void{
+              if( GetDataType( payload ) === '[object Object]' ){
+                MyConsole.Green( `
+onPong函数触发了，客户端向服务器发来了“pong”类型的消息！
+并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
+${ JSON.stringify( payload, null, 4 ) }
+` );
+
+                logWriteStream.write( `
+onPong函数触发了，客户端向服务器发来了“pong”类型的消息！
+并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
+${ JSON.stringify( payload, null, 4 ) }
+` );
+
+                // 可以根据具体业务需求，针对客户端传来的“payload”荷载数据，进行下一步的业务处理。
+              }
+              else{
+                MyConsole.Green( `
+onPong函数触发了，客户端向服务器发来了“pong”类型的消息！
+` );
+
+                logWriteStream.write( `
+onPong函数触发了，客户端向服务器发来了“pong”类型的消息！
+` );
+
+                // 可以根据具体业务需求，针对客户端没有传来“payload”荷载数据时，进行下一步的业务处理。
+              }
+            },
           },
           {
             socket,
@@ -240,12 +386,13 @@ function GraphQLServer( {
         );
       };
 
-      socket.onclose = ( event: CloseEvent ): void => {
+      socket.onclose = async ( event: CloseEvent ): Promise<void> => {
         if( event.code === CloseCode.SubprotocolNotAcceptable && socket.protocol === DEPRECATED_GRAPHQL_WS_PROTOCOL ){
           console.error( `Client provided the unsupported and deprecated subprotocol "${ DEPRECATED_GRAPHQL_WS_PROTOCOL }" used by subscriptions-transport-ws. Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#switching-from-subscriptions-transport-ws.` );
         }
 
-        closed( event.code, event.reason );
+        // (code?: number, reason?: string) => Promise<void>
+        await closed( event.code, event.reason );
       };
     }
 
