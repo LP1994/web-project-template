@@ -38,17 +38,27 @@ const resolvers: Partial<T_Resolvers> = {
       ): AsyncGenerator<{
         greetings: string;
       }, void, unknown>{
-        for( const hi of
-          [
-            'Hi',
-            'Bonjour',
-            'Hola',
-            'Ciao',
-            'Zdravo',
-          ] ){
-          yield {
-            greetings: hi,
-          };
+        const sleep = ( ms: number ): Promise<void> => new Promise( ( resolve ) => setTimeout( resolve, ms ) );
+
+        let index = 0;
+
+        while( true ){
+          ++index;
+
+          for( const hi of
+            [
+              'Hi',
+              'Bonjour',
+              'Hola',
+              'Ciao',
+              'Zdravo',
+            ] ){
+            await sleep( 3000 );
+
+            yield {
+              greetings: `${ hi }_${ index }`,
+            };
+          }
         }
       },
       /**
