@@ -1,8 +1,44 @@
+// 本篇内容，如需详细知道各个类型，可见：node_modules/graphql-ws/dist/common-DY-PBNYy.d.cts:78
+
+declare enum MessageType {
+    ConnectionInit = "connection_init",// Client -> Server
+    ConnectionAck = "connection_ack",// Server -> Client
+    Ping = "ping",// bidirectional 双向的
+    Pong = "pong",/// bidirectional 双向的
+    Subscribe = "subscribe",// Client -> Server
+    Next = "next",// Server -> Client
+    Error = "error",// Server -> Client
+    Complete = "complete"
+}
+
+
+
+
+// Client -> Server
 MessageType["Subscribe"] = "subscribe";
+interface SubscribeMessage {
+    readonly id: ID;
+    readonly type: MessageType.Subscribe;
+    readonly payload: SubscribePayload;
+}
+interface SubscribePayload {
+    readonly operationName?: string | null | undefined;
+    readonly query: string;
+    readonly variables?: Record<string, unknown> | null | undefined;
+    readonly extensions?: Record<string, unknown> | null | undefined;
+}
 
 
 
+
+
+
+// Client -> Server
 MessageType["ConnectionInit"] = "connection_init";
+interface ConnectionInitMessage {
+    readonly type: MessageType.ConnectionInit;
+    readonly payload?: Record<string, unknown>;
+}
 客户端发送 ConnectionInit 请求： 客户端通过 WebSocket 连接向服务器发送一个 ConnectionInit 消息，通常包含连接参数（如认证信息）：
 {
   "type": "connection_init",
@@ -13,7 +49,14 @@ MessageType["ConnectionInit"] = "connection_init";
 
 
 
+
+
+// Server -> Client
 MessageType["ConnectionAck"] = "connection_ack";
+interface ConnectionAckMessage {
+    readonly type: MessageType.ConnectionAck;
+    readonly payload?: Record<string, unknown>;
+}
 服务器回应 ConnectionAck： 服务器在成功处理 ConnectionInit 请求后，会返回一个 ConnectionAck 消息，确认连接已建立：
 {
   "type": "connection_ack"
@@ -21,15 +64,75 @@ MessageType["ConnectionAck"] = "connection_ack";
 
 
 
+
+
+// bidirectional 双向的
 MessageType["Ping"] = "ping";
-MessageType["Pong"] = "pong";
+interface PingMessage {
+    readonly type: MessageType.Ping;
+    readonly payload?: Record<string, unknown>;
+}
+返回值如：
+{
+  "type": "ping"
+}
 Ping：WebSocket 服务器向客户端发送一个 Ping 消息，询问客户端是否仍然在线。客户端收到 Ping 消息后，会自动回应一个 Pong 消息，表示连接仍然有效。
+
+
+
+
+
+// bidirectional 双向的
+MessageType["Pong"] = "pong";
+interface PongMessage {
+    readonly type: MessageType.Pong;
+    readonly payload?: Record<string, unknown>;
+}
 Pong：客户端回应服务器的 Ping 消息时，发送一个 Pong 消息。Pong 消息可以是对 Ping 消息的直接回应，也可以是由客户端发送的独立消息。
 这个机制常用于确保连接活跃，尤其是在长时间没有数据传输时。
 
 
 
+
+
+// Server -> Client
 MessageType["Next"] = "next";
+interface GraphQLFormattedError {
+    /**
+     * A short, human-readable summary of the problem that **SHOULD NOT** change
+     * from occurrence to occurrence of the problem, except for purposes of
+     * localization.
+     */
+    readonly message: string;
+    /**
+     * If an error can be associated to a particular point in the requested
+     * GraphQL document, it should contain a list of locations.
+     */
+    readonly locations?: ReadonlyArray<SourceLocation>;
+    /**
+     * If an error can be associated to a particular field in the GraphQL result,
+     * it _must_ contain an entry with the key `path` that details the path of
+     * the response field which experienced the error. This allows clients to
+     * identify whether a null result is intentional or caused by a runtime error.
+     */
+    readonly path?: ReadonlyArray<string | number>;
+    /**
+     * Reserved for implementors to extend the protocol however they see fit,
+     * and hence there are no additional restrictions on its contents.
+     */
+    readonly extensions?: GraphQLFormattedErrorExtensions;
+}
+interface FormattedExecutionResult<Data = Record<string, unknown>, Extensions = Record<string, unknown>> {
+    errors?: ReadonlyArray<GraphQLFormattedError> | undefined;
+    data?: Data | null | undefined;
+    hasNext?: boolean | undefined;
+    extensions?: Extensions | undefined;
+}
+interface NextMessage {
+    readonly id: ID;
+    readonly type: MessageType.Next;
+    readonly payload: FormattedExecutionResult;
+}
 在 graphql-ws 协议中，next 消息类型是用于 GraphQL 订阅（subscription）的数据传输。具体来说，它表示服务器向客户端发送的订阅结果或数据更新。
 next 消息的含义
 当客户端订阅了一个 GraphQL 订阅（例如某个数据流的变化），服务器会在数据发生变化时，向客户端推送新数据。这些数据会以 next 消息的形式传输。
@@ -55,7 +158,40 @@ next 消息的作用
 
 
 
+
+
+// Server -> Client
 MessageType["Error"] = "error";
+interface ErrorMessage {
+    readonly id: ID;
+    readonly type: MessageType.Error;
+    readonly payload: readonly GraphQLFormattedError[];
+}
+export interface GraphQLFormattedError {
+    /**
+     * A short, human-readable summary of the problem that **SHOULD NOT** change
+     * from occurrence to occurrence of the problem, except for purposes of
+     * localization.
+     */
+    readonly message: string;
+    /**
+     * If an error can be associated to a particular point in the requested
+     * GraphQL document, it should contain a list of locations.
+     */
+    readonly locations?: ReadonlyArray<SourceLocation>;
+    /**
+     * If an error can be associated to a particular field in the GraphQL result,
+     * it _must_ contain an entry with the key `path` that details the path of
+     * the response field which experienced the error. This allows clients to
+     * identify whether a null result is intentional or caused by a runtime error.
+     */
+    readonly path?: ReadonlyArray<string | number>;
+    /**
+     * Reserved for implementors to extend the protocol however they see fit,
+     * and hence there are no additional restrictions on its contents.
+     */
+    readonly extensions?: GraphQLFormattedErrorExtensions;
+}
 在 graphql-ws 协议中，error 消息表示在处理 GraphQL 查询、订阅或变更请求时发生了错误。它用于通知客户端某个操作失败或遇到问题，通常是由于查询或订阅本身的错误、网络问题或服务器端的异常。
 error 消息的含义
 当服务器在处理客户端发送的 GraphQL 请求时遇到错误时，它会通过 error 消息通知客户端。这个消息通常包含关于错误的详细信息，可以帮助客户端了解发生了什么问题。
@@ -82,7 +218,14 @@ payload: 错误的详细信息，通常包含 errors 字段，errors 是一个�
 
 
 
+
+
+
 MessageType["Complete"] = "complete";
+interface CompleteMessage {
+    readonly id: ID;
+    readonly type: MessageType.Complete;
+}
 在 graphql-ws 协议中，complete 消息表示一个订阅已经完成或被取消。当一个订阅不再继续提供数据时，服务器会发送一个 complete 消息，通知客户端订阅已结束。
 complete 消息的含义
 complete 消息通常是在以下情况下发送的：

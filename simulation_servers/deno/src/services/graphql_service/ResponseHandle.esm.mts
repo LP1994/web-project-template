@@ -150,6 +150,7 @@ function ResponseHandle( request: Request ): T_Response001{
     ],
     graphqlWSOptions: {
       schema,
+      // 单位是毫秒，默认值是3000毫秒。
       connectionInitWaitTimeout: 1 * 60 * 1000,
     },
     graphqlSSEOptions: [

@@ -1,7 +1,7 @@
 <DataSourcesHistory>
   <DataSourceFromHistory isRemovedFromProject="false">
     <data-source source="LOCAL" name="27777_TLS" uuid="823ef4bf-7418-4619-9d6c-89baa4d376ff">
-      <database-info product="Mongo DB" version="8.3.1" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.20" dbms="MONGO" exact-version="8.3.1" exact-driver-version="1.20" />
+      <database-info product="Mongo DB" version="9.0.2" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.21" dbms="MONGO" exact-version="9.0.2" exact-driver-version="1.21" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <driver-ref>mongo.4</driver-ref>
       <synchronize>true</synchronize>
