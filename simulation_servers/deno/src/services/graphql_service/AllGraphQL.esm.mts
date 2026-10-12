@@ -15,6 +15,9 @@ import {
 
 import {
   relative,
+
+  // join,
+  // resolve,
 } from 'jsr:@std/path';
 
 import {
@@ -30,6 +33,14 @@ type T_DefsAndResolvers = {
   resolvers: T_Resolvers;
 };
 
+/**
+ * 本文件上的此处“import.meta.dirname”的值形如：G:\WebStormWS\web-project-template\simulation_servers\deno\src\services\graphql_service <br />
+ * 还可以有如下写法，可作为常量root的值：<br />
+ * join( import.meta.dirname, '../..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
+ * resolve( import.meta.dirname, '../../' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
+ *
+ * @type {string}
+ */
 const root: string = `${ import.meta.dirname }`,
   moduleListForPromise: Array<Promise<T_DefsAndResolvers>> = [];
 
