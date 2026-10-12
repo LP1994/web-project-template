@@ -433,7 +433,7 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
         source: getIntrospectionQuery(),
       } );
 
-      return new Response( JSON.stringify( result, null, 4 ), {
+      return new Response( JSON.stringify( result, null, 2 ), {
         status: 200,
         statusText: 'OK',
         headers: {
