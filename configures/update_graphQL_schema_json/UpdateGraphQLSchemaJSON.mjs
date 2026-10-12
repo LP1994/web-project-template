@@ -140,7 +140,7 @@ if( true ){
     .then( result => {
       writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
         __schema: {},
-      }, result.data ), null, 4 ) );
+      }, result.data ), null, 2 ) );
     } )
     .catch( e => {
       MyConsole.Red( `\n${ e.message }\n` );
@@ -232,7 +232,7 @@ if( false ){
     .then( result => {
       writeFileSync( schemaJSONPath, JSON.stringify( Object.assign( {
         __schema: {},
-      }, result.data ), null, 4 ) );
+      }, result.data ), null, 2 ) );
     } )
     .catch( e => {
       MyConsole.Red( `\n${ e.message }\n` );
