@@ -11,7 +11,7 @@
       ],
       "exclude": [
         "./src/graphQL/doc/**/*.{graphql,graphqls,gql}",
-        "./src/graphQL/GraphQL.Schema.json.graphql",
+        "./src/graphQL/GraphQL.Schema.graphql",
         "./src/**/*.type.{graphql,graphqls,gql}"
       ],
       "extensions": {

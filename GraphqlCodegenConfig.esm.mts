@@ -289,7 +289,7 @@ ${ fileContent }`;
       documents: [
         '!./src/graphQL/doc/*.{graphql,graphqls,gql}',
         '!./src/graphQL/test/*.{graphql,graphqls,gql}',
-        '!./src/graphQL/GraphQL.Schema.json.graphql',
+        '!./src/graphQL/GraphQL.Schema.graphql',
         '!./src/graphQL/api/GetSchemaJSON.graphql',
         './src/**/*.{graphql,graphqls,gql}',
       ],

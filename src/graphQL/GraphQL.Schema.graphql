@@ -6,6 +6,9 @@ schema {
   subscription: Subscription
 }
 
+"Indicates exactly one field must be supplied and this field must not be `null`."
+directive @oneOf on INPUT_OBJECT
+
 "返回的“消息”主体。"
 type Message {
   "作者。"
@@ -33,7 +36,7 @@ type Query {
 }
 
 type Subscription {
-  "返回5种颜色。"
+  "返回5种颜色名。"
   greetings: String
 }
 
