@@ -29,6 +29,11 @@
 'use strict';
 
 import {
+  graphql,
+  getIntrospectionQuery,
+} from 'esm_sh_graphql';
+
+import {
   // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
   GRAPHQL_TRANSPORT_WS_PROTOCOL,
   //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
@@ -169,7 +174,7 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function GraphQLServer( {
+async function GraphQLServer( {
   request,
   graphqlHTTPOptions,
   graphqlWSOptions,
@@ -418,6 +423,25 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
         Response: GenerateForMyGraphQLServerResponse( request ),
       },
     ]: [ T_HandlerOptions, Partial<T_FetchAPI>?, ] = graphqlHTTPOptions;
+
+    const url: URL = new URL( request.url ),
+      pathName: string = decodeURI( url.pathname );
+
+    if( pathName === `/graphql/schema.json` ){
+      const result = await graphql( {
+        schema: options.schema,
+        source: getIntrospectionQuery(),
+      } );
+
+      return new Response( JSON.stringify( result, null, 4 ), {
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          ...HttpResponseHeadersFun( request ),
+          'content-type': `application/json; charset=utf-8`,
+        },
+      } );
+    }
 
     return createHandlerByHTTP(
       options,

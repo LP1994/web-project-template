@@ -116,7 +116,10 @@ function Condition( request: Request ): boolean{
     const search: string = url.search,
       searchParams: URLSearchParams = url.searchParams;
 
-    if( ( pathName === myURLPathName || pathName === String( myURLPathName + '/' ) ) && search.trim().startsWith( '?' ) && searchParams.has( 'query' ) ){
+    if( pathName === `/graphql/schema.json` ){
+      return true;
+    }
+    else if( ( pathName === myURLPathName || pathName === String( myURLPathName + '/' ) ) && search.trim().startsWith( '?' ) && searchParams.has( 'query' ) ){
       return true;
     }
     else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){

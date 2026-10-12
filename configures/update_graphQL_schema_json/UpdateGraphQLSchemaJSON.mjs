@@ -61,8 +61,8 @@ const __dirname = Get__dirname( import.meta.url ),
     } ),
   }, null, 4 );
 
-// 获取"系统默认"的"GraphQL的Schema文档"。需要在服务器端自行实现对'GET'请求的'/graphql/schema.json'的响应！！！
-if( false ){
+// 默认启用这个！获取"系统默认"的"GraphQL的Schema文档"。需要在服务器端自行实现对'GET'请求的'/graphql/schema.json'的响应！已经实现了！
+if( true ){
   // 一般形如：http://192.168.1.3:8087/graphql/schema.json
   const devURL001 = {
     protocol: 'https:',
@@ -148,7 +148,7 @@ if( false ){
 }
 
 // 获取"自己定义"的更加全面详细的"GraphQL的Schema文档"。
-if( true ){
+if( false ){
   // 一般形如：http://192.168.1.3:8087/graphql/
   const devURL001 = {
     protocol: 'https:',
