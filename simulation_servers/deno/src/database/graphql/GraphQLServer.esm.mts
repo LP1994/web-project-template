@@ -428,7 +428,7 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
       pathName: string = decodeURI( url.pathname );
 
     if( pathName === `/graphql/schema.json` ){
-      const result = await graphql( {
+      const result: Record<string, unknown> = await graphql( {
         schema: options.schema,
         source: getIntrospectionQuery(),
       } );
