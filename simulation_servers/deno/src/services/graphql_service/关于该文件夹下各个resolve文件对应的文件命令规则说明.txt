@@ -1,0 +1,13 @@
+强烈要求各个resolve文件的文件名命名使用如下命名格式:
+*.resolve.*.{ts,cts,mts}
+
+实际命名如：
+Greetings.subscription.resolve.esm.mts
+ServerDate.resolve.esm.mts
+Message.resolve.esm.mts
+Hello.resolve.esm.mts
+
+
+
+为什么会这么要求呢！因为在"AllGraphQL.esm.mts"中，使用了自动扫描指定文件夹下的各个层级文件夹中符合‘*.resolve.*.{ts,cts,mts}’格式的各个文件，然后使用动态导入获取各个resolve文件的导出值。
+这样就不用手动书写每一个resolve文件的静态导入语法了。
