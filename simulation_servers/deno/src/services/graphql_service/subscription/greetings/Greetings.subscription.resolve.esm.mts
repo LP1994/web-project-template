@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/services/graphql_service/subscription/greetings/Greetings.subscription.esm.mts
+ * FileDirPath: simulation_servers/deno/src/services/graphql_service/subscription/greetings/Greetings.subscription.resolve.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm

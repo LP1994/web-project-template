@@ -9,9 +9,58 @@
 
 'use strict';
 
-export * as Hello from './hello/Hello.esm.mts';
-export * as ServerDate from './server_date/ServerDate.esm.mts';
+import {
+  expandGlob,
+} from 'jsr:@std/fs';
 
-export * as Message from './message/Message.esm.mts';
+import {
+  relative,
+} from 'jsr:@std/path';
 
-export * as Greetings from './subscription/greetings/Greetings.subscription.esm.mts';
+import {
+  type DocumentNode as T_DocumentNode,
+} from 'esm_sh_graphql';
+
+import {
+  type T_Resolvers,
+} from 'GSD2TSTD';
+
+type T_DefsAndResolvers = {
+  typeDefs: T_DocumentNode;
+  resolvers: T_Resolvers;
+};
+
+const root: string = `${ import.meta.dirname }`,
+  moduleListForPromise: Array<Promise<T_DefsAndResolvers>> = [];
+
+for await (
+  const {
+    path,
+    isFile,
+  } of
+  expandGlob( './**/*.resolve.*.{ts,cts,mts}', {
+    /**
+     * @type {string}
+     */
+    root,
+    includeDirs: true,
+    /**
+     * 可以接受通配符格式的字符串。
+     *
+     * @type {Array<string>}
+     */
+    exclude: [],
+  } )
+  ){
+  if( isFile ){
+    moduleListForPromise.push( import(`./${ relative( root, path ).replaceAll( '\\', '/' ) }`) );
+  }
+}
+
+const moduleList: Array<T_DefsAndResolvers> = ( await Promise.all( moduleListForPromise ) ).map( ( item: T_DefsAndResolvers ): T_DefsAndResolvers => ( { ...item, } ) );
+
+export {
+  moduleList as AllGraphQL,
+};
+
+export default moduleList;

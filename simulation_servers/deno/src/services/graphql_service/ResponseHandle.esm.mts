@@ -100,7 +100,7 @@ import {
   GraphQLServer,
 } from 'graphql/GraphQLServer.esm.mts';
 
-import * as AllGraphQL from './AllGraphQL.esm.mts';
+import AllGraphQL from './AllGraphQL.esm.mts';
 
 import {
   type T_Resolvers,
@@ -114,7 +114,7 @@ type T_DefsAndResolvers = {
 const typeDefsArray: Array<T_DocumentNode> = [],
   resolversArray: Array<T_Resolvers> = [];
 
-Object.values( AllGraphQL as Record<string, T_DefsAndResolvers> ).forEach( (
+AllGraphQL.forEach( (
   {
     typeDefs,
     resolvers,
