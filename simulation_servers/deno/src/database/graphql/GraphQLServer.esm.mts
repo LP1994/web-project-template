@@ -430,7 +430,52 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
     if( pathName === `/graphql/schema.json` ){
       const result: Record<string, unknown> = await graphql( {
         schema: options.schema,
-        source: getIntrospectionQuery(),
+        source: getIntrospectionQuery( {
+          /**
+           * Whether to include descriptions in the introspection result.
+           * Default: true
+           */
+          descriptions: true,
+          /**
+           * Whether to include `specifiedByURL` in the introspection result.
+           * Default: false
+           */
+          specifiedByUrl: true,
+          /**
+           * Whether to include `isRepeatable` flag on directives.
+           * Default: false
+           */
+          directiveIsRepeatable: true,
+          /**
+           * Whether to include `description` field on schema.
+           * Default: false
+           */
+          schemaDescription: true,
+          /**
+           * Whether target GraphQL server support deprecation of input values.
+           * Default: false
+           */
+          inputValueDeprecation: true,
+          /**
+           * Whether target GraphQL server supports deprecation of directives.
+           * Default: false
+           */
+          experimentalDirectiveDeprecation: true,
+          /**
+           * Whether target GraphQL server supports `@oneOf` input objects.
+           * Default: false
+           */
+          oneOf: true,
+          /**
+           * How deep to recurse into nested types, larger values will result in more
+           * accurate results, but have a higher load on the server.
+           * Some servers might restrict the maximum query depth or complexity.
+           * If that's the case, try decreasing this value.
+           *
+           * set typeDepth to a reasonable value between 0 and 100, Default: 9.
+           */
+          typeDepth: 100,
+        } ),
       } );
 
       return new Response( JSON.stringify( result, null, 2 ), {
