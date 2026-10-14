@@ -8,7 +8,6 @@
     "deno_std_path": "jsr:@std/path",
 
     "esm_sh/": "https://esm.sh/",
-    "esm_sh_chalk": "https://esm.sh/chalk",
     "esm_sh_corejs": "https://esm.sh/core-js",
     "esm_sh_ejs": "https://esm.sh/ejs",
     "esm_sh_file_type": "https://esm.sh/file-type",

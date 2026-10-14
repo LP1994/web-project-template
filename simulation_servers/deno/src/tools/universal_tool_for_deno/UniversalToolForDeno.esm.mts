@@ -91,7 +91,7 @@
  */
 import {
   default as chalk,
-} from 'https://esm.sh/chalk';
+} from 'npm:chalk';
 
 // 内部使用的7788的处理函数。Start
 

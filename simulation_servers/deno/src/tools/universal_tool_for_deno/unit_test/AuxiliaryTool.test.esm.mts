@@ -20,7 +20,7 @@
  */
 import {
   Chalk,
-} from 'esm_sh_chalk';
+} from 'npm:chalk';
 
 export type T_MyExpect001 = any;
 
