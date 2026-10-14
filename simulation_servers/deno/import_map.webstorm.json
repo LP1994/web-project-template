@@ -19,10 +19,6 @@
     "esm_sh_mongodb": "https://esm.sh/mongodb",
     "esm_sh_mongoose": "https://esm.sh/mongoose",
 
-    "npm_graphql_upload": "npm:graphql-upload",
-    "esm_sh_graphql_upload_ts": "https://esm.sh/graphql-upload-ts",
-    "jsr_graphql_upload_deno": "jsr:@nyoxis/graphql-upload-deno",
-
     "deno_src/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\",
     "configures/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\configures\\",
     "route_map_config/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\configures\\route_map_config\\",
