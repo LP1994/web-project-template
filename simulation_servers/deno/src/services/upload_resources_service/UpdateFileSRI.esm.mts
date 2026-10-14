@@ -24,7 +24,7 @@ import {
 
 import {
   fileTypeFromBlob,
-} from 'npm:file-type';
+} from 'esm_sh_file_type';
 
 import {
   uploadDir,

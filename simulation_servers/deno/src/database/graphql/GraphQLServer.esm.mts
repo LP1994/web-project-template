@@ -60,14 +60,14 @@ import {
   type HandlerOptions as T_HandlerOptions,
 
   createHandler as createHandlerByHTTP,
-} from 'esm_sh/graphql-http/lib/use/fetch';
+} from 'esm_sh_graphql_http/lib/use/fetch';
 
 import {
   type HandlerOptions as T_HandlerOptionsBySSE,
   type RequestContext as T_RequestContextBySSE,
 
   createHandler as createHandlerBySSE,
-} from 'esm_sh/graphql-sse/lib/use/fetch';
+} from 'esm_sh_graphql_sse/lib/use/fetch';
 
 import {
   type T_Response001,

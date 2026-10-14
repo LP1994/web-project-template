@@ -20,7 +20,7 @@
  */
 import {
   Chalk,
-} from 'https://deno.land/x/chalk_deno/source/index.js';
+} from 'esm_sh_chalk';
 
 export type T_MyExpect001 = any;
 

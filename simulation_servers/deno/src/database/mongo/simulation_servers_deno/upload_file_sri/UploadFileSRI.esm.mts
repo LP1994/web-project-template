@@ -12,7 +12,7 @@
 import {
   type DeleteResult as T_DeleteResult,
   type UpdateResult as T_UpdateResult,
-} from 'npm:mongodb';
+} from 'esm_sh_mongodb';
 
 import {
   type Connection as T_Connection,
@@ -20,7 +20,7 @@ import {
 
   Model,
   Schema,
-} from 'npm:mongoose';
+} from 'esm_sh_mongoose';
 
 import {
   GetSchemaOptions,

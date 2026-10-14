@@ -91,7 +91,7 @@
  */
 import {
   default as chalk,
-} from 'https://deno.land/x/chalk_deno/source/index.js';
+} from 'https://esm.sh/chalk';
 
 // 内部使用的7788的处理函数。Start
 

@@ -11,14 +11,14 @@
 
 import {
   expandGlob,
-} from 'jsr:@std/fs';
+} from 'deno_std_fs';
 
 import {
   relative,
 
   // join,
   // resolve,
-} from 'jsr:@std/path';
+} from 'deno_std_path';
 
 import {
   type DocumentNode as T_DocumentNode,
