@@ -11,21 +11,21 @@
 
 query IntrospectionQuery {
   __schema {
-
+    description
     queryType { name kind }
     mutationType { name kind }
     subscriptionType { name kind }
     types {
       ...FullType
     }
-    directives {
+    directives(includeDeprecated: true) {
       name
       description
-
-
-
+      isRepeatable
+      isDeprecated
+      deprecationReason
       locations
-      args {
+      args(includeDeprecated: true) {
         ...InputValue
       }
     }
@@ -36,12 +36,12 @@ fragment FullType on __Type {
   kind
   name
   description
-
-
+  specifiedByURL
+  isOneOf
   fields(includeDeprecated: true) {
     name
     description
-    args {
+    args(includeDeprecated: true) {
       ...InputValue
     }
     type {
@@ -50,7 +50,7 @@ fragment FullType on __Type {
     isDeprecated
     deprecationReason
   }
-  inputFields {
+  inputFields(includeDeprecated: true) {
     ...InputValue
   }
   interfaces {
@@ -72,8 +72,8 @@ fragment InputValue on __InputValue {
   description
   type { ...TypeRef }
   defaultValue
-
-
+  isDeprecated
+  deprecationReason
 }
 
 fragment TypeRef on __Type {
