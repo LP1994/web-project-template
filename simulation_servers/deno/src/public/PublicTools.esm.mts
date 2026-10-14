@@ -31,8 +31,6 @@ import rehypeMinifyWhitespace from 'esm_sh/rehype-minify-whitespace';
 
 import rehypeMinifyCSSStyle from 'esm_sh/rehype-minify-css-style';
 
-import rehypeMinifyJavascriptScript from 'esm_sh/rehype-minify-javascript-script';
-
 import rehypeMinifyJSONScript from 'esm_sh/rehype-minify-json-script';
 
 import rehypeMinifyStyleAttribute from 'esm_sh/rehype-minify-style-attribute';
@@ -217,7 +215,6 @@ async function HTMLMinifyByRehype( html: string ): Promise<string>{
       .use( rehypeRemoveComments )
       .use( rehypeMinifyStyleAttribute )
       .use( rehypeMinifyJSONScript )
-      .use( rehypeMinifyJavascriptScript )
       .use( rehypeMinifyCSSStyle )
       .use( rehypeMinifyWhitespace )
       // 将语法树序列化回 HTML 字符串

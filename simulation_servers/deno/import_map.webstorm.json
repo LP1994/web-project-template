@@ -16,8 +16,6 @@
     "esm_sh_graphql_sse/": "https://esm.sh/graphql-sse/",
     "esm_sh_graphql_ws": "https://esm.sh/graphql-ws",
 
-    "https://esm.sh/uglify-js": "npm:uglify-js",
-
     "deno_src/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\",
     "configures/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\configures\\",
     "route_map_config/": "G:\\WebStormWS\\web-project-template\\simulation_servers\\deno\\src\\configures\\route_map_config\\",
