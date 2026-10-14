@@ -20,6 +20,26 @@ import {
 } from 'esm_sh_graphql';
 
 import {
+  unified,
+} from 'esm_sh/unified';
+
+import rehypeParse from 'esm_sh/rehype-parse';
+
+import rehypeRemoveComments from 'esm_sh/rehype-remove-comments';
+
+import rehypeMinifyWhitespace from 'esm_sh/rehype-minify-whitespace';
+
+import rehypeMinifyCSSStyle from 'esm_sh/rehype-minify-css-style';
+
+import rehypeMinifyJavascriptScript from 'esm_sh/rehype-minify-javascript-script';
+
+import rehypeMinifyJSONScript from 'esm_sh/rehype-minify-json-script';
+
+import rehypeMinifyStyleAttribute from 'esm_sh/rehype-minify-style-attribute';
+
+import rehypeStringify from 'esm_sh/rehype-stringify';
+
+import {
   // Deno自己有一个名为media_types的API功能跟它一样。
   mimetypes,
 } from './ThirdPartyModules.esm.mts';
@@ -182,6 +202,30 @@ function GraphqlParseByFilePath( path: string | URL ): T_DocumentNode{
   return parse( Deno.readTextFileSync( path ) );
 }
 
+/**
+ * 用于将HTML字符串压缩优化。
+ *
+ * @param {string} html 必须，无默认值，需要被压缩优化的HTML字符串。
+ *
+ * @returns {Promise<string>} 压缩优化后的HTML字符串。
+ */
+async function HTMLMinifyByRehype( html: string ): Promise<string>{
+  return String(
+    await unified()
+      // 将 HTML 字符串解析为语法树
+      .use( rehypeParse )
+      .use( rehypeRemoveComments )
+      .use( rehypeMinifyStyleAttribute )
+      .use( rehypeMinifyJSONScript )
+      .use( rehypeMinifyJavascriptScript )
+      .use( rehypeMinifyCSSStyle )
+      .use( rehypeMinifyWhitespace )
+      // 将语法树序列化回 HTML 字符串
+      .use( rehypeStringify )
+      .process( html )
+  ).trim();
+}
+
 export {
   type T_MyCusDenoFsFile,
 
@@ -196,6 +240,8 @@ export {
 
   IterateToNestForPromise,
   GraphqlParseByFilePath,
+
+  HTMLMinifyByRehype,
 };
 
 export default {
@@ -210,4 +256,6 @@ export default {
 
   IterateToNestForPromise,
   GraphqlParseByFilePath,
+
+  HTMLMinifyByRehype,
 };

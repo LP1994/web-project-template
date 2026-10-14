@@ -24,6 +24,8 @@ import {
 } from './ThirdPartyModules.esm.mts';
 
 import {
+  HTMLMinifyByRehype,
+
   mime,
 } from './PublicTools.esm.mts';
 
@@ -114,13 +116,13 @@ class ResponseError {
    * 返回给客户端的是一个HTML页面，里面有错误信息，响应状态为404。
    * 通常表示客户端发起的请求在服务端是不存在的。
    *
-   * @returns {Response}
+   * @returns {Promise<Response>}
    */
-  public resPage404(): Response{
+  public async resPage404(): Promise<Response>{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
-      html: string = ejs.render( Deno.readTextFileSync( filePath ), {
+      html: string = await HTMLMinifyByRehype( ejs.render( Deno.readTextFileSync( filePath ), {
         message: `未找到“${ this.#method }”请求方法的“${ this.#pathName + this.#search }”资源。`,
-      } );
+      } ) );
 
     return new Response( html, {
       status: 404,
@@ -142,9 +144,9 @@ class ResponseError {
    *
    * @param {string} config.message 要展示给客户端的表示错误的信息，默认值为空字符串，可选。
    *
-   * @returns {Response}
+   * @returns {Promise<Response>}
    */
-  public static ResPageError( {
+  public static async ResPageError( {
     title = '',
     message = '',
   }: {
@@ -153,12 +155,12 @@ class ResponseError {
   } = {
     title: '',
     message: '',
-  } ): Response{
+  } ): Promise<Response>{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/Error.ejs` ) ),
-      html: string = ejs.render( Deno.readTextFileSync( filePath ), {
+      html: string = await HTMLMinifyByRehype( ejs.render( Deno.readTextFileSync( filePath ), {
         title,
         message,
-      } );
+      } ) );
 
     return new Response( html, {
       status: 500,

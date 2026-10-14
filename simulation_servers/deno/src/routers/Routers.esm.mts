@@ -37,9 +37,11 @@ import {
 } from 'public/ThirdPartyModules.esm.mts';
 
 import {
-  mime,
+  HTMLMinifyByRehype,
 
   IterateToNestForPromise,
+
+  mime,
 } from 'public/PublicTools.esm.mts';
 
 import Put from './Put.esm.mts';
@@ -100,10 +102,10 @@ async function Routers( request: Request ): Promise<Response>{
   }
   else{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
-      html: string = ejs.render( Deno.readTextFileSync( filePath ), {
+      html: string = await HTMLMinifyByRehype( ejs.render( Deno.readTextFileSync( filePath ), {
         message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
           .join( '、' ) }。`,
-      } );
+      } ) );
 
     result = new Response( html, {
       status: 405,
