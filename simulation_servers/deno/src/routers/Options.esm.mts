@@ -18,10 +18,20 @@ import {
   type T_Result001,
 
   HttpResponseHeadersFun,
+
+  route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
   IterateToNestForPromise,
+
+  GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
 import {
@@ -31,6 +41,8 @@ import {
 
 // @ts-expect-error
 import ResponseError from 'public/ResponseError.esm.mts';
+
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  * 处理options请求。
@@ -43,14 +55,31 @@ async function Options( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  let routeHandle: T_Result001;
+  const routeHandle: T_Result001 = await methodByOptionsForRouteHandle( request );
+
+  if( ( pathName in methodByOptionsForRouteMapConfig ) && routeHandle ){
+    MyConsole.Red( `
+Options请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对Options请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+
+    errorWriteStream.write( `
+Options请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对Options请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+
+    throw new Error( `
+Options请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对Options请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+  }
 
   let result: Response;
 
   if( pathName in methodByOptionsForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByOptionsForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( ( routeHandle = await methodByOptionsForRouteHandle( request ) ) ){
+  else if( routeHandle ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   // 默认允许所有的options请求通过，因为目前没设置其他处理，后面可以根据需要编写对应响应不成功的逻辑。

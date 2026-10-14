@@ -16,10 +16,20 @@
 import {
   type T_Fun001,
   type T_Result001,
+
+  route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
   IterateToNestForPromise,
+
+  GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
 import {
@@ -28,6 +38,8 @@ import {
 } from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
 import ResponseError from 'public/ResponseError.esm.mts';
+
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  * 处理put请求。
@@ -40,14 +52,31 @@ async function Put( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  let routeHandle: T_Result001;
+  const routeHandle: T_Result001 = await methodByPutForRouteHandle( request );
+
+  if( ( pathName in methodByPutForRouteMapConfig ) && routeHandle ){
+    MyConsole.Red( `
+Put请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对Put请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+
+    errorWriteStream.write( `
+Put请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对Put请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+
+    throw new Error( `
+Put请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对Put请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+  }
 
   let result: Response;
 
   if( pathName in methodByPutForRouteMapConfig ){
     result = ( await IterateToNestForPromise( ( methodByPutForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
   }
-  else if( ( routeHandle = await methodByPutForRouteHandle( request ) ) ){
+  else if( routeHandle ){
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{
