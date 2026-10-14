@@ -31,7 +31,7 @@
 
 import {
   type Collection as T_Collection,
-} from 'esm_sh_mongoose';
+} from 'npm:mongoose';
 
 import {
   HttpResponseHeadersFun,

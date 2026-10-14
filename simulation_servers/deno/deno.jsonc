@@ -915,8 +915,6 @@
     "esm_sh_graphql_http/": "https://esm.sh/graphql-http/",
     "esm_sh_graphql_sse/": "https://esm.sh/graphql-sse/",
     "esm_sh_graphql_ws": "https://esm.sh/graphql-ws",
-    "esm_sh_mongodb": "https://esm.sh/mongodb",
-    "esm_sh_mongoose": "https://esm.sh/mongoose",
 
     "deno_src/": "./src/",
     "configures/": "./src/configures/",

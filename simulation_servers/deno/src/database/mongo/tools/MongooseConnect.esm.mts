@@ -29,7 +29,7 @@ import {
   type ConnectOptions as T_ConnectOptions,
 
   Mongoose,
-} from 'esm_sh_mongoose';
+} from 'npm:mongoose';
 
 import {
   dbName,
