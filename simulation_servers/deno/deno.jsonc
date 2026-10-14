@@ -915,6 +915,8 @@
     "esm_sh_graphql_sse/": "https://esm.sh/graphql-sse/",
     "esm_sh_graphql_ws": "https://esm.sh/graphql-ws",
 
+    "https://esm.sh/uglify-js": "npm:uglify-js",
+
     "deno_src/": "./src/",
     "configures/": "./src/configures/",
     "route_map_config/": "./src/configures/route_map_config/",
