@@ -52,7 +52,7 @@ async function Post( request: Request ): Promise<Response>{
     result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
   }
   else{
-    result = await new ResponseError( request ).resPage404();
+    result = new ResponseError( request ).resPage404();
   }
 
   return result;

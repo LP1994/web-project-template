@@ -13,19 +13,19 @@
 
 'use strict';
 
-import * as dejs from 'deno_x_ejs';
+import ejs from 'esm_sh_ejs';
 
 // Deno自己有一个名为media_types的API功能跟它一样。
-import * as mimetypes from 'tools/third_party_modules/mimetypes@1.0.0.mts'
+import * as mimetypes from 'tools/third_party_modules/mimetypes@1.0.0.mts';
 
 export {
-  dejs,
+  ejs,
   // Deno自己有一个名为media_types的API功能跟它一样。
   mimetypes,
 };
 
 export default {
-  dejs,
+  ejs,
   // Deno自己有一个名为media_types的API功能跟它一样。
   mimetypes,
 };

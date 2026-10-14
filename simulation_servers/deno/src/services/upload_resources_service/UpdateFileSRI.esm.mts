@@ -20,7 +20,7 @@ import {
 
 import {
   encodeHex,
-} from 'deno_std_encoding/hex.ts';
+} from 'deno_std_encoding';
 
 import {
   fileTypeFromBlob,

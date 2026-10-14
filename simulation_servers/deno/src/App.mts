@@ -27,7 +27,7 @@
 
 'use strict';
 
-import 'deno_x_corejs';
+import 'esm_sh_corejs';
 
 import {
   MyConsole,

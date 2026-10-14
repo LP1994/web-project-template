@@ -51,11 +51,11 @@
 
 import {
   toWritableStream,
-} from 'deno_std_io/to_writable_stream.ts';
+} from 'deno_std_io';
 
 import {
   encodeHex,
-} from 'deno_std_encoding/hex.ts';
+} from 'deno_std_encoding';
 
 import {
   extension,

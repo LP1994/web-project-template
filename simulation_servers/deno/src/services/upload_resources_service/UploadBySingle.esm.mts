@@ -45,7 +45,7 @@
 
 import {
   toWritableStream,
-} from 'deno_std_io/to_writable_stream.ts';
+} from 'deno_std_io';
 
 import {
   HttpResponseHeadersFun,
