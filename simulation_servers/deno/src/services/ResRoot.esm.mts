@@ -38,6 +38,8 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  HTMLMinifyByRehype,
+
   mime,
 } from 'public/PublicTools.esm.mts';
 
@@ -48,12 +50,12 @@ import {
  *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function Handle(
+async function Handle(
   request: Request
 ): T_Response001{
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
 
-  return new Response( Deno.readTextFileSync( filePath ), {
+  return new Response( await HTMLMinifyByRehype( Deno.readTextFileSync( filePath ) ), {
     status: 200,
     statusText: 'OK',
     headers: {

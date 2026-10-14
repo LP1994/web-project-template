@@ -51,6 +51,7 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
 
 const WebSocketSServerForPort9300: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
   {
+    automaticCompression: true,
     port: 9300,
     /**
      * 用postman测试时：<br />
