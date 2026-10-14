@@ -13,10 +13,20 @@ import {
   type T_Fun001,
   type T_FilePath001,
   type T_Result001,
+
+  route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
   IterateToNestForPromise,
+
+  GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
 type T_RouteMapConfig = {
@@ -38,6 +48,8 @@ type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 type T_Obj001 = {
   [ key: string ]: string;
 };
+
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  * 根据传入的“文件地址”值返回其对应的文件地址的字符串形式的值，给import()使用的。
@@ -134,22 +146,37 @@ function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_Route
 
     myRouteHandleConfig = new Map( arr002 );
 
-    let fun001: T_Fun002 | null = null;
+    const fun001: Array<T_Fun002> = [];
 
     for( let item002 of
       myRouteHandleConfig.keys() ){
       if( ( await IterateToNestForPromise( item002( request ) ) ) as boolean ){
-        fun001 = item002;
-
-        break;
-      }
-      else{
-        fun001 = null;
+        fun001.push( item002 );
       }
     }
 
-    if( fun001 ){
-      return ( myRouteHandleConfig.get( fun001 as T_Fun002 ) ) as T_Fun001;
+    if( fun001.length > 1 ){
+      const url: URL = new URL( request.url ),
+        pathName: string = url.pathname,
+        method: string = request.method.toLowerCase().trim();
+
+      MyConsole.Red( `
+${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对${ method }请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+
+      errorWriteStream.write( `
+${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对${ method }请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+
+      throw new Error( `
+${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！
+请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对${ method }请求“${ pathName }”配置了多个“路由逻辑”！！！
+` );
+    }
+    else if( fun001.length === 1 ){
+      return ( myRouteHandleConfig.get( ( fun001.pop() ) as T_Fun002 ) ) as T_Fun001;
     }
     else{
       return false;
