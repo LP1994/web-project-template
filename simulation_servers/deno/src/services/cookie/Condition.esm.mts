@@ -31,7 +31,7 @@
 'use strict';
 
 // 符合处理条件的请求URL核心标头，如：https://127.0.0.1:9200/simulation_servers_deno/cookie
-export const myURLPathName: string = `/simulation_servers_deno/cookie`;
+export const myURLPathName: string = `/cookie`;
 
 /**
  * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
@@ -46,7 +46,12 @@ function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  return pathName === myURLPathName || pathName === String( myURLPathName + '/' );
+  return [
+    `${ myURLPathName }`,
+    `${ myURLPathName }/`,
+    `/simulation_servers_deno${ myURLPathName }`,
+    `/simulation_servers_deno${ myURLPathName }/`,
+  ].includes( pathName );
 }
 
 // 必须部署这个默认的导出值。

@@ -32,7 +32,7 @@
 'use strict';
 
 // 符合处理条件的请求URL核心标头，如：https://localhost:9200/simulation_servers_deno/static/json/JSON001.json
-export const myURLPathName: string = `/simulation_servers_deno/static/`;
+export const myURLPathName: string = `/static/`;
 
 /**
  * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
@@ -47,7 +47,7 @@ function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  return pathName.startsWith( myURLPathName );
+  return pathName.startsWith( `${ myURLPathName }` ) || pathName.startsWith( `/simulation_servers_deno${ myURLPathName }` );
 }
 
 // 必须部署这个默认的导出值。

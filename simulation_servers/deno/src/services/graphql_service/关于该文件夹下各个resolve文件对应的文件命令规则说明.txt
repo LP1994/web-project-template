@@ -10,4 +10,7 @@ Hello.resolve.esm.mts
 
 
 为什么会这么要求呢！因为在"AllGraphQL.esm.mts"中，使用了自动扫描指定文件夹下的各个层级文件夹中符合‘*.resolve.*.{ts,cts,mts}’格式的各个文件，然后使用动态导入获取各个resolve文件的导出值。
+
 这样就不用手动书写每一个resolve文件的静态导入语法了。
+
+如果不要按照上述命名的规则，也可以手动导入的，详细见“AllGraphQL.esm.mts”中的说明。

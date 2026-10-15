@@ -108,6 +108,18 @@ function Condition( request: Request ): boolean{
 
     `${ myURLPathName }/subscriptions`,
     `${ myURLPathName }/subscriptions/`,
+
+    `/subscriptions${ myURLPathName }`,
+    `/subscriptions${ myURLPathName }/`,
+
+    `/simulation_servers_deno${ myURLPathName }`,
+    `/simulation_servers_deno${ myURLPathName }/`,
+
+    `/simulation_servers_deno${ myURLPathName }/subscriptions`,
+    `/simulation_servers_deno${ myURLPathName }/subscriptions/`,
+
+    `/simulation_servers_deno/subscriptions${ myURLPathName }`,
+    `/simulation_servers_deno/subscriptions${ myURLPathName }/`,
   ].includes( pathName ) ){
     return true;
   }
@@ -116,13 +128,36 @@ function Condition( request: Request ): boolean{
     const search: string = url.search,
       searchParams: URLSearchParams = url.searchParams;
 
-    if( pathName === `/graphql/schema.json` ){
+    if(
+      [
+        `${ myURLPathName }/schema.json`,
+        `/simulation_servers_deno${ myURLPathName }/schema.json`,
+      ].includes( pathName )
+    ){
       return true;
     }
-    else if( ( pathName === myURLPathName || pathName === String( myURLPathName + '/' ) ) && search.trim().startsWith( '?' ) && searchParams.has( 'query' ) ){
+    else if(
+      (
+        [
+          `${ myURLPathName }`,
+          `${ myURLPathName }/`,
+          `/simulation_servers_deno${ myURLPathName }`,
+          `/simulation_servers_deno${ myURLPathName }/`,
+        ].includes( pathName )
+      ) &&
+      search.trim().startsWith( '?' ) &&
+      searchParams.has( 'query' )
+    ){
       return true;
     }
-    else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+    else if(
+      [
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
+        `/simulation_servers_deno${ myURLPathName }/stream`,
+        `/simulation_servers_deno${ myURLPathName }/stream/`,
+      ].includes( pathName )
+    ){
       return true;
     }
     else{
@@ -130,10 +165,26 @@ function Condition( request: Request ): boolean{
     }
   }
   else if( request.method.toLowerCase() === 'post' ){
-    if( pathName === myURLPathName || pathName === String( myURLPathName + '/' ) ){
+    if(
+      (
+        [
+          `${ myURLPathName }`,
+          `${ myURLPathName }/`,
+          `/simulation_servers_deno${ myURLPathName }`,
+          `/simulation_servers_deno${ myURLPathName }/`,
+        ].includes( pathName )
+      )
+    ){
       return true;
     }
-    else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+    else if(
+      [
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
+        `/simulation_servers_deno${ myURLPathName }/stream`,
+        `/simulation_servers_deno${ myURLPathName }/stream/`,
+      ].includes( pathName )
+    ){
       return true;
     }
     else{
@@ -141,7 +192,26 @@ function Condition( request: Request ): boolean{
     }
   }
   else if( request.method.toLowerCase() === 'put' ){
-    if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+    if(
+      (
+        [
+          `${ myURLPathName }`,
+          `${ myURLPathName }/`,
+          `/simulation_servers_deno${ myURLPathName }`,
+          `/simulation_servers_deno${ myURLPathName }/`,
+        ].includes( pathName )
+      )
+    ){
+      return true;
+    }
+    else if(
+      [
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
+        `/simulation_servers_deno${ myURLPathName }/stream`,
+        `/simulation_servers_deno${ myURLPathName }/stream/`,
+      ].includes( pathName )
+    ){
       return true;
     }
     else{
@@ -149,7 +219,26 @@ function Condition( request: Request ): boolean{
     }
   }
   else if( request.method.toLowerCase() === 'delete' ){
-    if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+    if(
+      (
+        [
+          `${ myURLPathName }`,
+          `${ myURLPathName }/`,
+          `/simulation_servers_deno${ myURLPathName }`,
+          `/simulation_servers_deno${ myURLPathName }/`,
+        ].includes( pathName )
+      )
+    ){
+      return true;
+    }
+    else if(
+      [
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
+        `/simulation_servers_deno${ myURLPathName }/stream`,
+        `/simulation_servers_deno${ myURLPathName }/stream/`,
+      ].includes( pathName )
+    ){
       return true;
     }
     else{

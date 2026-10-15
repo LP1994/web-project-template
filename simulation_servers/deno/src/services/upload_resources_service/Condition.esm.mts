@@ -45,7 +45,7 @@
 'use strict';
 
 // 符合处理条件的请求URL核心标头，如：https://localhost:9200/simulation_servers_deno/upload、https://localhost:9200/simulation_servers_deno/upload/
-export const myURLPathName: string = `/simulation_servers_deno/upload`;
+export const myURLPathName: string = `/upload`;
 
 /**
  * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
@@ -63,6 +63,8 @@ function Condition( request: Request ): boolean{
   return [
     myURLPathName,
     `${ myURLPathName }/`,
+    `/simulation_servers_deno${ myURLPathName }`,
+    `/simulation_servers_deno${ myURLPathName }/`,
   ].includes( pathName );
 }
 

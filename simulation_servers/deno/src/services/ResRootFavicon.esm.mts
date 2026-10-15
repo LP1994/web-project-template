@@ -41,6 +41,8 @@ import {
   mime,
 } from 'public/PublicTools.esm.mts';
 
+import ResponseError from 'public/ResponseError.esm.mts';
+
 /**
  * 响应请求的处理函数。
  *
@@ -52,47 +54,65 @@ function Handle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  let filePath: URL;
+  let filePath: URL,
+    isHit: boolean;
 
   switch( pathName ){
     case '/favicon.ico':
+      isHit = true;
+
       filePath = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
 
       break;
     case '/favicon.png':
+      isHit = true;
+
       filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
       break;
     case '/apple-touch-icon.png':
+      isHit = true;
+
       filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
       break;
     case '/apple-touch-icon-precomposed.png':
+      isHit = true;
+
       filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
       break;
     case '/apple-touch-icon-120x120.png':
+      isHit = true;
+
       filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
       break;
     case '/apple-touch-icon-120x120-precomposed.png':
+      isHit = true;
+
       filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
 
       break;
     default:
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
+      isHit = false;
 
       break;
   }
 
-  return new Response( Deno.readFileSync( filePath ), {
-    status: 200,
-    statusText: 'OK',
-    headers: {
-      ...HttpResponseHeadersFun( request ),
-      'content-type': mime.getType( filePath.href ),
-    },
-  } );
+  if( isHit ){
+    return new Response( Deno.readFileSync( filePath ), {
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        ...HttpResponseHeadersFun( request ),
+        'content-type': mime.getType( filePath.href ),
+      },
+    } );
+  }
+  else{
+    return new ResponseError( request ).resPage404();
+  }
 }
 
 // 必须部署这个默认的导出值。

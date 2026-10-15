@@ -83,6 +83,8 @@ const methodByPostForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap(
  */
 const methodByGetForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
   '/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  '/simulation_servers_deno': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
 
   '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
   '/favicon.png': `${ servicesDir }/ResRootFavicon.esm.mts`,
@@ -91,6 +93,8 @@ const methodByGetForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( 
   '/apple-touch-icon-120x120.png': `${ servicesDir }/ResRootFavicon.esm.mts`,
   '/apple-touch-icon-120x120-precomposed.png': `${ servicesDir }/ResRootFavicon.esm.mts`,
 
+  '/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
+  '/GetJSON/': `${ servicesDir }/GetJSON.esm.mts`,
   '/simulation_servers_deno/GetJSON': `${ servicesDir }/GetJSON.esm.mts`,
   '/simulation_servers_deno/GetJSON/': `${ servicesDir }/GetJSON.esm.mts`,
 } );
@@ -115,12 +119,8 @@ const methodByOptionsForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteM
  */
 const websocketForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
   '/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
-  '/subscriptions': `${ servicesDir }/WebSocketResRoot.esm.mts`,
-  '/subscriptions/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
   '/simulation_servers_deno': `${ servicesDir }/WebSocketResRoot.esm.mts`,
   '/simulation_servers_deno/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
-  '/simulation_servers_deno/subscriptions': `${ servicesDir }/WebSocketResRoot.esm.mts`,
-  '/simulation_servers_deno/subscriptions/': `${ servicesDir }/WebSocketResRoot.esm.mts`,
 } );
 
 // RouteMapConfig End
@@ -145,10 +145,6 @@ const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
   ],
-  [
-    `${ servicesDir }/cookie/Condition.esm.mts`,
-    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
-  ],
 ] );
 
 /**
@@ -163,10 +159,6 @@ const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/cookie/Condition.esm.mts`,
-    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
   ],
 ] );
 
@@ -187,10 +179,6 @@ const methodByPostForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
   [
     `${ servicesDir }/graphql_service/Condition.esm.mts`,
     `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/cookie/Condition.esm.mts`,
-    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
   ],
 ] );
 

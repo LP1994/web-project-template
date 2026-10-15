@@ -1,3 +1,14 @@
+该文件夹里的代码，参考：
+hello、
+message、
+server_date、
+subscription
+里的写法。注意，核心是要返回如下，其是必须的：
+export {
+  typeDefs,
+  resolvers,
+};
+
 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求），如：
 POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql
 
