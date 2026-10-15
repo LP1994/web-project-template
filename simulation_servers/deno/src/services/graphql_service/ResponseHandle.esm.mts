@@ -8,10 +8,40 @@
  */
 
 /**
- * 该文件夹是用于响应“GraphQL请求”（POST请求、GET请求），如：
- * POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql
+ * 该文件夹是用于响应“GraphQL请求”（POST、GET、PUT、DELETE请求、Websocket请求），如：
+ * POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：
+ * https://127.0.0.1:9200/graphql
+ * https://127.0.0.1:9200/graphql/
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/
  *
- * GET（服务端使用graphql-http实现，但是GET请求不支持“mutation”操作，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ *
+ *
+ * PUT（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：
+ * https://127.0.0.1:9200/graphql
+ * https://127.0.0.1:9200/graphql/
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/
+ *
+ *
+ *
+ * DELETE（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：
+ * https://127.0.0.1:9200/graphql
+ * https://127.0.0.1:9200/graphql/
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/
+ *
+ *
+ *
+ * GET（服务端使用graphql-http实现，但是GET请求不支持“mutation”操作，graphql-http有对应的客户端实现）：
+ * https://127.0.0.1:9200/graphql/schema.json
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/schema.json
+ *
+ * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ * https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ *
  * 例子：
  * 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：
  * encodeURI(`query Test001{
@@ -44,14 +74,29 @@
  *
  * 成功！完美！
  *
+ *
+ *
  * Websocket（服务端使用graphql-ws实现，graphql-ws有对应的客户端实现）：
  * wss://127.0.0.1:9200/graphql
  * wss://127.0.0.1:4000/graphql/
  * wss://127.0.0.1:9200/graphql/subscriptions
  * wss://127.0.0.1:9200/graphql/subscriptions/
+ * wss://127.0.0.1:9200/subscriptions/graphql
+ * wss://127.0.0.1:4000/subscriptions/graphql/
+ * wss://127.0.0.1:9200/simulation_servers_deno/graphql
+ * wss://127.0.0.1:9200/simulation_servers_deno/graphql/
+ * wss://127.0.0.1:9200/simulation_servers_deno/graphql/subscriptions
+ * wss://127.0.0.1:4000/simulation_servers_deno/graphql/subscriptions/
+ * wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/graphql
+ * wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/graphql/
+ *
+ *
  *
  * SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求，graphql-sse有对应的客户端实现）：
  * https://127.0.0.1:9200/graphql/stream
+ * https://127.0.0.1:9200/graphql/stream/
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/
  *
  *
  *
@@ -134,7 +179,100 @@ const schema: T_GraphQLSchema = mergeSchemas( {
 } );
 
 /**
- * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：<br />
+ * https://127.0.0.1:9200/graphql <br />
+ * https://127.0.0.1:9200/graphql/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/ <br /><br /><br /><br />
+ *
+ *
+ *
+ * PUT（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：<br />
+ * https://127.0.0.1:9200/graphql <br />
+ * https://127.0.0.1:9200/graphql/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/ <br /><br /><br /><br />
+ *
+ *
+ *
+ * DELETE（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：<br />
+ * https://127.0.0.1:9200/graphql <br />
+ * https://127.0.0.1:9200/graphql/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/ <br /><br /><br /><br />
+ *
+ *
+ *
+ * GET（服务端使用graphql-http实现，但是GET请求不支持“mutation”操作，graphql-http有对应的客户端实现）：<br />
+ * https://127.0.0.1:9200/graphql/schema.json <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/schema.json <br /><br />
+ *
+ * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br />
+ * https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br /><br />
+ *
+ * 例子：<br />
+ * 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：<br />
+ * ```ts
+ * encodeURI(`query Test001{
+ *     hello1: hello,
+ * }
+ *
+ * query Test002{
+ *     serverDate1: serverDate,
+ * }`);
+ * ```
+ * 处理完就成了这样：<br />
+ * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D <br /><br />
+ *
+ * ```js
+ * var myHeaders = new Headers();
+ * myHeaders.append("Accept", "application/json");
+ * myHeaders.append("Cache-Control", "no-cache");
+ * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+ * myHeaders.append("Host", "127.0.0.1:9200");
+ * myHeaders.append("Connection", "keep-alive");
+ *
+ * var requestOptions = {
+ *    method: 'GET',
+ *    headers: myHeaders,
+ *    redirect: 'follow'
+ * };
+ *
+ * fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001", requestOptions)
+ *    .then(response => response.text())
+ *    .then(result => console.log(result))
+ *    .catch(error => console.log('error', error));
+ * ```
+ * 成功！完美！<br /><br /><br /><br />
+ *
+ *
+ *
+ * Websocket（服务端使用graphql-ws实现，graphql-ws有对应的客户端实现）：<br />
+ * wss://127.0.0.1:9200/graphql <br />
+ * wss://127.0.0.1:4000/graphql/ <br />
+ * wss://127.0.0.1:9200/graphql/subscriptions <br />
+ * wss://127.0.0.1:9200/graphql/subscriptions/ <br />
+ * wss://127.0.0.1:9200/subscriptions/graphql <br />
+ * wss://127.0.0.1:4000/subscriptions/graphql/ <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno/graphql <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno/graphql/ <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno/graphql/subscriptions <br />
+ * wss://127.0.0.1:4000/simulation_servers_deno/graphql/subscriptions/ <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/graphql <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/graphql/ <br /><br /><br /><br />
+ *
+ *
+ *
+ * SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求，graphql-sse有对应的客户端实现）：<br />
+ * https://127.0.0.1:9200/graphql/stream <br />
+ * https://127.0.0.1:9200/graphql/stream/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/ <br /><br /><br /><br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

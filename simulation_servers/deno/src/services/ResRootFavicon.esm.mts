@@ -8,7 +8,13 @@
  */
 
 /**
- * 用于响应HTTP服务的根图片GET请求，如：“https://127.0.0.1:9200/favicon.ico”。
+ * 用于响应HTTP服务的根图片GET请求，如：
+ * https://127.0.0.1:9200/favicon.ico
+ * https://127.0.0.1:9200/favicon.png
+ * https://127.0.0.1:9200/apple-touch-icon.png
+ * https://127.0.0.1:9200/apple-touch-icon-precomposed.png
+ * https://127.0.0.1:9200/apple-touch-icon-120x120.png
+ * https://127.0.0.1:9200/apple-touch-icon-120x120-precomposed.png
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteMapConfig”中的配置。
  */
@@ -44,7 +50,15 @@ import {
 import ResponseError from 'public/ResponseError.esm.mts';
 
 /**
- * 响应请求的处理函数。
+ * 响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/favicon.ico <br />
+ * https://127.0.0.1:9200/favicon.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon-precomposed.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon-120x120.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon-120x120-precomposed.png <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

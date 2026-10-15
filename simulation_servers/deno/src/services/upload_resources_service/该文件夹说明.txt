@@ -8,4 +8,7 @@ UploadByMultiple.esm.mts（多文件批量上传）、
 UploadBySingle.esm.mts（单文件上传）
 
 支持的请求URL有：
-https://127.0.0.1:9200/simulation_servers_deno/upload、https://127.0.0.1:9200/simulation_servers_deno/upload/
+https://127.0.0.1:9200/upload
+https://127.0.0.1:9200/upload/
+https://127.0.0.1:9200/simulation_servers_deno/upload
+https://127.0.0.1:9200/simulation_servers_deno/upload/

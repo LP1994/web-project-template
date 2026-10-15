@@ -55,10 +55,18 @@
  * file0：File_004
  * fileName0：'File_004.png'
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=multiple&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=multiple&isForcedWrite=true
  *
  * 1、客户端上传的body必须是用FormData包装。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。
@@ -236,10 +244,18 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
  * file0：File_004
  * fileName0：'File_004.png'
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=multiple&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=multiple&isForcedWrite=true
  *
  * 1、客户端上传的body必须是用FormData包装。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。

@@ -9,10 +9,10 @@
 
 /**
  * 用于响应WebSocket服务的上传操作，支持的请求URL有：
- * wss://127.0.0.1:9200/upload、wss://127.0.0.1:9200/upload/
- * wss://127.0.0.1:9200/subscriptions/upload、wss://127.0.0.1:9200/subscriptions/upload/
- * wss://127.0.0.1:9200/simulation_servers_deno/upload、wss://127.0.0.1:9200/simulation_servers_deno/upload/
- * wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/upload、wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/upload/
+ * wss://localhost:9200/upload
+ * wss://localhost:9200/upload/
+ * wss://localhost:9200/simulation_servers_deno/upload
+ * wss://localhost:9200/simulation_servers_deno/upload/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteHandle”中的配置。
  */
@@ -56,7 +56,13 @@ const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
- * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * wss://localhost:9200/upload <br />
+ * wss://localhost:9200/upload/ <br />
+ * wss://localhost:9200/simulation_servers_deno/upload <br />
+ * wss://localhost:9200/simulation_servers_deno/upload/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

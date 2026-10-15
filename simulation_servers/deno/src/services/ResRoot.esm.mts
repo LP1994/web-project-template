@@ -8,7 +8,11 @@
  */
 
 /**
- * 用于响应HTTP服务的根GET请求，如：“https://127.0.0.1:9200/”。
+ * 用于响应根"/"HTTP服务的根GET请求，如：
+ * https://127.0.0.1:9200
+ * https://127.0.0.1:9200/
+ * https://127.0.0.1:9200/simulation_servers_deno
+ * https://127.0.0.1:9200/simulation_servers_deno/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteMapConfig”中的配置。
  */
@@ -44,7 +48,13 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 /**
- * 响应请求的处理函数。
+ * 响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200 <br />
+ * https://127.0.0.1:9200/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

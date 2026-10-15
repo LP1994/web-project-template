@@ -9,8 +9,10 @@
 
 /**
  * 用于响应WebSocket服务的上传操作，支持的请求URL有：
- * wss://localhost:9200/upload、wss://localhost:9200/upload/、
- * wss://localhost:9200/simulation_servers_deno/upload、wss://localhost:9200/simulation_servers_deno/upload/
+ * wss://localhost:9200/upload
+ * wss://localhost:9200/upload/
+ * wss://localhost:9200/simulation_servers_deno/upload
+ * wss://localhost:9200/simulation_servers_deno/upload/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteHandle”中的配置。
  */
@@ -32,9 +34,13 @@
 'use strict';
 
 /**
- * 符合处理条件的请求URL核心标头，如：<br />
- * wss://localhost:9200/upload、wss://localhost:9200/upload/、
- * wss://localhost:9200/simulation_servers_deno/upload、wss://localhost:9200/simulation_servers_deno/upload/
+ * 符合处理条件的请求URL核心标头。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * wss://localhost:9200/upload <br />
+ * wss://localhost:9200/upload/ <br />
+ * wss://localhost:9200/simulation_servers_deno/upload <br />
+ * wss://localhost:9200/simulation_servers_deno/upload/ <br />
  *
  * @type {string}
  */
@@ -43,7 +49,13 @@ export const myURLPathName: string = `/upload`;
 /**
  * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
  * 返回值为true、Promise<true>时，表示满足条件。<br />
- * 返回值为false、Promise<false>时，表示不满足条件。<br />
+ * 返回值为false、Promise<false>时，表示不满足条件。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * wss://localhost:9200/upload <br />
+ * wss://localhost:9200/upload/ <br />
+ * wss://localhost:9200/simulation_servers_deno/upload <br />
+ * wss://localhost:9200/simulation_servers_deno/upload/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

@@ -23,10 +23,18 @@
 
 /**
  * 单文件上传（支持POST请求、PUT请求）。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=single&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=single&isForcedWrite=true
  *
  * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
@@ -66,10 +74,18 @@ import {
 
 /**
  * 单文件上传（支持POST请求、PUT请求）。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=single&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=single&isForcedWrite=true
  *
  * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *

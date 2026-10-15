@@ -8,7 +8,11 @@
  */
 
 /**
- * 用于响应HTTP服务的GET请求，如：“https://127.0.0.1:9200/simulation_servers_deno/GetJSON”。
+ * 用于响应HTTP服务的GET请求，如：
+ * https://127.0.0.1:9200/GetJSON
+ * https://127.0.0.1:9200/GetJSON/
+ * https://127.0.0.1:9200/simulation_servers_deno/GetJSON
+ * https://127.0.0.1:9200/simulation_servers_deno/GetJSON/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteMapConfig”中的配置。
  */
@@ -60,7 +64,13 @@ interface I_StartupLogCollectionSchema {
 }
 
 /**
- * 响应请求的处理函数。
+ * 响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/GetJSON <br />
+ * https://127.0.0.1:9200/GetJSON/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/GetJSON <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/GetJSON/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

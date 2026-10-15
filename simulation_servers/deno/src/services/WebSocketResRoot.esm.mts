@@ -8,7 +8,11 @@
  */
 
 /**
- * 用于响应WebSocket服务的根请求，如：“wss://127.0.0.1:9200/”。
+ * 用于响应WebSocket服务的根请求，如：
+ * wss://127.0.0.1:9200
+ * wss://127.0.0.1:9200/
+ * wss://127.0.0.1:9200/simulation_servers_deno
+ * wss://127.0.0.1:9200/simulation_servers_deno/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteMapConfig”中的配置。
  */
@@ -50,7 +54,13 @@ const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
- * 响应请求的处理函数。
+ * 响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * wss://127.0.0.1:9200 <br />
+ * wss://127.0.0.1:9200/ <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno <br />
+ * wss://127.0.0.1:9200/simulation_servers_deno/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

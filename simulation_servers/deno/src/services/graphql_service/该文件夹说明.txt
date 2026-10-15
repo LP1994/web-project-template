@@ -1,4 +1,4 @@
-该文件夹里的代码，参考：
+该文件夹里的代码写法，参考：
 hello、
 message、
 server_date、
@@ -9,10 +9,42 @@ export {
   resolvers,
 };
 
-该文件夹是用于响应“GraphQL请求”（POST请求、GET请求），如：
-POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql
 
-GET（服务端使用graphql-http实现，但是GET请求不支持“mutation”操作，graphql-http有对应的客户端实现）：https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+
+该文件夹是用于响应“GraphQL请求”（POST、GET、PUT、DELETE请求、Websocket请求），如：
+POST（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：
+https://127.0.0.1:9200/graphql
+https://127.0.0.1:9200/graphql/
+https://127.0.0.1:9200/simulation_servers_deno/graphql
+https://127.0.0.1:9200/simulation_servers_deno/graphql/
+
+
+
+PUT（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：
+https://127.0.0.1:9200/graphql
+https://127.0.0.1:9200/graphql/
+https://127.0.0.1:9200/simulation_servers_deno/graphql
+https://127.0.0.1:9200/simulation_servers_deno/graphql/
+
+
+
+DELETE（服务端使用graphql-http实现，graphql-http有对应的客户端实现）：
+https://127.0.0.1:9200/graphql
+https://127.0.0.1:9200/graphql/
+https://127.0.0.1:9200/simulation_servers_deno/graphql
+https://127.0.0.1:9200/simulation_servers_deno/graphql/
+
+
+
+GET（服务端使用graphql-http实现，但是GET请求不支持“mutation”操作，graphql-http有对应的客户端实现）：
+https://127.0.0.1:9200/graphql/schema.json
+https://127.0.0.1:9200/simulation_servers_deno/graphql/schema.json
+
+https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+
 例子：
 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：
 encodeURI(`query Test001{
@@ -45,19 +77,33 @@ fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hel
 
 成功！完美！
 
+
+
 Websocket（服务端使用graphql-ws实现，graphql-ws有对应的客户端实现）：
 wss://127.0.0.1:9200/graphql
 wss://127.0.0.1:4000/graphql/
 wss://127.0.0.1:9200/graphql/subscriptions
 wss://127.0.0.1:9200/graphql/subscriptions/
+wss://127.0.0.1:9200/subscriptions/graphql
+wss://127.0.0.1:4000/subscriptions/graphql/
+wss://127.0.0.1:9200/simulation_servers_deno/graphql
+wss://127.0.0.1:9200/simulation_servers_deno/graphql/
+wss://127.0.0.1:9200/simulation_servers_deno/graphql/subscriptions
+wss://127.0.0.1:4000/simulation_servers_deno/graphql/subscriptions/
+wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/graphql
+wss://127.0.0.1:9200/simulation_servers_deno/subscriptions/graphql/
+
+
 
 SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求，graphql-sse有对应的客户端实现）：
 https://127.0.0.1:9200/graphql/stream
+https://127.0.0.1:9200/graphql/stream/
+https://127.0.0.1:9200/simulation_servers_deno/graphql/stream
+https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/
 
 
 
-如：
-https://127.0.0.1:9200/graphql
+更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
 
 deno关于使用GraphQL的deno官方案例：
 https://docs.deno.com/runtime/manual/basics/connecting_to_databases#server

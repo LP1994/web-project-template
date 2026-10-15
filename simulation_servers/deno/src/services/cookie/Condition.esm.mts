@@ -8,8 +8,13 @@
  */
 
 /**
- * 该文件夹是用于测试关于“cookie”的前后端请求交互，如：
+ * 该文件夹是用于测试关于“cookie”的前后端请求交互。
+ *
+ * 具体请求URL如：
+ * https://127.0.0.1:9200/cookie
+ * https://127.0.0.1:9200/cookie/
  * https://127.0.0.1:9200/simulation_servers_deno/cookie
+ * https://127.0.0.1:9200/simulation_servers_deno/cookie/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
@@ -30,13 +35,29 @@
 
 'use strict';
 
-// 符合处理条件的请求URL核心标头，如：https://127.0.0.1:9200/simulation_servers_deno/cookie
+/**
+ * 符合处理条件的请求URL核心标头。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/cookie <br />
+ * https://127.0.0.1:9200/cookie/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/cookie <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/cookie/ <br />
+ *
+ * @type {string}
+ */
 export const myURLPathName: string = `/cookie`;
 
 /**
  * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
  * 返回值为true、Promise<true>时，表示满足条件。<br />
- * 返回值为false、Promise<false>时，表示不满足条件。<br />
+ * 返回值为false、Promise<false>时，表示不满足条件。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/cookie <br />
+ * https://127.0.0.1:9200/cookie/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/cookie <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/cookie/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

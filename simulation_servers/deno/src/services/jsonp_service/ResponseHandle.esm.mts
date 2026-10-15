@@ -19,7 +19,10 @@
 
 /**
  * 该文件夹是用于响应“jsonp”（GET请求），如：
+ * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
+ * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
  * https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
@@ -40,7 +43,13 @@ import {
 import ResponseError from 'public/ResponseError.esm.mts';
 
 /**
- * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

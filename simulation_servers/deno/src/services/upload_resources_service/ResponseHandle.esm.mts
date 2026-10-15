@@ -14,7 +14,10 @@
 
 /**
  * 用于响应HTTP服务的上传操作（支持POST请求、PUT请求），支持的请求URL有：
- * https://127.0.0.1:9200/simulation_servers_deno/upload、https://127.0.0.1:9200/simulation_servers_deno/upload/
+ * https://127.0.0.1:9200/upload
+ * https://127.0.0.1:9200/upload/
+ * https://127.0.0.1:9200/simulation_servers_deno/upload
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”、“methodByPutForRouteHandle”中的配置。
  */
@@ -65,10 +68,18 @@ import {
  * 关于如何创建Blob见：
  * https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=binary&fileName=001.png&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=binary&fileName=001.png&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=binary&fileName=001.png&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=binary&fileName=001.png&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=binary&fileName=001.png&isForcedWrite=true
  *
  * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
@@ -86,10 +97,18 @@ import UploadByBinary from './UploadByBinary.esm.mts';
 
 /**
  * 单文件上传（支持POST请求、PUT请求）。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=single&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=single&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=single&isForcedWrite=true
  *
  * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
@@ -139,10 +158,18 @@ import UploadBySingle from './UploadBySingle.esm.mts';
  * file0：File_004
  * fileName0：'File_004.png'
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=multiple&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=multiple&isForcedWrite=true
  *
  * 1、客户端上传的body必须是用FormData包装。
  * 2、要求客户端发起的请求url上必须要有查询参数“uploadType=multiple”。
@@ -169,11 +196,19 @@ import UploadByMultiple from './UploadByMultiple.esm.mts';
  *
  * 允许在请求头中携带自定义的请求头标识“deno-custom-file-sri”，其值为使用“SHA-512”计算的文件SRI值，来提前校验上传的文件是否已经存在。
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带上“fileName”，“fileName”有没有带扩展名都行（最好带扩展名）。
  * 单个大文件上传不需要在URL上包含查询参数“type”，添加了它，就会执行单个大文件的分块上传的逻辑。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile&fileName=001.zip&isForcedWrite=true
  *
  * 1、客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
  * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
@@ -191,11 +226,19 @@ import UploadByBigFile from './UploadByBigFile.esm.mts';
  * 单个大文件的分块上传（支持POST请求、PUT请求）。
  * 客户端将大文件分成多个小块，一个一个小块上传，服务端接收后将这些小块存储在临时文件夹中，待全部接受完毕后，再合并它们，再删除临时文件夹。
  *
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=false
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=false
+ * https://127.0.0.1:9200/upload/?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=false
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=false
  * 查询参数“isForcedWrite”是可选的，“fileName”也是可选的，但是最好带。
  * 单个大文件的分块上传必须在URL上包含查询参数“type”，其值必须是“part”。
  * 当客户端发起的请求URL上带有查询参数“isForcedWrite”且值设置为true时，表示无论文件是不是已经存在，都强制写入文件并更新文件的所有信息。
- * 例子：https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=true
+ * 例子：
+ * https://127.0.0.1:9200/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=true
+ * https://127.0.0.1:9200/upload/?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=true
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile&type=part&fileName=001.zip&isForcedWrite=true
  */
 import UploadByBigFileForPart from './UploadByBigFileForPart.esm.mts';
 
@@ -230,7 +273,13 @@ async function ValidateReqHeadSRI( request: Request ): Promise<T_QueryOneResult>
 }
 
 /**
- * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/upload <br />
+ * https://127.0.0.1:9200/upload/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/upload <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/ <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

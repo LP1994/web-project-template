@@ -20,8 +20,11 @@
 /**
  * 用于响应“web”文件夹下的静态文件获取（GET请求），如：
  * 获取“web”文件夹下的“xx_project”文件夹下的“js”文件夹下的“JS001.js”文件。
+ * https://127.0.0.1:9200/web/xx_project/js/JS001.js
  * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js
+ *
  * 携带上查询参数“download”表示要下载该资源文件：
+ * https://127.0.0.1:9200/web/xx_project/js/JS001.js?download
  * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js?download
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
@@ -56,7 +59,16 @@ import {
 } from './Condition.esm.mts';
 
 /**
- * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * 获取“web”文件夹下的“xx_project”文件夹下的“js”文件夹下的“JS001.js”文件。<br />
+ * https://127.0.0.1:9200/web/xx_project/js/JS001.js <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js <br /><br />
+ *
+ * 携带上查询参数“download”表示要下载该资源文件：<br />
+ * https://127.0.0.1:9200/web/xx_project/js/JS001.js?download <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/web/xx_project/js/JS001.js?download <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

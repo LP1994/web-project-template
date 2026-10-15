@@ -9,7 +9,10 @@
 
 /**
  * 该文件夹是用于响应“jsonp”（GET请求），如：
+ * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
+ * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
  * https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
@@ -30,13 +33,29 @@
 
 'use strict';
 
-// 符合处理条件的请求URL核心标头，如：https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
+/**
+ * 符合处理条件的请求URL核心标头。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ *
+ * @type {string}
+ */
 export const myURLPathName: string = `/jsonp`;
 
 /**
  * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
  * 返回值为true、Promise<true>时，表示满足条件。<br />
- * 返回值为false、Promise<false>时，表示不满足条件。<br />
+ * 返回值为false、Promise<false>时，表示不满足条件。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
