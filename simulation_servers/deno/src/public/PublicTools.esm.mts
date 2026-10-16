@@ -223,6 +223,39 @@ async function HTMLMinifyByRehype( html: string ): Promise<string>{
   ).trim();
 }
 
+/**
+ * 是否为WebSocket请求。<br />
+ * 返回true，即表示是一个WebSocket请求。<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {boolean} 返回true，即表示是一个WebSocket请求。<br />
+ */
+function IsWSForRequest( request: Request ): boolean{
+  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
+    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
+
+  return upgrade === 'websocket' &&
+    (
+      connection === 'upgrade' ||
+      connection === 'keep-alive, Upgrade'.toLowerCase() ||
+      connection === 'keep-alive,Upgrade'.toLowerCase()
+    );
+}
+
+/**
+ * 是否为get请求，且不是WebSocket请求。<br />
+ * 返回true，即表示是一个get请求，而且不是WebSocket请求的升级请求。<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {boolean} 返回true，即表示是一个get请求，而且不是WebSocket请求的升级请求。<br />
+ */
+function IsGetForRequestAndNoWS( request: Request ): boolean{
+  return request.method.toLowerCase() === 'get' && !IsWSForRequest( request );
+}
+
 export {
   type T_MyCusDenoFsFile,
 
@@ -239,6 +272,9 @@ export {
   GraphqlParseByFilePath,
 
   HTMLMinifyByRehype,
+
+  IsWSForRequest,
+  IsGetForRequestAndNoWS,
 };
 
 export default {
@@ -255,4 +291,7 @@ export default {
   GraphqlParseByFilePath,
 
   HTMLMinifyByRehype,
+
+  IsWSForRequest,
+  IsGetForRequestAndNoWS,
 };

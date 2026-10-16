@@ -36,6 +36,10 @@
 
 'use strict';
 
+import {
+  IsGetForRequestAndNoWS,
+} from 'public/PublicTools.esm.mts';
+
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
@@ -75,7 +79,11 @@ function Condition( request: Request ): boolean{
     pathName: string = decodeURI( url.pathname ),
     method: string = request.method.toLowerCase().trim();
 
-  return ( pathName.startsWith( `${ myURLPathName }` ) || pathName.startsWith( `/simulation_servers_deno${ myURLPathName }` ) ) && method === 'get';
+  return (
+      pathName.startsWith( `${ myURLPathName }` ) ||
+      pathName.startsWith( `/simulation_servers_deno${ myURLPathName }` )
+    ) &&
+    IsGetForRequestAndNoWS( request );
 }
 
 // 必须部署这个默认的导出值。

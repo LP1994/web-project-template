@@ -128,6 +128,11 @@
 
 'use strict';
 
+import {
+  IsWSForRequest,
+  IsGetForRequestAndNoWS,
+} from 'public/PublicTools.esm.mts';
+
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
@@ -332,12 +337,9 @@ export const myURLPathName: string = `/graphql`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname ),
-    upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
-    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
-    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
+    pathName: string = decodeURI( url.pathname );
 
-  if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) && [
+  if( IsWSForRequest( request ) && [
     myURLPathName,
     `${ myURLPathName }/`,
 
@@ -358,7 +360,7 @@ function Condition( request: Request ): boolean{
   ].includes( pathName ) ){
     return true;
   }
-  else if( request.method.toLowerCase() === 'get' ){
+  else if( IsGetForRequestAndNoWS( request ) ){
     // 形如：?query={hello1:hello,serverDate1:serverDate,}&variables={}
     const search: string = url.search,
       searchParams: URLSearchParams = url.searchParams;

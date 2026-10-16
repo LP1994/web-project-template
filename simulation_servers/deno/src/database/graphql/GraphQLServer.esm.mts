@@ -85,6 +85,8 @@ import {
   type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
+
+  IsWSForRequest,
 } from 'public/PublicTools.esm.mts';
 
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
@@ -186,12 +188,9 @@ async function GraphQLServer( {
   graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ];
 } ): T_Response001{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname ),
-    upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
-    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
-    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
+    pathName: string = decodeURI( url.pathname );
 
-  if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
+  if( IsWSForRequest( request ) ){
     const {
       // socket.protocol为空字符！可能是Deno的BUG！所以只能重写：graphql-ws/use/deno里的makeHandler函数！
       socket,
@@ -403,7 +402,12 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
 
     return response;
   }
-  else if( pathName === '/graphql/stream' || pathName === '/graphql/stream/' ){
+  else if( [
+    '/graphql/stream',
+    '/graphql/stream/',
+    '/simulation_servers_deno/graphql/stream',
+    '/simulation_servers_deno/graphql/stream/',
+  ].includes( pathName ) ){
     const [
       options,
       reqCtx = {
@@ -427,7 +431,10 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
     const url: URL = new URL( request.url ),
       pathName: string = decodeURI( url.pathname );
 
-    if( pathName === `/graphql/schema.json` ){
+    if( [
+      '/graphql/schema.json',
+      '/simulation_servers_deno/graphql/schema.json',
+    ].includes( pathName ) ){
       const result: Record<string, unknown> = await graphql( {
         schema: options.schema,
         source: getIntrospectionQuery( {

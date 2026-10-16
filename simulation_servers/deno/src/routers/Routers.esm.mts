@@ -42,6 +42,8 @@ import {
   IterateToNestForPromise,
 
   mime,
+
+  IsWSForRequest,
 } from 'public/PublicTools.esm.mts';
 
 import Put from './Put.esm.mts';
@@ -88,13 +90,9 @@ const requestMethods: {
 async function Routers( request: Request ): Promise<Response>{
   const method: string = request.method.toLowerCase().trim();
 
-  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
-    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
-    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
-
   let result: Response;
 
-  if( upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() ) ){
+  if( IsWSForRequest( request ) ){
     result = ( await IterateToNestForPromise( WebSocket( request ) ) ) as Response;
   }
   else if( method in requestMethods ){

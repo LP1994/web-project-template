@@ -33,6 +33,10 @@
 
 'use strict';
 
+import {
+  IsWSForRequest,
+} from 'public/PublicTools.esm.mts';
+
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
@@ -73,7 +77,7 @@ function Condition( request: Request ): boolean{
     ``,
     `/simulation_servers_deno${ myURLPathName }`,
     `/simulation_servers_deno`,
-  ].includes( pathName ) && upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() );
+  ].includes( pathName ) && IsWSForRequest( request );
 }
 
 // 必须部署这个默认的导出值。
