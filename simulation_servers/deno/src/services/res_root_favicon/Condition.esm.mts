@@ -1,10 +1,10 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/services/ResRootFavicon.esm.mts
+ * FileDirPath: simulation_servers/deno/src/services/res_root_favicon/Condition.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-11-01 20:28:02 星期二
+ * CreateDate: 2022-11-02 17:38:47 星期三
  */
 
 /**
@@ -35,22 +35,25 @@
 
 'use strict';
 
-import {
-  type T_Response001,
-
-  staticDir,
-
-  HttpResponseHeadersFun,
-} from 'configures/GlobalParameters.esm.mts';
-
-import {
-  mime,
-} from 'public/PublicTools.esm.mts';
-
-import ResponseError from 'public/ResponseError.esm.mts';
+/**
+ * 符合处理条件的请求URL核心标头。<br /><br />
+ *
+ * 具体请求URL如：<br />
+ * https://127.0.0.1:9200/favicon.ico <br />
+ * https://127.0.0.1:9200/favicon.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon-precomposed.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon-120x120.png <br />
+ * https://127.0.0.1:9200/apple-touch-icon-120x120-precomposed.png <br />
+ *
+ * @type {string}
+ */
+export const myURLPathName: string = `/`;
 
 /**
- * 响应请求的处理函数。<br /><br />
+ * 验证客户端的请求是否满足该条件函数，满足的话就会启用并执行“ResponseHandle.esm.mts”以响应请求。<br />
+ * 返回值为true、Promise<true>时，表示满足条件。<br />
+ * 返回值为false、Promise<false>时，表示不满足条件。<br /><br />
  *
  * 具体请求URL如：<br />
  * https://127.0.0.1:9200/favicon.ico <br />
@@ -62,72 +65,21 @@ import ResponseError from 'public/ResponseError.esm.mts';
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {boolean} 一般返回的是一个boolean类型的值，当然也允许返回的值类型为Promise<boolean>。
  */
-function Handle( request: Request ): T_Response001{
+function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = url.pathname;
+    pathName: string = decodeURI( url.pathname );
 
-  let filePath: URL,
-    isHit: boolean;
-
-  switch( pathName ){
-    case '/favicon.ico':
-      isHit = true;
-
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/favicon.ico` ) );
-
-      break;
-    case '/favicon.png':
-      isHit = true;
-
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
-
-      break;
-    case '/apple-touch-icon.png':
-      isHit = true;
-
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
-
-      break;
-    case '/apple-touch-icon-precomposed.png':
-      isHit = true;
-
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
-
-      break;
-    case '/apple-touch-icon-120x120.png':
-      isHit = true;
-
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
-
-      break;
-    case '/apple-touch-icon-120x120-precomposed.png':
-      isHit = true;
-
-      filePath = new URL( import.meta.resolve( `${ staticDir }/ico/uncompressed/ico_120_120.png` ) );
-
-      break;
-    default:
-      isHit = false;
-
-      break;
-  }
-
-  if( isHit ){
-    return new Response( Deno.readFileSync( filePath ), {
-      status: 200,
-      statusText: 'OK',
-      headers: {
-        ...HttpResponseHeadersFun( request ),
-        'content-type': mime.getType( filePath.href ),
-      },
-    } );
-  }
-  else{
-    return new ResponseError( request ).resPage404();
-  }
+  return [
+    `${ myURLPathName }favicon.ico`,
+    `${ myURLPathName }favicon.png`,
+    `${ myURLPathName }apple-touch-icon.png`,
+    `${ myURLPathName }apple-touch-icon-precomposed.png`,
+    `${ myURLPathName }apple-touch-icon-120x120.png`,
+    `${ myURLPathName }apple-touch-icon-120x120-precomposed.png`,
+  ].includes( pathName );
 }
 
 // 必须部署这个默认的导出值。
-export default Handle;
+export default Condition;

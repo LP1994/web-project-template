@@ -1,20 +1,10 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/services/WebSocketResRoot.esm.mts
+ * FileDirPath: simulation_servers/deno/src/services/websocket_res_root/ResponseHandle.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-11-01 20:27:36 星期二
- */
-
-/**
- * 用于响应WebSocket服务的根请求，如：
- * wss://127.0.0.1:9200
- * wss://127.0.0.1:9200/
- * wss://127.0.0.1:9200/simulation_servers_deno
- * wss://127.0.0.1:9200/simulation_servers_deno/
- *
- * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“websocketForRouteMapConfig”中的配置。
+ * CreateDate: 2022-11-02 17:38:57 星期三
  */
 
 /**
@@ -25,6 +15,16 @@
  * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
  * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
  * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
+ */
+
+/**
+ * 用于响应WebSocket服务的根请求，如：
+ * wss://127.0.0.1:9200
+ * wss://127.0.0.1:9200/
+ * wss://127.0.0.1:9200/simulation_servers_deno
+ * wss://127.0.0.1:9200/simulation_servers_deno/
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
 
 /**
@@ -54,7 +54,7 @@ const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
- * 响应请求的处理函数。<br /><br />
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
  *
  * 具体请求URL如：<br />
  * wss://127.0.0.1:9200 <br />
@@ -66,7 +66,7 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
  *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function Handle( request: Request ): T_Response001{
+function ResponseHandle( request: Request ): T_Response001{
   let response: Response,
     wsForServer: WebSocket,
     url: URL,
@@ -172,4 +172,4 @@ WebSocket收到了来自客户端（${ pathName }）的消息。End
 }
 
 // 必须部署这个默认的导出值。
-export default Handle;
+export default ResponseHandle;

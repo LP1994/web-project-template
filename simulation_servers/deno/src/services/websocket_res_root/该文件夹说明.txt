@@ -1,0 +1,5 @@
+用于响应WebSocket服务的根请求，如：
+wss://127.0.0.1:9200
+wss://127.0.0.1:9200/
+wss://127.0.0.1:9200/simulation_servers_deno
+wss://127.0.0.1:9200/simulation_servers_deno/

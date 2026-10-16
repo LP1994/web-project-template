@@ -1,0 +1,5 @@
+用于响应根"/"HTTP服务的根GET请求，如：
+https://127.0.0.1:9200
+https://127.0.0.1:9200/
+https://127.0.0.1:9200/simulation_servers_deno
+https://127.0.0.1:9200/simulation_servers_deno/

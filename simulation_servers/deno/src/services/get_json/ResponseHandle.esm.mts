@@ -1,20 +1,10 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/services/GetJSON.esm.mts
+ * FileDirPath: simulation_servers/deno/src/services/get_json/ResponseHandle.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2022-11-01 20:30:07 星期二
- */
-
-/**
- * 用于响应HTTP服务的GET请求，如：
- * https://127.0.0.1:9200/GetJSON
- * https://127.0.0.1:9200/GetJSON/
- * https://127.0.0.1:9200/simulation_servers_deno/GetJSON
- * https://127.0.0.1:9200/simulation_servers_deno/GetJSON/
- *
- * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteMapConfig”中的配置。
+ * CreateDate: 2022-11-02 17:38:57 星期三
  */
 
 /**
@@ -28,6 +18,16 @@
  */
 
 /**
+ * 用于响应HTTP服务的GET请求，如：
+ * https://127.0.0.1:9200/GetJSON
+ * https://127.0.0.1:9200/GetJSON/
+ * https://127.0.0.1:9200/simulation_servers_deno/GetJSON
+ * https://127.0.0.1:9200/simulation_servers_deno/GetJSON/
+ *
+ * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
+ */
+
+/**
  * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
  */
 
@@ -38,6 +38,8 @@ import {
 } from 'npm:mongoose';
 
 import {
+  type T_Response001,
+
   HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -64,7 +66,7 @@ interface I_StartupLogCollectionSchema {
 }
 
 /**
- * 响应请求的处理函数。<br /><br />
+ * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
  *
  * 具体请求URL如：<br />
  * https://127.0.0.1:9200/GetJSON <br />
@@ -74,11 +76,9 @@ interface I_StartupLogCollectionSchema {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<Response>} 返回值类型为Promise<Response>。
+ * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-async function Handle(
-  request: Request
-): Promise<Response>{
+function ResponseHandle( request: Request ): T_Response001{
   let mongooseConnectForSingleton: T_MongooseConnectForSingleton;
 
   try{
@@ -86,7 +86,7 @@ async function Handle(
 
     const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = mongooseConnectForSingleton.MongooseClient.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
-    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
+    const startup_log: Array<I_StartupLogCollectionSchema> = await( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
       hostname: 'LPQAQ',
     } ) ).toArray();
 
@@ -122,4 +122,4 @@ async function Handle(
 }
 
 // 必须部署这个默认的导出值。
-export default Handle;
+export default ResponseHandle;
