@@ -3,7 +3,31 @@
 来自
 https://github.com/ardatan/graphql-tools
 的@graphql-tools系列包：
-@graphql-tools/batch-delegate @graphql-tools/batch-execute @graphql-tools/delegate @graphql-tools/documents @graphql-tools/executor @graphql-tools/federation @graphql-tools/graphql-tag-pluck @graphql-tools/import @graphql-tools/jest-transform @graphql-tools/links @graphql-tools/load-files @graphql-tools/load @graphql-tools/merge @graphql-tools/mock @graphql-tools/node-require @graphql-tools/optimize @graphql-tools/relay-operation-optimizer @graphql-tools/resolvers-composition @graphql-tools/schema @graphql-tools/stitch @graphql-tools/stitching-directives @graphql-tools/utils @graphql-tools/webpack-loader-runtime @graphql-tools/webpack-loader @graphql-tools/wrap
+@graphql-tools/batch-delegate
+@graphql-tools/batch-execute
+@graphql-tools/delegate
+@graphql-tools/documents
+@graphql-tools/executor
+@graphql-tools/federation
+@graphql-tools/graphql-tag-pluck
+@graphql-tools/import
+@graphql-tools/jest-transform
+@graphql-tools/links
+@graphql-tools/load-files
+@graphql-tools/load
+@graphql-tools/merge
+@graphql-tools/mock
+@graphql-tools/node-require
+@graphql-tools/optimize
+@graphql-tools/relay-operation-optimizer
+@graphql-tools/resolvers-composition
+@graphql-tools/schema
+@graphql-tools/stitch
+@graphql-tools/stitching-directives
+@graphql-tools/utils
+@graphql-tools/webpack-loader-runtime
+@graphql-tools/webpack-loader
+@graphql-tools/wrap
 
 官方文档：
 https://the-guild.dev/graphql/tools/docs/introduction
