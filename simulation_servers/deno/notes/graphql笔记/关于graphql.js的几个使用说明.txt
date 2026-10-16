@@ -25,9 +25,13 @@ function buildSchema(
 使用 GraphQL 模式语言创建 GraphQLSchema 对象。模式将使用默认解析器。有关 GraphQL 模式语言的更多详情，请参阅模式语言文档或模式语言小抄。
 根据 GraphQL 模式语言构建模式对象。
 
+
+
 function printSchema(schema: GraphQLSchema): string;
 以模式语言格式打印所提供的模式。
 以标准格式打印模式。
+
+
 
 function buildASTSchema(
   documentAST: DocumentNode,
