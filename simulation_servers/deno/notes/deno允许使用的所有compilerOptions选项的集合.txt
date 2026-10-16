@@ -1,5 +1,7 @@
+2026.10.17更新！！！
+
 源码位置:
-deno-2.5.6/libs/resolver/deno_json.rs:108
+https://github.com/denoland/deno/blob/main/libs/resolver/deno_json.rs#L111
 
 定义的变量：
 ALLOWED_COMPILER_OPTIONS
