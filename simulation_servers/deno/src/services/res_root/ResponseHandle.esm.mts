@@ -60,7 +60,7 @@ import {
  *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): T_Response001{
+async function ResponseHandle( request: Request ): T_Response001{
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
 
   return new Response( await HTMLMinifyByRehype( Deno.readTextFileSync( filePath ) ), {

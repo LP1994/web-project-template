@@ -69,7 +69,8 @@ export const myURLPathName: string = `/`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname );
+    pathName: string = decodeURI( url.pathname ),
+    method: string = request.method.toLowerCase().trim();
 
   return [
     `${ myURLPathName }favicon.ico`,
@@ -78,7 +79,7 @@ function Condition( request: Request ): boolean{
     `${ myURLPathName }apple-touch-icon-precomposed.png`,
     `${ myURLPathName }apple-touch-icon-120x120.png`,
     `${ myURLPathName }apple-touch-icon-120x120-precomposed.png`,
-  ].includes( pathName );
+  ].includes( pathName ) && method === 'get';
 }
 
 // 必须部署这个默认的导出值。

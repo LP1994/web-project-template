@@ -77,14 +77,15 @@ export const myURLPathName: string = `/upload`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname );
+    pathName: string = decodeURI( url.pathname ),
+    method: string = request.method.toLowerCase().trim();
 
   return [
     myURLPathName,
     `${ myURLPathName }/`,
     `/simulation_servers_deno${ myURLPathName }`,
     `/simulation_servers_deno${ myURLPathName }/`,
-  ].includes( pathName );
+  ].includes( pathName ) && ( method === 'post' || method === 'put' );
 }
 
 // 必须部署这个默认的导出值。

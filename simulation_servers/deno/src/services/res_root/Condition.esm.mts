@@ -63,14 +63,15 @@ export const myURLPathName: string = `/`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname );
+    pathName: string = decodeURI( url.pathname ),
+    method: string = request.method.toLowerCase().trim();
 
   return [
     `${ myURLPathName }`,
     ``,
     `/simulation_servers_deno${ myURLPathName }`,
     `/simulation_servers_deno`,
-  ].includes( pathName );
+  ].includes( pathName ) && method === 'get';
 }
 
 // 必须部署这个默认的导出值。

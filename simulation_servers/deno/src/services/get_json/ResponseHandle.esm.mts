@@ -78,7 +78,7 @@ interface I_StartupLogCollectionSchema {
  *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): T_Response001{
+async function ResponseHandle( request: Request ): T_Response001{
   let mongooseConnectForSingleton: T_MongooseConnectForSingleton;
 
   try{
@@ -86,7 +86,7 @@ function ResponseHandle( request: Request ): T_Response001{
 
     const startup_log_collection: T_Collection<I_StartupLogCollectionSchema> = mongooseConnectForSingleton.MongooseClient.collection<I_StartupLogCollectionSchema>( 'startup_log' );
 
-    const startup_log: Array<I_StartupLogCollectionSchema> = await( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
+    const startup_log: Array<I_StartupLogCollectionSchema> = await ( await startup_log_collection.find<I_StartupLogCollectionSchema>( {
       hostname: 'LPQAQ',
     } ) ).toArray();
 

@@ -29,6 +29,8 @@ import {
   GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
+import AllServicesForFileURL from 'services/AllServices.esm.mts';
+
 type T_RouteMapConfig = {
   [ key: string ]: T_FilePath001;
 };
@@ -130,7 +132,7 @@ async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_
  */
 function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_RouteHandle{
   return async ( request: Request ): Promise<T_Result001> => {
-    let myRouteHandleConfig: T_RouteHandleConfig | T_Map001 = routeHandleConfig;
+    let myRouteHandleConfig: T_RouteHandleConfig | T_Map001 = routeHandleConfig.concat( AllServicesForFileURL );
 
     const arr001: Array<Promise<[ T_Fun002, T_Fun001 ]>> = myRouteHandleConfig.map(
         async (

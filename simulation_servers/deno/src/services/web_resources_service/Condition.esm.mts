@@ -72,9 +72,10 @@ export const myURLPathName: string = `/web/`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname );
+    pathName: string = decodeURI( url.pathname ),
+    method: string = request.method.toLowerCase().trim();
 
-  return pathName.startsWith( `${ myURLPathName }` ) || pathName.startsWith( `/simulation_servers_deno${ myURLPathName }` );
+  return ( pathName.startsWith( `${ myURLPathName }` ) || pathName.startsWith( `/simulation_servers_deno${ myURLPathName }` ) ) && method === 'get';
 }
 
 // 必须部署这个默认的导出值。

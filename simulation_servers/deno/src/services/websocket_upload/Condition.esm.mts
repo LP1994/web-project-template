@@ -63,14 +63,17 @@ export const myURLPathName: string = `/upload`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname );
+    pathName: string = decodeURI( url.pathname ),
+    upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
+    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
 
   return [
     myURLPathName,
     `${ myURLPathName }/`,
     `/simulation_servers_deno${ myURLPathName }`,
     `/simulation_servers_deno${ myURLPathName }/`,
-  ].includes( pathName );
+  ].includes( pathName ) && upgrade === 'websocket' && ( connection === 'upgrade' || connection === 'keep-alive, Upgrade'.toLowerCase() || connection === 'keep-alive,Upgrade'.toLowerCase() );
 }
 
 // 必须部署这个默认的导出值。

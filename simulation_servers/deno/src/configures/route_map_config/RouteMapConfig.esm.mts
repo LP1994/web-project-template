@@ -27,7 +27,7 @@ import {
   type T_Fun001,
   type T_Result001,
 
-  servicesDir,
+  // servicesDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -51,7 +51,12 @@ type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
  *
  * @type {T_RouteMapHandle}
  */
-const methodByPutForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByPutForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
+  // 该对象里的key-value的写法、用法，例子：
+  // '/': `${ servicesDir }/ResRoot.esm.mts`,
+  // '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  // '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+} );
 
 /**
  * 配置“DELETE”请求的“一对一”的处理。<br />
@@ -61,7 +66,12 @@ const methodByPutForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( 
  *
  * @type {T_RouteMapHandle}
  */
-const methodByDeleteForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByDeleteForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
+  // 该对象里的key-value的写法、用法，例子：
+  // '/': `${ servicesDir }/ResRoot.esm.mts`,
+  // '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  // '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+} );
 
 /**
  * 配置“POST”请求的“一对一”的处理。<br />
@@ -71,7 +81,12 @@ const methodByDeleteForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMa
  *
  * @type {T_RouteMapHandle}
  */
-const methodByPostForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByPostForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
+  // 该对象里的key-value的写法、用法，例子：
+  // '/': `${ servicesDir }/ResRoot.esm.mts`,
+  // '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  // '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+} );
 
 /**
  * 配置“GET”请求的“一对一”的处理。<br />
@@ -81,7 +96,12 @@ const methodByPostForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap(
  *
  * @type {T_RouteMapHandle}
  */
-const methodByGetForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByGetForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
+  // 该对象里的key-value的写法、用法，例子：
+  // '/': `${ servicesDir }/ResRoot.esm.mts`,
+  // '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  // '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+} );
 
 /**
  * 配置“OPTIONS”请求的“一对一”的处理。<br />
@@ -91,7 +111,12 @@ const methodByGetForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( 
  *
  * @type {T_RouteMapHandle}
  */
-const methodByOptionsForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {} );
+const methodByOptionsForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
+  // 该对象里的key-value的写法、用法，例子：
+  // '/': `${ servicesDir }/ResRoot.esm.mts`,
+  // '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  // '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+} );
 
 /**
  * 配置“websocket”请求的“一对一”的处理。<br />
@@ -101,7 +126,12 @@ const methodByOptionsForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteM
  *
  * @type {T_RouteMapHandle}
  */
-const websocketForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {} );
+const websocketForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {
+  // 该对象里的key-value的写法、用法，例子：
+  // '/': `${ servicesDir }/ResRoot.esm.mts`,
+  // '/simulation_servers_deno/': new URL( import.meta.resolve( `${ servicesDir }/ResRoot.esm.mts` ) ),
+  // '/favicon.ico': `${ servicesDir }/ResRootFavicon.esm.mts`,
+} );
 
 // RouteMapConfig End
 
@@ -116,14 +146,18 @@ const websocketForRouteMapConfig: T_RouteMapHandle = await GeneratorRouteMap( {}
  * @type {T_RouteHandle}
  */
 const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/graphql_service/Condition.esm.mts`,
-    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
-    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
-  ],
+  /*
+   该数组里的各个元素的写法、用法，例子：
+   [
+   `${ servicesDir }/static_resources_service/ConditionXXX.esm.mts`,
+   `${ servicesDir }/static_resources_service/ResponseHandleXXX.esm.mts`,
+   ],
+
+   [
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ConditionXXX.esm.mts` ) ),
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandleXXX.esm.mts` ) ),
+   ],
+   */
 ] );
 
 /**
@@ -135,10 +169,18 @@ const methodByPutForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
  * @type {T_RouteHandle}
  */
 const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/graphql_service/Condition.esm.mts`,
-    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
+  /*
+   该数组里的各个元素的写法、用法，例子：
+   [
+   `${ servicesDir }/static_resources_service/ConditionXXX.esm.mts`,
+   `${ servicesDir }/static_resources_service/ResponseHandleXXX.esm.mts`,
+   ],
+
+   [
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ConditionXXX.esm.mts` ) ),
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandleXXX.esm.mts` ) ),
+   ],
+   */
 ] );
 
 /**
@@ -150,14 +192,18 @@ const methodByDeleteForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
  * @type {T_RouteHandle}
  */
 const methodByPostForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/graphql_service/Condition.esm.mts`,
-    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/upload_resources_service/Condition.esm.mts`,
-    `${ servicesDir }/upload_resources_service/ResponseHandle.esm.mts`,
-  ],
+  /*
+   该数组里的各个元素的写法、用法，例子：
+   [
+   `${ servicesDir }/static_resources_service/ConditionXXX.esm.mts`,
+   `${ servicesDir }/static_resources_service/ResponseHandleXXX.esm.mts`,
+   ],
+
+   [
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ConditionXXX.esm.mts` ) ),
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandleXXX.esm.mts` ) ),
+   ],
+   */
 ] );
 
 /**
@@ -169,42 +215,18 @@ const methodByPostForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
  * @type {T_RouteHandle}
  */
 const methodByGetForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/cookie/Condition.esm.mts`,
-    `${ servicesDir }/cookie/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/get_json/Condition.esm.mts`,
-    `${ servicesDir }/get_json/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/get_upload_file_service/Condition.esm.mts`,
-    `${ servicesDir }/get_upload_file_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/graphql_service/Condition.esm.mts`,
-    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/jsonp_service/Condition.esm.mts`,
-    `${ servicesDir }/jsonp_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/res_root/Condition.esm.mts`,
-    `${ servicesDir }/res_root/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/res_root_favicon/Condition.esm.mts`,
-    `${ servicesDir }/res_root_favicon/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/static_resources_service/Condition.esm.mts`,
-    `${ servicesDir }/static_resources_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/Condition.esm.mts` ) ),
-    new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandle.esm.mts` ) ),
-  ],
+  /*
+   该数组里的各个元素的写法、用法，例子：
+   [
+   `${ servicesDir }/static_resources_service/ConditionXXX.esm.mts`,
+   `${ servicesDir }/static_resources_service/ResponseHandleXXX.esm.mts`,
+   ],
+
+   [
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ConditionXXX.esm.mts` ) ),
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandleXXX.esm.mts` ) ),
+   ],
+   */
 ] );
 
 /**
@@ -215,7 +237,20 @@ const methodByGetForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
  *
  * @type {T_RouteHandle}
  */
-const methodByOptionsForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [] );
+const methodByOptionsForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
+  /*
+   该数组里的各个元素的写法、用法，例子：
+   [
+   `${ servicesDir }/static_resources_service/ConditionXXX.esm.mts`,
+   `${ servicesDir }/static_resources_service/ResponseHandleXXX.esm.mts`,
+   ],
+
+   [
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ConditionXXX.esm.mts` ) ),
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandleXXX.esm.mts` ) ),
+   ],
+   */
+] );
 
 /**
  * 配置“websocket”请求的有“条件”的路由映射处理。<br />
@@ -226,18 +261,18 @@ const methodByOptionsForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [] );
  * @type {T_RouteHandle}
  */
 const websocketForRouteHandle: T_RouteHandle = GeneratorRouteHandle( [
-  [
-    `${ servicesDir }/graphql_service/Condition.esm.mts`,
-    `${ servicesDir }/graphql_service/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/websocket_res_root/Condition.esm.mts`,
-    `${ servicesDir }/websocket_res_root/ResponseHandle.esm.mts`,
-  ],
-  [
-    `${ servicesDir }/websocket_upload/Condition.esm.mts`,
-    `${ servicesDir }/websocket_upload/ResponseHandle.esm.mts`,
-  ],
+  /*
+   该数组里的各个元素的写法、用法，例子：
+   [
+   `${ servicesDir }/static_resources_service/ConditionXXX.esm.mts`,
+   `${ servicesDir }/static_resources_service/ResponseHandleXXX.esm.mts`,
+   ],
+
+   [
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ConditionXXX.esm.mts` ) ),
+   new URL( import.meta.resolve( `${ servicesDir }/web_resources_service/ResponseHandleXXX.esm.mts` ) ),
+   ],
+   */
 ] );
 
 // RouteHandle End
