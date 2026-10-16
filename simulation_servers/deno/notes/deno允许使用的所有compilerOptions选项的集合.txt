@@ -6,10 +6,13 @@ https://github.com/denoland/deno/blob/main/libs/resolver/deno_json.rs#L111
 定义的变量：
 ALLOWED_COMPILER_OPTIONS
 
-允许使用的所有“compilerOptions”选项的集合：
+允许使用的所有“compilerOptions”选项的集合（37个选项）：
 "allowUnreachableCode",
 "allowUnusedLabels",
+
+// 不配置
 "baseUrl",
+
 "checkJs",
 "erasableSyntaxOnly",
 "emitDecoratorMetadata",
@@ -19,8 +22,11 @@ ALLOWED_COMPILER_OPTIONS
 "jsx",
 "jsxFactory",
 "jsxFragmentFactory",
+
+// 不配置
 "jsxImportSource",
 "jsxPrecompileSkipElements",
+
 "lib",
 "noErrorTruncation",
 "noFallthroughCasesInSwitch",
@@ -32,8 +38,11 @@ ALLOWED_COMPILER_OPTIONS
 "noUncheckedIndexedAccess",
 "noUnusedLocals",
 "noUnusedParameters",
+
+// 不配置
 "paths",
 "rootDirs",
+
 "skipLibCheck",
 "strict",
 "strictBindCallApply",
@@ -41,6 +50,9 @@ ALLOWED_COMPILER_OPTIONS
 "strictFunctionTypes",
 "strictNullChecks",
 "strictPropertyInitialization",
+
+// 不配置
 "types",
+
 "useUnknownInCatchVariables",
 "verbatimModuleSyntax",
