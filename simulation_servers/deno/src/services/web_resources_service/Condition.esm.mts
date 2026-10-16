@@ -76,8 +76,7 @@ export const myURLPathName: string = `/web/`;
  */
 function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname ),
-    method: string = request.method.toLowerCase().trim();
+    pathName: string = decodeURI( url.pathname );
 
   return (
       pathName.startsWith( `${ myURLPathName }` ) ||

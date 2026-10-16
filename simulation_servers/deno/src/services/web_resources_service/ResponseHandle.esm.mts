@@ -78,7 +78,11 @@ function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
     isDownload: boolean = url.searchParams.has( 'download' ),
-    filePath: URL = new URL( `${ webDir }/${ pathName.slice( myURLPathName.length ) }` );
+    filePath: URL = new URL( `${ webDir }/${ pathName.slice(
+      pathName.startsWith( `${ myURLPathName }` )
+      ? myURLPathName.length
+      : `/simulation_servers_deno${ myURLPathName }`.length
+    ) }` );
 
   let result: T_Response001;
 
