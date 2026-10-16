@@ -7,7 +7,7 @@ JavaScript
 /// <reference lib="es2017.string" />
 
 // ... the rest of the JavaScript ...
-打字稿
+TypeScript
 /// <reference types="./mod.d.ts" />
 /// <reference path="./mod.d.ts" />
 /// <reference lib="es2017.string" />
