@@ -30,10 +30,6 @@
 import 'esm_sh_corejs';
 
 import {
-  MyConsole,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
   webDir,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -43,6 +39,13 @@ import {
   GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
+
+import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 function SomeEnvInfo(): void{
   MyConsole.Green( `\n${ JSON.stringify( Deno.version ) }` );
@@ -162,6 +165,7 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
     Deno.readDir( new URL( `${ webDir }/` ) )
     ){
     if( isDirectory ){
+      arr.push( `/web/${ name }/` );
       arr.push( `/simulation_servers_deno/web/${ name }/` );
     }
   }
@@ -177,9 +181,6 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
   }
 }
 
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
-const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
-
 SomeEnvInfo();
 
 Promise.allSettled( [
@@ -187,6 +188,7 @@ Promise.allSettled( [
 
   // 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
   import( 'servers/HTTPAndWebSocketByServerForPort9000.mts' ),
+
   // 同时提供“https:”和“wss:”协议的服务，端口都是9000，基于HTTP/1.1。
   // import( 'servers/HTTPSAndWebSocketSByServerForPort9000.mts' ),
 
@@ -196,6 +198,7 @@ Promise.allSettled( [
 
   // 提供“http:”协议的服务，端口9100，基于HTTP/1.1。
   // import('servers/HTTPServerForPort9100.mts'),
+
   // 提供“https:”协议的服务，端口9100，基于HTTP/1.1。
   // import( 'servers/HTTPSServerForPort9100.mts' ),
 
@@ -212,6 +215,7 @@ Promise.allSettled( [
 
   // 提供“ws:”协议的服务，端口9300，基于HTTP/1.1。
   // import( 'servers/WebSocketServerForPort9300.mts' ),
+
   // 提供“wss:”协议的服务，端口9300，基于HTTP/1.1。
   // import( 'servers/WebSocketSServerForPort9300.mts' ),
 
@@ -227,7 +231,7 @@ Promise.allSettled( [
 来自：simulation_servers/deno/src/App.mts
 resolve--->Start
 
-${ JSON.stringify( resolve, null, 4 ) }
+${ JSON.stringify( resolve, null, 2 ) }
 
 resolve--->End
 ` );
