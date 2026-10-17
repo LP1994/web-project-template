@@ -1,4 +1,5 @@
-Deno（读音：/ˈdiːnoʊ/）笔记
+Deno（读音：/ˈdiːnoʊ/）笔记，随着版本的更新，以下的笔记会有变动，需要根据当前的最新文档来阅读。
+https://docs.deno.com/runtime/
 
 
 
@@ -68,69 +69,6 @@ Deno.DatagramConn
 使用指令解决 linting 问题
 // deno-lint-ignore no-explicit-any
 目前，构建过程使用 dlint 来验证代码中的 linting 问题。如果任务需要不符合 linter 的代码，请使用 deno-lint-ignore <code> 指令来抑制警告。
-
-
-
-安装的：
-deno install https://deno.land/x/corejs@v3.49.0/index.js
-deno install https://deno.land/std/crypto/mod.ts
-
-deno install https://deno.land/std/media_types/mod.ts
-
-deno install https://deno.land/x/chalk_deno/source/index.js
-
-deno install https://deno.land/std/http/server.ts
-
-deno install https://deno.land/x/dejs/mod.ts
-
-deno install https://esm.sh/preact
-deno install https://esm.sh/preact/jsx-runtime
-
-deno install https://cdn.skypack.dev/preact/jsx-dev-runtime
-deno install https://cdn.skypack.dev/preact/jsx-runtime
-
-deno install https://esm.sh/linkedom
-
-deno install https://deno.land/x/deno_dom/deno-dom-wasm-noinit.ts
-deno install https://deno.land/x/deno_dom/deno-dom-wasm.ts
-deno install https://deno.land/x/deno_dom/deno-dom-native.ts
-
-deno install https://esm.sh/jsdom
-
-deno install https://esm.sh/css
-deno install https://deno.land/x/css/mod.ts
-
-deno install https://esm.sh/twind
-deno install https://esm.sh/twind/sheets
-
-deno install https://deno.land/x/mysql/mod.ts
-deno install https://deno.land/x/postgresjs/mod.js
-deno install https://deno.land/x/mongo/mod.ts
-deno install https://deno.land/x/sqlite3/mod.ts
-deno install https://deno.land/x/sqlite/mod.ts
-
-deno install https://esm.sh/firestore
-???deno install https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js
-???deno install https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js
-???deno install https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js
-
-deno install https://esm.sh/@supabase/supabase-js
-
-deno install https://deno.land/x/denodb/mod.ts
-
-deno install https://deno.land/x/gql/mod.ts
-deno install https://deno.land/x/graphql_tools/mod.ts
-deno install https://deno.land/x/graphql_tag/mod.ts
-deno install https://esm.sh/graphql
-
-deno install https://deno.land/std/dotenv/mod.ts
-deno install https://deno.land/std/flags/mod.ts
-
-deno install https://deno.land/std/testing/asserts.ts
-
-deno install https://deno.land/std/streams/mod.ts
-deno install https://deno.land/std/streams/conversion.ts
-deno install https://deno.land/std/http/file_server.ts
 
 
 
