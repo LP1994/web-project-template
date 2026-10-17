@@ -1,10 +1,20 @@
 2026.10.17更新！！！
 
 有关Deno_2.9.7程序允许的lib项的源码位置:
-https://github.com/denoland/deno/blob/main/cli/tsc/00_typescript.js#L40709
 https://github.com/denoland/deno/blob/main/cli/build.rs#L11
+PS：检索“let decls = [”即可找到。
+处理代码：
+const arr001 = Array.from( new Set( lib001.map( item => item.replaceAll( 'lib.', '' ).replaceAll( '.d.ts', '' ).replaceAll( 'deno_', 'deno.' ) ) ) ).sort();
+
+https://github.com/denoland/deno/blob/main/cli/tsc/00_typescript.js#L40709
+PS：检索“var libEntries = [”即可找到。
+处理代码：
+const arr002 = Array.from( new Set( Array.from( new Map( lib002 ).keys() ).map( item => item.replaceAll( 'lib.', '' ).replaceAll( '.d.ts', '' ).replaceAll( 'deno_', 'deno.' ) ) ) ).sort();
 
 上述2个合并后，就是下面的Deno_2.9.7程序允许的并检验通过的（139个）！！！
+处理代码：
+Array.from( new Set( [ ...arr001, ...arr002, ] ) ).sort().join( ',' );
+PS：运行上述的JS代码“处理代码”后，就能得出下面的Deno_2.9.7程序允许的并检验通过的（139个）。
 
 https://github.com/denoland/deno/blob/main/cli/tsc/dts/
 
