@@ -56,11 +56,17 @@ function SomeEnvInfo(): void{
   if( Deno.env.has( 'DENO_CERT' ) ){
     MyConsole.Green( `DENO_CERT: ${ Deno.env.get( 'DENO_CERT' ) }` );
   }
+  if( Deno.env.has( 'NODE_EXTRA_CA_CERTS' ) ){
+    MyConsole.Green( `NODE_EXTRA_CA_CERTS: ${ Deno.env.get( 'NODE_EXTRA_CA_CERTS' ) }` );
+  }
   if( Deno.env.has( 'DENO_COVERAGE_DIR' ) ){
     MyConsole.Green( `DENO_COVERAGE_DIR: ${ Deno.env.get( 'DENO_COVERAGE_DIR' ) }` );
   }
   if( Deno.env.has( 'DENO_DIR' ) ){
     MyConsole.Green( `DENO_DIR: ${ Deno.env.get( 'DENO_DIR' ) }` );
+  }
+  if( Deno.env.has( 'DENO_INSTALL' ) ){
+    MyConsole.Green( `DENO_INSTALL: ${ Deno.env.get( 'DENO_INSTALL' ) }` );
   }
   if( Deno.env.has( 'DENO_INSTALL_ROOT' ) ){
     MyConsole.Green( `DENO_INSTALL_ROOT: ${ Deno.env.get( 'DENO_INSTALL_ROOT' ) }` );
@@ -70,6 +76,12 @@ function SomeEnvInfo(): void{
   }
   if( Deno.env.has( 'DENO_NO_PACKAGE_JSON' ) ){
     MyConsole.Green( `DENO_NO_PACKAGE_JSON: ${ Deno.env.get( 'DENO_NO_PACKAGE_JSON' ) }` );
+  }
+  if( Deno.env.has( 'DENO_CONDITIONS' ) ){
+    MyConsole.Green( `DENO_CONDITIONS: ${ Deno.env.get( 'DENO_CONDITIONS' ) }` );
+  }
+  if( Deno.env.has( 'DENO_UNSTABLE_TSGO' ) ){
+    MyConsole.Green( `DENO_UNSTABLE_TSGO: ${ Deno.env.get( 'DENO_UNSTABLE_TSGO' ) }` );
   }
   if( Deno.env.has( 'DENO_NO_PROMPT' ) ){
     MyConsole.Green( `DENO_NO_PROMPT: ${ Deno.env.get( 'DENO_NO_PROMPT' ) }` );
@@ -82,6 +94,15 @@ function SomeEnvInfo(): void{
   }
   if( Deno.env.has( 'DENO_JOBS' ) ){
     MyConsole.Green( `DENO_JOBS: ${ Deno.env.get( 'DENO_JOBS' ) }` );
+  }
+  if( Deno.env.has( 'DENO_KV_ACCESS_TOKEN' ) ){
+    MyConsole.Green( `DENO_KV_ACCESS_TOKEN: ${ Deno.env.get( 'DENO_KV_ACCESS_TOKEN' ) }` );
+  }
+  if( Deno.env.has( 'DENO_AUDIT_PERMISSIONS' ) ){
+    MyConsole.Green( `DENO_AUDIT_PERMISSIONS: ${ Deno.env.get( 'DENO_AUDIT_PERMISSIONS' ) }` );
+  }
+  if( Deno.env.has( 'DENO_TRACE_PERMISSIONS' ) ){
+    MyConsole.Green( `DENO_TRACE_PERMISSIONS: ${ Deno.env.get( 'DENO_TRACE_PERMISSIONS' ) }` );
   }
   if( Deno.env.has( 'DENO_WEBGPU_TRACE' ) ){
     MyConsole.Green( `DENO_WEBGPU_TRACE: ${ Deno.env.get( 'DENO_WEBGPU_TRACE' ) }` );
