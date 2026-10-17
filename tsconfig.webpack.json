@@ -230,49 +230,47 @@
       ],
 
       "deno_std/*": [
-        "https://deno.land/std/*"
+        "https://jsr.io/@std/*"
       ],
-      "deno_std_encoding/*": [
-        "https://deno.land/std/encoding/*"
+      "deno_std_encoding": [
+        "https://jsr.io/@std/encoding/1.0.11/mod.ts"
       ],
-      "deno_std_io/*": [
-        "https://deno.land/std/io/*"
+      "deno_std_fs": [
+        "https://jsr.io/@std/fs/1.0.24/mod.ts"
+      ],
+      "deno_std_io": [
+        "https://jsr.io/@std/io/0.225.3/mod.ts"
       ],
       "deno_std_media_types": [
-        "https://deno.land/std/media_types/mod.ts"
+        "https://jsr.io/@std/media-types/1.1.0/mod.ts"
       ],
       "deno_std_path": [
-        "https://deno.land/std/path/mod.ts"
-      ],
-
-      "deno_x/*": [
-        "https://deno.land/x/*"
-      ],
-      "deno_x_corejs": [
-        "https://deno.land/x/corejs@v3.49.0/index.js"
-      ],
-      "deno_x_ejs": [
-        "https://deno.land/x/dejs/mod.ts"
-      ],
-      "deno_x_mongo": [
-        "https://deno.land/x/mongo/mod.ts"
+        "https://jsr.io/@std/path/1.1.6/mod.ts"
       ],
 
       "esm_sh/*": [
         "https://esm.sh/*"
       ],
+      "esm_sh_corejs": [
+        "https://esm.sh/core-js"
+      ],
+      "esm_sh_ejs": [
+        "https://esm.sh/ejs"
+      ],
+      "esm_sh_file_type": [
+        "https://esm.sh/file-type"
+      ],
       "esm_sh_graphql": [
         "https://esm.sh/graphql"
       ],
-
-      "preact/*": [
-        "https://cdn.skypack.dev/preact/*"
+      "esm_sh_graphql_http/*": [
+        "https://esm.sh/graphql-http/*"
       ],
-      "preact_jsx-runtime": [
-        "https://cdn.skypack.dev/preact/jsx-runtime?dts"
+      "esm_sh_graphql_sse/*": [
+        "https://esm.sh/graphql-sse/*"
       ],
-      "preact_jsx-dev-runtime": [
-        "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts"
+      "esm_sh_graphql_ws": [
+        "https://esm.sh/graphql-ws"
       ],
 
       "deno_src/*": [
