@@ -46,6 +46,6 @@ const __dirname = Get__dirname( import.meta.url ),
     .filter( c => c.startsWith( 'lib.' ) && c.endsWith( '.d.ts' ) && c !== 'lib.d.ts' && !c.includes( '.full' ) )
     .map( c => c.slice( 4, -5 ).toLowerCase() );
 
-tsConfig[ 'compilerOptions' ][ 'lib' ] = Array.from( new Set( libs ) ).sort();
+tsConfig[ 'compilerOptions' ][ 'lib' ] = Array.from( new Set( libs ) ).filter( item => !( item === 'deno' ) && !item.includes( 'deno.' ) && !item.includes( 'deno_' ) ).sort();
 
-writeFileSync( join( __dirname, '../../tsconfig.json' ), JSON.stringify( tsConfig, null, 4 ) );
+writeFileSync( join( __dirname, '../../tsconfig.json' ), JSON.stringify( tsConfig, null, 2 ) );
