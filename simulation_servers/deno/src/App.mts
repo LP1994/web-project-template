@@ -9,10 +9,13 @@
  * CreateDate: 2022-01-01 00:00:00 星期六
  */
 
-// deno run -A --config=../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../.env.deno ./src/App.mts --color=16m
+/**
+ * 命令行启动命令：
+ * deno run -A --config=../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../.env.deno ./src/App.mts --color=16m
+ */
 
 /**
- * 这是程序的启动入口。
+ * 这是程序的启动入口。一切从这里开始！
  */
 
 /**
@@ -36,101 +39,67 @@ import {
 import {
   type T_MyCusDenoFsFile,
 
-  GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
 import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
-function SomeEnvInfo(): void{
+/**
+ * 打印Deno环境变量。
+ *
+ * @returns {void}
+ */
+function PrintEnvironmentVariables(): void{
   MyConsole.Green( `\n${ JSON.stringify( Deno.version ) }` );
 
-  if( Deno.env.has( 'DENO_AUTH_TOKENS' ) ){
-    MyConsole.Green( `DENO_AUTH_TOKENS: ${ Deno.env.get( 'DENO_AUTH_TOKENS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_TLS_CA_STORE' ) ){
-    MyConsole.Green( `DENO_TLS_CA_STORE: ${ Deno.env.get( 'DENO_TLS_CA_STORE' ) }` );
-  }
-  if( Deno.env.has( 'DENO_CERT' ) ){
-    MyConsole.Green( `DENO_CERT: ${ Deno.env.get( 'DENO_CERT' ) }` );
-  }
-  if( Deno.env.has( 'NODE_EXTRA_CA_CERTS' ) ){
-    MyConsole.Green( `NODE_EXTRA_CA_CERTS: ${ Deno.env.get( 'NODE_EXTRA_CA_CERTS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_COVERAGE_DIR' ) ){
-    MyConsole.Green( `DENO_COVERAGE_DIR: ${ Deno.env.get( 'DENO_COVERAGE_DIR' ) }` );
-  }
-  if( Deno.env.has( 'DENO_DIR' ) ){
-    MyConsole.Green( `DENO_DIR: ${ Deno.env.get( 'DENO_DIR' ) }` );
-  }
-  if( Deno.env.has( 'DENO_INSTALL' ) ){
-    MyConsole.Green( `DENO_INSTALL: ${ Deno.env.get( 'DENO_INSTALL' ) }` );
-  }
-  if( Deno.env.has( 'DENO_INSTALL_ROOT' ) ){
-    MyConsole.Green( `DENO_INSTALL_ROOT: ${ Deno.env.get( 'DENO_INSTALL_ROOT' ) }` );
-  }
-  if( Deno.env.has( 'DENO_REPL_HISTORY' ) ){
-    MyConsole.Green( `DENO_REPL_HISTORY: ${ Deno.env.get( 'DENO_REPL_HISTORY' ) }` );
-  }
-  if( Deno.env.has( 'DENO_NO_PACKAGE_JSON' ) ){
-    MyConsole.Green( `DENO_NO_PACKAGE_JSON: ${ Deno.env.get( 'DENO_NO_PACKAGE_JSON' ) }` );
-  }
-  if( Deno.env.has( 'DENO_CONDITIONS' ) ){
-    MyConsole.Green( `DENO_CONDITIONS: ${ Deno.env.get( 'DENO_CONDITIONS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_UNSTABLE_TSGO' ) ){
-    MyConsole.Green( `DENO_UNSTABLE_TSGO: ${ Deno.env.get( 'DENO_UNSTABLE_TSGO' ) }` );
-  }
-  if( Deno.env.has( 'DENO_NO_PROMPT' ) ){
-    MyConsole.Green( `DENO_NO_PROMPT: ${ Deno.env.get( 'DENO_NO_PROMPT' ) }` );
-  }
-  if( Deno.env.has( 'DENO_NO_UPDATE_CHECK' ) ){
-    MyConsole.Green( `DENO_NO_UPDATE_CHECK: ${ Deno.env.get( 'DENO_NO_UPDATE_CHECK' ) }` );
-  }
-  if( Deno.env.has( 'DENO_V8_FLAGS' ) ){
-    MyConsole.Green( `DENO_V8_FLAGS: ${ Deno.env.get( 'DENO_V8_FLAGS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_JOBS' ) ){
-    MyConsole.Green( `DENO_JOBS: ${ Deno.env.get( 'DENO_JOBS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_KV_ACCESS_TOKEN' ) ){
-    MyConsole.Green( `DENO_KV_ACCESS_TOKEN: ${ Deno.env.get( 'DENO_KV_ACCESS_TOKEN' ) }` );
-  }
-  if( Deno.env.has( 'DENO_AUDIT_PERMISSIONS' ) ){
-    MyConsole.Green( `DENO_AUDIT_PERMISSIONS: ${ Deno.env.get( 'DENO_AUDIT_PERMISSIONS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_TRACE_PERMISSIONS' ) ){
-    MyConsole.Green( `DENO_TRACE_PERMISSIONS: ${ Deno.env.get( 'DENO_TRACE_PERMISSIONS' ) }` );
-  }
-  if( Deno.env.has( 'DENO_WEBGPU_TRACE' ) ){
-    MyConsole.Green( `DENO_WEBGPU_TRACE: ${ Deno.env.get( 'DENO_WEBGPU_TRACE' ) }` );
-  }
-  if( Deno.env.has( 'DENO_WEBGPU_BACKEND' ) ){
-    MyConsole.Green( `DENO_WEBGPU_BACKEND: ${ Deno.env.get( 'DENO_WEBGPU_BACKEND' ) }` );
-  }
-  if( Deno.env.has( 'HTTP_PROXY' ) ){
-    MyConsole.Green( `HTTP_PROXY: ${ Deno.env.get( 'HTTP_PROXY' ) }` );
-  }
-  if( Deno.env.has( 'HTTPS_PROXY' ) ){
-    MyConsole.Green( `HTTPS_PROXY: ${ Deno.env.get( 'HTTPS_PROXY' ) }` );
-  }
-  if( Deno.env.has( 'NPM_CONFIG_REGISTRY' ) ){
-    MyConsole.Green( `NPM_CONFIG_REGISTRY: ${ Deno.env.get( 'NPM_CONFIG_REGISTRY' ) }` );
-  }
-  if( Deno.env.has( 'NO_COLOR' ) ){
-    MyConsole.Green( `NO_COLOR: ${ Deno.env.get( 'NO_COLOR' ) }` );
-  }
-  if( Deno.env.has( 'NO_PROXY' ) ){
-    MyConsole.Green( `NO_PROXY: ${ Deno.env.get( 'NO_PROXY' ) }` );
-  }
+  [
+    'DENO_AUTH_TOKENS',
+    'DENO_TLS_CA_STORE',
+    'DENO_CERT',
+    'NODE_EXTRA_CA_CERTS',
+    'DENO_COVERAGE_DIR',
+    'DENO_DIR',
+    'DENO_INSTALL',
+    'DENO_INSTALL_ROOT',
+    'DENO_REPL_HISTORY',
+    'DENO_NO_PACKAGE_JSON',
+    'DENO_CONDITIONS',
+    'DENO_UNSTABLE_TSGO',
+    'DENO_NO_PROMPT',
+    'DENO_NO_UPDATE_CHECK',
+    'DENO_V8_FLAGS',
+    'DENO_JOBS',
+    'DENO_KV_ACCESS_TOKEN',
+    'DENO_AUDIT_PERMISSIONS',
+    'DENO_TRACE_PERMISSIONS',
+    'DENO_WEBGPU_TRACE',
+    'DENO_WEBGPU_BACKEND',
+    'HTTP_PROXY',
+    'HTTPS_PROXY',
+    'NPM_CONFIG_REGISTRY',
+    'NO_COLOR',
+    'NO_PROXY',
+  ].forEach( ( item: string ): void => {
+    if( Deno.env.has( item ) ){
+      MyConsole.Green( `${ item }: ${ Deno.env.get( item ) }` );
+    }
+  } );
 }
 
-async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unknown>> ): Promise<void>{
+/**
+ * 打印出静态文件服务器地址，内容都是来自“web”文件夹下的。
+ *
+ * @param {Array<PromiseSettledResult<unknown>>} resolve
+ *
+ * @returns {Promise<void>}
+ */
+async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unknown>> ): Promise<void>{
   const arr: Array<string> = [],
     hostName: Array<string> = [];
 
@@ -138,12 +107,12 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
     const {
       value,
     } of
-    resolve as Array<PromiseFulfilledResult<Record<string, any>>>
+    resolve as Array<PromiseFulfilledResult<Record<string, unknown>>>
     ){
     const {
       hostname,
       port,
-      transport
+      transport,
     }: Deno.NetAddr = Object.values( value )[ 0 ].addr;
 
     hostName.push( `http${
@@ -160,7 +129,7 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
   for await (
     const {
       name,
-      isDirectory
+      isDirectory,
     } of
     Deno.readDir( new URL( `${ webDir }/` ) )
     ){
@@ -171,7 +140,7 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
   }
 
   if( arr.length > 0 ){
-    MyConsole.Blue( `simulation_servers_deno有如下WEB服务器地址:` );
+    MyConsole.Blue( `有如下静态文件服务器地址，内容都是来自“web”文件夹下的:` );
 
     hostName.forEach( ( item: string ): void => {
       arr.forEach( ( i: string ): void => {
@@ -181,7 +150,7 @@ async function WebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unkn
   }
 }
 
-SomeEnvInfo();
+PrintEnvironmentVariables();
 
 Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。Start
@@ -222,10 +191,16 @@ Promise.allSettled( [
   // 这两类服务不可同时启用，启用其中之一即可。End
 ] )
   .then(
+    // resolve ---> [ { status: "fulfilled", value: Module {} } ]
     ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
-      // resolve ---> [ { status: "fulfilled", value: Module {} } ]
+      MyConsole.Cyan( `
+来自：simulation_servers/deno/src/App.mts
+resolve--->Start
 
-      WebResourcesServiceInfo( resolve );
+${ JSON.stringify( resolve, null, 2 ) }
+
+resolve--->End
+` );
 
       logWriteStream.write( `
 来自：simulation_servers/deno/src/App.mts
@@ -235,14 +210,16 @@ ${ JSON.stringify( resolve, null, 2 ) }
 
 resolve--->End
 ` );
+
+      PrintWebResourcesServiceInfo( resolve );
     },
     ( reject: Array<PromiseSettledResult<unknown>> ): void => {
       MyConsole.Red( `
 来自：simulation_servers/deno/src/App.mts
 reject--->Start
-` );
-      console.dir( reject );
-      MyConsole.Red( `
+
+${ JSON.stringify( reject, null, 2 ) }
+
 reject--->End
 ` );
 
@@ -250,7 +227,7 @@ reject--->End
 来自：simulation_servers/deno/src/App.mts
 reject--->Start
 
-${ JSON.stringify( reject ) }
+${ JSON.stringify( reject, null, 2 ) }
 
 reject--->End
 ` );
