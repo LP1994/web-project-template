@@ -140,11 +140,11 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
   }
 
   if( arr.length > 0 ){
-    MyConsole.Blue( `有如下静态文件服务器地址，内容都是来自“web”文件夹下的:` );
+    MyConsole.Cyan( `有如下静态文件服务器地址，内容都是来自“web”文件夹下的:` );
 
     hostName.forEach( ( item: string ): void => {
       arr.forEach( ( i: string ): void => {
-        MyConsole.Blue( `${ item }${ i }` );
+        MyConsole.Cyan( `${ item }${ i }` );
       } );
     } );
   }
@@ -193,7 +193,7 @@ Promise.allSettled( [
   .then(
     // resolve ---> [ { status: "fulfilled", value: Module {} } ]
     ( resolve: Array<PromiseSettledResult<unknown>> ): void => {
-      MyConsole.Cyan( `
+      MyConsole.Blue( `
 来自：simulation_servers/deno/src/App.mts
 resolve--->Start
 
