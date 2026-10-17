@@ -107,7 +107,7 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
     const {
       value,
     } of
-    resolve as Array<PromiseFulfilledResult<Record<string, unknown>>>
+    resolve as Array<PromiseFulfilledResult<Record<string, any>>>
     ){
     const {
       hostname,
