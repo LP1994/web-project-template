@@ -107,13 +107,13 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
     const {
       value,
     } of
-    resolve as Array<PromiseFulfilledResult<Record<string, any>>>
+    resolve as Array<PromiseFulfilledResult<Record<string, Deno.HttpServer<Deno.NetAddr>>>>
     ){
     const {
       hostname,
       port,
       transport,
-    }: Deno.NetAddr = Object.values( value )[ 0 ].addr;
+    }: Deno.NetAddr = ( Object.values( value )[ 0 ] as Deno.HttpServer<Deno.NetAddr> ).addr;
 
     hostName.push( `http${
       ( transport?.toLowerCase() ?? '' ) === 'tcp'
