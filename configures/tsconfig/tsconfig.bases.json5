@@ -923,17 +923,6 @@ CreateDate: 2022-01-01 00:00:00 星期六
       "webworker.asynciterable",
       "webworker.importscripts",
       "webworker.iterable",
-      "es7",
-      "esnext.asynciterable",
-      "esnext.bigint",
-      "esnext.float16",
-      "esnext.iterator",
-      "esnext.object",
-      "esnext.promise",
-      "esnext.regexp",
-      "esnext.string",
-      "esnext.symbol",
-      "esnext.weakref"
     ],
     /*
     三个值：
