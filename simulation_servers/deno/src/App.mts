@@ -42,6 +42,8 @@ import {
 
   GetErrorWriteStreamForSingleton,
   GetLogWriteStreamForSingleton,
+
+  GetNetworkAddressForWLANByIPv4,
 } from 'public/PublicTools.esm.mts';
 
 import {
@@ -129,15 +131,13 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
       port,
     }: Deno.NetAddr = httpServer.addr;
 
-    hostName.push( `http${
-      'key' in options || 'cert' in options
-      ? 's'
-      : ''
-    }://${
-      hostname === '0.0.0.0'
-      ? 'localhost'
-      : hostname
-    }:${ port }` );
+    GetNetworkAddressForWLANByIPv4( hostname ).forEach( ( item: string ): void => {
+      hostName.push( `http${
+        'key' in options || 'cert' in options
+        ? 's'
+        : ''
+      }://${ item }:${ port }` );
+    } );
   }
 
   for await (

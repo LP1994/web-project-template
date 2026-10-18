@@ -34,6 +34,7 @@ import {
 
   GetErrorWriteStreamForSingleton,
   GetLogWriteStreamForSingleton,
+  GetNetworkAddressForWLANByIPv4,
 } from 'public/PublicTools.esm.mts';
 
 import ResponseError from 'public/ResponseError.esm.mts';
@@ -87,14 +88,16 @@ const options: Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem = {
         port: number;
       }
     ): void => {
+      const str001: string = GetNetworkAddressForWLANByIPv4( hostname ).map( ( item: string ): string => `\nhttps://${ item }:${ port }/` ).join( '' );
+
       MyConsole.Cyan( `
 来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
-HTTPS Server已启动（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/。
+HTTPS Server已启动（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：${ str001 }
 ` );
 
       logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPSServerForPort9100.mts
-HTTPS Server已启动（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/。
+HTTPS Server已启动（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：${ str001 }
 ` );
     },
     onError: ( error: unknown ): T_Response001 => {

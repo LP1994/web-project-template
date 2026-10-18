@@ -37,6 +37,7 @@ import {
 
   GetErrorWriteStreamForSingleton,
   GetLogWriteStreamForSingleton,
+  GetNetworkAddressForWLANByIPv4,
 } from 'public/PublicTools.esm.mts';
 
 import ResponseError from 'public/ResponseError.esm.mts';
@@ -90,15 +91,17 @@ const options: Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem = {
         port: number;
       }
     ): void => {
+      const str001: string = GetNetworkAddressForWLANByIPv4( hostname ).map( ( item: string ): string => `\nhttps://${ item }:${ port }/\nwss://${ item }:${ port }/` ).join( '' );
+
       MyConsole.Cyan( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。
+HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：${ str001 }
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
 
       logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
-HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：https://${ hostname }:${ port }/、wss://${ hostname }:${ port }/。
+HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：${ str001 }
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
     },

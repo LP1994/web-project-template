@@ -49,6 +49,7 @@ import {
 import {
   type T_DateFormatForObject,
 
+  IsString,
   DateFormatForObject,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
@@ -256,6 +257,78 @@ function IsGetForRequestAndNoWS( request: Request ): boolean{
   return request.method.toLowerCase() === 'get' && !IsWSForRequest( request );
 }
 
+/**
+ * 用于返回当前系统所拥有的WLAN的IPv4地址，当然如果有的话。没有的话，就会返回一个空数组。
+ *
+ * @param {string} hostname 配置服务器时（如：Deno.serve），所设置的“hostname”选项参数的值，可选，非必传。
+ *
+ * @returns {string[]}
+ */
+function GetNetworkAddressForWLANByIPv4( hostname?: string ): string[]{
+  /**
+   * 返回数组形如（注意！！！可能会返回空数组的！里面也未必会有ip v4/v6等信息！！！）：<br />
+   * ```ts
+   *  [
+   *    {
+   *    family: "IPv4",
+   *    name: "WLAN",
+   *    address: "192.168.0.7",
+   *    netmask: "255.255.255.0",
+   *    scopeid: null,
+   *    cidr: "192.168.0.7/24",
+   *    mac: "b2:77:81:76:61:83"
+   *    },
+   *    {
+   *    family: "IPv4",
+   *    name: "Loopback Pseudo-Interface 1",
+   *    address: "127.0.0.1",
+   *    netmask: "255.0.0.0",
+   *    scopeid: null,
+   *    cidr: "127.0.0.1/8",
+   *    mac: "00:00:00:00:00:00"
+   *    },
+   *  ]
+   *  ```
+   *
+   * @type {Deno.NetworkInterfaceInfo[]}
+   */
+  const networkInterfaces: Deno.NetworkInterfaceInfo[] = Deno.networkInterfaces(),
+    result: string[] = [];
+
+  if( IsString( hostname ) && ( hostname as string ).length > 0 ){
+    result.push( ...(
+      ( hostname as string ).trim() === '0.0.0.0'
+      ? [
+          'localhost',
+          '127.0.0.1',
+        ]
+      : [
+          ( hostname as string ).trim(),
+        ]
+    ) );
+  }
+
+  if( networkInterfaces.length > 0 ){
+    networkInterfaces.forEach( ( {
+      // 值形如："IPv4"、"IPv6"
+      family,
+      // 值形如："WLAN"、"Loopback Pseudo-Interface 1"
+      name,
+      // 值形如："192.168.0.7"、"127.0.0.1"
+      address,
+    }: Deno.NetworkInterfaceInfo ): void => {
+      if(
+        ( family.toLowerCase().trim() === 'IPv4'.toLowerCase() ) &&
+        ( name.toLowerCase().trim() === 'WLAN'.toLowerCase() )
+      ){
+        result.push( address.trim() );
+      }
+    } );
+  }
+
+  return Array.from( new Set( result ) );
+}
+
 export {
   type T_MyCusDenoFsFile,
 
@@ -275,6 +348,8 @@ export {
 
   IsWSForRequest,
   IsGetForRequestAndNoWS,
+
+  GetNetworkAddressForWLANByIPv4,
 };
 
 export default {
@@ -294,4 +369,6 @@ export default {
 
   IsWSForRequest,
   IsGetForRequestAndNoWS,
+
+  GetNetworkAddressForWLANByIPv4,
 };
