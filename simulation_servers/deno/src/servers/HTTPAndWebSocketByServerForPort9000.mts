@@ -9,7 +9,8 @@
 
 /**
  * 同时提供“http:”和“ws:”协议的服务，端口都是9000，基于HTTP/1.1。
- * http://127.0.0.1:9000、ws://127.0.0.1:9000
+ * http://127.0.0.1:9000
+ * ws://127.0.0.1:9000
  */
 
 'use strict';
@@ -19,14 +20,10 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  MyConsole,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
   type T_MyCusDenoFsFile,
 
-  GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
 import ResponseError from 'public/ResponseError.esm.mts';
@@ -35,11 +32,14 @@ import {
   Routers,
 } from 'routers/Routers.esm.mts';
 
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
-const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-const HTTPAndWebSocketByServerForPort9000: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
-  {
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+
+const options: Deno.ServeTcpOptions = {
     automaticCompression: true,
     port: 9000,
     /**
@@ -112,41 +112,43 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  (
-    request: Request,
-    info: Deno.ServeHandlerInfo,
-  ): T_Response001 => {
-    logWriteStream.write( `
+  HTTPAndWebSocketByServerForPort9000: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+    options,
+    (
+      request: Request,
+      info: Deno.ServeHandlerInfo,
+    ): T_Response001 => {
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPAndWebSocketByServerForPort9000.mts
 HTTP and WebSocket Server request--->Start
 
 ${ JSON.stringify( {
-      method: request.method,
-      url: request.url,
-      redirect: request.redirect,
-      bodyUsed: request.bodyUsed,
-      headers: ( () => {
-        const result: {
-          [ keyName: string ]: string;
-        } = {};
+        method: request.method,
+        url: request.url,
+        redirect: request.redirect,
+        bodyUsed: request.bodyUsed,
+        headers: ( () => {
+          const result: {
+            [ keyName: string ]: string;
+          } = {};
 
-        request.headers.forEach( (
-          value: string,
-          key: string,
-          // @ts-expect-error
-          parent: Headers
-        ): void => {
-          result[ key ] = value;
-        } );
+          request.headers.forEach( (
+            value: string,
+            key: string,
+            // @ts-expect-error
+            parent: Headers
+          ): void => {
+            result[ key ] = value;
+          } );
 
-        return result;
-      } )(),
-    }, null, 4 ) }
+          return result;
+        } )(),
+      }, null, 4 ) }
 
 HTTP and WebSocket Server request--->End
 ` );
 
-    logWriteStream.write( `
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPAndWebSocketByServerForPort9000.mts
 HTTP and WebSocket Server info--->Start
 
@@ -155,12 +157,16 @@ ${ JSON.stringify( info, null, 4 ) }
 HTTP and WebSocket Server info--->End
 ` );
 
-    return Routers( request );
-  },
-);
+      return Routers( request );
+    },
+  );
 
 export {
   HTTPAndWebSocketByServerForPort9000,
+  options,
 };
 
-export default HTTPAndWebSocketByServerForPort9000;
+export default {
+  HTTPAndWebSocketByServerForPort9000,
+  options,
+};

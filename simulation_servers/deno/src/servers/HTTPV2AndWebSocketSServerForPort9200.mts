@@ -8,7 +8,8 @@
  */
 
 /**
- * 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2（使用HTTP/2要必需使用HTTPS，这是强制的），Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
+ * 首选，提供“https:”和“wss:”协议的服务，端口都是9200，基于HTTP/2（使用HTTP/2要必需使用HTTPS，这是强制的），
+ * Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
  * https://127.0.0.1:9200
  * wss://127.0.0.1:9200
  */
@@ -51,8 +52,7 @@ import {
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
-const HTTPV2AndWebSocketSServerForPort9200: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
-  {
+const options: Deno.ServeTcpOptions = {
     automaticCompression: true,
     port: 9200,
     /**
@@ -129,43 +129,45 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  (
-    request: Request,
-    info: Deno.ServeHandlerInfo,
-  ): T_Response001 => {
-    logWriteStream.write( `
+  HTTPV2AndWebSocketSServerForPort9200: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+    options,
+    (
+      request: Request,
+      info: Deno.ServeHandlerInfo,
+    ): T_Response001 => {
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 request--->Start
 
 ${ JSON.stringify( {
-      method: request.method,
-      url: request.url,
-      redirect: request.redirect,
-      bodyUsed: request.bodyUsed,
-      headers: ( (): {
-        [ keyName: string ]: string;
-      } => {
-        const result: {
+        method: request.method,
+        url: request.url,
+        redirect: request.redirect,
+        bodyUsed: request.bodyUsed,
+        headers: ( (): {
           [ keyName: string ]: string;
-        } = {};
+        } => {
+          const result: {
+            [ keyName: string ]: string;
+          } = {};
 
-        request.headers.forEach( (
-          value: string,
-          key: string,
-          // @ts-expect-error
-          parent: Headers
-        ): void => {
-          result[ key ] = value;
-        } );
+          request.headers.forEach( (
+            value: string,
+            key: string,
+            // @ts-expect-error
+            parent: Headers
+          ): void => {
+            result[ key ] = value;
+          } );
 
-        return result;
-      } )(),
-    }, null, 2 ) }
+          return result;
+        } )(),
+      }, null, 2 ) }
 
 HTTP/2 服务 request--->End
 ` );
 
-    logWriteStream.write( `
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 info--->Start
 
@@ -174,12 +176,16 @@ ${ JSON.stringify( info, null, 2 ) }
 HTTP/2 服务 info--->End
 ` );
 
-    return Routers( request );
-  },
-);
+      return Routers( request );
+    },
+  );
 
 export {
   HTTPV2AndWebSocketSServerForPort9200,
+  options,
 };
 
-export default HTTPV2AndWebSocketSServerForPort9200;
+export default {
+  HTTPV2AndWebSocketSServerForPort9200,
+  options,
+};

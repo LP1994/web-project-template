@@ -18,14 +18,10 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  MyConsole,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
   type T_MyCusDenoFsFile,
 
-  GetLogWriteStreamForSingleton,
   GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
 import ResponseError from 'public/ResponseError.esm.mts';
@@ -34,11 +30,14 @@ import {
   Routers,
 } from 'routers/Routers.esm.mts';
 
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
-const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-const HTTPServerForPort9100: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
-  {
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
+
+const options: Deno.ServeTcpOptions = {
     automaticCompression: true,
     port: 9100,
     /**
@@ -111,41 +110,43 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  (
-    request: Request,
-    info: Deno.ServeHandlerInfo,
-  ): T_Response001 => {
-    logWriteStream.write( `
+  HTTPServerForPort9100: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+    options,
+    (
+      request: Request,
+      info: Deno.ServeHandlerInfo,
+    ): T_Response001 => {
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPServerForPort9100.mts
 HTTP Server request--->Start
 
 ${ JSON.stringify( {
-      method: request.method,
-      url: request.url,
-      redirect: request.redirect,
-      bodyUsed: request.bodyUsed,
-      headers: ( () => {
-        const result: {
-          [ keyName: string ]: string;
-        } = {};
+        method: request.method,
+        url: request.url,
+        redirect: request.redirect,
+        bodyUsed: request.bodyUsed,
+        headers: ( () => {
+          const result: {
+            [ keyName: string ]: string;
+          } = {};
 
-        request.headers.forEach( (
-          value: string,
-          key: string,
-          // @ts-expect-error
-          parent: Headers
-        ): void => {
-          result[ key ] = value;
-        } );
+          request.headers.forEach( (
+            value: string,
+            key: string,
+            // @ts-expect-error
+            parent: Headers
+          ): void => {
+            result[ key ] = value;
+          } );
 
-        return result;
-      } )(),
-    }, null, 4 ) }
+          return result;
+        } )(),
+      }, null, 4 ) }
 
 HTTP Server request--->End
 ` );
 
-    logWriteStream.write( `
+      logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPServerForPort9100.mts
 HTTP Server info--->Start
 
@@ -154,12 +155,16 @@ ${ JSON.stringify( info, null, 4 ) }
 HTTP Server info--->End
 ` );
 
-    return Routers( request );
-  },
-);
+      return Routers( request );
+    },
+  );
 
 export {
   HTTPServerForPort9100,
+  options,
 };
 
-export default HTTPServerForPort9100;
+export default {
+  HTTPServerForPort9100,
+  options,
+};
