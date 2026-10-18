@@ -14,6 +14,23 @@
 
 'use strict';
 
+/**
+ * 可自行定义服务器提供的HTTP服务时，客户端发起HTTP请求时，发送的URL的前缀名，如：<br />
+ * 1、设置为'/simulation_servers_deno'，那么客户端发起HTTP请求就是形如：<br />
+ * https://127.0.0.1:9200/simulation_servers_deno <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/xxx <br />
+ * 2、也可以设置为空字符串，那么客户端发起HTTP请求就是形如：<br />
+ * https://127.0.0.1:9200 <br />
+ * https://127.0.0.1:9200/ <br />
+ * https://127.0.0.1:9200/xxx <br /><br />
+ *
+ * PS：设置的字符串末尾切记不要带"/"，因为在具体使用该常量时，会自行由具体的代码设置的。<br />
+ *
+ * @type {string}
+ */
+const ServersURLPrefix = '/simulation_servers_deno';
+
 // 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface Start
 
 export type T_Response001 = Response | Promise<Response>;
@@ -580,6 +597,8 @@ const HTTPStatus: {
 };
 
 export {
+  ServersURLPrefix,
+
   // 自定义的路径别名aliasConfig Start
   cacheDir,
   logDir,
@@ -630,6 +649,8 @@ export {
 };
 
 export default {
+  ServersURLPrefix,
+
   // 自定义的路径别名aliasConfig Start
   cacheDir,
   logDir,

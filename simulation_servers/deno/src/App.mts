@@ -33,6 +33,7 @@
 import 'esm_sh_corejs';
 
 import {
+  ServersURLPrefix,
   webDir,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -147,8 +148,7 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
     Deno.readDir( new URL( `${ webDir }/` ) )
     ){
     if( isDirectory ){
-      arr.push( `/web/${ name }/` );
-      arr.push( `/simulation_servers_deno/web/${ name }/` );
+      arr.push( `${ ServersURLPrefix }/web/${ name }/` );
     }
   }
 
