@@ -51,7 +51,7 @@ import {
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
-const options: Deno.ServeTcpOptions = {
+const options: Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem = {
     automaticCompression: true,
     port: 9000,
     /**
@@ -126,7 +126,7 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  HTTPSAndWebSocketSByServerForPort9000: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+  httpServer: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
     options,
     (
       request: Request,
@@ -176,11 +176,11 @@ HTTPS and WebSocket Server info--->End
   );
 
 export {
-  HTTPSAndWebSocketSByServerForPort9000,
+  httpServer,
   options,
 };
 
 export default {
-  HTTPSAndWebSocketSByServerForPort9000,
+  httpServer,
   options,
 };

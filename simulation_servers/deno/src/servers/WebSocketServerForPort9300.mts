@@ -110,7 +110,7 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  WebSocketServerForPort9300: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+  httpServer: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
     options,
     (
       request: Request,
@@ -160,11 +160,11 @@ WebSocket Server info--->End
   );
 
 export {
-  WebSocketServerForPort9300,
+  httpServer,
   options,
 };
 
 export default {
-  WebSocketServerForPort9300,
+  httpServer,
   options,
 };

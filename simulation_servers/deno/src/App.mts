@@ -107,18 +107,17 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
     const {
       value,
     } of
-    resolve as Array<PromiseFulfilledResult<Record<string, Deno.HttpServer<Deno.NetAddr>>>>
+    resolve as Array<PromiseFulfilledResult<Record<string, unknown>>>
     ){
     const {
       hostname,
       port,
-      transport,
-    }: Deno.NetAddr = ( Object.values( value )[ 0 ] as Deno.HttpServer<Deno.NetAddr> ).addr;
+    }: Deno.NetAddr = ( value.default.httpServer as Deno.HttpServer<Deno.NetAddr> ).addr;
 
     hostName.push( `http${
-      ( transport?.toLowerCase() ?? '' ) === 'tcp'
-      ? ''
-      : 's'
+      'key' in ( value.default.options as ( Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem ) ) ) || 'cert' in ( value.default.options as ( Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem ) ) )
+      ? 's'
+      : ''
     }://${
       hostname === '0.0.0.0'
       ? 'localhost'

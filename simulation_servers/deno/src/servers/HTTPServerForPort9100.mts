@@ -110,7 +110,7 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  HTTPServerForPort9100: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+  httpServer: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
     options,
     (
       request: Request,
@@ -160,11 +160,11 @@ HTTP Server info--->End
   );
 
 export {
-  HTTPServerForPort9100,
+  httpServer,
   options,
 };
 
 export default {
-  HTTPServerForPort9100,
+  httpServer,
   options,
 };

@@ -52,7 +52,7 @@ import {
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
-const options: Deno.ServeTcpOptions = {
+const options: Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem = {
     automaticCompression: true,
     port: 9200,
     /**
@@ -129,7 +129,7 @@ ${ ( error as Error ).message }`,
       } );
     },
   },
-  HTTPV2AndWebSocketSServerForPort9200: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
+  httpServer: Deno.HttpServer<Deno.NetAddr> = Deno.serve(
     options,
     (
       request: Request,
@@ -181,11 +181,11 @@ HTTP/2 服务 info--->End
   );
 
 export {
-  HTTPV2AndWebSocketSServerForPort9200,
+  httpServer,
   options,
 };
 
 export default {
-  HTTPV2AndWebSocketSServerForPort9200,
+  httpServer,
   options,
 };
