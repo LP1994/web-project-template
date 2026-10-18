@@ -17,6 +17,8 @@
 
 import {
   type T_Response001,
+
+  serversURLPrefix,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -76,7 +78,14 @@ const options: Deno.ServeTcpOptions = {
         port: number;
       }
     ): void => {
-      const str001: string = GetNetworkAddressForWLANByIPv4( hostname ).map( ( item: string ): string => `\nhttp://${ item }:${ port }/\nws://${ item }:${ port }/` ).join( '' );
+      const arr001: string[] = [],
+        arr002: string[] = [];
+
+      GetNetworkAddressForWLANByIPv4( hostname ).forEach( ( item: string ): void => void ( arr001.push( `\nhttp://${ item }:${ port }`, `\nws://${ item }:${ port }` ) ) );
+
+      arr001.forEach( ( item001: string ): void => void ( serversURLPrefix.forEach( ( item002: string ): void => void ( arr002.push( `${ item001 }${ item002 }` ) ) ) ) );
+
+      const str001: string = arr002.join( '' );
 
       MyConsole.Cyan( `
 来自：simulation_servers/deno/src/servers/HTTPAndWebSocketByServerForPort9000.mts
