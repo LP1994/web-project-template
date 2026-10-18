@@ -52,9 +52,11 @@ import {
 
 type T_ResultForHttpServer = {
   default: {
+    isProvidedHTTPService: boolean;
     httpServer: Deno.HttpServer<Deno.NetAddr>;
     options: Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem );
   };
+  isProvidedHTTPService: boolean;
   httpServer: Deno.HttpServer<Deno.NetAddr>;
   options: Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem );
 };
@@ -112,13 +114,11 @@ function PrintEnvironmentVariables(): void{
  * @returns {Promise<void>}
  */
 async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult<unknown>> ): Promise<void>{
-  const arr: Array<string> = [],
-    hostName: Array<string> = [];
-
   for(
     const {
       value: {
         default: {
+          isProvidedHTTPService,
           httpServer,
           options,
         },
@@ -126,40 +126,45 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
     } of
     resolve as Array<PromiseFulfilledResult<T_ResultForHttpServer>>
     ){
-    const {
-      hostname,
-      port,
-    }: Deno.NetAddr = httpServer.addr;
+    if( isProvidedHTTPService ){
+      const arr: Array<string> = [],
+        hostName: Array<string> = [];
 
-    GetNetworkAddressForWLANByIPv4( hostname ).forEach( ( item: string ): void => {
-      hostName.push( `http${
-        'key' in options || 'cert' in options
-        ? 's'
-        : ''
-      }://${ item }:${ port }` );
-    } );
-  }
+      const {
+        hostname,
+        port,
+      }: Deno.NetAddr = httpServer.addr;
 
-  for await (
-    const {
-      name,
-      isDirectory,
-    } of
-    Deno.readDir( new URL( `${ webDir }/` ) )
-    ){
-    if( isDirectory ){
-      arr.push( ...( serversURLPrefix.map( ( item: string ): string => `${ item }/web/${ name }/` ) ) );
-    }
-  }
-
-  if( arr.length > 0 ){
-    MyConsole.Green( `有如下静态文件服务器地址，内容都是来自“web”文件夹下的:` );
-
-    hostName.forEach( ( item: string ): void => {
-      arr.forEach( ( i: string ): void => {
-        MyConsole.Green( `${ item }${ i }` );
+      GetNetworkAddressForWLANByIPv4( hostname ).forEach( ( item: string ): void => {
+        hostName.push( `http${
+          'key' in options || 'cert' in options
+          ? 's'
+          : ''
+        }://${ item }:${ port }` );
       } );
-    } );
+
+      for await (
+        const {
+          name,
+          isDirectory,
+        } of
+        Deno.readDir( new URL( `${ webDir }/` ) )
+        ){
+        if( isDirectory ){
+          arr.push( ...( serversURLPrefix.map( ( item: string ): string => `${ item }/web/${ name }/` ) ) );
+        }
+      }
+
+      if( arr.length > 0 ){
+        MyConsole.Green( `有如下静态文件服务器地址，内容都是来自“web”文件夹下的:` );
+
+        hostName.forEach( ( item: string ): void => {
+          arr.forEach( ( i: string ): void => {
+            MyConsole.Green( `${ item }${ i }` );
+          } );
+        } );
+      }
+    }
   }
 }
 

@@ -51,7 +51,8 @@ import {
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
-const options: Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem = {
+const isProvidedHTTPService: boolean = true,
+  options: Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem = {
     automaticCompression: true,
     port: 9100,
     /**
@@ -187,11 +188,13 @@ HTTPS Server info--->End
   );
 
 export {
+  isProvidedHTTPService,
   httpServer,
   options,
 };
 
 export default {
+  isProvidedHTTPService,
   httpServer,
   options,
 };

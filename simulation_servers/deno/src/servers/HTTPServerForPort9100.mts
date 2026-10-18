@@ -40,7 +40,8 @@ import {
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
-const options: Deno.ServeTcpOptions = {
+const isProvidedHTTPService: boolean = true,
+  options: Deno.ServeTcpOptions = {
     automaticCompression: true,
     port: 9100,
     /**
@@ -174,11 +175,13 @@ HTTP Server info--->End
   );
 
 export {
+  isProvidedHTTPService,
   httpServer,
   options,
 };
 
 export default {
+  isProvidedHTTPService,
   httpServer,
   options,
 };
