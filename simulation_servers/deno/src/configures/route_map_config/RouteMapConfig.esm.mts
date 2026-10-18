@@ -31,15 +31,15 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  GeneratorRouteMap,
   GeneratorRouteHandle,
+  GeneratorRouteMap,
 } from './Handle.esm.mts';
+
+type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 
 type T_RouteMapHandle = {
   [ key: string ]: T_Fun001;
 };
-
-type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 
 // RouteMapConfig Start
 
