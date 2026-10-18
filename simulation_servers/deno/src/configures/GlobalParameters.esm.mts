@@ -115,9 +115,11 @@ const webDir: string = import.meta.resolve( '../../web' );
  *     如果使用服务器发送事件，确保EventSource.withCredentials是true。<br />
  *     如果使用Fetch API，请确保Request.credentials是"include"。<br />
  *
- * @type {( request: Request ) => HeadersInit}
+ * @param {Request} request
+ *
+ * @returns {HeadersInit}
  */
-const HttpResponseHeadersFun: ( request: Request ) => HeadersInit = ( request: Request ): HeadersInit => {
+function HttpResponseHeadersFun( request: Request ): HeadersInit{
   const result: Record<string, string> = {
       // 'Content-Security-Policy': 'require-sri-for script style',
       /**
@@ -267,62 +269,7 @@ const HttpResponseHeadersFun: ( request: Request ) => HeadersInit = ( request: R
   }
 
   return result;
-};
-
-/**
- * 自定义的响应状态码映射对象。
- *
- * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }}
- */
-const resMessageStatus: {
-  [ key: string | number ]: {
-    status: number;
-    statusText: string;
-  };
-} = {
-  // 通用的表示服务端处理报错的错误状态码。
-  9999: {
-    status: 9999,
-    statusText: 'server handle error',
-  },
-
-  // 通用的表示客户端请求成功，服务端也响应成功的成功状态码。
-  200: {
-    status: 200,
-    statusText: 'OK',
-  },
-
-  // 请求体的body为空，这里的空是指null、undefined一类的，具体表示为请求体不携带任何东西给服务端。
-  1000: {
-    status: 1000,
-    statusText: 'body empty',
-  },
-  // 请求头中的“content-type”的值不是服务端要求的类型。
-  1001: {
-    status: 1001,
-    statusText: 'content-type error',
-  },
-  // 目标不是一个File或Blob类型。
-  1002: {
-    status: 1002,
-    statusText: 'not a file/Blob type',
-  },
-  // 查询参数缺失。
-  1003: {
-    status: 1003,
-    statusText: 'missing query parameter',
-  },
-  // 请求头中缺少“content-length属性”或其值为0。
-  1004: {
-    status: 1004,
-    statusText: 'content-length error',
-  },
-  // 上传的文件大小超过限制。
-  1005: {
-    status: 1005,
-    statusText: 'file is too large',
-  },
-};
+}
 
 /**
  * 标准的HTTP响应状态码映射对象。
@@ -599,6 +546,61 @@ const HTTPStatus: {
   },
 };
 
+/**
+ * 自定义的响应状态码映射对象。
+ *
+ * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }}
+ */
+const resMessageStatus: {
+  [ key: string | number ]: {
+    status: number;
+    statusText: string;
+  };
+} = {
+  // 通用的表示服务端处理报错的错误状态码。
+  9999: {
+    status: 9999,
+    statusText: 'server handle error',
+  },
+
+  // 通用的表示客户端请求成功，服务端也响应成功的成功状态码。
+  200: {
+    status: 200,
+    statusText: 'OK',
+  },
+
+  // 请求体的body为空，这里的空是指null、undefined一类的，具体表示为请求体不携带任何东西给服务端。
+  1000: {
+    status: 1000,
+    statusText: 'body empty',
+  },
+  // 请求头中的“content-type”的值不是服务端要求的类型。
+  1001: {
+    status: 1001,
+    statusText: 'content-type error',
+  },
+  // 目标不是一个File或Blob类型。
+  1002: {
+    status: 1002,
+    statusText: 'not a file/Blob type',
+  },
+  // 查询参数缺失。
+  1003: {
+    status: 1003,
+    statusText: 'missing query parameter',
+  },
+  // 请求头中缺少“content-length属性”或其值为0。
+  1004: {
+    status: 1004,
+    statusText: 'content-length error',
+  },
+  // 上传的文件大小超过限制。
+  1005: {
+    status: 1005,
+    statusText: 'file is too large',
+  },
+};
+
 export {
   serversURLPrefix,
 
@@ -647,8 +649,8 @@ export {
   // 自定义的路径别名aliasConfig End
 
   HttpResponseHeadersFun,
-  resMessageStatus,
   HTTPStatus,
+  resMessageStatus,
 };
 
 export default {
@@ -699,6 +701,6 @@ export default {
   // 自定义的路径别名aliasConfig End
 
   HttpResponseHeadersFun,
-  resMessageStatus,
   HTTPStatus,
+  resMessageStatus,
 };
