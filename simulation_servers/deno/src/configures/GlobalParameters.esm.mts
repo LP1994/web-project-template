@@ -27,9 +27,12 @@
  *
  * PS：设置的字符串末尾切记不要带"/"，因为在具体使用该常量时，会自行由具体的代码设置的。<br />
  *
- * @type {string}
+ * @type {string[]}
  */
-const ServersURLPrefix = '/simulation_servers_deno';
+const ServersURLPrefix: string[] = [
+  '',
+  '/simulation_servers_deno',
+];
 
 // 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface Start
 
