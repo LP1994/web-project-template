@@ -139,7 +139,9 @@ ${ JSON.stringify( {
         url: request.url,
         redirect: request.redirect,
         bodyUsed: request.bodyUsed,
-        headers: ( () => {
+        headers: ( (): {
+          [ keyName: string ]: string;
+        } => {
           const result: {
             [ keyName: string ]: string;
           } = {};
@@ -155,7 +157,7 @@ ${ JSON.stringify( {
 
           return result;
         } )(),
-      }, null, 4 ) }
+      }, null, 2 ) }
 
 WebSocketS Server request--->End
 ` );
@@ -164,7 +166,7 @@ WebSocketS Server request--->End
 来自：simulation_servers/deno/src/servers/WebSocketSServerForPort9300.mts
 WebSocketS Server info--->Start
 
-${ JSON.stringify( info, null, 4 ) }
+${ JSON.stringify( info, null, 2 ) }
 
 WebSocketS Server info--->End
 ` );
