@@ -29,7 +29,7 @@
  *
  * @type {string[]}
  */
-const ServersURLPrefix: string[] = [
+const serversURLPrefix: string[] = [
   '',
   '/simulation_servers_deno',
 ];
@@ -600,7 +600,7 @@ const HTTPStatus: {
 };
 
 export {
-  ServersURLPrefix,
+  serversURLPrefix,
 
   // 自定义的路径别名aliasConfig Start
   cacheDir,
@@ -652,7 +652,7 @@ export {
 };
 
 export default {
-  ServersURLPrefix,
+  serversURLPrefix,
 
   // 自定义的路径别名aliasConfig Start
   cacheDir,
