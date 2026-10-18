@@ -10,45 +10,44 @@
 'use strict';
 
 import {
-  type T_Fun001,
   type T_FilePath001,
+  type T_Fun001,
   type T_Result001,
 
   route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  MyConsole,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
   type T_MyCusDenoFsFile,
 
-  IterateToNestForPromise,
-
   GetErrorWriteStreamForSingleton,
+  IterateToNestForPromise,
 } from 'public/PublicTools.esm.mts';
 
 import AllServicesForFileURL from 'services/AllServices.esm.mts';
 
-type T_RouteMapConfig = {
-  [ key: string ]: T_FilePath001;
-};
-
-type T_RouteHandleConfig = Array<[ string | URL, string | URL ]>;
+import {
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 type T_Fun002 = ( request: Request ) => boolean | Promise<boolean>;
 
 type T_Map001 = Map<T_Fun002, T_Fun001>;
 
-type T_RouteMapHandle = {
-  [ key: string ]: T_Fun001;
+type T_Obj001 = {
+  [ key: string ]: string;
 };
 
 type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 
-type T_Obj001 = {
-  [ key: string ]: string;
+type T_RouteHandleConfig = Array<[ string | URL, string | URL ]>;
+
+type T_RouteMapConfig = {
+  [ key: string ]: T_FilePath001;
+};
+
+type T_RouteMapHandle = {
+  [ key: string ]: T_Fun001;
 };
 
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
@@ -72,55 +71,6 @@ function Handle001( filePath: T_FilePath001 ): string{
   else{
     return filePath as string;
   }
-}
-
-/**
- * “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
- *
- * @param {T_RouteMapConfig} routeMapConfig “一对一”的路由映射配置，必需。
- *
- * @returns {Promise<T_RouteMapHandle>} “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
- */
-async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_RouteMapHandle>{
-  const obj001: T_Obj001 = Object.fromEntries(
-    Object.entries( routeMapConfig ).map(
-      (
-        [ key, value ]: [ string, T_FilePath001 ],
-      ): [ string, string ] => {
-        if( Object.prototype.toString.call( value ) === '[object URL]' ){
-          if( ( value as URL ).protocol === 'file:' ){
-            return [
-              key,
-              ( value as URL ).href
-            ];
-          }
-          else{
-            throw new Error( 'import()只接受“string”类型的参数值，且表示文件地址。' );
-          }
-        }
-        else{
-          return [
-            key,
-            value as string
-          ];
-        }
-      }
-    )
-  );
-
-  const arr001: Array<Promise<[ string, T_Fun001 ]>> = Object.entries( obj001 ).map(
-      async (
-        [ key, value ]: [ string, string ],
-      ): Promise<[ string, T_Fun001, ]> => {
-        return [
-          key,
-          ( await import( value ) ).default
-        ];
-      }
-    ),
-    arr002: Array<[ string, T_Fun001 ]> = await Array.fromAsync( arr001 );
-
-  return Object.fromEntries( arr002 );
 }
 
 /**
@@ -186,12 +136,61 @@ ${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！�
   };
 }
 
+/**
+ * “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
+ *
+ * @param {T_RouteMapConfig} routeMapConfig “一对一”的路由映射配置，必需。
+ *
+ * @returns {Promise<T_RouteMapHandle>} “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
+ */
+async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_RouteMapHandle>{
+  const obj001: T_Obj001 = Object.fromEntries(
+    Object.entries( routeMapConfig ).map(
+      (
+        [ key, value ]: [ string, T_FilePath001 ],
+      ): [ string, string ] => {
+        if( Object.prototype.toString.call( value ) === '[object URL]' ){
+          if( ( value as URL ).protocol === 'file:' ){
+            return [
+              key,
+              ( value as URL ).href
+            ];
+          }
+          else{
+            throw new Error( 'import()只接受“string”类型的参数值，且表示文件地址。' );
+          }
+        }
+        else{
+          return [
+            key,
+            value as string
+          ];
+        }
+      }
+    )
+  );
+
+  const arr001: Array<Promise<[ string, T_Fun001 ]>> = Object.entries( obj001 ).map(
+      async (
+        [ key, value ]: [ string, string ],
+      ): Promise<[ string, T_Fun001, ]> => {
+        return [
+          key,
+          ( await import( value ) ).default
+        ];
+      }
+    ),
+    arr002: Array<[ string, T_Fun001 ]> = await Array.fromAsync( arr001 );
+
+  return Object.fromEntries( arr002 );
+}
+
 export {
-  GeneratorRouteMap,
   GeneratorRouteHandle,
+  GeneratorRouteMap,
 };
 
 export default {
-  GeneratorRouteMap,
   GeneratorRouteHandle,
+  GeneratorRouteMap,
 };
