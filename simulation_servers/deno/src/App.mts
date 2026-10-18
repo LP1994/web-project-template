@@ -47,6 +47,15 @@ import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+type T_ResultForHttpServer = {
+  default: {
+    httpServer: Deno.HttpServer<Deno.NetAddr>;
+    options: Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem );
+  };
+  httpServer: Deno.HttpServer<Deno.NetAddr>;
+  options: Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem );
+};
+
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
@@ -105,17 +114,22 @@ async function PrintWebResourcesServiceInfo( resolve: Array<PromiseSettledResult
 
   for(
     const {
-      value,
+      value: {
+        default: {
+          httpServer,
+          options,
+        },
+      },
     } of
-    resolve as Array<PromiseFulfilledResult<Record<string, unknown>>>
+    resolve as Array<PromiseFulfilledResult<T_ResultForHttpServer>>
     ){
     const {
       hostname,
       port,
-    }: Deno.NetAddr = ( value.default.httpServer as Deno.HttpServer<Deno.NetAddr> ).addr;
+    }: Deno.NetAddr = httpServer.addr;
 
     hostName.push( `http${
-      'key' in ( value.default.options as ( Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem ) ) ) || 'cert' in ( value.default.options as ( Deno.ServeTcpOptions | ( Deno.ServeTcpOptions & Deno.TlsCertifiedKeyPem ) ) )
+      'key' in options || 'cert' in options
       ? 's'
       : ''
     }://${
