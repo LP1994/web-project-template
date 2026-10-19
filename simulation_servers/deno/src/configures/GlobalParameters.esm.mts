@@ -604,6 +604,10 @@ const resMessageStatus: {
 export {
   serversURLPrefix,
 
+  HttpResponseHeadersFun,
+  HTTPStatus,
+  resMessageStatus,
+
   // 自定义的路径别名aliasConfig Start
   cacheDir,
   logDir,
@@ -647,15 +651,15 @@ export {
   uploadDir,
   webDir,
   // 自定义的路径别名aliasConfig End
-
-  HttpResponseHeadersFun,
-  HTTPStatus,
-  resMessageStatus,
 };
 
 export default {
   serversURLPrefix,
 
+  HttpResponseHeadersFun,
+  HTTPStatus,
+  resMessageStatus,
+
   // 自定义的路径别名aliasConfig Start
   cacheDir,
   logDir,
@@ -699,8 +703,4 @@ export default {
   uploadDir,
   webDir,
   // 自定义的路径别名aliasConfig End
-
-  HttpResponseHeadersFun,
-  HTTPStatus,
-  resMessageStatus,
 };
