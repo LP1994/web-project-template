@@ -13,3 +13,4 @@ Deno（读音：/ˈdiːnoʊ/）将是Node的终结者。未来，自己编写的
   4）再到“src/services”中去编写对上面配置好的路由的响应处理。
   5）如果需要响应其他的请求方式，还可以在“src/routers”中创建新的请求方式处理，可参照“src/routers”中已有的请求方式的处理，然后在“src/routers/Routers.esm.mts”中引入并编写相关逻辑。
   6）“src/routers/Routers.esm.mts”也是被“src/servers”文件夹下的服务配置引入的用于响应客户端请求并返回响应的。
+  7）“src/services/AllServices.esm.mts”已经写了自动扫描““src/services”里的各个路由逻辑。

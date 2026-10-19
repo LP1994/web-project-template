@@ -86,7 +86,7 @@
     "skipLibCheck": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
 
-    "target": "es2025",
+    "target": "es2026",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": ".",

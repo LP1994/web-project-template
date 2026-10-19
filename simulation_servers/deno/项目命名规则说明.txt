@@ -32,3 +32,5 @@ Index
 
 8、TypeScript中自定义的类型别名的命名，以“T_”开头，如：type T_MyString = string;
 接口“interface”类型的，以“I_”开头，如：interface I_MyObj = {};
+
+9、常量、变量，首字母小写，后面的每个单词首字母大写。
