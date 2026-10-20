@@ -3390,11 +3390,11 @@ export class CT {
    * PS:<br />
    * 1、比如，百度的搜索输入框，当我们输入每个字符时，都会触发搜索提示。<br />
    *
-   * @param fun 函数，建议用“非箭头函数”，可选
+   * @param fun 函数，该选项必须传，不传该参数，又调用该防抖函数就没意义。
    *
    * @param wait Number，连续调用的暂停时间，单位毫秒(ms)，默认值250，可选
    *
-   * @param immediate boolean，为true时，则回调func是在连续调用开始时就被调用，默认值false，可选
+   * @param immediate boolean，为true时，则回调fun是在连续调用开始时就被调用，默认值false，可选
    *
    * @returns {function} function
    */
@@ -3402,13 +3402,13 @@ export class CT {
   }, wait = 250, immediate = false ){
     let preTime = 0,
       clearTime;
-    return function ( ...rest ){
+    return ( ...rest ) => {
       let nowTime = Date.now(),
         timeOut = nowTime - preTime > wait;
       preTime = nowTime;
       clearTime !== null && clearTime !== undefined && !timeOut && clearTimeout( clearTime );
-      immediate && !clearTime && timeOut && fun.apply( this, rest );
-      !immediate && ( clearTime = setTimeout( () => void ( clearTime = null, !immediate && ( fun.apply( this, rest ) ) ), wait ) );
+      immediate && !clearTime && timeOut && fun( rest );
+      !immediate && ( clearTime = setTimeout( () => void ( clearTime = null, !immediate && ( fun( rest ) ) ), wait ) );
     };
   }
 
