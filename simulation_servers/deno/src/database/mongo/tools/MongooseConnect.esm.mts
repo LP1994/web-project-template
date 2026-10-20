@@ -104,19 +104,19 @@ let mongooseConnectForSingleton: T_MongooseConnectForSingleton | null;
  *
  * @param {string} config.myDBName 所要连接的数据库名。
  *
- * @param {string} config.myURI 所要连接的数据库url。
- *
  * @param {T_ConnectOptions} config.myMongooseConfig node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：<br />
  * https://mongoosejs.com/docs/connections.html <br />
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options <br />
  * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html <br />
  *
+ * @param {string} config.myURI 所要连接的数据库url。
+ *
  * @returns {T_Connection} 返回一个数据库连接实例，用于关闭、切换数据库等等操作。
  */
 export function MongooseConnect( {
   myDBName = dbName,
-  myURI = uri,
   myMongooseConfig = mongooseConfig,
+  myURI = uri,
 }: T_MongooseConnectConfig = {} ): T_Connection{
   return new Mongoose().createConnection( myURI, myMongooseConfig ).useDb( myDBName );
 }
@@ -137,19 +137,19 @@ export function MongooseConnect( {
  *
  * @param {string} config.myDBName 所要连接的数据库名。
  *
- * @param {string} config.myURI 所要连接的数据库url。
- *
  * @param {T_ConnectOptions} config.myMongooseConfig node版本的mongoose驱动程序的客户端连接配置选项。该驱动程序的配置选项详细见：<br />
  * https://mongoosejs.com/docs/connections.html <br />
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/#connection-options <br />
  * https://mongodb.github.io/node-mongodb-native/6.5/interfaces/MongoClientOptions.html <br />
  *
+ * @param {string} config.myURI 所要连接的数据库url。
+ *
  * @returns {Promise<T_MongooseConnectForSingleton>}
  */
 export async function MongooseConnectForSingleton( {
   myDBName = dbName,
-  myURI = uri,
   myMongooseConfig = mongooseConfig,
+  myURI = uri,
 }: T_MongooseConnectConfig = {} ): Promise<T_MongooseConnectForSingleton>{
   if( !mongooseConnectForSingleton ){
     const myMongooseConnection: MyMongooseConnection = new MyMongooseConnection( ( methodName?: string ): void => {
