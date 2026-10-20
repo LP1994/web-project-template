@@ -505,6 +505,19 @@ export function GetDataType( arg: any ): string{
 }
 
 /**
+ * 判断数据是否为Arguments类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsArguments( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Arguments' );
+}
+
+/**
  * 判断数据是否为Array类型。<br />
  *
  * @param {any} arg 数据，必需。
@@ -515,6 +528,728 @@ export function IsArray( arg: any ): boolean{
   'use strict';
 
   return Array.isArray( arg );
+}
+
+/**
+ * 判断数据是否为ArrayBuffer类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsArrayBuffer( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'ArrayBuffer' );
+}
+
+/**
+ * 判断数据是否为Array Iterator类型。<br />
+ * PS：如下都是这个数据类型。<br />
+ * ```ts
+ * [ "a", "b", "c", ].keys();
+ * [ "a", "b", "c", ].values();
+ * [ "a", "b", "c", ].entries();
+ * ```
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsArrayIterator( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Array Iterator' );
+}
+
+/**
+ * 判断数据是否为AsyncDisposableStack类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsAsyncDisposableStack( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'AsyncDisposableStack' );
+}
+
+/**
+ * 判断数据是否为async...await的异步函数类型(包括异步的Generator函数)。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsAsyncFun( arg: any ): boolean{
+  return HandleByEqualForString001( arg, 'AsyncFunction' ) || HandleByEqualForString001( arg, 'AsyncGeneratorFunction' );
+}
+
+/**
+ * 判断数据是否为async...await的Generator函数执行后生成的Generator遍历器类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsAsyncGenerator( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'AsyncGenerator' );
+}
+
+/**
+ * 判断数据是否为async...await的Generator Function类型，也就是Generator函数。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsAsyncGeneratorFun( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'AsyncGeneratorFunction' );
+}
+
+/**
+ * 判断数据是否为AsyncIterator类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsAsyncIterator( arg: any ): boolean{
+  return HandleByEqualForString001( arg, 'AsyncIterator' ) || HandleByEqualForString001( arg, 'Async Iterator' );
+}
+
+/**
+ * 判断数据是否为Atomics类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsAtomics( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Atomics' );
+}
+
+/**
+ * 判断数据是否为BigInt类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsBigInt( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'BigInt' );
+}
+
+/**
+ * 判断数据是否为BigInt64Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsBigInt64Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'BigInt64Array' );
+}
+
+/**
+ * 判断数据是否为BigUint64Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsBigUint64Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'BigUint64Array' );
+}
+
+/**
+ * 判断数据是否为Blob类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsBlob( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Blob' );
+}
+
+/**
+ * 判断数据是否为Boolean类型(布尔对象、实例会返回false)。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsBoolean( arg: any ): boolean{
+  return HandleByEqualForString001( arg, 'Boolean' ) && typeof arg === 'boolean';
+}
+
+/**
+ * 判断数据是否为DataView类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsDataView( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'DataView' );
+}
+
+/**
+ * 判断数据是否为Date类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsDate( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Date' );
+}
+
+/**
+ * 判断数据是否为DisposableStack类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsDisposableStack( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'DisposableStack' );
+}
+
+/**
+ * 判断数据是否是Document对象，也就是document。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsDocument( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'HTMLDocument' );
+}
+
+/**
+ * 判断数据是否为一个DOM元素List，如：NodeList、HTMLCollection、jQuery ElementList。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsElemList( arg: any ): boolean{
+  return HandleByEqualForString001( arg, 'NodeList' ) || HandleByEqualForString001( arg, 'HTMLCollection' ) || IsJQList( arg );
+}
+
+/**
+ * 判断数据是否为一个DOM元素或window对象或Document对象。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsElement( arg: any ): boolean{
+  return HandleByEqualForString001( arg, 'Element' ) || IsDocument( arg ) || IsWindow( arg );
+}
+
+/**
+ * 判断原数据是否为空数据，如果是空的字符串('')、空的数组([])、空的对象({})、空的FormData，则为true，否则为false。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 如果是空的字符串('')、空的数组([])、空的对象({})、空的FormData，则为true，否则为false。
+ */
+export function IsEmpty( arg: any ): boolean{
+  if( IsString( arg ) || IsArray( arg ) ){
+    return arg.length === 0;
+  }
+  else if( IsObject( arg ) ){
+    return Object.keys( arg ).length === 0;
+  }
+  else if( IsFormData( arg ) ){
+    return Array.from( arg.keys() ).length === 0;
+  }
+  else{
+    return false;
+  }
+}
+
+/**
+ * 判断原数据是否为全空的真空对象(Object.create( null )、{ __proto__: null, }、Object.setPrototypeOf( {}, null ))，是则为true，否则为false。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 如果是全空的真空对象(Object.create( null )、{ __proto__: null, }、Object.setPrototypeOf( {}, null ))，是则为true，否则为false。
+ */
+export function IsEmptyObject( arg: any ): boolean{
+  return IsObject( arg ) && IsNull( Object.getPrototypeOf( arg ) );
+}
+
+/**
+ * 判断数据是否为Error类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsError( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Error' );
+}
+
+/**
+ * 判断数据是否为File类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFile( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'File' );
+}
+
+/**
+ * 判断数据是否为FileReader类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFileReader( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'FileReader' );
+}
+
+/**
+ * 判断数据是否为FinalizationRegistry类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFinalizationRegistry( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'FinalizationRegistry' );
+}
+
+/**
+ * 判断数据是否为一个有穷数，不转换参数，new Number(Infinity)为false，new Number(Infinity).valueOf()为false。<br />
+ * new Number(1)为false，new Number(1).valueOf()为true。<br />
+ * 注意：如果参数类型不是数值，Number.isFinite一律返回false。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFinite( arg: any ): boolean{
+  'use strict';
+
+  return Number.isFinite( arg );
+}
+
+/**
+ * 判断数据是否为Float16Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFloat16Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Float16Array' );
+}
+
+/**
+ * 判断数据是否为Float32Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFloat32Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Float32Array' );
+}
+
+/**
+ * 判断数据是否为Float64Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFloat64Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Float64Array' );
+}
+
+/**
+ * 判断数据是否为FormData类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFormData( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'FormData' );
+}
+
+/**
+ * 判断数据是否为Function类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsFunction( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Function' );
+}
+
+/**
+ * 判断数据是否为Generator函数执行后生成的Generator遍历器类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsGenerator( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Generator' );
+}
+
+/**
+ * 判断数据是否为Generator Function类型，也就是Generator函数。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsGeneratorFun( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'GeneratorFunction' );
+}
+
+/**
+ * 判断数据是否为Int8Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsInt8Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Int8Array' );
+}
+
+/**
+ * 判断数据是否为Int16Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsInt16Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Int16Array' );
+}
+
+/**
+ * 判断数据是否为Int32Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsInt32Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Int32Array' );
+}
+
+/**
+ * 判断数据是否为整数，不转换参数。new Number(1)为false，new Number(1).valueOf()为true。<br />
+ * 注：<br />
+ * JavaScript 内部，整数和浮点数采用的是同样的储存方法，所以 25 和 25.0 被视为同一个值。<br />
+ * 如果参数不是数值，Number.isInteger返回false。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsInteger( arg: any ): boolean{
+  'use strict';
+
+  return Number.isInteger( arg );
+}
+
+/**
+ * 判断数据是否为Intl类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntl( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl' );
+}
+
+/**
+ * 判断数据是否为Intl.Collator类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlCollator( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.Collator' );
+}
+
+/**
+ * 判断数据是否为Intl.DateTimeFormat类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlDateTimeFormat( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.DateTimeFormat' );
+}
+
+/**
+ * 判断数据是否为Intl.DisplayNames类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlDisplayNames( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.DisplayNames' );
+}
+
+/**
+ * 判断数据是否为Intl.DurationFormat类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlDurationFormat( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.DurationFormat' );
+}
+
+/**
+ * 判断数据是否为Intl.ListFormat类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlListFormat( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.ListFormat' );
+}
+
+/**
+ * 判断数据是否为Intl.Locale类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlLocale( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.Locale' );
+}
+
+/**
+ * 判断数据是否为Intl.NumberFormat类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlNumberFormat( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.NumberFormat' );
+}
+
+/**
+ * 判断数据是否为Intl.PluralRules类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlPluralRules( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.PluralRules' );
+}
+
+/**
+ * 判断数据是否为Intl.RelativeTimeFormat类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlRelativeTimeFormat( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.RelativeTimeFormat' );
+}
+
+/**
+ * 判断数据是否为Intl.Segmenter类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIntlSegmenter( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Intl.Segmenter' );
+}
+
+/**
+ * 判断数据是否为Iterator类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsIterator( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Iterator' );
+}
+
+/**
+ * 判断数据是否为一个jQuery ElementList。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsJQList( arg: any ): boolean{
+  return IsObject( arg ) && ( 'jquery' in arg );
+}
+
+/**
+ * 判断数据是否为Map类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsMap( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Map' );
+}
+
+/**
+ * 判断数据是否为Math类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsMath( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Math' );
+}
+
+/**
+ * 判断数据是否为Module类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsModule( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Module' );
+}
+
+/**
+ * 判断数据是否为NaN值，不转换参数。new Number(NaN)为false，new Number(NaN).valueOf()为true。<br />
+ * 注意：如果参数类型不是NaN，Number.isNaN一律返回false。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsNaN( arg: any ): boolean{
+  'use strict';
+
+  return Number.isNaN( arg );
+}
+
+/**
+ * 判断数据是否为null值。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsNull( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Null' );
 }
 
 /**
@@ -529,6 +1264,111 @@ export function IsNumber( arg: any ): boolean{
 }
 
 /**
+ * 判断数据是否为Object类型。<br />
+ * PS：<br />
+ * 1、包括'[object Module]'。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsObject( arg: any ): boolean{
+  return HandleByEqualForString001( arg, 'Object' ) || HandleByEqualForString001( arg, 'Module' );
+}
+
+/**
+ * 判断数据是否为Promise类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsPromise( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Promise' );
+}
+
+/**
+ * 判断数据是否为Reflect类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsReflect( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Reflect' );
+}
+
+/**
+ * 判断数据是否为RegExp类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsRegExp( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'RegExp' );
+}
+
+/**
+ * 判断数据是否为一个“安全整数”。new Number(1)为false，new Number(1).valueOf()为true。<br />
+ * 安全整数范围为 -(2^53 - 1)到 2^53 - 1 之间的整数，包含 -(2^53 - 1)和 2^53 - 1。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsSafeInteger( arg: any ): boolean{
+  'use strict';
+
+  return Number.isSafeInteger( arg );
+}
+
+/**
+ * 判断数据是否为Set类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsSet( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Set' );
+}
+
+/**
+ * 判断数据是否为SharedArrayBuffer类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsSharedArrayBuffer( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'SharedArrayBuffer' );
+}
+
+/**
+ * 判断数据是否为SharedWorker类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsSharedWorker( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'SharedWorker' );
+}
+
+/**
  * 判断数据是否为String类型的原始值，String对象、String实例会返回false。<br />
  *
  * @param {any} arg 数据，必需。
@@ -537,6 +1377,279 @@ export function IsNumber( arg: any ): boolean{
  */
 export function IsString( arg: any ): boolean{
   return HandleByEqualForString001( arg, 'String' ) && ( typeof arg === 'string' );
+}
+
+/**
+ * 判断数据是否为Symbol类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsSymbol( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Symbol' );
+}
+
+/**
+ * 判断数据是否为Temporal类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporal( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal' );
+}
+
+/**
+ * 判断数据是否为Temporal.Duration类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalDuration( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.Duration' );
+}
+
+/**
+ * 判断数据是否为Temporal.Instant类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalInstant( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.Instant' );
+}
+
+/**
+ * 判断数据是否为Temporal.Now类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalNow( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.Now' );
+}
+
+/**
+ * 判断数据是否为Temporal.PlainDate类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalPlainDate( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.PlainDate' );
+}
+
+/**
+ * 判断数据是否为Temporal.PlainDateTime类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalPlainDateTime( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.PlainDateTime' );
+}
+
+/**
+ * 判断数据是否为Temporal.PlainMonthDay类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalPlainMonthDay( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.PlainMonthDay' );
+}
+
+/**
+ * 判断数据是否为Temporal.PlainTime类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalPlainTime( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.PlainTime' );
+}
+
+/**
+ * 判断数据是否为Temporal.PlainYearMonth类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalPlainYearMonth( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.PlainYearMonth' );
+}
+
+/**
+ * 判断数据是否为Temporal.ZonedDateTime类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsTemporalZonedDateTime( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Temporal.ZonedDateTime' );
+}
+
+/**
+ * 判断数据是否为Uint8Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsUint8Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Uint8Array' );
+}
+
+/**
+ * 判断数据是否为Uint8ClampedArray类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsUint8ClampedArray( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Uint8ClampedArray' );
+}
+
+/**
+ * 判断数据是否为Uint16Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsUint16Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Uint16Array' );
+}
+
+/**
+ * 判断数据是否为Uint32Array类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsUint32Array( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Uint32Array' );
+}
+
+/**
+ * 判断数据是否为undefined值。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsUndefined( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Undefined' );
+}
+
+/**
+ * 判断数据是否是WeakMap类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsWeakMap( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'WeakMap' );
+}
+
+/**
+ * 判断数据是否是WeakRef类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsWeakRef( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'WeakRef' );
+}
+
+/**
+ * 判断数据是否是WeakSet类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsWeakSet( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'WeakSet' );
+}
+
+/**
+ * 判断数据是否是Window对象。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsWindow( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Window' );
+}
+
+/**
+ * 判断数据是否是Worker类型。
+ *
+ * @param {any} arg 数据，参数个数为1，必需。
+ *
+ * @returns {boolean} 是true，否false。
+ */
+export function IsWorker( arg: any ): boolean{
+  'use strict';
+
+  return HandleByEqualForString001( arg, 'Worker' );
 }
 
 // 判断数据类型。End
@@ -2678,9 +3791,94 @@ export default {
 
   // 判断数据类型。Start
   GetDataType,
+  IsArguments,
   IsArray,
+  IsArrayBuffer,
+  IsArrayIterator,
+  IsAsyncDisposableStack,
+  IsAsyncFun,
+  IsAsyncGenerator,
+  IsAsyncGeneratorFun,
+  IsAsyncIterator,
+  IsAtomics,
+  IsBigInt,
+  IsBigInt64Array,
+  IsBigUint64Array,
+  IsBlob,
+  IsBoolean,
+  IsDataView,
+  IsDate,
+  IsDisposableStack,
+  IsDocument,
+  IsElemList,
+  IsElement,
+  IsEmpty,
+  IsEmptyObject,
+  IsError,
+  IsFile,
+  IsFileReader,
+  IsFinalizationRegistry,
+  IsFinite,
+  IsFloat16Array,
+  IsFloat32Array,
+  IsFloat64Array,
+  IsFormData,
+  IsFunction,
+  IsGenerator,
+  IsGeneratorFun,
+  IsInt8Array,
+  IsInt16Array,
+  IsInt32Array,
+  IsInteger,
+  IsIntl,
+  IsIntlCollator,
+  IsIntlDateTimeFormat,
+  IsIntlDisplayNames,
+  IsIntlDurationFormat,
+  IsIntlListFormat,
+  IsIntlLocale,
+  IsIntlNumberFormat,
+  IsIntlPluralRules,
+  IsIntlRelativeTimeFormat,
+  IsIntlSegmenter,
+  IsIterator,
+  IsJQList,
+  IsMap,
+  IsMath,
+  IsModule,
+  IsNaN,
+  IsNull,
   IsNumber,
+  IsObject,
+  IsPromise,
+  IsReflect,
+  IsRegExp,
+  IsSafeInteger,
+  IsSet,
+  IsSharedArrayBuffer,
+  IsSharedWorker,
   IsString,
+  IsSymbol,
+  IsTemporal,
+  IsTemporalDuration,
+  IsTemporalInstant,
+  IsTemporalNow,
+  IsTemporalPlainDate,
+  IsTemporalPlainDateTime,
+  IsTemporalPlainMonthDay,
+  IsTemporalPlainTime,
+  IsTemporalPlainYearMonth,
+  IsTemporalZonedDateTime,
+  IsUint8Array,
+  IsUint8ClampedArray,
+  IsUint16Array,
+  IsUint32Array,
+  IsUndefined,
+  IsWeakMap,
+  IsWeakRef,
+  IsWeakSet,
+  IsWindow,
+  IsWorker,
   // 判断数据类型。End
 
   // 数组之间的差集Difference、交集Intersection、对称差集SymmetricDifference、并集Union以及IsDisjointFrom（是否不相交）、IsSubsetOf（是否是子集）、IsSupersetOf（是否是超集）。Start
