@@ -427,10 +427,7 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
     const url: URL = new URL( request.url ),
       pathName: string = decodeURI( url.pathname );
 
-    if( [
-      '/graphql/schema.json',
-      '/simulation_servers_deno/graphql/schema.json',
-    ].includes( pathName ) ){
+    if( serversURLPrefix.map( ( item: string ): string => `${ item }/graphql/schema.json` ).includes( pathName ) ){
       const result: Record<string, unknown> = await graphql( {
         schema: options.schema,
         source: getIntrospectionQuery( {
