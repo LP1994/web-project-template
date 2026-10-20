@@ -16,9 +16,13 @@
  * 如：客户端发起“/simulation_servers_deno/GetJSON”和“/simulation_servers_deno/GetJSON/”，那么服务端是要分别配置对应的“处理函数”。
  * “value”表示针对“key”的处理的文件路径（值类型可以是string、URL），它里面会有一个“处理函数”，用于处理逻辑，且必需部署一个默认导出，默认导出的就是这个“处理函数”，该函数会返回Response，它被执行时会传入一个Request参数给它。
  *
- * 2、RouteHandle：有“条件”的路由映射处理，如：[ `${ servicesDir }/websocket_upload/Condition.esm.mts`, `${ servicesDir }/websocket_upload/ResponseHandle.esm.mts` ]，数组的第1个成员（值是一个表示处理的文件路径，值类型可以是string、URL）是一个“条件函数”，它返回一个boolean，当客户端发起的请求能满足这个“条件函数”时，会返回true，反之为false，它被执行时会传入一个Request参数给它。
+ * 2、RouteHandle：有“条件”的路由映射处理，如：[ `${ servicesDir }/websocket_upload/Condition.esm.mts`, `${ servicesDir }/websocket_upload/ResponseHandle.esm.mts` ]，
+ * 数组的第1个成员（值是一个表示处理的文件路径，值类型可以是string、URL）是一个“条件函数”，它返回一个boolean，当客户端发起的请求能满足这个“条件函数”时，会返回true，反之为false，它被执行时会传入一个Request参数给它。
  * 当“条件函数”返回true时，就会执行数组的第2个成员（值是一个表示处理的文件路径，值类型可以是string、URL），它是一个“处理函数”，会返回Response，它被执行时会传入一个Request参数给它。
  * 数组的第1个、第2个成员都是要有一个默认导出，且默认导出的就是上面提到的“条件函数”、“处理函数”。
+ *
+ * 关于“src/services/AllServices.esm.mts”：
+ * 自动扫描“src/services”文件夹下的各个路由处理，可以不用手动配置上述的映射，当然，也是可以配置的，看实际需求，至于自动扫描都是怎么触发的，请前往“src/services/AllServices.esm.mts”中查阅说明。
  */
 
 'use strict';
