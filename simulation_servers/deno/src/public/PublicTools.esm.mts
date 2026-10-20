@@ -61,10 +61,10 @@ import {
 
 // Deno自己有一个名为media_types的API功能跟它一样。
 const {
-  MimeTypeMap,
-  Mime,
   mime,
+  Mime,
   mimelite,
+  MimeTypeMap,
 }: any = mimetypes;
 
 // Deno自己有一个名为media_types的API功能跟它一样。
@@ -82,48 +82,17 @@ mime.define( {
 }, true );
 
 /**
- * 一个logWriteStream单例变量，一般用于记录常规日志信息什么的。
- *
- * @type {T_MyCusDenoFsFile}
- */
-let logWriteStream: T_MyCusDenoFsFile | null = null;
-/**
  * 一个errorWriteStream单例变量，一般用于记录错误信息什么的。
  *
  * @type {T_MyCusDenoFsFile}
  */
 let errorWriteStream: T_MyCusDenoFsFile | null = null;
-
 /**
- * 获取一个logWriteStream单例变量，一般用于记录常规日志信息什么的。
+ * 一个logWriteStream单例变量，一般用于记录常规日志信息什么的。
  *
- * @returns {Promise<T_MyCusDenoFsFile>}
+ * @type {T_MyCusDenoFsFile}
  */
-async function GetLogWriteStreamForSingleton(): Promise<T_MyCusDenoFsFile>{
-  const {
-    year,
-    month,
-    date,
-    hours,
-    minutes,
-    seconds,
-    day,
-  }: T_DateFormatForObject = DateFormatForObject();
-
-  if( !logWriteStream ){
-    logWriteStream = new Proxy( await CreateLogger( new URL( `${ logDir }/log_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒_周${ day }.log` ) ), {
-      get( target: T_MyCusDenoFsFile, propKey: string | symbol, receiver: unknown ): any{
-        if( propKey === 'close' ){
-          logWriteStream = null;
-        }
-
-        return Reflect.get( target, propKey, receiver );
-      },
-    } );
-  }
-
-  return logWriteStream as T_MyCusDenoFsFile;
-}
+let logWriteStream: T_MyCusDenoFsFile | null = null;
 
 /**
  * 获取一个errorWriteStream单例变量，一般用于记录错误信息什么的。
@@ -157,104 +126,34 @@ async function GetErrorWriteStreamForSingleton(): Promise<T_MyCusDenoFsFile>{
 }
 
 /**
- * 处理嵌套的“Promise”（形如：Promise<Promise<Promise<T>>>等等这样的多层嵌套，嵌套层数也是未知的），使其只返回最终的不带“Promise”的结果值。
+ * 获取一个logWriteStream单例变量，一般用于记录常规日志信息什么的。
  *
- * @param {Promise<T> | T} arg 需要被处理的数据，无默认值，必需。
- *
- * @returns {Promise<T>} 返回最终的不带“Promise”的结果值（就是“T”）。
+ * @returns {Promise<T_MyCusDenoFsFile>}
  */
-async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
-  let result: T;
+async function GetLogWriteStreamForSingleton(): Promise<T_MyCusDenoFsFile>{
+  const {
+    year,
+    month,
+    date,
+    hours,
+    minutes,
+    seconds,
+    day,
+  }: T_DateFormatForObject = DateFormatForObject();
 
-  if( Object.prototype.toString.call( arg ) !== '[object Promise]' ){
-    result = arg as T;
+  if( !logWriteStream ){
+    logWriteStream = new Proxy( await CreateLogger( new URL( `${ logDir }/log_${ year }年${ month }月${ date }日${ hours }时${ minutes }分${ seconds }秒_周${ day }.log` ) ), {
+      get( target: T_MyCusDenoFsFile, propKey: string | symbol, receiver: unknown ): any{
+        if( propKey === 'close' ){
+          logWriteStream = null;
+        }
+
+        return Reflect.get( target, propKey, receiver );
+      },
+    } );
   }
-  else if( Object.prototype.toString.call( arg = await arg ) === '[object Promise]' ){
-    result = await IterateToNestForPromise( arg as Promise<T> );
-  }
-  else{
-    result = arg as T;
-  }
 
-  return result;
-}
-
-/**
- * 根据一个内容是“GraphQL类型定义（即：GraphQL source）”的文件的路径，将其中的“GraphQL类型定义（即：GraphQL source）”解析为“DocumentNode”。
- * PS：
- * 1、如果解析过程遇到语法错误，则抛出GraphQLError。
- * 2、在读取文件内容时，以UTF-8解码字符串的形式同步读取并返回文件的全部内容。读取目录时会出错。
- * 例如：
- * // Hello.type.graphql
- * type Query {
- *   hello: String,
- * }
- * // Hello.query.esm.mts
- * GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
- *
- * @param {string | URL} path 文件路径，无默认值，必须。
- * 该值形如：new URL( import.meta.resolve( `./Hello.type.graphql` ) )。
- *
- * @returns {T_DocumentNode} 返回一个DocumentNode。
- */
-function GraphqlParseByFilePath( path: string | URL ): T_DocumentNode{
-  return parse( Deno.readTextFileSync( path ) );
-}
-
-/**
- * 用于将HTML字符串压缩优化。
- *
- * @param {string} html 必须，无默认值，需要被压缩优化的HTML字符串。
- *
- * @returns {Promise<string>} 压缩优化后的HTML字符串。
- */
-async function HTMLMinifyByRehype( html: string ): Promise<string>{
-  return String(
-    await unified()
-      // 将 HTML 字符串解析为语法树
-      .use( rehypeParse )
-      .use( rehypeRemoveComments )
-      .use( rehypeMinifyStyleAttribute )
-      .use( rehypeMinifyJSONScript )
-      .use( rehypeMinifyCSSStyle )
-      .use( rehypeMinifyWhitespace )
-      // 将语法树序列化回 HTML 字符串
-      .use( rehypeStringify )
-      .process( html )
-  ).trim();
-}
-
-/**
- * 是否为WebSocket请求。<br />
- * 返回true，即表示是一个WebSocket请求。<br />
- *
- * @param {Request} request 请求对象，无默认值，必须。
- *
- * @returns {boolean} 返回true，即表示是一个WebSocket请求。<br />
- */
-function IsWSForRequest( request: Request ): boolean{
-  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
-    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
-    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
-
-  return upgrade === 'websocket' &&
-    (
-      connection === 'upgrade' ||
-      connection === 'keep-alive, Upgrade'.toLowerCase() ||
-      connection === 'keep-alive,Upgrade'.toLowerCase()
-    );
-}
-
-/**
- * 是否为get请求，且不是WebSocket请求。<br />
- * 返回true，即表示是一个get请求，而且不是WebSocket请求的升级请求。<br />
- *
- * @param {Request} request 请求对象，无默认值，必须。
- *
- * @returns {boolean} 返回true，即表示是一个get请求，而且不是WebSocket请求的升级请求。<br />
- */
-function IsGetForRequestAndNoWS( request: Request ): boolean{
-  return request.method.toLowerCase() === 'get' && !IsWSForRequest( request );
+  return logWriteStream as T_MyCusDenoFsFile;
 }
 
 /**
@@ -329,46 +228,139 @@ function GetNetworkAddressForWLANByIPv4( hostname?: string ): string[]{
   return Array.from( new Set( result ) );
 }
 
+/**
+ * 根据一个内容是“GraphQL类型定义（即：GraphQL source）”的文件的路径，将其中的“GraphQL类型定义（即：GraphQL source）”解析为“DocumentNode”。
+ * PS：
+ * 1、如果解析过程遇到语法错误，则抛出GraphQLError。
+ * 2、在读取文件内容时，以UTF-8解码字符串的形式同步读取并返回文件的全部内容。读取目录时会出错。
+ * 例如：
+ * // Hello.type.graphql
+ * type Query {
+ *   hello: String,
+ * }
+ * // Hello.query.esm.mts
+ * GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
+ *
+ * @param {string | URL} path 文件路径，无默认值，必须。
+ * 该值形如：new URL( import.meta.resolve( `./Hello.type.graphql` ) )。
+ *
+ * @returns {T_DocumentNode} 返回一个DocumentNode。
+ */
+function GraphqlParseByFilePath( path: string | URL ): T_DocumentNode{
+  return parse( Deno.readTextFileSync( path ) );
+}
+
+/**
+ * 用于将HTML字符串压缩优化。
+ *
+ * @param {string} html 必须，无默认值，需要被压缩优化的HTML字符串。
+ *
+ * @returns {Promise<string>} 压缩优化后的HTML字符串。
+ */
+async function HTMLMinifyByRehype( html: string ): Promise<string>{
+  return String(
+    await unified()
+      // 将 HTML 字符串解析为语法树
+      .use( rehypeParse )
+      .use( rehypeRemoveComments )
+      .use( rehypeMinifyStyleAttribute )
+      .use( rehypeMinifyJSONScript )
+      .use( rehypeMinifyCSSStyle )
+      .use( rehypeMinifyWhitespace )
+      // 将语法树序列化回 HTML 字符串
+      .use( rehypeStringify )
+      .process( html )
+  ).trim();
+}
+
+/**
+ * 是否为get请求，且不是WebSocket请求。<br />
+ * 返回true，即表示是一个get请求，而且不是WebSocket请求的升级请求。<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {boolean} 返回true，即表示是一个get请求，而且不是WebSocket请求的升级请求。<br />
+ */
+function IsGetForRequestAndNoWS( request: Request ): boolean{
+  return request.method.toLowerCase() === 'get' && !IsWSForRequest( request );
+}
+
+/**
+ * 是否为WebSocket请求。<br />
+ * 返回true，即表示是一个WebSocket请求。<br />
+ *
+ * @param {Request} request 请求对象，无默认值，必须。
+ *
+ * @returns {boolean} 返回true，即表示是一个WebSocket请求。<br />
+ */
+function IsWSForRequest( request: Request ): boolean{
+  const upgrade: string = ( request.headers.get( 'upgrade' ) ?? '' ).trim().toLowerCase(),
+    // 当在同一个端口同时部署HTTP和WebSocket这两个服务时，火狐浏览器的请求头中“connection”属性值为“keep-alive, Upgrade”，而谷歌浏览器则为“Upgrade”。
+    connection: string = ( request.headers.get( 'connection' ) ?? '' ).trim().toLowerCase();
+
+  return upgrade === 'websocket' &&
+    (
+      connection === 'upgrade' ||
+      connection === 'keep-alive, Upgrade'.toLowerCase() ||
+      connection === 'keep-alive,Upgrade'.toLowerCase()
+    );
+}
+
+/**
+ * 处理嵌套的“Promise”（形如：Promise<Promise<Promise<T>>>等等这样的多层嵌套，嵌套层数也是未知的），使其只返回最终的不带“Promise”的结果值。
+ *
+ * @param {Promise<T> | T} arg 需要被处理的数据，无默认值，必需。
+ *
+ * @returns {Promise<T>} 返回最终的不带“Promise”的结果值（就是“T”）。
+ */
+async function IterateToNestForPromise<T>( arg: T | Promise<T> ): Promise<T>{
+  let result: T;
+
+  if( Object.prototype.toString.call( arg ) !== '[object Promise]' ){
+    result = arg as T;
+  }
+  else if( Object.prototype.toString.call( arg = await arg ) === '[object Promise]' ){
+    result = await IterateToNestForPromise( arg as Promise<T> );
+  }
+  else{
+    result = arg as T;
+  }
+
+  return result;
+}
+
 export {
   type T_MyCusDenoFsFile,
 
-  GetLogWriteStreamForSingleton,
-  GetErrorWriteStreamForSingleton,
-
   // Deno自己有一个名为media_types的API功能跟它一样。
-  MimeTypeMap,
-  Mime,
   mime,
+  Mime,
   mimelite,
+  MimeTypeMap,
 
-  IterateToNestForPromise,
-  GraphqlParseByFilePath,
-
-  HTMLMinifyByRehype,
-
-  IsWSForRequest,
-  IsGetForRequestAndNoWS,
-
+  GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
   GetNetworkAddressForWLANByIPv4,
+  GraphqlParseByFilePath,
+  HTMLMinifyByRehype,
+  IsGetForRequestAndNoWS,
+  IsWSForRequest,
+  IterateToNestForPromise,
 };
 
 export default {
-  GetLogWriteStreamForSingleton,
-  GetErrorWriteStreamForSingleton,
-
   // Deno自己有一个名为media_types的API功能跟它一样。
-  MimeTypeMap,
-  Mime,
   mime,
+  Mime,
   mimelite,
+  MimeTypeMap,
 
-  IterateToNestForPromise,
-  GraphqlParseByFilePath,
-
-  HTMLMinifyByRehype,
-
-  IsWSForRequest,
-  IsGetForRequestAndNoWS,
-
+  GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
   GetNetworkAddressForWLANByIPv4,
+  GraphqlParseByFilePath,
+  HTMLMinifyByRehype,
+  IsGetForRequestAndNoWS,
+  IsWSForRequest,
+  IterateToNestForPromise,
 };
