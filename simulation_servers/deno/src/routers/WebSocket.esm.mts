@@ -18,30 +18,29 @@ import {
   type T_Result001,
 
   HttpResponseHeadersFun,
-
+  HTTPStatus,
   route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  websocketForRouteHandle,
+  websocketForRouteMapConfig,
+} from 'configures/route_map_config/RouteMapConfig.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
+  GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
+  IterateToNestForPromise,
+} from 'public/PublicTools.esm.mts';
 
 import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-import {
-  type T_MyCusDenoFsFile,
-
-  IterateToNestForPromise,
-
-  GetLogWriteStreamForSingleton,
-  GetErrorWriteStreamForSingleton,
-} from 'public/PublicTools.esm.mts';
-
-import {
-  websocketForRouteMapConfig,
-  websocketForRouteHandle,
-} from 'configures/route_map_config/RouteMapConfig.esm.mts';
-
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
  * 处理WebSocket请求。
@@ -92,8 +91,8 @@ websocket请求“${ pathName }”被多个“路由逻辑”命中了！！！
   }
   else{
     result = new Response( null, {
-      status: 404,
-      statusText: 'Not Found',
+      status: HTTPStatus[ 404 ].status,
+      statusText: HTTPStatus[ 404 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
       },

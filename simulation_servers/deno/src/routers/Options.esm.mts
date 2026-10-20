@@ -18,29 +18,25 @@ import {
   type T_Result001,
 
   HttpResponseHeadersFun,
-
+  HTTPStatus,
   route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  MyConsole,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+  methodByOptionsForRouteHandle,
+  methodByOptionsForRouteMapConfig,
+} from 'configures/route_map_config/RouteMapConfig.esm.mts';
 
 import {
   type T_MyCusDenoFsFile,
 
-  IterateToNestForPromise,
-
   GetErrorWriteStreamForSingleton,
+  IterateToNestForPromise,
 } from 'public/PublicTools.esm.mts';
 
 import {
-  methodByOptionsForRouteMapConfig,
-  methodByOptionsForRouteHandle,
-} from 'configures/route_map_config/RouteMapConfig.esm.mts';
-
-// @ts-expect-error
-import ResponseError from 'public/ResponseError.esm.mts';
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
@@ -85,8 +81,8 @@ Options请求“${ pathName }”被多个“路由逻辑”命中了！！！
   // 默认允许所有的options请求通过，因为目前没设置其他处理，后面可以根据需要编写对应响应不成功的逻辑。
   else{
     result = new Response( null, {
-      status: 200,
-      statusText: 'OK',
+      status: HTTPStatus[ 200 ].status,
+      statusText: HTTPStatus[ 200 ].statusText,
       headers: HttpResponseHeadersFun( request ),
     } );
   }

@@ -29,6 +29,7 @@ import {
 
   ejsDir,
   HttpResponseHeadersFun,
+  HTTPStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -99,8 +100,8 @@ async function Routers( request: Request ): Promise<Response>{
       } ) );
 
     result = new Response( html, {
-      status: 405,
-      statusText: 'Method Not Allowed',
+      status: HTTPStatus[ 405 ].status,
+      statusText: HTTPStatus[ 405 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
         'content-type': mime.getType( filePath.href ),
