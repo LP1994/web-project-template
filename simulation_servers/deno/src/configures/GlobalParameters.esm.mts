@@ -15,12 +15,12 @@
 'use strict';
 
 /**
- * 可自行定义服务器提供的HTTP服务时，客户端发起HTTP请求时，发送的URL的前缀名，如：<br />
- * 1、设置为'/simulation_servers_deno'，那么客户端发起HTTP请求就是形如：<br />
+ * 可自行定义服务器提供的HTTP、WS服务时，客户端发起HTTP、WS请求时，发送的URL的前缀名，如：<br />
+ * 1、设置为'/simulation_servers_deno'，那么客户端发起的URL就是形如：<br />
  * https://127.0.0.1:9200/simulation_servers_deno <br />
  * https://127.0.0.1:9200/simulation_servers_deno/ <br />
  * https://127.0.0.1:9200/simulation_servers_deno/xxx <br />
- * 2、也可以设置为空字符串，那么客户端发起HTTP请求就是形如：<br />
+ * 2、也可以设置为空字符串，那么客户端发起的URL就是形如：<br />
  * https://127.0.0.1:9200 <br />
  * https://127.0.0.1:9200/ <br />
  * https://127.0.0.1:9200/xxx <br /><br />
@@ -34,7 +34,7 @@ const serversURLPrefix: string[] = [
   '/simulation_servers_deno',
 ];
 
-// 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface Start
+// 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface（命名以“I_”开头，如：interface I_MyString = string;） Start
 
 export type T_Response001 = Response | Promise<Response>;
 
@@ -46,7 +46,7 @@ export type T_FilePath001 = string | URL;
 
 export type T_Result001 = boolean | T_Fun001;
 
-// 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface End
+// 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface（命名以“I_”开头，如：interface I_MyString = string;） End
 
 // 自定义的路径别名aliasConfig Start
 
