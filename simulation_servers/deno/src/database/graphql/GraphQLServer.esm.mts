@@ -29,31 +29,9 @@
 'use strict';
 
 import {
-  graphql,
   getIntrospectionQuery,
+  graphql,
 } from 'esm_sh_graphql';
-
-import {
-  // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
-  GRAPHQL_TRANSPORT_WS_PROTOCOL,
-  //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
-  DEPRECATED_GRAPHQL_WS_PROTOCOL,
-
-  CloseCode,
-} from 'esm_sh_graphql_ws';
-
-import {
-  type Server as T_Server,
-  type ServerOptions as T_ServerOptions,
-  type Context as T_Context,
-  type PingMessage as T_PingMessage,
-  type PongMessage as T_PongMessage,
-
-  MessageType,
-  stringifyMessage,
-
-  makeServer as makeServerByWS,
-} from 'esm_sh_graphql_ws';
 
 import {
   type FetchAPI as T_FetchAPI,
@@ -70,24 +48,42 @@ import {
 } from 'esm_sh_graphql_sse/lib/use/fetch';
 
 import {
+  type Context as T_Context,
+  type PingMessage as T_PingMessage,
+  type PongMessage as T_PongMessage,
+  type Server as T_Server,
+  type ServerOptions as T_ServerOptions,
+
+  // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
+  GRAPHQL_TRANSPORT_WS_PROTOCOL,
+  //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
+  DEPRECATED_GRAPHQL_WS_PROTOCOL,
+
+  CloseCode,
+
+  makeServer as makeServerByWS,
+  MessageType,
+  stringifyMessage,
+} from 'esm_sh_graphql_ws';
+
+import {
   type T_Response001,
 
   HttpResponseHeadersFun,
+  serversURLPrefix,
 } from 'configures/GlobalParameters.esm.mts';
-
-import {
-  GetDataType,
-
-  MyConsole,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
   type T_MyCusDenoFsFile,
 
   GetLogWriteStreamForSingleton,
-
   IsWSForRequest,
 } from 'public/PublicTools.esm.mts';
+
+import {
+  GetDataType,
+  MyConsole,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
@@ -481,7 +477,7 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
            *
            * set typeDepth to a reasonable value between 0 and 100, Default: 9.
            */
-          typeDepth: 100,
+          typeDepth: 10,
         } ),
       } );
 
