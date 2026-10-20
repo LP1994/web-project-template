@@ -65,8 +65,6 @@ export interface I_UploadFileSRISchema {
 
 }
 
-export type T_QueryOneResult = T_HydratedDocument<I_UploadFileSRISchema> | null;
-
 type T_GenerateModel = {
   MyMongooseConnection: T_Connection;
 
@@ -74,6 +72,8 @@ type T_GenerateModel = {
     I_UploadFileSRISchema
   >;
 };
+
+export type T_QueryOneResult = T_HydratedDocument<I_UploadFileSRISchema> | null;
 
 const collectionName: string = 'upload_file_sri';
 
@@ -99,17 +99,36 @@ async function GenerateModel(): Promise<T_GenerateModel>{
      * https://mongoosejs.com/docs/schematypes.html#schematype-options
      */
     {
-      // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA-512"。
-      shaType: {
+      // 文件的修改时间或服务器开始写入文件的时间。
+      fileLastModified: {
         type: String,
-        default: 'SHA-512',
         required: true,
         trim: true,
         minLength: 1,
       },
-
-      // 文件的SRI值，全是小写字母组成的。
-      sri: {
+      // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
+      fileName: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 1,
+      },
+      // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
+      filePath: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 1,
+      },
+      // 文件大小，单位为字节。
+      fileSize: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 1,
+      },
+      // 文件的媒体类型，值格式，如：“application/json”之类的。
+      fileType: {
         type: String,
         required: true,
         trim: true,
@@ -131,41 +150,16 @@ async function GenerateModel(): Promise<T_GenerateModel>{
         trim: true,
         minLength: 1,
       },
-
-      // 供客户端再次通过GET请求获取已经上传到服务器的文件的URL，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
-      filePath: {
+      // 表示使用的是哪种哈希算法来计算文件的SRI值，当前使用的是"SHA-512"。
+      shaType: {
         type: String,
+        default: 'SHA-512',
         required: true,
         trim: true,
         minLength: 1,
       },
-
-      // 文件的媒体类型，值格式，如：“application/json”之类的。
-      fileType: {
-        type: String,
-        required: true,
-        trim: true,
-        minLength: 1,
-      },
-
-      // 文件大小，单位为字节。
-      fileSize: {
-        type: String,
-        required: true,
-        trim: true,
-        minLength: 1,
-      },
-
-      // 文件的修改时间或服务器开始写入文件的时间。
-      fileLastModified: {
-        type: String,
-        required: true,
-        trim: true,
-        minLength: 1,
-      },
-
-      // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
-      fileName: {
+      // 文件的SRI值，全是小写字母组成的。
+      sri: {
         type: String,
         required: true,
         trim: true,
