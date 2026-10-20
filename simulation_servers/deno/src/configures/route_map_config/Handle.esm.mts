@@ -13,8 +13,6 @@ import {
   type T_FilePath001,
   type T_Fun001,
   type T_Result001,
-
-  route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -82,7 +80,7 @@ function Handle001( filePath: T_FilePath001 ): string{
  */
 function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_RouteHandle{
   return async ( request: Request ): Promise<T_Result001> => {
-    let myRouteHandleConfig: T_RouteHandleConfig | T_Map001 = routeHandleConfig.concat( AllServicesForFileURL );
+    let myRouteHandleConfig: T_RouteHandleConfig = routeHandleConfig.concat( AllServicesForFileURL );
 
     const arr001: Array<Promise<[ T_Fun002, T_Fun001 ]>> = myRouteHandleConfig.map(
         async (
@@ -96,39 +94,52 @@ function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_Route
       ),
       arr002: Array<[ T_Fun002, T_Fun001 ]> = await Array.fromAsync( arr001 );
 
-    myRouteHandleConfig = new Map( arr002 );
+    const myMap: T_Map001 = new Map( arr002 ),
+      fun001: Record<number, T_Fun002> = {};
 
-    const fun001: Array<T_Fun002> = [];
+    let index: number = 0;
 
-    for( let item002 of
-      myRouteHandleConfig.keys() ){
-      if( ( await IterateToNestForPromise( item002( request ) ) ) as boolean ){
-        fun001.push( item002 );
+    for( const key of
+      myMap.keys() ){
+      if( ( await IterateToNestForPromise( key( request ) ) ) as boolean ){
+        fun001[ index ] = key;
       }
+
+      ++index;
     }
 
-    if( fun001.length > 1 ){
+    const funByKey001 = Object.keys( fun001 ),
+      funByValue001 = Object.values( fun001 );
+
+    if( funByKey001.length > 1 ){
       const url: URL = new URL( request.url ),
         pathName: string = url.pathname,
         method: string = request.method.toLowerCase().trim();
 
+      let path001: string = '';
+
+      for( const key of
+        funByKey001 ){
+        path001 += `${ ( ( myRouteHandleConfig[ Number( key ) ] as [ string | URL, string | URL ] )[ 0 ] ).toString() }\n`;
+      }
+
       MyConsole.Red( `
-${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！
-请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对${ method }请求“${ pathName }”配置了多个“路由逻辑”！！！
+${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！分别被如下文件命中，请前往它们进行检查：
+${ path001 }
 ` );
 
       errorWriteStream.write( `
-${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！
-请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对${ method }请求“${ pathName }”配置了多个“路由逻辑”！！！
+${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！分别被如下文件命中，请前往它们进行检查：
+${ path001 }
 ` );
 
       throw new Error( `
-${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！
-请前往“${ route_map_configDir }/RouteMapConfig.esm.mts”，检查是否对${ method }请求“${ pathName }”配置了多个“路由逻辑”！！！
+${ method }请求“${ pathName }”被多个“路由逻辑”命中了！！！分别被如下文件命中，请前往它们进行检查：
+${ path001 }
 ` );
     }
-    else if( fun001.length === 1 ){
-      return ( myRouteHandleConfig.get( ( fun001.pop() ) as T_Fun002 ) ) as T_Fun001;
+    else if( funByKey001.length === 1 ){
+      return ( myMap.get( ( funByValue001[ 0 ] ) as T_Fun002 ) ) as T_Fun001;
     }
     else{
       return false;

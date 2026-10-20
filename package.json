@@ -1269,7 +1269,7 @@
     "postcss-scss": "^4.0.9",
     "postcss-selector-matches": "^4.0.0",
     "postcss-selector-not": "^9.0.0",
-    "postcss-selector-parser": "^7.1.6",
+    "postcss-selector-parser": "^7.1.7",
     "postcss-short": "^5.0.0",
     "postcss-simple-vars": "^7.0.1",
     "postcss-single-charset": "^2.0.0",
