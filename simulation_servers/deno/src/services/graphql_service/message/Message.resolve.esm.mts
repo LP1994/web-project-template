@@ -47,6 +47,12 @@ await kv.set( [
   author: 'LZK',
   content: 'This is a test LZK.',
 } );
+await kv.set( [
+  '2024004-素夏',
+], {
+  author: '素夏',
+  content: 'This is a test 素夏.',
+} );
 
 class Message
   implements T_Message {

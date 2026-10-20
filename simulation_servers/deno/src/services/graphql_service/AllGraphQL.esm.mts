@@ -10,11 +10,11 @@
 'use strict';
 
 /**
- * 如果不按"关于该文件夹下各个resolve文件对应的文件命令规则说明.txt"里面的命名规则，也可以手动import导入，然后将值push到“moduleList”里面即可，如：<br />
+ * 如果不按"关于该文件夹下各个resolve文件对应的文件命令规则说明.txt"里面的命名规则，也可以手动import导入，然后将值push到“AllGraphQL”里面即可，如：<br />
  * ```ts
  * import XXX from './XXX/XXX.esm.mts';
  *
- * moduleList.push( XXX as T_DefsAndResolvers );
+ * AllGraphQL.push( XXX as T_DefsAndResolvers );
  * ```
  */
 
@@ -38,8 +38,8 @@ import {
 } from 'GSD2TSTD';
 
 type T_DefsAndResolvers = {
-  typeDefs: T_DocumentNode;
   resolvers: T_Resolvers;
+  typeDefs: T_DocumentNode;
 };
 
 /**
@@ -78,19 +78,19 @@ for await (
 }
 
 /**
- * 如果不按"关于该文件夹下各个resolve文件对应的文件命令规则说明.txt"里面的命名规则，也可以手动import导入，然后将值push到“moduleList”里面即可，如：<br />
+ * 如果不按"关于该文件夹下各个resolve文件对应的文件命令规则说明.txt"里面的命名规则，也可以手动import导入，然后将值push到“AllGraphQL”里面即可，如：<br />
  * ```ts
  * import XXX from './XXX/XXX.esm.mts';
  *
- * moduleList.push( XXX as T_DefsAndResolvers );
+ * AllGraphQL.push( XXX as T_DefsAndResolvers );
  * ```
  *
  * @type {T_DefsAndResolvers[]}
  */
-const moduleList: Array<T_DefsAndResolvers> = ( await Promise.all( moduleListForPromise ) ).map( ( item: T_DefsAndResolvers ): T_DefsAndResolvers => ( { ...item, } ) );
+const AllGraphQL: Array<T_DefsAndResolvers> = ( await Promise.all( moduleListForPromise ) ).map( ( item: T_DefsAndResolvers ): T_DefsAndResolvers => ( { ...item, } ) );
 
 export {
-  moduleList as AllGraphQL,
+  AllGraphQL,
 };
 
-export default moduleList;
+export default AllGraphQL;

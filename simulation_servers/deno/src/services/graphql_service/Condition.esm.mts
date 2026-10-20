@@ -129,8 +129,12 @@
 'use strict';
 
 import {
-  IsWSForRequest,
+  serversURLPrefix,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
   IsGetForRequestAndNoWS,
+  IsWSForRequest,
 } from 'public/PublicTools.esm.mts';
 
 /**
@@ -336,155 +340,82 @@ export const myURLPathName: string = `/graphql`;
  * @returns {boolean} 一般返回的是一个boolean类型的值，当然也允许返回的值类型为Promise<boolean>。
  */
 function Condition( request: Request ): boolean{
+  // url.search，形如：?query={hello1:hello,serverDate1:serverDate,}&variables={}
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  if( IsWSForRequest( request ) && [
-    myURLPathName,
-    `${ myURLPathName }/`,
+  return (
+    ( IsWSForRequest( request ) && ( ( ( arg: string[] ): string[] => {
+      const result: string[] = [];
 
-    `${ myURLPathName }/subscriptions`,
-    `${ myURLPathName }/subscriptions/`,
+      serversURLPrefix.forEach( ( item001: string ): void => {
+        result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+      } );
 
-    `/subscriptions${ myURLPathName }`,
-    `/subscriptions${ myURLPathName }/`,
+      return result;
+    } )( [
+      myURLPathName,
+      `${ myURLPathName }/`,
 
-    `/simulation_servers_deno${ myURLPathName }`,
-    `/simulation_servers_deno${ myURLPathName }/`,
+      `${ myURLPathName }/subscriptions`,
+      `${ myURLPathName }/subscriptions/`,
 
-    `/simulation_servers_deno${ myURLPathName }/subscriptions`,
-    `/simulation_servers_deno${ myURLPathName }/subscriptions/`,
-
-    `/simulation_servers_deno/subscriptions${ myURLPathName }`,
-    `/simulation_servers_deno/subscriptions${ myURLPathName }/`,
-  ].includes( pathName ) ){
-    return true;
-  }
-  else if( IsGetForRequestAndNoWS( request ) ){
-    // 形如：?query={hello1:hello,serverDate1:serverDate,}&variables={}
-    const search: string = url.search,
-      searchParams: URLSearchParams = url.searchParams;
-
-    if(
-      [
-        `${ myURLPathName }/schema.json`,
-        `/simulation_servers_deno${ myURLPathName }/schema.json`,
-      ].includes( pathName )
-    ){
-      return true;
-    }
-    else if(
+      `/subscriptions${ myURLPathName }`,
+      `/subscriptions${ myURLPathName }/`,
+    ] ) ).includes( pathName ) ) ||
+    (
+      IsGetForRequestAndNoWS( request ) &&
       (
-        [
-          `${ myURLPathName }`,
-          `${ myURLPathName }/`,
-          `/simulation_servers_deno${ myURLPathName }`,
-          `/simulation_servers_deno${ myURLPathName }/`,
-        ].includes( pathName )
-      ) &&
-      search.trim().startsWith( '?' ) &&
-      searchParams.has( 'query' )
-    ){
-      return true;
-    }
-    else if(
-      [
-        `${ myURLPathName }/stream`,
-        `${ myURLPathName }/stream/`,
-        `/simulation_servers_deno${ myURLPathName }/stream`,
-        `/simulation_servers_deno${ myURLPathName }/stream/`,
-      ].includes( pathName )
-    ){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  else if( request.method.toLowerCase() === 'post' ){
-    if(
-      (
-        [
-          `${ myURLPathName }`,
-          `${ myURLPathName }/`,
-          `/simulation_servers_deno${ myURLPathName }`,
-          `/simulation_servers_deno${ myURLPathName }/`,
-        ].includes( pathName )
+        ( ( ( arg: string[] ): string[] => {
+          const result: string[] = [];
+
+          serversURLPrefix.forEach( ( item001: string ): void => {
+            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+          } );
+
+          return result;
+        } )( [
+          `${ myURLPathName }/schema.json`,
+          `${ myURLPathName }/stream`,
+          `${ myURLPathName }/stream/`,
+        ] ) ).includes( pathName ) ||
+        (
+          ( ( ( arg: string[] ): string[] => {
+            const result: string[] = [];
+
+            serversURLPrefix.forEach( ( item001: string ): void => {
+              result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+            } );
+
+            return result;
+          } )( [
+            `${ myURLPathName }`,
+            `${ myURLPathName }/`,
+          ] ) ).includes( pathName ) &&
+          url.search.trim().startsWith( '?' ) &&
+          url.searchParams.has( 'query' )
+        )
       )
-    ){
-      return true;
-    }
-    else if(
-      [
-        `${ myURLPathName }/stream`,
-        `${ myURLPathName }/stream/`,
-        `/simulation_servers_deno${ myURLPathName }/stream`,
-        `/simulation_servers_deno${ myURLPathName }/stream/`,
-      ].includes( pathName )
-    ){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  else if( request.method.toLowerCase() === 'put' ){
-    if(
-      (
-        [
-          `${ myURLPathName }`,
-          `${ myURLPathName }/`,
-          `/simulation_servers_deno${ myURLPathName }`,
-          `/simulation_servers_deno${ myURLPathName }/`,
-        ].includes( pathName )
-      )
-    ){
-      return true;
-    }
-    else if(
-      [
-        `${ myURLPathName }/stream`,
-        `${ myURLPathName }/stream/`,
-        `/simulation_servers_deno${ myURLPathName }/stream`,
-        `/simulation_servers_deno${ myURLPathName }/stream/`,
-      ].includes( pathName )
-    ){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  else if( request.method.toLowerCase() === 'delete' ){
-    if(
-      (
-        [
-          `${ myURLPathName }`,
-          `${ myURLPathName }/`,
-          `/simulation_servers_deno${ myURLPathName }`,
-          `/simulation_servers_deno${ myURLPathName }/`,
-        ].includes( pathName )
-      )
-    ){
-      return true;
-    }
-    else if(
-      [
-        `${ myURLPathName }/stream`,
-        `${ myURLPathName }/stream/`,
-        `/simulation_servers_deno${ myURLPathName }/stream`,
-        `/simulation_servers_deno${ myURLPathName }/stream/`,
-      ].includes( pathName )
-    ){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  else{
-    return false;
-  }
+    ) ||
+    ( [
+      'put',
+      'delete',
+      'post',
+    ].includes( request.method.toLowerCase() ) && ( ( ( arg: string[] ): string[] => {
+      const result: string[] = [];
+
+      serversURLPrefix.forEach( ( item001: string ): void => {
+        result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+      } );
+
+      return result;
+    } )( [
+      `${ myURLPathName }`,
+      `${ myURLPathName }/`,
+      `${ myURLPathName }/stream`,
+      `${ myURLPathName }/stream/`,
+    ] ) ).includes( pathName ) )
+  );
 }
 
 // 必须部署这个默认的导出值。

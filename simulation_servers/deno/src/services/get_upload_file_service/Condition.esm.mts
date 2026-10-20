@@ -39,6 +39,10 @@
 'use strict';
 
 import {
+  serversURLPrefix,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
   IsGetForRequestAndNoWS,
 } from 'public/PublicTools.esm.mts';
 
@@ -80,10 +84,7 @@ function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  return (
-      pathName.startsWith( myURLPathName ) ||
-      pathName.startsWith( `/simulation_servers_deno${ myURLPathName }` )
-    ) &&
+  return serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }` ).some( ( item: string ): boolean => pathName.startsWith( item ) ) &&
     IsGetForRequestAndNoWS( request );
 }
 
