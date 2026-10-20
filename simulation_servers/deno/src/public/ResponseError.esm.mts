@@ -15,42 +15,23 @@
 
 import {
   ejsDir,
-
   HttpResponseHeadersFun,
+  HTTPStatus,
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  HTMLMinifyByRehype,
+  mime,
+} from './PublicTools.esm.mts';
 
 import {
   ejs,
 } from './ThirdPartyModules.esm.mts';
 
-import {
-  HTMLMinifyByRehype,
-
-  mime,
-} from './PublicTools.esm.mts';
-
 /**
  * 通用的用于返回给客户端，表示服务端返回的是一个表示错误的响应。
  */
 class ResponseError {
-
-  /**
-   * 请求对象。
-   *
-   * @type {Request}
-   *
-   * @private
-   */
-  static #Request: Request;
-
-  /**
-   * 请求对象。
-   *
-   * @type {Request}
-   *
-   * @private
-   */
-  readonly #request: Request;
 
   /**
    * 客户端的请求方式，值如：“get”、“post”等等。
@@ -90,6 +71,15 @@ class ResponseError {
   readonly #pathName: string;
 
   /**
+   * 请求对象。
+   *
+   * @type {Request}
+   *
+   * @private
+   */
+  readonly #request: Request;
+
+  /**
    * 客户端发起的URL中的查询参数，值形如：“?name=lmf1&age=11”。
    *
    * @type {string}
@@ -97,6 +87,15 @@ class ResponseError {
    * @private
    */
   readonly #search: string;
+
+  /**
+   * 请求对象。
+   *
+   * @type {Request}
+   *
+   * @private
+   */
+  static #Request: Request;
 
   /**
    * 构造函数。
@@ -125,8 +124,8 @@ class ResponseError {
       } ) );
 
     return new Response( html, {
-      status: 404,
-      statusText: 'Not Found',
+      status: HTTPStatus[ 404 ].status,
+      statusText: HTTPStatus[ 404 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( this.#request ),
         'content-type': mime.getType( filePath.href ),
@@ -163,8 +162,8 @@ class ResponseError {
       } ) );
 
     return new Response( html, {
-      status: 500,
-      statusText: 'Internal Server Error',
+      status: HTTPStatus[ 500 ].status,
+      statusText: HTTPStatus[ 500 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( this.#Request ),
         'content-type': mime.getType( filePath.href ),
