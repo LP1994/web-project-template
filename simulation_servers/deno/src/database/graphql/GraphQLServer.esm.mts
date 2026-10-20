@@ -398,12 +398,18 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
 
     return response;
   }
-  else if( [
+  else if( ( ( ( url: string[] ): string[] => {
+    const arr: string[] = [];
+
+    serversURLPrefix.forEach( ( item001: string ): void => {
+      arr.push( ...url.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+    } );
+
+    return arr;
+  } )( [
     '/graphql/stream',
     '/graphql/stream/',
-    '/simulation_servers_deno/graphql/stream',
-    '/simulation_servers_deno/graphql/stream/',
-  ].includes( pathName ) ){
+  ] ) ).includes( pathName ) ){
     const [
       options,
       reqCtx = {
