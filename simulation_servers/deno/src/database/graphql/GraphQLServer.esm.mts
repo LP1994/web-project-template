@@ -76,6 +76,7 @@ import {
 import {
   type T_MyCusDenoFsFile,
 
+  GetErrorWriteStreamForSingleton,
   GetLogWriteStreamForSingleton,
   IsWSForRequest,
 } from 'public/PublicTools.esm.mts';
@@ -85,6 +86,7 @@ import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
@@ -234,13 +236,13 @@ async function GraphQLServer( {
             MyConsole.Green( `
 onConnect函数触发了，客户端向服务器发来了“connection_init”类型的消息！
 并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
-${ JSON.stringify( clientPayload, null, 4 ) }
+${ JSON.stringify( clientPayload, null, 2 ) }
 ` );
 
             logWriteStream.write( `
 onConnect函数触发了，客户端向服务器发来了“connection_init”类型的消息！
 并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
-${ JSON.stringify( clientPayload, null, 4 ) }
+${ JSON.stringify( clientPayload, null, 2 ) }
 ` );
 
             // 可以根据具体业务需要，返回一个数据类型为Record<string, unknown>的数据。
@@ -271,16 +273,36 @@ onConnect函数触发了，客户端向服务器发来了“connection_init”�
       } );
 
       socket.onerror = ( error: Event | ErrorEvent ): void => {
-        console.error( 'Internal error emitted on the WebSocket socket. Please check your implementation.', error );
+        MyConsole.Red( `
+Internal server error!!!
+Internal error emitted on the WebSocket socket. Please check your implementation.
+${ ( error as ErrorEvent ).message }
+` );
 
-        socket.close( CloseCode.InternalServerError, 'Internal server error' );
+        errorWriteStream.write( `
+Internal server error!!!
+Internal error emitted on the WebSocket socket. Please check your implementation.
+${ ( error as ErrorEvent ).message }
+` );
+
+        socket.close( CloseCode.InternalServerError, `
+Internal server error!!!
+Internal error emitted on the WebSocket socket. Please check your implementation.
+${ ( error as ErrorEvent ).message }
+` );
       };
 
       let closed: ( code: number, reason: string ) => Promise<void> | void = (
         code: number,
         reason: string,
       ): Promise<void> | void => {
-        console.log( `\n\n\nclose code: ${ code }, reason: ${ reason }.\n\n\n` );
+        MyConsole.Blue( `
+close code: ${ code }, reason: ${ reason }.
+` );
+
+        logWriteStream.write( `
+close code: ${ code }, reason: ${ reason }.
+` );
       };
 
       socket.onopen = (
@@ -299,9 +321,23 @@ onConnect函数触发了，客户端向服务器发来了“connection_init”�
                   await cb( String( event.data ) );
                 }
                 catch( err: unknown ){
-                  console.error( 'Internal error occurred during message handling. Please check your implementation.', err );
+                  MyConsole.Red( `
+Internal server error!!!
+Internal error occurred during message handling. Please check your implementation.
+${ ( err as Error ).message }
+` );
 
-                  socket.close( CloseCode.InternalServerError, 'Internal server error' );
+                  errorWriteStream.write( `
+Internal server error!!!
+Internal error occurred during message handling. Please check your implementation.
+${ ( err as Error ).message }
+` );
+
+                  socket.close( CloseCode.InternalServerError, `
+Internal server error!!!
+Internal error occurred during message handling. Please check your implementation.
+${ ( err as Error ).message }
+` );
                 }
               };
             },
@@ -314,13 +350,13 @@ onConnect函数触发了，客户端向服务器发来了“connection_init”�
                 MyConsole.Green( `
 onPing函数触发了，客户端向服务器发来了“ping”类型的消息！
 并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
-${ JSON.stringify( payload, null, 4 ) }
+${ JSON.stringify( payload, null, 2 ) }
 ` );
 
                 logWriteStream.write( `
 onPing函数触发了，客户端向服务器发来了“ping”类型的消息！
 并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
-${ JSON.stringify( payload, null, 4 ) }
+${ JSON.stringify( payload, null, 2 ) }
 ` );
 
                 // 可以根据具体业务需求，返回给客户端一个具体的“payload”荷载数据。这里暂时遵循graphql-ws的默认实现，将客户端传来的原有荷载数据再次返回给客户端。
@@ -356,13 +392,13 @@ onPing函数触发了，客户端向服务器发来了“ping”类型的消息�
                 MyConsole.Green( `
 onPong函数触发了，客户端向服务器发来了“pong”类型的消息！
 并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
-${ JSON.stringify( payload, null, 4 ) }
+${ JSON.stringify( payload, null, 2 ) }
 ` );
 
                 logWriteStream.write( `
 onPong函数触发了，客户端向服务器发来了“pong”类型的消息！
 并且，客户端本次向服务端发来的消息是附带了一个数据类型为"Record<string, unknown>"的“payload”荷载数据：
-${ JSON.stringify( payload, null, 4 ) }
+${ JSON.stringify( payload, null, 2 ) }
 ` );
 
                 // 可以根据具体业务需求，针对客户端传来的“payload”荷载数据，进行下一步的业务处理。
@@ -388,7 +424,15 @@ onPong函数触发了，客户端向服务器发来了“pong”类型的消息�
 
       socket.onclose = async ( event: CloseEvent ): Promise<void> => {
         if( event.code === CloseCode.SubprotocolNotAcceptable && socket.protocol === DEPRECATED_GRAPHQL_WS_PROTOCOL ){
-          console.error( `Client provided the unsupported and deprecated subprotocol "${ DEPRECATED_GRAPHQL_WS_PROTOCOL }" used by subscriptions-transport-ws. Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#switching-from-subscriptions-transport-ws.` );
+          MyConsole.Red( `
+Client provided the unsupported and deprecated subprotocol "${ DEPRECATED_GRAPHQL_WS_PROTOCOL }" used by subscriptions-transport-ws.
+Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#switching-from-subscriptions-transport-ws.
+` );
+
+          errorWriteStream.write( `
+Client provided the unsupported and deprecated subprotocol "${ DEPRECATED_GRAPHQL_WS_PROTOCOL }" used by subscriptions-transport-ws.
+Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#switching-from-subscriptions-transport-ws.
+` );
         }
 
         // (code?: number, reason?: string) => Promise<void>
