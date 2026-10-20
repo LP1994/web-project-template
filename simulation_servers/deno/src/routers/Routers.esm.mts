@@ -28,60 +28,54 @@ import {
   type T_Fun002,
 
   ejsDir,
-
   HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  HTMLMinifyByRehype,
+  IsWSForRequest,
+  IterateToNestForPromise,
+  mime,
+} from 'public/PublicTools.esm.mts';
 
 import {
   ejs,
 } from 'public/ThirdPartyModules.esm.mts';
 
-import {
-  HTMLMinifyByRehype,
-
-  IterateToNestForPromise,
-
-  mime,
-
-  IsWSForRequest,
-} from 'public/PublicTools.esm.mts';
-
-import Put from './Put.esm.mts';
-
 import Delete from './Delete.esm.mts';
-
-import Post from './Post.esm.mts';
 
 import Get from './Get.esm.mts';
 
 import Options from './Options.esm.mts';
 
+import Post from './Post.esm.mts';
+
+import Put from './Put.esm.mts';
+
 import WebSocket from './WebSocket.esm.mts';
 
 type T_Fun003 = T_Fun001 | T_Fun002;
 
-const requestMethods: {
-  [ key: string ]: T_Fun003;
-} = {
+const requestMethods = {
   put: Put,
   delete: Delete,
   post: Post,
   get: Get,
   options: Options,
-};
+} satisfies Record<'put' | 'delete' | 'post' | 'get' | 'options', T_Fun003>;
 
 /**
- * 集中处理客户端发起的请求，根据不同的请求方式分流到对应的请求方式的处理。
- * 目前有9种请求方式：
- * GET
- * HEAD
- * POST
- * PUT
- * DELETE
- * CONNECT
- * OPTIONS
- * TRACE
- * PATCH
+ * 集中处理客户端发起的请求，根据不同的请求方式分流到对应的请求方式的处理。<br />
+ * 目前有9种请求方式：<br />
+ * GET <br />
+ * HEAD <br />
+ * POST <br />
+ * PUT <br />
+ * DELETE <br />
+ * CONNECT <br />
+ * OPTIONS <br />
+ * TRACE <br />
+ * PATCH <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
@@ -101,8 +95,7 @@ async function Routers( request: Request ): Promise<Response>{
   else{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
       html: string = await HTMLMinifyByRehype( ejs.render( Deno.readTextFileSync( filePath ), {
-        message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods )
-          .join( '、' ) }。`,
+        message: `服务器暂不对客户端的“${ method }”请求方法提供服务，目前只提供对这些请求方法的服务：${ Object.keys( requestMethods ).join( '、' ) }。`,
       } ) );
 
     result = new Response( html, {
