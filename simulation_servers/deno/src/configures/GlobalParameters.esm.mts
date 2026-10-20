@@ -277,12 +277,7 @@ function HttpResponseHeadersFun( request: Request ): HeadersInit{
  *
  * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }}
  */
-const HTTPStatus: {
-  [ key: string | number ]: {
-    status: number;
-    statusText: string;
-  };
-} = {
+const HTTPStatus = {
   // 信息响应。
   100: {
     status: 100,
@@ -544,19 +539,17 @@ const HTTPStatus: {
     status: 511,
     statusText: 'Network Authentication Required',
   },
-};
+} satisfies Record<number, {
+  status: number;
+  statusText: string;
+}>;
 
 /**
  * 自定义的响应状态码映射对象。
  *
  * @type {{ [ key: string | number ]: { status: number; statusText: string; }; }}
  */
-const resMessageStatus: {
-  [ key: string | number ]: {
-    status: number;
-    statusText: string;
-  };
-} = {
+const resMessageStatus = {
   // 通用的表示服务端处理报错的错误状态码。
   9999: {
     status: 9999,
@@ -599,7 +592,10 @@ const resMessageStatus: {
     status: 1005,
     statusText: 'file is too large',
   },
-};
+} satisfies Record<number, {
+  status: number;
+  statusText: string;
+}>;
 
 export {
   serversURLPrefix,
