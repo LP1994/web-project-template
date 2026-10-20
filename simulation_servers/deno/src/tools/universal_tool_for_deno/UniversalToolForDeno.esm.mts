@@ -115,7 +115,133 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
   return GetDataType( equalArg1 ).slice( 8, -1 ) === equalArg2;
 }
 
+/**
+ * 判断给定的字符串是否能被所给的正则表达式命中。<br />
+ * 命中，则返回true，反之返回false。<br />
+ *
+ * @internal
+ *
+ * @param {string} arg1 数据，必需。
+ *
+ * @param {RegExp} regStr 正则表达式，必需。
+ *
+ * @returns {boolean} 命中，则返回true，反之返回false。
+ */
+function HandleByRegExp001( arg1: string, regStr: RegExp ): boolean{
+  'use strict';
+
+  return regStr.test( String( arg1 ).trim() );
+}
+
 // 内部使用的7788的处理函数。End
+
+// 判断常用信息的格式 Start
+
+/**
+ * 验证邮箱格式。
+ *
+ * @param {string} email 邮箱，字符串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的邮箱返回true，否则false。
+ */
+export function IsEmail( email: string ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( email ), /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ );
+}
+
+/**
+ * 验证身份证号码格式。
+ *
+ * @param {string} id 身份证号码，字符串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的身份证号码返回true，否则false。
+ */
+export function IsID( id: string ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( id ), /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/ );
+}
+
+/**
+ * 验证密码强度格式，最少6位，包括至少1个大写字母、1个小写字母、1个数字、1个特殊字符(!@#$%^&*?包括空格)，头尾不能有空格。
+ *
+ * @param {string} passW 密码，字符串，有且只有一个参数，头尾不能有空格，必需。
+ *
+ * @returns {boolean} 密码强度符合要求则返回true，否则false。
+ */
+export function IsPassS( passW: string ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( passW ), /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/ );
+}
+
+/**
+ * 验证车牌号格式。
+ *
+ * @param {string} plateNum 车牌号，字符串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的车牌号返回true，否则false。
+ */
+export function IsPlateNum( plateNum: string ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( plateNum ), /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/ );
+}
+
+/**
+ * 验证邮政编码格式。
+ *
+ * @param {string | number} postCode 邮政编码，字符串或数字串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的邮政编码返回true，否则false。
+ */
+export function IsPostC( postCode: string | number ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( postCode ), /^[1-9][0-9]{5}$/ );
+}
+
+/**
+ * 验证QQ号格式。
+ *
+ * @param {string | number} qqNum QQ号，字符串或数字串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的QQ号返回true，否则false。
+ */
+export function IsQQNum( qqNum: string | number ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( qqNum ), /^[1-9][0-9]{4,10}$/ );
+}
+
+/**
+ * 验证手机号格式。
+ *
+ * @param {string | number} tel 手机号，字符串或数字串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的手机返回true，否则false。
+ */
+export function IsTel( tel: string | number ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( tel ), /^1[3456789]\d{9}$/ );
+}
+
+/**
+ * 验证微信号格式。
+ *
+ * @param {string} WXNum 微信号，字符串，有且只有一个参数，必需。
+ *
+ * @returns {boolean} 格式正确的微信号返回true，否则false。
+ */
+export function IsWXNum( WXNum: string ): boolean{
+  'use strict';
+
+  return HandleByRegExp001( String( WXNum ), /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/ );
+}
+
+// 判断常用信息的格式 End
 
 // 支持泛型参数的单例工厂。Start
 
@@ -2589,4 +2715,15 @@ export default {
   Bound4ClassMethodDecorator,
   Logger4Decorator,
   // Decorator修饰工具。End
+
+  // 判断常用信息的格式 Start
+  IsEmail,
+  IsID,
+  IsPassS,
+  IsPlateNum,
+  IsPostC,
+  IsQQNum,
+  IsTel,
+  IsWXNum,
+  // 判断常用信息的格式 End
 };
