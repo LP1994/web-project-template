@@ -22,7 +22,7 @@ import {
   IterateToNestForPromise,
 } from 'public/PublicTools.esm.mts';
 
-import AllServicesForFileURL from 'services/AllServices.esm.mts';
+import AllServices from 'services/AllServices.esm.mts';
 
 import {
   MyConsole,
@@ -80,7 +80,7 @@ function Handle001( filePath: T_FilePath001 ): string{
  */
 function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_RouteHandle{
   return async ( request: Request ): Promise<T_Result001> => {
-    let myRouteHandleConfig: T_RouteHandleConfig = routeHandleConfig.concat( AllServicesForFileURL );
+    let myRouteHandleConfig: T_RouteHandleConfig = routeHandleConfig.concat( AllServices );
 
     const arr001: Array<Promise<[ T_Fun002, T_Fun001 ]>> = myRouteHandleConfig.map(
         async (

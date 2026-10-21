@@ -98,7 +98,7 @@ AllServicesForResponseHandle.forEach( ( item: string ): void => {
   AllServicesForResponseHandleByObj[ item.replaceAll( /ResponseHandle\.esm\.(?:ts|cts|mts)/g, '' ) ] = item;
 } );
 
-const AllServicesForFileURL: T_RouteHandleConfig = AllServicesForCondition.map( ( item: string ): [ string, string ] | undefined => {
+const AllServices: T_RouteHandleConfig = AllServicesForCondition.map( ( item: string ): [ string, string ] | undefined => {
   const value: string | undefined = AllServicesForResponseHandleByObj[ item.replaceAll( /Condition\.esm\.(?:ts|cts|mts)/g, '' ) ];
 
   if( value ){
@@ -115,7 +115,7 @@ const AllServicesForFileURL: T_RouteHandleConfig = AllServicesForCondition.map( 
 } ).filter( ( item: [ string, string ] | undefined ): boolean => item !== undefined ) as T_RouteHandleConfig;
 
 export {
-  AllServicesForFileURL,
+  AllServices,
 };
 
-export default AllServicesForFileURL;
+export default AllServices;

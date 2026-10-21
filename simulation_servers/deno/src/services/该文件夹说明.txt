@@ -4,3 +4,5 @@
 2、如果在“src/configures/route_map_config/RouteMapConfig.esm.mts”中的配置是要求客户端请求满足某个条件函数时，才开始处理相应逻辑，那么响应的service可以参照“static_resources_service”文件夹下的写法。
 一般来说，保证对应service文件夹下有“Condition.esm.mts”、“ResponseHandle.esm.mts”这两个即可，其他文件的创建可以根据需要创建编写。
 Condition.esm.mts、ResponseHandle.esm.mts：这两个里必须部署默认导出，如：export default XXX。
+3、关于“src/services/AllServices.esm.mts”：
+自动扫描“src/services”文件夹下的各个路由处理，可以不用手动配置上述的映射，当然，也是可以配置的，看实际需求，至于自动扫描都是怎么触发的，请前往“src/services/AllServices.esm.mts”中查阅说明。
