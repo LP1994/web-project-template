@@ -101,6 +101,12 @@
  * https://127.0.0.1:9200/stream/graphql/
  * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql
  * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/
+ * PS：
+ * 1、SSE 的本质是让服务器能够持续向客户端单向推送数据。它的工作流程非常纯粹：
+ * 客户端发起一个普通的 HTTP GET 请求，并在请求头中带上 Accept: text/event-stream，告诉服务器“我期望接收一个事件流”。
+ * 服务器保持这个连接不关闭，并设置 Content-Type: text/event-stream，然后不断地通过这个连接向客户端发送文本格式的事件数据。
+ * 2、标准规范的限制：浏览器原生的 EventSource API 被设计为只能发起 GET 请求。
+ * 它不支持自定义请求方法，也不支持在请求体中发送数据，所以标准的 SSE 规范本身是不允许使用 POST 的。
  *
  *
  *
@@ -280,7 +286,13 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  * https://127.0.0.1:9200/stream/graphql <br />
  * https://127.0.0.1:9200/stream/graphql/ <br />
  * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql <br />
- * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/ <br /><br /><br /><br />
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/ <br />
+ * PS：<br />
+ * 1、SSE 的本质是让服务器能够持续向客户端单向推送数据。它的工作流程非常纯粹：<br />
+ * 客户端发起一个普通的 HTTP GET 请求，并在请求头中带上 Accept: text/event-stream，告诉服务器“我期望接收一个事件流”。<br />
+ * 服务器保持这个连接不关闭，并设置 Content-Type: text/event-stream，然后不断地通过这个连接向客户端发送文本格式的事件数据。<br />
+ * 2、标准规范的限制：浏览器原生的 EventSource API 被设计为只能发起 GET 请求。<br />
+ * 它不支持自定义请求方法，也不支持在请求体中发送数据，所以标准的 SSE 规范本身是不允许使用 POST 的。<br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
