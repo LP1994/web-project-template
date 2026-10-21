@@ -92,7 +92,7 @@
  *
  *
  *
- * SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求，graphql-sse有对应的客户端实现）：
+ * SSE（服务端使用graphql-sse实现，该工具支持处理由客户端发起的GET请求，graphql-sse有对应的客户端实现）：
  * https://127.0.0.1:9200/graphql/stream
  * https://127.0.0.1:9200/graphql/stream/
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream
@@ -272,7 +272,7 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  *
  *
  *
- * SSE（服务端使用graphql-sse实现，该工具支持：PUT、DELETE、POST、GET这4个类型的请求，graphql-sse有对应的客户端实现）：<br />
+ * SSE（服务端使用graphql-sse实现，该工具支持处理由客户端发起的GET请求，graphql-sse有对应的客户端实现）：<br />
  * https://127.0.0.1:9200/graphql/stream <br />
  * https://127.0.0.1:9200/graphql/stream/ <br />
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream <br />
