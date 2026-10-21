@@ -129,6 +129,91 @@
  * 2、标准规范的限制：浏览器原生的 EventSource API 被设计为只能发起 GET 请求。
  * 它不支持自定义请求方法，也不支持在请求体中发送数据，所以标准的 SSE 规范本身是不允许使用 POST 的。
  *
+ * 客户端连接例子，可以使用浏览器原生的“EventSource”API也可以使用“fetch”API自行构建SSE请求：
+ * 1、GET请求，为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：
+ * encodeURI(`query Test001{
+ *     hello1: hello,
+ * }
+ *
+ * query Test002{
+ *     serverDate2: serverDate,
+ * }
+ *
+ * query Test003( $id: String! ){
+ *     hello3: hello,
+ *     serverDate3: serverDate,
+ *
+ *     getMessage3: getMessage(id: $id){
+ *      id,
+ *      author,
+ *      content,
+ *     },
+ * }
+ *
+ * subscription Test004{
+ *   greetings: greetings,
+ * }
+ * `);
+ * 处理完就成了这样：
+ * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D%0A%0Asubscription%20Test004%7B%0A%20%20greetings:%20greetings,%0A%7D%0A
+ *
+ * 如果有“variables”参数，那也要序列化一下：
+ * encodeURI(`{"id": "2024004-素夏"}`);
+ * 处理完就成了这样：
+ * %7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ *
+ * operationName: "Test004"
+ *
+ * 完整的GET请求URL：
+ * https://127.0.0.1:9200/graphql/stream?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D%0A%0Asubscription%20Test004%7B%0A%20%20greetings:%20greetings,%0A%7D%0A&operationName=Test004&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ *
+ * var myHeaders = new Headers();
+ * myHeaders.append("Accept", "text/event-stream");
+ * myHeaders.append("Cache-Control", "no-cache");
+ * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+ * myHeaders.append("Host", "127.0.0.1:9200");
+ * myHeaders.append("Connection", "keep-alive");
+ *
+ * var requestOptions = {
+ *    method: 'GET',
+ *    headers: myHeaders,
+ *    redirect: 'follow'
+ * };
+ *
+ * fetch("https://127.0.0.1:9200/graphql/stream?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D%0A%0Asubscription%20Test004%7B%0A%20%20greetings:%20greetings,%0A%7D%0A&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D&operationName=Test004", requestOptions)
+ *    .then(response => response.text())
+ *    .then(result => console.log(result))
+ *    .catch(error => console.log('error', error));
+ *
+ * 2、POST请求：
+ * var myHeaders = new Headers();
+ * myHeaders.append("Accept", "text/event-stream");
+ * myHeaders.append("Cache-Control", "no-cache");
+ * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+ * myHeaders.append("Content-Type", "application/json");
+ * myHeaders.append("Host", "127.0.0.1:9200");
+ * myHeaders.append("Connection", "keep-alive");
+ *
+ * var raw = JSON.stringify({
+ *    "query": "query Test001{\n    hello1: hello,\n}\n\nquery Test002{\n    serverDate2: serverDate,\n}\n\nquery Test003( $id: String! ){\n    hello3: hello,\n    serverDate3: serverDate,\n\n    getMessage3: getMessage(id: $id){\n     id,\n     author,\n     content,\n    },\n}\n\nsubscription Test004{\n  greetings: greetings,\n}\n",
+ *    "variables": {
+ *       "id": "2024004-素夏"
+ *    },
+ *    "operationName": "Test004"
+ * });
+ *
+ * var requestOptions = {
+ *    method: 'POST',
+ *    headers: myHeaders,
+ *    body: raw,
+ *    redirect: 'follow'
+ * };
+ *
+ * fetch("https://127.0.0.1:9200/graphql/stream", requestOptions)
+ *    .then(response => response.text())
+ *    .then(result => console.log(result))
+ *    .catch(error => console.log('error', error));
+ *
  *
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
@@ -346,7 +431,105 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  * 客户端发起一个普通的 HTTP GET 请求，并在请求头中带上 Accept: text/event-stream，告诉服务器“我期望接收一个事件流”。<br />
  * 服务器保持这个连接不关闭，并设置 Content-Type: text/event-stream，然后不断地通过这个连接向客户端发送文本格式的事件数据。<br />
  * 2、标准规范的限制：浏览器原生的 EventSource API 被设计为只能发起 GET 请求。<br />
- * 它不支持自定义请求方法，也不支持在请求体中发送数据，所以标准的 SSE 规范本身是不允许使用 POST 的。<br />
+ * 它不支持自定义请求方法，也不支持在请求体中发送数据，所以标准的 SSE 规范本身是不允许使用 POST 的。<br /><br />
+ *
+ * 客户端连接例子，可以使用浏览器原生的“EventSource”API也可以使用“fetch”API自行构建SSE请求：<br />
+ * 1、GET请求，为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：<br />
+ * ```ts
+ * encodeURI(`query Test001{
+ *     hello1: hello,
+ * }
+ *
+ * query Test002{
+ *     serverDate2: serverDate,
+ * }
+ *
+ * query Test003( $id: String! ){
+ *     hello3: hello,
+ *     serverDate3: serverDate,
+ *
+ *     getMessage3: getMessage(id: $id){
+ *      id,
+ *      author,
+ *      content,
+ *     },
+ * }
+ *
+ * subscription Test004{
+ *   greetings: greetings,
+ * }
+ * `);
+ * ```
+ * 处理完就成了这样：<br />
+ * ```ts
+ * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D%0A%0Asubscription%20Test004%7B%0A%20%20greetings:%20greetings,%0A%7D%0A
+ * ```
+ * <br />
+ * 如果有“variables”参数，那也要序列化一下：<br />
+ * ```ts
+ * encodeURI(`{"id": "2024004-素夏"}`);
+ * ```
+ * <br />
+ * 处理完就成了这样：<br />
+ * ```ts
+ * %7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * ```
+ * <br /><br />
+ * operationName: "Test004"
+ * <br /><br />
+ * 完整的GET请求URL：<br />
+ * https://127.0.0.1:9200/graphql/stream?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D%0A%0Asubscription%20Test004%7B%0A%20%20greetings:%20greetings,%0A%7D%0A&operationName=Test004&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * <br /><br />
+ * ```ts
+ * var myHeaders = new Headers();
+ * myHeaders.append("Accept", "text/event-stream");
+ * myHeaders.append("Cache-Control", "no-cache");
+ * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+ * myHeaders.append("Host", "127.0.0.1:9200");
+ * myHeaders.append("Connection", "keep-alive");
+ *
+ * var requestOptions = {
+ *    method: 'GET',
+ *    headers: myHeaders,
+ *    redirect: 'follow'
+ * };
+ *
+ * fetch("https://127.0.0.1:9200/graphql/stream?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D%0A%0Asubscription%20Test004%7B%0A%20%20greetings:%20greetings,%0A%7D%0A&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D&operationName=Test004", requestOptions)
+ *    .then(response => response.text())
+ *    .then(result => console.log(result))
+ *    .catch(error => console.log('error', error));
+ * ```
+ * <br /><br />
+ * 2、POST请求：<br />
+ * ```ts
+ * var myHeaders = new Headers();
+ * myHeaders.append("Accept", "text/event-stream");
+ * myHeaders.append("Cache-Control", "no-cache");
+ * myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+ * myHeaders.append("Content-Type", "application/json");
+ * myHeaders.append("Host", "127.0.0.1:9200");
+ * myHeaders.append("Connection", "keep-alive");
+ *
+ * var raw = JSON.stringify({
+ *    "query": "query Test001{\n    hello1: hello,\n}\n\nquery Test002{\n    serverDate2: serverDate,\n}\n\nquery Test003( $id: String! ){\n    hello3: hello,\n    serverDate3: serverDate,\n\n    getMessage3: getMessage(id: $id){\n     id,\n     author,\n     content,\n    },\n}\n\nsubscription Test004{\n  greetings: greetings,\n}\n",
+ *    "variables": {
+ *       "id": "2024004-素夏"
+ *    },
+ *    "operationName": "Test004"
+ * });
+ *
+ * var requestOptions = {
+ *    method: 'POST',
+ *    headers: myHeaders,
+ *    body: raw,
+ *    redirect: 'follow'
+ * };
+ *
+ * fetch("https://127.0.0.1:9200/graphql/stream", requestOptions)
+ *    .then(response => response.text())
+ *    .then(result => console.log(result))
+ *    .catch(error => console.log('error', error));
+ * ```
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
