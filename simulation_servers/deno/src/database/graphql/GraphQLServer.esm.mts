@@ -150,11 +150,6 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  * 3、详细参数见：
  * node_modules/graphql-http/lib/use/fetch.d.ts:96
  *
- * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
- * 1、一般来说，里面总是会有选项schema。
- * 2、详细参数见：
- * node_modules/graphql-ws/server.d.ts:402
- *
  * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ]} config.graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。
  * 1、一般来说，第一个参数里面总是会有选项schema。
  * 2、第二个参数，值类型是Partial<T_RequestContextBySSE>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
@@ -172,18 +167,23 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  * 3、详细参数见：
  * node_modules/graphql-sse/lib/use/fetch.d.ts:45
  *
+ * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
+ * 1、一般来说，里面总是会有选项schema。
+ * 2、详细参数见：
+ * node_modules/graphql-ws/server.d.ts:402
+ *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 async function GraphQLServer( {
   request,
   graphqlHTTPOptions,
-  graphqlWSOptions,
   graphqlSSEOptions,
+  graphqlWSOptions,
 }: {
   request: Request;
   graphqlHTTPOptions: [ T_HandlerOptions, Partial<T_FetchAPI>?, ];
-  graphqlWSOptions: T_ServerOptions;
   graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ];
+  graphqlWSOptions: T_ServerOptions;
 } ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
@@ -453,6 +453,8 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
   } )( [
     '/graphql/stream',
     '/graphql/stream/',
+    '/stream/graphql',
+    '/stream/graphql/',
   ] ) ).includes( pathName ) ){
     const [
       options,

@@ -378,6 +378,8 @@ function Condition( request: Request ): boolean{
           `${ myURLPathName }/schema.json`,
           `${ myURLPathName }/stream`,
           `${ myURLPathName }/stream/`,
+          `/stream${ myURLPathName }`,
+          `/stream${ myURLPathName }/`,
         ] ) ).includes( pathName ) ||
         (
           ( ( ( arg: string[] ): string[] => {
@@ -412,8 +414,6 @@ function Condition( request: Request ): boolean{
     } )( [
       `${ myURLPathName }`,
       `${ myURLPathName }/`,
-      `${ myURLPathName }/stream`,
-      `${ myURLPathName }/stream/`,
     ] ) ).includes( pathName ) )
   );
 }

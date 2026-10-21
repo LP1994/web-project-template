@@ -5,19 +5,19 @@
 #IDE: WebStorm
 #CreateDate: 2022-11-02 17:38:57 星期三
 
-query MessageTest001( $id: String! ){
-  getMessage111: getMessage( id: $id ){
+query GetMessage( $id: String! ){
+  getMessage: getMessage( id: $id ){
     id,
     author,
     content,
   },
 }
 #{
-#"id": "2024001"
+#"id": "2024005-离骚"
 #}
 
-mutation MessageTest002( $input: MessageInput! ){
-  createMessage111: createMessage( input: $input ){
+mutation CreateMessage( $input: MessageInput! ){
+  createMessage: createMessage( input: $input ){
     id,
     author,
     content,
@@ -30,17 +30,17 @@ mutation MessageTest002( $input: MessageInput! ){
 #}
 #}
 
-mutation MessageTest003( $id: String!, $input: MessageInput! ){
-  updateMessage111: updateMessage( id: $id, input: $input ){
+mutation UpdateMessage( $id: String!, $input: MessageInput! ){
+  updateMessage: updateMessage( id: $id, input: $input ){
     id,
     author,
     content,
   },
 }
 #{
-#"id": "2024003",
+#"id": "2024004-素夏",
 #"input":{
-#"author": "XXX",
-#"content": "Theis is a 2024003XXXX."
+#"author": "XXX素夏",
+#"content": "Theis is a XXX素夏."
 #}
 #}

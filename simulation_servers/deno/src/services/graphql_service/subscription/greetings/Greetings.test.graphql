@@ -6,7 +6,7 @@
 #CreateDate: 2022-11-02 17:38:57 星期三
 
 subscription Greetings{
-  greetings111: greetings,
+  greetings: greetings,
 }
 #{
 #"type": "connection_init"
@@ -16,7 +16,7 @@ subscription Greetings{
 #"type": "subscribe",
 #"id": "ea04a057-9463-4244-ab3f-a382546e5699",
 #"payload":{
-#"query": "subscription Test001{ MyData001: greetings, } subscription Test002{ MyData002: greetings, }",
+#"query": "subscription Test001{ greetings001: greetings, } subscription Test002{ greetings002: greetings, }",
 #"operationName": "Test001",
 #"variables": {}
 #}
