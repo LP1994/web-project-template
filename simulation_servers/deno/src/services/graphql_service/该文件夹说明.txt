@@ -217,6 +217,28 @@ fetch("https://127.0.0.1:9200/graphql/stream", requestOptions)
    .then(result => console.log(result))
    .catch(error => console.log('error', error));
 
+graphql-sse实现的协议说明（“独立连接”模式、单连接模式）！！！
+详细见：
+https://github.com/enisdenjo/graphql-sse/blob/master/PROTOCOL.md#graphql-over-server-sent-events-protocol
+基于服务器发送事件协议的 GraphQL
+简介
+我们生活在一个互联的世界中，对实时性的需求与日俱增。尤其是在这个世界上互联程度最高的“世界”——互联网中。谈到实时性，主要有两大技术：WebSockets 和服务器发送事件（SSE）。
+出于从简单易用到广泛采用等诸多原因，在您的下一个实时驱动项目中使用服务器发送事件（简称 SSE）听起来颇具吸引力。然而，您很快会发现，在处理基于 HTTP/1 的服务器时，SSE 存在开放连接数上限的限制（详情见下文）。
+本文旨在通过“单连接模式”突破 HTTP/1 的限制，并借助“独立连接模式”支持基于 HTTP/2+ 的服务器，同时采用统一的基于 SSE 的 GraphQL 传输协议。
+
+例子，见：
+https://the-guild.dev/graphql/sse/guides/recipes#with-eventsource-distinct-connections-mode
+
+2种模式下的“停止”逻辑
+1、独立连接模式（你之前用的 POST 模式）
+在这种模式下，不需要也不应该使用 DELETE 请求。停止一个订阅的方式非常简单：客户端直接关闭用于接收该订阅的 SSE 连接（即 fetch 的 ReadableStream）即可，服务器会感知到连接关闭并停止操作。
+2、单连接模式（PUT + GET 模式）
+这是 DELETE 请求发挥作用的场景。因为所有订阅共享一条 GET 建立的 SSE 连接，你不能通过关闭连接来停止某一个订阅。此时，必须通过发送一个 DELETE 请求来精确地“叫停”某个特定的操作。
+
+2种模式的核心区别
+1、独立连接模式（POST）：每个 GraphQL 订阅（Subscription）操作都会独立发起一个 POST 请求，并直接在这个请求的响应中接收 SSE 流。这种方式更适合 HTTP/2 环境，也是 graphql-sse 客户端的默认模式。
+2、单连接模式（PUT + GET）：所有操作复用同一条 SSE 连接，通过 PUT 获取令牌来“预约”连接，以规避 HTTP/1 对并发连接数的限制。
+
 
 
 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”中的配置。
