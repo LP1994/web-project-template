@@ -34,6 +34,10 @@
 'use strict';
 
 import {
+  serversURLPrefix,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
   IsGetForRequestAndNoWS,
 } from 'public/PublicTools.esm.mts';
 
@@ -69,13 +73,18 @@ function Condition( request: Request ): boolean{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
-  return [
-      `${ myURLPathName }`,
-      ``,
-      `/simulation_servers_deno${ myURLPathName }`,
-      `/simulation_servers_deno`,
-    ].includes( pathName ) &&
-    IsGetForRequestAndNoWS( request );
+  return ( ( ( arg: string[] ): string[] => {
+    const result: string[] = [];
+
+    serversURLPrefix.forEach( ( item001: string ): void => {
+      result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+    } );
+
+    return result;
+  } )( [
+    ``,
+    `${ myURLPathName }`,
+  ] ) ).includes( pathName ) && IsGetForRequestAndNoWS( request );
 }
 
 // 必须部署这个默认的导出值。

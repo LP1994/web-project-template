@@ -47,6 +47,10 @@
 
 'use strict';
 
+import {
+  serversURLPrefix,
+} from 'configures/GlobalParameters.esm.mts';
+
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
@@ -80,12 +84,21 @@ function Condition( request: Request ): boolean{
     pathName: string = decodeURI( url.pathname ),
     method: string = request.method.toLowerCase().trim();
 
-  return [
-    myURLPathName,
+  return ( ( ( arg: string[] ): string[] => {
+    const result: string[] = [];
+
+    serversURLPrefix.forEach( ( item001: string ): void => {
+      result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+    } );
+
+    return result;
+  } )( [
+    `${ myURLPathName }`,
     `${ myURLPathName }/`,
-    `/simulation_servers_deno${ myURLPathName }`,
-    `/simulation_servers_deno${ myURLPathName }/`,
-  ].includes( pathName ) && ( method === 'post' || method === 'put' );
+  ] ) ).includes( pathName ) && [
+    'put',
+    'post',
+  ].includes( method );
 }
 
 // 必须部署这个默认的导出值。
