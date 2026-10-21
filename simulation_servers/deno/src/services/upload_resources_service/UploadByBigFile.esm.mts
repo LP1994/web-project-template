@@ -8,20 +8,6 @@
  */
 
 /**
- * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
- */
-
-/**
- * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
- * 2、安装证书如下：
- * “openssl/HTTPSSL001”文件夹下的3个：
- * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
- * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
- * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
- * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
- */
-
-/**
  * 单个大文件上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
  * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
  * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
@@ -55,11 +41,21 @@
  * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
  */
 
-'use strict';
+/**
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
+ * 2、安装证书如下：
+ * “openssl/HTTPSSL001”文件夹下的3个：
+ * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
+ * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
+ * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
+ */
 
-import {
-  toWritableStream,
-} from 'deno_std_io';
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
+'use strict';
 
 import {
   encodeHex,
@@ -70,9 +66,18 @@ import {
 } from 'deno_std_media_types';
 
 import {
+  toWritableStream,
+} from 'deno_std_io';
+
+import {
+  myURLPathName,
+} from './Condition.esm.mts';
+
+import {
   uploadDir,
 
   HttpResponseHeadersFun,
+  HTTPStatus,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -81,13 +86,9 @@ import {
   type I_UploadFileSRISchema,
 
   InsertOne,
-  UpdateOne,
   QueryOne,
+  UpdateOne,
 } from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
-
-import {
-  myURLPathName,
-} from './Condition.esm.mts';
 
 import {
   GetFileMIME,
@@ -132,10 +133,10 @@ import {
  */
 async function UploadByBigFile( request: Request ): Promise<Response>{
   let _request: Request = request.clone(),
-    isForcedWrite: string = ( new URL( _request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase(),
-    contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
     contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase(),
-    fileName: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() );
+    contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
+    fileName: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() ),
+    isForcedWrite: string = ( new URL( _request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase();
 
   if( fileName.length === 0 ){
     fileName = `BigFile`;
@@ -148,8 +149,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   if( !request.clone().body ){
     result = JSON.stringify( {
       data: {
-        success: false,
         message: `body为空，未上传任何数据。`,
+        success: false,
       },
       messageStatus: resMessageStatus[ 1000 ],
     } );
@@ -157,8 +158,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   else if( contentType.length === 0 ){
     result = JSON.stringify( {
       data: {
-        success: false,
         message: `请求头中的“content-type”的值（${ contentType }）不符合要求，必须是一个明确的、有效的“媒体类型”，诸如：'text/html; charset=UTF-8'、'application/json'等等。`,
+        success: false,
       },
       messageStatus: resMessageStatus[ 1001 ],
     } );
@@ -166,8 +167,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   else if( contentLength.length === 0 || Number( contentLength ) <= 0 ){
     result = JSON.stringify( {
       data: {
-        success: false,
         message: `请求头中的“content-length”的值（${ contentLength }）不是有效的，可能是缺少该属性，或其值为0。`,
+        success: false,
       },
       messageStatus: resMessageStatus[ 1004 ],
     } );
@@ -187,8 +188,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
       }
 
       const fileName001: string = `${ sri }${ ext }`,
-        savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName001 }` ),
-        filePath: string = `${ myURLPathName }/big_files/${ fileName001 }`;
+        filePath: string = `${ myURLPathName }/big_files/${ fileName001 }`,
+        savePath: URL = new URL( `${ uploadDir }/big_files/${ fileName001 }` );
 
       Deno.mkdirSync( new URL( `${ uploadDir }/big_files` ), {
         recursive: true,
@@ -198,22 +199,22 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
       const handleFun001: () => Promise<void> = async (): Promise<void> => {
         const file001: Deno.FsFile = await Deno.open( savePath, {
-          write: true,
           create: true,
+          write: true,
         } );
 
         await ( _request.body as ReadableStream ).pipeTo( toWritableStream( file001 ) );
 
         Object.assign( fileSRIInfo as I_UploadFileSRISchema, {
-          shaType: 'SHA-512',
-          sri,
-          requestURL: decodeURI( _request.url ),
-          savePath: savePath.href,
-          filePath,
-          fileType: contentType,
-          fileSize: String( contentLength ),
           fileLastModified: String( Date.now() ),
           fileName: fileName,
+          filePath,
+          fileSize: String( contentLength ),
+          fileType: contentType,
+          requestURL: decodeURI( _request.url ),
+          savePath: savePath.href,
+          shaType: 'SHA-512',
+          sri,
         } );
       };
 
@@ -225,12 +226,12 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
           result = JSON.stringify( {
             data: {
-              // true表示上传成功，反之，表示失败。
-              success: true,
-              // 描述性说明。
-              message: `大文件（${ fileName }，文件类型：${ contentType }）上传成功。`,
               // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
+              // 描述性说明。
+              message: `大文件（${ fileName }，文件类型：${ contentType }）上传成功。`,
+              // true表示上传成功，反之，表示失败。
+              success: true,
             },
             messageStatus: resMessageStatus[ 200 ],
           } );
@@ -240,12 +241,12 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
         else{
           result = JSON.stringify( {
             data: {
-              // true表示上传成功，反之，表示失败。
-              success: true,
-              // 描述性说明。
-              message: `已存在跟此大文件（${ ( fileSRIInfo as I_UploadFileSRISchema ).fileName }，文件类型：${ ( fileSRIInfo as I_UploadFileSRISchema ).fileType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
               // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ ( fileSRIInfo as I_UploadFileSRISchema ).filePath }`,
+              // 描述性说明。
+              message: `已存在跟此大文件（${ ( fileSRIInfo as I_UploadFileSRISchema ).fileName }，文件类型：${ ( fileSRIInfo as I_UploadFileSRISchema ).fileType }）的SRI值一致的大文件，故本次上传不写入此大文件。`,
+              // true表示上传成功，反之，表示失败。
+              success: true,
             },
             messageStatus: resMessageStatus[ 200 ],
           } );
@@ -258,12 +259,12 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
 
         result = JSON.stringify( {
           data: {
-            // true表示上传成功，反之，表示失败。
-            success: true,
-            // 描述性说明。
-            message: `大文件（${ fileName }，文件类型：${ contentType }）上传成功。`,
             // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
             filePath: `${ filePath }`,
+            // 描述性说明。
+            message: `大文件（${ fileName }，文件类型：${ contentType }）上传成功。`,
+            // true表示上传成功，反之，表示失败。
+            success: true,
           },
           messageStatus: resMessageStatus[ 200 ],
         } );
@@ -274,8 +275,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
     catch( error: unknown ){
       result = JSON.stringify( {
         data: {
-          success: false,
           message: `${ ( error as Error ).message }`,
+          success: false,
         },
         messageStatus: resMessageStatus[ 9999 ],
       } );
@@ -283,8 +284,8 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   }
 
   return new Response( result, {
-    status: 200,
-    statusText: 'OK',
+    status: HTTPStatus[ 200 ].status,
+    statusText: HTTPStatus[ 200 ].statusText,
     headers: {
       ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',

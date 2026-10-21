@@ -8,20 +8,6 @@
  */
 
 /**
- * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
- */
-
-/**
- * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
- * 2、安装证书如下：
- * “openssl/HTTPSSL001”文件夹下的3个：
- * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
- * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
- * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
- * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
- */
-
-/**
  * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。
  * 上传的“二进制文件流（其实就是数据）”的数据类型只能是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string，
  * 当然也可以先将数据类型不是Blob、ArrayBufferView、ArrayBuffer、FormData、URLSearchParams、ReadableStream<Uint8Array>、string的“文件（其实就是数据）”转换成Blob再上传。
@@ -54,6 +40,20 @@
  * 但是对不被浏览器识别的文件的MIME，则不会设置请求头的“content-type”，所以需要手动设置！故而建议，始终手动设置请求头“content-type”！
  */
 
+/**
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
+ * 2、安装证书如下：
+ * “openssl/HTTPSSL001”文件夹下的3个：
+ * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
+ * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
+ * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
 import {
@@ -62,6 +62,7 @@ import {
 
 import {
   HttpResponseHeadersFun,
+  HTTPStatus,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -124,8 +125,8 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     messageStatus: resMessageStatus[ 1000 ],
   } );
 
-  let contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
-    contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase(),
+  let contentLength: string = ( _request.headers.get( 'content-length' ) ?? '' ).trim().toLowerCase(),
+    contentType: string = ( _request.headers.get( 'content-type' ) ?? '' ).trim().toLowerCase(),
     fileName: string = decodeURI( ( new URL( _request.url ).searchParams.get( 'fileName' ) ?? '' ).trim() );
 
   if( fileName.length === 0 ){
@@ -137,13 +138,17 @@ async function UploadByBinary( request: Request ): Promise<Response>{
   if( _request.body && contentType.length !== 0 ){
     try{
       const {
-        isWriteFile,
         fileInfo,
+        isWriteFile,
       }: T_Obj001 = await UpdateFileSRI( _request, {
         [ Symbol.toStringTag ]: 'Blob',
-        stream: (): ReadableStream<Uint8Array> => request.clone().body as ReadableStream<Uint8Array>,
         arrayBuffer: (): Promise<ArrayBuffer> => request.clone().arrayBuffer(),
         blob: (): Promise<Blob> => request.clone().blob(),
+        formData: (): Promise<FormData> => request.clone().formData(),
+        json: (): Promise<any> => request.clone().json(),
+        lastModified: String( Date.now() ),
+        name: fileName,
+        size: String( contentLength ),
         slice: async ( start?: number, end?: number, contentType?: string ): Promise<Blob> => {
           const blob: Blob = await request.clone().blob();
 
@@ -164,32 +169,28 @@ async function UploadByBinary( request: Request ): Promise<Response>{
 
           return result;
         },
-        formData: (): Promise<FormData> => request.clone().formData(),
-        json: (): Promise<any> => request.clone().json(),
+        stream: (): ReadableStream<Uint8Array> => request.clone().body as ReadableStream<Uint8Array>,
         text: (): Promise<string> => request.clone().text(),
-        lastModified: String( Date.now() ),
         type: String( contentType ),
-        size: String( contentLength ),
-        name: fileName,
       }, fileName );
 
       const {
-        savePath,
+        fileName: fileName001,
         filePath,
         fileType,
+        savePath,
         sri,
-        fileName: fileName001,
       }: I_UploadFileSRISchema = fileInfo;
 
       if( !isWriteFile ){
         result001 = JSON.stringify( {
           data: {
-            // true表示上传成功，反之，表示失败。
-            success: true,
-            // 描述性说明。
-            message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
             // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
             filePath: `${ filePath }`,
+            // 描述性说明。
+            message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+            // true表示上传成功，反之，表示失败。
+            success: true,
           },
           messageStatus: resMessageStatus[ 200 ],
         } );
@@ -197,20 +198,20 @@ async function UploadByBinary( request: Request ): Promise<Response>{
       else{
         try{
           const file001: Deno.FsFile = await Deno.open( new URL( savePath ), {
-            write: true,
             create: true,
+            write: true,
           } );
 
           await _request.body.pipeTo( toWritableStream( file001 ) );
 
           result001 = JSON.stringify( {
             data: {
-              // true表示上传成功，反之，表示失败。
-              success: true,
-              // 描述性说明。
-              message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
               // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
+              // 描述性说明。
+              message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
+              // true表示上传成功，反之，表示失败。
+              success: true,
             },
             messageStatus: resMessageStatus[ 200 ],
           } );
@@ -220,8 +221,8 @@ async function UploadByBinary( request: Request ): Promise<Response>{
 
           result001 = JSON.stringify( {
             data: {
-              success: false,
               message: `${ ( error as Error ).message }`,
+              success: false,
             },
             messageStatus: resMessageStatus[ 9999 ],
           } );
@@ -231,8 +232,8 @@ async function UploadByBinary( request: Request ): Promise<Response>{
     catch( error: unknown ){
       result001 = JSON.stringify( {
         data: {
-          success: false,
           message: `${ ( error as Error ).message }`,
+          success: false,
         },
         messageStatus: resMessageStatus[ 9999 ],
       } );
@@ -241,16 +242,16 @@ async function UploadByBinary( request: Request ): Promise<Response>{
   else if( _request.body && contentType.length === 0 ){
     result001 = JSON.stringify( {
       data: {
-        success: false,
         message: `请求头中的“content-type”的值不能为空。`,
+        success: false,
       },
       messageStatus: resMessageStatus[ 1001 ],
     } );
   }
 
   return new Response( result001, {
-    status: 200,
-    statusText: 'OK',
+    status: HTTPStatus[ 200 ].status,
+    statusText: HTTPStatus[ 200 ].statusText,
     headers: {
       ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',

@@ -8,20 +8,6 @@
  */
 
 /**
- * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
- */
-
-/**
- * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
- * 2、安装证书如下：
- * “openssl/HTTPSSL001”文件夹下的3个：
- * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
- * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
- * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
- * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
- */
-
-/**
  * 单文件上传（支持POST请求、PUT请求）。
  * 例子：
  * https://127.0.0.1:9200/upload?uploadType=single&isForcedWrite=false
@@ -49,6 +35,20 @@
  *    fileName：用来备注上传文件的文件名（如带扩展名的：1.png），虽然可选，但尽量还是设置吧，有没有带扩展名都行（最好带扩展名）。
  */
 
+/**
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
+ * 2、安装证书如下：
+ * “openssl/HTTPSSL001”文件夹下的3个：
+ * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
+ * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
+ * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
+ */
+
+/**
+ * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
+ */
+
 'use strict';
 
 import {
@@ -57,6 +57,7 @@ import {
 
 import {
   HttpResponseHeadersFun,
+  HTTPStatus,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -108,8 +109,8 @@ async function UploadBySingle( request: Request ): Promise<Response>{
 
   let result001: string = JSON.stringify( {
     data: {
-      success: false,
       message: `body为空，未上传任何数据。`,
+      success: false,
     },
     messageStatus: resMessageStatus[ 1000 ],
   } );
@@ -144,9 +145,11 @@ async function UploadBySingle( request: Request ): Promise<Response>{
           fileInfo,
         }: T_Obj001 = await UpdateFileSRI( _request, {
           [ Symbol.toStringTag ]: 'Blob',
-          stream: (): ReadableStream<Uint8Array> => ( file as File | Blob ).stream(),
           arrayBuffer: (): Promise<ArrayBuffer> => ( file as File | Blob ).arrayBuffer(),
           blob: async (): Promise<Blob> => await ( ( file as File | Blob ).slice() ),
+          lastModified: String( Date.now() ),
+          name: fileName,
+          size: String( ( file as File | Blob ).size ),
           slice: async ( start?: number, end?: number, contentType?: string ): Promise<Blob> => {
             let result: Blob;
 
@@ -165,30 +168,28 @@ async function UploadBySingle( request: Request ): Promise<Response>{
 
             return result;
           },
+          stream: (): ReadableStream<Uint8Array> => ( file as File | Blob ).stream(),
           text: (): Promise<string> => ( file as File | Blob ).text(),
-          lastModified: String( Date.now() ),
-          name: fileName,
-          size: String( ( file as File | Blob ).size ),
           type: String( fileMIME ),
         }, fileName );
 
         const {
-          savePath,
+          fileName: fileName001,
           filePath,
           fileType,
+          savePath,
           sri,
-          fileName: fileName001,
         }: I_UploadFileSRISchema = fileInfo;
 
         if( !isWriteFile ){
           result001 = JSON.stringify( {
             data: {
-              // true表示上传成功，反之，表示失败。
-              success: true,
-              // 描述性说明。
-              message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
               // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
               filePath: `${ filePath }`,
+              // 描述性说明。
+              message: `已存在跟此文件（${ fileName001 }，文件类型：${ fileType }）的SRI值一致的文件，故本次上传不写入此文件。`,
+              // true表示上传成功，反之，表示失败。
+              success: true,
             },
             messageStatus: resMessageStatus[ 200 ],
           } );
@@ -196,20 +197,20 @@ async function UploadBySingle( request: Request ): Promise<Response>{
         else{
           try{
             const file001: Deno.FsFile = await Deno.open( new URL( savePath ), {
-              write: true,
               create: true,
+              write: true,
             } );
 
             await ( file as File ).stream().pipeTo( toWritableStream( file001 ) );
 
             result001 = JSON.stringify( {
               data: {
-                // true表示上传成功，反之，表示失败。
-                success: true,
-                // 描述性说明。
-                message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
                 // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
                 filePath: `${ filePath }`,
+                // 描述性说明。
+                message: `文件（${ fileName001 }，文件类型：${ fileType }）上传成功。`,
+                // true表示上传成功，反之，表示失败。
+                success: true,
               },
               messageStatus: resMessageStatus[ 200 ],
             } );
@@ -219,8 +220,8 @@ async function UploadBySingle( request: Request ): Promise<Response>{
 
             result001 = JSON.stringify( {
               data: {
-                success: false,
                 message: `${ ( error as Error ).message }`,
+                success: false,
               },
               messageStatus: resMessageStatus[ 9999 ],
             } );
@@ -230,8 +231,8 @@ async function UploadBySingle( request: Request ): Promise<Response>{
       else{
         result001 = JSON.stringify( {
           data: {
-            success: false,
             message: `客户端上传的不是一个File或Blob类型的数据，其数据类型为“${ str001 }”，其他数据类型可以先转换成Blob再上传。`,
+            success: false,
           },
           messageStatus: resMessageStatus[ 1002 ],
         } );
@@ -240,8 +241,8 @@ async function UploadBySingle( request: Request ): Promise<Response>{
     catch( error: unknown ){
       result001 = JSON.stringify( {
         data: {
-          success: false,
           message: `${ ( error as Error ).message }`,
+          success: false,
         },
         messageStatus: resMessageStatus[ 9999 ],
       } );
@@ -250,16 +251,16 @@ async function UploadBySingle( request: Request ): Promise<Response>{
   else if( _request.body && !contentType.startsWith( 'multipart/form-data;' ) ){
     result001 = JSON.stringify( {
       data: {
-        success: false,
         message: `请求头中的“content-type”的值（${ contentType }）不是服务端要求的类型（multipart/form-data），可能客户端上传的body不是“FormData”类型或客户端设置了不正确的“content-type”值。`,
+        success: false,
       },
       messageStatus: resMessageStatus[ 1001 ],
     } );
   }
 
   return new Response( result001, {
-    status: 200,
-    statusText: 'OK',
+    status: HTTPStatus[ 200 ].status,
+    statusText: HTTPStatus[ 200 ].statusText,
     headers: {
       ...HttpResponseHeadersFun( request ),
       'content-type': 'application/json; charset=utf-8',
