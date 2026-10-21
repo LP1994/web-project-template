@@ -23,6 +23,15 @@
  */
 
 /**
+ * 本文件上传功能，提供了5种类型的上传方式，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB（该阈值可由下面的常量maxFileSize控制调节），详细使用说明见：
+ * UploadByBigFile.esm.mts（单个大文件上传）、
+ * UploadByBigFileForPart.esm.mts（单个大文件的分块上传）、
+ * UploadByBinary.esm.mts（单个二进制文件流上传）、
+ * UploadByMultiple.esm.mts（多文件批量上传）、
+ * UploadBySingle.esm.mts（单文件上传）
+ */
+
+/**
  * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
  * 2、安装证书如下：
  * “openssl/HTTPSSL001”文件夹下的3个：
@@ -36,21 +45,13 @@
  * 该模块，必须部署一个默认的导出值，且该值的类型必须为可执行的函数，详细见下面的Handle函数注解。
  */
 
-/**
- * 本文件上传功能，提供了5种类型的上传方式，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB（该阈值可由下面的常量maxFileSize控制调节），详细使用说明见：
- * UploadByBigFile.esm.mts（单个大文件上传）、
- * UploadByBigFileForPart.esm.mts（单个大文件的分块上传）、
- * UploadByBinary.esm.mts（单个二进制文件流上传）、
- * UploadByMultiple.esm.mts（多文件批量上传）、
- * UploadBySingle.esm.mts（单文件上传）
- */
-
 'use strict';
 
 import {
   type T_Response001,
 
   HttpResponseHeadersFun,
+  HTTPStatus,
   resMessageStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -345,8 +346,8 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         },
         messageStatus: resMessageStatus[ 200 ]
       } ), {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
@@ -372,8 +373,8 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
@@ -433,8 +434,8 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         },
         messageStatus: resMessageStatus[ 200 ]
       } ), {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
@@ -460,8 +461,8 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         },
         messageStatus: resMessageStatus[ 1005 ]
       } ), {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
@@ -583,8 +584,8 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
         },
         messageStatus: resMessageStatus[ 200 ]
       } ), {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...httpResHeaders,
           'content-type': 'application/json; charset=utf-8',
@@ -630,8 +631,8 @@ async function ResponseHandle( request: Request ): Promise<T_Response001>{
       },
       messageStatus: resMessageStatus[ 1003 ],
     } ), {
-      status: 200,
-      statusText: 'OK',
+      status: HTTPStatus[ 200 ].status,
+      statusText: HTTPStatus[ 200 ].statusText,
       headers: {
         ...httpResHeaders,
         'content-type': 'application/json; charset=utf-8',

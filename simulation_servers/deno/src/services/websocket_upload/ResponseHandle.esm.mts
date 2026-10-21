@@ -36,24 +36,24 @@
 import {
   type T_Response001,
 
-  // uploadDir,
-
   HttpResponseHeadersFun,
+  HTTPStatus,
+  // uploadDir,
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
+  GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
+} from 'public/PublicTools.esm.mts';
 
 import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-import {
-  type T_MyCusDenoFsFile,
-
-  GetLogWriteStreamForSingleton,
-  GetErrorWriteStreamForSingleton,
-} from 'public/PublicTools.esm.mts';
-
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
@@ -69,12 +69,11 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function ResponseHandle( request: Request ): T_Response001{
-  let response: Response,
-    wsForServer: WebSocket,
+  let pathName: string,
+    response: Response,
+    result: T_Response001,
     url: URL,
-    pathName: string;
-
-  let result: T_Response001;
+    wsForServer: WebSocket;
 
   try{
     (
@@ -162,8 +161,8 @@ WebSocket收到了来自客户端通过“${ pathName }”上传的文件。End
   }
   catch( error: unknown ){
     result = new Response( null, {
-      status: 500,
-      statusText: `${ ( error as Error ).message }`,
+      status: HTTPStatus[ 500 ].status,
+      statusText: `${ HTTPStatus[ 500 ].statusText }. ${ ( error as Error ).message }`,
       headers: {
         ...HttpResponseHeadersFun( request ),
       },

@@ -8,16 +8,6 @@
  */
 
 /**
- * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
- * 2、安装证书如下：
- * “openssl/HTTPSSL001”文件夹下的3个：
- * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
- * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
- * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
- * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
- */
-
-/**
  * 用于响应WebSocket服务的根请求，如：
  * wss://127.0.0.1:9200
  * wss://127.0.0.1:9200/
@@ -25,6 +15,16 @@
  * wss://127.0.0.1:9200/simulation_servers_deno/
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
+ */
+
+/**
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
+ * 2、安装证书如下：
+ * “openssl/HTTPSSL001”文件夹下的3个：
+ * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
+ * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
+ * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
  */
 
 /**
@@ -37,21 +37,22 @@ import {
   type T_Response001,
 
   HttpResponseHeadersFun,
+  HTTPStatus,
 } from 'configures/GlobalParameters.esm.mts';
+
+import {
+  type T_MyCusDenoFsFile,
+
+  GetErrorWriteStreamForSingleton,
+  GetLogWriteStreamForSingleton,
+} from 'public/PublicTools.esm.mts';
 
 import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-import {
-  type T_MyCusDenoFsFile,
-
-  GetLogWriteStreamForSingleton,
-  GetErrorWriteStreamForSingleton,
-} from 'public/PublicTools.esm.mts';
-
-const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
 
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
@@ -67,12 +68,11 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 function ResponseHandle( request: Request ): T_Response001{
-  let response: Response,
-    wsForServer: WebSocket,
+  let pathName: string,
+    response: Response,
+    result: T_Response001,
     url: URL,
-    pathName: string;
-
-  let result: T_Response001;
+    wsForServer: WebSocket;
 
   try{
     (
@@ -105,6 +105,7 @@ function ResponseHandle( request: Request ): T_Response001{
     );
 
     url = new URL( request.url );
+
     pathName = url.pathname;
 
     // @ts-expect-error
@@ -160,8 +161,8 @@ WebSocket收到了来自客户端（${ pathName }）的消息。End
   }
   catch( error: unknown ){
     result = new Response( null, {
-      status: 500,
-      statusText: `${ ( error as Error ).message }`,
+      status: HTTPStatus[ 500 ].status,
+      statusText: `${ HTTPStatus[ 500 ].statusText }. ${ ( error as Error ).message }`,
       headers: {
         ...HttpResponseHeadersFun( request ),
       },
