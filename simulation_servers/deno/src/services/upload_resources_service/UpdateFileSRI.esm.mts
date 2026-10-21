@@ -14,63 +14,63 @@
 'use strict';
 
 import {
+  encodeHex,
+} from 'deno_std_encoding';
+
+import {
   extension,
   typeByExtension,
 } from 'deno_std_media_types';
-
-import {
-  encodeHex,
-} from 'deno_std_encoding';
 
 import {
   fileTypeFromBlob,
 } from 'esm_sh_file_type';
 
 import {
-  uploadDir,
-} from 'configures/GlobalParameters.esm.mts';
-
-import {
   myURLPathName,
 } from './Condition.esm.mts';
+
+import {
+  uploadDir,
+} from 'configures/GlobalParameters.esm.mts';
 
 import {
   type T_QueryOneResult,
   type I_UploadFileSRISchema,
 
   InsertOne,
-  UpdateOne,
   QueryOne,
+  UpdateOne,
 } from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
-
-export type T_Obj001 = {
-  // true表示开始写入文件，反之，不用写入文件。
-  isWriteFile: boolean;
-  // 存放文件信息的对象。
-  fileInfo: T_QueryOneResult;
-  // 表示文件本体对象。
-  file: T_CustomBlob;
-};
 
 // 自定义一个类型为“Blob”的自定义类型，使用时，必须存在其全部的属性。
 export type T_CustomBlob = {
   // 可以是："Blob"、"File"。
   [ Symbol.toStringTag ]: 'Blob' | 'File';
-  stream: () => ReadableStream<Uint8Array>;
   arrayBuffer: () => Promise<ArrayBuffer>;
   blob: () => Promise<Blob>;
-  slice: ( start?: number, end?: number, contentType?: string ) => Promise<Blob>;
   formData?: () => Promise<FormData>;
   json?: () => Promise<any>;
-  text: () => Promise<string>;
   // 文件的修改时间或服务器开始写入文件的时间。
   lastModified: string;
-  // 文件的媒体类型，值格式，如：“application/json”之类的。
-  type: string;
-  // 文件大小，单位为字节。
-  size: string;
   // 客户端上传的文件的原文件名（由客户端设置的），但可能没有，服务端会使用默认名给它。
   name: string;
+  // 文件大小，单位为字节。
+  size: string;
+  slice: ( start?: number, end?: number, contentType?: string ) => Promise<Blob>;
+  stream: () => ReadableStream<Uint8Array>;
+  text: () => Promise<string>;
+  // 文件的媒体类型，值格式，如：“application/json”之类的。
+  type: string;
+};
+
+export type T_Obj001 = {
+  // 表示文件本体对象。
+  file: T_CustomBlob;
+  // 存放文件信息的对象。
+  fileInfo: T_QueryOneResult;
+  // true表示开始写入文件，反之，不用写入文件。
+  isWriteFile: boolean;
 };
 
 /**
@@ -109,14 +109,12 @@ async function GetFileMIME( blob: Blob, fileName: string ): Promise<string>{
  * @returns {Promise<T_Obj001>} 返回一个自定义类型T_Obj001的对象。
  */
 async function UpdateFileSRI( request: Request, file: T_CustomBlob, fileName: string ): Promise<T_Obj001>{
-  const isForcedWrite: string = ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase(),
-    hash: ArrayBuffer = await crypto.subtle.digest( 'SHA-512', await file.arrayBuffer() ),
-    sri: string = encodeHex( hash );
+  const sri: string = encodeHex( await crypto.subtle.digest( 'SHA-512', await file.arrayBuffer() ) );
 
-  let isWriteFile: boolean = true,
-    savePath: URL,
+  let ext: string = '',
     filePath: string,
-    ext: string = '';
+    isWriteFile: boolean = true,
+    savePath: URL;
 
   if( fileName.includes( '.' ) ){
     ext = `.${ fileName.split( '.' ).pop() }`;
@@ -147,21 +145,21 @@ async function UpdateFileSRI( request: Request, file: T_CustomBlob, fileName: st
   if( fileSRI ){
     isWriteFile = false;
 
-    if( isForcedWrite === 'true' ){
+    if( ( new URL( request.url ).searchParams.get( 'isForcedWrite' ) ?? '' ).trim().toLowerCase() === 'true' ){
       isWriteFile = true;
 
       Deno.renameSync( new URL( ( fileSRI as I_UploadFileSRISchema ).savePath ), savePath );
 
       Object.assign( fileSRI as I_UploadFileSRISchema, {
-        shaType: 'SHA-512',
-        sri,
-        requestURL: decodeURI( request.url ),
-        savePath: savePath.href,
-        filePath,
-        fileType: file.type,
-        fileSize: String( file.size ),
         fileLastModified: String( file.lastModified ),
         fileName: fileName,
+        filePath,
+        fileSize: String( file.size ),
+        fileType: file.type,
+        requestURL: decodeURI( request.url ),
+        savePath: savePath.href,
+        shaType: 'SHA-512',
+        sri,
       } );
 
       await UpdateOne( fileSRI as I_UploadFileSRISchema );
@@ -169,15 +167,15 @@ async function UpdateFileSRI( request: Request, file: T_CustomBlob, fileName: st
   }
   else{
     fileSRI = {
-      shaType: 'SHA-512',
-      sri,
-      requestURL: decodeURI( request.url ),
-      savePath: savePath.href,
-      filePath,
-      fileType: file.type,
-      fileSize: String( file.size ),
       fileLastModified: String( file.lastModified ),
       fileName: fileName,
+      filePath,
+      fileSize: String( file.size ),
+      fileType: file.type,
+      requestURL: decodeURI( request.url ),
+      savePath: savePath.href,
+      shaType: 'SHA-512',
+      sri,
     } as I_UploadFileSRISchema;
 
     await InsertOne( fileSRI );
