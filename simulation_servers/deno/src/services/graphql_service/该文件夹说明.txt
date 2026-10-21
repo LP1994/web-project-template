@@ -113,6 +113,10 @@ https://127.0.0.1:9200/graphql/stream
 https://127.0.0.1:9200/graphql/stream/
 https://127.0.0.1:9200/simulation_servers_deno/graphql/stream
 https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/
+https://127.0.0.1:9200/stream/graphql
+https://127.0.0.1:9200/stream/graphql/
+https://127.0.0.1:9200/simulation_servers_deno/stream/graphql
+https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/
 
 
 

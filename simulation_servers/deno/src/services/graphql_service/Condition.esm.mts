@@ -97,6 +97,10 @@
  * https://127.0.0.1:9200/graphql/stream/
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/
+ * https://127.0.0.1:9200/stream/graphql
+ * https://127.0.0.1:9200/stream/graphql/
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/
  *
  *
  *
@@ -231,7 +235,11 @@ import {
  * https://127.0.0.1:9200/graphql/stream <br />
  * https://127.0.0.1:9200/graphql/stream/ <br />
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream <br />
- * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/ <br /><br /><br /><br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/ <br />
+ * https://127.0.0.1:9200/stream/graphql <br />
+ * https://127.0.0.1:9200/stream/graphql/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/ <br /><br /><br /><br />
  *
  * @type {string}
  */
@@ -333,7 +341,11 @@ export const myURLPathName: string = `/graphql`;
  * https://127.0.0.1:9200/graphql/stream <br />
  * https://127.0.0.1:9200/graphql/stream/ <br />
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream <br />
- * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/ <br /><br /><br /><br />
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream/ <br />
+ * https://127.0.0.1:9200/stream/graphql <br />
+ * https://127.0.0.1:9200/stream/graphql/ <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/stream/graphql/ <br /><br /><br /><br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
