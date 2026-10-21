@@ -396,21 +396,19 @@ function Condition( request: Request ): boolean{
     (
       IsGetForRequestAndNoWS( request ) &&
       (
-        ( ( ( arg: string[] ): string[] => {
-          const result: string[] = [];
+        (
+          ( ( arg: string[] ): string[] => {
+            const result: string[] = [];
 
-          serversURLPrefix.forEach( ( item001: string ): void => {
-            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-          } );
+            serversURLPrefix.forEach( ( item001: string ): void => {
+              result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+            } );
 
-          return result;
-        } )( [
-          `${ myURLPathName }/schema.json`,
-          `${ myURLPathName }/stream`,
-          `${ myURLPathName }/stream/`,
-          `/stream${ myURLPathName }`,
-          `/stream${ myURLPathName }/`,
-        ] ) ).includes( pathName ) ||
+            return result;
+          } )( [
+            `${ myURLPathName }/schema.json`,
+          ] )
+        ).includes( pathName ) ||
         (
           ( ( ( arg: string[] ): string[] => {
             const result: string[] = [];
@@ -423,6 +421,12 @@ function Condition( request: Request ): boolean{
           } )( [
             `${ myURLPathName }`,
             `${ myURLPathName }/`,
+
+            `${ myURLPathName }/stream`,
+            `${ myURLPathName }/stream/`,
+
+            `/stream${ myURLPathName }`,
+            `/stream${ myURLPathName }/`,
           ] ) ).includes( pathName ) &&
           url.search.trim().startsWith( '?' ) &&
           url.searchParams.has( 'query' )
@@ -444,6 +448,12 @@ function Condition( request: Request ): boolean{
     } )( [
       `${ myURLPathName }`,
       `${ myURLPathName }/`,
+
+      `${ myURLPathName }/stream`,
+      `${ myURLPathName }/stream/`,
+
+      `/stream${ myURLPathName }`,
+      `/stream${ myURLPathName }/`,
     ] ) ).includes( pathName ) )
   );
 }
