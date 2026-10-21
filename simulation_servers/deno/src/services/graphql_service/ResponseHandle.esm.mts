@@ -37,10 +37,10 @@
  * https://127.0.0.1:9200/graphql/schema.json
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/schema.json
  *
- * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
- * https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
- * https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
- * https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001
+ * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
  *
  * 例子：
  * 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：
@@ -49,10 +49,31 @@
  * }
  *
  * query Test002{
- *     serverDate1: serverDate,
+ *     serverDate2: serverDate,
+ * }
+ *
+ * query Test003( $id: String! ){
+ *     hello3: hello,
+ *     serverDate3: serverDate,
+ *
+ *     getMessage3: getMessage(id: $id){
+ *      id,
+ *      author,
+ *      content,
+ *     },
  * }`);
  * 处理完就成了这样：
- * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D
+ * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D
+ *
+ * 如果有“variables”参数，那也要序列化一下：
+ * encodeURI(`{"id": "2024004-素夏"}`);
+ * 处理完就成了这样：
+ * %7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ *
+ * operationName: "Test003"
+ *
+ * 完整的GET请求URL：
+ * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
  *
  * var myHeaders = new Headers();
  * myHeaders.append("Accept", "application/json");
@@ -67,7 +88,7 @@
  *    redirect: 'follow'
  * };
  *
- * fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001", requestOptions)
+ * fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D", requestOptions)
  *    .then(response => response.text())
  *    .then(result => console.log(result))
  *    .catch(error => console.log('error', error));
@@ -92,7 +113,7 @@
  *
  *
  *
- * SSE（服务端使用graphql-sse实现，该工具支持处理由客户端发起的GET请求，graphql-sse有对应的客户端实现）：
+ * SSE（服务端使用graphql-sse实现，该工具支持处理由客户端发起的GET、POST请求，graphql-sse有对应的客户端实现）：
  * https://127.0.0.1:9200/graphql/stream
  * https://127.0.0.1:9200/graphql/stream/
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream
@@ -217,14 +238,16 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  *
  *
  * GET（服务端使用graphql-http实现，但是GET请求不支持“mutation”操作，graphql-http有对应的客户端实现）：<br />
- * https://127.0.0.1:9200/graphql/schema.json <br />
- * https://127.0.0.1:9200/simulation_servers_deno/graphql/schema.json <br /><br />
+ * ```ts
+ * https://127.0.0.1:9200/graphql/schema.json
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/schema.json
  *
- * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br />
- * https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br />
- * https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br />
- * https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001 <br /><br />
- *
+ * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * https://127.0.0.1:9200/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * https://127.0.0.1:9200/simulation_servers_deno/graphql/?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * ```
+ * <br />
  * 例子：<br />
  * 为了避免特殊字符的编码错误，最好是要先使用encodeURI处理一下“GraphQL查询”，如：<br />
  * ```ts
@@ -233,13 +256,44 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  * }
  *
  * query Test002{
- *     serverDate1: serverDate,
+ *     serverDate2: serverDate,
+ * }
+ *
+ * query Test003( $id: String! ){
+ *     hello3: hello,
+ *     serverDate3: serverDate,
+ *
+ *     getMessage3: getMessage(id: $id){
+ *      id,
+ *      author,
+ *      content,
+ *     },
  * }`);
  * ```
+ * <br />
  * 处理完就成了这样：<br />
- * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D <br /><br />
- *
- * ```js
+ * ```ts
+ * query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D
+ * ```
+ * <br />
+ * 如果有“variables”参数，那也要序列化一下：<br />
+ * ```ts
+ * encodeURI(`{"id": "2024004-素夏"}`);
+ * ```
+ * <br />
+ * 处理完就成了这样：<br />
+ * ```ts
+ * %7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * ```
+ * <br /><br />
+ * operationName: "Test003"
+ * <br /><br />
+ * 完整的GET请求URL：<br />
+ * ```ts
+ * https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D
+ * ```
+ * <br />
+ * ```ts
  * var myHeaders = new Headers();
  * myHeaders.append("Accept", "application/json");
  * myHeaders.append("Cache-Control", "no-cache");
@@ -253,7 +307,7 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  *    redirect: 'follow'
  * };
  *
- * fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate1:%20serverDate,%0A%7D&variables={}&operationName=Test001", requestOptions)
+ * fetch("https://127.0.0.1:9200/graphql?query=query%20Test001%7B%0A%20%20%20%20hello1:%20hello,%0A%7D%0A%0Aquery%20Test002%7B%0A%20%20%20%20serverDate2:%20serverDate,%0A%7D%0A%0Aquery%20Test003(%20$id:%20String!%20)%7B%0A%20%20%20%20hello3:%20hello,%0A%20%20%20%20serverDate3:%20serverDate,%0A%0A%20%20%20%20getMessage3:%20getMessage(id:%20$id)%7B%0A%20%20%20%20%20id,%0A%20%20%20%20%20author,%0A%20%20%20%20%20content,%0A%20%20%20%20%7D,%0A%7D&operationName=Test003&variables=%7B%22id%22:%20%222024004-%E7%B4%A0%E5%A4%8F%22%7D", requestOptions)
  *    .then(response => response.text())
  *    .then(result => console.log(result))
  *    .catch(error => console.log('error', error));
@@ -278,7 +332,7 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  *
  *
  *
- * SSE（服务端使用graphql-sse实现，该工具支持处理由客户端发起的GET请求，graphql-sse有对应的客户端实现）：<br />
+ * SSE（服务端使用graphql-sse实现，该工具支持处理由客户端发起的GET、POST请求，graphql-sse有对应的客户端实现）：<br />
  * https://127.0.0.1:9200/graphql/stream <br />
  * https://127.0.0.1:9200/graphql/stream/ <br />
  * https://127.0.0.1:9200/simulation_servers_deno/graphql/stream <br />
