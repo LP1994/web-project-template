@@ -120,7 +120,7 @@ class ResponseError {
   public async resPage404(): Promise<Response>{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/404.ejs` ) ),
       html: string = await HTMLMinifyByRehype( ejs.render( Deno.readTextFileSync( filePath ), {
-        message: `未找到“${ this.#method }”请求方法的“${ this.#pathName + this.#search }”资源。或者该请求未携带必须的URL查询参数、请求头参数，或者是请求体body中未携带必须的数据参数。请自行检查！`,
+        message: `未找到“${ this.#method }”请求方法的“${ this.#pathName + this.#search }”资源。`,
       } ) );
 
     return new Response( html, {

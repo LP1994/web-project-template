@@ -842,6 +842,12 @@ async function Condition( request: Request ): Promise<boolean>{
           return result;
         } )( [
           `${ myURLPathName }/schema.json`,
+
+          `${ myURLPathName }/stream`,
+          `${ myURLPathName }/stream/`,
+
+          `/stream${ myURLPathName }`,
+          `/stream${ myURLPathName }/`,
         ] ) ).includes( pathName ) ||
         ( ( ( ( arg: string[] ): string[] => {
           const result: string[] = [];
@@ -854,63 +860,30 @@ async function Condition( request: Request ): Promise<boolean>{
         } )( [
           `${ myURLPathName }`,
           `${ myURLPathName }/`,
-        ] ) ).includes( pathName ) && url.searchParams.has( 'query' ) ) ||
-        ( ( ( ( arg: string[] ): string[] => {
-          const result: string[] = [];
-
-          serversURLPrefix.forEach( ( item001: string ): void => {
-            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-          } );
-
-          return result;
-        } )( [
-          `${ myURLPathName }/stream`,
-          `${ myURLPathName }/stream/`,
-
-          `/stream${ myURLPathName }`,
-          `/stream${ myURLPathName }/`,
-        ] ) ).includes( pathName ) && ( url.searchParams.has( 'token' ) || request.clone().headers.has( 'x-graphql-event-stream-token' ) ) )
+        ] ) ).includes( pathName ) && url.searchParams.has( 'query' ) )
       )
     ) ||
     (
       [
         'post',
-      ].includes( request.method.toLowerCase() ) &&
-      (
-        ( ( ( arg: string[] ): string[] => {
-          const result: string[] = [];
+      ].includes( request.method.toLowerCase() ) && ( ( ( arg: string[] ): string[] => {
+        const result: string[] = [];
 
-          serversURLPrefix.forEach( ( item001: string ): void => {
-            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-          } );
+        serversURLPrefix.forEach( ( item001: string ): void => {
+          result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+        } );
 
-          return result;
-        } )( [
-          `${ myURLPathName }`,
-          `${ myURLPathName }/`,
-        ] ) ).includes( pathName ) ||
-        ( ( ( ( arg: string[] ): string[] => {
-          const result: string[] = [];
+        return result;
+      } )( [
+        `${ myURLPathName }`,
+        `${ myURLPathName }/`,
 
-          serversURLPrefix.forEach( ( item001: string ): void => {
-            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-          } );
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
 
-          return result;
-        } )( [
-          `${ myURLPathName }/stream`,
-          `${ myURLPathName }/stream/`,
-
-          `/stream${ myURLPathName }`,
-          `/stream${ myURLPathName }/`,
-        ] ) ).includes( pathName ) && ( url.searchParams.has( 'token' ) || request.clone().headers.has( 'x-graphql-event-stream-token' ) ) && ( await ( ( async (): Promise<boolean> => {
-          const data: Record<string, unknown> = ( await request.clone().json() ) ?? {};
-
-          return 'extensions' in data
-                 ? ( 'operationId' in data[ 'extensions' ] )
-                 : false;
-        } )() ) ) )
-      )
+        `/stream${ myURLPathName }`,
+        `/stream${ myURLPathName }/`,
+      ] ) ).includes( pathName )
     ) ||
     (
       [
@@ -948,7 +921,7 @@ async function Condition( request: Request ): Promise<boolean>{
 
         `/stream${ myURLPathName }`,
         `/stream${ myURLPathName }/`,
-      ] ) ).includes( pathName ) && ( url.searchParams.has( 'token' ) || request.clone().headers.has( 'x-graphql-event-stream-token' ) ) && url.searchParams.has( 'operationId' )
+      ] ) ).includes( pathName )
     )
   );
 }
