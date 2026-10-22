@@ -309,6 +309,7 @@ import {
   type T_Response001,
 
   HttpResponseHeadersFun,
+  HTTPStatus,
   serversURLPrefix,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -1064,8 +1065,8 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       } );
 
       return new Response( JSON.stringify( result, null, 2 ), {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...HttpResponseHeadersFun( request ),
           'content-type': `application/json; charset=utf-8`,

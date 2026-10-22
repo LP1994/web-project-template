@@ -8,16 +8,6 @@
  */
 
 /**
- * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
- * 2、安装证书如下：
- * “openssl/HTTPSSL001”文件夹下的3个：
- * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
- * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
- * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
- * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
- */
-
-/**
  * 该文件夹是用于响应“jsonp”（GET请求），如：
  * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
  * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
@@ -25,6 +15,16 @@
  * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
+ */
+
+/**
+ * 1、自建的HTTPS证书，记得要给客户端安装，比如给电脑（除了本机要安装，火狐浏览器也要安装）、手机、平板等安装。
+ * 2、安装证书如下：
+ * “openssl/HTTPSSL001”文件夹下的3个：
+ * 001_Root_CA：HTTPSSL001_Root_CA.crt，安装到“受信任的根证书颁发机构”，手机、平板等非电脑的移动设备，只要安装这个“根CA证书”即可。
+ * 002_Servers_CA：HTTPSSL001_Servers_CA.crt，安装到“受信任的根证书颁发机构”。
+ * 003_Clients_CA：HTTPSSL001_Clients_CA.crt，安装时选择自动识别证书类型，系统会自行将其安装到相应的类型下。
+ * 3、遇到HTTPS协议下载文件时出现无法下载的话，就改用HTTP协议，比如迅雷就会遇到这种情况。
  */
 
 /**
@@ -37,6 +37,7 @@ import {
   type T_Response001,
 
   HttpResponseHeadersFun,
+  HTTPStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
 // @ts-expect-error
@@ -66,7 +67,8 @@ function ResponseHandle( request: Request ): T_Response001{
       const name: string = url.searchParams.get( 'name' ) as string,
         age: string = url.searchParams.get( 'age' ) as string;
 
-      result = `${ callBack }(
+      result = `
+${ callBack }(
   '${ name }',
   ${ age },
   true,
@@ -76,7 +78,8 @@ function ResponseHandle( request: Request ): T_Response001{
         timer: Number( Date.now() ),
       } ) },
   '姓名：${ name }，年龄：${ age }，座右铭：路漫漫其修远兮，吾将上下而求索。',
-);`;
+);
+`;
 
       break;
 
@@ -87,8 +90,8 @@ function ResponseHandle( request: Request ): T_Response001{
   }
 
   return new Response( result, {
-    status: 200,
-    statusText: 'OK',
+    status: HTTPStatus[ 200 ].status,
+    statusText: HTTPStatus[ 200 ].statusText,
     headers: {
       ...HttpResponseHeadersFun( request ),
       'Content-Type': `application/javascript; charset=utf-8`,

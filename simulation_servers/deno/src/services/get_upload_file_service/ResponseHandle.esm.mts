@@ -48,6 +48,7 @@ import {
   uploadDir,
 
   HttpResponseHeadersFun,
+  HTTPStatus,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -99,8 +100,8 @@ function ResponseHandle( request: Request ): T_Response001{
       } );
 
       result = new Response( file.readable, {
-        status: 200,
-        statusText: 'OK',
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...HttpResponseHeadersFun( request ),
           'Content-Type': `${ mime.getType( filePath.href ) }`,
