@@ -9,13 +9,13 @@
 
 /**
  * 用于响应“static”文件夹下的静态文件获取（GET请求），如：
- * 获取“static”文件夹下的“json”文件夹下的“JSON001.json”文件
- * https://127.0.0.1:9200/static/json/JSON001.json
- * https://127.0.0.1:9200/simulation_servers_deno/static/json/JSON001.json
+ * 获取“static”文件夹下的“json”文件夹下的“离骚.json”文件
+ * https://127.0.0.1:9200/static/json/离骚.json
+ * https://127.0.0.1:9200/simulation_servers_deno/static/json/离骚.json
  *
  * 携带上查询参数“download”表示要下载该资源文件：
- * https://127.0.0.1:9200/static/json/JSON001.json?download
- * https://127.0.0.1:9200/simulation_servers_deno/static/json/JSON001.json?download
+ * https://127.0.0.1:9200/static/json/离骚.json?download
+ * https://127.0.0.1:9200/simulation_servers_deno/static/json/离骚.json?download
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
@@ -63,13 +63,13 @@ import ResponseError from 'public/ResponseError.esm.mts';
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
  *
  * 具体请求URL如：<br />
- * 获取“static”文件夹下的“json”文件夹下的“JSON001.json”文件<br />
- * https://127.0.0.1:9200/static/json/JSON001.json <br />
- * https://127.0.0.1:9200/simulation_servers_deno/static/json/JSON001.json <br /><br />
+ * 获取“static”文件夹下的“json”文件夹下的“离骚.json”文件<br />
+ * https://127.0.0.1:9200/static/json/离骚.json <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/static/json/离骚.json <br /><br />
  *
  * 携带上查询参数“download”表示要下载该资源文件：<br />
- * https://127.0.0.1:9200/static/json/JSON001.json?download <br />
- * https://127.0.0.1:9200/simulation_servers_deno/static/json/JSON001.json?download <br />
+ * https://127.0.0.1:9200/static/json/离骚.json?download <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/static/json/离骚.json?download <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
