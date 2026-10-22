@@ -841,6 +841,12 @@ function Condition( request: Request ): boolean{
             return result;
           } )( [
             `${ myURLPathName }/schema.json`,
+
+            `${ myURLPathName }/stream`,
+            `${ myURLPathName }/stream/`,
+
+            `/stream${ myURLPathName }`,
+            `/stream${ myURLPathName }/`,
           ] )
         ).includes( pathName ) ||
         (
@@ -855,12 +861,6 @@ function Condition( request: Request ): boolean{
           } )( [
             `${ myURLPathName }`,
             `${ myURLPathName }/`,
-
-            `${ myURLPathName }/stream`,
-            `${ myURLPathName }/stream/`,
-
-            `/stream${ myURLPathName }`,
-            `/stream${ myURLPathName }/`,
           ] ) ).includes( pathName ) &&
           url.search.trim().startsWith( '?' ) &&
           url.searchParams.has( 'query' )
