@@ -133,6 +133,8 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  *
  * @param {Request} config.request 请求对象，无默认值，必须。
  *
+ * @param {string} config.myURLPathName 符合处理条件的请求URL核心标头。
+ *
  * @param {[ T_HandlerOptions, Partial<T_FetchAPI>?, ]} config.graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。
  * 1、一般来说，第一个参数里面总是会有选项schema。
  * 2、第二个参数，值类型是Partial<I_FetchAPI>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
@@ -176,11 +178,13 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  */
 async function GraphQLServer( {
   request,
+  myURLPathName,
   graphqlHTTPOptions,
   graphqlSSEOptions,
   graphqlWSOptions,
 }: {
   request: Request;
+  myURLPathName: string;
   graphqlHTTPOptions: [ T_HandlerOptions, Partial<T_FetchAPI>?, ];
   graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ];
   graphqlWSOptions: T_ServerOptions;
@@ -451,10 +455,10 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
 
     return arr;
   } )( [
-    '/graphql/stream',
-    '/graphql/stream/',
-    '/stream/graphql',
-    '/stream/graphql/',
+    `${ myURLPathName }/stream`,
+    `${ myURLPathName }/stream/`,
+    `/stream${ myURLPathName }`,
+    `/stream${ myURLPathName }/`,
   ] ) ).includes( pathName ) ){
     const [
       options,
@@ -479,7 +483,7 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
     const url: URL = new URL( request.url ),
       pathName: string = decodeURI( url.pathname );
 
-    if( serversURLPrefix.map( ( item: string ): string => `${ item }/graphql/schema.json` ).includes( pathName ) ){
+    if( serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }/schema.json` ).includes( pathName ) ){
       const result: Record<string, unknown> = await graphql( {
         schema: options.schema,
         source: getIntrospectionQuery( {

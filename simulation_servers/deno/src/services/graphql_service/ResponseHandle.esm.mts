@@ -276,6 +276,10 @@ import {
 } from 'esm_sh/@graphql-tools/schema';
 
 import {
+  myURLPathName,
+} from './Condition.esm.mts';
+
+import {
   type T_Response001,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -582,6 +586,7 @@ const schema: T_GraphQLSchema = mergeSchemas( {
 function ResponseHandle( request: Request ): T_Response001{
   return GraphQLServer( {
     request,
+    myURLPathName,
     graphqlHTTPOptions: [
       {
         schema,
