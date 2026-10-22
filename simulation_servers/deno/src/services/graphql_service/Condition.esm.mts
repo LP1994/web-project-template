@@ -801,94 +801,155 @@ export const myURLPathName: string = `/graphql`;
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {boolean} 一般返回的是一个boolean类型的值，当然也允许返回的值类型为Promise<boolean>。
+ * @returns {Promise<boolean>} 一般返回的是一个boolean类型的值，当然也允许返回的值类型为Promise<boolean>。
  */
-function Condition( request: Request ): boolean{
+async function Condition( request: Request ): Promise<boolean>{
   // url.search，形如：?query={hello1:hello,serverDate1:serverDate,}&variables={}
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
   return (
-    ( IsWSForRequest( request ) && ( ( ( arg: string[] ): string[] => {
-      const result: string[] = [];
+    (
+      IsWSForRequest( request ) && ( ( ( arg: string[] ): string[] => {
+        const result: string[] = [];
 
-      serversURLPrefix.forEach( ( item001: string ): void => {
-        result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-      } );
+        serversURLPrefix.forEach( ( item001: string ): void => {
+          result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+        } );
 
-      return result;
-    } )( [
-      myURLPathName,
-      `${ myURLPathName }/`,
+        return result;
+      } )( [
+        myURLPathName,
+        `${ myURLPathName }/`,
 
-      `${ myURLPathName }/subscriptions`,
-      `${ myURLPathName }/subscriptions/`,
+        `${ myURLPathName }/subscriptions`,
+        `${ myURLPathName }/subscriptions/`,
 
-      `/subscriptions${ myURLPathName }`,
-      `/subscriptions${ myURLPathName }/`,
-    ] ) ).includes( pathName ) ) ||
+        `/subscriptions${ myURLPathName }`,
+        `/subscriptions${ myURLPathName }/`,
+      ] ) ).includes( pathName )
+    ) ||
     (
       IsGetForRequestAndNoWS( request ) &&
       (
-        (
-          ( ( arg: string[] ): string[] => {
-            const result: string[] = [];
+        ( ( ( arg: string[] ): string[] => {
+          const result: string[] = [];
 
-            serversURLPrefix.forEach( ( item001: string ): void => {
-              result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-            } );
+          serversURLPrefix.forEach( ( item001: string ): void => {
+            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+          } );
 
-            return result;
-          } )( [
-            `${ myURLPathName }/schema.json`,
+          return result;
+        } )( [
+          `${ myURLPathName }/schema.json`,
+        ] ) ).includes( pathName ) ||
+        ( ( ( ( arg: string[] ): string[] => {
+          const result: string[] = [];
 
-            `${ myURLPathName }/stream`,
-            `${ myURLPathName }/stream/`,
+          serversURLPrefix.forEach( ( item001: string ): void => {
+            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+          } );
 
-            `/stream${ myURLPathName }`,
-            `/stream${ myURLPathName }/`,
-          ] )
-        ).includes( pathName ) ||
-        (
-          ( ( ( arg: string[] ): string[] => {
-            const result: string[] = [];
+          return result;
+        } )( [
+          `${ myURLPathName }`,
+          `${ myURLPathName }/`,
+        ] ) ).includes( pathName ) && url.searchParams.has( 'query' ) ) ||
+        ( ( ( ( arg: string[] ): string[] => {
+          const result: string[] = [];
 
-            serversURLPrefix.forEach( ( item001: string ): void => {
-              result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-            } );
+          serversURLPrefix.forEach( ( item001: string ): void => {
+            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+          } );
 
-            return result;
-          } )( [
-            `${ myURLPathName }`,
-            `${ myURLPathName }/`,
-          ] ) ).includes( pathName ) &&
-          url.search.trim().startsWith( '?' ) &&
-          url.searchParams.has( 'query' )
-        )
+          return result;
+        } )( [
+          `${ myURLPathName }/stream`,
+          `${ myURLPathName }/stream/`,
+
+          `/stream${ myURLPathName }`,
+          `/stream${ myURLPathName }/`,
+        ] ) ).includes( pathName ) && ( url.searchParams.has( 'token' ) || request.clone().headers.has( 'x-graphql-event-stream-token' ) ) )
       )
     ) ||
-    ( [
-      'put',
-      'delete',
-      'post',
-    ].includes( request.method.toLowerCase() ) && ( ( ( arg: string[] ): string[] => {
-      const result: string[] = [];
+    (
+      [
+        'post',
+      ].includes( request.method.toLowerCase() ) &&
+      (
+        ( ( ( arg: string[] ): string[] => {
+          const result: string[] = [];
 
-      serversURLPrefix.forEach( ( item001: string ): void => {
-        result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
-      } );
+          serversURLPrefix.forEach( ( item001: string ): void => {
+            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+          } );
 
-      return result;
-    } )( [
-      `${ myURLPathName }`,
-      `${ myURLPathName }/`,
+          return result;
+        } )( [
+          `${ myURLPathName }`,
+          `${ myURLPathName }/`,
+        ] ) ).includes( pathName ) ||
+        ( ( ( ( arg: string[] ): string[] => {
+          const result: string[] = [];
 
-      `${ myURLPathName }/stream`,
-      `${ myURLPathName }/stream/`,
+          serversURLPrefix.forEach( ( item001: string ): void => {
+            result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+          } );
 
-      `/stream${ myURLPathName }`,
-      `/stream${ myURLPathName }/`,
-    ] ) ).includes( pathName ) )
+          return result;
+        } )( [
+          `${ myURLPathName }/stream`,
+          `${ myURLPathName }/stream/`,
+
+          `/stream${ myURLPathName }`,
+          `/stream${ myURLPathName }/`,
+        ] ) ).includes( pathName ) && ( url.searchParams.has( 'token' ) || request.clone().headers.has( 'x-graphql-event-stream-token' ) ) && ( await ( ( async (): Promise<boolean> => {
+          const data: Record<string, unknown> = ( await request.clone().json() ) ?? {};
+
+          return 'extensions' in data
+                 ? ( 'operationId' in data[ 'extensions' ] )
+                 : false;
+        } )() ) ) )
+      )
+    ) ||
+    (
+      [
+        'put',
+      ].includes( request.method.toLowerCase() ) && ( ( ( arg: string[] ): string[] => {
+        const result: string[] = [];
+
+        serversURLPrefix.forEach( ( item001: string ): void => {
+          result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+        } );
+
+        return result;
+      } )( [
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
+
+        `/stream${ myURLPathName }`,
+        `/stream${ myURLPathName }/`,
+      ] ) ).includes( pathName )
+    ) ||
+    (
+      [
+        'delete',
+      ].includes( request.method.toLowerCase() ) && ( ( ( arg: string[] ): string[] => {
+        const result: string[] = [];
+
+        serversURLPrefix.forEach( ( item001: string ): void => {
+          result.push( ...arg.map( ( item002: string ): string => `${ item001 }${ item002 }` ) );
+        } );
+
+        return result;
+      } )( [
+        `${ myURLPathName }/stream`,
+        `${ myURLPathName }/stream/`,
+
+        `/stream${ myURLPathName }`,
+        `/stream${ myURLPathName }/`,
+      ] ) ).includes( pathName ) && ( url.searchParams.has( 'token' ) || request.clone().headers.has( 'x-graphql-event-stream-token' ) ) && url.searchParams.has( 'operationId' )
+    )
   );
 }
 
