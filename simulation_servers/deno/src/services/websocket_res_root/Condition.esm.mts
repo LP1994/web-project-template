@@ -44,12 +44,6 @@ import {
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
- * 具体请求URL如：<br />
- * wss://127.0.0.1:9200 <br />
- * wss://127.0.0.1:9200/ <br />
- * wss://127.0.0.1:9200/simulation_servers_deno <br />
- * wss://127.0.0.1:9200/simulation_servers_deno/ <br />
- *
  * @type {string}
  */
 export const myURLPathName: string = `/`;

@@ -26,17 +26,17 @@ import {
 
 type T_RouteHandleConfig = Array<[ string, string ]>;
 
-/**
- * 本文件上的此处“import.meta.dirname”的值形如：G:\WebStormWS\web-project-template\simulation_servers\deno\src\services <br />
- * 还可以有如下写法，可作为常量root的值：<br />
- * join( import.meta.dirname, '..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
- * resolve( import.meta.dirname, '..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
- *
- * @type {string}
- */
-const root: string = `${ import.meta.dirname }`,
-  AllServicesForCondition: Array<string> = [],
-  AllServicesForResponseHandle: Array<string> = [];
+const AllServicesForCondition: Array<string> = [],
+  AllServicesForResponseHandle: Array<string> = [],
+  /**
+   * 本文件上的此处“import.meta.dirname”的值形如：G:\WebStormWS\web-project-template\simulation_servers\deno\src\services <br />
+   * 还可以有如下写法，可作为常量root的值：<br />
+   * join( import.meta.dirname, '..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
+   * resolve( import.meta.dirname, '..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
+   *
+   * @type {string}
+   */
+  root: string = `${ import.meta.dirname }`;
 
 for await (
   const {
@@ -63,16 +63,16 @@ for await (
   } of
   expandGlob( './**/{Condition,ResponseHandle}.esm.{ts,cts,mts}', {
     /**
-     * @type {string}
-     */
-    root,
-    includeDirs: true,
-    /**
      * 可以接受通配符格式的字符串。
      *
      * @type {Array<string>}
      */
     exclude: [],
+    includeDirs: true,
+    /**
+     * @type {string}
+     */
+    root,
   } )
   ){
   if( isFile ){

@@ -44,12 +44,6 @@ import {
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
- * 具体请求URL如：<br />
- * wss://localhost:9200/upload <br />
- * wss://localhost:9200/upload/ <br />
- * wss://localhost:9200/simulation_servers_deno/upload <br />
- * wss://localhost:9200/simulation_servers_deno/upload/ <br />
- *
  * @type {string}
  */
 export const myURLPathName: string = `/upload`;
