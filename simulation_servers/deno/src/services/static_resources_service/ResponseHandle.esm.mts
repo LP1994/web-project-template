@@ -77,12 +77,12 @@ import ResponseError from 'public/ResponseError.esm.mts';
  */
 function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
-    pathName: string = decodeURI( url.pathname ),
     isDownload: boolean = url.searchParams.has( 'download' ),
+    pathName: string = decodeURI( url.pathname ),
     filePath: URL = new URL( `${ staticDir }/${ pathName.slice( ( serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }` ).find( ( item: string ): boolean => pathName.startsWith( item ) ) as string ).length ) }` );
 
-  let result: T_Response001,
-    fileState: Deno.FileInfo;
+  let fileState: Deno.FileInfo,
+    result: T_Response001;
 
   try{
     fileState = Deno.statSync( filePath );
@@ -93,12 +93,8 @@ function ResponseHandle( request: Request ): T_Response001{
       } );
 
       result = new Response( file.readable, {
-        status: HTTPStatus[ 200 ].status,
-        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...HttpResponseHeadersFun( request ),
-          'Content-Type': `${ mime.getType( filePath.href ) }`,
-          'Content-Length': `${ Number( fileState.size ) }`,
           // 该属性用于下载。
           'Accept-Ranges': 'bytes',
           /**
@@ -125,19 +121,23 @@ function ResponseHandle( request: Request ): T_Response001{
               }
             : {}
           ),
+          'Content-Length': `${ Number( fileState.size ) }`,
+          'Content-Type': `${ mime.getType( filePath.href ) }`,
         },
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
       } );
     }
     else if( fileState.isDirectory ){
       result = ResponseError.ResPageError( {
-        title: `Error`,
         message: `当前无法获取该文件夹（${ pathName }）的信息。`,
+        title: `Error`,
       } );
     }
     else{
       result = ResponseError.ResPageError( {
-        title: `Error`,
         message: `该路径（${ pathName }）既不指向有效的文件也不指向有效的文件夹。`,
+        title: `Error`,
       } );
     }
   }
