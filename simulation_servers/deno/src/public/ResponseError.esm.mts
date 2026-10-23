@@ -124,12 +124,12 @@ class ResponseError {
       } ) );
 
     return new Response( html, {
-      status: HTTPStatus[ 404 ].status,
-      statusText: HTTPStatus[ 404 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( this.#request ),
         'content-type': mime.getType( filePath.href ),
       },
+      status: HTTPStatus[ 404 ].status,
+      statusText: HTTPStatus[ 404 ].statusText,
     } );
   }
 
@@ -162,12 +162,12 @@ class ResponseError {
       } ) );
 
     return new Response( html, {
-      status: HTTPStatus[ 500 ].status,
-      statusText: HTTPStatus[ 500 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( this.#Request ),
         'content-type': mime.getType( filePath.href ),
       },
+      status: HTTPStatus[ 500 ].status,
+      statusText: HTTPStatus[ 500 ].statusText,
     } );
   }
 

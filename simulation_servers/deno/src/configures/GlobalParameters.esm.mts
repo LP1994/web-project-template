@@ -36,13 +36,13 @@ const serversURLPrefix: string[] = [
 
 // 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface（命名以“I_”开头，如：interface I_MyString = string;） Start
 
-export type T_Response001 = Response | Promise<Response>;
+export type T_FilePath001 = string | URL;
 
 export type T_Fun001 = ( request: Request ) => T_Response001;
 
 export type T_Fun002 = ( request: Request ) => Promise<T_Response001>;
 
-export type T_FilePath001 = string | URL;
+export type T_Response001 = Response | Promise<Response>;
 
 export type T_Result001 = boolean | T_Fun001;
 

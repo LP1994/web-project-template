@@ -91,11 +91,11 @@ websocket请求“${ pathName }”被多个“路由逻辑”命中了！！！
   }
   else{
     result = new Response( null, {
-      status: HTTPStatus[ 404 ].status,
-      statusText: HTTPStatus[ 404 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
       },
+      status: HTTPStatus[ 404 ].status,
+      statusText: HTTPStatus[ 404 ].statusText,
     } );
   }
 

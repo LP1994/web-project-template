@@ -102,12 +102,12 @@ async function Routers( request: Request ): Promise<Response>{
       } ) );
 
     result = new Response( html, {
-      status: HTTPStatus[ 405 ].status,
-      statusText: HTTPStatus[ 405 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
         'content-type': mime.getType( filePath.href ),
       },
+      status: HTTPStatus[ 405 ].status,
+      statusText: HTTPStatus[ 405 ].statusText,
     } );
   }
 

@@ -81,9 +81,9 @@ Options请求“${ pathName }”被多个“路由逻辑”命中了！！！
   // 默认允许所有的options请求通过，因为目前没设置其他处理，后面可以根据需要编写对应响应不成功的逻辑。
   else{
     result = new Response( null, {
+      headers: HttpResponseHeadersFun( request ),
       status: HTTPStatus[ 200 ].status,
       statusText: HTTPStatus[ 200 ].statusText,
-      headers: HttpResponseHeadersFun( request ),
     } );
   }
 

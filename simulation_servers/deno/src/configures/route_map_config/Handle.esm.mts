@@ -94,8 +94,8 @@ function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_Route
       ),
       arr002: Array<[ T_Fun002, T_Fun001 ]> = await Array.fromAsync( arr001 );
 
-    const myMap: T_Map001 = new Map( arr002 ),
-      fun001: Record<number, T_Fun002> = {};
+    const fun001: Record<number, T_Fun002> = {},
+      myMap: T_Map001 = new Map( arr002 );
 
     let index: number = 0;
 
