@@ -72,11 +72,13 @@ ${ callBack }(
   '${ name }',
   ${ age },
   true,
-  ${ JSON.stringify( {
-        name: String( name ),
-        age: Number( age ),
-        timer: Number( Date.now() ),
-      } ) },
+  ${
+        JSON.stringify( {
+          age: Number( age ),
+          name: String( name ),
+          timer: Number( Date.now() ),
+        } )
+      },
   '姓名：${ name }，年龄：${ age }，座右铭：路漫漫其修远兮，吾将上下而求索。',
 );
 `;
@@ -90,12 +92,12 @@ ${ callBack }(
   }
 
   return new Response( result, {
-    status: HTTPStatus[ 200 ].status,
-    statusText: HTTPStatus[ 200 ].statusText,
     headers: {
       ...HttpResponseHeadersFun( request ),
       'Content-Type': `application/javascript; charset=utf-8`,
     },
+    status: HTTPStatus[ 200 ].status,
+    statusText: HTTPStatus[ 200 ].statusText,
   } );
 }
 

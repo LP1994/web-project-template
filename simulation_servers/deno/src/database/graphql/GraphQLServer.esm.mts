@@ -293,12 +293,12 @@ import {
   type Server as T_Server,
   type ServerOptions as T_ServerOptions,
 
-  // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
-  GRAPHQL_TRANSPORT_WS_PROTOCOL,
+  CloseCode,
+
   //已经废弃的子协议！不要再用了！DEPRECATED_GRAPHQL_WS_PROTOCOL的值为：graphql-ws
   DEPRECATED_GRAPHQL_WS_PROTOCOL,
-
-  CloseCode,
+  // 推荐用的子协议！GRAPHQL_TRANSPORT_WS_PROTOCOL的值为：graphql-transport-ws
+  GRAPHQL_TRANSPORT_WS_PROTOCOL,
 
   makeServer as makeServerByWS,
   MessageType,
@@ -661,10 +661,6 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  *
  * @param {object} config 配置对象。
  *
- * @param {Request} config.request 请求对象，无默认值，必须。
- *
- * @param {string} config.myURLPathName 符合处理条件的请求URL核心标头。
- *
  * @param {[ T_HandlerOptions, Partial<T_FetchAPI>?, ]} config.graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。
  * 1、一般来说，第一个参数里面总是会有选项schema。
  * 2、第二个参数，值类型是Partial<I_FetchAPI>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
@@ -704,30 +700,41 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  * 2、详细参数见：
  * node_modules/graphql-ws/server.d.ts:402
  *
+ * @param {string} config.myURLPathName 符合处理条件的请求URL核心标头。
+ *
+ * @param {Request} config.request 请求对象，无默认值，必须。
+ *
  * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
  */
 async function GraphQLServer( {
-  request,
-  myURLPathName,
   graphqlHTTPOptions,
   graphqlSSEOptions,
   graphqlWSOptions,
+  myURLPathName,
+  request,
 }: {
-  request: Request;
-  myURLPathName: string;
   graphqlHTTPOptions: [ T_HandlerOptions, Partial<T_FetchAPI>?, ];
   graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ];
   graphqlWSOptions: T_ServerOptions;
+  myURLPathName: string;
+  request: Request;
 } ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
   if( IsWSForRequest( request ) ){
     const {
+      response,
       // socket.protocol为空字符！可能是Deno的BUG！所以只能重写：graphql-ws/use/deno里的makeHandler函数！
       socket,
-      response,
     }: Deno.WebSocketUpgrade = Deno.upgradeWebSocket( request, {
+      /**
+       * 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
+       * 2、默认值为120秒。设置为0以禁用超时。<br />
+       *
+       * @type {number}
+       */
+      idleTimeout: 0,
       /**
        * 1、将客户端Web套接字上的“protocol”属性设置为此处提供的值，该值应该是请求Web套接字时在协议参数中指定的字符串之一。<br />
        * 2、这旨在让客户端和服务器指定用于相互通信的子协议。<br />
@@ -743,13 +750,6 @@ async function GraphQLServer( {
        * @type {string}
        */
       protocol: GRAPHQL_TRANSPORT_WS_PROTOCOL,
-      /**
-       * 1、如果客户端在指定的超时时间内没有用pong响应此帧，则连接被视为不健康并关闭。将发出关闭和错误事件。<br />
-       * 2、默认值为120秒。设置为0以禁用超时。<br />
-       *
-       * @type {number}
-       */
-      idleTimeout: 0,
     } );
 
     {
@@ -846,9 +846,10 @@ close code: ${ code }, reason: ${ reason }.
         // (code?: number, reason?: string) => Promise<void>
         closed = server.opened(
           {
+            close: ( code: number, reason: string ): void => socket.close( code, reason ),
             protocol: GRAPHQL_TRANSPORT_WS_PROTOCOL,
             send: ( data: string | ArrayBufferLike | Blob | ArrayBufferView ): void => socket.send( data ),
-            close: ( code: number, reason: string ): void => socket.close( code, reason ),
+
             onMessage: ( cb: ( data: unknown ) => Promise<any> ): void => {
               socket.onmessage = async ( event: MessageEvent ): Promise<void> => {
                 try{
@@ -1065,12 +1066,12 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       } );
 
       return new Response( JSON.stringify( result, null, 2 ), {
-        status: HTTPStatus[ 200 ].status,
-        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...HttpResponseHeadersFun( request ),
           'content-type': `application/json; charset=utf-8`,
         },
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
       } );
     }
 

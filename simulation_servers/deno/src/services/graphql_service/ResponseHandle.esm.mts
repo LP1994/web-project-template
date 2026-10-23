@@ -288,6 +288,8 @@ import {
   mergeSchemas,
 } from 'esm_sh/@graphql-tools/schema';
 
+import AllGraphQL from './AllGraphQL.esm.mts';
+
 import {
   myURLPathName,
 } from './Condition.esm.mts';
@@ -300,37 +302,35 @@ import {
   GraphQLServer,
 } from 'graphql/GraphQLServer.esm.mts';
 
-import AllGraphQL from './AllGraphQL.esm.mts';
-
 import {
   type T_Resolvers,
 } from 'GSD2TSTD';
 
 type T_DefsAndResolvers = {
-  typeDefs: T_DocumentNode;
   resolvers: T_Resolvers;
+  typeDefs: T_DocumentNode;
 };
 
-const typeDefsArray: Array<T_DocumentNode> = [],
-  resolversArray: Array<T_Resolvers> = [];
+const resolversArray: Array<T_Resolvers> = [],
+  typeDefsArray: Array<T_DocumentNode> = [];
 
 AllGraphQL.forEach( (
   {
-    typeDefs,
     resolvers,
+    typeDefs,
   }: T_DefsAndResolvers,
   // @ts-expect-error
   index: number,
   // @ts-expect-error
   array: Array<T_DefsAndResolvers>,
 ): void => {
-  typeDefsArray.push( typeDefs );
   resolversArray.push( resolvers );
+  typeDefsArray.push( typeDefs );
 } );
 
 const schema: T_GraphQLSchema = mergeSchemas( {
-  typeDefs: typeDefsArray,
   resolvers: resolversArray,
+  typeDefs: typeDefsArray,
 } );
 
 /**
@@ -647,8 +647,6 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  */
 function ResponseHandle( request: Request ): T_Response001{
   return GraphQLServer( {
-    request,
-    myURLPathName,
     graphqlHTTPOptions: [
       {
         schema,
@@ -664,6 +662,8 @@ function ResponseHandle( request: Request ): T_Response001{
       // 单位是毫秒，默认值是3000毫秒。
       connectionInitWaitTimeout: 1 * 60 * 1000,
     },
+    myURLPathName,
+    request,
   } );
 }
 

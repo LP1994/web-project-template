@@ -38,20 +38,20 @@ import {
 } from 'GSD2TSTD';
 
 type T_DefsAndResolvers = {
-  resolvers: T_Resolvers;
   typeDefs: T_DocumentNode;
+  resolvers: T_Resolvers;
 };
 
-/**
- * 本文件上的此处“import.meta.dirname”的值形如：G:\WebStormWS\web-project-template\simulation_servers\deno\src\services\graphql_service <br />
- * 还可以有如下写法，可作为常量root的值：<br />
- * join( import.meta.dirname, '../..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
- * resolve( import.meta.dirname, '../../' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
- *
- * @type {string}
- */
-const root: string = `${ import.meta.dirname }`,
-  moduleListForPromise: Array<Promise<T_DefsAndResolvers>> = [];
+const moduleListForPromise: Array<Promise<T_DefsAndResolvers>> = [],
+  /**
+   * 本文件上的此处“import.meta.dirname”的值形如：G:\WebStormWS\web-project-template\simulation_servers\deno\src\services\graphql_service <br />
+   * 还可以有如下写法，可作为常量root的值：<br />
+   * join( import.meta.dirname, '../..' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
+   * resolve( import.meta.dirname, '../../' ) ---> G:\WebStormWS\web-project-template\simulation_servers\deno\src <br />
+   *
+   * @type {string}
+   */
+  root: string = `${ import.meta.dirname }`;
 
 for await (
   const {
@@ -60,16 +60,16 @@ for await (
   } of
   expandGlob( './**/*.resolve.*.{ts,cts,mts}', {
     /**
-     * @type {string}
-     */
-    root,
-    includeDirs: true,
-    /**
      * 可以接受通配符格式的字符串。
      *
      * @type {Array<string>}
      */
     exclude: [],
+    includeDirs: true,
+    /**
+     * @type {string}
+     */
+    root,
   } )
   ){
   if( isFile ){

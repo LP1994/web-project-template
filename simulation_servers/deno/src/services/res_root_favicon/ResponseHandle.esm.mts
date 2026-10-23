@@ -116,12 +116,12 @@ function ResponseHandle( request: Request ): T_Response001{
 
   if( isHit ){
     return new Response( Deno.readFileSync( filePath ), {
-      status: HTTPStatus[ 200 ].status,
-      statusText: HTTPStatus[ 200 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
         'content-type': mime.getType( filePath.href ),
       },
+      status: HTTPStatus[ 200 ].status,
+      statusText: HTTPStatus[ 200 ].statusText,
     } );
   }
   else{

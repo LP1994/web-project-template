@@ -44,12 +44,6 @@ import {
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
- * 具体请求URL如：<br />
- * https://127.0.0.1:9200/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
- * https://127.0.0.1:9200/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
- * https://127.0.0.1:9200/simulation_servers_deno/jsonp?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
- * https://127.0.0.1:9200/simulation_servers_deno/jsonp/?callBack=JSONPCallBack&name=林沐风&age=12#personal_information <br />
- *
  * @type {string}
  */
 export const myURLPathName: string = `/jsonp`;

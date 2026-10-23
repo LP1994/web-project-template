@@ -21,13 +21,13 @@
  * 用于响应“upload”文件夹下的静态文件获取（GET请求）。
  *
  * 具体请求URL如：
- * 获取“upload”文件夹下的“json”文件夹下的“JSON001.json”文件
- * https://localhost:9200/upload/json/JSON001.json
- * https://localhost:9200/simulation_servers_deno/upload/json/JSON001.json
+ * 获取“upload”文件夹下的“json”文件夹下的“该文件夹说明.txt”文件
+ * https://localhost:9200/upload/json/该文件夹说明.txt
+ * https://localhost:9200/simulation_servers_deno/upload/json/该文件夹说明.txt
  *
  * 携带上查询参数“download”表示要下载该资源文件：
- * https://127.0.0.1:9200/upload/json/JSON001.json?download
- * https://127.0.0.1:9200/simulation_servers_deno/upload/json/JSON001.json?download
+ * https://127.0.0.1:9200/upload/json/该文件夹说明.txt?download
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/json/该文件夹说明.txt?download
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByGetForRouteHandle”中的配置。
  */
@@ -43,12 +43,16 @@ import {
 } from 'deno_std_path';
 
 import {
-  type T_Response001,
+  myURLPathName,
+} from './Condition.esm.mts';
 
-  uploadDir,
+import {
+  type T_Response001,
 
   HttpResponseHeadersFun,
   HTTPStatus,
+  serversURLPrefix,
+  uploadDir,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -57,21 +61,17 @@ import {
 
 import ResponseError from 'public/ResponseError.esm.mts';
 
-import {
-  myURLPathName,
-} from './Condition.esm.mts';
-
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
  *
  * 具体请求URL如：<br />
- * 获取“upload”文件夹下的“json”文件夹下的“JSON001.json”文件<br />
- * https://localhost:9200/upload/json/JSON001.json <br />
- * https://localhost:9200/simulation_servers_deno/upload/json/JSON001.json <br /><br />
+ * 获取“upload”文件夹下的“json”文件夹下的“该文件夹说明.txt”文件<br />
+ * https://localhost:9200/upload/json/该文件夹说明.txt <br />
+ * https://localhost:9200/simulation_servers_deno/upload/json/该文件夹说明.txt <br /><br />
  *
  * 携带上查询参数“download”表示要下载该资源文件：<br />
- * https://127.0.0.1:9200/upload/json/JSON001.json?download <br />
- * https://127.0.0.1:9200/simulation_servers_deno/upload/json/JSON001.json?download <br />
+ * https://127.0.0.1:9200/upload/json/该文件夹说明.txt?download <br />
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/json/该文件夹说明.txt?download <br />
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
@@ -80,16 +80,11 @@ import {
 function ResponseHandle( request: Request ): T_Response001{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname ),
-    isDownload: boolean = url.searchParams.has( 'download' ),
-    filePath: URL = new URL( `${ uploadDir }/${ pathName.slice(
-      pathName.startsWith( myURLPathName )
-      ? myURLPathName.length
-      : `/simulation_servers_deno${ myURLPathName }`.length
-    ) }` );
+    filePath: URL = new URL( `${ uploadDir }/${ pathName.slice( ( serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }` ).find( ( item: string ): boolean => pathName.startsWith( item ) ) as string ).length ) }` ),
+    isDownload: boolean = url.searchParams.has( 'download' );
 
-  let result: T_Response001;
-
-  let fileState: Deno.FileInfo;
+  let fileState: Deno.FileInfo,
+    result: T_Response001;
 
   try{
     fileState = Deno.statSync( filePath );
@@ -100,12 +95,8 @@ function ResponseHandle( request: Request ): T_Response001{
       } );
 
       result = new Response( file.readable, {
-        status: HTTPStatus[ 200 ].status,
-        statusText: HTTPStatus[ 200 ].statusText,
         headers: {
           ...HttpResponseHeadersFun( request ),
-          'Content-Type': `${ mime.getType( filePath.href ) }`,
-          'Content-Length': `${ Number( fileState.size ) }`,
           // 该属性用于下载。
           'Accept-Ranges': 'bytes',
           /**
@@ -132,19 +123,23 @@ function ResponseHandle( request: Request ): T_Response001{
               }
             : {}
           ),
+          'Content-Length': `${ Number( fileState.size ) }`,
+          'Content-Type': `${ mime.getType( filePath.href ) }`,
         },
+        status: HTTPStatus[ 200 ].status,
+        statusText: HTTPStatus[ 200 ].statusText,
       } );
     }
     else if( fileState.isDirectory ){
       result = ResponseError.ResPageError( {
-        title: `Error`,
         message: `当前无法获取该文件夹（${ pathName }）的信息。`,
+        title: `Error`,
       } );
     }
     else{
       result = ResponseError.ResPageError( {
-        title: `Error`,
         message: `该路径（${ pathName }）既不指向有效的文件也不指向有效的文件夹。`,
+        title: `Error`,
       } );
     }
   }

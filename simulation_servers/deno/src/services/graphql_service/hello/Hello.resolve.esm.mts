@@ -14,12 +14,12 @@ import {
 } from 'esm_sh_graphql';
 
 import {
-  GraphqlParseByFilePath,
-} from 'public/PublicTools.esm.mts';
-
-import {
   type T_Resolvers,
 } from 'GSD2TSTD';
+
+import {
+  GraphqlParseByFilePath,
+} from 'public/PublicTools.esm.mts';
 
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./Hello.type.graphql` ) ) );
 
@@ -43,6 +43,6 @@ const resolvers: T_Resolvers = {
 } as T_Resolvers;
 
 export {
-  typeDefs,
   resolvers,
+  typeDefs,
 };

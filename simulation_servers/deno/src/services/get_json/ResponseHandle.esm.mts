@@ -92,28 +92,28 @@ async function ResponseHandle( request: Request ): T_Response001{
     } ) ).toArray();
 
     return new Response( JSON.stringify( {
-      db: 'local',
       collection: 'startup_log',
+      db: 'local',
       documents: startup_log,
     } ), {
-      status: HTTPStatus[ 200 ].status,
-      statusText: HTTPStatus[ 200 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
         'content-type': `application/json; charset=utf-8`,
       },
+      status: HTTPStatus[ 200 ].status,
+      statusText: HTTPStatus[ 200 ].statusText,
     } );
   }
   catch( e: unknown ){
     return new Response( JSON.stringify( {
       error: ( e as Error ).message,
     } ), {
-      status: HTTPStatus[ 500 ].status,
-      statusText: HTTPStatus[ 500 ].statusText,
       headers: {
         ...HttpResponseHeadersFun( request ),
         'content-type': `application/json; charset=utf-8`,
       },
+      status: HTTPStatus[ 500 ].status,
+      statusText: HTTPStatus[ 500 ].statusText,
     } );
   }
   finally{

@@ -63,12 +63,12 @@ async function ResponseHandle( request: Request ): T_Response001{
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
 
   return new Response( await HTMLMinifyByRehype( Deno.readTextFileSync( filePath ) ), {
-    status: HTTPStatus[ 200 ].status,
-    statusText: HTTPStatus[ 200 ].statusText,
     headers: {
       ...HttpResponseHeadersFun( request ),
       'content-type': `${ mime.getType( filePath.href ) }; charset=utf-8`,
     },
+    status: HTTPStatus[ 200 ].status,
+    statusText: HTTPStatus[ 200 ].statusText,
   } );
 }
 

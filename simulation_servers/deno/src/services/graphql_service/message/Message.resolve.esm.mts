@@ -14,18 +14,18 @@ import {
 } from 'esm_sh_graphql';
 
 import {
-  GraphqlParseByFilePath,
-} from 'public/PublicTools.esm.mts';
-
-import {
-  type Scalars as T_Scalars,
-  type T_MessageInput,
   type T_Message,
-  type T_QueryGetMessageArgs,
-  type T_Resolvers,
+  type T_MessageInput,
   type T_MutationCreateMessageArgs,
   type T_MutationUpdateMessageArgs,
+  type T_QueryGetMessageArgs,
+  type T_Resolvers,
+  type Scalars as T_Scalars,
 } from 'GSD2TSTD';
+
+import {
+  GraphqlParseByFilePath,
+} from 'public/PublicTools.esm.mts';
 
 const kv: Deno.Kv = await Deno.openKv();
 
@@ -63,17 +63,19 @@ await kv.set( [
 class Message
   implements T_Message {
 
-  public id: T_Scalars['String']['output'];
   public author: T_Scalars['String']['output'];
+
   public content: T_Scalars['String']['output'];
 
+  public id: T_Scalars['String']['output'];
+
   public constructor( id: T_Scalars['String']['input'], {
-    content,
     author,
+    content,
   }: T_MessageInput ){
-    this.id = id;
     this.author = author;
     this.content = content;
+    this.id = id;
   }
 
 }
@@ -162,6 +164,6 @@ const resolvers: T_Resolvers = {
 } as T_Resolvers;
 
 export {
-  typeDefs,
   resolvers,
+  typeDefs,
 };

@@ -42,14 +42,6 @@ import {
 /**
  * 符合处理条件的请求URL核心标头。<br /><br />
  *
- * 具体请求URL如：<br />
- * https://127.0.0.1:9200/favicon.ico <br />
- * https://127.0.0.1:9200/favicon.png <br />
- * https://127.0.0.1:9200/apple-touch-icon.png <br />
- * https://127.0.0.1:9200/apple-touch-icon-precomposed.png <br />
- * https://127.0.0.1:9200/apple-touch-icon-120x120.png <br />
- * https://127.0.0.1:9200/apple-touch-icon-120x120-precomposed.png <br />
- *
  * @type {string}
  */
 export const myURLPathName: string = `/`;
