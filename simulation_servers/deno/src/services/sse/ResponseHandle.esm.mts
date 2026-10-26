@@ -155,18 +155,18 @@ function ResponseHandle( request: Request ): T_Response001{
      *       }
      * ```
      *
-     * @returns {Promise<any>}
+     * @returns {any}
      */
-    async start( controller: ReadableByteStreamController ): Promise<any>{
+    start( controller: ReadableByteStreamController ): any{
       BodyCancel.isBodyCancel = false;
 
-      await WatchingUpload( {
+      WatchingUpload( {
         BodyCancel,
         controller,
         request,
       } );
 
-      await logWriteStream.write( `
+      logWriteStream.write( `
 SSE连接：${ request.url }<--------->Start
 服务端跟客户端的SSE连接建立并开始了。
 SSE连接：${ request.url }<--------->End
