@@ -155,22 +155,22 @@ function ResponseHandle( request: Request ): T_Response001{
      *       }
      * ```
      *
-     * @returns {any}
+     * @returns {Promise<any>}
      */
-    start( controller: ReadableByteStreamController ): any{
-      logWriteStream.write( `
-SSE连接：${ request.url }<--------->Start
-服务端跟客户端的SSE连接建立并开始了。
-SSE连接：${ request.url }<--------->End
-` );
-
+    async start( controller: ReadableByteStreamController ): Promise<any>{
       BodyCancel.isBodyCancel = false;
 
-      WatchingUpload( {
+      await WatchingUpload( {
         BodyCancel,
         controller,
         request,
       } );
+
+      await logWriteStream.write( `
+SSE连接：${ request.url }<--------->Start
+服务端跟客户端的SSE连接建立并开始了。
+SSE连接：${ request.url }<--------->End
+` );
     },
 
     /**
@@ -197,14 +197,14 @@ SSE连接：${ request.url }<--------->End
      *
      * @returns {void | PromiseLike<void>}
      */
-    cancel( reason?: any ): void | PromiseLike<void>{
-      logWriteStream.write( `
+    async cancel( reason?: any ): void | PromiseLike<void>{
+      BodyCancel.isBodyCancel = true;
+
+      await logWriteStream.write( `
 SSE连接：${ request.url }<--------->Start
 服务端跟客户端的SSE连接被“取消”了！原因：${ reason as string }。
 SSE连接：${ request.url }<--------->End
 ` );
-
-      BodyCancel.isBodyCancel = true;
     },
   } );
 
