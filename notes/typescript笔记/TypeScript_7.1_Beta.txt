@@ -1,0 +1,75 @@
+ts 7.1 beta
+
+
+
+type 属性已成为运行时自定义此行为的事实标准。ECMAScript（JavaScript）中有一项提案，允许代码指定类型：“text”，该类型会将导入的内容作为字符串返回。
+import readme from "../README.md" with { type: "text" };
+
+
+
+此外，还有一项关于类型“bytes”的提案，旨在使其返回一个包含原始字节的 Uint8Array。
+import { pngToPixels, boxBlur } from "./photoUtils.js";
+
+import photo from "./myPhoto.png" with { type: "bytes" };
+const blurryPhoto = boxBlur(pngToPixels(photo));
+
+
+
+几年来，浏览器也一直支持将 CSS 文件作为 CSSStyleSheets 导入，其类型为“css”。
+import someTheme from "./themes/someCoolTheme.css" with { type: "css" };
+
+document.adoptedStyleSheets.push(someTheme);
+
+
+
+为了支持导入这些文件，开发者可以在 TypeScript 中使用通配符模式（例如 *.css）进行全局模块声明。
+// You can write this in a global `.d.ts` file with no import statements.
+
+declare module "*.css" {
+    const content: CSSStyleSheet;
+    export default content;
+}
+
+declare module "*.txt" {
+    const content: string;
+    export default content;
+}
+
+declare module "*.md" {
+    const content: string;
+    export default content;
+}
+
+declare module "*.bin" {
+    const content: Uint8Array;
+    export default content;
+}
+
+
+
+但这仍然是一个值得解决的问题。另一个问题是，这样做会变得重复。使用导入属性时，核心问题在于运行时关注的是属性，而不是文件扩展名。如果 .txt 和 .md 文件都要使用 type: "text"，我们就不应该为这两种文件都重新声明一个模式。
+
+但一个主要问题在于，不同运行时环境可能支持完全不同的导入属性，并且根据这些属性的存在与否，其行为也可能有所不同。例如，打包工具在导入 .css 文件时，可能会默认使用一种名为 CSS Modules 的构建时特性，但如果在导入语句中指定浏览器支持的 type: "css"，就会覆盖此行为，并确保 .css 文件被作为 CSSStyleSheet 对象导入。
+
+正因如此，TypeScript 7.1 引入了对环境模块声明中导入属性的支持。现在，您可以在 TypeScript 项目中进行如下声明：若尝试导入缺少所需导入属性的文件，系统将报错；同时，系统会根据导入属性获取正确的类型。
+
+declare module "*" with { type: "css" } {
+    const content: CSSStyleSheet;
+    export default content;
+}
+
+declare module "*" with { type: "text" } {
+    const content: string;
+    export default content;
+}
+
+declare module "*" with { type: "bytes" } {
+    const content: Uint8Array;
+    export default content;
+}
+
+
+
+请注意，与这些声明匹配的导入不会针对磁盘上的文件进行验证。与当前导入与环境模块声明匹配时的行为一致，查找失败的情况将在运行时或打包工具的构建过程中被报告。
+
+另请注意，这些声明不会作为 TypeScript 内置库的一部分发布。我们建议库在发布的包中不要包含这些声明，最终用户如有需要，需在自己的项目中自行声明。这将为最终用户提供配置全局作用域的灵活性（例如 lib.dom.d.ts 与 @types/node 之间的选择），并可避免未来与内置声明发生冲突。

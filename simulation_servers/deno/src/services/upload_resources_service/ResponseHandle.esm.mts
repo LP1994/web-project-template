@@ -12,17 +12,20 @@
  * 用浏览器测，就没出现“postman”的上述问题。
  *
  * 本文件上传功能，提供了5种类型的上传方式，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB（该阈值可由下面的常量maxFileSize控制调节），详细使用说明见：
- * UploadByBigFile.esm.mts（单个大文件上传）、
- * UploadByBigFileForPart.esm.mts（单个大文件的分块上传）、
- * UploadByBinary.esm.mts（单个二进制文件流上传）、
- * UploadByMultiple.esm.mts（多文件批量上传）、
- * UploadBySingle.esm.mts（单文件上传）
+ * UploadByBigFile.esm.mts（单个大文件上传）
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile
  *
- * 用于响应HTTP服务的上传操作（支持POST请求、PUT请求），支持的请求URL有：
- * https://127.0.0.1:9200/upload
- * https://127.0.0.1:9200/upload/
- * https://127.0.0.1:9200/simulation_servers_deno/upload
- * https://127.0.0.1:9200/simulation_servers_deno/upload/
+ * UploadByBigFileForPart.esm.mts（单个大文件的分块上传）
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile&type=part
+ *
+ * UploadByBinary.esm.mts（单个二进制文件流上传）
+ * https://127.0.0.1:9200/upload?uploadType=binary
+ *
+ * UploadByMultiple.esm.mts（多文件批量上传）
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple
+ *
+ * UploadBySingle.esm.mts（单文件上传）
+ * https://127.0.0.1:9200/upload/?uploadType=single
  *
  * 更多的对应关系见“src/configures/route_map_config/RouteMapConfig.esm.mts”中的变量“methodByPostForRouteHandle”、“methodByPutForRouteHandle”中的配置。
  */
@@ -272,11 +275,21 @@ async function ValidateReqHeadSRI( request: Request ): Promise<T_QueryOneResult>
 /**
  * 当满足“Condition.esm.mts”中的条件时就会被执行以响应请求的处理函数。<br /><br />
  *
- * 具体请求URL如：<br />
- * https://127.0.0.1:9200/upload <br />
- * https://127.0.0.1:9200/upload/ <br />
- * https://127.0.0.1:9200/simulation_servers_deno/upload <br />
- * https://127.0.0.1:9200/simulation_servers_deno/upload/ <br />
+ * 本文件上传功能，提供了5种类型的上传方式，除大文件上传没有文件大小的限制外，其他的文件上传方式都会限制上传的文件不能大于1GB（该阈值可由下面的常量maxFileSize控制调节），详细使用说明见：<br />
+ * UploadByBigFile.esm.mts（单个大文件上传）<br />
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile
+ * <br /><br />
+ * UploadByBigFileForPart.esm.mts（单个大文件的分块上传）<br />
+ * https://127.0.0.1:9200/simulation_servers_deno/upload/?uploadType=bigFile&type=part
+ * <br /><br />
+ * UploadByBinary.esm.mts（单个二进制文件流上传）<br />
+ * https://127.0.0.1:9200/upload?uploadType=binary
+ * <br /><br />
+ * UploadByMultiple.esm.mts（多文件批量上传）<br />
+ * https://127.0.0.1:9200/simulation_servers_deno/upload?uploadType=multiple
+ * <br /><br />
+ * UploadBySingle.esm.mts（单文件上传）<br />
+ * https://127.0.0.1:9200/upload/?uploadType=single
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *

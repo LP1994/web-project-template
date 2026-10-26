@@ -1,0 +1,5 @@
+用于提供SSE服务，如：
+https://127.0.0.1:9200/sse
+https://127.0.0.1:9200/sse/
+https://127.0.0.1:9200/simulation_servers_deno/sse
+https://127.0.0.1:9200/simulation_servers_deno/sse/
