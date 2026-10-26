@@ -52,12 +52,32 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
  * @param {ReadableByteStreamController} param0.controller controller.close() 是生产者（数据源）主动、优雅地结束流。调用后会导致跟客户端的连接中断！<br />
  * ```ts
  * // 将数据推送给客户端。
- * controller.enqueue( new TextEncoder().encode( `data: ${ JSON.stringify( {
- *          data: {
- *          timer: new Date().toISOString(),
- *          type: 'data',
- *          },
- *          } ) }\n\n` ) );
+ *       try{
+ *         // event: { kind: "create", paths: [ "/home/alice/deno/foo.txt" ] }
+ *         controller.enqueue( new TextEncoder().encode( `data: ${ JSON.stringify( {
+ *           data: event,
+ *         } ) }\n\n` ) );
+ *       }
+ *       catch( e: unknown ){
+ *         if( e instanceof TypeError && ( e as Error ).message.includes( 'stream controller cannot' ) ){
+ *           // 流已不可关闭，属于预期内的状态冲突，安全忽略
+ *           errorWriteStream.write( `
+ * SSE连接：${ request.url }<--------->Start
+ * 在调用“controller.enqueue”时，报出"TypeError"错误：${ ( e as Error ).message }
+ * SSE连接：${ request.url }<--------->End
+ * ` );
+ *         }
+ *         else{
+ *           errorWriteStream.write( `
+ * SSE连接：${ request.url }<--------->Start
+ * 在调用“controller.enqueue”时，报出错误：${ ( e as Error ).message }
+ * SSE连接：${ request.url }<--------->End
+ * ` );
+ *
+ *           // 其他错误应继续抛出
+ *           throw e;
+ *         }
+ *       }
  * ```
  *
  * @param {Request} param0.request
