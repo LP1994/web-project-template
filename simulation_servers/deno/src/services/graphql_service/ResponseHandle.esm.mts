@@ -657,10 +657,30 @@ function ResponseHandle( request: Request ): T_Response001{
         schema,
       },
     ],
+    graphqlUploadOptions: {
+      // 默认值：1_000_000 (1MB)，非文件表单字段允许的最大大小（以字节为单位）。这限制了像“operations”和“map”这样的 JSON 文本字段的大小。
+      maxFieldSize: 10 * 1024 * 1024,
+
+      // 默认值：5_000_000 (5MB)，上传文件允许的最大大小（以字节为单位）。这限制了实际上传的文件内容的大小。
+      maxFileSize: 10 * 1024 * 1024 * 1024,
+
+      // 默认值：Infinity，单个请求允许的最大文件数。
+      maxFiles: Infinity,
+
+      // 默认值：8192 (8 KiB)，报头允许的最大字节数。
+      maxHeaderSize: 1 * 1024 * 1024,
+
+      // 默认值：1000，多部分消息中允许的最大部分数。
+      maxParts: 1 * 1024 * 1024,
+
+      // 无默认值，所有部分内容的最大允许总字节数。
+      // maxTotalSize?: number,
+
+      // 每个已解析部分所对应的 ReadableStream 所采用的排队策略。
+      // queuingStrategy?: QueuingStrategy<Uint8Array>,
+    },
     graphqlWSOptions: {
       schema,
-      // 单位是毫秒，默认值是3000毫秒。
-      connectionInitWaitTimeout: 1 * 60 * 1000,
     },
     myURLPathName,
     request,
