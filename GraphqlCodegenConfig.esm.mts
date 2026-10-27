@@ -246,6 +246,8 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
             day,
           }: T_DateFormatForObject = DateFormatForObject();
 
+          const replacedFileContent: string = fileContent.replaceAll( /from\s+['"]graphql['"]/g, 'from "https://esm.sh/graphql"' );
+
           return `
 /**
  * Project: web-project-template
@@ -258,7 +260,7 @@ const GraphqlCodegenConfig: T_CodegenConfig = {
 
 'use strict';
 
-${ fileContent }`;
+${ replacedFileContent }`;
         },
       },
     },

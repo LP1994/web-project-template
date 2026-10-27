@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2026-10-18 16:35:46 星期日
+ * CreateDate: 2026-10-28 00:36:22 星期三
  */
 
 "use strict";
@@ -15,6 +15,10 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
+import type {
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from "https://esm.sh/graphql";
 import type { GraphQLResolveInfo } from "https://esm.sh/graphql";
 export type Maybe<T> = T | null | undefined | Promise<T | null | undefined>;
 export type InputMaybe<T> =
@@ -30,6 +34,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  Upload: { input: unknown; output: unknown };
 };
 
 /** 返回的“消息”主体。 */
@@ -55,12 +60,24 @@ export type T_Mutation = {
   __typename?: "Mutation";
   /** 新建一个“消息”。 */
   createMessage: FieldWrapper<T_Message>;
+  /** 一次性上传多个文件。 */
+  multipleUpload: FieldWrapper<T_UploadFileResult>;
+  /** 一次性上传单个文件。 */
+  singleUpload: FieldWrapper<T_UploadFileResult>;
   /** 根据消息ID更新对应的“消息”内容。 */
   updateMessage: FieldWrapper<T_Message>;
 };
 
 export type T_MutationCreateMessageArgs = {
   input: T_MessageInput;
+};
+
+export type T_MutationMultipleUploadArgs = {
+  files: Array<Scalars["Upload"]["input"]>;
+};
+
+export type T_MutationSingleUploadArgs = {
+  file: Scalars["Upload"]["input"];
 };
 
 export type T_MutationUpdateMessageArgs = {
@@ -86,6 +103,13 @@ export type T_Subscription = {
   __typename?: "Subscription";
   /** 返回5种颜色名。 */
   greetings: Maybe<FieldWrapper<Scalars["String"]["output"]>>;
+};
+
+/** 上传文件成功后，返回的数据。 */
+export type T_UploadFileResult = {
+  __typename?: "UploadFileResult";
+  /** 文件上传成功后，返回的数据里会有这个url参数，用于客户端再次从服务端获取其上传的那个文件。 */
+  url: FieldWrapper<Scalars["String"]["output"]>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -214,6 +238,8 @@ export type T_ResolversTypes = {
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
   Subscription: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  Upload: ResolverTypeWrapper<Scalars["Upload"]["output"]>;
+  UploadFileResult: ResolverTypeWrapper<T_UploadFileResult>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -225,6 +251,8 @@ export type T_ResolversParentTypes = {
   Query: Record<PropertyKey, never>;
   String: Scalars["String"]["output"];
   Subscription: Record<PropertyKey, never>;
+  Upload: Scalars["Upload"]["output"];
+  UploadFileResult: T_UploadFileResult;
 };
 
 export type T_MessageResolvers<
@@ -247,6 +275,18 @@ export type T_MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<T_MutationCreateMessageArgs, "input">
+  >;
+  multipleUpload: Resolver<
+    T_ResolversTypes["UploadFileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<T_MutationMultipleUploadArgs, "files">
+  >;
+  singleUpload: Resolver<
+    T_ResolversTypes["UploadFileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<T_MutationSingleUploadArgs, "file">
   >;
   updateMessage: Resolver<
     T_ResolversTypes["Message"],
@@ -284,9 +324,26 @@ export type T_SubscriptionResolvers<
   >;
 };
 
+export interface T_UploadScalarConfig extends GraphQLScalarTypeConfig<
+  T_ResolversTypes["Upload"],
+  any
+> {
+  name: "Upload";
+}
+
+export type T_UploadFileResultResolvers<
+  ContextType = any,
+  ParentType extends T_ResolversParentTypes["UploadFileResult"] =
+    T_ResolversParentTypes["UploadFileResult"],
+> = {
+  url: Resolver<T_ResolversTypes["String"], ParentType, ContextType>;
+};
+
 export type T_Resolvers<ContextType = any> = {
   Message: T_MessageResolvers<ContextType>;
   Mutation: T_MutationResolvers<ContextType>;
   Query: T_QueryResolvers<ContextType>;
   Subscription: T_SubscriptionResolvers<ContextType>;
+  Upload: GraphQLScalarType;
+  UploadFileResult: T_UploadFileResultResolvers<ContextType>;
 };

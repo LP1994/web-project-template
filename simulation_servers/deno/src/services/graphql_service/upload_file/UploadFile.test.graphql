@@ -1,0 +1,22 @@
+#Project: web-project-template
+#FileDirPath: simulation_servers/deno/src/services/graphql_service/upload_file/UploadFile.test.graphql
+#Author: 12278
+#Email: 1227839175@qq.com
+#IDE: WebStorm
+#CreateDate: 2022-11-02 17:38:57 星期三
+
+#一次性上传单个文件
+mutation singleUpload($file: Upload!) {
+  singleUpload(file: $file) {
+    url,
+  },
+}
+
+#一次性上传多个文件
+mutation multipleUpload($files: [Upload!]!) {
+  multipleUpload(files: $files) {
+    url,
+  },
+}
+
+#也支持批量的文件上传操作！！！

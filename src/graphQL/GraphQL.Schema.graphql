@@ -22,6 +22,10 @@ type Message {
 type Mutation {
   "新建一个“消息”。"
   createMessage(input: MessageInput!): Message!
+  "一次性上传多个文件。"
+  multipleUpload(files: [Upload!]!): UploadFileResult!
+  "一次性上传单个文件。"
+  singleUpload(file: Upload!): UploadFileResult!
   "根据消息ID更新对应的“消息”内容。"
   updateMessage(id: String!, input: MessageInput!): Message!
 }
@@ -39,6 +43,15 @@ type Subscription {
   "返回5种颜色名。"
   greetings: String
 }
+
+"上传文件成功后，返回的数据。"
+type UploadFileResult {
+  "文件上传成功后，返回的数据里会有这个url参数，用于客户端再次从服务端获取其上传的那个文件。"
+  url: String!
+}
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
 
 "表示“消息内容”的输入参数类型。"
 input MessageInput {
