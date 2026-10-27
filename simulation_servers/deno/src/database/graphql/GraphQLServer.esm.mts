@@ -275,6 +275,7 @@ import {
 import {
   type FetchAPI as T_FetchAPI,
   type HandlerOptions as T_HandlerOptions,
+  type RequestParams as T_RequestParams,
 
   createHandler as createHandlerByHTTP,
 } from 'esm_sh_graphql_http/lib/use/fetch';
@@ -304,6 +305,12 @@ import {
   MessageType,
   stringifyMessage,
 } from 'esm_sh_graphql_ws';
+
+import {
+  type UploadOptions as T_UploadOptions,
+
+  processRequest as GraphqlUploadByProcessRequest,
+} from 'third_party_modules/graphql_upload_deno/src/index.ts';
 
 import {
   type T_Response001,
@@ -661,43 +668,51 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  *
  * @param {object} config 配置对象。
  *
- * @param {[ T_HandlerOptions, Partial<T_FetchAPI>?, ]} config.graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。
- * 1、一般来说，第一个参数里面总是会有选项schema。
- * 2、第二个参数，值类型是Partial<I_FetchAPI>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
- * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：
- * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15
- * 然后搜索“interface FetchAPI”即可看到具体的说明：
+ * @param {[ T_HandlerOptions, Partial<T_FetchAPI>?, ]} config.graphqlHTTPOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-http”中createHandler函数的两个参数，无默认值，必须。<br />
+ * 1、一般来说，第一个参数里面总是会有选项schema。<br />
+ * 2、第二个参数，值类型是Partial<I_FetchAPI>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。<br />
+ * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<FetchAPI>），它有哪些属性呢？详细见：<br />
+ * https://github.com/graphql/graphql-http/blob/main/src/use/fetch.ts#L15 <br />
+ * 然后搜索“interface FetchAPI”即可看到具体的说明：<br />
+ * ```ts
  * interface FetchAPI {
  *   Response: typeof Response;
  *   ReadableStream: typeof ReadableStream;
  *   TextEncoder: typeof TextEncoder;
  * }
- * PS：
- * 如果需要在“npm:graphql-http/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
- * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
- * 3、详细参数见：
- * node_modules/graphql-http/lib/use/fetch.d.ts:96
+ * ```
+ * <br />
+ * PS：<br />
+ * 如果需要在“npm:graphql-http/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。<br />
+ * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！<br />
+ * 3、详细参数见：<br />
+ * node_modules/graphql-http/lib/use/fetch.d.ts:96 <br /><br />
  *
- * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ]} config.graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。
- * 1、一般来说，第一个参数里面总是会有选项schema。
- * 2、第二个参数，值类型是Partial<T_RequestContextBySSE>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。
- * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<RequestContext>），它有哪些属性呢？详细见：
- * https://github.com/enisdenjo/graphql-sse/blob/master/src/use/fetch.ts#L10
- * 然后搜索“interface RequestContext”即可看到具体的说明：
+ * @param {[ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ]} config.graphqlSSEOptions 值类型是一个数组（拥有两个成员），用于存放“第三方工具库graphql-sse”中createHandler函数的两个参数，无默认值，必须。<br />
+ * 1、一般来说，第一个参数里面总是会有选项schema。<br />
+ * 2、第二个参数，值类型是Partial<T_RequestContextBySSE>，可选的，默认值：{ Response: MyGraphQLServerResponse, }。<br />
+ * 这个参数的值类型是一个Object类型（其源代码中的类型签名是：Partial<RequestContext>），它有哪些属性呢？详细见：<br />
+ * https://github.com/enisdenjo/graphql-sse/blob/master/src/use/fetch.ts#L10 <br />
+ * 然后搜索“interface RequestContext”即可看到具体的说明：<br />
+ * ```ts
  * interface RequestContext {
  *   Response: typeof Response;
  *   ReadableStream: typeof ReadableStream;
  *   TextEncoder: typeof TextEncoder;
  * }
- * PS：
- * 如果需要在“npm:graphql-sse/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。
- * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！
- * 3、详细参数见：
- * node_modules/graphql-sse/lib/use/fetch.d.ts:45
+ * ```
+ * <br />
+ * PS：<br />
+ * 如果需要在“npm:graphql-sse/lib/use/fetch”处理后，可以继续操作，以便根据具体的业务返回给客户端一个想要的Response，可以设置该参数里的Response属性。<br />
+ * Response属性的值的具体写法，可以参考上面的自定义类MyGraphQLServerResponse，注意！必须要继承Response哦！<br />
+ * 3、详细参数见：<br />
+ * node_modules/graphql-sse/lib/use/fetch.d.ts:45 <br />
  *
- * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。
- * 1、一般来说，里面总是会有选项schema。
- * 2、详细参数见：
+ * @param {T_UploadOptions} config.graphqlUploadOptions 文件上传的配置选项。
+ *
+ * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。<br />
+ * 1、一般来说，里面总是会有选项schema。<br />
+ * 2、详细参数见：<br />
  * node_modules/graphql-ws/server.d.ts:402
  *
  * @param {string} config.myURLPathName 符合处理条件的请求URL核心标头。
@@ -709,12 +724,14 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
 async function GraphQLServer( {
   graphqlHTTPOptions,
   graphqlSSEOptions,
+  graphqlUploadOptions,
   graphqlWSOptions,
   myURLPathName,
   request,
 }: {
   graphqlHTTPOptions: [ T_HandlerOptions, Partial<T_FetchAPI>?, ];
   graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ];
+  graphqlUploadOptions: T_UploadOptions;
   graphqlWSOptions: T_ServerOptions;
   myURLPathName: string;
   request: Request;
@@ -754,8 +771,6 @@ async function GraphQLServer( {
 
     {
       const server: T_Server = makeServerByWS( {
-        ...graphqlWSOptions,
-
         // 当客户端通过 `ConnectionInit` 消息请求初始化连接时，会触发此连接回调函数。
         // 消息载荷（即客户端发送的 `connectionParams`）包含在 `Context.connectionParams` 中。
         // 若回调函数返回 `true` 或不返回任何值，则允许客户端建立连接，并且返回给客户端数据如下：{ "type": "connection_ack" }。
@@ -804,6 +819,11 @@ onConnect函数触发了，客户端向服务器发来了“connection_init”�
         // 当客户端发送 `MessageType.Pong` 消息时（无论是在连接建立后的任何时刻，还是在连接初始化阶段之前或之后），该方法都会被调用。
         // 如果客户端发送的 Pong 消息包含有效载荷（payload），该载荷将通过第二个参数传入；第一个参数则提供连接的上下文（Context）。
         // onPong?: undefined | ((ctx: Context<P, E>, payload: PongMessage['payload']) => Promise<void> | void);
+
+        // 单位是毫秒，默认值是3000毫秒。
+        connectionInitWaitTimeout: 1 * 60 * 1000,
+
+        ...graphqlWSOptions,
       } );
 
       socket.onerror = ( error: Event | ErrorEvent ): void => {
@@ -1075,8 +1095,49 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       } );
     }
 
+    let myOptions: T_HandlerOptions = options;
+
+    if( ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' ) ){
+      myOptions = {
+        async parseRequestParams( req: Request, api?: Partial<T_FetchAPI> ): Promise<T_RequestParams | Response>{
+          const params: T_RequestParams = await GraphqlUploadByProcessRequest( req, {
+            // 默认值：1_000_000 (1MB)，非文件表单字段允许的最大大小（以字节为单位）。这限制了像“operations”和“map”这样的 JSON 文本字段的大小。
+            maxFieldSize: 10 * 1024 * 1024,
+
+            // 默认值：5_000_000 (5MB)，上传文件允许的最大大小（以字节为单位）。这限制了实际上传的文件内容的大小。
+            maxFileSize: 10 * 1024 * 1024 * 1024,
+
+            // 默认值：Infinity，单个请求允许的最大文件数。
+            maxFiles: Infinity,
+
+            // 默认值：8192 (8 KiB)，报头允许的最大字节数。
+            maxHeaderSize: 1 * 1024 * 1024,
+
+            // 默认值：1000，多部分消息中允许的最大部分数。
+            maxParts: 1 * 1024 * 1024,
+
+            // 无默认值，所有部分内容的最大允许总字节数。
+            // maxTotalSize?: number,
+
+            // 每个已解析部分所对应的 ReadableStream 所采用的排队策略。
+            // queuingStrategy?: QueuingStrategy<Uint8Array>,
+
+            ...graphqlUploadOptions,
+          } );
+
+          if( Array.isArray( params ) ){
+            throw new Error( 'Batching is not supported for uploads.' );
+          }
+
+          return params;
+        },
+
+        ...options,
+      };
+    }
+
     return createHandlerByHTTP(
-      options,
+      myOptions,
       reqCtx,
     )( request );
   }
