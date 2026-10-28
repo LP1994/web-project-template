@@ -415,7 +415,7 @@
       {
         "kind": "SCALAR",
         "name": "Upload",
-        "description": null,
+        "description": "The `Upload` scalar type represents a file upload.",
         "specifiedByURL": null,
         "isOneOf": null,
         "fields": null,

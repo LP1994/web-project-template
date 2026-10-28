@@ -24,6 +24,10 @@ import {
 } from 'graphql/graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
 
 import {
+  GraphQLServerForUploadScalar,
+} from 'graphql/graphql_server_for_upload_file/GraphQLServerForUploadScalar.esm.mts';
+
+import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
@@ -67,18 +71,28 @@ class GraphQLUploadFile
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./UploadFile.type.graphql` ) ) );
 
 const resolvers: T_Resolvers = {
+  Upload: GraphQLServerForUploadScalar,
+
   Mutation: {
     singleUpload: {
       resolve: async (
         // @ts-expect-error
         parent,
-        arg,
+        {
+          file,
+        }: {
+          file: T_GraphQLUploadFile;
+        },
         // @ts-expect-error
         context,
         // @ts-expect-error
         info,
       ): Promise<T_GraphQlUploadFile> => {
-        return new GraphQLUploadFile( {} );
+        // TODO：不要在这里“接收”、“读取”HTTP文件流！因为文件在GraphQL执行之前就已经写入磁盘。如果在这里“接收”、“读取”HTTP文件流就会出现多个Resolver同时读取同一个HTTP请求体的问题。
+
+        console.dir( file );
+
+        return new GraphQLUploadFile( file );
       },
     },
 
@@ -86,15 +100,21 @@ const resolvers: T_Resolvers = {
       resolve: async (
         // @ts-expect-error
         parent,
-        arg,
+        {
+          files,
+        }: {
+          files: Array<T_GraphQLUploadFile>;
+        },
         // @ts-expect-error
         context,
         // @ts-expect-error
         info,
       ): Promise<Array<T_GraphQlUploadFile>> => {
-        return [
-          new GraphQLUploadFile( {} ),
-        ];
+        // TODO：不要在这里“接收”、“读取”HTTP文件流！因为文件在GraphQL执行之前就已经写入磁盘。如果在这里“接收”、“读取”HTTP文件流就会出现多个Resolver同时读取同一个HTTP请求体的问题。
+
+        console.dir( files );
+
+        return files.map( ( file: T_GraphQLUploadFile ): T_GraphQlUploadFile => new GraphQLUploadFile( file ) );
       },
     },
   },

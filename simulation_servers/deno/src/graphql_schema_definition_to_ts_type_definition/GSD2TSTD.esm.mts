@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2026-10-28 20:26:23 星期三
+ * CreateDate: 2026-10-28 22:41:28 星期三
  */
 
 "use strict";
@@ -34,6 +34,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  /** 自定义的标量。 */
   Upload: { input: unknown; output: unknown };
 };
 

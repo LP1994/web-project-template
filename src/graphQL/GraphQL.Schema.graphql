@@ -58,6 +58,7 @@ type Subscription {
   greetings: String
 }
 
+"The `Upload` scalar type represents a file upload."
 scalar Upload
 
 "表示“消息内容”的输入参数类型。"
