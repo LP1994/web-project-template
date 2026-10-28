@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/database/graphql/GraphQLServerForUploadFile.esm.mts
+ * FileDirPath: simulation_servers/deno/src/database/graphql/graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm

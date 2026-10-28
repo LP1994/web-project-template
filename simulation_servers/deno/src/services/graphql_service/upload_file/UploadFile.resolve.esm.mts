@@ -21,7 +21,7 @@ import {
 
 import {
   type T_GraphQLUploadFile,
-} from 'graphql/GraphQLServerForUploadFile.esm.mts';
+} from 'graphql/graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
 
 import {
   GraphqlParseByFilePath,
