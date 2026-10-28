@@ -14,22 +14,52 @@ import {
 } from 'esm_sh_graphql';
 
 import {
+  type T_GraphQlUploadFile,
   type T_Resolvers,
   type Scalars as T_Scalars,
-  type T_UploadFileResult,
 } from 'GSD2TSTD';
+
+import {
+  type T_GraphQLUploadFile,
+} from 'graphql/GraphQLServerForUploadFile.esm.mts';
 
 import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
-class UploadFileResult
-  implements T_UploadFileResult {
+/**
+ * 一个文件对象，该对象里有关于文件的元数据和文件存储的磁盘路径、文件大小等等信息。<br />
+ */
+class GraphQLUploadFile
+  implements T_GraphQlUploadFile {
 
-  public url: T_Scalars['String']['output'];
+  // 值形如：'test.png'。
+  public filename: T_Scalars['String']['output'];
 
-  public constructor( url: T_Scalars['String']['input'] ){
-    this.url = url;
+  // 值形如：'image/png'。
+  public mimetype: T_Scalars['String']['output'];
+
+  // 值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。
+  public encoding: T_Scalars['String']['output'];
+
+  // 值形如：102400，单位为字节。
+  public size: T_Scalars['String']['output'];
+
+  // 值形如：'G:/WebStormWS/7788/1.png'。
+  public filepath: T_Scalars['String']['output'];
+
+  public constructor( {
+    filename,
+    mimetype,
+    encoding,
+    size,
+    filepath,
+  }: T_GraphQLUploadFile ){
+    this.filename = filename;
+    this.mimetype = mimetype;
+    this.encoding = encoding;
+    this.size = size;
+    this.filepath = filepath;
   }
 
 }
@@ -47,8 +77,8 @@ const resolvers: T_Resolvers = {
         context,
         // @ts-expect-error
         info,
-      ): Promise<T_UploadFileResult> => {
-        return new UploadFileResult( `https://127.0.0.1:9200/upload/png/1.png` );
+      ): Promise<T_GraphQlUploadFile> => {
+        return new GraphQLUploadFile( {} );
       },
     },
 
@@ -61,9 +91,9 @@ const resolvers: T_Resolvers = {
         context,
         // @ts-expect-error
         info,
-      ): Promise<Array<T_UploadFileResult>> => {
+      ): Promise<Array<T_GraphQlUploadFile>> => {
         return [
-          new UploadFileResult( `https://127.0.0.1:9200/upload/png/1.png` ),
+          new GraphQLUploadFile( {} ),
         ];
       },
     },

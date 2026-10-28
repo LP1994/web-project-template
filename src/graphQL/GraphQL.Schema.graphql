@@ -9,6 +9,20 @@ schema {
 "Indicates exactly one field must be supplied and this field must not be `null`."
 directive @oneOf on INPUT_OBJECT
 
+"上传文件成功后，返回的是一个文件对象，该对象里有关于文件的元数据和文件存储的磁盘路径、文件大小等等信息。"
+type GraphQLUploadFile {
+  "值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。"
+  encoding: String!
+  "值形如：'test.png'。"
+  filename: String!
+  "值形如：'G:/WebStormWS/7788/1.png'。"
+  filepath: String!
+  "值形如：'image/png'。"
+  mimetype: String!
+  "值形如：102400，单位为字节。"
+  size: Int!
+}
+
 "返回的“消息”主体。"
 type Message {
   "作者。"
@@ -23,9 +37,9 @@ type Mutation {
   "新建一个“消息”。"
   createMessage(input: MessageInput!): Message!
   "一次性上传多个文件。"
-  multipleUpload(files: [Upload!]!): UploadFileResult!
+  multipleUpload(files: [Upload!]!): [GraphQLUploadFile!]!
   "一次性上传单个文件。"
-  singleUpload(file: Upload!): UploadFileResult!
+  singleUpload(file: Upload!): GraphQLUploadFile!
   "根据消息ID更新对应的“消息”内容。"
   updateMessage(id: String!, input: MessageInput!): Message!
 }
@@ -44,13 +58,6 @@ type Subscription {
   greetings: String
 }
 
-"上传文件成功后，返回的数据。"
-type UploadFileResult {
-  "文件上传成功后，返回的数据里会有这个url参数，用于客户端再次从服务端获取其上传的那个文件。"
-  url: String!
-}
-
-"The `Upload` scalar type represents a file upload."
 scalar Upload
 
 "表示“消息内容”的输入参数类型。"

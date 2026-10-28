@@ -324,7 +324,7 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "name": "UploadFileResult",
+                "name": "GraphQLUploadFile",
                 "kind": "OBJECT",
                 "ofType": null
               }
@@ -365,9 +365,17 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "name": "UploadFileResult",
-                "kind": "OBJECT",
-                "ofType": null
+                "name": null,
+                "kind": "LIST",
+                "ofType": {
+                  "name": null,
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "name": "GraphQLUploadFile",
+                    "kind": "OBJECT",
+                    "ofType": null
+                  }
+                }
               }
             },
             "isDeprecated": false,
@@ -407,7 +415,7 @@
       {
         "kind": "SCALAR",
         "name": "Upload",
-        "description": "The `Upload` scalar type represents a file upload.",
+        "description": null,
         "specifiedByURL": null,
         "isOneOf": null,
         "fields": null,
@@ -418,14 +426,78 @@
       },
       {
         "kind": "OBJECT",
-        "name": "UploadFileResult",
-        "description": "上传文件成功后，返回的数据。",
+        "name": "GraphQLUploadFile",
+        "description": "上传文件成功后，返回的是一个文件对象，该对象里有关于文件的元数据和文件存储的磁盘路径、文件大小等等信息。",
         "specifiedByURL": null,
         "isOneOf": null,
         "fields": [
           {
-            "name": "url",
-            "description": "文件上传成功后，返回的数据里会有这个url参数，用于客户端再次从服务端获取其上传的那个文件。",
+            "name": "filename",
+            "description": "值形如：'test.png'。",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "String",
+                "kind": "SCALAR",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mimetype",
+            "description": "值形如：'image/png'。",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "String",
+                "kind": "SCALAR",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "encoding",
+            "description": "值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "String",
+                "kind": "SCALAR",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "size",
+            "description": "值形如：102400，单位为字节。",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "Int",
+                "kind": "SCALAR",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "filepath",
+            "description": "值形如：'G:/WebStormWS/7788/1.png'。",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -442,6 +514,18 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Int",
+        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "specifiedByURL": null,
+        "isOneOf": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },

@@ -8,14 +8,38 @@
 #一次性上传单个文件
 mutation singleUpload($file: Upload!) {
   singleUpload(file: $file) {
-    url,
+    #例子：
+    #{
+    #  filename: 'test.png',
+    #  mimetype: 'image/png',
+    #  encoding: 'binary', // '7bit' | '8bit' | 'binary'
+    #  size: 102400,
+    #  filepath: 'G:/WebStormWS/7788/1.png',
+    #}
+    filename,
+    mimetype,
+    encoding,
+    size,
+    filepath,
   },
 }
 
 #一次性上传多个文件
 mutation multipleUpload($files: [Upload!]!) {
   multipleUpload(files: $files) {
-    url,
+    #例子：
+    #{
+    #  filename: 'test.png',
+    #  mimetype: 'image/png',
+    #  encoding: 'binary', // '7bit' | '8bit' | 'binary'
+    #  size: 102400,
+    #  filepath: 'G:/WebStormWS/7788/1.png',
+    #}
+    filename,
+    mimetype,
+    encoding,
+    size,
+    filepath,
   },
 }
 
