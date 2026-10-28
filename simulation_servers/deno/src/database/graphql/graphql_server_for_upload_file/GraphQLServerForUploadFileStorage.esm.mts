@@ -8,7 +8,7 @@
  */
 
 /**
- * GraphQL上传文件的存储。
+ * GraphQL上传功能之文件的存储。
  */
 
 'use strict';
