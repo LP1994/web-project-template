@@ -18,5 +18,5 @@ type Mutation {
   singleUpload(file: Upload!): UploadFileResult!,
 
   "一次性上传多个文件。"
-  multipleUpload(files: [Upload!]!): UploadFileResult!,
+  multipleUpload(files: [Upload!]!): [UploadFileResult!]!,
 }

@@ -14,27 +14,17 @@ import {
 } from 'esm_sh_graphql';
 
 import {
-  // type T_Message,
-  // type T_MessageInput,
-  // type T_MutationCreateMessageArgs,
-  // type T_MutationUpdateMessageArgs,
-  // type T_QueryGetMessageArgs,
   type T_Resolvers,
   type Scalars as T_Scalars,
+  type T_UploadFileResult,
 } from 'GSD2TSTD';
 
 import {
   GraphqlParseByFilePath,
 } from 'public/PublicTools.esm.mts';
 
-import {
-  type FileUpload as T_FileUpload,
-
-  GraphQLUpload,
-  Upload,
-} from 'third_party_modules/graphql_upload_deno/src/index.ts';
-
-class UploadFileResult {
+class UploadFileResult
+  implements T_UploadFileResult {
 
   public url: T_Scalars['String']['output'];
 
@@ -47,29 +37,17 @@ class UploadFileResult {
 const typeDefs: T_DocumentNode = GraphqlParseByFilePath( new URL( import.meta.resolve( `./UploadFile.type.graphql` ) ) );
 
 const resolvers: T_Resolvers = {
-  // 标量实现
-  Upload: GraphQLUpload,
-
   Mutation: {
     singleUpload: {
       resolve: async (
         // @ts-expect-error
         parent,
         arg,
-        /*
-         {
-         file,
-         }: {
-         file: Promise<Upload>
-         },
-         */
         // @ts-expect-error
         context,
         // @ts-expect-error
         info,
-      ) => {
-        console.dir( arg );
-
+      ): Promise<T_UploadFileResult> => {
         return new UploadFileResult( `https://127.0.0.1:9200/upload/png/1.png` );
       },
     },
@@ -79,21 +57,14 @@ const resolvers: T_Resolvers = {
         // @ts-expect-error
         parent,
         arg,
-        /*
-         {
-         file,
-         }: {
-         file: Promise<Upload>
-         },
-         */
         // @ts-expect-error
         context,
         // @ts-expect-error
         info,
-      ) => {
-        console.dir( arg );
-
-        return new UploadFileResult( `https://127.0.0.1:9200/upload/png/1.png` );
+      ): Promise<Array<T_UploadFileResult>> => {
+        return [
+          new UploadFileResult( `https://127.0.0.1:9200/upload/png/1.png` ),
+        ];
       },
     },
   },
