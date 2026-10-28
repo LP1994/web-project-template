@@ -45,7 +45,7 @@ const MAX_FILE_SIZE: number = 100 * 1024 * 1024 * 1024;
  */
 const uploadDirectory: URL = new URL( uploadDir );
 
-async function CreateUploadFile(
+async function GraphQLServerForCreateUploadFile(
   filename: string,
   mimetype: string,
 ): Promise<{
@@ -83,11 +83,11 @@ async function CreateUploadFile(
 }
 
 export {
-  CreateUploadFile,
+  GraphQLServerForCreateUploadFile,
   MAX_FILE_SIZE,
 };
 
 export default {
-  CreateUploadFile,
+  GraphQLServerForCreateUploadFile,
   MAX_FILE_SIZE,
 };

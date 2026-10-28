@@ -13,3 +13,19 @@
 
 'use strict';
 
+/**
+ * 解析器的接口。
+ */
+interface T_GraphQLServerForMultipartPart {
+  headers: Headers;
+  name: string;
+  filename?: string;
+  mimetype?: string;
+  body: ReadableStream<Uint8Array<ArrayBuffer>>;
+}
+
+export {
+  type T_GraphQLServerForMultipartPart,
+};
+
+export default {};
