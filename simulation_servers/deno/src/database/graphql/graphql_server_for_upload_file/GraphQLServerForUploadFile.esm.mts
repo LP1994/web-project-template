@@ -37,5 +37,3 @@ interface T_GraphQLUploadFile {
 export {
   type T_GraphQLUploadFile,
 };
-
-export default {};

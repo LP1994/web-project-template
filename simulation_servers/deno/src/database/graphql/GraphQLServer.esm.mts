@@ -1023,7 +1023,9 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
     const url: URL = new URL( request.url ),
       pathName: string = decodeURI( url.pathname );
 
-    if( serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }/schema.json` ).includes( pathName ) ){
+    if( [
+      'get',
+    ].includes( request.method.toLowerCase() ) && serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }/schema.json` ).includes( pathName ) ){
       const result: Record<string, unknown> = await graphql( {
         schema: options.schema,
         source: getIntrospectionQuery( {
@@ -1082,6 +1084,19 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
         status: HTTPStatus[ 200 ].status,
         statusText: HTTPStatus[ 200 ].statusText,
       } );
+    }
+
+    if( [
+      'post',
+    ].includes( request.method.toLowerCase() ) && ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' ) ){
+      // multipart 中间层
+      /*
+       return await HandleGraphQLMultipartUpload( {
+       request,
+       options,
+       reqCtx,
+       } );
+       */
     }
 
     return createHandlerByHTTP(

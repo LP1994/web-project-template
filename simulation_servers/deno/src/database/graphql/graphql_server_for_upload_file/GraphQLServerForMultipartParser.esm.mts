@@ -35,5 +35,3 @@ export {
   type T_GraphQLServerForMultipartParser,
   type T_GraphQLServerForMultipartPart,
 };
-
-export default {};
