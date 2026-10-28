@@ -275,7 +275,6 @@ import {
 import {
   type FetchAPI as T_FetchAPI,
   type HandlerOptions as T_HandlerOptions,
-  type RequestParams as T_RequestParams,
 
   createHandler as createHandlerByHTTP,
 } from 'esm_sh_graphql_http/lib/use/fetch';
@@ -305,12 +304,6 @@ import {
   MessageType,
   stringifyMessage,
 } from 'esm_sh_graphql_ws';
-
-import {
-  type UploadOptions as T_UploadOptions,
-
-  processRequest as GraphqlUploadByProcessRequest,
-} from 'third_party_modules/graphql_upload_deno/src/index.ts';
 
 import {
   type T_Response001,
@@ -708,8 +701,6 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  * 3、详细参数见：<br />
  * node_modules/graphql-sse/lib/use/fetch.d.ts:45 <br />
  *
- * @param {T_UploadOptions} config.graphqlUploadOptions 文件上传的配置选项。
- *
  * @param {T_ServerOptions} config.graphqlWSOptions 值类型是一个对象，是“第三方工具库graphql-ws”中makeServer函数的唯一个参数，无默认值，必须。<br />
  * 1、一般来说，里面总是会有选项schema。<br />
  * 2、详细参数见：<br />
@@ -724,14 +715,12 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
 async function GraphQLServer( {
   graphqlHTTPOptions,
   graphqlSSEOptions,
-  graphqlUploadOptions,
   graphqlWSOptions,
   myURLPathName,
   request,
 }: {
   graphqlHTTPOptions: [ T_HandlerOptions, Partial<T_FetchAPI>?, ];
   graphqlSSEOptions: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ];
-  graphqlUploadOptions: T_UploadOptions;
   graphqlWSOptions: T_ServerOptions;
   myURLPathName: string;
   request: Request;
@@ -1095,49 +1084,8 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       } );
     }
 
-    let myOptions: T_HandlerOptions = options;
-
-    if( ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' ) ){
-      myOptions = {
-        async parseRequestParams( req: Request, api?: Partial<T_FetchAPI> ): Promise<T_RequestParams | Response>{
-          const params: T_RequestParams = await GraphqlUploadByProcessRequest( req, {
-            // 默认值：1_000_000 (1MB)，非文件表单字段允许的最大大小（以字节为单位）。这限制了像“operations”和“map”这样的 JSON 文本字段的大小。
-            maxFieldSize: 10 * 1024 * 1024,
-
-            // 默认值：5_000_000 (5MB)，上传文件允许的最大大小（以字节为单位）。这限制了实际上传的文件内容的大小。
-            maxFileSize: 10 * 1024 * 1024 * 1024,
-
-            // 默认值：Infinity，单个请求允许的最大文件数。
-            maxFiles: Infinity,
-
-            // 默认值：8192 (8 KiB)，报头允许的最大字节数。
-            maxHeaderSize: 1 * 1024 * 1024,
-
-            // 默认值：1000，多部分消息中允许的最大部分数。
-            maxParts: 1 * 1024 * 1024,
-
-            // 无默认值，所有部分内容的最大允许总字节数。
-            // maxTotalSize?: number,
-
-            // 每个已解析部分所对应的 ReadableStream 所采用的排队策略。
-            // queuingStrategy?: QueuingStrategy<Uint8Array>,
-
-            ...graphqlUploadOptions,
-          } );
-
-          if( Array.isArray( params ) ){
-            throw new Error( 'Batching is not supported for uploads.' );
-          }
-
-          return params;
-        },
-
-        ...options,
-      };
-    }
-
     return createHandlerByHTTP(
-      myOptions,
+      options,
       reqCtx,
     )( request );
   }
