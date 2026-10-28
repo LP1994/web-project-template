@@ -24,7 +24,15 @@ interface T_GraphQLServerForMultipartPart {
   body: ReadableStream<Uint8Array<ArrayBuffer>>;
 }
 
+/**
+ * 解析器parse的定义。
+ */
+interface T_GraphQLServerForMultipartParser {
+  parse( request: Request, ): AsyncIterable<T_GraphQLServerForMultipartPart>;
+}
+
 export {
+  type T_GraphQLServerForMultipartParser,
   type T_GraphQLServerForMultipartPart,
 };
 
