@@ -21,7 +21,7 @@ import {
 } from 'esm_sh_graphql';
 
 import {
-  type T_GraphQLUploadFile,
+  type T_GraphQLServerForUploadFile,
 } from './GraphQLServerForUploadFile.esm.mts';
 
 import {
@@ -38,7 +38,7 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
 
   description: 'The `Upload` scalar type represents a file upload.',
 
-  coerceInputValue<T_GraphQLUploadFile>( inputValue: unknown ): T_GraphQLUploadFile{
+  coerceInputValue<T_GraphQLServerForUploadFile>( inputValue: unknown ): T_GraphQLServerForUploadFile{
     if(
       IsObject( inputValue ) && !IsEmpty( inputValue )
       && ( 'filename' in inputValue )
@@ -47,7 +47,7 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
       && ( 'size' in inputValue )
       && ( 'filepath' in inputValue )
     ){
-      return inputValue as T_GraphQLUploadFile;
+      return inputValue as T_GraphQLServerForUploadFile;
     }
     else{
       throw new GraphQLError( `Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue ) }”。inputValue的值为：${ JSON.stringify( inputValue ) }`, );

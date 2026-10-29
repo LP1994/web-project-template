@@ -20,7 +20,7 @@ import {
 } from 'GSD2TSTD';
 
 import {
-  type T_GraphQLUploadFile,
+  type T_GraphQLServerForUploadFile,
 } from 'graphql/graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
 
 import {
@@ -58,7 +58,7 @@ class GraphQLUploadFile
     encoding,
     size,
     filepath,
-  }: T_GraphQLUploadFile ){
+  }: T_GraphQLServerForUploadFile ){
     this.filename = filename;
     this.mimetype = mimetype;
     this.encoding = encoding;
@@ -81,7 +81,7 @@ const resolvers: T_Resolvers = {
         {
           file,
         }: {
-          file: T_GraphQLUploadFile;
+          file: T_GraphQLServerForUploadFile;
         },
         // @ts-expect-error
         context,
@@ -103,7 +103,7 @@ const resolvers: T_Resolvers = {
         {
           files,
         }: {
-          files: Array<T_GraphQLUploadFile>;
+          files: Array<T_GraphQLServerForUploadFile>;
         },
         // @ts-expect-error
         context,
@@ -114,13 +114,13 @@ const resolvers: T_Resolvers = {
 
         console.dir( files );
 
-        return files.map( ( file: T_GraphQLUploadFile ): T_GraphQlUploadFile => new GraphQLUploadFile( file ) );
+        return files.map( ( file: T_GraphQLServerForUploadFile ): T_GraphQlUploadFile => new GraphQLUploadFile( file ) );
       },
     },
   },
 } as T_Resolvers;
 
 export {
-  resolvers,
   typeDefs,
+  resolvers,
 };

@@ -28,30 +28,30 @@ import {
 } from 'npm:@fastify/busboy';
 
 import {
-  type T_GraphQLUploadFile,
-  type T_GraphQLUploadFileOptions,
+  type T_GraphQLServerForMultipartFilePart,
 
-  DEFAULT_MAX_HEADER_SIZE,
-  DEFAULT_MAX_HEADER_PAIRS,
-  DEFAULT_MAX_PARTS,
-  DEFAULT_MAX_FIELDS,
-  DEFAULT_MAX_FIELD_NAME_SIZE,
-  DEFAULT_MAX_FILE_SIZE,
-  DEFAULT_MAX_FILES,
-  DEFAULT_MAX_FIELD_SIZE,
-
-  GetSafeFilename,
-  GetStoredFilename,
-} from './GraphQLServerForUploadFile.esm.mts';
-
-import {
-  type T_MultipartFilePart,
-
-  IsMultipartRequest,
+  GraphQLServerForIsMultipartRequest,
 } from './GraphQLServerForMultipartUpload.esm.mts';
 
 import {
-  GraphQLServerForWriteFileStream,
+  type T_GraphQLServerForUploadFile,
+  type T_GraphQLServerForUploadFileOptions,
+
+  DEFAULT_MAX_FIELD_NAME_SIZE,
+  DEFAULT_MAX_FIELD_SIZE,
+  DEFAULT_MAX_FIELDS,
+  DEFAULT_MAX_FILE_SIZE,
+  DEFAULT_MAX_FILES,
+  DEFAULT_MAX_HEADER_PAIRS,
+  DEFAULT_MAX_HEADER_SIZE,
+  DEFAULT_MAX_PARTS,
+
+  GraphQLServerForGetSafeFileName,
+  GraphQLServerForGetStoredFileName,
+} from './GraphQLServerForUploadFile.esm.mts';
+
+import {
+  GraphQLServerForUploadFileStorage,
 } from './GraphQLServerForUploadFileStorage.esm.mts';
 
 import {
@@ -60,12 +60,12 @@ import {
 
 async function GraphQLServerForMultipartParser(
   request: Request,
-  options: T_GraphQLUploadFileOptions,
+  options: T_GraphQLServerForUploadFileOptions,
 ): Promise<Request>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  if( !IsMultipartRequest( request ) ){
+  if( !GraphQLServerForIsMultipartRequest( request ) ){
     throw new Error( `请求“${ pathName }”中的请求头里的“content-type”属性的值不为“multipart/form-data”，GraphQL文件上传功能仅支持请求头中的“content-type”属性的值为“multipart/form-data”。` );
   }
 
@@ -105,7 +105,7 @@ async function GraphQLServerForMultipartParser(
 
     const fields: Map<string, string> = new Map<string, string>();
 
-    const fileParts: T_MultipartFilePart[] = [];
+    const fileParts: T_GraphQLServerForMultipartFilePart[] = [];
 
     const fileTasks: Promise<void>[] = [];
 
@@ -132,13 +132,13 @@ async function GraphQLServerForMultipartParser(
       transferEncoding: string,
       mimeType: string,
     ): void => {
-      const safeFilename: string = GetSafeFilename( filename );
+      const safeFilename: string = GraphQLServerForGetSafeFileName( filename );
 
-      const storedFilename: string = GetStoredFilename( safeFilename );
+      const storedFilename: string = GraphQLServerForGetStoredFileName( safeFilename );
 
       const filepath: string = join( options.uploadDir, storedFilename );
 
-      const file: T_GraphQLUploadFile = {
+      const file: T_GraphQLServerForUploadFile = {
         filename: safeFilename,
         mimetype: mimeType,
         encoding: transferEncoding,
@@ -149,7 +149,7 @@ async function GraphQLServerForMultipartParser(
       const task: Promise<void> = ( async (): Promise<void> => {
         const readable: AsyncIterable<Uint8Array> = stream as AsyncIterable<Uint8Array>;
 
-        file.size = await GraphQLServerForWriteFileStream(
+        file.size = await GraphQLServerForUploadFileStorage(
           readable,
           filepath,
           maxFileSize,
@@ -210,7 +210,7 @@ async function GraphQLServerForMultipartParser(
 
         const mapObject: Record<string, string[]> = JSON.parse( mapText );
 
-        const fileByFieldName: Map<string, T_GraphQLUploadFile> = new Map<string, T_GraphQLUploadFile>();
+        const fileByFieldName: Map<string, T_GraphQLServerForUploadFile> = new Map<string, T_GraphQLServerForUploadFile>();
 
         for( const part of
           fileParts ){
@@ -222,7 +222,7 @@ async function GraphQLServerForMultipartParser(
           of
           Object.entries( mapObject )
           ){
-          const file: T_GraphQLUploadFile | undefined = fileByFieldName.get( fileFieldName );
+          const file: T_GraphQLServerForUploadFile | undefined = fileByFieldName.get( fileFieldName );
 
           if( !file ){
             throw new Error( `“${ fileFieldName }”对应的文件不存在！` );
@@ -234,7 +234,7 @@ async function GraphQLServerForMultipartParser(
 
           for( const variablePath of
             variablePaths ){
-            SetObjectPath( operationsObject, variablePath, file as T_GraphQLUploadFile );
+            GraphQLServerForSetObjectPath( operationsObject, variablePath, file as T_GraphQLServerForUploadFile );
           }
         }
 
@@ -278,7 +278,7 @@ async function GraphQLServerForMultipartParser(
 }
 
 // TODO 从这里开始审查代码！！！
-function SetObjectPath( root: Record<string, any>, path: string, value: T_GraphQLUploadFile ): void{
+function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string, value: T_GraphQLServerForUploadFile ): void{
   const segments = path.split( '.' );
 
   if( segments.length === 0 ){
@@ -341,10 +341,10 @@ function SetObjectPath( root: Record<string, any>, path: string, value: T_GraphQ
 
 export {
   GraphQLServerForMultipartParser,
-  SetObjectPath,
+  GraphQLServerForSetObjectPath,
 };
 
 export default {
   GraphQLServerForMultipartParser,
-  SetObjectPath,
+  GraphQLServerForSetObjectPath,
 };

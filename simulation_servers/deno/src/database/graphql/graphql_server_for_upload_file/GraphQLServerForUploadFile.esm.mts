@@ -35,7 +35,7 @@ import {
  * }
  * ```
  */
-interface T_GraphQLUploadFile {
+interface T_GraphQLServerForUploadFile {
   filename: string;
   mimetype: string;
   encoding: '7bit' | '8bit' | 'binary';
@@ -43,7 +43,7 @@ interface T_GraphQLUploadFile {
   filepath: string;
 }
 
-interface T_GraphQLUploadFileOptions {
+interface T_GraphQLServerForUploadFileOptions {
   /**
    * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
    *
@@ -110,43 +110,9 @@ interface T_GraphQLUploadFileOptions {
   /**
    * 文件保存成功后，生成对外访问URL。<br />
    */
-  getFileUrl?: ( file: T_GraphQLUploadFile ) => string;
+  getFileUrl?: ( file: T_GraphQLServerForUploadFile ) => string;
 }
 
-/**
- * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
- *
- * @type {string|URL}
- */
-const DEFAULT_UPLOAD_DIR: URL = new URL( uploadDir );
-/**
- * 对于多部分表单，标题部分的最大尺寸。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_HEADER_SIZE: number = Infinity;
-/**
- * 对于多部分（multipart）表单，需解析的标头键值对的最大数量。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_HEADER_PAIRS: number = Infinity;
-/**
- * 对于多部分表单，最大部分数（字段 + 文件）。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_PARTS: number = Infinity;
-/**
- * 非文件字段的最大数量。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FIELDS: number = Infinity;
 /**
  * 字段名称的最大长度（以字节为单位）。<br />
  * 当前默认值设置为：Infinity。<br />
@@ -154,20 +120,7 @@ const DEFAULT_MAX_FIELDS: number = Infinity;
  * @type {number}
  */
 const DEFAULT_MAX_FIELD_NAME_SIZE: number = Infinity;
-/**
- * 用于限制单个文件的大小。单位为字节。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FILE_SIZE: number = Infinity;
-/**
- * 用于限制上传文件的数量。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FILES: number = Infinity;
+
 /**
  * 用于限制multipart中普通字段的最大字节数。<br />
  * 当前默认值设置为：Infinity。<br />
@@ -176,45 +129,100 @@ const DEFAULT_MAX_FILES: number = Infinity;
  */
 const DEFAULT_MAX_FIELD_SIZE: number = Infinity;
 
-function GetSafeFilename( filename: string ): string{
-  return basename( filename.replaceAll( '\\', '/' ) );
+/**
+ * 非文件字段的最大数量。<br />
+ * 当前默认值设置为：Infinity。<br />
+ *
+ * @type {number}
+ */
+const DEFAULT_MAX_FIELDS: number = Infinity;
+
+/**
+ * 用于限制单个文件的大小。单位为字节。<br />
+ * 当前默认值设置为：Infinity。<br />
+ *
+ * @type {number}
+ */
+const DEFAULT_MAX_FILE_SIZE: number = Infinity;
+
+/**
+ * 用于限制上传文件的数量。<br />
+ * 当前默认值设置为：Infinity。<br />
+ *
+ * @type {number}
+ */
+const DEFAULT_MAX_FILES: number = Infinity;
+
+/**
+ * 对于多部分（multipart）表单，需解析的标头键值对的最大数量。<br />
+ * 当前默认值设置为：Infinity。<br />
+ *
+ * @type {number}
+ */
+const DEFAULT_MAX_HEADER_PAIRS: number = Infinity;
+
+/**
+ * 对于多部分表单，标题部分的最大尺寸。<br />
+ * 当前默认值设置为：Infinity。<br />
+ *
+ * @type {number}
+ */
+const DEFAULT_MAX_HEADER_SIZE: number = Infinity;
+
+/**
+ * 对于多部分表单，最大部分数（字段 + 文件）。<br />
+ * 当前默认值设置为：Infinity。<br />
+ *
+ * @type {number}
+ */
+const DEFAULT_MAX_PARTS: number = Infinity;
+
+/**
+ * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
+ *
+ * @type {string|URL}
+ */
+const DEFAULT_UPLOAD_DIR: URL = new URL( uploadDir );
+
+function GraphQLServerForGetSafeFileName( filename: string ): string{
+  return basename( filename.replaceAll( '\\', '/' ).trim() );
 }
 
-function GetStoredFilename( filename: string ): string{
-  const extension: string = extname( GetSafeFilename( filename ) ).replaceAll( /[^a-zA-Z0-9.]/g, '' ).slice( 0, 20 );
+function GraphQLServerForGetStoredFileName( filename: string ): string{
+  const extension: string = extname( GraphQLServerForGetSafeFileName( filename ) ).replaceAll( /[^a-zA-Z0-9.]/g, '' ).slice( 0, 20 );
 
   return `${ crypto.randomUUID() }${ extension }`;
 }
 
 export {
-  type T_GraphQLUploadFile,
-  type T_GraphQLUploadFileOptions,
+  type T_GraphQLServerForUploadFile,
+  type T_GraphQLServerForUploadFileOptions,
 
-  DEFAULT_UPLOAD_DIR,
-  DEFAULT_MAX_HEADER_SIZE,
-  DEFAULT_MAX_HEADER_PAIRS,
-  DEFAULT_MAX_PARTS,
-  DEFAULT_MAX_FIELDS,
   DEFAULT_MAX_FIELD_NAME_SIZE,
+  DEFAULT_MAX_FIELD_SIZE,
+  DEFAULT_MAX_FIELDS,
   DEFAULT_MAX_FILE_SIZE,
   DEFAULT_MAX_FILES,
-  DEFAULT_MAX_FIELD_SIZE,
+  DEFAULT_MAX_HEADER_PAIRS,
+  DEFAULT_MAX_HEADER_SIZE,
+  DEFAULT_MAX_PARTS,
+  DEFAULT_UPLOAD_DIR,
 
-  GetSafeFilename,
-  GetStoredFilename,
+  GraphQLServerForGetSafeFileName,
+  GraphQLServerForGetStoredFileName,
 };
 
 export default {
-  DEFAULT_UPLOAD_DIR,
-  DEFAULT_MAX_HEADER_SIZE,
-  DEFAULT_MAX_HEADER_PAIRS,
-  DEFAULT_MAX_PARTS,
-  DEFAULT_MAX_FIELDS,
   DEFAULT_MAX_FIELD_NAME_SIZE,
+  DEFAULT_MAX_FIELD_SIZE,
+  DEFAULT_MAX_FIELDS,
   DEFAULT_MAX_FILE_SIZE,
   DEFAULT_MAX_FILES,
-  DEFAULT_MAX_FIELD_SIZE,
+  DEFAULT_MAX_HEADER_PAIRS,
+  DEFAULT_MAX_HEADER_SIZE,
+  DEFAULT_MAX_PARTS,
+  DEFAULT_UPLOAD_DIR,
 
-  GetSafeFilename,
-  GetStoredFilename,
+  GraphQLServerForGetSafeFileName,
+  GraphQLServerForGetStoredFileName,
 };

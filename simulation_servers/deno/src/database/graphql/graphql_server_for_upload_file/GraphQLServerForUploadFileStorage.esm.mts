@@ -13,7 +13,7 @@
 
 'use strict';
 
-async function GraphQLServerForWriteFileStream(
+async function GraphQLServerForUploadFileStorage(
   fileStream: AsyncIterable<Uint8Array>,
   filepath: string | URL,
   maxFileSize: number,
@@ -58,9 +58,9 @@ async function GraphQLServerForWriteFileStream(
 }
 
 export {
-  GraphQLServerForWriteFileStream,
+  GraphQLServerForUploadFileStorage,
 };
 
 export default {
-  GraphQLServerForWriteFileStream,
+  GraphQLServerForUploadFileStorage,
 };
