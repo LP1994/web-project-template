@@ -715,7 +715,7 @@
     "@types/eslint": "^9.6.1",
     "@types/eslint-scope": "^9.1.0",
     "@types/eslint-visitor-keys": "^3.3.2",
-    "@types/estree": "^1.0.9",
+    "@types/estree": "^1.0.10",
     "@types/events": "^3.0.3",
     "@types/expect": "^24.3.2",
     "@types/express": "^5.0.6",
