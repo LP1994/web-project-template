@@ -45,46 +45,26 @@ interface T_GraphQLServerForUploadFile {
 
 interface T_GraphQLServerForUploadFileOptions {
   /**
-   * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
-   *
-   * @default new URL( uploadDir )
-   */
-  uploadDir?: string | URL;
-
-  /**
-   * 对于多部分表单，标题部分的最大尺寸。
-   *
-   * @default Infinity
-   */
-  maxHeaderSize?: number;
-
-  /**
-   * 对于多部分（multipart）表单，需解析的标头键值对的最大数量。
-   *
-   * @default Infinity
-   */
-  maxHeaderPairs?: number;
-
-  /**
-   * 对于多部分表单，最大部分数（字段 + 文件）。
-   *
-   * @default Infinity
-   */
-  maxParts?: number;
-
-  /**
-   * 非文件字段的最大数量。
-   *
-   * @default Infinity
-   */
-  maxFields?: number;
-
-  /**
    * 字段名称的最大长度（以字节为单位）。
    *
    * @default Infinity
    */
   maxFieldNameSize?: number;
+
+  /**
+   * 用于限制multipart中普通字段的最大字节数。
+   *
+   * @default Infinity
+   */
+  maxFieldSize?: number;
+
+  /**
+   * 非文件字段的最大数量。<br />
+   * 当前默认值设置为：2，表示目前只接收“operations”、“map”这2个field字段。<br />
+   *
+   * @default 2
+   */
+  maxFields?: number;
 
   /**
    * 用于限制单个文件的大小。单位为字节。
@@ -101,11 +81,32 @@ interface T_GraphQLServerForUploadFileOptions {
   maxFiles?: number;
 
   /**
-   * 用于限制multipart中普通字段的最大字节数。
+   * 对于多部分（multipart）表单，需解析的标头键值对的最大数量。
    *
    * @default Infinity
    */
-  maxFieldSize?: number;
+  maxHeaderPairs?: number;
+
+  /**
+   * 对于多部分表单，标题部分的最大尺寸。
+   *
+   * @default Infinity
+   */
+  maxHeaderSize?: number;
+
+  /**
+   * 对于多部分表单，最大部分数（字段 + 文件）。
+   *
+   * @default Infinity
+   */
+  maxParts?: number;
+
+  /**
+   * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
+   *
+   * @default new URL( uploadDir )
+   */
+  uploadDir?: string | URL;
 
   /**
    * 文件保存成功后，生成对外访问URL。<br />
@@ -131,11 +132,11 @@ const DEFAULT_MAX_FIELD_SIZE: number = Infinity;
 
 /**
  * 非文件字段的最大数量。<br />
- * 当前默认值设置为：Infinity。<br />
+ * 当前默认值设置为：2，表示目前只接收“operations”、“map”这2个field字段。<br />
  *
  * @type {number}
  */
-const DEFAULT_MAX_FIELDS: number = Infinity;
+const DEFAULT_MAX_FIELDS: number = 2;
 
 /**
  * 用于限制单个文件的大小。单位为字节。<br />
@@ -178,18 +179,33 @@ const DEFAULT_MAX_HEADER_SIZE: number = Infinity;
 const DEFAULT_MAX_PARTS: number = Infinity;
 
 /**
- * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
+ * 保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。<br />
+ * 当前默认值设置为：new URL( uploadDir )。<br />
  *
  * @type {string|URL}
  */
-const DEFAULT_UPLOAD_DIR: URL = new URL( uploadDir );
+const DEFAULT_UPLOAD_DIR: string | URL = new URL( uploadDir );
 
-function GraphQLServerForGetSafeFileName( filename: string ): string{
-  return basename( filename.replaceAll( '\\', '/' ).trim() );
+/**
+ * 返回路径的最后一部分。末尾的目录分隔符将被忽略，且可选后缀将被移除。
+ *
+ * @param {string| URL} filename 用于提取名称的路径。若作为 URL 实例传递，其协议必须为 file:。对于其他协议，请将 URL 作为字符串传递，或传递其 pathname 属性。
+ *
+ * @returns {string} 路径的基本名称。返回值形如：'image.png'。
+ */
+function GraphQLServerForGetSafeFileName( filename: string | URL ): string{
+  return basename( filename ).trim();
 }
 
-function GraphQLServerForGetStoredFileName( filename: string ): string{
-  const extension: string = extname( GraphQLServerForGetSafeFileName( filename ) ).replaceAll( /[^a-zA-Z0-9.]/g, '' ).slice( 0, 20 );
+/**
+ * 生成一个由随机数组成的所要保存文件的文件名。
+ *
+ * @param {string | URL} filename 原始文件名。
+ *
+ * @returns {string} 一个由随机数组成的所要保存文件的文件名。
+ */
+function GraphQLServerForGetStoredFileName( filename: string | URL ): string{
+  const extension: string = extname( GraphQLServerForGetSafeFileName( filename ) ).replaceAll( /[^a-zA-Z0-9.]/g, '_' ).slice( 0, 20 );
 
   return `${ crypto.randomUUID() }${ extension }`;
 }

@@ -28,12 +28,6 @@ import {
 } from 'npm:@fastify/busboy';
 
 import {
-  type T_GraphQLServerForMultipartFilePart,
-
-  GraphQLServerForIsMultipartRequest,
-} from './GraphQLServerForMultipartUpload.esm.mts';
-
-import {
   type T_GraphQLServerForUploadFile,
   type T_GraphQLServerForUploadFileOptions,
 
@@ -57,6 +51,18 @@ import {
 import {
   IsString,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+interface T_GraphQLServerForMultipartFilePart {
+  fieldName: string;
+  file: T_GraphQLServerForUploadFile;
+}
+
+interface T_GraphQLServerForMultipartOperations {
+  query: string;
+  variables?: Record<string, unknown>;
+  operationName?: string;
+  extensions?: Record<string, unknown>;
+}
 
 async function GraphQLServerForMultipartParser(
   request: Request,
@@ -277,6 +283,12 @@ async function GraphQLServerForMultipartParser(
   } );
 }
 
+function GraphQLServerForIsMultipartRequest( request: Request ): boolean{
+  return [
+    'post',
+  ].includes( request.method.toLowerCase() ) && ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' );
+}
+
 // TODO 从这里开始审查代码！！！
 function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string, value: T_GraphQLServerForUploadFile ): void{
   const segments = path.split( '.' );
@@ -340,11 +352,16 @@ function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string,
 }
 
 export {
+  type T_GraphQLServerForMultipartFilePart,
+  type T_GraphQLServerForMultipartOperations,
+
   GraphQLServerForMultipartParser,
+  GraphQLServerForIsMultipartRequest,
   GraphQLServerForSetObjectPath,
 };
 
 export default {
   GraphQLServerForMultipartParser,
+  GraphQLServerForIsMultipartRequest,
   GraphQLServerForSetObjectPath,
 };

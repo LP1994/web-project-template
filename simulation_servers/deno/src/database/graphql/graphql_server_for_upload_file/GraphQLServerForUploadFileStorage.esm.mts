@@ -13,12 +13,20 @@
 
 'use strict';
 
+import {
+  type T_MyCusDenoFsFile,
+
+  GetErrorWriteStreamForSingleton,
+} from 'public/PublicTools.esm.mts';
+
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
+
 async function GraphQLServerForUploadFileStorage(
   fileStream: AsyncIterable<Uint8Array>,
   filepath: string | URL,
   maxFileSize: number,
 ): Promise<number>{
-  const file: Promise<Deno.FsFile> = await Deno.open( filepath, {
+  const file: Deno.FsFile = await Deno.open( filepath, {
     createNew: true,
     write: true,
   } );
@@ -31,6 +39,11 @@ async function GraphQLServerForUploadFileStorage(
       size += chunk.byteLength;
 
       if( size > maxFileSize ){
+        errorWriteStream.write( `
+GraphQLServerForUploadFileStorage：
+单个文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。
+` );
+
         throw new Error( `单个文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。` );
       }
 
@@ -40,7 +53,12 @@ async function GraphQLServerForUploadFileStorage(
         const written: number = await file.write( chunk.subarray( offset ) );
 
         if( written <= 0 ){
-          throw new Error( '写入文件失败！' );
+          errorWriteStream.write( `
+GraphQLServerForUploadFileStorage：
+写入数据量小于等于0！写入文件失败！
+` );
+
+          throw new Error( '写入数据量小于等于0！写入文件失败！' );
         }
 
         offset += written;
@@ -50,6 +68,11 @@ async function GraphQLServerForUploadFileStorage(
     return size;
   }
   catch( error: unknown ){
+    errorWriteStream.write( `
+GraphQLServerForUploadFileStorage：
+文件写入失败：${ ( error as Error ).message }
+` );
+
     throw new Error( ( error as Error ).message );
   }
   finally{
