@@ -26,6 +26,8 @@ import {
 
 import {
   GetDataType,
+  IsEmpty,
+  IsObject,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 /**
@@ -36,20 +38,20 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
 
   description: 'The `Upload` scalar type represents a file upload.',
 
-  coerceInputValue( inputValue: unknown ): T_GraphQLUploadFile{
+  coerceInputValue<T_GraphQLUploadFile>( inputValue: unknown ): T_GraphQLUploadFile{
     if(
-      typeof inputValue !== 'object'
-      || inputValue === null
-      || !( 'filename' in inputValue )
-      || !( 'mimetype' in inputValue )
-      || !( 'encoding' in inputValue )
-      || !( 'size' in inputValue )
-      || !( 'filepath' in inputValue )
+      IsObject( inputValue ) && !IsEmpty( inputValue )
+      && ( 'filename' in inputValue )
+      && ( 'mimetype' in inputValue )
+      && ( 'encoding' in inputValue )
+      && ( 'size' in inputValue )
+      && ( 'filepath' in inputValue )
     ){
+      return inputValue as T_GraphQLUploadFile;
+    }
+    else{
       throw new GraphQLError( `Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue ) }”。inputValue的值为：${ JSON.stringify( inputValue ) }`, );
     }
-
-    return value as T_GraphQLUploadFile;
   },
 
   coerceOutputValue( outputValue: unknown ): never{
@@ -57,7 +59,7 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
   },
 
   coerceInputLiteral( valueNode: T_ConstValueNode ): never{
-    throw new GraphQLError( 'Upload literal unsupported.', { nodes: valueNode, } );
+    throw new GraphQLError( `Upload literal unsupported. valueNode的数据类型为：“${ GetDataType( valueNode ) }”。valueNode的值为：${ JSON.stringify( valueNode ) }`, { nodes: valueNode, } );
   },
 } );
 
