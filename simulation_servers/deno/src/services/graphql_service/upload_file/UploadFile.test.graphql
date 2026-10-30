@@ -5,6 +5,8 @@
 #IDE: WebStorm
 #CreateDate: 2022-11-02 17:38:57 星期三
 
+#也支持批量的文件上传操作！！！是跟“singleUpload”、“multipleUpload”不同的操作。
+
 #一次性上传单个文件
 mutation singleUpload($file: Upload!) {
   singleUpload: singleUpload(file: $file) {
@@ -42,5 +44,3 @@ mutation multipleUpload($files: [Upload!]!) {
     filepath,
   },
 }
-
-#也支持批量的文件上传操作！！！
