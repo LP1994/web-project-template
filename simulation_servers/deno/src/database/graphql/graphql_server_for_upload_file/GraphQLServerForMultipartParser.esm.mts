@@ -56,6 +56,10 @@ import {
 } from 'public/PublicTools.esm.mts';
 
 import {
+  IsArray,
+  IsEmpty,
+  IsNull,
+  IsObject,
   IsString,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
@@ -279,7 +283,7 @@ async function GraphQLServerForMultipartParser(
           throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“map”。` );
         }
 
-        const operationsObject: T_GraphQLServerForMultipartOperations = JSON.parse( operations ) as T_GraphQLServerForMultipartOperations;
+        const operationsObject: T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> = JSON.parse( operations ) as ( T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> );
 
         const mapObject: Record<string, string[]> = JSON.parse( map ) as Record<string, string[]>;
 
@@ -305,13 +309,17 @@ async function GraphQLServerForMultipartParser(
             throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的文件不存在！` );
           }
 
-          if( !( Array.isArray( variablePaths ) && variablePaths.length > 0 ) ){
-            throw new Error( `“${ fileFieldName }”对应的值的数据类型不是数组类型！而且不能为空数组！` );
+          if( !( Array.isArray( variablePaths ) && ( variablePaths as string[] ).length > 0 ) ){
+            errorWriteStream.write( `
+请求“${ pathName }”中“${ fileFieldName }”对应的值的数据类型必须得是数组类型！而且不能为空数组！
+` );
+
+            throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的值的数据类型必须得是数组类型！而且不能为空数组！` );
           }
 
           for( const variablePath of
             variablePaths ){
-            GraphQLServerForSetObjectPath( operationsObject, variablePath, file as T_GraphQLServerForUploadFile );
+            GraphQLServerForSetObjectPath( request, operationsObject, variablePath, file as T_GraphQLServerForUploadFile );
           }
         }
 
@@ -425,20 +433,29 @@ function GraphQLServerForIsMultipartRequest( request: Request ): boolean{
   ].includes( request.method.toLowerCase() ) && ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' );
 }
 
-// TODO 从这里开始审查代码！！！
 /**
  *
- * @param {Record<string, any>} root
+ * @param {Request} request
+ *
+ * @param {T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations>} root
  *
  * @param {string} path
  *
  * @param {T_GraphQLServerForUploadFile} value
  */
-function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string, value: T_GraphQLServerForUploadFile ): void{
-  const segments = path.split( '.' );
+function GraphQLServerForSetObjectPath( request: Request, root: T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations>, path: string, value: T_GraphQLServerForUploadFile ): void{
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
+
+  const segments: string[] = path.split( '.' );
 
   if( segments.length === 0 ){
-    throw new Error( 'Invalid empty map path' );
+    errorWriteStream.write( `
+请求“${ pathName }”：
+Invalid empty map path.
+` );
+
+    throw new Error( `请求“${ pathName }”：Invalid empty map path.` );
   }
 
   for( const segment of
@@ -448,7 +465,12 @@ function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string,
       segment === 'prototype' ||
       segment === 'constructor'
     ){
-      throw new Error( `Unsafe multipart map path: ${ path }` );
+      errorWriteStream.write( `
+请求“${ pathName }”中：
+Unsafe multipart map path: ${ path }
+` );
+
+      throw new Error( `请求“${ pathName }”中：Unsafe multipart map path: ${ path }` );
     }
   }
 
@@ -461,17 +483,24 @@ function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string,
   ){
     const segment: string = segments[ index ];
 
-    if(
-      typeof current !== 'object' ||
-      current === null
-    ){
-      throw new Error( `Invalid multipart map path: ${ path }` );
+    if( !( IsObject( current ) && !IsNull( current ) && !IsEmpty( current ) ) || !( IsArray( current ) && !IsEmpty( current ) ) ){
+      errorWriteStream.write( `
+请求“${ pathName }”中：
+Invalid multipart map path: ${ path }
+` );
+
+      throw new Error( `请求“${ pathName }”中：Invalid multipart map path: ${ path }` );
     }
 
-    const object: Record<string, any> = current as Record<string, any>;
+    const object: Record<string, any> | Array<Record<string, any>> | Array<any> = current as ( Record<string, any> | Array<Record<string, any>> | Array<any> );
 
     if( !( segment in object ) ){
-      throw new Error( `Multipart map path does not exist: ${ path }` );
+      errorWriteStream.write( `
+请求“${ pathName }”中：
+Multipart map path does not exist: ${ path }
+` );
+
+      throw new Error( `请求“${ pathName }”中：Multipart map path does not exist: ${ path }` );
     }
 
     current = object[ segment ];
@@ -479,17 +508,24 @@ function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string,
 
   const lastSegment: string = segments.at( -1 )!;
 
-  if(
-    typeof current !== 'object' ||
-    current === null
-  ){
-    throw new Error( `Invalid multipart map path: ${ path }` );
+  if( !( IsObject( current ) && !IsNull( current ) && !IsEmpty( current ) ) || !( IsArray( current ) && !IsEmpty( current ) ) ){
+    errorWriteStream.write( `
+请求“${ pathName }”中：
+Invalid multipart map path: ${ path }
+` );
+
+    throw new Error( `请求“${ pathName }”中：Invalid multipart map path: ${ path }` );
   }
 
-  const object: Record<string, any> = current as Record<string, any>;
+  const object: Record<string, any> | Array<any> = current as ( Record<string, any> | Array<any> );
 
   if( !( lastSegment in object ) ){
-    throw new Error( `Multipart map path does not exist: ${ path }` );
+    errorWriteStream.write( `
+请求“${ pathName }”中：
+Multipart map path does not exist: ${ path }
+` );
+
+    throw new Error( `请求“${ pathName }”中：Multipart map path does not exist: ${ path }` );
   }
 
   object[ lastSegment ] = value;
