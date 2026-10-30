@@ -49,17 +49,17 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
   coerceInputValue<T_GraphQLServerForUploadFile>( inputValue: unknown ): T_GraphQLServerForUploadFile{
     if(
       IsObject( inputValue ) && !IsEmpty( inputValue )
-      && ( 'filename' in inputValue )
-      && ( 'mimetype' in inputValue )
-      && ( 'encoding' in inputValue )
-      && ( 'size' in inputValue )
-      && ( 'filepath' in inputValue )
+      && ( 'filename' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'mimetype' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'encoding' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'size' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'filepath' in ( inputValue as T_GraphQLServerForUploadFile ) )
     ){
       return inputValue as T_GraphQLServerForUploadFile;
     }
     else{
       errorWriteStream.write( `
-coerceInputValue：
+GraphQLServerForUploadScalar.esm.mts--->coerceInputValue：
 Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue ) }”。inputValue的值为：${ JSON.stringify( inputValue ) }
 ` );
 
@@ -69,7 +69,7 @@ Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue 
 
   coerceOutputValue( outputValue: unknown ): never{
     errorWriteStream.write( `
-coerceOutputValue：
+GraphQLServerForUploadScalar.esm.mts--->coerceOutputValue：
 Upload serialization unsupported. outputValue的数据类型为：“${ GetDataType( outputValue ) }”。outputValue的值为：${ JSON.stringify( outputValue ) }
 ` );
 
@@ -78,7 +78,7 @@ Upload serialization unsupported. outputValue的数据类型为：“${ GetDataT
 
   coerceInputLiteral( valueNode: T_ConstValueNode ): never{
     errorWriteStream.write( `
-coerceInputLiteral：
+GraphQLServerForUploadScalar.esm.mts--->coerceInputLiteral：
 Upload literal unsupported. valueNode的数据类型为：“${ GetDataType( valueNode ) }”。valueNode的值为：${ JSON.stringify( valueNode ) }
 ` );
 
