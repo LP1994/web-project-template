@@ -50,6 +50,12 @@ import {
 } from './GraphQLServerForUploadFileStorage.esm.mts';
 
 import {
+  type T_MyCusDenoFsFile,
+
+  GetErrorWriteStreamForSingleton,
+} from 'public/PublicTools.esm.mts';
+
+import {
   IsString,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
@@ -64,6 +70,8 @@ interface T_GraphQLServerForMultipartOperations {
   operationName?: string;
   extensions?: Record<string, unknown>;
 }
+
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  * multipart解析器。
@@ -102,10 +110,18 @@ async function GraphQLServerForMultipartParser(
     pathName: string = url.pathname;
 
   if( !GraphQLServerForIsMultipartRequest( request ) ){
-    throw new Error( `请求“${ pathName }”中的请求头里的“content-type”属性的值不为“multipart/form-data”，GraphQL文件上传功能仅支持请求头中的“content-type”属性的值为“multipart/form-data”。` );
+    errorWriteStream.write( `
+请求“${ pathName }”中的请求头里的“content-type”属性的值不为“multipart/form-data”，或不是以该值为开头。GraphQL文件上传功能仅支持请求头中的“content-type”属性的值为“multipart/form-data”，或是以该值为开头的。且该请求方式必须是“post”请求。
+` );
+
+    throw new Error( `请求“${ pathName }”中的请求头里的“content-type”属性的值不为“multipart/form-data”，或不是以该值为开头。GraphQL文件上传功能仅支持请求头中的“content-type”属性的值为“multipart/form-data”，或是以该值为开头的。且该请求方式必须是“post”请求。` );
   }
 
   if( !request.clone().body ){
+    errorWriteStream.write( `
+请求“${ pathName }”中的请求体body不能为空！
+` );
+
     throw new Error( `请求“${ pathName }”中的请求体body不能为空！` );
   }
 
@@ -316,11 +332,56 @@ async function GraphQLServerForMultipartParser(
     method: request.method,
     headers,
     body: operationsText,
-    signal: request.signal,
+    ...( ( () => (
+      'signal' in request
+      ? { signal: request.signal }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'cache' in request
+      ? { cache: request.cache }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'credentials' in request
+      ? { credentials: request.credentials }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'integrity' in request
+      ? { integrity: request.integrity }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'keepalive' in request
+      ? { keepalive: request.keepalive }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'mode' in request
+      ? { mode: request.mode }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'redirect' in request
+      ? { redirect: request.redirect }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'referrer' in request
+      ? { referrer: request.referrer }
+      : {}
+    ) )() ),
+    ...( ( () => (
+      'referrerPolicy' in request
+      ? { referrerPolicy: request.referrerPolicy }
+      : {}
+    ) )() ),
   } );
 }
 
 /**
+ * 判断一个请求是不是“post”请求，并且其请求头中的"content-type"属性的值是不是"multipart/form-data"，或是以该值为开头的。
  *
  * @param {Request} request
  *
