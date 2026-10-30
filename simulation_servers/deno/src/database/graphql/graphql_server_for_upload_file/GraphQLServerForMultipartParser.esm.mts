@@ -484,10 +484,10 @@ Unsafe multipart map path: ${ path }
     if( !( IsObject( current ) && !IsNull( current ) && !IsEmpty( current ) ) || !( IsArray( current ) && !IsEmpty( current ) ) ){
       errorWriteStream.write( `
 请求“${ pathName }”中：
-Invalid multipart map path: ${ path }
+1）Invalid multipart map path: ${ path }
 ` );
 
-      throw new Error( `请求“${ pathName }”中：Invalid multipart map path: ${ path }` );
+      throw new Error( `请求“${ pathName }”中：1）Invalid multipart map path: ${ path }` );
     }
 
     const object: Record<string, any> | Array<Record<string, any>> | Array<any> = current as ( Record<string, any> | Array<Record<string, any>> | Array<any> );
@@ -509,10 +509,10 @@ Multipart map path does not exist: ${ path }
   if( !( IsObject( current ) && !IsNull( current ) && !IsEmpty( current ) ) || !( IsArray( current ) && !IsEmpty( current ) ) ){
     errorWriteStream.write( `
 请求“${ pathName }”中：
-Invalid multipart map path: ${ path }
+2）Invalid multipart map path: ${ path }
 ` );
 
-    throw new Error( `请求“${ pathName }”中：Invalid multipart map path: ${ path }` );
+    throw new Error( `请求“${ pathName }”中：2）Invalid multipart map path: ${ path }` );
   }
 
   const object: Record<string, any> | Array<any> = current as ( Record<string, any> | Array<any> );
