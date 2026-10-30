@@ -314,6 +314,11 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  GraphQLServerForIsMultipartRequest,
+  GraphQLServerForMultipartParser,
+} from './graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
+
+import {
   type T_MyCusDenoFsFile,
 
   GetErrorWriteStreamForSingleton,
@@ -1086,23 +1091,16 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       } );
     }
 
-    if( [
-      'post',
-    ].includes( request.method.toLowerCase() ) && ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' ) ){
-      // multipart 中间层
-      /*
-       return await HandleGraphQLMultipartUpload( {
-       request,
-       options,
-       reqCtx,
-       } );
-       */
+    let graphqlRequest: Request = request;
+
+    if( GraphQLServerForIsMultipartRequest( request ) ){
+      graphqlRequest = await GraphQLServerForMultipartParser( request );
     }
 
     return createHandlerByHTTP(
       options,
       reqCtx,
-    )( request );
+    )( graphqlRequest );
   }
 }
 

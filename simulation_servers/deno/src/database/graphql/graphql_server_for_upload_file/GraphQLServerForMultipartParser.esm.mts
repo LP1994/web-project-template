@@ -43,11 +43,9 @@ import {
 
   GraphQLServerForGetSafeFileName,
   GraphQLServerForGetStoredFileName,
-} from './GraphQLServerForUploadFile.esm.mts';
 
-import {
   GraphQLServerForUploadFileStorage,
-} from './GraphQLServerForUploadFileStorage.esm.mts';
+} from './GraphQLServerForUploadFile.esm.mts';
 
 import {
   type T_MyCusDenoFsFile,
