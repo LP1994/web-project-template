@@ -64,11 +64,11 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
   coerceInputValue<T_GraphQLServerForUploadFile>( inputValue: unknown ): T_GraphQLServerForUploadFile{
     if(
       IsObject( inputValue ) && !IsEmpty( inputValue )
-      && ( 'filename' in ( inputValue as T_GraphQLServerForUploadFile ) )
-      && ( 'mimetype' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'fileName' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'mimeType' in ( inputValue as T_GraphQLServerForUploadFile ) )
       && ( 'encoding' in ( inputValue as T_GraphQLServerForUploadFile ) )
       && ( 'size' in ( inputValue as T_GraphQLServerForUploadFile ) )
-      && ( 'filepath' in ( inputValue as T_GraphQLServerForUploadFile ) )
+      && ( 'filePath' in ( inputValue as T_GraphQLServerForUploadFile ) )
     ){
       return inputValue as T_GraphQLServerForUploadFile;
     }

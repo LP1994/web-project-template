@@ -44,20 +44,20 @@ import {
  * 例子：<br />
  * ```ts
  * {
- *   filename: 'test.png',
- *   mimetype: 'image/png',
+ *   fileName: 'test.png',
+ *   mimeType: 'image/png',
  *   encoding: 'binary',
  *   size: 102400,
- *   filepath: 'G:/WebStormWS/7788/1.png',
+ *   filePath: 'G:/WebStormWS/7788/1.png',
  * }
  * ```
  */
 interface T_GraphQLServerForUploadFile {
-  filename: string;
-  mimetype: string;
+  fileName: string;
+  mimeType: string;
   encoding: '7bit' | '8bit' | 'binary';
   size: number;
-  filepath: string;
+  filePath: string;
 }
 
 /**

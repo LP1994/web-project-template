@@ -11,15 +11,15 @@ scalar Upload
 "上传文件成功后，返回的是一个文件对象，该对象里有关于文件的元数据和文件存储的磁盘路径、文件大小等等信息。"
 type GraphQLUploadFile {
   "值形如：'test.png'。"
-  filename: String!,
+  fileName: String!,
   "值形如：'image/png'。"
-  mimetype: String!,
+  mimeType: String!,
   "值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。"
   encoding: String!,
   "值形如：102400，单位为字节。"
   size: Int!,
   "值形如：'G:/WebStormWS/7788/1.png'。"
-  filepath: String!,
+  filePath: String!,
 }
 
 type Mutation {

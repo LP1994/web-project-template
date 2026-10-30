@@ -129,20 +129,20 @@ async function GraphQLServerForMultipartParser(
     recursive: true,
   } );
 
-  const operationsText: string = await new Promise<string>( async ( resolve, reject ): void => {
+  const operationsText: string = await new Promise<string>( async ( resolve: ( arg: unknown ) => any, reject: ( arg: unknown ) => any ): void => {
     const busboy: BusboyInstance = new Busboy( {
       headers: {
-        'content-type': request.headers.get( 'content-type' ) ?? '',
+        'content-type': request.headers.get( 'content-type' ) as string,
       },
       limits: {
-        headerSize: maxHeaderSize,
-        headerPairs: maxHeaderPairs,
-        parts: maxParts,
-        fields: maxFields,
         fieldNameSize: maxFieldNameSize,
+        fieldSize: maxFieldSize,
+        fields: maxFields,
         fileSize: maxFileSize,
         files: maxFiles,
-        fieldSize: maxFieldSize,
+        headerPairs: maxHeaderPairs,
+        headerSize: maxHeaderSize,
+        parts: maxParts,
       },
     } );
 
@@ -188,26 +188,24 @@ async function GraphQLServerForMultipartParser(
        */
       mimeType: string,
     ): void => {
-      const safeFilename: string = GraphQLServerForGetSafeFileName( filename );
+      const safeFileName: string = GraphQLServerForGetSafeFileName( filename );
 
-      const storedFilename: string = GraphQLServerForGetStoredFileName( safeFilename );
+      const storedFileName: string = GraphQLServerForGetStoredFileName( safeFileName );
 
-      const filepath: string = join( uploadDir, storedFilename );
+      const filePath: string = join( uploadDir, storedFileName );
 
       const file: T_GraphQLServerForUploadFile = {
-        filename: safeFilename,
-        mimetype: mimeType,
+        fileName: safeFileName,
+        mimeType: mimeType,
         encoding: transferEncoding,
         size: 0,
-        filepath,
+        filePath,
       };
 
       const task: Promise<void> = ( async (): Promise<void> => {
-        const readable: AsyncIterable<Uint8Array> = stream as AsyncIterable<Uint8Array>;
-
         file.size = await GraphQLServerForUploadFileStorage(
-          readable,
-          filepath,
+          stream as AsyncIterable<Uint8Array>,
+          filePath,
           maxFileSize,
         );
 
@@ -222,7 +220,11 @@ async function GraphQLServerForMultipartParser(
       task.catch( fail );
 
       stream.on( 'limit', (): void => {
-        fail( new Error( `上传的文件（${ safeFilename }）的大小超过了程序的设定值（${ maxFileSize }，单位为字节）！` ) );
+        errorWriteStream.write( `
+请求“${ pathName }”中上传的文件（${ safeFileName }）的大小超过了程序的设定值（${ maxFileSize }，单位为字节）！
+` );
+
+        fail( new Error( `请求“${ pathName }”中上传的文件（${ safeFileName }）的大小超过了程序的设定值（${ maxFileSize }，单位为字节）！` ) );
       } );
     } );
 
@@ -238,7 +240,11 @@ async function GraphQLServerForMultipartParser(
       mimeType: string,
     ): void => {
       if( valueTruncated ){
-        fail( new Error( `多部分（Multipart）字段“${ fieldname }”的大小超出程序设置的限制值（${ maxFieldSize }）！` ) );
+        errorWriteStream.write( `
+请求“${ pathName }”中多部分（Multipart）字段“${ fieldname }”的值的大小超出程序设置的限制值（${ maxFieldSize }）！
+` );
+
+        fail( new Error( `请求“${ pathName }”中多部分（Multipart）字段“${ fieldname }”的值的大小超出程序设置的限制值（${ maxFieldSize }）！` ) );
 
         return;
       }
@@ -255,19 +261,27 @@ async function GraphQLServerForMultipartParser(
         await Promise.all( fileTasks );
 
         const operations: string | undefined = fields.get( 'operations' );
-        const mapText: string | undefined = fields.get( 'map' );
+        const map: string | undefined = fields.get( 'map' );
 
         if( !( IsString( operations ) && ( operations as string ).trim().length > 0 ) ){
-          throw new Error( `多部分（multipart）中缺少有效的字段“operations”。` );
+          errorWriteStream.write( `
+请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“operations”。
+` );
+
+          throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“operations”。` );
         }
 
-        if( !( IsString( mapText ) && ( mapText as string ).trim().length > 0 ) ){
-          throw new Error( `多部分（multipart）中缺少有效的字段“map”。` );
+        if( !( IsString( map ) && ( map as string ).trim().length > 0 ) ){
+          errorWriteStream.write( `
+请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“map”。
+` );
+
+          throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“map”。` );
         }
 
-        const operationsObject: Record<string, any> = JSON.parse( operations );
+        const operationsObject: T_GraphQLServerForMultipartOperations = JSON.parse( operations ) as T_GraphQLServerForMultipartOperations;
 
-        const mapObject: Record<string, string[]> = JSON.parse( mapText );
+        const mapObject: Record<string, string[]> = JSON.parse( map ) as Record<string, string[]>;
 
         const fileByFieldName: Map<string, T_GraphQLServerForUploadFile> = new Map<string, T_GraphQLServerForUploadFile>();
 
@@ -284,7 +298,11 @@ async function GraphQLServerForMultipartParser(
           const file: T_GraphQLServerForUploadFile | undefined = fileByFieldName.get( fileFieldName );
 
           if( !file ){
-            throw new Error( `“${ fileFieldName }”对应的文件不存在！` );
+            errorWriteStream.write( `
+请求“${ pathName }”中“${ fileFieldName }”对应的文件不存在！
+` );
+
+            throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的文件不存在！` );
           }
 
           if( !( Array.isArray( variablePaths ) && variablePaths.length > 0 ) ){
@@ -304,12 +322,26 @@ async function GraphQLServerForMultipartParser(
       }
     } );
 
-    busboy.on( 'filesLimit', () => {
-      fail(
-        new Error(
-          `Too many uploaded files. Maximum: ${ maxFiles }`,
-        ),
-      );
+    /**
+     * 当达到指定的文件数量限制时触发。此后将不再触发“file”事件。
+     */
+    busboy.on( 'filesLimit', (): void => {
+      errorWriteStream.write( `
+请求“${ pathName }”中的请求体body中的“文件（file）”数超过程序设定的最大数量（${ maxFiles }）！
+` );
+
+      fail( new Error( `请求“${ pathName }”中的请求体body中的“文件（file）”数超过程序设定的最大数量（${ maxFiles }）！` ) );
+    } );
+
+    /**
+     * 当达到指定的字段数量上限时触发。此后将不再触发“字段”事件。
+     */
+    busboy.on( 'fieldsLimit', (): void => {
+      errorWriteStream.write( `
+请求“${ pathName }”中的请求体body中的“字段（field）”数超过程序设定的最大数量（${ maxFields }）！
+` );
+
+      fail( new Error( `请求“${ pathName }”中的请求体body中的“字段（field）”数超过程序设定的最大数量（${ maxFields }）！` ) );
     } );
 
     busboy.on( 'error', fail );

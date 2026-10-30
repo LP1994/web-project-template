@@ -38,10 +38,10 @@ class GraphQLUploadFile
   implements T_GraphQlUploadFile {
 
   // 值形如：'test.png'。
-  public filename: T_Scalars['String']['output'];
+  public fileName: T_Scalars['String']['output'];
 
   // 值形如：'image/png'。
-  public mimetype: T_Scalars['String']['output'];
+  public mimeType: T_Scalars['String']['output'];
 
   // 值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。
   public encoding: T_Scalars['String']['output'];
@@ -50,20 +50,20 @@ class GraphQLUploadFile
   public size: T_Scalars['String']['output'];
 
   // 值形如：'G:/WebStormWS/7788/1.png'。
-  public filepath: T_Scalars['String']['output'];
+  public filePath: T_Scalars['String']['output'];
 
   public constructor( {
-    filename,
-    mimetype,
+    fileName,
+    mimeType,
     encoding,
     size,
-    filepath,
+    filePath,
   }: T_GraphQLServerForUploadFile ){
-    this.filename = filename;
-    this.mimetype = mimetype;
+    this.fileName = fileName;
+    this.mimeType = mimeType;
     this.encoding = encoding;
     this.size = size;
-    this.filepath = filepath;
+    this.filePath = filePath;
   }
 
 }

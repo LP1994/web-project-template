@@ -14,11 +14,11 @@ type GraphQLUploadFile {
   "值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。"
   encoding: String!
   "值形如：'test.png'。"
-  filename: String!
+  fileName: String!
   "值形如：'G:/WebStormWS/7788/1.png'。"
-  filepath: String!
+  filePath: String!
   "值形如：'image/png'。"
-  mimetype: String!
+  mimeType: String!
   "值形如：102400，单位为字节。"
   size: Int!
 }

@@ -12,17 +12,17 @@ mutation singleUpload($file: Upload!) {
   singleUpload: singleUpload(file: $file) {
     #例子：
     #{
-    #  filename: 'test.png',
-    #  mimetype: 'image/png',
+    #  fileName: 'test.png',
+    #  mimeType: 'image/png',
     #  encoding: 'binary', // '7bit' | '8bit' | 'binary'
     #  size: 102400,
-    #  filepath: 'G:/WebStormWS/7788/1.png',
+    #  filePath: 'G:/WebStormWS/7788/1.png',
     #}
-    filename,
-    mimetype,
+    fileName,
+    mimeType,
     encoding,
     size,
-    filepath,
+    filePath,
   },
 }
 
@@ -31,16 +31,16 @@ mutation multipleUpload($files: [Upload!]!) {
   multipleUpload: multipleUpload(files: $files) {
     #例子：
     #{
-    #  filename: 'test.png',
-    #  mimetype: 'image/png',
+    #  fileName: 'test.png',
+    #  mimeType: 'image/png',
     #  encoding: 'binary', // '7bit' | '8bit' | 'binary'
     #  size: 102400,
-    #  filepath: 'G:/WebStormWS/7788/1.png',
+    #  filePath: 'G:/WebStormWS/7788/1.png',
     #}
-    filename,
-    mimetype,
+    fileName,
+    mimeType,
     encoding,
     size,
-    filepath,
+    filePath,
   },
 }

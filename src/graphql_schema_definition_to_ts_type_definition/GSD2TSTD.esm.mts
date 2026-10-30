@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2026-10-30 01:49:11 星期五
+ * CreateDate: 2026-10-31 02:52:03 星期六
  */
 
 "use strict";
@@ -35,11 +35,11 @@ export type T_GraphQlUploadFile = {
   /** 值形如：'binary'，该值有：'7bit' | '8bit' | 'binary'。 */
   encoding: FieldWrapper<Scalars["String"]["output"]>;
   /** 值形如：'test.png'。 */
-  filename: FieldWrapper<Scalars["String"]["output"]>;
+  fileName: FieldWrapper<Scalars["String"]["output"]>;
   /** 值形如：'G:/WebStormWS/7788/1.png'。 */
-  filepath: FieldWrapper<Scalars["String"]["output"]>;
+  filePath: FieldWrapper<Scalars["String"]["output"]>;
   /** 值形如：'image/png'。 */
-  mimetype: FieldWrapper<Scalars["String"]["output"]>;
+  mimeType: FieldWrapper<Scalars["String"]["output"]>;
   /** 值形如：102400，单位为字节。 */
   size: FieldWrapper<Scalars["Int"]["output"]>;
 };

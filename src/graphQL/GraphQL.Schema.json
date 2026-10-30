@@ -432,7 +432,7 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "filename",
+            "name": "fileName",
             "description": "值形如：'test.png'。",
             "args": [],
             "type": {
@@ -448,7 +448,7 @@
             "deprecationReason": null
           },
           {
-            "name": "mimetype",
+            "name": "mimeType",
             "description": "值形如：'image/png'。",
             "args": [],
             "type": {
@@ -496,7 +496,7 @@
             "deprecationReason": null
           },
           {
-            "name": "filepath",
+            "name": "filePath",
             "description": "值形如：'G:/WebStormWS/7788/1.png'。",
             "args": [],
             "type": {
