@@ -8,7 +8,7 @@
  */
 
 /**
- * GraphQL上传功能之文件的存储。
+ * GraphQL上传功能之保存客户端上传的文件。
  */
 
 'use strict';
@@ -21,12 +21,23 @@ import {
 
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
+/**
+ * 保存客户端上传的文件。
+ *
+ * @param {AsyncIterable<Uint8Array>} fileStream
+ *
+ * @param {string | URL} filePath
+ *
+ * @param {number} maxFileSize
+ *
+ * @returns {Promise<number>}
+ */
 async function GraphQLServerForUploadFileStorage(
   fileStream: AsyncIterable<Uint8Array>,
-  filepath: string | URL,
+  filePath: string | URL,
   maxFileSize: number,
 ): Promise<number>{
-  const file: Deno.FsFile = await Deno.open( filepath, {
+  const file: Deno.FsFile = await Deno.open( filePath, {
     createNew: true,
     write: true,
   } );
@@ -40,11 +51,11 @@ async function GraphQLServerForUploadFileStorage(
 
       if( size > maxFileSize ){
         errorWriteStream.write( `
-GraphQLServerForUploadFileStorage：
-单个文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。
+GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
+所要保存的文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。
 ` );
 
-        throw new Error( `单个文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。` );
+        throw new Error( `所要保存的文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。` );
       }
 
       let offset: number = 0;
@@ -54,11 +65,11 @@ GraphQLServerForUploadFileStorage：
 
         if( written <= 0 ){
           errorWriteStream.write( `
-GraphQLServerForUploadFileStorage：
-写入数据量小于等于0！写入文件失败！
+GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
+文件写入数据失败！
 ` );
 
-          throw new Error( '写入数据量小于等于0！写入文件失败！' );
+          throw new Error( '文件写入数据失败！' );
         }
 
         offset += written;
@@ -69,7 +80,7 @@ GraphQLServerForUploadFileStorage：
   }
   catch( error: unknown ){
     errorWriteStream.write( `
-GraphQLServerForUploadFileStorage：
+GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
 文件写入失败：${ ( error as Error ).message }
 ` );
 

@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2026-10-30 01:49:11 星期五
+ * CreateDate: 2026-10-30 19:42:20 星期五
  */
 
 "use strict";
@@ -34,7 +34,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  /** 自定义的Upload标量。 */
+  /** 自定义一个Upload标量（Upload Scalar），用于GraphQL文件上传。 */
   Upload: { input: unknown; output: unknown };
 };
 

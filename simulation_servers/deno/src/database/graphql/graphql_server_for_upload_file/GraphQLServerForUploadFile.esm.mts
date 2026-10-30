@@ -189,25 +189,23 @@ const DEFAULT_UPLOAD_DIR: string | URL = new URL( uploadDir );
 /**
  * 返回路径的最后一部分。末尾的目录分隔符将被忽略，且可选后缀将被移除。
  *
- * @param {string| URL} filename 用于提取名称的路径。若作为 URL 实例传递，其协议必须为 file:。对于其他协议，请将 URL 作为字符串传递，或传递其 pathname 属性。
+ * @param {string| URL} fileName 用于提取名称的路径。若作为 URL 实例传递，其协议必须为 file:。对于其他协议，请将 URL 作为字符串传递，或传递其 pathname 属性。
  *
  * @returns {string} 路径的基本名称。返回值形如：'image.png'。
  */
-function GraphQLServerForGetSafeFileName( filename: string | URL ): string{
-  return basename( filename ).trim();
+function GraphQLServerForGetSafeFileName( fileName: string | URL ): string{
+  return basename( fileName ).trim();
 }
 
 /**
  * 生成一个由随机数组成的所要保存文件的文件名。
  *
- * @param {string | URL} filename 原始文件名。
+ * @param {string | URL} fileName 原始文件名。
  *
  * @returns {string} 一个由随机数组成的所要保存文件的文件名。
  */
-function GraphQLServerForGetStoredFileName( filename: string | URL ): string{
-  const extension: string = extname( GraphQLServerForGetSafeFileName( filename ) ).replaceAll( /[^a-zA-Z0-9.]/g, '_' ).slice( 0, 20 );
-
-  return `${ crypto.randomUUID() }${ extension }`;
+function GraphQLServerForGetStoredFileName( fileName: string | URL ): string{
+  return `${ crypto.randomUUID() }${ extname( GraphQLServerForGetSafeFileName( fileName ) ).replaceAll( /[^a-zA-Z0-9.]/g, '_' ).slice( 0, 20 ) }`;
 }
 
 export {
