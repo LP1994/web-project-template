@@ -43,6 +43,9 @@ interface T_GraphQLServerForUploadFile {
   filepath: string;
 }
 
+/**
+ * 上传配置项。
+ */
 interface T_GraphQLServerForUploadFileOptions {
   /**
    * 字段名称的最大长度（以字节为单位）。
