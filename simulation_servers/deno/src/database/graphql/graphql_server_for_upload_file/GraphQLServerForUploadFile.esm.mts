@@ -22,6 +22,23 @@ import {
   uploadDir,
 } from 'configures/GlobalParameters.esm.mts';
 
+import {
+  type T_GraphQLServerForMultipartFilePart,
+  type T_GraphQLServerForMultipartOperations,
+
+  GraphQLServerForMultipartParser,
+  GraphQLServerForIsMultipartRequest,
+  GraphQLServerForSetObjectPath,
+} from './GraphQLServerForMultipartParser.esm.mts';
+
+import {
+  GraphQLServerForUploadFileStorage,
+} from './GraphQLServerForUploadFileStorage.esm.mts';
+
+import {
+  GraphQLServerForUploadScalar,
+} from './GraphQLServerForUploadScalar.esm.mts';
+
 /**
  * 一个文件对象，该对象里有关于文件的元数据和文件存储的磁盘路径、文件大小等等信息。<br />
  * 例子：<br />
@@ -212,6 +229,8 @@ function GraphQLServerForGetStoredFileName( fileName: string | URL ): string{
 }
 
 export {
+  type T_GraphQLServerForMultipartFilePart,
+  type T_GraphQLServerForMultipartOperations,
   type T_GraphQLServerForUploadFile,
   type T_GraphQLServerForUploadFileOptions,
 
@@ -227,6 +246,14 @@ export {
 
   GraphQLServerForGetSafeFileName,
   GraphQLServerForGetStoredFileName,
+
+  GraphQLServerForUploadFileStorage,
+
+  GraphQLServerForUploadScalar,
+
+  GraphQLServerForMultipartParser,
+  GraphQLServerForIsMultipartRequest,
+  GraphQLServerForSetObjectPath,
 };
 
 export default {
@@ -242,4 +269,12 @@ export default {
 
   GraphQLServerForGetSafeFileName,
   GraphQLServerForGetStoredFileName,
+
+  GraphQLServerForUploadFileStorage,
+
+  GraphQLServerForUploadScalar,
+
+  GraphQLServerForMultipartParser,
+  GraphQLServerForIsMultipartRequest,
+  GraphQLServerForSetObjectPath,
 };

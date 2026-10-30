@@ -39,6 +39,7 @@ import {
   DEFAULT_MAX_HEADER_PAIRS,
   DEFAULT_MAX_HEADER_SIZE,
   DEFAULT_MAX_PARTS,
+  DEFAULT_UPLOAD_DIR,
 
   GraphQLServerForGetSafeFileName,
   GraphQLServerForGetStoredFileName,
@@ -64,9 +65,38 @@ interface T_GraphQLServerForMultipartOperations {
   extensions?: Record<string, unknown>;
 }
 
+/**
+ * multipart解析器。
+ *
+ * @param {Request} request
+ *
+ * @param {T_GraphQLServerForUploadFileOptions} options
+ *
+ * @returns {Promise<Request>}
+ */
 async function GraphQLServerForMultipartParser(
   request: Request,
-  options: T_GraphQLServerForUploadFileOptions,
+  {
+    maxFieldNameSize = DEFAULT_MAX_FIELD_NAME_SIZE,
+    maxFieldSize = DEFAULT_MAX_FIELD_SIZE,
+    maxFields = DEFAULT_MAX_FIELDS,
+    maxFileSize = DEFAULT_MAX_FILE_SIZE,
+    maxFiles = DEFAULT_MAX_FILES,
+    maxHeaderPairs = DEFAULT_MAX_HEADER_PAIRS,
+    maxHeaderSize = DEFAULT_MAX_HEADER_SIZE,
+    maxParts = DEFAULT_MAX_PARTS,
+    uploadDir = DEFAULT_UPLOAD_DIR,
+  } = {
+    maxFieldNameSize: DEFAULT_MAX_FIELD_NAME_SIZE,
+    maxFieldSize: DEFAULT_MAX_FIELD_SIZE,
+    maxFields: DEFAULT_MAX_FIELDS,
+    maxFileSize: DEFAULT_MAX_FILE_SIZE,
+    maxFiles: DEFAULT_MAX_FILES,
+    maxHeaderPairs: DEFAULT_MAX_HEADER_PAIRS,
+    maxHeaderSize: DEFAULT_MAX_HEADER_SIZE,
+    maxParts: DEFAULT_MAX_PARTS,
+    uploadDir: DEFAULT_UPLOAD_DIR,
+  } as T_GraphQLServerForUploadFileOptions,
 ): Promise<Request>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
@@ -79,16 +109,7 @@ async function GraphQLServerForMultipartParser(
     throw new Error( `请求“${ pathName }”中的请求体body不能为空！` );
   }
 
-  const maxHeaderSize: number = options.maxHeaderSize ?? DEFAULT_MAX_HEADER_SIZE;
-  const maxHeaderPairs: number = options.maxHeaderPairs ?? DEFAULT_MAX_HEADER_PAIRS;
-  const maxParts: number = options.maxParts ?? DEFAULT_MAX_PARTS;
-  const maxFields: number = options.maxFields ?? DEFAULT_MAX_FIELDS;
-  const maxFieldNameSize: number = options.maxFieldNameSize ?? DEFAULT_MAX_FIELD_NAME_SIZE;
-  const maxFileSize: number = options.maxFileSize ?? DEFAULT_MAX_FILE_SIZE;
-  const maxFiles: number = options.maxFiles ?? DEFAULT_MAX_FILES;
-  const maxFieldSize: number = options.maxFieldSize ?? DEFAULT_MAX_FIELD_SIZE;
-
-  await Deno.mkdir( options.uploadDir, {
+  await Deno.mkdir( uploadDir, {
     recursive: true,
   } );
 
@@ -131,18 +152,31 @@ async function GraphQLServerForMultipartParser(
       );
     };
 
+    /**
+     * 每当发现新的文件表单字段时，就会触发此事件。<br />
+     * 注意：<br />
+     * 1、如果监听了此事件，无论你是否关心文件内容，都务必处理该数据流（例如，若想丢弃文件内容，只需调用 `stream.resume()` 即可）；否则，Busboy 实例将永远不会触发 `finish` 事件。<br />
+     * 2、不过，如果你完全不关心传入的文件，只需不去监听 `file` 事件即可，所有文件都会被自动且安全地丢弃（注意：这些被丢弃的文件仍会被计入文件数量和数据部分数量的限制中）。<br />
+     * 3、如果文件大小达到了预设的限制，数据流对象会包含一个名为 `truncated` 的布尔属性（建议在数据流结束时进行检查），同时还会触发 `limit` 事件，以通知你已达到限制。<br />
+     */
     busboy.on( 'file', (
       fieldname: string,
       stream: Readable,
       filename: string,
+      /**
+       * 包含文件流的“Content-Transfer-Encoding”值。
+       */
       transferEncoding: string,
+      /**
+       * 包含文件流的“Content-Type”值。
+       */
       mimeType: string,
     ): void => {
       const safeFilename: string = GraphQLServerForGetSafeFileName( filename );
 
       const storedFilename: string = GraphQLServerForGetStoredFileName( safeFilename );
 
-      const filepath: string = join( options.uploadDir, storedFilename );
+      const filepath: string = join( uploadDir, storedFilename );
 
       const file: T_GraphQLServerForUploadFile = {
         filename: safeFilename,
@@ -176,6 +210,9 @@ async function GraphQLServerForMultipartParser(
       } );
     } );
 
+    /**
+     * 每发现一个非文件类型的新字段时触发。
+     */
     busboy.on( 'field', (
       fieldname: string,
       value: string,
@@ -283,6 +320,12 @@ async function GraphQLServerForMultipartParser(
   } );
 }
 
+/**
+ *
+ * @param {Request} request
+ *
+ * @returns {boolean}
+ */
 function GraphQLServerForIsMultipartRequest( request: Request ): boolean{
   return [
     'post',
@@ -290,6 +333,14 @@ function GraphQLServerForIsMultipartRequest( request: Request ): boolean{
 }
 
 // TODO 从这里开始审查代码！！！
+/**
+ *
+ * @param {Record<string, any>} root
+ *
+ * @param {string} path
+ *
+ * @param {T_GraphQLServerForUploadFile} value
+ */
 function GraphQLServerForSetObjectPath( root: Record<string, any>, path: string, value: T_GraphQLServerForUploadFile ): void{
   const segments = path.split( '.' );
 

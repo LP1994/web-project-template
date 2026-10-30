@@ -28,7 +28,7 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
  *
  * @param {string | URL} filePath
  *
- * @param {number} maxFileSize
+ * @param {number} maxFileSize 用于限制单个文件的大小。单位是字节。
  *
  * @returns {Promise<number>}
  */
