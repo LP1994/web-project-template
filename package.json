@@ -1316,7 +1316,7 @@
     "reflect-metadata": "^0.2.2",
     "requirejs": "^2.3.8",
     "rolldown": "^1.2.16",
-    "rollup": "^4.67.2",
+    "rollup": "^4.67.3",
     "rollup-plugin-cson": "^1.0.2",
     "rollup-plugin-handlebars": "^1.0.0",
     "rollup-plugin-html": "^0.2.1",
