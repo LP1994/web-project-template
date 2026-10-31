@@ -14,6 +14,7 @@
 'use strict';
 
 import {
+  type T_Awaitable,
   type T_FunRequest,
   type T_Result001,
 
