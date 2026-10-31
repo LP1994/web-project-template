@@ -10,7 +10,6 @@
 'use strict';
 
 import {
-  type T_FilePath001,
   type T_Fun001,
   type T_Result001,
 } from 'configures/GlobalParameters.esm.mts';
@@ -41,7 +40,7 @@ type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 type T_RouteHandleConfig = Array<[ string | URL, string | URL ]>;
 
 type T_RouteMapConfig = {
-  [ key: string ]: T_FilePath001;
+  [ key: string ]: string | URL;
 };
 
 type T_RouteMapHandle = {
@@ -53,11 +52,11 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
 /**
  * 根据传入的“文件地址”值返回其对应的文件地址的字符串形式的值，给import()使用的。
  *
- * @param {T_FilePath001} filePath 文件地址，必需。
+ * @param {string | URL} filePath 文件地址，必需。
  *
  * @returns {string} 文件地址的字符串形式的值，给import()使用的。
  */
-function Handle001( filePath: T_FilePath001 ): string{
+function Handle001( filePath: string | URL ): string{
   if( Object.prototype.toString.call( filePath ) === '[object URL]' ){
     if( ( filePath as URL ).protocol === 'file:' ){
       return ( filePath as URL ).href;
@@ -158,7 +157,7 @@ async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_
   const obj001: T_Obj001 = Object.fromEntries(
     Object.entries( routeMapConfig ).map(
       (
-        [ key, value ]: [ string, T_FilePath001 ],
+        [ key, value ]: [ string, string | URL ],
       ): [ string, string ] => {
         if( Object.prototype.toString.call( value ) === '[object URL]' ){
           if( ( value as URL ).protocol === 'file:' ){
