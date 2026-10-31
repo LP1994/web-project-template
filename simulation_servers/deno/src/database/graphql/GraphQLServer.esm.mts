@@ -1017,7 +1017,7 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       },
     ]: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ] = graphqlSSEOptions;
 
-    return createHandlerBySSE( options, reqCtx, )( request );
+    return await createHandlerBySSE( options, reqCtx, )( request );
   }
   else{
     const [
@@ -1103,7 +1103,7 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       }
     }
 
-    return createHandlerByHTTP( options, reqCtx, )( graphqlRequest );
+    return await createHandlerByHTTP( options, reqCtx, )( graphqlRequest );
   }
 }
 

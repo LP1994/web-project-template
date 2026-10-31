@@ -158,10 +158,7 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
     } );
   }
   else{
-    return createHandlerByHTTP(
-      options,
-      reqCtx,
-    )( request );
+    return await createHandlerByHTTP( options, reqCtx )( request );
   }
 }
 
