@@ -38,8 +38,6 @@ const serversURLPrefix: string[] = [
 
 export type T_FunRequest<T> = ( request: Request ) => T;
 
-export type T_Fun002 = ( request: Request ) => Promise<T_Awaitable<Response>>;
-
 export type T_Awaitable<T> = T | Promise<T>;
 
 export type T_Result001 = boolean | T_FunRequest<T_Awaitable<Response>>;

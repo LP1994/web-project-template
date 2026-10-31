@@ -25,7 +25,6 @@
 
 import {
   type T_FunRequest,
-  type T_Fun002,
 
   ejsDir,
   HttpResponseHeadersFun,
@@ -55,7 +54,7 @@ import Put from './Put.esm.mts';
 
 import WebSocket from './WebSocket.esm.mts';
 
-type T_Fun003 = T_FunRequest<T_Awaitable<Response>> | T_Fun002;
+type T_Fun003 = T_FunRequest<T_Awaitable<Response>> | T_FunRequest<Promise<T_Awaitable<Response>>>;
 
 type T_MyRequestMethods = 'put' | 'delete' | 'post' | 'get' | 'options';
 
