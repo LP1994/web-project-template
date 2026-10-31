@@ -16,7 +16,7 @@
 import {
   type T_Awaitable,
   type T_FunRequest,
-  type T_Result001,
+  type T_BooleanAndFunRequest,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -63,7 +63,7 @@ async function WebSocket( request: Request ): Promise<Response>{
 请求头中的connection值为：${ connection }。
 ` );
 
-  const routeHandle: T_Result001 = await websocketForRouteHandle( request );
+  const routeHandle: T_BooleanAndFunRequest = await websocketForRouteHandle( request );
 
   if( ( pathName in websocketForRouteMapConfig ) && routeHandle ){
     MyConsole.Red( `

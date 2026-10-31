@@ -30,7 +30,7 @@
 import {
   type T_Awaitable,
   type T_FunRequest,
-  type T_Result001,
+  type T_BooleanAndFunRequest,
 
   // servicesDir,
 } from 'configures/GlobalParameters.esm.mts';
@@ -40,7 +40,7 @@ import {
   GeneratorRouteMap,
 } from './Handle.esm.mts';
 
-type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
+type T_RouteHandle = ( request: Request ) => Promise<T_BooleanAndFunRequest>;
 
 type T_RouteMapHandle = {
   [ key: string ]: T_FunRequest<T_Awaitable<Response>>;

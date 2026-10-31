@@ -16,7 +16,7 @@
 import {
   type T_Awaitable,
   type T_FunRequest,
-  type T_Result001,
+  type T_BooleanAndFunRequest,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -52,7 +52,7 @@ async function Options( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  const routeHandle: T_Result001 = await methodByOptionsForRouteHandle( request );
+  const routeHandle: T_BooleanAndFunRequest = await methodByOptionsForRouteHandle( request );
 
   if( ( pathName in methodByOptionsForRouteMapConfig ) && routeHandle ){
     MyConsole.Red( `

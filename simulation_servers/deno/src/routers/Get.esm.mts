@@ -16,7 +16,7 @@
 import {
   type T_Awaitable,
   type T_FunRequest,
-  type T_Result001,
+  type T_BooleanAndFunRequest,
 
   route_map_configDir,
 } from 'configures/GlobalParameters.esm.mts';
@@ -52,7 +52,7 @@ async function Get( request: Request ): Promise<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;
 
-  const routeHandle: T_Result001 = await methodByGetForRouteHandle( request );
+  const routeHandle: T_BooleanAndFunRequest = await methodByGetForRouteHandle( request );
 
   if( ( pathName in methodByGetForRouteMapConfig ) && routeHandle ){
     MyConsole.Red( `

@@ -40,7 +40,7 @@ export type T_FunRequest<T> = ( request: Request ) => T;
 
 export type T_Awaitable<T> = T | Promise<T>;
 
-export type T_Result001 = boolean | T_FunRequest<T_Awaitable<Response>>;
+export type T_BooleanAndFunRequest = boolean | T_FunRequest<T_Awaitable<Response>>;
 
 // 自定义的type（命名以“T_”开头，如：type T_MyString = string;）、interface（命名以“I_”开头，如：interface I_MyString = string;） End
 

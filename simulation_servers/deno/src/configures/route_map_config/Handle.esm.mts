@@ -12,7 +12,7 @@
 import {
   type T_Awaitable,
   type T_FunRequest,
-  type T_Result001,
+  type T_BooleanAndFunRequest,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -34,7 +34,7 @@ type T_Obj001 = {
   [ key: string ]: string;
 };
 
-type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
+type T_RouteHandle = ( request: Request ) => Promise<T_BooleanAndFunRequest>;
 
 type T_RouteHandleConfig = Array<[ string | URL, string | URL ]>;
 
@@ -77,7 +77,7 @@ function Handle001( filePath: string | URL ): string{
  * @returns {T_RouteHandle} 有“条件”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  */
 function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_RouteHandle{
-  return async ( request: Request ): Promise<T_Result001> => {
+  return async ( request: Request ): Promise<T_BooleanAndFunRequest> => {
     let myRouteHandleConfig: T_RouteHandleConfig = routeHandleConfig.concat( AllServices );
 
     const arr001: Array<Promise<[ T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>> ]>> = myRouteHandleConfig.map(
