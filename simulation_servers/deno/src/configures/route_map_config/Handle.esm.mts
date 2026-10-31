@@ -28,12 +28,6 @@ import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-type T_Map001 = Map<T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>>>;
-
-type T_Obj001 = {
-  [ key: string ]: string;
-};
-
 type T_RouteHandle = ( request: Request ) => Promise<T_BooleanAndFunRequest>;
 
 type T_RouteHandleConfig = Array<[ string | URL, string | URL ]>;
@@ -93,7 +87,7 @@ function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_Route
       arr002: Array<[ T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>> ]> = await Array.fromAsync( arr001 );
 
     const fun001: Record<number, T_FunRequest<T_Awaitable<boolean>>> = {},
-      myMap: T_Map001 = new Map( arr002 );
+      myMap: Map<T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>>> = new Map( arr002 );
 
     let index: number = 0;
 
@@ -153,7 +147,7 @@ ${ path001 }
  * @returns {Promise<T_RouteMapHandle>} “一对一”的路由映射配置，根据“文件地址”读取其对应的函数，并重新生成配置。
  */
 async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_RouteMapHandle>{
-  const obj001: T_Obj001 = Object.fromEntries(
+  const obj001: Record<string, string> = Object.fromEntries(
     Object.entries( routeMapConfig ).map(
       (
         [ key, value ]: [ string, string | URL ],
