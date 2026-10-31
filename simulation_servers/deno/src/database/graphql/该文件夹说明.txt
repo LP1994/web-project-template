@@ -31,7 +31,7 @@ import {
 } from 'npm:graphql-http/lib/use/fetch';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
 } from 'configures/GlobalParameters.esm.mts';
@@ -86,9 +86,9 @@ const schema: GraphQLSchema = new GraphQLSchema( {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-function GraphQLServer( request: Request ): T_Response001{
+function GraphQLServer( request: Request ): T_Awaitable<Response>{
   return createHandler(
     /**
      * 这个参数的值类型是一个Object类型，它有哪些属性呢？详细见：

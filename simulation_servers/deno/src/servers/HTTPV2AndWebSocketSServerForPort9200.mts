@@ -27,7 +27,7 @@
 'use strict';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   opensslDir,
   serversURLPrefix,
@@ -114,7 +114,7 @@ HTTP/2 服务已开启（Windows系统上无法直接访问“0.0.0.0”，请�
 说明：Deno会自动在HTTP/2和HTTP/1.1之间切换，以响应HTTP请求（使用HTTP/2）和WebSocket请求（使用HTTP/1.1）。
 ` );
     },
-    onError: ( error: unknown ): T_Response001 => {
+    onError: ( error: unknown ): T_Awaitable<Response> => {
       MyConsole.Red( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 onError--->Start
@@ -146,7 +146,7 @@ ${ ( error as Error ).message }`,
     (
       request: Request,
       info: Deno.ServeHandlerInfo,
-    ): T_Response001 => {
+    ): T_Awaitable<Response> => {
       logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPV2AndWebSocketSServerForPort9200.mts
 HTTP/2 服务 request--->Start

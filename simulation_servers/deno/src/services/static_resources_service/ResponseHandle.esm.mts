@@ -45,7 +45,7 @@ import {
 } from './Condition.esm.mts';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -73,16 +73,16 @@ import ResponseError from 'public/ResponseError.esm.mts';
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): T_Response001{
+function ResponseHandle( request: Request ): T_Awaitable<Response>{
   const url: URL = new URL( request.url ),
     isDownload: boolean = url.searchParams.has( 'download' ),
     pathName: string = decodeURI( url.pathname ),
     filePath: URL = new URL( `${ staticDir }/${ pathName.slice( ( serversURLPrefix.map( ( item: string ): string => `${ item }${ myURLPathName }` ).find( ( item: string ): boolean => pathName.startsWith( item ) ) as string ).length ) }` );
 
   let fileState: Deno.FileInfo,
-    result: T_Response001;
+    result: T_Awaitable<Response>;
 
   try{
     fileState = Deno.statSync( filePath );

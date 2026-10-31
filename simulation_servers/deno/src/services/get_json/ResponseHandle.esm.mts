@@ -38,7 +38,7 @@ import {
 } from 'npm:mongoose';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -77,9 +77,9 @@ interface I_StartupLogCollectionSchema {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-async function ResponseHandle( request: Request ): T_Response001{
+async function ResponseHandle( request: Request ): T_Awaitable<Response>{
   let mongooseConnectForSingleton: T_MongooseConnectForSingleton;
 
   try{

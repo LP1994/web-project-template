@@ -295,7 +295,7 @@ import {
 } from './Condition.esm.mts';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
@@ -643,9 +643,9 @@ const schema: T_GraphQLSchema = mergeSchemas( {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): T_Response001{
+function ResponseHandle( request: Request ): T_Awaitable<Response>{
   return GraphQLServer( {
     graphqlHTTPOptions: [
       {

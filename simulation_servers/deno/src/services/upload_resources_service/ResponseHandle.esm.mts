@@ -47,7 +47,7 @@
 'use strict';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -293,14 +293,14 @@ async function ValidateReqHeadSRI( request: Request ): Promise<T_QueryOneResult>
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {Promise<T_Response001>} 返回值类型为Promise<T_Response001>。
+ * @returns {Promise<T_Awaitable<Response>>} 返回值类型为Promise<T_Awaitable<Response>>。
  */
-async function ResponseHandle( request: Request ): Promise<T_Response001>{
+async function ResponseHandle( request: Request ): Promise<T_Awaitable<Response>>{
   const url: URL = new URL( request.url ),
     httpResHeaders: Record<string, string> = HttpResponseHeadersFun( request ) as Record<string, string>,
     uploadType: string = ( url.searchParams.get( 'uploadType' ) ?? '' ).trim();
 
-  let result: T_Response001;
+  let result: T_Awaitable<Response>;
 
   /**
    * 单个二进制文件流上传（支持POST请求、PUT请求），客户端上传的body不使用FormData包装，直接就是一个二进制文件流。

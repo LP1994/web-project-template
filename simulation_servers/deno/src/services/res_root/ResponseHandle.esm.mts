@@ -34,7 +34,7 @@
 'use strict';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -57,9 +57,9 @@ import {
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-async function ResponseHandle( request: Request ): T_Response001{
+async function ResponseHandle( request: Request ): T_Awaitable<Response>{
   let filePath: URL = new URL( import.meta.resolve( `${ staticDir }/html/Index.html` ) );
 
   return new Response( await HTMLMinifyByRehype( Deno.readTextFileSync( filePath ) ), {

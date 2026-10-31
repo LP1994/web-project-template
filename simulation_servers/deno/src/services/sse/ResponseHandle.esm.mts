@@ -34,7 +34,7 @@
 'use strict';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -63,9 +63,9 @@ const logWriteStream: T_MyCusDenoFsFile = await GetLogWriteStreamForSingleton();
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): T_Response001{
+function ResponseHandle( request: Request ): T_Awaitable<Response>{
   /**
    * 客户端是否“中断”。BodyCancel.isBodyCancel为true表示消费者（读取方）放弃并中止流，反之，消费者（读取方）没有放弃并中止流。
    *

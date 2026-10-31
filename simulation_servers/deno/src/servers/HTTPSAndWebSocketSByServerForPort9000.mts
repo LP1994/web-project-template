@@ -26,7 +26,7 @@
 'use strict';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   opensslDir,
   serversURLPrefix,
@@ -111,7 +111,7 @@ HTTPS and WebSocket Server已启动（Windows系统上无法直接访问“0.0.0
 HTTPS and WebSocket Server已启动（Windows系统上无法直接访问“0.0.0.0”，请改用本地、局域网IP等等，支持IPV4、IPV6）：${ str001 }
 ` );
     },
-    onError: ( error: unknown ): T_Response001 => {
+    onError: ( error: unknown ): T_Awaitable<Response> => {
       MyConsole.Red( `
 来自：simulation_servers/deno/src/servers/HTTPSAndWebSocketSByServerForPort9000.mts
 HTTPS and WebSocket Server onError--->Start
@@ -143,7 +143,7 @@ ${ ( error as Error ).message }`,
     (
       request: Request,
       info: Deno.ServeHandlerInfo,
-    ): T_Response001 => {
+    ): T_Awaitable<Response> => {
       logWriteStream.write( `
 来自：simulation_servers/deno/src/servers/HTTPSAndWebSocketSByServerForPort9000.mts
 HTTPS and WebSocket Server request--->Start

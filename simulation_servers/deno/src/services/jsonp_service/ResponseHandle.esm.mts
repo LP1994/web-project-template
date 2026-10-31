@@ -34,7 +34,7 @@
 'use strict';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -54,9 +54,9 @@ import ResponseError from 'public/ResponseError.esm.mts';
  *
  * @param {Request} request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
-function ResponseHandle( request: Request ): T_Response001{
+function ResponseHandle( request: Request ): T_Awaitable<Response>{
   const url: URL = new URL( request.url ),
     callBack: string = String( url.searchParams.get( 'callBack' ) );
 
