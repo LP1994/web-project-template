@@ -27,7 +27,7 @@ interface I_WASMObject {
   readonly [ key: string ]: any;
 }
 
-interface I_Object001 {
+interface I_ReadonlyObj {
   readonly [ key: string ]: any;
 }
 
@@ -41,19 +41,19 @@ declare module '*.postcss' {
 }
 
 declare module '*.cson' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
 
 declare module '*.csv' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
 
 declare module '*.tsv' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
@@ -147,13 +147,13 @@ declare module '*.gql' {
 }
 
 declare module '*.handlebars' {
-  const module: ( data: I_Object001 ) => string;
+  const module: ( data: I_ReadonlyObj ) => string;
 
   export default module;
 }
 
 declare module '*.hbs' {
-  const module: ( data: I_Object001 ) => string;
+  const module: ( data: I_ReadonlyObj ) => string;
 
   export default module;
 }
@@ -177,13 +177,13 @@ declare module '*.xhtml' {
 }
 
 declare module '*.json5' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
 
 declare module '*.toml' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
@@ -219,37 +219,37 @@ declare module '*.md' {
 }
 
 declare module '*.mustache' {
-  const module: ( data: I_Object001 ) => string;
+  const module: ( data: I_ReadonlyObj ) => string;
 
   export default module;
 }
 
 declare module '*.pug' {
-  const module: ( data: I_Object001 ) => string;
+  const module: ( data: I_ReadonlyObj ) => string;
 
   export default module;
 }
 
 declare module '*.jade' {
-  const module: ( data: I_Object001 ) => string;
+  const module: ( data: I_ReadonlyObj ) => string;
 
   export default module;
 }
 
 declare module '*.xml' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
 
 declare module '*.yaml' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
 
 declare module '*.yml' {
-  const module: I_Object001;
+  const module: I_ReadonlyObj;
 
   export default module;
 }
