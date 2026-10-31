@@ -30,10 +30,18 @@ import {
 } from './GraphQLServerForMultipartParser.esm.mts';
 
 import {
+  type T_MyCusDenoFsFile,
+
+  GetErrorWriteStreamForSingleton,
+} from 'public/PublicTools.esm.mts';
+
+import {
   IsArray,
   IsEmpty,
   IsObject,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
+const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  *
@@ -46,10 +54,18 @@ import {
  * @returns {Promise<Response>}
  */
 async function GraphQLServerForExecuteBatch( request: Request, options: T_HandlerOptions, reqCtx: Partial<T_FetchAPI> ): Promise<Response>{
+  const url: URL = new URL( request.url ),
+    pathName: string = url.pathname;
+
   const operationsPayload: T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> = await request.clone().json(),
     isNotBatchOperations: boolean = ( operationsPayload as Array<T_GraphQLServerForMultipartOperations> ).length === 0 || !( operationsPayload as Array<T_GraphQLServerForMultipartOperations> ).every( ( value: T_GraphQLServerForMultipartOperations ): boolean => ( IsObject( value ) && !IsEmpty( value ) ) );
 
   if( IsArray( operationsPayload ) && isNotBatchOperations ){
+    errorWriteStream.write( `
+请求“${ pathName }”中：
+1）GraphQLServerForExecuteBatch: The multipart "operations" array must contain one or more GraphQL operation objects.
+` );
+
     return new Response( JSON.stringify( {
       errors: [
         {
@@ -136,6 +152,13 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
         results.push( await operationResponse.json() );
       }
       catch( error: unknown ){
+        errorWriteStream.write( `
+请求“${ pathName }”中：
+2）GraphQLServerForExecuteBatch: ${ error instanceof Error
+                                   ? error.message
+                                   : String( error ) }
+` );
+
         results.push( {
           errors: [
             {
