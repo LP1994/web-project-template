@@ -96,17 +96,17 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type T_Obj001,
+  type T_FileInfoObj,
 
   GetFileMIME,
   UpdateFileSRI,
 } from './UpdateFileSRI.esm.mts';
 
-type T_ResultObj001 = {
+type T_ResultObj = {
   // 没有写入的文件信息，因为它们已经存在了，只是更新了这些文件的信息。
-  noWriteFile: Array<T_Obj001>;
+  noWriteFile: Array<T_FileInfoObj>;
   // 成功写入的文件信息。
-  writeFile: Array<T_Obj001>;
+  writeFile: Array<T_FileInfoObj>;
 };
 
 /**
@@ -116,10 +116,10 @@ type T_ResultObj001 = {
  *
  * @param {Array<File | Blob>} files 一个数组，里面的每一个成员都是一个文件对象，数据类型可以是File、Blob，无默认值，必须。
  *
- * @returns {Promise<Array<T_Obj001>>} 返回值类型为Promise<Array<T_Obj001>>。
+ * @returns {Promise<Array<T_FileInfoObj>>} 返回值类型为Promise<Array<T_FileInfoObj>>。
  */
-async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<T_Obj001>>{
-  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<T_Obj001> => UpdateFileSRI(
+async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blob> ): Promise<Array<T_FileInfoObj>>{
+  return await Array.fromAsync( files.map( ( file: File | Blob ): Promise<T_FileInfoObj> => UpdateFileSRI(
     request,
     {
       [ Symbol.toStringTag ]: 'Blob',
@@ -164,23 +164,23 @@ async function GetUpdateFileSRIHandle( request: Request, files: Array<File | Blo
  *
  * @param {Array<File | Blob>} files 一个数组，里面的每一个成员都是一个文件对象，数据类型可以是File、Blob，无默认值，必须。
  *
- * @returns {Promise<T_ResultObj001>} 返回值类型为Promise<T_ResultObj001>。
+ * @returns {Promise<T_ResultObj>} 返回值类型为Promise<T_ResultObj>。
  */
-async function WriteFileHandle( request: Request, files: Array<File | Blob> ): Promise<T_ResultObj001>{
-  const updateFileSRI: Array<T_Obj001> = await GetUpdateFileSRIHandle( request, files );
+async function WriteFileHandle( request: Request, files: Array<File | Blob> ): Promise<T_ResultObj>{
+  const updateFileSRI: Array<T_FileInfoObj> = await GetUpdateFileSRIHandle( request, files );
 
-  const noWriteFile: Array<T_Obj001> = updateFileSRI.filter(
+  const noWriteFile: Array<T_FileInfoObj> = updateFileSRI.filter(
       (
         {
           isWriteFile,
-        }: T_Obj001,
+        }: T_FileInfoObj,
       ): boolean => !isWriteFile
     ),
-    writeFile: Array<T_Obj001> = updateFileSRI.filter(
+    writeFile: Array<T_FileInfoObj> = updateFileSRI.filter(
       (
         {
           isWriteFile,
-        }: T_Obj001,
+        }: T_FileInfoObj,
       ): boolean => isWriteFile
     );
 
@@ -190,7 +190,7 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
           fileInfo: {
             savePath,
           },
-        }: T_Obj001,
+        }: T_FileInfoObj,
       ): Promise<Deno.FsFile> => Deno.open( new URL( savePath ), {
         create: true,
         write: true,
@@ -202,7 +202,7 @@ async function WriteFileHandle( request: Request, files: Array<File | Blob> ): P
     (
       item: Deno.FsFile,
       index: number,
-    ): Promise<void> => ( writeFile[ index ] as T_Obj001 ).file.stream().pipeTo( toWritableStream( item ) )
+    ): Promise<void> => ( writeFile[ index ] as T_FileInfoObj ).file.stream().pipeTo( toWritableStream( item ) )
   );
 
   return {
@@ -368,7 +368,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
       const {
         noWriteFile,
         writeFile,
-      }: T_ResultObj001 = await WriteFileHandle( _request, files );
+      }: T_ResultObj = await WriteFileHandle( _request, files );
 
       const noWriteFileInfo: Array<{
           filePath: string;
@@ -387,7 +387,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
               filePath,
               fileType,
             },
-          }: T_Obj001,
+          }: T_FileInfoObj,
         ): void => {
           noWriteFileInfo.push( {
             // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。
@@ -406,7 +406,7 @@ async function UploadByMultiple( request: Request ): Promise<Response>{
               filePath,
               fileType,
             },
-          }: T_Obj001,
+          }: T_FileInfoObj,
         ): void => {
           writeFileInfo.push( {
             // 该属性值可供客户端再次获取上传到服务器的文件，值格式为“/simulation_servers_deno/upload/json/XXXXXX.json”，使用时直接发起GET请求“https://127.0.0.1:9200/simulation_servers_deno/upload/json/XXXXXX.json”即可获取到。

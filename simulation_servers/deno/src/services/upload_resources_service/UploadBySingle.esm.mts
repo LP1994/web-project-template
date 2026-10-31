@@ -66,7 +66,7 @@ import {
 } from 'mongo/simulation_servers_deno/upload_file_sri/UploadFileSRI.esm.mts';
 
 import {
-  type T_Obj001,
+  type T_FileInfoObj,
   type I_UploadFileSRISchema,
 
   GetFileMIME,
@@ -143,7 +143,7 @@ async function UploadBySingle( request: Request ): Promise<Response>{
         const {
           isWriteFile,
           fileInfo,
-        }: T_Obj001 = await UpdateFileSRI( _request, {
+        }: T_FileInfoObj = await UpdateFileSRI( _request, {
           [ Symbol.toStringTag ]: 'Blob',
           arrayBuffer: (): Promise<ArrayBuffer> => ( file as File | Blob ).arrayBuffer(),
           blob: async (): Promise<Blob> => await ( ( file as File | Blob ).slice() ),

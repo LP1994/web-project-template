@@ -64,7 +64,7 @@ export type T_CustomBlob = {
   type: string;
 };
 
-export type T_Obj001 = {
+export type T_FileInfoObj = {
   // 表示文件本体对象。
   file: T_CustomBlob;
   // 存放文件信息的对象。
@@ -106,9 +106,9 @@ async function GetFileMIME( blob: Blob, fileName: string ): Promise<string>{
  *
  * @param {string} fileName 文件名，如：001.png，带不带扩展名都行，最好带，必须。
  *
- * @returns {Promise<T_Obj001>} 返回一个自定义类型T_Obj001的对象。
+ * @returns {Promise<T_FileInfoObj>} 返回一个自定义类型T_FileInfoObj的对象。
  */
-async function UpdateFileSRI( request: Request, file: T_CustomBlob, fileName: string ): Promise<T_Obj001>{
+async function UpdateFileSRI( request: Request, file: T_CustomBlob, fileName: string ): Promise<T_FileInfoObj>{
   const sri: string = encodeHex( await crypto.subtle.digest( 'SHA-512', await file.arrayBuffer() ) );
 
   let ext: string = '',
