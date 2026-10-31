@@ -66,48 +66,74 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
     } );
   }
   else if( IsArray( operationsPayload ) && !isNotBatchOperations ){
-    const results: Array<unknown> = [];
+    const results: Array<Record<string, any>> = [];
 
     const handler: ( req: Request ) => Promise<Response> = createHandlerByHTTP( options, reqCtx );
 
     for(
       const operation of
-      operationsPayload
+      operationsPayload as Array<T_GraphQLServerForMultipartOperations>
       ){
       try{
-        const headers: Headers = new Headers(
-          request.headers,
-        );
+        const headers: Headers = new Headers( request.headers );
 
-        headers.set(
-          'content-type',
-          'application/json; charset=utf-8',
-        );
+        headers.set( 'content-type', 'application/json; charset=utf-8' );
 
         headers.delete( 'content-length' );
         headers.delete( 'transfer-encoding' );
 
-        const operationRequest: Request = new Request(
-          request.url,
-          {
-            method: 'POST',
-            headers,
-            body: JSON.stringify( operation ),
+        const operationResponse: Response = await handler( new Request( request.url, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify( operation ),
+          ...( ( () => (
+            'signal' in request
+            ? { signal: request.signal }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'cache' in request
+            ? { cache: request.cache }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'credentials' in request
+            ? { credentials: request.credentials }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'integrity' in request
+            ? { integrity: request.integrity }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'keepalive' in request
+            ? { keepalive: request.keepalive }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'mode' in request
+            ? { mode: request.mode }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'redirect' in request
+            ? { redirect: request.redirect }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'referrer' in request
+            ? { referrer: request.referrer }
+            : {}
+          ) )() ),
+          ...( ( () => (
+            'referrerPolicy' in request
+            ? { referrerPolicy: request.referrerPolicy }
+            : {}
+          ) )() ),
+        } ) );
 
-            ...( request.signal
-                 ? {
-                  signal: request.signal,
-                }
-                 : {}
-            ),
-          },
-        );
-
-        const operationResponse: Response = await handler( operationRequest );
-
-        const operationResult: unknown = await operationResponse.json();
-
-        results.push( operationResult );
+        results.push( await operationResponse.json() );
       }
       catch( error: unknown ){
         results.push( {
@@ -122,17 +148,14 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
       }
     }
 
-    return new Response(
-      JSON.stringify( results ),
-      {
-        headers: {
-          ...HttpResponseHeadersFun( request ),
-          'content-type': 'application/json; charset=utf-8',
-        },
-        status: HTTPStatus[ 200 ].status,
-        statusText: HTTPStatus[ 200 ].statusText,
+    return new Response( JSON.stringify( results, null, 2 ), {
+      headers: {
+        ...HttpResponseHeadersFun( request ),
+        'content-type': 'application/json; charset=utf-8',
       },
-    );
+      status: HTTPStatus[ 200 ].status,
+      statusText: HTTPStatus[ 200 ].statusText,
+    } );
   }
   else{
     return createHandlerByHTTP(
