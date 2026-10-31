@@ -314,6 +314,8 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  type T_GraphQLServerForMultipartOperations,
+
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
 } from './graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
