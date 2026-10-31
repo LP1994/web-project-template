@@ -10,6 +10,7 @@
 'use strict';
 
 import {
+  type T_Awaitable,
   type T_FunRequest,
   type T_Result001,
 } from 'configures/GlobalParameters.esm.mts';
@@ -27,9 +28,7 @@ import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-type T_Fun002 = ( request: Request ) => boolean | Promise<boolean>;
-
-type T_Map001 = Map<T_Fun002, T_FunRequest<T_Awaitable<Response>>>;
+type T_Map001 = Map<T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>>>;
 
 type T_Obj001 = {
   [ key: string ]: string;
@@ -81,19 +80,19 @@ function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_Route
   return async ( request: Request ): Promise<T_Result001> => {
     let myRouteHandleConfig: T_RouteHandleConfig = routeHandleConfig.concat( AllServices );
 
-    const arr001: Array<Promise<[ T_Fun002, T_FunRequest<T_Awaitable<Response>> ]>> = myRouteHandleConfig.map(
+    const arr001: Array<Promise<[ T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>> ]>> = myRouteHandleConfig.map(
         async (
           [ key, name ]: [ string | URL, string | URL ],
-        ): Promise<[ T_Fun002, T_FunRequest<T_Awaitable<Response>> ]> => {
+        ): Promise<[ T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>> ]> => {
           return [
             ( await import( Handle001( key ) ) ).default,
             ( await import( Handle001( name ) ) ).default
           ];
         }
       ),
-      arr002: Array<[ T_Fun002, T_FunRequest<T_Awaitable<Response>> ]> = await Array.fromAsync( arr001 );
+      arr002: Array<[ T_FunRequest<T_Awaitable<boolean>>, T_FunRequest<T_Awaitable<Response>> ]> = await Array.fromAsync( arr001 );
 
-    const fun001: Record<number, T_Fun002> = {},
+    const fun001: Record<number, T_FunRequest<T_Awaitable<boolean>>> = {},
       myMap: T_Map001 = new Map( arr002 );
 
     let index: number = 0;
@@ -138,7 +137,7 @@ ${ path001 }
 ` );
     }
     else if( funByKey001.length === 1 ){
-      return ( myMap.get( ( funByValue001[ 0 ] ) as T_Fun002 ) ) as T_FunRequest<T_Awaitable<Response>>;
+      return ( myMap.get( ( funByValue001[ 0 ] ) as T_FunRequest<T_Awaitable<boolean>> ) ) as T_FunRequest<T_Awaitable<Response>>;
     }
     else{
       return false;
