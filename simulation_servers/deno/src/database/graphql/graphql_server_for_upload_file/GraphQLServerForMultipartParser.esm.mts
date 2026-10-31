@@ -56,7 +56,6 @@ import {
 import {
   IsArray,
   IsEmpty,
-  IsNull,
   IsObject,
   IsString,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
@@ -481,7 +480,7 @@ Unsafe multipart map path: ${ path }
   ){
     const segment: string = segments[ index ];
 
-    if( !( ( IsObject( current ) && !IsNull( current ) && !IsEmpty( current ) ) || ( IsArray( current ) && !IsEmpty( current ) ) ) ){
+    if( !( ( IsObject( current ) && !IsEmpty( current ) ) || ( IsArray( current ) && !IsEmpty( current ) ) ) ){
       errorWriteStream.write( `
 请求“${ pathName }”中：
 1）Invalid multipart map path: ${ path }
@@ -506,7 +505,7 @@ Multipart map path does not exist: ${ path }
 
   const lastSegment: string = segments.at( -1 )!;
 
-  if( !( ( IsObject( current ) && !IsNull( current ) && !IsEmpty( current ) ) || ( IsArray( current ) && !IsEmpty( current ) ) ) ){
+  if( !( ( IsObject( current ) && !IsEmpty( current ) ) || ( IsArray( current ) && !IsEmpty( current ) ) ) ){
     errorWriteStream.write( `
 请求“${ pathName }”中：
 2）Invalid multipart map path: ${ path }

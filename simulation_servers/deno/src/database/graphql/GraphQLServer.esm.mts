@@ -306,7 +306,7 @@ import {
 } from 'esm_sh_graphql_ws';
 
 import {
-  type T_Response001,
+  type T_Awaitable,
 
   HttpResponseHeadersFun,
   HTTPStatus,
@@ -315,6 +315,8 @@ import {
 
 import {
   type T_GraphQLServerForMultipartOperations,
+
+  GraphQLServerForExecuteBatch,
 
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
@@ -330,6 +332,7 @@ import {
 
 import {
   GetDataType,
+  IsArray,
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
@@ -717,7 +720,7 @@ function GenerateForMyGraphQLServerResponse( request: Request ): any{
  *
  * @param {Request} config.request 请求对象，无默认值，必须。
  *
- * @returns {T_Response001} 返回值类型为Response、Promise<Response>。
+ * @returns {T_Awaitable<Response>} 返回值类型为Response、Promise<Response>。
  */
 async function GraphQLServer( {
   graphqlHTTPOptions,
@@ -731,7 +734,7 @@ async function GraphQLServer( {
   graphqlWSOptions: T_ServerOptions;
   myURLPathName: string;
   request: Request;
-} ): T_Response001{
+} ): T_Awaitable<Response>{
   const url: URL = new URL( request.url ),
     pathName: string = decodeURI( url.pathname );
 
@@ -1014,10 +1017,7 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
       },
     ]: [ T_HandlerOptionsBySSE, Partial<T_RequestContextBySSE>?, ] = graphqlSSEOptions;
 
-    return createHandlerBySSE(
-      options,
-      reqCtx,
-    )( request );
+    return createHandlerBySSE( options, reqCtx, )( request );
   }
   else{
     const [
@@ -1097,12 +1097,13 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
 
     if( GraphQLServerForIsMultipartRequest( request ) ){
       graphqlRequest = await GraphQLServerForMultipartParser( request );
+
+      if( IsArray( await graphqlRequest.clone().json() ) ){
+        return await GraphQLServerForExecuteBatch( graphqlRequest, options, reqCtx );
+      }
     }
 
-    return createHandlerByHTTP(
-      options,
-      reqCtx,
-    )( graphqlRequest );
+    return createHandlerByHTTP( options, reqCtx, )( graphqlRequest );
   }
 }
 

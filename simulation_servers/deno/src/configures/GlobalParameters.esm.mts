@@ -43,6 +43,7 @@ export type T_Fun001 = ( request: Request ) => T_Response001;
 export type T_Fun002 = ( request: Request ) => Promise<T_Response001>;
 
 export type T_Response001 = Response | Promise<Response>;
+export type T_Awaitable<T> = T | Promise<T>;
 
 export type T_Result001 = boolean | T_Fun001;
 

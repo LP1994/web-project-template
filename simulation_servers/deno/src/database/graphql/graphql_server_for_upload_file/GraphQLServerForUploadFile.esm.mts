@@ -23,6 +23,10 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  GraphQLServerForExecuteBatch,
+} from './GraphQLServerForExecuteBatch.esm.mts';
+
+import {
   type T_GraphQLServerForMultipartFilePart,
   type T_GraphQLServerForMultipartOperations,
 
@@ -244,6 +248,8 @@ export {
   DEFAULT_MAX_PARTS,
   DEFAULT_UPLOAD_DIR,
 
+  GraphQLServerForExecuteBatch,
+
   GraphQLServerForGetSafeFileName,
   GraphQLServerForGetStoredFileName,
 
@@ -266,6 +272,8 @@ export default {
   DEFAULT_MAX_HEADER_SIZE,
   DEFAULT_MAX_PARTS,
   DEFAULT_UPLOAD_DIR,
+
+  GraphQLServerForExecuteBatch,
 
   GraphQLServerForGetSafeFileName,
   GraphQLServerForGetStoredFileName,
