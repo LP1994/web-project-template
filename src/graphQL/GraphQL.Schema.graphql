@@ -42,6 +42,8 @@ type Mutation {
   singleUpload(file: Upload!): GraphQLUploadFile!
   "根据消息ID更新对应的“消息”内容。"
   updateMessage(id: String!, input: MessageInput!): Message!
+  "同一个上传文件可以通过 map 中的多个路径映射到不同的 GraphQL variables。"
+  uploadFiles(file1: Upload!, file2: Upload!): [GraphQLUploadFile!]!
 }
 
 type Query {

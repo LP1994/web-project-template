@@ -28,4 +28,7 @@ type Mutation {
 
   "一次性上传多个文件。"
   multipleUpload(files: [Upload!]!): [GraphQLUploadFile!]!,
+
+  "同一个上传文件可以通过 map 中的多个路径映射到不同的 GraphQL variables。"
+  uploadFiles(file1: Upload!, file2: Upload!): [GraphQLUploadFile!]!,
 }

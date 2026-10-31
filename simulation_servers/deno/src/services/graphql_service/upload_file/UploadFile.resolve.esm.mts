@@ -107,6 +107,29 @@ const resolvers: T_Resolvers = {
         return files.map( ( file: T_GraphQLServerForUploadFile ): T_GraphQlUploadFile => new GraphQLUploadFile( file ) );
       },
     },
+
+    uploadFiles: {
+      resolve: async (
+        // @ts-expect-error
+        parent,
+        {
+          file1,
+          file2,
+        }: {
+          file1: T_GraphQLServerForUploadFile;
+          file2: T_GraphQLServerForUploadFile;
+        },
+        // @ts-expect-error
+        context,
+        // @ts-expect-error
+        info,
+      ): Promise<Array<T_GraphQlUploadFile>> => {
+        return [
+          file1,
+          file2,
+        ].map( ( file: T_GraphQLServerForUploadFile ): T_GraphQlUploadFile => new GraphQLUploadFile( file ) );
+      },
+    },
   },
 } as T_Resolvers;
 

@@ -4,7 +4,7 @@
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
- * CreateDate: 2026-10-31 02:52:03 星期六
+ * CreateDate: 2026-11-01 03:48:15 星期日
  */
 
 "use strict";
@@ -73,6 +73,8 @@ export type T_Mutation = {
   singleUpload: FieldWrapper<T_GraphQlUploadFile>;
   /** 根据消息ID更新对应的“消息”内容。 */
   updateMessage: FieldWrapper<T_Message>;
+  /** 同一个上传文件可以通过 map 中的多个路径映射到不同的 GraphQL variables。 */
+  uploadFiles: Array<FieldWrapper<T_GraphQlUploadFile>>;
 };
 
 export type T_MutationCreateMessageArgs = {
@@ -90,6 +92,11 @@ export type T_MutationSingleUploadArgs = {
 export type T_MutationUpdateMessageArgs = {
   id: Scalars["String"]["input"];
   input: T_MessageInput;
+};
+
+export type T_MutationUploadFilesArgs = {
+  file1: Scalars["Upload"]["input"];
+  file2: Scalars["Upload"]["input"];
 };
 
 export type T_Query = {

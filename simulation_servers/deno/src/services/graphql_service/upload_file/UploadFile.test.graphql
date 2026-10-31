@@ -44,3 +44,22 @@ mutation multipleUpload($files: [Upload!]!) {
     filePath,
   },
 }
+
+#同一个上传文件可以通过 map 中的多个路径映射到不同的 GraphQL variables。
+mutation uploadFiles($file1: Upload!, $file2: Upload!) {
+  uploadFiles: uploadFiles(file1: $file1, file2: $file2){
+    #例子：
+    #{
+    #  fileName: 'test.png',
+    #  mimeType: 'image/png',
+    #  encoding: 'binary', // '7bit' | '8bit' | 'binary'
+    #  size: 102400,
+    #  filePath: 'G:/WebStormWS/7788/1.png',
+    #}
+    fileName,
+    mimeType,
+    encoding,
+    size,
+    filePath,
+  },
+}
