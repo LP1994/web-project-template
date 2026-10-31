@@ -88,8 +88,6 @@ const resolvers: T_Resolvers = {
       ): Promise<T_GraphQlUploadFile> => {
         // TODO：不要在这里“接收”、“读取”HTTP文件流！因为文件在GraphQL执行之前就已经写入磁盘。如果在这里“接收”、“读取”HTTP文件流就会出现多个Resolver同时读取同一个HTTP请求体的问题。
 
-        console.dir( file );
-
         return new GraphQLUploadFile( file );
       },
     },
@@ -109,8 +107,6 @@ const resolvers: T_Resolvers = {
         info,
       ): Promise<Array<T_GraphQlUploadFile>> => {
         // TODO：不要在这里“接收”、“读取”HTTP文件流！因为文件在GraphQL执行之前就已经写入磁盘。如果在这里“接收”、“读取”HTTP文件流就会出现多个Resolver同时读取同一个HTTP请求体的问题。
-
-        console.dir( files );
 
         return files.map( ( file: T_GraphQLServerForUploadFile ): T_GraphQlUploadFile => new GraphQLUploadFile( file ) );
       },
