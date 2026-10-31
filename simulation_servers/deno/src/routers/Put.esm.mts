@@ -14,7 +14,7 @@
 'use strict';
 
 import {
-  type T_Fun001,
+  type T_FunRequest,
   type T_Result001,
 
   route_map_configDir,
@@ -73,10 +73,10 @@ Put请求“${ pathName }”被多个“路由逻辑”命中了！！！
   let result: Response;
 
   if( pathName in methodByPutForRouteMapConfig ){
-    result = ( await IterateToNestForPromise( ( methodByPutForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( methodByPutForRouteMapConfig[ pathName ] as T_FunRequest<T_Awaitable<Response>> )( request ) ) ) as Response;
   }
   else if( routeHandle ){
-    result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as T_FunRequest<T_Awaitable<Response>> )( request ) ) ) as Response;
   }
   else{
     result = await new ResponseError( request ).resPage404();

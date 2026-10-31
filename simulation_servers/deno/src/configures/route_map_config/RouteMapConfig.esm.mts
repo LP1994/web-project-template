@@ -28,7 +28,7 @@
 'use strict';
 
 import {
-  type T_Fun001,
+  type T_FunRequest,
   type T_Result001,
 
   // servicesDir,
@@ -42,7 +42,7 @@ import {
 type T_RouteHandle = ( request: Request ) => Promise<T_Result001>;
 
 type T_RouteMapHandle = {
-  [ key: string ]: T_Fun001;
+  [ key: string ]: T_FunRequest<T_Awaitable<Response>>;
 };
 
 // RouteMapConfig Start

@@ -24,7 +24,7 @@
 'use strict';
 
 import {
-  type T_Fun001,
+  type T_FunRequest,
   type T_Fun002,
 
   ejsDir,
@@ -55,7 +55,7 @@ import Put from './Put.esm.mts';
 
 import WebSocket from './WebSocket.esm.mts';
 
-type T_Fun003 = T_Fun001 | T_Fun002;
+type T_Fun003 = T_FunRequest<T_Awaitable<Response>> | T_Fun002;
 
 type T_MyRequestMethods = 'put' | 'delete' | 'post' | 'get' | 'options';
 

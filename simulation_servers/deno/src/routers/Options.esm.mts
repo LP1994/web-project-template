@@ -14,7 +14,7 @@
 'use strict';
 
 import {
-  type T_Fun001,
+  type T_FunRequest,
   type T_Result001,
 
   HttpResponseHeadersFun,
@@ -73,10 +73,10 @@ Options请求“${ pathName }”被多个“路由逻辑”命中了！！！
   let result: Response;
 
   if( pathName in methodByOptionsForRouteMapConfig ){
-    result = ( await IterateToNestForPromise( ( methodByOptionsForRouteMapConfig[ pathName ] as T_Fun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( methodByOptionsForRouteMapConfig[ pathName ] as T_FunRequest<T_Awaitable<Response>> )( request ) ) ) as Response;
   }
   else if( routeHandle ){
-    result = ( await IterateToNestForPromise( ( routeHandle as T_Fun001 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( routeHandle as T_FunRequest<T_Awaitable<Response>> )( request ) ) ) as Response;
   }
   // 默认允许所有的options请求通过，因为目前没设置其他处理，后面可以根据需要编写对应响应不成功的逻辑。
   else{

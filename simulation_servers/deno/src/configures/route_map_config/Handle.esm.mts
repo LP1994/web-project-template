@@ -10,7 +10,7 @@
 'use strict';
 
 import {
-  type T_Fun001,
+  type T_FunRequest,
   type T_Result001,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -29,7 +29,7 @@ import {
 
 type T_Fun002 = ( request: Request ) => boolean | Promise<boolean>;
 
-type T_Map001 = Map<T_Fun002, T_Fun001>;
+type T_Map001 = Map<T_Fun002, T_FunRequest<T_Awaitable<Response>>>;
 
 type T_Obj001 = {
   [ key: string ]: string;
@@ -44,7 +44,7 @@ type T_RouteMapConfig = {
 };
 
 type T_RouteMapHandle = {
-  [ key: string ]: T_Fun001;
+  [ key: string ]: T_FunRequest<T_Awaitable<Response>>;
 };
 
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
@@ -81,17 +81,17 @@ function GeneratorRouteHandle( routeHandleConfig: T_RouteHandleConfig ): T_Route
   return async ( request: Request ): Promise<T_Result001> => {
     let myRouteHandleConfig: T_RouteHandleConfig = routeHandleConfig.concat( AllServices );
 
-    const arr001: Array<Promise<[ T_Fun002, T_Fun001 ]>> = myRouteHandleConfig.map(
+    const arr001: Array<Promise<[ T_Fun002, T_FunRequest<T_Awaitable<Response>> ]>> = myRouteHandleConfig.map(
         async (
           [ key, name ]: [ string | URL, string | URL ],
-        ): Promise<[ T_Fun002, T_Fun001 ]> => {
+        ): Promise<[ T_Fun002, T_FunRequest<T_Awaitable<Response>> ]> => {
           return [
             ( await import( Handle001( key ) ) ).default,
             ( await import( Handle001( name ) ) ).default
           ];
         }
       ),
-      arr002: Array<[ T_Fun002, T_Fun001 ]> = await Array.fromAsync( arr001 );
+      arr002: Array<[ T_Fun002, T_FunRequest<T_Awaitable<Response>> ]> = await Array.fromAsync( arr001 );
 
     const fun001: Record<number, T_Fun002> = {},
       myMap: T_Map001 = new Map( arr002 );
@@ -138,7 +138,7 @@ ${ path001 }
 ` );
     }
     else if( funByKey001.length === 1 ){
-      return ( myMap.get( ( funByValue001[ 0 ] ) as T_Fun002 ) ) as T_Fun001;
+      return ( myMap.get( ( funByValue001[ 0 ] ) as T_Fun002 ) ) as T_FunRequest<T_Awaitable<Response>>;
     }
     else{
       return false;
@@ -180,17 +180,17 @@ async function GeneratorRouteMap( routeMapConfig: T_RouteMapConfig ): Promise<T_
     )
   );
 
-  const arr001: Array<Promise<[ string, T_Fun001 ]>> = Object.entries( obj001 ).map(
+  const arr001: Array<Promise<[ string, T_FunRequest<T_Awaitable<Response>> ]>> = Object.entries( obj001 ).map(
       async (
         [ key, value ]: [ string, string ],
-      ): Promise<[ string, T_Fun001, ]> => {
+      ): Promise<[ string, T_FunRequest<T_Awaitable<Response>>, ]> => {
         return [
           key,
           ( await import( value ) ).default
         ];
       }
     ),
-    arr002: Array<[ string, T_Fun001 ]> = await Array.fromAsync( arr001 );
+    arr002: Array<[ string, T_FunRequest<T_Awaitable<Response>> ]> = await Array.fromAsync( arr001 );
 
   return Object.fromEntries( arr002 );
 }
