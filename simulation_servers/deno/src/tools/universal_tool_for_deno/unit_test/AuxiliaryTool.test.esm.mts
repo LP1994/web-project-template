@@ -22,11 +22,9 @@ import {
   Chalk,
 } from 'npm:chalk';
 
-export type T_MyExpect001 = any;
-
-export type T_Error001 = {
+export type T_ErrorObj = {
   // 预期值。
-  expect: T_MyExpect001;
+  expect: any;
   // 一个用于描述错误信息的字符串。
   message: string;
   // 实际值。
@@ -46,18 +44,18 @@ export const chalk: {
  *
  * @param {any} result 被测试对象的实际返回值，必需。
  *
- * @returns {{toBe: (expect: (T_MyExpect001)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
+ * @returns {{toBe: (expect: (any)) => void}} 返回一个对象，里头有一个toBe函数，它接收一个预期值expect，用于跟实际值对比。
  */
 export function Equal001( result: any ): {
-  toBe: ( expect: T_MyExpect001 ) => void;
+  toBe: ( expect: any ) => void;
 }{
   return {
     /**
      * toBe函数，它接收一个预期值expect，用于跟实际值对比。
      *
-     * @param {T_MyExpect001} expect 预期值，必需。
+     * @param {any} expect 预期值，必需。
      */
-    toBe( expect: T_MyExpect001 ): void{
+    toBe( expect: any ): void{
       if( result !== expect ){
         throw new MyError001( {
           message: '实际值和预期值不全等（使用“!==”比较）！',
@@ -89,9 +87,9 @@ export class MyError001
   /**
    * 预期值。
    *
-   * @type {T_MyExpect001}
+   * @type {any}
    */
-  public expect: T_MyExpect001;
+  public expect: any;
 
   /**
    * 实际值。
@@ -112,7 +110,7 @@ export class MyError001
    *
    * @param {object} config 构造函数的初始参数，是一个对象。
    *
-   * @param {T_MyExpect001} config.expect 预期值，必需。
+   * @param {any} config.expect 预期值，必需。
    *
    * @param {string} config.message 一个用于描述错误信息的字符串，必需。
    *
@@ -125,7 +123,7 @@ export class MyError001
     message,
     result,
     isSuccess,
-  }: T_Error001 ){
+  }: T_ErrorObj ){
     super();
 
     this.expect = expect;
@@ -155,7 +153,7 @@ export function Test001( desc: string, fn: () => void ): void{
       message,
       result,
       isSuccess,
-    } = ( error as T_Error001 );
+    } = ( error as T_ErrorObj );
 
     if( isSuccess ){
       console.log( chalk.green( `

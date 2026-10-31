@@ -55,7 +55,7 @@ import Put from './Put.esm.mts';
 
 import WebSocket from './WebSocket.esm.mts';
 
-type T_Fun003 = T_FunRequest<T_Awaitable<Response>> | T_FunRequest<Promise<T_Awaitable<Response>>>;
+type T_MyFunRequest = T_FunRequest<T_Awaitable<Response>> | T_FunRequest<Promise<T_Awaitable<Response>>>;
 
 type T_MyRequestMethods = 'put' | 'delete' | 'post' | 'get' | 'options';
 
@@ -65,7 +65,7 @@ const requestMethods = {
   post: Post,
   get: Get,
   options: Options,
-} satisfies Record<T_MyRequestMethods, T_Fun003>;
+} satisfies Record<T_MyRequestMethods, T_MyFunRequest>;
 
 /**
  * 集中处理客户端发起的请求，根据不同的请求方式分流到对应的请求方式的处理。<br />
@@ -93,7 +93,7 @@ async function Routers( request: Request ): Promise<Response>{
     result = ( await IterateToNestForPromise( WebSocket( request ) ) ) as Response;
   }
   else if( method in requestMethods ){
-    result = ( await IterateToNestForPromise( ( requestMethods[ method as T_MyRequestMethods ] as T_Fun003 )( request ) ) ) as Response;
+    result = ( await IterateToNestForPromise( ( requestMethods[ method as T_MyRequestMethods ] as T_MyFunRequest )( request ) ) ) as Response;
   }
   else{
     const filePath: URL = new URL( import.meta.resolve( `${ ejsDir }/ErrorForReqMethod.ejs` ) ),
