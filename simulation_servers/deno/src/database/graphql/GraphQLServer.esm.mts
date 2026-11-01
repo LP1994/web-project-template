@@ -320,6 +320,9 @@ import {
 
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
+
+  GraphQLServerForCleanupUploadedFiles,
+  GraphQLServerForReleaseUploadedFiles,
 } from './graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
 
 import {
