@@ -14,6 +14,10 @@
 'use strict';
 
 import {
+  createHash,
+} from 'node:crypto';
+
+import {
   type T_MyCusDenoFsFile,
 
   GetErrorWriteStreamForSingleton,
