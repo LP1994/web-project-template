@@ -7549,6 +7549,26 @@ req.url--->${ req.url }<---End
         // wrappedContextRegExp: /.*/,
       };
 
+    /**
+     * 匹配完整的 URL 查询参数名称。<br /><br />
+     *
+     * 支持：<br />
+     *   ?url
+     *   ?url=1
+     *   ?foo=1&url
+     *   ?foo=1&url=1
+     *
+     * 不匹配：<br />
+     *   ?noturl
+     *   ?urlSomething
+     *   ?foo=url
+     *
+     * @param name
+     *
+     * @returns {RegExp}
+     */
+    const QueryFlag = name => new RegExp( `(?:^\\?|&)${ name }(?:=|&|$)` );
+
     return {
       generator: {
         /**
@@ -8088,88 +8108,16 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            /**
-             * 处理.module.css文件，也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.css$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: cssWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-css' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, { options, } );
-                } )( cssLoader ),
-                postCSSLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.css文件。
             {
               test: /\.css$/i,
               oneOf: [
+                /**
+                 * 处理.module.css文件，也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.css$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -8222,8 +8170,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.css$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -8238,72 +8184,154 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.css文件。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: cssWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.css$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: cssWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-css' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    cssLoader,
-                    postCSSLoader,
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.modules = cssLoaderModules;
+
+                          return Object.assign( {}, cssLoader, { options, } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.css$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: cssWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-css' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        cssLoader,
+                        postCSSLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.css$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.css$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
@@ -8407,13 +8435,52 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /url/,
+                      QueryFlag( 'bytes' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/bytes',
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './src/assets/doc/' ),
+                    join( __dirname, './src/assets/img/' ),
+                    join( __dirname, './src/assets/music/' ),
+                    join( __dirname, './src/assets/videos/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                    join( __dirname, './src/wasm/' ),
+                  ].concat( exclude001 ),
+                },
+                {
+                  resourceQuery: {
+                    and: [
+                      QueryFlag( 'url' ),
+                    ],
+                  },
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/resource',
@@ -8456,13 +8523,14 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /raw/,
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/inline',
@@ -8499,14 +8567,16 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     not: [
-                      /url/,
-                      /raw/,
+                      QueryFlag( 'bytes' ),
+                      QueryFlag( 'url' ),
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset',
@@ -8565,7 +8635,7 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /raw/,
+                      QueryFlag( 'raw' ),
                     ],
                   },
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -8629,7 +8699,7 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     not: [
-                      /raw/,
+                      QueryFlag( 'raw' ),
                     ],
                   },
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
@@ -8768,13 +8838,52 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /url/,
+                      QueryFlag( 'bytes' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/bytes',
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './src/assets/doc/' ),
+                    join( __dirname, './src/assets/fonts/' ),
+                    join( __dirname, './src/assets/music/' ),
+                    join( __dirname, './src/assets/videos/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                    join( __dirname, './src/wasm/' ),
+                  ].concat( exclude001 ),
+                },
+                {
+                  resourceQuery: {
+                    and: [
+                      QueryFlag( 'url' ),
+                    ],
+                  },
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/resource',
@@ -8817,13 +8926,14 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /raw/,
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/inline',
@@ -8860,14 +8970,16 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     not: [
-                      /url/,
-                      /raw/,
+                      QueryFlag( 'bytes' ),
+                      QueryFlag( 'url' ),
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset',
@@ -8920,7 +9032,7 @@ req.url--->${ req.url }<---End
             {
               test: /\.js$/i,
               /**
-               * 1、有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。<br />
+               * 1、有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'、'asset/bytes'。<br />
                * 2、注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。<br />
                */
               type: 'javascript/auto',
@@ -8969,7 +9081,7 @@ req.url--->${ req.url }<---End
             {
               test: /\.(cjs|mjs)$/i,
               /**
-               * 1、有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。<br />
+               * 1、有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'、'asset/bytes'。<br />
                * 2、注意，如果设置成“javascript/esm”，会导致在编译后的代码中直接使用require导入辅助代码，从而导致报错，无论是开发环境还是生产环境都是如此。<br />
                */
               type: 'javascript/auto',
@@ -9018,7 +9130,7 @@ req.url--->${ req.url }<---End
             // 处理.jsx文件。
             {
               test: /\.jsx$/i,
-              // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'。
+              // 有这么几种：'javascript/auto'、'javascript/dynamic'、'javascript/esm'、'json'、'webassembly/sync'、'webassembly/async'、'asset'、'asset/source'、'asset/resource'、'asset/inline'、'asset/bytes'。
               type: 'javascript/auto',
               // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
               use: isUseESBuildLoader
@@ -9105,97 +9217,16 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            /**
-             * 处理.module.less文件，也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.less$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: lessWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-less' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.importLoaders = 2;
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, {
-                    options,
-                  } );
-                } )( cssLoader ),
-                postCSSLoader,
-                /**
-                 * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
-                 * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
-                 * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
-                 */
-                lessLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.less文件。
             {
               test: /\.less$/i,
               oneOf: [
+                /**
+                 * 处理.module.less文件，也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.less$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -9257,8 +9288,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.less$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -9273,86 +9302,177 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.less文件。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: lessWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.less$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: lessWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-less' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-less' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    ( cssLoader => {
-                      const options = Object.assign( {}, cssLoader.options );
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
 
-                      options.importLoaders = 2;
+                          options.importLoaders = 2;
+                          options.modules = cssLoaderModules;
 
-                      return Object.assign( {}, cssLoader, {
-                        options,
-                      } );
-                    } )( cssLoader ),
-                    postCSSLoader,
-                    /**
-                     * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
-                     * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
-                     * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
-                     */
-                    lessLoader,
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        /**
+                         * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
+                         * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
+                         * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
+                         */
+                        lessLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.less$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: lessWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-less' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.importLoaders = 2;
+
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        /**
+                         * 1、不推荐使用~并且可以从您的代码中删除（我们推荐它），但由于历史原因我们仍然支持它。为什么可以去掉？加载器将首先尝试将@import解析为相对，如果无法解析，加载器将尝试在node_modules中解析@import。<br />
+                         * 2、首先我们尝试使用内置的less解析逻辑，然后是webpack解析逻辑。<br />
+                         * 3、webpack提供了一种高级机制来解析文件。less-loader应用了一个Less插件，如果less无法解析@import，它将所有查询传递给webpack解析器。因此，您可以从node_modules导入您的Less模块。<br />
+                         */
+                        lessLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.less$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.less$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
@@ -9441,60 +9561,14 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            // 处理.manifest.json、.webmanifest文件，给PWA用的manifest文件。
-            {
-              test: /\.manifest\.json$/i,
-              /**
-               * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
-               * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
-               * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
-               */
-              type: 'asset/resource',
-              generator: {
-                emit: true,
-                filename( pathData, assetInfo ){
-                  return '[name]_[contenthash].manifest[ext]';
-                },
-                outputPath( pathData, assetInfo ){
-                  return './pwa_manifest/';
-                },
-                publicPath( pathData, assetInfo ){
-                  return '../pwa_manifest/';
-                },
-              },
-              include: [
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/template/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/native_components/' ),
-                join( __dirname, './src/pages/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/tools/' ),
-                join( __dirname, './src/wasm/' ),
-                join( __dirname, './src/web_components/' ),
-                join( __dirname, './src/workers/' ),
-              ].concat( exclude001 ),
-            },
+            // 处理.webmanifest文件，给PWA用的manifest文件。
             {
               test: /\.webmanifest$/i,
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+               * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/resource',
@@ -9537,49 +9611,104 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            // 自定义处理.json文件，以免.manifest.json文件被当成.json文件处理，而且该自定义必须得在.manifest.json处理之后。
+            // 自定义处理.json文件。
             {
               test: /\.json$/i,
-              type: 'json',
-              parser: {
-                exportsDepth: Infinity,
-                namedExports: true,
-                parse: JSON5.parse,
-              },
-              include: [
-                join( __dirname, './node_modules/' ),
+              oneOf: [
+                // 处理.manifest.json文件，给PWA用的manifest文件。
+                {
+                  test: /\.manifest\.json$/i,
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/resource',
+                  generator: {
+                    emit: true,
+                    filename( pathData, assetInfo ){
+                      return '[name]_[contenthash].manifest[ext]';
+                    },
+                    outputPath( pathData, assetInfo ){
+                      return './pwa_manifest/';
+                    },
+                    publicPath( pathData, assetInfo ){
+                      return '../pwa_manifest/';
+                    },
+                  },
+                  include: [
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/template/' ),
 
-                join( __dirname, './src/' ),
-                join( __dirname, './src/assets/doc/json/' ),
+                    join( __dirname, './webpack_location/' ),
 
-                join( __dirname, './webpack_location/' ),
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './node_modules/' ),
 
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
+                    join( __dirname, './src/assets/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/native_components/' ),
+                    join( __dirname, './src/pages/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                    join( __dirname, './src/tools/' ),
+                    join( __dirname, './src/wasm/' ),
+                    join( __dirname, './src/web_components/' ),
+                    join( __dirname, './src/workers/' ),
+                  ].concat( exclude001 ),
+                },
+                // 自定义处理.json文件。
+                {
+                  test: /\.json$/i,
+                  type: 'json',
+                  parser: {
+                    exportsDepth: Infinity,
+                    namedExports: true,
+                    parse: JSON5.parse,
+                  },
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+                    join( __dirname, './src/assets/doc/json/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    /\.manifest\.json$/i,
+
+                    join( __dirname, './src/assets/doc/cson/' ),
+                    join( __dirname, './src/assets/doc/csv/' ),
+                    join( __dirname, './src/assets/doc/json5/' ),
+                    join( __dirname, './src/assets/doc/toml/' ),
+                    join( __dirname, './src/assets/doc/tsv/' ),
+                    join( __dirname, './src/assets/doc/txt/' ),
+                    join( __dirname, './src/assets/doc/xml/' ),
+                    join( __dirname, './src/assets/doc/yaml/' ),
+                    join( __dirname, './src/assets/fonts/' ),
+                    join( __dirname, './src/assets/img/' ),
+                    join( __dirname, './src/assets/music/' ),
+                    join( __dirname, './src/assets/videos/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                    join( __dirname, './src/wasm/' ),
+                  ].concat( exclude001 ),
+                },
               ],
-              exclude: [
-                /\.manifest\.json$/i,
-
-                join( __dirname, './src/assets/doc/cson/' ),
-                join( __dirname, './src/assets/doc/csv/' ),
-                join( __dirname, './src/assets/doc/json5/' ),
-                join( __dirname, './src/assets/doc/toml/' ),
-                join( __dirname, './src/assets/doc/tsv/' ),
-                join( __dirname, './src/assets/doc/txt/' ),
-                join( __dirname, './src/assets/doc/xml/' ),
-                join( __dirname, './src/assets/doc/yaml/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
 
             // markdown-loader，处理.markdown文件、.md文件，由于markdown的输出是HTML，因此最好与html-loader一起使用。
@@ -9674,13 +9803,52 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /url/,
+                      QueryFlag( 'bytes' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/bytes',
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './src/assets/doc/' ),
+                    join( __dirname, './src/assets/fonts/' ),
+                    join( __dirname, './src/assets/img/' ),
+                    join( __dirname, './src/assets/videos/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                    join( __dirname, './src/wasm/' ),
+                  ].concat( exclude001 ),
+                },
+                {
+                  resourceQuery: {
+                    and: [
+                      QueryFlag( 'url' ),
+                    ],
+                  },
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/resource',
@@ -9723,13 +9891,14 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /raw/,
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/inline',
@@ -9766,14 +9935,16 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     not: [
-                      /url/,
-                      /raw/,
+                      QueryFlag( 'bytes' ),
+                      QueryFlag( 'url' ),
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset',
@@ -9865,88 +10036,16 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            /**
-             * 处理.module.postcss文件、.module.pcss文件，也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.(pcss|postcss)$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: cssWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-postcss' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, { options, } );
-                } )( cssLoader ),
-                postCSSLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.postcss文件、.pcss文件。
             {
               test: /\.(pcss|postcss)$/i,
               oneOf: [
+                /**
+                 * 处理.module.postcss文件、.module.pcss文件，也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.(pcss|postcss)$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -9999,8 +10098,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.(pcss|postcss)$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -10015,72 +10112,154 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.postcss文件、.pcss文件。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: cssWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.(pcss|postcss)$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: cssWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-postcss' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-postcss' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    cssLoader,
-                    postCSSLoader,
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.modules = cssLoaderModules;
+
+                          return Object.assign( {}, cssLoader, { options, } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.(pcss|postcss)$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: cssWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-postcss' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        cssLoader,
+                        postCSSLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.(pcss|postcss)$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.(pcss|postcss)$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
@@ -10126,107 +10305,16 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            /**
-             * 处理.module.sass文件，也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.sass$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: sassWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-sass' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.importLoaders = 2;
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, {
-                    options,
-                  } );
-                } )( cssLoader ),
-                postCSSLoader,
-                /**
-                 * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
-                 * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
-                 * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
-                 * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
-                 * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
-                 * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
-                 * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
-                 * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
-                 * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
-                 * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
-                 * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
-                 * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
-                 * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
-                 */
-                sassLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.sass文件。
             {
               test: /\.sass$/i,
               oneOf: [
+                /**
+                 * 处理.module.sass文件，也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.sass$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -10298,8 +10386,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.sass$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -10314,201 +10400,211 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.sass文件。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: sassWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.sass$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: sassWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-sass' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-sass' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    ( cssLoader => {
-                      const options = Object.assign( {}, cssLoader.options );
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
 
-                      options.importLoaders = 2;
+                          options.importLoaders = 2;
+                          options.modules = cssLoaderModules;
 
-                      return Object.assign( {}, cssLoader, {
-                        options,
-                      } );
-                    } )( cssLoader ),
-                    postCSSLoader,
-                    /**
-                     * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
-                     * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
-                     * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
-                     * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
-                     * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
-                     * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
-                     * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
-                     * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
-                     * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
-                     * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
-                     * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
-                     * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
-                     * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
-                     */
-                    sassLoader,
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        /**
+                         * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+                         * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+                         * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+                         * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+                         * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+                         * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+                         * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+                         * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+                         * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+                         * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+                         * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+                         * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+                         * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+                         */
+                        sassLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.sass$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: sassWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-sass' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.importLoaders = 2;
+
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        /**
+                         * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+                         * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+                         * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+                         * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+                         * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+                         * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+                         * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+                         * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+                         * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+                         * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+                         * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+                         * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+                         * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+                         */
+                        sassLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.sass$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.sass$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
 
-            /**
-             * 处理.module.scss文件，也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.scss$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: sassWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-scss' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.importLoaders = 2;
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, {
-                    options,
-                  } );
-                } )( cssLoader ),
-                postCSSLoader,
-                /**
-                 * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
-                 * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
-                 * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
-                 * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
-                 * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
-                 * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
-                 * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
-                 * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
-                 * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
-                 * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
-                 * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
-                 * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
-                 * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
-                 */
-                scssLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.scss文件。
             {
               test: /\.scss$/i,
               oneOf: [
+                /**
+                 * 处理.module.scss文件，也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.scss$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -10580,8 +10676,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.scss$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -10596,186 +10690,211 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.scss文件。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: sassWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.scss$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: sassWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-scss' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-scss' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    ( cssLoader => {
-                      const options = Object.assign( {}, cssLoader.options );
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
 
-                      options.importLoaders = 2;
+                          options.importLoaders = 2;
+                          options.modules = cssLoaderModules;
 
-                      return Object.assign( {}, cssLoader, {
-                        options,
-                      } );
-                    } )( cssLoader ),
-                    postCSSLoader,
-                    /**
-                     * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
-                     * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
-                     * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
-                     * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
-                     * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
-                     * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
-                     * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
-                     * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
-                     * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
-                     * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
-                     * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
-                     * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
-                     * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
-                     */
-                    scssLoader,
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        /**
+                         * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+                         * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+                         * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+                         * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+                         * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+                         * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+                         * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+                         * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+                         * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+                         * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+                         * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+                         * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+                         * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+                         */
+                        scssLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.scss$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: sassWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-scss' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.importLoaders = 2;
+
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        /**
+                         * 1、不推荐使用~（如：@import "~xxx";）并且可以从您的代码中删除（我们推荐它）。但出于历史原因，我们仍然支持它。在模块路径前加上~告诉webpack搜索node_modules。仅在前面加上~很重要，因为“~/”解析为主目录。<br />
+                         * 2、sass包还支持较旧的API。尽管此API已被弃用，但在sass包（截至20220802还是1.54.0）的2.0.0版本发布之前，它将继续受到支持。<br />
+                         * 3、node-sass包也支持旧版API，它是已弃用的LibSass实现的原生扩展包装器。<br />
+                         * 4、旧版API有两个用于将Sass编译为CSS的入口点。每个人都可以通过传入LegacyFileOptions来编译Sass文件，或者通过传入LegacyStringOptions来编译一串Sass代码。<br />
+                         * 5、renderSync同步运行。它是迄今为止使用Dart Sass时最快的选择，但代价是仅支持同步导入器和函数插件。<br />
+                         * 6、render异步运行并在完成时调用回调。使用Dart Sass时速度要慢得多，但它支持异步导入器和函数插件。<br />
+                         * 7、sass-loader要求您自行安装sass(dart-sass)、node-sass、sass-embedded。这允许您控制所有依赖项的版本，并选择要使用的Sass实现。<br />
+                         * 8、官方文档上强烈推荐使用Dart Sass来作为sass的实现。<br />
+                         * 9、Node Sass不适用于Yarn PnP功能，也不支持@use规则。<br />
+                         * 10、Sass Embedded处于试验阶段，处于测试阶段，因此某些功能可能无法使用。<br />
+                         * 11、注意！sass(dart-sass)、sass-embedded实现在2.0.0之前还是支持旧版的API及其选项，但是2.0.0之后，就会被删除，到时升级了还是要注意下述sassOptions选项中的选项差异。<br />
+                         * 12、新版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/options.d.ts。<br />
+                         * 13、旧版API对应的sassOptions选项里的各个可用选项见：node_modules/sass/types/legacy/options.d.ts。<br />
+                         */
+                        scssLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.scss$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.scss$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
 
-            /**
-             * 处理.module.styl文件、.module.stylus文件，也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.(styl|stylus)$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: stylusWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-stylus' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.importLoaders = 2;
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, {
-                    options,
-                  } );
-                } )( cssLoader ),
-                postCSSLoader,
-                stylusLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.styl文件、.stylus文件。
             {
               test: /\.(styl|stylus)$/i,
               oneOf: [
+                /**
+                 * 处理.module.styl文件、.module.stylus文件，也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.(styl|stylus)$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -10832,8 +10951,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.(styl|stylus)$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -10848,167 +10965,181 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.styl文件、.stylus文件。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: stylusWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.(styl|stylus)$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: stylusWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-stylus' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-stylus' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    ( cssLoader => {
-                      const options = Object.assign( {}, cssLoader.options );
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
 
-                      options.importLoaders = 2;
+                          options.importLoaders = 2;
+                          options.modules = cssLoaderModules;
 
-                      return Object.assign( {}, cssLoader, {
-                        options,
-                      } );
-                    } )( cssLoader ),
-                    postCSSLoader,
-                    stylusLoader,
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        stylusLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.(styl|stylus)$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: stylusWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-stylus' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.importLoaders = 2;
+
+                          return Object.assign( {}, cssLoader, {
+                            options,
+                          } );
+                        } )( cssLoader ),
+                        postCSSLoader,
+                        stylusLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.(styl|stylus)$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/postcss/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.(styl|stylus)$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
 
-            /**
-             * 处理.module.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss），也就是CSS Modules的处理。<br />
-             * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
-             */
-            {
-              test: /\.(module|modules)\.sss$/i,
-              // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-              use: [
-                /**
-                 * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                 * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                 * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                 * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                 * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                 */
-                ...( ( isBoolean ) => {
-                  return isBoolean
-                         ? [
-                      MiniCssExtractPluginLoader,
-                    ]
-                         : [
-                      /*
-                       {
-                       loader: 'thread-loader',
-                       options: cssWorkerPoolConfig,
-                       },
-                       */
-                      ( styleLoader => {
-                        const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
-
-                        obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
-                        obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
-
-                        return obj1;
-                      } )( styleLoader ),
-                    ];
-                } )( true ),
-                ( cssLoader => {
-                  const options = Object.assign( {}, cssLoader.options );
-
-                  options.modules = cssLoaderModules;
-
-                  return Object.assign( {}, cssLoader, { options, } );
-                } )( cssLoader ),
-                postCSSSugarSSLoader,
-              ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
-              sideEffects: true,
-            },
             // 处理.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss）。
             {
               test: /\.sss$/i,
               oneOf: [
+                /**
+                 * 处理.module.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss），也就是CSS Modules的处理。<br />
+                 * 1、关于Vue中如何使用CSS Modules，详细见：https://vue-loader.vuejs.org/guide/css-modules.html#css-modules
+                 */
                 {
-                  resourceQuery: {
-                    and: [
-                      /module/,
-                    ],
-                  },
+                  test: /\.(module|modules)\.sss$/i,
                   // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
                   use: [
                     /**
@@ -11061,8 +11192,6 @@ req.url--->${ req.url }<---End
                     /^virtual:/,
                   ],
                   exclude: [
-                    /\.(module|modules)\.sss$/i,
-
                     join( __dirname, './src/assets/' ),
                     join( __dirname, './src/custom_declare_types/' ),
                     join( __dirname, './src/graphQL/' ),
@@ -11077,72 +11206,154 @@ req.url--->${ req.url }<---End
                   ].concat( exclude001 ),
                   sideEffects: true,
                 },
+                // 处理.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss）。
                 {
-                  resourceQuery: {
-                    not: [
-                      /module/,
-                    ],
-                  },
-                  // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
-                  use: [
-                    /**
-                     * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
-                     * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
-                     * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
-                     * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
-                     * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
-                     */
-                    ...( () => {
-                      return isProduction
-                             ? [
-                          MiniCssExtractPluginLoader,
-                        ]
-                             : [
-                          /*
-                           {
-                           loader: 'thread-loader',
-                           options: cssWorkerPoolConfig,
-                           },
-                           */
-                          ( styleLoader => {
-                            const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+                  test: /\.sss$/i,
+                  oneOf: [
+                    {
+                      resourceQuery: {
+                        or: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( ( isBoolean ) => {
+                          return isBoolean
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: cssWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
 
-                            obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
+                                obj1.options.attributes[ 'data-is-css-modules' ] = `true`;
+                                obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
 
-                            return obj1;
-                          } )( styleLoader ),
-                        ];
-                    } )(),
-                    cssLoader,
-                    postCSSSugarSSLoader,
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )( true ),
+                        ( cssLoader => {
+                          const options = Object.assign( {}, cssLoader.options );
+
+                          options.modules = cssLoaderModules;
+
+                          return Object.assign( {}, cssLoader, { options, } );
+                        } )( cssLoader ),
+                        postCSSSugarSSLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.sss$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
+                    {
+                      resourceQuery: {
+                        not: [
+                          QueryFlag( 'module' ),
+                          QueryFlag( 'modules' ),
+                        ],
+                      },
+                      // 可以通过传递多个加载程序来链接加载程序，这些加载程序将从右到左（最后配置到第一个配置）应用。
+                      use: [
+                        /**
+                         * 请注意，如果您从webpack入口点导入CSS或在初始块中导入样式，则mini-css-extract-plugin不会将此CSS加载到页面中。<br />
+                         * 1、请使用html-webpack-plugin自动生成链接标签或使用链接标签创建index.html文件。<br />
+                         * 2、对于开发模式（包括webpack-dev-server），您可以使用style-loader，因为它使用多个<style></style>将CSS注入到DOM中并且运行速度更快。<br />
+                         * 3、在同一个“文件loader规则”中，不要同时使用style-loader和mini-css-extract-plugin，生产环境建议用mini-css-extract-plugin。<br />
+                         * 4、当处理“css module”风格的样式时，无论生产模式还是开发模式都强烈建议使用mini-css-extract-plugin处理它们。<br />
+                         */
+                        ...( () => {
+                          return isProduction
+                                 ? [
+                              MiniCssExtractPluginLoader,
+                            ]
+                                 : [
+                              /*
+                               {
+                               loader: 'thread-loader',
+                               options: cssWorkerPoolConfig,
+                               },
+                               */
+                              ( styleLoader => {
+                                const obj1 = JSON.parse( JSON.stringify( styleLoader ) );
+
+                                obj1.options.attributes[ 'data-is-sugarss' ] = `true`;
+
+                                return obj1;
+                              } )( styleLoader ),
+                            ];
+                        } )(),
+                        cssLoader,
+                        postCSSSugarSSLoader,
+                      ],
+                      include: [
+                        join( __dirname, './node_modules/' ),
+
+                        join( __dirname, './src/' ),
+
+                        join( __dirname, './webpack_location/' ),
+
+                        // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                        /^v:/,
+                        /^virtual:/,
+                      ],
+                      exclude: [
+                        /\.(module|modules)\.sss$/i,
+
+                        join( __dirname, './src/assets/' ),
+                        join( __dirname, './src/custom_declare_types/' ),
+                        join( __dirname, './src/graphQL/' ),
+                        join( __dirname, './src/pwa_manifest/' ),
+                        join( __dirname, './src/static/' ),
+                        join( __dirname, './src/styles/css/' ),
+                        join( __dirname, './src/styles/less/' ),
+                        join( __dirname, './src/styles/sass/' ),
+                        join( __dirname, './src/styles/scss/' ),
+                        join( __dirname, './src/styles/stylus/' ),
+                        join( __dirname, './src/wasm/' ),
+                      ].concat( exclude001 ),
+                      sideEffects: true,
+                    },
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.sss$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
-                  sideEffects: true,
                 },
               ],
             },
@@ -11246,13 +11457,52 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /url/,
+                      QueryFlag( 'bytes' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/bytes',
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './src/assets/doc/' ),
+                    join( __dirname, './src/assets/fonts/' ),
+                    join( __dirname, './src/assets/img/' ),
+                    join( __dirname, './src/assets/music/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                    join( __dirname, './src/wasm/' ),
+                  ].concat( exclude001 ),
+                },
+                {
+                  resourceQuery: {
+                    and: [
+                      QueryFlag( 'url' ),
+                    ],
+                  },
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/resource',
@@ -11295,13 +11545,14 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     and: [
-                      /raw/,
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/inline',
@@ -11338,14 +11589,16 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     not: [
-                      /url/,
-                      /raw/,
+                      QueryFlag( 'bytes' ),
+                      QueryFlag( 'url' ),
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset',
@@ -11399,7 +11652,8 @@ req.url--->${ req.url }<---End
               /**
                * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-               * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+               * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+               * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/resource',
@@ -11440,23 +11694,58 @@ req.url--->${ req.url }<---End
               ].concat( exclude001 ),
             },
 
-            // 处理.wasm文件，区分结尾带“?url”和不带“?url”的2种处理。
+            // 处理.wasm文件。
             {
               test: /\.wasm$/i,
               oneOf: [
+                {
+                  resourceQuery: {
+                    and: [
+                      QueryFlag( 'bytes' ),
+                    ],
+                  },
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/bytes',
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './src/assets/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                  ].concat( exclude001 ),
+                },
                 /**
                  * 处理以“.wasm?url”结尾的文件导入。会返回一个URL连接。
                  */
                 {
                   resourceQuery: {
                     and: [
-                      /url/,
+                      QueryFlag( 'url' ),
                     ],
                   },
                   /**
                    * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
                    * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
-                   * asset/source：导出资产的源代码。以前可以通过使用raw-loader实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
                    * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                    */
                   type: 'asset/resource',
@@ -11471,6 +11760,46 @@ req.url--->${ req.url }<---End
                     publicPath( pathData, assetInfo ){
                       return '../wasm/';
                     },
+                  },
+                  include: [
+                    join( __dirname, './node_modules/' ),
+
+                    join( __dirname, './src/' ),
+
+                    join( __dirname, './webpack_location/' ),
+
+                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                    /^v:/,
+                    /^virtual:/,
+                  ],
+                  exclude: [
+                    join( __dirname, './src/assets/' ),
+                    join( __dirname, './src/custom_declare_types/' ),
+                    join( __dirname, './src/graphQL/' ),
+                    join( __dirname, './src/pwa_manifest/' ),
+                    join( __dirname, './src/static/' ),
+                    join( __dirname, './src/styles/' ),
+                  ].concat( exclude001 ),
+                },
+                {
+                  resourceQuery: {
+                    and: [
+                      QueryFlag( 'inline' ),
+                    ],
+                  },
+                  /**
+                   * asset/resource：发出一个单独的文件并导出URL。以前可以通过使用file-loader来实现。<br />
+                   * asset/inline：导出资产的data URI。以前可以通过使用url-loader来实现。<br />
+                   * asset/source：导出资产的UTF-8 字符串。以前可以通过使用raw-loader实现。<br />
+                   * asset/bytes：导出资产的未经文本编码或转换的原始字节（Uint8Array）。<br />
+                   * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
+                   */
+                  type: 'asset/inline',
+                  generator: {
+                    dataUrl: {
+                      encoding: 'base64',
+                    },
+                    emit: false,
                   },
                   include: [
                     join( __dirname, './node_modules/' ),
@@ -11511,7 +11840,9 @@ req.url--->${ req.url }<---End
                 {
                   resourceQuery: {
                     not: [
-                      /url/,
+                      QueryFlag( 'bytes' ),
+                      QueryFlag( 'url' ),
+                      QueryFlag( 'inline' ),
                     ],
                   },
                   type: 'webassembly/async',
@@ -11621,6 +11952,101 @@ req.url--->${ req.url }<---End
                 join( __dirname, './src/wasm/' ),
               ].concat( exclude001 ),
             },
+
+            {
+              resourceQuery: QueryFlag( 'raw' ),
+              type: 'asset/source',
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                /^v:/,
+                /^virtual:/,
+              ],
+              exclude: [
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/static/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              resourceQuery: QueryFlag( 'url' ),
+              type: 'asset/resource',
+              generator: {
+                emit: true,
+                filename( pathData, assetInfo ){
+                  return '[name]_[contenthash][ext]';
+                },
+                outputPath( pathData, assetInfo ){
+                  return './others/';
+                },
+                publicPath( pathData, assetInfo ){
+                  return '../others/';
+                },
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                /^v:/,
+                /^virtual:/,
+              ],
+              exclude: [
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/static/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              resourceQuery: QueryFlag( 'inline' ),
+              type: 'asset/inline',
+              generator: {
+                dataUrl: {
+                  encoding: 'base64',
+                },
+                emit: false,
+              },
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                /^v:/,
+                /^virtual:/,
+              ],
+              exclude: [
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/static/' ),
+              ].concat( exclude001 ),
+            },
+            {
+              resourceQuery: QueryFlag( 'bytes' ),
+              type: 'asset/bytes',
+              include: [
+                join( __dirname, './node_modules/' ),
+
+                join( __dirname, './src/' ),
+
+                join( __dirname, './webpack_location/' ),
+
+                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+                /^v:/,
+                /^virtual:/,
+              ],
+              exclude: [
+                join( __dirname, './src/custom_declare_types/' ),
+                join( __dirname, './src/static/' ),
+              ].concat( exclude001 ),
+            }
           ],
         },
       ],
