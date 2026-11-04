@@ -117,10 +117,10 @@
     "npm": ">=12.2.1"
   },
   "browserslist": [
-    "Chrome >= 156",
-    "Android >= 156",
-    "ChromeAndroid >= 156",
-    "Edge >= 156",
+    "Chrome >= 157",
+    "Android >= 157",
+    "ChromeAndroid >= 157",
+    "Edge >= 157",
     "Firefox >= 159",
     "FirefoxAndroid >= 159",
     "Safari >= 27",
