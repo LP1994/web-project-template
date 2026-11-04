@@ -56,4 +56,13 @@ declare global {
   type T_VueReactive<T> = T_Reactive<T>;
 
   type T_LoadRemoteVueComponent = Awaited<ReturnType<T_AsyncComponentLoader<T_DefineComponent<{}, {}, any>>>>;
+
+  interface ImportCallOptions {
+    /** @deprecated*/
+    assert?: ImportAssertions;
+
+    with?: ImportAttributes;
+
+    exports?: Array<string>;
+  }
 }

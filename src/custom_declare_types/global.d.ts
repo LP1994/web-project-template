@@ -68,4 +68,13 @@ declare global {
   type T_MF_v2_RuntimeAPI_ModuleFederation = typeof ModuleFederation;
 
   type T_MF_v2_RuntimeAPI_LoadRemote<T> = typeof loadRemote<T>;
+
+  interface ImportCallOptions {
+    /** @deprecated*/
+    assert?: ImportAssertions;
+
+    with?: ImportAttributes;
+
+    exports?: Array<string>;
+  }
 }
