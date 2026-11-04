@@ -4627,6 +4627,47 @@ req.url--->${ req.url }<---End
                   syntaxType: 'void',
                 }
               ],
+              /**
+               * https://babeljs.io/docs/babel-plugin-proposal-bytes-modules
+               * https://github.com/tc39/proposal-import-bytes/
+               * import bytes from "./image.png" with { type: "bytes" };
+               * 还支持命名空间导入，这些导入会被编译成一个仅包含一个默认（default）属性的对象：
+               * import * as ns from "./image.png" with { type: "bytes" };
+               * ------------------------------------------------------------
+               * 将包含 { type: "bytes" } 声明的 import ... 转换为平台特定的 API，以便将导入的文件读取为不可变的 Uint8Array。
+               *
+               * 注意
+               * 在不支持不可变 ArrayBuffer 的平台上，Babel 将返回一个由可变 ArrayBuffer 支持的 Uint8Array。
+               *
+               * 此插件应用的转换取决于您的顶级目标，以检测生成的代码应与 Node.js、浏览器还是两者兼容。当目标为 Node.js 时，生成的代码还会根据您是否将模块编译为 CommonJS 而有所不同。
+               *
+               * 注意
+               * 此插件仅转换静态 import 声明，不转换动态 import() 调用；在编译模块时，它仅支持 CommonJS 输出。
+               */
+              [
+                '@babel/plugin-proposal-bytes-modules',
+              ],
+              /**
+               * https://babeljs.io/docs/babel-plugin-proposal-filtered-namespaces
+               * https://github.com/tc39/proposal-deferred-reexports
+               * import { a, b } as ns from "mod";
+               * ns.a;
+               *
+               * import("mod", { exports: ["b", "a"] });
+               * -----------------------------------------------------
+               * 将过滤后的命名空间导入和再导出（例如 import { a, b } as ns from "mod"）以及动态 import() 的 exports 选项进行转换。
+               *
+               * 过滤后的命名空间是“延迟再导出”（Deferred Re-exports）提案的一部分。它允许你导入一个命名空间对象，该对象仅暴露模块中的一部分导出项。
+               *
+               * 信息
+               * 此插件仅编译过滤命名空间。若要解析 `export defer` 声明，您需要启用 `deferredReexports` 解析器插件。Babel 不支持 `export defer` 的转译。
+               * --------------------------------------------------
+               * 注意事项
+               * Babel 目前尚不支持对与 `import defer` 或 `export defer` 结合使用的过滤命名空间进行转换，例如 `import defer { a } as ns from "mod"` 或 `export defer { a } as ns from "mod"`。
+               */
+              [
+                '@babel/plugin-proposal-filtered-namespaces',
+              ],
 
               // 处于提案第3阶段！
               /**
@@ -4700,6 +4741,23 @@ req.url--->${ req.url }<---End
                */
               [
                 '@babel/plugin-syntax-module-blocks',
+              ],
+              /**
+               * https://babeljs.io/docs/babel-plugin-proposal-text-modules
+               * https://github.com/tc39/proposal-import-text/
+               * import banner from "./banner.txt" with { type: "text" };
+               * 还支持命名空间导入，这些导入会被编译成一个仅包含一个默认（default）属性的对象：
+               * import * as ns from "./banner.txt" with { type: "text" };
+               * ---------------------------------------------------------------------
+               * 将包含 { type: "text" } 声明的 import ... 语句转换为特定于平台的 API，用于读取导入的文件并将其解码为 UTF-8 文本。
+               *
+               * 此插件应用的转换会根据您的顶级目标来检测生成的代码应与 Node.js、浏览器还是两者兼容。当目标为 Node.js 时，生成的代码还会根据您是否将模块编译为 CommonJS 而有所不同。
+               *
+               * 注意
+               * 此插件仅转换静态 import 声明，不处理动态 import() 调用；在编译模块时，它仅支持 CommonJS 输出格式。
+               */
+              [
+                '@babel/plugin-proposal-text-modules',
               ],
 
               // 处于无效提案，但是有新的替代提案处于讨论中！
