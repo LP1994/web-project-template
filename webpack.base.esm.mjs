@@ -7926,30 +7926,6 @@ req.url--->${ req.url }<---End
                 } )( cssLoader ),
                 postCSSLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.css文件。
@@ -8003,32 +7979,6 @@ req.url--->${ req.url }<---End
                     } )( cssLoader ),
                     postCSSLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.css$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -8071,37 +8021,37 @@ req.url--->${ req.url }<---End
                     cssLoader,
                     postCSSLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.css$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // 处理.csv文件、.tsv文件。
@@ -8214,29 +8164,6 @@ req.url--->${ req.url }<---End
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/bytes',
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -8264,29 +8191,6 @@ req.url--->${ req.url }<---End
                   return '../fonts/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -8308,29 +8212,6 @@ req.url--->${ req.url }<---End
                 },
                 emit: false,
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -8366,31 +8247,31 @@ req.url--->${ req.url }<---End
                   return '../fonts/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/doc/' ),
+            join( __dirname, './src/assets/img/' ),
+            join( __dirname, './src/assets/music/' ),
+            join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
         },
 
         // 处理.graphql文件、.graphqls文件、.gql文件，区分结尾带“?raw”和不带“?raw”的2种处理，注意事项去看：notes/graphql笔记/关于在JS和TS文件中导入和使用graphql文件时出现的BUG以及注意事项说明.txt。
@@ -8428,27 +8309,6 @@ req.url--->${ req.url }<---End
                   },
                 },
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/doc/' ),
-                join( __dirname, './src/graphQL/test/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             /**
              * 处理以.graphql、.graphqls、.gql结尾的不带“?raw”的文件导入，会返回对象。
@@ -8476,29 +8336,29 @@ req.url--->${ req.url }<---End
                   loader: 'graphql-tag/loader',
                 },
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/doc/' ),
-                join( __dirname, './src/graphQL/test/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/doc/' ),
+            join( __dirname, './src/graphQL/test/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
         },
 
         // handlebars-loader，处理.handlebars文件、.hbs文件。
@@ -8617,29 +8477,6 @@ req.url--->${ req.url }<---End
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/bytes',
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -8667,29 +8504,6 @@ req.url--->${ req.url }<---End
                   return '../img/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -8711,29 +8525,6 @@ req.url--->${ req.url }<---End
                 },
                 emit: false,
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -8769,31 +8560,31 @@ req.url--->${ req.url }<---End
                   return '../img/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/doc/' ),
+            join( __dirname, './src/assets/fonts/' ),
+            join( __dirname, './src/assets/music/' ),
+            join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
         },
 
         // 处理.js文件。
@@ -9044,30 +8835,6 @@ req.url--->${ req.url }<---End
                  */
                 lessLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.less文件。
@@ -9130,32 +8897,6 @@ req.url--->${ req.url }<---End
                      */
                     lessLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.less$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -9212,37 +8953,37 @@ req.url--->${ req.url }<---End
                      */
                     lessLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.less$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // 处理.toml文件。
@@ -9582,29 +9323,6 @@ req.url--->${ req.url }<---End
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/bytes',
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -9632,29 +9350,6 @@ req.url--->${ req.url }<---End
                   return '../music/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -9676,29 +9371,6 @@ req.url--->${ req.url }<---End
                 },
                 emit: false,
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -9734,31 +9406,31 @@ req.url--->${ req.url }<---End
                   return '../music/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/videos/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/doc/' ),
+            join( __dirname, './src/assets/fonts/' ),
+            join( __dirname, './src/assets/img/' ),
+            join( __dirname, './src/assets/videos/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
         },
 
         // mustache-loader，处理.mustache文件。
@@ -9854,30 +9526,6 @@ req.url--->${ req.url }<---End
                 } )( cssLoader ),
                 postCSSLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.postcss文件、.pcss文件。
@@ -9931,32 +9579,6 @@ req.url--->${ req.url }<---End
                     } )( cssLoader ),
                     postCSSLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.(pcss|postcss)$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -9999,37 +9621,37 @@ req.url--->${ req.url }<---End
                     cssLoader,
                     postCSSLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.(pcss|postcss)$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // pug-loader，处理.pug文件、.jade文件。
@@ -10142,30 +9764,6 @@ req.url--->${ req.url }<---End
                  */
                 sassLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.sass文件。
@@ -10238,32 +9836,6 @@ req.url--->${ req.url }<---End
                      */
                     sassLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.sass$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -10330,37 +9902,37 @@ req.url--->${ req.url }<---End
                      */
                     sassLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.sass$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // 处理.scss文件。
@@ -10432,30 +10004,6 @@ req.url--->${ req.url }<---End
                  */
                 scssLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.scss文件。
@@ -10528,32 +10076,6 @@ req.url--->${ req.url }<---End
                      */
                     scssLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.scss$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -10620,37 +10142,37 @@ req.url--->${ req.url }<---End
                      */
                     scssLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.scss$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // 处理.styl文件、.stylus文件。
@@ -10707,30 +10229,6 @@ req.url--->${ req.url }<---End
                 postCSSLoader,
                 stylusLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/postcss/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.styl文件、.stylus文件。
@@ -10788,32 +10286,6 @@ req.url--->${ req.url }<---End
                     postCSSLoader,
                     stylusLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.(styl|stylus)$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -10865,37 +10337,37 @@ req.url--->${ req.url }<---End
                     postCSSLoader,
                     stylusLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.(styl|stylus)$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/postcss/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/postcss/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // 处理.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss）。
@@ -10948,30 +10420,6 @@ req.url--->${ req.url }<---End
                 } )( cssLoader ),
                 postCSSSugarSSLoader,
               ],
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/css/' ),
-                join( __dirname, './src/styles/less/' ),
-                join( __dirname, './src/styles/sass/' ),
-                join( __dirname, './src/styles/scss/' ),
-                join( __dirname, './src/styles/stylus/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
               sideEffects: true,
             },
             // 处理.sss文件（SugarSS是一种基于空格的PostCSS语法，SugarSS的MIME类型为text/x-sugarss，文件扩展名为.sss）。
@@ -11025,32 +10473,6 @@ req.url--->${ req.url }<---End
                     } )( cssLoader ),
                     postCSSSugarSSLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.sss$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
                 {
@@ -11093,37 +10515,37 @@ req.url--->${ req.url }<---End
                     cssLoader,
                     postCSSSugarSSLoader,
                   ],
-                  include: [
-                    join( __dirname, './node_modules/' ),
-
-                    join( __dirname, './src/' ),
-
-                    join( __dirname, './webpack_location/' ),
-
-                    // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                    /^v:/,
-                    /^virtual:/,
-                  ],
-                  exclude: [
-                    /\.(module|modules)\.sss$/i,
-
-                    join( __dirname, './src/assets/' ),
-                    join( __dirname, './src/custom_declare_types/' ),
-                    join( __dirname, './src/graphQL/' ),
-                    join( __dirname, './src/pwa_manifest/' ),
-                    join( __dirname, './src/static/' ),
-                    join( __dirname, './src/styles/css/' ),
-                    join( __dirname, './src/styles/less/' ),
-                    join( __dirname, './src/styles/sass/' ),
-                    join( __dirname, './src/styles/scss/' ),
-                    join( __dirname, './src/styles/stylus/' ),
-                    join( __dirname, './src/wasm/' ),
-                  ].concat( exclude001 ),
                   sideEffects: true,
                 },
               ],
+              sideEffects: true,
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/css/' ),
+            join( __dirname, './src/styles/less/' ),
+            join( __dirname, './src/styles/sass/' ),
+            join( __dirname, './src/styles/scss/' ),
+            join( __dirname, './src/styles/stylus/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
+          sideEffects: true,
         },
 
         // 处理.ts文件、.mts文件、.cts文件。
@@ -11236,29 +10658,6 @@ req.url--->${ req.url }<---End
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/bytes',
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -11286,29 +10685,6 @@ req.url--->${ req.url }<---End
                   return '../videos/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -11330,29 +10706,6 @@ req.url--->${ req.url }<---End
                 },
                 emit: false,
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -11388,31 +10741,31 @@ req.url--->${ req.url }<---End
                   return '../videos/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/doc/' ),
-                join( __dirname, './src/assets/fonts/' ),
-                join( __dirname, './src/assets/img/' ),
-                join( __dirname, './src/assets/music/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-                join( __dirname, './src/wasm/' ),
-              ].concat( exclude001 ),
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/doc/' ),
+            join( __dirname, './src/assets/fonts/' ),
+            join( __dirname, './src/assets/img/' ),
+            join( __dirname, './src/assets/music/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+            join( __dirname, './src/wasm/' ),
+          ].concat( exclude001 ),
         },
         // 处理视频的字幕文件。
         {
@@ -11710,25 +11063,6 @@ req.url--->${ req.url }<---End
                * asset：自动在导出data URI和发出单独文件之间进行选择。以前可以通过使用带有资产大小限制的url-loader来实现。<br />
                */
               type: 'asset/bytes',
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-              ].concat( exclude001 ),
             },
             /**
              * 处理以“.wasm?url”结尾的文件导入。会返回一个URL连接。
@@ -11759,25 +11093,6 @@ req.url--->${ req.url }<---End
                   return '../wasm/';
                 },
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-              ].concat( exclude001 ),
             },
             {
               resourceQuery: {
@@ -11799,25 +11114,6 @@ req.url--->${ req.url }<---End
                 },
                 emit: false,
               },
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-              ].concat( exclude001 ),
             },
             /**
              * 处理.wasm文件，但是不带“?url”查询参数的。使用webpack 5新增的type: 'webassembly/async'，需要开启实验性选项experiments.asyncWebAssembly。<br />
@@ -11844,27 +11140,27 @@ req.url--->${ req.url }<---End
                 ],
               },
               type: 'webassembly/async',
-              include: [
-                join( __dirname, './node_modules/' ),
-
-                join( __dirname, './src/' ),
-
-                join( __dirname, './webpack_location/' ),
-
-                // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
-                /^v:/,
-                /^virtual:/,
-              ],
-              exclude: [
-                join( __dirname, './src/assets/' ),
-                join( __dirname, './src/custom_declare_types/' ),
-                join( __dirname, './src/graphQL/' ),
-                join( __dirname, './src/pwa_manifest/' ),
-                join( __dirname, './src/static/' ),
-                join( __dirname, './src/styles/' ),
-              ].concat( exclude001 ),
             },
           ],
+          include: [
+            join( __dirname, './node_modules/' ),
+
+            join( __dirname, './src/' ),
+
+            join( __dirname, './webpack_location/' ),
+
+            // 匹配所有 v: 、 virtual: 开头的虚拟模块，用于配合VirtualUrlPlugin插件的使用。
+            /^v:/,
+            /^virtual:/,
+          ],
+          exclude: [
+            join( __dirname, './src/assets/' ),
+            join( __dirname, './src/custom_declare_types/' ),
+            join( __dirname, './src/graphQL/' ),
+            join( __dirname, './src/pwa_manifest/' ),
+            join( __dirname, './src/static/' ),
+            join( __dirname, './src/styles/' ),
+          ].concat( exclude001 ),
         },
 
         // 处理.xml文件。

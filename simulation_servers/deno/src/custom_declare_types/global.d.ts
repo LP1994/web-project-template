@@ -61,10 +61,12 @@ declare global {
     /** @deprecated*/
     assert?: {
       type?: 'json' | 'text' | 'bytes' | 'css' | 'url' | 'wasm' | 'webassembly';
+      [ key: string ]: string;
     };
 
     with?: {
       type?: 'json' | 'text' | 'bytes' | 'css' | 'url' | 'wasm' | 'webassembly';
+      [ key: string ]: string;
     };
 
     exports?: Array<string>;
