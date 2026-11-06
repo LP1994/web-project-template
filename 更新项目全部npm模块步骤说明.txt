@@ -13,3 +13,6 @@ npm --force install -D > install_info_full.log 2> install_errors_full.log
 
 临时设置内存大小32GB：
 set NODE_OPTIONS=--max-old-space-size=32768
+
+当更新遇到依赖版本冲突，其实可以把package-lock.json、node_modules删除，即执行如下即可。大多时候能解决。：
+npm --force install -D > install_info_full.log 2> install_errors_full.log
