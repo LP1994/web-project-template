@@ -69,26 +69,15 @@ declare global {
 
   type T_MF_v2_RuntimeAPI_LoadRemote<T> = typeof loadRemote<T>;
 
-  /**
-   * The type for the `assert` property of the optional second argument to `import()`.
-   * @deprecated
-   */
-  interface ImportAssertions {
-    [ key: string ]: string;
-  }
-
-  /**
-   * The type for the `with` property of the optional second argument to `import()`.
-   */
-  interface ImportAttributes {
-    [ key: string ]: string;
-  }
-
   interface ImportCallOptions {
     /** @deprecated*/
-    assert?: ImportAssertions;
+    assert?: {
+      type?: 'json' | 'text' | 'bytes' | 'css' | 'url' | 'wasm' | 'webassembly';
+    };
 
-    with?: ImportAttributes;
+    with?: {
+      type?: 'json' | 'text' | 'bytes' | 'css' | 'url' | 'wasm' | 'webassembly';
+    };
 
     exports?: Array<string>;
   }
