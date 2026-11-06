@@ -6963,12 +6963,12 @@ req.url--->${ req.url }<---End
           warnRuleAsWarning: true,
           /**
            * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
-           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'、'modern-compiler'。<br />
+           * 1、默认值：'auto'，值类型：string，有效值有：'auto'、'legacy'（已经删除了）、'modern'、'modern-compiler'。<br />
            * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
            * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
            * 4、同时使用 modern-compiler 和 sass-embedded 可显著提高性能并缩短构建时间。 我们强烈推荐使用它们。 我们将在未来的主要版本中默认启用它们。<br />
            */
-          api: 'modern-compiler',
+          api: 'auto',
           /**
            * 1、data、file这两个选项是不可用的，会被忽略。<br />
            * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
@@ -7100,12 +7100,12 @@ req.url--->${ req.url }<---End
           warnRuleAsWarning: true,
           /**
            * 允许您在旧API和现代API之间切换。您可以在这里找到更多信息：https://sass-lang.com/documentation/js-api。<br />
-           * 1、默认值：'legacy'，值类型：string，有效值有：'legacy'、'modern'、'modern-compiler'。<br />
+           * 1、默认值：'auto'，值类型：string，有效值有：'auto'、'legacy'（已经删除了）、'modern'、'modern-compiler'。<br />
            * 2、“modern”API是实验性的，因此某些功能可能无法正常工作（已知：内置importer不工作，并且在初始运行时未观察有错误的文件），您可以查阅此链接来了解详情：https://github.com/webpack-contrib/sass-loader/issues/774。<br />
            * 3、'modern'API和旧API（legacy）的sass选项是不同的。请查看文档如何迁移新选项：https://sass-lang.com/documentation/js-api。<br />
            * 4、同时使用 modern-compiler 和 sass-embedded 可显著提高性能并缩短构建时间。 我们强烈推荐使用它们。 我们将在未来的主要版本中默认启用它们。<br />
            */
-          api: 'modern-compiler',
+          api: 'auto',
           /**
            * 1、data、file这两个选项是不可用的，会被忽略。<br />
            * 2、我们强烈建议不要更改outFile、sourceMapContents、sourceMapEmbed、sourceMapRoot选项，因为当sourceMap选项为true时，sass-loader会自动设置这些选项。<br />
