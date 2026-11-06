@@ -57,6 +57,21 @@ declare global {
 
   type T_LoadRemoteVueComponent = Awaited<ReturnType<T_AsyncComponentLoader<T_DefineComponent<{}, {}, any>>>>;
 
+  /**
+   * The type for the `assert` property of the optional second argument to `import()`.
+   * @deprecated
+   */
+  interface ImportAssertions {
+    [ key: string ]: string;
+  }
+
+  /**
+   * The type for the `with` property of the optional second argument to `import()`.
+   */
+  interface ImportAttributes {
+    [ key: string ]: string;
+  }
+
   interface ImportCallOptions {
     /** @deprecated*/
     assert?: ImportAssertions;

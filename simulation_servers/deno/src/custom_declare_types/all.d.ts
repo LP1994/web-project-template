@@ -366,6 +366,12 @@ declare module '*?sharedworker&url' {
 
 // resourceQuery Start
 
+declare module '*?bytes' {
+  const src: Uint8Array;
+
+  export default src;
+}
+
 declare module '*?raw' {
   const src: string;
 
