@@ -8210,7 +8210,6 @@ req.url--->${ req.url }<---End
                 dataUrl: {
                   encoding: 'base64',
                 },
-                emit: false,
               },
             },
             {
@@ -8523,7 +8522,6 @@ req.url--->${ req.url }<---End
                 dataUrl: {
                   encoding: 'base64',
                 },
-                emit: false,
               },
             },
             {
@@ -9369,7 +9367,6 @@ req.url--->${ req.url }<---End
                 dataUrl: {
                   encoding: 'base64',
                 },
-                emit: false,
               },
             },
             {
@@ -10704,7 +10701,6 @@ req.url--->${ req.url }<---End
                 dataUrl: {
                   encoding: 'base64',
                 },
-                emit: false,
               },
             },
             {
@@ -11112,7 +11108,6 @@ req.url--->${ req.url }<---End
                 dataUrl: {
                   encoding: 'base64',
                 },
-                emit: false,
               },
             },
             /**
