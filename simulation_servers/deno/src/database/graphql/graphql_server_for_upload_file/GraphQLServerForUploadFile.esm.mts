@@ -23,7 +23,9 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
+  GraphQLServerForCleanupUploadedFiles,
   GraphQLServerForExecuteBatch,
+  GraphQLServerForReleaseUploadedFiles,
 } from './GraphQLServerForExecuteBatch.esm.mts';
 
 import {
@@ -248,6 +250,8 @@ export {
   DEFAULT_MAX_PARTS,
   DEFAULT_UPLOAD_DIR,
 
+  GraphQLServerForCleanupUploadedFiles,
+
   GraphQLServerForExecuteBatch,
 
   GraphQLServerForGetSafeFileName,
@@ -258,6 +262,7 @@ export {
   GraphQLServerForUploadScalar,
 
   GraphQLServerForMultipartParser,
+  GraphQLServerForReleaseUploadedFiles,
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForSetObjectPath,
 };
@@ -273,6 +278,8 @@ export default {
   DEFAULT_MAX_PARTS,
   DEFAULT_UPLOAD_DIR,
 
+  GraphQLServerForCleanupUploadedFiles,
+
   GraphQLServerForExecuteBatch,
 
   GraphQLServerForGetSafeFileName,
@@ -283,6 +290,7 @@ export default {
   GraphQLServerForUploadScalar,
 
   GraphQLServerForMultipartParser,
+  GraphQLServerForReleaseUploadedFiles,
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForSetObjectPath,
 };

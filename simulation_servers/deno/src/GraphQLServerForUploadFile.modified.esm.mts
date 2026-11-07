@@ -1,58 +1,5 @@
 'use strict';
 
-import {
-  type ConstValueNode as T_ConstValueNode,
-
-  GraphQLError,
-  GraphQLScalarType,
-} from 'esm_sh_graphql';
-
-import {
-  type FetchAPI as T_FetchAPI,
-  type HandlerOptions as T_HandlerOptions,
-
-  createHandler as createHandlerByHTTP,
-} from 'esm_sh_graphql_http/lib/use/fetch';
-
-import {
-  GetDataType,
-  IsObject,
-  IsArray,
-  IsEmpty,
-  IsString,
-} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
-
-import {
-  HttpResponseHeadersFun,
-  HTTPStatus,
-
-  uploadDir,
-} from 'configures/GlobalParameters.esm.mts';
-
-import {
-  join,
-  basename,
-  extname,
-} from 'deno_std_path';
-
-import {
-  Readable,
-} from 'node:stream';
-
-import {
-  type BusboyInstance,
-
-  Busboy,
-} from 'npm:@fastify/busboy';
-
-import {
-  type T_MyCusDenoFsFile,
-
-  GetErrorWriteStreamForSingleton,
-} from 'public/PublicTools.esm.mts';
-
-const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
-
 /**
  * 一次 Multipart 上传请求对应一个清理会话。
  * filePaths：本次请求创建过的所有文件路径（即使文件只写入了一部分，也会登记）。
@@ -72,8 +19,8 @@ const uploadCleanupSessionByRequest: WeakMap<Request, T_GraphQLServerForUploadCl
 
 function GraphQLServerForNormalizeUploadError( error: unknown ): Error{
   return error instanceof Error
-    ? error
-    : new Error( String( error ) );
+         ? error
+         : new Error( String( error ) );
 }
 
 /**
@@ -97,7 +44,9 @@ async function GraphQLServerForCleanupUploadSession( session: T_GraphQLServerFor
           errorWriteStream.write( `
 GraphQLServerForCleanupUploadSession：删除上传文件失败！
 文件路径：${ filePath }
-错误信息：${ error instanceof Error ? error.message : String( error ) }
+错误信息：${ error instanceof Error
+            ? error.message
+            : String( error ) }
 ` );
         }
       }
@@ -131,214 +80,13 @@ async function GraphQLServerForCleanupUploadedFiles( request: Request ): Promise
 function GraphQLServerForReleaseUploadedFiles( request: Request ): void{
   const session: T_GraphQLServerForUploadCleanupSession | undefined = uploadCleanupSessionByRequest.get( request );
 
-  if( !session ){
-    return;
+  if( session ){
+    session.filePaths.clear();
+
+    session.fileStreams.clear();
+
+    uploadCleanupSessionByRequest.delete( request );
   }
-
-  session.filePaths.clear();
-  session.fileStreams.clear();
-  uploadCleanupSessionByRequest.delete( request );
-}
-
-/**
- * 一个文件对象，该对象里有关于文件的元数据和文件存储的磁盘路径、文件大小等等信息。<br />
- * 例子：<br />
- * ```ts
- * {
- *   fileName: 'test.png',
- *   mimeType: 'image/png',
- *   encoding: 'binary',
- *   size: 102400,
- *   filePath: 'G:/WebStormWS/7788/1.png',
- * }
- * ```
- */
-interface T_GraphQLServerForUploadFile {
-  fileName: string;
-  mimeType: string;
-  encoding: '7bit' | '8bit' | 'binary';
-  size: number;
-  filePath: string;
-}
-
-/**
- * 上传配置项。
- */
-interface T_GraphQLServerForUploadFileOptions {
-  /**
-   * 字段名称的最大长度（以字节为单位）。
-   *
-   * @default Infinity
-   */
-  maxFieldNameSize?: number;
-
-  /**
-   * 用于限制multipart中普通字段的最大字节数。
-   *
-   * @default Infinity
-   */
-  maxFieldSize?: number;
-
-  /**
-   * 非文件字段的最大数量。<br />
-   * 当前默认值设置为：2，表示目前只接收“operations”、“map”这2个field字段。<br />
-   *
-   * @default 2
-   */
-  maxFields?: number;
-
-  /**
-   * 用于限制单个文件的大小。单位为字节。
-   *
-   * @default Infinity
-   */
-  maxFileSize?: number;
-
-  /**
-   * 用于限制上传文件的数量。
-   *
-   * @default Infinity
-   */
-  maxFiles?: number;
-
-  /**
-   * 对于多部分（multipart）表单，需解析的标头键值对的最大数量。
-   *
-   * @default Infinity
-   */
-  maxHeaderPairs?: number;
-
-  /**
-   * 对于多部分表单，标题部分的最大尺寸。
-   *
-   * @default Infinity
-   */
-  maxHeaderSize?: number;
-
-  /**
-   * 对于多部分表单，最大部分数（字段 + 文件）。
-   *
-   * @default Infinity
-   */
-  maxParts?: number;
-
-  /**
-   * 上用于保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。
-   *
-   * @default new URL( uploadDir )
-   */
-  uploadDir?: string | URL;
-
-  /**
-   * 文件保存成功后，生成对外访问URL。<br />
-   */
-  getFileUrl?: ( file: T_GraphQLServerForUploadFile ) => string;
-}
-
-interface T_GraphQLServerForMultipartFilePart {
-  fieldName: string;
-  file: T_GraphQLServerForUploadFile;
-}
-
-interface T_GraphQLServerForMultipartOperations {
-  query: string;
-  variables?: Record<string, unknown>;
-  operationName?: string;
-  extensions?: Record<string, unknown>;
-}
-
-/**
- * 字段名称的最大长度（以字节为单位）。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FIELD_NAME_SIZE: number = Infinity;
-
-/**
- * 用于限制multipart中普通字段的最大字节数。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FIELD_SIZE: number = Infinity;
-
-/**
- * 非文件字段的最大数量。<br />
- * 当前默认值设置为：2，表示目前只接收“operations”、“map”这2个field字段。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FIELDS: number = 2;
-
-/**
- * 用于限制单个文件的大小。单位为字节。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FILE_SIZE: number = Infinity;
-
-/**
- * 用于限制上传文件的数量。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_FILES: number = Infinity;
-
-/**
- * 对于多部分（multipart）表单，需解析的标头键值对的最大数量。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_HEADER_PAIRS: number = Infinity;
-
-/**
- * 对于多部分表单，标题部分的最大尺寸。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_HEADER_SIZE: number = Infinity;
-
-/**
- * 对于多部分表单，最大部分数（字段 + 文件）。<br />
- * 当前默认值设置为：Infinity。<br />
- *
- * @type {number}
- */
-const DEFAULT_MAX_PARTS: number = Infinity;
-
-/**
- * 保存上传文件的文件夹路径。表示上传的文件最后都是保存在哪个文件夹下。<br />
- * 当前默认值设置为：new URL( uploadDir )。<br />
- *
- * @type {string|URL}
- */
-const DEFAULT_UPLOAD_DIR: string | URL = new URL( uploadDir );
-
-/**
- * 返回路径的最后一部分。末尾的目录分隔符将被忽略，且可选后缀将被移除。
- *
- * @param {string| URL} fileName 用于提取名称的路径。若作为 URL 实例传递，其协议必须为 file:。对于其他协议，请将 URL 作为字符串传递，或传递其 pathname 属性。
- *
- * @returns {string} 路径的基本名称。返回值形如：'image.png'。
- */
-function GraphQLServerForGetSafeFileName( fileName: string | URL ): string{
-  return basename( fileName ).trim();
-}
-
-/**
- * 生成一个由随机数组成的所要保存文件的文件名。
- *
- * @param {string | URL} fileName 原始文件名。
- *
- * @returns {string} 一个由随机数组成的所要保存文件的文件名。
- */
-function GraphQLServerForGetStoredFileName( fileName: string | URL ): string{
-  return `${ crypto.randomUUID() }${ extname( GraphQLServerForGetSafeFileName( fileName ) ).replaceAll( /[^a-zA-Z0-9.]/g, '_' ).slice( 0, 20 ) }`;
 }
 
 /**
@@ -390,7 +138,7 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
     for(
       const operation of
       operationsPayload as Array<T_GraphQLServerForMultipartOperations>
-    ){
+      ){
       try{
         const headers: Headers = new Headers( request.headers );
 
@@ -707,7 +455,9 @@ async function GraphQLServerForMultipartParser(
                 (): void => cleanupSession.filePaths.add( filePath ),
               );
 
-              if( Boolean( ( stream as Readable & { truncated?: boolean } ).truncated ) ){
+              if( Boolean( ( stream as Readable & {
+                truncated?: boolean
+              } ).truncated ) ){
                 throw new Error( `文件“${ safeFileName }”的数据流被 Busboy 截断，文件大小超过限制（${ maxFileSize } 字节）。` );
               }
 
@@ -825,7 +575,7 @@ async function GraphQLServerForMultipartParser(
               const [ fileFieldName, variablePaths ]
               of
               Object.entries( mapObject )
-            ){
+              ){
               const file: T_GraphQLServerForUploadFile | undefined = fileByFieldName.get( fileFieldName );
 
               if( !file ){
@@ -990,7 +740,9 @@ async function GraphQLServerForMultipartParser(
     errorWriteStream.write( `
 GraphQLServerForMultipartParser：本次 Multipart 上传失败，已执行文件回滚。
 请求路径：${ pathName }
-错误信息：${ error instanceof Error ? error.message : String( error ) }
+错误信息：${ error instanceof Error
+            ? error.message
+            : String( error ) }
 ` );
 
     throw error;
@@ -1001,281 +753,3 @@ GraphQLServerForMultipartParser：本次 Multipart 上传失败，已执行文�
     }
   }
 }
-
-/**
- * 判断一个请求是不是“post”请求，并且其请求头中的"content-type"属性的值是不是"multipart/form-data"，或是以该值为开头的。
- *
- * @param {Request} request
- *
- * @returns {boolean}
- */
-function GraphQLServerForIsMultipartRequest( request: Request ): boolean{
-  return [
-    'post',
-  ].includes( request.method.toLowerCase() ) && ( request.headers.get( 'content-type' ) ?? '' ).toLowerCase().startsWith( 'multipart/form-data' );
-}
-
-/**
- *
- * @param {Request} request
- *
- * @param {T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations>} root
- *
- * @param {string} path
- *
- * @param {T_GraphQLServerForUploadFile} value
- */
-function GraphQLServerForSetObjectPath( request: Request, root: T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations>, path: string, value: T_GraphQLServerForUploadFile ): void{
-  const url: URL = new URL( request.url ),
-    pathName: string = url.pathname;
-
-  const segments: string[] = path.split( '.' );
-
-  if( segments.length === 0 ){
-    errorWriteStream.write( `
-请求“${ pathName }”：
-Invalid empty map path.
-` );
-
-    throw new Error( `请求“${ pathName }”：Invalid empty map path.` );
-  }
-
-  for( const segment of
-    segments ){
-    if(
-      segment === '__proto__' ||
-      segment === 'prototype' ||
-      segment === 'constructor'
-    ){
-      errorWriteStream.write( `
-请求“${ pathName }”中：
-Unsafe multipart map path: ${ path }
-` );
-
-      throw new Error( `请求“${ pathName }”中：Unsafe multipart map path: ${ path }` );
-    }
-  }
-
-  let current: unknown = root;
-
-  for(
-    let index: number = 0;
-    index < segments.length - 1;
-    ++index
-  ){
-    const segment: string = segments[ index ];
-
-    if( !( ( IsObject( current ) && !IsEmpty( current ) ) || ( IsArray( current ) && !IsEmpty( current ) ) ) ){
-      errorWriteStream.write( `
-请求“${ pathName }”中：
-1）Invalid multipart map path: ${ path }
-` );
-
-      throw new Error( `请求“${ pathName }”中：1）Invalid multipart map path: ${ path }` );
-    }
-
-    const object: Record<string, any> | Array<Record<string, any>> | Array<any> = current as ( Record<string, any> | Array<Record<string, any>> | Array<any> );
-
-    if( !( segment in object ) ){
-      errorWriteStream.write( `
-请求“${ pathName }”中：
-Multipart map path does not exist: ${ path }
-` );
-
-      throw new Error( `请求“${ pathName }”中：Multipart map path does not exist: ${ path }` );
-    }
-
-    current = object[ segment ];
-  }
-
-  const lastSegment: string = segments.at( -1 )!;
-
-  if( !( ( IsObject( current ) && !IsEmpty( current ) ) || ( IsArray( current ) && !IsEmpty( current ) ) ) ){
-    errorWriteStream.write( `
-请求“${ pathName }”中：
-2）Invalid multipart map path: ${ path }
-` );
-
-    throw new Error( `请求“${ pathName }”中：2）Invalid multipart map path: ${ path }` );
-  }
-
-  const object: Record<string, any> | Array<any> = current as ( Record<string, any> | Array<any> );
-
-  if( !( lastSegment in object ) ){
-    errorWriteStream.write( `
-请求“${ pathName }”中：
-Multipart map path does not exist: ${ path }
-` );
-
-    throw new Error( `请求“${ pathName }”中：Multipart map path does not exist: ${ path }` );
-  }
-
-  object[ lastSegment ] = value;
-}
-
-/**
- * 保存客户端上传的文件。
- *
- * @param {AsyncIterable<Uint8Array>} fileStream
- *
- * @param {string | URL} filePath
- *
- * @param {number} maxFileSize 用于限制单个文件的大小。单位是字节。
- *
- * @returns {Promise<number>}
- */
-async function GraphQLServerForUploadFileStorage(
-  fileStream: AsyncIterable<Uint8Array>,
-  filePath: string | URL,
-  maxFileSize: number,
-  onFileCreated?: () => void,
-): Promise<number>{
-  let file: Deno.FsFile | undefined;
-
-  try{
-    file = await Deno.open( filePath, {
-      createNew: true,
-      write: true,
-    } );
-
-    // 只有 open 成功创建出本请求自己的文件后才登记，避免 createNew 失败时误删别的文件。
-    onFileCreated?.();
-
-    let size: number = 0;
-
-    for await ( const chunk of
-      fileStream ){
-      size += chunk.byteLength;
-
-      if( size > maxFileSize ){
-        throw new Error( `所要保存的文件的大小不能超过程序设定的最大值（${ maxFileSize } 字节）。` );
-      }
-
-      let offset: number = 0;
-
-      // Deno.FsFile.write 允许短写；循环直到当前 chunk 的所有字节都写入磁盘。
-      while( offset < chunk.byteLength ){
-        const written: number = await file.write( chunk.subarray( offset ) );
-
-        if( written <= 0 ){
-          throw new Error( '文件写入数据失败：write() 未写入任何字节。' );
-        }
-
-        offset += written;
-      }
-    }
-
-    return size;
-  }
-  catch( error: unknown ){
-    errorWriteStream.write( `
-GraphQLServerForUploadFileStorage：文件写入失败。
-文件路径：${ String( filePath ) }
-错误信息：${ error instanceof Error ? error.message : String( error ) }
-` );
-
-    // 保留原始异常对象，便于上层识别 Deno.errors.NoSpace 等底层错误。
-    throw error;
-  }
-  finally{
-    file?.close();
-  }
-}
-
-/**
- * 自定义一个Upload标量（Upload Scalar），用于GraphQL文件上传。
- */
-const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
-  /**
-   * 此模式元素的 GraphQL 名称。
-   */
-  name: 'Upload',
-
-  /**
-   * 此架构元素的人类可读描述（如有提供）。
-   */
-  description: 'The `Upload` scalar type represents a file upload.',
-
-  /**
-   * 将外部提供的值强制转换为可用作输入的值。<br />
-   * 类型参数：<br />
-   * TInternal —— 该标量在运行时内部所采用的表示形式。<br />
-   *
-   * @param {unknown} inputValue
-   *
-   * @returns {T_GraphQLServerForUploadFile}
-   */
-  coerceInputValue<T_GraphQLServerForUploadFile>( inputValue: unknown ): T_GraphQLServerForUploadFile{
-    if(
-      IsObject( inputValue ) && !IsEmpty( inputValue )
-      && ( 'fileName' in ( inputValue as T_GraphQLServerForUploadFile ) )
-      && ( 'mimeType' in ( inputValue as T_GraphQLServerForUploadFile ) )
-      && ( 'encoding' in ( inputValue as T_GraphQLServerForUploadFile ) )
-      && ( 'size' in ( inputValue as T_GraphQLServerForUploadFile ) )
-      && ( 'filePath' in ( inputValue as T_GraphQLServerForUploadFile ) )
-    ){
-      return inputValue as T_GraphQLServerForUploadFile;
-    }
-    else{
-      errorWriteStream.write( `
-GraphQLServerForUploadScalar.esm.mts--->coerceInputValue：
-Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue ) }”。inputValue的值为：${ JSON.stringify( inputValue ) }
-` );
-
-      throw new GraphQLError( `Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue ) }”。inputValue的值为：${ JSON.stringify( inputValue ) }`, );
-    }
-  },
-
-  /**
-   * 将内部值强制转换为适合包含在响应中的形式。
-   *
-   * @param {unknown} outputValue
-   *
-   * @returns {never}
-   */
-  coerceOutputValue( outputValue: unknown ): never{
-    errorWriteStream.write( `
-GraphQLServerForUploadScalar.esm.mts--->coerceOutputValue：
-Upload serialization unsupported. outputValue的数据类型为：“${ GetDataType( outputValue ) }”。outputValue的值为：${ JSON.stringify( outputValue ) }
-` );
-
-    throw new GraphQLError( `Upload serialization unsupported. outputValue的数据类型为：“${ GetDataType( outputValue ) }”。outputValue的值为：${ JSON.stringify( outputValue ) }`, );
-  },
-
-  /**
-   * 将外部提供的常量字面值强制转换为输入值。
-   *
-   * @param {T_ConstValueNode} valueNode
-   *
-   * @returns {never}
-   */
-  coerceInputLiteral( valueNode: T_ConstValueNode ): never{
-    errorWriteStream.write( `
-GraphQLServerForUploadScalar.esm.mts--->coerceInputLiteral：
-Upload literal unsupported. valueNode的数据类型为：“${ GetDataType( valueNode ) }”。valueNode的值为：${ JSON.stringify( valueNode ) }
-` );
-
-    throw new GraphQLError( `Upload literal unsupported. valueNode的数据类型为：“${ GetDataType( valueNode ) }”。valueNode的值为：${ JSON.stringify( valueNode ) }`, { nodes: valueNode, } );
-  },
-} );
-
-export {
-  type T_GraphQLServerForUploadFile,
-  type T_GraphQLServerForMultipartOperations,
-
-  GraphQLServerForExecuteBatch,
-  GraphQLServerForIsMultipartRequest,
-  GraphQLServerForMultipartParser,
-  GraphQLServerForCleanupUploadedFiles,
-  GraphQLServerForReleaseUploadedFiles,
-  GraphQLServerForUploadScalar,
-};
-
-export default {
-  GraphQLServerForExecuteBatch,
-  GraphQLServerForIsMultipartRequest,
-  GraphQLServerForMultipartParser,
-  GraphQLServerForCleanupUploadedFiles,
-  GraphQLServerForReleaseUploadedFiles,
-  GraphQLServerForUploadScalar,
-};

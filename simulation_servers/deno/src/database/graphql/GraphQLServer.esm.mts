@@ -314,15 +314,11 @@ import {
 } from 'configures/GlobalParameters.esm.mts';
 
 import {
-  type T_GraphQLServerForMultipartOperations,
-
+  GraphQLServerForCleanupUploadedFiles,
   GraphQLServerForExecuteBatch,
-
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
-
-  // GraphQLServerForCleanupUploadedFiles,
-  // GraphQLServerForReleaseUploadedFiles,
+  GraphQLServerForReleaseUploadedFiles,
 } from './graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
 
 import {
@@ -332,6 +328,8 @@ import {
   GetLogWriteStreamForSingleton,
   IsWSForRequest,
 } from 'public/PublicTools.esm.mts';
+
+import ResponseError from 'public/ResponseError.esm.mts';
 
 import {
   GetDataType,
@@ -1098,15 +1096,54 @@ Please see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#
 
     let graphqlRequest: Request = request;
 
-    if( GraphQLServerForIsMultipartRequest( request ) ){
-      graphqlRequest = await GraphQLServerForMultipartParser( request );
+    const isMultipartRequest: boolean = GraphQLServerForIsMultipartRequest( request );
 
-      if( IsArray( await graphqlRequest.clone().json() ) ){
-        return await GraphQLServerForExecuteBatch( graphqlRequest, options, reqCtx );
+    try{
+      if( isMultipartRequest ){
+        graphqlRequest = await GraphQLServerForMultipartParser( request );
+
+        if( IsArray( await graphqlRequest.clone().json() ) ){
+          const batchResponse: Response = await GraphQLServerForExecuteBatch( graphqlRequest, options, reqCtx );
+
+          if( batchResponse.ok ){
+            GraphQLServerForReleaseUploadedFiles( graphqlRequest );
+          }
+          else{
+            await GraphQLServerForCleanupUploadedFiles( graphqlRequest );
+          }
+
+          return batchResponse;
+        }
       }
-    }
 
-    return await createHandlerByHTTP( options, reqCtx, )( graphqlRequest );
+      const graphQLResponse: Response = await createHandlerByHTTP( options, reqCtx, )( graphqlRequest );
+
+      if( isMultipartRequest ){
+        if( graphQLResponse.ok ){
+          GraphQLServerForReleaseUploadedFiles( graphqlRequest );
+        }
+        else{
+          await GraphQLServerForCleanupUploadedFiles( graphqlRequest );
+        }
+      }
+
+      return graphQLResponse;
+    }
+    catch( error: unknown ){
+      if( isMultipartRequest ){
+        await GraphQLServerForCleanupUploadedFiles( graphqlRequest );
+      }
+
+      errorWriteStream.write( `
+GraphQLServer Error--->${ pathName }
+错误信息：${ ( error as Error ).message }
+` );
+
+      return await ResponseError.ResPageError( {
+        title: `GraphQLServer Error`,
+        message: `错误信息：${ ( error as Error ).message }`,
+      } );
+    }
   }
 }
 

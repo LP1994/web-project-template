@@ -34,21 +34,28 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
  *
  * @param {number} maxFileSize 用于限制单个文件的大小。单位是字节。
  *
+ * @param {() => void} onFileCreated
+ *
  * @returns {Promise<number>}
  */
 async function GraphQLServerForUploadFileStorage(
   fileStream: AsyncIterable<Uint8Array>,
   filePath: string | URL,
   maxFileSize: number,
+  onFileCreated?: () => void,
 ): Promise<number>{
-  const file: Deno.FsFile = await Deno.open( filePath, {
-    createNew: true,
-    write: true,
-  } );
-
-  let size: number = 0;
+  let file: Deno.FsFile | undefined;
 
   try{
+    file = await Deno.open( filePath, {
+      createNew: true,
+      write: true,
+    } );
+
+    onFileCreated?.();
+
+    let size: number = 0;
+
     for await ( const chunk of
       fileStream ){
       size += chunk.byteLength;
@@ -70,10 +77,10 @@ GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage�
         if( written <= 0 ){
           errorWriteStream.write( `
 GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
-文件写入数据失败！
+文件写入数据失败：write() 未写入任何字节！
 ` );
 
-          throw new Error( '文件写入数据失败！' );
+          throw new Error( '文件写入数据失败：write() 未写入任何字节！' );
         }
 
         offset += written;
@@ -84,14 +91,17 @@ GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage�
   }
   catch( error: unknown ){
     errorWriteStream.write( `
-GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
-文件写入失败：${ ( error as Error ).message }
+GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage，文件写入失败：
+文件路径：${ String( filePath ) }
+错误信息：${ error instanceof Error
+            ? error.message
+            : String( error ) }
 ` );
 
-    throw new Error( ( error as Error ).message );
+    throw error;
   }
   finally{
-    file.close();
+    file?.close();
   }
 }
 
