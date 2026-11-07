@@ -143,7 +143,7 @@ import package_json from './package.json' with { type: 'json', };
 
 import postcss from 'postcss';
 
-import * as Sass from 'sass';
+import * as SassEmbedded from 'sass-embedded';
 
 import Stylus from 'stylus';
 
@@ -6946,7 +6946,7 @@ req.url--->${ req.url }<---End
            * 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded。导入sass这个包名就行，它已经等同于dart-sass包。
            * 注意：sass-loader从开始15.0.0，默认使用“sass-embedded”作为默认实现！
            */
-          implementation: Sass,
+          implementation: SassEmbedded,
           // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
           sourceMap: false,
           /**
@@ -7083,7 +7083,7 @@ req.url--->${ req.url }<---End
            * 选择使用哪种sass实现，有sass(dart-sass)、node-sass、sass-embedded。导入sass这个包名就行，它已经等同于dart-sass包。
            * 注意：sass-loader从开始15.0.0，默认使用“sass-embedded”作为默认实现！
            */
-          implementation: Sass,
+          implementation: SassEmbedded,
           // 如果为true，sassOptions中的sourceMap、sourceMapRoot、sourceMapEmbed、sourceMapContents和omitSourceMapUrl将被忽略。
           sourceMap: false,
           /**
