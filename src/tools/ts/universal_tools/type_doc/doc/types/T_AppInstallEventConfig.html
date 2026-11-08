@@ -15,7 +15,7 @@
 </div></section>
 <div class="tsd-signature"><span class="tsd-signature-keyword">type</span> <span class="tsd-kind-type-alias">T_AppInstallEventConfig</span> <span class="tsd-signature-symbol">=</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#onappinstalled">onAppInstalled</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">event</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#onbeforeinstallprompt">onBeforeInstallPrompt</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">event</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/I_BeforeInstallPromptEvent.html" class="tsd-signature-type tsd-kind-interface">I_BeforeInstallPromptEvent</a><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#ispreventdefault">isPreventDefault</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#accepted">accepted</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userChoiceResult</span><span class="tsd-signature-symbol">:</span> <a href="T_UserChoiceResult.html" class="tsd-signature-type tsd-kind-type-alias">T_UserChoiceResult</a><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#dismissed">dismissed</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userChoiceResult</span><span class="tsd-signature-symbol">:</span> <a href="T_UserChoiceResult.html" class="tsd-signature-type tsd-kind-type-alias">T_UserChoiceResult</a><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#rejected">rejected</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">error</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2408">UniversalTools.esm.mts:2408</a></li></ul></aside>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2408">UniversalTools.esm.mts:2408</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -39,42 +39,42 @@
 <div class="tsd-comment tsd-typography"><p>当onappinstalled触发时，所要执行的函数，会有一个event参数(onappinstalled的event参数)。</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2414">UniversalTools.esm.mts:2414</a></li></ul></aside></section>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2414">UniversalTools.esm.mts:2414</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="onbeforeinstallprompt"><span>on<wbr/>Before<wbr/>Install<wbr/>Prompt</span><a href="#onbeforeinstallprompt" aria-label="永久链接" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">onBeforeInstallPrompt</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">event</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/I_BeforeInstallPromptEvent.html" class="tsd-signature-type tsd-kind-interface">I_BeforeInstallPromptEvent</a><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span></div>
 <div class="tsd-comment tsd-typography"><p>当onbeforeinstallprompt触发时，所要执行的函数，会有一个event参数(onbeforeinstallprompt的event参数)。</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2420">UniversalTools.esm.mts:2420</a></li></ul></aside></section>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2420">UniversalTools.esm.mts:2420</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="ispreventdefault"><span>is<wbr/>Prevent<wbr/>Default</span><a href="#ispreventdefault" aria-label="永久链接" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">isPreventDefault</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>布尔值，true禁用默认事件，false反之，默认值true。</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2424">UniversalTools.esm.mts:2424</a></li></ul></aside></section>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2424">UniversalTools.esm.mts:2424</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="accepted"><span>accepted</span><a href="#accepted" aria-label="永久链接" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">accepted</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userChoiceResult</span><span class="tsd-signature-symbol">:</span> <a href="T_UserChoiceResult.html" class="tsd-signature-type tsd-kind-type-alias">T_UserChoiceResult</a><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span></div>
 <div class="tsd-comment tsd-typography"><p>当用户确定添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数。</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2430">UniversalTools.esm.mts:2430</a></li></ul></aside></section>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2430">UniversalTools.esm.mts:2430</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="dismissed"><span>dismissed</span><a href="#dismissed" aria-label="永久链接" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">dismissed</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userChoiceResult</span><span class="tsd-signature-symbol">:</span> <a href="T_UserChoiceResult.html" class="tsd-signature-type tsd-kind-type-alias">T_UserChoiceResult</a><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span></div>
 <div class="tsd-comment tsd-typography"><p>当用户取消添加到主屏幕时，会被执行的函数，有一个userChoiceResult参数。</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2436">UniversalTools.esm.mts:2436</a></li></ul></aside></section>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2436">UniversalTools.esm.mts:2436</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="rejected"><span>rejected</span><a href="#rejected" aria-label="永久链接" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">rejected</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">error</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span></div>
 <div class="tsd-comment tsd-typography"><p>onbeforeinstallprompt的event.userChoice的拒绝事件，有一个error参数。</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/fe307a89e2bea2b3b96798b1d897307024196662/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2442">UniversalTools.esm.mts:2442</a></li></ul></aside></section></section></details></div>
+<li>定义于 <a href="https://github.com/LP1994/web-project-template/blob/e65d6ece5dbaa570269f3642fce64c519eab9c1e/src/tools/ts/universal_tools/UniversalTools.esm.mts#L2442">UniversalTools.esm.mts:2442</a></li></ul></aside></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
