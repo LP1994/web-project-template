@@ -106,6 +106,24 @@ function HandleByEqualForString001( equalArg1: any, equalArg2: string ): boolean
   return GetDataType( equalArg1 ).slice( 8, -1 ) === equalArg2;
 }
 
+/**
+ * 判断给定的字符串是否能被所给的正则表达式命中。<br />
+ * 命中，则返回true，反之返回false。<br />
+ *
+ * @internal
+ *
+ * @param {string} arg1 数据，必需。
+ *
+ * @param {RegExp} regStr 正则表达式，必需。
+ *
+ * @returns {boolean} 命中，则返回true，反之返回false。
+ */
+function HandleByRegExp001( arg1: string, regStr: RegExp ): boolean{
+  'use strict';
+
+  return regStr.test( String( arg1 ).trim() );
+}
+
 // 内部使用的7788的处理函数。End
 
 // 支持泛型参数的单例工厂。Start
