@@ -413,7 +413,7 @@ export function Uint8ArrayToString( data: Uint8Array ): string{
 
 /**
  * 自定义的类型别名T_DateFormatForObject，表示一个对象：<br />
- * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。
+ * year：年、month：月、date：日、hours：时、minutes：分、seconds：秒、day：周（当为周日的时候返回的是字符串“日”，其他星期则是数字的字符串化）。<br />
  */
 export type T_DateFormatForObject = {
   /**
