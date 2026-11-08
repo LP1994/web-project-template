@@ -928,7 +928,7 @@ export function IsFormData( arg: any ): boolean{
 }
 
 /**
- * 判断数据是否为Function类型。
+ * 判断数据是否为Function类型，也就是普通函数。
  *
  * @param {any} arg 数据，参数个数为1，必需。
  *

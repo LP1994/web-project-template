@@ -23,18 +23,34 @@ import {
   GetErrorWriteStreamForSingleton,
 } from 'public/PublicTools.esm.mts';
 
+import {
+  IsAsyncFun,
+  IsAsyncGeneratorFun,
+  IsFunction,
+  IsGeneratorFun,
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
+
 const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleton();
 
 /**
  * 保存客户端上传的文件。
  *
- * @param {AsyncIterable<Uint8Array>} fileStream
+ * @param {AsyncIterable<Uint8Array>} fileStream 客户端上传上来的文件数据。
  *
- * @param {string | URL} filePath
+ * @param {string | URL} filePath 保存在磁盘上的文件路径。
  *
  * @param {number} maxFileSize 用于限制单个文件的大小。单位是字节。
  *
- * @param {() => void} onFileCreated
+ * @param {{onFileCreated?: (file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>) => void, onFileWriting?: (file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>, chunk: Uint8Array, currentFileWritedSize: number) => void, onFileWrited?: (file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>, fileSize: number) => void, onFileClosed?: (file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>) => void}} param3
+ * @param {(file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>) => void} param3.onFileCreated 该函数会在文件创建成功后被调用，注意！这个阶段，文件是还没写入任何数据的，仅是创建并打开了该文件。<br />
+ * @param {(file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>, chunk: Uint8Array, currentFileWritedSize: number) => void} param3.onFileWriting 该函数会在每次文件写入一部分数据后被调用。<br />
+ * PS：<br />
+ * 1、函数参数currentFileWritedSize：表示当前文件已经写入的总数据大小（单位为字节）。<br />
+ * 2、函数参数chunk：表示当前这次写入文件的数据块，想知道当前这次写入文件的数据块的大小，可以通过chunk.byteLength获取，其单位为字节。<br />
+ * @param {(file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>, fileSize: number) => void} param3.onFileWrited 该函数会在文件写入全部数据完成后被调用。<br />
+ * PS：<br />
+ * 1、函数参数fileSize：表示文件写入全部数据完成后，文件的大小（单位为字节）。<br />
+ * @param {(file: Deno.FsFile, filePath: (string | URL), fileStream: AsyncIterable<Uint8Array>) => void} param3.onFileClosed 该函数会在文件关闭后被调用。<br />
  *
  * @returns {Promise<number>}
  */
@@ -42,7 +58,21 @@ async function GraphQLServerForUploadFileStorage(
   fileStream: AsyncIterable<Uint8Array>,
   filePath: string | URL,
   maxFileSize: number,
-  onFileCreated?: () => void,
+  {
+    onFileCreated = (): void => {
+    },
+    onFileWriting = (): void => {
+    },
+    onFileWrited = (): void => {
+    },
+    onFileClosed = (): void => {
+    },
+  }: {
+    onFileCreated?: ( file: Deno.FsFile, filePath: string | URL, fileStream: AsyncIterable<Uint8Array> ) => void;
+    onFileWriting?: ( file: Deno.FsFile, filePath: string | URL, fileStream: AsyncIterable<Uint8Array>, chunk: Uint8Array, currentFileWritedSize: number ) => void;
+    onFileWrited?: ( file: Deno.FsFile, filePath: string | URL, fileStream: AsyncIterable<Uint8Array>, fileSize: number ) => void;
+    onFileClosed?: ( file: Deno.FsFile, filePath: string | URL, fileStream: AsyncIterable<Uint8Array> ) => void;
+  } = {},
 ): Promise<number>{
   let file: Deno.FsFile | undefined;
 
@@ -52,12 +82,21 @@ async function GraphQLServerForUploadFileStorage(
       write: true,
     } );
 
-    onFileCreated?.();
+    if( IsAsyncFun( onFileCreated ) || IsAsyncGeneratorFun( onFileCreated ) ){
+      await onFileCreated( file, filePath, fileStream );
+    }
+    else if( IsFunction( onFileCreated ) || IsGeneratorFun( onFileCreated ) ){
+      onFileCreated( file, filePath, fileStream );
+    }
 
     let size: number = 0;
 
     for await ( const chunk of
       fileStream ){
+      if( chunk.byteLength === 0 ){
+        continue;
+      }
+
       size += chunk.byteLength;
 
       if( size > maxFileSize ){
@@ -84,7 +123,21 @@ GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage�
         }
 
         offset += written;
+
+        if( IsAsyncFun( onFileWriting ) || IsAsyncGeneratorFun( onFileWriting ) ){
+          await onFileWriting( file, filePath, fileStream, chunk, size );
+        }
+        else if( IsFunction( onFileWriting ) || IsGeneratorFun( onFileWriting ) ){
+          onFileWriting( file, filePath, fileStream, chunk, size );
+        }
       }
+    }
+
+    if( IsAsyncFun( onFileWrited ) || IsAsyncGeneratorFun( onFileWrited ) ){
+      await onFileWrited( file, filePath, fileStream, size );
+    }
+    else if( IsFunction( onFileWrited ) || IsGeneratorFun( onFileWrited ) ){
+      onFileWrited( file, filePath, fileStream, size );
     }
 
     return size;
@@ -101,7 +154,11 @@ GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage�
     throw error;
   }
   finally{
-    file?.close();
+    if( file ){
+      ( file as Deno.FsFile ).close();
+
+      onFileClosed( file, filePath, fileStream );
+    }
   }
 }
 
