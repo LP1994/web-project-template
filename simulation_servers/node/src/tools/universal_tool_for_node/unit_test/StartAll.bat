@@ -1,1 +1,0 @@
-tsx --no-cache --tsconfig ../../../../../../tsconfig.tsx.json ./MainAll.test.mts&pause
