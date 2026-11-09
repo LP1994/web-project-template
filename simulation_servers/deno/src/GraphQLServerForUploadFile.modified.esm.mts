@@ -1,27 +1,3 @@
-'use strict';
-
-/**
- * 一次 Multipart 上传请求对应一个清理会话。
- * filePaths：本次请求创建过的所有文件路径（即使文件只写入了一部分，也会登记）。
- * fileStreams：当前仍在读取/写入的 Busboy 文件流。
- */
-interface T_GraphQLServerForUploadCleanupSession {
-  filePaths: Set<string>;
-  fileStreams: Set<Readable>;
-  cleanupPromise?: Promise<void>;
-}
-
-/**
- * 解析成功后，将清理会话关联到转换后的 Request。
- * WeakMap 不会因为保存 Request 而阻止 Request 被垃圾回收。
- */
-const uploadCleanupSessionByRequest: WeakMap<Request, T_GraphQLServerForUploadCleanupSession> = new WeakMap<Request, T_GraphQLServerForUploadCleanupSession>();
-
-function GraphQLServerForNormalizeUploadError( error: unknown ): Error{
-  return error instanceof Error
-         ? error
-         : new Error( String( error ) );
-}
 
 /**
  * 删除一次上传请求创建的所有文件。该函数是幂等的，可被多个错误分支重复调用。

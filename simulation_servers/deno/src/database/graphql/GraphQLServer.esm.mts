@@ -319,7 +319,7 @@ import {
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
   GraphQLServerForReleaseUploadedFiles,
-} from './graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts';
+} from './GraphQLServerForUploadFile.esm.mts';
 
 import {
   type T_MyCusDenoFsFile,
