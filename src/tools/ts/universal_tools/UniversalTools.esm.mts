@@ -3189,6 +3189,17 @@ export function Logger4Decorator( {
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
 export default {
+  // 判断常用信息的格式 Start
+  IsEmail,
+  IsID,
+  IsPassS,
+  IsPlateNum,
+  IsPostC,
+  IsQQNum,
+  IsTel,
+  IsWXNum,
+  // 判断常用信息的格式 End
+
   // 支持泛型参数的单例工厂。Start
   SingletonFactory,
   SingletonFactoryByGlobal,
@@ -3323,15 +3334,4 @@ export default {
   Bound4ClassMethodDecorator,
   Logger4Decorator,
   // Decorator修饰工具。End
-
-  // 判断常用信息的格式 Start
-  IsEmail,
-  IsID,
-  IsPassS,
-  IsPlateNum,
-  IsPostC,
-  IsQQNum,
-  IsTel,
-  IsWXNum,
-  // 判断常用信息的格式 End
 };
