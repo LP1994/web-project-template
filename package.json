@@ -1073,7 +1073,7 @@
     "heic-convert": "^2.1.0",
     "heic2any": "^0.0.4",
     "html-loader": "^5.1.0",
-    "html-minifier": "^5.0.2",
+    "html-minifier": "^5.0.3",
     "html-minifier-terser": "^7.2.0",
     "html-minimizer-webpack-plugin": "^6.0.0",
     "html-webpack-plugin": "^5.6.8",
