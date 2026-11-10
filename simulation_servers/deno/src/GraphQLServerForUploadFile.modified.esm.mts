@@ -1,70 +1,3 @@
-
-/**
- * 删除一次上传请求创建的所有文件。该函数是幂等的，可被多个错误分支重复调用。
- * 调用方必须先确保对应的 fileTasks 已全部结束，避免 Windows 上因文件句柄仍打开而删除失败。
- */
-async function GraphQLServerForCleanupUploadSession( session: T_GraphQLServerForUploadCleanupSession ): Promise<void>{
-  if( session.cleanupPromise ){
-    await session.cleanupPromise;
-    return;
-  }
-
-  session.cleanupPromise = ( async (): Promise<void> => {
-    for( const filePath of
-      session.filePaths ){
-      try{
-        await Deno.remove( filePath );
-      }
-      catch( error: unknown ){
-        if( !( error instanceof Deno.errors.NotFound ) ){
-          errorWriteStream.write( `
-GraphQLServerForCleanupUploadSession：删除上传文件失败！
-文件路径：${ filePath }
-错误信息：${ error instanceof Error
-            ? error.message
-            : String( error ) }
-` );
-        }
-      }
-    }
-
-    // 清空本次请求的文件路径、活动流引用，释放会话缓存。
-    session.filePaths.clear();
-    session.fileStreams.clear();
-  } )();
-
-  await session.cleanupPromise;
-}
-
-/**
- * GraphQL HTTP 处理失败时，由 GraphQLServer 调用此函数删除本次请求已写入的文件。
- */
-async function GraphQLServerForCleanupUploadedFiles( request: Request ): Promise<void>{
-  const session: T_GraphQLServerForUploadCleanupSession | undefined = uploadCleanupSessionByRequest.get( request );
-
-  if( !session ){
-    return;
-  }
-
-  await GraphQLServerForCleanupUploadSession( session );
-  uploadCleanupSessionByRequest.delete( request );
-}
-
-/**
- * GraphQL HTTP 处理成功时，仅释放清理追踪缓存，不删除已经成功接收的文件。
- */
-function GraphQLServerForReleaseUploadedFiles( request: Request ): void{
-  const session: T_GraphQLServerForUploadCleanupSession | undefined = uploadCleanupSessionByRequest.get( request );
-
-  if( session ){
-    session.filePaths.clear();
-
-    session.fileStreams.clear();
-
-    uploadCleanupSessionByRequest.delete( request );
-  }
-}
-
 /**
  *
  * @param {Request} request
@@ -241,17 +174,7 @@ async function GraphQLServerForMultipartParser(
     maxHeaderSize = DEFAULT_MAX_HEADER_SIZE,
     maxParts = DEFAULT_MAX_PARTS,
     uploadDir = DEFAULT_UPLOAD_DIR,
-  } = {
-    maxFieldNameSize: DEFAULT_MAX_FIELD_NAME_SIZE,
-    maxFieldSize: DEFAULT_MAX_FIELD_SIZE,
-    maxFields: DEFAULT_MAX_FIELDS,
-    maxFileSize: DEFAULT_MAX_FILE_SIZE,
-    maxFiles: DEFAULT_MAX_FILES,
-    maxHeaderPairs: DEFAULT_MAX_HEADER_PAIRS,
-    maxHeaderSize: DEFAULT_MAX_HEADER_SIZE,
-    maxParts: DEFAULT_MAX_PARTS,
-    uploadDir: DEFAULT_UPLOAD_DIR,
-  } as T_GraphQLServerForUploadFileOptions,
+  } = {} as T_GraphQLServerForUploadFileOptions,
 ): Promise<Request>{
   const url: URL = new URL( request.url ),
     pathName: string = url.pathname;

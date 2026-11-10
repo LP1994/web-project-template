@@ -1,6 +1,6 @@
 /**
  * Project: web-project-template
- * FileDirPath: simulation_servers/deno/src/database/graphql/graphql_server_for_upload_file/GraphQLServerForUploadFile.esm.mts
+ * FileDirPath: simulation_servers/deno/src/database/graphql/GraphQLServerForUploadFile.esm.mts
  * Author: 12278
  * Email: 1227839175@qq.com
  * IDE: WebStorm
@@ -270,6 +270,56 @@ const errorWriteStream: T_MyCusDenoFsFile = await GetErrorWriteStreamForSingleto
 const uploadCleanupSessionByRequest: WeakMap<Request, T_GraphQLServerForUploadCleanupSession> = new WeakMap<Request, T_GraphQLServerForUploadCleanupSession>();
 
 /**
+ * 删除一次上传请求创建的所有文件。该函数是幂等的，可被多个错误分支重复调用。
+ * 调用方必须先确保对应的 fileTasks 已全部结束，避免 Windows 上因文件句柄仍打开而删除失败。
+ */
+async function GraphQLServerForCleanupUploadSession( session: T_GraphQLServerForUploadCleanupSession ): Promise<void>{
+  if( session.cleanupPromise ){
+    await session.cleanupPromise;
+  }
+  else{
+    session.cleanupPromise = ( async (): Promise<void> => {
+      for( const filePath of
+        session.filePaths ){
+        try{
+          await Deno.remove( filePath );
+        }
+        catch( error: unknown ){
+          if( !( error instanceof Deno.errors.NotFound ) ){
+            errorWriteStream.write( `
+GraphQLServerForCleanupUploadSession：删除上传文件失败！
+文件路径：${ filePath }
+错误信息：${ error instanceof Error
+            ? error.message
+            : String( error ) }
+` );
+          }
+        }
+      }
+
+      // 清空本次请求的文件路径、活动流引用，释放会话缓存。
+      session.filePaths.clear();
+      session.fileStreams.clear();
+    } )();
+
+    await session.cleanupPromise;
+  }
+}
+
+/**
+ * GraphQL HTTP 处理失败时，由 GraphQLServer 调用此函数删除本次请求已写入的文件。
+ */
+async function GraphQLServerForCleanupUploadedFiles( request: Request ): Promise<void>{
+  const session: T_GraphQLServerForUploadCleanupSession | undefined = uploadCleanupSessionByRequest.get( request );
+
+  if( session ){
+    await GraphQLServerForCleanupUploadSession( session as T_GraphQLServerForUploadCleanupSession );
+
+    uploadCleanupSessionByRequest.delete( request );
+  }
+}
+
+/**
  * 批量处理。
  *
  * @param {Request} request
@@ -489,295 +539,356 @@ async function GraphQLServerForMultipartParser(
     throw new Error( `请求“${ pathName }”中的请求体body不能为空！` );
   }
 
+  if( request.signal.aborted ){
+    throw new DOMException( `请求“${ pathName }”在开始解析前已经中断。`, 'AbortError' );
+  }
+
   await Deno.mkdir( uploadDir, {
     recursive: true,
   } );
 
-  const operationsText: string = await new Promise<string>( async ( resolve: ( arg: unknown ) => any, reject: ( arg: unknown ) => any ): void => {
-    const busboy: BusboyInstance = new Busboy( {
-      headers: {
-        'content-type': request.headers.get( 'content-type' ) as string,
-      },
-      limits: {
-        fieldNameSize: maxFieldNameSize,
-        fieldSize: maxFieldSize,
-        fields: maxFields,
-        fileSize: maxFileSize,
-        files: maxFiles,
-        headerPairs: maxHeaderPairs,
-        headerSize: maxHeaderSize,
-        parts: maxParts,
-      },
-    } );
+  const cleanupSession: T_GraphQLServerForUploadCleanupSession = {
+    filePaths: new Set<string>(),
+    fileStreams: new Set<Readable>(),
+  };
 
-    const fields: Map<string, string> = new Map<string, string>();
+  const fields: Map<string, string> = new Map<string, string>(),
+    fileParts: T_GraphQLServerForMultipartFilePart[] = [],
+    fileTasks: Promise<void>[] = [],
+    fileByFieldName: Map<string, T_GraphQLServerForUploadFile> = new Map<string, T_GraphQLServerForUploadFile>();
 
-    const fileParts: T_GraphQLServerForMultipartFilePart[] = [];
+  let abortHandler: () => void | undefined;
 
-    const fileTasks: Promise<void>[] = [];
+  try{
+    const operationsText: string = await new Promise<string>( ( resolve: ( value: string ) => void, reject: ( reason?: unknown ) => void ): void => {
+      let busboy: BusboyInstance = new Busboy( {
+        headers: {
+          'content-type': request.headers.get( 'content-type' ) as string,
+        },
+        limits: {
+          fieldNameSize: maxFieldNameSize,
+          fieldSize: maxFieldSize,
+          fields: maxFields,
+          fileSize: maxFileSize,
+          files: maxFiles,
+          headerPairs: maxHeaderPairs,
+          headerSize: maxHeaderSize,
+          parts: maxParts,
+        },
+      } );
 
-    let hasError: boolean = false;
+      const fields: Map<string, string> = new Map<string, string>();
 
-    const fail: ( error: unknown ) => void = ( error: unknown ): void => {
-      if( hasError ){
-        return;
-      }
+      const fileParts: T_GraphQLServerForMultipartFilePart[] = [];
 
-      hasError = true;
+      const fileTasks: Promise<void>[] = [];
 
-      reject(
-        error instanceof Error
-        ? error
-        : new Error( String( error ) )
-      );
-    };
+      let hasError: boolean = false;
 
-    /**
-     * 每当发现新的文件表单字段时，就会触发此事件。<br />
-     * 注意：<br />
-     * 1、如果监听了此事件，无论你是否关心文件内容，都务必处理该数据流（例如，若想丢弃文件内容，只需调用 `stream.resume()` 即可）；否则，Busboy 实例将永远不会触发 `finish` 事件。<br />
-     * 2、不过，如果你完全不关心传入的文件，只需不去监听 `file` 事件即可，所有文件都会被自动且安全地丢弃（注意：这些被丢弃的文件仍会被计入文件数量和数据部分数量的限制中）。<br />
-     * 3、如果文件大小达到了预设的限制，数据流对象会包含一个名为 `truncated` 的布尔属性（建议在数据流结束时进行检查），同时还会触发 `limit` 事件，以通知你已达到限制。<br />
-     */
-    busboy.on( 'file', (
-      fieldname: string,
-      stream: Readable,
-      filename: string,
-      /**
-       * 包含文件流的“Content-Transfer-Encoding”值。
-       */
-      transferEncoding: string,
-      /**
-       * 包含文件流的“Content-Type”值。
-       */
-      mimeType: string,
-    ): void => {
-      const safeFileName: string = GraphQLServerForGetSafeFileName( filename );
+      const fail: ( error: unknown ) => void = ( error: unknown ): void => {
+        if( hasError ){
+          return;
+        }
 
-      const storedFileName: string = GraphQLServerForGetStoredFileName( safeFileName );
+        hasError = true;
 
-      const filePath: string = join( uploadDir, storedFileName );
-
-      const file: T_GraphQLServerForUploadFile = {
-        fileName: safeFileName,
-        mimeType: mimeType,
-        encoding: transferEncoding,
-        size: 0,
-        filePath,
+        reject(
+          error instanceof Error
+          ? error
+          : new Error( String( error ) )
+        );
       };
 
-      const task: Promise<void> = ( async (): Promise<void> => {
-        file.size = await GraphQLServerForUploadFileStorage(
-          stream as AsyncIterable<Uint8Array>,
+      /**
+       * 每当发现新的文件表单字段时，就会触发此事件。<br />
+       * 注意：<br />
+       * 1、如果监听了此事件，无论你是否关心文件内容，都务必处理该数据流（例如，若想丢弃文件内容，只需调用 `stream.resume()` 即可）；否则，Busboy 实例将永远不会触发 `finish` 事件。<br />
+       * 2、不过，如果你完全不关心传入的文件，只需不去监听 `file` 事件即可，所有文件都会被自动且安全地丢弃（注意：这些被丢弃的文件仍会被计入文件数量和数据部分数量的限制中）。<br />
+       * 3、如果文件大小达到了预设的限制，数据流对象会包含一个名为 `truncated` 的布尔属性（建议在数据流结束时进行检查），同时还会触发 `limit` 事件，以通知你已达到限制。<br />
+       */
+      busboy.on( 'file', (
+        fieldname: string,
+        stream: Readable,
+        filename: string,
+        /**
+         * 包含文件流的“Content-Transfer-Encoding”值。
+         */
+        transferEncoding: string,
+        /**
+         * 包含文件流的“Content-Type”值。
+         */
+        mimeType: string,
+      ): void => {
+        const safeFileName: string = GraphQLServerForGetSafeFileName( filename );
+
+        const storedFileName: string = GraphQLServerForGetStoredFileName( safeFileName );
+
+        const filePath: string = join( uploadDir, storedFileName );
+
+        const file: T_GraphQLServerForUploadFile = {
+          fileName: safeFileName,
+          mimeType: mimeType,
+          encoding: transferEncoding,
+          size: 0,
           filePath,
-          maxFileSize,
-        );
+        };
 
-        fileParts.push( {
-          fieldName: fieldname,
-          file,
-        } );
-      } )();
+        const task: Promise<void> = ( async (): Promise<void> => {
+          file.size = await GraphQLServerForUploadFileStorage(
+            stream as AsyncIterable<Uint8Array>,
+            filePath,
+            maxFileSize,
+          );
 
-      fileTasks.push( task );
+          fileParts.push( {
+            fieldName: fieldname,
+            file,
+          } );
+        } )();
 
-      task.catch( fail );
+        fileTasks.push( task );
 
-      stream.on( 'limit', (): void => {
-        errorWriteStream.write( `
+        task.catch( fail );
+
+        stream.on( 'limit', (): void => {
+          errorWriteStream.write( `
 请求“${ pathName }”中上传的文件（${ safeFileName }）的大小超过了程序的设定值（${ maxFileSize }，单位为字节）！
 ` );
 
-        fail( new Error( `请求“${ pathName }”中上传的文件（${ safeFileName }）的大小超过了程序的设定值（${ maxFileSize }，单位为字节）！` ) );
+          fail( new Error( `请求“${ pathName }”中上传的文件（${ safeFileName }）的大小超过了程序的设定值（${ maxFileSize }，单位为字节）！` ) );
+        } );
       } );
-    } );
 
-    /**
-     * 每发现一个非文件类型的新字段时触发。
-     */
-    busboy.on( 'field', (
-      fieldname: string,
-      value: string,
-      fieldnameTruncated: string,
-      valueTruncated: boolean,
-      transferEncoding: string,
-      mimeType: string,
-    ): void => {
-      if( valueTruncated ){
-        errorWriteStream.write( `
+      /**
+       * 每发现一个非文件类型的新字段时触发。
+       */
+      busboy.on( 'field', (
+        fieldname: string,
+        value: string,
+        fieldnameTruncated: string,
+        valueTruncated: boolean,
+        transferEncoding: string,
+        mimeType: string,
+      ): void => {
+        if( valueTruncated ){
+          errorWriteStream.write( `
 请求“${ pathName }”中多部分（Multipart）字段“${ fieldname }”的值的大小超出程序设置的限制值（${ maxFieldSize }）！
 ` );
 
-        fail( new Error( `请求“${ pathName }”中多部分（Multipart）字段“${ fieldname }”的值的大小超出程序设置的限制值（${ maxFieldSize }）！` ) );
+          fail( new Error( `请求“${ pathName }”中多部分（Multipart）字段“${ fieldname }”的值的大小超出程序设置的限制值（${ maxFieldSize }）！` ) );
 
-        return;
-      }
+          return;
+        }
 
-      fields.set( fieldname, value );
-    } );
+        fields.set( fieldname, value );
+      } );
 
-    busboy.on( 'finish', async (): Promise<void> => {
-      if( hasError ){
-        return;
-      }
+      busboy.on( 'finish', async (): Promise<void> => {
+        if( hasError ){
+          return;
+        }
 
-      try{
-        await Promise.all( fileTasks );
+        try{
+          await Promise.all( fileTasks );
 
-        const operations: string | undefined = fields.get( 'operations' );
-        const map: string | undefined = fields.get( 'map' );
+          const operations: string | undefined = fields.get( 'operations' );
+          const map: string | undefined = fields.get( 'map' );
 
-        if( !( IsString( operations ) && ( operations as string ).trim().length > 0 ) ){
-          errorWriteStream.write( `
+          if( !( IsString( operations ) && ( operations as string ).trim().length > 0 ) ){
+            errorWriteStream.write( `
 请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“operations”。
 ` );
 
-          throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“operations”。` );
-        }
+            throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“operations”。` );
+          }
 
-        if( !( IsString( map ) && ( map as string ).trim().length > 0 ) ){
-          errorWriteStream.write( `
+          if( !( IsString( map ) && ( map as string ).trim().length > 0 ) ){
+            errorWriteStream.write( `
 请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“map”。
 ` );
 
-          throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“map”。` );
-        }
+            throw new Error( `请求“${ pathName }”中的请求体body中的多部分（multipart）里缺少有效的字段“map”。` );
+          }
 
-        const operationsObject: T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> = JSON.parse( operations ) as ( T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> );
+          const operationsObject: T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> = JSON.parse( operations ) as ( T_GraphQLServerForMultipartOperations | Array<T_GraphQLServerForMultipartOperations> );
 
-        const mapObject: Record<string, string[]> = JSON.parse( map ) as Record<string, string[]>;
+          const mapObject: Record<string, string[]> = JSON.parse( map ) as Record<string, string[]>;
 
-        const fileByFieldName: Map<string, T_GraphQLServerForUploadFile> = new Map<string, T_GraphQLServerForUploadFile>();
+          const fileByFieldName: Map<string, T_GraphQLServerForUploadFile> = new Map<string, T_GraphQLServerForUploadFile>();
 
-        for( const part of
-          fileParts ){
-          fileByFieldName.set( part.fieldName, part.file );
-        }
+          for( const part of
+            fileParts ){
+            fileByFieldName.set( part.fieldName, part.file );
+          }
 
-        for(
-          const [ fileFieldName, variablePaths ]
-          of
-          Object.entries( mapObject )
-          ){
-          const file: T_GraphQLServerForUploadFile | undefined = fileByFieldName.get( fileFieldName );
+          for(
+            const [ fileFieldName, variablePaths ]
+            of
+            Object.entries( mapObject )
+            ){
+            const file: T_GraphQLServerForUploadFile | undefined = fileByFieldName.get( fileFieldName );
 
-          if( !file ){
-            errorWriteStream.write( `
+            if( !file ){
+              errorWriteStream.write( `
 请求“${ pathName }”中“${ fileFieldName }”对应的文件不存在！
 ` );
 
-            throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的文件不存在！` );
-          }
+              throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的文件不存在！` );
+            }
 
-          if( !( Array.isArray( variablePaths ) && ( variablePaths as string[] ).length > 0 ) ){
-            errorWriteStream.write( `
+            if( !( Array.isArray( variablePaths ) && ( variablePaths as string[] ).length > 0 ) ){
+              errorWriteStream.write( `
 请求“${ pathName }”中“${ fileFieldName }”对应的值的数据类型必须得是数组类型！而且不能为空数组！
 ` );
 
-            throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的值的数据类型必须得是数组类型！而且不能为空数组！` );
+              throw new Error( `请求“${ pathName }”中“${ fileFieldName }”对应的值的数据类型必须得是数组类型！而且不能为空数组！` );
+            }
+
+            for( const variablePath of
+              variablePaths ){
+              GraphQLServerForSetObjectPath( request, operationsObject, variablePath, file as T_GraphQLServerForUploadFile );
+            }
           }
 
-          for( const variablePath of
-            variablePaths ){
-            GraphQLServerForSetObjectPath( request, operationsObject, variablePath, file as T_GraphQLServerForUploadFile );
-          }
+          resolve( JSON.stringify( operationsObject ) );
         }
+        catch( error: unknown ){
+          fail( error );
+        }
+      } );
 
-        resolve( JSON.stringify( operationsObject ) );
-      }
-      catch( error: unknown ){
-        fail( error );
-      }
-    } );
-
-    /**
-     * 当达到指定的文件数量限制时触发。此后将不再触发“file”事件。
-     */
-    busboy.on( 'filesLimit', (): void => {
-      errorWriteStream.write( `
+      /**
+       * 当达到指定的文件数量限制时触发。此后将不再触发“file”事件。
+       */
+      busboy.on( 'filesLimit', (): void => {
+        errorWriteStream.write( `
 请求“${ pathName }”中的请求体body中的“文件（file）”数超过程序设定的最大数量（${ maxFiles }）！
 ` );
 
-      fail( new Error( `请求“${ pathName }”中的请求体body中的“文件（file）”数超过程序设定的最大数量（${ maxFiles }）！` ) );
-    } );
+        fail( new Error( `请求“${ pathName }”中的请求体body中的“文件（file）”数超过程序设定的最大数量（${ maxFiles }）！` ) );
+      } );
 
-    /**
-     * 当达到指定的字段数量上限时触发。此后将不再触发“字段”事件。
-     */
-    busboy.on( 'fieldsLimit', (): void => {
-      errorWriteStream.write( `
+      /**
+       * 当达到指定的字段数量上限时触发。此后将不再触发“字段”事件。
+       */
+      busboy.on( 'fieldsLimit', (): void => {
+        errorWriteStream.write( `
 请求“${ pathName }”中的请求体body中的“字段（field）”数超过程序设定的最大数量（${ maxFields }）！
 ` );
 
-      fail( new Error( `请求“${ pathName }”中的请求体body中的“字段（field）”数超过程序设定的最大数量（${ maxFields }）！` ) );
+        fail( new Error( `请求“${ pathName }”中的请求体body中的“字段（field）”数超过程序设定的最大数量（${ maxFields }）！` ) );
+      } );
+
+      busboy.on( 'error', fail );
+
+      const nodeRequest: Readable = Readable.fromWeb( request.body );
+
+      nodeRequest.on( 'error', fail );
+
+      nodeRequest.pipe( busboy );
     } );
 
-    busboy.on( 'error', fail );
+    const headers: Headers = new Headers( request.headers );
 
-    const nodeRequest: Readable = Readable.fromWeb( request.body );
+    headers.set( 'content-type', 'application/json; charset=utf-8' );
 
-    nodeRequest.on( 'error', fail );
+    headers.delete( 'content-length' );
+    headers.delete( 'transfer-encoding' );
 
-    nodeRequest.pipe( busboy );
-  } );
+    return new Request( request.url, {
+      method: request.method,
+      headers,
+      body: operationsText,
+      ...( ( () => (
+        'signal' in request
+        ? { signal: request.signal }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'cache' in request
+        ? { cache: request.cache }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'credentials' in request
+        ? { credentials: request.credentials }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'integrity' in request
+        ? { integrity: request.integrity }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'keepalive' in request
+        ? { keepalive: request.keepalive }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'mode' in request
+        ? { mode: request.mode }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'redirect' in request
+        ? { redirect: request.redirect }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'referrer' in request
+        ? { referrer: request.referrer }
+        : {}
+      ) )() ),
+      ...( ( () => (
+        'referrerPolicy' in request
+        ? { referrerPolicy: request.referrerPolicy }
+        : {}
+      ) )() ),
+    } );
+  }
+  catch( error: unknown ){
+    await Promise.allSettled( fileTasks );
 
-  const headers: Headers = new Headers( request.headers );
+    fields.clear();
 
-  headers.set( 'content-type', 'application/json; charset=utf-8' );
+    fileParts.length = 0;
 
-  headers.delete( 'content-length' );
-  headers.delete( 'transfer-encoding' );
+    fileByFieldName.clear();
 
-  return new Request( request.url, {
-    method: request.method,
-    headers,
-    body: operationsText,
-    ...( ( () => (
-      'signal' in request
-      ? { signal: request.signal }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'cache' in request
-      ? { cache: request.cache }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'credentials' in request
-      ? { credentials: request.credentials }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'integrity' in request
-      ? { integrity: request.integrity }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'keepalive' in request
-      ? { keepalive: request.keepalive }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'mode' in request
-      ? { mode: request.mode }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'redirect' in request
-      ? { redirect: request.redirect }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'referrer' in request
-      ? { referrer: request.referrer }
-      : {}
-    ) )() ),
-    ...( ( () => (
-      'referrerPolicy' in request
-      ? { referrerPolicy: request.referrerPolicy }
-      : {}
-    ) )() ),
-  } );
+    fileTasks.length = 0;
+
+    await GraphQLServerForCleanupUploadSession( cleanupSession );
+
+    errorWriteStream.write( `
+GraphQLServerForMultipartParser：本次 Multipart 上传失败，已执行文件回滚。
+请求路径：${ pathName }
+错误信息：${ error instanceof Error
+            ? error.message
+            : String( error ) }
+` );
+
+    throw error;
+  }
+  finally{
+    if( abortHandler ){
+      request.signal.removeEventListener( 'abort', abortHandler );
+    }
+  }
+}
+
+/**
+ * GraphQL HTTP 处理成功时，仅释放清理追踪缓存，不删除已经成功接收的文件。
+ */
+function GraphQLServerForReleaseUploadedFiles( request: Request ): void{
+  const session: T_GraphQLServerForUploadCleanupSession | undefined = uploadCleanupSessionByRequest.get( request );
+
+  if( session ){
+    ( session as T_GraphQLServerForUploadCleanupSession ).filePaths.clear();
+
+    ( session as T_GraphQLServerForUploadCleanupSession ).fileStreams.clear();
+
+    uploadCleanupSessionByRequest.delete( request );
+  }
 }
 
 function GraphQLServerForNormalizeUploadError( error: unknown ): Error{
@@ -1108,6 +1219,7 @@ export {
   DEFAULT_MAX_PARTS,
   DEFAULT_UPLOAD_DIR,
 
+  GraphQLServerForCleanupUploadSession,
   GraphQLServerForCleanupUploadedFiles,
   GraphQLServerForExecuteBatch,
   GraphQLServerForGetSafeFileName,
@@ -1131,6 +1243,7 @@ export default {
   DEFAULT_MAX_PARTS,
   DEFAULT_UPLOAD_DIR,
 
+  GraphQLServerForCleanupUploadSession,
   GraphQLServerForCleanupUploadedFiles,
   GraphQLServerForExecuteBatch,
   GraphQLServerForGetSafeFileName,
