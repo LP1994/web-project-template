@@ -652,3 +652,74 @@ GraphQLServerForMultipartParser：本次 Multipart 上传失败，已执行文�
     }
   }
 }
+
+/**
+ * 保存客户端上传的文件。
+ *
+ * @param {AsyncIterable<Uint8Array>} fileStream
+ *
+ * @param {string | URL} filePath
+ *
+ * @param {number} maxFileSize 用于限制单个文件的大小。单位是字节。
+ *
+ * @returns {Promise<number>}
+ */
+async function GraphQLServerForUploadFileStorage(
+  fileStream: AsyncIterable<Uint8Array>,
+  filePath: string | URL,
+  maxFileSize: number,
+  onFileCreated?: () => void,
+): Promise<number>{
+  let file: Deno.FsFile | undefined;
+
+  try{
+    file = await Deno.open( filePath, {
+      createNew: true,
+      write: true,
+    } );
+
+    // 只有 open 成功创建出本请求自己的文件后才登记，避免 createNew 失败时误删别的文件。
+    onFileCreated?.();
+
+    let size: number = 0;
+
+    for await ( const chunk of
+      fileStream ){
+      size += chunk.byteLength;
+
+      if( size > maxFileSize ){
+        throw new Error( `所要保存的文件的大小不能超过程序设定的最大值（${ maxFileSize } 字节）。` );
+      }
+
+      let offset: number = 0;
+
+      // Deno.FsFile.write 允许短写；循环直到当前 chunk 的所有字节都写入磁盘。
+      while( offset < chunk.byteLength ){
+        const written: number = await file.write( chunk.subarray( offset ) );
+
+        if( written <= 0 ){
+          throw new Error( '文件写入数据失败：write() 未写入任何字节。' );
+        }
+
+        offset += written;
+      }
+    }
+
+    return size;
+  }
+  catch( error: unknown ){
+    errorWriteStream.write( `
+GraphQLServerForUploadFileStorage：文件写入失败。
+文件路径：${ String( filePath ) }
+错误信息：${ error instanceof Error
+            ? error.message
+            : String( error ) }
+` );
+
+    // 保留原始异常对象，便于上层识别 Deno.errors.NoSpace 等底层错误。
+    throw error;
+  }
+  finally{
+    file?.close();
+  }
+}

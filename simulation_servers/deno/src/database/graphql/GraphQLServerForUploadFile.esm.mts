@@ -540,6 +540,10 @@ async function GraphQLServerForMultipartParser(
   }
 
   if( request.signal.aborted ){
+    errorWriteStream.write( `
+请求“${ pathName }”在开始解析前已经中断！
+` );
+
     throw new DOMException( `请求“${ pathName }”在开始解析前已经中断。`, 'AbortError' );
   }
 
@@ -560,7 +564,10 @@ async function GraphQLServerForMultipartParser(
   let abortHandler: () => void | undefined;
 
   try{
-    const operationsText: string = await new Promise<string>( ( resolve: ( value: string ) => void, reject: ( reason?: unknown ) => void ): void => {
+    const operationsText: string = await new Promise<string>( (
+      resolve: ( value: string ) => void,
+      reject: ( reason?: unknown ) => void
+    ): void => {
       let busboy: BusboyInstance = new Busboy( {
         headers: {
           'content-type': request.headers.get( 'content-type' ) as string,
@@ -795,7 +802,7 @@ async function GraphQLServerForMultipartParser(
     headers.delete( 'content-length' );
     headers.delete( 'transfer-encoding' );
 
-    return new Request( request.url, {
+    const graphqlRequest: Request = new Request( request.url, {
       method: request.method,
       headers,
       body: operationsText,
@@ -845,6 +852,10 @@ async function GraphQLServerForMultipartParser(
         : {}
       ) )() ),
     } );
+
+    uploadCleanupSessionByRequest.set( graphqlRequest, cleanupSession );
+
+    return graphqlRequest;
   }
   catch( error: unknown ){
     await Promise.allSettled( fileTasks );
@@ -853,9 +864,9 @@ async function GraphQLServerForMultipartParser(
 
     fileParts.length = 0;
 
-    fileByFieldName.clear();
-
     fileTasks.length = 0;
+
+    fileByFieldName.clear();
 
     await GraphQLServerForCleanupUploadSession( cleanupSession );
 
@@ -1227,6 +1238,7 @@ export {
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
   GraphQLServerForReleaseUploadedFiles,
+  GraphQLServerForNormalizeUploadError,
   GraphQLServerForSetObjectPath,
   GraphQLServerForUploadFileStorage,
   GraphQLServerForUploadScalar,
@@ -1251,6 +1263,7 @@ export default {
   GraphQLServerForIsMultipartRequest,
   GraphQLServerForMultipartParser,
   GraphQLServerForReleaseUploadedFiles,
+  GraphQLServerForNormalizeUploadError,
   GraphQLServerForSetObjectPath,
   GraphQLServerForUploadFileStorage,
   GraphQLServerForUploadScalar,
