@@ -363,6 +363,8 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
 
     const handler: ( req: Request ) => Promise<Response> = createHandlerByHTTP( options, reqCtx );
 
+    let hasOperationHTTPError: boolean = false;
+
     for(
       const operation of
       operationsPayload as Array<T_GraphQLServerForMultipartOperations>
@@ -426,9 +428,15 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
           ) )() ),
         } ) );
 
+        if( !operationResponse.ok ){
+          hasOperationHTTPError = true;
+        }
+
         results.push( await operationResponse.json() );
       }
       catch( error: unknown ){
+        hasOperationHTTPError = true;
+
         errorWriteStream.write( `
 请求“${ pathName }”中：
 2）GraphQLServerForExecuteBatch: ${ error instanceof Error
@@ -446,6 +454,10 @@ async function GraphQLServerForExecuteBatch( request: Request, options: T_Handle
           ],
         } );
       }
+    }
+
+    if( hasOperationHTTPError ){
+      await GraphQLServerForCleanupUploadedFiles( request );
     }
 
     return new Response( JSON.stringify( results, null, 2 ), {
