@@ -1075,7 +1075,7 @@ async function GraphQLServerForUploadFileStorage(
 
       if( size > maxFileSize ){
         errorWriteStream.write( `
-GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
+GraphQLServerForUploadFileStorage：
 所要保存的文件的大小不能超过程序设定的最大值，当前程序设置的最大值为（单位为字节）：${ maxFileSize }。
 ` );
 
@@ -1089,7 +1089,7 @@ GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage�
 
         if( written <= 0 ){
           errorWriteStream.write( `
-GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage：
+GraphQLServerForUploadFileStorage：
 文件写入数据失败：write() 未写入任何字节！
 ` );
 
@@ -1118,7 +1118,7 @@ GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage�
   }
   catch( error: unknown ){
     errorWriteStream.write( `
-GraphQLServerForUploadFileStorage.esm.mts--->GraphQLServerForUploadFileStorage，文件写入失败：
+GraphQLServerForUploadFileStorage，文件写入失败：
 文件路径：${ String( filePath ) }
 错误信息：${ error instanceof Error
             ? error.message
@@ -1172,7 +1172,7 @@ const GraphQLServerForUploadScalar: GraphQLScalarType = new GraphQLScalarType( {
     }
     else{
       errorWriteStream.write( `
-GraphQLServerForUploadScalar.esm.mts--->coerceInputValue：
+GraphQLServerForUploadScalar--->coerceInputValue：
 Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue ) }”。inputValue的值为：${ JSON.stringify( inputValue ) }
 ` );
 
@@ -1189,7 +1189,7 @@ Upload value invalid. inputValue的值类型为：“${ GetDataType( inputValue 
    */
   coerceOutputValue( outputValue: unknown ): never{
     errorWriteStream.write( `
-GraphQLServerForUploadScalar.esm.mts--->coerceOutputValue：
+GraphQLServerForUploadScalar--->coerceOutputValue：
 Upload serialization unsupported. outputValue的数据类型为：“${ GetDataType( outputValue ) }”。outputValue的值为：${ JSON.stringify( outputValue ) }
 ` );
 
@@ -1205,7 +1205,7 @@ Upload serialization unsupported. outputValue的数据类型为：“${ GetDataT
    */
   coerceInputLiteral( valueNode: T_ConstValueNode ): never{
     errorWriteStream.write( `
-GraphQLServerForUploadScalar.esm.mts--->coerceInputLiteral：
+GraphQLServerForUploadScalar--->coerceInputLiteral：
 Upload literal unsupported. valueNode的数据类型为：“${ GetDataType( valueNode ) }”。valueNode的值为：${ JSON.stringify( valueNode ) }
 ` );
 
