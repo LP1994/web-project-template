@@ -263,6 +263,12 @@ declare module '*.pdf' {
   export default src;
 }
 
+declare module '*.bin' {
+  const content: Uint8Array;
+
+  export default content;
+}
+
 // 视频的字幕文件。
 declare module '*.vtt' {
   const src: string;
@@ -419,4 +425,46 @@ declare module '@module-federation/runtime-core/dist/src/utils/hooks' {
   } from '@module-federation/runtime-core/dist/src/utils/hooks';
 
   export default any;
+}
+
+declare module '*' with { type: 'json' } {
+  const content: I_ReadonlyObj;
+
+  export default content;
+}
+
+declare module '*' with { type: 'text' } {
+  const content: string;
+
+  export default content;
+}
+
+declare module '*' with { type: 'bytes' } {
+  const content: Uint8Array;
+
+  export default content;
+}
+
+declare module '*' with { type: 'css' } {
+  const content: CSSStyleSheet;
+
+  export default content;
+}
+
+declare module '*' with { type: 'url' } {
+  const content: string;
+
+  export default content;
+}
+
+declare module '*' with { type: 'wasm' } {
+  const content: I_WASMObject;
+
+  export default content;
+}
+
+declare module '*' with { type: 'webassembly' } {
+  const content: I_WASMObject;
+
+  export default content;
 }
