@@ -12,8 +12,9 @@ target/wasm32-unknown-unknown/release/wasm_demo.wasm
 例子：“MathTool.rs”、“Cargo.toml”都在同一个文件夹层级下，编译命令也是在这个文件夹层级下执行的。
 
 // MathTool.rs的内容：
-// #[unsafe(no_mangle)] → 保证函数名不会被 Rust 编译器修改。Rust 2024语法这么要求写的！
-// extern "C" → 使用 C ABI，方便其他语言或运行时调用。
+/// #[unsafe(no_mangle)] → 保证函数名不会被 Rust 编译器修改。Rust 2024语法这么要求写的！
+/// #[unsafe(no_mangle)] 是 Rust 1.82 才引入的语法！可以同时适用于 Rust 2021 和 Rust 2024 Edition（前提是 Rust 编译器版本不低于 1.82）。
+/// extern "C" → 使用 C ABI，方便其他语言或运行时调用。
 #[unsafe(no_mangle)]
 pub extern "C" fn Add(a: i32, b: i32) -> i32 {
     a + b
