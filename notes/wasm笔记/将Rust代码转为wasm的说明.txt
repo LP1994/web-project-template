@@ -1,3 +1,15 @@
+真正适合 Wasm 的场景通常包括：
+- 大规模数值计算；
+- 图像和音频处理；
+- 加密和哈希算法；
+- 压缩和解压；
+- 复杂的数据解析；
+- 计算密集型算法；
+- 需要复用已有 Rust/C/C++ 算法库的场景。
+尤其是大批量数据处理，应该尽量减少 JavaScript 和 Rust 之间频繁的小数据交换，采用批量传递 TypedArray 等方式。
+
+
+
 普通 WebAssembly 核心模块：推荐用于 JavaScript / TypeScript 功能扩展。
 Rust 编译目标：
 wasm32-unknown-unknown
@@ -97,6 +109,10 @@ wasm-bindgen 会生成必要的 JavaScript 胶水代码，负责参数传递、�
 - 自定义结构体（通过相应绑定方式）
 wasm-bindgen 不只是生成一个 JavaScript 文件，它还会处理 Wasm 模块，使其能够使用生成的 JavaScript Glue Code 完成高层类型交互。
 因此，正常情况下不能只拿 Rust 编译出来的原始 .wasm 文件，就直接调用其中的字符串、对象等高层接口。需要同时使用生成的 JavaScript 包装模块。
+
+支持的 Rust 类型及其在 JavaScript 中的表示形式
+本节概述了 wasm-bindgen 可以在 WebAssembly ABI 边界两侧发送和接收的所有类型，以及它们如何转换为 JavaScript。见：
+https://rustwasm.github.io/docs/wasm-bindgen/reference/types.html
 
 例子：
 use wasm_bindgen::prelude::*;
@@ -209,54 +225,264 @@ wasm-pack：打包输出
 --->
 JavaScript 生态：原生浏览器、Webpack、Vite、Node.js、Deno
 
+创建项目：
+// 这里使用 --lib，而不是 --bin，因为我们需要构建一个供 JavaScript 调用的 Rust 库，而不是一个独立运行的 Rust 命令行程序。
+cargo new rust-math --lib
 
+cd rust-math
 
+编译 Rust 项目并生成 JavaScript Bindings：
+开发期间（开发版更适合快速编译和调试）：
+wasm-pack build --target web --dev
+生产构建（生产版则采用优化后的代码）：
+wasm-pack build --target web --release
+直接执行（wasm-pack build 默认采用 release 构建配置。）：
+wasm-pack build --target web
 
+--target：它决定生成的 JavaScript 包装代码采用什么方式加载 Wasm 模块。
+详细见：
+https://wasm-bindgen.github.io/wasm-bindgen/reference/deployment.html#deploying-rust-and-webassembly
+构建目标         使用环境              主要用途
+web             原生浏览器            不依赖前端打包工具
+bundler         Webpack等打包工具	    集成到前端工程
+nodejs          Node.js             CommonJS 模块
+deno            Deno                原生 ES Module
+额外还有：
+experimental-nodejs-module：可通过 import 作为 Node.js ESM 模块加载。
+module：使用新的源代码阶段导入语法来获取编译后的 WebAssembly 模块。
+PS：
+此外还有 no-modules，属于不使用 ES Module 的旧式浏览器加载方式，一般不建议新项目采用。
 
+这个命令会自动完成一系列操作：
+1. Cargo 编译
+   调用 Rust 工具链，将项目编译为 wasm32-unknown-unknown 对应的 Wasm 产物。
+2. wasm-bindgen 处理
+   生成 Rust 和 JavaScript 之间的绑定代码，并处理 Wasm 模块。
+3. 生成 JavaScript 模块
+   生成供 JavaScript 使用的 .js 包装文件。
+4. 生成 TypeScript 声明
+   根据导出接口生成 .d.ts 类型声明文件。
+5. 组织输出文件
+   将 Wasm、JavaScript、类型声明文件以及包信息放进 pkg 目录。
 
+生成的文件说明：
+rust_math_bg.wasm        实际的 WebAssembly 二进制模块
+rust_math.js             JavaScript 包装模块
+rust_math.d.ts           JavaScript 模块的 TypeScript 声明
+rust_math_bg.wasm.d.ts   Wasm 底层模块声明
+package.json             生成的包元数据
+README.md                包说明文件（存在源 README 时）
 
+这里需要特别注意不同--target之间的使用区别：
+--target web
+JavaScript 实际应该导入的是 rust_math.js，而不是直接导入 rust_math_bg.wasm。
+import init, {
+    add,
+    greet
+} from "./pkg/rust_math.js";
+rust_math.js 才是 wasm-bindgen 生成的高层调用接口。
+需要调用：
+await init();
+之后才能开始使用各个Rust提供的方法。
 
+--target bundler
+import {
+    add,
+    greet,
+    Counter
+} from "./pkg/rust_math.js";
+console.log(add(100, 200));
+这里与 web 最大的区别是：
+bundler 模式由前端打包工具负责处理 Wasm 模块的加载，不需要像原生浏览器模式那样显式执行默认的 init()。
+也就是说这种构建是无需调用：
+await init();
+之后才能开始使用各个Rust提供的方法。
+将 wasm-pack 集成到 Webpack 构建流程：
+可以使用如下包来集成：@wasm-tool/wasm-pack-plugin（https://github.com/wasm-tool/wasm-pack-plugin）
+这样可以让 Webpack 构建时自动触发 Rust 项目编译。
+官方示例中也提供了这种项目结构和插件集成方式：
+https://rustwasm.github.io/docs/wasm-pack/tutorials/hybrid-applications-with-webpack/using-your-library.html
+https://github.com/rustwasm/rust-webpack-template/tree/master
 
+--target nodejs
+Node.js 侧使用 CommonJS：
+const rustMath = require("./pkg/rust_math.js");
+console.log(
+    rustMath.add(100, 200)
+);
+这种方式适合将 Rust 算法库用于 Node.js 服务端程序。
 
+--target deno
+Deno 可以直接导入生成的 ES Module。
+import {
+    add,
+    multiply,
+    greet
+} from "./pkg/rust_math.js";
+console.log(add(10, 20));
 
+JavaScript 和 Rust 之间的基础数值类型：
+Rust      JavaScript
+i8        number
+i16       number
+i32       number
+u32       number
+f32       number
+f64       number
+bool      boolean
+String    string
+()        undefined
+另外，i64 和 u64 涉及 JavaScript BigInt，与普通 number 不同，使用时需要特别注意 JavaScript 的整数表示范围及对应绑定支持。
 
+数组和 TypedArray：
+Rust：
+Vec<T>
+Box<[T]>
+其中普通对象数组和数值 TypedArray 的映射有所区别：
+Rust           JavaScript
+Box<[u8]>      Uint8Array
+Box<[i8]>      Int8Array
+Box<[u16]>     Uint16Array
+Box<[i16]>     Int16Array
+Box<[u32]>     Uint32Array
+Box<[i32]>     Int32Array
+Box<[f32]>     Float32Array
+Box<[f64]>     Float64Array
+Vec<String>    JavaScript Array
 
+JavaScript Object 与 Rust Struct
+建议使用：serde + serde-wasm-bindgen
+例如 Rust：
+#[derive(Serialize, Deserialize)]
+pub struct Product {
+    pub id: u32,
+    pub name: String,
+    pub price: f64,
+}
+JavaScript：
+const product = {
+    id: 1001,
+    name: "Keyboard",
+    price: 299.5
+};
+传入 Rust：
+let product: Product =
+    serde_wasm_bindgen::from_value(value)?;
+转换回来：
+let value =
+    serde_wasm_bindgen::to_value(&product)?;
+JavaScript 得到的仍然是一个普通对象。
+需要注意：Serde 转换与 JSON 字符串序列化不是一回事。它可以直接处理 JavaScript 值，不需要先执行 JSON.stringify() 再进行字符串解析。具体类型支持仍受 Serde 和 serde-wasm-bindgen 的映射规则约束。
 
+异步函数与 Promise
+Rust：
+use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen]
+pub async fn calculate_async(
+    a: f64,
+    b: f64,
+) -> Result<f64, JsValue> {
 
+    Ok(a + b)
+}
+JavaScript：
+const result = await calculate_async(10, 20);
 
+console.log(result);
+wasm-bindgen 会将导出的 Rust async fn 转换成 JavaScript Promise 接口。
+如果需要在 Rust 内部等待 JavaScript 的 Promise，还可以使用，在 Cargo.toml 中添加：
+[dependencies]
+wasm-bindgen-futures = "0.4"
+然后利用 JsFuture 将 JavaScript Promise 转成 Rust Future。
+官方对于异步互操作的说明：
+https://rustwasm.github.io/docs/wasm-bindgen/print
 
+Rust 调用浏览器 API
+这就涉及两个重要的 Rust Crate：
+js-sys：JavaScript 内置对象和 API 的 Rust 类型封装
+web-sys：浏览器 Web API 的 Rust 类型封装
+例如：
+- DOM 操作
+- Canvas
+- Fetch
+- WebSocket
+- Web Storage
+- Web Workers
+- Web Audio
+如果希望 Rust 直接操作 DOM，可以这样配置。
+在 Cargo.toml 中添加：
+[dependencies]
+js-sys = "0.3.107"
 
+web-sys = {
+  version = "0.3.107",
+  features = [
+    "Window",
+    "Document",
+    "Element"
+  ]
+}
+Rust 代码：
+use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen]
+pub fn set_page_text(
+    text: &str
+) -> Result<(), JsValue> {
 
+    let window = web_sys::window()
+        .ok_or_else(|| {
+            JsValue::from_str("无法获取 Window")
+        })?;
 
+    let document = window.document()
+        .ok_or_else(|| {
+            JsValue::from_str("无法获取 Document")
+        })?;
 
+    let element = document
+        .get_element_by_id("app")
+        .ok_or_else(|| {
+            JsValue::from_str("找不到 app 元素")
+        })?;
 
+    element.set_text_content(Some(text));
 
+    Ok(())
+}
+JavaScript：
+import {
+    set_page_text
+} from "./pkg/rust_math.js";
 
+set_page_text("Hello from Rust!");
+HTML：
+<div id="app"></div>
+这样 Rust 就能通过 web-sys 操作浏览器 DOM 了。
+官方提供了 DOM、Canvas、Fetch、WebSocket 等大量示例：
+https://rustwasm.github.io/docs/wasm-bindgen/reference/types.html
+不过，我更建议实际项目采用职责分离：
+- JavaScript / TypeScript：处理 DOM、UI、路由、事件、浏览器交互。
+- Rust：处理复杂算法、数据解析、加密计算、计算密集型业务。
+- wasm-bindgen：负责双方之间的数据和函数接口。
+除非业务确实要求 Rust 直接控制浏览器 API，否则没有必要把所有前端逻辑都迁移到 Rust。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+构建命令整理
+实际开发过程中，建议记住以下命令：
+cargo new rust-math --lib：创建 Rust 库项目
+cargo check：检查原生 Rust 代码
+cargo check --target wasm32-unknown-unknown：检查 Wasm 目标代码
+cargo build：编译原生 Rust 项目
+cargo build --target wasm32-unknown-unknown：编译 Wasm 目标
+wasm-pack build --target web --dev：生成浏览器开发版
+wasm-pack build --target web --release：生成浏览器生产版
+wasm-pack build --target bundler：生成打包工具使用的模块
+wasm-pack build --target nodejs：生成 Node.js 模块
+wasm-pack build --target deno：生成 Deno 模块
+wasm-pack test --headless --chrome：在无头 Chrome 环境运行 Wasm 测试
+注意：不同 target 默认都会使用 pkg 作为输出目录。需要同时保留不同环境的产物时，可以指定不同的输出目录：
+wasm-pack build --target web --out-dir pkg-web
+wasm-pack build --target bundler --out-dir pkg-bundler
+wasm-pack build --target deno --out-dir pkg-deno
+这样就不会出现后一次构建覆盖前一次构建产物的问题。

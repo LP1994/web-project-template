@@ -1,0 +1,49 @@
+[package]
+name = "rust-wasm_bindgen-wasm_pack-demo"
+version = "1.0.0"
+edition = "2024"
+description = "Rust WebAssembly JavaScript bindings example"
+license = "MIT"
+
+# 优化最终构建产物的体积。
+[profile.release]
+# s 偏向减小体积，3 偏向运行性能。
+opt-level = "s"
+# 这使得编译后的代码运行更快、体积更小，但会延长编译时间，因此仅在发布模式下启用。
+lto = true
+codegen-units = 1
+
+[lib]
+# cdylib：生成用于外部语言调用的动态库形式产物，是这类 Wasm 库项目的重要配置。
+# rlib：保留 Rust 原生库形式，便于其他 Rust 项目使用，也方便编写原生测试。
+crate-type = [
+  "cdylib",
+  "rlib"
+]
+
+[dependencies]
+# Rust 与 JavaScript 之间的绑定。Rust 端的绑定宏和运行时依赖。
+wasm-bindgen = "0.2.130"
+# 需要在 Rust 内部等待 JavaScript 的 Promise，还可以使用：
+wasm-bindgen-futures = "0.4.80"
+# 序列化和反序列化。
+serde = {
+  version = "1.0.229",
+  features = [
+    "derive"
+  ]
+}
+# 在 Rust 与 JavaScript 对象之间进行 Serde 转换。
+# 它负责通过 Serde 将 Rust 数据结构与 JavaScript 对象互相转换。相比把复杂对象全部手动拆分为简单参数，这种方式更适合实际业务系统。
+serde-wasm-bindgen = "0.6.5"
+# 将 Rust panic 信息输出到浏览器控制台。
+console_error_panic_hook = "0.1.7"
+# JavaScript 内置对象和 API 的 Rust 类型封装
+js-sys = "0.3.107"
+# 浏览器 Web API 的 Rust 类型封装
+web-sys = {
+  version = "0.3.107",
+  features = [
+    "Window"
+  ]
+}
