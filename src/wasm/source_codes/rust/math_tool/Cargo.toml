@@ -10,5 +10,5 @@ edition = "2024"
 name = "MathTool"
 # Rust源码文件路径。
 path = "MathTool.rs"
-#对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
+#生成适合外部运行环境加载的动态链接库形式，对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
 crate-type = ["cdylib"]

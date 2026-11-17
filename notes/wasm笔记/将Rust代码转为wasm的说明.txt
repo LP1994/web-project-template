@@ -25,10 +25,10 @@ target/wasm32-unknown-unknown/release/wasm_demo.wasm
 例子：“MathTool.rs”、“Cargo.toml”都在同一个文件夹层级下，编译命令也是在这个文件夹层级下执行的。
 
 // MathTool.rs的内容：
-// #[unsafe(no_mangle)] → 禁止 Rust 对导出符号名称进行名称改编。Rust 2024语法这么要求写的！
+// #[unsafe(no_mangle)] → 禁止 Rust 对导出符号名称进行名称改编。不执行 Rust 符号名称修饰，保留导出名称。Rust 2024语法这么要求写的！
 // #[unsafe(no_mangle)] 是 Rust 1.82 才引入的语法！可以同时适用于 Rust 2021 和 Rust 2024 Edition（前提是 Rust 编译器版本不低于 1.82）。
-// pub：将函数声明为公开函数。
-// extern "C" → 指定 C ABI，定义跨语言调用使用的函数调用约定。
+// pub：将函数声明为公开函数。允许函数被外部访问。
+// extern "C" → 指定 C ABI，采用 C ABI 调用约定。定义跨语言调用使用的函数调用约定。
 #[unsafe(no_mangle)]
 pub extern "C" fn Add(a: i32, b: i32) -> i32 {
     a + b
@@ -95,11 +95,44 @@ wasm-bindgen 会生成必要的 JavaScript 胶水代码，负责参数传递、�
 - JavaScript 对象
 - JavaScript 函数
 - 自定义结构体（通过相应绑定方式）
+wasm-bindgen 不只是生成一个 JavaScript 文件，它还会处理 Wasm 模块，使其能够使用生成的 JavaScript Glue Code 完成高层类型交互。
+因此，正常情况下不能只拿 Rust 编译出来的原始 .wasm 文件，就直接调用其中的字符串、对象等高层接口。需要同时使用生成的 JavaScript 包装模块。
+
+例子：
+use wasm_bindgen::prelude::*;
+
+// #[wasm_bindgen] 是一个 Rust 过程宏（Procedural Macro）。
+// 它会在编译阶段参与生成互操作所需的接口描述和相关代码。随后，wasm-bindgen CLI 会处理编译结果，生成对应的 JavaScript 包装模块及适配后的 Wasm 模块。
+#[wasm_bindgen]
+pub fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+#[wasm_bindgen]
+pub fn greet(name: String) -> String {
+    format!("你好，{}！", name)
+}
+
+// 将 JavaScript 函数导入给 Rust
+// 这里的 extern "C" 块是用来声明外部 JavaScript 函数，由 wasm-bindgen 将这个声明转换成 JavaScript 导入接口。
+#[wasm_bindgen]
+extern "C" {
+    fn alert(message: &str);
+}
+
+// 将 Rust 函数导出给 JavaScript
+#[wasm_bindgen]
+pub fn show_message() {
+    alert("Hello from Rust!");
+}
 
 ---------------------------------------------------------------------------------------------------------
 
 wasm-pack（https://github.com/wasm-bindgen/wasm-pack）
 该工具旨在成为构建和使用 Rust 生成的 WebAssembly 的“一站式解决方案”，这些 WebAssembly 代码可与 JavaScript 进行互操作，无论是在浏览器中还是在 Node.js 环境中。wasm-pack 可帮助您构建由 Rust 生成的 WebAssembly 包，这些包既可以发布到 npm 注册表，也可以在您现有的工作流（如 webpack）中与任何 JavaScript 包配合使用。
+
+安装：
+cargo install wasm-pack
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -155,6 +188,7 @@ deno task wasmbuild --check
 ---------------------------------------------------------------------------------------------------------
 
 Rust + wasm-bindgen + wasm-pack：这条路线非常适合将 Rust 编写的业务逻辑编译成 WebAssembly（Wasm），然后作为一个 JavaScript 模块提供给浏览器、Webpack、Vite、Node.js 等 JavaScript 运行环境使用。
+
 路线：
 Rust 业务代码(Cargo 项目)：数据结构、算法、计算逻辑、业务规则
 --->
