@@ -134,6 +134,11 @@ wasm-pack（https://github.com/wasm-bindgen/wasm-pack）
 安装：
 cargo install wasm-pack
 
+wasm-pack 会负责协调 Cargo 编译、wasm-bindgen 处理以及最终包的生成。
+因此，正常使用 wasm-pack 时，不需要另外手动安装一个独立的 wasm-bindgen CLI。
+
+补充：如果你以后希望直接使用 wasm-bindgen 命令行工具，不通过 wasm-pack，则可以单独安装：
+cargo install wasm-bindgen-cli
 ---------------------------------------------------------------------------------------------------------
 
 wasmbuild（https://github.com/denoland/wasmbuild#wasmbuild）
