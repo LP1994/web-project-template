@@ -1,3 +1,18 @@
+普通 WebAssembly 核心模块：推荐用于 JavaScript / TypeScript 功能扩展。
+Rust 编译目标：
+wasm32-unknown-unknown
+它表示生成面向通用 WebAssembly Runtime 的 32 位 Wasm 模块，不依赖某一个特定操作系统。
+它适合编译数学运算、算法、解析器等不需要直接访问操作系统接口的功能。
+典型用途：
+- 数学运算、数据处理。
+- 图像、音频和视频处理。
+- 哈希、加密、压缩算法。
+- 自定义解析器。
+- 独立算法模块。
+这类模块主要通过 WebAssembly 导入、导出接口与宿主 JavaScript 交互。
+特别注意：这个目标本身不提供操作系统接口，诸如 std::fs 的文件操作不能直接使用，std::thread::spawn 也不能正常工作。
+如果你的目的是将独立功能编译为 .wasm，然后由 JavaScript/TypeScript 直接导入调用，那么通常优先考虑这个方案！！！
+例子：
 1、安装依赖：
 rustup target add wasm32-unknown-unknown wasm32-unknown-emscripten
 
@@ -7,20 +22,17 @@ cargo build --target-dir ./out --release --target wasm32-unknown-unknown
 3、编译完成后，你会得到(就在当前执行命令的文件夹下，默认是这么输出的)：
 target/wasm32-unknown-unknown/release/wasm_demo.wasm
 
-
-
 例子：“MathTool.rs”、“Cargo.toml”都在同一个文件夹层级下，编译命令也是在这个文件夹层级下执行的。
 
 // MathTool.rs的内容：
-/// #[unsafe(no_mangle)] → 保证函数名不会被 Rust 编译器修改。Rust 2024语法这么要求写的！
-/// #[unsafe(no_mangle)] 是 Rust 1.82 才引入的语法！可以同时适用于 Rust 2021 和 Rust 2024 Edition（前提是 Rust 编译器版本不低于 1.82）。
-/// extern "C" → 使用 C ABI，方便其他语言或运行时调用。
+// #[unsafe(no_mangle)] → 禁止 Rust 对导出符号名称进行名称改编。Rust 2024语法这么要求写的！
+// #[unsafe(no_mangle)] 是 Rust 1.82 才引入的语法！可以同时适用于 Rust 2021 和 Rust 2024 Edition（前提是 Rust 编译器版本不低于 1.82）。
+// pub：将函数声明为公开函数。
+// extern "C" → 指定 C ABI，定义跨语言调用使用的函数调用约定。
 #[unsafe(no_mangle)]
 pub extern "C" fn Add(a: i32, b: i32) -> i32 {
     a + b
 }
-
-
 
 // Cargo.toml的内容：
 [package]
@@ -35,5 +47,177 @@ edition = "2024"
 name = "MathTool"
 # Rust源码文件路径。
 path = "MathTool.rs"
-#对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
+#生成适合外部运行环境加载的动态链接库形式，对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
 crate-type = ["cdylib"]
+
+注意：
+这种方式有一个很大的好处：你不需要额外引入 wasm-bindgen，就可以完成简单的基础类型函数调用。
+不过，它也有明显的限制：WebAssembly Core 的基础函数接口并不直接理解 Rust 的 String、Vec<T>、结构体或者复杂对象。
+
+---------------------------------------------------------------------------------------------------------
+
+WASI 模块 / WebAssembly Component：适合跨运行环境的独立程序或组件。
+主要适合独立算法和功能模块。
+但假如你希望 Rust 编写的程序能够在 Wasm 中访问文件系统、环境变量、命令行参数、时钟等资源，就需要了解 WASI。
+WASI 全称：WebAssembly System Interface。
+它为 Wasm 程序定义了一套与宿主操作系统交互的标准接口。
+Rust 编译目标：
+wasm32-wasip1
+wasm32-wasip2
+典型用途：
+- 独立运行的 Wasm 程序。
+- 文件系统访问。
+- 环境变量、时钟等系统接口。
+- 跨宿主环境部署的功能组件。
+WASI Preview 2 使用 Component Model，与普通 WebAssembly 核心模块不是同一种二进制接口形式。
+Preview 2 与 Preview 1 有较大区别。
+它基于：WebAssembly Component Model。
+组件模型不仅提供宿主系统接口，还支持通过标准化接口定义组件之间的交互。
+
+需要安装：
+rustup target add wasm32-wasip1 wasm32-wasip2
+
+WASI Preview 2 的 Component 并不是普通的 Core Wasm 模块。
+因此不能直接使用：
+WebAssembly.instantiate(...)
+也不能简单地写：
+import component from "./component.wasm";
+
+---------------------------------------------------------------------------------------------------------
+
+wasm-bindgen（https://github.com/wasm-bindgen/wasm-bindgen）：
+涉及字符串、数组、对象等复杂数据类型，那么一定需要 wasm-bindgen，它主要解决 Rust 与 JavaScript 之间的类型转换和函数调用问题。
+wasm-bindgen 会生成必要的 JavaScript 胶水代码，负责参数传递、内存分配、字符串转换等工作。
+它还支持处理其他复杂类型，例如：
+- String
+- Vec<T>
+- Option<T>
+- JavaScript 对象
+- JavaScript 函数
+- 自定义结构体（通过相应绑定方式）
+
+---------------------------------------------------------------------------------------------------------
+
+wasm-pack（https://github.com/wasm-bindgen/wasm-pack）
+该工具旨在成为构建和使用 Rust 生成的 WebAssembly 的“一站式解决方案”，这些 WebAssembly 代码可与 JavaScript 进行互操作，无论是在浏览器中还是在 Node.js 环境中。wasm-pack 可帮助您构建由 Rust 生成的 WebAssembly 包，这些包既可以发布到 npm 注册表，也可以在您现有的工作流（如 webpack）中与任何 JavaScript 包配合使用。
+
+---------------------------------------------------------------------------------------------------------
+
+wasmbuild（https://github.com/denoland/wasmbuild#wasmbuild）
+wasmbuild 是 Deno 官方提供的 Rust + WebAssembly 构建工具。
+它主要负责自动完成：
+1. Rust 项目构建。
+2. 将 Rust 编译为 WebAssembly。
+3. 生成 wasm-bindgen JavaScript 胶水代码。
+4. 生成 TypeScript 类型声明。
+5. 将生成文件组织到 Deno 项目中。
+基本使用过程：
+第一步：创建项目
+deno run -A jsr:@deno/wasmbuild new
+第二步：编写 Rust 代码
+在生成的 rs_lib 目录下编写 Rust 模块。如：
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &str) -> String {
+    format!("Hello, {}!", name)
+}
+
+#[wasm_bindgen]
+pub fn sum(numbers: Vec<i32>) -> i32 {
+    numbers.iter().sum()
+}
+第三步：构建
+deno task wasmbuild
+第四步：在 TypeScript 中调用
+import { add } from "./lib/rs_lib.js";
+console.log(add(1, 1));
+
+注意：
+#[wasm_bindgen] 是关键。
+它告诉绑定工具，这些函数需要暴露给 JavaScript 使用。
+注意：这是通过 wasm-bindgen 提供的跨语言类型转换接口，并不是 WebAssembly Core 原生支持 Rust 字符串或 JavaScript 数组。
+
+不进行优化，适合调试：
+deno task wasmbuild --debug
+
+将 Wasm 内容内嵌到生成的 JavaScript 中，适合需要兼容不支持 Wasm ES Module Integration 的环境：
+deno task wasmbuild --inline
+
+检查生成的 Wasm 和绑定文件是否与 Rust 源代码保持同步：
+deno task wasmbuild --check
+
+---------------------------------------------------------------------------------------------------------
+
+Rust + wasm-bindgen + wasm-pack：这条路线非常适合将 Rust 编写的业务逻辑编译成 WebAssembly（Wasm），然后作为一个 JavaScript 模块提供给浏览器、Webpack、Vite、Node.js 等 JavaScript 运行环境使用。
+路线：
+Rust 业务代码(Cargo 项目)：数据结构、算法、计算逻辑、业务规则
+--->
+rustc 编译
+--->
+WebAssembly（.wasm）：运行在浏览器 Wasm 虚拟机中的二进制模块
+--->
+wasm-bindgen：生成及处理互操作代码
+--->
+JavaScript Bindings：JavaScript 包装模块、类型转换、函数调用接口
+--->
+wasm-pack：打包输出
+--->
+JavaScript 生态：原生浏览器、Webpack、Vite、Node.js、Deno
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
