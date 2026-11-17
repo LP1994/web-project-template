@@ -47,3 +47,10 @@ web-sys = {
     "Window"
   ]
 }
+# 浏览器定时器及 Future 支持
+gloo-timers = {
+  version = "0.4.1",
+  features = [
+    "futures"
+  ]
+}

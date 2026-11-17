@@ -2,6 +2,10 @@ use wasm_bindgen::prelude::*;
 
 use serde::{Deserialize, Serialize};
 
+use gloo_timers::future::TimeoutFuture;
+
+use js_sys::JSON;
+
 // ============================================================
 // 1. Wasm 启动时执行的初始化函数
 // ============================================================
@@ -59,7 +63,7 @@ pub fn greet(name: String) -> String {
 #[wasm_bindgen]
 pub fn divide(a: f64, b: f64) -> Result<f64, JsValue> {
     if b == 0.0 {
-        return Err( JsValue::from_str("除数不能为 0！") );
+        return Err(JsValue::from_str("除数不能为 0！"));
     }
 
     Ok(a / b)
@@ -74,10 +78,7 @@ pub fn divide(a: f64, b: f64) -> Result<f64, JsValue> {
 // Float64Array(3) [10, 20, 30]
 // ============================================================
 #[wasm_bindgen]
-pub fn scale_values(
-    mut values: Box<[f64]>,
-    factor: f64,
-) -> Box<[f64]> {
+pub fn scale_values(mut values: Box<[f64]>, factor: f64) -> Box<[f64]> {
     for value in values.iter_mut() {
         *value *= factor;
     }
@@ -132,15 +133,10 @@ pub struct UserData {
 }
 
 #[wasm_bindgen]
-pub fn normalize_user(
-    value: JsValue,
-) -> Result<JsValue, JsValue> {
+pub fn normalize_user(value: JsValue) -> Result<JsValue, JsValue> {
     // JavaScript Object -> Rust Struct
-    let mut user: UserData =
-        serde_wasm_bindgen::from_value(value)
-            .map_err(|error| {
-                JsValue::from_str(&error.to_string())
-            })?;
+    let mut user: UserData = serde_wasm_bindgen::from_value(value)
+        .map_err(|error| JsValue::from_str(&error.to_string()))?;
 
     // Rust 业务逻辑
     user.name = user.name.trim().to_string();
@@ -148,10 +144,7 @@ pub fn normalize_user(
     user.score = user.score.clamp(0.0, 100.0);
 
     // Rust Struct -> JavaScript Object
-    serde_wasm_bindgen::to_value(&user)
-        .map_err(|error| {
-            JsValue::from_str(&error.to_string())
-        })
+    serde_wasm_bindgen::to_value(&user).map_err(|error| JsValue::from_str(&error.to_string()))
 }
 
 // ============================================================
@@ -161,10 +154,12 @@ pub fn normalize_user(
 // console.log(result);
 // ============================================================
 #[wasm_bindgen]
-pub async fn calculate_async(
-    a: f64,
-    b: f64,
-) -> Result<f64, JsValue> {
+pub async fn calculate_async(a: f64, b: f64) -> Result<f64, JsValue> {
+    // 根据 a 的值确定延迟时间
+    let delay_ms: u32 = if a == 2026.0 { 3_000 } else { 5_000 };
+
+    // 异步等待指定时间
+    TimeoutFuture::new(delay_ms).await;
 
     Ok(a + b)
 }
@@ -174,17 +169,69 @@ pub async fn calculate_async(
 // ============================================================
 #[wasm_bindgen]
 pub fn btoa(input: &str) -> Result<String, JsValue> {
-    let window = web_sys::window()
-            .ok_or_else(|| {
-                JsValue::from_str("无法获取 Window")
-            })?;
+    let window = web_sys::window().ok_or_else(|| JsValue::from_str("无法获取 Window"))?;
 
     // UTF-8 字节转换为单字节字符组成的二进制字符串。
     let binary = input
-            .as_bytes()
-            .iter()
-            .map(|&byte| char::from(byte))
-            .collect::<String>();
+        .as_bytes()
+        .iter()
+        .map(|&byte| char::from(byte))
+        .collect::<String>();
 
-        window.btoa(&binary)
+    window.btoa(&binary)
+}
+
+// ============================================================
+// 10. Rust 调用浏览器 API
+// ============================================================
+fn binary_string_to_bytes(binary: &str) -> Result<Vec<u8>, JsValue> {
+    binary
+        .chars()
+        .map(|character| {
+            u8::try_from(character as u32)
+                .map_err(|_| JsValue::from_str("二进制字符串中存在超出单字节范围的字符"))
+        })
+        .collect()
+}
+
+fn base64_decode_bytes(encoded: &str) -> Result<Vec<u8>, JsValue> {
+    let window = web_sys::window().ok_or_else(|| JsValue::from_str("无法获取 Window"))?;
+
+    let binary = window.atob(encoded)?;
+
+    binary_string_to_bytes(&binary)
+}
+
+#[wasm_bindgen]
+pub fn atob(encoded: &str) -> Result<String, JsValue> {
+    let bytes = base64_decode_bytes(encoded)?;
+
+    String::from_utf8(bytes).map_err(|error| {
+        JsValue::from_str(&format!(
+            "Base64 解码成功，但结果不是有效的 UTF-8 数据：{}",
+            error
+        ))
+    })
+}
+
+// ============================================================
+// 11. Rust 调用JavaScript 原生 API
+// ============================================================
+#[wasm_bindgen]
+pub fn json_parse(text: &str) -> Result<JsValue, JsValue> {
+    JSON::parse(text)
+}
+
+// ============================================================
+// 12. Rust 调用JavaScript 原生 API
+// ============================================================
+#[wasm_bindgen]
+pub fn json_stringify(value: JsValue) -> Result<String, JsValue> {
+    // 调用 JavaScript 原生 JSON.stringify()
+    let json_string = JSON::stringify(&value)?;
+
+    // JsString -> Rust String
+    json_string
+        .as_string()
+        .ok_or_else(|| JsValue::from_str("JSON.stringify() 没有返回有效的字符串"))
 }
