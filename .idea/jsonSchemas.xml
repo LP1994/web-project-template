@@ -14,6 +14,9 @@
                   <Item>
                     <option name="path" value="src/wasm/source_codes/rust/math_tool/Cargo.toml" />
                   </Item>
+                  <Item>
+                    <option name="path" value="notes/wasm笔记/rust-wasm_bindgen-wasm_pack-demo/Cargo.toml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>
