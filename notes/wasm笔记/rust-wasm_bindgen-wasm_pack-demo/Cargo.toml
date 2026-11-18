@@ -40,7 +40,8 @@ debug = false
 # strip 的可能字符串值为“none”、“debuginfo”和“symbols”。默认值为“none”。
 # 您也可以使用布尔值 true 或 false 来配置此选项。strip = true 与 strip = “symbols” 效果相同。
 # strip = false 与 strip = “none” 效果相同，并将完全禁用 strip 功能。
-strip = "symbols"
+# 注意：对于需要经过 wasm-bindgen 和 wasm-pack 处理的 WebAssembly 项目，不建议在 Rust 编译阶段使用 strip = "symbols"。
+strip = "none"
 split-debuginfo = "off"
 # 明确使用 abort panic 策略。
 # 发生 panic 时直接终止，不执行栈展开。
@@ -51,6 +52,13 @@ debug-assertions = false
 overflow-checks = false
 incremental = false
 rpath = false
+
+# wasm-pack Release 配置
+[package.metadata.wasm-pack.profile.release]
+# 使用 Binaryen 的体积优化模式。
+wasm-opt = [
+  "-Oz"
+]
 
 [lib]
 # 库名称，要生成的 .wasm 文件的名称。
