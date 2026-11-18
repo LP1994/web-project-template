@@ -1,0 +1,65 @@
+[package]
+# 要生成的 .wasm 文件的名称。
+name = "MathTool"
+version = "1.0.0"
+# edition可有值：2015、2018、2021、2024
+edition = "2024"
+
+[lints.rust]
+# 要求 Cargo 1.74 或更新版本。表示允许不符合 snake_case 命名规范的标识符，不再针对这条规则产生警告。
+non_snake_case = "allow"
+
+# 优化最终构建产物的体积。
+[profile.release]
+# s 偏向减小体积，3 偏向运行性能。
+# 0	不优化
+# 1	基础优化
+# 2	较高级优化
+# 3	最高常规优化级别
+# "s"	以减小体积为目标
+# "z"	更积极地减小体积
+opt-level = "z"
+# 这使得编译后的代码运行更快、体积更小，但会延长编译时间，因此仅在发布模式下启用。
+# 启用 LTO（Link Time Optimization）。
+# 进行链接时优化，允许跨代码单元进行进一步优化。
+# LTO 即 Link Time Optimization，链接时优化。
+# 它允许编译器在链接阶段进行跨 Crate 的优化，例如：
+# - 跨 Crate 函数内联。
+# - 消除不必要的代码。
+# - 合并部分重复代码。
+# - 进行更深入的全局优化。
+# true 使用 Fat LTO，优化力度通常更大，但会增加编译时间。
+lto = true
+# 将代码生成单元设置为 1。
+# 有利于整体优化和代码消除。
+# 可以让编译器在更大的代码范围内执行优化，也有助于配合 LTO 使用。
+# 代价是编译速度可能下降。
+codegen-units = 1
+debug = false
+# 剥离符号信息，减少最终产物中不需要的符号相关信息。
+# 注意，它不会删除你使用 #[unsafe(no_mangle)] 导出的 WebAssembly 函数。
+# strip 的可能字符串值为“none”、“debuginfo”和“symbols”。默认值为“none”。
+# 您也可以使用布尔值 true 或 false 来配置此选项。strip = true 与 strip = “symbols” 效果相同。
+# strip = false 与 strip = “none” 效果相同，并将完全禁用 strip 功能。
+# 注意：对于需要经过 wasm-bindgen 和 wasm-pack 处理的 WebAssembly 项目，不建议在 Rust 编译阶段使用 strip = "symbols"。
+strip = "none"
+split-debuginfo = "off"
+# 明确使用 abort panic 策略。
+# 发生 panic 时直接终止，不执行栈展开。
+# wasm32-unknown-unknown 目前默认采用panic=abort。
+# 因此，显式写上它主要是为了明确构建意图，通常不会额外带来明显的体积缩减。
+panic = "abort"
+debug-assertions = false
+overflow-checks = false
+incremental = false
+rpath = false
+
+[lib]
+# 要生成的 .wasm 文件的名称。
+name = "MathTool"
+# Rust源码文件路径。
+path = "MathTool.rs"
+#生成适合外部运行环境加载的动态链接库形式，对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
+crate-type = [
+  "cdylib"
+]
