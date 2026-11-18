@@ -77,6 +77,8 @@ Write-Host "`n"
 Write-Host "=== wasm-pack build --release --no-gitignore --no-pack --target web ==="
 wasm-pack build --release --no-gitignore --no-pack --target web --out-dir $OutWebDir
 Write-Host "`n"
+Write-Host "--target web 最终输出见：$OutWebDir"
+Write-Host "`n"
 
 # 如果 target 目录存在，则删除整个目录及其所有内容。
 if (
@@ -96,6 +98,8 @@ Test-Path -LiteralPath $Cargo_lock -PathType Leaf
 
 Write-Host "=== wasm-pack build --release --no-gitignore --no-pack --target bundler ==="
 wasm-pack build --release --no-gitignore --no-pack --target bundler --out-dir $OutBundlerDir
+Write-Host "`n"
+Write-Host "--target bundler 最终输出见：$OutBundlerDir"
 Write-Host "`n"
 
 # 如果 target 目录存在，则删除整个目录及其所有内容。
