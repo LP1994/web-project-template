@@ -114,13 +114,13 @@
   "private": true,
   "engines": {
     "node": ">=26.13.1",
-    "npm": ">=12.2.2"
+    "npm": ">=12.2.3"
   },
   "browserslist": [
-    "Chrome >= 157",
-    "Android >= 157",
-    "ChromeAndroid >= 157",
-    "Edge >= 157",
+    "Chrome >= 158",
+    "Android >= 158",
+    "ChromeAndroid >= 158",
+    "Edge >= 158",
     "Firefox >= 160",
     "FirefoxAndroid >= 160",
     "Safari >= 27",
