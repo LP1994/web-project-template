@@ -6,6 +6,8 @@ use gloo_timers::future::TimeoutFuture;
 
 use js_sys::JSON;
 
+use web_sys::Window;
+
 // ============================================================
 // 1. Wasm 启动时执行的初始化函数
 // ============================================================
@@ -31,7 +33,7 @@ pub fn multiply(a: f64, b: f64) -> f64 {
 // 3. 字符串：JavaScript String <--> Rust String
 // ============================================================
 #[wasm_bindgen]
-pub fn greet(name: String) -> String {
+pub fn greet(name: &str) -> String {
     format!("你好，{}！欢迎使用 Rust + WebAssembly。", name)
 }
 
@@ -62,6 +64,10 @@ pub fn greet(name: String) -> String {
 // ============================================================
 #[wasm_bindgen]
 pub fn divide(a: f64, b: f64) -> Result<f64, JsValue> {
+    if !a.is_finite() || !b.is_finite() {
+        return Err(JsValue::from_str("输入参数必须是有限数值"));
+    }
+
     if b == 0.0 {
         return Err(JsValue::from_str("除数不能为 0！"));
     }
@@ -96,7 +102,6 @@ pub struct Counter {
 
 #[wasm_bindgen]
 impl Counter {
-    // JavaScript: new Counter(10)
     #[wasm_bindgen(constructor)]
     pub fn new(initial_value: i32) -> Counter {
         Counter {
@@ -104,17 +109,24 @@ impl Counter {
         }
     }
 
-    // JavaScript: counter.increment()
-    pub fn increment(&mut self) {
-        self.value += 1;
+    pub fn increment(&mut self) -> Result<(), JsValue> {
+        self.value = self
+            .value
+            .checked_add(1)
+            .ok_or_else(|| JsValue::from_str("Counter 已达到 i32 最大值"))?;
+
+        Ok(())
     }
 
-    // JavaScript: counter.decrement()
-    pub fn decrement(&mut self) {
-        self.value -= 1;
+    pub fn decrement(&mut self) -> Result<(), JsValue> {
+        self.value = self
+            .value
+            .checked_sub(1)
+            .ok_or_else(|| JsValue::from_str("Counter 已达到 i32 最小值"))?;
+
+        Ok(())
     }
 
-    // JavaScript: counter.get_value()
     pub fn get_value(&self) -> i32 {
         self.value
     }
@@ -134,17 +146,22 @@ pub struct UserData {
 
 #[wasm_bindgen]
 pub fn normalize_user(value: JsValue) -> Result<JsValue, JsValue> {
-    // JavaScript Object -> Rust Struct
     let mut user: UserData = serde_wasm_bindgen::from_value(value)
-        .map_err(|error| JsValue::from_str(&error.to_string()))?;
+        .map_err(|error| JsValue::from_str(&format!("用户数据解析失败：{}", error)))?;
 
-    // Rust 业务逻辑
+    // 检查 NaN、Infinity 和 -Infinity
+    if !user.score.is_finite() {
+        return Err(JsValue::from_str("用户 score 必须是有限数值"));
+    }
+
+    // 清理姓名首尾空白
     user.name = user.name.trim().to_string();
 
+    // 将 score 限制在 0～100
     user.score = user.score.clamp(0.0, 100.0);
 
-    // Rust Struct -> JavaScript Object
-    serde_wasm_bindgen::to_value(&user).map_err(|error| JsValue::from_str(&error.to_string()))
+    serde_wasm_bindgen::to_value(&user)
+        .map_err(|error| JsValue::from_str(&format!("用户数据转换失败：{}", error)))
 }
 
 // ============================================================
@@ -154,36 +171,28 @@ pub fn normalize_user(value: JsValue) -> Result<JsValue, JsValue> {
 // console.log(result);
 // ============================================================
 #[wasm_bindgen]
-pub async fn calculate_async(a: f64, b: f64) -> Result<f64, JsValue> {
-    // 根据 a 的值确定延迟时间
-    let delay_ms: u32 = if a == 2026.0 { 3_000 } else { 5_000 };
+pub async fn calculate_async(a: f64, b: f64) -> f64 {
+    let delay_ms = if a == 2026.0 { 3_000 } else { 5_000 };
 
-    // 异步等待指定时间
     TimeoutFuture::new(delay_ms).await;
 
-    Ok(a + b)
+    a + b
 }
 
 // ============================================================
 // 9. Rust 调用浏览器 API
 // ============================================================
-#[wasm_bindgen]
-pub fn btoa(input: &str) -> Result<String, JsValue> {
-    let window = web_sys::window().ok_or_else(|| JsValue::from_str("无法获取 Window"))?;
-
-    // UTF-8 字节转换为单字节字符组成的二进制字符串。
-    let binary = input
-        .as_bytes()
-        .iter()
-        .map(|&byte| char::from(byte))
-        .collect::<String>();
-
-    window.btoa(&binary)
+// 获取 Window
+fn get_window() -> Result<Window, JsValue> {
+    web_sys::window().ok_or_else(|| JsValue::from_str("无法获取 Window"))
 }
 
-// ============================================================
-// 10. Rust 调用浏览器 API
-// ============================================================
+// &[u8] -> 二进制字符串
+fn bytes_to_binary_string(bytes: &[u8]) -> String {
+    bytes.iter().map(|&byte| char::from(byte)).collect()
+}
+
+// 二进制字符串 -> Vec<u8>
 fn binary_string_to_bytes(binary: &str) -> Result<Vec<u8>, JsValue> {
     binary
         .chars()
@@ -194,23 +203,51 @@ fn binary_string_to_bytes(binary: &str) -> Result<Vec<u8>, JsValue> {
         .collect()
 }
 
-fn base64_decode_bytes(encoded: &str) -> Result<Vec<u8>, JsValue> {
-    let window = web_sys::window().ok_or_else(|| JsValue::from_str("无法获取 Window"))?;
+// ============================================================
+// 二进制 Base64 编码
+// Uint8Array -> Base64 String
+// ============================================================
+#[wasm_bindgen]
+pub fn base64_encode_bytes(input: &[u8]) -> Result<String, JsValue> {
+    let window = get_window()?;
+
+    let binary = bytes_to_binary_string(input);
+
+    window.btoa(&binary)
+}
+
+// ============================================================
+// 二进制 Base64 解码
+// Base64 String -> Uint8Array
+// ============================================================
+#[wasm_bindgen]
+pub fn base64_decode_bytes(encoded: &str) -> Result<Vec<u8>, JsValue> {
+    let window = get_window()?;
 
     let binary = window.atob(encoded)?;
 
     binary_string_to_bytes(&binary)
 }
 
+// ============================================================
+// UTF-8 文本 Base64 编码
+// String -> UTF-8 -> Base64 String
+// ============================================================
 #[wasm_bindgen]
-pub fn atob(encoded: &str) -> Result<String, JsValue> {
+pub fn base64_encode_text(input: &str) -> Result<String, JsValue> {
+    base64_encode_bytes(input.as_bytes())
+}
+
+// ============================================================
+// UTF-8 文本 Base64 解码
+// Base64 String -> UTF-8 -> String
+// ============================================================
+#[wasm_bindgen]
+pub fn base64_decode_text(encoded: &str) -> Result<String, JsValue> {
     let bytes = base64_decode_bytes(encoded)?;
 
     String::from_utf8(bytes).map_err(|error| {
-        JsValue::from_str(&format!(
-            "Base64 解码成功，但结果不是有效的 UTF-8 数据：{}",
-            error
-        ))
+        JsValue::from_str(&format!("Base64 解码成功，但结果不是有效 UTF-8：{}", error))
     })
 }
 
