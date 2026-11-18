@@ -1,3 +1,7 @@
+// #![...] 是 Crate 级别的内部属性（Inner Attribute），作用范围是整个 Crate。
+// allow(non_snake_case) 表示允许不符合 snake_case 命名规范的标识符，不再针对这条规则产生警告。
+// #![allow(non_snake_case)]
+
 use wasm_bindgen::prelude::*;
 
 use serde::{Deserialize, Serialize};

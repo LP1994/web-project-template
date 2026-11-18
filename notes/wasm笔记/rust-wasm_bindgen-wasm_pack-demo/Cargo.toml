@@ -4,6 +4,10 @@ version = "1.0.0"
 # edition可有值：2015、2018、2021、2024
 edition = "2024"
 
+#[lints.rust]
+# 要求 Cargo 1.74 或更新版本。表示允许不符合 snake_case 命名规范的标识符，不再针对这条规则产生警告。
+#non_snake_case = "allow"
+
 # 优化最终构建产物的体积。
 [profile.release]
 # s 偏向减小体积，3 偏向运行性能。
