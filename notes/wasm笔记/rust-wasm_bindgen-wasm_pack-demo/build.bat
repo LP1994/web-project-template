@@ -1,0 +1,1 @@
+cargo fmt&wasm-pack build --target web --release&pause
