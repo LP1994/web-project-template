@@ -70,7 +70,7 @@ Write-Host "=== cargo build --release --target wasm32-unknown-unknown ==="
 cargo build --release --target wasm32-unknown-unknown --target-dir $OutDir
 Write-Host "`n"
 
-Write-Host "=== 完成！最终的 .wasm 文件在 $DistDir ==="
+Write-Host "完成！最终的 .wasm 文件在：$DistDir"
 Get-ChildItem "$OutDir\wasm32-unknown-unknown\release\$WasmFileName.wasm" | ForEach-Object {
     Copy-Item $_.FullName -Destination $DistDir -Force
 }

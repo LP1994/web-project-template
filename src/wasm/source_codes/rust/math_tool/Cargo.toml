@@ -14,3 +14,7 @@ path = "MathTool.rs"
 crate-type = [
   "cdylib"
 ]
+
+[lints.rust]
+# 要求 Cargo 1.74 或更新版本。
+non_snake_case = "allow"

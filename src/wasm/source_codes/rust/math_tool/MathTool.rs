@@ -1,3 +1,7 @@
+// #![...] 是 Crate 级别的内部属性（Inner Attribute），作用范围是整个 Crate。
+// allow(non_snake_case) 表示允许不符合 snake_case 命名规范的标识符，不再针对这条规则产生警告。
+// #![allow(non_snake_case)]
+
 // #[unsafe(no_mangle)] → 禁止 Rust 对导出符号名称进行名称改编。不执行 Rust 符号名称修饰，保留导出名称。Rust 2024语法这么要求写的！
 // #[unsafe(no_mangle)] 是 Rust 1.82 才引入的语法！可以同时适用于 Rust 2021 和 Rust 2024 Edition（前提是 Rust 编译器版本不低于 1.82）。
 // pub：将函数声明为公开函数。允许函数被外部访问。
