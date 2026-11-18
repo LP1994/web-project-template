@@ -1,1 +1,1 @@
-cargo fmt&wasm-pack build --target web --release&pause
+cargo fmt&wasm-pack build --no-gitignore --no-pack --target web --release&pause

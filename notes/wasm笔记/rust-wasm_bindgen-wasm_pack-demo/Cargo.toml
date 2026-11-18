@@ -1,5 +1,5 @@
 [package]
-name = "rust-wasm_bindgen-wasm_pack-demo"
+name = "rust_wasm_bindgen_wasm_pack_demo"
 version = "1.0.0"
 edition = "2024"
 description = "Rust WebAssembly JavaScript bindings example"
@@ -14,6 +14,10 @@ lto = true
 codegen-units = 1
 
 [lib]
+# 库名称，要生成的 .wasm 文件的名称。
+name = "rust_wasm_bindgen_wasm_pack_demo"
+# Rust 入口文件，Rust源码文件路径。
+path = "src/lib.rs"
 # cdylib：生成用于外部语言调用的动态库形式产物，是这类 Wasm 库项目的重要配置。
 # rlib：保留 Rust 原生库形式，便于其他 Rust 项目使用，也方便编写原生测试。
 crate-type = [
