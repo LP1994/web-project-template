@@ -11,11 +11,11 @@ $WasmFileName = "MathTool"
 
 # 被具体参考使用时，需要修改的变量！！！
 # 设置输出目录out
-$OutDir = "$ProjectDir\..\..\..\build\rust\math_tool\out"
+$OutDir = "$ProjectDir\out"
 
 # 被具体参考使用时，需要修改的变量！！！
 # 设置最终保存 .wasm 的目录
-$DistDir = "$ProjectDir\..\..\..\build\rust\math_tool"
+$DistDir = "$ProjectDir\dist"
 
 # 被具体参考使用时，需要修改的变量！！！
 # 执行“cargo build”之后自动生成的“Cargo.lock”路径。
