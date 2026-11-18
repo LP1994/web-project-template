@@ -1,5 +1,5 @@
 [package]
-name = "rust_wasm_bindgen_wasm_pack_demo"
+name = "rust-wasm_bindgen-wasm_pack-demo"
 version = "1.0.0"
 # edition可有值：2015、2018、2021、2024
 edition = "2024"
