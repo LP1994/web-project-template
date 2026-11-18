@@ -19,20 +19,12 @@ pub extern "C" fn Mul(a: f64, b: f64) -> f64 {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Div(a: f64, b: f64) -> f64 {
-    if b == 0.0 {
-        f64::NAN
-    } else {
-        a / b
-    }
+    if b == 0.0 { f64::NAN } else { a / b }
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Mod(a: f64, b: f64) -> f64 {
-    if b == 0.0 {
-        f64::NAN
-    } else {
-        a % b
-    }
+    if b == 0.0 { f64::NAN } else { a % b }
 }
 
 #[unsafe(no_mangle)]

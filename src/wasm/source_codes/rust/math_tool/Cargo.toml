@@ -1,31 +1,14 @@
 [package]
+# 要生成的 .wasm 文件的名称。
 name = "MathTool"
 version = "1.0.0"
 # edition可有值：2015、2018、2021、2024
 edition = "2024"
 
-# 优化最终构建产物的体积。
-[profile.release]
-# s 偏向减小体积，3 偏向运行性能。
-# 0	不优化
-# 1	基础优化
-# 2	较高级优化
-# 3	最高常规优化级别
-# "s"	以减小体积为目标
-# "z"	更积极地减小体积
-opt-level = "z"
-# 这使得编译后的代码运行更快、体积更小，但会延长编译时间，因此仅在发布模式下启用。
-lto = true
-codegen-units = 1
-debug = false
-strip = "none"
-debug-assertions = false
-incremental = false
-
 [lib]
-# 库名称，要生成的 .wasm 文件的名称。
+# 要生成的 .wasm 文件的名称。
 name = "MathTool"
-# Rust 入口文件，Rust源码文件路径。
+# Rust源码文件路径。
 path = "MathTool.rs"
 #生成适合外部运行环境加载的动态链接库形式，对 wasm32-unknown-unknown 目标来说，cdylib 对应的“动态库文件”就是 .wasm 文件（因为目标平台不是 Windows/Linux/Mac，所以扩展名不是 .dll/.so/.dylib，而是 .wasm）。
 crate-type = [
