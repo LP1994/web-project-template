@@ -71,9 +71,9 @@ cargo build --release --target wasm32-unknown-unknown --target-dir $OutDir
 Write-Host "`n"
 
 Write-Host "完成！最终的 .wasm 文件在：$DistDir"
-Get-ChildItem "$OutDir\wasm32-unknown-unknown\release\$WasmFileName.wasm" | ForEach-Object {
-    Copy-Item $_.FullName -Destination $DistDir -Force
-}
+# --strip-debug：删除调试信息，包括 Wasm 名称段。注意：这里删除的是调试名称信息，不会因为 --strip-debug 而删除 WebAssembly 导出段中的 Add、Sub、Mul 等导出函数名称。
+# --strip-producers：删除 Wasm producers 元数据段。
+wasm-opt "$OutDir\wasm32-unknown-unknown\release\$WasmFileName.wasm" -Oz --strip-debug --strip-producers -o "$DistDir\$WasmFileName.wasm"
 Write-Host "`n"
 
 if (
@@ -89,6 +89,14 @@ Test-Path -LiteralPath $Cargo_lock -PathType Leaf
 {
     Remove-Item -LiteralPath $Cargo_lock -Force
 }
+
+Write-Host "当前执行命令的“wasm-opt”的版本为："
+wasm-opt --version
+Write-Host "`n"
+
+Write-Host "当前执行命令的“wasm-opt”程序所在目录为："
+where.exe wasm-opt
+Write-Host "`n"
 
 Write-Host "当前执行命令的PowerShell的版本为："
 $PSVersionTable.PSVersion

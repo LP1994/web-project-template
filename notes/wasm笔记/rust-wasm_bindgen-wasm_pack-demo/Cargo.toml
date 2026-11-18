@@ -55,8 +55,22 @@ rpath = false
 
 # wasm-pack Release 配置
 [package.metadata.wasm-pack.profile.release]
-# 使用 Binaryen 的体积优化模式。
+# wasm-opt 是 Binaryen 工具集中的 WebAssembly 优化器，可以对已经生成的 .wasm 文件执行进一步优化。
+# 主要包括：
+# - 删除不可达代码。
+# - 消除冗余指令。
+# - 合并重复代码。
+# - 优化控制流。
+# - 优化函数调用。
+# - 优化代码体积。
+# - 删除调试信息及不必要的元数据。
 wasm-opt = [
+  # "-O0"：不执行优化。
+  # "-O1"：执行基础优化。
+  # "-O2"：执行较全面的优化。
+  # "-O3"：更积极地优化运行性能。
+  # "-Os"：优先优化文件体积。
+  # "-Oz"：更积极地优化文件体积。
   "-Oz"
 ]
 
