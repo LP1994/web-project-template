@@ -8,10 +8,20 @@ license = "MIT"
 # 优化最终构建产物的体积。
 [profile.release]
 # s 偏向减小体积，3 偏向运行性能。
-opt-level = "s"
+# 0	不优化
+# 1	基础优化
+# 2	较高级优化
+# 3	最高常规优化级别
+# "s"	以减小体积为目标
+# "z"	更积极地减小体积
+opt-level = "z"
 # 这使得编译后的代码运行更快、体积更小，但会延长编译时间，因此仅在发布模式下启用。
 lto = true
 codegen-units = 1
+debug = false
+strip = "none"
+debug-assertions = false
+incremental = false
 
 [lib]
 # 库名称，要生成的 .wasm 文件的名称。
