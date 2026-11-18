@@ -1,9 +1,8 @@
 [package]
 name = "rust_wasm_bindgen_wasm_pack_demo"
 version = "1.0.0"
+# edition可有值：2015、2018、2021、2024
 edition = "2024"
-description = "Rust WebAssembly JavaScript bindings example"
-license = "MIT"
 
 # 优化最终构建产物的体积。
 [profile.release]
