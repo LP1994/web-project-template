@@ -9,7 +9,26 @@ style_edition = "2024"
 
 
 
+# 其他配置项
+
+# 格式化前备份原文件
+#make_backup = false
+# 控制格式化结果的输出方式
+# files	将格式化结果直接写入源文件
+# stdout	将格式化结果输出到标准输出
+# coverage	输出格式化覆盖率信息
+# checkstyle	输出 Checkstyle 格式的信息
+# json	以 JSON 格式输出差异
+#emit_mode = "Files"
+# 控制控制流表达式与外围调用的布局
+#combine_control_expr = false
+# 控制文档注释代码块的排版启发式策略
+#doc_comment_code_block_small_heuristics = "Inherit"
+
+
+
 # 代码长度与换行配置
+
 # 单行代码允许的最大宽度，默认 100
 max_width = 120
 # 统一控制多种代码结构的单行宽度策略
@@ -48,6 +67,7 @@ error_on_unformatted = false
 
 
 # 缩进、空格与括号配置
+
 # 是否使用 Tab 字符进行缩进
 hard_tabs = false
 # 一个缩进层级对应多少个空格，默认 4
@@ -80,6 +100,7 @@ color = "Auto"
 
 
 # 大括号、函数、结构体和控制流配置。这一组配置会直接影响 Rust 代码的视觉布局。
+
 # 函数、Struct、Enum 等项目的大括号风格
 brace_style = "SameLineWhere"
 # if、for、while 等控制流的大括号风格
@@ -95,7 +116,7 @@ empty_item_single_line = true
 fn_single_line = false
 # 是否强制闭包和 Match 分支使用多行代码块
 force_multiline_blocks = false
-# 	Match 分支是否需要使用代码块
+# Match 分支是否需要使用代码块
 match_arm_blocks = true
 # Match 分支是否额外缩进
 match_arm_indent = true
@@ -117,14 +138,11 @@ struct_field_align_threshold = 0
 enum_discrim_align_threshold = 0
 # 是否将连续的 _ 通配符简化为 ..
 condense_wildcard_suffixes = false
-# 是否移除多余的嵌套括号
-remove_nested_parens = true
-# 空函数或空 Impl 是否使用单行布局
-empty_item_single_line = true
 
 
 
 # use 导入语句与排序配置
+
 # 按照字母顺序排列 use 导入语句
 reorder_imports = true
 # 控制导入语句合并的粒度
@@ -133,7 +151,7 @@ reorder_imports = true
 # Module	按照 Module 合并
 # Item	每个导入项独立成一条语句
 # One	全部导入项合并到一条语句
-imports_granularity = "Preserve"
+imports_granularity = "Crate"
 # 控制导入语句分组策略
 # Preserve	保留原有分组
 # StdExternalCrate	按标准库、外部 Crate、本地模块分组
@@ -149,6 +167,7 @@ merge_derives = true
 
 
 # 注释、文档注释、字符串与宏配置
+
 # 自动对长注释进行换行
 wrap_comments = false
 # 尽可能将 /* ... */ 转换为 // 注释
@@ -157,8 +176,6 @@ normalize_comments = false
 normalize_doc_attributes = false
 # 格式化文档注释中的 Rust 代码
 format_code_in_doc_comments = false
-# 控制文档代码块的最大行宽
-doc_comment_code_block_width = 100
 # 必要时对字符串字面量进行换行
 format_strings = false
 # 格式化声明式宏定义内部的代码
@@ -171,6 +188,7 @@ skip_macro_invocations = []
 
 
 # 类型、数字和语法简化配置
+
 # 十六进制数字字母的大小写风格
 # Preserve：保留原来的大小写。
 # Upper：使用大写字母。
@@ -188,14 +206,13 @@ force_explicit_abi = true
 use_field_init_shorthand = false
 # 是否将 try!() 转换为 ? 运算符
 use_try_shorthand = false
-# 简化连续的通配符
-condense_wildcard_suffixes = false
 # 移除多余嵌套括号
 remove_nested_parens = true
 
 
 
 # 项目、文件、解析与版本配置
+
 # 忽略指定文件或目录
 ignore = [
   "target"
