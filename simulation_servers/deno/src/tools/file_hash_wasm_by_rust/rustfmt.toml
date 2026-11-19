@@ -6,6 +6,8 @@
 edition = "2024"
 # 指定采用哪个版本的 Rust Style Guide
 style_edition = "2024"
+# 要求使用满足指定版本条件的 Rustfmt
+required_version = "1.11.0"
 
 
 
@@ -228,7 +230,5 @@ format_generated_files = true
 generated_marker_line_search_limit = 5
 # 是否显示解析错误
 show_parse_errors = true
-# 要求使用满足指定版本条件的 Rustfmt
-required_version = "1.11.0"
 # 是否启用不稳定配置项
 unstable_features = true
