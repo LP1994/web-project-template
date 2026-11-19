@@ -407,6 +407,187 @@ export function Uint8ArrayToString( data: Uint8Array ): string{
   return new TextDecoder().decode( data );
 }
 
+/**
+ * 将各种 JavaScript 二进制数据类型统一转换为 Uint8Array。<br /><br />
+ *
+ * 支持的数据类型：<br />
+ * 1. Uint8Array
+ * 2. Node.js Buffer
+ * 3. ArrayBuffer
+ * 4. SharedArrayBuffer
+ * 5. DataView
+ * 6. Int8Array
+ * 7. Uint16Array
+ * 8. Int16Array
+ * 9. Uint32Array
+ * 10. Float32Array
+ * 11. Float64Array
+ * 12. 其他 TypedArray
+ * 13. 普通 Array（number[]）
+ * 14. String（UTF-8 编码）
+ *
+ * @param {any} data 需要转换的数据。
+ *
+ * @returns {Promise<Uint8Array>} 转换后的字节数组。
+ *
+ * @throws {TypeError} 不支持的数据类型。
+ * @throws {RangeError} 普通 Array 中包含无效字节值。
+ *
+ * @example
+ *
+ * const bytes: Uint8Array = await ToUint8Array(data);
+ *
+ */
+export async function ToUint8Array( data: any ): Promise<Uint8Array>{
+  // Node.js Buffer 也会进入这里，因为 Buffer 继承自 Uint8Array。subarray() 和 slice() 返回的 Uint8Array 也会进入这里。
+  if( data instanceof Uint8Array ){
+    return data;
+  }
+
+  if( data instanceof ArrayBuffer ){
+    // 注意：这里只创建一个视图，不会复制底层数据。Uint8Array 会覆盖整个 ArrayBuffer。
+    return new Uint8Array( data );
+  }
+
+  if(
+    typeof SharedArrayBuffer !== 'undefined' &&
+    data instanceof SharedArrayBuffer
+  ){
+    // 将 SharedArrayBuffer 创建为 Uint8Array 视图。同样不会复制底层数据。
+    return new Uint8Array( data );
+  }
+
+  // ArrayBuffer.isView() 可以识别：
+  // DataView
+  // Int8Array
+  // Uint8Array
+  // Uint8ClampedArray
+  // Int16Array
+  // Uint16Array
+  // Int32Array
+  // Uint32Array
+  // Float32Array
+  // Float64Array
+  // BigInt64Array
+  // BigUint64Array
+  // Node.js Buffer
+  // 前面的 Uint8Array 已经处理过，
+  // 所以这里主要处理其他视图类型。
+  if( ArrayBuffer.isView( data ) ){
+    return new Uint8Array(
+      // 底层 ArrayBuffer 或 SharedArrayBuffer。
+      data.buffer,
+
+      // 当前视图在底层缓冲区中的起始字节偏移量。
+      data.byteOffset,
+
+      // 当前视图实际覆盖的字节数量。
+      data.byteLength,
+    );
+  }
+
+  // 普通 Array 需要确保每个元素都是合法的字节值。
+  //
+  // 一个字节的有效范围是 0 ~ 255。
+  //
+  // 不允许：
+  // - 小数
+  // - 负数
+  // - 大于 255 的数字
+  // - NaN
+  // - Infinity
+  // - undefined
+  if( Array.isArray( data ) ){
+    for(
+      let i: number = 0;
+      i < data.length;
+      i++
+    ){
+      const value: number = data[ i ];
+
+      if(
+        !Number.isInteger( value ) ||
+        value < 0 ||
+        value > 255
+      ){
+        throw new RangeError( `普通 Array 中的第 ${ i } 个元素不是有效的字节值：${ value }` );
+      }
+    }
+
+    // 将普通 Array 转换为 Uint8Array。这里会分配新的 Uint8Array，并复制数据。
+    return Uint8Array.from( data );
+  }
+
+  if( typeof data === 'string' ){
+    return new TextEncoder().encode( data );
+  }
+
+  throw new TypeError( 'ToUint8Array: 不支持的数据类型，请传入 Uint8Array、ArrayBuffer、SharedArrayBuffer、DataView、TypedArray、普通 Array、String。' );
+}
+
+/**
+ * 将 Blob / File 分块读取为 Uint8Array。
+ *
+ * @param {Blob|File} data File 或 Blob。
+ *
+ * @param {number} chunkSize 每块的字节数，默认 4 MiB。
+ *
+ * @returns {AsyncGenerator<Uint8Array>}
+ *
+ * @example
+ *
+ * // FileHasher是一个文件哈希值计算工具。
+ * const hasher: FileHasher = new FileHasher();
+ *
+ * for await (
+ *     const chunk of BlobAndFileToUint8ArrayChunks( file as ( Blob | File ), 4 * 1024 * 1024 )
+ * ) {
+ *     hasher.update( chunk );
+ * }
+ *
+ * const result: Record<string, any> = hasher.digest();
+ */
+export async function* BlobAndFileToUint8ArrayChunks(
+  data: Blob | File,
+  chunkSize: number = 4 * 1024 * 1024,
+): AsyncGenerator<Uint8Array>{
+  if(
+    typeof Blob === 'undefined' ||
+    !( data instanceof Blob )
+  ){
+    throw new TypeError( 'BlobAndFileToUint8ArrayChunks: 第一个参数的值的数据类型必须是 Blob 或 File。' );
+  }
+
+  if(
+    !Number.isSafeInteger( chunkSize ) ||
+    chunkSize <= 0
+  ){
+    throw new RangeError( 'chunkSize 必须是大于 0 的安全整数。' );
+  }
+
+  // 从文件开头开始读取。
+  for(
+    let offset: number = 0;
+    offset < data.size;
+    offset += chunkSize
+  ){
+    // 当前分块的结束位置。
+    const end: number = Math.min(
+      offset + chunkSize,
+      data.size,
+    );
+
+    // 读取当前分块。
+    const buffer: ArrayBuffer = await data.slice(
+      offset,
+      end,
+    ).arrayBuffer();
+
+    // 返回 Uint8Array。
+    yield new Uint8Array( buffer );
+  }
+}
+
 // 类型转换。End
 
 // Date格式处理。Start
@@ -3208,6 +3389,8 @@ export default {
   // 类型转换。Start
   StringToUint8Array,
   Uint8ArrayToString,
+  ToUint8Array,
+  BlobAndFileToUint8ArrayChunks,
   // 类型转换。End
 
   // Date格式处理。Start
