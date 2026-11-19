@@ -175,6 +175,7 @@ async function UploadByBigFile( request: Request ): Promise<Response>{
   }
   else{
     try{
+      // crypto.subtle.digest方法的第1个参数的值截至目前仅支持这4种："SHA-1"、"SHA-256"、"SHA-384"、"SHA-512"。
       const hash: ArrayBuffer = await crypto.subtle.digest( 'SHA-512', await request.clone().arrayBuffer() ),
         sri: string = encodeHex( hash );
 
