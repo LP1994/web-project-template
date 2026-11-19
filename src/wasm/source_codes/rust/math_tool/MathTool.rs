@@ -15,10 +15,10 @@
 // 使用 #![no_std] 并将 Crate 编译为 cdylib 时，Rust 不再提供标准库默认的 panic 处理器，因此需要自己定义一个。
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo<'_>) -> ! {
-    // 发生 panic 时触发 WebAssembly unreachable 指令。
-    // 它会生成 WebAssembly 的 unreachable 指令，执行时触发 Wasm Trap，从而立即终止当前执行。
-    // 这个 API 从 Rust 1.37.0 开始稳定支持。
-    core::arch::wasm32::unreachable()
+  // 发生 panic 时触发 WebAssembly unreachable 指令。
+  // 它会生成 WebAssembly 的 unreachable 指令，执行时触发 Wasm Trap，从而立即终止当前执行。
+  // 这个 API 从 Rust 1.37.0 开始稳定支持。
+  core::arch::wasm32::unreachable()
 }
 
 // #[unsafe(no_mangle)] → 禁止 Rust 对导出符号名称进行名称改编。不执行 Rust 符号名称修饰，保留导出名称。Rust 2024语法这么要求写的！
@@ -27,47 +27,47 @@ fn panic(_info: &core::panic::PanicInfo<'_>) -> ! {
 // extern "C" → 指定 C ABI，采用 C ABI 调用约定。定义跨语言调用使用的函数调用约定。
 #[unsafe(no_mangle)]
 pub extern "C" fn Add(a: f64, b: f64) -> f64 {
-    a + b
+  a + b
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Sub(a: f64, b: f64) -> f64 {
-    a - b
+  a - b
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Mul(a: f64, b: f64) -> f64 {
-    a * b
+  a * b
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Div(a: f64, b: f64) -> f64 {
-    if b == 0.0 { f64::NAN } else { a / b }
+  if b == 0.0 { f64::NAN } else { a / b }
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Mod(a: f64, b: f64) -> f64 {
-    if b == 0.0 { f64::NAN } else { a % b }
+  if b == 0.0 { f64::NAN } else { a % b }
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn Fib(index: usize, initial1: f64, initial2: f64) -> f64 {
-    if index <= 1 {
-        return initial1;
-    } else if index == 2 {
-        return initial2;
-    } else if index > 1476 {
-        return f64::NAN;
-    }
+  if index <= 1 {
+    return initial1;
+  } else if index == 2 {
+    return initial2;
+  } else if index > 1476 {
+    return f64::NAN;
+  }
 
-    let mut prev = initial1;
-    let mut curr = initial2;
+  let mut prev = initial1;
+  let mut curr = initial2;
 
-    for _ in 3..=index {
-        let next = prev + curr;
-        prev = curr;
-        curr = next;
-    }
+  for _ in 3..=index {
+    let next = prev + curr;
+    prev = curr;
+    curr = next;
+  }
 
-    curr
+  curr
 }

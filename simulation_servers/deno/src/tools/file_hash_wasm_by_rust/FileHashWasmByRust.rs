@@ -92,8 +92,7 @@ impl FileHasher {
     // 1. 计算本次输入的字节数。
     // ----------------------------------------------------
 
-    let chunk_len = u64::try_from(chunk.len())
-      .map_err(|_| JsValue::from_str("文件分块长度超出了 u64 的表示范围。"))?;
+    let chunk_len = u64::try_from(chunk.len()).map_err(|_| JsValue::from_str("文件分块长度超出了 u64 的表示范围。"))?;
 
     // ----------------------------------------------------
     // 2. 计算累计处理的字节数。
