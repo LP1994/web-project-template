@@ -93,6 +93,15 @@
                   <Item>
                     <option name="path" value="src/wasm/source_codes/rust/math_tool/rustfmt.toml" />
                   </Item>
+                  <Item>
+                    <option name="path" value="simulation_servers/deno/src/tools/file_hash_wasm_by_rust/rustfmt.toml" />
+                  </Item>
+                  <Item>
+                    <option name="path" value="notes/wasm笔记/Rust例子/rust-wasm_bindgen-wasm_pack-demo/rustfmt.toml" />
+                  </Item>
+                  <Item>
+                    <option name="path" value="notes/wasm笔记/Rust例子/纯数值计算例子/math_tool/rustfmt.toml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>
