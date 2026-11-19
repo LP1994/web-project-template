@@ -1,3 +1,217 @@
+# rustfmt.toml 不要求写入所有配置项。没有显式指定的项目会使用 Rustfmt 自己的默认值。
+
+
+
+# 指定 Rust 语言 Edition，影响语法解析
 edition = "2024"
+# 指定采用哪个版本的 Rust Style Guide
 style_edition = "2024"
+
+
+
+# 代码长度与换行配置
+# 单行代码允许的最大宽度，默认 100
+max_width = 120
+# 统一控制多种代码结构的单行宽度策略
+use_small_heuristics = "Default"
+# 数组字面量的最大单行宽度
+array_width = 60
+# 函数式属性参数的最大单行宽度
+attr_fn_like_width = 70
+# 方法链的最大单行宽度
+chain_width = 60
+# 函数调用参数的最大单行宽度
+fn_call_width = 60
+# Struct 字面量的最大单行宽度
+struct_lit_width = 18
+# Enum 中 Struct Variant 的最大单行宽度
+struct_variant_width = 35
+# 单行 if-else 表达式的最大宽度
+single_line_if_else_max_width = 50
+# 单行 let-else 表达式的最大宽度
+single_line_let_else_max_width = 50
+# 数组元素被认为是短元素的长度阈值
+short_array_element_width_threshold = 10
+# 注释的最大宽度
+comment_width = 80
+# 文档注释中代码块的最大宽度
+doc_comment_code_block_width = 100
+# 属性与其修饰项目允许放在同一行的最大宽度
+inline_attribute_width = 0
+# 是否允许某些表达式中的数组、Struct 等结构超出常规布局宽度
+overflow_delimited_expr = false
+# 无法满足最大行宽时是否报错
+error_on_line_overflow = false
+# 存在无法格式化的注释或字符串等情况时是否报错
+error_on_unformatted = false
+
+
+
+# 缩进、空格与括号配置
+# 是否使用 Tab 字符进行缩进
+hard_tabs = false
+# 一个缩进层级对应多少个空格，默认 4
 tab_spaces = 2
+# 表达式和项目采用 Block 或 Visual 缩进
+indent_style = "Block"
+# use 导入语句的缩进方式
+imports_indent = "Block"
+# use 导入项采用横向、纵向或混合布局
+imports_layout = "Mixed"
+# 多行二元运算符放在行首还是行尾
+binop_separator = "Front"
+# 冒号后面是否保留空格
+space_after_colon = true
+# 冒号前面是否保留空格
+space_before_colon = false
+# ..、..= 等范围运算符两侧是否添加空格
+spaces_around_ranges = false
+# 类型声明中 +、= 等符号采用宽松还是紧凑空格
+type_punctuation_density = "Wide"
+# 换行符格式：Auto、Native、Unix、Windows
+newline_style = "Auto"
+# 项目之间的最少空行数
+blank_lines_lower_bound = 0
+# 连续空行的最大数量
+blank_lines_upper_bound = 1
+# 是否使用彩色输出
+color = "Auto"
+
+
+
+# 大括号、函数、结构体和控制流配置。这一组配置会直接影响 Rust 代码的视觉布局。
+# 函数、Struct、Enum 等项目的大括号风格
+brace_style = "SameLineWhere"
+# if、for、while 等控制流的大括号风格
+control_brace_style = "AlwaysSameLine"
+# 函数定义中的参数布局
+# Tall	参数纵向排列，默认值
+# Compressed	尽量将多个参数压缩在同一行
+# Vertical	每个参数严格单独占一行
+fn_params_layout = "Tall"
+# 空函数体、空 Impl 是否放在一行
+empty_item_single_line = true
+# 单表达式函数是否压缩成一行
+fn_single_line = false
+# 是否强制闭包和 Match 分支使用多行代码块
+force_multiline_blocks = false
+# 	Match 分支是否需要使用代码块
+match_arm_blocks = true
+# Match 分支是否额外缩进
+match_arm_indent = true
+# Match 分支是否在模式前添加 \|
+match_arm_leading_pipes = "Never"
+# Match 分支为代码块时，是否在右大括号后添加逗号
+match_block_trailing_comma = false
+# 是否以及何时添加尾随逗号
+trailing_comma = "Vertical"
+# return、break、continue 后是否添加分号
+trailing_semicolon = true
+# 是否强制将 where 子句放在一行
+where_single_line = false
+# 小型 Struct 字面量是否保持单行
+struct_lit_single_line = true
+# Struct 字段对齐的长度差阈值
+struct_field_align_threshold = 0
+# Enum 判别值对齐的名称长度阈值
+enum_discrim_align_threshold = 0
+# 是否将连续的 _ 通配符简化为 ..
+condense_wildcard_suffixes = false
+# 是否移除多余的嵌套括号
+remove_nested_parens = true
+# 空函数或空 Impl 是否使用单行布局
+empty_item_single_line = true
+
+
+
+# use 导入语句与排序配置
+# 按照字母顺序排列 use 导入语句
+reorder_imports = true
+# 控制导入语句合并的粒度
+# Preserve	保留原始导入粒度
+# Crate	按照 Crate 合并
+# Module	按照 Module 合并
+# Item	每个导入项独立成一条语句
+# One	全部导入项合并到一条语句
+imports_granularity = "Preserve"
+# 控制导入语句分组策略
+# Preserve	保留原有分组
+# StdExternalCrate	按标准库、外部 Crate、本地模块分组
+# One	全部导入放在一个分组
+group_imports = "Preserve"
+# 对 mod 声明进行字母排序
+reorder_modules = true
+# 对 Impl 内部的项目进行重新排序
+reorder_impl_items = false
+# 合并多个 #[derive(...)] 属性
+merge_derives = true
+
+
+
+# 注释、文档注释、字符串与宏配置
+# 自动对长注释进行换行
+wrap_comments = false
+# 尽可能将 /* ... */ 转换为 // 注释
+normalize_comments = false
+# 将 #[doc]、#![doc] 转换为 ///、//!
+normalize_doc_attributes = false
+# 格式化文档注释中的 Rust 代码
+format_code_in_doc_comments = false
+# 控制文档代码块的最大行宽
+doc_comment_code_block_width = 100
+# 必要时对字符串字面量进行换行
+format_strings = false
+# 格式化声明式宏定义内部的代码
+format_macro_bodies = true
+# 格式化宏匹配模式
+format_macro_matchers = false
+# 指定哪些宏调用不进行格式化
+skip_macro_invocations = []
+
+
+
+# 类型、数字和语法简化配置
+# 十六进制数字字母的大小写风格
+# Preserve：保留原来的大小写。
+# Upper：使用大写字母。
+# Lower：使用小写字母。
+hex_literal_case = "Preserve"
+# 浮点数字面量末尾是否保留零
+# Preserve	保留原始形式
+# Always	尽可能保留小数点后的尾随零
+# IfNoPostfix	没有指数或类型后缀时保留尾随零
+# Never	删除尾随零
+float_literal_trailing_zero = "Preserve"
+# 是否显式显示 extern ABI
+force_explicit_abi = true
+# 是否使用 Struct 字段初始化简写
+use_field_init_shorthand = false
+# 是否将 try!() 转换为 ? 运算符
+use_try_shorthand = false
+# 简化连续的通配符
+condense_wildcard_suffixes = false
+# 移除多余嵌套括号
+remove_nested_parens = true
+
+
+
+# 项目、文件、解析与版本配置
+# 忽略指定文件或目录
+ignore = [
+  "target"
+]
+# 不格式化当前文件声明的外部模块
+# 启用 skip_children 后，可以禁止格式化这些外部模块。
+skip_children = true
+# 禁止全部格式化
+disable_all_formatting = false
+# 是否格式化自动生成的文件
+format_generated_files = true
+# 检查文件头部多少行以识别生成文件
+generated_marker_line_search_limit = 5
+# 是否显示解析错误
+show_parse_errors = true
+# 要求使用满足指定版本条件的 Rustfmt
+required_version = "1.11.0"
+# 是否启用不稳定配置项
+unstable_features = true
