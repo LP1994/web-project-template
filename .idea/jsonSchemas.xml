@@ -17,6 +17,12 @@
                   <Item>
                     <option name="path" value="notes/wasm笔记/rust-wasm_bindgen-wasm_pack-demo/Cargo.toml" />
                   </Item>
+                  <Item>
+                    <option name="path" value="notes/wasm笔记/Rust例子/rust-wasm_bindgen-wasm_pack-demo/Cargo.toml" />
+                  </Item>
+                  <Item>
+                    <option name="path" value="notes/wasm笔记/Rust例子/纯数值计算例子/math_tool/Cargo.toml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>
