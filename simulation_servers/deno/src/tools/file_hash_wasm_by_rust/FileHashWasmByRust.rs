@@ -78,6 +78,7 @@ impl FileHasher {
 
   /// 向四种哈希计算器输入一块文件数据。
   ///
+  /// chunk: &[u8] 表示一个只读的字节切片。wasm-bindgen 将它映射为 JavaScript 的 Uint8Array。
   /// chunk 对应 JavaScript 中的 Uint8Array。
   ///
   /// JavaScript:
