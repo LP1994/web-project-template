@@ -23,6 +23,9 @@
                   <Item>
                     <option name="path" value="notes/wasm笔记/Rust例子/纯数值计算例子/math_tool/Cargo.toml" />
                   </Item>
+                  <Item>
+                    <option name="path" value="simulation_servers/deno/src/tools/file_hash_wasm_by_rust/Cargo.toml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>
@@ -73,6 +76,22 @@
                   </Item>
                   <Item>
                     <option name="path" value="tsconfig.webpack.json" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+        <entry key="rustfmt">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="rustfmt" />
+              <option name="relativePathToSchema" value="https://www.schemastore.org/rustfmt.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="src/wasm/source_codes/rust/math_tool/rustfmt.toml" />
                   </Item>
                 </list>
               </option>

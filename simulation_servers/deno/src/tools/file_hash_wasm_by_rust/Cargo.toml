@@ -1,0 +1,29 @@
+[package]
+name = "file_hash_wasm_by_rust"
+version = "1.0.0"
+edition = "2024"
+description = "A streaming file hash calculator implemented in Rust and WebAssembly."
+license = "MIT"
+
+[lib]
+# cdylib：编译为 WebAssembly 所需的动态库形式。
+# rlib：保留 Rust 库的标准形式，方便 Rust 单元测试及其他 Rust 项目复用。
+crate-type = [
+  "cdylib",
+  "rlib"
+]
+
+[dependencies]
+# WebAssembly 和 JavaScript 之间的绑定。
+wasm-bindgen = "0.2.130"
+# 访问 JavaScript 原生对象、Reflect 等 API。
+js-sys = "0.3.107"
+# MD5 算法。
+# 注意：Cargo 中的包名是 md-5，Rust 中的导入名称是 md5。
+md-5 = "0.11.0"
+# SHA-256、SHA-384、SHA-512 算法。
+sha2 = "0.11.1"
+# Base64 编码。
+base64 = "0.23.1"
+# 十六进制编码。
+hex = "0.4.3"
