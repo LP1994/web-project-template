@@ -42,6 +42,10 @@ let startTimer001 = 0,
       hex: '',
       base64: '',
     },
+    sha1: {
+      hex: '',
+      base64: '',
+    },
     sha256: {
       hex: '',
       base64: '',
@@ -54,6 +58,84 @@ let startTimer001 = 0,
       hex: '',
       base64: '',
     },
+
+    /*
+     // 仅node支持
+     'sha-1': {
+     hex: '',
+     base64: '',
+     },
+
+     sha224: {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha-224': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha-256': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha-384': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha-512': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha2-224': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha2-256': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha2-384': {
+     hex: '',
+     base64: '',
+     },
+
+     // 仅node支持
+     'sha2-512': {
+     hex: '',
+     base64: '',
+     },
+
+     'sha3-224': {
+     hex: '',
+     base64: '',
+     },
+     'sha3-256': {
+     hex: '',
+     base64: '',
+     },
+     'sha3-384': {
+     hex: '',
+     base64: '',
+     },
+     'sha3-512': {
+     hex: '',
+     base64: '',
+     },
+     */
   },
   /**
    * 1、1 * 1024 * 1024 * 1024 = 1GB
