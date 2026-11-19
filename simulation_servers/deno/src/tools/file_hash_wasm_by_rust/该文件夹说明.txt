@@ -1,0 +1,40 @@
+该文件夹下是用Rust代码编写的文件哈希值计算工具，然后将Rust代码编译为wasm，以便供JS、TS调用。
+
+new FileHasher()    创建哈希计算实例
+update(chunk)   输入一块文件数据，更新四种哈希状态
+digest()    获取当前数据的全部哈希结果
+digestInto(result)  将结果写入你传入的对象
+reset() 清空状态，重新开始计算
+bytesProcessed()    返回已经处理的字节数
+
+import {
+  FileHasher,
+} from "./dist/FileHashWasmByRust.js";
+
+const hasher: FileHasher = new FileHasher();
+
+// chunk的数据类型必须是：Uint8Array
+hasher.update( chunk );
+
+/*
+result就是最后的计算结果，形如：
+{
+  md5: {
+    hex: "XXX",
+    base64: "XXX",
+  },
+  sha256: {
+    hex: "XXX",
+    base64: "XXX",
+  },
+  sha384: {
+    hex: "XXX",
+    base64: "XXX",
+  },
+  sha512: {
+    hex: "XXX",
+    base64: "XXX",
+  },
+}
+*/
+const result: Record<string, any> = hasher.digest();
