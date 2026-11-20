@@ -11,358 +11,415 @@ use sha2::{Sha256, Sha384, Sha512};
 use wasm_bindgen::prelude::*;
 
 // ============================================================
-// 第一部分：FileHasher 结构体
+// 第一部分：哈希输出格式配置及哈希状态
+// ============================================================
+
+/// 某一种哈希算法需要输出哪些编码格式。
+///
+/// hex = true：输出十六进制字符串。
+/// base64 = true：输出标准 Base64 字符串。
+///
+/// 两个字段相互独立，可以只启用其中一个，也可以同时启用。
+#[derive(Clone, Copy)]
+struct HashOutputSelection {
+  hex: bool,
+
+  base64: bool,
+}
+
+/// 保存某一种哈希算法的运行状态及其输出格式选择。
+/// H 是具体的哈希器类型，例如 Md5、Sha256、Sha384 或 Sha512。
+struct SelectedHasher<H> {
+  /// 增量哈希计算器。
+  hasher: H,
+
+  /// 该算法需要输出的格式。
+  output: HashOutputSelection,
+}
+
+// ============================================================
+// 第二部分：FileHasher 结构体
 // ============================================================
 
 /// 文件哈希计算器。
 ///
-/// 一个 FileHasher 实例同时维护四种哈希算法的内部状态：
+/// 算法选择和输出格式都由 JavaScript 构造参数决定。
 ///
-/// 1. MD5
-/// 2. SHA-256
-/// 3. SHA-384
-/// 4. SHA-512
+/// 例如：
+/// {
+///     md5: { hex: "" },
+///     sha256: { base64: "" },
+/// }
 ///
-/// 每次调用 update() 时，四种算法都会接收相同的文件数据。
-///
-/// 因此，最终只需要遍历一次文件，就可以得到四种哈希结果。
+/// 表示：
+/// 1. 启用 MD5，只输出 Hex。
+/// 2. 启用 SHA-256，只输出 Base64。
+/// 3. 不启用 SHA-384 和 SHA-512。
 #[wasm_bindgen]
 pub struct FileHasher {
-  /// MD5 哈希计算器。
-  md5: Md5,
+  /// 未选择 MD5 时为 None；选择时保存 MD5 状态及输出格式。
+  md5: Option<SelectedHasher<Md5>>,
 
-  /// SHA-256 哈希计算器。
-  sha256: Sha256,
+  /// 未选择 SHA-256 时为 None。
+  sha256: Option<SelectedHasher<Sha256>>,
 
-  /// SHA-384 哈希计算器。
-  sha384: Sha384,
+  /// 未选择 SHA-384 时为 None。
+  sha384: Option<SelectedHasher<Sha384>>,
 
-  /// SHA-512 哈希计算器。
-  sha512: Sha512,
+  /// 未选择 SHA-512 时为 None。
+  sha512: Option<SelectedHasher<Sha512>>,
 
-  /// 已经处理的文件字节数。使用 u64，而不是 u32，是为了支持更大的文件。
+  /// 已经处理的文件总字节数。
   bytes_processed: u64,
 }
 
 // ============================================================
-// 第二部分：FileHasher 对外导出的方法
+// 第三部分：FileHasher 对外导出的方法
 // ============================================================
 
 #[wasm_bindgen]
 impl FileHasher {
-  /// 创建一个新的 FileHasher 实例。
+  /// 根据 JavaScript 传入的配置对象创建哈希计算器。
   ///
-  /// JavaScript:
+  /// 构造参数同时决定：
+  /// 1. 启用哪些哈希算法；
+  /// 2. 每种算法需要输出 Hex、Base64，还是两者都输出。
   ///
-  /// const hasher = new FileHasher();
+  /// JavaScript 示例：
   ///
+  /// const options = {
+  ///     md5: { hex: "" },
+  ///     sha256: { base64: "" },
+  ///     sha384: { hex: "", base64: "" },
+  /// };
+  ///
+  /// const hasher = new FileHasher(options);
+  ///
+  /// 配置规则：
+  /// - md5 / sha256 / sha384 / sha512 属性决定是否启用对应算法。
+  /// - 对应算法对象中存在 hex 属性，就选择 Hex 输出。
+  /// - 对应算法对象中存在 base64 属性，就选择 Base64 输出。
+  /// - hex 和 base64 可以单独选择，也可以同时选择。
+  /// - 算法对象必须至少包含 hex 或 base64 中的一个属性。
+  /// - 没有选择任何算法时返回错误。
   #[wasm_bindgen(constructor)]
-  pub fn new() -> FileHasher {
-    FileHasher {
-      // 初始化 MD5。
-      md5: Md5::new(),
-
-      // 初始化 SHA-256。
-      sha256: Sha256::new(),
-
-      // 初始化 SHA-384。
-      sha384: Sha384::new(),
-
-      // 初始化 SHA-512。
-      sha512: Sha512::new(),
-
-      // 初始处理字节数为 0。
-      bytes_processed: 0,
+  pub fn new(options: JsValue) -> Result<FileHasher, JsValue> {
+    // 构造参数必须是 JavaScript 对象。
+    if options.is_null_or_undefined() || !options.is_object() {
+      return Err(JsValue::from_str(
+        "FileHasher 构造参数必须是包含哈希算法配置的 JavaScript 对象。",
+      ));
     }
+
+    // 读取各算法配置。None 表示不启用该算法；Some(...) 表示启用，并保存编码选择。
+    let md5_output = get_output_selection(&options, "md5")?;
+    let sha256_output = get_output_selection(&options, "sha256")?;
+    let sha384_output = get_output_selection(&options, "sha384")?;
+    let sha512_output = get_output_selection(&options, "sha512")?;
+
+    // 至少需要选择一种算法。
+    if md5_output.is_none() && sha256_output.is_none() && sha384_output.is_none() && sha512_output.is_none() {
+      return Err(JsValue::from_str(
+        "至少需要指定一种哈希算法：md5、sha256、sha384 或 sha512。",
+      ));
+    }
+
+    Ok(FileHasher {
+      // 只初始化用户选择的算法，并保存对应的输出格式。
+      md5: md5_output.map(|output| SelectedHasher {
+        hasher: Md5::new(),
+        output,
+      }),
+
+      sha256: sha256_output.map(|output| SelectedHasher {
+        hasher: Sha256::new(),
+        output,
+      }),
+
+      sha384: sha384_output.map(|output| SelectedHasher {
+        hasher: Sha384::new(),
+        output,
+      }),
+
+      sha512: sha512_output.map(|output| SelectedHasher {
+        hasher: Sha512::new(),
+        output,
+      }),
+
+      bytes_processed: 0,
+    })
   }
 
-  /// 向四种哈希计算器输入一块文件数据。
+  /// 向已启用的哈希计算器输入一块文件数据。
   ///
-  /// chunk: &[u8] 表示一个只读的字节切片。wasm-bindgen 将它映射为 JavaScript 的 Uint8Array。
-  /// chunk 对应 JavaScript 中的 Uint8Array。
+  /// chunk: &[u8] 对应 JavaScript 的 Uint8Array。
   ///
-  /// JavaScript:
+  /// 只有构造函数中选中的算法才会更新状态。
+  /// Hex / Base64 是最终摘要的输出格式，不影响 update() 的输入方式。
   ///
+  /// JavaScript：
   /// hasher.update(chunk);
-  ///
   #[wasm_bindgen(js_name = update)]
   pub fn update(&mut self, chunk: &[u8]) -> Result<(), JsValue> {
-    // ----------------------------------------------------
-    // 1. 计算本次输入的字节数。
-    // ----------------------------------------------------
+    // 计算本次输入的字节数。
     let chunk_len = u64::try_from(chunk.len()).map_err(|_| JsValue::from_str("文件分块长度超出了 u64 的表示范围。"))?;
 
-    // ----------------------------------------------------
-    // 2. 计算累计处理的字节数。
-    // ----------------------------------------------------
+    // 先检查累计字节数是否溢出，避免更新哈希状态后才发现计数溢出。
     let next_total = self
       .bytes_processed
       .checked_add(chunk_len)
       .ok_or_else(|| JsValue::from_str("累计处理的文件字节数超出了 u64 的表示范围。"))?;
 
-    // ----------------------------------------------------
-    // 3. 将当前 chunk 输入 MD5。
-    // ----------------------------------------------------
-    self.md5.update(chunk);
+    // 只更新被选择的哈希算法。
+    if let Some(selected) = self.md5.as_mut() {
+      selected.hasher.update(chunk);
+    }
 
-    // ----------------------------------------------------
-    // 4. 将当前 chunk 输入 SHA-256。
-    // ----------------------------------------------------
-    self.sha256.update(chunk);
+    if let Some(selected) = self.sha256.as_mut() {
+      selected.hasher.update(chunk);
+    }
 
-    // ----------------------------------------------------
-    // 5. 将当前 chunk 输入 SHA-384。
-    // ----------------------------------------------------
-    self.sha384.update(chunk);
+    if let Some(selected) = self.sha384.as_mut() {
+      selected.hasher.update(chunk);
+    }
 
-    // ----------------------------------------------------
-    // 6. 将当前 chunk 输入 SHA-512。
-    // ----------------------------------------------------
-    self.sha512.update(chunk);
+    if let Some(selected) = self.sha512.as_mut() {
+      selected.hasher.update(chunk);
+    }
 
-    // ----------------------------------------------------
-    // 7. 更新已处理字节数。
-    // ----------------------------------------------------
+    // 更新累计处理字节数。
     self.bytes_processed = next_total;
 
-    // 本次数据处理成功。
     Ok(())
   }
 
-  /// 获取当前已经计算的数据所对应的所有哈希值。
+  /// 获取当前已输入数据的哈希结果。
   ///
-  /// 此方法不会清空或消耗原来的哈希计算器。
+  /// 只返回构造时选中的算法和编码格式。
+  /// 此方法通过 clone() 复制哈希状态，不会消耗原始状态，
+  /// 因此调用 digest() 后仍然可以继续 update()。
   ///
-  /// JavaScript:
-  ///
+  /// JavaScript：
   /// const result = hasher.digest();
-  ///
   #[wasm_bindgen(js_name = digest)]
   pub fn digest(&self) -> Result<JsValue, JsValue> {
-    // 创建一个新的 JavaScript 对象。
     let result: JsValue = Object::new().into();
 
-    // 将四种哈希结果写入新对象。
     self.write_result(&result)?;
 
-    // 返回 JavaScript 对象。
     Ok(result)
   }
 
-  /// 将计算得到的哈希值写入 JavaScript 传入的对象。
+  /// 将当前已输入数据的哈希结果写入 JavaScript 传入对象。
   ///
-  /// JavaScript:
+  /// 只写入构造时选中的算法及编码格式。
+  /// 如果目标对象缺少对应算法子对象或输出属性，会自动创建。
+  /// 未选择的编码属性不会被生成或覆盖。
   ///
-  /// const result = hasher.digestInto(hashResult);
-  ///
-  /// 返回的就是原来的 hashResult 对象。
-  ///
+  /// JavaScript：
+  /// const result = hasher.digestInto(resultObject);
   #[wasm_bindgen(js_name = digestInto)]
   pub fn digest_into(&self, result: JsValue) -> Result<JsValue, JsValue> {
-    // 将结果写入用户传入的 JavaScript 对象。
     self.write_result(&result)?;
 
-    // 返回原来的 JavaScript 对象。
     Ok(result)
   }
 
-  /// 获取已经处理的字节数。
-  ///
-  /// Rust u64 在 JavaScript 中对应 BigInt。
-  ///
-  /// JavaScript:
-  ///
-  /// const size = hasher.bytesProcessed();
-  ///
+  /// 获取已经处理的总字节数。Rust u64 在 JavaScript 中映射为 BigInt。
   #[wasm_bindgen(js_name = bytesProcessed)]
   pub fn bytes_processed(&self) -> u64 {
     self.bytes_processed
   }
 
-  /// 重置四种哈希计算器。
-  ///
-  /// 调用之后，FileHasher 可以重新计算另一个文件。
-  ///
-  /// JavaScript:
-  ///
-  /// hasher.reset();
-  ///
+  /// 重置已启用的哈希计算器及累计字节数。算法选择和 Hex / Base64 输出格式选择保持不变。
   #[wasm_bindgen(js_name = reset)]
   pub fn reset(&mut self) {
-    self.md5 = Md5::new();
+    if let Some(selected) = self.md5.as_mut() {
+      selected.hasher = Md5::new();
+    }
 
-    self.sha256 = Sha256::new();
+    if let Some(selected) = self.sha256.as_mut() {
+      selected.hasher = Sha256::new();
+    }
 
-    self.sha384 = Sha384::new();
+    if let Some(selected) = self.sha384.as_mut() {
+      selected.hasher = Sha384::new();
+    }
 
-    self.sha512 = Sha512::new();
+    if let Some(selected) = self.sha512.as_mut() {
+      selected.hasher = Sha512::new();
+    }
 
     self.bytes_processed = 0;
   }
 }
 
 // ============================================================
-// 第三部分：将全部哈希结果写入 JavaScript 对象
+// 第四部分：读取 JavaScript 对象中的算法及输出格式选择
+// ============================================================
+
+/// 读取某一种算法的输出格式配置。
+///
+/// 返回值：
+/// - Ok(None)：没有选择该算法。
+/// - Ok(Some(selection))：选择了该算法，并记录 Hex / Base64 选项。
+/// - Err(...)：配置类型错误，或选择了算法但没有指定输出格式。
+///
+/// 判断方式是检查属性是否存在，而不是检查属性值是否为空字符串。
+/// 因此 { hex: "" } 和 { base64: "" } 都是有效配置。
+fn get_output_selection(options: &JsValue, algorithm: &str) -> Result<Option<HashOutputSelection>, JsValue> {
+  // 只把 options 自身拥有的算法属性视为用户选择。这样不会因为对象原型链上存在同名属性而意外启用算法。
+  let options_object = Object::try_from(options).ok_or_else(|| JsValue::from_str("哈希算法配置必须是一个 JavaScript 对象。"))?;
+
+  let has_algorithm = Object::has_own(options_object, &JsValue::from_str(algorithm));
+
+  // 没有自己的该算法属性，表示未选择该算法。
+  if !has_algorithm {
+    return Ok(None);
+  }
+
+  // 获取 options[algorithm]。
+  let algorithm_value = Reflect::get(options, &JsValue::from_str(algorithm))?;
+
+  // 算法配置必须是非 null 对象。
+  if algorithm_value.is_null() || !algorithm_value.is_object() {
+    return Err(JsValue::from_str(&format!(
+      "哈希算法配置 {} 必须是一个对象。",
+      algorithm
+    )));
+  }
+
+  // 检查算法配置对象自身是否具有 hex / base64 属性。
+  // 只检查自身属性，不把原型链上的同名属性当成用户选择。
+  // 属性值可以是空字符串，因为判断依据是属性是否存在。
+  let algorithm_object = Object::try_from(&algorithm_value).ok_or_else(|| {
+    JsValue::from_str(&format!(
+      "哈希算法配置 {} 必须是一个 JavaScript 对象。",
+      algorithm
+    ))
+  })?;
+
+  let use_hex = Object::has_own(algorithm_object, &JsValue::from_str("hex"));
+
+  let use_base64 = Object::has_own(algorithm_object, &JsValue::from_str("base64"));
+
+  // 选择了算法，却没有指定任何输出格式，属于无效配置。
+  if !use_hex && !use_base64 {
+    return Err(JsValue::from_str(&format!(
+      "哈希算法配置 {} 至少需要包含 hex 或 base64 属性。",
+      algorithm
+    )));
+  }
+
+  Ok(Some(HashOutputSelection {
+    hex: use_hex,
+    base64: use_base64,
+  }))
+}
+
+// ============================================================
+// 第五部分：将选中算法的结果写入 JavaScript 对象
 // ============================================================
 
 impl FileHasher {
-  /// 将四种哈希计算结果写入指定的 JavaScript 对象。
-  ///
-  /// 这是 Rust 内部使用的方法，不会直接导出给 JS。
+  /// 将所有已启用算法的当前摘要写入 result。每种算法只生成配置中选择的编码格式。
   fn write_result(&self, result: &JsValue) -> Result<(), JsValue> {
-    // 确保 result 是有效的 JavaScript 对象。
     if result.is_null_or_undefined() || !result.is_object() {
       return Err(JsValue::from_str(
         "哈希结果接收参数必须是一个 JavaScript 对象。",
       ));
     }
 
-    // ----------------------------------------------------
-    // 1. 计算 MD5。
-    // ----------------------------------------------------
+    if let Some(selected) = self.md5.as_ref() {
+      write_selected_hash(result, "md5", selected)?;
+    }
 
-    // clone() 复制当前哈希计算状态。
-    // finalize() 只消耗复制出来的状态。
-    let md5_digest = self.md5.clone().finalize();
+    if let Some(selected) = self.sha256.as_ref() {
+      write_selected_hash(result, "sha256", selected)?;
+    }
 
-    // 将 MD5 结果写入 md5 对象。
-    write_one_hash(result, "md5", &md5_digest[..])?;
+    if let Some(selected) = self.sha384.as_ref() {
+      write_selected_hash(result, "sha384", selected)?;
+    }
 
-    // ----------------------------------------------------
-    // 2. 计算 SHA-256。
-    // ----------------------------------------------------
-    let sha256_digest = self.sha256.clone().finalize();
-
-    write_one_hash(result, "sha256", &sha256_digest[..])?;
-
-    // ----------------------------------------------------
-    // 3. 计算 SHA-384。
-    // ----------------------------------------------------
-    let sha384_digest = self.sha384.clone().finalize();
-
-    write_one_hash(result, "sha384", &sha384_digest[..])?;
-
-    // ----------------------------------------------------
-    // 4. 计算 SHA-512。
-    // ----------------------------------------------------
-    let sha512_digest = self.sha512.clone().finalize();
-
-    write_one_hash(result, "sha512", &sha512_digest[..])?;
+    if let Some(selected) = self.sha512.as_ref() {
+      write_selected_hash(result, "sha512", selected)?;
+    }
 
     Ok(())
   }
 }
 
+/// 对选中的哈希器复制当前状态并生成摘要，然后按配置编码。H 可以是 Md5、Sha256、Sha384 或 Sha512。
+fn write_selected_hash<H>(target: &JsValue, algorithm: &str, selected: &SelectedHasher<H>) -> Result<(), JsValue>
+where
+  H: Digest + Clone,
+{
+  // finalize() 消耗哈希器，因此先 clone()，保留原始增量计算状态。
+  let digest = selected.hasher.clone().finalize();
+
+  // 只执行用户选择的编码操作。
+  write_one_hash(target, algorithm, &digest[..], selected.output)
+}
+
 // ============================================================
-// 第四部分：处理单种哈希算法的结果
+// 第六部分：按选择的格式转换并写入单种哈希结果
 // ============================================================
 
-/// 将某种哈希算法的二进制结果转换为 Hex 和 Base64，
-/// 然后写入对应的 JavaScript 子对象。
+/// 将某一种哈希算法的原始摘要转换为用户选择的编码格式。
 ///
-/// 参数：
-///
-/// target:
-///     JavaScript 最外层结果对象。
-///
-/// algorithm:
-///     哈希算法名称，例如 "md5"、"sha256"。
-///
-/// digest:
-///     该算法最终计算得到的原始二进制哈希值。
-fn write_one_hash(target: &JsValue, algorithm: &str, digest: &[u8]) -> Result<(), JsValue> {
-  // --------------------------------------------------------
-  // 1. 获取对应算法的子对象。
-  // --------------------------------------------------------
-
-  // 相当于 JavaScript：
-  //
-  // let section = target[algorithm];
-  //
+/// 注意：
+/// - output.hex 为 true 时才调用 hex::encode()。
+/// - output.base64 为 true 时才调用 STANDARD.encode()。
+/// - 未选择的编码不会生成字符串，也不会写入对象。
+fn write_one_hash(target: &JsValue, algorithm: &str, digest: &[u8], output: HashOutputSelection) -> Result<(), JsValue> {
+  // 获取 target[algorithm]。
   let mut section = Reflect::get(target, &JsValue::from_str(algorithm))?;
 
-  // --------------------------------------------------------
-  // 2. 如果对应的子对象不存在，则自动创建。
-  // --------------------------------------------------------
+  // 如果算法子对象不存在，则创建一个。
   if section.is_null_or_undefined() {
-    // 创建新的 JavaScript Object。
     let new_section: JsValue = Object::new().into();
 
-    // 将新对象添加到最外层对象。
-    //
-    // 相当于：
-    //
-    // target[algorithm] = {};
-    //
     set_property(target, algorithm, &new_section)?;
 
     section = new_section;
   }
 
-  // 如果现有的子对象不是对象，则无法写入。
+  // 已存在的算法属性必须是对象。
   if !section.is_object() {
-    return Err(JsValue::from_str(
-      "哈希结果对象中的算法属性必须是一个对象。",
-    ));
+    return Err(JsValue::from_str(&format!(
+      "哈希结果对象中的 {} 属性必须是一个对象。",
+      algorithm
+    )));
   }
 
-  // --------------------------------------------------------
-  // 3. 将原始二进制哈希值转换为 Hex。
-  // --------------------------------------------------------
+  // 只有选择 Hex 时才进行 Hex 编码。
+  if output.hex {
+    let hex_value = hex::encode(digest);
 
-  // 例如：
-  //
-  // [0x5e, 0xb6, 0x3b, ...]
-  //
-  // 转换为：
-  //
-  // "5eb63b..."
-  //
-  let hex_value = hex::encode(digest);
+    set_property(&section, "hex", &JsValue::from_str(&hex_value))?;
+  }
 
-  // --------------------------------------------------------
-  // 4. 将原始二进制哈希值转换为 Base64。
-  // --------------------------------------------------------
+  // 只有选择 Base64 时才进行 Base64 编码。
+  if output.base64 {
+    let base64_value = STANDARD.encode(digest);
 
-  // 使用标准 Base64 编码。
-  //
-  // STANDARD 使用标准 Base64 字符表并保留必要的 "=" 填充。
-  //
-  let base64_value = STANDARD.encode(digest);
-
-  // --------------------------------------------------------
-  // 5. 写入 Hex。
-  // --------------------------------------------------------
-  set_property(&section, "hex", &JsValue::from_str(&hex_value))?;
-
-  // --------------------------------------------------------
-  // 6. 写入 Base64。
-  // --------------------------------------------------------
-  set_property(&section, "base64", &JsValue::from_str(&base64_value))?;
+    set_property(&section, "base64", &JsValue::from_str(&base64_value))?;
+  }
 
   Ok(())
 }
 
 // ============================================================
-// 第五部分：JavaScript 对象属性写入工具
+// 第七部分：JavaScript 对象属性写入工具
 // ============================================================
 
-/// 向 JavaScript 对象写入指定属性。
-///
-/// 等价于：
-///
-/// target[property] = value;
-///
-/// 如果 JavaScript Reflect.set() 返回 false，
-/// 则将其转换为 Rust 错误并返回给 JavaScript。
+/// 等价于 JavaScript：target[property] = value。
 fn set_property(target: &JsValue, property: &str, value: &JsValue) -> Result<(), JsValue> {
-  // 将属性名称转换为 JavaScript 字符串。
   let property_key = JsValue::from_str(property);
 
-  // 使用 Reflect.set 修改 JavaScript 对象。
   let success = Reflect::set(target, &property_key, value)?;
 
-  // Reflect.set 返回 false 表示属性没有成功写入。
   if !success {
     return Err(JsValue::from_str(&format!(
       "无法写入 JavaScript 对象属性：{}",

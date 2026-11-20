@@ -11,7 +11,13 @@ import {
   FileHasher,
 } from "./dist/FileHashWasmByRust.js";
 
-const hasher: FileHasher = new FileHasher();
+const options: Record<string, any> = {
+  md5: { hex: "" },
+  sha256: { base64: "" },
+  sha384: { hex: "", base64: "" },
+};
+
+const hasher: FileHasher = new FileHasher( options );
 
 // chunk的数据类型必须是：Uint8Array
 hasher.update( chunk );
