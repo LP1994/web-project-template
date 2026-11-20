@@ -15,6 +15,7 @@ const hashOptions = {
     'hex': '',
     'base64': '',
   },
+
   'sha1': {
     'hex': '',
     'base64': ''
@@ -23,6 +24,7 @@ const hashOptions = {
     'hex': '',
     'base64': ''
   },
+
   'sha224': {
     'hex': '',
     'base64': ''
@@ -35,6 +37,7 @@ const hashOptions = {
     'hex': '',
     'base64': ''
   },
+
   'sha256': {
     'hex': '',
     'base64': ''
@@ -47,6 +50,7 @@ const hashOptions = {
     'hex': '',
     'base64': ''
   },
+
   'sha384': {
     'hex': '',
     'base64': ''
@@ -59,6 +63,7 @@ const hashOptions = {
     'hex': '',
     'base64': ''
   },
+
   'sha512': {
     'hex': '',
     'base64': ''
@@ -71,6 +76,7 @@ const hashOptions = {
     'hex': '',
     'base64': ''
   },
+
   'sha3-224': {
     'hex': '',
     'base64': ''
