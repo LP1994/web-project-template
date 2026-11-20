@@ -11,11 +11,85 @@ import {
   FileHasher,
 } from "./dist/FileHashWasmByRust.js";
 
+// 全部支持的哈希算法，如下：
 const options: Record<string, any> = {
-  md5: { hex: "" },
-  sha256: { base64: "" },
-  sha384: { hex: "", base64: "" },
-};
+                                       "md5": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha1": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha-1": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha224": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha-224": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha2-224": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha256": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha-256": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha2-256": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha384": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha-384": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha2-384": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha512": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha-512": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha2-512": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha3-224": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha3-256": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha3-384": {
+                                         "hex": "",
+                                         "base64": ""
+                                       },
+                                       "sha3-512": {
+                                         "hex": "",
+                                         "base64": ""
+                                       }
+                                     };
 
 const hasher: FileHasher = new FileHasher( options );
 

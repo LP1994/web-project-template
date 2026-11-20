@@ -4,88 +4,83 @@
 /**
  * 文件哈希计算器。
  *
- * 算法选择和输出格式都由 JavaScript 构造参数决定。
+ * 算法选择和 Hex / Base64 输出格式均由 JavaScript 构造参数决定。
  *
- * 例如：
- * {
- *     md5: { hex: "" },
- *     sha256: { base64: "" },
- * }
- *
- * 表示：
- * 1. 启用 MD5，只输出 Hex。
- * 2. 启用 SHA-256，只输出 Base64。
- * 3. 不启用 SHA-384 和 SHA-512。
+ * 注意：sha1 / sha-1、sha256 / sha-256 / sha2-256 等是别名，
+ * 每组别名在 Rust 内部只对应一个哈希计算状态，不会重复计算。
  */
 export class FileHasher {
     free(): void;
     [Symbol.dispose](): void;
     /**
-     * 获取已经处理的总字节数。Rust u64 在 JavaScript 中映射为 BigInt。
+     * 获取已经处理的总字节数；JavaScript 中对应 BigInt。
      */
     bytesProcessed(): bigint;
     /**
-     * 将当前已输入数据的哈希结果写入 JavaScript 传入对象。
+     * 将当前哈希结果写入 JavaScript 传入的对象，并返回同一对象。
      *
-     * 只写入构造时选中的算法及编码格式。
-     * 如果目标对象缺少对应算法子对象或输出属性，会自动创建。
-     * 未选择的编码属性不会被生成或覆盖。
-     *
-     * JavaScript：
-     * const result = hasher.digestInto(resultObject);
+     * 如果目标对象缺少选中算法的子对象或编码属性，会自动创建。
+     * 只写入构造时所选的别名和编码格式。
      */
     digestInto(result: any): any;
     /**
      * 获取当前已输入数据的哈希结果。
      *
-     * 只返回构造时选中的算法和编码格式。
-     * 此方法通过 clone() 复制哈希状态，不会消耗原始状态，
-     * 因此调用 digest() 后仍然可以继续 update()。
-     *
-     * JavaScript：
-     * const result = hasher.digest();
+     * 只返回构造时选择的算法别名及其编码格式。
+     * 通过 clone() 计算快照，不会消耗原始哈希状态。
      */
     digest(): any;
     /**
-     * 根据 JavaScript 传入的配置对象创建哈希计算器。
+     * 根据 JavaScript 对象创建哈希计算器。
      *
-     * 构造参数同时决定：
-     * 1. 启用哪些哈希算法；
-     * 2. 每种算法需要输出 Hex、Base64，还是两者都输出。
+     * 支持的配置键：
      *
-     * JavaScript 示例：
+     * SHA-1：哈希算法第1代
+     *   sha1、sha-1
      *
+     * SHA-224：哈希算法第2代
+     *   sha224、sha-224、sha2-224
+     *
+     * SHA-256：哈希算法第2代
+     *   sha256、sha-256、sha2-256
+     *
+     * SHA-384：哈希算法第2代
+     *   sha384、sha-384、sha2-384
+     *
+     * SHA-512：哈希算法第2代
+     *   sha512、sha-512、sha2-512
+     *
+     * SHA-3：哈希算法第3代
+     *   sha3-224、sha3-256、sha3-384、sha3-512
+     *
+     * 每个算法配置对象中可以独立提供 hex 和 / 或 base64 属性。
+     * 属性是否存在决定是否选择该输出格式，属性值本身不参与判断。
+     *
+     * 示例：
      * const options = {
      *     md5: { hex: "" },
-     *     sha256: { base64: "" },
-     *     sha384: { hex: "", base64: "" },
+     *     "sha-1": { hex: "" },
+     *     "sha2-224": { base64: "" },
+     *     "sha256": { hex: "", base64: "" },
+     *     "sha3-512": { hex: "" },
      * };
-     *
      * const hasher = new FileHasher(options);
      *
-     * 配置规则：
-     * - md5 / sha256 / sha384 / sha512 属性决定是否启用对应算法。
-     * - 对应算法对象中存在 hex 属性，就选择 Hex 输出。
-     * - 对应算法对象中存在 base64 属性，就选择 Base64 输出。
-     * - hex 和 base64 可以单独选择，也可以同时选择。
-     * - 算法对象必须至少包含 hex 或 base64 中的一个属性。
-     * - 没有选择任何算法时返回错误。
+     * 同一种算法的多个别名可以同时出现。此时只计算一次，
+     * 并将同一摘要按各自配置写入相应的别名键。
      */
     constructor(options: any);
     /**
-     * 重置已启用的哈希计算器及累计字节数。算法选择和 Hex / Base64 输出格式选择保持不变。
+     * 重置所有已启用算法的状态，但保留算法别名及编码格式选择。
      */
     reset(): void;
     /**
-     * 向已启用的哈希计算器输入一块文件数据。
+     * 向所有已启用的唯一哈希算法输入一块文件数据。
      *
      * chunk: &[u8] 对应 JavaScript 的 Uint8Array。
      *
-     * 只有构造函数中选中的算法才会更新状态。
-     * Hex / Base64 是最终摘要的输出格式，不影响 update() 的输入方式。
-     *
-     * JavaScript：
-     * hasher.update(chunk);
+     * 不同别名不会导致重复更新：例如 sha256 和 sha2-256
+     * 在内部共用同一个 Sha256 状态。
      */
     update(chunk: Uint8Array | number[]): void;
 }

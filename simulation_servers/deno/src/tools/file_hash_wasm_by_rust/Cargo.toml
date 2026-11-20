@@ -91,11 +91,14 @@ crate-type = [
 wasm-bindgen = "0.2.130"
 # 访问 JavaScript 原生对象、Reflect 等 API。
 js-sys = "0.3.107"
-# MD5 算法。
-# 注意：Cargo 中的包名是 md-5，Rust 中的导入名称是 md5。
+# MD5 算法。注意：Cargo 中的包名是 md-5，Rust 中的导入名称是 md5。
 md-5 = "0.11.0"
-# SHA-256、SHA-384、SHA-512 算法。
+# 哈希算法第1代，SHA-1（别名：SHA1）
+sha1 = "0.11.0"
+# 哈希算法第2代，SHA-2，包括 SHA-224（别名：SHA224、SHA2-224）、SHA-256（别名：SHA256、SHA2-256）、SHA-384（别名：SHA384、SHA2-384）、SHA-512（别名：SHA512、SHA2-512）
 sha2 = "0.11.1"
+# 哈希算法第3代，SHA-3，包括 SHA3-224、SHA3-256、SHA3-384、SHA3-512
+sha3 = "0.12.0"
 # Base64 编码。
 base64 = "0.23.1"
 # 十六进制编码。
