@@ -1,3 +1,7 @@
+// deno run -A --config=../../../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../.env.deno ./test.mts --color=16m
+
+const startTime = performance.now();
+
 import {
   webDir,
 } from 'configures/GlobalParameters.esm.mts';
@@ -9,82 +13,80 @@ import {
 const hashOptions = {
   'md5': {
     'hex': '',
-    // 'base64': '',
+    'base64': '',
   },
-  /*
-   'sha1': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha-1': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha224': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha-224': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha2-224': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha256': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha-256': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha2-256': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha384': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha-384': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha2-384': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha512': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha-512': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha2-512': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha3-224': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha3-256': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha3-384': {
-   'hex': '',
-   'base64': ''
-   },
-   'sha3-512': {
-   'hex': '',
-   'base64': ''
-   },
-   */
+  'sha1': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-1': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha512': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-512': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-512': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-512': {
+    'hex': '',
+    'base64': ''
+  },
 };
 
 /**
@@ -168,6 +170,17 @@ const result = await CalculateFileHash(
   new URL( `${ webDir }/Windows11_Client_x64_zh-cn_26300_9457.iso` ),
   hashOptions,
 );
+
+const endTime = performance.now();
+
+console.log( `
+本次耗时（单位为毫秒）：
+${ endTime - startTime }
+本次耗时（单位为分钟）：
+${ ( endTime - startTime ) / 1000 / 60 }
+本次耗时（单位为小时）：
+${ ( endTime - startTime ) / 1000 / 60 / 60 }
+` );
 
 console.log(
   '文件处理大小：',
