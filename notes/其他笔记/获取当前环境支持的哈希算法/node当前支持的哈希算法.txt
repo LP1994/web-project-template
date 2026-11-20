@@ -38,35 +38,53 @@ ripemd-160
 ripemd160
 ripemd160WithRSA
 rmd160
-sha-1
-sha-224
-sha-256
-sha-256/192
-sha-384
-sha-512
-sha-512/224
-sha-512/256
+
+//哈希算法第1代 Start
 sha1
-sha1WithRSAEncryption
-sha2-224
-sha2-256
-sha2-256/192
-sha2-384
-sha2-512
-sha2-512/224
-sha2-512/256
+别名：
+sha-1
+//哈希算法第1代 End
+
+//哈希算法第2代 Start
 sha224
-sha224WithRSAEncryption
+别名：
+sha-224
+sha2-224
+
 sha256
-sha256-192
-sha256WithRSAEncryption
+别名：
+sha-256
+sha2-256
+
+sha384
+别名：
+sha-384
+sha2-384
+
+sha512
+别名：
+sha-512
+sha2-512
+//哈希算法第2代 End
+
+//哈希算法第3代 Start
 sha3-224
 sha3-256
 sha3-384
 sha3-512
-sha384
+//哈希算法第3代 End
+
+sha-256/192
+sha-512/224
+sha-512/256
+sha1WithRSAEncryption
+sha2-256/192
+sha2-512/224
+sha2-512/256
+sha224WithRSAEncryption
+sha256-192
+sha256WithRSAEncryption
 sha384WithRSAEncryption
-sha512
 sha512-224
 sha512-224WithRSAEncryption
 sha512-256
