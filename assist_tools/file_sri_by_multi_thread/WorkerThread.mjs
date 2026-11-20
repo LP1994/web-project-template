@@ -143,13 +143,13 @@ let startTimer001 = 0,
     //哈希算法第3代 End
   },
   /**
-   * 1、1 * 1024 * 1024 * 1024 = 1GB
+   * 1、1 * 1024 * 1024 * 1024 = 1GB、4 * 1024 * 1024 = 4MB，设置成1GB并没比4MB快多少，所以设置成4MB还是合理、合适的。
    * 2、要是设置了buffer.constants.MAX_LENGTH，不报错、也不执行，直接结束了，奇怪：
    * buffer.constants.MAX_LENGTH = 2GB
    *
    * @type {number}
    */
-  bufferSize = 1 * 1024 * 1024 * 1024,
+  bufferSize = 4 * 1024 * 1024,
   resultObj = null,
   readStream = null,
   hash2Digest4Keys = [],
