@@ -143,9 +143,9 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
 ${ filePath.href }
 本文件的本轮该${ Object.keys( messageData.hash ).length }种哈希算法（${ Object.keys( messageData.hash ).join( ', ' ) }）对应的哈希值计算完成。
 本轮计算耗时${ messageData.takeUpTime.toFixed( 3 ) }毫秒。
-约为${ ( messageData.takeUpTime.toFixed( 3 ) / 1000 ).toFixed( 3 ) }秒。
-约为${ ( messageData.takeUpTime.toFixed( 3 ) / 1000 / 60 ).toFixed( 6 ) }分钟。
-约为${ ( messageData.takeUpTime.toFixed( 3 ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
+约为${ ( Number( messageData.takeUpTime.toFixed( 3 ) ) / 1000 ).toFixed( 3 ) }秒。
+约为${ ( Number( messageData.takeUpTime.toFixed( 3 ) ) / 1000 / 60 ).toFixed( 6 ) }分钟。
+约为${ ( Number( messageData.takeUpTime.toFixed( 3 ) ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
 已有${ successTotal }轮哈希算法完成计算。
 还有${ hashQuantity - successTotal }轮哈希算法未计算。
 ` );
@@ -166,9 +166,9 @@ ${ filePath.href }
         MyConsole.Green( `
 ${ filePath.href }
 本文件的指定的所有种类的哈希算法对应的哈希值全部计算完成，总共耗时：${ ( endTimer - startTimer ).toFixed( 3 ) }毫秒！
-约为${ ( ( endTimer - startTimer ).toFixed( 3 ) / 1000 ).toFixed( 3 ) }秒。
-约为${ ( ( endTimer - startTimer ).toFixed( 3 ) / 1000 / 60 ).toFixed( 6 ) }分钟。
-约为${ ( ( endTimer - startTimer ).toFixed( 3 ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
+约为${ ( Number( ( endTimer - startTimer ).toFixed( 3 ) ) / 1000 ).toFixed( 3 ) }秒。
+约为${ ( Number( ( endTimer - startTimer ).toFixed( 3 ) ) / 1000 / 60 ).toFixed( 6 ) }分钟。
+约为${ ( Number( ( endTimer - startTimer ).toFixed( 3 ) ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
 ` );
 
         // If the worker was terminated, the exitCode parameter is 1.
