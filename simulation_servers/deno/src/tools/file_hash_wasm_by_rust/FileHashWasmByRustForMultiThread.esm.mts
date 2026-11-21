@@ -26,7 +26,7 @@ import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-type T_HashName = 'md5' |
+export type T_HashName = 'md5' |
   'sha1' |
   'sha224' |
   'sha256' |
@@ -34,7 +34,7 @@ type T_HashName = 'md5' |
   'sha512' |
   'sha3-224' | 'sha3-256' | 'sha3-384' | 'sha3-512';
 
-type T_EncodeType = {
+export type T_EncodeType = {
   hex: string;
   base64: string;
 } | {
@@ -71,7 +71,7 @@ const hashTypes = {
   'sha3-512': 'sha3-512',
 } as const;
 
-type T_HashTypeKey = keyof typeof hashTypes;
+export type T_HashTypeKey = keyof typeof hashTypes;
 
 function CheckHashTypes( hashOptions: Record<T_HashTypeKey, T_EncodeType> ){
   const hashTypeKeys: Array<T_HashTypeKey> = Object.keys( hashTypes ) as Array<T_HashTypeKey>;
