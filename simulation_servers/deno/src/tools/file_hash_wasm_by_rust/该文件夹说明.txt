@@ -97,7 +97,10 @@ const options: Record<string, any> = {
 const hasher: FileHasher = new FileHasher( options );
 
 // chunk的数据类型必须是：Uint8Array
-hasher.update( chunk );
+hasher.update( chunk1 );
+hasher.update( chunk2 );
+hasher.update( chunk3 );
+...
 
 /*
 result就是最后的计算结果，形如：
