@@ -10,11 +10,8 @@
 'use strict';
 
 import {
-  createHash,
-} from 'node:crypto';
-
-import {
   createReadStream,
+  ReadStream,
 } from 'node:fs';
 
 import {
@@ -30,224 +27,113 @@ import {
 
 import {
   MyConsole,
-} from './UniversalToolForNode.esm.mjs';
+} from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-let startTimer001 = 0,
-  obj001 = {
-    md5: {
-      hex: '',
-      base64: '',
-    },
+import {
+  FileHasher,
+} from './dist/FileHashWasmByRust.js';
 
-    //哈希算法第1代 Start
-    sha1: {
-      hex: '',
-      base64: '',
-    },
-    /*
-     // 别名：
-     'sha-1': {
-     hex: '',
-     base64: '',
-     },
-     */
-    //哈希算法第1代 End
+const hashTypes = workerData.hashTypes as const;
 
-    //哈希算法第2代 Start
-    sha224: {
-      hex: '',
-      base64: '',
-    },
-    /*
-     // 别名：
-     'sha-224': {
-     hex: '',
-     base64: '',
-     },
-     'sha2-224': {
-     hex: '',
-     base64: '',
-     },
-     */
+type T_HashTypeKey = keyof typeof hashTypes;
 
-    sha256: {
-      hex: '',
-      base64: '',
-    },
-    /*
-     // 别名：
-     'sha-256': {
-     hex: '',
-     base64: '',
-     },
-     'sha2-256': {
-     hex: '',
-     base64: '',
-     },
-     */
+type T_EncodeType = {
+  hex: string;
+  base64: string;
+} | {
+  hex: string;
+} | {
+  base64: string;
+};
 
-    sha384: {
-      hex: '',
-      base64: '',
-    },
-    /*
-     // 别名：
-     'sha-384': {
-     hex: '',
-     base64: '',
-     },
-     'sha2-384': {
-     hex: '',
-     base64: '',
-     },
-     */
+let startTimer: number = 0,
+  readStream: ReadStream | null = null,
+  chunk: any = null,
+  chunkLen: number = 0,
+  bytesReaded: number = 0,
+  hasher: FileHasher | null = null;
 
-    sha512: {
-      hex: '',
-      base64: '',
-    },
-    /*
-     // 别名：
-     'sha-512': {
-     hex: '',
-     base64: '',
-     },
-     'sha2-512': {
-     hex: '',
-     base64: '',
-     },
-     */
-    //哈希算法第2代 End
+/**
+ * 1、1 * 1024 * 1024 * 1024 = 1GB、4 * 1024 * 1024 = 4MB，设置成1GB并没比4MB快多少，所以设置成4MB还是合理、合适的。
+ * 2、要是设置了buffer.constants.MAX_LENGTH，不报错、也不执行，直接结束了，奇怪：
+ * buffer.constants.MAX_LENGTH = 2GB
+ *
+ * @type {number}
+ */
+const bufferSize: number = 4 * 1024 * 1024;
 
-    //哈希算法第3代 Start
-    'sha3-224': {
-      hex: '',
-      base64: '',
-    },
-    'sha3-256': {
-      hex: '',
-      base64: '',
-    },
-    'sha3-384': {
-      hex: '',
-      base64: '',
-    },
-    'sha3-512': {
-      hex: '',
-      base64: '',
-    },
-    //哈希算法第3代 End
-  },
-  /**
-   * 1、1 * 1024 * 1024 * 1024 = 1GB、4 * 1024 * 1024 = 4MB，设置成1GB并没比4MB快多少，所以设置成4MB还是合理、合适的。
-   * 2、要是设置了buffer.constants.MAX_LENGTH，不报错、也不执行，直接结束了，奇怪：
-   * buffer.constants.MAX_LENGTH = 2GB
-   *
-   * @type {number}
-   */
-  bufferSize = 4 * 1024 * 1024,
-  resultObj = null,
-  readStream = null,
-  hash2Digest4Keys = [],
-  hashArr = [],
-  chunk = null,
-  chunkBuf = 0,
-  readStreamByte = 0;
+function CalculateFileHash(
+  filePath: URL,
+  hashOptions: Record<T_HashTypeKey, T_EncodeType>,
+  chunkSize: number = bufferSize,
+): Promise<Record<T_HashTypeKey, T_EncodeType>>{
+  return new Promise( ( resolve: ( arg: unknown ) => void, reject: ( arg: unknown ) => void ): void => {
+    hasher = new FileHasher( hashOptions );
 
-function FileSRI( filePath ){
-  return new Promise( ( resolve = () => {
-  }, reject = () => {
-  } ) => {
     readStream = createReadStream( filePath, {
       flags: 'r+',
     } );
 
-    // [ 'sha256', 'sha384', 'sha512' ]
-    hash2Digest4Keys = Object.keys( obj001 );
-
-    // [ [ createHash( 'sha256' ), createHash( 'sha256' ) ], [ createHash( 'sha384' ), createHash( 'sha384' ) ], [ createHash( 'sha512' ), createHash( 'sha512' ) ] ]
-    hashArr = hash2Digest4Keys.map( c => {
-      // Object.keys( obj001[ c ] ) ---> [ 'hex', 'base64' ]
-      // return [ createHash( 'sha256' ), createHash( 'sha256' ) ]
-      return Object.keys( obj001[ c ] ).map( () => createHash( c ) );
-    } );
-
-    readStream.on( 'open', fd => {
+    readStream.on( 'open', ( fd: unknown ): void => {
       MyConsole.Cyan( `
-${ filePath }
+${ filePath.href }
 文件已打开：${ fd }。
 ` );
     } );
 
-    readStream.on( 'ready', () => {
+    readStream.on( 'ready', (): void => {
       MyConsole.Cyan( `
-${ filePath }
+${ filePath.href }
 文件已准备好。
 ` );
     } );
 
-    readStream.on( 'readable', () => {
-      while( null !== ( chunk = readStream.read( bufferSize ) ) ){
-        hashArr.flat( Infinity )
-          .forEach( c => {
-            // createHash( 'sha256' ).update(chunk)
-            c[ 'update' ]( chunk );
-          } );
+    readStream.on( 'readable', (): void => {
+      while( null !== ( chunk = readStream.read( chunkSize ) ) ){
+        hasher.update( chunk );
 
-        chunkBuf = chunk.length / 1024 / 1024;
+        chunkLen = chunk.length;
 
-        readStreamByte = readStream.bytesRead / 1024 / 1024;
+        bytesReaded = readStream.bytesRead;
 
         MyConsole.Cyan( `
-${ filePath }
-数据块大小(单位：字节)：${ chunk.length }(${ chunkBuf }MB、${ chunkBuf / 1024 }GB)。
-数据流大小(单位：字节)：${ readStream.bytesRead }(${ readStreamByte }MB、${ readStreamByte / 1024 }GB)。
+${ filePath.href }
+每次从文件读取到的数据块的大小：${ chunkLen }字节，约为${ ( chunkLen / 1000 ).toFixed( 6 ) }KB，约为${ ( chunkLen / 1000 / 1000 ).toFixed( 12 ) }MB，约为${ ( chunkLen / 1000 / 1000 / 1000 ).toFixed( 18 ) }GB。
+已经从文件读取了的总数据流大小：${ bytesReaded }字节，约为${ ( bytesReaded / 1000 ).toFixed( 6 ) }KB，约为${ ( bytesReaded / 1000 / 1000 ).toFixed( 12 ) }MB，约为${ ( bytesReaded / 1000 / 1000 / 1000 ).toFixed( 18 ) }GB。
 ` );
       }
     } );
 
-    readStream.on( 'end', () => {
+    readStream.on( 'end', (): void => {
       MyConsole.Blue( `
-${ filePath }
+${ filePath.href }
 文件读取已完成。
 ` );
     } );
 
-    readStream.on( 'close', () => {
-      // [ { hex: '', base64: '' }, { hex: '', base64: '' }, { hex: '', base64: '' } ]
-      Object.values( obj001 )
-        .forEach( ( c, i, ) => {
-          // [ 'hex', 'base64' ]
-          Object.keys( c )
-            .forEach( ( c1, i1, ) => {
-              // createHash( 'sha256' ).digest( 'hex' )
-              obj001[ hash2Digest4Keys[ i ] ][ c1 ] = `${ hash2Digest4Keys[ i ] }-${ hashArr[ i ][ i1 ].digest( c1 ) }`;
-            } );
-        } );
-
-      resolve( obj001 );
-
+    readStream.on( 'close', (): void => {
       MyConsole.Blue( `
-${ filePath }
+${ filePath.href }
 文件已关闭。
+本次文件哈希计算工具已经处理了的总字节数（单位为：字节），注意这里返回的是bigint类型的值：${ hasher.bytesProcessed() }
 ` );
+
+      resolve( hasher.digest() );
     } );
 
-    readStream.on( 'error', error => {
-      resolve( {
-        error,
-      } );
-
+    readStream.on( 'error', ( error: unknown ): void => {
       MyConsole.Red( `
-${ filePath }
+${ filePath.href }
 文件出错：
 ${ error }
 ` );
+
+      reject( error );
     } );
   } );
 }
 
-parentPort.on( 'close', () => {
+parentPort.on( 'close', (): void => {
   MyConsole.Blue( `
 close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 该端口已关闭。
@@ -255,7 +141,7 @@ close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsI
 ` );
 } );
 
-parentPort.on( 'messageerror', errorObject => {
+parentPort.on( 'messageerror', ( errorObject: unknown ): void => {
   MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
@@ -266,14 +152,17 @@ ${ errorObject }
 
 parentPort.on( 'message', async ( {
   filePath,
-} ) => {
-  startTimer001 = performance.now();
+  hashOptions,
+}: {
+  filePath: string;
+  hashOptions: Record<T_HashTypeKey, T_EncodeType>;
+} ): Promise<void> => {
+  startTimer = performance.now();
 
-  resultObj = await FileSRI( filePath );
+  const hash: Record<T_HashTypeKey, T_EncodeType> = await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize );
 
   parentPort.postMessage( {
-    filePath,
-    result: resultObj,
-    takeUpTime: ( performance.now() - startTimer001 ) / 1000,
+    hash,
+    takeUpTime: performance.now() - startTimer,
   } );
 } );

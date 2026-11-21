@@ -104,6 +104,7 @@ function CreateWorkerIns( filePath: URL, hashOptions: Record<T_HashTypeKey, T_En
     const workerIns: Worker = new Worker( workerThreadFilePath, {
       workerData: {
         workerInsID: `workerInsID${ workerInsIndex }`,
+        hashTypes,
       },
     } );
 
