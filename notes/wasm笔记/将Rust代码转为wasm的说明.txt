@@ -526,3 +526,9 @@ opt-level = 3
 wasm-opt = [
   "-O3"
 ]
+
+查看编译后的.wasm是否开启了“SIMD128”：
+1、
+wasm2wat .\FileHashWasmByRust_bg.wasm -o .\FileHashWasmByRust_bg.wat
+2、
+Select-String -Path .\FileHashWasmByRust_bg.wat -Pattern "v128|i32x4|i64x2|i8x16|i16x8"
