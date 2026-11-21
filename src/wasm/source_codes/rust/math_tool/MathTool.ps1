@@ -73,7 +73,7 @@ Write-Host "`n"
 Write-Host "完成！最终的 .wasm 文件在：$DistDir"
 # --strip-debug：删除调试信息，包括 Wasm 名称段。注意：这里删除的是调试名称信息，不会因为 --strip-debug 而删除 WebAssembly 导出段中的 Add、Sub、Mul 等导出函数名称。
 # --strip-producers：删除 Wasm producers 元数据段。
-wasm-opt "$OutDir\wasm32-unknown-unknown\release\$WasmFileName.wasm" -Oz --strip-debug --strip-producers -o "$DistDir\$WasmFileName.wasm"
+wasm-opt "$OutDir\wasm32-unknown-unknown\release\$WasmFileName.wasm" -O3 --enable-simd --strip-debug --strip-producers -o "$DistDir\$WasmFileName.wasm"
 Write-Host "`n"
 
 if (
