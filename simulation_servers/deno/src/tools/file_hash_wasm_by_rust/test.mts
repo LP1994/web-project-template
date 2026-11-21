@@ -1,16 +1,55 @@
-// deno run -A --config=../../../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../.env.deno ./test.mts --color=16m
+// deno run -A --config=../../../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../.env.deno ./test.mts --color=16m --my_args="{\"md5\":{\"hex\":\"\",\"base64\":\"\"},\"sha512\":{\"hex\":\"\",\"base64\":\"\"},\"sha3-512\":{\"hex\":\"\",\"base64\":\"\"}}"
 
-const startTime = performance.now();
+'use strict';
 
-import {
-  webDir,
-} from 'configures/GlobalParameters.esm.mts';
+type T_HashName = 'md5' |
+  'sha1' |
+  'sha224' |
+  'sha256' |
+  'sha384' |
+  'sha512' |
+  'sha3-224' | 'sha3-256' | 'sha3-384' | 'sha3-512';
 
-import {
-  FileHasher,
-} from './dist/FileHashWasmByRust.js';
+type T_EncodeType = {
+  hex: string;
+  base64: string;
+} | {
+  hex: string;
+} | {
+  base64: string;
+};
 
-const hashOptions = {
+const hashTypes = {
+  'md5': 'md5',
+
+  'sha1': 'sha1',
+  'sha-1': 'sha1',
+
+  'sha224': 'sha224',
+  'sha-224': 'sha224',
+  'sha2-224': 'sha224',
+
+  'sha256': 'sha256',
+  'sha-256': 'sha256',
+  'sha2-256': 'sha256',
+
+  'sha384': 'sha384',
+  'sha-384': 'sha384',
+  'sha2-384': 'sha384',
+
+  'sha512': 'sha512',
+  'sha-512': 'sha512',
+  'sha2-512': 'sha512',
+
+  'sha3-224': 'sha3-224',
+  'sha3-256': 'sha3-256',
+  'sha3-384': 'sha3-384',
+  'sha3-512': 'sha3-512',
+} as const;
+
+type T_HashTypeKey = keyof typeof hashTypes;
+
+const hashOptions: Record<T_HashTypeKey, T_EncodeType> = {
   'md5': {
     'hex': '',
     'base64': '',
@@ -95,138 +134,32 @@ const hashOptions = {
   },
 };
 
-/**
- * 使用固定大小的缓冲区读取文件并计算哈希。
- *
- * @param filePath 文件路径。
- *
- * @param hashOptions 哈希算法及编码格式配置。
- *
- * @param chunkSize 每次读取的缓冲区大小。
- *
- * @returns 哈希计算结果。
- */
-async function CalculateFileHash(
-  filePath: string | URL,
-  hashOptions: Record<string, unknown>,
-  // 1 * 1024 * 1024 * 1024
-  // 4 * 1024 * 1024
-  chunkSize: number = 4 * 1024 * 1024,
-){
-  if(
-    !Number.isSafeInteger( chunkSize ) ||
-    chunkSize <= 0
-  ){
-    throw new RangeError( 'chunkSize 必须是大于 0 的安全整数。', );
+function CheckHashTypes( hashOptions: Record<T_HashTypeKey, T_EncodeType> ){
+  const hashTypeKeys: Array<T_HashTypeKey> = Object.keys( hashTypes ) as Array<T_HashTypeKey>;
+
+  if( Object.keys( hashOptions ).length === 0 || Object.keys( hashOptions ).some( ( item: string ): boolean => {
+    return !hashTypeKeys.includes( item as T_HashTypeKey );
+  } ) ){
+    throw new Error( `当前只支持如下的哈希算法：${ hashTypeKeys.join( ', ' ) }，注意是大小写敏感的，必须严格匹配支持的哈希算法名！` );
   }
+}
 
-  const hasher = new FileHasher( hashOptions );
+CheckHashTypes( hashOptions );
 
-  const buffer = new Uint8Array( chunkSize );
+function GetHashGroup( hashOptions: Record<T_HashTypeKey, T_EncodeType> ): Array<Record<T_HashTypeKey, T_EncodeType>>{
+  const hashOptionsKeys: Array<[ T_HashTypeKey, T_EncodeType ]> = Object.entries( hashOptions ) as Array<[ T_HashTypeKey, T_EncodeType ]>,
+    hashObj: Record<T_HashName, Record<T_HashTypeKey, T_EncodeType>> = {} as Record<T_HashName, Record<T_HashTypeKey, T_EncodeType>>;
 
-  const file = await Deno.open(
-    filePath,
-    {
-      read: true,
-    },
-  );
-
-  try{
-    while( true ){
-      // 从文件中读取一块数据。
-      const bytesRead = await file.read( buffer );
-
-      // null 表示已经到达文件末尾。
-      if( bytesRead === null ){
-        break;
-      }
-
-      // 0 字节不代表 EOF。
-      // Deno 文档明确说明 read() 可能成功返回 0。
-      if( bytesRead === 0 ){
-        continue;
-      }
-
-      // ------------------------------------------------
-      // 6. 获取本次真正读取的数据。
-      // ------------------------------------------------
-      const chunk = buffer.subarray(
-        0,
-        bytesRead,
-      );
-
-      // ------------------------------------------------
-      // 7. 将当前 chunk 传给 Rust WASM。
-      // ------------------------------------------------
-      hasher.update( chunk );
+  hashOptionsKeys.forEach( ( [ item, value ]: [ T_HashTypeKey, T_EncodeType ] ): void => {
+    if( ( hashTypes[ item as T_HashTypeKey ] ) in hashObj ){
+      hashObj[ hashTypes[ item as T_HashTypeKey ] ][ item as T_HashTypeKey ] = value as T_EncodeType;
     }
-  }
-  finally{
-    // 无论读取成功还是发生异常，都关闭文件。
-    file.close();
-  }
+    else{
+      hashObj[ hashTypes[ item as T_HashTypeKey ] ] = { [ item ]: value } as Record<T_HashTypeKey, T_EncodeType>;
+    }
+  } );
 
-  return {
-    result: hasher.digest(),
-    bytesProcessed: hasher.bytesProcessed(),
-  };
+  return Object.values( hashObj );
 }
 
-if( false ){
-  const result = await CalculateFileHash(
-    new URL( `${ webDir }/Windows11_Client_x64_zh-cn_26300_9457.iso` ),
-    hashOptions,
-  );
-
-  const endTime = performance.now();
-
-  console.log( `
-本次耗时（单位为毫秒）：
-${ endTime - startTime }
-本次耗时（单位为分钟）：
-${ ( endTime - startTime ) / 1000 / 60 }
-本次耗时（单位为小时）：
-${ ( endTime - startTime ) / 1000 / 60 / 60 }
-` );
-
-  console.log(
-    '文件处理大小：',
-    result.bytesProcessed,
-  );
-
-  console.log(
-    JSON.stringify(
-      result.result,
-      null,
-      2,
-    ),
-  );
-}
-
-const hashTypes = {
-  'md5': 'md5',
-
-  'sha1': 'sha1',
-  'sha-1': 'sha1',
-
-  'sha224': 'sha224',
-  'sha-224': 'sha224',
-  'sha2-224': 'sha224',
-
-  'sha256': 'sha256',
-  'sha-256': 'sha256',
-  'sha2-256': 'sha256',
-
-  'sha384': 'sha384',
-  'sha-384': 'sha384',
-  'sha2-384': 'sha384',
-
-  'sha512': 'sha512',
-  'sha-512': 'sha512',
-  'sha2-512': 'sha512',
-
-  'sha3-224': 'sha3-224',
-  'sha3-256': 'sha3-256',
-  'sha3-384': 'sha3-384',
-  'sha3-512': 'sha3-512',
-};
+console.dir( GetHashGroup( hashOptions ) );
