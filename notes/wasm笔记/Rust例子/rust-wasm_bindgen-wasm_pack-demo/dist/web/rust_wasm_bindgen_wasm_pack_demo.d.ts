@@ -61,9 +61,9 @@ export interface InitOutput {
     readonly normalize_user: (a: any) => [number, number, number];
     readonly on_start: () => void;
     readonly scale_values: (a: number, b: number, c: number) => [number, number];
-    readonly wasm_bindgen_11c7a3b4a81d6cb0___convert__closures_____invoke___js_sys_a6febf909f5f2d53___Function_fn_wasm_bindgen_11c7a3b4a81d6cb0___JsValue_____wasm_bindgen_11c7a3b4a81d6cb0___sys__Undefined___js_sys_a6febf909f5f2d53___Function_fn_wasm_bindgen_11c7a3b4a81d6cb0___JsValue_____wasm_bindgen_11c7a3b4a81d6cb0___sys__Undefined_______true_: (a: number, b: number, c: any, d: any) => void;
-    readonly wasm_bindgen_11c7a3b4a81d6cb0___convert__closures_____invoke___wasm_bindgen_11c7a3b4a81d6cb0___JsValue__core_d941ad8722425d2e___result__Result_____wasm_bindgen_11c7a3b4a81d6cb0___JsError___true_: (a: number, b: number, c: any) => [number, number];
-    readonly wasm_bindgen_11c7a3b4a81d6cb0___convert__closures_____invoke_______true_: (a: number, b: number) => void;
+    readonly wasm_bindgen_38aa1bd1a436e0___convert__closures_____invoke___js_sys_c847c3c380ad1b35___Function_fn_wasm_bindgen_38aa1bd1a436e0___JsValue_____wasm_bindgen_38aa1bd1a436e0___sys__Undefined___js_sys_c847c3c380ad1b35___Function_fn_wasm_bindgen_38aa1bd1a436e0___JsValue_____wasm_bindgen_38aa1bd1a436e0___sys__Undefined_______true_: (a: number, b: number, c: any, d: any) => void;
+    readonly wasm_bindgen_38aa1bd1a436e0___convert__closures_____invoke___wasm_bindgen_38aa1bd1a436e0___JsValue__core_d941ad8722425d2e___result__Result_____wasm_bindgen_38aa1bd1a436e0___JsError___true_: (a: number, b: number, c: any) => [number, number];
+    readonly wasm_bindgen_38aa1bd1a436e0___convert__closures_____invoke_______true_: (a: number, b: number) => void;
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;
