@@ -172,14 +172,15 @@ async function CalculateFileHash(
   };
 }
 
-const result = await CalculateFileHash(
-  new URL( `${ webDir }/Windows11_Client_x64_zh-cn_26300_9457.iso` ),
-  hashOptions,
-);
+if( false ){
+  const result = await CalculateFileHash(
+    new URL( `${ webDir }/Windows11_Client_x64_zh-cn_26300_9457.iso` ),
+    hashOptions,
+  );
 
-const endTime = performance.now();
+  const endTime = performance.now();
 
-console.log( `
+  console.log( `
 本次耗时（单位为毫秒）：
 ${ endTime - startTime }
 本次耗时（单位为分钟）：
@@ -188,15 +189,44 @@ ${ ( endTime - startTime ) / 1000 / 60 }
 ${ ( endTime - startTime ) / 1000 / 60 / 60 }
 ` );
 
-console.log(
-  '文件处理大小：',
-  result.bytesProcessed,
-);
+  console.log(
+    '文件处理大小：',
+    result.bytesProcessed,
+  );
 
-console.log(
-  JSON.stringify(
-    result.result,
-    null,
-    2,
-  ),
-);
+  console.log(
+    JSON.stringify(
+      result.result,
+      null,
+      2,
+    ),
+  );
+}
+
+const hashTypes = {
+  'md5': 'md5',
+
+  'sha1': 'sha1',
+  'sha-1': 'sha1',
+
+  'sha224': 'sha224',
+  'sha-224': 'sha224',
+  'sha2-224': 'sha224',
+
+  'sha256': 'sha256',
+  'sha-256': 'sha256',
+  'sha2-256': 'sha256',
+
+  'sha384': 'sha384',
+  'sha-384': 'sha384',
+  'sha2-384': 'sha384',
+
+  'sha512': 'sha512',
+  'sha-512': 'sha512',
+  'sha2-512': 'sha512',
+
+  'sha3-224': 'sha3-224',
+  'sha3-256': 'sha3-256',
+  'sha3-384': 'sha3-384',
+  'sha3-512': 'sha3-512',
+};

@@ -486,3 +486,36 @@ wasm-pack build --target web --out-dir pkg-web
 wasm-pack build --target bundler --out-dir pkg-bundler
 wasm-pack build --target deno --out-dir pkg-deno
 这样就不会出现后一次构建覆盖前一次构建产物的问题。
+
+
+
+# 编译时，启用 WASM SIMD128 可用于优化如下方面的业务开发：
+# 1、图像处理：RGBA 像素处理、颜色空间转换、亮度调整、图像滤镜、卷积计算、图像缩放。
+# 2、音频处理：音频混合、音量调整、采样格式转换、数字滤波、FFT 相关运算。
+# 3、密码学与哈希：SHA-2、Keccak、部分哈希算法、CRC、数据加密中的向量运算。
+# 4、数值计算：矩阵运算、向量运算、浮点数计算、线性代数、科学计算。
+# 5、数据处理与压缩：字节批量处理、数据转换、位运算、部分压缩算法、序列化处理。
+# 6、3D 图形与物理模拟：顶点变换、向量计算、碰撞检测、粒子系统、物理模拟。
+# 另外，以下领域也可能从 SIMD 中受益：
+# - 正则表达式及文本扫描中的批量字符处理。
+# - JSON、XML 等格式的批量解析。
+# - 数据库中的批量过滤和数值计算。
+# - 视频编解码中的像素和变换计算。
+# - 机器学习中的向量计算。
+# - 网络数据处理中的批量字节操作。
+
+编译例子：
+# 启用 WASM SIMD128
+$env:RUSTFLAGS = "-C target-feature=+simd128"
+wasm-pack build --release --no-gitignore --no-pack --target deno --out-dir $DistDir
+# 清除环境变量
+Remove-Item Env:RUSTFLAGS
+
+需要Cargo.toml配合配置如下关键配置项：
+[profile.release]
+opt-level = 3
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = [
+  "-O3"
+]

@@ -1,4 +1,7 @@
 该文件夹下是用Rust代码编写的文件哈希值计算工具，然后将Rust代码编译为wasm，以便供JS、TS调用。
+建议查阅下面写到的“实际测试”结论说明！！！
+
+
 
 new FileHasher()    创建哈希计算实例
 update(chunk)   输入一块文件数据，更新四种哈希状态
@@ -11,7 +14,7 @@ import {
   FileHasher,
 } from "./dist/FileHashWasmByRust.js";
 
-// 全部支持的哈希算法，如下：
+// 全部支持的哈希算法，如下，其他算法是不支持的，因为还没实现其他的算法：
 const options: Record<string, any> = {
                                        "md5": {
                                          "hex": "",
@@ -118,3 +121,257 @@ result就是最后的计算结果，形如：
 }
 */
 const result: Record<string, any> = hasher.digest();
+
+
+
+实际测试后，发现wasm跟使用node编写的增量计算超大文件的哈希值的耗时简直是天壤之别，使用wasm的耗时几乎是node的17倍！！！
+
+# 启用 WASM SIMD128
+$env:RUSTFLAGS = "-C target-feature=+simd128"
+能减少sha224(别名：sha-224、sha2-224)、sha256(别名：sha-256、sha2-256)、sha384(别名：sha-384、sha2-384)、sha512(别名：sha-512、sha2-512)的耗时，缩短跟node版的耗时差距。是node的2.8倍，未启用 WASM SIMD128前，是node的4.4倍。
+
+查看编译后的.wasm是否开启了“SIMD128”：
+1、
+wasm2wat .\FileHashWasmByRust_bg.wasm -o .\FileHashWasmByRust_bg.wat
+2、
+Select-String -Path .\FileHashWasmByRust_bg.wat -Pattern "v128|i32x4|i64x2|i8x16|i16x8"
+
+启用 WASM SIMD128 可用于优化如下方面的业务开发：
+1、图像处理：RGBA 像素处理、颜色空间转换、亮度调整、图像滤镜、卷积计算、图像缩放。
+2、音频处理：音频混合、音量调整、采样格式转换、数字滤波、FFT 相关运算。
+3、密码学与哈希：SHA-2、Keccak、部分哈希算法、CRC、数据加密中的向量运算。
+4、数值计算：矩阵运算、向量运算、浮点数计算、线性代数、科学计算。
+5、数据处理与压缩：字节批量处理、数据转换、位运算、部分压缩算法、序列化处理。
+6、3D 图形与物理模拟：顶点变换、向量计算、碰撞检测、粒子系统、物理模拟。
+另外，以下领域也可能从 SIMD 中受益：
+- 正则表达式及文本扫描中的批量字符处理。
+- JSON、XML 等格式的批量解析。
+- 数据库中的批量过滤和数值计算。
+- 视频编解码中的像素和变换计算。
+- 机器学习中的向量计算。
+- 网络数据处理中的批量字节操作。
+
+编译例子：
+# 启用 WASM SIMD128
+$env:RUSTFLAGS = "-C target-feature=+simd128"
+wasm-pack build --release --no-gitignore --no-pack --target deno --out-dir $DistDir
+# 清除环境变量
+Remove-Item Env:RUSTFLAGS
+
+需要Cargo.toml配合配置如下关键配置项：
+[profile.release]
+opt-level = 3
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = [
+  "-O3"
+]
+
+
+
+本次耗时（单位为毫秒）：
+147576.5656
+本次耗时（单位为分钟）：
+2.459609426666667
+本次耗时（单位为小时）：
+0.04099349044444445
+--------------------
+node
+9.333秒
+
+文件处理大小： 9112440832n
+{
+  "sha1": {
+    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
+    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
+  }
+}
+------------------------------------------
+本次耗时（单位为毫秒）：
+152611.6449
+本次耗时（单位为分钟）：
+2.5435274150000002
+本次耗时（单位为小时）：
+0.04239212358333334
+
+文件处理大小： 9112440832n
+{
+  "sha1": {
+    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
+    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
+  },
+  "sha-1": {
+    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
+    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
+  }
+}
+
+
+
+本次耗时（单位为毫秒）：
+96019.6261
+本次耗时（单位为分钟）：
+1.6003271016666667
+本次耗时（单位为小时）：
+0.02667211836111111
+
+是node的4.4倍
+--------------------
+# 启用 WASM SIMD128
+$env:RUSTFLAGS = "-C target-feature=+simd128"
+
+本次耗时（单位为毫秒）：
+60771.2579
+本次耗时（单位为分钟）：
+1.0128542983333333
+本次耗时（单位为小时）：
+0.01688090497222222
+
+是node的2.8倍
+--------------------
+node
+21.690秒
+
+文件处理大小： 9112440832n
+{
+  "sha512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  }
+}
+-----------------------------
+本次耗时（单位为毫秒）：
+103285.7968
+本次耗时（单位为分钟）：
+1.7214299466666667
+本次耗时（单位为小时）：
+0.02869049911111111
+
+文件处理大小： 9112440832n
+{
+  "sha512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  },
+  "sha-512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  },
+  "sha2-512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  }
+}
+
+
+
+本次耗时（单位为毫秒）：
+1049075.0124000001
+本次耗时（单位为分钟）：
+17.484583540000003
+本次耗时（单位为小时）：
+0.29140972566666673
+--------------------
+node
+55.422秒
+
+文件处理大小： 9112440832n
+{
+  "sha3-512": {
+    "hex": "4fac114fa809c2f080a435cfe71419fe02ba1107a603f600c5c333b2dc7eb1a4fcb1a458bbd152a068a6bea117f48de0987206456d7a95c5b6d02168aedef3d4",
+    "base64": "T6wRT6gJwvCApDXP5xQZ/gK6EQemA/YAxcMzstx+saT8saRYu9FSoGimvqEX9I3gmHIGRW16lcW20CFort7z1A=="
+  }
+}
+
+
+
+本次耗时（单位为毫秒）：
+3291571.1829
+本次耗时（单位为分钟）：
+54.859519715
+本次耗时（单位为小时）：
+0.9143253285833333
+--------------------
+node
+218.139秒
+3.636分钟
+
+文件处理大小： 9112440832n
+{
+  "md5": {
+    "hex": "c845264d68eab15f9d1b9c4a02709365",
+    "base64": "yEUmTWjqsV+dG5xKAnCTZQ=="
+  },
+  "sha1": {
+    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
+    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
+  },
+  "sha-1": {
+    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
+    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
+  },
+  "sha224": {
+    "hex": "fe18397aec660b6b0249ec49729dcd78c4912ab379d1222dfbbc3a1c",
+    "base64": "/hg5euxmC2sCSexJcp3NeMSRKrN50SIt+7w6HA=="
+  },
+  "sha-224": {
+    "hex": "fe18397aec660b6b0249ec49729dcd78c4912ab379d1222dfbbc3a1c",
+    "base64": "/hg5euxmC2sCSexJcp3NeMSRKrN50SIt+7w6HA=="
+  },
+  "sha2-224": {
+    "hex": "fe18397aec660b6b0249ec49729dcd78c4912ab379d1222dfbbc3a1c",
+    "base64": "/hg5euxmC2sCSexJcp3NeMSRKrN50SIt+7w6HA=="
+  },
+  "sha256": {
+    "hex": "b795b52d598bf8fdea5975844731f4a50c5713876cefc513884354272b023af0",
+    "base64": "t5W1LVmL+P3qWXWERzH0pQxXE4ds78UTiENUJysCOvA="
+  },
+  "sha-256": {
+    "hex": "b795b52d598bf8fdea5975844731f4a50c5713876cefc513884354272b023af0",
+    "base64": "t5W1LVmL+P3qWXWERzH0pQxXE4ds78UTiENUJysCOvA="
+  },
+  "sha2-256": {
+    "hex": "b795b52d598bf8fdea5975844731f4a50c5713876cefc513884354272b023af0",
+    "base64": "t5W1LVmL+P3qWXWERzH0pQxXE4ds78UTiENUJysCOvA="
+  },
+  "sha384": {
+    "hex": "3e0a4c4d8137c530fda49208b4685a3f6a2d9dc0bcdc4241c7642f8bc233d588a6d7adcd1a6d871cf30ac9eb0e5c89ea",
+    "base64": "PgpMTYE3xTD9pJIItGhaP2otncC83EJBx2Qvi8Iz1Yim163NGm2HHPMKyesOXInq"
+  },
+  "sha-384": {
+    "hex": "3e0a4c4d8137c530fda49208b4685a3f6a2d9dc0bcdc4241c7642f8bc233d588a6d7adcd1a6d871cf30ac9eb0e5c89ea",
+    "base64": "PgpMTYE3xTD9pJIItGhaP2otncC83EJBx2Qvi8Iz1Yim163NGm2HHPMKyesOXInq"
+  },
+  "sha2-384": {
+    "hex": "3e0a4c4d8137c530fda49208b4685a3f6a2d9dc0bcdc4241c7642f8bc233d588a6d7adcd1a6d871cf30ac9eb0e5c89ea",
+    "base64": "PgpMTYE3xTD9pJIItGhaP2otncC83EJBx2Qvi8Iz1Yim163NGm2HHPMKyesOXInq"
+  },
+  "sha512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  },
+  "sha-512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  },
+  "sha2-512": {
+    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
+    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
+  },
+  "sha3-224": {
+    "hex": "0212e98773168f780dbea18abd31350403d7b846b330b82ed098281e",
+    "base64": "AhLph3MWj3gNvqGKvTE1BAPXuEazMLgu0JgoHg=="
+  },
+  "sha3-256": {
+    "hex": "8824f0635c6ec3911bb36f98b97cfef07dc56fba0dd9deff435406743fde2992",
+    "base64": "iCTwY1xuw5Ebs2+YuXz+8H3Fb7oN2d7/Q1QGdD/eKZI="
+  },
+  "sha3-384": {
+    "hex": "cf1df0d0692d1f8497e7c106dab2d28c1e2f01504c8b585963e9747b4331880d300b23c21257e1ba68e4baa950b7ac64",
+    "base64": "zx3w0GktH4SX58EG2rLSjB4vAVBMi1hZY+l0e0MxiA0wCyPCElfhumjkuqlQt6xk"
+  },
+  "sha3-512": {
+    "hex": "4fac114fa809c2f080a435cfe71419fe02ba1107a603f600c5c333b2dc7eb1a4fcb1a458bbd152a068a6bea117f48de0987206456d7a95c5b6d02168aedef3d4",
+    "base64": "T6wRT6gJwvCApDXP5xQZ/gK6EQemA/YAxcMzstx+saT8saRYu9FSoGimvqEX9I3gmHIGRW16lcW20CFort7z1A=="
+  }
+}

@@ -55,11 +55,25 @@ Write-Host "=== 格式化Rust代码 ==="
 cargo fmt
 Write-Host "`n"
 
+# 启用 WASM SIMD128
+# 需要Cargo.toml配合配置如下关键配置项：
+#[profile.release]
+#opt-level = 3
+#
+#[package.metadata.wasm-pack.profile.release]
+#wasm-opt = [
+#  "-O3"
+#]
+$env:RUSTFLAGS = "-C target-feature=+simd128"
+
 Write-Host "=== wasm-pack build --release --no-gitignore --no-pack --target deno ==="
 wasm-pack build --release --no-gitignore --no-pack --target deno --out-dir $DistDir
 Write-Host "`n"
 Write-Host "--target deno 最终输出见：$DistDir"
 Write-Host "`n"
+
+# 清除环境变量
+Remove-Item Env:RUSTFLAGS
 
 # 如果 target 目录存在，则删除整个目录及其所有内容。
 if (
