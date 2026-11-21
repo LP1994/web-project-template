@@ -505,13 +505,20 @@ wasm-pack build --target deno --out-dir pkg-deno
 # - 网络数据处理中的批量字节操作。
 
 编译例子：
-# 启用 WASM SIMD128
-$env:RUSTFLAGS = "-C target-feature=+simd128"
 wasm-pack build --release --no-gitignore --no-pack --target deno --out-dir $DistDir
-# 清除环境变量
-Remove-Item Env:RUSTFLAGS
 
-需要Cargo.toml配合配置如下关键配置项：
+需要项目根目录下“.cargo/config.toml”配合配置如下关键配置项：
+[build]
+target = "wasm32-unknown-unknown"
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+  "-C",
+  # 启用 WASM SIMD128
+  "target-feature=+simd128"
+]
+
+需要项目根目录下"Cargo.toml"配合配置如下关键配置项：
 [profile.release]
 opt-level = 3
 

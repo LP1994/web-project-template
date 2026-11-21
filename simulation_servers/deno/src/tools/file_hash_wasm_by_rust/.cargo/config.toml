@@ -1,0 +1,16 @@
+[build]
+# 1、wasm32-unknown-unknown，编译成.wasm。
+# 2、x86_64-pc-windows-msvc，编译成 Windows x64 原生程序，以便使用 Deno FFI 调用 Rust 原生 DLL。
+# 这时生成的不是 WASM，而是 Windows x64 原生动态库或其他 Rust 编译产物，具体取决于 crate-type。
+# 这里不能再使用 wasm-pack build 作为普通原生 DLL 的构建工具。
+# 另外，你当前代码中的 wasm-bindgen、js-sys 接口不能直接作为 Deno FFI 的 C ABI 接口使用，需要将哈希核心与 WASM 绑定层分离。
+# 3、aarch64-pc-windows-msvc，编译成Windows ARM64。
+# 4、wasm64-unknown-unknown，编译成WASM 64 位目标。
+target = "wasm32-unknown-unknown"
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+  "-C",
+  # 启用 WASM SIMD128
+  "target-feature=+simd128"
+]
