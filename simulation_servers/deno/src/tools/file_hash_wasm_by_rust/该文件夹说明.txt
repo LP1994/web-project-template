@@ -10,97 +10,107 @@ digestInto(result)  将结果写入你传入的对象
 reset() 清空状态，重新开始计算
 bytesProcessed()    返回已经处理的字节数
 
+
+
+使用 FileHashWasmByRustForMultiThread.esm.mts 的使用方法：
 import {
-  FileHasher,
-} from "./dist/FileHashWasmByRust.js";
+  webDir,
+} from 'configures/GlobalParameters.esm.mts';
+
+import {
+  type T_EncodeType,
+  type T_HashTypeKey,
+
+  FileHashWasmByRustForMultiThread,
+} from './FileHashWasmByRustForMultiThread.esm.mts';
 
 // 全部支持的哈希算法，如下，其他算法是不支持的，因为还没实现其他的算法：
-const options: Record<string, any> = {
-                                       "md5": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha1": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha-1": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha224": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha-224": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha2-224": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha256": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha-256": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha2-256": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha384": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha-384": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha2-384": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha512": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha-512": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha2-512": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha3-224": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha3-256": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha3-384": {
-                                         "hex": "",
-                                         "base64": ""
-                                       },
-                                       "sha3-512": {
-                                         "hex": "",
-                                         "base64": ""
-                                       }
-                                     };
+const hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>> = {
+  'md5': {
+    'hex': '',
+    'base64': '',
+  },
 
-const hasher: FileHasher = new FileHasher( options );
+  'sha1': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-1': {
+    'hex': '',
+    'base64': ''
+  },
 
-// chunk的数据类型必须是：Uint8Array
-hasher.update( chunk1 );
-hasher.update( chunk2 );
-hasher.update( chunk3 );
-...
+  'sha224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-224': {
+    'hex': '',
+    'base64': ''
+  },
+
+  'sha256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-256': {
+    'hex': '',
+    'base64': ''
+  },
+
+  'sha384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-384': {
+    'hex': '',
+    'base64': ''
+  },
+
+  'sha512': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha-512': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha2-512': {
+    'hex': '',
+    'base64': ''
+  },
+
+  'sha3-224': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-256': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-384': {
+    'hex': '',
+    'base64': ''
+  },
+  'sha3-512': {
+    'hex': '',
+    'base64': ''
+  },
+};
+
+const result: Partial<Record<T_HashTypeKey, T_EncodeType>> = await FileHashWasmByRustForMultiThread( new URL( `${ webDir }/Windows11_Client_x64_zh-cn_26300_9457.iso` ), hashOptions );
 
 /*
 result就是最后的计算结果，形如：
@@ -123,7 +133,22 @@ result就是最后的计算结果，形如：
   },
 }
 */
-const result: Record<string, any> = hasher.digest();
+console.dir( result );
+------------------------------------------------------------
+没使用 FileHashWasmByRustForMultiThread.esm.mts 的使用方法：
+import {
+  FileHasher,
+} from "./dist/FileHashWasmByRust.js";
+
+const hasher = new FileHasher( hashOptions );
+
+// chunk的数据类型必须是：Uint8Array
+hasher.update( chunk1 );
+hasher.update( chunk2 );
+hasher.update( chunk3 );
+...
+
+const result = hasher.digest();
 
 
 
