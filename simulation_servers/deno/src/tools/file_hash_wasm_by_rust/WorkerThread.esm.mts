@@ -115,6 +115,7 @@ ${ filePath.href }
 
         MyConsole.Cyan( `
 ${ filePath.href }
+当前计算的哈希算法为：“${ Object.keys( hashOptions ).join( ', ' ) }”。
 每次从文件读取到的数据块的大小：${ chunkLen }字节，约为${ ( chunkLen / 1024 ).toFixed( 6 ) }KB，约为${ ( chunkLen / 1024 / 1024 ).toFixed( 12 ) }MB，约为${ ( chunkLen / 1024 / 1024 / 1024 ).toFixed( 18 ) }GB。
 已经从文件读取了的总数据流大小：${ bytesReaded }字节，约为${ ( bytesReaded / 1024 ).toFixed( 6 ) }KB，约为${ ( bytesReaded / 1024 / 1024 ).toFixed( 12 ) }MB，约为${ ( bytesReaded / 1024 / 1024 / 1024 ).toFixed( 18 ) }GB。
 ` );
