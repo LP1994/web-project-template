@@ -142,6 +142,7 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
 
       MyConsole.Green( `
 ${ filePath.href }
+threadId:${ workerIns.threadId }
 本文件的本轮该${ Object.keys( messageData.hash ).length }种哈希算法（${ Object.keys( messageData.hash ).join( ', ' ) }）对应的哈希值计算完成。
 本轮计算耗时${ messageData.takeUpTime.toFixed( 3 ) }毫秒。
 约为${ ( Number( messageData.takeUpTime.toFixed( 3 ) ) / 1000 ).toFixed( 3 ) }秒。
@@ -166,6 +167,7 @@ ${ filePath.href }
 
         MyConsole.Green( `
 ${ filePath.href }
+threadId:${ workerIns.threadId }
 本文件的指定的${ successTotal }种哈希算法对应的哈希值全部计算完成，总共耗时：${ ( endTimer - startTimer ).toFixed( 3 ) }毫秒！
 约为${ ( Number( ( endTimer - startTimer ).toFixed( 3 ) ) / 1000 ).toFixed( 3 ) }秒。
 约为${ ( Number( ( endTimer - startTimer ).toFixed( 3 ) ) / 1000 / 60 ).toFixed( 6 ) }分钟。
