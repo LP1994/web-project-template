@@ -326,9 +326,9 @@ export async function FileHashWasmByRustForMultiThread( {
   hashOptions = hashOptionsDefault,
   chunkSize = 4 * 1024 * 1024,
 }: {
-  filePath: URL;
-  hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
-  chunkSize: number;
+  filePath?: URL;
+  hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
+  chunkSize?: number;
 } = {} ): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
   CheckHashTypes( hashOptions );
 
