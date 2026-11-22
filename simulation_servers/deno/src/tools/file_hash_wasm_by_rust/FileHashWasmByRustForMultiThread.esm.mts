@@ -320,7 +320,9 @@ const hashOptionsDefault: Partial<Record<T_HashTypeKey, T_EncodeType>> = {
   workerThreadFilePath: string = './WorkerThread.esm.mts';
 
 export async function FileHashWasmByRustForMultiThread( {
-  filePath = throw new Error( '函数FileHashWasmByRustForMultiThread的参数对象中必须有filePath参数！' ),
+  filePath = ( (): never => {
+    throw new Error( '函数FileHashWasmByRustForMultiThread的参数对象中必须有filePath参数！' );
+  } )(),
   hashOptions = hashOptionsDefault,
   chunkSize = 4 * 1024 * 1024,
 }: {
