@@ -128,10 +128,13 @@ const result: Record<string, any> = hasher.digest();
 
 
 实际测试后，发现wasm跟使用node编写的增量计算超大文件的哈希值的耗时简直是天壤之别，使用wasm的耗时几乎是node的17倍！！！
+差距如此之大，是因为编译wasm时，没启用 WASM SIMD128！！！且没使用Worker来并发计算不同的哈希算法！才有如此大的耗时差距！！！
 
-# 启用 WASM SIMD128
-$env:RUSTFLAGS = "-C target-feature=+simd128"
-能减少sha224(别名：sha-224、sha2-224)、sha256(别名：sha-256、sha2-256)、sha384(别名：sha-384、sha2-384)、sha512(别名：sha-512、sha2-512)的耗时，缩短跟node版的耗时差距。是node的2.8倍，未启用 WASM SIMD128前，是node的4.4倍。
+启用 WASM SIMD128，而且使用 FileHashWasmByRustForMultiThread.esm.mts 的耗时，因为启用了Worker，所有耗时有了极大的提升，几乎就快接近node的耗时了：
+本文件的指定的所有10种类的哈希算法对应的哈希值全部计算完成，总共耗时：105706.106毫秒！
+约为105.706秒。
+约为1.761768分钟。
+约为0.029362807小时。
 
 查看编译后的.wasm是否开启了“SIMD128”：
 1、
@@ -179,6 +182,7 @@ wasm-opt = [
 
 
 
+没启用 WASM SIMD128！！！且没使用Worker来并发计算不同的哈希算法！
 本次耗时（单位为毫秒）：
 147576.5656
 本次耗时（单位为分钟）：
@@ -188,29 +192,16 @@ wasm-opt = [
 --------------------
 node
 9.333秒
-
-文件处理大小： 9112440832n
-{
-  "sha1": {
-    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
-    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
-  }
-}
 ------------------------------------------
-本次耗时（单位为毫秒）：
-152611.6449
-本次耗时（单位为分钟）：
-2.5435274150000002
-本次耗时（单位为小时）：
-0.04239212358333334
-
+启用 WASM SIMD128！使用 FileHashWasmByRustForMultiThread.esm.mts 的耗时：
+本文件的指定的所有种类的哈希算法对应的哈希值全部计算完成，总共耗时：15645.974毫秒！
+约为15.646秒。
+约为0.260766分钟。
+约为0.004346104小时。
+------------------------------------------
 文件处理大小： 9112440832n
 {
   "sha1": {
-    "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
-    "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
-  },
-  "sha-1": {
     "hex": "4f00b3f99fbced02e0395fbe768c571d6f89217d",
     "base64": "TwCz+Z+87QLgOV++doxXHW+JIX0="
   }
@@ -218,6 +209,7 @@ node
 
 
 
+没启用 WASM SIMD128！！！且没使用Worker来并发计算不同的哈希算法！
 本次耗时（单位为毫秒）：
 96019.6261
 本次耗时（单位为分钟）：
@@ -226,48 +218,19 @@ node
 0.02667211836111111
 
 是node的4.4倍
---------------------
-# 启用 WASM SIMD128
-$env:RUSTFLAGS = "-C target-feature=+simd128"
-
-本次耗时（单位为毫秒）：
-60771.2579
-本次耗时（单位为分钟）：
-1.0128542983333333
-本次耗时（单位为小时）：
-0.01688090497222222
-
-是node的2.8倍
+-----------------------------
+启用 WASM SIMD128！使用 FileHashWasmByRustForMultiThread.esm.mts 的耗时：
+本文件的指定的所有种类的哈希算法对应的哈希值全部计算完成，总共耗时：18603.797毫秒！
+约为18.604秒。
+约为0.310063分钟。
+约为0.005167721小时。
 --------------------
 node
 21.690秒
-
-文件处理大小： 9112440832n
-{
-  "sha512": {
-    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
-    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
-  }
-}
 -----------------------------
-本次耗时（单位为毫秒）：
-103285.7968
-本次耗时（单位为分钟）：
-1.7214299466666667
-本次耗时（单位为小时）：
-0.02869049911111111
-
 文件处理大小： 9112440832n
 {
   "sha512": {
-    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
-    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
-  },
-  "sha-512": {
-    "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
-    "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
-  },
-  "sha2-512": {
     "hex": "409bd75d6b4d8a4b3709a6beb21b4cece75b4cbdf654202dd6a8684535ced8608f9f43e7e856e481c0b6761fdc9bb6001fdb3f5a0f924f8b59a81c7ad7a5f8b3",
     "base64": "QJvXXWtNiks3Caa+shtM7OdbTL32VCAt1qhoRTXO2GCPn0Pn6FbkgcC2dh/cm7YAH9s/Wg+ST4tZqBx616X4sw=="
   }
@@ -275,16 +238,23 @@ node
 
 
 
+没启用 WASM SIMD128！！！且没使用Worker来并发计算不同的哈希算法！
 本次耗时（单位为毫秒）：
 1049075.0124000001
 本次耗时（单位为分钟）：
 17.484583540000003
 本次耗时（单位为小时）：
 0.29140972566666673
+------------------------
+启用 WASM SIMD128！使用 FileHashWasmByRustForMultiThread.esm.mts 的耗时：
+本文件的指定的所有种类的哈希算法对应的哈希值全部计算完成，总共耗时：84743.134毫秒！
+约为84.743秒。
+约为1.412386分钟。
+约为0.023539759小时。
 --------------------
 node
 55.422秒
-
+--------------------
 文件处理大小： 9112440832n
 {
   "sha3-512": {
@@ -295,6 +265,7 @@ node
 
 
 
+没启用 WASM SIMD128！！！且没使用Worker来并发计算不同的哈希算法！
 本次耗时（单位为毫秒）：
 3291571.1829
 本次耗时（单位为分钟）：
@@ -302,10 +273,16 @@ node
 本次耗时（单位为小时）：
 0.9143253285833333
 --------------------
+启用 WASM SIMD128！使用 FileHashWasmByRustForMultiThread.esm.mts 的耗时：
+本文件的指定的所有种类的哈希算法对应的哈希值全部计算完成，总共耗时：105706.106毫秒！
+约为105.706秒。
+约为1.761768分钟。
+约为0.029362807小时。
+--------------------
 node
 218.139秒
 3.636分钟
-
+--------------------
 文件处理大小： 9112440832n
 {
   "md5": {
