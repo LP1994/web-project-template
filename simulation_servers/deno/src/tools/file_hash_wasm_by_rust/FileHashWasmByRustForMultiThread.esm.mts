@@ -230,79 +230,91 @@ const hashOptionsDefault: Partial<Record<T_HashTypeKey, T_EncodeType>> = {
       'hex': '',
       'base64': ''
     },
-    'sha-1': {
-      'hex': '',
-      'base64': ''
-    },
+    /*
+     'sha-1': {
+     'hex': '',
+     'base64': ''
+     },
+     */
 
-    'sha224': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha-224': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha2-224': {
-      'hex': '',
-      'base64': ''
-    },
+    /*
+     'sha224': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha-224': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha2-224': {
+     'hex': '',
+     'base64': ''
+     },
+     */
 
     'sha256': {
       'hex': '',
       'base64': ''
     },
-    'sha-256': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha2-256': {
-      'hex': '',
-      'base64': ''
-    },
+    /*
+     'sha-256': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha2-256': {
+     'hex': '',
+     'base64': ''
+     },
+     */
 
     'sha384': {
       'hex': '',
       'base64': ''
     },
-    'sha-384': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha2-384': {
-      'hex': '',
-      'base64': ''
-    },
+    /*
+     'sha-384': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha2-384': {
+     'hex': '',
+     'base64': ''
+     },
+     */
 
     'sha512': {
       'hex': '',
       'base64': ''
     },
-    'sha-512': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha2-512': {
-      'hex': '',
-      'base64': ''
-    },
+    /*
+     'sha-512': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha2-512': {
+     'hex': '',
+     'base64': ''
+     },
+     */
 
-    'sha3-224': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha3-256': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha3-384': {
-      'hex': '',
-      'base64': ''
-    },
-    'sha3-512': {
-      'hex': '',
-      'base64': ''
-    },
+    /*
+     'sha3-224': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha3-256': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha3-384': {
+     'hex': '',
+     'base64': ''
+     },
+     'sha3-512': {
+     'hex': '',
+     'base64': ''
+     },
+     */
   },
   workerThreadFilePath: string = './WorkerThread.esm.mts';
 
