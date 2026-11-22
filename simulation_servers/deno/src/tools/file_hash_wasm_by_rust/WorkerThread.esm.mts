@@ -57,7 +57,7 @@ let startTimer: number = 0,
  *
  * @type {number}
  */
-const bufferSize: number = 4 * 1024 * 1024;
+const bufferSize: number = workerData.chunkSize ?? 4 * 1024 * 1024;
 
 // @ts-ignore
 let MyFileHasher = null;

@@ -99,12 +99,13 @@ function GetHashGroup( hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>
   return Object.values( hashObj );
 }
 
-function CreateWorkerIns( filePath: URL, hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>, workerInsIndex: number ): Promise<boolean>{
+function CreateWorkerIns( filePath: URL, hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>, chunkSize: number, workerInsIndex: number ): Promise<boolean>{
   return new Promise( ( resolve: ( args: any ) => void, reject: ( args: any ) => void ): void => {
     const workerIns: Worker = new Worker( workerThreadFilePath, {
       workerData: {
         workerInsID: `workerInsID${ workerInsIndex }`,
         hashTypes,
+        chunkSize,
       },
     } );
 
@@ -318,7 +319,15 @@ const hashOptionsDefault: Partial<Record<T_HashTypeKey, T_EncodeType>> = {
   },
   workerThreadFilePath: string = './WorkerThread.esm.mts';
 
-export async function FileHashWasmByRustForMultiThread( filePath: URL, hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>> = hashOptionsDefault ): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
+export async function FileHashWasmByRustForMultiThread( {
+  filePath = throw new Error( '函数FileHashWasmByRustForMultiThread的参数对象中必须有filePath参数！' ),
+  hashOptions = hashOptionsDefault,
+  chunkSize = 4 * 1024 * 1024,
+}: {
+  filePath: URL;
+  hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
+  chunkSize: number;
+} = {} ): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
   CheckHashTypes( hashOptions );
 
   const threadQuantity: number = cpus().length - 1;
@@ -344,7 +353,7 @@ export async function FileHashWasmByRustForMultiThread( filePath: URL, hashOptio
     i < createWorkerThreadQuantity;
     ++i
   ){
-    workerInsArr.push( CreateWorkerIns( filePath, hashGroupArr.shift() as Partial<Record<T_HashTypeKey, T_EncodeType>>, i ) );
+    workerInsArr.push( CreateWorkerIns( filePath, hashGroupArr.shift() as Partial<Record<T_HashTypeKey, T_EncodeType>>, chunkSize, i ) );
   }
 
   MyConsole.Cyan( `\n创建了${ workerInsArr.length }个Worker线程！\n` );
