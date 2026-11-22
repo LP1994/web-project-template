@@ -29,10 +29,6 @@ import {
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
-import {
-  type FileHasher as T_FileHasher,
-} from './dist/FileHashWasmByRust.d.ts';
-
 const hashTypes = workerData.hashTypes;
 
 type T_HashTypeKey = keyof typeof hashTypes;
@@ -51,7 +47,8 @@ let startTimer: number = 0,
   chunk: Uint8Array,
   chunkLen: number = 0,
   bytesReaded: number = 0,
-  hasher: T_FileHasher;
+  // @ts-ignore
+  hasher;
 
 /**
  * 1、1 * 1024 * 1024 * 1024 = 1GB、4 * 1024 * 1024 = 4MB，设置成1GB并没比4MB快多少，所以设置成4MB还是合理、合适的。
@@ -62,17 +59,32 @@ let startTimer: number = 0,
  */
 const bufferSize: number = 4 * 1024 * 1024;
 
+// @ts-ignore
+let MyFileHasher = null;
+
+async function GetFileHasherModule(){
+  // @ts-ignore
+  if( MyFileHasher ){
+    return MyFileHasher;
+  }
+  else{
+    (
+      {
+        FileHasher: MyFileHasher,
+      } = await import( './dist/FileHashWasmByRust.js' )
+    );
+
+    return MyFileHasher;
+  }
+}
+
 function CalculateFileHash(
   filePath: URL,
   hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>,
   chunkSize: number = bufferSize,
 ): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
   return new Promise( async ( resolve: ( arg: Partial<Record<T_HashTypeKey, T_EncodeType>> ) => void, reject: ( arg: unknown ) => void ): Promise<void> => {
-    const {
-      FileHasher,
-    } = await import( './dist/FileHashWasmByRust.js' );
-
-    hasher = new FileHasher( hashOptions ) as T_FileHasher;
+    hasher = new ( await GetFileHasherModule() )( hashOptions );
 
     readStream = createReadStream( filePath, {
       flags: 'r',
@@ -94,6 +106,7 @@ ${ filePath.href }
 
     readStream.on( 'readable', (): void => {
       while( null !== ( chunk = readStream!.read( chunkSize ) ) ){
+        // @ts-ignore
         hasher.update( chunk );
 
         chunkLen = chunk.length;
@@ -116,12 +129,10 @@ ${ filePath.href }
     } );
 
     readStream.on( 'close', (): void => {
-      MyConsole.Blue( `
-${ filePath.href }
-文件已关闭。
-本次文件哈希计算工具已经处理了的总字节数（单位为：字节），注意这里返回的是bigint类型的值：${ hasher.bytesProcessed() }
-` );
+      // @ts-ignore
+      MyConsole.Blue( `\n${ filePath.href }\n文件已关闭。\n本次文件哈希计算工具已经处理了的总字节数（单位为：字节），注意这里返回的是bigint类型的值：${ hasher.bytesProcessed() }\n` );
 
+      // @ts-ignore
       resolve( hasher.digest() );
     } );
 
