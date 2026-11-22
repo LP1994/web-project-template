@@ -30,10 +30,10 @@ import {
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 import {
-  FileHasher,
-} from './dist/FileHashWasmByRust.js';
+  type FileHasher as T_FileHasher,
+} from './dist/FileHashWasmByRust.d.ts';
 
-const hashTypes = workerData.hashTypes as const;
+const hashTypes = workerData.hashTypes;
 
 type T_HashTypeKey = keyof typeof hashTypes;
 
@@ -47,11 +47,11 @@ type T_EncodeType = {
 };
 
 let startTimer: number = 0,
-  readStream: ReadStream | null = null,
-  chunk: any = null,
+  readStream: ReadStream,
+  chunk: Uint8Array,
   chunkLen: number = 0,
   bytesReaded: number = 0,
-  hasher: FileHasher | null = null;
+  hasher: T_FileHasher;
 
 /**
  * 1、1 * 1024 * 1024 * 1024 = 1GB、4 * 1024 * 1024 = 4MB，设置成1GB并没比4MB快多少，所以设置成4MB还是合理、合适的。
@@ -64,14 +64,18 @@ const bufferSize: number = 4 * 1024 * 1024;
 
 function CalculateFileHash(
   filePath: URL,
-  hashOptions: Record<T_HashTypeKey, T_EncodeType>,
+  hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>,
   chunkSize: number = bufferSize,
-): Promise<Record<T_HashTypeKey, T_EncodeType>>{
-  return new Promise( ( resolve: ( arg: unknown ) => void, reject: ( arg: unknown ) => void ): void => {
-    hasher = new FileHasher( hashOptions );
+): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
+  return new Promise( async ( resolve: ( arg: Partial<Record<T_HashTypeKey, T_EncodeType>> ) => void, reject: ( arg: unknown ) => void ): Promise<void> => {
+    const {
+      FileHasher,
+    } = await import( './dist/FileHashWasmByRust.js' );
+
+    hasher = new FileHasher( hashOptions ) as T_FileHasher;
 
     readStream = createReadStream( filePath, {
-      flags: 'r+',
+      flags: 'r',
     } );
 
     readStream.on( 'open', ( fd: unknown ): void => {
@@ -89,12 +93,12 @@ ${ filePath.href }
     } );
 
     readStream.on( 'readable', (): void => {
-      while( null !== ( chunk = readStream.read( chunkSize ) ) ){
+      while( null !== ( chunk = readStream!.read( chunkSize ) ) ){
         hasher.update( chunk );
 
         chunkLen = chunk.length;
 
-        bytesReaded = readStream.bytesRead;
+        bytesReaded = readStream!.bytesRead;
 
         MyConsole.Cyan( `
 ${ filePath.href }
@@ -133,36 +137,38 @@ ${ error }
   } );
 }
 
-parentPort.on( 'close', (): void => {
-  MyConsole.Blue( `
+if( !isMainThread ){
+  parentPort!.on( 'close', (): void => {
+    MyConsole.Blue( `
 close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 该端口已关闭。
 close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
-} );
+  } );
 
-parentPort.on( 'messageerror', ( errorObject: unknown ): void => {
-  MyConsole.Red( `
+  parentPort!.on( 'messageerror', ( errorObject: unknown ): void => {
+    MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
 ${ errorObject }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
-} );
-
-parentPort.on( 'message', async ( {
-  filePath,
-  hashOptions,
-}: {
-  filePath: string;
-  hashOptions: Record<T_HashTypeKey, T_EncodeType>;
-} ): Promise<void> => {
-  startTimer = performance.now();
-
-  const hash: Record<T_HashTypeKey, T_EncodeType> = await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize );
-
-  parentPort.postMessage( {
-    hash,
-    takeUpTime: performance.now() - startTimer,
   } );
-} );
+
+  parentPort!.on( 'message', async ( {
+    filePath,
+    hashOptions,
+  }: {
+    filePath: string;
+    hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
+  } ): Promise<void> => {
+    startTimer = performance.now();
+
+    const hash: Partial<Record<T_HashTypeKey, T_EncodeType>> = await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize );
+
+    parentPort!.postMessage( {
+      hash,
+      takeUpTime: performance.now() - startTimer,
+    } );
+  } );
+}

@@ -73,7 +73,7 @@ const hashTypes = {
 
 export type T_HashTypeKey = keyof typeof hashTypes;
 
-function CheckHashTypes( hashOptions: Record<T_HashTypeKey, T_EncodeType> ){
+function CheckHashTypes( hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>> ){
   const hashTypeKeys: Array<T_HashTypeKey> = Object.keys( hashTypes ) as Array<T_HashTypeKey>;
 
   if( Object.keys( hashOptions ).length === 0 || Object.keys( hashOptions ).some( ( item: string ): boolean => {
@@ -83,23 +83,23 @@ function CheckHashTypes( hashOptions: Record<T_HashTypeKey, T_EncodeType> ){
   }
 }
 
-function GetHashGroup( hashOptions: Record<T_HashTypeKey, T_EncodeType> ): Array<Record<T_HashTypeKey, T_EncodeType>>{
+function GetHashGroup( hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>> ): Array<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
   const hashOptionsKeys: Array<[ T_HashTypeKey, T_EncodeType ]> = Object.entries( hashOptions ) as Array<[ T_HashTypeKey, T_EncodeType ]>,
-    hashObj: Record<T_HashName, Record<T_HashTypeKey, T_EncodeType>> = {} as Record<T_HashName, Record<T_HashTypeKey, T_EncodeType>>;
+    hashObj: Partial<Record<T_HashName, Partial<Record<T_HashTypeKey, T_EncodeType>>>> = {};
 
   hashOptionsKeys.forEach( ( [ item, value ]: [ T_HashTypeKey, T_EncodeType ] ): void => {
     if( ( hashTypes[ item as T_HashTypeKey ] ) in hashObj ){
-      hashObj[ hashTypes[ item as T_HashTypeKey ] ][ item as T_HashTypeKey ] = value as T_EncodeType;
+      ( hashObj[ hashTypes[ item as T_HashTypeKey ] ] as Partial<Record<T_HashTypeKey, T_EncodeType>> )[ item as T_HashTypeKey ] = value as T_EncodeType;
     }
     else{
-      hashObj[ hashTypes[ item as T_HashTypeKey ] ] = { [ item ]: value } as Record<T_HashTypeKey, T_EncodeType>;
+      hashObj[ hashTypes[ item as T_HashTypeKey ] ] = { [ item ]: value } as Partial<Record<T_HashTypeKey, T_EncodeType>>;
     }
   } );
 
   return Object.values( hashObj );
 }
 
-function CreateWorkerIns( filePath: URL, hashOptions: Record<T_HashTypeKey, T_EncodeType>, workerInsIndex: number ): Promise<boolean>{
+function CreateWorkerIns( filePath: URL, hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>, workerInsIndex: number ): Promise<boolean>{
   return new Promise( ( resolve: ( args: any ) => void, reject: ( args: any ) => void ): void => {
     const workerIns: Worker = new Worker( workerThreadFilePath, {
       workerData: {
@@ -132,7 +132,7 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
     } );
 
     workerIns.on( 'message', ( messageData: {
-      hash: Record<T_HashTypeKey, T_EncodeType>;
+      hash: Partial<Record<T_HashTypeKey, T_EncodeType>>;
       takeUpTime: number;
     } ): void => {
       ++successTotal;
@@ -152,7 +152,7 @@ ${ filePath.href }
 
       MyConsole.Blue( `\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
 
-      result = Object.assign( {}, result, messageData.hash ) as Record<T_HashTypeKey, T_EncodeType>;
+      result = Object.assign( {}, result, messageData.hash ) as Partial<Record<T_HashTypeKey, T_EncodeType>>;
 
       if( hashGroupArr.length > 0 ){
         workerIns.postMessage( {
@@ -184,7 +184,7 @@ ${ filePath.href }
           ( reject: unknown ): void => {
             resolve( true );
 
-            throw new Error( reject );
+            throw new Error( String( reject ) );
           }
         ).catch( ( err: unknown ): void => {
           console.error( err );
@@ -205,11 +205,11 @@ ${ errorObject }
 
     workerIns.on( 'online', (): void => {
       MyConsole.Cyan( `\n子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
-    } );
 
-    workerIns.postMessage( {
-      filePath: filePath.href,
-      hashOptions,
+      workerIns.postMessage( {
+        filePath: filePath.href,
+        hashOptions,
+      } );
     } );
   } );
 }
@@ -217,10 +217,10 @@ ${ errorObject }
 let startTimer: number = 0,
   successTotal: number = 0,
   hashQuantity: number = 0,
-  hashGroupArr: Array<Record<T_HashTypeKey, T_EncodeType>> = [] as Array<Record<T_HashTypeKey, T_EncodeType>>,
-  result: Record<T_HashTypeKey, T_EncodeType> = {} as Record<T_HashTypeKey, T_EncodeType>;
+  hashGroupArr: Array<Partial<Record<T_HashTypeKey, T_EncodeType>>> = [],
+  result: Partial<Record<T_HashTypeKey, T_EncodeType>> = {};
 
-const hashOptionsDefault: Record<T_HashTypeKey, T_EncodeType> = {
+const hashOptionsDefault: Partial<Record<T_HashTypeKey, T_EncodeType>> = {
     'md5': {
       'hex': '',
       'base64': '',
@@ -306,12 +306,12 @@ const hashOptionsDefault: Record<T_HashTypeKey, T_EncodeType> = {
   },
   workerThreadFilePath: string = './WorkerThread.esm.mts';
 
-export async function FileHashWasmByRustForMultiThread( filePath: URL, hashOptions?: Record<T_HashTypeKey, T_EncodeType> = hashOptionsDefault ): Promise<Record<T_HashTypeKey, T_EncodeType>>{
-  CheckHashTypes( hashOptions as Record<T_HashTypeKey, T_EncodeType> );
+export async function FileHashWasmByRustForMultiThread( filePath: URL, hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>> = hashOptionsDefault ): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
+  CheckHashTypes( hashOptions );
 
   const threadQuantity: number = cpus().length - 1;
 
-  hashGroupArr = GetHashGroup( hashOptions as Record<T_HashTypeKey, T_EncodeType> );
+  hashGroupArr = GetHashGroup( hashOptions );
 
   hashQuantity = hashGroupArr.length;
 
@@ -332,7 +332,7 @@ export async function FileHashWasmByRustForMultiThread( filePath: URL, hashOptio
     i < createWorkerThreadQuantity;
     ++i
   ){
-    workerInsArr.push( CreateWorkerIns( filePath, hashGroupArr.shift(), i ) );
+    workerInsArr.push( CreateWorkerIns( filePath, hashGroupArr.shift() as Partial<Record<T_HashTypeKey, T_EncodeType>>, i ) );
   }
 
   MyConsole.Cyan( `\n创建了${ workerInsArr.length }个Worker线程！\n` );
