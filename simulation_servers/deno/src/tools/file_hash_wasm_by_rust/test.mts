@@ -1,4 +1,4 @@
-// deno run -A --config=../../../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../.env.deno ./test.mts --color=16m --my_args="{\"md5\":{\"hex\":\"\",\"base64\":\"\"},\"sha512\":{\"hex\":\"\",\"base64\":\"\"},\"sha3-512\":{\"hex\":\"\",\"base64\":\"\"}}"
+// deno run -A --config=../../../deno.jsonc --check --v8-flags=--max-old-space-size=1024000 --reload --watch-hmr --env-file=../../../.env.deno ./test.mts --color=16m
 
 'use strict';
 
