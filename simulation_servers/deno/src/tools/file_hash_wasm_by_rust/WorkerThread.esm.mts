@@ -150,7 +150,7 @@ ${ error }
   } );
 }
 
-if( !isMainThread ){
+if( workerData.workerType === 'filePath' ){
   parentPort!.on( 'close', (): void => {
     MyConsole.Blue( `
 close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
@@ -184,4 +184,7 @@ ${ errorObject }
       takeUpTime: performance.now() - startTimer,
     } );
   } );
+}
+else if( workerData.workerType === 'chunk' ){
+
 }

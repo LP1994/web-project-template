@@ -106,6 +106,7 @@ function CreateWorkerIns( filePath: URL, hashOptions: Partial<Record<T_HashTypeK
         workerInsID: `workerInsID${ workerInsIndex }`,
         hashTypes,
         chunkSize,
+        workerType: 'filePath',
       },
     } );
 
