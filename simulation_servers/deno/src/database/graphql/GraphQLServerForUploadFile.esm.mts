@@ -190,6 +190,13 @@ interface T_GraphQLServerForUploadFileOptions {
 }
 
 /**
+ * 单位为：字节。
+ *
+ * @type {number}
+ */
+const chunkDefaultSize: number = 4 * 1024 * 1024;
+
+/**
  * 字段名称的最大长度（以字节为单位）。<br />
  * 当前默认值设置为：Infinity。<br />
  *
@@ -581,6 +588,7 @@ async function GraphQLServerForMultipartParser(
       reject: ( reason?: unknown ) => void
     ): void => {
       let busboy: BusboyInstance = new Busboy( {
+        highWaterMark: chunkDefaultSize,
         headers: {
           'content-type': request.headers.get( 'content-type' ) as string,
         },
@@ -800,7 +808,9 @@ async function GraphQLServerForMultipartParser(
 
       busboy.on( 'error', fail );
 
-      const nodeRequest: Readable = Readable.fromWeb( request.body );
+      const nodeRequest: Readable = Readable.fromWeb( request.body, {
+        highWaterMark: chunkDefaultSize,
+      } );
 
       nodeRequest.on( 'error', fail );
 
