@@ -219,15 +219,22 @@ ${ errorObject }
 
   parentPort!.on( 'message', ( {
     type,
-    chunkLength,
+    chunkByteLength,
+    hashOptions,
   }: {
-    type: 'chunk';
-    chunkLength: number;
+    type: 'chunk' | 'digest';
+    chunkByteLength: number;
+    hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
   } ): void => {
-    startTimer = performance.now();
+    if( type === 'chunk' ){
+      startTimer = performance.now();
 
-    parentPort!.postMessage( {
-      takeUpTime: performance.now() - startTimer,
-    } );
+      parentPort!.postMessage( {
+        takeUpTime: performance.now() - startTimer,
+      } );
+    }
+    else if( type === 'digest' ){
+
+    }
   } );
 }
