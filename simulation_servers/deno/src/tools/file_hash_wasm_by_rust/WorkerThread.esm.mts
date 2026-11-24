@@ -168,12 +168,12 @@ close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsI
 ` );
   } );
 
-  parentPort!.on( 'messageerror', ( errorObject: unknown ): void => {
+  parentPort!.on( 'messageerror', ( error: Error ): void => {
     MyConsole.Red( `
 模式：filePath
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
-Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
-${ errorObject }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
   } );
@@ -207,14 +207,18 @@ close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsI
 ` );
   } );
 
-  parentPort!.on( 'messageerror', ( errorObject: unknown ): void => {
+  parentPort!.on( 'messageerror', ( error: Error ): void => {
     MyConsole.Red( `
 模式：chunk
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
-Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
-${ errorObject }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
+
+    parentPort!.postMessage( {
+      type: 'error-ack',
+    } );
   } );
 
   parentPort!.on( 'message', ( {

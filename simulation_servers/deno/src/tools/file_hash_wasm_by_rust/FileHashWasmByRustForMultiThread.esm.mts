@@ -379,7 +379,7 @@ export async function FileHashWasmByRustForFilePathForMultiThread( {
 }
 
 export class FileHashWasmByRustForChunkForMultiThread {
-  #startTimer: number;
+  #startTimer: number = 0;
 
   #chunkSize: number;
 
@@ -425,11 +425,17 @@ export class FileHashWasmByRustForChunkForMultiThread {
 
   #hashGroupArr: Array<Partial<Record<T_HashTypeKey, T_EncodeType>>>;
 
+  #hashGroupArrByBackup: Array<Partial<Record<T_HashTypeKey, T_EncodeType>>>;
+
   #hashQuantity: number;
 
   #workerInsArr: Array<Worker> = [] as Array<Worker>;
 
   #successTotal: number = 0;
+
+  #failTotal: number = 0;
+
+  #completeTotal: number = 0;
 
   #chunkByteLength: number = 0;
 
@@ -440,8 +446,6 @@ export class FileHashWasmByRustForChunkForMultiThread {
     hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
     chunkSize?: number;
   } = {} ){
-    this.#startTimer = performance.now();
-
     this.#chunkSize = chunkSize;
 
     this.#sharedArrayBufferForChunk = new SharedArrayBuffer( chunkSize, );
@@ -485,6 +489,8 @@ export class FileHashWasmByRustForChunkForMultiThread {
     const threadQuantity: number = cpus().length - 1;
 
     this.#hashGroupArr = GetHashGroup( hashOptions );
+
+    this.#hashGroupArrByBackup = structuredClone( this.#hashGroupArr );
 
     this.#hashQuantity = this.#hashGroupArr.length;
 
@@ -541,13 +547,12 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
       }
     } );
 
-    // TODO
     workerIns.on( 'message', ( {
       type,
       takeUpTime,
       hashOptions,
     }: {
-      type: 'chunk-ack' | 'digest-ack';
+      type: 'chunk-ack' | 'digest-ack' | 'error-ack';
       takeUpTime: number;
       hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
     } ): void => {
@@ -570,7 +575,6 @@ threadId:${ workerIns.threadId }
 
         MyConsole.Blue( `\n模式：chunk\nmessage event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End\n` );
 
-        // TODO
         if( this.#hashGroupArr.length > 0 ){
           workerIns.postMessage( {
             type: 'chunk',
@@ -578,7 +582,6 @@ threadId:${ workerIns.threadId }
             hashOptions: this.#hashGroupArr.shift() as Partial<Record<T_HashTypeKey, T_EncodeType>>,
           } );
         }
-        // TODO
         else if( this.#successTotal === this.#hashQuantity ){
           const endTimer: number = performance.now();
 
@@ -593,6 +596,9 @@ threadId:${ workerIns.threadId }
         }
       }
       else if( type === 'digest-ack' ){
+
+      }
+      else if( type === 'error-ack' ){
 
       }
     } );
@@ -617,19 +623,90 @@ ${ errorObject }
   #resetForChunkState(): void{
     this.#startTimer = 0;
 
+    this.#hashGroupArr = this.#hashGroupArrByBackup;
+
     this.#successTotal = 0;
 
+    this.#failTotal = 0;
+
+    this.#completeTotal = 0;
+
+    this.#chunkByteLength = 0;
+
     Atomics.store( this.#sharedStateControl, 0, 0 );
+  }
+
+  #calculateCompleteByAllHashType(): Promise<boolean>{
+    return new Promise( ( resolve: ( arg: unknown ) => void, reject: ( arg: unknown ) => void ): void => {
+      while( true ){
+        if( this.#successTotal === this.#hashQuantity ){
+          resolve( true );
+
+          break;
+        }
+      }
+    } );
   }
 
   public async update( chunk: Uint8Array ): Promise<boolean>{
     this.#chunkByteLength = chunk.byteLength;
 
+    if( this.#chunkByteLength > this.#chunkSize ){
+      MyConsole.Red( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前chunk的byteLength大小（${ this.#chunkByteLength }字节）大于实例化类FileHashWasmByRustForChunkForMultiThread时，传入的chunkSize的值（${ this.#chunkSize }字节）。
+请将每次的chunk的大小控制在chunkSize的值之内，不能比它大就是了。
+update方法(isMainThread:${ isMainThread })--->End
+` );
+
+      throw new Error( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前chunk的byteLength大小（${ this.#chunkByteLength }字节）大于实例化类FileHashWasmByRustForChunkForMultiThread时，传入的chunkSize的值（${ this.#chunkSize }字节）。
+请将每次的chunk的大小控制在chunkSize的值之内，不能比它大就是了。
+update方法(isMainThread:${ isMainThread })--->End
+` );
+    }
+
+    if( this.#chunkByteLength === 0 ){
+      MyConsole.Red( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前chunk的byteLength大小为0，这是不被允许的，请自行过滤掉此类chunk。
+update方法(isMainThread:${ isMainThread })--->End
+` );
+
+      throw new Error( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前chunk的byteLength大小为0，这是不被允许的，请自行过滤掉此类chunk。
+update方法(isMainThread:${ isMainThread })--->End
+` );
+    }
+
+    if( Atomics.load( this.#sharedStateControl, 0 ) === 1 ){
+      MyConsole.Red( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前还存在旧的chunk正在被使用计算中，请待其被全部计算完后，再传入新的chunk。
+update方法(isMainThread:${ isMainThread })--->End
+` );
+
+      throw new Error( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前还存在旧的chunk正在被使用计算中，请待其被全部计算完后，再传入新的chunk。
+update方法(isMainThread:${ isMainThread })--->End
+` );
+    }
+
+    this.#startTimer = performance.now();
+
     this.#sharedChunk.set( chunk );
 
     Atomics.store( this.#sharedStateControl, 0, 1 );
 
-    // TODO
     this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
       workerIns.postMessage( {
         type: 'chunk',
@@ -638,26 +715,47 @@ ${ errorObject }
       } );
     } );
 
-    return true;
+    // TODO
+    if( ( await this.#calculateCompleteByAllHashType() ) === true ){
+      this.#resetForChunkState();
+
+      return true;
+    }
+    // TODO
+    else{
+      MyConsole.Red( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前chunk并没有完成指定的所有种类的哈希算法的计算！请自行排查其中原因！
+update方法(isMainThread:${ isMainThread })--->End
+` );
+
+      throw new Error( `
+模式：chunk
+update方法(isMainThread:${ isMainThread })--->Start
+当前chunk并没有完成指定的所有种类的哈希算法的计算！请自行排查其中原因！
+update方法(isMainThread:${ isMainThread })--->End
+` );
+    }
   }
 
   public digest(): Partial<Record<T_HashTypeKey, T_EncodeType>>{
-    // If the worker was terminated, the exitCode parameter is 1.
-    /*
-     workerIns.terminate().then(
-     ( exitCode: number ): void => {
-     MyConsole.Yellow( `\n模式：chunk\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+    this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
+      // If the worker was terminated, the exitCode parameter is 1.
+      workerIns.terminate().then(
+        ( exitCode: number ): void => {
+          MyConsole.Yellow( `\n模式：chunk\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
 
-     // 会强制退成程序！！！
-     // exit( 0 );
-     },
-     ( reject: unknown ): void => {
-     throw new Error( String( reject ) );
-     }
-     ).catch( ( err: unknown ): void => {
-     console.error( err );
-     } );
-     */
+          // 会强制退成程序！！！
+          // exit( 0 );
+        },
+        ( reject: unknown ): void => {
+          throw new Error( String( reject ) );
+        }
+      ).catch( ( err: unknown ): void => {
+        console.error( err );
+      } );
+    } );
   }
 }
 
