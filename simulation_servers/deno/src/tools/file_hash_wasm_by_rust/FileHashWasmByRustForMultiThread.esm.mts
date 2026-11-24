@@ -381,9 +381,47 @@ export async function FileHashWasmByRustForFilePathForMultiThread( {
 export class FileHashWasmByRustForChunkForMultiThread {
   #startTimer: number;
 
+  #chunkSize: number;
+
   #sharedArrayBufferForChunk: SharedArrayBuffer;
 
   #sharedChunk: Uint8Array;
+
+  /**
+   * Uint8Array.BYTES_PER_ELEMENT * 1：表示Atomics.store能存1个Uint8Array，每个能存1字节的数据，也就是能存的数值范围为0到255之间，且是包括0、包括255。<br />
+   * 例子：<br />
+   * 可以这么设置：<br />
+   * ```ts
+   * // Atomics.store的第2个参数只能是0，因为就创建了1个Uint8Array，Atomics.store的第3个参数的数值范围只能是在0到255之间，且是包括0、包括255。
+   * // Atomics.store的第2个参数为0、第3个参数为0，表示：主线程当前还没执行“this.#sharedChunk.set( chunk );”，也就是还没更新共享内存区域的数据，子线程也就不能从共享内存区读取到新的数据，就算读取了，也是只能读取到旧的数据。
+   * Atomics.store( this.#sharedStateControl, 0, 0 );
+   * // Atomics.store的第2个参数为0、第3个参数为1，表示：主线程当前已经执行了“this.#sharedChunk.set( chunk );”，也就是已经更新了共享内存区域的数据，子线程也就能从共享内存区读取到新的数据了。
+   * Atomics.store( this.#sharedStateControl, 0, 1 );
+   * ```
+   *
+   * @type {SharedArrayBuffer}
+   *
+   * @private
+   */
+  #sharedArrayBufferForStateControl: SharedArrayBuffer;
+
+  /**
+   * Uint8Array.BYTES_PER_ELEMENT * 1：表示Atomics.store能存1个Uint8Array，每个能存1字节的数据，也就是能存的数值范围为0到255之间，且是包括0、包括255。<br />
+   * 例子：<br />
+   * 可以这么设置：<br />
+   * ```ts
+   * // Atomics.store的第2个参数只能是0，因为就创建了1个Uint8Array，Atomics.store的第3个参数的数值范围只能是在0到255之间，且是包括0、包括255。
+   * // Atomics.store的第2个参数为0、第3个参数为0，表示：主线程当前还没执行“this.#sharedChunk.set( chunk );”，也就是还没更新共享内存区域的数据，子线程也就不能从共享内存区读取到新的数据，就算读取了，也是只能读取到旧的数据。
+   * Atomics.store( this.#sharedStateControl, 0, 0 );
+   * // Atomics.store的第2个参数为0、第3个参数为1，表示：主线程当前已经执行了“this.#sharedChunk.set( chunk );”，也就是已经更新了共享内存区域的数据，子线程也就能从共享内存区读取到新的数据了。
+   * Atomics.store( this.#sharedStateControl, 0, 1 );
+   * ```
+   *
+   * @type {Uint8Array}
+   *
+   * @private
+   */
+  #sharedStateControl: Uint8Array;
 
   #hashGroupArr: Array<Partial<Record<T_HashTypeKey, T_EncodeType>>>;
 
@@ -404,9 +442,43 @@ export class FileHashWasmByRustForChunkForMultiThread {
   } = {} ){
     this.#startTimer = performance.now();
 
+    this.#chunkSize = chunkSize;
+
     this.#sharedArrayBufferForChunk = new SharedArrayBuffer( chunkSize, );
 
     this.#sharedChunk = new Uint8Array( this.#sharedArrayBufferForChunk );
+
+    /**
+     * Uint8Array.BYTES_PER_ELEMENT * 1：表示Atomics.store能存1个Uint8Array，每个能存1字节的数据，也就是能存的数值范围为0到255之间，且是包括0、包括255。<br />
+     * 例子：<br />
+     * 可以这么设置：<br />
+     * ```ts
+     * // Atomics.store的第2个参数只能是0，因为就创建了1个Uint8Array，Atomics.store的第3个参数的数值范围只能是在0到255之间，且是包括0、包括255。
+     * // Atomics.store的第2个参数为0、第3个参数为0，表示：主线程当前还没执行“this.#sharedChunk.set( chunk );”，也就是还没更新共享内存区域的数据，子线程也就不能从共享内存区读取到新的数据，就算读取了，也是只能读取到旧的数据。
+     * Atomics.store( this.#sharedStateControl, 0, 0 );
+     * // Atomics.store的第2个参数为0、第3个参数为1，表示：主线程当前已经执行了“this.#sharedChunk.set( chunk );”，也就是已经更新了共享内存区域的数据，子线程也就能从共享内存区读取到新的数据了。
+     * Atomics.store( this.#sharedStateControl, 0, 1 );
+     * ```
+     *
+     * @type {SharedArrayBuffer}
+     */
+    this.#sharedArrayBufferForStateControl = new SharedArrayBuffer( Uint8Array.BYTES_PER_ELEMENT * 1 );
+
+    /**
+     * Uint8Array.BYTES_PER_ELEMENT * 1：表示Atomics.store能存1个Uint8Array，每个能存1字节的数据，也就是能存的数值范围为0到255之间，且是包括0、包括255。<br />
+     * 例子：<br />
+     * 可以这么设置：<br />
+     * ```ts
+     * // Atomics.store的第2个参数只能是0，因为就创建了1个Uint8Array，Atomics.store的第3个参数的数值范围只能是在0到255之间，且是包括0、包括255。
+     * // Atomics.store的第2个参数为0、第3个参数为0，表示：主线程当前还没执行“this.#sharedChunk.set( chunk );”，也就是还没更新共享内存区域的数据，子线程也就不能从共享内存区读取到新的数据，就算读取了，也是只能读取到旧的数据。
+     * Atomics.store( this.#sharedStateControl, 0, 0 );
+     * // Atomics.store的第2个参数为0、第3个参数为1，表示：主线程当前已经执行了“this.#sharedChunk.set( chunk );”，也就是已经更新了共享内存区域的数据，子线程也就能从共享内存区读取到新的数据了。
+     * Atomics.store( this.#sharedStateControl, 0, 1 );
+     * ```
+     *
+     * @type {Uint8Array}
+     */
+    this.#sharedStateControl = new Uint8Array( this.#sharedArrayBufferForStateControl );
 
     CheckHashTypes( hashOptions );
 
@@ -442,6 +514,7 @@ export class FileHashWasmByRustForChunkForMultiThread {
         hashTypes,
         workerType: 'chunk',
         sharedArrayBufferForChunk: this.#sharedArrayBufferForChunk,
+        sharedArrayBufferForStateControl: this.#sharedArrayBufferForStateControl,
       },
     } );
 
@@ -541,10 +614,20 @@ ${ errorObject }
     return workerIns;
   }
 
+  #resetForChunkState(): void{
+    this.#startTimer = 0;
+
+    this.#successTotal = 0;
+
+    Atomics.store( this.#sharedStateControl, 0, 0 );
+  }
+
   public async update( chunk: Uint8Array ): Promise<boolean>{
     this.#chunkByteLength = chunk.byteLength;
 
     this.#sharedChunk.set( chunk );
+
+    Atomics.store( this.#sharedStateControl, 0, 1 );
 
     // TODO
     this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
@@ -554,6 +637,8 @@ ${ errorObject }
         hashOptions: this.#hashGroupArr.shift() as Partial<Record<T_HashTypeKey, T_EncodeType>>,
       } );
     } );
+
+    return true;
   }
 
   public digest(): Partial<Record<T_HashTypeKey, T_EncodeType>>{

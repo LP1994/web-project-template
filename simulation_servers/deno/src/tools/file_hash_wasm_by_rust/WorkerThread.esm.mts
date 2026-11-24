@@ -230,11 +230,14 @@ ${ errorObject }
       startTimer = performance.now();
 
       parentPort!.postMessage( {
+        type: 'chunk-ack',
         takeUpTime: performance.now() - startTimer,
       } );
     }
     else if( type === 'digest' ){
-
+      parentPort!.postMessage( {
+        type: 'digest-ack',
+      } );
     }
   } );
 }
