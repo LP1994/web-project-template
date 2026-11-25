@@ -218,6 +218,8 @@ ${ error.message }
 
     parentPort!.postMessage( {
       type: 'error-ack',
+      messageError: error.message,
+      // hashOptions
     } );
   } );
 
@@ -227,8 +229,8 @@ ${ error.message }
     hashOptions,
   }: {
     type: 'chunk' | 'digest';
-    chunkByteLength: number;
-    hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
+    chunkByteLength?: number;
+    hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
   } ): void => {
     if( type === 'chunk' ){
       startTimer = performance.now();
@@ -236,11 +238,13 @@ ${ error.message }
       parentPort!.postMessage( {
         type: 'chunk-ack',
         takeUpTime: performance.now() - startTimer,
+        // hashOptions
       } );
     }
     else if( type === 'digest' ){
       parentPort!.postMessage( {
         type: 'digest-ack',
+        // resultHash
       } );
     }
   } );

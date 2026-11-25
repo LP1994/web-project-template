@@ -551,10 +551,14 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
       type,
       takeUpTime,
       hashOptions,
+      messageError,
+      resultHash,
     }: {
       type: 'chunk-ack' | 'digest-ack' | 'error-ack';
-      takeUpTime: number;
-      hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>;
+      takeUpTime?: number;
+      hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
+      messageError?: string;
+      resultHash?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
     } ): void => {
       if( type === 'chunk-ack' ){
         ++this.#successTotal;
@@ -603,12 +607,12 @@ threadId:${ workerIns.threadId }
       }
     } );
 
-    workerIns.on( 'messageerror', ( errorObject: unknown ): void => {
+    workerIns.on( 'messageerror', ( error: Error ): void => {
       MyConsole.Red( `
 模式：chunk
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
-${ errorObject }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
     } );
@@ -741,6 +745,10 @@ update方法(isMainThread:${ isMainThread })--->End
 
   public digest(): Partial<Record<T_HashTypeKey, T_EncodeType>>{
     this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
+      workerIns.postMessage( {
+        type: 'digest',
+      } );
+
       // If the worker was terminated, the exitCode parameter is 1.
       workerIns.terminate().then(
         ( exitCode: number ): void => {
