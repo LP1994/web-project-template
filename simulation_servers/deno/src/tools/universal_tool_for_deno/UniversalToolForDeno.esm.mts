@@ -140,6 +140,25 @@ function HandleByRegExp001( arg1: string, regStr: RegExp ): boolean{
 // 其他工具函数 Start
 
 /**
+ * 生成一个通用的Error类型的错误对象。
+ *
+ * @param {unknown} error
+ *
+ * @returns {Error} 生成一个通用的Error类型的错误对象。
+ */
+export function GenerateError( error: unknown ): Error{
+  if( Error.isError( error ) ){
+    return new Error( error.message, { cause: error, } );
+  }
+
+  if( IsArray( error ) || IsObject( error ) ){
+    return new Error( JSON.stringify( error ), { cause: error, } );
+  }
+
+  return new Error( String( error ), { cause: error, } );
+}
+
+/**
  * 根据传入的参数error，获取该error对应的错误信息，并返回字符串类型的错误信息。
  *
  * @param {unknown} error
@@ -3983,6 +4002,7 @@ export function Logger4Decorator( {
 export default {
   // 其他工具函数 Start
 
+  GenerateError,
   GetErrorMessage,
 
   // 其他工具函数 End
