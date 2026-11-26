@@ -469,9 +469,9 @@ export class FileHashWasmByRustForChunkForMultiThread {
 
   #successTotal: number = 0;
 
-  #failTotal: number = 0;
+  #resultHashForSuccessTotal: number = 0;
 
-  #completeTotal: number = 0;
+  #resultAllHash: Partial<Record<T_HashTypeKey, T_EncodeType>> = {};
 
   #chunkByteLength: number = 0;
 
@@ -568,6 +568,14 @@ Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( er
 ${ GetErrorMessage( error ) }
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
+
+      throw new Error( `
+模式：chunk
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+`, { cause: error, } );
     } );
 
     workerIns.on( 'exit', ( exitCode: number ): void => {
@@ -587,13 +595,11 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
       type,
       takeUpTime,
       hashOptions,
-      messageError,
       resultHash,
     }: {
-      type: 'chunk-ack' | 'digest-ack' | 'error-ack';
+      type: 'chunk-ack' | 'digest-ack';
       takeUpTime?: number;
       hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
-      messageError?: string;
       resultHash?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
     } ): void => {
       if( type === 'chunk-ack' ){
@@ -636,10 +642,13 @@ threadId:${ workerIns.threadId }
         }
       }
       else if( type === 'digest-ack' ){
+        if( this.#resultHashForSuccessTotal === 0 ){
+          this.#resultAllHash = {};
+        }
 
-      }
-      else if( type === 'error-ack' ){
+        this.#resultAllHash = Object.assign( {}, this.#resultAllHash, resultHash );
 
+        ++this.#resultHashForSuccessTotal;
       }
     } );
 
@@ -651,6 +660,14 @@ Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( er
 ${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
+
+      throw new Error( `
+模式：chunk
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+`, { cause: error, } );
     } );
 
     workerIns.on( 'online', (): void => {
@@ -667,9 +684,7 @@ ${ error.message }
 
     this.#successTotal = 0;
 
-    this.#failTotal = 0;
-
-    this.#completeTotal = 0;
+    this.#resultHashForSuccessTotal = 0;
 
     this.#chunkByteLength = 0;
 
@@ -677,14 +692,22 @@ ${ error.message }
   }
 
   #calculateCompleteByAllHashType(): Promise<boolean>{
-    return new Promise( ( resolve: ( arg: unknown ) => void, reject: ( arg: unknown ) => void ): void => {
-      while( true ){
-        if( this.#successTotal === this.#hashQuantity ){
-          resolve( true );
-
-          break;
-        }
+    // @ts-expect-error
+    return new Promise( ( resolve: ( arg: boolean ) => void, reject: ( arg: unknown ) => void ): void => {
+      while( this.#successTotal !== this.#hashQuantity ){
       }
+
+      resolve( true );
+    } );
+  }
+
+  #getAllHash(): Promise<boolean>{
+    // @ts-expect-error
+    return new Promise( ( resolve: ( arg: boolean ) => void, reject: ( arg: unknown ) => void ): void => {
+      while( this.#resultHashForSuccessTotal !== this.#workerInsArr.length ){
+      }
+
+      resolve( true );
     } );
   }
 
@@ -755,14 +778,14 @@ update方法(isMainThread:${ isMainThread })--->End
       } );
     } );
 
-    // TODO
     if( ( await this.#calculateCompleteByAllHashType() ) === true ){
       this.#resetForChunkState();
 
       return true;
     }
-    // TODO
     else{
+      this.#resetForChunkState();
+
       MyConsole.Red( `
 模式：chunk
 update方法(isMainThread:${ isMainThread })--->Start
@@ -779,27 +802,66 @@ update方法(isMainThread:${ isMainThread })--->End
     }
   }
 
-  public digest(): Partial<Record<T_HashTypeKey, T_EncodeType>>{
+  public async digest(): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
     this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
       workerIns.postMessage( {
         type: 'digest',
       } );
-
-      // If the worker was terminated, the exitCode parameter is 1.
-      workerIns.terminate().then(
-        ( exitCode: number ): void => {
-          MyConsole.Yellow( `\n模式：chunk\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
-
-          // 会强制退成程序！！！
-          // exit( 0 );
-        },
-        ( reject: unknown ): void => {
-          console.error( GetErrorMessage( reject ) );
-        }
-      ).catch( ( err: unknown ): void => {
-        console.error( GetErrorMessage( err ) );
-      } );
     } );
+
+    const boo: boolean = await this.#getAllHash();
+
+    this.#resetForChunkState();
+
+    this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
+      // If the worker was terminated, the exitCode parameter is 1.
+      workerIns.terminate()
+        .then(
+          ( exitCode: number ): void => {
+            MyConsole.Yellow( `\n模式：chunk\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+
+            // 会强制退成程序！！！
+            // exit( 0 );
+          },
+          ( reject: unknown ): void => {
+            MyConsole.Red( `
+模式：chunk
+(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( reject )--->${ Object.prototype.toString.call( reject ) }
+${ GetErrorMessage( reject ) }
+(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
+          }
+        )
+        .catch( ( error: unknown ): void => {
+          MyConsole.Red( `
+模式：chunk
+(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
+(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
+        } );
+    } );
+
+    if( boo ){
+      return this.#resultAllHash;
+    }
+    else{
+      MyConsole.Red( `
+模式：chunk
+digest方法(isMainThread:${ isMainThread })--->Start
+当前chunk并没有完成指定的所有种类的哈希算法的计算！请自行排查其中原因！
+digest方法(isMainThread:${ isMainThread })--->End
+` );
+
+      throw new Error( `
+模式：chunk
+digest方法(isMainThread:${ isMainThread })--->Start
+当前chunk并没有完成指定的所有种类的哈希算法的计算！请自行排查其中原因！
+digest方法(isMainThread:${ isMainThread })--->End
+` );
+    }
   }
 }
 

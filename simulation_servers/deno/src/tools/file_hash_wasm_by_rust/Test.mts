@@ -134,5 +134,5 @@ else{
     await myFileHash.update( chunk );
   }
 
-  console.dir( myFileHash.digest() );
+  console.dir( await myFileHash.digest() );
 }

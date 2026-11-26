@@ -271,11 +271,13 @@ ${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
 
-    parentPort!.postMessage( {
-      type: 'error-ack',
-      messageError: error.message,
-      // hashOptions
-    } );
+    throw new Error( `
+模式：chunk
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+`, { cause: error, } );
   } );
 
   parentPort!.on( 'message', ( {
