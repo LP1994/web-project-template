@@ -1209,7 +1209,7 @@
     "postcss-js": "^5.1.1",
     "postcss-jsx": "^0.36.4",
     "postcss-lab-function": "^8.0.17",
-    "postcss-less": "^8.0.0",
+    "postcss-less": "^8.1.0",
     "postcss-less-engine": "^0.6.2",
     "postcss-load-config": "^6.0.1",
     "postcss-load-options": "^1.2.0",
