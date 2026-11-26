@@ -82,7 +82,7 @@ if( workerData.workerType === 'filePath' ){
     CalculateFileHash: (
       filePath: URL,
       hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>,
-      chunkSize: number = bufferSize,
+      chunkSize: number,
     ) => Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>> = (
       filePath: URL,
       hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>,
@@ -199,8 +199,32 @@ ${ error.message }
   } ): Promise<void> => {
     startTimer = performance.now();
 
-    const hash: Partial<Record<T_HashTypeKey, T_EncodeType>> = await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize ).catch( ( error: unknown ): void => {
-      MyConsole.Red( `
+    const hash: Partial<Record<T_HashTypeKey, T_EncodeType>> = (
+      await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize )
+        .then(
+          ( resolve: Partial<Record<T_HashTypeKey, T_EncodeType>> ): Partial<Record<T_HashTypeKey, T_EncodeType>> => resolve,
+          ( reject: unknown ) => {
+            MyConsole.Red( `
+模式：filePath
+${ filePath }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+Object.prototype.toString.call( reject )--->${ Object.prototype.toString.call( reject ) }
+${ GetErrorMessage( reject ) }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+` );
+
+            throw new Error( `
+模式：filePath
+${ filePath }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+Object.prototype.toString.call( reject )--->${ Object.prototype.toString.call( reject ) }
+${ GetErrorMessage( reject ) }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+`, { cause: reject, } );
+          },
+        )
+        .catch( ( error: unknown ): void => {
+          MyConsole.Red( `
 模式：filePath
 ${ filePath }
 (isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
@@ -209,7 +233,7 @@ ${ GetErrorMessage( error ) }
 (isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
 
-      throw new Error( `
+          throw new Error( `
 模式：filePath
 ${ filePath }
 (isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
@@ -217,7 +241,8 @@ Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( er
 ${ GetErrorMessage( error ) }
 (isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 `, { cause: error, } );
-    } );
+        } )
+    ) ?? {};
 
     parentPort!.postMessage( {
       hash,
