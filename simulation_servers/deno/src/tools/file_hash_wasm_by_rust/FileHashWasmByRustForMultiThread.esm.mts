@@ -24,6 +24,7 @@ import {
 
 import {
   MyConsole,
+  GetErrorMessage,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
 export type T_HashName = 'md5' |
@@ -100,6 +101,7 @@ function GetHashGroup( hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>
 }
 
 function CreateWorkerIns( filePath: URL, hashOptions: Partial<Record<T_HashTypeKey, T_EncodeType>>, chunkSize: number, workerInsIndex: number ): Promise<boolean>{
+  // @ts-expect-error
   return new Promise( ( resolve: ( args: any ) => void, reject: ( args: any ) => void ): void => {
     const workerIns: Worker = new Worker( workerThreadFilePath, {
       workerData: {
@@ -107,31 +109,41 @@ function CreateWorkerIns( filePath: URL, hashOptions: Partial<Record<T_HashTypeK
         hashTypes,
         chunkSize,
         workerType: 'filePath',
+        filePath,
       },
     } );
 
-    workerIns.on( 'error', ( errorEventData: unknown ): void => {
+    workerIns.on( 'error', ( error: unknown ): void => {
       MyConsole.Red( `
 模式：filePath
+${ filePath.href }
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-Object.prototype.toString.call( errorEventData )--->${ Object.prototype.toString.call( errorEventData ) }
-${ errorEventData }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
 
-      reject( errorEventData );
+      throw new Error( `
+模式：filePath
+${ filePath.href }
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
+error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+`, { cause: error, } );
     } );
 
     workerIns.on( 'exit', ( exitCode: number ): void => {
       MyConsole.Yellow( `
 模式：filePath
+${ filePath.href }
 exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 exitCode:${ exitCode }.
 exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
 
       if( Number( exitCode ) !== 0 ){
-        MyConsole.Yellow( `\n模式：filePath\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
+        MyConsole.Yellow( `\n模式：filePath\n${ filePath.href }\nWorker stopped with exit code ${ exitCode }.isMainThread:${ isMainThread }、threadId:${ workerIns.threadId }.\n` );
       }
     } );
 
@@ -182,7 +194,7 @@ threadId:${ workerIns.threadId }
         // If the worker was terminated, the exitCode parameter is 1.
         workerIns.terminate().then(
           ( exitCode: number ): void => {
-            MyConsole.Yellow( `\n模式：filePath\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+            MyConsole.Yellow( `\n模式：filePath\n${ filePath.href }\n停止工作线程(exitCode:${ exitCode }、isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
 
             resolve( true );
 
@@ -190,12 +202,28 @@ threadId:${ workerIns.threadId }
             // exit( 0 );
           },
           ( reject: unknown ): void => {
-            resolve( true );
+            MyConsole.Red( `
+模式：filePath
+${ filePath.href }
+workerIns.terminate reject event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( reject )--->${ Object.prototype.toString.call( reject ) }
+${ GetErrorMessage( reject ) }
+workerIns.terminate reject event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
 
-            throw new Error( String( reject ) );
+            resolve( true );
           }
-        ).catch( ( err: unknown ): void => {
-          console.error( err );
+        ).catch( ( error: unknown ): void => {
+          MyConsole.Red( `
+模式：filePath
+${ filePath.href }
+workerIns.terminate error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
+workerIns.terminate error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+` );
+
+          resolve( true );
         } );
       }
     } );
@@ -203,17 +231,25 @@ threadId:${ workerIns.threadId }
     workerIns.on( 'messageerror', ( error: Error ): void => {
       MyConsole.Red( `
 模式：filePath
+${ filePath.href }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
 Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
 ${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
 
-      reject( error );
+      throw new Error( `
+模式：filePath
+${ filePath.href }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
+`, { cause: error, } );
     } );
 
     workerIns.on( 'online', (): void => {
-      MyConsole.Cyan( `\n模式：filePath\n子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
+      MyConsole.Cyan( `\n模式：filePath\n${ filePath.href }\n子线程开始执行JavaScript代码了，online event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })。\n` );
 
       workerIns.postMessage( {
         filePath: filePath.href,
@@ -348,7 +384,7 @@ export async function FileHashWasmByRustForFilePathForMultiThread( {
 
   hashQuantity = hashGroupArr.length;
 
-  MyConsole.Cyan( `\n模式：filePath\n一共有${ hashQuantity }种哈希算法需要计算。\n` );
+  MyConsole.Cyan( `\n模式：filePath\n${ filePath.href }\n一共有${ hashQuantity }种哈希算法需要计算。\n` );
 
   let createWorkerThreadQuantity: number = threadQuantity;
 
@@ -366,7 +402,7 @@ export async function FileHashWasmByRustForFilePathForMultiThread( {
     workerInsArr.push( CreateWorkerIns( filePath, hashGroupArr.shift() as Partial<Record<T_HashTypeKey, T_EncodeType>>, chunkSize, i ) );
   }
 
-  MyConsole.Cyan( `\n模式：filePath\n创建了${ workerInsArr.length }个Worker线程！\n` );
+  MyConsole.Cyan( `\n模式：filePath\n${ filePath.href }\n创建了${ workerInsArr.length }个Worker线程！\n` );
 
   const res: unknown = await Promise.any( workerInsArr );
 
@@ -374,7 +410,7 @@ export async function FileHashWasmByRustForFilePathForMultiThread( {
     return result;
   }
   else{
-    throw res;
+    throw new Error( GetErrorMessage( res ), { cause: res, } );
   }
 }
 
@@ -524,12 +560,12 @@ export class FileHashWasmByRustForChunkForMultiThread {
       },
     } );
 
-    workerIns.on( 'error', ( errorEventData: unknown ): void => {
+    workerIns.on( 'error', ( error: unknown ): void => {
       MyConsole.Red( `
 模式：chunk
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-Object.prototype.toString.call( errorEventData )--->${ Object.prototype.toString.call( errorEventData ) }
-${ errorEventData }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
 error event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
     } );
@@ -758,10 +794,10 @@ update方法(isMainThread:${ isMainThread })--->End
           // exit( 0 );
         },
         ( reject: unknown ): void => {
-          throw new Error( String( reject ) );
+          console.error( GetErrorMessage( reject ) );
         }
       ).catch( ( err: unknown ): void => {
-        console.error( err );
+        console.error( GetErrorMessage( err ) );
       } );
     } );
   }

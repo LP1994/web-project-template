@@ -26,6 +26,7 @@ import {
 } from 'node:worker_threads';
 
 import {
+  GetErrorMessage,
   MyConsole,
 } from 'universal_tool_for_deno/UniversalToolForDeno.esm.mts';
 
@@ -151,7 +152,7 @@ ${ filePath.href }
 模式：filePath
 ${ filePath.href }
 文件出错：
-${ error }
+${ GetErrorMessage( error ) }
 ` );
 
           reject( error );
@@ -162,6 +163,7 @@ ${ error }
   parentPort!.on( 'close', (): void => {
     MyConsole.Blue( `
 模式：filePath
+${ workerData.filePath.href }
 close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 该端口已关闭。
 close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
@@ -171,11 +173,21 @@ close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsI
   parentPort!.on( 'messageerror', ( error: Error ): void => {
     MyConsole.Red( `
 模式：filePath
+${ workerData.filePath.href }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
 Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
 ${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
+
+    throw new Error( `
+模式：filePath
+${ workerData.filePath.href }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
+反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+`, { cause: error, } );
   } );
 
   parentPort!.on( 'message', async ( {
@@ -187,7 +199,25 @@ ${ error.message }
   } ): Promise<void> => {
     startTimer = performance.now();
 
-    const hash: Partial<Record<T_HashTypeKey, T_EncodeType>> = await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize );
+    const hash: Partial<Record<T_HashTypeKey, T_EncodeType>> = await CalculateFileHash( new URL( filePath ), hashOptions, bufferSize ).catch( ( error: unknown ): void => {
+      MyConsole.Red( `
+模式：filePath
+${ filePath }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+` );
+
+      throw new Error( `
+模式：filePath
+${ filePath }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ GetErrorMessage( error ) }
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+`, { cause: error, } );
+    } );
 
     parentPort!.postMessage( {
       hash,
