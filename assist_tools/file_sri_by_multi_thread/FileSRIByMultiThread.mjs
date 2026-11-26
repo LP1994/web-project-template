@@ -192,11 +192,11 @@ ${ messageData.filePath }
     }
   } );
 
-  workerIns.on( 'messageerror', errorObject => {
+  workerIns.on( 'messageerror', error => {
     MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
-${ errorObject }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
   } );

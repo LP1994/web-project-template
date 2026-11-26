@@ -200,16 +200,16 @@ threadId:${ workerIns.threadId }
       }
     } );
 
-    workerIns.on( 'messageerror', ( errorObject: unknown ): void => {
+    workerIns.on( 'messageerror', ( error: Error ): void => {
       MyConsole.Red( `
 模式：filePath
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-Object.prototype.toString.call( errorObject )--->${ Object.prototype.toString.call( errorObject ) }
-${ errorObject }
+Object.prototype.toString.call( error )--->${ Object.prototype.toString.call( error ) }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
 
-      reject( errorObject );
+      reject( error );
     } );
 
     workerIns.on( 'online', (): void => {

@@ -51,11 +51,11 @@ close event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsI
 ` );
 } );
 
-parentPort.on( 'messageerror', errorObject => {
+parentPort.on( 'messageerror', error => {
   MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
-typeof errorObject--->${ typeof errorObject }
-${ errorObject }
+typeof error--->${ typeof error }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
 ` );
 } );

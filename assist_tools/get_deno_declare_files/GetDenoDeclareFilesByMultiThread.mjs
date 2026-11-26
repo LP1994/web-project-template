@@ -208,11 +208,11 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
     }
   } );
 
-  workerIns.on( 'messageerror', errorObject => {
+  workerIns.on( 'messageerror', error => {
     MyConsole.Red( `
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->Start
-typeof errorObject--->${ typeof errorObject }
-${ errorObject }
+typeof error--->${ typeof error }
+${ error.message }
 反序列化消息失败，messageerror event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })--->End
 ` );
   } );
