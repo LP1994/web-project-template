@@ -137,6 +137,29 @@ function HandleByRegExp001( arg1: string, regStr: RegExp ): boolean{
 
 // 内部使用的7788的处理函数。End
 
+// 其他工具函数 Start
+
+/**
+ * 根据传入的参数error，获取该error对应的错误信息，并返回字符串类型的错误信息。
+ *
+ * @param {unknown} error
+ *
+ * @returns {string} 根据传入的参数error，获取该error对应的错误信息，并返回字符串类型的错误信息。
+ */
+export function GetErrorMessage( error: unknown ): string{
+  if( error instanceof Error ){
+    return error.message;
+  }
+
+  if( IsArray( error ) || IsObject( error ) ){
+    return JSON.stringify( error );
+  }
+
+  return String( error );
+}
+
+// 其他工具函数 End
+
 // 判断常用信息的格式 Start
 
 /**
@@ -3958,6 +3981,12 @@ export function Logger4Decorator( {
  * 默认导出，部署了该工具库所有的导出函数、类等等。
  */
 export default {
+  // 其他工具函数 Start
+
+  GetErrorMessage,
+
+  // 其他工具函数 End
+
   // 判断常用信息的格式 Start
   IsEmail,
   IsID,
