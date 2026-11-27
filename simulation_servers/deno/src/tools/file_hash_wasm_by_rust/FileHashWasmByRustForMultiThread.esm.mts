@@ -694,20 +694,26 @@ ${ error.message }
   #calculateCompleteByAllHashType(): Promise<boolean>{
     // @ts-expect-error
     return new Promise( ( resolve: ( arg: boolean ) => void, reject: ( arg: unknown ) => void ): void => {
-      while( this.#successTotal !== this.#hashQuantity ){
-      }
+      while( true ){
+        if( this.#successTotal === this.#hashQuantity ){
+          resolve( true );
 
-      resolve( true );
+          break;
+        }
+      }
     } );
   }
 
   #getAllHash(): Promise<boolean>{
     // @ts-expect-error
     return new Promise( ( resolve: ( arg: boolean ) => void, reject: ( arg: unknown ) => void ): void => {
-      while( this.#resultHashForSuccessTotal !== this.#workerInsArr.length ){
-      }
+      while( true ){
+        if( this.#resultHashForSuccessTotal === this.#workerInsArr.length ){
+          resolve( true );
 
-      resolve( true );
+          break;
+        }
+      }
     } );
   }
 
