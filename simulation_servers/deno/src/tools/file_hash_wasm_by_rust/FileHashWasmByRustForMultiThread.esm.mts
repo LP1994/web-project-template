@@ -475,6 +475,13 @@ export class FileHashWasmByRustForChunkForMultiThread {
 
   #chunkByteLength: number = 0;
 
+  #promise: Promise<boolean>;
+
+  #resolve: ( value: any ) => void;
+
+  // @ts-expect-error
+  #reject: ( reason?: any ) => void;
+
   public constructor( {
     hashOptions = hashOptionsDefault,
     chunkSize = 4 * 1024 * 1024,
@@ -482,6 +489,8 @@ export class FileHashWasmByRustForChunkForMultiThread {
     hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
     chunkSize?: number;
   } = {} ){
+    CheckHashTypes( hashOptions );
+
     this.#chunkSize = chunkSize;
 
     this.#sharedArrayBufferForChunk = new SharedArrayBuffer( chunkSize, );
@@ -520,8 +529,6 @@ export class FileHashWasmByRustForChunkForMultiThread {
      */
     this.#sharedStateControl = new Uint8Array( this.#sharedArrayBufferForStateControl );
 
-    CheckHashTypes( hashOptions );
-
     const threadQuantity: number = cpus().length - 1;
 
     this.#hashGroupArr = GetHashGroup( hashOptions );
@@ -537,6 +544,14 @@ export class FileHashWasmByRustForChunkForMultiThread {
     if( this.#hashQuantity <= threadQuantity ){
       createWorkerThreadQuantity = this.#hashQuantity;
     }
+
+    (
+      {
+        promise: this.#promise,
+        resolve: this.#resolve,
+        reject: this.#reject,
+      } = Promise.withResolvers<boolean>()
+    );
 
     for(
       let workerInsIndex: number = 0;
@@ -639,6 +654,8 @@ threadId:${ workerIns.threadId }
 约为${ ( Number( ( endTimer - this.#startTimer ).toFixed( 3 ) ) / 1000 / 60 ).toFixed( 6 ) }分钟。
 约为${ ( Number( ( endTimer - this.#startTimer ).toFixed( 3 ) ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
 ` );
+
+          this.#resolve( true );
         }
       }
       else if( type === 'digest-ack' ){
@@ -649,6 +666,10 @@ threadId:${ workerIns.threadId }
         this.#resultAllHash = Object.assign( {}, this.#resultAllHash, resultHash );
 
         ++this.#resultHashForSuccessTotal;
+
+        if( this.#resultHashForSuccessTotal === this.#workerInsArr.length ){
+          this.#resolve( true );
+        }
       }
     } );
 
@@ -680,7 +701,7 @@ ${ error.message }
   #resetForChunkState(): void{
     this.#startTimer = 0;
 
-    this.#hashGroupArr = this.#hashGroupArrByBackup;
+    this.#hashGroupArr = structuredClone( this.#hashGroupArrByBackup );
 
     this.#successTotal = 0;
 
@@ -689,32 +710,6 @@ ${ error.message }
     this.#chunkByteLength = 0;
 
     Atomics.store( this.#sharedStateControl, 0, 0 );
-  }
-
-  #calculateCompleteByAllHashType(): Promise<boolean>{
-    // @ts-expect-error
-    return new Promise( ( resolve: ( arg: boolean ) => void, reject: ( arg: unknown ) => void ): void => {
-      while( true ){
-        if( this.#successTotal === this.#hashQuantity ){
-          resolve( true );
-
-          break;
-        }
-      }
-    } );
-  }
-
-  #getAllHash(): Promise<boolean>{
-    // @ts-expect-error
-    return new Promise( ( resolve: ( arg: boolean ) => void, reject: ( arg: unknown ) => void ): void => {
-      while( true ){
-        if( this.#resultHashForSuccessTotal === this.#workerInsArr.length ){
-          resolve( true );
-
-          break;
-        }
-      }
-    } );
   }
 
   public async update( chunk: Uint8Array ): Promise<boolean>{
@@ -776,6 +771,14 @@ update方法(isMainThread:${ isMainThread })--->End
 
     Atomics.store( this.#sharedStateControl, 0, 1 );
 
+    (
+      {
+        promise: this.#promise,
+        resolve: this.#resolve,
+        reject: this.#reject,
+      } = Promise.withResolvers<boolean>()
+    );
+
     this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
       workerIns.postMessage( {
         type: 'chunk',
@@ -784,7 +787,7 @@ update方法(isMainThread:${ isMainThread })--->End
       } );
     } );
 
-    if( ( await this.#calculateCompleteByAllHashType() ) === true ){
+    if( ( await this.#promise ) === true ){
       this.#resetForChunkState();
 
       return true;
@@ -809,13 +812,21 @@ update方法(isMainThread:${ isMainThread })--->End
   }
 
   public async digest(): Promise<Partial<Record<T_HashTypeKey, T_EncodeType>>>{
+    (
+      {
+        promise: this.#promise,
+        resolve: this.#resolve,
+        reject: this.#reject,
+      } = Promise.withResolvers<boolean>()
+    );
+
     this.#workerInsArr.forEach( ( workerIns: Worker ): void => {
       workerIns.postMessage( {
         type: 'digest',
       } );
     } );
 
-    const boo: boolean = await this.#getAllHash();
+    const boo: boolean = await this.#promise;
 
     this.#resetForChunkState();
 
