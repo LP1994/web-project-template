@@ -253,6 +253,15 @@ ${ GetErrorMessage( error ) }
 else if( workerData.workerType === 'chunk' ){
   let startTimer: number = 0;
 
+  // 只创建一次完整视图。
+  const sharedChunk: Uint8Array = new Uint8Array( workerData.sharedArrayBufferForChunk ),
+    sharedStateControl: Uint8Array = new Uint8Array( workerData.sharedArrayBufferForStateControl ),
+    // @ts-ignore
+    fileHasherMap: Map<Partial<Record<T_HashTypeKey, T_EncodeType>>, any> = new Map<Partial<Record<T_HashTypeKey, T_EncodeType>>, any>();
+
+  // @ts-ignore
+  let fileHasher;
+
   parentPort!.on( 'close', (): void => {
     MyConsole.Blue( `
 模式：chunk
@@ -290,18 +299,61 @@ ${ error.message }
     hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
   } ): void => {
     if( type === 'chunk' ){
-      startTimer = performance.now();
+      if( Atomics.load( sharedStateControl, 0 ) === 1 ){
+        startTimer = performance.now();
 
-      parentPort!.postMessage( {
-        type: 'chunk-ack',
-        takeUpTime: performance.now() - startTimer,
-        // hashOptions
-      } );
+        if( fileHasherMap.has( hashOptions ) ){
+          fileHasher = fileHasherMap.get( hashOptions );
+        }
+        else{
+          fileHasher = new ( await GetFileHasherModule() )( hashOptions );
+
+          fileHasherMap.set( hashOptions, fileHasher );
+        }
+
+        // 每次收到 chunk 消息时：subarray() 同样不会复制底层数据，只是创建一个新的视图。
+        fileHasher!.update( sharedChunk.subarray( 0, chunkByteLength, ) );
+
+        MyConsole.Cyan( `
+模式：chunk
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })
+当前计算的哈希算法为：“${ Object.keys( hashOptions ).join( ', ' ) }”。
+当前chunk的大小：${ chunkByteLength }字节，约为${ ( chunkByteLength / 1024 ).toFixed( 6 ) }KB，约为${ ( chunkByteLength / 1024 / 1024 ).toFixed( 12 ) }MB，约为${ ( chunkByteLength / 1024 / 1024 / 1024 ).toFixed( 18 ) }GB。
+` );
+
+        parentPort!.postMessage( {
+          type: 'chunk-ack',
+          takeUpTime: performance.now() - startTimer,
+          hashOptions,
+        } );
+      }
+      else{
+        MyConsole.Red( `
+模式：chunk
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+主线程当前还没执行“this.#sharedChunk.set( chunk );”，也就是还没更新共享内存区域的数据，子线程也就不能从共享内存区读取到新的数据，就算读取了，也是只能读取到旧的数据。
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+` );
+
+        throw new Error( `
+模式：chunk
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->Start
+主线程当前还没执行“this.#sharedChunk.set( chunk );”，也就是还没更新共享内存区域的数据，子线程也就不能从共享内存区读取到新的数据，就算读取了，也是只能读取到旧的数据。
+(isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })--->End
+` );
+      }
     }
     else if( type === 'digest' ){
       parentPort!.postMessage( {
         type: 'digest-ack',
-        // resultHash
+        resultHash: ( ( hash: Partial<Record<T_HashTypeKey, T_EncodeType>> ): Partial<Record<T_HashTypeKey, T_EncodeType>> => {
+          // @ts-ignore
+          fileHasherMap.values().forEach( ( fileHasher ): void => {
+            hash = Object.assign( {}, hash, fileHasher.digest() );
+          } );
+
+          return hash;
+        } )( {} ),
       } );
     }
   } );
