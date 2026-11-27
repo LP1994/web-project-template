@@ -8,6 +8,10 @@ import {
 } from 'node:fs';
 
 import {
+  performance,
+} from 'node:perf_hooks';
+
+import {
   webDir,
 } from 'configures/GlobalParameters.esm.mts';
 
@@ -129,10 +133,21 @@ else{
     highWaterMark: 4 * 1024 * 1024,
   } );
 
+  const startTimer: number = performance.now();
+
   for await( const chunk of
     readStream ){
     await myFileHash.update( chunk );
   }
 
   console.dir( await myFileHash.digest() );
+
+  const timer: number = performance.now() - startTimer;
+
+  console.log( `
+总共耗时：${ timer }毫秒。
+约为：${ timer / 1000 }秒。
+约为：${ timer / 1000 / 60 }分钟。
+约为：${ timer / 1000 / 60 / 60 }小时。
+` );
 }
