@@ -610,11 +610,11 @@ exit event(isMainThread:${ isMainThread }、threadId:${ workerIns.threadId })---
         MyConsole.Green( `
 模式：chunk
 threadId:${ workerIns.threadId }
-本次chunk的本轮该${ Object.keys( hashOptions ).length }种哈希算法（${ Object.keys( hashOptions ).join( ', ' ) }）对应的哈希值计算完成。
-本轮计算耗时${ takeUpTime.toFixed( 3 ) }毫秒。
-约为${ ( Number( takeUpTime.toFixed( 3 ) ) / 1000 ).toFixed( 3 ) }秒。
-约为${ ( Number( takeUpTime.toFixed( 3 ) ) / 1000 / 60 ).toFixed( 6 ) }分钟。
-约为${ ( Number( takeUpTime.toFixed( 3 ) ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
+本次chunk的本轮该${ Object.keys( hashOptions as Partial<Record<T_HashTypeKey, T_EncodeType>> ).length }种哈希算法（${ Object.keys( hashOptions as Partial<Record<T_HashTypeKey, T_EncodeType>> ).join( ', ' ) }）对应的哈希值计算完成。
+本轮计算耗时${ ( takeUpTime as number ).toFixed( 3 ) }毫秒。
+约为${ ( Number( ( takeUpTime as number ).toFixed( 3 ) ) / 1000 ).toFixed( 3 ) }秒。
+约为${ ( Number( ( takeUpTime as number ).toFixed( 3 ) ) / 1000 / 60 ).toFixed( 6 ) }分钟。
+约为${ ( Number( ( takeUpTime as number ).toFixed( 3 ) ) / 1000 / 60 / 60 ).toFixed( 9 ) }小时。
 已有${ this.#successTotal }轮哈希算法完成计算。
 还有${ this.#hashQuantity - this.#successTotal }轮哈希算法未计算。
 ` );

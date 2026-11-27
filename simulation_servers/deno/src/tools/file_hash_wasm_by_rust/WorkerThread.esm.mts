@@ -289,7 +289,7 @@ ${ error.message }
 `, { cause: error, } );
   } );
 
-  parentPort!.on( 'message', ( {
+  parentPort!.on( 'message', async ( {
     type,
     chunkByteLength,
     hashOptions,
@@ -297,18 +297,18 @@ ${ error.message }
     type: 'chunk' | 'digest';
     chunkByteLength?: number;
     hashOptions?: Partial<Record<T_HashTypeKey, T_EncodeType>>;
-  } ): void => {
+  } ): Promise<void> => {
     if( type === 'chunk' ){
       if( Atomics.load( sharedStateControl, 0 ) === 1 ){
         startTimer = performance.now();
 
-        if( fileHasherMap.has( hashOptions ) ){
-          fileHasher = fileHasherMap.get( hashOptions );
+        if( fileHasherMap.has( hashOptions as Partial<Record<T_HashTypeKey, T_EncodeType>> ) ){
+          fileHasher = fileHasherMap.get( hashOptions as Partial<Record<T_HashTypeKey, T_EncodeType>> );
         }
         else{
           fileHasher = new ( await GetFileHasherModule() )( hashOptions );
 
-          fileHasherMap.set( hashOptions, fileHasher );
+          fileHasherMap.set( hashOptions as Partial<Record<T_HashTypeKey, T_EncodeType>>, fileHasher );
         }
 
         // 每次收到 chunk 消息时：subarray() 同样不会复制底层数据，只是创建一个新的视图。
@@ -317,8 +317,8 @@ ${ error.message }
         MyConsole.Cyan( `
 模式：chunk
 (isMainThread:${ isMainThread }、threadId:${ threadId }、workerInsID:${ workerData.workerInsID })
-当前计算的哈希算法为：“${ Object.keys( hashOptions ).join( ', ' ) }”。
-当前chunk的大小：${ chunkByteLength }字节，约为${ ( chunkByteLength / 1024 ).toFixed( 6 ) }KB，约为${ ( chunkByteLength / 1024 / 1024 ).toFixed( 12 ) }MB，约为${ ( chunkByteLength / 1024 / 1024 / 1024 ).toFixed( 18 ) }GB。
+当前计算的哈希算法为：“${ Object.keys( hashOptions as Partial<Record<T_HashTypeKey, T_EncodeType>> ).join( ', ' ) }”。
+当前chunk的大小：${ chunkByteLength as number }字节，约为${ ( ( chunkByteLength as number ) / 1024 ).toFixed( 6 ) }KB，约为${ ( ( chunkByteLength as number ) / 1024 / 1024 ).toFixed( 12 ) }MB，约为${ ( ( chunkByteLength as number ) / 1024 / 1024 / 1024 ).toFixed( 18 ) }GB。
 ` );
 
         parentPort!.postMessage( {

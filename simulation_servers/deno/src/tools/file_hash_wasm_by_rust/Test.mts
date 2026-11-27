@@ -122,7 +122,7 @@ if( workerType === 'filePath' ){
   console.dir( result );
 }
 else{
-  const myFileHash: typeof FileHashWasmByRustForChunkForMultiThread = new FileHashWasmByRustForChunkForMultiThread( {
+  const myFileHash = new FileHashWasmByRustForChunkForMultiThread( {
     hashOptions,
     chunkSize: 4 * 1024 * 1024,
   } );
@@ -137,10 +137,10 @@ else{
 
   for await( const chunk of
     readStream ){
-    await myFileHash.update( chunk );
+    await myFileHash!.update( chunk );
   }
 
-  console.dir( await myFileHash.digest() );
+  console.dir( await myFileHash!.digest() );
 
   const timer: number = performance.now() - startTimer;
 
